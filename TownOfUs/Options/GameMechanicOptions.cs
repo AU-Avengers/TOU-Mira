@@ -36,8 +36,6 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
     public ModdedNumberOption FullSaveCdMultiplier { get; set; } = new("Full Save Cooldown Multiplier",
         0.5f, 0.25f, 1f, 0.05f, MiraNumberSuffixes.Multiplier, "0.#");
 
-    public ModdedToggleOption RoleblockAffectsConsoles { get; set; } = new("Roleblock Affects Non-Role Actions", false);
-
     public ModdedEnumOption ShowPetsMode { get; set; } = new("Pet Visibility", (int)PetVisiblity.AlwaysVisible,
         typeof(PetVisiblity), ["Client Side", "When Alive", "Always Visible"]);
 
