@@ -5,7 +5,7 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class BootleggerOptions : AbstractOptionGroup<BootleggerRole>
+public sealed class BootleggerOptions : AbstractRoleOptionGroup<BootleggerRole>
 {
     public override string GroupName => "Bootlegger";
 
@@ -17,11 +17,19 @@ public sealed class BootleggerOptions : AbstractOptionGroup<BootleggerRole>
 
     public ModdedNumberOption RoleblockDelayMax { get; } =
         new("Maximum Roleblock Delay", 5f, 1f, 10f, 0.5f, MiraNumberSuffixes.Seconds);
+
+    public ModdedEnumOption PoisonRoleblockTrigger { get; } =
+        new("Poison Triggers On", (int)PoisonTrigger.OnDurationEnd, typeof(PoisonTrigger), ["Delay End", "Meeting Start", "Meeting End"]);
+
+    public ModdedNumberOption ForcedPoisonDelay { get; } =
+        new("Poison Delay", 15f, 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)
+        {
+            Visible = () => (PoisonTrigger)OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger.Value is PoisonTrigger.OnDurationEnd
+        };
 }
 
 public enum PoisonTrigger
 {
-    OnRoleblockEnd,
     OnDurationEnd,
     OnMeetingStart,
     OnMeetingEnd

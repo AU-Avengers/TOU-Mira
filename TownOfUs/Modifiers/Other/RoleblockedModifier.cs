@@ -1,13 +1,14 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Networking;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
+using TownOfUs.Networking;
 using TownOfUs.Options;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Other;
 
-public sealed class RoleblockedModifier(bool invertControls, bool hangover, float blockDuration, float hangoverDuration) : DisabledModifier
+public sealed class RoleblockedModifier(PlayerControl roleblocker, bool invertControls, bool hangover, float blockDuration, float hangoverDuration) : DisabledModifier
 {
     public override string ModifierName => "Roleblocked";
     public override bool HideOnUi => false;
@@ -22,6 +23,7 @@ public sealed class RoleblockedModifier(bool invertControls, bool hangover, floa
     public bool InvertControls => invertControls;
     public bool Hangover => hangover;
     public override bool AutoStart => true;
+    public PlayerControl Roleblocker = roleblocker;
 
     public override string GetDescription()
     {
@@ -52,6 +54,13 @@ public sealed class RoleblockedModifier(bool invertControls, bool hangover, floa
     {
         Player.RemoveModifier(this);
     }
+
+    public override void OnTimerComplete()
+    {
+        base.OnTimerComplete();
+        Player.RemoveModifier(this);
+    }
+
     public override void OnDeath(DeathReason reason)
     {
         base.OnDeath(reason);

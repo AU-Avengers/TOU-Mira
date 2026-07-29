@@ -6,7 +6,6 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using UnityEngine;
-using System.Globalization;
 using MiraAPI.Hud;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Buttons.Impostor;
@@ -14,6 +13,7 @@ using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Other;
 using TownOfUs.Options;
+using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -81,11 +81,13 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         var hangoverDuration = options.HangoverDuration.Value;
         var applyHangover = options.Hangover.Value;
         var invertControls = options.InvertControlsOfRoleblocked.Value;
-        var iconTarget = TouRoleIcons.Barkeeper.LoadAsset();
         var targetName = target.CachedPlayerData.PlayerName;
         var rbText = $"{targetName} was roleblocked!";
+        var poisonPlayer = false;
         if (player.Data.Role is BootleggerRole)
         {
+            var poisTrigger =
+                (PoisonTrigger)OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger.Value;
             var progress = PoisonProgress.Begun;
             if (target.TryGetModifier<BootleggerPoisonModifier>(out var bootProgress))
             {
@@ -94,6 +96,11 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
                     bootProgress.Poison++;
                 }
                 progress = bootProgress.Poison;
+                if (bootProgress.Poison is PoisonProgress.Poison && poisTrigger is PoisonTrigger.OnDurationEnd)
+                {
+                    bootProgress.StartTimer();
+                }
+                poisonPlayer = bootProgress.Poison is PoisonProgress.Poison;
             }
             else
             {
@@ -148,19 +155,21 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
             target.Data.Role is not BarkeeperRole)
         {
             immune = false;
-            target.AddModifier<RoleblockedModifier>(invertControls, applyHangover, roleblockDuration, hangoverDuration);
+            target.AddModifier<RoleblockedModifier>(player, invertControls, applyHangover, roleblockDuration, hangoverDuration);
         }
 
         if (target.AmOwner)
         {
-            if (immune)
+            var iconTarget = TouRoleIcons.Barkeeper.LoadAsset();
+            var msg = immune
+                ? "Someone gave you a drink, but you are too hungover!"
+                : "Someone gave you a drink, you were roleblocked!";
+            if (poisonPlayer)
             {
-                ShowNotification($"Someone gave you a drink, but you are too hungover!", iconTarget);
+                msg += "\n<color=#D64042>You feel a sense of impending doom.</color>";
+                iconTarget = TouRoleIcons.Bootlegger.LoadAsset();
             }
-            else
-            {
-                ShowNotification($"Someone gave you a drink, you were roleblocked!", iconTarget);
-            }
+            ShowNotification(msg, iconTarget);
         }
 
 

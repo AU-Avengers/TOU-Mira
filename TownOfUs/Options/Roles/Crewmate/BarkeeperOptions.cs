@@ -5,7 +5,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class BarkeeperOptions : AbstractOptionGroup<BarkeeperRole>
+public sealed class BarkeeperOptions : AbstractRoleOptionGroup<BarkeeperRole>
 {
     public override string GroupName => "Barkeeper";
 
