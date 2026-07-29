@@ -21,7 +21,7 @@
         /// The achievement's sub icon through MiraAPI.
         /// </summary>
         public LoadableAsset<Sprite> MiraSubIcon;
-        public override Sprite MenuSubIcon => MiraSubIcon.LoadAsset();
+        public override Sprite? MenuSubIcon => MiraSubIcon != null ? MiraSubIcon.LoadAsset() : null;
         public override Vector3 MenuSubIconOffset => new(-40f, -70f);
         public override Vector3 MenuSubIconScale => new(0.6f, 0.6f, 1);
 
@@ -65,7 +65,7 @@ public class CountBundleAchievement : CountAchievement
     /// The achievement's sub icon through MiraAPI.
     /// </summary>
     public LoadableAsset<Sprite> MiraSubIcon;
-    public override Sprite MenuSubIcon => MiraSubIcon.LoadAsset();
+    public override Sprite? MenuSubIcon => MiraSubIcon != null ? MiraSubIcon.LoadAsset() : null;
     public override Vector3 MenuSubIconOffset => new(-40f, -70f);
     public override Vector3 MenuSubIconScale => new(0.6f, 0.6f, 1);
 

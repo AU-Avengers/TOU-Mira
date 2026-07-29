@@ -6,7 +6,7 @@ namespace TownOfUs.Achievements;
 public class TouNeutRoleAchievementsTab : AchievementsTab
 {
     /// <inheritdoc/>
-    public override string Name => "Neut Achievements";
+    public override string Name => "Neutral Achievements";
 
     /// <inheritdoc/>
     public override Color GetTabColor() => TownOfUsColors.Neutral;

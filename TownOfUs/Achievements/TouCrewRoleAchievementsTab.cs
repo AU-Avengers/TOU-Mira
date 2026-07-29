@@ -6,7 +6,7 @@ namespace TownOfUs.Achievements;
 public class TouCrewRoleAchievementsTab : AchievementsTab
 {
     /// <inheritdoc/>
-    public override string Name => "Crew Achievements";
+    public override string Name => "Crewmate Achievements";
 
     /// <inheritdoc/>
     public override Color GetTabColor() => Palette.CrewmateRoleHeaderBlue;

@@ -6,7 +6,7 @@ namespace TownOfUs.Achievements;
 public class TouImpRoleAchievementsTab : AchievementsTab
 {
     /// <inheritdoc/>
-    public override string Name => "Imp Achievements";
+    public override string Name => "Impostor Achievements";
 
     /// <inheritdoc/>
     public override Color GetTabColor() => Palette.ImpostorRoleHeaderRed;
@@ -14,8 +14,8 @@ public class TouImpRoleAchievementsTab : AchievementsTab
     /// <inheritdoc/>
     public override Sprite GetIcon() => TouRoleIcons.Impostor.LoadAsset();
 
-    /*public CountBundleAchievement EternalDarkness { get; set; } = new("Eternal Darkness", "Kill three blinded players in the same game.",
-        TouImpAssets.BlindSprite, TouRoleIcons.Eclipsal, 0, 3, false);*/
+    public CountBundleAchievement EternalDarkness { get; set; } = new("Eternal Darkness", "Kill three blinded players in the same game.",
+        TouImpAssets.BlindSprite, TouRoleIcons.Eclipsal, 0, 3, AchPersistence.ThroughoutRounds);
 
     /*public BaseBundleAchievement OhHenry { get; set; } = new("Oh Henry!",
         "Recall into a room where a player is already at.", TouImpAssets.RecallSprite, TouRoleIcons.Escapist);*/

@@ -76,10 +76,7 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             yield break;
         }
         var ach = AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.ForceBeWithYou;
-        if (!ach.Unlocked)
-        {
-            ach.Increment(1, ach.CurrentValue == 4);
-        }
+        ach.Increment(1, ach.CurrentValue == 4);
 
         var position = player.transform.position;
         var colorID = player.Data.DefaultOutfit.ColorId;
