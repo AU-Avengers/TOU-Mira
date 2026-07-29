@@ -75,7 +75,7 @@ public class CountBundleAchievement : CountAchievement
     public override Vector3 ToastIconOffset => new(10f, -10f);
 
     public CountBundleAchievement(string name, string description, LoadableAsset<Sprite> icon, LoadableAsset<Sprite> subIcon, int currentValue,
-        int requiredValue, bool progressPersists = true, int rarity = 0, bool hidden = false, bool hideRarity = true,
+        int requiredValue, AchPersistence progressPersists = AchPersistence.ThroughoutSessions, int rarity = 0, bool hidden = false, bool hideRarity = true,
         bool hideProgress = false) : base(name, description, currentValue, requiredValue, progressPersists, rarity,
         hidden, hideRarity, hideProgress)
     {
