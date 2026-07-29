@@ -27,6 +27,11 @@ public sealed class DoomsayerOptions : AbstractRoleOptionGroup<DoomsayerRole>
         Visible = () => OptionGroupSingleton<DoomsayerOptions>.Instance.DoomsayerGuessAllAtOnce
     };
 
+    public ModdedToggleOption DoomsayerGuessByCategory { get; set; } = new("TouOptionDoomsayerGuessByCategory", false)
+    {
+        Visible = () => OptionGroupSingleton<DoomsayerOptions>.Instance.DoomsayerGuessAllAtOnce
+    };
+
     [ModdedToggleOption("TouOptionDoomsayerCantObserve")]
     public bool CantObserve { get; set; } = false;
 

@@ -285,6 +285,54 @@ public static class Extensions
         }
     }
 
+    public static void SetCategory(this ShapeshifterPanel panel, int index, string name, Color color, Sprite icon,
+        Action onClick)
+    {
+        panel.shapeshift = onClick;
+        panel.PlayerIcon.SetFlipX(false);
+        panel.PlayerIcon.ToggleName(false);
+        panel.PlayerIcon.gameObject.SetActive(false);
+
+        SpriteRenderer[] componentsInChildren = panel.GetComponentsInChildren<SpriteRenderer>();
+
+        foreach (var spriteRend in componentsInChildren)
+        {
+            spriteRend.material.SetInt(PlayerMaterial.MaskLayer, index + 2);
+        }
+
+        panel.PlayerIcon.SetMaskLayer(index + 2);
+        panel.PlayerIcon.cosmetics.SetMaskType(PlayerMaterial.MaskType.ComplexUI);
+
+        foreach (var hand in panel.PlayerIcon.Hands)
+        {
+            hand.sharedMaterial = CosmeticsLayer.GetBodyMaterial(PlayerMaterial.MaskType.ComplexUI);
+            hand.gameObject.active = false;
+        }
+
+        foreach (var sprite in panel.PlayerIcon.OtherBodySprites)
+        {
+            sprite.sharedMaterial = CosmeticsLayer.GetBodyMaterial(PlayerMaterial.MaskType.ComplexUI);
+            sprite.gameObject.active = false;
+        }
+
+        var roleIcon = Object.Instantiate(panel.Background, panel.transform).gameObject;
+        roleIcon.name = "RoleIcon";
+        roleIcon.GetComponent<PassiveButton>().Destroy();
+        roleIcon.gameObject.transform.localScale = new Vector3(0.21f, 0.9f, 1);
+        roleIcon.gameObject.transform.localPosition += new Vector3(-0.964f, 0, -2);
+
+        roleIcon.gameObject.GetComponent<SpriteRenderer>().sprite = icon;
+        roleIcon.gameObject.SetActive(true);
+
+        var finalString = $"<size=88%>{name}</size>";
+
+        panel.LevelNumberText.transform.parent.gameObject.SetActive(false);
+        panel.NameText.color = color;
+        panel.NameText.text = finalString;
+        panel.NameText.alignment = TextAlignmentOptions.Right;
+        panel.NameText.transform.localPosition += Vector3.left * 0.05f;
+    }
+
     public static void SetRole(this ShapeshifterPanel panel, int index, RoleBehaviour roleBehaviour, Action onClick)
     {
         panel.shapeshift = onClick;

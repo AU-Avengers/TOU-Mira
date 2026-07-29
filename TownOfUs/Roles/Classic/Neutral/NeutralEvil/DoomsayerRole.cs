@@ -388,7 +388,39 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         var player = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId).Object;
 
         var shapeMenu = GuesserMenu.Create();
-        shapeMenu.Begin(IsRoleValid, ClickRoleHandle);
+
+        if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomsayerGuessAllAtOnce &&
+            OptionGroupSingleton<DoomsayerOptions>.Instance.DoomsayerGuessByCategory)
+        {
+            shapeMenu.Begin(x => IsRoleValid(x) && x.IsCrewmate(), ClickRoleHandle, null, null, BuildCategories(),
+                ClickCategoryHandle);
+        }
+        else
+        {
+            shapeMenu.Begin(IsRoleValid, ClickRoleHandle);
+        }
+
+        void ClickCategoryHandle(GuessCategory category)
+        {
+            var realRole = player.Data.Role;
+
+            var pickVictim = category.Matches(realRole);
+            if (player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
+            {
+                pickVictim = cachedMod.GuessMode switch
+                {
+                    // Checks for the role the player is at the moment
+                    CacheRoleGuess.ActiveRole => category.Matches(realRole),
+                    // Checks for the cached role itself (like Imitator or Traitor)
+                    CacheRoleGuess.CachedRole => category.Matches(cachedMod.CachedRole),
+                    // Checks if it's the cached or active role
+                    _ => category.Matches(cachedMod.CachedRole) || category.Matches(realRole),
+                };
+            }
+            var victim = pickVictim ? player : Player;
+
+            ClickHandler(victim, voteArea.TargetPlayerId);
+        }
 
         void ClickRoleHandle(RoleBehaviour role)
         {
@@ -458,9 +490,11 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
             if (IncorrectGuesses > 0 && opts.DoomsayerGuessAllAtOnce)
             {
-                var text = NumberOfGuesses - AllVictims.Count == 1
-                    ? $"<b>{TouLocale.GetParsed("TouRoleDoomsayerMisguessOne")}</b>"
-                    : $"<b>{TouLocale.GetParsed("TouRoleDoomsayerMisguessMultiple").Replace("<misguessCount>", $"{NumberOfGuesses - AllVictims.Count}")}</b>";
+                var text = opts.DoomsayerGuessByCategory
+                    ? $"<b>{TouLocale.GetParsed("TouRoleDoomsayerMisguessVague")}</b>"
+                    : NumberOfGuesses - AllVictims.Count == 1
+                        ? $"<b>{TouLocale.GetParsed("TouRoleDoomsayerMisguessOne")}</b>"
+                        : $"<b>{TouLocale.GetParsed("TouRoleDoomsayerMisguessMultiple").Replace("<misguessCount>", $"{NumberOfGuesses - AllVictims.Count}")}</b>";
                 var notif1 = Helpers.CreateAndShowNotification(
                     text, Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());
 
@@ -532,6 +566,32 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true ||
                (voteArea.GetPlayer()?.Data.Role is MayorRole mayor && mayor.Revealed) ||
                (Player.IsLover() && voteArea.GetPlayer()?.IsLover() == true);
+    }
+
+    private static List<GuessCategory> BuildCategories()
+    {
+        var categories = new List<GuessCategory>();
+        var potentialRoles = MiscUtils.GetPotentialRoles().Where(IsRoleValid).ToList();
+
+        if (potentialRoles.Any(x => x.IsImpostor()))
+        {
+            categories.Add(new GuessCategory(
+                TouLocale.Get("TouRoleDoomsayerCategoryImpostor", "Random Impostor"),
+                TownOfUsColors.Impostor,
+                TouRoleIcons.RandomImp,
+                x => x.IsImpostor() && IsRoleValid(x)));
+        }
+
+        foreach (var alignment in potentialRoles.Where(x => x.IsNeutral()).Select(x => x.GetRoleAlignment()).Distinct())
+        {
+            categories.Add(new GuessCategory(
+                MiscUtils.GetParsedRoleAlignment(alignment),
+                TownOfUsColors.Neutral,
+                TouRoleIcons.RandomNeut,
+                x => x.GetRoleAlignment() == alignment && IsRoleValid(x)));
+        }
+
+        return categories;
     }
 
     private static bool IsRoleValid(RoleBehaviour role)

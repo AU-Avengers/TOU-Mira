@@ -22,6 +22,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
     private UiElement? backButton;
     private int currentPage;
     private UiElement? defaultButtonSelected;
+    private Action<GuessCategory>? onCategoryClick;
     private Action<BaseModifier>? onModifierClick;
     private Action<RoleBehaviour>? onRoleClick;
     private ShapeshifterPanel? panelPrefab;
@@ -392,15 +393,36 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
 
     [HideFromIl2Cpp]
     public void Begin(Func<RoleBehaviour, bool> roleMatch, Action<RoleBehaviour> roleClickHandler,
-        Func<BaseModifier, bool>? modifierMatch = null, Action<BaseModifier>? modifierClickHandler = null)
+        Func<BaseModifier, bool>? modifierMatch = null, Action<BaseModifier>? modifierClickHandler = null,
+        List<GuessCategory>? categories = null, Action<GuessCategory>? categoryClickHandler = null)
     {
         MinigameStubs.Begin(this, null);
 
         onRoleClick = roleClickHandler;
         onModifierClick = modifierClickHandler;
+        onCategoryClick = categoryClickHandler;
         allEntries = [];
         searchText = string.Empty;
         currentPage = 0;
+
+        if (categories != null && onCategoryClick != null)
+        {
+            for (var i = 0; i < categories.Count; i++)
+            {
+                var category = categories[i];
+
+                var categoryPanel = Instantiate(panelPrefab, transform);
+                categoryPanel!.transform.localPosition = new Vector3(0f, 0f, -1f);
+                categoryPanel.SetCategory(i, category.Name, category.Color, category.Icon.LoadAsset(),
+                    () => { onCategoryClick(category); });
+                categoryPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight")
+                    .FindChild("ShapeshifterIcon").gameObject.SetActive(false);
+
+                allEntries.Add(new MenuEntry(categoryPanel, category.Name));
+            }
+        }
+
+        var categoryCount = allEntries.Count;
 
         var roles = MiscUtils.GetPotentialRoles().Where(roleMatch).ToList();
 
@@ -428,7 +450,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
 
             var shapeshifterPanel = Instantiate(panelPrefab, transform);
             shapeshifterPanel!.transform.localPosition = new Vector3(0f, 0f, -1f);
-            shapeshifterPanel.SetRole(i, role, () => { onRoleClick(role); });
+            shapeshifterPanel.SetRole(categoryCount + i, role, () => { onRoleClick(role); });
             shapeshifterPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight")
                 .FindChild("ShapeshifterIcon").gameObject.SetActive(false);
 
@@ -441,7 +463,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
 
             for (var i = 0; i < modifiers.Count; i++)
             {
-                var index = newRoleList.Count + i;
+                var index = categoryCount + newRoleList.Count + i;
                 var modifier = modifiers[i];
 
                 var shapeshifterPanel = Instantiate(panelPrefab, transform);
@@ -476,3 +498,9 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         }
     }
 }
+
+public sealed record GuessCategory(
+    string Name,
+    Color Color,
+    LoadableAsset<Sprite> Icon,
+    Func<RoleBehaviour, bool> Matches);

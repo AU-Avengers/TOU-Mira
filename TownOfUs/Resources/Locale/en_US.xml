@@ -2025,6 +2025,7 @@
   <string name="TouOptionDoomsayerGuessesAllAtOnce">Doomsayer Guesses All Roles At Once</string>
   <string name="TouOptionDoomsayerCantObserve">Doomsayer Can't Observe</string>
   <string name="TouOptionDoomsayerOnlyKillLast">Kill Only The Last Victim</string>
+  <string name="TouOptionDoomsayerGuessByCategory">Guess Factions Instead Of Roles</string>
   <string name="TouOptionDoomsayerWin">Doomsayer Win</string>
   <string name="TouOptionDoomsayerWinEnumEndsGame">Ends Game</string>
   <string name="TouOptionDoomsayerWinEnumLeaves">Leaves In Victory</string>
@@ -2033,6 +2034,8 @@
   <!-- Doomsayer Misguess -->
   <string name="TouRoleDoomsayerMisguessOne">Only one guess was incorrect!</string>
   <string name="TouRoleDoomsayerMisguessMultiple">\%misguessCount\% guesses were incorrect.</string>
+  <string name="TouRoleDoomsayerMisguessVague">At least one guess was incorrect.</string>
+  <string name="TouRoleDoomsayerCategoryImpostor">Random Impostor</string>
   <!-- Doomsayer Feedback -->
   <string name="TouRoleDoomsayerMessageTitle">Doomsayer Report</string>
   <string name="TouRoleDoomsayerRoleHintPerception">You observe that \%player\% has an altered perception of reality</string>
