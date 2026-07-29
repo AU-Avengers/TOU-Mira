@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace TownOfUs.Modules.DraftMode;
 
 public static class DraftAudio

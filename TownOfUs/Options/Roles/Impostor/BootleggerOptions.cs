@@ -1,31 +1,36 @@
 using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class BootleggerOptions : AbstractOptionGroup<BootleggerRole>
+public sealed class BootleggerOptions : AbstractRoleOptionGroup<BootleggerRole>
 {
     public override string GroupName => "Bootlegger";
 
-    [ModdedNumberOption("Roleblock Cooldown", 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
-    public float RoleblockCooldown { get; set; } = 20f;
-    [ModdedNumberOption("Roleblock Duration", 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
-    public float RoleblockDuration { get; set; } = 15f;
+    public ModdedNumberOption RoleblockCooldown { get; } =
+        new("TouOptionBarkeeperRoleblockCooldown", 22.5f, 15f, 120f, 2.5f, MiraNumberSuffixes.Seconds);
 
-    [ModdedNumberOption("Roleblock Delay", 1f, 10f, 1f, MiraNumberSuffixes.Seconds)]
-    public float RoleblockDelay { get; set; } = 3f;
-    [ModdedToggleOption("Invert Controls Of Roleblocked")]
-    public bool InvertControlsOfRoleblocked { get; set; } = true;
+    public ModdedNumberOption RoleblockDelayMin { get; } =
+        new("TouOptionBarkeeperRoleblockDelayMin", 1.5f, 1f, 10f, 0.5f, MiraNumberSuffixes.Seconds);
 
-    [ModdedToggleOption("Grant Hangover")]
-    public bool Hangover { get; set; } = true;
-    public ModdedNumberOption HangoverDuration { get; } =
-        new("Hangover Duration", 30f, 15f, 120f, 20f, MiraNumberSuffixes.Seconds)
+    public ModdedNumberOption RoleblockDelayMax { get; } =
+        new("TouOptionBarkeeperRoleblockDelayMax", 5f, 1f, 10f, 0.5f, MiraNumberSuffixes.Seconds);
+
+    public ModdedEnumOption PoisonRoleblockTrigger { get; } =
+        new("Poison Triggers On", (int)PoisonTrigger.OnDurationEnd, typeof(PoisonTrigger), ["Delay End", "Meeting Start", "Meeting End"]);
+
+    public ModdedNumberOption ForcedPoisonDelay { get; } =
+        new("Poison Delay", 15f, 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)
         {
-            Visible = () => OptionGroupSingleton<BootleggerOptions>.Instance.Hangover
+            Visible = () => (PoisonTrigger)OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger.Value is PoisonTrigger.OnDurationEnd
         };
+}
 
+public enum PoisonTrigger
+{
+    OnDurationEnd,
+    OnMeetingStart,
+    OnMeetingEnd
 }

@@ -1,15 +1,17 @@
-using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
-using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
-using System.Globalization;
+using MiraAPI.Hud;
+using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Buttons.Impostor;
 using TownOfUs.Modifiers.Game.Universal;
+using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Other;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 
@@ -20,9 +22,18 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string LocaleKey => "Barkeeper";
-    public string RoleName => "Barkeeper";
-    public string RoleDescription => "Roleblock Evildoers to slow them down";
-    public string RoleLongDescription => "Roleblock Evildoers to disable their abilities.";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription").Replace("<blockTime>",
+        OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value.ToString(TownOfUsPlugin.Culture));
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
     public Color RoleColor => TownOfUsColors.Barkeeper;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateSupport;
@@ -31,69 +42,99 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     {
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Barkeeper.LoadAsset(), "TouMira.Role.Crewmate.Barkeeper", 1.45f),
         Icon = TouRoleIcons.Barkeeper,
-        OptionsScreenshot = TouBanners.PlaceholderRoleBanner,
-        // IntroSound = TouAudio.ToppatIntroSound,
-        MaxRoleCount = 15
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
+        IntroSound = TouAudio.PotionIntro
     };
-
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        var sb = ITownOfUsRole.SetNewTabText(this);
-        var formatProvider = CultureInfo.InvariantCulture;
-        var rbdur = OptionGroupSingleton<BarkeeperOptions>.Instance.RoleblockDuration;
-
-        // Add a blank line before extra info for spacing
-        sb.AppendLine();
-
-        sb.AppendLine(formatProvider, $"Roleblocked players are roleblocked for {rbdur} second(s).");
-
-        if (OptionGroupSingleton<BarkeeperOptions>.Instance.Hangover)
-            sb.AppendLine("Your target will have a hangover when their roleblock expires.");
-        
-        sb.AppendLine(CultureInfo.InvariantCulture, $"\n<size=40%><b>This is an Experimental role, subject to change.</b></size>");
-
-        return sb;
-    }
-    public string GetAdvancedDescription()
-    {
-        var rbdur = OptionGroupSingleton<BarkeeperOptions>.Instance.RoleblockDuration;
-        var desc = $"The Barkeeper is a Crewmate Support role that can roleblock other players, roleblocking them for {rbdur} second(s).";
-
-        if (OptionGroupSingleton<BarkeeperOptions>.Instance.Hangover)
-            desc += "\n\nOnce the roleblock expires, the player will be hungover, preventing them from being roleblocked again too quickly.";
-
-        return desc + MiscUtils.AppendOptionsText(GetType());
-    }
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities { get; } =
     [
-        new("Drink",
-            $"Drink with a player, roleblocking them for {OptionGroupSingleton<BarkeeperOptions>.Instance.RoleblockDuration} second(s)",
+        new(TouLocale.Get("TouRoleBarkeeperRoleblock"),
+            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value
+                ? TouLocale.GetParsed("TouRoleBarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
+                    OptionGroupSingleton<RoleblockOptions>.Instance.HangoverDuration.Value.ToString(TownOfUsPlugin
+                        .Culture))
+                : TouLocale.GetParsed("TouRoleBarkeeperRoleblockWikiDescription")).Replace("<blockTime>",
+                OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value
+                    .ToString(TownOfUsPlugin.Culture)),
             TouCrewAssets.CleanseSprite)
     ];
 
     [MethodRpc((uint)TownOfUsRpc.Roleblock)]
     public static void RpcRoleblock(PlayerControl player, PlayerControl target)
     {
-        var options = OptionGroupSingleton<BarkeeperOptions>.Instance;
-        var roleblockDuration = options.RoleblockDuration;
+        var options = OptionGroupSingleton<RoleblockOptions>.Instance;
+        var roleblockDuration = options.RoleblockDuration.Value;
         var hangoverDuration = options.HangoverDuration.Value;
-        var applyHangover = options.Hangover;
-        var invertControls = options.InvertControlsOfRoleblocked;
-        var iconSelf = TouRoleIcons.Barkeeper.LoadAsset();
-        var iconTarget = TouRoleIcons.Barkeeper.LoadAsset();
+        var applyHangover = options.Hangover.Value;
+        var invertControls = options.InvertControlsOfRoleblocked.Value;
+        var targetName = target.CachedPlayerData.PlayerName;
+        var rbText = $"{targetName} was roleblocked!";
+        var poisonPlayer = false;
         if (player.Data.Role is BootleggerRole)
         {
-            var options2 = OptionGroupSingleton<BootleggerOptions>.Instance;
-            roleblockDuration = options2.RoleblockDuration;
-            hangoverDuration = options2.HangoverDuration.Value;
-            applyHangover = options2.Hangover;
-            invertControls = options2.InvertControlsOfRoleblocked;
-            iconSelf = TouRoleIcons.Bootlegger.LoadAsset();
+            var poisTrigger =
+                (PoisonTrigger)OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger.Value;
+            var progress = PoisonProgress.Begun;
+            if (target.TryGetModifier<BootleggerPoisonModifier>(out var bootProgress))
+            {
+                if (bootProgress.Poison < PoisonProgress.Poison)
+                {
+                    bootProgress.Poison++;
+                }
+                progress = bootProgress.Poison;
+                if (bootProgress.Poison is PoisonProgress.Poison && poisTrigger is PoisonTrigger.OnDurationEnd)
+                {
+                    bootProgress.StartTimer();
+                }
+                poisonPlayer = bootProgress.Poison is PoisonProgress.Poison;
+            }
+            else
+            {
+                target.AddModifier<BootleggerPoisonModifier>(player);
+            }
+
+            if (player.AmOwner)
+            {
+                switch (progress)
+                {
+                    case PoisonProgress.Begun:
+                        rbText += "\nNext time, they will become sick.";
+                        break;
+                    case PoisonProgress.Sick:
+                        rbText += "\nNext time, they will be poisoned.";
+                        break;
+                    case PoisonProgress.Poison:
+                        rbText += "\nWait for the poison to kick in.";
+                        break;
+                }
+                var notif = CustomButtonSingleton<BootleggerRoleblockButton>.Instance.NotifMessage;
+                if (notif != null)
+                {
+                    notif.UpdateMessage(rbText);
+                    notif.alphaTimer = 4f;
+                    notif.AdjustNotification();
+                }
+                else
+                {
+                    ShowNotification($"<b>{rbText}</b>", TouRoleIcons.Bootlegger.LoadAsset());
+                }
+            }
         }
-        var targetName = target.CachedPlayerData.PlayerName;
+        else if (player.AmOwner)
+        {
+            var notif = CustomButtonSingleton<BarkeeperRoleblockButton>.Instance.NotifMessage;
+            if (notif != null)
+            {
+                notif.UpdateMessage(rbText);
+                notif.alphaTimer = 4f;
+                notif.AdjustNotification();
+            }
+            else
+            {
+                ShowNotification($"<b>{rbText}</b>", TouRoleIcons.Barkeeper.LoadAsset());
+            }
+        }
 
         var immune = true;
         if (!target.HasModifier<HangoverModifier>() && !target.HasModifier<DrunkModifier>() &&
@@ -101,24 +142,21 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
             target.Data.Role is not BarkeeperRole)
         {
             immune = false;
-            target.AddModifier<RoleblockedModifier>(invertControls, applyHangover, roleblockDuration, hangoverDuration);
-        }
-
-        if (player.AmOwner)
-        {
-            ShowNotification($"{targetName} was roleblocked!", iconSelf);
+            target.AddModifier<RoleblockedModifier>(player, invertControls, applyHangover, roleblockDuration, hangoverDuration);
         }
 
         if (target.AmOwner)
         {
-            if (immune)
+            var iconTarget = TouRoleIcons.Barkeeper.LoadAsset();
+            var msg = immune
+                ? "Someone gave you a drink, but you are too hungover!"
+                : "Someone gave you a drink, you were roleblocked!";
+            if (poisonPlayer)
             {
-                ShowNotification($"Someone gave you a drink, but you are too hungover!", iconTarget);
+                msg += "\n<color=#D64042>You feel a sense of impending doom.</color>";
+                iconTarget = TouRoleIcons.Bootlegger.LoadAsset();
             }
-            else
-            {
-                ShowNotification($"Someone gave you a drink, you were roleblocked!", iconTarget);
-            }
+            ShowNotification(msg, iconTarget);
         }
 
 
@@ -126,6 +164,7 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         {
             var notif = Helpers.CreateAndShowNotification($"<b>{message}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: icon);
             notif.AdjustNotification();
+            notif.alphaTimer = 4f;
         }
     }
 

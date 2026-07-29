@@ -1,20 +1,19 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Other;
 
-public sealed class RoleblockedModifier(bool invertControls, bool hangover, float blockDuration, float hangoverDuration) : DisabledModifier
+public sealed class RoleblockedModifier(PlayerControl roleblocker, bool invertControls, bool hangover, float blockDuration, float hangoverDuration) : DisabledModifier
 {
     public override string ModifierName => "Roleblocked";
     public override bool HideOnUi => false;
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Barkeeper;
     public override bool Unique => false;
     public override bool CanUseAbilities => false;
-    public override bool CanUseConsoles => !OptionGroupSingleton<GameMechanicOptions>.Instance.RoleblockAffectsConsoles.Value;
+    public override bool CanUseConsoles => !OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockAffectsConsoles.Value;
     public override bool CanOpenMap => CanUseConsoles;
     public override bool CanReport => CanUseConsoles;
     public override float Duration => blockDuration;
@@ -22,6 +21,7 @@ public sealed class RoleblockedModifier(bool invertControls, bool hangover, floa
     public bool InvertControls => invertControls;
     public bool Hangover => hangover;
     public override bool AutoStart => true;
+    public PlayerControl Roleblocker = roleblocker;
 
     public override string GetDescription()
     {
@@ -52,6 +52,7 @@ public sealed class RoleblockedModifier(bool invertControls, bool hangover, floa
     {
         Player.RemoveModifier(this);
     }
+
     public override void OnDeath(DeathReason reason)
     {
         base.OnDeath(reason);

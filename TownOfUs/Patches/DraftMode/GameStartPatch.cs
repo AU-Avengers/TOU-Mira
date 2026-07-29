@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using MiraAPI.GameOptions;

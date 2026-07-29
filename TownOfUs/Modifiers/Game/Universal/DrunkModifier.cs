@@ -1,5 +1,4 @@
 using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using UnityEngine;
 
@@ -7,25 +6,27 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class DrunkModifier : UniversalGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Drunk,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Drunk.LoadAsset(),
+            "TouMira.Modifier.Universal.Drunk", 1.45f));
     public override string LocaleKey => "Drunk";
-    public override string ModifierName => "Drunk";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Drunk;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalPassive;
     public override Color FreeplayFileColor => new Color32(180, 180, 180, 255);
-
     public override string GetDescription()
     {
-        return
-            $"You're tipsy, with inverted controls.";
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
     }
-
-    public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
     public string GetAdvancedDescription()
     {
-        return $"Your controls are inverted.\n\nYou are also immune to the effects of Barkeeper and Bootlegger roleblocking you.";
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription");
     }
+
+    public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
     public override int GetAssignmentChance()
     {

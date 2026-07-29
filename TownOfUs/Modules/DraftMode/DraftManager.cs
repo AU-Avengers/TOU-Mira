@@ -123,7 +123,7 @@ public static class DraftManager
 
         try
         {
-            var client = AmongUsClient.Instance?.GetClient(player.OwnerId);
+            var client = AmongUsClient.Instance.GetClient(player.OwnerId);
             if (client == null)
             {
                 if (AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay)

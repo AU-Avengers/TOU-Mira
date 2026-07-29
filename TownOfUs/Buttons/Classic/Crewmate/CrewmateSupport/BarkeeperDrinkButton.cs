@@ -1,6 +1,5 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -9,19 +8,32 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class BarkeeperRoleblockButton : TownOfUsRoleButton<BarkeeperRole, PlayerControl>
 {
-    public override string Name => "Drink With";
+    public override string Name => TouLocale.GetParsed("TouRoleBarkeeperRoleblock");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Barkeeper;
-    public override float Cooldown => OptionGroupSingleton<BarkeeperOptions>.Instance.RoleblockCooldown + MapCooldown;
-    public override float EffectDuration => OptionGroupSingleton<BarkeeperOptions>.Instance.RoleblockDelay;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<BarkeeperOptions>.Instance.RoleblockCooldown.Value + MapCooldown, 5f, 120f);
+    public override float EffectDuration => SelectedDuration;
+
+    public float SelectedDuration = 0.001f;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.CleanseSprite;
-    public PlayerControl? _roleblockedTarget;
+    private PlayerControl? _roleblockedTarget;
 
     public override PlayerControl? GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
     }
 
+    public override void ClickHandler()
+    {
+        if (CanClick())
+        {
+            var opts = OptionGroupSingleton<BarkeeperOptions>.Instance;
+            SelectedDuration = UnityEngine.Random.RandomRange(opts.RoleblockDelayMin.Value, opts.RoleblockDelayMax.Value);
+        }
+        base.ClickHandler();
+    }
+
+    public LobbyNotificationMessage? NotifMessage;
     protected override void OnClick()
     {
         if (Target == null)
@@ -29,22 +41,22 @@ public sealed class BarkeeperRoleblockButton : TownOfUsRoleButton<BarkeeperRole,
             return;
         }
 
-        OverrideName("Roleblocking");
+        OverrideName(TouLocale.GetParsed("TouRoleBarkeeperRoleblocking"));
 
         _roleblockedTarget = Target;
 
         if (PlayerControl.LocalPlayer.AmOwner)
         {
-            var notif = Helpers.CreateAndShowNotification(
-                $"<b>You chose to roleblock {_roleblockedTarget.CachedPlayerData.PlayerName}. They will be roleblocked in {OptionGroupSingleton<BarkeeperOptions>.Instance.RoleblockDelay} second(s)!</b>",
+            NotifMessage = Helpers.CreateAndShowNotification(
+                $"<b>You chose to roleblock {_roleblockedTarget.CachedPlayerData.PlayerName}.</b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper.LoadAsset());
-            notif.Text.SetOutlineThickness(0.35f);
+            NotifMessage.Text.SetOutlineThickness(0.35f);
         }
     }
 
     public override void OnEffectEnd()
     {
-        OverrideName("Drink With");
+        OverrideName(TouLocale.GetParsed("TouRoleBarkeeperRoleblock"));
 
         if (_roleblockedTarget == null) return;
 

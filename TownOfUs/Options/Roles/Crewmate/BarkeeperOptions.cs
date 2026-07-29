@@ -1,31 +1,20 @@
 using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class BarkeeperOptions : AbstractOptionGroup<BarkeeperRole>
+public sealed class BarkeeperOptions : AbstractRoleOptionGroup<BarkeeperRole>
 {
     public override string GroupName => "Barkeeper";
 
-    [ModdedNumberOption("Roleblock Cooldown", 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
-    public float RoleblockCooldown { get; set; } = 20f;
-    [ModdedNumberOption("Roleblock Duration", 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
-    public float RoleblockDuration { get; set; } = 15f;
+    public ModdedNumberOption RoleblockCooldown { get; } =
+        new("TouOptionBarkeeperRoleblockCooldown", 22.5f, 15f, 120f, 2.5f, MiraNumberSuffixes.Seconds);
 
-    [ModdedNumberOption("Roleblock Delay", 1f, 10f, 1f, MiraNumberSuffixes.Seconds)]
-    public float RoleblockDelay { get; set; } = 3f;
-    [ModdedToggleOption("Invert Controls Of Roleblocked")]
-    public bool InvertControlsOfRoleblocked { get; set; } = true;
+    public ModdedNumberOption RoleblockDelayMin { get; } =
+        new("TouOptionBarkeeperRoleblockDelayMin", 3f, 1f, 10f, 0.5f, MiraNumberSuffixes.Seconds);
 
-    [ModdedToggleOption("Grant Hangover")]
-    public bool Hangover { get; set; } = true;
-    public ModdedNumberOption HangoverDuration { get; } =
-        new("Hangover Duration", 30f, 15f, 120f, 20f, MiraNumberSuffixes.Seconds)
-        {
-            Visible = () => OptionGroupSingleton<BarkeeperOptions>.Instance.Hangover
-        };
-
+    public ModdedNumberOption RoleblockDelayMax { get; } =
+        new("TouOptionBarkeeperRoleblockDelayMax", 5f, 1f, 10f, 0.5f, MiraNumberSuffixes.Seconds);
 }
