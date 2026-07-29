@@ -55,12 +55,6 @@ public sealed class RoleblockedModifier(PlayerControl roleblocker, bool invertCo
         Player.RemoveModifier(this);
     }
 
-    public override void OnTimerComplete()
-    {
-        base.OnTimerComplete();
-        Player.RemoveModifier(this);
-    }
-
     public override void OnDeath(DeathReason reason)
     {
         base.OnDeath(reason);
