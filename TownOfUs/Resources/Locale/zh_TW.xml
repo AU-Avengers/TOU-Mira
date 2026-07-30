@@ -1678,14 +1678,6 @@
   <string name="TouOptionPlaguebearerPestilenceKillCooldown">萬疫之神擊殺冷卻</string>
   <string name="TouOptionPlaguebearerPestilenceCanVent">萬疫之神可使用通風口</string>
   <string name="TouRoleSoulCollector">噬魂獸</string>
-  <string name="TouRoleSoulCollectorIntroBlurb">收割船員的靈魂</string>
-  <string name="TouRoleSoulCollectorTabDescription">收割他人的靈魂,留下一個無魂的幻象</string>
-  <string name="TouRoleSoulCollectorWikiDescription">噬魂獸是一名中立擊殺型職業,可以收割玩家的靈魂。被收割後不會留下屍體,而是留下一個與被收割者外觀相同、靜止不動的假人。</string>
-  <string name="TouRoleSoulCollectorReap">收割</string>
-  <string name="TouRoleSoulCollectorReapWikiDescription">收割類似於擊殺按鈕,但不會留下屍體,而是在原地生成一個看起來還活著的假人。</string>
-  <string name="TouRoleSoulCollectorReapNotif">你奪取了\%player\%的靈魂,留下了一個無魂之軀。</string>
-  <string name="TouOptionSoulCollectorReapCooldown">收割冷卻</string>
-  <string name="TouOptionSoulCollectorCanVent">噬魂獸可使用通風口</string>
   <string name="TouRoleSurvivor">倖存者</string>
   <string name="TouRoleSurvivorIntroBlurb">不擇手段活下去。</string>
   <string name="TouRoleSurvivorTabDescription">活到最後即可與任意陣營一同獲勝</string>
@@ -2128,14 +2120,10 @@
   <string name="TouModifierAssassinIntroBlurb">在會議上猜測玩家的職業。</string>
   <string name="TouModifierAssassinWikiDescription">你擁有在會議上猜測玩家職業的能力。</string>
   <string name="TouModifierAssassinTabDescription">在會議中通過猜測淘汰玩家。</string>
-  <string name="TouOptionAssassinNeutAssassinTitle">中立刺客: </string>
-  <string name="TouOptionAssassinImpAssassinTitle">偽裝者刺客: </string>
   <string name="TouOptionAssassinGuessableCrewRolesTitle">不可被猜測的船員職業: </string>
   <string name="TouOptionAssassinGuessableNeutRolesTitle">不可被猜測的中立職業: </string>
   <string name="TouOptionAssassinGuessableImpRolesTitle">不可被猜測的偽裝者職業: </string>
   <string name="TouOptionAssassinGuessableModifiersTitle">不可被猜測的附加屬性: </string>
-  <string name="TouOptionAssassinNoAssassins">數量: 0</string>
-  <string name="TouOptionAssassinSetAssassins">數量: \%amount\%- 概率: \%chance\%%</string>
   <string name="TouOptionAssassinNone">無</string>
   <string name="TouOptionAssassinAll">全部</string>
   <string name="TouOptionAssassinNeutBenign">善良型</string>
@@ -2188,5 +2176,4 @@
   <string name="TouNeutAnonymousVictoryMessage">\%player\%已成功獲勝並離開了遊戲!</string>
   <string name="TouOptionNeutAnonymousVictoryWin">在獲勝通知中隱藏職業</string>
   <string name="TouOptionJesterNotifyWin">獲勝時通知其他玩家</string>
-  <string name="TouOptionSoulCollectorReapFirstRound">首回合允許收割靈魂</string>
 </resources>

@@ -582,12 +582,6 @@
   <string name="TouRoleMedicTabDescription">Schütze ein Besatzungsmitglied mit einem Schild was for Angriffen schützt</string>
   <string name="TouRoleMedicWikiDescription">Der Arzt ist eine Besatzungs Schutz Rolle welche ein Schild zu einem Spieler vergeben kann.</string>
   <string name="TouRoleMedicShield">Schild</string>
-  <string name="TouRoleSoulCollectorIntroBlurb">Ernte die Seelen von der Besatzung</string>
-  <string name="TouRoleSoulCollectorTabDescription">Ernte the Seelen anderer, welche ein lebloses bild hinterlassen</string>
-  <string name="TouRoleSoulCollectorWikiDescription">Der Seelensammler ist eine Neutrale Mord Rolle welche die Seelen anderer Spieler nimmt.</string>
-  <string name="TouRoleSoulCollectorReap">Ernten</string>
-  <string name="TouRoleSoulCollectorReapNotif">Du hast %player\%'s Seele geernted,</string>
-  <string name="TouOptionSoulCollectorCanVent">Seelensammler can in Schächte</string>
   <string name="TouRoleExecutionerTabDescription">Werfe %target\% raus um zu gewinnen.</string>
   <string name="TouRoleExecutionerTorment">Quälen</string>
   <string name="TouRoleSpectreSpook">Spuken</string>

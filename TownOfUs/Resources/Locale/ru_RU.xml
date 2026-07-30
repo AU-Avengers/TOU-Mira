@@ -1008,13 +1008,6 @@
   <string name="TouOptionPlaguebearerPestilenceKillCooldown">Откат Убийства Чумы</string>
   <string name="TouOptionPlaguebearerPestilenceCanVent">Чума может исп. вент.</string>
   <string name="TouRoleSoulCollector">Пожинатель Душ</string>
-  <string name="TouRoleSoulCollectorIntroBlurb">Пожинайте души других</string>
-  <string name="TouRoleSoulCollectorTabDescription">Пожинайте души других, оставляя на их месте вечный силуэт</string>
-  <string name="TouRoleSoulCollectorWikiDescription">Пожинатель Душ - Нейтральный Убийца, который забирает души игроков. Вместо того, чтобы оставлять тело, он оставляет бездушную пустышку, которая выглядит идентично убитому игроку, стоя на месте.</string>
-  <string name="TouRoleSoulCollectorReap">Пожинать</string>
-  <string name="TouRoleSoulCollectorReapWikiDescription">Пожинание выступает как кнопка убийства, но вместо того, чтобы оставлять мёртвое тело, создаёт на его месте пустышку игрока.</string>
-  <string name="TouOptionSoulCollectorReapCooldown">Откат Пожинания</string>
-  <string name="TouOptionSoulCollectorCanVent">Пожинатель Душ может исп. вент.</string>
   <string name="TouRoleSurvivor">Выживший</string>
   <string name="TouRoleSurvivorIntroBlurb">Выжить любой ценой</string>
   <string name="TouRoleSurvivorTabDescription">Выживайте, чтобы победить с любой оставшейся фракцией</string>

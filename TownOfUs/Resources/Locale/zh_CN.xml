@@ -576,13 +576,6 @@
   <string name="TouRoleOracleThreePlayers">\%player1\%坦白得知自己、\%player2\%和/或\%player3\%是恶人！</string>
   <string name="TouRoleOracleBlessingMessageSelf">你的佑护让\%player\%免于被杀！</string>
   <string name="TouRoleOracleBlessingMessageOthers">\%player\%因被\%color=#FFBF00BF\%神谕者\%/color\%佑护而幸存！</string>
-  <string name="TouRoleSoulCollectorIntroBlurb">收割船员的灵魂</string>
-  <string name="TouRoleSoulCollectorTabDescription">收割他人的灵魂，留下一个无魂的幻象</string>
-  <string name="TouRoleSoulCollectorWikiDescription">噬魂兽是一名中立击杀型职业，可以收割玩家的灵魂。被收割后不会留下尸体，而是留下一个与被收割者外观相同、静止不动的假人。</string>
-  <string name="TouRoleSoulCollectorReap">收割</string>
-  <string name="TouRoleSoulCollectorReapWikiDescription">收割类似于击杀按钮，但不会留下尸体，而是在原地生成一个看起来还活着的假人。</string>
-  <string name="TouOptionSoulCollectorReapCooldown">收割冷却</string>
-  <string name="TouOptionSoulCollectorCanVent">噬魂兽可使用通风口</string>
   <string name="TouModifierEgotistIntroBlurb">背叛船员以满足你的虚荣心</string>
   <string name="TouModifierEgotistTabDescription">背叛船员，与杀手一同获胜。</string>
   <string name="TouModifierEgotistWikiDescription">自大狂是一种船员同盟附加属性（以\%symbol\%为标识）。作为自大狂，只有船员失败你才能获胜，即使你已死亡。如果会议结束后没有船员存活，你会直接胜利离场，但游戏会继续。</string>
@@ -1321,7 +1314,6 @@
   <string name="TouRoleGlitchHackNotif">一旦\%player\% 尝试使用技能，其的所有技能都暂时被禁用。</string>
   <string name="TouRoleInquisitorInquireNotif">你将在下次会议中得知\%player\%是否为异端。</string>
   <string name="TouRoleMercenaryGuardNotif">当\%player\%被互动时，你将获得一枚金币。</string>
-  <string name="TouRoleSoulCollectorReapNotif">你夺取了 \%player\%的灵魂，留下了一个无魂之躯。</string>
   <string name="DiedToSuicideAltruist">牺牲</string>
   <string name="DiedToSuicideSheriff">走火</string>
   <string name="TouRoleAltruistTabDescriptionGroupSacrifice">为已死亡的船员集体牺牲自己，\%nl\%以自身性命为代价。</string>
@@ -2136,14 +2128,10 @@
   <string name="TouOptionAssassinBasicCrew">基础船员</string>
   <string name="ReverseSkeldMapName">dlekS船空太</string>
   <string name="TouModifierAssassinTabDescription">在会议中通过猜测淘汰玩家。</string>
-  <string name="TouOptionAssassinNeutAssassinTitle">中立刺客： </string>
-  <string name="TouOptionAssassinImpAssassinTitle">伪装者刺客： </string>
   <string name="TouOptionAssassinGuessableCrewRolesTitle">不可被猜测的船员职业： </string>
   <string name="TouOptionAssassinGuessableNeutRolesTitle">不可被猜测的中立职业： </string>
   <string name="TouOptionAssassinGuessableImpRolesTitle">不可被猜测的伪装者职业： </string>
   <string name="TouOptionAssassinGuessableModifiersTitle">不可被猜测的附加属性： </string>
-  <string name="TouOptionAssassinNoAssassins">数量：0</string>
-  <string name="TouOptionAssassinSetAssassins">数量：\%amount\%- 概率：\%chance\%%</string>
   <string name="TouOptionAssassinNone">无</string>
   <string name="TouOptionAssassinAll">全部</string>
   <string name="TouOptionAssassinNeutBenign">善良型</string>
@@ -2189,5 +2177,4 @@
   <string name="TouNeutAnonymousVictoryMessage">\%player\% 已成功获胜并离开了游戏！</string>
   <string name="TouOptionNeutAnonymousVictoryWin">在获胜通知中隐藏职业</string>
   <string name="TouOptionJesterNotifyWin">获胜时通知其他玩家</string>
-  <string name="TouOptionSoulCollectorReapFirstRound">首回合允许收割灵魂</string>
 </resources>
