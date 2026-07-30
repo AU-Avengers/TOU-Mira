@@ -83,6 +83,8 @@ public static class ProsecutorEvents
             return;
         }
 
+        ProsecutorRole.RpcShowProsAnimation(PlayerControl.LocalPlayer);
+
         foreach (var plr in PlayerControl.AllPlayerControls.ToArray())
         {
             plr.GetVoteData().Votes.Clear();

@@ -61,6 +61,9 @@ public static class TouAudio
     public static LoadableAsset<AudioClip> ProsIntroSound { get; } =
         new LoadableBundleAsset<AudioClip>("ProsIntro", TouAssets.MainBundle);
 
+    public static LoadableAsset<AudioClip> ProsecuteSound { get; } =
+        new LoadableBundleAsset<AudioClip>("ProsecuteAudio", TouAssets.MainBundle);
+
     public static LoadableAsset<AudioClip> SpyIntroSound { get; } =
         new LoadableBundleAsset<AudioClip>("SpyIntro", TouAssets.MainBundle);
 
