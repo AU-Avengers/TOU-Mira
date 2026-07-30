@@ -983,6 +983,7 @@
   <string name="TouOptionLookoutWatchCooldown">Watch Cooldown</string>
   <string name="TouOptionLookoutMaxWatches">Initial Players That Can be Watched</string>
   <string name="TouOptionLookoutSeesIndirectAttacks">See Indirect Attacks</string>
+  <string name="TouOptionLookoutOnlySeesEvilInteractions">Only See Evil Interactions</string>
   <string name="TouOptionLookoutLoResetOnNewRound">Lookout Watches Reset After Each Round</string>
   <string name="TouOptionLookoutTaskUses">Get More Uses From Completing Tasks</string>
   <!-- Mayor - Crewmate Power -->

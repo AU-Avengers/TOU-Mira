@@ -4,6 +4,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
@@ -75,6 +76,14 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         if (source.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
         {
             role = cachedMod.CachedRole;
+        }
+
+        var opt = OptionGroupSingleton<LookoutOptions>.Instance;
+        if (opt.OnlySeesEvilInteractions && (LookoutView)opt.WatchType.Value is LookoutView.Roles &&
+            role.IsCrewmate() && !source.HasModifier<CrewpostorModifier>() &&
+            !source.HasModifier<EgotistModifier>() && !source.HasModifier<LoverModifier>(x => !x.DoesTasks))
+        {
+            return;
         }
 
         // Prevents duplicate role entries
