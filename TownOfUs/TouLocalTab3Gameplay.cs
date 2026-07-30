@@ -1,7 +1,6 @@
 using BepInEx.Configuration;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using TownOfUs.Events;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
 using TownOfUs.Modifiers.Crewmate;
@@ -12,9 +11,9 @@ using UnityEngine;
 
 namespace TownOfUs;
 
-public class TownOfUsLocalRoleSettings(ConfigFile config) : LocalSettingsTab(config)
+public class TouLocalTabGameplay(ConfigFile config) : LocalSettingsTab(config)
 {
-    public override string TabName => "ToU:M Roles";
+    public override string TabName => "<size=80%>Gameplay</size>";
     protected override bool ShouldCreateLabels => true;
 
     public override void Open()
@@ -48,10 +47,6 @@ public class TownOfUsLocalRoleSettings(ConfigFile config) : LocalSettingsTab(con
             parasiteRole.MarkPiPSettingsDirty(resetManualThisSession: true);
             parasiteRole.TickPiP();
         }
-        else if (configEntry == ShowRoleIconOnRoleTab)
-        {
-            TownOfUsEventHandlers.TryGetRoleTab();
-        }
         else if (configEntry == SonarTargetType && roleAvailable && PlayerControl.LocalPlayer.Data.Role is SonarRole)
         {
             var update = OptionGroupSingleton<SonarOptions>.Instance.UpdateInterval;
@@ -82,28 +77,9 @@ public class TownOfUsLocalRoleSettings(ConfigFile config) : LocalSettingsTab(con
 
     public override LocalSettingTabAppearance TabAppearance => new()
     {
-        TabIcon = TouRoleIcons.Engineer
+        TabIcon = TouAssets.LocalGameplay,
+        HideIconOnHover = false,
     };
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> SortGuessingByAlignmentToggle { get; private set; } =
-        config.Bind("Gameplay", "SortGuessingByAlignment", false);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> UseCrewmateTeamColorToggle { get; private set; } =
-        config.Bind("Gameplay", "UseCrewmateTeamColor", false);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowShieldHudToggle { get; private set; } =
-        config.Bind("Gameplay", "ShowShieldHud", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowBasicAssassinOnHud { get; private set; } =
-        config.Bind("Gameplay", "ShowBasicAssassinOnHud", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowRoleIconOnRoleTab { get; private set; } =
-        config.Bind("Gameplay", "ShowRoleIconOnRoleTab", true);
 
     [LocalizedLocalEnumSetting(names: ["ArrowDefault", "ArrowDarkGlow", "ArrowColorGlow", "ArrowLegacy"])]
     public ConfigEntry<ArrowStyleType> ArrowStyleEnum { get; private set; } =

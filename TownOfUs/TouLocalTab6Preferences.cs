@@ -6,9 +6,9 @@ using TownOfUs.Patches.Options;
 
 namespace TownOfUs;
 
-public class TownOfUsLocalMiscSettings(ConfigFile config) : LocalSettingsTab(config)
+public class TouLocalTabPreferences(ConfigFile config) : LocalSettingsTab(config)
 {
-    public override string TabName => "ToU: Misc";
+    public override string TabName => "<size=65%>Preferences</size>";
     protected override bool ShouldCreateLabels => true;
 
     public override void Open()
@@ -44,60 +44,39 @@ public class TownOfUsLocalMiscSettings(ConfigFile config) : LocalSettingsTab(con
 
     public override LocalSettingTabAppearance TabAppearance => new()
     {
-        TabIcon = TouModifierIcons.Aftermath
+        TabIcon = TouAssets.LocalPreferences,
+        HideIconOnHover = false,
     };
 
     [LocalizedLocalSliderSetting(min: 4f, max: 15f, suffixType: MiraNumberSuffixes.Seconds, formatString: "0", displayValue: true, roundValue: true)]
     public ConfigEntry<float> AutoRejoinDelay { get; private set; } =
         config.Bind("End Game Screen", "AutoRejoinDelay", 4f);
 
+    [LocalizedLocalEnumSetting(names: ["EndRejoinAlways", "EndRejoinHost", "EndRejoinClient", "EndRejoinNever"])]
+    public ConfigEntry<AutoRejoinSelection> AutoRejoinMode { get; private set; } =
+        config.Bind("End Game Screen", "AutoRejoinSelection", AutoRejoinSelection.Always);
+
     [LocalizedLocalEnumSetting(names: ["EndSumHidden", "EndSumSplit", "EndSumLeftSide"])]
     public ConfigEntry<EndGameSummaryVisibility> EndSummaryVisibility { get; private set; } =
         config.Bind("End Game Screen", "EndSummaryVisibility", EndGameSummaryVisibility.LeftSide);
 
-    [LocalizedLocalEnumSetting(names: ["EndRejoinAlways", "EndRejoinHost", "EndRejoinClient", "EndRejoinNever"])]
-    public ConfigEntry<AutoRejoinSelection> AutoRejoinMode { get; private set; } =
-        config.Bind("End Game Screen", "AutoRejoinSelection", AutoRejoinSelection.Always);
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> SortGuessingByAlignmentToggle { get; private set; } =
+        config.Bind("Gameplay", "SortGuessingByAlignment", false);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> DeadSeeGhostsToggle { get; private set; } = config.Bind("Miscellaneous", "DeadSeeGhosts", true);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ShowVentsToggle { get; private set; } = config.Bind("Miscellaneous", "ShowVents", true);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> SeparateChatBubbles { get; private set; } =
         config.Bind("Miscellaneous", "SeparateChatBubbles", false);
 
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowWelcomeMessageToggle { get; private set; } =
-        config.Bind("Miscellaneous", "ShowWelcomeMessage", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowRulesOnLobbyJoinToggle { get; private set; } =
-        config.Bind("Miscellaneous", "ShowRulesOnLobbyJoin", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowSummaryMessageToggle { get; private set; } =
-        config.Bind("Miscellaneous", "ShowSummaryMessage", true);
-
-    [LocalizedLocalEnumSetting(names: ["SummarySimple", "SummaryNormal", "SummaryAdvanced"])]
-    public ConfigEntry<GameSummaryAppearance> SummaryMessageAppearance { get; private set; } =
-        config.Bind("Miscellaneous", "SummaryMsgBreakdown", GameSummaryAppearance.Advanced);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowPracticeButtons { get; private set; } =
-        config.Bind("Miscellaneous", "ShowPracticeButtons", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ZoomingInLobby { get; private set; } =
-        config.Bind("Miscellaneous", "ZoomingInLobby", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ZoomingInPractice { get; private set; } =
-        config.Bind("Miscellaneous", "ZoomingInPractice", true);
-
-    [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> RainbowColorAsFortegreen { get; private set; } =
         config.Bind("Miscellaneous", "RainbowColorAsFortegreen", false);
-
-    [LocalizedLocalEnumSetting(names: ["DraftAudioStart", "DraftAudioYourTurn", "DraftAudioNone"])]
-    public ConfigEntry<DraftAudioCueMode> DraftAudioCue { get; private set; } =
-        config.Bind("Miscellaneous", "DraftAudioCue", DraftAudioCueMode.None);
 }
 
 public enum GameSummaryAppearance

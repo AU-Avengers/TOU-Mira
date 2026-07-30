@@ -21,7 +21,7 @@ namespace TownOfUs.Patches.Options;
 public static class TeamChatPatches
 {
     public static bool SplitChats =>
-        LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.SeparateChatBubbles.Value;
+        LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.SeparateChatBubbles.Value;
     public static GameObject TeamChatButton;
     private static TextMeshPro? _teamText;
     public static bool TeamChatActive; // True if any team chat is active
@@ -809,7 +809,7 @@ public static class TeamChatPatches
 
     public static void CheckCurrentChats(ChatController instance)
     {
-        if (!LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.SeparateChatBubbles.Value)
+        if (!LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.SeparateChatBubbles.Value)
         {
             PrivateChatItems.gameObject.SetActive(false);
             PublicChatItems.gameObject.SetActive(false);
@@ -1118,7 +1118,7 @@ public static class TeamChatPatches
         MergedChatBubbles.Select(x => x.Bubble).Do(x => list.Add(x));
         MergedChatPool = list;
 
-        if (!LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.SeparateChatBubbles.Value)
+        if (!LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.SeparateChatBubbles.Value)
         {
             PrivateChatItems.gameObject.SetActive(false);
             PublicChatItems.gameObject.SetActive(false);

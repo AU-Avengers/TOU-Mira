@@ -21,7 +21,7 @@ public sealed class HerbalistProtectionModifier(PlayerControl herbalist) : BaseS
     {
         get
         {
-            return !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowShieldHudToggle.Value ||
+            return !LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowShieldHudToggle.Value ||
                    !OptionGroupSingleton<HerbalistOptions>.Instance.ShowBarrier;
         }
     }

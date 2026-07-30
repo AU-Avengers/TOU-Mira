@@ -96,7 +96,7 @@ public sealed class WerewolfRole(IntPtr cppPtr)
 
     public void OffsetButtons()
     {
-        var canVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent || LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
+        var canVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent || LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.OffsetButtonsToggle.Value;
         var rampage = CustomButtonSingleton<WerewolfRampageButton>.Instance;
         var kill = CustomButtonSingleton<WerewolfKillButton>.Instance;
         Coroutines.Start(MiscUtils.CoMoveButtonIndex(rampage, !canVent));

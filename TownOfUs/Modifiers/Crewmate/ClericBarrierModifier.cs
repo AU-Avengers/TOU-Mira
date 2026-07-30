@@ -23,7 +23,7 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
     {
         get
         {
-            return !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowShieldHudToggle.Value ||
+            return !LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowShieldHudToggle.Value ||
                    !OptionGroupSingleton<ClericOptions>.Instance.ShowBarrier;
         }
     }

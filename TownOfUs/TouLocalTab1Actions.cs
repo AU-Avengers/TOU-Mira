@@ -10,9 +10,9 @@ using TownOfUs.Patches;
 
 namespace TownOfUs;
 
-public class TownOfUsLocalActionTab(ConfigFile config) : LocalSettingsTab(config)
+public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
 {
-    public override string TabName => "Host Actions";
+    public override string TabName => "Actions";
     protected override bool ShouldCreateLabels => true;
 
     public override void Open()
@@ -35,8 +35,8 @@ public class TownOfUsLocalActionTab(ConfigFile config) : LocalSettingsTab(config
 
     public override LocalSettingTabAppearance TabAppearance => new()
     {
-        TabIcon = TouAssets.ActionSprite,
-        HideIconOnHover = true,
+        TabIcon = TouAssets.LocalActions,
+        HideIconOnHover = false,
     };
 
     [LocalSettingsButton]

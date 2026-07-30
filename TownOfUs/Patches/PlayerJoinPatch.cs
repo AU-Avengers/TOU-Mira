@@ -97,7 +97,7 @@ public static class PlayerJoinPatch
 
         var time = 0f;
         var summary = GameHistory.EndGameSummary;
-        switch (LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.SummaryMessageAppearance.Value)
+        switch (LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.SummaryMessageAppearance.Value)
         {
             case GameSummaryAppearance.Advanced:
                 summary = GameHistory.EndGameSummaryAdvanced;
@@ -106,7 +106,7 @@ public static class PlayerJoinPatch
                 summary = GameHistory.EndGameSummarySimple;
                 break;
         }
-        if (summary != string.Empty && LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance
+        if (summary != string.Empty && LocalSettingsTabSingleton<TouLocalTabPractice>.Instance
                 .ShowSummaryMessageToggle.Value)
         {
             systemName = $"<color=#8BFDFD>{TouLocale.Get("EndGameSummary")}</color>";
@@ -122,13 +122,13 @@ public static class PlayerJoinPatch
             MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
         }
 
-        if (!SentOnce && LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.ShowWelcomeMessageToggle.Value)
+        if (!SentOnce && LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ShowWelcomeMessageToggle.Value)
         {
             var msg = TouLocale.GetParsed("WelcomeMessageBlurb").Replace("<modVersion>", TownOfUsPlugin.Version);
             MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName, msg, true);
             time = 5f;
         }
-        else if (!LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.ShowWelcomeMessageToggle.Value)
+        else if (!LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ShowWelcomeMessageToggle.Value)
         {
             time = 2.48f;
         }

@@ -83,7 +83,7 @@ public sealed class EngineerFixButton : TownOfUsRoleButton<EngineerTouRole>, ILe
                     Button?.usesRemainingSprite.color = TextOutlineColor;
                 }
 
-                TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
+                TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance
                     .UseCrewmateTeamColorToggle.Value;
             }
         }

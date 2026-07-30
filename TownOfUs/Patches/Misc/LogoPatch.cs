@@ -31,7 +31,7 @@ public static class LogoPatch
         var version = Version.Parse(Application.version);
         NeedsDeepDestroy = version >= requiredVersion;
         Warning($"Current AU Version is {version} | Needs Deep Destroy: {NeedsDeepDestroy}");
-        ModStampPatch.StampPlacement = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ModStampPlacement.Value;
+        ModStampPatch.StampPlacement = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ModStampPlacement.Value;
         RoleManager.Instance.GetRole(RoleTypes.CrewmateGhost).StringName =
             CustomStringName.CreateAndRegister("Crewmate Ghost");
         RoleManager.Instance.GetRole(RoleTypes.ImpostorGhost).StringName =

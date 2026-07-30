@@ -4,7 +4,7 @@ public static class DraftAudio
 {
     public static void PlayDraftStart()
     {
-        if (LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.DraftAudioCue.Value == DraftAudioCueMode.Start)
+        if (LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.DraftAudioCue.Value == DraftAudioCueMode.Start)
         {
             TouAudio.PlaySound(TouAudio.TribunalSound);
         }
@@ -12,7 +12,7 @@ public static class DraftAudio
 
     public static void PlayYourTurn()
     {
-        if (LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.DraftAudioCue.Value == DraftAudioCueMode.YourTurn)
+        if (LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.DraftAudioCue.Value == DraftAudioCueMode.YourTurn)
         {
             TouAudio.PlaySound(TouAudio.TribunalSound);
         }
