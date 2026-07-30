@@ -485,6 +485,7 @@
   <string name="DiedToParasite">Overtaken</string>
   <string name="DiedToPuppetControl">Targeted</string>
     <string name="DiedToPoison">Poisoned</string>
+    <string name="DiedToTempRevive">Temporarily Revived</string>
   <!-- Status Effects -->
   <string name="TouFirstDeathShield">First Death Shield</string>
   <string name="TouClericBarrier">Cleric Barrier</string>

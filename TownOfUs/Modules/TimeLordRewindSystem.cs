@@ -18,6 +18,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using System.Runtime.CompilerServices;
 using TownOfUs.Interfaces;
+using TownOfUs.Modifiers.Crewmate;
 
 namespace TownOfUs.Modules;
 
@@ -1195,7 +1196,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        if (!IsRewinding || !OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        if (!IsRewinding || (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value == RewindRevive.Disabled)
         {
             return;
         }
@@ -1428,7 +1429,7 @@ public static class TimeLordRewindSystem
 
         var elapsed = Time.time - _rewindStartTime;
 
-        if (!OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        if ((RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value == RewindRevive.Disabled)
         {
             _hostRevives = null;
         }
@@ -1805,7 +1806,7 @@ return true;*/
     {
         var wasHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
         byte[] pendingHostRevives = [];
-        if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        if (wasHost && (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
         {
             var ids = new HashSet<byte>(_hostPendingRewindRevives);
             if (_hostRevives != null)
@@ -1947,7 +1948,7 @@ return true;*/
             ModCompatibility.CheckOutOfBoundsElevator(lp);
         }
 
-        if (wasHost && pendingHostRevives.Length > 0 && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        if (wasHost && pendingHostRevives.Length > 0 && (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
         {
             foreach (var victimId in pendingHostRevives)
             {
@@ -2003,7 +2004,7 @@ return true;*/
 
         var wasHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
         byte[] pendingHostRevives = [];
-        if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        if (wasHost && (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
         {
             var ids = new HashSet<byte>(_hostPendingRewindRevives);
             if (_hostRevives != null)
@@ -2089,7 +2090,7 @@ return true;*/
 
         lp.moveable = true;
 
-        if (wasHost && pendingHostRevives.Length > 0 && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        if (wasHost && pendingHostRevives.Length > 0 && (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
         {
             foreach (var victimId in pendingHostRevives)
             {
@@ -2611,11 +2612,21 @@ return true;*/
         }
         
         var timeLord = SourceTimeLordId != byte.MaxValue ? MiscUtils.PlayerById(SourceTimeLordId) : null;
+        var isTemp = (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value is RewindRevive.UntilNextRound;
         var revivedText = TouLocale.GetParsed("TouRoleTimeLordRevivedNotif", "You were revived thanks to the Time Lord!");
         var successText = string.Empty;
         if (timeLord != null && revived.Data != null && OptionGroupSingleton<TimeLordOptions>.Instance.NotifyOnRevive)
         {
             successText = TouLocale.GetParsed("TouRoleAltruistReviveSuccessNotif").Replace("<player>", revived.Data.PlayerName);
+            if (isTemp)
+            {
+                successText += "\n<color=#D64042>They will perish next round.</color>";
+            }
+        }
+        if (isTemp)
+        {
+            revived.AddModifier<TimeLordTempReviveModifier>(timeLord!);
+            revivedText += "\n<color=#D64042>You will perish next round.</color>";
         }
 
         ReviveUtilities.RevivePlayer(
