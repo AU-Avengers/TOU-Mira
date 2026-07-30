@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Options.Modifiers.Universal;
 
-public sealed class ButtonBarryOptions : AbstractOptionGroup<ButtonBarryModifier>
+public sealed class ButtonBarryOptions : AbstractTouModifierOptionGroup<ButtonBarryModifier>
 {
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierButtonBarry", "Button Barry");

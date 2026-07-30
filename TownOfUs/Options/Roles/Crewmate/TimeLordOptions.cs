@@ -6,7 +6,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class TimeLordOptions : AbstractOptionGroup<TimeLordRole>
+public sealed class TimeLordOptions : AbstractRoleOptionGroup<TimeLordRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleTimeLord", "Time Lord");
 
@@ -26,9 +26,7 @@ public sealed class TimeLordOptions : AbstractOptionGroup<TimeLordRole>
 
     [ModdedToggleOption("TouOptionTimeLordCanUseVitals")]
     public bool CanUseVitals { get; set; } = false;
-
-    [ModdedToggleOption("TouOptionTimeLordReviveOnRewind")]
-    public bool ReviveOnRewind { get; set; } = true;
+    public ModdedEnumOption ReviveOnRewind { get; } = new("TouOptionTimeLordReviveOnRewind", (int)RewindRevive.UntilNextRound, typeof(RewindRevive), ["Disabled", "Until Next Round", "Fully"]);
 
     [ModdedToggleOption("TouOptionTimeLordUndoTasksOnRewind")]
     public bool UndoTasksOnRewind { get; set; } = true;
@@ -38,4 +36,11 @@ public sealed class TimeLordOptions : AbstractOptionGroup<TimeLordRole>
 
     [ModdedToggleOption("TouOptionTimeLordNotifyOnRevive")]
     public bool NotifyOnRevive { get; set; } = false;
+}
+
+public enum RewindRevive
+{
+    Disabled,
+    UntilNextRound,
+    Permanent
 }

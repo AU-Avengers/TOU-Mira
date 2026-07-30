@@ -6,7 +6,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class MirrorcasterOptions : AbstractOptionGroup<MirrorcasterRole>
+public sealed class MirrorcasterOptions : AbstractRoleOptionGroup<MirrorcasterRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleMirrorcaster", "Mirrorcaster");
 

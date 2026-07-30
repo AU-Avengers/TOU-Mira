@@ -586,6 +586,41 @@ public static class MiscUtils
         return localizedName;
     }
 
+    public static Color GetRoleFactionColor(RoleBehaviour role, bool useAltColors = false)
+    {
+        if (role)
+        {
+            if (role.IsCrewmate())
+            {
+                return useAltColors ? TownOfUsColors.Crewmate : Palette.CrewmateBlue;
+            }
+
+            if (role.IsImpostor())
+            {
+                return useAltColors ? TownOfUsColors.ImpSoft : TownOfUsColors.Impostor;
+            }
+        }
+
+        return TownOfUsColors.Neutral;
+    }
+
+    public static Color GetRoleFactionColor(RoleAlignment roleAlignment, bool useAltColors = false)
+    {
+        var localeName = $"{roleAlignment}";
+        var localizedName = TouLocale.Get(localeName);
+
+        if (localizedName.Contains("Crewmate") || localizedName.Contains(TouLocale.Get("CrewmateKeyword")))
+        {
+            return useAltColors ? TownOfUsColors.Crewmate : Palette.CrewmateBlue;
+        }
+        else if (localizedName.Contains("Impostor") || localizedName.Contains(TouLocale.Get("ImpostorKeyword")))
+        {
+            return useAltColors ? TownOfUsColors.ImpSoft : TownOfUsColors.Impostor;
+        }
+
+        return TownOfUsColors.Neutral;
+    }
+
     public static IEnumerable<RoleBehaviour> GetRegisteredRoles(RoleAlignment alignment)
     {
         var roles = AllRoles.Where(x => x.GetRoleAlignment() == alignment);
@@ -736,6 +771,10 @@ public static class MiscUtils
 
     public static Color GetModifierColour(BaseModifier modifier)
     {
+        if (modifier is TouBaseGameModifier touMod)
+        {
+            return touMod.Configuration.UiColor;
+        }
         var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
         if (modifier is IColoredModifier colorMod)
         {
@@ -1362,6 +1401,73 @@ public static class MiscUtils
             yield return new WaitForSeconds(delay);
         }
     }
+    public static IEnumerator FadeInOutPair(SpriteRenderer? rendIn, SpriteRenderer? rendOut, float delay = 0.01f, float increase = 0.01f)
+    {
+        if (rendIn == null || rendOut == null)
+        {
+            yield break;
+        }
+
+        var tmpIn = rendIn.color;
+        tmpIn.a = 0;
+        rendIn.color = tmpIn;
+        var tmpOut = rendOut.color;
+        rendOut.color = tmpOut;
+
+        while (tmpOut.a > 0)
+        {
+            tmpIn.a = Mathf.Min(rendIn.color.a + increase, 1f); // Ensure it doesn't go above 1
+            rendIn.color = tmpIn;
+
+            tmpOut.a = Mathf.Max(rendOut.color.a - increase, 0f); // Ensure it doesn't go below 0
+            rendOut.color = tmpOut;
+
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
+    public static IEnumerator FadeInOutMultiRenderers(SpriteRenderer[] rendsIn, SpriteRenderer[] rendsOut, float delay = 0.01f,
+        float increase = 0.01f)
+    {
+        var tmpIn = rendsIn[0].color;
+        tmpIn.a = 0;
+        var tmpOut = rendsOut[0].color;
+
+        while (tmpOut.a > 0 || tmpIn.a < 1)
+        {
+            tmpIn.a = Mathf.Min(tmpIn.a + increase, 1f); // Ensure it doesn't go above 1
+            foreach (var rend in rendsIn)
+            {
+                rend.color = tmpIn;
+            }
+
+            tmpOut.a = Mathf.Max(tmpOut.a - increase, 0f); // Ensure it doesn't go below 0
+            foreach (var rend in rendsOut)
+            {
+                rend.color = tmpOut;
+            }
+
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
+    public static IEnumerator FadeOutMultiRenderers(SpriteRenderer[] rends, float delay = 0.01f,
+        float increase = 0.01f)
+    {
+        var tmp = rends[0].color;
+
+        while (tmp.a > 0)
+        {
+            tmp.a = Mathf.Max(tmp.a - increase, 0f); // Ensure it doesn't go above 1
+            foreach (var rend in rends)
+            {
+                rend.color = tmp;
+            }
+
+            yield return new WaitForSeconds(delay);
+        }
+
+    }
 
     public static IEnumerator FadeInDualRenderers(SpriteRenderer? rend, SpriteRenderer? rend2, float delay = 0.01f,
         float increase = 0.01f, float rend2Mult = 1f)
@@ -1669,6 +1775,26 @@ public static class MiscUtils
     public static FakePlayer? GetFakePlayer(PlayerControl player)
     {
         return FakePlayer.FakePlayers.FirstOrDefault(x => x.body?.name == $"Fake {player.gameObject.name}");
+    }
+
+    /// <summary>
+    ///     Gets a FakePlayer by comparing a player id.
+    /// </summary>
+    /// <param name="playerId">The player id.</param>
+    /// <returns>A fake player or null if its not found.</returns>
+    public static FakePlayer? GetFakePlayer(int playerId)
+    {
+        return FakePlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == playerId && x.body);
+    }
+
+    /// <summary>
+    ///     Gets a FakePlayer by comparing a string.
+    /// </summary>
+    /// <param name="playerName">The player's name.</param>
+    /// <returns>A fake player or null if its not found.</returns>
+    public static FakePlayer? GetFakePlayer(string playerName)
+    {
+        return FakePlayer.FakePlayers.FirstOrDefault(x => x.body?.name == $"Fake {playerName}");
     }
 
     public static void SetForcedBodyType(this PlayerPhysics player, PlayerBodyTypes bodyType)

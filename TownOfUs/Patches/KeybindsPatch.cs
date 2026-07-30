@@ -206,7 +206,7 @@ public static class Bindings
         }
 
         var isHost = PlayerControl.LocalPlayer.IsHost();
-        var settings = LocalSettingsTabSingleton<TownOfUsLocalActionTab>.Instance;
+        var settings = LocalSettingsTabSingleton<TouLocalTabActions>.Instance;
 
         //  Full List of binds:
         //      Suicide Keybind (ENTER + T + Left Shift)

@@ -24,8 +24,62 @@ using UnityEngine;
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class DoomsayerRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame
+    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame, IProgressTally
 {
+    public string GetGuessTally(DoomsayerOptions opts)
+    {
+        var playersAlive = PlayerControl.AllPlayerControls.ToArray()
+            .Count(x => !x.HasDied() && !x.IsJailed() && x != Player);
+        var completed = NumberOfGuesses;
+        var totalTasks = playersAlive < 3 ? 2 : (int)opts.DoomsayerGuessesToWin;
+        var colorbase = Color.yellow;
+        var color = Color.yellow;
+        if (completed <= 0)
+        {
+            color = TownOfUsColors.ImpSoft;
+        }
+        else if (completed >= totalTasks)
+        {
+            color = TownOfUsColors.Doomsayer;
+        }
+        else if (completed > totalTasks / 2)
+        {
+            var fraction = ((completed * 0.4f) / totalTasks);
+            Color color2 = TownOfUsColors.Doomsayer;
+            color = new
+            ((color2.r * fraction + colorbase.r * (1 - fraction)),
+                (color2.g * fraction + colorbase.g * (1 - fraction)),
+                (color2.b * fraction + colorbase.b * (1 - fraction)));
+        }
+        else if (completed < totalTasks / 2)
+        {
+            var fraction = ((completed * 0.9f) / totalTasks);
+            Color color2 = TownOfUsColors.ImpSoft;
+            color = new
+            ((colorbase.r * fraction + color2.r * (1 - fraction)),
+                (colorbase.g * fraction + color2.g * (1 - fraction)),
+                (colorbase.b * fraction + color2.b * (1 - fraction)));
+        }
+
+        return $"{color.ToTextColor()}({completed}/{totalTasks})</color>";
+    }
+    public bool ProgressOnName(bool localDead, bool inMeeting, bool amOwner, out string progress)
+    {
+        var opts = OptionGroupSingleton<DoomsayerOptions>.Instance;
+        if ((!opts.DoomsayerGuessAllAtOnce || inMeeting) && amOwner || !opts.DoomsayerGuessAllAtOnce && localDead)
+        {
+            progress = GetGuessTally(opts);
+            return true;
+        }
+
+        progress = string.Empty;
+        return false;
+    }
+
+    public string ProgressOnSummaryNormal => string.Empty;
+
+    public string ProgressOnSummaryDetailed =>
+        string.Empty;
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (!playerControl.AmOwner)
@@ -232,17 +286,43 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 reportBuilder.AppendLine(TownOfUsPlugin.Culture, $"{hint.Replace("<player>", player.PlayerName)}\n");
             }
 
-            var roles = MiscUtils.AllRegisteredRoles
-                .Where(x => (x is IDoomable doomRole && doomRole.DoomHintType == DoomableType.Default &&
-                    x is not IUnguessable || x is not IDoomable) && !x.IsDead).ToList();
+            var roles = MiscUtils.GetPotentialRoles().Where(x => (x is IDoomable doomRole && doomRole.DoomHintType == DoomableType.Default &&
+                x is not IUnguessable || x is not IDoomable) && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).ToList();
+
+            var allRoles = MiscUtils.AllRoles.Where(x => (x is IDoomable doomRole && doomRole.DoomHintType == DoomableType.Default &&
+                x is not IUnguessable || x is not IDoomable) && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).Where(x => x is IGuessable && !roles.Contains(x)).ToList();
+
+            if (allRoles.Count > 0)
+            {
+                foreach (var addedRole in allRoles)
+                {
+                    if (addedRole is IGuessable guessable && guessable.CanBeGuessed)
+                    {
+                        roles.Add(addedRole);
+                    }
+                }
+            }
             roles = roles.OrderBy(x => x.GetRoleName()).ToList();
             var lastRole = roles[^1];
 
             if (hintType != DoomableType.Default)
             {
-                roles = MiscUtils.AllRoles
-                    .Where(x => x is IDoomable doomRole && doomRole.DoomHintType == hintType && x is not IUnguessable)
-                    .OrderBy(x => x.GetRoleName()).ToList();
+                roles = MiscUtils.GetPotentialRoles().Where(x => x is IDoomable doomRole && doomRole.DoomHintType == hintType &&
+                    x is not IUnguessable && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).ToList();
+
+                allRoles = MiscUtils.AllRoles.Where(x => x is IDoomable doomRole && doomRole.DoomHintType == hintType &&
+                    x is not IUnguessable && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).Where(x => x is IGuessable && !roles.Contains(x)).ToList();
+                if (allRoles.Count > 0)
+                {
+                    foreach (var addedRole in allRoles)
+                    {
+                        if (addedRole is IGuessable guessable && guessable.CanBeGuessed)
+                        {
+                            roles.Add(addedRole);
+                        }
+                    }
+                }
+                roles = roles.OrderBy(x => x.GetRoleName()).ToList();
                 lastRole = roles[^1];
             }
 

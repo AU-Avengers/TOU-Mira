@@ -5,7 +5,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class WerewolfOptions : AbstractOptionGroup<WerewolfRole>
+public sealed class WerewolfOptions : AbstractRoleOptionGroup<WerewolfRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleWerewolf", "Werewolf");
 

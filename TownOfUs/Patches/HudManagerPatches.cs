@@ -31,6 +31,7 @@ namespace TownOfUs.Patches;
 [HarmonyPatch]
 public static class HudManagerPatches
 {
+    public static ProgressTracking PlayerNameProgress = ProgressTracking.Always;
     public static NameStyle RoleNameStyle = NameStyle.TopSmall;
     public static bool RoleOnTop => RoleNameStyle is NameStyle.Top or NameStyle.TopSmall;
     public static bool RoleIsSmall => RoleNameStyle is NameStyle.BottomSmall or NameStyle.TopSmall;
@@ -339,7 +340,7 @@ public static class HudManagerPatches
         else
         {
             RoleList.SetActive(false);
-            if (roleAssignmentType is not RoleDistribution.RoleList && roleAssignmentType is not RoleDistribution.MinMaxList)
+            if (roleAssignmentType is not RoleDistribution.RoleList && roleAssignmentType is not RoleDistribution.MinMaxList && roleAssignmentType is not RoleDistribution.Draft)
             {
                 return;
             }
@@ -405,6 +406,67 @@ public static class HudManagerPatches
                         rolelistBuilder.AppendLine(StoredMaximum);
                     }
                     break;
+                case RoleDistribution.Draft:
+                    var draftOpts = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
+                    var draftCrewOpts = OptionGroupSingleton<RoleDraftCrewOptions>.Instance;
+                    var draftImpOpts = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
+                    var draftNeutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
+                    rolelistBuilder.Append(StoredDraftTitle);
+                    rolelistBuilder.Append(":</color>\n");
+                    if (list.UseRoleListForPool.Value)
+                    {
+                        for (var i = 0; i < maxSlots; i++)
+                        {
+                            var slotValue = i switch
+                            {
+                                0 => draftOpts.Slot1.Value,
+                                1 => draftOpts.Slot2.Value,
+                                2 => draftOpts.Slot3.Value,
+                                3 => draftOpts.Slot4.Value,
+                                4 => draftOpts.Slot5.Value,
+                                5 => draftOpts.Slot6.Value,
+                                6 => draftOpts.Slot7.Value,
+                                7 => draftOpts.Slot8.Value,
+                                8 => draftOpts.Slot9.Value,
+                                9 => draftOpts.Slot10.Value,
+                                10 => draftOpts.Slot11.Value,
+                                11 => draftOpts.Slot12.Value,
+                                12 => draftOpts.Slot13.Value,
+                                13 => draftOpts.Slot14.Value,
+                                14 => draftOpts.Slot15.Value,
+                                _ => (RoleListOption)(-1)
+                            };
+
+                            rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
+                        }
+                    } else 
+                    {
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Investigative: {draftCrewOpts.MaxCrewInvestigative.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Killing: {draftCrewOpts.MaxCrewKilling.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Power: {draftCrewOpts.MaxCrewPower.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Protective: {draftCrewOpts.MaxCrewProtective.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┗ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Support: {draftCrewOpts.MaxCrewSupport.Value} Max");
+
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.ImpSoft.ToTextColor()}Impostors</color>: {draftImpOpts.MaxImpostors.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Concealing: {draftImpOpts.MaxImpConcealing.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Killing: {draftImpOpts.MaxImpKilling.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Power: {draftImpOpts.MaxImpPower.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┗ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Support: {draftImpOpts.MaxImpSupport.Value} Max");
+
+                        if (draftNeutOpts.MaxNeutrals.Value > 0)
+                        {
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: {draftNeutOpts.MaxNeutrals.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Benign: {draftNeutOpts.MaxNeutBenign.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Evil: {draftNeutOpts.MaxNeutEvil.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Killing: {draftNeutOpts.MaxNeutKilling.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┗ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Outlier: {draftNeutOpts.MaxNeutOutlier.Value} Max");
+                        }
+                        else
+                        {
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: None");
+                        }
+                    }
+                    break;
             }
 
             if (!IsHoveringRoleList)
@@ -431,7 +493,7 @@ public static class HudManagerPatches
                 TouAssets.ZoomMinusActive.LoadAsset();
                 active.localPosition = new Vector3(0, 0.021f, -0.1f);
             ZoomButton.GetComponentInChildren<AspectPosition>().Destroy();
-            TownOfUsLocalSettings.SetUpButtonPositions();
+            TouLocalTabButtons.SetUpButtonPositions();
         }
     }
 
@@ -456,7 +518,7 @@ public static class HudManagerPatches
                     buttonBehavior.OnClick = new Button.ButtonClickedEvent();
                     buttonBehavior.OnClick.AddListener(new Action(ChangeSubFloor));
 
-                    TownOfUsLocalSettings.SetUpButtonPositions();
+                    TouLocalTabButtons.SetUpButtonPositions();
                 }
             }
             if (SubmergedFloorButton && PlayerControl.LocalPlayer.Data.Role is IGhostRole ghost)
@@ -590,7 +652,7 @@ public static class HudManagerPatches
             active.localPosition = new Vector3(0, 0.021f, -0.1f);
 
             WikiButton.GetComponentInChildren<AspectPosition>().Destroy();
-            TownOfUsLocalSettings.SetUpButtonPositions();
+            TouLocalTabButtons.SetUpButtonPositions();
         }
 
         if (WikiButton)
@@ -615,7 +677,7 @@ public static class HudManagerPatches
                 oldPos = ModifierDisplayObject.transform.GetChild(1).localPosition;
                 ModifierDisplayObject.transform.GetChild(1).localPosition = new Vector3(-0.45f, 0.3f, oldPos.z);
             }
-            TownOfUsLocalSettings.SetUpButtonPositions();
+            TouLocalTabButtons.SetUpButtonPositions();
         }
     }
 
@@ -657,8 +719,8 @@ public static class HudManagerPatches
         ((PlayerControl.LocalPlayer.DiedOtherRound() &&
           (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
            PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) ||
-         (TutorialManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.ZoomingInPractice.Value) ||
-         (GameStartManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.ZoomingInLobby.Value)) && !(HudManager.Instance.GameMenu.IsOpen ||
+         (TutorialManager.InstanceExists && LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInPractice.Value) ||
+         (GameStartManager.InstanceExists && LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInLobby.Value)) && !(HudManager.Instance.GameMenu.IsOpen ||
                                                  HudManager.Instance.Chat.IsOpenOrOpening ||
                                                  MeetingHud.Instance || Minigame.Instance ||
                                                  PlayerCustomizationMenu.Instance ||
@@ -680,6 +742,7 @@ public static class HudManagerPatches
     public static string NeutralKillers { get; private set; } = "Neutral Killers";
     public static string StoredMinimum { get; private set; } = "Min";
     public static string StoredMaximum { get; private set; } = "Max";
+    public static string StoredDraftTitle { get; private set; } = "Draft Mode";
     internal static List<string> StoredRoleBuckets =
     [
         "CrewInvestigative",
@@ -721,12 +784,14 @@ public static class HudManagerPatches
     public static void HudManagerStartPatch(HudManager __instance)
     {
         __instance.gameObject.AddComponent<HudManagerHelper>();
-        RoleNameStyle = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.RoleNameStyle.Value;
+        RoleNameStyle = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.RoleNameStyle.Value;
+        PlayerNameProgress = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.DisplayPlayerProgress.Value;
         StoredHostLocale = TranslationController.Instance.GetString(StringNames.HostNounEmpty);
         StoredTasksText = TranslationController.Instance.GetString(StringNames.Tasks);
         StoredSpectatingLocale = TouLocale.Get("TouRoleSpectator");
         StoredRoleList = TouLocale.Get("SetRoleList");
         StoredFactionList = TouLocale.Get("NeutralFactionList");
+        StoredDraftTitle = TouLocale.Get("StoredDraftTitle");
         List<string> lists =
         [
             TouLocale.Get("NeutralBenigns"),
@@ -799,12 +864,12 @@ public static class HudManagerPatches
             BucketTooltipData.AllRoles.Add(pair.Key, roleEntry);
         }
 
-        TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
+        TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance
             .UseCrewmateTeamColorToggle.Value;
         
-        TownOfUsLocalSettings.OldButtonScaleFactor =
-            LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ButtonUIFactorSlider.Value;
-        Coroutines.Start(TownOfUsLocalSettings.CoResizeSettingsUI());
+        TouLocalTabButtons.OldButtonScaleFactor =
+            LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ButtonUIFactorSlider.Value;
+        Coroutines.Start(TouLocalTabButtons.CoResizeSettingsUI());
     }
 
     internal static readonly Dictionary<RoleListOption, RoleAlignment> TooltipAlignments = new()

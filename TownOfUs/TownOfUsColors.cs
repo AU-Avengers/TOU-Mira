@@ -6,7 +6,7 @@ namespace TownOfUs;
 public static class TownOfUsColors
 {
     public static bool UseBasic { get; set; } =
-        LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+        LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.UseCrewmateTeamColorToggle.Value;
 
     public static Color HaunterRevealed => new Color32(150, 50, 50, 255);
     public static Color CrewmateWiki => new Color32(80, 225, 255, 255);
@@ -106,6 +106,12 @@ public static class TownOfUsColors
     // Alliance Modifiers
     public static Color Egotist => new Color32(102, 153, 102, 255);
     public static Color Lover => new Color32(255, 102, 204, 255);
+
+    // Assailant Modifiers
+    public static Color Assassin => new Color32(161, 62, 83, 255);
+    public static Color DoubleShot => new Color32(126, 112, 143, 255);
+    public static Color Ricochet => new Color32(255, 178, 153, 255);
+    public static Color Overclocker => new Color32(252, 145, 46, 255);
 
     // Universal Modifiers
     public static Color ButtonBarry => new Color32(179, 51, 204, 255);

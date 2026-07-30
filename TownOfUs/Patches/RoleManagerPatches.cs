@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
@@ -898,6 +898,14 @@ public static class TouRoleManagerPatches
         Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager} | Assignment type is set to {assignmentType.ToDisplayString()}!");
         GameManager.Instance.LogicOptions.SyncOptions();
         ModifierManager.MiraAssignsModifiers = false;
+        foreach (var mod in ModifierManager.Modifiers)
+        {
+            if (mod is not TouBaseGameModifier touMod)
+            {
+                continue;
+            }
+            touMod.BeforeModifierSpawns();
+        }
 
         if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla)
         {
@@ -998,7 +1006,23 @@ public static class TouRoleManagerPatches
             }
         }
 
-        if (assignmentType is RoleSelectionMode.RoleList)
+        var distrib = OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution();
+        if (distrib is RoleDistribution.Draft && TownOfUs.Modules.DraftMode.DraftApplier.PendingDraftStates.Count > 0)
+        {
+            TownOfUs.Modules.DraftMode.DraftApplier.ApplyDraftResults(TownOfUs.Modules.DraftMode.DraftApplier.PendingDraftStates);
+            TownOfUs.Modules.DraftMode.DraftApplier.PendingDraftStates.Clear();
+            
+            // Safety fallback: any player who somehow didn't get a role gets Crewmate
+            foreach (var p in PlayerControl.AllPlayerControls)
+            {
+                if (p == null || p.Data == null || p.Data.Disconnected) continue;
+                if (p.Data.Role == null || p.Data.Role.Role == 0)
+                {
+                    p.RpcSetRole(RoleTypes.Crewmate);
+                }
+            }
+        }
+        else if (assignmentType is RoleSelectionMode.RoleList)
         {
             AssignRolesFromRoleList(infected);
         }

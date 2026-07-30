@@ -29,6 +29,9 @@ public static class TouNeutAssets
     public static LoadableAsset<Sprite> ExeTormentSprite { get; } =
         new LoadableBundleAsset<Sprite>("ExeTormentButton", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> JesterPokeSprite { get; } =
+        new LoadableBundleAsset<Sprite>("JesterPokeButton", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> JesterHauntSprite { get; } =
         new LoadableBundleAsset<Sprite>("JesterHauntButton", TouAssets.MainBundle);
 
@@ -64,6 +67,15 @@ public static class TouNeutAssets
 
     public static LoadableAsset<Sprite> JuggVentSprite { get; } =
         new LoadableBundleAsset<Sprite>("JuggVentButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> PetrifySprite { get; } =
+        new LoadableBundleAsset<Sprite>("MedusaPetrifyButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> StoneGazeSprite { get; } =
+        new LoadableBundleAsset<Sprite>("MedusaStoneGazeButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> MedusaVentSprite { get; } =
+        new LoadableBundleAsset<Sprite>("MedusaVentButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> InfectSprite { get; } =
         new LoadableBundleAsset<Sprite>("InfectButton", TouAssets.MainBundle);

@@ -32,6 +32,9 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
 
     [ModdedNumberOption("Temp Save Cooldown Reset", 0f, 15f, 0.5f, MiraNumberSuffixes.Seconds, "0.#")]
     public float TempSaveCdReset { get; set; } = 5f;
+
+    public ModdedNumberOption FullSaveCdMultiplier { get; set; } = new("Full Save Cooldown Multiplier",
+        0.5f, 0.25f, 1f, 0.05f, MiraNumberSuffixes.Multiplier, "0.#");
 }
 
 public enum BodyVitalsMode

@@ -11,7 +11,6 @@ using TownOfUs.Buttons;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -48,8 +47,7 @@ public static class MedicEvents
 
             var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
                 x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-            var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
-                x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
+            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
             mod.ShowShield = showShieldedEveryone || showShieldedSelf || showShieldedMedic ||
                          (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
@@ -192,8 +190,8 @@ public static class MedicEvents
 
         if (OptionGroupSingleton<MedicOptions>.Instance.ShieldBreaks)
         {
-            button?.ResetCooldownAndOrEffect();
-            source.SetKillTimer(source.GetKillCooldown());
+            button?.ResetButtonCooldown(true);
+            source.SetKillTimer(source.GetReducedKillCooldown());
             return;
         }
 

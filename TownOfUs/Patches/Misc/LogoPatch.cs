@@ -31,7 +31,7 @@ public static class LogoPatch
         var version = Version.Parse(Application.version);
         NeedsDeepDestroy = version >= requiredVersion;
         Warning($"Current AU Version is {version} | Needs Deep Destroy: {NeedsDeepDestroy}");
-        ModStampPatch.StampPlacement = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ModStampPlacement.Value;
+        ModStampPatch.StampPlacement = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ModStampPlacement.Value;
         RoleManager.Instance.GetRole(RoleTypes.CrewmateGhost).StringName =
             CustomStringName.CreateAndRegister("Crewmate Ghost");
         RoleManager.Instance.GetRole(RoleTypes.ImpostorGhost).StringName =
@@ -65,6 +65,8 @@ public static class LogoPatch
             SoftWikiEntries.RegisterVanillaRoleEntry(rolePair.Key, rolePair.Value);
         }
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Neutral.LoadAsset(), "AmongUs.Role.Custom",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Neutral.LoadAsset(), "AmongUs.Role.Neutral",
             1.45f);
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Crewmate.LoadAsset(), "AmongUs.Role.Crewmate",
             1.45f);

@@ -4,7 +4,6 @@ using MiraAPI.Modifiers;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -59,7 +58,7 @@ public sealed class GlitchMimicButton : TownOfUsRoleButton<GlitchRole>, IAfterma
         {
             var player = PlayerControl.AllPlayerControls.ToArray().Where(plr => (!plr.HasDied() ||
                 Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == plr.PlayerId) ||
-                FakePlayer.FakePlayers.FirstOrDefault(x => x.body?.name == $"Fake {plr.gameObject.name}")
+                MiscUtils.GetFakePlayer(plr)
                     ?.body && !plr.AmOwner)).Random();
             if (player != null)
             {
@@ -96,7 +95,7 @@ public sealed class GlitchMimicButton : TownOfUsRoleButton<GlitchRole>, IAfterma
             playerMenu.Begin(
                 plr => (!plr.HasDied() ||
                         Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == plr.PlayerId) ||
-                        FakePlayer.FakePlayers.FirstOrDefault(x => x?.body?.name == $"Fake {plr.gameObject.name}")
+                        MiscUtils.GetFakePlayer(plr)
                             ?.body) && !plr.AmOwner,
                 plr =>
                 {

@@ -16,6 +16,10 @@ public static class GlitchPatches
     [HarmonyPrefix]
     public static bool GlitchHackedSabotageButtonPatch(ActionButton __instance)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            return true;
+        }
         if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>())
         {
             if (!PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShouldHideHacked)

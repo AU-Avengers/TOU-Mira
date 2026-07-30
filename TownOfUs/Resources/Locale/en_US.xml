@@ -11,6 +11,43 @@
   <string name="LegacyThemeFull">Legacy: Full</string>
   <string name="TertiaryAbility">Tertiary Ability (Hack Ability)</string>
   <string name="ModifierAbility">Modifier Ability</string>
+  <!-- Draft Mode -->
+  <string name="TouDraftCancelButton">Cancel Draft</string>
+  <string name="TouDraftCancelledNotif">Draft Mode has been cancelled by the \%color=#FFBFCC\%\%b\%Host\%/b\%\%/color\%!</string>
+  <string name="TouDraftShuffleButton">Shuffle</string>
+  <string name="TouDraftShuffledNotif">Your picks have been Reshuffled!</string>
+  <string name="TouDraftRandomDescription">Locks in a completely random role for you.</string>
+  <string name="TouDraftUnknownRoleLabel">Role \%id\%</string>
+  <string name="TouDraftUnknownTeamLabel">Unknown</string>
+  <string name="TouDraftRecapHeader">DRAFT RECAP</string>
+  <string name="TouDraftRecapModeRole">Role</string>
+  <string name="TouDraftRecapModeFaction">Faction</string>
+  <string name="TouDraftPlayerLabel">Player \%slot\%</string>
+  <string name="TouDraftSlotLabel">Slot \%slot\%</string>
+  <string name="TouDraftPickPrompt">Pick Your Role!</string>
+  <string name="TouDraftTimerRemaining">\%secs\% Second(s) Remaining</string>
+  <string name="TouDraftWaitingToStart">Waiting to start...</string>
+  <string name="TouDraftRolesPickedLabel">ROLES PICKED</string>
+  <string name="TouDraftShimmerDraft">DRAFT</string>
+  <string name="TouDraftShimmerMode">MODE</string>
+  <string name="TouDraftPlayerNumberLabel">Player #\%num\%</string>
+  <string name="TouDraftYouLabel">YOU</string>
+  <string name="TouDraftIsPickingLabel">is picking...</string>
+  <string name="TouDraftIsWaitingLabel">is waiting</string>
+  <string name="TouDraftPickedLabel">picked</string>
+  <string name="TouDraftUnknownRoleStatus">UNKNOWN</string>
+  <string name="TouDraftARoleLabel">a role</string>
+  <string name="TouDraftYourNumberLabel">YOUR NUMBER:</string>
+  <string name="TouDraftYouAreLabel">YOU ARE</string>
+  <string name="TouDraftSpectatingValue">SPECTATING</string>
+  <string name="TouDraftNowPickingLabel">NOW PICKING:</string>
+  <string name="TouDraftYourTurnLabel">YOUR TURN!</string>
+  <string name="TouDraftNowPickingMultiLabel">NOW PICKING (MULTI):</string>
+  <string name="TouDraftMultiLabel">MULTI</string>
+  <string name="DraftAudioCue">When Draft Audio Plays</string>
+  <string name="DraftAudioStart">Draft Start</string>
+  <string name="DraftAudioYourTurn">Your Turn</string>
+  <string name="DraftAudioNone">None</string>
   <!-- Client Options -->
   <string name="SelfKillBindToggle">LSHIFT + T + ENTER Triggers Self-Kill</string>
   <string name="AbortGameBindToggle">LSHIFT + L + ENTER Triggers Abort Game</string>
@@ -41,6 +78,11 @@
   <string name="NameStyleTopSmall">Top (Small)</string>
   <string name="NameStyleBottom">Bottom</string>
   <string name="NameStyleBottomSmall">Bottom (Small)</string>
+  <string name="DisplayPlayerProgress">Show Player Progress On Name For</string>
+  <string name="ProgressTrackingNever">No One</string>
+  <string name="ProgressTrackingOnSelf">Self</string>
+  <string name="ProgressTrackingOnOthers">Others</string>
+  <string name="ProgressTrackingAlways">Everyone</string>
   <string name="ModStampPlacement">Mod Stamp</string>
   <string name="ModStampTopLeft">Top-Left</string>
   <string name="ModStampTopRight">Top-Right</string>
@@ -181,6 +223,7 @@
   <!-- Role List -->
   <string name="SetRoleList">Set Role List</string>
   <string name="NeutralFactionList">Neutral Faction List</string>
+  <string name="StoredDraftTitle">Draft Mode</string>
   <string name="NeutralBenigns">Neutral Benigns</string>
   <string name="NeutralEvils">Neutral Evils</string>
   <string name="NeutralOutliers">Neutral Outliers</string>
@@ -393,8 +436,10 @@
   <string name="RoundOfDeath">R\%count\%</string>
   <string name="RoundOfDeathLong">Round \%count\%</string>
   <string name="FirstDeadText">(Died R1)</string>
-  <!-- Cause of Deaths -->
-  <string name="ExileTextConfirm">\%player\% was The \%role\%.</string>
+  <string name="ExileTextConfirmA">\%player\% was a \%role\%.</string>
+  <string name="ExileTextConfirmAn">\%player\% was an \%role\%.</string>
+  <string name="ExileTextConfirmThe">\%player\% was the \%role\%.</string>
+  <string name="ExileTextConfirm">\%player\% was \%role\%.</string>
   <string name="DiedByString">\%cod\% By \%player\%</string>
   <string name="DiedByStringBasic">By \%player\%</string>
   <string name="Alive">Alive</string>
@@ -423,8 +468,9 @@
   <string name="DiedToArsonist">Ignited</string>
   <string name="DiedToGlitch">Bugged</string>
   <string name="DiedToJuggernaut">Destroyed</string>
-  <string name="DiedToPestilence">Diseased</string>
+  <string name="DiedToPestilence">Obliterated</string>
   <string name="DiedToSoulCollector">Reaped</string>
+  <string name="DiedToMedusa">Stoned</string>
   <string name="DiedToVampire">Bit</string>
   <string name="DiedToWerewolf">Rampaged</string>
   <string name="DiedToDoomsayer">Doomed</string>
@@ -438,6 +484,8 @@
   <string name="DiedToViper">Dissolved</string>
   <string name="DiedToParasite">Overtaken</string>
   <string name="DiedToPuppetControl">Targeted</string>
+    <string name="DiedToPoison">Poisoned</string>
+    <string name="DiedToTempRevive">Temporarily Revived</string>
   <!-- Status Effects -->
   <string name="TouFirstDeathShield">First Death Shield</string>
   <string name="TouClericBarrier">Cleric Barrier</string>
@@ -780,7 +828,21 @@
   <string name="TouRoleForensicBodyKillerImpostor">The killer appears to be a Impostor!\%nl\%Killed \%time\%s ago.</string>
   <string name="TouRoleForensicAtScene">\%player\% was at the scene of \%deadPlayer\%'s death!\%nl\%They might be the killer or a witness.</string>
   <string name="TouRoleForensicNotAtScene">\%player\% was not at the scene of the crime.</string>
-  <!-- Engineer - Crewmate Investigative -->
+    <!-- Barkeeper - Crewmate Support -->
+    <!-- Barkeeper Wiki / Abilities -->
+    <string name="TouRoleBarkeeper">Barkeeper</string>
+    <string name="TouRoleBarkeeperIntroBlurb">Roleblock Evildoers to slow them down</string>
+    <string name="TouRoleBarkeeperTabDescription">Roleblock Evildoers to disable their abilities for \%blockTime\%s.</string>
+    <string name="TouRoleBarkeeperWikiDescription">The Barkeeper is a Crewmate Support role that can drink with others to roleblock them.</string>
+    <string name="TouRoleBarkeeperRoleblock">Roleblock</string>
+    <string name="TouRoleBarkeeperRoleblocking">Roleblocking</string>
+    <string name="TouRoleBarkeeperRoleblockWikiDescription">Drink with a player, roleblocking them for \%blockTime\%s.</string>
+    <string name="TouRoleBarkeeperRoleblockWikiDescriptionWithHangover">Drink with a player, roleblocking them for \%blockTime\%s. After the roleblock is finished, they will be hungover for \%overTime\%s</string>
+    <!-- Barkeeper Options -->
+    <string name="TouOptionBarkeeperRoleblockCooldown">Roleblock Cooldown</string>
+    <string name="TouOptionBarkeeperRoleblockDelayMin">Minimum Roleblock Delay</string>
+    <string name="TouOptionBarkeeperRoleblockDelayMax">Maximum Roleblock Delay</string>
+  <!-- Engineer - Crewmate Support -->
   <!-- Engineer Wiki / Abilities -->
   <string name="TouRoleEngineer">Engineer</string>
   <string name="TouRoleEngineerIntroBlurb">Maintain important systems on the ship</string>
@@ -920,6 +982,7 @@
   <!-- Lookout Options -->
   <string name="TouOptionLookoutWatchCooldown">Watch Cooldown</string>
   <string name="TouOptionLookoutMaxWatches">Initial Players That Can be Watched</string>
+  <string name="TouOptionLookoutSeesIndirectAttacks">See Indirect Attacks</string>
   <string name="TouOptionLookoutLoResetOnNewRound">Lookout Watches Reset After Each Round</string>
   <string name="TouOptionLookoutTaskUses">Get More Uses From Completing Tasks</string>
   <!-- Mayor - Crewmate Power -->
@@ -1603,6 +1666,23 @@
   <string name="TouOptionBlackmailerBlackmailSamePersonTwiceInARow">Blackmail Same Person Twice In A Row</string>
   <string name="TouOptionBlackmailerOnlyTargetSeesBlackmail">Only Target Sees Blackmail</string>
   <string name="TouOptionBlackmailerCanKillWithTeammate">Blackmailer Can Kill With Teammate</string>
+    <!-- Bootlegger - Impostor Support -->
+    <!-- Bootlegger Wiki / Abilities -->
+    <string name="TouRoleBootlegger">Bootlegger</string>
+    <string name="TouRoleBootleggerIntroBlurb">Roleblock Crewmates to stop them.</string>
+    <string name="TouRoleBootleggerTabDescription">Roleblock the crew to disable their abilities for \%blockTime\%s.\%nl\%Roleblock someone multiple times to poison them.</string>
+    <string name="TouRoleBootleggerWikiDescription">The Bootlegger is an Impostor Support role that can drink with others to roleblock them. Once a player is roleblocked three times, they will die of poison.</string>
+    <string name="TouRoleBootleggerSicken">Sicken</string>
+    <string name="TouRoleBootleggerSickening">Sickening</string>
+    <string name="TouRoleBootleggerPoison">Poison</string>
+    <string name="TouRoleBootleggerPoisoning">Poisoning</string>
+    <string name="TouRoleBootleggerMessageTitle">Bootlegger Feedback</string>
+    <string name="TouRoleBootleggerSickenFeedbackAffected">You have a sudden feeling that a drink is making you feel sick! Next time the Bootlegger gives you a drink, you will die of poison!</string>
+    <string name="TouRoleBootleggerSickenFeedbackBootlegger">Your victim, \%player\%, has noticed the effects of your drink! Next time you roleblock them, they will die of poison.</string>
+    <!-- Bootlegger Options -->
+    <string name="TouOptionBootleggerRoleblockCooldown">Roleblock Cooldown</string>
+    <string name="TouOptionBootleggerRoleblockDelayMin">Minimum Roleblock Delay</string>
+    <string name="TouOptionBootleggerRoleblockDelayMax">Maximum Roleblock Delay</string>
   <!-- Bomber Wiki / Abilities -->
   <string name="TouRoleBomber">Bomber</string>
   <string name="TouRoleBomberIntroBlurb">Drop bombs to multi-kill Crewmates.</string>
@@ -2080,13 +2160,17 @@
   <string name="TouRoleJesterTabDescription">Be as suspicious as possible, and get voted out!</string>
   <string name="TouRoleJesterWikiDescription">The Jester is a Neutral Evil role that wins by getting themselves ejected.</string>
   <string name="TouRoleJesterHaunt">Haunt</string>
+  <string name="TouRoleJesterPoke">Poke</string>
   <!-- Jester Messages -->
   <string name="TouNotifJesterWinOwner">You have successfully won as the Jester, by getting voted out!</string>
-  <string name="TouNotifJesterHauntOwner">You have one round to haunt a player of your choice to death, choose wisely</string>
+  <string name="TouNotifJesterHauntOwner">You have one round to haunt a player of your choice to death, choose wisely!</string>
   <string name="TouNotifJesterWinGlobal">The Jester, \%player\%, has successfully won, as they were voted out!</string>
+  <string name="TouNotifJesterPoke">You have poked \%player\%!</string>
   <!-- Jester Options -->
   <string name="TouOptionJesterCanButton">Can Use Button</string>
   <string name="TouOptionJesterCanVent">Can Hide In Vents</string>
+  <string name="TouOptionJesterCanPoke">Can Poke Others</string>
+  <string name="TouOptionJesterPokeCooldown">Poke Cooldown</string>
   <string name="TouOptionJesterImpVision">Has Impostor Vision</string>
   <string name="TouOptionJesterScatterEnabled">Scatter Mechanic Enabled</string>
   <string name="TouOptionJesterScatterTimer">Scatter Timer</string>
@@ -2165,19 +2249,23 @@
   <string name="TouOptionPlaguebearerAnnounceTransformation">Announce Pestilence Transformation</string>
   <string name="TouOptionPlaguebearerPestilenceKillCooldown">Pestilence Kill Cooldown</string>
   <string name="TouOptionPlaguebearerPestilenceCanVent">Pestilence Can Vent</string>
-  <!-- Soul Collector -->
-  <!-- Soul Collector Wiki / Abilities -->
+  <!-- Medusa -->
+  <!-- Medusa Wiki / Abilities -->
   <string name="TouRoleSoulCollector">Soul Collector</string>
-  <string name="TouRoleSoulCollectorIntroBlurb">Reap the souls out of Crewmates</string>
-  <string name="TouRoleSoulCollectorTabDescription">Reap the souls of others, leaving behind a lasting image</string>
-  <string name="TouRoleSoulCollectorWikiDescription">The Soul Collector is a Neutral Killing role that takes the soul of players. Instead of leaving a body behind, they leave behind a soul-less decoy that looks identical to the reaped player, standing still.</string>
-  <string name="TouRoleSoulCollectorReap">Reap</string>
-  <string name="TouRoleSoulCollectorReapWikiDescription">Reaping acts like a kill button, but instead of making a dead body, makes a fake player in its place, appearing alive.</string>
-  <string name="TouRoleSoulCollectorReapNotif">You have taken \%player\%'s soul, leaving their lifeless body standing.</string>
-  <!-- Soul Collector Options -->
-  <string name="TouOptionSoulCollectorReapCooldown">Reap Cooldown</string>
-  <string name="TouOptionSoulCollectorReapFirstRound">Allow Reap in First Round</string>
-  <string name="TouOptionSoulCollectorCanVent">Soul Collector Can Vent</string>
+  <string name="TouRoleMedusa">Medusa</string>
+  <string name="TouRoleMedusaIntroBlurb">Petrify the Crewmates into stone.</string>
+  <string name="TouRoleMedusaTabDescription">Stone players into permanent statues.</string>
+  <string name="TouRoleMedusaWikiDescription">The Medusa is a Neutral Killing role that forces its victims to stand still and slowly turn into stone. Stoned players that haven't shattered will remain throughout rounds.</string>
+  <string name="TouRoleMedusaPetrify">Petrify</string>
+  <string name="TouRoleMedusaPetrifyWikiDescription">Petrify a player to turn them into stone, killing them and leaving a statue.</string>
+  <string name="TouRoleMedusaPetrifyNotif">\%player\% will slowly turn to stone!</string>
+  <string name="TouRoleMedusaStoneGaze">Stone Gaze</string>
+  <string name="TouRoleMedusaStoneGazing">Stone Gazing</string>
+  <string name="TouRoleMedusaStoneGazeWikiDescription">Petrify anyone who tries to interact with you while gazing, unless they attempt to kill you. You will also not lunge towards others.</string>
+  <!-- Medusa Options -->
+  <string name="TouOptionMedusaPetrifyCooldown">Petrify Cooldown</string>
+  <string name="TouOptionMedusaPetrifyFirstRound">Allow Petrify in First Round</string>
+  <string name="TouOptionMedusaCanVent">Medusa Can Vent</string>
   <!-- Survivor -->
   <!-- Survivor Wiki / Abilities -->
   <string name="TouRoleSurvivor">Survivor</string>
@@ -2283,6 +2371,11 @@
   <string name="TouOptionButtonBarryMaxUses">Max Uses</string>
   <string name="TouOptionButtonBarryIgnoreSabotage">Ignore Sabotages</string>
   <string name="TouOptionButtonBarryAllowFirstRound">Allow Usage in First Round</string>
+    <!-- Drunk -->
+    <!-- Drunk Wiki / Description -->
+    <string name="TouModifierDrunk">Drunk</string>
+    <string name="TouModifierDrunkTabDescription">You're tipsy, with inverted controls</string>
+    <string name="TouModifierDrunkWikiDescription">Your controls are permanently inverted. You are also immune to normal roleblocks.</string>
   <!-- Flash -->
   <!-- Flash Wiki / Description -->
   <string name="TouModifierFlash">Flash</string>
@@ -2406,14 +2499,16 @@
   <string name="TouModifierAssassinTabDescription">Guess players out of the meeting.</string>
   <string name="MisguessSummary">Misguessed \%player\% as \%role\%</string>
   <!-- Assassin Options -->
-  <string name="TouOptionAssassinNeutAssassinTitle">Neut Assassins: </string>
-  <string name="TouOptionAssassinImpAssassinTitle">Imp Assassins: </string>
+  <string name="TouOptionAssassinNeutTitleNone">0 Neut Assassins</string>
+  <string name="TouOptionAssassinImpTitleNone">0 Imp Assassins</string>
+  <string name="TouOptionAssassinNeutTitleSingle">1 Neut Assassin (\%chance\%%) |</string>
+  <string name="TouOptionAssassinImpTitleSingle">1 Imp Assassin (\%chance\%%) |</string>
+  <string name="TouOptionAssassinNeutTitleFull">\%amount\% Neut Assassins (\%chance\%%) |</string>
+  <string name="TouOptionAssassinImpTitleFull">\%amount\% Imp Assassins (\%chance\%%) |</string>
   <string name="TouOptionAssassinGuessableCrewRolesTitle">Unguessable Crewmate Roles: </string>
   <string name="TouOptionAssassinGuessableNeutRolesTitle">Unguessable Neutral Roles: </string>
   <string name="TouOptionAssassinGuessableImpRolesTitle">Unguessable Impostor Roles: </string>
   <string name="TouOptionAssassinGuessableModifiersTitle">Unguessable Modifiers: </string>
-  <string name="TouOptionAssassinNoAssassins">Amount: 0</string>
-  <string name="TouOptionAssassinSetAssassins">Amount: \%amount\% - Chance: \%chance\%%</string>
   <string name="TouOptionAssassinNone">None</string>
   <string name="TouOptionAssassinAll">All</string>
   <string name="TouOptionAssassinNeutBenign">Benign</string>
@@ -2427,6 +2522,7 @@
   <string name="TouOptionAssassinUtilityCrewMods">Crew Utility</string>
   <string name="TouOptionAssassinAllianceMods">Alliance</string>
   <string name="TouOptionAssassinNonCrewMods">Non-Crew</string>
+  <string name="TouOptionAssassinImpMods">Impostor</string>
   <string name="TouOptionAssassinUniversalMods">Universal</string>
   <!-- Double Shot -->
   <!-- Double Shot Wiki / Description -->
@@ -2434,6 +2530,18 @@
   <string name="TouModifierDoubleShotIntroBlurb">You get a second chance when guessing.</string>
   <string name="TouModifierDoubleShotWikiDescription">You get a second chance when you fail to guess a player in a meeting.</string>
   <string name="TouModifierDoubleShotTabDescription">You have an extra chance when assassinating.</string>
+  <!-- Overclocker -->
+  <!-- Overclocker Wiki / Description -->
+  <string name="TouModifierOverclocker">Overclocker</string>
+  <string name="TouModifierOverclockerIntroBlurb">Decrease your cooldowns temporarily.</string>
+  <string name="TouModifierOverclockerWikiDescription">You may decrease your cooldowns at the cost of longer cooldowns once your Overclock is over. After an additional round, your cooldowns will normalize.</string>
+  <string name="TouModifierOverclockerTabDescription">Decrease cooldowns temporarily, at a cost.</string>
+  <string name="TouModifierOverclockerOverclock">Overclock</string>
+  <string name="TouModifierOverclockerOverclocked">Overclocked</string>
+  <string name="TouModifierOverclockerUnderclocked">Underclocked</string>
+  <string name="TouModifierOverclockerOverclockNotif">Your cooldowns are now \%multi\% times faster!</string>
+  <string name="TouModifierOverclockerUnderclockNotif">Your cooldowns are now \%multi\% times slower.</string>
+  <string name="TouModifierOverclockerUnderclockMeetingNotif">After this meeting, your cooldowns will be \%multi\% times slower.</string>
   <!-- Crewmate Modifiers -->
 
   <!-- Aftermath -->

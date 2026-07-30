@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class PuppeteerOptions : AbstractOptionGroup<PuppeteerRole>
+public sealed class PuppeteerOptions : AbstractRoleOptionGroup<PuppeteerRole>
 {
     public override string GroupName => TouLocale.Get("TouRolePuppeteer", "Puppeteer");
     public override Color GroupColor => Palette.ImpostorRoleRed;

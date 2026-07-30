@@ -286,6 +286,15 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
         if (!Minigame.Instance)
         {
+            if (roleList.Count == 0)
+            {
+                var notif1 = Helpers.CreateAndShowNotification(
+                    $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}No roles are available for the player.</color></b>",
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Ambassador.LoadAsset());
+
+                notif1.AdjustNotification();
+                return;
+            }
             var trainMenu = AmbassadorSelectionMinigame.Create();
             trainMenu.Open(
                 roleList,

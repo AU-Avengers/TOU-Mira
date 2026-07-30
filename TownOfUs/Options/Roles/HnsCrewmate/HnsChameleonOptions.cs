@@ -5,7 +5,7 @@ using TownOfUs.Roles.HideAndSeek.Hider;
 
 namespace TownOfUs.Options.Roles.HnsCrewmate;
 
-public sealed class HnsChameleonOptions : AbstractOptionGroup<HnsChameleonRole>
+public sealed class HnsChameleonOptions : AbstractRoleOptionGroup<HnsChameleonRole>
 {
     public override string GroupName => TouLocale.Get("HnsRoleChameleon", "Chameleon");
 

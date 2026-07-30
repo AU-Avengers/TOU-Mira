@@ -9,7 +9,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
-using TownOfUs.Modifiers.Game.Neutral;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
@@ -155,7 +155,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
 
         if (OptionGroupSingleton<VampireOptions>.Instance.CanGuessAsNewVamp)
         {
-            target.AddModifier<NeutralKillerAssassinModifier>();
+            target.AddModifier<AssassinModifier>();
         }
     }
 }

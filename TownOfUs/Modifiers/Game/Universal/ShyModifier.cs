@@ -15,6 +15,10 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Shy,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Shy.LoadAsset(),
+            "TouMira.Modifier.Universal.Shy", 1.45f));
     public override string LocaleKey => "Shy";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Shy;

@@ -2,11 +2,13 @@
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Neutral;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -25,6 +27,12 @@ public sealed class WerewolfRole(IntPtr cppPtr)
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
         orCreateTask.name = "NeutralRoleText";
+    }
+
+    [HideFromIl2Cpp]
+    public bool IsModifierApplicable(BaseModifier modifier)
+    {
+        return modifier is not OverclockerModifier;
     }
 
     public bool Rampaging { get; set; }
@@ -88,7 +96,7 @@ public sealed class WerewolfRole(IntPtr cppPtr)
 
     public void OffsetButtons()
     {
-        var canVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent || LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
+        var canVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent || LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.OffsetButtonsToggle.Value;
         var rampage = CustomButtonSingleton<WerewolfRampageButton>.Instance;
         var kill = CustomButtonSingleton<WerewolfKillButton>.Instance;
         Coroutines.Start(MiscUtils.CoMoveButtonIndex(rampage, !canVent));

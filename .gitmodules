@@ -1,0 +1,12 @@
+[submodule "MiraAPI"]
+	path = MiraAPI
+	url = https://github.com/All-Of-Us-Mods/MiraAPI
+	branch = dev
+[submodule "GitSubmodules/Reactor"]
+	path = GitSubmodules/Reactor
+	url = https://github.com/NuclearPowered/Reactor
+	branch = master
+[submodule "GitSubmodules/MiraAPI"]
+	path = GitSubmodules/MiraAPI
+	url = https://github.com/All-Of-Us-Mods/MiraAPI
+	branch = dev

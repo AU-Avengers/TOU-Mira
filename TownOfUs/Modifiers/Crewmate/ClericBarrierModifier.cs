@@ -3,7 +3,6 @@ using MiraAPI.GameOptions;
 using PowerTools;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
@@ -24,7 +23,7 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
     {
         get
         {
-            return !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowShieldHudToggle.Value ||
+            return !LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowShieldHudToggle.Value ||
                    !OptionGroupSingleton<ClericOptions>.Instance.ShowBarrier;
         }
     }
@@ -53,8 +52,7 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-        var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
-            x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
+        var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
         ShowBarrier = showBarrierSelf || PlayerControl.LocalPlayer.PlayerId == Cleric.PlayerId ||
                       (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);

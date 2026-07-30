@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Options.Modifiers.Universal;
 
-public sealed class FlashOptions : AbstractOptionGroup<FlashModifier>
+public sealed class FlashOptions : AbstractTouModifierOptionGroup<FlashModifier>
 {
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierFlash", "Flash");

@@ -1,6 +1,4 @@
-﻿using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
-using MiraAPI.GameOptions.OptionTypes;
+﻿/*using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using UnityEngine;
 
@@ -13,13 +11,4 @@ public sealed class NeutralModifierOptions : AbstractOptionGroup
     public override Color GroupColor => TownOfUsColors.Neutral;
     public override MenuCategory ParentMenu => MenuCategory.Modifiers;
     public override uint GroupPriority => 4;
-
-    [ModdedNumberOption("Double Shot Amount", 0, 5)]
-    public float DoubleShotAmount { get; set; } = 0;
-
-    public ModdedNumberOption DoubleShotChance { get; } =
-        new("Double Shot Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
-        {
-            Visible = () => OptionGroupSingleton<NeutralModifierOptions>.Instance.DoubleShotAmount > 0
-        };
-}
+}*/

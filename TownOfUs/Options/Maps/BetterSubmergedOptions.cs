@@ -14,6 +14,12 @@ public sealed class BetterSubmergedOptions : AbstractOptionGroup
     public override uint GroupPriority => 8;
     public override Func<bool> GroupVisible => () => ModCompatibility.SubLoaded;
     public override Color GroupColor => new Color32(10, 150, 255, 255);
+    public override OptionNotifConfiguration Configuration => new(
+        GroupColor,
+        TmpSpriteUtils.CreateSpriteAsset(
+            TouAssets.IconSubmerged.LoadAsset(),
+            "AmongUs.Map.Submerged",
+            1.45f));
 
     public ModdedToggleOption CamoComms { get; set; } =
         new("TouOptionAdvancedSaboCamouflageComms", false)

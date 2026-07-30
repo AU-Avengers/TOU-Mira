@@ -5,7 +5,7 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class EclipsalOptions : AbstractOptionGroup<EclipsalRole>
+public sealed class EclipsalOptions : AbstractRoleOptionGroup<EclipsalRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleEclipsal", "Eclipsal");
 

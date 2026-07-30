@@ -10,6 +10,7 @@ using MiraAPI.Roles;
 using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
@@ -24,6 +25,12 @@ public sealed class ScavengerRole(IntPtr cppPtr)
     public float TimeRemaining { get; set; }
     [HideFromIl2Cpp] public PlayerControl? Target { get; set; }
     public bool Scavenging { get; set; }
+
+    [HideFromIl2Cpp]
+    public bool IsModifierApplicable(BaseModifier modifier)
+    {
+        return modifier is not OverclockerModifier;
+    }
 
     public void FixedUpdate()
     {

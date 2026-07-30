@@ -6,7 +6,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class LookoutOptions : AbstractOptionGroup<LookoutRole>
+public sealed class LookoutOptions : AbstractRoleOptionGroup<LookoutRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleLookout", "Lookout");
 
@@ -17,6 +17,8 @@ public sealed class LookoutOptions : AbstractOptionGroup<LookoutRole>
 
     [ModdedNumberOption("TouOptionLookoutMaxWatches", 1f, 15f, 1f, MiraNumberSuffixes.None, "0")]
     public float MaxWatches { get; set; } = 5;
+
+    public ModdedToggleOption LookoutSeesIndirectAttacks { get; } = new("TouOptionLookoutSeesIndirectAttacks", false);
 
     [ModdedToggleOption("TouOptionLookoutLoResetOnNewRound")]
     public bool LoResetOnNewRound { get; set; } = true;

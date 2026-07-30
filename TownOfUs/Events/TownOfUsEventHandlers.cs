@@ -101,7 +101,7 @@ public static class TownOfUsEventHandlers
             RoleIconRenderer.SetSizeLimit(0.4f);
             var oldScale = RoleIconRenderer.transform.localScale;
             RoleIconRenderer.transform.localScale = new(3.3333333333f * oldScale.x, 0.7843137255f * oldScale.y, 1);
-            RoleIconRenderer.gameObject.SetActive(LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowRoleIconOnRoleTab.Value);
+            RoleIconRenderer.gameObject.SetActive(true);
         }
 
         return RolePanel;
@@ -568,6 +568,7 @@ public static class TownOfUsEventHandlers
         }
 
         FakePlayer.ClearAll();
+        StonedPlayer.ClearAll();
         VitalsBodyPatches.ClearMissingPlayers();
     }
 
@@ -583,6 +584,7 @@ public static class TownOfUsEventHandlers
         }
 
         FakePlayer.ClearAll();
+        StonedPlayer.ClearAll();
         VitalsBodyPatches.ClearMissingPlayers();
     }
 

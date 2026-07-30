@@ -15,6 +15,10 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverable, IButtonModifier
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.ButtonBarry,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.ButtonBarry.LoadAsset(),
+            "TouMira.Modifier.Universal.ButtonBarry", 1.45f));
     public override string LocaleKey => "ButtonBarry";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.ButtonBarry;
@@ -50,7 +54,7 @@ public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverab
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.ButtonBarryAmount != 0 ? 1 : 0;
+        return 1;
     }
 
     public override int GetAssignmentChance()
