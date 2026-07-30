@@ -658,7 +658,7 @@
   <string name="TouRoleLookout">觀測者</string>
   <string name="TouRoleLookoutIntroBlurb">睜大你的眼睛仔細看</string>
   <string name="TouRoleLookoutTabDescription">觀察其他船員,了解與其互動的角色</string>
-  <string name="TouRoleLookoutWikiDescription">觀測者是一名船員調查型職業,可以在回合中觀測其他玩家。會議期間你會看到所有與被觀測者互動過的角色。</string>
+  <string name="TouRoleLookoutWikiDescription">觀測者是一名船員調查型職業,可以在回合中觀測其他玩家。會議期間你會看到所有與被觀測者互動過的角色或玩家。</string>
   <string name="TouRoleLookoutWatch">觀測</string>
   <string name="TouRoleLookoutWatchWikiDescription">觀測一名或多名玩家,下次會議你會知道哪些玩家與被觀測者有過互動。</string>
   <string name="TouRoleLookoutWatchNotif">如果\%player\%在下次會議前未死亡,你將會知道與其互動的所有職業。</string>
@@ -2165,4 +2165,28 @@
   <string name="SonarHeartbeats">心跳</string>
   <string name="SonarArrows">箭頭</string>
   <string name="SonarTargetType">追蹤者目標樣式</string>
+  <string name="LegacyThemeDisabled">經典主題: 關閉</string>
+  <string name="LegacyThemeArt">經典主題: 美術</string>
+  <string name="LegacyThemePlayers">經典主題: 玩家</string>
+  <string name="LegacyThemeFull">經典主題: 完整</string>
+  <string name="RoleNameStyle">職業名稱樣式</string>
+  <string name="NameStyleTop">頂部</string>
+  <string name="NameStyleTopSmall">頂部 (小)</string>
+  <string name="NameStyleBottom">底部</string>
+  <string name="NameStyleBottomSmall">底部 (小)</string>
+  <string name="TouOptionBetterMapsThemeEnumTvShow">電視劇</string>
+  <string name="TouRoleDeputyRevealedText"> (已暴露)</string>
+  <string name="TouRoleDeputyKillerWarnNotif">一名副手正在蹲守你的目標,小心! </string>
+  <string name="TouOptionDeputyWarnKillerOnCampedKill">擊殺被蹲守目標時警告兇手</string>
+  <string name="TouOptionDeputyRevealDeputyUponShot">成功開槍後公開副手</string>
+  <string name="TouOptionDeputyEnumNoReveal">禁用</string>
+  <string name="TouOptionDeputyEnumAnnounceRole">公佈職業</string>
+  <string name="TouOptionDeputyEnumRevealPlayer">公佈副手身份</string>
+  <string name="TouRoleLookoutAltTabDescription">觀察其他船員,查看有哪些玩家與他們互動</string>
+  <string name="TouRoleLookoutWatchAltNotif">下一次會議時,你將得知有哪些玩家與\%player\%發生過互動。</string>
+  <string name="TouRoleLookoutAltInteractionFeedback">與\%player\%發生過互動的玩家</string>
+  <string name="TouNeutAnonymousVictoryMessage">\%player\%已成功獲勝並離開了遊戲!</string>
+  <string name="TouOptionNeutAnonymousVictoryWin">在獲勝通知中隱藏職業</string>
+  <string name="TouOptionJesterNotifyWin">獲勝時通知其他玩家</string>
+  <string name="TouOptionSoulCollectorReapFirstRound">首回合允許收割靈魂</string>
 </resources>
