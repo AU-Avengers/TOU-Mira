@@ -622,6 +622,180 @@ public static class CustomTouMurderRpcs
     /// </summary>
     /// <param name="source">The killer.</param>
     /// <param name="target">The player to murder.</param>
+    /// <param name="framed">The player that will be shown on the sumamry. If they are the same player as the target, then the cause of death will be basic.</param>
+    /// <param name="ignoreShield">If indirect, determines if shields are ignored.</param>
+    /// <param name="didSucceed">Whether the murder was successful or not.</param>
+    /// <param name="resetKillTimer">Should the kill timer be reset.</param>
+    /// <param name="createDeadBody">Should a dead body be created.</param>
+    /// <param name="showKillAnim">Should the kill animation be shown.</param>
+    /// <param name="playKillSound">Should the kill sound be played.</param>
+    /// <param name="causeOfDeath">The appended cause of death from the XML, so if you write "Guess", it will look for "DiedToGuess".</param>
+    [MethodRpc((uint)TownOfUsRpc.SelfMurder, LocalHandling = RpcLocalHandling.Before)]
+    public static void RpcSelfMurder(
+        this PlayerControl source,
+        PlayerControl target,
+        PlayerControl framed,
+        bool ignoreShield = true,
+        bool didSucceed = true,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool showKillAnim = true,
+        bool playKillSound = true,
+        string causeOfDeath = "null")
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
+
+        Coroutines.Start(CoWaitForSelfIndirect(source, target, framed, ignoreShield, didSucceed, resetKillTimer,
+            createDeadBody, showKillAnim, playKillSound, causeOfDeath));
+    }
+
+    public static IEnumerator CoWaitForSelfIndirect(
+        PlayerControl source,
+        PlayerControl target,
+        PlayerControl framed,
+        bool ignoreShield = false,
+        bool didSucceed = true,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool showKillAnim = true,
+        bool playKillSound = true,
+        string causeOfDeath = "null")
+    {
+        // Wait for the modifier component to set up.
+        source.AddModifier<IndirectAttackerModifier>(ignoreShield);
+        while (!source.HasModifier<IndirectAttackerModifier>())
+        {
+            yield return null;
+        }
+
+        var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
+
+        var beforeMurderEvent = new BeforeMurderEvent(source, target, MeetingCheck.OutsideMeeting);
+        MiraEventManager.InvokeEvent(beforeMurderEvent);
+
+        var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
+        if (isMeetingActive)
+        {
+            beforeMurderEvent.Cancel();
+        }
+
+        if (target.ProtectedByGa())
+        {
+            beforeMurderEvent.Cancel();
+            murderResultFlags = MurderResultFlags.FailedProtected;
+        }
+        else if (beforeMurderEvent.IsCancelled)
+        {
+            murderResultFlags = MurderResultFlags.FailedError;
+        }
+
+        if (beforeMurderEvent.IsCancelled && source.AmOwner)
+        {
+            source.isKilling = true;
+        }
+
+        // Track kill cooldown before CustomMurder for Time Lord rewind
+        RecordedKillCooldown = -1f;
+        if (resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+        {
+            RecordedKillCooldown = source.killTimer;
+        }
+
+        if (!PlayerControl.LocalPlayer.IsHost())
+        {
+            yield break;
+        }
+
+        RpcConfirmSelfMurder(
+            PlayerControl.LocalPlayer,
+            source,
+            target,
+            framed,
+            murderResultFlags,
+            resetKillTimer,
+            createDeadBody,
+            showKillAnim,
+            playKillSound,
+            causeOfDeath);
+
+        // Record kill cooldown change after CustomMurder if it was reset
+        if (RecordedKillCooldown > -1f && resetKillTimer && source.AmOwner &&
+            source.Data?.Role?.CanUseKillButton == true)
+        {
+            Coroutines.Start(CoRecordKillCooldownAfterCustomMurder(source, RecordedKillCooldown));
+        }
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.ConfirmSelfMurder, LocalHandling = RpcLocalHandling.After)]
+    public static void RpcConfirmSelfMurder(
+        this PlayerControl host,
+        PlayerControl source,
+        PlayerControl target,
+        PlayerControl framed,
+        MurderResultFlags murderResultFlags,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool showKillAnim = true,
+        bool playKillSound = true,
+        string causeOfDeath = "null")
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            source.isKilling = false;
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
+
+        if (!host.IsHost() || target.HasDied())
+        {
+            return;
+        }
+
+        var role = source.GetRoleWhenAlive();
+
+        var cod = "Killer";
+        if (causeOfDeath != "null")
+        {
+            cod = causeOfDeath;
+        }
+        else if (role is ITownOfUsRole touRole && touRole.LocaleKey != "KEY_MISS")
+        {
+            cod = touRole.LocaleKey;
+        }
+
+        var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
+
+        if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
+            murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
+        {
+            DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
+                DeathEventHandlers.CurrentRound,
+                (!MeetingHud.Instance && !ExileController.Instance)
+                    ? DeathHandlerOverride.SetTrue
+                    : DeathHandlerOverride.SetFalse,
+                framed != target ? TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", framed.Data.PlayerName) : "",
+                lockInfo: DeathHandlerOverride.SetTrue);
+        }
+
+        source.CustomMurder(
+            target,
+            murderResultFlags2,
+            resetKillTimer,
+            createDeadBody,
+            false,
+            showKillAnim,
+            playKillSound);
+    }
+
+    /// <summary>
+    /// Networked Custom Murder method.
+    /// </summary>
+    /// <param name="source">The killer.</param>
+    /// <param name="target">The player to murder.</param>
     /// <param name="isIndirect">Determines if the attack is indirect.</param>
     /// <param name="ignoreShield">If indirect, determines if shields are ignored.</param>
     /// <param name="didSucceed">Whether the murder was successful or not.</param>

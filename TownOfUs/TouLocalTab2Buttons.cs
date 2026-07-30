@@ -6,7 +6,6 @@ using MiraAPI.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
-using TownOfUs.Modules;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Roles;
@@ -14,9 +13,9 @@ using UnityEngine;
 
 namespace TownOfUs;
 
-public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
+public class TouLocalTabButtons(ConfigFile config) : LocalSettingsTab(config)
 {
-    public override string TabName => "ToU: Mira";
+    public override string TabName => "UI / UX";
     protected override bool ShouldCreateLabels => true;
     public static float OldButtonScaleFactor { get; set; }
 
@@ -50,7 +49,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         ResetButtonPositions();
         if (topUi && extraTopUi)
         {
-            var opts = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance;
+            var opts = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance;
             if (wikiButton)
             {
                 wikiButton.transform.SetParent(opts.WikiOnBottomRow.Value ? extraTopUi.transform : topUi.transform);
@@ -109,7 +108,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         }
 
         yield return new WaitForSeconds(0.01f);
-        ResizeUI(LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ButtonUIFactorSlider.Value);
+        ResizeUI(LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ButtonUIFactorSlider.Value);
     }
 
     public static void ResizeUI(float scaleFactor)
@@ -207,6 +206,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
             {
                 ResizeUI(ButtonUIFactorSlider.Value);
             }
+
             OldButtonScaleFactor = ButtonUIFactorSlider.Value;
         }
         else if (configEntry == WikiOnBottomRow || configEntry == ZoomOnBottomRow)
@@ -217,33 +217,13 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         {
             ModStampPatch.StampPlacement = ModStampPlacement.Value;
         }
-        else if (configEntry == RoleNameStyle)
-        {
-            HudManagerPatches.RoleNameStyle = RoleNameStyle.Value;
-            FakePlayer.UpdateFakePlayerText();
-            StonedPlayer.UpdateFakePlayerText();
-        }
-        else if (configEntry == DisplayPlayerProgress)
-        {
-            HudManagerPatches.PlayerNameProgress = DisplayPlayerProgress.Value;
-        }
-        else if (configEntry == ColorPlayerNameToggle)
-        {
-            FakePlayer.UpdateFakePlayerText();
-            StonedPlayer.UpdateFakePlayerText();
-        }
     }
 
     public override LocalSettingTabAppearance TabAppearance => new()
     {
-        TabIcon = TouAssets.TouMiraIcon
+        TabIcon = TouAssets.LocalButtons,
+        HideIconOnHover = false,
     };
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> DeadSeeGhostsToggle { get; private set; } = config.Bind("Gameplay", "DeadSeeGhosts", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowVentsToggle { get; private set; } = config.Bind("Gameplay", "ShowVents", true);
     
     [LocalizedLocalSliderSetting(min: 0.3f, max: 2f, suffixType: MiraNumberSuffixes.Multiplier, formatString: "0.00", displayValue: true)]
     public ConfigEntry<float> ButtonUIFactorSlider { get; private set; } =
@@ -258,36 +238,24 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         config.Bind("UI / Visuals", "ZoomOnBottomRow", false);
 
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> PreciseCooldownsToggle { get; private set; } =
-        config.Bind("UI / Visuals", "PreciseCooldowns", false);
+    public ConfigEntry<bool> ShowShieldHudToggle { get; private set; } =
+        config.Bind("UI / Visuals", "ShowShieldHud", true);
 
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> OffsetButtonsToggle { get; private set; } =
-        config.Bind("UI / Visuals", "OffsetButtons", false);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ColorPlayerNameToggle { get; private set; } =
-        config.Bind("UI / Visuals", "ColorPlayerName", false);
-
-    [LocalizedLocalEnumSetting(names: ["NameStyleTop", "NameStyleTopSmall", "NameStyleBottom", "NameStyleBottomSmall"])]
-    public ConfigEntry<NameStyle> RoleNameStyle { get; private set; } =
-        config.Bind("UI / Visuals", "RoleNameStyle", NameStyle.TopSmall);
-
-    [LocalizedLocalEnumSetting(names: ["ProgressTrackingNever", "ProgressTrackingOnSelf", "ProgressTrackingOnOthers", "ProgressTrackingAlways"])]
-    public ConfigEntry<ProgressTracking> DisplayPlayerProgress { get; private set; } =
-        config.Bind("UI / Visuals", "DisplayPlayerProgress", ProgressTracking.Always);
+    public ConfigEntry<bool> ShowBasicAssassinOnHud { get; private set; } =
+        config.Bind("UI / Visuals", "ShowBasicAssassinOnHud", true);
 
     [LocalizedLocalEnumSetting(names: ["ModStampTopLeft", "ModStampTopRight", "ModStampBottomLeft", "ModStampBottomRight"])]
     public ConfigEntry<ModStampLocation> ModStampPlacement { get; private set; } =
         config.Bind("UI / Visuals", "ModStampPlacement", ModStampLocation.TopRight);
-}
 
-public enum ProgressTracking
-{
-    Never,
-    OnSelf,
-    OnOthers,
-    Always
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> PreciseCooldownsToggle { get; private set; } =
+        config.Bind("Abilities", "PreciseCooldowns", false);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> OffsetButtonsToggle { get; private set; } =
+        config.Bind("Abilities", "OffsetButtons", false);
 }
 
 public enum ModStampLocation
@@ -296,12 +264,4 @@ public enum ModStampLocation
     TopRight,
     BottomLeft,
     BottomRight
-}
-
-public enum NameStyle
-{
-    Top,
-    TopSmall,
-    Bottom,
-    BottomSmall,
 }

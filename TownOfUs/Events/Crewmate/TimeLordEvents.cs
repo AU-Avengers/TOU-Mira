@@ -5,8 +5,13 @@ using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Modifiers;
+using MiraAPI.Utilities;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
+using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 
@@ -22,6 +27,28 @@ public static class TimeLordEvents
     {
         if (!@event.TriggeredByIntro)
         {
+            var temporaryRevives = ModifierUtils.GetPlayersWithModifier<TimeLordTempReviveModifier>().ToList();
+            var timeLord = ModifierUtils.GetActiveModifiers<TimeLordTempReviveModifier>().FirstOrDefault()?.TimeLord;
+            if (temporaryRevives.Count > 0)
+            {
+                var players = new List<PlayerControl>();
+                foreach (var temp in temporaryRevives)
+                {
+                    if (!temp.HasModifier<InvulnerabilityModifier>() && !temp.HasDied())
+                    {
+                        players.Add(temp);
+                    }
+                    temp.RemoveModifier<TimeLordTempReviveModifier>();
+                }
+
+                if (PlayerControl.LocalPlayer.IsHost())
+                {
+                    foreach (var player in players)
+                    {
+                        player.RpcSelfMurder(player, timeLord ?? player, true, true, false, false, false, false, "TempRevive");
+                    }
+                }
+            }
             return;
         }
 

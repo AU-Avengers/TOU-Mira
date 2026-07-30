@@ -485,6 +485,7 @@
   <string name="DiedToParasite">Overtaken</string>
   <string name="DiedToPuppetControl">Targeted</string>
     <string name="DiedToPoison">Poisoned</string>
+    <string name="DiedToTempRevive">Temporarily Revived</string>
   <!-- Status Effects -->
   <string name="TouFirstDeathShield">First Death Shield</string>
   <string name="TouClericBarrier">Cleric Barrier</string>
@@ -2260,7 +2261,7 @@
   <string name="TouRoleMedusaPetrifyNotif">\%player\% will slowly turn to stone!</string>
   <string name="TouRoleMedusaStoneGaze">Stone Gaze</string>
   <string name="TouRoleMedusaStoneGazing">Stone Gazing</string>
-  <string name="TouRoleMedusaStoneGazeWikiDescription">Petrify anyone who tries to attack you while gazing, unless they attempt to kill you. You will also not lunge towards others.</string>
+  <string name="TouRoleMedusaStoneGazeWikiDescription">Petrify anyone who tries to interact with you while gazing, unless they attempt to kill you. You will also not lunge towards others.</string>
   <!-- Medusa Options -->
   <string name="TouOptionMedusaPetrifyCooldown">Petrify Cooldown</string>
   <string name="TouOptionMedusaPetrifyFirstRound">Allow Petrify in First Round</string>

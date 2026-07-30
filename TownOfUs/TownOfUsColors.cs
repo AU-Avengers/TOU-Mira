@@ -6,7 +6,7 @@ namespace TownOfUs;
 public static class TownOfUsColors
 {
     public static bool UseBasic { get; set; } =
-        LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+        LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.UseCrewmateTeamColorToggle.Value;
 
     public static Color HaunterRevealed => new Color32(150, 50, 50, 255);
     public static Color CrewmateWiki => new Color32(80, 225, 255, 255);
