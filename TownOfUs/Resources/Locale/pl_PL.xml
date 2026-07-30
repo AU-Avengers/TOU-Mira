@@ -549,7 +549,7 @@
   <string name="TouOptionArsonistDouseCooldown">Cooldown Oblania</string>
   <string name="TouOptionArsonistDouseUses">Liczba Możliwych Oblań</string>
   <string name="TouOptionArsonistDouseInteractions">Oblej Poprzez Interakcje</string>
-  <string name="TouOptionArsonistLegacyMode">Nielimitowany Zasięg Podpalenia</string>
+  <string name="TouOptionArsonistLegacyMode">Bez Promienia (Stara Wersja)</string>
   <string name="TouOptionArsonistIgniteRadius">Zasięg Podpalenia</string>
   <string name="TouOptionArsonistCanVent">Piroman Może Wentować</string>
   <string name="TouOptionArsonistImpVision">Ma Wizję Intruza</string>
@@ -635,4 +635,11 @@
   <string name="HnsOptionMysticDeadBodyArrowDuration">Czas Trwania Strzałki Do Ciała</string>
   <string name="HnsRoleSnitch">Kapuś</string>
   <string name="HnsRoleSnitchTabHint">Wskazówka Kapusia</string>
+  <string name="TouRoleAurial">Aurysta</string>
+  <string name="TouRoleAurialIntroBlurb">Wyczuwaj zaburzenia w twej aurze.</string>
+  <string name="TouRoleAurialTabDescription">Będziesz świadom użytej umiejętności wśród twej aury</string>
+  <string name="TouRoleAurialWikiDescription">Aurysta to Załogant Śledczy który dostanie powiadomienie jeżeli jakiś gracz użyje umiejętności blisko niego.</string>
+  <string name="TouOptionAurialAuraInnerRadius">Zakres Otrzymania Koloru</string>
+  <string name="TouOptionAurialAuraOuterRadius">Zakres Maksymalnej Odległości</string>
+  <string name="TouOptionAurialSenseDuration">Trwanie Wyczucia</string>
 </resources>
