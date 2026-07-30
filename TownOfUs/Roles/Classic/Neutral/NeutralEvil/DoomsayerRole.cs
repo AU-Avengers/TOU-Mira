@@ -286,17 +286,43 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 reportBuilder.AppendLine(TownOfUsPlugin.Culture, $"{hint.Replace("<player>", player.PlayerName)}\n");
             }
 
-            var roles = MiscUtils.AllRegisteredRoles
-                .Where(x => (x is IDoomable doomRole && doomRole.DoomHintType == DoomableType.Default &&
-                    x is not IUnguessable || x is not IDoomable) && !x.IsDead).ToList();
+            var roles = MiscUtils.GetPotentialRoles().Where(x => (x is IDoomable doomRole && doomRole.DoomHintType == DoomableType.Default &&
+                x is not IUnguessable || x is not IDoomable) && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).ToList();
+
+            var allRoles = MiscUtils.AllRoles.Where(x => (x is IDoomable doomRole && doomRole.DoomHintType == DoomableType.Default &&
+                x is not IUnguessable || x is not IDoomable) && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).Where(x => x is IGuessable && !roles.Contains(x)).ToList();
+
+            if (allRoles.Count > 0)
+            {
+                foreach (var addedRole in allRoles)
+                {
+                    if (addedRole is IGuessable guessable && guessable.CanBeGuessed)
+                    {
+                        roles.Add(addedRole);
+                    }
+                }
+            }
             roles = roles.OrderBy(x => x.GetRoleName()).ToList();
             var lastRole = roles[^1];
 
             if (hintType != DoomableType.Default)
             {
-                roles = MiscUtils.AllRoles
-                    .Where(x => x is IDoomable doomRole && doomRole.DoomHintType == hintType && x is not IUnguessable)
-                    .OrderBy(x => x.GetRoleName()).ToList();
+                roles = MiscUtils.GetPotentialRoles().Where(x => x is IDoomable doomRole && doomRole.DoomHintType == hintType &&
+                    x is not IUnguessable && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).ToList();
+
+                allRoles = MiscUtils.AllRoles.Where(x => x is IDoomable doomRole && doomRole.DoomHintType == hintType &&
+                    x is not IUnguessable && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).Where(x => x is IGuessable && !roles.Contains(x)).ToList();
+                if (allRoles.Count > 0)
+                {
+                    foreach (var addedRole in allRoles)
+                    {
+                        if (addedRole is IGuessable guessable && guessable.CanBeGuessed)
+                        {
+                            roles.Add(addedRole);
+                        }
+                    }
+                }
+                roles = roles.OrderBy(x => x.GetRoleName()).ToList();
                 lastRole = roles[^1];
             }
 
