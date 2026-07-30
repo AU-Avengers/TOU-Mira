@@ -389,7 +389,7 @@ public static class TouAssets
         get
         {
             var sprite = ArrowBasicSprite;
-            switch (LocalSettingsTabSingleton<TouLocalTabRoles>.Instance.ArrowStyleEnum.Value)
+            switch (LocalSettingsTabSingleton<TouLocalTabGameplay>.Instance.ArrowStyleEnum.Value)
             {
                 case ArrowStyleType.DarkGlow:
                     sprite = ArrowDarkOutSprite;
@@ -566,8 +566,11 @@ public static class TouAssets
     public static LoadableAsset<Sprite> LocalPlayers { get; } =
         new LoadableResourceAsset($"{LocalTabsPath}.Players.png", 175f);
 
-    public static LoadableAsset<Sprite> LocalRoles { get; } =
-        new LoadableResourceAsset($"{LocalTabsPath}.Roles.png", 175f);
+    public static LoadableAsset<Sprite> LocalPreferences { get; } =
+        new LoadableResourceAsset($"{LocalTabsPath}.Preferences.png", 175f);
+
+    public static LoadableAsset<Sprite> LocalGameplay { get; } =
+        new LoadableResourceAsset($"{LocalTabsPath}.Gameplay.png", 175f);
 
     public static void Initialize()
     {

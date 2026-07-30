@@ -1,5 +1,4 @@
 using BepInEx.Configuration;
-using MiraAPI.Utilities;
 using TownOfUs.LocalSettings.SettingTypes;
 using TownOfUs.LocalSettings.Attributes;
 
@@ -7,7 +6,7 @@ namespace TownOfUs;
 
 public class TouLocalTabPractice(ConfigFile config) : LocalSettingsTab(config)
 {
-    public override string TabName => TutorialManager.InstanceExists ? "Practice" : "Lobby";
+    public override string TabName => "<size=48%>Lobby / Practice</size>";
     protected override bool ShouldCreateLabels => true;
 
     public override void Open()
@@ -33,18 +32,6 @@ public class TouLocalTabPractice(ConfigFile config) : LocalSettingsTab(config)
         TabIcon = TouAssets.LocalLobby,
         HideIconOnHover = false,
     };
-
-    [LocalizedLocalSliderSetting(min: 4f, max: 15f, suffixType: MiraNumberSuffixes.Seconds, formatString: "0", displayValue: true, roundValue: true)]
-    public ConfigEntry<float> AutoRejoinDelay { get; private set; } =
-        config.Bind("End Game Screen", "AutoRejoinDelay", 4f);
-
-    [LocalizedLocalEnumSetting(names: ["EndSumHidden", "EndSumSplit", "EndSumLeftSide"])]
-    public ConfigEntry<EndGameSummaryVisibility> EndSummaryVisibility { get; private set; } =
-        config.Bind("End Game Screen", "EndSummaryVisibility", EndGameSummaryVisibility.LeftSide);
-
-    [LocalizedLocalEnumSetting(names: ["EndRejoinAlways", "EndRejoinHost", "EndRejoinClient", "EndRejoinNever"])]
-    public ConfigEntry<AutoRejoinSelection> AutoRejoinMode { get; private set; } =
-        config.Bind("End Game Screen", "AutoRejoinSelection", AutoRejoinSelection.Always);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowWelcomeMessageToggle { get; private set; } =

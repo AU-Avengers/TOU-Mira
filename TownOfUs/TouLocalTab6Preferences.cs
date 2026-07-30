@@ -1,13 +1,14 @@
 using BepInEx.Configuration;
+using MiraAPI.Utilities;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
 using TownOfUs.Patches.Options;
 
 namespace TownOfUs;
 
-public class TouLocalTabMisc(ConfigFile config) : LocalSettingsTab(config)
+public class TouLocalTabPreferences(ConfigFile config) : LocalSettingsTab(config)
 {
-    public override string TabName => "Misc";
+    public override string TabName => "<size=65%>Preferences</size>";
     protected override bool ShouldCreateLabels => true;
 
     public override void Open()
@@ -43,19 +44,31 @@ public class TouLocalTabMisc(ConfigFile config) : LocalSettingsTab(config)
 
     public override LocalSettingTabAppearance TabAppearance => new()
     {
-        TabIcon = TouModifierIcons.Aftermath,
+        TabIcon = TouAssets.LocalPreferences,
         HideIconOnHover = false,
     };
 
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> DeadSeeGhostsToggle { get; private set; } = config.Bind("Gameplay", "DeadSeeGhosts", true);
+    [LocalizedLocalSliderSetting(min: 4f, max: 15f, suffixType: MiraNumberSuffixes.Seconds, formatString: "0", displayValue: true, roundValue: true)]
+    public ConfigEntry<float> AutoRejoinDelay { get; private set; } =
+        config.Bind("End Game Screen", "AutoRejoinDelay", 4f);
 
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowVentsToggle { get; private set; } = config.Bind("Gameplay", "ShowVents", true);
+    [LocalizedLocalEnumSetting(names: ["EndRejoinAlways", "EndRejoinHost", "EndRejoinClient", "EndRejoinNever"])]
+    public ConfigEntry<AutoRejoinSelection> AutoRejoinMode { get; private set; } =
+        config.Bind("End Game Screen", "AutoRejoinSelection", AutoRejoinSelection.Always);
+
+    [LocalizedLocalEnumSetting(names: ["EndSumHidden", "EndSumSplit", "EndSumLeftSide"])]
+    public ConfigEntry<EndGameSummaryVisibility> EndSummaryVisibility { get; private set; } =
+        config.Bind("End Game Screen", "EndSummaryVisibility", EndGameSummaryVisibility.LeftSide);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> SortGuessingByAlignmentToggle { get; private set; } =
-        config.Bind("Miscellaneous", "SortGuessingByAlignment", false);
+        config.Bind("Gameplay", "SortGuessingByAlignment", false);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> DeadSeeGhostsToggle { get; private set; } = config.Bind("Miscellaneous", "DeadSeeGhosts", true);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ShowVentsToggle { get; private set; } = config.Bind("Miscellaneous", "ShowVents", true);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> SeparateChatBubbles { get; private set; } =

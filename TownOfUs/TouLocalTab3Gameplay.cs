@@ -11,9 +11,9 @@ using UnityEngine;
 
 namespace TownOfUs;
 
-public class TouLocalTabRoles(ConfigFile config) : LocalSettingsTab(config)
+public class TouLocalTabGameplay(ConfigFile config) : LocalSettingsTab(config)
 {
-    public override string TabName => "Roles";
+    public override string TabName => "<size=80%>Gameplay</size>";
     protected override bool ShouldCreateLabels => true;
 
     public override void Open()
@@ -77,7 +77,7 @@ public class TouLocalTabRoles(ConfigFile config) : LocalSettingsTab(config)
 
     public override LocalSettingTabAppearance TabAppearance => new()
     {
-        TabIcon = TouAssets.LocalRoles,
+        TabIcon = TouAssets.LocalGameplay,
         HideIconOnHover = false,
     };
 

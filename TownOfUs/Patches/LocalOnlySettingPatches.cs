@@ -55,7 +55,7 @@ public static class LocalSettings
                     continue;
             }
 
-            var show = LocalSettingsTabSingleton<TouLocalTabMisc>.Instance.DeadSeeGhostsToggle.Value;
+            var show = LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.DeadSeeGhostsToggle.Value;
             var bodyForms = player.gameObject.transform.GetChild(1).gameObject;
 
             foreach (var form in bodyForms.GetAllChildren())
