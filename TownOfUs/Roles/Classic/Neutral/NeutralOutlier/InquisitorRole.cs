@@ -280,7 +280,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
     public void OffsetButtons()
     {
-        var canVent = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
+        var canVent = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.OffsetButtonsToggle.Value;
         var inquire = CustomButtonSingleton<InquisitorInquireButton>.Instance;
         var vanquish = CustomButtonSingleton<InquisitorVanquishButton>.Instance;
         Coroutines.Start(MiscUtils.CoMoveButtonIndex(inquire, !canVent));

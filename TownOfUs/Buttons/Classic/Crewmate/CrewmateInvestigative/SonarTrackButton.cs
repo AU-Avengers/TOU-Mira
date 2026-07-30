@@ -39,7 +39,7 @@ public sealed class SonarTrackButton : TownOfUsRoleButton<SonarRole, PlayerContr
         Color color = Palette.PlayerColors[Target.GetDefaultAppearance().ColorId];
         var update = OptionGroupSingleton<SonarOptions>.Instance.UpdateInterval;
 
-        if (LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.SonarTargetType.Value is SonarTargetStyle
+        if (LocalSettingsTabSingleton<TouLocalTabRoles>.Instance.SonarTargetType.Value is SonarTargetStyle
                 .Arrows)
         {
             Target.AddModifier<SonarArrowTargetModifier>(PlayerControl.LocalPlayer, color, update);

@@ -488,14 +488,14 @@ public static class EndGamePatches
             tmp2.ResetText();
         }
 
-        switch (LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.EndSummaryVisibility.Value)
+        switch (LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.EndSummaryVisibility.Value)
         {
             default:
                 // No summary
                 roleSummary.gameObject.SetActive(false);
                 roleSummary2.gameObject.SetActive(false);
                 roleSummaryLeft.gameObject.SetActive(false);
-                LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.EndSummaryVisibility.Value = EndGameSummaryVisibility.Hidden;
+                LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.EndSummaryVisibility.Value = EndGameSummaryVisibility.Hidden;
                 break;
             case EndGameSummaryVisibility.Split:
                 // Split summary
@@ -513,28 +513,28 @@ public static class EndGamePatches
 
         var toggleAction = new Action(() =>
         {
-            switch (LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.EndSummaryVisibility.Value)
+            switch (LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.EndSummaryVisibility.Value)
             {
                 case EndGameSummaryVisibility.Hidden:
                     // Split summary
                     roleSummary.gameObject.SetActive(true);
                     roleSummary2.gameObject.SetActive(true);
                     roleSummaryLeft.gameObject.SetActive(false);
-                    LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.EndSummaryVisibility.Value = EndGameSummaryVisibility.Split;
+                    LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.EndSummaryVisibility.Value = EndGameSummaryVisibility.Split;
                     break;
                 case EndGameSummaryVisibility.Split:
                     // Left side summary
                     roleSummary.gameObject.SetActive(false);
                     roleSummary2.gameObject.SetActive(false);
                     roleSummaryLeft.gameObject.SetActive(true);
-                    LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.EndSummaryVisibility.Value = EndGameSummaryVisibility.LeftSide;
+                    LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.EndSummaryVisibility.Value = EndGameSummaryVisibility.LeftSide;
                     break;
                 case EndGameSummaryVisibility.LeftSide:
                     // No summary
                     roleSummary.gameObject.SetActive(false);
                     roleSummary2.gameObject.SetActive(false);
                     roleSummaryLeft.gameObject.SetActive(false);
-                    LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.EndSummaryVisibility.Value = EndGameSummaryVisibility.Hidden;
+                    LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.EndSummaryVisibility.Value = EndGameSummaryVisibility.Hidden;
                     break;
             }
         });

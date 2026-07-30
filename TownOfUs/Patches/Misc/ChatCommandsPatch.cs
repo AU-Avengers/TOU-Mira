@@ -271,7 +271,7 @@ public static class ChatPatches
             var title = systemName;
             var msg = TouLocale.GetParsed("SummaryMissingError");
             var summary = GameHistory.EndGameSummary;
-            switch (LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.SummaryMessageAppearance.Value)
+            switch (LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.SummaryMessageAppearance.Value)
             {
                 case GameSummaryAppearance.Advanced:
                     summary = GameHistory.EndGameSummaryAdvanced;
@@ -810,7 +810,7 @@ public static class ChatPatches
         {
             return;
         }
-        if (PlayerControl.LocalPlayer.PlayerId != target.PlayerId || optional && !LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.ShowRulesOnLobbyJoinToggle.Value)
+        if (PlayerControl.LocalPlayer.PlayerId != target.PlayerId || optional && !LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ShowRulesOnLobbyJoinToggle.Value)
         {
             return;
         }

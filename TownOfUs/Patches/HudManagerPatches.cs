@@ -493,7 +493,7 @@ public static class HudManagerPatches
                 TouAssets.ZoomMinusActive.LoadAsset();
                 active.localPosition = new Vector3(0, 0.021f, -0.1f);
             ZoomButton.GetComponentInChildren<AspectPosition>().Destroy();
-            TownOfUsLocalSettings.SetUpButtonPositions();
+            TouLocalTabButtons.SetUpButtonPositions();
         }
     }
 
@@ -518,7 +518,7 @@ public static class HudManagerPatches
                     buttonBehavior.OnClick = new Button.ButtonClickedEvent();
                     buttonBehavior.OnClick.AddListener(new Action(ChangeSubFloor));
 
-                    TownOfUsLocalSettings.SetUpButtonPositions();
+                    TouLocalTabButtons.SetUpButtonPositions();
                 }
             }
             if (SubmergedFloorButton && PlayerControl.LocalPlayer.Data.Role is IGhostRole ghost)
@@ -652,7 +652,7 @@ public static class HudManagerPatches
             active.localPosition = new Vector3(0, 0.021f, -0.1f);
 
             WikiButton.GetComponentInChildren<AspectPosition>().Destroy();
-            TownOfUsLocalSettings.SetUpButtonPositions();
+            TouLocalTabButtons.SetUpButtonPositions();
         }
 
         if (WikiButton)
@@ -677,7 +677,7 @@ public static class HudManagerPatches
                 oldPos = ModifierDisplayObject.transform.GetChild(1).localPosition;
                 ModifierDisplayObject.transform.GetChild(1).localPosition = new Vector3(-0.45f, 0.3f, oldPos.z);
             }
-            TownOfUsLocalSettings.SetUpButtonPositions();
+            TouLocalTabButtons.SetUpButtonPositions();
         }
     }
 
@@ -719,8 +719,8 @@ public static class HudManagerPatches
         ((PlayerControl.LocalPlayer.DiedOtherRound() &&
           (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
            PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) ||
-         (TutorialManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalActionTab>.Instance.ZoomingInPractice.Value) ||
-         (GameStartManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalActionTab>.Instance.ZoomingInLobby.Value)) && !(HudManager.Instance.GameMenu.IsOpen ||
+         (TutorialManager.InstanceExists && LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInPractice.Value) ||
+         (GameStartManager.InstanceExists && LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInLobby.Value)) && !(HudManager.Instance.GameMenu.IsOpen ||
                                                  HudManager.Instance.Chat.IsOpenOrOpening ||
                                                  MeetingHud.Instance || Minigame.Instance ||
                                                  PlayerCustomizationMenu.Instance ||
@@ -784,8 +784,8 @@ public static class HudManagerPatches
     public static void HudManagerStartPatch(HudManager __instance)
     {
         __instance.gameObject.AddComponent<HudManagerHelper>();
-        RoleNameStyle = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.RoleNameStyle.Value;
-        PlayerNameProgress = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.DisplayPlayerProgress.Value;
+        RoleNameStyle = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.RoleNameStyle.Value;
+        PlayerNameProgress = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.DisplayPlayerProgress.Value;
         StoredHostLocale = TranslationController.Instance.GetString(StringNames.HostNounEmpty);
         StoredTasksText = TranslationController.Instance.GetString(StringNames.Tasks);
         StoredSpectatingLocale = TouLocale.Get("TouRoleSpectator");
@@ -864,12 +864,12 @@ public static class HudManagerPatches
             BucketTooltipData.AllRoles.Add(pair.Key, roleEntry);
         }
 
-        TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
+        TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance
             .UseCrewmateTeamColorToggle.Value;
         
-        TownOfUsLocalSettings.OldButtonScaleFactor =
-            LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ButtonUIFactorSlider.Value;
-        Coroutines.Start(TownOfUsLocalSettings.CoResizeSettingsUI());
+        TouLocalTabButtons.OldButtonScaleFactor =
+            LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ButtonUIFactorSlider.Value;
+        Coroutines.Start(TouLocalTabButtons.CoResizeSettingsUI());
     }
 
     internal static readonly Dictionary<RoleListOption, RoleAlignment> TooltipAlignments = new()

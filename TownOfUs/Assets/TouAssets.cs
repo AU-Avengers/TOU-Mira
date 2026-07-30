@@ -10,6 +10,7 @@ public static class TouAssets
     private const string SubmergedPath = "TownOfUs.Resources.Submerged";
     private const string SettingIconPath = "TownOfUs.Resources.SettingIcons";
     private const string ElementIconPath = "TownOfUs.Resources.ElementIcons";
+    private const string LocalTabsPath = "TownOfUs.Resources.LocalTabs";
     private static string BetaIdentifier => TownOfUsPlugin.IsDevBuild ? "Beta" : string.Empty;
 
     public static readonly AssetBundle MainBundle = AssetBundleManager.Load("tou-assets");
@@ -388,7 +389,7 @@ public static class TouAssets
         get
         {
             var sprite = ArrowBasicSprite;
-            switch (LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ArrowStyleEnum.Value)
+            switch (LocalSettingsTabSingleton<TouLocalTabRoles>.Instance.ArrowStyleEnum.Value)
             {
                 case ArrowStyleType.DarkGlow:
                     sprite = ArrowDarkOutSprite;
@@ -552,6 +553,21 @@ public static class TouAssets
     
     public static LoadableAsset<Sprite> ChefProgressNone { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.ChefNone.png");
+
+    public static LoadableAsset<Sprite> LocalActions { get; } =
+        new LoadableResourceAsset($"{LocalTabsPath}.Actions.png", 175f);
+
+    public static LoadableAsset<Sprite> LocalButtons { get; } =
+        new LoadableResourceAsset($"{LocalTabsPath}.Buttons.png", 175f);
+
+    public static LoadableAsset<Sprite> LocalLobby { get; } =
+        new LoadableResourceAsset($"{LocalTabsPath}.Lobby.png", 175f);
+
+    public static LoadableAsset<Sprite> LocalPlayers { get; } =
+        new LoadableResourceAsset($"{LocalTabsPath}.Players.png", 175f);
+
+    public static LoadableAsset<Sprite> LocalRoles { get; } =
+        new LoadableResourceAsset($"{LocalTabsPath}.Roles.png", 175f);
 
     public static void Initialize()
     {

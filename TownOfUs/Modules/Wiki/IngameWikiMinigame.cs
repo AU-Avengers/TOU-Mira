@@ -350,7 +350,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.UseCrewmateTeamColorToggle.Value;
     }
 
     private void LoadSettingsScreen()
@@ -1171,7 +1171,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.UseCrewmateTeamColorToggle.Value;
     }
 
     [HideFromIl2Cpp]

@@ -332,7 +332,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        var locSetting = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ParasitePiPLocation.Value;
+        var locSetting = LocalSettingsTabSingleton<TouLocalTabRoles>.Instance.ParasitePiPLocation.Value;
         var sizeMultiplier = ParasitePiPUtilities.GetScaleMultiplier();
 
         ParasitePiPLocation location;

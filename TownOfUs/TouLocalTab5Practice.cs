@@ -1,14 +1,13 @@
 using BepInEx.Configuration;
 using MiraAPI.Utilities;
-using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
-using TownOfUs.Patches.Options;
+using TownOfUs.LocalSettings.Attributes;
 
 namespace TownOfUs;
 
-public class TownOfUsLocalMiscSettings(ConfigFile config) : LocalSettingsTab(config)
+public class TouLocalTabPractice(ConfigFile config) : LocalSettingsTab(config)
 {
-    public override string TabName => "ToU: Misc";
+    public override string TabName => TutorialManager.InstanceExists ? "Practice" : "Lobby";
     protected override bool ShouldCreateLabels => true;
 
     public override void Open()
@@ -29,22 +28,10 @@ public class TownOfUsLocalMiscSettings(ConfigFile config) : LocalSettingsTab(con
         }
     }
 
-    public override void OnOptionChanged(ConfigEntryBase configEntry)
-    {
-        base.OnOptionChanged(configEntry);
-        if (configEntry == SeparateChatBubbles)
-        {
-            if (!HudManager.InstanceExists)
-            {
-                return;
-            }
-            TeamChatPatches.UpdateChat();
-        }
-    }
-
     public override LocalSettingTabAppearance TabAppearance => new()
     {
-        TabIcon = TouModifierIcons.Aftermath
+        TabIcon = TouAssets.LocalLobby,
+        HideIconOnHover = false,
     };
 
     [LocalizedLocalSliderSetting(min: 4f, max: 15f, suffixType: MiraNumberSuffixes.Seconds, formatString: "0", displayValue: true, roundValue: true)]
@@ -60,59 +47,34 @@ public class TownOfUsLocalMiscSettings(ConfigFile config) : LocalSettingsTab(con
         config.Bind("End Game Screen", "AutoRejoinSelection", AutoRejoinSelection.Always);
 
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> SeparateChatBubbles { get; private set; } =
-        config.Bind("Miscellaneous", "SeparateChatBubbles", false);
-
-    [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowWelcomeMessageToggle { get; private set; } =
-        config.Bind("Miscellaneous", "ShowWelcomeMessage", true);
+        config.Bind("Lobby", "ShowWelcomeMessage", true);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowRulesOnLobbyJoinToggle { get; private set; } =
-        config.Bind("Miscellaneous", "ShowRulesOnLobbyJoin", true);
+        config.Bind("Lobby", "ShowRulesOnLobbyJoin", true);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowSummaryMessageToggle { get; private set; } =
-        config.Bind("Miscellaneous", "ShowSummaryMessage", true);
+        config.Bind("Lobby", "ShowSummaryMessage", true);
 
     [LocalizedLocalEnumSetting(names: ["SummarySimple", "SummaryNormal", "SummaryAdvanced"])]
     public ConfigEntry<GameSummaryAppearance> SummaryMessageAppearance { get; private set; } =
-        config.Bind("Miscellaneous", "SummaryMsgBreakdown", GameSummaryAppearance.Advanced);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> RainbowColorAsFortegreen { get; private set; } =
-        config.Bind("Miscellaneous", "RainbowColorAsFortegreen", false);
+        config.Bind("Lobby", "SummaryMsgBreakdown", GameSummaryAppearance.Advanced);
 
     [LocalizedLocalEnumSetting(names: ["DraftAudioStart", "DraftAudioYourTurn", "DraftAudioNone"])]
     public ConfigEntry<DraftAudioCueMode> DraftAudioCue { get; private set; } =
-        config.Bind("Miscellaneous", "DraftAudioCue", DraftAudioCueMode.None);
-}
+        config.Bind("Lobby", "DraftAudioCue", DraftAudioCueMode.None);
 
-public enum GameSummaryAppearance
-{
-    Simplified,
-    Normal,
-    Advanced
-}
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ZoomingInLobby { get; private set; } =
+        config.Bind("Lobby", "ZoomingInLobby", true);
 
-public enum EndGameSummaryVisibility
-{
-    Hidden,
-    Split,
-    LeftSide,
-}
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ZoomingInPractice { get; private set; } =
+        config.Bind("Practice Mode", "ZoomingInPractice", true);
 
-public enum AutoRejoinSelection
-{
-    Always,
-    Host,
-    Client,
-    Never
-}
-
-public enum DraftAudioCueMode
-{
-    Start,
-    YourTurn,
-    None
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ShowPracticeButtons { get; private set; } =
+        config.Bind("Practice Mode", "ShowPracticeButtons", true);
 }

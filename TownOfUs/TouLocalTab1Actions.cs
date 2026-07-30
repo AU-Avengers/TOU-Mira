@@ -10,9 +10,9 @@ using TownOfUs.Patches;
 
 namespace TownOfUs;
 
-public class TownOfUsLocalActionTab(ConfigFile config) : LocalSettingsTab(config)
+public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
 {
-    public override string TabName => "Host Actions";
+    public override string TabName => "Actions";
     protected override bool ShouldCreateLabels => true;
 
     public override void Open()
@@ -35,21 +35,9 @@ public class TownOfUsLocalActionTab(ConfigFile config) : LocalSettingsTab(config
 
     public override LocalSettingTabAppearance TabAppearance => new()
     {
-        TabIcon = TouAssets.ActionSprite,
-        HideIconOnHover = true,
+        TabIcon = TouAssets.LocalActions,
+        HideIconOnHover = false,
     };
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ZoomingInLobby { get; private set; } =
-        config.Bind("Miscellaneous", "ZoomingInLobby", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ZoomingInPractice { get; private set; } =
-        config.Bind("Miscellaneous", "ZoomingInPractice", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowPracticeButtons { get; private set; } =
-        config.Bind("Miscellaneous", "ShowPracticeButtons", true);
 
     [LocalSettingsButton]
     public LocalSettingsButton SelfKillButton { get; private set; } = new("Self Kill", TriggerSelfKill);

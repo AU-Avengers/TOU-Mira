@@ -27,7 +27,7 @@ public class RejoinBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     public void StartRejoin()
     {
         _gameCode = GameCode.IntToGameName(SavedGameId);
-        _timer = LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.AutoRejoinDelay.Value;
+        _timer = LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.AutoRejoinDelay.Value;
         _lastShown = -1;
         _running = true;
         _isStreamer = DataManager.Settings.Gameplay.StreamerMode;

@@ -31,7 +31,7 @@ public abstract class TownOfUsButton : CustomActionButton
     public override ButtonLocation Location => ButtonLocation.BottomRight;
 
     public override string CooldownTimerFormatString =>
-        Timer <= 10f && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.PreciseCooldownsToggle.Value
+        Timer <= 10f && LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.PreciseCooldownsToggle.Value
             ? "0.0"
             : "0";
 
@@ -161,7 +161,7 @@ public abstract class TownOfUsButton : CustomActionButton
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.UseCrewmateTeamColorToggle.Value;
 
         PassiveComp = Button.GetComponent<PassiveButton>();
     }
@@ -177,7 +177,7 @@ public abstract class TownOfUsButton : CustomActionButton
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.UseCrewmateTeamColorToggle.Value;
     }
 
     public override bool CanUse()
@@ -245,7 +245,7 @@ public abstract class TownOfUsButton : CustomActionButton
                 Button?.usesRemainingSprite.color = TextOutlineColor;
             }
 
-            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
+            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance
                 .UseCrewmateTeamColorToggle.Value;
         }
 
@@ -275,7 +275,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
     public override ButtonLocation Location => ButtonLocation.BottomRight;
 
     public override string CooldownTimerFormatString =>
-        Timer <= 10f && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.PreciseCooldownsToggle.Value
+        Timer <= 10f && LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.PreciseCooldownsToggle.Value
             ? "0.0"
             : "0";
 
@@ -449,7 +449,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.UseCrewmateTeamColorToggle.Value;
 
         PassiveComp = Button.GetComponent<PassiveButton>();
     }
@@ -465,7 +465,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.UseCrewmateTeamColorToggle.Value;
     }
 
     public override void ClickHandler()
@@ -483,7 +483,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
                     Button?.usesRemainingSprite.color = TextOutlineColor;
                 }
 
-                TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
+                TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance
                     .UseCrewmateTeamColorToggle.Value;
             }
 

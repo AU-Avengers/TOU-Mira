@@ -122,7 +122,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var roleNameSize = HudManagerPatches.RoleIsSmall ? "80%" : "100%";
         var roleOnTop = HudManagerPatches.RoleOnTop;
 
-        var colorPlayerNames = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ColorPlayerNameToggle.Value;
+        var colorPlayerNames = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.ColorPlayerNameToggle.Value;
         var localDead = PlayerControl.LocalPlayer.HasDied();
         var localGhost = localDead && genOpt.TheDeadKnow;
         var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
@@ -152,7 +152,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                         EndGamePatches.ContainedMeetingData.DisplayRecordData(
                             playerVA.NameText,
                             data,
-                            LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ColorPlayerNameToggle.Value,
+                            LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.ColorPlayerNameToggle.Value,
                             PlayerControl.LocalPlayer.HasDied() && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow);
                     }
                     playerVA.NameText.fontSize = 2f;

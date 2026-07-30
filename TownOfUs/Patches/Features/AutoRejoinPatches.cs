@@ -15,7 +15,7 @@ public static class AutoRejoinPatches
     public static void EndGameStartPostfix(EndGameManager __instance)
     {
         if (!AmongUsClient.Instance || TutorialManager.InstanceExists) return;
-        var rejoinSelection = LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.AutoRejoinMode.Value;
+        var rejoinSelection = LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.AutoRejoinMode.Value;
         var willRejoin = rejoinSelection is AutoRejoinSelection.Always;
         if (rejoinSelection is AutoRejoinSelection.Never)
         {

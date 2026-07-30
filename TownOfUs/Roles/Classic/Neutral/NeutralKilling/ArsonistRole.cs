@@ -131,7 +131,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
 
     public void OffsetButtons()
     {
-        var canVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent || LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
+        var canVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent || LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.OffsetButtonsToggle.Value;
         var douse = CustomButtonSingleton<ArsonistDouseButton>.Instance;
         var ignite = CustomButtonSingleton<ArsonistIgniteButton>.Instance;
         Coroutines.Start(MiscUtils.CoMoveButtonIndex(douse, !canVent));
