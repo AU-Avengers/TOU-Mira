@@ -2184,6 +2184,8 @@
   <!-- Jester Options -->
   <string name="TouOptionJesterCanButton">Can Use Button</string>
   <string name="TouOptionJesterCanVent">Can Hide In Vents</string>
+  <string name="TouOptionJesterVentCooldown">Vent Cooldown</string>
+  <string name="TouOptionJesterVentDuration">Vent Duration</string>
   <string name="TouOptionJesterCanPoke">Can Poke Others</string>
   <string name="TouOptionJesterPokeCooldown">Poke Cooldown</string>
   <string name="TouOptionJesterImpVision">Has Impostor Vision</string>

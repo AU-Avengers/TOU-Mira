@@ -15,6 +15,18 @@ public sealed class JesterOptions : AbstractRoleOptionGroup<JesterRole>
     [ModdedToggleOption("TouOptionJesterCanVent")]
     public bool CanVent { get; set; } = true;
 
+    public ModdedNumberOption VentCooldown { get; } =
+        new("TouOptionJesterVentCooldown", 15f, 0f, 25f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")
+    {
+        Visible = () => OptionGroupSingleton<JesterOptions>.Instance.CanVent
+    };
+
+    public ModdedNumberOption VentDuration { get; } =
+        new("TouOptionJesterVentDuration", 25f, 0f, 60f, 5f, MiraNumberSuffixes.Seconds, "0.0", zeroInfinity: true)
+    {
+        Visible = () => OptionGroupSingleton<JesterOptions>.Instance.CanVent
+    };
+
     [ModdedToggleOption("TouOptionJesterCanPoke")]
     public bool CanPoke { get; set; } = true;
 
