@@ -1,6 +1,7 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Impostor.Venerer;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
@@ -82,31 +83,94 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
 
     private void SetAbility(string name, Sprite sprite)
     {
-        OverrideName(TouLocale.Get($"TouRoleVenener{name}", name));
+        OverrideName(TouLocale.Get($"TouRoleVenerer{name}", name));
         OverrideSprite(sprite);
+    }
+
+    private void OverrideAbilityName(bool active)
+    {
+        var name = ActiveAbility switch
+        {
+            VenererAbility.Camouflage => active ? "Uncamouflage" : "Camouflage",
+            VenererAbility.Sprint => active ? "Unsprint" : "Sprint",
+            VenererAbility.Freeze => active ? "Unfreeze" : "Freeze",
+            _ => string.Empty
+        };
+
+        if (name.Length > 0)
+        {
+            OverrideName(TouLocale.Get($"TouRoleVenerer{name}", name));
+        }
     }
 
     public override void OnEffectEnd()
     {
-        var mod = PlayerControl.LocalPlayer.GetModifierComponent()?.ActiveModifiers
-            .FirstOrDefault(mod => mod is IVenererModifier);
+        var selfMods = PlayerControl.LocalPlayer.GetModifierComponent()?.ActiveModifiers
+            .Where(mod => mod is IVenererModifier && mod is not VenererFreezeModifier).ToList();
 
-        if (mod != null)
+        if (selfMods != null)
         {
-            PlayerControl.LocalPlayer.RpcRemoveModifier(mod.UniqueId);
+            foreach (var mod in selfMods)
+            {
+                PlayerControl.LocalPlayer.RpcRemoveModifier(mod.UniqueId);
+            }
         }
 
+        var freezes = ModifierUtils.GetActiveModifiers<VenererFreezeModifier>(x => x.Venerer == PlayerControl.LocalPlayer).ToList();
+        foreach (var freeze in freezes)
+        {
+            freeze.Player.RpcRemoveModifier(freeze.UniqueId);
+        }
+
+        OverrideAbilityName(false);
         UpdateButton(_queuedAbility != VenererAbility.None ? _queuedAbility : ActiveAbility);
         _queuedAbility = VenererAbility.None;
     }
 
     public override void ClickHandler()
     {
-        if (ActiveAbility == VenererAbility.None)
+        if (ActiveAbility == VenererAbility.None || !CanUse())
         {
             return;
         }
-        base.ClickHandler();
+
+        if (EffectActive)
+        {
+            Timer = Cooldown;
+            EffectActive = false;
+            Button?.SetDisabled();
+            OnEffectEnd();
+            return;
+        }
+
+        OnClick();
+        Button?.SetDisabled();
+
+        if (HasEffect)
+        {
+            EffectActive = true;
+            Timer = EffectDuration;
+            OverrideAbilityName(true);
+        }
+        else
+        {
+            Timer = Cooldown;
+        }
+    }
+
+    public override bool CanUse()
+    {
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        {
+            return false;
+        }
+
+        return (Timer <= 0 && !EffectActive) || (EffectActive && Timer <= EffectDuration - 2f);
     }
 
     public void AftermathHandler()
