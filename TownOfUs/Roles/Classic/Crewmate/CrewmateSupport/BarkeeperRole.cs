@@ -58,6 +58,9 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
                 : TouLocale.GetParsed("TouRoleBarkeeperRoleblockWikiDescription")).Replace("<blockTime>",
                 OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value
                     .ToString(TownOfUsPlugin.Culture)),
+            TouCrewAssets.CleanseSprite),
+        new(TouLocale.Get("TouRoleBarkeeperSpill"),
+            TouLocale.GetParsed("TouRoleBarkeeperSpillWikiDescription"),
             TouCrewAssets.CleanseSprite)
     ];
 

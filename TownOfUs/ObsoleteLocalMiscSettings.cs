@@ -2,7 +2,8 @@ using BepInEx.Configuration;
 
 namespace TownOfUs;
 
-#pragma warning disable S2325;
+#pragma warning disable S2325 // This is for compatibility with older tou extension mods.
+
 [Obsolete("Please use the new TouLocalTab classes instead.")]
 public class TownOfUsLocalMiscSettings(ConfigFile config) : LocalSettingsTab(config)
 {
@@ -46,4 +47,4 @@ public class TownOfUsLocalMiscSettings(ConfigFile config) : LocalSettingsTab(con
     public ConfigEntry<bool> RainbowColorAsFortegreen =>
         LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.RainbowColorAsFortegreen;
 }
-#pragma warning restore S2325;
+#pragma warning restore S2325 // This is for compatibility with older tou extension mods.
