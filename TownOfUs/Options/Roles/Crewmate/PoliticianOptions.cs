@@ -12,6 +12,12 @@ public sealed class PoliticianOptions : AbstractRoleOptionGroup<PoliticianRole>
     [ModdedNumberOption("TouOptionPoliticianCampaignCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float CampaignCooldown { get; set; } = 25f;
 
+    [ModdedNumberOption("TouOptionPoliticianMaxCampaignsPerRound", 0f, 15f, 1f, MiraNumberSuffixes.None, "0", true)]
+    public float MaxCampaigns { get; set; } = 0f;
+
     [ModdedToggleOption("TouOptionPoliticianPreventCampaignOnFailedReveal")]
     public bool PreventCampaign { get; set; } = true;
+
+    [ModdedToggleOption("TouOptionPoliticianRequireCampaignedCrewmate")]
+    public bool RequireCampaignedCrewmate { get; set; } = true;
 }

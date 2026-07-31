@@ -43,15 +43,18 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     {
         get
         {
+            var opt = OptionGroupSingleton<PoliticianOptions>.Instance;
+            var revealKey = $"TouRole{LocaleKey}RevealWikiDescription" +
+                            (opt.PreventCampaign ? "Punished" : string.Empty) +
+                            (opt.RequireCampaignedCrewmate ? "Required" : string.Empty);
+
             return
             [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Campaign", "Campaign"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CampaignWikiDescription"),
                     TouCrewAssets.CampaignButtonSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}RevealWiki", "Reveal"),
-                    TouLocale.GetParsed(OptionGroupSingleton<PoliticianOptions>.Instance.PreventCampaign
-                        ? $"TouRole{LocaleKey}RevealWikiDescriptionPunished"
-                        : $"TouRole{LocaleKey}RevealWikiDescription"),
+                    TouLocale.GetParsed(revealKey),
                     TouAssets.RevealCleanSprite)
             ];
         }
@@ -60,7 +63,10 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     public Color RoleColor => TownOfUsColors.Politician;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmatePower;
-    public bool IsPowerCrew => true;
+    public bool IsPowerCrew =>
+        !OptionGroupSingleton<PoliticianOptions>.Instance.RequireCampaignedCrewmate ||
+        PlayerControl.AllPlayerControls.ToArray()
+            .Any(x => !x.HasDied() && x.IsCrewmate() && x.Data.Role is not PoliticianRole); // Only stop end game checks if the politician can still reveal
 
     public CustomRoleConfiguration Configuration => new(this)
     {
@@ -160,6 +166,11 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         if (aliveCrew.Count == 0)
         {
             hasMajority = true; // if all crew are dead, politician can reveal
+        }
+
+        if (OptionGroupSingleton<PoliticianOptions>.Instance.RequireCampaignedCrewmate && aliveCampaigned == 0)
+        {
+            hasMajority = false;
         }
 
         if (hasMajority)
