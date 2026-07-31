@@ -22,6 +22,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     public override bool IsAffectedByComms => false;
 
     [HideFromIl2Cpp] public PlayerControl? Protected { get; set; }
+    public bool IsProtecting { get; set; }
     public int UnleashesAvailable { get; set; }
     [HideFromIl2Cpp] public RoleBehaviour? ContainedRole { get; set; }
 
@@ -32,9 +33,10 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
             return;
         }
 
-        if (Protected != null && Protected.HasDied())
+        var dced = IsProtecting && Protected == null;
+        if (Protected != null && Protected.HasDied() || dced)
         {
-            Clear();
+            Clear(dced);
         }
     }
 
@@ -106,8 +108,19 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         return stringB;
     }
 
-    public void Clear()
+    public void Clear(bool playerLeft = false)
     {
+        if (playerLeft)
+        {
+            IsProtecting = false;
+            Protected = null;
+            if (Player.AmOwner)
+            {
+                var button = CustomButtonSingleton<MirrorcasterMagicMirrorButton>.Instance;
+                button.TargetWasValid = false;
+                button.ResetCooldownAndOrEffect();
+            }
+        }
         SetProtectedPlayer(null);
     }
 
@@ -127,6 +140,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 
     public void SetProtectedPlayer(PlayerControl? player)
     {
+        IsProtecting = false;
         if (Protected == player && player != null)
         {
             if (player.TryGetModifier<MagicMirrorModifier>(out var mod2))
@@ -143,8 +157,11 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         }
 
         Protected = (player?.HasDied() == true) ? null : player;
-
-        Protected?.AddModifier<MagicMirrorModifier>(Player);
+        if (Protected != null)
+        {
+            IsProtecting = true;
+            Protected.AddModifier<MagicMirrorModifier>(Player);
+        }
     }
 
     public static void DangerAnim(bool localMirrorcaster = false)

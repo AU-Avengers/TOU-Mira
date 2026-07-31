@@ -26,6 +26,7 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable,
     IAssignableTargets, ICrewVariant
 {
+    [HideFromIl2Cpp]
     public bool CanModifierContinueGame(BaseModifier modifier)
     {
         return modifier is TiebreakerModifier;
