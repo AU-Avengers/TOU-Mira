@@ -1233,6 +1233,8 @@
   <string name="TouOptionSeerSalemMode">Compare Players Instead of Checking Alignments</string>
   <string name="TouOptionSeerCooldown">Reveal/Compare Cooldown</string>
   <string name="TouOptionSeerUses">Max Uses of Reveal/Compare</string>
+  <string name="TouOptionSeerMultiplePerRound">Can Reveal/Compare More Than Once Per Round</string>
+  <string name="TouOptionSeerCompareEachPlayerOnce">Can Only Compare Each Player Once</string>
   <string name="TouOptionSeerNeutralBenignFriendly">Neutral Benign Show Friends To All</string>
   <string name="TouOptionSeerNeutralEvilFriendly">Neutral Evils Show Friends To All</string>
   <string name="TouOptionSeerNeutralOutlierFriendly">Neutral Outliers Show Friends To All</string>
