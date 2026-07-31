@@ -67,6 +67,8 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
     };
     [HideFromIl2Cpp] public PlayerControl? GazeTarget { get; set; }
     [HideFromIl2Cpp] public PlayerControl? IntuitTarget { get; set; }
+    [HideFromIl2Cpp] public List<PlayerControl> ComparedPlayers { get; } = [];
+    public bool UsedThisRound { get; set; }
 
     public static string TabHeaderString = TouLocale.GetParsed("TouRoleSeerTabHeader");
     public override void Initialize(PlayerControl player)
@@ -75,7 +77,14 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         IntuitTarget = null;
         RoleBehaviourStubs.Initialize(this, player);
         ComparisonList = [];
+        ComparedPlayers.Clear();
         TabHeaderString = TouLocale.GetParsed("TouRoleSeerTabHeader");
+    }
+
+    [HideFromIl2Cpp]
+    public bool CanCompare(PlayerControl player)
+    {
+        return !OptionGroupSingleton<SeerOptions>.Instance.CompareEachPlayerOnce || !ComparedPlayers.Contains(player);
     }
 
     public override void OnMeetingStart()
@@ -179,8 +188,20 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
             var compareResult = TouLocale.GetParsed("TouRoleSeerTabComparison").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
             ComparisonList.Add($"<b>{Palette.CrewmateBlue.ToTextColor()}{compareResult.Replace("<num>", DeathEventHandlers.CurrentRound.ToString(TownOfUsPlugin.Culture))}</color></b>");
         }
+
+        if (GazeTarget != null)
+        {
+            ComparedPlayers.Add(GazeTarget);
+        }
+
+        if (IntuitTarget != null)
+        {
+            ComparedPlayers.Add(IntuitTarget);
+        }
+
         IntuitTarget = null;
         GazeTarget = null;
+        UsedThisRound = true;
     }
 
     [HideFromIl2Cpp]

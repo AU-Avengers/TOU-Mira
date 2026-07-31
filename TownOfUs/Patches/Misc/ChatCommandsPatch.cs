@@ -8,6 +8,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
+using TownOfUs.Modules.DraftMode;
 using TownOfUs.Options;
 using TownOfUs.Patches.Options;
 using TownOfUs.Patches.Roles;
@@ -141,6 +142,11 @@ public static class ChatPatches
                 {
                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                         TouLocale.GetParsed("SpectatorStartError"));
+                }
+                else if (DraftManager.IsDraftActive)
+                {
+                    MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                        TouLocale.GetParsed("SpectatorDraftError"));
                 }
                 else if (SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.Data.PlayerName))
                 {
