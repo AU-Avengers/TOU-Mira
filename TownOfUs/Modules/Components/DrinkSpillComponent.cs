@@ -117,6 +117,7 @@ public sealed class DrinkSpillComponent(nint cppPtr) : MonoBehaviour(cppPtr)
         Coroutines.Start(scene.CoShowSpill());
     }
 
+    [HideFromIl2Cpp]
     private IEnumerator CoShowSpill()
     {
         yield return new WaitForSeconds(5f);
@@ -128,6 +129,7 @@ public sealed class DrinkSpillComponent(nint cppPtr) : MonoBehaviour(cppPtr)
         }
     }
 
+    [HideFromIl2Cpp]
     private IEnumerator CoRevealSpill()
     {
         LocalStage = SpillStage.Shown;
