@@ -23,6 +23,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     public override bool IsAffectedByComms => false;
 
     [HideFromIl2Cpp] public PlayerControl? Shielded { get; set; }
+    public bool IsProtecting { get; set; }
 
     public void FixedUpdate()
     {
@@ -31,9 +32,10 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
             return;
         }
 
-        if (Shielded != null && Shielded.HasDied())
+        var dced = IsProtecting && Shielded == null;
+        if (Shielded != null && Shielded.HasDied() || dced)
         {
-            Clear();
+            Clear(dced);
         }
     }
 
@@ -170,8 +172,19 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         }
     }
 
-    public void Clear()
+    public void Clear(bool playerLeft = false)
     {
+        if (playerLeft)
+        {
+            IsProtecting = false;
+            Shielded = null;
+            if (Player.AmOwner)
+            {
+                var button = CustomButtonSingleton<MedicShieldButton>.Instance;
+                button.ResetCooldownAndOrEffect();
+                button.SetUses(button.UsesLeft + 1);
+            }
+        }
         SetShieldedPlayer(null);
     }
 
@@ -197,18 +210,23 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public void SetShieldedPlayer(PlayerControl? player)
     {
+        IsProtecting = false;
         if (Shielded?.TryGetModifier<MedicShieldModifier>(out var mod) == true)
         {
             mod.RemoveMedic(Player);
         }
         Shielded = player;
-        if (player?.TryGetModifier<MedicShieldModifier>(out var mod2) == true)
+        if (Shielded != null)
         {
-            mod2.SetNewMedic(Player);
-        }
-        else
-        {
-            Shielded?.AddModifier<MedicShieldModifier>(Player);
+            IsProtecting = true;
+            if (Shielded.TryGetModifier<MedicShieldModifier>(out var mod2))
+            {
+                mod2.SetNewMedic(Player);
+            }
+            else
+            {
+                Shielded.AddModifier<MedicShieldModifier>(Player);
+            }
         }
     }
 

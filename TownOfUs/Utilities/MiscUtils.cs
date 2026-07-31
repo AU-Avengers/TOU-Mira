@@ -2409,6 +2409,11 @@ public static class MiscUtils
         return GetRoleTmpIcon(RoleManager.Instance.GetRole(role));
     }
 
+    public static string GetRoleTmpIcon(ICustomRole role)
+    {
+        return role.Configuration.IconTmp ? $"<sprite name=\"{role.Configuration.IconTmp.name}\">" : $"<sprite name=\"AmongUs.Role.{role.Team}\">";
+    }
+
     public static string GetRoleTmpIcon(RoleBehaviour role)
     {
         if (role is ICustomRole custom)

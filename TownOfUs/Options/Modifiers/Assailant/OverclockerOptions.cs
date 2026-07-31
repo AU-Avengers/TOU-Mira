@@ -1,12 +1,14 @@
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Assailant;
+using UnityEngine;
 
 namespace TownOfUs.Options.Modifiers.Assailant;
 
 public sealed class OverclockerOptions : AbstractTouModifierOptionGroup<OverclockerModifier>
 {
     public override string GroupName => TouLocale.Get("TouModifierOverclocker", "Overclocker");
+    public override Color GroupColor => TownOfUsColors.Overclocker;
 
     public ModdedNumberOption OverclockCooldown { get; set; } = new("Overclock Cooldown", 5f, 5f, 120f, 2.5f,
         MiraNumberSuffixes.Seconds, formatString: "0.0");
