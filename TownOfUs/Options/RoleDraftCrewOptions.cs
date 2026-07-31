@@ -20,7 +20,7 @@ public sealed class RoleDraftCrewOptions : AbstractOptionGroup
             1.45f));
 
     public override string GroupName => "Crewmate Settings";
-    public override uint GroupPriority => 2;
+    public override uint GroupPriority => 3;
 
     public ModdedNumberOption MaxCrewInvestigative { get; set; } =
         new("Max Investigative Roles", 5f, 0f, 15f, 1f, MiraNumberSuffixes.None, "0");
