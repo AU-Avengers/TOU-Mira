@@ -20,6 +20,8 @@ public static class TouAchAssets
         new LoadableResourceAsset($"{ShortPath}.DeathByDemocracy.png");
 
     // Neutrals
+    public static LoadableAsset<Sprite> FairlyBadParent { get; } =
+        new LoadableResourceAsset($"{ShortPath}.FairlyBadParent.png");
     public static LoadableAsset<Sprite> FullCourseMeal { get; } =
         new LoadableResourceAsset($"{ShortPath}.FullCourseMeal.png");
 }

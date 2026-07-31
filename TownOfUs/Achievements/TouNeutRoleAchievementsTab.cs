@@ -18,7 +18,7 @@ public class TouNeutRoleAchievementsTab : AchievementsTab
         "Attempt to remember a player who cannot be remembered.", TouNeutAssets.RememberButtonSprite, TouRoleIcons.Amnesiac);
 
     public BaseBundleAchievement FairlyBadParent { get; set; } = new("Fairly Bad Parent",
-        "Have your target die in the first round.", TouNeutAssets.ProtectSprite, TouRoleIcons.Fairy);
+        "Have your target die in the first round.", TouAchAssets.FairlyBadParent, TouRoleIcons.Fairy);
 
     /*public BaseBundleAchievement Hangman { get; set; } = new("Hangman",
         "Get your target voted within 3 rounds.", TouNeutAssets.ExeTormentSprite, TouRoleIcons.Executioner, 1);

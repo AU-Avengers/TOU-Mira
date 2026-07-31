@@ -6,9 +6,11 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Text;
+using AchievementsAPI.API;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using TMPro;
+using TownOfUs.Achievements;
 using TownOfUs.Events;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
@@ -363,6 +365,38 @@ public static class EndGamePatches
 
     public static void BuildEndGameSummary(EndGameManager instance)
     {
+        var map = TownOfUsEventHandlers.CurrentMap;
+        var day = DateTime.Today.DayOfWeek;
+        if (!AmongUsClient.Instance.AmLocalHost)
+        {
+            switch (day)
+            {
+                case DayOfWeek.Monday:
+                    if (map is ExpandedMapNames.MiraHq)
+                    {
+                        AchievementsTabSingleton<GeneralAchievementsTab>.Instance.MiraMonday.Unlock();
+                    }
+                    break;
+                case DayOfWeek.Friday:
+                    if (map is ExpandedMapNames.Fungle)
+                    {
+                        AchievementsTabSingleton<GeneralAchievementsTab>.Instance.FungleFriday.Unlock();
+                    }
+                    break;
+                case DayOfWeek.Saturday:
+                    if (map is ExpandedMapNames.Submerged)
+                    {
+                        AchievementsTabSingleton<GeneralAchievementsTab>.Instance.SubmergedSaturday.Unlock();
+                    }
+                    break;
+                case DayOfWeek.Sunday:
+                    if (map is ExpandedMapNames.Skeld)
+                    {
+                        AchievementsTabSingleton<GeneralAchievementsTab>.Instance.SkeldSunday.Unlock();
+                    }
+                    break;
+            }
+        }
         var winText = instance.WinText;
         var exitBtn = instance.Navigation.ExitButton;
 
