@@ -11,6 +11,7 @@ using TownOfUs.Buttons.Impostor;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Other;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
@@ -57,8 +58,22 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
                 : TouLocale.GetParsed("TouRoleBarkeeperRoleblockWikiDescription")).Replace("<blockTime>",
                 OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value
                     .ToString(TownOfUsPlugin.Culture)),
+            TouCrewAssets.CleanseSprite),
+        new(TouLocale.Get("TouRoleBarkeeperSpill"),
+            TouLocale.GetParsed("TouRoleBarkeeperSpillWikiDescription"),
             TouCrewAssets.CleanseSprite)
     ];
+
+    [MethodRpc((uint)TownOfUsRpc.SpillDrink)]
+    public static void RpcSpillDrink(PlayerControl player, Vector2 pos)
+    {
+        if (player.Data.Role is not BarkeeperRole)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
+        DrinkSpillComponent.CreateDrinkSpill(player, pos);
+    }
 
     [MethodRpc((uint)TownOfUsRpc.Roleblock)]
     public static void RpcRoleblock(PlayerControl player, PlayerControl target)

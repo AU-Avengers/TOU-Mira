@@ -100,7 +100,7 @@
   <string name="Modifier">Атрибут</string>
   <string name="SetRoleList">Список ролей</string>
   <string name="NeutralFactionList">Список Нейтралов</string>
-  <string name="NeutralBenigns">Добрый Нейтралы</string>
+  <string name="NeutralBenigns">Добрые Нейтралы</string>
   <string name="NeutralEvils">Злые Нейтралы</string>
   <string name="NeutralKillers">Нейтральные Убийцы</string>
   <string name="MinimumShort">Мин.</string>
@@ -1008,13 +1008,6 @@
   <string name="TouOptionPlaguebearerPestilenceKillCooldown">Откат Убийства Чумы</string>
   <string name="TouOptionPlaguebearerPestilenceCanVent">Чума может исп. вент.</string>
   <string name="TouRoleSoulCollector">Пожинатель Душ</string>
-  <string name="TouRoleSoulCollectorIntroBlurb">Пожинайте души других</string>
-  <string name="TouRoleSoulCollectorTabDescription">Пожинайте души других, оставляя на их месте вечный силуэт</string>
-  <string name="TouRoleSoulCollectorWikiDescription">Пожинатель Душ - Нейтральный Убийца, который забирает души игроков. Вместо того, чтобы оставлять тело, он оставляет бездушную пустышку, которая выглядит идентично убитому игроку, стоя на месте.</string>
-  <string name="TouRoleSoulCollectorReap">Пожинать</string>
-  <string name="TouRoleSoulCollectorReapWikiDescription">Пожинание выступает как кнопка убийства, но вместо того, чтобы оставлять мёртвое тело, создаёт на его месте пустышку игрока.</string>
-  <string name="TouOptionSoulCollectorReapCooldown">Откат Пожинания</string>
-  <string name="TouOptionSoulCollectorCanVent">Пожинатель Душ может исп. вент.</string>
   <string name="TouRoleSurvivor">Выживший</string>
   <string name="TouRoleSurvivorIntroBlurb">Выжить любой ценой</string>
   <string name="TouRoleSurvivorTabDescription">Выживайте, чтобы победить с любой оставшейся фракцией</string>
@@ -1430,7 +1423,7 @@
   <string name="TouOptionMirrorcasterInfoEnumSubalignment">Подроль</string>
   <string name="TouOptionMirrorcasterInfoEnumFaction">Фракция</string>
   <string name="TouOptionMirrorcasterInfoEnumNothing">Ничего</string>
-  <string name="TouOptionOracleNeutralBenignShowEvil">Мирный Нейтрал показывается как Злодей</string>
+  <string name="TouOptionOracleNeutralBenignShowEvil">Добрый Нейтрал показывается как Злодей</string>
   <string name="TouOptionOracleNeutralEvilShowEvil">Нейтральные Злодеи показываются как Злодеи</string>
   <string name="TouOptionOracleNeutralKillingShowEvil">Нейтральные Убийцы показываются как Злодеи</string>
   <string name="TouOptionOracleNeutralOutlierShowEvil">Нейтральные Останцы показываются как Злодеи</string>
@@ -1598,4 +1591,49 @@
   <string name="TermsProtectionSymbolsInfo">Символы защиты появляются над именами игроков на собраниях и/или в процессе игры, показывая, что они неуязвимы для большинства атак. Обычно их видит только та роль, которая выдала защиту, её цель и/или мёртвые игроки. • Щиты Медика отмечаются символом \%color=#006600\%+\%/color\% • Барьеры Клирика отмечаются символом \%color=#00FFB3\%Ω\%/color\% • Укрепление Хранителя отмечается символом \%color=#9900FF\%π\%/color\% • Зеркала Отражателя отмечаются символом \%color=#90A2C3\%〚〛\%/color\%• Защита Феи отмечается символом \%color=#FFD900\%★\%/color\% • Защита Ангела-Хранителя отмечается символом \%color=#66AAF3\%☀\%/color\% • Благословение Оракула отмечается символом \%color=#BF00BF\%†\%/color\%</string>
   <string name="TermsStatusEffectSymbolsTitle">Символы Статусов</string>
   <string name="TermsStatusEffectInfo">Статусные эффекты появляются над именами игроков на собраниях и в процессе игры, обычно их видит только та роль, которая их наложила, и/или мёртвые игроки. • Облитые Поджигателем отмечаются символом \%color=#FF4D00\%Δ\%/color\% • Чума Чумоносца отмечается символом \%color=#E6FFB3\%¥\%/color\% • Подконтрольные игроки отмечаются символом \%color=#FF2660\%⦿\%/color\% • Шантажируемые цели отмечаются символом \%color=#2A1119\%M\%/color\% • Гипноз отмечается символом \%color=#D53F42\%@\%/color\% • Проклятие Заклинателя отмечается символом \%color=#FF0000\%乂\%/color\% • Рыцари Монарха отмечаются символом \%color=#EA535B\%♠\%/color\%</string>
+  <string name="ReverseSkeldMapName">длекС</string>
+  <string name="LegacyThemeDisabled">Устаревший режим: Выкл</string>
+  <string name="LegacyThemeArt">Устаревшая тема</string>
+  <string name="LegacyThemePlayers">Устаревшие игроки</string>
+  <string name="LegacyThemeFull">Устаревший режим</string>
+  <string name="SelfKillBindToggle">Нажатие LSHIFT + T + ENTER для самоубийства</string>
+  <string name="AbortGameBindToggle">Нажатие LSHIFT + L + ENTER для отмены игры</string>
+  <string name="StartMeetingBindToggle">Нажатие LSHIFT + L + ENTER для начала собрания</string>
+  <string name="EndMeetingBindToggle">Нажатие F6 для завершения собрания</string>
+  <string name="ReverseSkeldMapTooltip">длекС: всем известный небольшой корабль, который вы (возможно) любите, но перевёрнутый!</string>
+  <string name="AutoRejoinDelay">Задержка Авто-переподключения</string>
+  <string name="AutoRejoinSelection">Авто-переподключение</string>
+  <string name="EndRejoinAlways">Всегда</string>
+  <string name="EndRejoinHost">Как хост</string>
+  <string name="EndRejoinClient">Как игрок</string>
+  <string name="EndRejoinNever">Никогда</string>
+  <string name="RoleNameStyle">Стиль названия ролей</string>
+  <string name="NameStyleTop">Сверху</string>
+  <string name="NameStyleTopSmall">Сверху (Мелкий)</string>
+  <string name="NameStyleBottom">Снизу</string>
+  <string name="NameStyleBottomSmall">Снизу (Мелкий)</string>
+  <string name="ModStampPlacement">Плашка мода</string>
+  <string name="ModStampTopLeft">Сверху слева</string>
+  <string name="ModStampTopRight">Сверху справа</string>
+  <string name="ModStampBottomLeft">Снизу слева</string>
+  <string name="ModStampBottomRight">Снизу справа</string>
+  <string name="ShowBasicAssassinOnHud">Показывать угадывание в меню</string>
+  <string name="TopRightUiScale">Множитель разрешения верх.-правого интерфейса</string>
+  <string name="WikiOnBottomRow">Кнопка вики под основным интерфейсом</string>
+  <string name="ZoomOnBottomRow">Кнопка приближения под основным интерфейсом</string>
+  <string name="EndSummaryVisibility">Видимость результатов игры</string>
+  <string name="EndSumLeftSide">Слева</string>
+  <string name="EndSumSplit">Раздельно</string>
+  <string name="EndSumHidden">Отключена</string>
+  <string name="SonarTargetType">Стиль цели Локатора</string>
+  <string name="SonarHeartbeats">Сердцебиение</string>
+  <string name="SonarArrows">Стрелки</string>
+  <string name="TermsCrewRoleAlignmentsTitle">Подроли \%color=#8CFFFF\%Экипажа\%/color\%</string>
+  <string name="TermsCrewRoleAlignmentsInfo">• \%color=#8CFFFF\%Расследующие\%/color\% роли могут собирать информацию о других игроках. Они могут использовать эту информацию, чтобы понять кто экипаж, а кто - нет. • \%color=#8CFFFF\%Убивающие\%/color\% роли могут \%color=#FF8B95\%убивать\%/color\% других, но \%color=#FF8B95\%убивающий\%/color\% \%color=#8CFFFF\%Экипаж\%/color\% может иметь некоторые последствия этого. • \%color=#8CFFFF\%Защищающие\%/color\% роли могут по-разному защищать игроков, иногда даже сами себя. • \%color=#8CFFFF\%Сильные\%/color\% роли могут влиять на результаты голосования, или обладать более сильными способностями нежели другие роли \%color=#8CFFFF\%Экипажа\%/color\%. • \%color=#8CFFFF\%Поддерживающие\%/color\% могут помогать другим ролям \%color=#8CFFFF\%Экипажа\%/color\%, или сами себе.</string>
+  <string name="TermsNeutRoleAlignmentsTitle">\%color=#8A8A8A\%Нейтральные\%/color\% Подроли</string>
+  <string name="TouOptionOracleNeutBadBenign">Добрый</string>
+  <string name="TermsNeutRoleAlignmentsInfo">• \%color=#8A8A8A\%Добрые\%/color\% роли не могут выиграть сами по себе, они должны либо помочь другим, либо выжить любой ценой. • \%color=#8A8A8A\%Злые\%/color\% роли должны выполнить свою цель, оставаясь коронующими, оставаясь победителями, или внезапно заканчивая игру. • \%color=#8A8A8A\%Убивающие\%/color\% роли должны остаться последним выжившим\%color=#FF8B95\%убийцей\%/color\% любой ценой. • \%color=#8A8A8A\%Оставшиеся\%/color\% роли должны выполнить свои цели, но каждая из них влияет на игру по-разному, может вести себя иногда как \%color=#8A8A8A\%Добрая\%/color\%, \%color=#8A8A8A\%Злая\%/color\%, и\%color=#8A8A8A\%Убивающая\%/color\% роль.</string>
+  <string name="TermsImpRoleAlignmentsTitle">Подроли \%color=#FF0000\%Предателей\%/color\%</string>
+  <string name="TermsImpRoleAlignmentsInfo">• \%color=#FF0000\%Скрывающиеся\%/color\% роли могут \%color=#FF8B95\%убивать\%/color\%, а также прятаться. • \%color=#FF0000\%Убивающие\%/color\% роли имеют улучшенные или изменённые возможности \%color=#FF8B95\%убийства\%/color\% , позволяя им \%color=#FF8B95\%убивать\%/color\% более эффективно. • \%color=#FF0000\%Сильные\%/color\% роли имеют возможности намного сильнее других ролей, наделяют\%color=#FF0000\%Предателей\%/color\% уникальной силой. • \%color=#FF0000\%Поддерживающие\%/color\% роли могут помогать прятать тела, или делать \%color=#FF8B95\%убийства\%/color\% более простыми.</string>
+  <string name="TermsRoleBucketsTitle">Список Ролей</string>
 </resources>

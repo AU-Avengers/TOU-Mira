@@ -6,7 +6,7 @@ namespace TownOfUs;
 
 public class TouLocalTabPractice(ConfigFile config) : LocalSettingsTab(config)
 {
-    public override string TabName => "<size=48%>Lobby / Practice</size>";
+    public override string TabName => "<size=50%>Lobby / Practice</size>";
     protected override bool ShouldCreateLabels => true;
 
     public override void Open()

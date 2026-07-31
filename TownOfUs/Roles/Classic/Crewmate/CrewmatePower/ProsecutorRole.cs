@@ -1,11 +1,14 @@
-﻿using System.Text;
+﻿using System.Collections;
+using System.Text;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
+using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Modifiers.Crewmate;
@@ -200,5 +203,87 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
         prosecutorRole.HasProsecuted = true;
         prosecutorRole.ProsecuteVictim = Victim;
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.ShowProsAnimation)]
+    public static void RpcShowProsAnimation(PlayerControl player)
+    {
+        if (LobbyBehaviour.Instance || !MeetingHud.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
+
+        Coroutines.Start(CoShowProsAnimation());
+    }
+    private static IEnumerator CoShowProsAnimation()
+    {
+        TouAudio.PlaySound(TouAudio.ProsecuteSound);
+        var prosAnim = Instantiate(TouAssets.ProsecuteAnimation.LoadAsset(), MeetingHud.Instance.transform);
+        prosAnim.transform.localPosition = new Vector3(0f, 0f, -80f);
+        prosAnim.transform.localScale = new Vector3(0.85f, 0.85f, 1f);
+        var handPoint = prosAnim.transform.GetChild(0);
+        var playerMat = PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
+        var matSetUp = false;
+        foreach (var renderer in handPoint.GetComponentsInChildren<SpriteRenderer>())
+        {
+            renderer.material = playerMat;
+            if (!matSetUp)
+            {
+                matSetUp = true;
+                renderer.material.SetColor(ShaderID.BodyColor, new Color32(255, 172, 121, 255));
+                renderer.material.SetColor(ShaderID.BackColor, new Color32(180, 80, 80, 255));
+                renderer.material.SetColor(ShaderID.VisorColor, Palette.VisorColor);
+                playerMat = renderer.material;
+            }
+        }
+        var body = prosAnim.transform.GetChild(1);
+        foreach (var renderer in body.GetComponentsInChildren<SpriteRenderer>())
+        {
+            if (renderer.transform.name.Contains("_Colored"))
+            {
+                renderer.material = playerMat;
+            }
+        }
+        var gavel = prosAnim.transform.GetChild(2);
+        foreach (var renderer in gavel.GetComponentsInChildren<SpriteRenderer>())
+        {
+            if (renderer.transform.name.Contains("_Colored"))
+            {
+                renderer.material = playerMat;
+            }
+        }
+        var killBg = prosAnim.transform.GetChild(3);
+        killBg.localScale = new Vector3(2f, 0f, 1f);
+        yield return Effects.Wait(0.25f);
+        yield return new WaitForLerp(0.25f, new Action<float>(t =>
+        {
+            var adj = t / 200;
+            handPoint.localPosition += new Vector3(adj, 0f, 0f);
+            body.localPosition += new Vector3(adj, 0f, 0f);
+            gavel.localPosition += new Vector3(adj, 0f, 0f);
+        }));
+        yield return new WaitForLerp(0.16666667f, new Action<float>(t =>
+        {
+            killBg.localScale = new Vector3(2f, Mathf.Clamp(killBg.localScale.y + t, 0, 1.1f), 1f);
+        }));
+        var adj = 0f;
+        yield return new WaitForLerp(2.23f, new Action<float>(t =>
+        {
+            adj = t / 300;
+            handPoint.localPosition += new Vector3(adj, 0f, 0f);
+            body.localPosition += new Vector3(adj, 0f, 0f);
+            gavel.localPosition += new Vector3(adj, 0f, 0f);
+        }));
+        yield return new WaitForLerp(0.2f, new Action<float>(t =>
+        {
+            var newStart = adj;
+            handPoint.localPosition += new Vector3(newStart + t, 0f, 0f);
+            body.localPosition += new Vector3(newStart + t, 0f, 0f);
+            gavel.localPosition += new Vector3(newStart + t, 0f, 0f);
+            killBg.localScale = new Vector3(1f, 1.1f - t, 1f);
+        }));
+        
+        Destroy(prosAnim);
     }
 }

@@ -79,13 +79,10 @@ public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRol
 
         _roleblockedTarget = Target;
 
-        if (PlayerControl.LocalPlayer.AmOwner)
-        {
-            NotifMessage = Helpers.CreateAndShowNotification(
-                $"<b>You chose to roleblock {_roleblockedTarget.CachedPlayerData.PlayerName}.</b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Bootlegger.LoadAsset());
-            NotifMessage.Text.SetOutlineThickness(0.35f);
-        }
+        NotifMessage = Helpers.CreateAndShowNotification(
+            $"<b>You chose to roleblock {_roleblockedTarget.CachedPlayerData.PlayerName}.</b>",
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Bootlegger.LoadAsset());
+        NotifMessage.Text.SetOutlineThickness(0.35f);
     }
 
     public override void OnEffectEnd()

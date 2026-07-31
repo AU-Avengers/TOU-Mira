@@ -17,6 +17,8 @@ public class GeneralAchievementsTab : AchievementsTab
         "Play on Mira HQ on a Monday!", TouAssets.IconMira, null!);
     public BaseBundleAchievement FungleFriday { get; set; } = new("Fungle Friday",
         "Play on Fungle on a Friday!", TouAssets.IconFungle, null!);
+    public BaseBundleAchievement SubmergedSaturday { get; set; } = new("Submerged Saturday",
+        "Play on Submerged on a Saturday!", TouAssets.IconSubmerged, null!);
     public BaseBundleAchievement SkeldSunday { get; set; } = new("Skeld Sunday",
         "Play on Skeld on a Sunday!", TouAssets.IconSkeld, null!);
 

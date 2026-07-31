@@ -21,6 +21,13 @@ public sealed class SeerGazeButton : TownOfUsRoleButton<SeerRole, PlayerControl>
         return base.Enabled(role) &&
                OptionGroupSingleton<SeerOptions>.Instance.SalemSeer;
     }
+
+    public override bool CanUse()
+    {
+        return base.CanUse() &&
+               (OptionGroupSingleton<SeerOptions>.Instance.CanUseMultiplePerRound || !Role.UsedThisRound);
+    }
+
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SeerOptions>.Instance.SeerCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.GazeSprite;
 
@@ -32,7 +39,7 @@ public sealed class SeerGazeButton : TownOfUsRoleButton<SeerRole, PlayerControl>
     public override PlayerControl? GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance,
-            predicate: x => Role.GazeTarget != x && Role.IntuitTarget != x && !x.HasModifier<BaseRevealModifier>(y => y.RevealRole && y.Visible));
+            predicate: x => Role.GazeTarget != x && Role.IntuitTarget != x && Role.CanCompare(x) && !x.HasModifier<BaseRevealModifier>(y => y.RevealRole && y.Visible));
     }
 
     protected override void OnClick()

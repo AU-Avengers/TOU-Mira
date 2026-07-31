@@ -68,6 +68,7 @@ public static class TownOfUsEventHandlers
     internal static TextMeshPro ModifierText;
     public static TaskPanelBehaviour RolePanel;
     public static SpriteRenderer RoleIconRenderer;
+    public static ExpandedMapNames CurrentMap = (ExpandedMapNames)7;
 
     public static TaskPanelBehaviour? TryGetRoleTab()
     {
@@ -369,6 +370,8 @@ public static class TownOfUsEventHandlers
             }
             return; // Only run when game starts.
         }
+
+        CurrentMap = MiscUtils.GetCurrentMap;
 
         if (FirstDeadPatch.PlayerNames.Count > 0)
         {

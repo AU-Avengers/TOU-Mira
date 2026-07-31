@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Impostor.Venerer;
@@ -44,6 +45,11 @@ public static class PlayerSpeedPatch
         if (pc.TryGetModifier<ChefServedModifier>(out var served) && served.TimerActive)
         {
             __result *= served.SpeedFactor;
+        }
+
+        if (pc.TryGetModifier<BarkeeperSpillEffectModifier>(out var spill))
+        {
+            __result *= spill.Speed;
         }
     }
 }

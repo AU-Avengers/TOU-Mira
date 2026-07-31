@@ -18,6 +18,13 @@ public sealed class SeerOptions : AbstractRoleOptionGroup<SeerRole>
     [ModdedNumberOption("TouOptionSeerUses", 0f, 15f, 1f, MiraNumberSuffixes.None, "0", true)]
     public float MaxCompares { get; set; } = 5f;
 
+    public ModdedToggleOption CanUseMultiplePerRound { get; set; } = new("TouOptionSeerMultiplePerRound", false);
+
+    public ModdedToggleOption CompareEachPlayerOnce { get; set; } = new("TouOptionSeerCompareEachPlayerOnce", false)
+    {
+        Visible = () => OptionGroupSingleton<SeerOptions>.Instance.SalemSeer
+    };
+
     public ModdedToggleOption BenignShowFriendlyToAll { get; set; } = new("TouOptionSeerNeutralBenignFriendly", false)
     {
         Visible = () => OptionGroupSingleton<SeerOptions>.Instance.SalemSeer
