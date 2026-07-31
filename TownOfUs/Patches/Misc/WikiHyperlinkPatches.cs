@@ -54,7 +54,7 @@ public static class WikiHyperLinkPatches
             if (match.Value[0] == '#') // Role tag
             {
                 var role = MiscUtils.AllRegisteredRoles.FirstOrDefault(x =>
-                    x.GetRoleName().Replace(' ', '-').RemoveAll(RemovedCharacters).Equals(key, StringComparison.OrdinalIgnoreCase));
+                    CustomRoleUtils.CanSpawnOnCurrentMode(x) && x.GetRoleName().Replace(' ', '-').RemoveAll(RemovedCharacters).Equals(key, StringComparison.OrdinalIgnoreCase));
                 if (role is ICustomRole customRole)
                 {
                     replacement =
