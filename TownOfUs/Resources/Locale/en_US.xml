@@ -838,6 +838,9 @@
     <string name="TouRoleBarkeeperRoleblocking">Roleblocking</string>
     <string name="TouRoleBarkeeperRoleblockWikiDescription">Drink with a player, roleblocking them for \%blockTime\%s.</string>
     <string name="TouRoleBarkeeperRoleblockWikiDescriptionWithHangover">Drink with a player, roleblocking them for \%blockTime\%s. After the roleblock is finished, they will be hungover for \%overTime\%s</string>
+    <string name="TouRoleBarkeeperSpill">Spill</string>
+    <string name="TouRoleBarkeeperSpilling">Settling</string>
+    <string name="TouRoleBarkeeperSpillWikiDescription">Spill one of your drinks, making anyone who steps in it slide around faster but then slow down temporarily.</string>
     <!-- Barkeeper Options -->
     <string name="TouOptionBarkeeperRoleblockCooldown">Roleblock Cooldown</string>
     <string name="TouOptionBarkeeperRoleblockDelayMin">Minimum Roleblock Delay</string>
