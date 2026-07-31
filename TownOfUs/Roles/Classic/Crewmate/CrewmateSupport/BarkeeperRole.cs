@@ -62,14 +62,14 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     ];
 
     [MethodRpc((uint)TownOfUsRpc.SpillDrink)]
-    public static void RpcSpillDrink(PlayerControl player, Vector2 pos, float zPos)
+    public static void RpcSpillDrink(PlayerControl player, Vector2 pos)
     {
         if (player.Data.Role is not BarkeeperRole)
         {
             MiscUtils.RunAnticheatWarning(player);
             return;
         }
-        DrinkSpillComponent.CreateDrinkSpill(player, new Vector3(pos.x, pos.y, zPos));
+        DrinkSpillComponent.CreateDrinkSpill(player, pos);
     }
 
     [MethodRpc((uint)TownOfUsRpc.Roleblock)]

@@ -2,9 +2,13 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
+using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
 namespace TownOfUs.Modules.Components;
@@ -23,17 +27,35 @@ public sealed class DrinkSpillComponent(nint cppPtr) : MonoBehaviour(cppPtr)
     public void Awake()
     {
         Renderer = gameObject.AddComponent<SpriteRenderer>();
-        Renderer.sprite = TouAssets.CrimeSceneSprite.LoadAsset();
+        Renderer.sprite = TouAssets.BarkeeperDrinkSpill.LoadAsset();
         Renderer.color = new(1, 1, 1, 0);
-        var scale = Renderer.transform.localScale;
-        scale.x *= 0.5f;
-        scale.y *= 0.5f;
-        Renderer.transform.localScale = scale;
-
         Collider = gameObject.AddComponent<BoxCollider2D>();
-        Collider.size = new Vector2(Renderer.size.x, Renderer.size.y);
+        Collider.size = new Vector2(Renderer.size.x / 4f, Renderer.size.y / 4f);
         Collider.isTrigger = true;
         Collider.enabled = true;
+    }
+    private float spillTimer;
+    private float debuffTime;
+    private SpillType SpillType = SpillType.None;
+    private void Update()
+    {
+        if (LocalStage == SpillStage.Hidden)
+        {
+            return;
+        }
+        if (spillTimer > 0f)
+        {
+            spillTimer -= Time.deltaTime;
+            if (SpillType == SpillType.Buff && spillTimer <= debuffTime)
+            {
+                SpillType = SpillType.Debuff;
+            }
+            if (spillTimer <= 0f)
+            {
+                _drinkSpills.Remove(this);
+                Destroy(gameObject);
+            }
+        }
     }
 
     public void FixedUpdate()
@@ -77,7 +99,7 @@ public sealed class DrinkSpillComponent(nint cppPtr) : MonoBehaviour(cppPtr)
         return _affectedPlayers;
     }
 
-    public static void CreateDrinkSpill(PlayerControl barkeeper, Vector3 location)
+    public static void CreateDrinkSpill(PlayerControl barkeeper, Vector2 location)
     {
         location.y -= 0.3f;
         location.x -= 0.11f;
@@ -87,6 +109,9 @@ public sealed class DrinkSpillComponent(nint cppPtr) : MonoBehaviour(cppPtr)
 
         var scene = bloodSplat.AddComponent<DrinkSpillComponent>();
         scene.Barkeeper = barkeeper;
+        var opts = OptionGroupSingleton<BarkeeperOptions>.Instance;
+        scene.debuffTime = opts.SpillCleanUpDuration.Value;
+        scene.spillTimer = opts.SpillCleanUpDuration.Value + opts.SpillBuffDuration.Value;
 
         _drinkSpills.Add(scene);
         Coroutines.Start(scene.CoShowSpill());
@@ -96,6 +121,7 @@ public sealed class DrinkSpillComponent(nint cppPtr) : MonoBehaviour(cppPtr)
     {
         yield return new WaitForSeconds(5f);
         LocalStage = SpillStage.Triggerable;
+        SpillType = SpillType.Buff;
         if (Barkeeper && Barkeeper.AmOwner)
         {
             yield return MiscUtils.FadeIn(Renderer);
@@ -109,8 +135,17 @@ public sealed class DrinkSpillComponent(nint cppPtr) : MonoBehaviour(cppPtr)
         {
             yield return MiscUtils.FadeIn(Renderer);
         }
+
+        var msg = "TouRoleBarkeeperSpillSpeedDebuffNotif";
+        var isBuff = false;
+        if (SpillType is SpillType.Buff)
+        {
+            isBuff = true;
+            msg = "TouRoleBarkeeperSpillSpeedBuffNotif";
+        }
+        PlayerControl.LocalPlayer.RpcAddModifier<BarkeeperSpillEffectModifier>(isBuff);
         var notif = Helpers.CreateAndShowNotification(
-            $"<b>You feel a slippery spill beneath you. You've got a speed boost!</b>",
+            $"<b>{TouLocale.GetParsed(msg)}</b>",
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper.LoadAsset());
         notif.Text.SetOutlineThickness(0.35f);
     }
@@ -134,4 +169,11 @@ public enum SpillStage
     Hidden,
     Triggerable,
     Shown
+}
+
+public enum SpillType
+{
+    Buff,
+    Debuff,
+    None
 }

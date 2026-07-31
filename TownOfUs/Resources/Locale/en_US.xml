@@ -366,6 +366,7 @@
   <string name="SpectatorCommandList">spec:spectate</string>
   <string name="SpectatorLobbyError">You cannot toggle spectating outside the lobby!</string>
   <string name="SpectatorStartError">You cannot toggle spectator mode while the game is starting!</string>
+    <string name="SpectatorDraftError">You cannot toggle spectator mode while draft is ongoing!</string>
   <string name="SpectatorToggleOn">Set yourself as a spectator!</string>
   <string name="SpectatorToggleOff">You are no longer a spectator!</string>
   <string name="SpectatorHostError">The host has disabled /spec!</string>
@@ -840,11 +841,20 @@
     <string name="TouRoleBarkeeperRoleblockWikiDescriptionWithHangover">Drink with a player, roleblocking them for \%blockTime\%s. After the roleblock is finished, they will be hungover for \%overTime\%s</string>
     <string name="TouRoleBarkeeperSpill">Spill</string>
     <string name="TouRoleBarkeeperSpilling">Settling</string>
-    <string name="TouRoleBarkeeperSpillWikiDescription">Spill one of your drinks, making anyone who steps in it slide around faster but then slow down temporarily.</string>
+    <string name="TouRoleBarkeeperSpillWikiDescription">Spill one of your drinks, making anyone speed up if it's recently been spilled or make others slow down if it's old enough. This will only trigger once for each player.</string>
+    <string name="TouRoleBarkeeperSpillSpeedBuffNotif">You feel a slippery spill beneath you. You've got a speed boost!</string>
+    <string name="TouRoleBarkeeperSpillSpeedDebuffNotif">You feel an old spill beneath you. You feel slower than usual.</string>
     <!-- Barkeeper Options -->
     <string name="TouOptionBarkeeperRoleblockCooldown">Roleblock Cooldown</string>
     <string name="TouOptionBarkeeperRoleblockDelayMin">Minimum Roleblock Delay</string>
     <string name="TouOptionBarkeeperRoleblockDelayMax">Maximum Roleblock Delay</string>
+    <string name="TouOptionBarkeeperRoleblockDelaySummarized">Roleblock Delay: \%min\%s - \%max\%s</string>
+    <string name="TouOptionBarkeeperSpillDelay">Spill Settle Delay</string>
+    <string name="TouOptionBarkeeperSpillEffectDuration">Amount of Time Player is Affected By Spill</string>
+    <string name="TouOptionBarkeeperSpillBuffDuration">Time Before Spill Slows Players Down</string>
+    <string name="TouOptionBarkeeperSpillCleanUpDuration">Additional Time For Spill To Be Removed</string>
+    <string name="TouOptionBarkeeperSpillEffectBuffMultiplier">Spill Speed Buff Multiplier</string>
+    <string name="TouOptionBarkeeperSpillEffectDebuffMultiplier">Spill Speed Debuff Multiplier</string>
   <!-- Engineer - Crewmate Support -->
   <!-- Engineer Wiki / Abilities -->
   <string name="TouRoleEngineer">Engineer</string>

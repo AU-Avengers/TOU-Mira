@@ -13,7 +13,7 @@ public sealed class BarkeeperSpillButton : TownOfUsRoleButton<BarkeeperRole>
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Barkeeper;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<BarkeeperOptions>.Instance.RoleblockCooldown.Value + MapCooldown, 5f, 120f);
-    public override float EffectDuration => 5f;
+    public override float EffectDuration => OptionGroupSingleton<BarkeeperOptions>.Instance.SpillDelay.Value;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.CleanseSprite;
 
     public LobbyNotificationMessage? NotifMessage;
@@ -26,7 +26,7 @@ public sealed class BarkeeperSpillButton : TownOfUsRoleButton<BarkeeperRole>
         NotifMessage.Text.SetOutlineThickness(0.35f);
         CustomButtonSingleton<BarkeeperRoleblockButton>.Instance.ResetCooldownAndOrEffect();
         var pos = PlayerControl.LocalPlayer.transform.position;
-        BarkeeperRole.RpcSpillDrink(PlayerControl.LocalPlayer, new Vector2(pos.x, pos.y), pos.z);
+        BarkeeperRole.RpcSpillDrink(PlayerControl.LocalPlayer, new Vector2(pos.x, pos.y));
     }
 
     public override void OnEffectEnd()
