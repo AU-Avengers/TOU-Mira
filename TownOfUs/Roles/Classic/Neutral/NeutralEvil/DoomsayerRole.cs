@@ -493,7 +493,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                         }
                         else
                         {
-                            Player.RpcMeetingMurder(victim, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
+                            Player.RpcMeetingMurder(victim2, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
                                 causeOfDeath: "Doomsayer");
                         }
                     }
