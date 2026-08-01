@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.Modifiers;
 using PerfectComms.Api;
 using Reactor.Networking.Attributes;
@@ -37,6 +38,10 @@ internal static class PerfectCommsIntegration
     private const uint SetJaileeVoiceAllowedRpc = 0x50430001;
     private const float JailVoiceMaintenanceSeconds = 0.25f;
     private const float JailVoiceHeartbeatSeconds = 2f;
+    private const float JailVoiceHitboxMinimumWidth = 0.55f;
+    private const float JailVoiceHitboxMinimumHeight = 0.45f;
+    private const float JailVoiceHitboxHorizontalPadding = 0.08f;
+    private const float JailVoiceHitboxVerticalPadding = 0.06f;
 
     private static readonly HashSet<byte> MeetingBlackmailedPlayers = [];
     private static readonly HashSet<byte> NextRoundBlackmailedPlayers = [];
@@ -272,6 +277,7 @@ internal static class PerfectCommsIntegration
         label.text = TouLocale.Get("TouRoleJailorAllowVoice", "Allow Voice");
 
         var passive = buttonObject.GetComponent<PassiveButton>();
+        ConfigureJailVoiceButtonHitbox(buttonObject, passive, renderer);
         passive.OnClick = new Button.ButtonClickedEvent();
         passive.OnClick.AddListener((Action)(() =>
         {
@@ -292,6 +298,71 @@ internal static class PerfectCommsIntegration
         }));
 
         JailVoiceButtons[jailor.PlayerId] = buttonObject;
+    }
+
+    private static void ConfigureJailVoiceButtonHitbox(
+        GameObject buttonObject,
+        PassiveButton passive,
+        SpriteRenderer renderer)
+    {
+        const string hitboxName = "JailVoiceButtonHitbox";
+        var hitboxTransform = buttonObject.transform.Find(hitboxName);
+        GameObject hitboxObject;
+        BoxCollider2D hitbox;
+
+        if (hitboxTransform == null)
+        {
+            hitboxObject = new GameObject(hitboxName);
+            hitboxTransform = hitboxObject.transform;
+            hitboxTransform.SetParent(buttonObject.transform, false);
+            hitbox = hitboxObject.AddComponent<BoxCollider2D>();
+        }
+        else
+        {
+            hitboxObject = hitboxTransform.gameObject;
+            hitbox = hitboxObject.GetComponent<BoxCollider2D>() ??
+                     hitboxObject.AddComponent<BoxCollider2D>();
+        }
+
+        hitboxObject.layer = buttonObject.layer;
+        hitboxObject.SetActive(true);
+        hitboxTransform.localPosition = Vector3.zero;
+        hitboxTransform.localRotation = Quaternion.identity;
+        hitboxTransform.localScale = Vector3.one;
+
+        var size = new Vector2(
+            JailVoiceHitboxMinimumWidth,
+            JailVoiceHitboxMinimumHeight);
+        if (renderer.sprite != null)
+        {
+            var spriteSize = renderer.sprite.bounds.size;
+            size.x = Mathf.Max(
+                JailVoiceHitboxMinimumWidth,
+                spriteSize.x + JailVoiceHitboxHorizontalPadding * 2f);
+            size.y = Mathf.Max(
+                JailVoiceHitboxMinimumHeight,
+                spriteSize.y + JailVoiceHitboxVerticalPadding * 2f);
+        }
+
+        hitbox.offset = Vector2.zero;
+        hitbox.size = size;
+        hitbox.isTrigger = true;
+
+        var colliders = buttonObject.GetComponentsInChildren<Collider2D>(true);
+        for (var index = 0; index < colliders.Length; index++)
+        {
+            if (colliders[index] != hitbox)
+            {
+                colliders[index].enabled = false;
+            }
+        }
+
+        hitbox.enabled = true;
+        passive.ClickMask = hitbox;
+        var authoritativeColliders = new Il2CppReferenceArray<Collider2D>(1);
+        authoritativeColliders[0] = hitbox;
+        passive.Colliders = authoritativeColliders;
+        passive.CachedZ = buttonObject.transform.position.z;
     }
 
     private static Sprite LoadJailVoiceSprite()
