@@ -55,7 +55,7 @@ internal static class PerfectCommsIntegration
     private static bool _muteBlackmailedNextRound;
 
     internal static bool Registered { get; private set; }
-    internal static bool JailorCanUnmuteJailed { get; set; }
+    internal static bool JailVoiceControlEnabled { get; private set; }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
     internal static void TryRegister()
@@ -77,13 +77,13 @@ internal static class PerfectCommsIntegration
     internal static void MarkRegistered()
     {
         Registered = true;
-        JailorCanUnmuteJailed = false;
+        JailVoiceControlEnabled = false;
     }
 
     internal static void Reset()
     {
         Registered = false;
-        JailorCanUnmuteJailed = false;
+        JailVoiceControlEnabled = false;
         MeetingBlackmailedPlayers.Clear();
         NextRoundBlackmailedPlayers.Clear();
         JailVoiceAllowedPlayers.Clear();
@@ -93,6 +93,11 @@ internal static class PerfectCommsIntegration
         _nextJailVoiceHeartbeatTime = 0f;
         ClearAllJailVoiceButtons();
         ScratchPlayerIds.Clear();
+    }
+
+    internal static void UpdateJailVoiceOptions(bool muteJailed, bool canUnmute)
+    {
+        JailVoiceControlEnabled = muteJailed && canUnmute;
     }
 
     internal static void UpdateBlackmailOptions(bool muteInMeetings, bool muteNextRound)
@@ -152,7 +157,8 @@ internal static class PerfectCommsIntegration
     {
         // The source-owned control is deliberately one-way. A forged or stale re-mute cannot
         // silence someone the Jailor already allowed to speak.
-        if (!allowed || jailor?.Data?.Role is not JailorRole || jailor.HasDied())
+        if (!JailVoiceControlEnabled || !allowed ||
+            jailor?.Data?.Role is not JailorRole || jailor.HasDied())
         {
             return;
         }
@@ -171,11 +177,10 @@ internal static class PerfectCommsIntegration
         PlayerControl local,
         bool deliberation,
         bool muteJailed,
-        bool canUnmute,
-        bool jailPersistsAfterJailorDeath)
+        bool canUnmute)
     {
-        JailorCanUnmuteJailed = canUnmute;
-        if (!deliberation || !muteJailed || !canUnmute)
+        UpdateJailVoiceOptions(muteJailed, canUnmute);
+        if (!deliberation || !JailVoiceControlEnabled)
         {
             JailVoiceAllowedPlayers.Clear();
             ClearAllJailVoiceButtons();
@@ -191,7 +196,7 @@ internal static class PerfectCommsIntegration
                 var jailee = MiscUtils.PlayerById(jaileeId);
                 var jail = jailee?.GetModifier<JailedModifier>();
                 if (jailee == null || jailee.HasDied() || jail == null ||
-                    (!jailPersistsAfterJailorDeath && !IsLivingJailor(jail.JailorId)))
+                    !IsLivingJailor(jail.JailorId))
                 {
                     ScratchPlayerIds.Add(jaileeId);
                 }
@@ -231,7 +236,7 @@ internal static class PerfectCommsIntegration
         var jailor = jailorRole.Player;
         var jailee = jailorRole.Jailed;
         var meeting = MeetingHud.Instance;
-        if (!Registered || !JailorCanUnmuteJailed || meeting == null ||
+        if (!Registered || !JailVoiceControlEnabled || meeting == null ||
             !jailor.AmOwner || jailor.HasDied() || jailee == null || jailee.HasDied() ||
             IsJailVoiceAllowed(jailee.PlayerId))
         {
@@ -281,7 +286,7 @@ internal static class PerfectCommsIntegration
         passive.OnClick = new Button.ButtonClickedEvent();
         passive.OnClick.AddListener((Action)(() =>
         {
-            if (!Registered || !JailorCanUnmuteJailed || jailor.HasDied() || jailee.HasDied())
+            if (!Registered || !JailVoiceControlEnabled || jailor.HasDied() || jailee.HasDied())
             {
                 return;
             }
@@ -680,7 +685,6 @@ internal static class PerfectCommsRuntime
     {
         bool deliberation = context.Phase is VoicePhaseKind.Meeting or VoicePhaseKind.Exile;
         bool liveGame = context.Phase is VoicePhaseKind.Tasks or VoicePhaseKind.Meeting or VoicePhaseKind.Exile;
-        PerfectCommsIntegration.JailorCanUnmuteJailed = context.GetOption(JailorCanUnmuteJailed);
         bool muteBlackmailedInMeetings = context.GetOption(MuteBlackmailedInMeetings);
         bool muteBlackmailedNextRound = context.GetOption(MuteBlackmailedNextRound);
         PerfectCommsIntegration.UpdateBlackmailOptions(
@@ -688,6 +692,9 @@ internal static class PerfectCommsRuntime
             muteBlackmailedNextRound);
         bool muteJailedInMeetings = context.GetOption(MuteJailedInMeetings);
         bool jailorCanUnmuteJailed = context.GetOption(JailorCanUnmuteJailed);
+        PerfectCommsIntegration.UpdateJailVoiceOptions(
+            muteJailedInMeetings,
+            jailorCanUnmuteJailed);
         bool jailPersistsAfterJailorDeath = context.GetOption(JailPersistsAfterJailorDeath);
         if (context.IsLocal)
         {
@@ -695,8 +702,7 @@ internal static class PerfectCommsRuntime
                 context.Player,
                 deliberation,
                 muteJailedInMeetings,
-                jailorCanUnmuteJailed,
-                jailPersistsAfterJailorDeath);
+                jailorCanUnmuteJailed);
         }
 
         if (context.IsDead)
@@ -761,7 +767,9 @@ internal static class PerfectCommsRuntime
 
     private static void ObservePhase(VoicePhaseChangedContext context)
     {
-        PerfectCommsIntegration.JailorCanUnmuteJailed = context.GetOption(JailorCanUnmuteJailed);
+        PerfectCommsIntegration.UpdateJailVoiceOptions(
+            context.GetOption(MuteJailedInMeetings),
+            context.GetOption(JailorCanUnmuteJailed));
         bool muteBlackmailedInMeetings = context.GetOption(MuteBlackmailedInMeetings);
         bool muteBlackmailedNextRound = context.GetOption(MuteBlackmailedNextRound);
         PerfectCommsIntegration.UpdateBlackmailOptions(
@@ -917,7 +925,7 @@ internal static class PerfectCommsRuntime
 
     private static VoiceOverlayViewerResult ResolveOverlayViewer(VoiceOverlayViewerContext context)
     {
-        if (context.Phase == VoicePhaseKind.Lobby)
+        if (context.Phase != VoicePhaseKind.Tasks)
         {
             return VoiceOverlayViewerResult.Pass;
         }
@@ -949,7 +957,7 @@ internal static class PerfectCommsRuntime
 
     private static VoiceOverlaySpeakerResult ResolveOverlaySpeaker(VoiceOverlaySpeakerContext context)
     {
-        if (context.Phase == VoicePhaseKind.Lobby)
+        if (context.Phase != VoicePhaseKind.Tasks)
         {
             return VoiceOverlaySpeakerResult.Pass;
         }
