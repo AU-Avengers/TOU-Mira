@@ -529,6 +529,8 @@ internal static class PerfectCommsRuntime
     private static readonly object MediumDirectionMuted = VoicePairResult.Mute("Medium direction disabled");
     private static readonly object NonSelectedGhostMuted = VoicePairResult.Mute("Non-selected ghost");
     private static readonly object ListenerMuffled = new VoiceListenerFilterResult(true);
+    private static readonly object ListenerSightObscured =
+        new VoiceListenerFilterResult(false) { SightObscured = true };
     private static readonly object ListenerMuffledAndSightObscured =
         new VoiceListenerFilterResult(true) { SightObscured = true };
     private static readonly object ListenerNormal = new VoiceListenerFilterResult(false);
@@ -616,10 +618,10 @@ internal static class PerfectCommsRuntime
             "Prevents an invisible Swooper from transmitting voice until the swoop ends.");
         RegisterToggle(MuffleBlindedOrFlashedHearing,
             "<color=#FF0000><b>Eclipsal/Grenadier</b></color>: Muffle Blinded/Flashed Hearing", true,
-            "Muffles incoming voice only for players currently blinded by Eclipsal or flashed by Grenadier.");
+            "Muffles incoming voice during tasks for players currently blinded by Eclipsal or flashed by Grenadier.");
         RegisterToggle(MuffleHypnotizedDuringHysteria,
             "<color=#FF0000><b>Hypnotist</b></color>: Muffle Hypnotized During Hysteria", true,
-            "Muffles incoming voice only for affected hypnotized players while Mass Hysteria is active.");
+            "Muffles incoming voice during tasks for affected hypnotized players while Mass Hysteria is active.");
         RegisterToggle(CrewpostorUsesImpostorVoice,
             "<color=#FF0000><b>Crewpostor</b></color>: Use Impostor Voice", true,
             "Treats Crewpostor as an impostor for private impostor voice and team-radio routing.");
@@ -827,20 +829,29 @@ internal static class PerfectCommsRuntime
 
     private static VoiceListenerFilterResult ResolveListenerFilter(VoiceListenerContext context)
     {
-        bool blinded =
-            context.Phase == VoicePhaseKind.Tasks &&
-            context.GetOption(MuffleBlindedOrFlashedHearing) &&
-            (context.Listener.HasModifier<EclipsalBlindModifier>() ||
-             context.Listener.HasModifier<GrenadierFlashModifier>());
-        bool hypnotized =
-            context.GetOption(MuffleHypnotizedDuringHysteria) &&
-            context.Listener.GetModifier<HypnotisedModifier>()?.HysteriaActive == true;
-        if (blinded)
+        if (context.Phase != VoicePhaseKind.Tasks)
         {
-            return (VoiceListenerFilterResult)ListenerMuffledAndSightObscured;
+            return (VoiceListenerFilterResult)ListenerNormal;
         }
-        return (VoiceListenerFilterResult)(hypnotized ? ListenerMuffled : ListenerNormal);
+
+        bool sightObscured =
+            context.Listener.HasModifier<EclipsalBlindModifier>() ||
+            context.Listener.HasModifier<GrenadierFlashModifier>();
+        bool muffled =
+            (sightObscured && context.GetOption(MuffleBlindedOrFlashedHearing)) ||
+            (context.GetOption(MuffleHypnotizedDuringHysteria) &&
+             context.Listener.GetModifier<HypnotisedModifier>()?.HysteriaActive == true);
+        if (muffled)
+        {
+            return (VoiceListenerFilterResult)(sightObscured
+                ? ListenerMuffledAndSightObscured
+                : ListenerMuffled);
+        }
+        return (VoiceListenerFilterResult)(sightObscured
+            ? ListenerSightObscured
+            : ListenerNormal);
     }
+
 
     private static VoicePlayerTraits ResolvePlayerTraits(VoiceRuleContext context)
         => context.GetOption(CrewpostorUsesImpostorVoice) && context.Player.HasModifier<CrewpostorModifier>()
