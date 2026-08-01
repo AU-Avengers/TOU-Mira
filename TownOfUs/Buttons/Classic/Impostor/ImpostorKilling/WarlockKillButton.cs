@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using MiraAPI.GameOptions;
+﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;

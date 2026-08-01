@@ -12,29 +12,50 @@ namespace TownOfUs.Buttons.Impostor;
 public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRole, PlayerControl>
 {
     private static string _normalRb => TouLocale.Get("TouRoleBarkeeperRoleblock");
-    private static string _sickRb => TouLocale.Get("TouRoleBootleggerSicken");
-    private static string _poisRb => TouLocale.Get("TouRoleBootleggerPoison");
     private static string _normalRbStart => TouLocale.GetParsed("TouRoleBarkeeperRoleblocking");
+    private static Sprite _normalRbSprite => TouImpAssets.DrinkRoleblockSprite.LoadAsset();
+    private static string _sickRb => TouLocale.Get("TouRoleBootleggerSicken");
     private static string _sickRbStart => TouLocale.Get("TouRoleBootleggerSickening");
+    private static Sprite _sickRbSprite => TouImpAssets.DrinkSickenSprite.LoadAsset();
+    private static string _poisRb => TouLocale.Get("TouRoleBootleggerPoison");
     private static string _poisRbStart => TouLocale.Get("TouRoleBootleggerPoisoning");
+    private static Sprite _poisRbSprite => TouImpAssets.DrinkPoisonSprite.LoadAsset();
 
-    private static string GetRbTitle(PlayerControl? player)
+    private static void GetRb(PlayerControl? player, out Sprite sprite, out string text)
     {
-        if (player == null || !player.TryGetModifier<BootleggerPoisonModifier>(out var mod)) return _normalRb;
-        if (mod.Poison == PoisonProgress.Begun)
+        if (player == null || !player.TryGetModifier<BootleggerPoisonModifier>(out var mod))
         {
-                return _sickRb;
+            text = _normalRb;
+            sprite = _normalRbSprite;
         }
-        return _poisRb;
+        else if (mod.Poison == PoisonProgress.Begun)
+        {
+            text = _sickRb;
+            sprite = _sickRbSprite;
+        }
+        else
+        {
+            text = _poisRb;
+            sprite = _poisRbSprite;
+        }
     }
-    private static string GetRbStartTitle(PlayerControl player)
+    private static void GetRbStart(PlayerControl player, out Sprite sprite, out string text)
     {
-        if (!player.TryGetModifier<BootleggerPoisonModifier>(out var mod)) return _normalRbStart;
-        if (mod.Poison == PoisonProgress.Begun)
+        if (!player.TryGetModifier<BootleggerPoisonModifier>(out var mod))
         {
-            return _sickRbStart;
+            text = _normalRbStart;
+            sprite = _normalRbSprite;
         }
-        return _poisRbStart;
+        else if (mod.Poison == PoisonProgress.Begun)
+        {
+            text = _sickRbStart;
+            sprite = _sickRbSprite;
+        }
+        else
+        {
+            text = _poisRbStart;
+            sprite = _poisRbSprite;
+        }
     }
     public override string Name => _normalRb;
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -43,7 +64,7 @@ public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRol
     public override float EffectDuration => SelectedDuration;
 
     public float SelectedDuration = 0.001f;
-    public override LoadableAsset<Sprite> Sprite => TouImpAssets.SampleSprite;
+    public override LoadableAsset<Sprite> Sprite => TouImpAssets.DrinkRoleblockSprite;
     private PlayerControl? _roleblockedTarget;
 
     public override PlayerControl? GetTarget()
@@ -51,7 +72,9 @@ public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRol
         var target = PlayerControl.LocalPlayer.GetClosestLivingPlayer(false, Distance);
         if (!EffectActive)
         {
-            OverrideName(GetRbTitle(target));
+            GetRb(target, out var sprite, out var text);
+            OverrideName(text);
+            OverrideSprite(sprite);
         }
 
         return target;
@@ -75,7 +98,9 @@ public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRol
             return;
         }
 
-        OverrideName(GetRbStartTitle(Target));
+        GetRbStart(Target, out var sprite, out var text);
+        OverrideName(text);
+        OverrideSprite(sprite);
 
         _roleblockedTarget = Target;
 

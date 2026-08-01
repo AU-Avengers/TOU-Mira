@@ -16,7 +16,7 @@ public sealed class BarkeeperRoleblockButton : TownOfUsRoleButton<BarkeeperRole,
     public override float EffectDuration => SelectedDuration;
 
     public float SelectedDuration = 0.001f;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.CleanseSprite;
+    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.RoleblockSprite;
     private PlayerControl? _roleblockedTarget;
 
     public override PlayerControl? GetTarget()
