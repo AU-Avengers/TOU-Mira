@@ -107,6 +107,12 @@ public static class TouCrewAssets
     public static LoadableAsset<Sprite> CampaignButtonSprite { get; } =
         new LoadableBundleAsset<Sprite>("CampaignButton", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> RoleblockSprite { get; } =
+        new LoadableBundleAsset<Sprite>("BeerRoleblockButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> SpillSprite { get; } =
+        new LoadableBundleAsset<Sprite>("BeerSpillButton", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> FlushSprite { get; } =
         new LoadableBundleAsset<Sprite>("FlushButton", TouAssets.MainBundle);
 

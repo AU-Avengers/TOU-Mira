@@ -1,11 +1,12 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using TownOfUs.Interfaces;
 using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class BarkeeperOptions : AbstractRoleOptionGroup<BarkeeperRole>
+public sealed class BarkeeperOptions : AbstractRoleOptionGroup<BarkeeperRole>, IWikiOptionsSummaryProvider
 {
     public override string GroupName => "Barkeeper";
 
@@ -35,4 +36,29 @@ public sealed class BarkeeperOptions : AbstractRoleOptionGroup<BarkeeperRole>
 
     public ModdedNumberOption SpillEffectDebuffMultiplier { get; } =
         new("TouOptionBarkeeperSpillEffectDebuffMultiplier", 0.8f, 0.25f, 0.95f, 0.05f, MiraNumberSuffixes.Multiplier);
+
+    public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
+        new HashSet<StringNames>
+        {
+            RoleblockDelayMin.StringName,
+            RoleblockDelayMax.StringName,
+            SpillEffectDuration.StringName,
+            SpillEffectBuffMultiplier.StringName,
+            SpillEffectDebuffMultiplier.StringName,
+        };
+
+    public IEnumerable<string> GetWikiOptionSummaryLines()
+    {
+        string[] array =
+        [
+            TouLocale.GetParsed("TouOptionBarkeeperRoleblockDelaySummarized")
+                .Replace("<min>", RoleblockDelayMin.Value.ToString(TownOfUsPlugin.Culture)).Replace("<max>",
+                    RoleblockDelayMax.Value.ToString(TownOfUsPlugin.Culture)),
+            TouLocale.GetParsed("TouOptionBarkeeperSpillDurationOptionsSummarized")
+                .Replace("<duration>", SpillEffectDuration.Value.ToString(TownOfUsPlugin.Culture)).Replace("<fast>",
+                    SpillEffectBuffMultiplier.Value.ToString(TownOfUsPlugin.Culture)).Replace("<slow>",
+                    SpillEffectDebuffMultiplier.Value.ToString(TownOfUsPlugin.Culture))
+        ];
+        return array;
+    }
 }

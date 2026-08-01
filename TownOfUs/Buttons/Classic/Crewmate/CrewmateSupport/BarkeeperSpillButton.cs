@@ -14,7 +14,7 @@ public sealed class BarkeeperSpillButton : TownOfUsRoleButton<BarkeeperRole>
     public override Color TextOutlineColor => TownOfUsColors.Barkeeper;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<BarkeeperOptions>.Instance.RoleblockCooldown.Value + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<BarkeeperOptions>.Instance.SpillDelay.Value;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.CleanseSprite;
+    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.SpillSprite;
 
     public LobbyNotificationMessage? NotifMessage;
     protected override void OnClick()

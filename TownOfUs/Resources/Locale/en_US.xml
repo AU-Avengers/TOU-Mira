@@ -834,7 +834,7 @@
     <string name="TouRoleBarkeeper">Barkeeper</string>
     <string name="TouRoleBarkeeperIntroBlurb">Roleblock Evildoers to slow them down</string>
     <string name="TouRoleBarkeeperTabDescription">Roleblock Evildoers to disable their abilities for \%blockTime\%s.</string>
-    <string name="TouRoleBarkeeperWikiDescription">The Barkeeper is a Crewmate Support role that can drink with others to roleblock them.</string>
+    <string name="TouRoleBarkeeperWikiDescription">The Barkeeper is a Crewmate Support role that can drink with others to roleblock them. They may also spill a drink to speed or slow down players.</string>
     <string name="TouRoleBarkeeperRoleblock">Roleblock</string>
     <string name="TouRoleBarkeeperRoleblocking">Roleblocking</string>
     <string name="TouRoleBarkeeperRoleblockWikiDescription">Drink with a player, roleblocking them for \%blockTime\%s.</string>
@@ -855,6 +855,7 @@
     <string name="TouOptionBarkeeperSpillCleanUpDuration">Additional Time For Spill To Be Removed</string>
     <string name="TouOptionBarkeeperSpillEffectBuffMultiplier">Spill Speed Buff Multiplier</string>
     <string name="TouOptionBarkeeperSpillEffectDebuffMultiplier">Spill Speed Debuff Multiplier</string>
+    <string name="TouOptionBarkeeperSpillDurationOptionsSummarized">Spill Speed Duration: \%duration\%s | Buff: \%fast\%x, Debuff: \%slow\%x</string>
   <!-- Engineer - Crewmate Support -->
   <!-- Engineer Wiki / Abilities -->
   <string name="TouRoleEngineer">Engineer</string>
