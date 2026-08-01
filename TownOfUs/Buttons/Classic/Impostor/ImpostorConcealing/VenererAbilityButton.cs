@@ -96,7 +96,7 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
             PlayerControl.LocalPlayer.RpcRemoveModifier(mod.UniqueId);
         }
 
-        UpdateButton(_queuedAbility);
+        UpdateButton(_queuedAbility != VenererAbility.None ? _queuedAbility : ActiveAbility);
         _queuedAbility = VenererAbility.None;
     }
 

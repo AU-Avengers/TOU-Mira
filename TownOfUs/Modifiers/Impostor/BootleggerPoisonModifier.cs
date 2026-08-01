@@ -55,7 +55,7 @@ public sealed class BootleggerPoisonModifier(PlayerControl bootlegger) : TimedMo
             }
             else
             {
-                Bootlegger.RpcSpecialMurder(Player, MeetingCheck.OutsideMeeting, true, true, teleportMurderer: false, causeOfDeath: "Poison");
+                Bootlegger.RpcSpecialMurder(Player, MeetingCheck.OutsideMeeting, true, true, resetKillTimer: false, teleportMurderer: false, causeOfDeath: "Poison");
             }
         }
         base.OnDeactivate();

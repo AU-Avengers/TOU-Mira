@@ -178,6 +178,7 @@ namespace TownOfUs.Modules.DraftMode
             return (maxImps, maxNeuts);
         }
 
+        [HideFromIl2Cpp]
         private HashSet<string> GetAvoidNamesForTurn(int excludeSlot, bool ignoreConcurrentOffers = false, bool ignoreForce = false)
         {
             var avoid = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -349,6 +350,7 @@ namespace TownOfUs.Modules.DraftMode
             return avoid;
         }
 
+        [HideFromIl2Cpp]
         private List<string> GenerateOffersForSlot(int slot, ICollection<string> extraAvoid = null!)
         {
             var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;

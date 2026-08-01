@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using MiraAPI.GameOptions;
+﻿using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Networking;
-using Reactor.Utilities;
+using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Alliance;
@@ -29,6 +29,24 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
     public float Charge { get; set; }
     public bool BurstActive { get; set; }
     public int Kills { get; set; }
+    public List<PlayerControl> MarkedPlayers = [];
+
+    public void MarkPlayerForDeath(PlayerControl player)
+    {
+        Error($"Marked {player.CachedPlayerData.PlayerName} for death!");
+        MarkedPlayers.Add(player);
+        player.AddModifier<WarlockMarkedModifier>();
+    }
+
+    public void ResetMarkedPlayers()
+    {
+        Warning("Marked Players are reset!");
+        MarkedPlayers.Clear();
+        foreach (var mod in ModifierUtils.GetActiveModifiers<WarlockMarkedModifier>().ToList())
+        {
+            mod.Player.RemoveModifier(mod);
+        }
+    }
 
     public void SetDiseasedTimer(float multiplier)
     {
@@ -57,6 +75,7 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
                 Charge = 0;
                 BurstActive = false;
                 SetTimer(Cooldown);
+                ResetMarkedPlayers();
             }
         }
         else
@@ -110,21 +129,20 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
             return;
         }
 
-        if (!Target.Data.IsDead && !MarkedTargets.Contains(Target))
+        if (!Target.Data.IsDead && !MarkedPlayers.Contains(Target))
         {
+            if (BurstActive || Charge > 99f)
+            {
+                MarkPlayerForDeath(Target);
+            }
             PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
         }
-
-        Coroutines.Start(CoMarkForDeath(Target));
     }
 
-    public List<PlayerControl> MarkedTargets = [];
-
-    public IEnumerator CoMarkForDeath(PlayerControl player)
+    public override void ResetCooldownAndOrEffect()
     {
-        MarkedTargets.Add(player);
-        yield return new WaitForSeconds(1f);
-        MarkedTargets.Remove(player);
+        ResetMarkedPlayers();
+        base.ResetCooldownAndOrEffect();
     }
 
     public override void ClickHandler()
@@ -153,10 +171,10 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
         if (!OptionGroupSingleton<LoversOptions>.Instance.LoversKillEachOther && PlayerControl.LocalPlayer.IsLover())
         {
             return PlayerControl.LocalPlayer.GetClosestLivingPlayer(includePostors, Distance, false,
-                x => !MarkedTargets.Contains(x) && !x.IsLover());
+                x => !MarkedPlayers.Contains(x) && !x.IsLover());
         }
 
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(includePostors, Distance, false,
-            x => !MarkedTargets.Contains(x));
+            x => !MarkedPlayers.Contains(x));
     }
 }

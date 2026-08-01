@@ -1,11 +1,12 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using TownOfUs.Interfaces;
 using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class BootleggerOptions : AbstractRoleOptionGroup<BootleggerRole>
+public sealed class BootleggerOptions : AbstractRoleOptionGroup<BootleggerRole>, IWikiOptionsSummaryProvider
 {
     public override string GroupName => "Bootlegger";
 
@@ -26,6 +27,22 @@ public sealed class BootleggerOptions : AbstractRoleOptionGroup<BootleggerRole>
         {
             Visible = () => (PoisonTrigger)OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger.Value is PoisonTrigger.OnDurationEnd
         };
+
+    public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
+        new HashSet<StringNames>
+        {
+            RoleblockDelayMin.StringName,
+            RoleblockDelayMax.StringName,
+        };
+
+    public IEnumerable<string> GetWikiOptionSummaryLines()
+    {
+        string[] array =
+        [
+            TouLocale.GetParsed("TouOptionBarkeeperRoleblockDelaySummarized").Replace("<min>", RoleblockDelayMin.Value.ToString(TownOfUsPlugin.Culture)).Replace("<max>", RoleblockDelayMax.Value.ToString(TownOfUsPlugin.Culture))
+        ];
+        return array;
+    }
 }
 
 public enum PoisonTrigger

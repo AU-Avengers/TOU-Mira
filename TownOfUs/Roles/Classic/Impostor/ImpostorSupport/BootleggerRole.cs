@@ -49,6 +49,6 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                 : TouLocale.GetParsed("TouRoleBarkeeperRoleblockWikiDescription")).Replace("<blockTime>",
                 OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value
                     .ToString(TownOfUsPlugin.Culture)),
-            TouImpAssets.SampleSprite)
+            TouImpAssets.DrinkPoisonSprite)
     ];
 }

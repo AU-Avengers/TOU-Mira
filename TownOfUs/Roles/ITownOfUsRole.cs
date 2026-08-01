@@ -18,6 +18,7 @@ public interface ITownOfUsRole : ICustomRole
     public bool IsDraftable => true; 
     public static Dictionary<string, string> LocaleList => [];
 
+    [HideFromIl2Cpp]
     public virtual bool CanModifierContinueGame(BaseModifier modifier)
     {
         return false;

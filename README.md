@@ -53,10 +53,11 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 -----------------------
 
 <p align="center">
+  <img src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Groups/CrewAfterlife.png" align="center" />
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/afterlife/Haunter"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Haunter.png" /></a>
   <img src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Groups/CrewInvest.png" align="center" />
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Aurial"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Aurial.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Forensic"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Forensic.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/afterlife/Haunter"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Haunter.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Investigator"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Investigator.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Lookout"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Lookout.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Medium"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Medium.png" /></a>
@@ -69,6 +70,7 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
   <img src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Groups/CrewKilling.png" />
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/killing/Deputy"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Deputy.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/killing/Hunter"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Hunter.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/killing/Officer"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Officer.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/killing/Sheriff"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Sheriff.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/killing/Veteran"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Veteran.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/killing/Vigilante"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Vigilante.png" /></a>
@@ -88,6 +90,7 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/protective/Oracle"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Oracle.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/protective/Warden"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Warden.png" /></a>
   <img src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Groups/CrewSupport.png" />
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/support/Barkeeper"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Barkeeper.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/support/Engineer"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Engineer.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/support/Imitator"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Imitator.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/support/Plumber"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Plumber.png" /></a>
@@ -114,11 +117,14 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Traitor"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Traitor.png" /></a>
   <img src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Groups/ImpSupport.png" />
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Blackmailer"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Blackmailer.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Bootlegger"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Bootlegger.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Hypnotist"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Hypnotist.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Janitor"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Janitor.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Miner"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Miner.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Undertaker"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Undertaker.png" /></a>
 
+  <img src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Groups/NeutAfterlife.png" />
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/afterlife/Spectre"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Spectre.png" /></a>
   <img src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Groups/NeutBenign.png" />
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/benign/Amnesiac"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Amnesiac.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/benign/Fairy"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Fairy.png" /></a>
@@ -128,14 +134,13 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/evil/Doomsayer"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Doomsayer.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/evil/Executioner"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Executioner.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/evil/Jester"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Jester.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/afterlife/Spectre"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Spectre.png" /></a>
   <img src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Groups/NeutKilling.png" />
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Arsonist"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Arsonist.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Glitch"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Glitch.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Juggernaut"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Juggernaut.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Plaguebearer"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Plaguebearer.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Pestilence"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Pestilence.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Soul%20Collector"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/SoulCollector.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Medusa"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Medusa.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Vampire"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Vampire.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Werewolf"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Werewolf.png" /></a>
   <img src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Groups/NeutOutlier.png" />
@@ -146,6 +151,10 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/alliance/Crewpostor"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Crewpostor.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/alliance/Egotist"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Egotist.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/alliance/Lovers"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Lover.png" /></a>
+  <img src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Groups/AssailantMods.png" />
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/assailant/Assassin"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Assassin.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/assailant/Double%20Shot"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/DoubleShot.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/assailant/Overclocker"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Overclocker.png" /></a>
   <img src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Groups/CrewMods.png" />
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Aftermath"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Aftermath.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Bait"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Bait.png" /></a>
@@ -166,12 +175,12 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Circumvent"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Circumvent.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Deadly%20Quota"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/DeadlyQuota.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Disperser"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Disperser.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Double%20Shot"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/DoubleShot.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Saboteur"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Saboteur.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Telepath"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Telepath.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Underdog"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Underdog.png" /></a>
   <img src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Groups/UniMods.png" />
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Button%20Barry"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/ButtonBarry.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Drunk"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Drunk.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Flash"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Flash.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Giant"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Giant.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Immovable"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Immovable.png" /></a>
@@ -192,30 +201,31 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 **Note: Due to differing releases on PC and Android, any version that has an x in its version means that it works for that minor release for both platforms.**
 
-| Among Us        | Mod Version | Download Link                                                           |
-|-----------------|-------------|-------------------------------------------------------------------------|
-| 17.4.x          | 1.6.3       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.3)  |
-| 17.3.x          | 1.6.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.2)  |
-| 17.3.x          | 1.6.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.1)  |
-| 17.3.x          | 1.6.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.0)  |
-| 17.2.x          | 1.5.9       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.9)  |
-| 17.1 and 17.2.1 | 1.5.4       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.4)  |
-| 17.1.x          | 1.5.3       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.3)  |
-| 17.1.x          | 1.5.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.2)  |
-| 17.1.x          | 1.5.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.1)  |
-| 17.1.x          | 1.5.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.0)  |
-| 17.1.x          | 1.4.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.4.1)  |
-| 17.1.x          | 1.4.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.4.0) |
-| 17.0.1          | 1.3.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.1) |
-| 17.0.0          | 1.3.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.0) |
-| 17.0.0          | 1.2.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.1) |
-| 17.0.0          | 1.2.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.0) |
-| 16.0.5          | 1.1.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.1) |
-| 16.0.5          | 1.1.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.0) |
-| 16.0.5          | 1.0.5       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.5) |
-| 16.0.5          | 1.0.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.2) |
-| 16.0.5          | 1.0.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.1) |
-| 16.0.5          | 1.0.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.0) |
+| Among Us          | Mod Version | Download Link                                                           |
+|-------------------|-------------|-------------------------------------------------------------------------|
+| 17.3.x and 17.4.x | 1.7.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.7.0)  |
+| 17.4.x            | 1.6.3       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.3)  |
+| 17.3.x            | 1.6.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.2)  |
+| 17.3.x            | 1.6.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.1)  |
+| 17.3.x            | 1.6.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.0)  |
+| 17.2.x            | 1.5.9       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.9)  |
+| 17.1 and 17.2.1   | 1.5.4       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.4)  |
+| 17.1.x            | 1.5.3       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.3)  |
+| 17.1.x            | 1.5.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.2)  |
+| 17.1.x            | 1.5.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.1)  |
+| 17.1.x            | 1.5.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.0)  |
+| 17.1.x            | 1.4.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.4.1)  |
+| 17.1.x            | 1.4.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.4.0) |
+| 17.0.1            | 1.3.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.1) |
+| 17.0.0            | 1.3.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.0) |
+| 17.0.0            | 1.2.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.1) |
+| 17.0.0            | 1.2.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.0) |
+| 16.0.5            | 1.1.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.1) |
+| 16.0.5            | 1.1.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.0) |
+| 16.0.5            | 1.0.5       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.5) |
+| 16.0.5            | 1.0.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.2) |
+| 16.0.5            | 1.0.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.1) |
+| 16.0.5            | 1.0.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.0) |
 
 -----------------------
 
@@ -319,12 +329,13 @@ The mods below are designed to fully work with TOU Mira, often adding new roles 
 |         [Chaos Tokens](https://github.com/xChipseq/ChaosTokens)         |   Game Feature    | A mod that adds gambling to TOU! Each round, players can get one, two, or no tokens, which enhances the chaos in the game. Each roll may give a positive, negative, or benign effect. |
 |          [Game Tweaks](https://github.com/xChipseq/GameTweaks)          |   Game Feature    | A mod that adds new gimmicks to your TOU games, ranging from gameplay changes to absolute insanity. Yes, they can be randomized too.                                                  |
                                                                                                   |
-| [Roles Extension](https://github.com/rewalo/TownOfUsMiraRolesExtension) | Roles / Modifiers | A mod that adds new roles and modifiers, including some TOU role renames.                                                                                                             |
 | [Divani Mods](https://github.com/DivaniNL/TownOfUsMiraDivaniModsAddOn)  | Roles / Modifiers | A mod that adds new roles and modifiers.                                                                                                                                              |
+| [Roles Extension](https://github.com/rewalo/TownOfUsMiraRolesExtension) | Roles / Modifiers | A mod that adds new roles and modifiers, primarily from Stellar Roles.                                                                                                                |
+|         [Town of Extra](https://github.com/Mehzxzz/TownOfExtra)         | Roles / Modifiers | A mod that adds new roles and modifiers.                                                                                                                                              |
+|        [Perfect Comms](https://github.com/artriy/Perfect-Comms)         |   Miscellaneous   | A mod that adds a built-in voice chat system to Among Us, with special support for TOU roles.                                                                                         |
 |         [Mira-NotePad](https://github.com/Maxi0fc/Mira-NotePad)         |   Miscellaneous   | A client-side mod that adds a notepad that can be used in-game at any time.                                                                                                           |
 |           [NameFilter](https://github.com/Maxi0fc/NameFliter)           |   Miscellaneous   | A host-side mod that filter out slurs, offensive terms, and more from player names.                                                                                                   |
 |      [Mira Randomizer](https://github.com/VoidicChaos/Randomiser)       |   Miscellaneous   | A host-side mod that allows full randomization of the current preset!                                                                                                                 |
-|    [TOU Mira: Legacy](https://github.com/AU-Avengers/TouMiraLegacy)     |     UI Tweaks     | A client-side mod that replaces the assets of Among Us and TOU Mira to that of pre-2021 AU and TOU/TOUR.                                                                              |
 
 -----------------------
 

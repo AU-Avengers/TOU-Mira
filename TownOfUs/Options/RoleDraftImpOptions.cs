@@ -22,7 +22,7 @@ public sealed class RoleDraftImpOptions : AbstractOptionGroup
             1.45f));
 
     public override string GroupName => "Impostor Settings";
-    public override uint GroupPriority => 2;
+    public override uint GroupPriority => 3;
 
     public ModdedNumberOption MaxImpostors { get; set; } =
         new("Max Impostors Total", 2f, 1f, 5f, 1f, MiraNumberSuffixes.None, "0");
