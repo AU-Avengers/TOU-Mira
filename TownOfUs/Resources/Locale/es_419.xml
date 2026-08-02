@@ -2050,4 +2050,5 @@
   <string name="TouOptionGlitchMoveInMimicMenu">Moverse mientras usa el menú de Imitar (TECLADO)</string>
   <string name="TouOptionGlitchHackCooldown">Recarga de Hackear</string>
   <string name="TouOptionGlitchHackDuration">Duración de Hackear</string>
+  <string name="TouOptionGlitchCanVent">Puede usar ductos</string>
 </resources>
