@@ -42,8 +42,7 @@ public static class LoverEvents
             case DeathReason.Kill:
                 if (PlayerControl.LocalPlayer.IsHost())
                 {
-                    var showAnim = !MeetingHud.Instance && !ExileController.Instance;
-                    if (showAnim)
+                    if (MeetingHud.Instance)
                     {
                         loveMod.OtherLover.RpcMeetingMurder(loveMod.OtherLover, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
                             causeOfDeath: "Heartbreak");
