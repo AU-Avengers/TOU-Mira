@@ -2047,4 +2047,7 @@
   <string name="TouModifierGiantWikiDescription">Eres más grande que los jugadores normales y además te mueves \%giantSpeed\% veces más lento que ellos.</string>
   <string name="TouModifierGiantTabDescription">Eres más grande y te mueves \%giantSpeed\% veces más lento</string>
   <string name="TouModifierGiant">Gigante</string>
+  <string name="TouOptionGlitchMoveInMimicMenu">Moverse mientras usa el menú de Imitar (TECLADO)</string>
+  <string name="TouOptionGlitchHackCooldown">Recarga de Hackear</string>
+  <string name="TouOptionGlitchHackDuration">Duración de Hackear</string>
 </resources>
