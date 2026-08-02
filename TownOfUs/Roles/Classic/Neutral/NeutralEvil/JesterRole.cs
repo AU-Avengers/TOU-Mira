@@ -71,7 +71,7 @@ public sealed class JesterRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Jester.LoadAsset(), "TouMira.Role.Neutral.Jester", 1.45f),
-        GetsVentData = OptionGroupSingleton<JesterOptions>.Instance.CanVent,
+        GetsVentData = OptionGroupSingleton<JesterOptions>.Instance.CanVent.Value,
         IntroSound = TouAudio.NoisemakerIntroSound,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
         OptionsScreenshot = TouBanners.JesterRoleBanner,
@@ -108,12 +108,12 @@ public sealed class JesterRole(IntPtr cppPtr)
 
         if (Player.AmOwner)
         {
-            if (OptionGroupSingleton<JesterOptions>.Instance.ScatterOn)
+            if (OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value)
             {
-                Player.AddModifier<ScatterModifier>(OptionGroupSingleton<JesterOptions>.Instance.ScatterTimer);
+                Player.AddModifier<ScatterModifier>(OptionGroupSingleton<JesterOptions>.Instance.ScatterTimer.Value);
             }
 
-            if (OptionGroupSingleton<JesterOptions>.Instance.CanVent)
+            if (OptionGroupSingleton<JesterOptions>.Instance.CanVent.Value)
             {
                 CustomButtonSingleton<FakeVentButton>.Instance.Show = false;
             }
@@ -127,7 +127,7 @@ public sealed class JesterRole(IntPtr cppPtr)
 
         if (Player.AmOwner)
         {
-            if (OptionGroupSingleton<JesterOptions>.Instance.ScatterOn)
+            if (OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value)
             {
                 Player.RemoveModifier<ScatterModifier>();
             }

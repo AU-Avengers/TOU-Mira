@@ -22,7 +22,7 @@ public sealed class JesterVentButton : TownOfUsVentRoleButton<JesterRole>, ILega
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return base.Enabled(role) && OptionGroupSingleton<JesterOptions>.Instance.CanVent;
+        return base.Enabled(role) && OptionGroupSingleton<JesterOptions>.Instance.CanVent.Value;
     }
 
     public override void ClickHandler()

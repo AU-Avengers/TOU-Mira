@@ -18,7 +18,7 @@ public sealed class JesterPokeButton : TownOfUsRoleButton<JesterRole, PlayerCont
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return base.Enabled(role) && OptionGroupSingleton<JesterOptions>.Instance.CanPoke;
+        return base.Enabled(role) && OptionGroupSingleton<JesterOptions>.Instance.CanPoke.Value;
     }
 
     public override PlayerControl? GetTarget()
