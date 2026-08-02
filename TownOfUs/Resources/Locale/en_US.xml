@@ -79,6 +79,7 @@
   <string name="NameStyleBottom">Bottom</string>
   <string name="NameStyleBottomSmall">Bottom (Small)</string>
   <string name="DisplayPlayerProgress">Show Player Progress On Name For</string>
+    <string name="ShowRoleIcons">Show Role Icons on Player Names</string>
   <string name="ProgressTrackingNever">No One</string>
   <string name="ProgressTrackingOnSelf">Self</string>
   <string name="ProgressTrackingOnOthers">Others</string>

@@ -2449,6 +2449,15 @@ public static class MiscUtils
         }
         return $"<sprite name=\"AmongUs.Role.{role.Role}\">";
     }
+
+    public static string GetToggledRoleTmpIcon(RoleBehaviour role, bool enabled)
+    {
+        if (!enabled)
+        {
+            return string.Empty;
+        }
+        return GetRoleTmpIcon(role);
+    }
 }
 
 public enum GameUtility

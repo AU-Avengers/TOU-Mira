@@ -609,26 +609,15 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
     public void Destroy()
     {
-        DestroyObject(gameObject);
+        if (gameObject)
+        {
+            DestroyObject(gameObject);
+        }
     }
 
     public void OnDestroy()
     {
         DataManager.Settings.Accessibility.OnChangedEvent -= new Action(SwitchColorName);
-        if (body)
-        {
-            Object.Destroy(body);
-        }
-
-        if (_colorBindTextObj)
-        {
-            Object.Destroy(_colorBindTextObj);
-        }
-
-        if (_rend)
-        {
-            Object.Destroy(_rend);
-        }
     }
 
     private struct PlayerCosmicInfo
