@@ -126,8 +126,6 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
             Interfaces = new Il2CppInterfaceCollection([typeof(IResourceProvider)])
         });
 
-        ClassInjector.RegisterTypeInIl2Cpp<DraftEngineBehaviour>();
-
         Info("Initializing HatProvider...");
         HatProvider.Initialize();
         Info("HatProvider initialized!");
