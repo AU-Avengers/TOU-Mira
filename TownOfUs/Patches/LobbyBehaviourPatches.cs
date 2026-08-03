@@ -18,8 +18,6 @@ public static class LobbyBehaviourPatches
     [HarmonyPostfix]
     public static void LobbyStartPatch()
     {
-        FakePlayer.ClearAll();
-        StonedPlayer.ClearAll(true);
         CustomTouMurderRpcs.StoredKillAnimations = [];
         HaunterRole.ResetReveals();
         GameTimerPatch.ResetTimer();
@@ -44,6 +42,8 @@ public static class LobbyBehaviourPatches
         // Clear Time Lord snapshot data to prevent stale positions from previous games
         TimeLordRewindSystem.Reset();
         MiraAPI.Utilities.Extensions.ClearGarbageCollector();
+        FakePlayer.ClearAll();
+        StonedPlayer.ClearAll(true);
         if (TutorialManager.InstanceExists)
         {
             foreach (var mod in ModifierManager.Modifiers)
