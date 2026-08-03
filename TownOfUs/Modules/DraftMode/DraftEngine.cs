@@ -802,7 +802,6 @@ namespace TownOfUs.Modules.DraftMode
                 {
                     roleBehaviour = s.ChosenRoleId != 0
                         ? MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)s.ChosenRoleId)
-                          ?? RoleManager.Instance?.GetRole((AmongUs.GameOptions.RoleTypes)s.ChosenRoleId)
                         : null;
                 }
                 catch
