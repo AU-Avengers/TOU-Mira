@@ -195,7 +195,6 @@ namespace TownOfUs.Modules.DraftMode
         {
             RoleBehaviour role = roleId != 0
                 ? MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)roleId)
-                  ?? RoleManager.Instance.GetRole((AmongUs.GameOptions.RoleTypes)roleId)
                 : null!;
 
             if (role == null)
@@ -290,6 +289,24 @@ namespace TownOfUs.Modules.DraftMode
         [HarmonyPostfix]
         public static void Postfix()
         {
+            DraftManager.Reset(cancelledBeforeCompletion: true);
+            DraftCancelButton.Hide();
+            DraftShuffleButton.HideAndReset();
+            DraftSidebarManager.Deactivate();
+            DraftSidebarManager.ClearBannerRef();
+        }
+    }
+
+    [HarmonyPatch(typeof(LobbyBehaviour), nameof(LobbyBehaviour.Start))]
+    public static class DraftResetOnLobbyStart
+    {
+        [HarmonyPostfix]
+        public static void Postfix()
+        {
+            if (!DraftManager.IsDraftActive) return;
+            DraftManager.Reset(cancelledBeforeCompletion: true);
+            DraftCancelButton.Hide();
+            DraftShuffleButton.HideAndReset();
             DraftSidebarManager.Deactivate();
             DraftSidebarManager.ClearBannerRef();
         }

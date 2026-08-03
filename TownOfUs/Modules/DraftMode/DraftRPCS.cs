@@ -133,6 +133,7 @@ public static class DraftRpcs
         if (slot == localSlot)
         {
             DraftScreenController.Hide();
+            DraftScreenController.ShowFinalPickNotification((ushort)roleId);
         }
     }
 
