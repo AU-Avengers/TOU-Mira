@@ -2,6 +2,7 @@ using System.Text;
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Options;
 using TownOfUs.Patches;
 using UnityEngine;
@@ -209,31 +210,23 @@ namespace TownOfUs.Modules.DraftMode
             var displayMode = OptionGroupSingleton<RoleOptions>.Instance.DraftSidebarDisplay.Value;
             string text = displayMode switch
             {
-                DraftRecapMode.Alignment => $"{faction.ToUpperInvariant()} <sprite name=\"AmongUs.Role.{faction}\">",
+                DraftRecapMode.Alignment => $"{MiscUtils.GetParsedRoleAlignment(role).ToUpperInvariant()} <sprite name=\"AmongUs.Role.{faction}\">",
                 DraftRecapMode.Role      => $"{role.GetRoleName().ToUpperInvariant()} {MiscUtils.GetRoleTmpIcon(role)}",
                 DraftRecapMode.Faction   => $"{faction.ToUpperInvariant()} <sprite name=\"AmongUs.Role.{faction}\">",
                 _   => TouLocale.GetParsed("TouDraftARoleLabel", "a role"),
             };
-            if(displayMode == DraftRecapMode.Role)
-            {
-                colorHex = role.TeamColor != default
-                    ? "#" + ColorUtility.ToHtmlStringRGB(role.TeamColor)
-                    : "#5BD7E4";
-            } else if ( displayMode == DraftRecapMode.Nothing)
+            if(displayMode == DraftRecapMode.Nothing)
             {
                 colorHex = "#f7f7f7";
-            }
+
+            } else if(displayMode == DraftRecapMode.Role)
+            {
+                colorHex = "#" + role.TeamColor.ToHtmlStringRGBA();
+            } 
             else
             {
-                colorHex =
-                    faction switch
-                    {
-                        "Impostor" => "#FF5050",
-                        "Neutral" => "#717171",
-                        _ => "#5BD7E4",
-                    };
+                colorHex ="#" + MiscUtils.GetRoleFactionColor(role).ToHtmlStringRGBA();
             }
-
             return (text, colorHex);
     }
 
