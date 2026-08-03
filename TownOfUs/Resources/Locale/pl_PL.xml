@@ -790,4 +790,12 @@
   <string name="TouRoleExecutionerTorment">Dręcz</string>
   <string name="TouRoleExecutionerWonSelf">Udało Ci się wygrać jako \%role\%, gdyż twój cel został wygłosowany!</string>
   <string name="TouRoleExecutionerWonOther">\%role\%, \%player\%, wygrał grę, gdyż jego cel został wygłosowany!</string>
+  <string name="TouRoleExecutionerTormentFeedback">Masz jedną rundę aby wydręczyć osobę twojego wyboru na śmierć, wybierz mądrze.</string>
+  <string name="TouOptionExecutionerBecomesTargetDeath">W Przypadku Śmierci Celu, Kat Zostaje</string>
+  <string name="TouOptionExecutionerCanButton">Kat Może Zwołać Spotkanie</string>
+  <string name="TouOptionExecutionerWin">Kat Przy Wygranej</string>
+  <string name="TouOptionExecutionerWinEnumEndsGame">Kończy Grę</string>
+  <string name="TouOptionExecutionerWinEnumTorments">Umiera i Dręczy</string>
+  <string name="TouOptionExecutionerWinEnumNothing">Nic</string>
+  <string name="TouRoleFairy">Wróżka</string>
 </resources>
