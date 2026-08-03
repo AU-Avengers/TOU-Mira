@@ -215,7 +215,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         }
     }
 
-    private static (Color PlayerColor, string PlayerName) GetRoleNameText(PlayerControl player, bool isImpFfa, PostmortemOptions taskOpt, string roleNameSize, bool roleOnTop, bool colorPlayerNames, bool localDead, bool localGhost, bool localImp, bool localVamp, bool useMiraApiChecks, bool inMeeting, bool isVisible = true)
+    internal static (Color PlayerColor, string PlayerName) GetRoleNameText(PlayerControl player, bool isImpFfa, PostmortemOptions taskOpt, string roleNameSize, bool roleOnTop, bool colorPlayerNames, bool localDead, bool localGhost, bool localImp, bool localVamp, bool useMiraApiChecks, bool inMeeting, bool isVisible = true, bool removeCod = false)
     {
         // End Shared of loop
         if (!inMeeting && localGhost)
@@ -296,12 +296,20 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     : $"<size={roleNameSize}>{cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{role.GetRoleName()}</color>)</size>";
             }
 
-            if (localDead && isVisible &&
+            if (removeCod)
+            {
+                topText += "<cod>\n";
+            }
+            else if (localDead && isVisible &&
                 player.TryGetModifier<DeathHandlerModifier>(out var deathMod))
             {
                 topText +=
                     $"<size={(inMeeting ? 60 : 75)}%>『{Color.yellow.ToTextColor()}{deathMod.CauseOfDeath}</color>』</size>\n";
             }
+        }
+        else if (removeCod)
+        {
+            topText += "<cod>\n";
         }
 
         var revealedColorMod = revealMods.FirstOrDefault(x => x.Visible && x.NameColor != null);
