@@ -35,6 +35,7 @@ public static class HudManagerPatches
     public static NameStyle RoleNameStyle = NameStyle.TopSmall;
     public static bool RoleOnTop => RoleNameStyle is NameStyle.Top or NameStyle.TopSmall;
     public static bool RoleIsSmall => RoleNameStyle is NameStyle.BottomSmall or NameStyle.TopSmall;
+    public static bool IconOnRoleName;
     public static GameObject ZoomButton;
     public static GameObject WikiButton;
     public static GameObject ModifierDisplayObject;
@@ -786,6 +787,7 @@ public static class HudManagerPatches
         __instance.gameObject.AddComponent<HudManagerHelper>();
         RoleNameStyle = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.RoleNameStyle.Value;
         PlayerNameProgress = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.DisplayPlayerProgress.Value;
+        IconOnRoleName = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.ShowRoleIcons.Value;
         StoredHostLocale = TranslationController.Instance.GetString(StringNames.HostNounEmpty);
         StoredTasksText = TranslationController.Instance.GetString(StringNames.Tasks);
         StoredSpectatingLocale = TouLocale.Get("TouRoleSpectator");

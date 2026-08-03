@@ -49,8 +49,8 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
         playerMenu.Begin(
-            plr => ((!plr.Data.Disconnected && !plr.Data.IsDead) || Helpers.GetBodyById(plr.PlayerId)) &&
-                   (plr.moveable || plr.inVent),
+            plr => ((!plr.Data.Disconnected && !plr.Data.IsDead && (plr.moveable || plr.inVent)) ||
+                    Helpers.GetBodyById(plr.PlayerId)) || MiscUtils.GetFreshStonedPlayerById(plr.PlayerId),
             (plr1, plr2) =>
             {
                 playerMenu.Close();

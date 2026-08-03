@@ -1,9 +1,11 @@
 ﻿using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using TownOfUs.Buttons;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
@@ -69,7 +71,7 @@ public sealed class JesterRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Jester.LoadAsset(), "TouMira.Role.Neutral.Jester", 1.45f),
-        CanUseVent = OptionGroupSingleton<JesterOptions>.Instance.CanVent,
+        GetsVentData = OptionGroupSingleton<JesterOptions>.Instance.CanVent.Value,
         IntroSound = TouAudio.NoisemakerIntroSound,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
         OptionsScreenshot = TouBanners.JesterRoleBanner,
@@ -106,15 +108,14 @@ public sealed class JesterRole(IntPtr cppPtr)
 
         if (Player.AmOwner)
         {
-            if (OptionGroupSingleton<JesterOptions>.Instance.ScatterOn)
+            if (OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value)
             {
-                Player.AddModifier<ScatterModifier>(OptionGroupSingleton<JesterOptions>.Instance.ScatterTimer);
+                Player.AddModifier<ScatterModifier>(OptionGroupSingleton<JesterOptions>.Instance.ScatterTimer.Value);
             }
 
-            if (!LegacyAssets.IsLegacy)
+            if (OptionGroupSingleton<JesterOptions>.Instance.CanVent.Value)
             {
-                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.JesterVentSprite.LoadAsset();
-                HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Jester);
+                CustomButtonSingleton<FakeVentButton>.Instance.Show = false;
             }
         }
     }
@@ -126,16 +127,12 @@ public sealed class JesterRole(IntPtr cppPtr)
 
         if (Player.AmOwner)
         {
-            if (OptionGroupSingleton<JesterOptions>.Instance.ScatterOn)
+            if (OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value)
             {
                 Player.RemoveModifier<ScatterModifier>();
             }
 
-            if (!LegacyAssets.IsLegacy)
-            {
-                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
-                HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
-            }
+            CustomButtonSingleton<FakeVentButton>.Instance.Show = true;
         }
 
         if (!Player.HasModifier<BasicGhostModifier>() && Voted)

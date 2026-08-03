@@ -42,6 +42,10 @@ public class TouLocalTabPlayers(ConfigFile config) : LocalSettingsTab(config)
         {
             HudManagerPatches.PlayerNameProgress = DisplayPlayerProgress.Value;
         }
+        else if (configEntry == ShowRoleIcons)
+        {
+            HudManagerPatches.IconOnRoleName = ShowRoleIcons.Value;
+        }
         else if (configEntry == ColorPlayerNameToggle)
         {
             FakePlayer.UpdateFakePlayerText();
@@ -66,6 +70,10 @@ public class TouLocalTabPlayers(ConfigFile config) : LocalSettingsTab(config)
     [LocalizedLocalEnumSetting(names: ["ProgressTrackingNever", "ProgressTrackingOnSelf", "ProgressTrackingOnOthers", "ProgressTrackingAlways"])]
     public ConfigEntry<ProgressTracking> DisplayPlayerProgress { get; private set; } =
         config.Bind("UI / Visuals", "DisplayPlayerProgress", ProgressTracking.Always);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ShowRoleIcons { get; private set; } =
+        config.Bind("UI / Visuals", "ShowRoleIcons", true);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> UseCrewmateTeamColorToggle { get; private set; } =

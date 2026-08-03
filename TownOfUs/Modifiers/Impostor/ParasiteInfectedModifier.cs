@@ -163,7 +163,6 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
                 controllerName,
                 TownOfUsColors.Impostor,
                 TouRoleIcons.Parasite.LoadAsset())!;
-            _controlledNotification?.AdjustNotification();
         }
     }
 

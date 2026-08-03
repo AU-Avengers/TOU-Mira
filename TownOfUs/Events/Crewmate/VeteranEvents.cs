@@ -128,9 +128,9 @@ public static class VeteranEvents
                 AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.DontPokeTheBear.Unlock();
             }
 
-            if (source.HasModifier<InvulnerabilityModifier>())
+            if (source.HasModifier<InvulnerabilityModifier>() || source.HasModifier<VeteranAlertModifier>())
             {
-                // stops pestilence from softlocking the game when attacking vet
+                // stops pestilence from softlocking the game when attacking vet, and stops vet from softlocking vet from other extension mod changes.
                 return;
             }
 

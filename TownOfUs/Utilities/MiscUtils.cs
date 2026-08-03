@@ -1768,6 +1768,33 @@ public static class MiscUtils
     }
 
     /// <summary>
+    /// Gets a <see cref="StonedPlayer"/> by its parent ID.
+    /// </summary>
+    /// <param name="id">The player ID.</param>
+    /// <returns>A <see cref="StonedPlayer"/> or <see langword="null"/> if its not found.</returns>
+    public static StonedPlayer? GetStonedPlayerById(byte id)
+    {
+        var result = StonedPlayer.FakePlayers.FirstOrDefault(body => body.PlayerId == id);
+        return result;
+    }
+
+    /// <summary>
+    /// Gets a <see cref="StonedPlayer"/> by its parent ID if it is not permanent.
+    /// </summary>
+    /// <param name="id">The player ID.</param>
+    /// <returns>A <see cref="StonedPlayer"/> or <see langword="null"/> if its not found.</returns>
+    public static StonedPlayer? GetFreshStonedPlayerById(byte id)
+    {
+        var result = GetStonedPlayerById(id);
+        if (result != null && result.ProgressStage < StoneStage.Permanent)
+        {
+            return result;
+        }
+
+        return null;
+    }
+
+    /// <summary>
     ///     Gets a FakePlayer by comparing PlayerControl.
     /// </summary>
     /// <param name="player">The player themselves.</param>
@@ -2421,6 +2448,15 @@ public static class MiscUtils
             return custom.Configuration.IconTmp ? $"<sprite name=\"{custom.Configuration.IconTmp.name}\">" : $"<sprite name=\"AmongUs.Role.{custom.Team}\">";
         }
         return $"<sprite name=\"AmongUs.Role.{role.Role}\">";
+    }
+
+    public static string GetToggledRoleTmpIcon(RoleBehaviour role, bool enabled)
+    {
+        if (!enabled)
+        {
+            return string.Empty;
+        }
+        return GetRoleTmpIcon(role);
     }
 }
 

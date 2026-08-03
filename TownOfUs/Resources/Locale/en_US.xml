@@ -79,6 +79,7 @@
   <string name="NameStyleBottom">Bottom</string>
   <string name="NameStyleBottomSmall">Bottom (Small)</string>
   <string name="DisplayPlayerProgress">Show Player Progress On Name For</string>
+    <string name="ShowRoleIcons">Show Role Icons on Player Names</string>
   <string name="ProgressTrackingNever">No One</string>
   <string name="ProgressTrackingOnSelf">Self</string>
   <string name="ProgressTrackingOnOthers">Others</string>
@@ -126,7 +127,6 @@
   <string name="PiPLocationBottomRight">Bottom Right</string>
   <string name="PiPLocationDynamic">Dynamic</string>
   <string name="ParasitePiPSize">Parasite Picture-in-Picture Size</string>
-  <string name="TouControlControlledNotif">You are being controlled by a &lt;controller&gt;!</string>
   <string name="PiPSizeNormal">Normal</string>
   <string name="PiPSizeSmall">Small</string>
   <string name="PiPSizeLarge">Large</string>
@@ -1836,6 +1836,7 @@
   <string name="TouRoleParasiteOvertakeWikiDescription">Overtake a nearby non-impostor to take control of their movement. By default, you move with WASD and control them with Arrow Keys. If "Parasite Can Move Independently" is disabled, you cannot move and control them with WASD instead.</string>
   <string name="TouRoleParasiteDecay">Kill</string>
   <string name="TouRoleParasiteDecayWikiDescription">Kill your currently overtaken victim immediately.</string>
+    <string name="TouRoleParasiteOvertakeNotifSelf">You have overtaken \%player\%!</string>
   <!-- Parasite Options -->
   <string name="TouOptionParasiteOvertakeCooldown">Overtake Cooldown</string>
   <string name="TouOptionParasiteOvertakeKillCooldown">Kill Cooldown</string>
@@ -1866,6 +1867,7 @@
   <string name="TouRolePuppeteerControl">Control</string>
   <string name="TouRolePuppeteerKill">Control Kill</string>
   <string name="TouRolePuppeteerControlWikiDescription">Use your menu to control whoever you wish. In this state, the controlled player will kill as if they were an impostor, and not as whatever role they actually are.</string>
+    <string name="TouRolePuppeteerControlNotifSelf">You are controlling \%player\%!</string>
   <string name="TouRolePuppeteerControlNotifBasic">You are under the control of a \%role\%!</string>
   <string name="TouRolePuppeteerControlNotif1">You've lost sensation of yourself. You're under the control of a \%role\%!</string>
   <string name="TouRolePuppeteerControlNotif2">You feel a mystical power overtaking you. You're under the control of a \%role\%!</string>
@@ -2185,6 +2187,8 @@
   <!-- Jester Options -->
   <string name="TouOptionJesterCanButton">Can Use Button</string>
   <string name="TouOptionJesterCanVent">Can Hide In Vents</string>
+  <string name="TouOptionJesterVentCooldown">Vent Cooldown</string>
+  <string name="TouOptionJesterVentDuration">Vent Duration</string>
   <string name="TouOptionJesterCanPoke">Can Poke Others</string>
   <string name="TouOptionJesterPokeCooldown">Poke Cooldown</string>
   <string name="TouOptionJesterImpVision">Has Impostor Vision</string>
