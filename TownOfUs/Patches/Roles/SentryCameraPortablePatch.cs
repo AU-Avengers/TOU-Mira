@@ -40,13 +40,6 @@ public static class SentryCameraPortablePatch
         }
     }
 
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-    [HarmonyPostfix]
-    public static void HudManagerUpdatePortableBlinkPostfix()
-    {
-        ApplyPortableBlinkState();
-    }
-
     private static bool IsMapWithoutCameras()
     {
         try

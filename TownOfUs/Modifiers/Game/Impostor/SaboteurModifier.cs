@@ -1,5 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using TownOfUs.Options.Modifiers;
+using TownOfUs.Options.Modifiers.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Impostor;
@@ -45,5 +46,23 @@ public sealed class SaboteurModifier : TouGameModifier, IWikiDiscoverable
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         return base.IsModifierValidOn(role) && role.IsImpostor();
+    }
+
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+
+        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
+
+        var options = OptionGroupSingleton<SaboteurOptions>.Instance;
+
+        if (system.AnyActive)
+        {
+            system.Timer = 30f;
+        }
+        else if (system.Timer > 30f - options.ReducedSaboCooldown)
+        {
+            system.Timer = 30f - options.ReducedSaboCooldown;
+        }
     }
 }

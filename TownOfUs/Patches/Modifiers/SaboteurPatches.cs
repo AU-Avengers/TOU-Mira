@@ -9,44 +9,6 @@ namespace TownOfUs.Patches.Modifiers;
 [HarmonyPatch]
 public static class SaboteurPatches
 {
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-    [HarmonyPostfix]
-    public static void HudManagerUpdatePostfix(HudManager __instance)
-    {
-        if (!PlayerControl.LocalPlayer)
-        {
-            return;
-        }
-
-        if (!PlayerControl.LocalPlayer.Data)
-        {
-            return;
-        }
-
-        if (PlayerControl.AllPlayerControls.Count <= 1)
-        {
-            return;
-        }
-
-        if (!PlayerControl.LocalPlayer.HasModifier<SaboteurModifier>())
-        {
-            return;
-        }
-
-        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
-
-        var options = OptionGroupSingleton<SaboteurOptions>.Instance;
-
-        if (system.AnyActive)
-        {
-            system.Timer = 30f;
-        }
-        else if (system.Timer > 30f - options.ReducedSaboCooldown)
-        {
-            system.Timer = 30f - options.ReducedSaboCooldown;
-        }
-    }
-
     [HarmonyPatch(typeof(SabotageSystemType), nameof(SabotageSystemType.UpdateSystem))]
     [HarmonyPrefix]
     public static void SabotageSystemUpdate(SabotageSystemType __instance, ref PlayerControl player)

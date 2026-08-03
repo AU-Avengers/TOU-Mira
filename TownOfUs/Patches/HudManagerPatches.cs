@@ -682,40 +682,6 @@ public static class HudManagerPatches
         }
     }
 
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-    [HarmonyPostfix]
-    public static void HudManagerUpdatePatch(HudManager __instance)
-    {
-        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
-        {
-            return;
-        }
-
-        CreateUiRow(__instance);
-        CreateNewUiRow(__instance);
-
-        CreateWikiButton(__instance);
-        CreateZoomButton(__instance);
-        AdjustModifierTab();
-
-        UpdateRoleList(__instance);
-        UpdateTeamChat();
-
-        if (CanZoom)
-        {
-            CheckForScrollZoom();
-        }
-
-        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data || !PlayerControl.LocalPlayer.Data.Role ||
-            !ShipStatus.Instance ||
-            (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
-             !TutorialManager.InstanceExists))
-        {
-            return;
-        }
-        UpdateSubmergedButtons(__instance);
-    }
-
     public static bool CanZoom =>
         ((PlayerControl.LocalPlayer.DiedOtherRound() &&
           (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
