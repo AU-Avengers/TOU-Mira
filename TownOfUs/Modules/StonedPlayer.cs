@@ -618,6 +618,10 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     public void OnDestroy()
     {
         DataManager.Settings.Accessibility.OnChangedEvent -= new Action(SwitchColorName);
+        if (CurrentCoroutine != null)
+        {
+            Coroutines.Stop(CurrentCoroutine);
+        }
     }
 
     private struct PlayerCosmicInfo
