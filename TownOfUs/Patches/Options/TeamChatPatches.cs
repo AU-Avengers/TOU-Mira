@@ -39,16 +39,6 @@ public static class TeamChatPatches
     public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> PrivateChatPool = new();
     public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> MergedChatPool = new();
 
-    public static void ResetAllBubbles()
-    {
-        PublicChatBubbles.Clear();
-        PrivateChatBubbles.Clear();
-        MergedChatBubbles.Clear();
-        PublicChatPool.Clear();
-        PrivateChatPool.Clear();
-        MergedChatPool.Clear();
-    }
-
     internal const string PrivateBubbleName = "Private_ChatBubble";
     internal const string PublicBubbleName = "Public_ChatBubble";
 

@@ -609,9 +609,9 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
     public void Destroy()
     {
-        if (gameObject)
+        if (body)
         {
-            DestroyObject(gameObject);
+            DestroyObject(body);
         }
     }
 
