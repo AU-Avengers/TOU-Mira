@@ -49,7 +49,7 @@ public class TouLocalTabPractice(ConfigFile config) : LocalSettingsTab(config)
     public ConfigEntry<GameSummaryAppearance> SummaryMessageAppearance { get; private set; } =
         config.Bind("Lobby", "SummaryMsgBreakdown", GameSummaryAppearance.Advanced);
 
-    [LocalizedLocalEnumSetting(names: ["DraftAudioStart", "DraftAudioYourTurn", "DraftAudioNone"])]
+    [LocalizedLocalEnumSetting(names: ["DraftAudioStart", "DraftAudioYourTurn", "DraftAudioNone", "DraftAudioBoth"])]
     public ConfigEntry<DraftAudioCueMode> DraftAudioCue { get; private set; } =
         config.Bind("Lobby", "DraftAudioCue", DraftAudioCueMode.None);
 
