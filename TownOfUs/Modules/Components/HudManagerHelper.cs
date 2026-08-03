@@ -5,6 +5,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Localization.Providers;
 using Reactor.Utilities.Attributes;
 using TMPro;
 using TownOfUs.Buttons;
@@ -52,11 +53,6 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         HudManagerPatches.UpdateRoleList(instance);
         HudManagerPatches.UpdateTeamChat();
 
-        if (HudManagerPatches.CanZoom)
-        {
-            HudManagerPatches.CheckForScrollZoom();
-        }
-
         if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data || !PlayerControl.LocalPlayer.Data.Role ||
             !ShipStatus.Instance ||
             (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
@@ -91,6 +87,11 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
         var instance = HudManager.Instance;
         Bindings.UpdateKeybinds(instance);
+
+        if (HudManagerPatches.CanZoom)
+        {
+            HudManagerPatches.CheckForScrollZoom();
+        }
         if (!PlayerControl.LocalPlayer.Data.Role ||
             !ShipStatus.Instance ||
             (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&

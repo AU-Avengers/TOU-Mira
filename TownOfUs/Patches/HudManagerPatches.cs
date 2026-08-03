@@ -324,6 +324,7 @@ public static class HudManagerPatches
         {
             var pingTracker = Object.FindObjectOfType<PingTracker>(true);
             RoleList = Object.Instantiate(pingTracker.gameObject, instance.transform);
+            RoleList.GetComponent<PingTracker>().Destroy();
             RoleList.name = "RoleListText";
             var pos = RoleList.gameObject.GetComponent<AspectPosition>();
             pos.Alignment = AspectPosition.EdgeAlignments.LeftTop;
