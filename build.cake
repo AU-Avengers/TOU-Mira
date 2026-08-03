@@ -13,6 +13,15 @@ Task("Build")
         MSBuildSettings = new DotNetMSBuildSettings()
     };
 
+    if (tag != null) 
+    {
+        settings.MSBuildSettings.Version = tag;
+    }
+    else if (buildId != 0)
+    {
+        settings.MSBuildSettings.VersionSuffix = """;
+    }
+
     DotNetBuild(".", settings);
 });
 
