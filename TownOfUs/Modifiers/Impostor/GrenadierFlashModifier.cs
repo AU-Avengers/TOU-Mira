@@ -1,6 +1,8 @@
-﻿using MiraAPI.Events;
+﻿using System.Collections;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
@@ -24,8 +26,8 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
     public override bool CanBeInteractedWith => true;
     public override bool IsConsideredAlive => true;
     public override bool CanUseAbilities => true;
-    public override bool CanUseConsoles => false;
-    public override bool CanOpenMap => false;
+    public override bool CanUseConsoles => Player.IsImpostorAligned();
+    public override bool CanOpenMap => Player.IsImpostorAligned();
     public override bool CanReport => false;
     public PlayerControl Grenadier => grenadier;
 
@@ -36,7 +38,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
 
     public static void SetColor()
     {
-        var colorType = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.GrenadierFlashColor.Value;
+        var colorType = LocalSettingsTabSingleton<TouLocalTabGameplay>.Instance.GrenadierFlashColor.Value;
         switch (colorType)
         {
             case GrenadeFlashColor.DarkGray:
@@ -63,15 +65,26 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
         flash = new ScreenFlash();
         SetColor();
 
-        if (Player.AmOwner && !Grenadier.AmOwner)
+        if (Player.AmOwner)
         {
-            var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You were flashed by a Grenadier!</color></b>", Color.white,
-                spr: TouRoleIcons.Grenadier.LoadAsset());
+            if (!Grenadier.AmOwner)
+            {
+                var notif1 = Helpers.CreateAndShowNotification(
+                    $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You were flashed by a Grenadier!</color></b>", Color.white,
+                    spr: TouRoleIcons.Grenadier.LoadAsset());
 
-            notif1.AdjustNotification();
-            notif1.transform.localPosition = new Vector3(0f, 1f, -150f);
+                notif1.AdjustNotification();
+                notif1.transform.localPosition = new Vector3(0f, 1f, -150f);
+            }
+            Coroutines.Start(CoShakeScreen());
         }
+    }
+
+    private static IEnumerator CoShakeScreen()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        HudManager.Instance.StartCoroutine(HudManager.Instance.PlayerCam.CoShakeScreen(0.4f, 5f));
     }
 
     public override void FixedUpdate()
@@ -91,7 +104,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
             }
         }
 
-        if (PlayerControl.LocalPlayer.PlayerId == Player.PlayerId)
+        if (Player.AmOwner)
         {
             if (TimeRemaining > Duration - 0.5f)
             {

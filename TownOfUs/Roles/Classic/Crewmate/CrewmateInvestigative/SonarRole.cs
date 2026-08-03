@@ -29,12 +29,12 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Track", "Track"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}TrackWikiDescription"),
                     TouCrewAssets.TrackSprite)
-            };
+            ];
         }
     }
 
@@ -44,6 +44,7 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Sonar.LoadAsset(), "TouMira.Role.Crewmate.Sonar", 1.45f),
         Icon = TouRoleIcons.Sonar,
         OptionsScreenshot = TouBanners.SonarRoleBanner,
         IntroSound = TouAudio.TrackerIntroSound
@@ -55,7 +56,7 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         var stringB = ITownOfUsRole.SetNewTabText(this);
 
         var players =
-            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.SonarTargetType.Value is SonarTargetStyle
+            LocalSettingsTabSingleton<TouLocalTabGameplay>.Instance.SonarTargetType.Value is SonarTargetStyle
                 .Arrows
                 ? ModifierUtils.GetPlayersWithModifier<SonarArrowTargetModifier>([HideFromIl2Cpp](x) =>
                     x.Owner == Player)

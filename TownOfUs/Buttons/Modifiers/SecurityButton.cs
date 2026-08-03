@@ -1,10 +1,8 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
-using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Modifiers.Crewmate;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -40,7 +38,7 @@ public sealed class SecurityButton : TownOfUsButton, ILegacyCapable
 
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.SecuritySprite : TouAssets.CameraSprite;
-    public bool canMoveWithMinigame { get; set; }
+    public bool CanMoveWithMinigame { get; set; }
 
     public override bool Enabled(RoleBehaviour? role)
     {
@@ -56,10 +54,7 @@ public sealed class SecurityButton : TownOfUsButton, ILegacyCapable
         Button!.transform.localPosition =
             new Vector3(Button.transform.localPosition.x, Button.transform.localPosition.y, -150f);
         AvailableCharge = OptionGroupSingleton<OperativeOptions>.Instance.StartingCharge;
-        if (KeybindIcon != null)
-        {
-            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
-        }
+        KeybindIcon?.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
     }
 
     private void RefreshAbilityButton()
@@ -88,7 +83,7 @@ public sealed class SecurityButton : TownOfUsButton, ILegacyCapable
                 securityMinigame.Close();
                 RefreshAbilityButton();
                 ResetCooldownAndOrEffect();
-                canMoveWithMinigame = false;
+                CanMoveWithMinigame = false;
                 return;
             }
         }
@@ -113,8 +108,7 @@ public sealed class SecurityButton : TownOfUsButton, ILegacyCapable
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
-                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -158,14 +152,14 @@ public sealed class SecurityButton : TownOfUsButton, ILegacyCapable
 
         var securityType = GameUtility.Cams;
 
-        canMoveWithMinigame = true;
+        CanMoveWithMinigame = true;
         var basicCams = Object.FindObjectsOfType<SystemConsole>().FirstOrDefault(x =>
             x.MinigamePrefab.TryCast<SurveillanceMinigame>() || x.MinigamePrefab.TryCast<PlanetSurveillanceMinigame>() ||
             x.MinigamePrefab.TryCast<FungleSurveillanceMinigame>() || x.UseIcon is ImageNames.CamsButton);
         if (basicCams != null)
         {
             PlayerControl.LocalPlayer.NetTransform.Halt();
-            canMoveWithMinigame = false;
+            CanMoveWithMinigame = false;
         }
         else
         {
@@ -174,7 +168,7 @@ public sealed class SecurityButton : TownOfUsButton, ILegacyCapable
             if (!OptionGroupSingleton<OperativeOptions>.Instance.MoveOnMira)
             {
                 PlayerControl.LocalPlayer.NetTransform.Halt();
-                canMoveWithMinigame = false;
+                CanMoveWithMinigame = false;
             }
 
             securityType = GameUtility.Doorlog;
@@ -220,7 +214,7 @@ public sealed class SecurityButton : TownOfUsButton, ILegacyCapable
     public override void OnEffectEnd()
     {
         base.OnEffectEnd();
-        canMoveWithMinigame = false;
+        CanMoveWithMinigame = false;
 
         if (securityMinigame != null)
         {

@@ -29,6 +29,7 @@ public sealed class HnsMysticRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mystic.LoadAsset(), "TouMira.Role.Crewmate.Mystic", 1.45f),
         /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek,*/
         FreeplayFolder = "Hide n Seek",
         Icon = TouRoleIcons.Mystic,
@@ -200,21 +201,10 @@ public sealed class HnsMysticRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     private static readonly ContactFilter2D Filter = Helpers.CreateFilter(Constants.Usables);
     public Vent? GetTarget()
     {
-        var vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 4, Filter);
-        if (vent == null)
-        {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 3, Filter);
-        }
-
-        if (vent == null)
-        {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 2, Filter);
-        }
-
-        if (vent == null)
-        {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance(), Filter);
-        }
+        var vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 4, Filter)
+                ?? PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 3, Filter)
+                ?? PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 2, Filter)
+                ?? PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance(), Filter);
 
         if (vent != null && PlayerControl.LocalPlayer.CanUseVent(vent))
         {

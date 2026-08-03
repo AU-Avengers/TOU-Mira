@@ -2,7 +2,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Roles;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Neutral;
@@ -33,10 +32,7 @@ public sealed class VampireBiteButton : TownOfUsKillRoleButton<VampireRole, Play
     public override void CreateButton(Transform parent)
     {
         base.CreateButton(parent);
-        if (KeybindIcon != null)
-        {
-            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
-        }
+        KeybindIcon?.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
 
         _killName = TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
         _biteName = TouLocale.Get("TouRoleVampireBite", "Bite");

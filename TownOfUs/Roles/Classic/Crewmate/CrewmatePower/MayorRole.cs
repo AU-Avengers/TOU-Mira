@@ -24,6 +24,7 @@ public sealed class MayorRole(IntPtr cppPtr)
     public bool CanBeCrewpostor => false;
     public bool CanBeEgotist => true;
     public bool CanBeOtherEvil => true;
+    public bool IsDraftable => false;
     public static GameObject MayorPlayer;
 
     private MeetingMenu meetingMenu;
@@ -47,6 +48,7 @@ public sealed class MayorRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mayor.LoadAsset(), "TouMira.Role.Crewmate.Mayor", 1.45f),
         Icon = TouRoleIcons.Mayor,
         HideSettings = true,
         MaxRoleCount = 0,
@@ -214,12 +216,8 @@ public sealed class MayorRole(IntPtr cppPtr)
 
         var animationRend = MayorPlayer.GetComponent<SpriteRenderer>();
         animationRend.material = voteArea.PlayerIcon.cosmetics.currentBodySprite.BodySprite.material;
-        var r = animationRend.gameObject.GetComponent<RainbowBehaviour>();
-        if (r == null)
-        {
-            r = animationRend.gameObject.AddComponent<RainbowBehaviour>();
-        }
-
+        var r = animationRend.gameObject.GetComponent<RainbowBehaviour>()
+             ?? animationRend.gameObject.AddComponent<RainbowBehaviour>();
         r.AddRend(animationRend, voteArea.PlayerIcon.ColorId);
         var handRend = MayorPlayer.transform.FindRecursive("Hands").GetComponent<SpriteRenderer>();
         if (!handRend)
@@ -230,12 +228,8 @@ public sealed class MayorRole(IntPtr cppPtr)
         if (handRend)
         {
             handRend.material = voteArea.PlayerIcon.cosmetics.currentBodySprite.BodySprite.material;
-            var r2 = handRend.gameObject.GetComponent<RainbowBehaviour>();
-            if (r2 == null)
-            {
-                r2 = handRend.gameObject.AddComponent<RainbowBehaviour>();
-            }
-
+            var r2 = handRend.gameObject.GetComponent<RainbowBehaviour>()
+                  ?? handRend.gameObject.AddComponent<RainbowBehaviour>();
             r2.AddRend(handRend, voteArea.PlayerIcon.ColorId);
         }
 
@@ -269,12 +263,8 @@ public sealed class MayorRole(IntPtr cppPtr)
 
         animationRend = MayorPlayer.GetComponent<SpriteRenderer>();
         animationRend.material = voteArea.PlayerIcon.cosmetics.currentBodySprite.BodySprite.material;
-        r = animationRend.gameObject.GetComponent<RainbowBehaviour>();
-        if (r == null)
-        {
-            r = animationRend.gameObject.AddComponent<RainbowBehaviour>();
-        }
-
+        r = animationRend.gameObject.GetComponent<RainbowBehaviour>()
+         ?? animationRend.gameObject.AddComponent<RainbowBehaviour>();
         r.AddRend(animationRend, voteArea.PlayerIcon.ColorId);
         handRend = MayorPlayer.transform.FindRecursive("Hands").GetComponent<SpriteRenderer>();
         if (!handRend)
@@ -285,12 +275,8 @@ public sealed class MayorRole(IntPtr cppPtr)
         if (handRend)
         {
             handRend.material = voteArea.PlayerIcon.cosmetics.currentBodySprite.BodySprite.material;
-            var r2 = animationRend.gameObject.GetComponent<RainbowBehaviour>();
-            if (r2 == null)
-            {
-                r2 = animationRend.gameObject.AddComponent<RainbowBehaviour>();
-            }
-
+            var r2 = animationRend.gameObject.GetComponent<RainbowBehaviour>()
+                  ?? animationRend.gameObject.AddComponent<RainbowBehaviour>();
             r2.AddRend(animationRend, voteArea.PlayerIcon.ColorId);
         }
 
@@ -310,12 +296,8 @@ public sealed class MayorRole(IntPtr cppPtr)
 
         var animationRend = MayorPlayer.GetComponent<SpriteRenderer>();
         animationRend.material = voteArea.PlayerIcon.cosmetics.currentBodySprite.BodySprite.material;
-        var r = animationRend.gameObject.GetComponent<RainbowBehaviour>();
-        if (r == null)
-        {
-            r = animationRend.gameObject.AddComponent<RainbowBehaviour>();
-        }
-
+        var r = animationRend.gameObject.GetComponent<RainbowBehaviour>()
+             ?? animationRend.gameObject.AddComponent<RainbowBehaviour>();
         r.AddRend(animationRend, voteArea.PlayerIcon.ColorId);
         var handRend = MayorPlayer.transform.FindRecursive("Hands").GetComponent<SpriteRenderer>();
         if (!handRend)
@@ -326,12 +308,8 @@ public sealed class MayorRole(IntPtr cppPtr)
         if (handRend)
         {
             handRend.material = voteArea.PlayerIcon.cosmetics.currentBodySprite.BodySprite.material;
-            var r2 = handRend.gameObject.GetComponent<RainbowBehaviour>();
-            if (r2 == null)
-            {
-                r2 = handRend.gameObject.AddComponent<RainbowBehaviour>();
-            }
-
+            var r2 = handRend.gameObject.GetComponent<RainbowBehaviour>()
+                  ?? handRend.gameObject.AddComponent<RainbowBehaviour>();
             r2.AddRend(handRend, voteArea.PlayerIcon.ColorId);
         }
 

@@ -45,6 +45,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Puppeteer.LoadAsset(), "TouMira.Role.Impostor.Puppeteer", 1.45f),
         UseVanillaKillButton = false,
         Icon = TouRoleIcons.Puppeteer,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
@@ -148,11 +149,12 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         if (controllerNotification == null)
         {
-            var controllerText = TouLocale.GetParsed("TouRolePuppeteerControlNotif", $"You are controlling {Controlled.Data.PlayerName}!");
+            var controllerText = TouLocale.GetParsed("TouRolePuppeteerControlNotifSelf");
             controllerNotification = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Impostor.ToTextColor()}{controllerText.Replace("<player>", Controlled.Data.PlayerName)}</color></b>",
                 Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Puppeteer.LoadAsset());
-            controllerNotification?.AdjustNotification();
+            controllerNotification.AdjustNotification();
+            controllerNotification.alphaTimer = OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
         }
     }
 
@@ -234,7 +236,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
         else if (target.AmOwner && OptionGroupSingleton<PuppeteerOptions>.Instance.VictimSeesControlDirection.Value > 0)
         {
-            puppeteer.AddModifier<PuppeteerHintArrowModifier>(PlayerControl.LocalPlayer);
+            puppeteer.AddModifier<PuppeteerHintArrowModifier>(target);
         }
     }
 
@@ -261,10 +263,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
             if (target.MyPhysics != null)
             {
-                if (target.MyPhysics.body != null)
-                {
-                    target.MyPhysics.body.velocity = Vector2.zero;
-                }
+                target.MyPhysics.body?.velocity = Vector2.zero;
                 target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
             }
 
@@ -399,8 +398,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
                 continue;
             }
 
-            bool canUse;
-            usable.CanUse(player.Data, out canUse, out _);
+            usable.CanUse(player.Data, out bool canUse, out _);
             if (!canUse)
             {
                 continue;

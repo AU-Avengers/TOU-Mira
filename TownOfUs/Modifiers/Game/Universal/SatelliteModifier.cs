@@ -2,7 +2,7 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
-using MiraAPI.Utilities.Assets;
+using MiraAPI.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Modifiers;
@@ -15,6 +15,10 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable, IButtonModifier
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Satellite,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Satellite.LoadAsset(),
+            "TouMira.Modifier.Universal.Satellite", 1.45f));
     private readonly List<SpriteRenderer> CastedIcons = [];
     private readonly List<PlayerControl> CastedPlayers = [];
     public override string LocaleKey => "Satellite";
@@ -42,13 +46,13 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.Get($"TouModifier{LocaleKey}Broadcast"),
                     TouLocale.GetParsed($"TouModifier{LocaleKey}BroadcastWikiDescription").Replace("<maxUses>",
                         $"{Math.Round(OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast, 0)}"),
                     TouAssets.BroadcastSprite)
-            };
+            ];
         }
     }
 

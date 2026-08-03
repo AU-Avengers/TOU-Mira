@@ -5,7 +5,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class PlaguebearerOptions : AbstractOptionGroup<PlaguebearerRole>
+public sealed class PlaguebearerOptions : AbstractRoleOptionGroup<PlaguebearerRole>
 {
     public override string GroupName => TouLocale.Get("TouRolePlaguebearer", "Plaguebearer");
 

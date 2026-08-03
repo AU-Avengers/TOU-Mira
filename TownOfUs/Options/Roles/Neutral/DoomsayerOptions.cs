@@ -6,7 +6,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class DoomsayerOptions : AbstractOptionGroup<DoomsayerRole>
+public sealed class DoomsayerOptions : AbstractRoleOptionGroup<DoomsayerRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleDoomsayer", "Doomsayer");
 
@@ -32,6 +32,12 @@ public sealed class DoomsayerOptions : AbstractOptionGroup<DoomsayerRole>
 
     [ModdedEnumOption("TouOptionDoomsayerWin", typeof(DoomWinOptions), ["TouOptionDoomsayerWinEnumEndsGame", "TouOptionDoomsayerWinEnumLeaves", "TouOptionDoomsayerWinEnumNothing"])]
     public DoomWinOptions DoomWin { get; set; } = DoomWinOptions.Leaves;
+
+    public ModdedToggleOption DoomAnonymizeWin { get; set; } =
+        new("TouOptionNeutAnonymousVictoryWin", false)
+    {
+        Visible = () => OptionGroupSingleton<DoomsayerOptions>.Instance.DoomWin is not DoomWinOptions.EndsGame
+    };
 
     public ModdedToggleOption DoomContinuesGame { get; set; } = new("TouOptionDoomsayerContinuesGame", true);
 }

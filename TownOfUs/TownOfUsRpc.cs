@@ -2,9 +2,9 @@
 
 public enum TownOfUsRpc : uint
 {
-    OffsetForAnticheat,
-    OffsetForParasite,
-    OffsetForPuppeteer,
+    SendClientModInfo,
+    ParasiteInputUnreliable,
+    PuppeteerInputUnreliable,
     GhostRoleMurder,
     SpecialMurder,
     ConfirmSpecialMurder,
@@ -13,8 +13,10 @@ public enum TownOfUsRpc : uint
     ConfirmSpecialMultiMurderDouble,
     FramedMurder,
     ConfirmFramedMurder,
-    GlamourMurder,
-    ConfirmGlamourMurder,
+    SelfMurder,
+    ConfirmSelfMurder,
+    MeetingMurder,
+    ConfirmMeetingMurder,
     RemoveSpawns,
     RerouteSystemByte,
     RerouteSystemMsg,
@@ -64,6 +66,7 @@ public enum TownOfUsRpc : uint
     DropBody,
     AltruistRevive,
     Prosecute,
+    ShowProsAnimation,
     DoomsayerWin,
     SetExeTarget,
     AddInquisTarget,
@@ -128,6 +131,7 @@ public enum TownOfUsRpc : uint
     MultiplayerFreeplayRequest,
     TriggerGlitchHack,
     Roleblock,
+    SpillDrink,
     RecentVetAttack,
     RemoveMediumSpirit,
     HostStartMeeting,
@@ -137,6 +141,20 @@ public enum TownOfUsRpc : uint
     OfficerSyncBullets,
     SetUpCrewpostor,
     MisguessSummary,
+
+    // Draft Mode
+    DraftSubmitPick,
+    DraftStart,
+    DraftAnnounceTurn,
+    DraftSlotNotify,
+    DraftPickerReady,
+    DraftPickConfirmed,
+    DraftForceRole,
+    DraftCancel,
+    DraftRequestShuffle,
+    DraftEnd,
+    DraftCreateNotif,
+    DraftBroadcastRecap,
 }
 
 internal enum TownOfUsInternalRpc : uint

@@ -1,6 +1,5 @@
 ﻿using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Networking;

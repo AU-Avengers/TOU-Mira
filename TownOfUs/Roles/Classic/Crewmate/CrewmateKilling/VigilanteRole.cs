@@ -3,7 +3,6 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -11,7 +10,6 @@ using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
-using TownOfUs.Modifiers.HnsGame;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Networking;
@@ -47,6 +45,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Vigilante.LoadAsset(), "TouMira.Role.Crewmate.Vigilante", 1.45f),
         Icon = TouRoleIcons.Vigilante,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.ImpostorIntroSound
@@ -149,26 +148,19 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
         {
             var realRole = player.Data.Role;
 
-            var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
 
             var pickVictim = role.Role == realRole.Role;
-            if (cachedMod != null)
+            if (player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
             {
-                switch (cachedMod.GuessMode)
+                pickVictim = cachedMod.GuessMode switch
                 {
-                    case CacheRoleGuess.ActiveRole:
-                        // Checks for the role the player is at the moment
-                        pickVictim = role.Role == realRole.Role;
-                        break;
-                    case CacheRoleGuess.CachedRole:
-                        // Checks for the cached role itself (like Imitator or Traitor)
-                        pickVictim = role.Role == cachedMod.CachedRole.Role;
-                        break;
-                    default:
-                        // Checks if it's the cached or active role
-                        pickVictim = role.Role == cachedMod.CachedRole.Role || role.Role == realRole.Role;
-                        break;
-                }
+                    // Checks for the role the player is at the moment
+                    CacheRoleGuess.ActiveRole => role.Role == realRole.Role,
+                    // Checks for the cached role itself (like Imitator or Traitor)
+                    CacheRoleGuess.CachedRole => role.Role == cachedMod.CachedRole.Role,
+                    // Checks if it's the cached or active role
+                    _ => role.Role == cachedMod.CachedRole.Role || role.Role == realRole.Role,
+                };
             }
             var victim = pickVictim ? player : Player;
 
@@ -223,9 +215,8 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
                 return false;
             }
-            Player.RpcSpecialMurder(victim, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
-                showKillAnim: false,
-                playKillSound: false,
+
+            Player.RpcMeetingMurder(victim, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
                 causeOfDeath: victim != Player ? "Guess" : "Misguess");
 
             if (victim != Player)
@@ -243,6 +234,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
         return voteArea?.TargetPlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true ||
                (voteArea.GetPlayer()?.Data.Role is MayorRole mayor && mayor.Revealed) ||
+               voteArea.GetPlayer()?.IsImpostorAligned() == true && Player.IsImpostorAligned() && !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode ||
                (Player.IsLover() && voteArea.GetPlayer()?.IsLover() == true);
     }
 
@@ -308,16 +300,20 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
         return false;
     }
 
-    private static bool IsModifierValid(BaseModifier modifier)
+    private static bool IsModifierValid(BaseModifier baseModifier)
     {
-        // This will remove modifiers that alter their chance/amount
-        var isValid =
-            !((modifier is TouGameModifier touMod && (touMod.CustomAmount <= 0 || touMod.CustomChance <= 0)) ||
-              (modifier is AllianceGameModifier allyMod && (allyMod.CustomAmount <= 0 || allyMod.CustomChance <= 0)) ||
-              (modifier is UniversalGameModifier uniMod && (uniMod.CustomAmount <= 0 || uniMod.CustomChance <= 0)
-               || modifier is HnsGameModifier));
+        if (baseModifier is not TouBaseGameModifier modifier)
+        {
+            return false;
+        }
 
-        if (!isValid)
+        if (baseModifier is IUnguessableBasic { IsGuessable: false })
+        {
+            return false;
+        }
+
+        // This will remove modifiers that alter their chance/amount
+        if (modifier.CustomAmount <= 0 || modifier.CustomChance <= 0)
         {
             return false;
         }

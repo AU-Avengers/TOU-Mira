@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Attributes;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers;
@@ -14,6 +13,10 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Celebrity,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Celebrity.LoadAsset(),
+            "TouMira.Modifier.Crewmate.Celebrity", 1.45f));
     public override string LocaleKey => "Celebrity";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
@@ -49,7 +52,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.CelebrityAmount != 0 ? 1 : 0;
+        return 1;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

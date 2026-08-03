@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events;
@@ -19,8 +18,14 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Alliance;
 
-public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable, IAssignableTargets
+public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable, IAssignableTargets, IContinuesGame
 {
+    // If Crewpostor remains as a crewmate, and no impostors are alive, everything should halt.
+    public bool ContinuesGame => Player.IsCrewmate() && !Helpers.GetAlivePlayers().Any(x => x.IsImpostor());
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Impostor,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Crewpostor.LoadAsset(),
+            "TouMira.Modifier.Alliance.Crewpostor", 1.45f));
     public override string LocaleKey => "Crewpostor";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public string ShortName => TouLocale.Get($"TouModifier{LocaleKey}ShortName");
@@ -37,7 +42,6 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
     }
 
     public override string Symbol => "*";
-    public override float IntroSize => 4f;
     public override bool DoesTasks => false;
     public override bool GetsPunished => false;
     public override bool CrewContinuesGame => false;
@@ -223,8 +227,8 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
         }
     }
 
-    public override int CustomAmount => (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance != 0 ? 1 : 0;
-    public override int CustomChance => (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance;
+    public override int CustomAmount => (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance.Value != 0 ? 1 : 0;
+    public override int CustomChance => (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance.Value;
 
     public static bool CrewpostorVisibilityFlag(PlayerControl player)
     {

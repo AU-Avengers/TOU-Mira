@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -30,10 +29,7 @@ public sealed class ChefServeButton : TownOfUsRoleButton<ChefRole, PlayerControl
     public override void CreateButton(Transform parent)
     {
         base.CreateButton(parent);
-        if (KeybindIcon != null)
-        {
-            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
-        }
+        KeybindIcon?.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
         UpdateServingType();
     }
 

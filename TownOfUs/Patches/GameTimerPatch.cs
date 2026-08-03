@@ -52,7 +52,7 @@ public static class GameTimerPatch
     public static void UpdateGameTimer(HudManager instance)
     {
         var timeOpt = OptionGroupSingleton<GameTimerOptions>.Instance;
-        if (GameTimerObj != null)
+        if (GameTimerObj)
         {
             GameTimerObj.SetActive(false);
         }
@@ -155,7 +155,8 @@ public static class GameTimerPatch
     {
         if (!PlayerControl.LocalPlayer ||
             !PlayerControl.LocalPlayer.Data ||
-            PlayerControl.LocalPlayer.Data.Role == null ||
+            !PlayerControl.LocalPlayer.Data.Role ||
+            LobbyBehaviour.Instance ||
             !ShipStatus.Instance ||
             TutorialManager.InstanceExists ||
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)

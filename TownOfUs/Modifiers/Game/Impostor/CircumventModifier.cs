@@ -1,6 +1,5 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Impostor;
 using TownOfUs.Roles.Impostor;
@@ -10,6 +9,10 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 
 public sealed class CircumventModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Impostor,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Circumvent.LoadAsset(),
+            "TouMira.Modifier.Impostor.Circumvent", 1.45f));
     public int VentsAvailable { get; set; }
     public override string LocaleKey => "Circumvent";
     public bool NoVents => VentsAvailable <= 0;

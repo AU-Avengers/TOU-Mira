@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -39,8 +38,9 @@ public sealed class WatchButton : TownOfUsRoleButton<LookoutRole, PlayerControl>
 
         Target.RpcAddModifier<LookoutWatchedModifier>(PlayerControl.LocalPlayer);
 
+        var showRoles = (LookoutView)OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Roles;
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{TouLocale.GetParsed("TouRoleLookoutWatchNotif").Replace("<player>", Target.Data.PlayerName)}</b>",
+            $"<b>{TouLocale.GetParsed(showRoles ? "TouRoleLookoutWatchNotif" : "TouRoleLookoutWatchAltNotif").Replace("<player>", Target.Data.PlayerName)}</b>",
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Lookout.LoadAsset());
         notif1.AdjustNotification();
     }

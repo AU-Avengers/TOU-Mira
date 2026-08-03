@@ -58,6 +58,7 @@ public sealed class MinerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Miner.LoadAsset(), "TouMira.Role.Impostor.Miner", 1.45f),
         UseVanillaKillButton = true,
         Icon = TouRoleIcons.Miner,
         OptionsScreenshot = TouBanners.MinerRoleBanner,
@@ -81,12 +82,12 @@ public sealed class MinerRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Mine", "Mine"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MineWikiDescription"),
                     TouImpAssets.MineSprite)
-            };
+            ];
         }
     }
 
@@ -162,7 +163,10 @@ public sealed class MinerRole(IntPtr cppPtr)
         ShipStatus.Instance.AllVents = allVents.ToArray();
 
         miner.Vents.Add(vent);
-        Coroutines.Start(miner.CoExplode(new Vector3(position.x, position.y + 1.33f , zAxis - 0.0001f)));
+        if (player.AmOwner || immediate)
+        {
+            Coroutines.Start(miner.CoExplode(new Vector3(position.x, position.y + 1.33f , zAxis - 0.0001f)));
+        }
 
         if (ModCompatibility.SubLoaded)
         {

@@ -2,7 +2,6 @@ using System.Collections;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Options.Modifiers;
@@ -13,6 +12,10 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 
 public sealed class DeadlyQuotaModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Impostor,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.DeadlyQuota.LoadAsset(),
+            "TouMira.Modifier.Impostor.DeadlyQuota", 1.45f));
     public int KillCount { get; set; }
     public int KillQuota { get; private set; }
 

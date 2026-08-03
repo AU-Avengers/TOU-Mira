@@ -5,7 +5,6 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Networking;
@@ -54,11 +53,8 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>, ILe
         }
         else
         {
-            if (Ignite != null)
-            {
-                Ignite.Clear();
-                Ignite = null;
-            }
+            Ignite?.Clear();
+            Ignite = null;
         }
 
         return base.CanUse() && count > 0;

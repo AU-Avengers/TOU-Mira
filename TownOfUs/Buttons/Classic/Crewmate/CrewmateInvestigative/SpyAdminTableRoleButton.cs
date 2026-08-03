@@ -1,9 +1,7 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
-using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -17,7 +15,7 @@ public sealed class SpyAdminTableRoleButton : TownOfUsRoleButton<SpyRole>
     public override Color TextOutlineColor => TownOfUsColors.Spy;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SpyOptions>.Instance.DisplayCooldown.Value + MapCooldown, 0.001f, 120f);
     public float AvailableCharge { get; set; } = OptionGroupSingleton<SpyOptions>.Instance.StartingCharge.Value;
-    public bool usingPortable { get; set; }
+    public bool UsingPortable { get; set; }
 
     public override float EffectDuration
     {
@@ -55,15 +53,15 @@ public sealed class SpyAdminTableRoleButton : TownOfUsRoleButton<SpyRole>
             return;
         }
 
-        if (usingPortable && !MapBehaviour.Instance.gameObject.activeSelf)
+        if (UsingPortable && !MapBehaviour.Instance.gameObject.activeSelf)
         {
             RefreshAbilityButton();
             ResetCooldownAndOrEffect();
-            usingPortable = false;
+            UsingPortable = false;
             return;
         }
 
-        if (usingPortable)
+        if (UsingPortable)
         {
             AvailableCharge -= Time.deltaTime;
             if (AvailableCharge <= 0f)
@@ -71,7 +69,7 @@ public sealed class SpyAdminTableRoleButton : TownOfUsRoleButton<SpyRole>
                 MapBehaviour.Instance.Close();
                 RefreshAbilityButton();
                 ResetCooldownAndOrEffect();
-                usingPortable = false;
+                UsingPortable = false;
                 return;
             }
         }
@@ -83,7 +81,7 @@ public sealed class SpyAdminTableRoleButton : TownOfUsRoleButton<SpyRole>
         Button?.usesRemainingText.gameObject.SetActive(true);
         Button?.usesRemainingSprite.gameObject.SetActive(true);
         Button!.usesRemainingText.text = (int)AvailableCharge + "%";
-        if (!usingPortable && EffectActive)
+        if (!UsingPortable && EffectActive)
         {
             ResetCooldownAndOrEffect();
         }
@@ -102,8 +100,7 @@ public sealed class SpyAdminTableRoleButton : TownOfUsRoleButton<SpyRole>
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
-                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -117,10 +114,7 @@ public sealed class SpyAdminTableRoleButton : TownOfUsRoleButton<SpyRole>
         AvailableCharge = OptionGroupSingleton<SpyOptions>.Instance.StartingCharge.Value;
         Button!.transform.localPosition =
             new Vector3(Button.transform.localPosition.x, Button.transform.localPosition.y, -150f);
-        if (KeybindIcon != null)
-        {
-            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
-        }
+        KeybindIcon?.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
     }
 
     protected override void OnClick()
@@ -130,7 +124,7 @@ public sealed class SpyAdminTableRoleButton : TownOfUsRoleButton<SpyRole>
             PlayerControl.LocalPlayer.NetTransform.Halt();
         }
 
-        usingPortable = true;
+        UsingPortable = true;
         ToggleMapVisible(OptionGroupSingleton<SpyOptions>.Instance.MoveWithMenu);
     }
 
@@ -138,11 +132,11 @@ public sealed class SpyAdminTableRoleButton : TownOfUsRoleButton<SpyRole>
     {
         base.OnEffectEnd();
 
-        if (usingPortable)
+        if (UsingPortable)
         {
             MapBehaviour.Instance.Close();
             RefreshAbilityButton();
-            usingPortable = false;
+            UsingPortable = false;
         }
     }
 

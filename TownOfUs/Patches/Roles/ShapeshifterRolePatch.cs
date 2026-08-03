@@ -46,9 +46,9 @@ public static class ShapeshifterRolePatch
             return false;
         }
 
-        var trueTargetPlayer = targetPlayer == null ? __instance : targetPlayer;
+        var trueTargetPlayer = targetPlayer ?? __instance;
 
-        Action changeOutfit = delegate()
+        void changeOutfit()
         {
             if (trueTargetPlayer.Data.PlayerId == __instance.Data.PlayerId)
             {
@@ -78,7 +78,7 @@ public static class ShapeshifterRolePatch
                             StringNames.ShapeshiftAbilityUndo));
                 }
             }
-        };
+        }
         Action animationDelegate = delegate()
         {
             changeOutfit();

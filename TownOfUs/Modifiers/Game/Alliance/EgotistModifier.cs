@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameEnd;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.GameOver;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
@@ -14,6 +13,10 @@ namespace TownOfUs.Modifiers.Game.Alliance;
 
 public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Egotist,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Egotist.LoadAsset(),
+            "TouMira.Modifier.Alliance.Egotist", 1.45f));
     public bool LeaveMessageSent { get; set; }
     public bool HasSurvived { get; set; } = true;
     public static float CooldownReduction { get; set; }
@@ -35,7 +38,6 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
     }
 
     public override string Symbol => "#";
-    public override float IntroSize => 4f;
     public override bool DoesTasks => false;
     public override bool GetsPunished => false;
     public override bool CrewContinuesGame => false;
@@ -64,7 +66,7 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.EgotistChance;
+        return (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.EgotistChance.Value;
     }
 
     public override int GetAmountPerGame()

@@ -1,4 +1,3 @@
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modules.Components;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
@@ -31,10 +30,7 @@ public sealed class SpellslingerHexBombButton : TownOfUsRoleButton<SpellslingerR
         if (ShipStatus.Instance.Systems.ContainsKey(SystemTypes.LifeSupp))
         {
             var lifeSuppSystemType = ShipStatus.Instance.Systems[SystemTypes.LifeSupp].Cast<LifeSuppSystemType>();
-            if (lifeSuppSystemType != null)
-            {
-                lifeSuppSystemType.Countdown = 10000f;
-            }
+            lifeSuppSystemType?.Countdown = 10000f;
         }
 
         foreach (var systemType2 in ShipStatus.Instance.Systems.Values)

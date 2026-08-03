@@ -65,8 +65,8 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Douse", "Douse"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}DouseWikiDescription"),
                     TouNeutAssets.DouseButtonSprite),
@@ -75,7 +75,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
                         ? $"TouRole{LocaleKey}IgniteWikiDescriptionLegacy"
                         : $"TouRole{LocaleKey}IgniteWikiDescription"),
                     TouNeutAssets.IgniteButtonSprite)
-            };
+            ];
         }
     }
 
@@ -87,6 +87,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Arsonist.LoadAsset(), "TouMira.Role.Neutral.Arsonist", 1.45f),
         CanUseVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent,
         IntroSound = TouAudio.ArsoIgniteSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
@@ -130,7 +131,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
 
     public void OffsetButtons()
     {
-        var canVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent || LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
+        var canVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent || LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.OffsetButtonsToggle.Value;
         var douse = CustomButtonSingleton<ArsonistDouseButton>.Instance;
         var ignite = CustomButtonSingleton<ArsonistIgniteButton>.Instance;
         Coroutines.Start(MiscUtils.CoMoveButtonIndex(douse, !canVent));
@@ -166,12 +167,8 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     public override void OnDeath(DeathReason reason)
     {
         var button = CustomButtonSingleton<ArsonistIgniteButton>.Instance;
-
-        if (button.Ignite != null)
-        {
-            button.Ignite.Clear();
-            button.Ignite = null;
-        }
+        button.Ignite?.Clear();
+        button.Ignite = null;
 
         RoleBehaviourStubs.OnDeath(this, reason);
     }

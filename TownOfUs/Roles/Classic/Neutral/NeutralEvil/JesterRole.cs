@@ -1,11 +1,14 @@
 ﻿using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using TownOfUs.Buttons;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -15,6 +18,11 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class JesterRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IGuessable
 {
+    [HideFromIl2Cpp]
+    public bool CanModifierContinueGame(BaseModifier modifier)
+    {
+        return modifier is TiebreakerModifier;
+    }
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (!playerControl.AmOwner)
@@ -62,7 +70,8 @@ public sealed class JesterRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        CanUseVent = OptionGroupSingleton<JesterOptions>.Instance.CanVent,
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Jester.LoadAsset(), "TouMira.Role.Neutral.Jester", 1.45f),
+        GetsVentData = OptionGroupSingleton<JesterOptions>.Instance.CanVent.Value,
         IntroSound = TouAudio.NoisemakerIntroSound,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
         OptionsScreenshot = TouBanners.JesterRoleBanner,
@@ -72,8 +81,6 @@ public sealed class JesterRole(IntPtr cppPtr)
     public bool MetWinCon => Voted;
 
     public bool HasImpostorVision => OptionGroupSingleton<JesterOptions>.Instance.ImpostorVision;
-
-
 
     public bool WinConditionMet()
     {
@@ -101,15 +108,14 @@ public sealed class JesterRole(IntPtr cppPtr)
 
         if (Player.AmOwner)
         {
-            if (OptionGroupSingleton<JesterOptions>.Instance.ScatterOn)
+            if (OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value)
             {
-                Player.AddModifier<ScatterModifier>(OptionGroupSingleton<JesterOptions>.Instance.ScatterTimer);
+                Player.AddModifier<ScatterModifier>(OptionGroupSingleton<JesterOptions>.Instance.ScatterTimer.Value);
             }
 
-            if (!LegacyAssets.IsLegacy)
+            if (OptionGroupSingleton<JesterOptions>.Instance.CanVent.Value)
             {
-                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.JesterVentSprite.LoadAsset();
-                HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Jester);
+                CustomButtonSingleton<FakeVentButton>.Instance.Show = false;
             }
         }
     }
@@ -121,16 +127,12 @@ public sealed class JesterRole(IntPtr cppPtr)
 
         if (Player.AmOwner)
         {
-            if (OptionGroupSingleton<JesterOptions>.Instance.ScatterOn)
+            if (OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value)
             {
                 Player.RemoveModifier<ScatterModifier>();
             }
 
-            if (!LegacyAssets.IsLegacy)
-            {
-                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
-                HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
-            }
+            CustomButtonSingleton<FakeVentButton>.Instance.Show = true;
         }
 
         if (!Player.HasModifier<BasicGhostModifier>() && Voted)

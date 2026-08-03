@@ -1,4 +1,5 @@
-﻿using BepInEx.Unity.IL2CPP.Utils.Collections;
+﻿using System.Collections;
+using BepInEx.Unity.IL2CPP.Utils.Collections;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -7,6 +8,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
+using Reactor.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules.MedSpirit;
@@ -21,7 +23,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public bool IgnoredByRewind => false;
     public bool IgnoredByRecording => Spirit != null;
 
-    [HideFromIl2Cpp] public List<MediatedModifier> MediatedPlayers { get; } = new();
+    [HideFromIl2Cpp] public List<MediatedModifier> MediatedPlayers { get; } = [];
 
     public DoomableType DoomHintType => DoomableType.Death;
     public string LocaleKey => "Medium";
@@ -41,12 +43,12 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Mediate", "Mediate"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MediateWikiDescription"),
                     TouCrewAssets.MediateSprite)
-            };
+            ];
         }
     }
 
@@ -56,6 +58,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Medium.LoadAsset(), "TouMira.Role.Crewmate.Medium", 1.45f),
         Icon = TouRoleIcons.Medium,
         OptionsScreenshot = TouBanners.MediumRoleBanner,
         IntroSound = TouAudio.MediumIntroSound
@@ -119,7 +122,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         List<PlayerControl> targets)
     {
         var newTargets = targets.Count == 0
-            ? new Dictionary<byte, string>()
+            ? []
             : targets.Select(x => new KeyValuePair<byte, string>(x.PlayerId, x.Data.PlayerName))
                 .ToDictionary(x => x.Key, x => x.Value);
         RpcMultiMediate(source, newTargets);
@@ -140,24 +143,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
         if (targets.Count != 0)
         {
-            var allPlayers = PlayerControl.AllPlayerControls.ToArray().ToList();
-            allPlayers.Remove(player);
-            foreach (var target in targets)
-            {
-                var newPlayer =
-                    allPlayers.FirstOrDefault(x => x.PlayerId == target.Key || x.Data.PlayerName == target.Value);
-                if (newPlayer == null)
-                {
-                    continue;
-                }
-
-                allPlayers.Remove(newPlayer);
-                if (player.AmOwner || newPlayer.AmOwner)
-                {
-                    var modifier = new MediatedModifier(player.PlayerId);
-                    newPlayer.GetModifierComponent()?.AddModifier(modifier);
-                }
-            }
+            Coroutines.Start(CoShowGhosts(player, targets));
         }
 
         var hidden =
@@ -177,9 +163,38 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
     }
 
+    public static IEnumerator CoShowGhosts(PlayerControl player, Dictionary<byte, string> targets)
+    {
+        // This must be a coroutine for it to show the arrow to everyone besides the host.
+        yield return new WaitForSeconds(0.5f);
+        var allPlayers = PlayerControl.AllPlayerControls.ToArray().ToList();
+        allPlayers.Remove(player);
+        foreach (var target in targets)
+        {
+            var newPlayer =
+                allPlayers.FirstOrDefault(x => x.PlayerId == target.Key || x.Data.PlayerName == target.Value);
+            if (newPlayer == null)
+            {
+                continue;
+            }
+
+            allPlayers.Remove(newPlayer);
+            if (player.AmOwner || newPlayer.AmOwner)
+            {
+                newPlayer.AddModifier<MediatedModifier>(player.PlayerId);
+            }
+        }
+    }
+
     [MethodRpc((uint)TownOfUsRpc.RemoveMediumSpirit)]
     public static void RpcRemoveMediumSpirit(PlayerControl medium, MedSpiritObject spirit)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(medium);
+            return;
+        }
+
         spirit.StartCoroutine(spirit.CoDestroy().WrapToIl2Cpp());
     }
 }

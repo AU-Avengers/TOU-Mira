@@ -12,6 +12,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
@@ -25,6 +26,11 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable,
     IAssignableTargets, ICrewVariant
 {
+    [HideFromIl2Cpp]
+    public bool CanModifierContinueGame(BaseModifier modifier)
+    {
+        return modifier is TiebreakerModifier;
+    }
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (!playerControl.AmOwner)
@@ -140,6 +146,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Executioner.LoadAsset(), "TouMira.Role.Neutral.Executioner", 1.45f),
         IntroSound = TouAudio.DiscoveredSound,
         Icon = TouRoleIcons.Executioner,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
@@ -257,7 +264,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
             // Error($"OnPlayerDeath - ChangeRole: '{roleType}'");
             Player.ChangeRole(roleType);
 
-            if ((roleType == RoleId.Get<JesterRole>() && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn) ||
+            if ((roleType == RoleId.Get<JesterRole>() && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value) ||
                 (roleType == RoleId.Get<SurvivorRole>() && OptionGroupSingleton<SurvivorOptions>.Instance.ScatterOn))
             {
                 StartCoroutine(Effects.Lerp(0.2f,

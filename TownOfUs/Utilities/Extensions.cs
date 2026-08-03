@@ -3,6 +3,7 @@ using AmongUs.GameOptions;
 using LibCpp2IL;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -427,6 +428,12 @@ public static class Extensions
         panel.NameText.transform.localPosition += Vector3.left * 0.05f;
     }
 
+    public static ShapeshifterPanel GetVictimPanel(this CustomPlayerMenu playerMenu, NetworkedPlayerInfo player)
+    {
+        return playerMenu.potentialVictims.First(victim =>
+            victim.NameText.text == player.PlayerName || victim.ColorBlindName.text == player.PlayerName);
+    }
+
     [MethodRpc((uint)TownOfUsRpc.ChangeRole)]
     public static void RpcChangeRole(this PlayerControl player, ushort newRoleType, bool recordRole = true)
     {
@@ -641,6 +648,16 @@ public static class Extensions
     {
         return Math.Clamp(UnderdogModifier.GetKillCooldown(player) + TownOfUsMapOptions.GetMapBasedCooldownDifference(),
             5f, 120f);
+    }
+    public static float GetReducedKillCooldown(this PlayerControl player)
+    {
+        return Math.Clamp(UnderdogModifier.GetKillCooldown(player) + TownOfUsMapOptions.GetMapBasedCooldownDifference(),
+            5f, 120f) * OptionGroupSingleton<GameMechanicOptions>.Instance.FullSaveCdMultiplier.Value;
+    }
+    public static void ResetButtonCooldown(this CustomActionButton button, bool applyMultiplier = false)
+    {
+        button.ResetCooldownAndOrEffect();
+        button.SetTimer(button.Timer * (applyMultiplier ? OptionGroupSingleton<GameMechanicOptions>.Instance.FullSaveCdMultiplier.Value : 1f));
     }
 
     /// <summary>

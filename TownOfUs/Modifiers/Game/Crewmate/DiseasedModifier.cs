@@ -1,5 +1,4 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Crewmate;
 using UnityEngine;
@@ -8,6 +7,10 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class DiseasedModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Diseased,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Diseased.LoadAsset(),
+            "TouMira.Modifier.Crewmate.Diseased", 1.45f));
     public override string LocaleKey => "Diseased";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");

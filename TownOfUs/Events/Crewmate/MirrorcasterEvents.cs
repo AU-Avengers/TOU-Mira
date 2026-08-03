@@ -113,12 +113,12 @@ public static class MirrorcasterEvents
             return;
         }
 
-        button?.ResetCooldownAndOrEffect();
+        button?.ResetButtonCooldown(true);
 
         if (source.Data.Role is WerewolfRole)
         {
             CustomButtonSingleton<WerewolfRampageButton>.Instance.ResetCooldownAndOrEffect();
         }
-        source.SetKillTimer(source.GetKillCooldown());
+        source.SetKillTimer(source.GetReducedKillCooldown());
     }
 }

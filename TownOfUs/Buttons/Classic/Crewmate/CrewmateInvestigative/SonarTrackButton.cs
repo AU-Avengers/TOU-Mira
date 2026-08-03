@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -40,7 +39,7 @@ public sealed class SonarTrackButton : TownOfUsRoleButton<SonarRole, PlayerContr
         Color color = Palette.PlayerColors[Target.GetDefaultAppearance().ColorId];
         var update = OptionGroupSingleton<SonarOptions>.Instance.UpdateInterval;
 
-        if (LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.SonarTargetType.Value is SonarTargetStyle
+        if (LocalSettingsTabSingleton<TouLocalTabGameplay>.Instance.SonarTargetType.Value is SonarTargetStyle
                 .Arrows)
         {
             Target.AddModifier<SonarArrowTargetModifier>(PlayerControl.LocalPlayer, color, update);

@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Hud;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -43,57 +42,27 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
             return;
         }
 
-        var player1Menu = CustomPlayerMenu.Create();
-        player1Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
+        var playerMenu = DoublePlayerMenu.Create(TownOfUsColors.Transporter, TouCrewAssets.Transport);
+        playerMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
-        player1Menu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
+        playerMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
-        player1Menu.Begin(
-            plr => ((!plr.Data.Disconnected && !plr.Data.IsDead) || Helpers.GetBodyById(plr.PlayerId)) &&
-                   (plr.moveable || plr.inVent),
-            plr =>
+        playerMenu.Begin(
+            plr => ((!plr.Data.Disconnected && !plr.Data.IsDead && (plr.moveable || plr.inVent)) ||
+                    Helpers.GetBodyById(plr.PlayerId)) || MiscUtils.GetFreshStonedPlayerById(plr.PlayerId),
+            (plr1, plr2) =>
             {
-                player1Menu.ForceClose();
+                playerMenu.Close();
 
-                if (plr == null)
-                {
-                    return;
-                }
+                TransporterRole.RpcTransport(PlayerControl.LocalPlayer, plr1.PlayerId, plr2.PlayerId);
 
-                var player2Menu = CustomPlayerMenu.Create();
-                player2Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
-                    PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
-                player2Menu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
-                    PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
-
-                player2Menu.Begin(
-                    plr2 => plr2.PlayerId != plr.PlayerId &&
-                            (!plr2.HasDied() ||
-                             Helpers.GetBodyById(plr2.PlayerId) /*  || MiscUtils.GetFakePlayer(plr2)?.body */) &&
-                            (plr2.moveable || plr2.inVent),
-                    plr2 =>
-                    {
-                        player2Menu.Close();
-                        if (plr2 == null)
-                        {
-                            return;
-                        }
-
-                        TransporterRole.RpcTransport(PlayerControl.LocalPlayer, plr.PlayerId, plr2.PlayerId);
-                    }
-                );
-                foreach (var panel in player2Menu.potentialVictims)
-                {
-                    panel.PlayerIcon.cosmetics.SetPhantomRoleAlpha(1f);
-                    if (panel.NameText.text != PlayerControl.LocalPlayer.Data.PlayerName)
-                    {
-                        panel.NameText.color = Color.white;
-                    }
-                }
-            }
+                playerMenu.target1 = null;
+            },
+            MouseOutEvent,
+            MouseOverEvent
         );
-        foreach (var panel in player1Menu.potentialVictims)
+        foreach (var panel in playerMenu.potentialVictims)
         {
             panel.PlayerIcon.cosmetics.SetPhantomRoleAlpha(1f);
             if (panel.NameText.text != PlayerControl.LocalPlayer.Data.PlayerName)
@@ -101,5 +70,15 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
                 panel.NameText.color = Color.white;
             }
         }
+    }
+    private static void MouseOutEvent(SpriteRenderer highlight, SpriteRenderer icon, bool isSelected)
+    {
+        highlight.color = isSelected ? new Color32(0, 237, 255, 175) : new Color32(255, 255, 255, 0);
+        icon.enabled = isSelected;
+    }
+    private static void MouseOverEvent(SpriteRenderer highlight, SpriteRenderer icon, bool isSelected)
+    {
+        highlight.color = isSelected ? new Color32(0, 237, 255, 255) : new Color32(0, 237, 255, 200);
+        icon.enabled = true;
     }
 }

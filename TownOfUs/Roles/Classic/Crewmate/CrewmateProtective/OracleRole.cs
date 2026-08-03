@@ -36,8 +36,8 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Bless", "Bless"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}BlessWikiDescription"),
                     TouCrewAssets.BlessSprite),
@@ -45,7 +45,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                     TouLocale.GetParsed($"TouRole{LocaleKey}ConfessWikiDescription").Replace("<revealAccuracy>",
                         $"{OptionGroupSingleton<OracleOptions>.Instance.RevealAccuracyPercentage}"),
                     TouCrewAssets.ConfessSprite)
-            };
+            ];
         }
     }
 
@@ -55,6 +55,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Oracle.LoadAsset(), "TouMira.Role.Crewmate.Oracle", 1.45f),
         Icon = TouRoleIcons.Oracle,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.GuardianAngelSound
@@ -162,10 +163,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
         var mod = ModifierUtils.GetActiveModifiers<OracleConfessModifier>(x => x.Oracle == player).FirstOrDefault();
 
-        if (mod != null)
-        {
-            mod.ConfessToAll = true;
-        }
+        mod?.ConfessToAll = true;
     }
 
     [MethodRpc((uint)TownOfUsRpc.OracleBless)]
@@ -179,11 +177,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         // Message($"RpcOracleBless exiled '{exiled.Data.PlayerName}'");
         var mod = exiled.GetModifier<OracleBlessedModifier>();
 
-        if (mod != null)
-            // Message($"RpcOracleBless exiled '{exiled.Data.PlayerName}' SavedFromExile");
-        {
-            mod.SavedFromExile = true;
-        }
+        mod?.SavedFromExile = true;
     }
 
     [MethodRpc((uint)TownOfUsRpc.OracleBlessNotify)]

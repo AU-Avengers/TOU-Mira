@@ -42,14 +42,14 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Stalk", "Stalk"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}StalkWikiDescription")
                         .Replace("<hunterMaxStalkUsages>",
                             $"{(int)OptionGroupSingleton<HunterOptions>.Instance.StalkUses}"),
                     TouCrewAssets.StalkButtonSprite)
-            };
+            ];
         }
     }
 
@@ -62,6 +62,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Hunter.LoadAsset(), "TouMira.Role.Crewmate.Hunter", 1.45f),
         Icon = TouRoleIcons.Hunter,
         OptionsScreenshot = TouBanners.HunterRoleBanner,
         IntroSound = TouAudio.OtherIntroSound

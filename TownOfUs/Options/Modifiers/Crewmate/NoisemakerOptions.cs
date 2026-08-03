@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Options.Modifiers.Crewmate;
 
-public sealed class NoisemakerOptions : AbstractOptionGroup<NoisemakerModifier>
+public sealed class NoisemakerOptions : AbstractTouModifierOptionGroup<NoisemakerModifier>
 {
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierNoisemaker", "Noisemaker");

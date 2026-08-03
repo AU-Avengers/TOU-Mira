@@ -7,7 +7,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -17,7 +16,7 @@ namespace TownOfUs.Events.Crewmate;
 public static class WardenEvents
 {
     [RegisterEvent]
-    public static void RoundStartEventHandler(RoundStartEvent @event)
+    public static void RoundStartEventHandler(RoundStartEvent _)
     {
         var wardenForts = ModifierUtils.GetActiveModifiers<WardenFortifiedModifier>();
 
@@ -39,8 +38,7 @@ public static class WardenEvents
 
             var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
                 x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-            var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
-                x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
+            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
             mod.ShowFort = showShieldedEveryone || showShieldedSelf || showShieldedWarden ||
                            (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
@@ -103,13 +101,10 @@ public static class WardenEvents
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a warden fort, stopping an interaction from {source.Data.PlayerName}!");
 
         // The reason this exists is that otherwise, players can brute force through the warden fort if they spam fast enough
-        if (@event is MiraButtonClickEvent buttonClick)
+        if (@event is MiraButtonClickEvent buttonClick &&
+            buttonClick.Button is CustomActionButton<PlayerControl> button)
         {
-            var button = buttonClick.Button as CustomActionButton<PlayerControl>;
-            if (button != null)
-            {
-                button.Timer = OptionGroupSingleton<GameMechanicOptions>.Instance.TempSaveCdReset;
-            }
+            button.Timer = OptionGroupSingleton<GameMechanicOptions>.Instance.TempSaveCdReset;
         }
 
         if (@event is BeforeMurderEvent && source.IsImpostor())

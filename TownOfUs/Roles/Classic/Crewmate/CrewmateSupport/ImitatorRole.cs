@@ -27,8 +27,8 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}CrewmateImitation"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CrewmateImitationWikiDescription"),
                     TouCrewAssets.InspectSprite),
@@ -38,7 +38,7 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}ImpostorCounterparts"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ImpostorCounterpartsWikiDescription"),
                     TouImpAssets.DragSprite),
-            };
+            ];
         }
     }
 
@@ -48,6 +48,7 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Imitator.LoadAsset(), "TouMira.Role.Crewmate.Imitator", 1.45f),
         Icon = TouRoleIcons.Imitator,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.SpyIntroSound

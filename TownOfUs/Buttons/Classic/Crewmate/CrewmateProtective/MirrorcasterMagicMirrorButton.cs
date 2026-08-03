@@ -1,9 +1,7 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -74,7 +72,7 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
         playerMenu.Begin(
             plr => (!plr.HasDied() ||
                     Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == plr.PlayerId) ||
-                    FakePlayer.FakePlayers.FirstOrDefault(x => x?.body?.name == $"Fake {plr.gameObject.name}")
+                    MiscUtils.GetFakePlayer(plr)
                         ?.body) && !plr.AmOwner,
             plr =>
             {

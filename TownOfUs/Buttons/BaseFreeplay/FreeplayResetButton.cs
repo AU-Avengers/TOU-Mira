@@ -1,5 +1,4 @@
 ﻿using MiraAPI.Hud;
-using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Rpc;
 using TownOfUs.Networking;
 using TownOfUs.Modules;

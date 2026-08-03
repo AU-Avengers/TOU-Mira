@@ -48,6 +48,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Monarch.LoadAsset(), "TouMira.Role.Crewmate.Monarch", 1.45f),
         Icon = TouRoleIcons.Monarch,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.ToppatIntroSound,
@@ -86,13 +87,13 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Knight", "Knight"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}KnightDescription").Replace("<amount>",
                         ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)),
                     TouCrewAssets.KnightSprite)
-            };
+            ];
         }
     }
 

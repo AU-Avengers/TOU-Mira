@@ -10,9 +10,10 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Neutral;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
-using TownOfUs.Roles.Crewmate;
+using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -31,7 +32,13 @@ public sealed class GlitchRole(IntPtr cppPtr)
         orCreateTask.name = "NeutralRoleText";
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<LookoutRole>());
+    [HideFromIl2Cpp]
+    public bool IsModifierApplicable(BaseModifier modifier)
+    {
+        return modifier is not OverclockerModifier;
+    }
+
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<BootleggerRole>());
     public DoomableType DoomHintType => DoomableType.Perception;
     public string LocaleKey => "Glitch";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -50,15 +57,15 @@ public sealed class GlitchRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Mimic", "Mimic"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MimicWikiDescription"),
                     TouNeutAssets.MimicSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Hack", "Hack"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}HackWikiDescription"),
                     TouNeutAssets.HackSprite)
-            };
+            ];
         }
     }
 
@@ -68,6 +75,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Glitch.LoadAsset(), "TouMira.Role.Neutral.Glitch", 1.45f),
         CanUseVent = (GlitchVent)OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is not GlitchVent.Never,
         IntroSound = TouAudio.GlitchSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

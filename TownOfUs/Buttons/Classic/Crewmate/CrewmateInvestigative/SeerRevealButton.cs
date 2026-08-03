@@ -2,7 +2,6 @@ using System.Text;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles;
@@ -25,6 +24,12 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
                !OptionGroupSingleton<SeerOptions>.Instance.SalemSeer;
     }
 
+    public override bool CanUse()
+    {
+        return base.CanUse() &&
+               (OptionGroupSingleton<SeerOptions>.Instance.CanUseMultiplePerRound || !Role.UsedThisRound);
+    }
+
     public override bool IsTargetValid(PlayerControl? target)
     {
         return base.IsTargetValid(target) && !target!.HasModifier<SeerGoodRevealModifier>() &&
@@ -44,6 +49,7 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
         }
 
         RevealAlliance(Target);
+        Role.UsedThisRound = true;
         TouAudio.PlaySound(TouAudio.QuestionSound);
 
         Target?.cosmetics.SetOutline(false, new Il2CppSystem.Nullable<Color>(TownOfUsColors.Seer));

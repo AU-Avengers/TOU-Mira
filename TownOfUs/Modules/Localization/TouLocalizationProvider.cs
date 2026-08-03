@@ -53,10 +53,7 @@ public class TouLocalizationProvider : LocalizationProvider
 
     public override void OnLanguageChanged(SupportedLangs newLanguage)
     {
-        if (_reactorProvider == null)
-        {
-            _reactorProvider = LocalizationManager.Providers.First(x => x is HardCodedLocalizationProvider);
-        }
+        _reactorProvider ??= LocalizationManager.Providers.First(x => x is HardCodedLocalizationProvider);
         if (!_loadedStrings)
         {
             TouLocale.LoadExternalLocale();

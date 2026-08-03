@@ -3,42 +3,71 @@ using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Interfaces;
-using TownOfUs.Modifiers.Game;
+using TownOfUs.Modifiers.Game.Assailant;
 
 namespace TownOfUs.Options;
 
-public sealed class AssassinOptions : AbstractOptionGroup<AssassinModifier>, IWikiOptionsSummaryProvider
+public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinModifier>, IWikiOptionsSummaryProvider
 {
     public override string GroupName => "Assassin Options";
     public override uint GroupPriority => 7;
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
 
-    public ModdedNumberOption NumberOfImpostorAssassins { get; } =
-        new("Number Of Impostor Assassins", 1, 0, 4, 1, MiraNumberSuffixes.None, "0");
+    public AmountChanceOption NumberOfImpostorAssassins { get; } =
+        new("Number Of Impostor Assassins", 1, 0, 4, 1,
+            color: TownOfUsColors.Impostor, asset: TouModifierIcons.Assassin,
+            assetName: "TouMira.Modifier.Assailant.Assassin", assetScale: 1.45f)
+    {
+        ChangedEvent = _impAssassinNotif
+    };
 
-    public ModdedNumberOption ImpAssassinChance { get; } =
-        new("Impostor Assassin Chance", 100f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
+    public AmountChanceOption ImpAssassinChance { get; } =
+        new("Impostor Assassin Chance", 100f, 0, 100f, 10f, "#", "#", MiraNumberSuffixes.Percent,
+            color: TownOfUsColors.Impostor, asset: TouModifierIcons.Assassin,
+            assetName: "TouMira.Modifier.Assailant.Assassin", assetScale: 1.45f)
         {
+            ChangedEvent = _impAssassinNotif,
             Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.NumberOfImpostorAssassins.Value > 0
         };
 
-    public ModdedNumberOption NumberOfNeutralAssassins { get; } =
-        new("Number Of Neutral Assassins", 1, 0, 4, 1, MiraNumberSuffixes.None, "0");
-
-    public ModdedNumberOption NeutAssassinChance { get; } =
-        new("Neutral Assassin Chance", 100f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
+    public ModdedNumberOption ImpAssassinKills { get; } =
+        new("# Of Impostor Assassin Kills", 3, 1, 15, 1, MiraNumberSuffixes.None, "0")
         {
+            Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.NumberOfImpostorAssassins.Value > 0 && OptionGroupSingleton<AssassinOptions>.Instance.ImpAssassinChance.Value > 0
+        };
+    public ModdedToggleOption ImpAssassinMultiKill { get; } =
+        new("Impostor Assassin Can Kill More Than Once Per Meeting", true)
+        {
+            Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.ImpAssassinKills.Value > 1 && OptionGroupSingleton<AssassinOptions>.Instance.NumberOfImpostorAssassins.Value > 0 && OptionGroupSingleton<AssassinOptions>.Instance.ImpAssassinChance.Value > 0
+        };
+
+    public AmountChanceOption NumberOfNeutralAssassins { get; } =
+        new("Number Of Neutral Assassins", 1, 0, 4, 1,
+            color: TownOfUsColors.Neutral, asset: TouModifierIcons.Assassin,
+            assetName: "TouMira.Modifier.Assailant.Assassin", assetScale: 1.45f)
+        {
+            ChangedEvent = _neutAssassinNotif
+        };
+
+    public AmountChanceOption NeutAssassinChance { get; } =
+        new("Neutral Assassin Chance", 100f, 0, 100f, 10f, "#", "#", MiraNumberSuffixes.Percent,
+            color: TownOfUsColors.Neutral, asset: TouModifierIcons.Assassin,
+            assetName: "TouMira.Modifier.Assailant.Assassin", assetScale: 1.45f)
+        {
+            ChangedEvent = _neutAssassinNotif,
             Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.NumberOfNeutralAssassins.Value > 0
         };
 
-    public ModdedNumberOption AssassinKills { get; } =
-        new("Number Of Assassin Kills", 5, 1, 15, 1, MiraNumberSuffixes.None, "0");
-
-    public ModdedToggleOption AssassinMultiKill { get; } =
-        new("Assassin Can Kill More Than Once Per Meeting", true)
-    {
-        Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.AssassinKills.Value > 1
-    };
+    public ModdedNumberOption NeutAssassinKills { get; } =
+        new("# Of Neutral Assassin Kills", 5, 1, 15, 1, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.NumberOfNeutralAssassins.Value > 0 && OptionGroupSingleton<AssassinOptions>.Instance.NeutAssassinChance.Value > 0
+        };
+    public ModdedToggleOption NeutAssassinMultiKill { get; } =
+        new("Neutral Assassin Can Kill More Than Once Per Meeting", true)
+        {
+            Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.NeutAssassinKills.Value > 1 && OptionGroupSingleton<AssassinOptions>.Instance.NumberOfNeutralAssassins.Value > 0 && OptionGroupSingleton<AssassinOptions>.Instance.NeutAssassinChance.Value > 0
+        };
 
     /*
     public ModdedToggleOption GuessVanillaRoles { get; } =
@@ -74,6 +103,9 @@ public sealed class AssassinOptions : AbstractOptionGroup<AssassinModifier>, IWi
             Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessCrewModifiers.Value
         };
 
+    public ModdedToggleOption AssassinGuessImpostorModifiers { get; } =
+        new("Assassin Can Guess Impostor Modifiers", true);
+
     public ModdedToggleOption AssassinGuessNonCrewModifiers { get; } =
         new("Assassin Can Guess Other Faction Modifiers", true);
 
@@ -88,8 +120,10 @@ public sealed class AssassinOptions : AbstractOptionGroup<AssassinModifier>, IWi
             NumberOfNeutralAssassins.StringName,
             NeutAssassinChance.StringName,
 
-            AssassinKills.StringName,
-            AssassinMultiKill.StringName,
+            NeutAssassinKills.StringName,
+            NeutAssassinMultiKill.StringName,
+            ImpAssassinKills.StringName,
+            ImpAssassinMultiKill.StringName,
 
             // GuessVanillaRoles.StringName,
             AssassinCrewmateGuess.StringName,
@@ -104,6 +138,7 @@ public sealed class AssassinOptions : AbstractOptionGroup<AssassinModifier>, IWi
 
             AssassinGuessCrewModifiers.StringName,
             AssassinGuessNonCrewModifiers.StringName,
+            AssassinGuessImpostorModifiers.StringName,
             AssassinGuessUtilityModifiers.StringName,
             AssassinGuessAlliances.StringName,
         };
@@ -115,24 +150,49 @@ public sealed class AssassinOptions : AbstractOptionGroup<AssassinModifier>, IWi
         var cult = TownOfUsPlugin.Culture;
         var impCount = (int)NumberOfImpostorAssassins.Value;
         var impChance = (int)ImpAssassinChance.Value;
-        var impText = TouLocale.Get("TouOptionAssassinImpAssassinTitle") +
-                      (impCount > 0 && impChance > 0
-                          ? TouLocale.GetParsed("TouOptionAssassinSetAssassins").Replace("<amount>",
-                              impCount.ToString(TownOfUsPlugin.Culture)).Replace("<chance>",
-                              impChance.ToString(TownOfUsPlugin.Culture))
-                          : TouLocale.Get("TouOptionAssassinNoAssassins"));
+        var impText = TouLocale.GetParsed("TouOptionAssassinImpTitleNone");
+        if (impCount == 1 && impChance > 0)
+        {
+            impText = TouLocale.GetParsed("TouOptionAssassinImpTitleSingle").Replace("<chance>",
+                impChance.ToString(TownOfUsPlugin.Culture));
+        }
+        else if (impCount > 0 && impChance > 0)
+        {
+            impText = TouLocale.GetParsed("TouOptionAssassinImpTitleFull").Replace("<amount>",
+                impCount.ToString(TownOfUsPlugin.Culture)).Replace("<chance>",
+                impChance.ToString(TownOfUsPlugin.Culture));
+        }
+        if (impCount > 0 && impChance > 0)
+        {
+            var impKills = (int)ImpAssassinKills.Value;
+            impText += $" {impKills.ToString(cult)} Shots";
+            if (impKills > 1)
+            {
+                impText += ImpAssassinMultiKill.Value ? " (Overall)" : " (1 Per Meeting)";
+            }
+        }
         var neutCount = (int)NumberOfNeutralAssassins.Value;
         var neutChance = (int)NeutAssassinChance.Value;
-        var neutText = TouLocale.Get("TouOptionAssassinNeutAssassinTitle") +
-                       (neutCount > 0 && neutChance > 0
-                           ? TouLocale.GetParsed("TouOptionAssassinSetAssassins").Replace("<amount>",
-                               neutCount.ToString(TownOfUsPlugin.Culture)).Replace("<chance>",
-                               neutChance.ToString(TownOfUsPlugin.Culture))
-                           : TouLocale.Get("TouOptionAssassinNoAssassins"));
-        var assassinShots = $"{((int)AssassinKills.Value).ToString(cult)}";
-        if ((int)AssassinKills.Value > 1)
+        var neutText = TouLocale.GetParsed("TouOptionAssassinNeutTitleNone");
+        if (neutCount == 1 && neutChance > 0)
         {
-            assassinShots += AssassinMultiKill.Value ? " (Any Per Meeting)" : " (1 Per Meeting)";
+            neutText = TouLocale.GetParsed("TouOptionAssassinNeutTitleSingle").Replace("<chance>",
+                neutChance.ToString(TownOfUsPlugin.Culture));
+        }
+        else if (neutCount > 0 && neutChance > 0)
+        {
+            neutText = TouLocale.GetParsed("TouOptionAssassinNeutTitleFull").Replace("<amount>",
+                neutCount.ToString(TownOfUsPlugin.Culture)).Replace("<chance>",
+                neutChance.ToString(TownOfUsPlugin.Culture));
+        }
+        if (neutCount > 0 && neutChance > 0)
+        {
+            var neutKills = (int)NeutAssassinKills.Value;
+            neutText += $" {neutKills.ToString(cult)} Shots";
+            if (neutKills > 1)
+            {
+                neutText += NeutAssassinMultiKill.Value ? " (Overall)" : " (1 Per Meeting)";
+            }
         }
 
         var crewRoles = none;
@@ -162,7 +222,7 @@ public sealed class AssassinOptions : AbstractOptionGroup<AssassinModifier>, IWi
             }
             else
             {
-                string[] neutArray = Array.Empty<string>();
+                string[] neutArray = [];
 
                 if (!AssassinGuessNeutralBenign.Value)
                 {
@@ -188,10 +248,10 @@ public sealed class AssassinOptions : AbstractOptionGroup<AssassinModifier>, IWi
             }
         }
 
-        if (AssassinGuessCrewModifiers.Value || AssassinGuessNonCrewModifiers.Value || AssassinGuessAlliances.Value)
+        if (AssassinGuessCrewModifiers.Value || AssassinGuessNonCrewModifiers.Value || AssassinGuessImpostorModifiers.Value || AssassinGuessAlliances.Value)
         {
             if (AssassinGuessCrewModifiers.Value && AssassinGuessUtilityModifiers.Value &&
-                AssassinGuessNonCrewModifiers.Value && AssassinGuessAlliances.Value)
+                AssassinGuessNonCrewModifiers.Value && AssassinGuessAlliances.Value && AssassinGuessImpostorModifiers.Value)
             {
                 modifiers = TouLocale.Get("TouOptionAssassinUniversalMods");
             }
@@ -208,6 +268,11 @@ public sealed class AssassinOptions : AbstractOptionGroup<AssassinModifier>, IWi
                 else if (!AssassinGuessUtilityModifiers.Value)
                 {
                     modArray = modArray.AddToArray(TouLocale.Get("TouOptionAssassinUtilityCrewMods"));
+                }
+
+                if (!AssassinGuessImpostorModifiers.Value)
+                {
+                    modArray = modArray.AddToArray(TouLocale.Get("TouOptionAssassinImpMods"));
                 }
 
                 if (!AssassinGuessNonCrewModifiers.Value)
@@ -227,7 +292,6 @@ public sealed class AssassinOptions : AbstractOptionGroup<AssassinModifier>, IWi
         {
             impText,
             neutText,
-            "Assassin Shots: " + assassinShots,
             TouLocale.Get("TouOptionAssassinGuessableCrewRolesTitle") + crewRoles,
             TouLocale.Get("TouOptionAssassinGuessableNeutRolesTitle") + neutRoles,
             TouLocale.Get("TouOptionAssassinGuessableImpRolesTitle") + impRoles,
@@ -235,4 +299,24 @@ public sealed class AssassinOptions : AbstractOptionGroup<AssassinModifier>, IWi
         };
         return newArray;
     }
+    private static Action<float> _impAssassinNotif = x =>
+    {
+        var optAmount = OptionGroupSingleton<AssassinOptions>.Instance.NumberOfImpostorAssassins;
+        var opt = OptionGroupSingleton<AssassinOptions>.Instance.ImpAssassinChance;
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get("TouModifierAssassin"),
+            optAmount.Data.GetValueString(optAmount.Value),
+            opt.Data.GetValueString(opt.Value));
+    };
+    private static Action<float> _neutAssassinNotif = x =>
+    {
+        var optAmount = OptionGroupSingleton<AssassinOptions>.Instance.NumberOfNeutralAssassins;
+        var opt = OptionGroupSingleton<AssassinOptions>.Instance.NeutAssassinChance;
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get("TouModifierAssassin"),
+            optAmount.Data.GetValueString(optAmount.Value),
+            opt.Data.GetValueString(opt.Value));
+    };
 }

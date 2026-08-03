@@ -55,7 +55,7 @@ public static class LocalSettings
                     continue;
             }
 
-            var show = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.DeadSeeGhostsToggle.Value;
+            var show = LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.DeadSeeGhostsToggle.Value;
             var bodyForms = player.gameObject.transform.GetChild(1).gameObject;
 
             foreach (var form in bodyForms.GetAllChildren())
@@ -86,10 +86,7 @@ public static class LocalSettings
 
                 cameraPair.Key.gameObject.SetActive(true);
                 var spriteRenderer = cameraPair.Key.gameObject.GetComponent<SpriteRenderer>();
-                if (spriteRenderer != null)
-                {
-                    spriteRenderer.color = Color.white;
-                }
+                spriteRenderer?.color = Color.white;
             }
         }
     }

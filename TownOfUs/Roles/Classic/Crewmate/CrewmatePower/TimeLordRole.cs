@@ -48,6 +48,7 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.TimeLord.LoadAsset(), "TouMira.Role.Crewmate.TimeLord", 1.45f),
         Icon = TouRoleIcons.TimeLord,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         MaxRoleCount = 1,
@@ -95,7 +96,7 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 1f, 15f);
 
         if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost &&
-OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+(RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
         {
             var now = DateTime.UtcNow;
             var cutoff = now - TimeSpan.FromSeconds(history);

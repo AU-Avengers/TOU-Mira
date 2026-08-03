@@ -2,9 +2,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.PluginLoading;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
-using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches.PrefabChanging;
 using TownOfUs.Roles.Crewmate;
@@ -89,8 +87,8 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
     public override void ClickHandler()
     {
-        if (!CanClick() || PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() ||
-            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities) || !MiscUtils.CanUseUtility(GameUtility.Cams, true))
+        if (!CanClick() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities) ||
+            !MiscUtils.CanUseUtility(GameUtility.Cams, true))
         {
             return;
         }
@@ -103,13 +101,10 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             if (TextOutlineColor != Color.clear)
             {
                 SetTextOutline(TextOutlineColor);
-                if (Button != null)
-                {
-                    Button.usesRemainingSprite.color = TextOutlineColor;
-                }
+                Button?.usesRemainingSprite.color = TextOutlineColor;
             }
 
-            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
+            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance
                 .UseCrewmateTeamColorToggle.Value;
         }
 
@@ -134,10 +129,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
         Button!.transform.localPosition =
             new Vector3(Button.transform.localPosition.x, Button.transform.localPosition.y + 1.1f, -150f);
-        if (KeybindIcon != null)
-        {
-            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
-        }
+        KeybindIcon?.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
     }
 
     private static void EnsureBatteryInitialized()
@@ -280,8 +272,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
-                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -415,12 +406,8 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
     public override void OnEffectEnd()
     {
         base.OnEffectEnd();
-
-        if (_securityMinigame != null)
-        {
-            _securityMinigame.Close();
-            _securityMinigame = null;
-        }
+        _securityMinigame?.Close();
+        _securityMinigame = null;
 
         if (_reportedInUse && PlayerControl.LocalPlayer)
         {

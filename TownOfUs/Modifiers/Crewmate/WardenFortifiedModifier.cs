@@ -1,10 +1,8 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
 using PowerTools;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
@@ -25,7 +23,7 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
         get
         {
             var showFort = OptionGroupSingleton<WardenOptions>.Instance.ShowFortified;
-            return !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowShieldHudToggle.Value ||
+            return !LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowShieldHudToggle.Value ||
                    showFort is FortifyOptions.Warden;
         }
     }
@@ -61,8 +59,7 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-        var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
-            x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
+            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
         ShowFort = showShieldedEveryone || showShieldedSelf || showShieldedWarden ||
                    (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);

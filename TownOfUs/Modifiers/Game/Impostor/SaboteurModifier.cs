@@ -1,5 +1,4 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using UnityEngine;
 
@@ -7,6 +6,10 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 
 public sealed class SaboteurModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Impostor,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Saboteur.LoadAsset(),
+            "TouMira.Modifier.Impostor.Saboteur", 1.45f));
     public override string LocaleKey => "Saboteur";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => "You also have reduced sabotage cooldowns.";

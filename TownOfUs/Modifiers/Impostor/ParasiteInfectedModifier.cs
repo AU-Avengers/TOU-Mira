@@ -107,22 +107,13 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
                 _overlayRoot.name = "ParasiteInfectedOverlay";
 
                 var tmp = _overlayRoot.GetComponent<TextMeshPro>();
-                if (tmp != null)
-                {
-                    tmp.enabled = false;
-                }
+                tmp?.enabled = false;
 
                 var meshRenderer = _overlayRoot.GetComponent<MeshRenderer>();
-                if (meshRenderer != null)
-                {
-                    meshRenderer.enabled = false;
-                }
+                meshRenderer?.enabled = false;
 
                 var aspect = _overlayRoot.GetComponent<AspectPosition>();
-                if (aspect != null)
-                {
-                    aspect.enabled = false;
-                }
+                aspect?.enabled = false;
                 
                 var borderObj = UnityEngine.Object.Instantiate(TouAssets.ParasiteOverlay.LoadAsset(), _overlayRoot.transform);
                 borderObj.layer = _overlayRoot.layer;
@@ -172,7 +163,6 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
                 controllerName,
                 TownOfUsColors.Impostor,
                 TouRoleIcons.Parasite.LoadAsset())!;
-            _controlledNotification?.AdjustNotification();
         }
     }
 

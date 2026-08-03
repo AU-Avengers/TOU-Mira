@@ -1,13 +1,14 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities.Appearances;
 
 namespace TownOfUs.Modifiers.Crewmate;
 
@@ -64,7 +65,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
             AppearanceVisibility.None or AppearanceVisibility.Living;
         if (_mediumPlayer.AmOwner && hidden)
         {
-            Player.SetCamouflage();
+            Player.AddModifier<MediumHiddenModifier>();
         }
 
         Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Medium, alpha: 0.5f));
@@ -77,10 +78,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
             return;
         }
 
-        if (_medium != null)
-        {
-            _medium.MediatedPlayers.Remove(this);
-        }
+        _medium?.MediatedPlayers.Remove(this);
 
         if (_mediumPlayer.AmOwner)
         {
@@ -93,14 +91,11 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
 
             if (hidden)
             {
-                Player.SetCamouflage(false);
+                Player.RemoveModifier<MediumHiddenModifier>();
             }
         }
 
-        if (_arrow != null)
-        {
-            _arrow.gameObject.DeepDestroy();
-        }
+        _arrow?.gameObject.DeepDestroy();
     }
 
     public override void FixedUpdate()

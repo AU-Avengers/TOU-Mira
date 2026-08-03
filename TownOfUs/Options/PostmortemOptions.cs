@@ -6,7 +6,7 @@ namespace TownOfUs.Options;
 public sealed class PostmortemOptions : AbstractOptionGroup
 {
     public override string GroupName => "Postmortem Options";
-    public override uint GroupPriority => 2;
+    public override uint GroupPriority => 4;
 
     public ModdedToggleOption TheDeadKnow { get; set; } = new("The Dead Know Players", true);
 
@@ -19,7 +19,7 @@ public sealed class PostmortemOptions : AbstractOptionGroup
         ["Disabled", "Disabled Upon Death", "Always"]);
 
     public ModdedToggleOption HideChatButton { get; set; } = new("Temporarily Hide Chat Upon Death", true);
-
+    public ModdedToggleOption ShowTaskDead { get; set; } = new("See Task Trackers When Dead", true);
 }
 
 public enum GhostModeInGame

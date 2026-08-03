@@ -1,4 +1,3 @@
-using MiraAPI.Utilities.Assets;
 using UnityEngine;
 
 namespace TownOfUs.Assets;

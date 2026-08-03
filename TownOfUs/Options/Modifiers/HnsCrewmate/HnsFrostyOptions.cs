@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Options.Modifiers.HnsCrewmate;
 
-public sealed class HnsFrostyOptions : AbstractOptionGroup<HnsFrostyModifier>
+public sealed class HnsFrostyOptions : AbstractTouModifierOptionGroup<HnsFrostyModifier>
 {
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.HideAndSeek;
     public override string GroupName => TouLocale.Get("HnsModifierFrosty", "Frosty");

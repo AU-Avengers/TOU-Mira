@@ -72,12 +72,12 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Infect", "Infect"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}InfectWikiDescription"),
                     TouNeutAssets.InfectSprite)
-            };
+            ];
         }
     }
 
@@ -87,6 +87,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Plaguebearer.LoadAsset(), "TouMira.Role.Neutral.Plaguebearer", 1.45f),
         IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.Plaguebearer,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

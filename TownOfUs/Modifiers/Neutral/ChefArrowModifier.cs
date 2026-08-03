@@ -1,5 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers.Types;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Options.Roles.Neutral;
@@ -20,7 +21,7 @@ public sealed class ChefArrowModifier(DeadBody deadBody, Color color) : TimedMod
     public override void OnActivate()
     {
         base.OnActivate();
-        if (OptionGroupSingleton<ChefOptions>.Instance.ChefArrowDuration.Value > 0f)
+        if (Duration > 0f)
         {
             StartTimer();
         }

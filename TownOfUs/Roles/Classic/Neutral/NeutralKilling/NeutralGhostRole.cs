@@ -29,7 +29,7 @@ public class NeutralGhostRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsR
         TouRoleUtils.ClearTaskHeader(Player);
     }
     private Minigame _hauntMenu = null!;
-
+    public bool IsDraftable => false;
     public override bool IsDead => true;
     public override bool IsAffectedByComms => false;
 
@@ -45,7 +45,7 @@ public class NeutralGhostRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsR
     public virtual string RoleLongDescription => Player != null ? Player.GetRoleWhenAlive().BlurbLong : string.Empty;
     public virtual Color RoleColor => Player != null ? Player.GetRoleWhenAlive().TeamColor : TownOfUsColors.Neutral;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
-    public virtual RoleAlignment RoleAlignment => RoleAlignment.NeutralBenign;
+    public virtual RoleAlignment RoleAlignment => RoleAlignment.GameOutlier;
 
     public virtual CustomRoleConfiguration Configuration => new(this)
     {

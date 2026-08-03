@@ -1,5 +1,4 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
 using MiraAPI.Utilities;
 using UnityEngine;
 
@@ -10,15 +9,47 @@ public sealed class AllianceModifierOptions : AbstractOptionGroup
     public override string GroupName => "Alliance Modifiers";
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override Color GroupColor => Color.white;
-    public override bool ShowInModifiersMenu => true;
+    public override MenuCategory ParentMenu => MenuCategory.Modifiers;
     public override uint GroupPriority => 0;
 
-    [ModdedNumberOption("Crewpostor Chance", 0, 100, 10f, MiraNumberSuffixes.Percent)]
-    public float CrewpostorChance { get; set; } = 0;
+    public AmountChanceOption CrewpostorChance { get; } = new("Crewpostor Chance", 0, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Impostor, asset: TouModifierIcons.Crewpostor,
+        assetName: "TouMira.Modifier.Alliance.Crewpostor", assetScale: 1.45f)
+    {
+        ChangedEvent = x =>
+        {
+            var opt = OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance;
+            RunNotif(opt, x > 0f ? "1" : "0", "TouModifierCrewpostor");
+        }
+    };
 
-    [ModdedNumberOption("Egotist Chance", 0, 100f, 10f, MiraNumberSuffixes.Percent)]
-    public float EgotistChance { get; set; } = 0;
+    public AmountChanceOption EgotistChance { get; } = new("Egotist Chance", 0, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Egotist, asset: TouModifierIcons.Egotist,
+        assetName: "TouMira.Modifier.Alliance.Egotist", assetScale: 1.45f)
+    {
+        ChangedEvent = x =>
+        {
+            var opt = OptionGroupSingleton<AllianceModifierOptions>.Instance.EgotistChance;
+            RunNotif(opt, x > 0f ? "1" : "0", "TouModifierEgotist");
+        }
+    };
 
-    [ModdedNumberOption("Lovers Chance", 0, 100, 10f, MiraNumberSuffixes.Percent)]
-    public float LoversChance { get; set; } = 0;
-}
+    public AmountChanceOption LoversChance { get; } = new("Lovers Chance", 0, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Lover, asset: TouModifierIcons.Lover,
+        assetName: "TouMira.Modifier.Alliance.Lover", assetScale: 1.45f)
+    {
+        ChangedEvent = x =>
+        {
+            var opt = OptionGroupSingleton<AllianceModifierOptions>.Instance.LoversChance;
+            RunNotif(opt, x > 0f ? "2" : "0", "TouModifierLover");
+        }
+    };
+    private static void RunNotif(AmountChanceOption opt, string count, string title)
+    {
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get(title),
+            count,
+            opt.Data.GetValueString(opt.Value));
+    }
+};

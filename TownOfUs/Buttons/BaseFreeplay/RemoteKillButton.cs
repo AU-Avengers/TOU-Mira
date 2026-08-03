@@ -1,10 +1,10 @@
 ﻿using MiraAPI.Hud;
 using MiraAPI.Networking;
-using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Rpc;
 using TownOfUs.Networking;
 using TownOfUs.Modules;
 using UnityEngine;
+using TownOfUs.Modules.Components;
 
 namespace TownOfUs.Buttons.BaseFreeplay;
 
@@ -52,63 +52,47 @@ public sealed class RemoteKillButton : TownOfUsButton
         Killer = null;
         Victim = null;
 
-        var player1Menu = CustomPlayerMenu.Create();
-        player1Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
+        var playerMenu = DoublePlayerMenu.Create(TownOfUsColors.Impostor, TouAssets.KillSprite, hoverDeselectSprite: TouImpAssets.AmbushSprite);
+        playerMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
-        player1Menu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
+        playerMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
-        player1Menu.Begin(
+        playerMenu.Begin(
             plr => !plr.Data.Disconnected &&
                    (plr.moveable || plr.inVent),
-            plr =>
+            (plr1, plr2) =>
             {
-                player1Menu.ForceClose();
+                playerMenu.Close();
 
-                if (plr == null)
-                {
-                    return;
-                }
+                Killer = plr1;
+                Victim = plr2;
+                EffectActive = true;
+                Timer = EffectDuration;
 
-                var player2Menu = CustomPlayerMenu.Create();
-                player2Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
-                    plr.cosmetics.currentBodySprite.BodySprite.material;
-                player2Menu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
-                    plr.cosmetics.currentBodySprite.BodySprite.material;
-
-                player2Menu.Begin(
-                    plr2 => !plr2.Data.Disconnected && !plr2.Data.IsDead &&
-                            (plr2.moveable || plr2.inVent),
-                    plr2 =>
-                    {
-                        player2Menu.Close();
-                        if (plr2 == null)
-                        {
-                            return;
-                        }
-
-                        Killer = plr;
-                        Victim = plr2;
-                        EffectActive = true;
-                        Timer = EffectDuration;
-                    }
-                );
-                foreach (var panel in player2Menu.potentialVictims)
-                {
-                    if (panel.NameText.text != PlayerControl.LocalPlayer.Data.PlayerName)
-                    {
-                        panel.NameText.color = Color.white;
-                    }
-                }
-            }
+                playerMenu.target1 = null;
+            },
+            MouseOutEvent,
+            MouseOverEvent,
+            allowUnselectFirst: false
         );
-        foreach (var panel in player1Menu.potentialVictims)
+        foreach (var panel in playerMenu.potentialVictims)
         {
             if (panel.NameText.text != PlayerControl.LocalPlayer.Data.PlayerName)
             {
                 panel.NameText.color = Color.white;
             }
         }
+    }
+    private static void MouseOutEvent(SpriteRenderer highlight, SpriteRenderer icon, bool isSelected)
+    {
+        highlight.color = isSelected ? TownOfUsColors.ImpSoft : new Color32(255, 255, 255, 0);
+        icon.enabled = isSelected;
+    }
+    private static void MouseOverEvent(SpriteRenderer highlight, SpriteRenderer icon, bool isSelected)
+    {
+        highlight.color = isSelected ? new Color32(150, 150, 150, 255) : TownOfUsColors.Impostor;
+        icon.enabled = true;
     }
 
     public override void OnEffectEnd()

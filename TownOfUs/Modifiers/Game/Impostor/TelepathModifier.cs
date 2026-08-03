@@ -1,5 +1,4 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Impostor;
@@ -9,6 +8,10 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 
 public sealed class TelepathModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Impostor,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Telepath.LoadAsset(),
+            "TouMira.Modifier.Impostor.Telepath", 1.45f));
     public override string LocaleKey => "Telepath";
     public override string ModifierName => TouLocale.Get("TouModifierTelepath", "Telepath");
     public override Color FreeplayFileColor => new Color32(255, 25, 25, 255);

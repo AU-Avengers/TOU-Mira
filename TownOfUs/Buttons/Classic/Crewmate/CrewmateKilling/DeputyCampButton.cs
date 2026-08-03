@@ -1,6 +1,5 @@
 ﻿using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -41,10 +40,7 @@ public sealed class CampButton : TownOfUsRoleButton<DeputyRole, PlayerControl>, 
 
         var player = ModifierUtils.GetPlayersWithModifier<DeputyCampedModifier>(x => x.Deputy.AmOwner).FirstOrDefault();
 
-        if (player != null)
-        {
-            player.RpcRemoveModifier<DeputyCampedModifier>();
-        }
+        player?.RpcRemoveModifier<DeputyCampedModifier>();
 
         Target.RpcAddModifier<DeputyCampedModifier>(PlayerControl.LocalPlayer);
         Usable = false;

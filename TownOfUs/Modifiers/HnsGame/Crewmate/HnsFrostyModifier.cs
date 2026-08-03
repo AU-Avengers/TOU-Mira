@@ -1,6 +1,4 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
-using TownOfUs.Modifiers.Game;
 using TownOfUs.Options.Modifiers;
 using UnityEngine;
 
@@ -8,6 +6,10 @@ namespace TownOfUs.Modifiers.HnsGame.Crewmate;
 
 public sealed class HnsFrostyModifier : HnsGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Frosty,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Frosty.LoadAsset(),
+            "TouMira.Modifier.HnS.Hider.Frosty", 1.45f));
     public override string LocaleKey => "Frosty";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Frosty;
     public override ModifierFaction FactionType => ModifierFaction.HiderPostmortem;

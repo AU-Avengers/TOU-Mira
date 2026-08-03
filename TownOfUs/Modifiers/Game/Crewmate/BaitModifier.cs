@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Crewmate;
 using UnityEngine;
@@ -11,6 +10,10 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class BaitModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Bait,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Bait.LoadAsset(),
+            "TouMira.Modifier.Crewmate.Bait", 1.45f));
     public override string LocaleKey => "Bait";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
@@ -42,7 +45,7 @@ public sealed class BaitModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.BaitAmount;
+        return 1;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

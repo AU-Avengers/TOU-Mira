@@ -4,6 +4,7 @@ using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
@@ -61,6 +62,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Escapist.LoadAsset(), "TouMira.Role.Impostor.Escapist", 1.45f),
         Icon = TouRoleIcons.Escapist,
         IntroSound = TouAudio.TimeLordIntroSound,
         OptionsScreenshot = TouBanners.EscapistRoleBanner,
@@ -74,15 +76,15 @@ public sealed class EscapistRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Mark", "Mark"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MarkWikiDescription"),
                     TouImpAssets.MarkSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Recall", "Recall"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}RecallWikiDescription"),
                     TouImpAssets.RecallSprite)
-            };
+            ];
         }
     }
 

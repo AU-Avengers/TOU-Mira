@@ -1,6 +1,7 @@
 using AmongUs.Data;
 using HarmonyLib;
 using MiraAPI.GameOptions;
+using MiraAPI.Utilities;
 using TownOfUs.Modules.Components;
 using TownOfUs.Modules.TimeLord;
 using TownOfUs.Options;
@@ -11,7 +12,7 @@ namespace TownOfUs.Patches.Options;
 [HarmonyPatch]
 public static class VitalsBodyPatches
 {
-    internal static List<NetworkedPlayerInfo> MissingPlayers = new();
+    internal static List<NetworkedPlayerInfo> MissingPlayers = [];
 
     public static void AddMissingPlayer(NetworkedPlayerInfo player)
     {

@@ -9,7 +9,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
-using TownOfUs.Modifiers.Game.Neutral;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
@@ -51,12 +51,12 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Bite", "Bite"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}BiteWikiDescription"),
                     TouNeutAssets.BiteSprite)
-            };
+            ];
         }
     }
 
@@ -68,6 +68,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Vampire.LoadAsset(), "TouMira.Role.Neutral.Vampire", 1.45f),
         CanUseVent = OptionGroupSingleton<VampireOptions>.Instance.CanVent,
         IntroSound = TouAudio.VampIntroSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
@@ -154,7 +155,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
 
         if (OptionGroupSingleton<VampireOptions>.Instance.CanGuessAsNewVamp)
         {
-            target.AddModifier<NeutralKillerAssassinModifier>();
+            target.AddModifier<AssassinModifier>();
         }
     }
 }

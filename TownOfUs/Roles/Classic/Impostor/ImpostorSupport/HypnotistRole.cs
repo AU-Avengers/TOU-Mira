@@ -55,6 +55,7 @@ public sealed class HypnotistRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Hypnotist.LoadAsset(), "TouMira.Role.Impostor.Hypnotist", 1.45f),
         UseVanillaKillButton = true,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Hypnotist
@@ -67,15 +68,15 @@ public sealed class HypnotistRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Hypnotize", "Hypnotize"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}HypnotizeWikiDescription"),
                     TouImpAssets.HypnotiseButtonSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}MassHysteriaWiki", "Mass Hysteria (Meeting)"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MassHysteriaWikiDescription"),
                     TouAssets.HysteriaCleanSprite)
-            };
+            ];
         }
     }
 

@@ -7,7 +7,9 @@ using UnityEngine;
 namespace TownOfUs.Patches.AprilFools;
 
 #pragma warning disable S1121
-// Thanks Galster (https://github.com/Galster-dev), taken from https://github.com/Tommy-XL/Unlock-dlekS-ehT/blob/main/Patches/CoStartGameHostPatch.cs
+/// <remarks>
+/// Thanks Galster (<see href="https://github.com/Galster-dev"/>), taken from <see href="https://github.com/Tommy-XL/Unlock-dlekS-ehT/blob/main/Patches/CoStartGameHostPatch.cs"/>
+/// </remarks>
 [HarmonyPatch]
 public static class CoStartGameHostPatch
 {

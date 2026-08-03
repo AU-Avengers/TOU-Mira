@@ -6,8 +6,8 @@ using MiraAPI.PluginLoading;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Globalization;
+using TownOfUs.Events;
 using TownOfUs.Modifiers;
-using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
@@ -31,13 +31,38 @@ public abstract class TownOfUsButton : CustomActionButton
     public override ButtonLocation Location => ButtonLocation.BottomRight;
 
     public override string CooldownTimerFormatString =>
-        Timer <= 10f && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.PreciseCooldownsToggle.Value
+        Timer <= 10f && LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.PreciseCooldownsToggle.Value
             ? "0.0"
             : "0";
 
     public virtual bool Disabled { get; set; }
     public virtual bool UsableInDeath => false;
+    public virtual bool UsableFirstRound => true;
     public virtual bool ShouldPauseInVent => true;
+    public SpriteRenderer FirstRoundLock;
+
+    public void CreateRoundLockIcon()
+    {
+        var hackedSprite = new GameObject("RoundOneLockSprite");
+        hackedSprite.transform.SetParent(Button!.transform);
+        hackedSprite.transform.localPosition = new Vector3(0, 0, -10f);
+        hackedSprite.gameObject.layer = Button!.gameObject.layer;
+
+        var render = hackedSprite.AddComponent<SpriteRenderer>();
+        render.sprite = TouAssets.FirstRoundLockSprite.LoadAsset();
+        FirstRoundLock = render;
+
+        SetRoundLockActive(false);
+    }
+
+    public void SetRoundLockActive(bool isActive)
+    {
+        if (FirstRoundLock && FirstRoundLock.gameObject)
+        {
+            FirstRoundLock.gameObject.SetActive(isActive);
+            FirstRoundLock.enabled = isActive;
+        }
+    }
 
     public PassiveButton PassiveComp { get; set; }
 
@@ -124,6 +149,8 @@ public abstract class TownOfUsButton : CustomActionButton
             return;
         }
 
+        CreateRoundLockIcon();
+
         Button.usesRemainingSprite.sprite = this is ILegacyCapable && LegacyAssets.IsLegacy ? TouAssets.BlankSprite.LoadAsset() : TouAssets.AbilityCounterBasicSprite.LoadAsset();
 
         TownOfUsColors.UseBasic = false;
@@ -134,7 +161,7 @@ public abstract class TownOfUsButton : CustomActionButton
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.UseCrewmateTeamColorToggle.Value;
 
         PassiveComp = Button.GetComponent<PassiveButton>();
     }
@@ -150,7 +177,7 @@ public abstract class TownOfUsButton : CustomActionButton
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.UseCrewmateTeamColorToggle.Value;
     }
 
     public override bool CanUse()
@@ -166,6 +193,11 @@ public abstract class TownOfUsButton : CustomActionButton
         }
 
         if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
+        if (!UsableFirstRound && DeathEventHandlers.CurrentRound == 1 && !TutorialManager.InstanceExists)
         {
             return false;
         }
@@ -197,8 +229,7 @@ public abstract class TownOfUsButton : CustomActionButton
 
     public override void ClickHandler()
     {
-        if (!CanClick() || PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() ||
-            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (!CanClick())
         {
             return;
         }
@@ -211,13 +242,10 @@ public abstract class TownOfUsButton : CustomActionButton
             if (TextOutlineColor != Color.clear)
             {
                 SetTextOutline(TextOutlineColor);
-                if (Button != null)
-                {
-                    Button.usesRemainingSprite.color = TextOutlineColor;
-                }
+                Button?.usesRemainingSprite.color = TextOutlineColor;
             }
 
-            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
+            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance
                 .UseCrewmateTeamColorToggle.Value;
         }
 
@@ -247,13 +275,38 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
     public override ButtonLocation Location => ButtonLocation.BottomRight;
 
     public override string CooldownTimerFormatString =>
-        Timer <= 10f && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.PreciseCooldownsToggle.Value
+        Timer <= 10f && LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.PreciseCooldownsToggle.Value
             ? "0.0"
             : "0";
 
     public virtual bool Disabled { get; set; }
     public virtual bool ShouldPauseInVent => true;
     public virtual bool UsableInDeath => false;
+    public virtual bool UsableFirstRound => true;
+    public SpriteRenderer FirstRoundLock;
+
+    public void CreateRoundLockIcon()
+    {
+        var hackedSprite = new GameObject("RoundOneLockSprite");
+        hackedSprite.transform.SetParent(Button!.transform);
+        hackedSprite.transform.localPosition = new Vector3(0, 0, -10f);
+        hackedSprite.gameObject.layer = Button!.gameObject.layer;
+
+        var render = hackedSprite.AddComponent<SpriteRenderer>();
+        render.sprite = TouAssets.FirstRoundLockSprite.LoadAsset();
+        FirstRoundLock = render;
+
+        SetRoundLockActive(false);
+    }
+
+    public void SetRoundLockActive(bool isActive)
+    {
+        if (FirstRoundLock && FirstRoundLock.gameObject)
+        {
+            FirstRoundLock.gameObject.SetActive(isActive);
+            FirstRoundLock.enabled = isActive;
+        }
+    }
 
     public PassiveButton PassiveComp { get; set; }
 
@@ -348,6 +401,11 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
             return false;
         }
 
+        if (!UsableFirstRound && DeathEventHandlers.CurrentRound == 1 && !TutorialManager.InstanceExists)
+        {
+            return false;
+        }
+
         if (!PlayerControl.LocalPlayer.CanMove ||
             PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
@@ -366,27 +424,21 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
             return;
         }
 
+        CreateRoundLockIcon();
+
         if (this is ILegacyCapable && LegacyAssets.IsLegacy)
         {
             Button.usesRemainingSprite.sprite = TouAssets.BlankSprite.LoadAsset();
         }
         else
         {
-            switch (typeof(T))
+            Button.usesRemainingSprite.sprite = typeof(T) switch
             {
-                case Type t when t == typeof(Vent):
-                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterVentSprite.LoadAsset();
-                    break;
-                case Type t when t == typeof(DeadBody):
-                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBodySprite.LoadAsset();
-                    break;
-                case Type t when t == typeof(PlayerControl):
-                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterPlayerSprite.LoadAsset();
-                    break;
-                default:
-                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBasicSprite.LoadAsset();
-                    break;
-            }
+                Type t when t == typeof(Vent) => TouAssets.AbilityCounterVentSprite.LoadAsset(),
+                Type t when t == typeof(DeadBody) => TouAssets.AbilityCounterBodySprite.LoadAsset(),
+                Type t when t == typeof(PlayerControl) => TouAssets.AbilityCounterPlayerSprite.LoadAsset(),
+                _ => TouAssets.AbilityCounterBasicSprite.LoadAsset(),
+            };
         }
 
         TownOfUsColors.UseBasic = false;
@@ -397,7 +449,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.UseCrewmateTeamColorToggle.Value;
 
         PassiveComp = Button.GetComponent<PassiveButton>();
     }
@@ -413,13 +465,12 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.UseCrewmateTeamColorToggle.Value;
     }
 
     public override void ClickHandler()
     {
-        if (CanClick() && !PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() &&
-            !PlayerControl.LocalPlayer.HasModifier<DisabledModifier>())
+        if (CanClick())
         {
             if (LimitedUses)
             {
@@ -429,13 +480,10 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
                 if (TextOutlineColor != Color.clear)
                 {
                     SetTextOutline(TextOutlineColor);
-                    if (Button != null)
-                    {
-                        Button.usesRemainingSprite.color = TextOutlineColor;
-                    }
+                    Button?.usesRemainingSprite.color = TextOutlineColor;
                 }
 
-                TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
+                TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance
                     .UseCrewmateTeamColorToggle.Value;
             }
 
@@ -592,8 +640,6 @@ public abstract class TownOfUsKillRoleButton<TRole, TTarget> : TownOfUsRoleButto
 [MiraIgnore]
 public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, Vent> where TRole : RoleBehaviour
 {
-    public virtual bool HideVanillaButton { get; set; } = true;
-
     public override Vent? GetTarget()
     {
         return HudManager.Instance.ImpostorVentButton.currentTarget;
@@ -616,8 +662,7 @@ public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, 
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() ||
-            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -627,12 +672,6 @@ public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, 
 
         return (PlayerControl.LocalPlayer.inVent || Timer <= 0 && Target != null) &&
             (!LimitedUses || UsesLeft > 0);
-    }
-
-    protected override void FixedUpdate(PlayerControl playerControl)
-    {
-        base.FixedUpdate(playerControl);
-        HudManager.Instance.ImpostorVentButton.ToggleVisible(!HideVanillaButton);
     }
 }
 #pragma warning restore S3060

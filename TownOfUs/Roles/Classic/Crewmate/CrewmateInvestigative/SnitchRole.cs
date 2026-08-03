@@ -67,6 +67,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Snitch.LoadAsset(), "TouMira.Role.Crewmate.Snitch", 1.45f),
         Icon = TouRoleIcons.Snitch,
         OptionsScreenshot = TouBanners.SnitchRoleBanner,
         IntroSound = TouAudio.ToppatIntroSound
@@ -329,12 +330,8 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
         // Set to null so CreateSnitchArrowsSilent() can recreate arrows when needed
         _snitchArrows = null;
-
-        if (SnitchRevealArrow != null)
-        {
-            SnitchRevealArrow.gameObject.DeepDestroy();
-            SnitchRevealArrow = null;
-        }
+        SnitchRevealArrow?.gameObject.DeepDestroy();
+        SnitchRevealArrow = null;
 
         // Remove modifiers from all players explicitly to ensure they're cleared on all clients
         foreach (var player in PlayerControl.AllPlayerControls)
@@ -386,35 +383,30 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
         }
-        _snitchArrows = new Dictionary<byte, ArrowBehaviour>();
+        _snitchArrows = [];
         var imps = Helpers.GetAlivePlayers().Where(plr => plr.Data.Role.IsImpostor && !plr.IsTraitor());
         var traitor = Helpers.GetAlivePlayers().FirstOrDefault(plr => plr.IsTraitor());
-        imps.ToList().ForEach(imp =>
-        {
-            _snitchArrows.Add(imp.PlayerId, MiscUtils.CreateArrow(imp.transform, TownOfUsColors.Impostor));
-            PlayerNameColor.Set(imp);
-            imp.AddModifier<SnitchImpostorRevealModifier>();
-        });
+        imps.ToList().ForEach(imp => CreateSnitchArrow(imp, TownOfUsColors.Impostor));
 
         if (OptionGroupSingleton<SnitchOptions>.Instance.SnitchSeesTraitor && traitor != null)
         {
-            _snitchArrows.Add(traitor.PlayerId, MiscUtils.CreateArrow(traitor.transform, TownOfUsColors.Impostor));
-            PlayerNameColor.Set(traitor);
-            traitor.AddModifier<SnitchImpostorRevealModifier>();
+            CreateSnitchArrow(traitor, TownOfUsColors.Impostor);
         }
 
         if (OptionGroupSingleton<SnitchOptions>.Instance.SnitchNeutralRoles)
         {
             var neutrals = MiscUtils.GetRoles(RoleAlignment.NeutralKilling)
                 .Where(role => !role.Player.Data.IsDead && !role.Player.Data.Disconnected);
-            neutrals.ToList().ForEach(neutral =>
-            {
-                _snitchArrows.Add(neutral.Player.PlayerId,
-                    MiscUtils.CreateArrow(neutral.Player.transform, TownOfUsColors.Neutral));
-                PlayerNameColor.Set(neutral.Player);
-                neutral.Player.AddModifier<SnitchImpostorRevealModifier>();
-            });
+            neutrals.ToList().ForEach(neutral => CreateSnitchArrow(neutral.Player, TownOfUsColors.Neutral));
         }
+    }
+
+    private void CreateSnitchArrow(PlayerControl player, Color color)
+    {
+        var arrow = MiscUtils.CreateArrow(player.transform, color);
+        _snitchArrows!.Add(player.PlayerId, arrow);
+        PlayerNameColor.Set(player);
+        player.AddModifier<SnitchImpostorRevealModifier>();
     }
 
     public void AddSnitchTraitorArrows()

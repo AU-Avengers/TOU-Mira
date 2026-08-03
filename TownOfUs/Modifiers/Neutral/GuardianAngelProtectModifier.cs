@@ -1,9 +1,7 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -26,7 +24,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
         get
         {
             var showProtect = OptionGroupSingleton<FairyOptions>.Instance.ShowProtect;
-            return !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowShieldHudToggle.Value ||
+            return !LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowShieldHudToggle.Value ||
                    !OptionGroupSingleton<FairyOptions>.Instance.FairyTargetKnows ||
                    showProtect is ProtectOptions.Fairy;
         }
@@ -50,8 +48,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-        var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
-            x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
+            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
         if (showProtectEveryone || showProtectSelf || showProtectFairy || (PlayerControl.LocalPlayer.HasDied() &&
                                                                         genOpt.TheDeadKnow && !body &&

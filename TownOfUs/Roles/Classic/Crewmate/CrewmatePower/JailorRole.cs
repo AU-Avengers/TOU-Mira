@@ -3,7 +3,6 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -56,15 +55,15 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Jail", "Jail"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}JailWikiDescription"),
                     TouCrewAssets.JailSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}ExecuteWiki", "Execute"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ExecuteWikiDescription"),
                     TouAssets.ExecuteCleanSprite)
-            };
+            ];
         }
     }
 
@@ -75,6 +74,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Jailor.LoadAsset(), "TouMira.Role.Crewmate.Jailor", 1.45f),
         MaxRoleCount = 1,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Jailor,
@@ -266,9 +266,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                     text = TouLocale.GetParsed("TouRoleJailorExecutedEvil");
                 }
 
-                Player.RpcSpecialMurder(Jailed, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
-                    showKillAnim: false,
-                    playKillSound: false,
+                Player.RpcMeetingMurder(Jailed, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
                     causeOfDeath: "Jailor");
             }
             text = text.Replace("<player>", Jailed.Data.PlayerName);

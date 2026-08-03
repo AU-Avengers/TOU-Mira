@@ -2,10 +2,7 @@ using System.Globalization;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Impostor.Herbalist;
-using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
@@ -28,17 +25,13 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
 
     public int CurrentHerbUses()
     {
-        switch (CurrentAbility)
+        return CurrentAbility switch
         {
-            case HerbAbilities.Expose:
-                return ExposeUsesLeft;
-            case HerbAbilities.Confuse:
-                return ConfuseUsesLeft;
-            case HerbAbilities.Protect:
-                return ProtectUsesLeft;
-        }
-
-        return -1;
+            HerbAbilities.Expose => ExposeUsesLeft,
+            HerbAbilities.Confuse => ConfuseUsesLeft,
+            HerbAbilities.Protect => ProtectUsesLeft,
+            _ => -1,
+        };
     }
 
     public bool CurrentHerbsLimited => CurrentHerbUses() != -1;
@@ -48,8 +41,7 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
 
     public override void ClickHandler()
     {
-        if (CanClick() && !PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() &&
-            !PlayerControl.LocalPlayer.HasModifier<DisabledModifier>())
+        if (CanClick())
         {
             if (CurrentHerbsLimited)
             {
@@ -106,21 +98,21 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
     public override LoadableAsset<Sprite> Sprite => HerbButtons[0];
     public HerbAbilities CurrentAbility = HerbAbilities.Kill;
 
-    public static List<LoadableAsset<Sprite>> HerbButtons { get; set; } = new()
-    {
+    public static List<LoadableAsset<Sprite>> HerbButtons { get; set; } =
+    [
         TouAssets.KillSprite,
         TouImpAssets.HerbExposeSprite,
         TouImpAssets.HerbConfuseSprite,
         TouImpAssets.HerbProtectSprite,
-    };
+    ];
 
-    public static List<string> ProtectionText { get; set; } = new()
-    {
+    public static List<string> ProtectionText { get; set; } =
+    [
         "Kill",
         "Expose",
         "Confuse",
         "Protect",
-    };
+    ];
 
     public override void CreateButton(Transform parent)
     {

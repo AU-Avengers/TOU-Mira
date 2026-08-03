@@ -6,7 +6,7 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class MorphlingOptions : AbstractOptionGroup<MorphlingRole>
+public sealed class MorphlingOptions : AbstractRoleOptionGroup<MorphlingRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleMorphling", "Morphling");
 

@@ -9,10 +9,12 @@ using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Buttons.Neutral;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
+using TownOfUs.Patches;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
@@ -66,7 +68,7 @@ public static class JesterEvents
                         DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
                 }
             }
-            else
+            else if (OptionGroupSingleton<JesterOptions>.Instance.JestAnnounceWin)
             {
                 var text = TouLocale.GetParsed("TouNotifJesterWinGlobal");
                 if (text.Contains(jestRoleName))
@@ -87,7 +89,7 @@ public static class JesterEvents
     }
 
     [RegisterEvent]
-    public static void RoundStartEventHandler(RoundStartEvent @event)
+    public static void RoundStartEventHandler(RoundStartEvent _)
     {
         foreach (var jester in CustomRoleUtils.GetActiveRolesOfType<JesterRole>())
         {
@@ -99,17 +101,28 @@ public static class JesterEvents
     }
 
     [RegisterEvent]
-    public static void HandleVoteEventHandler(HandleVoteEvent @event)
+    public static void VotingCompleteEventHandler(VotingCompleteEvent _)
     {
-        var votingPlayer = @event.Player;
-        var suspectPlayer = @event.TargetPlayerInfo;
-
-        if (suspectPlayer?.Role is not JesterRole jester)
+        var states = MeetingHudGetVotesPatch.States;
+        var jests = CustomRoleUtils.GetActiveRolesOfType<JesterRole>();
+        if (!jests.HasAny())
         {
             return;
         }
-
-        jester.Voters.Add(votingPlayer.PlayerId);
+        foreach (var state in states)
+        {
+            if (state.SkippedVote || state.AmDead)
+            {
+                continue;
+            }
+            foreach (var jest in jests)
+            {
+                if (jest.Player.PlayerId == state.VotedForId)
+                {
+                    jest.Voters.Add(state.VoterId);
+                }
+            }
+        }
     }
 
     [RegisterEvent]
@@ -144,6 +157,28 @@ public static class JesterEvents
             }
 
             CustomButtonSingleton<JesterHauntButton>.Instance.Show = true;
+        }
+    }
+
+    [RegisterEvent]
+    public static void PlumberFlushJesterHandler(TouAbilityEvent @event)
+    {
+        if (@event.AbilityType is not AbilityType.PlumberFlush)
+        {
+            return;
+        }
+
+        if (PlayerControl.LocalPlayer.Data.Role is not JesterRole ||
+            !PlayerControl.LocalPlayer.inVent)
+        {
+            return;
+        }
+
+        var ventButton = CustomButtonSingleton<JesterVentButton>.Instance;
+        if (ventButton.EffectActive || !ventButton.HasEffect)
+        {
+            ventButton.EffectActive = false;
+            ventButton.Timer = ventButton.Cooldown;
         }
     }
 }

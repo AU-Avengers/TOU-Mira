@@ -1,5 +1,4 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using System.Collections;
 using HarmonyLib;
@@ -13,6 +12,10 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Rotting,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Rotting.LoadAsset(),
+            "TouMira.Modifier.Crewmate.Rotting", 1.45f));
     public override string LocaleKey => "Rotting";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
@@ -75,7 +78,7 @@ public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
             Coroutines.Start(rotting.CoClean());
         }*/
         CrimeSceneComponent.ClearCrimeScene(rotting);
-        Coroutines.Start(CoSetUpRot(rotting, player, killer == null ? player : killer));
+        Coroutines.Start(CoSetUpRot(rotting, player, killer ?? player));
     }
 
     public static IEnumerator CoSetUpRot(DeadBody body, PlayerControl target, PlayerControl killer)

@@ -13,6 +13,13 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
     public override uint GroupPriority => 6;
     public override Color GroupColor => new Color32(255, 76, 73, 255);
 
+    public override OptionNotifConfiguration Configuration => new(
+        GroupColor,
+        TmpSpriteUtils.CreateSpriteAsset(
+            TouAssets.IconAirship.LoadAsset(),
+            "AmongUs.Map.Airship",
+            1.45f));
+
     public ModdedToggleOption CamoComms { get; set; } =
         new("TouOptionAdvancedSaboCamouflageComms", true)
         {

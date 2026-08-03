@@ -1,6 +1,8 @@
 ﻿using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
 
@@ -16,6 +18,12 @@ public sealed class WarlockRole(IntPtr cppPtr)
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
 
+    [HideFromIl2Cpp]
+    public bool IsModifierApplicable(BaseModifier modifier)
+    {
+        return modifier is not OverclockerModifier;
+    }
+
     public string GetAdvancedDescription()
     {
         return
@@ -29,6 +37,7 @@ public sealed class WarlockRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Warlock.LoadAsset(), "TouMira.Role.Impostor.Warlock", 1.45f),
         UseVanillaKillButton = false,
         IntroSound = TouAudio.WarlockIntroSound,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
@@ -40,12 +49,12 @@ public sealed class WarlockRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}BurstKill", "Burst Kill"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}KillWikiDescription"),
                     TouAssets.KillSprite)
-            };
+            ];
         }
     }
 }
