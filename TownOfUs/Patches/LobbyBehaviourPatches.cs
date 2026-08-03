@@ -18,6 +18,7 @@ public static class LobbyBehaviourPatches
     [HarmonyPostfix]
     public static void LobbyStartPatch()
     {
+        TeamChatPatches.ResetAllBubbles();
         FakePlayer.ClearAll();
         StonedPlayer.ClearAll(true);
         CustomTouMurderRpcs.StoredKillAnimations = [];
