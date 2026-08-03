@@ -591,7 +591,6 @@
   <string name="PiPLocationTopRight">右上</string>
   <string name="PiPLocationMiddleRight">右中</string>
   <string name="PiPLocationBottomRight">右下</string>
-  <string name="TouControlControlledNotif">你正在被 &lt;控制者&gt; 控制!</string>
   <string name="PiPSizeNormal">普通</string>
   <string name="PiPSizeSmall">小</string>
   <string name="PiPSizeLarge">大</string>

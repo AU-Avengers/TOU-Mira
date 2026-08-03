@@ -359,7 +359,6 @@
   <string name="PiPLocationBottomRight">Derecha Inferior</string>
   <string name="PiPLocationDynamic">Dinámico</string>
   <string name="ParasitePiPSize">Tamaño del Imagen-en-Imagen del Parásito</string>
-  <string name="TouControlControlledNotif">Estás siendo controlado por un &lt;controller&gt;!</string>
   <string name="PiPSizeNormal">Normal</string>
   <string name="PiPSizeSmall">Pequeño</string>
   <string name="PiPSizeLarge">Grande</string>

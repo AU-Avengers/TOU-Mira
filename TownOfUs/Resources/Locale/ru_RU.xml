@@ -1454,7 +1454,6 @@
   <string name="PiPLocationBottomRight">Справа снизу</string>
   <string name="PiPLocationDynamic">Динамический</string>
   <string name="ParasitePiPSize">Размер отображения паразита</string>
-  <string name="TouControlControlledNotif">Вас контролирует &lt;controller&gt;!</string>
   <string name="PiPSizeNormal">Обычный</string>
   <string name="PiPSizeSmall">Маленький</string>
   <string name="PiPSizeLarge">Большой</string>

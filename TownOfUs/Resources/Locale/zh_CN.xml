@@ -1685,7 +1685,6 @@
   <string name="PiPLocationBottomRight">右下</string>
   <string name="PiPLocationDynamic">动态</string>
   <string name="ParasitePiPSize">寄宿者画中画大小</string>
-  <string name="TouControlControlledNotif">你正在被 &lt;控制者&gt; 控制！</string>
   <string name="PiPSizeNormal">普通</string>
   <string name="PiPSizeSmall">小</string>
   <string name="PiPSizeLarge">大</string>
