@@ -60,10 +60,6 @@ public static class DraftRpcs
             offeredList.Add(allIds[i]);
         }
 
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] Caching {offeredList.Count} offered roles");
-        var draftScreenController = Object.FindObjectOfType<DraftScreenController>();
-        draftScreenController?.CacheOfferedRoles(offeredList.ToArray());
-
         var localPlayerId = PlayerControl.LocalPlayer?.PlayerId ?? 255;
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] Checking if it's my turn. Local: {localPlayerId}, Picker: {pickerId}");
 
@@ -85,6 +81,10 @@ public static class DraftRpcs
 
         if (isMyTurn)
         {
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] Caching {offeredList.Count} offered roles for my turn");
+            var draftScreenController = Object.FindObjectOfType<DraftScreenController>();
+            draftScreenController?.CacheOfferedRoles(offeredList.ToArray());
+
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] IT'S MY TURN! Showing picker screen with {offeredList.Count} roles");
             DraftAudio.PlayYourTurn();
             try
@@ -100,7 +100,7 @@ public static class DraftRpcs
         }
         else
         {
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] Not my turn, just caching roles");
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] Not my turn");
 
             DraftStatusOverlay.SetState(OverlayState.Waiting);
         }
@@ -133,6 +133,7 @@ public static class DraftRpcs
         if (slot == localSlot)
         {
             DraftScreenController.Hide();
+            DraftScreenController.ShowFinalPickNotification((ushort)roleId);
         }
     }
 
@@ -267,14 +268,7 @@ public static class DraftNetworkHelper
         var count = Math.Min(maxOffered, roleIds.Count);
         for (int i = 0; i < count; i++)
         {
-            if (roleIds[i] > 1000)
-            {
-                padded[i] = 0;
-            }
-            else
-            {
-                padded[i] = roleIds[i];
-            }
+            padded[i] = roleIds[i];
         }
 
         DraftRpcs.RpcAnnounceTurn(PlayerControl.LocalPlayer, turnNumber, slot, playerId, (byte)count,

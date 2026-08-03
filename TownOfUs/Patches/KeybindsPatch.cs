@@ -21,7 +21,6 @@ using Random = UnityEngine.Random;
 
 namespace TownOfUs.Patches;
 
-[HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
 public static class Bindings
 {
     private static int? _originalPlayerLayer;
@@ -181,235 +180,234 @@ public static class Bindings
         notif1.AdjustNotification();
     }
 
-    public static void Postfix(HudManager __instance)
+    public static void UpdateKeybinds(HudManager __instance)
     {
-        if (!PlayerControl.LocalPlayer)
+        if (GameManager.Instance)
         {
-            return;
-        }
+            var freeplay = TutorialManager.InstanceExists;
 
-        if (!PlayerControl.LocalPlayer.Data)
-        {
-            return;
-        }
-
-        if (!GameManager.Instance)
-        {
-            return;
-        }
-
-        var freeplay = TutorialManager.InstanceExists;
-
-        if (freeplay && Input.GetKeyDown(KeyCode.F9))
-        {
-            FreeplayButtonsVisibility.Toggle();
-        }
-
-        var isHost = PlayerControl.LocalPlayer.IsHost();
-        var settings = LocalSettingsTabSingleton<TouLocalTabActions>.Instance;
-
-        //  Full List of binds:
-        //      Suicide Keybind (ENTER + T + Left Shift)
-        //      End Game Keybind (ENTER + L + Left Shift)
-        //      Start Meeting (ENTER + K + Left Shift)
-        //      End Meeting Keybind (F6)
-        //      Random Impostor Role (F3)
-        //      Random Neutral Killer Role (F4)
-        //      CTRL to pass through objects in lobby ONLY
-        if (isHost) // Disable all keybinds except CTRL in lobby if not host (NOTE: Might want a toggle in settings for these binds?)
-        {
-            if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Joined || freeplay)
+            if (freeplay && Input.GetKeyDown(KeyCode.F9))
             {
-                // Suicide Keybind (ENTER + T + Left Shift)
-                if (settings.SelfKillBindToggle.Value && !PlayerControl.LocalPlayer.HasDied() && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.T) && Input.GetKey(KeyCode.LeftShift))
-                {
-                    PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
-                }
+                FreeplayButtonsVisibility.Toggle();
+            }
 
-                // End Game Keybind (ENTER + L + Left Shift)
-                if (settings.AbortGameBindToggle.Value && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift))
+            var isHost = PlayerControl.LocalPlayer.IsHost();
+            var settings = LocalSettingsTabSingleton<TouLocalTabActions>.Instance;
+
+            //  Full List of binds:
+            //      Suicide Keybind (ENTER + T + Left Shift)
+            //      End Game Keybind (ENTER + L + Left Shift)
+            //      Start Meeting (ENTER + K + Left Shift)
+            //      End Meeting Keybind (F6)
+            //      Random Impostor Role (F3)
+            //      Random Neutral Killer Role (F4)
+            //      CTRL to pass through objects in lobby ONLY
+            if (isHost) // Disable all keybinds except CTRL in lobby if not host (NOTE: Might want a toggle in settings for these binds?)
+            {
+                if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Joined || freeplay)
                 {
-                    var gameFlow = GameManager.Instance.LogicFlow.Cast<LogicGameFlowNormal>();
-                    if (gameFlow != null)
+                    // Suicide Keybind (ENTER + T + Left Shift)
+                    if (settings.SelfKillBindToggle.Value && !PlayerControl.LocalPlayer.HasDied() &&
+                        Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.T) && Input.GetKey(KeyCode.LeftShift))
                     {
-                        CustomGameOver.Trigger<HostGameOver>([]);
+                        PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
+                    }
+
+                    // End Game Keybind (ENTER + L + Left Shift)
+                    if (settings.AbortGameBindToggle.Value && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.L) &&
+                        Input.GetKey(KeyCode.LeftShift))
+                    {
+                        var gameFlow = GameManager.Instance.LogicFlow.Cast<LogicGameFlowNormal>();
+                        if (gameFlow != null)
+                        {
+                            CustomGameOver.Trigger<HostGameOver>([]);
+                        }
+                    }
+
+                    // Start Meeting (ENTER + K + Left Shift)
+                    if (settings.StartMeetingBindToggle.Value && !MeetingHud.Instance &&
+                        !ExileController.Instance && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.K) &&
+                        Input.GetKey(KeyCode.LeftShift))
+                    {
+                        RpcHostStartMeeting(PlayerControl.LocalPlayer);
                     }
                 }
 
-                // Start Meeting (ENTER + K + Left Shift)
-                if (settings.StartMeetingBindToggle.Value && !MeetingHud.Instance &&
-                    !ExileController.Instance && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.K) &&
-                    Input.GetKey(KeyCode.LeftShift))
+                // End Meeting Keybind (F6)
+                if (settings.EndMeetingBindToggle.Value && Input.GetKeyDown(KeyCode.F6) && MeetingHud.Instance)
                 {
-                    RpcHostStartMeeting(PlayerControl.LocalPlayer);
+                    RpcHostEndMeeting(PlayerControl.LocalPlayer);
+                }
+
+                // Random Impostor Role Keybind (F3)
+                if (Input.GetKeyDown(KeyCode.F3) && TownOfUsPlugin.IsDevBuild && !TownOfUsPlugin.IsBetaBuild &&
+                    LobbyBehaviour.Instance)
+                {
+                    var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
+                    var roleOptions = currentGameOptions.RoleOptions;
+                    var impostorRoles = MiscUtils.SpawnableRoles
+                        .Where(role => role.IsImpostor() && roleOptions.GetNumPerGame(role.Role) > 0)
+                        .ToList();
+
+                    if (impostorRoles.Count > 0)
+                    {
+                        var randomRole = impostorRoles[Random.Range(0, impostorRoles.Count)];
+                        var roleIdentifier = randomRole is ITownOfUsRole touRole
+                            ? touRole.LocaleKey
+                            : randomRole.GetRoleName();
+                        var playerName = PlayerControl.LocalPlayer.Data.PlayerName;
+                        UpCommandRequests.SetRequest(playerName, roleIdentifier);
+                    }
+                }
+
+                // Random Neutral Killer Role Keybind (F4)
+                if (Input.GetKeyDown(KeyCode.F4) && TownOfUsPlugin.IsDevBuild && !TownOfUsPlugin.IsBetaBuild &&
+                    LobbyBehaviour.Instance)
+                {
+                    var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
+                    var roleOptions = currentGameOptions.RoleOptions;
+                    var neutralKillerRoles = MiscUtils.SpawnableRoles
+                        .Where(role =>
+                            role.GetRoleAlignment() == RoleAlignment.NeutralKilling &&
+                            roleOptions.GetNumPerGame(role.Role) > 0)
+                        .ToList();
+
+                    if (neutralKillerRoles.Count > 0)
+                    {
+                        var randomRole = neutralKillerRoles[Random.Range(0, neutralKillerRoles.Count)];
+                        var roleIdentifier = randomRole is ITownOfUsRole touRole
+                            ? touRole.LocaleKey
+                            : randomRole.GetRoleName();
+                        var playerName = PlayerControl.LocalPlayer.Data.PlayerName;
+                        UpCommandRequests.SetRequest(playerName, roleIdentifier);
+                    }
                 }
             }
 
-            // End Meeting Keybind (F6)
-            if (settings.EndMeetingBindToggle.Value && Input.GetKeyDown(KeyCode.F6) && MeetingHud.Instance)
+            // CTRL to pass through objects in lobby
+            if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined &&
+                (TutorialManager.InstanceExists ||
+                 OptionGroupSingleton<HostSpecificOptions>.Instance.LobbyFunMode.Value))
             {
-                RpcHostEndMeeting(PlayerControl.LocalPlayer);
-            }
-
-            // Random Impostor Role Keybind (F3)
-            if (Input.GetKeyDown(KeyCode.F3) && TownOfUsPlugin.IsDevBuild && !TownOfUsPlugin.IsBetaBuild && LobbyBehaviour.Instance)
-            {
-                var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
-                var roleOptions = currentGameOptions.RoleOptions;
-                var impostorRoles = MiscUtils.SpawnableRoles
-                    .Where(role => role.IsImpostor() && roleOptions.GetNumPerGame(role.Role) > 0)
-                    .ToList();
-
-                if (impostorRoles.Count > 0)
+                var player = PlayerControl.LocalPlayer;
+                if (player != null && player.gameObject != null)
                 {
-                    var randomRole = impostorRoles[Random.Range(0, impostorRoles.Count)];
-                    var roleIdentifier = randomRole is ITownOfUsRole touRole ? touRole.LocaleKey : randomRole.GetRoleName();
-                    var playerName = PlayerControl.LocalPlayer.Data.PlayerName;
-                    UpCommandRequests.SetRequest(playerName, roleIdentifier);
+                    var ctrlHeld = Input.GetKey(KeyCode.LeftControl);
+                    var ghostLayer = LayerMask.NameToLayer("Ghost");
+
+                    if (ctrlHeld && !_wasCtrlHeld)
+                    {
+                        _originalPlayerLayer = player.gameObject.layer;
+                        player.gameObject.layer = ghostLayer;
+                    }
+                    else if (!ctrlHeld && _wasCtrlHeld && _originalPlayerLayer.HasValue)
+                    {
+                        player.gameObject.layer = _originalPlayerLayer.Value;
+                        _originalPlayerLayer = null;
+                    }
+
+                    _wasCtrlHeld = ctrlHeld;
                 }
             }
-
-            // Random Neutral Killer Role Keybind (F4)
-            if (Input.GetKeyDown(KeyCode.F4) && TownOfUsPlugin.IsDevBuild && !TownOfUsPlugin.IsBetaBuild && LobbyBehaviour.Instance)
+            else
             {
-                var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
-                var roleOptions = currentGameOptions.RoleOptions;
-                var neutralKillerRoles = MiscUtils.SpawnableRoles
-                    .Where(role => role.GetRoleAlignment() == RoleAlignment.NeutralKilling && roleOptions.GetNumPerGame(role.Role) > 0)
-                    .ToList();
-
-                if (neutralKillerRoles.Count > 0)
-                {
-                    var randomRole = neutralKillerRoles[Random.Range(0, neutralKillerRoles.Count)];
-                    var roleIdentifier = randomRole is ITownOfUsRole touRole ? touRole.LocaleKey : randomRole.GetRoleName();
-                    var playerName = PlayerControl.LocalPlayer.Data.PlayerName;
-                    UpCommandRequests.SetRequest(playerName, roleIdentifier);
-                }
-            }
-        }
-
-        // CTRL to pass through objects in lobby
-        if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined &&
-            (TutorialManager.InstanceExists || OptionGroupSingleton<HostSpecificOptions>.Instance.LobbyFunMode.Value))
-        {
-            var player = PlayerControl.LocalPlayer;
-            if (player != null && player.gameObject != null)
-            {
-                var ctrlHeld = Input.GetKey(KeyCode.LeftControl);
-                var ghostLayer = LayerMask.NameToLayer("Ghost");
-
-                if (ctrlHeld && !_wasCtrlHeld)
-                {
-                    _originalPlayerLayer = player.gameObject.layer;
-                    player.gameObject.layer = ghostLayer;
-                }
-                else if (!ctrlHeld && _wasCtrlHeld && _originalPlayerLayer.HasValue)
+                // Reset layer when game starts (GameState != Joined) or if keybinds are disabled
+                var player = PlayerControl.LocalPlayer;
+                if (player != null && player.gameObject != null && _originalPlayerLayer.HasValue)
                 {
                     player.gameObject.layer = _originalPlayerLayer.Value;
                     _originalPlayerLayer = null;
                 }
 
-                _wasCtrlHeld = ctrlHeld;
-            }
-        }
-        else
-        {
-            // Reset layer when game starts (GameState != Joined) or if keybinds are disabled
-            var player = PlayerControl.LocalPlayer;
-            if (player != null && player.gameObject != null && _originalPlayerLayer.HasValue)
-            {
-                player.gameObject.layer = _originalPlayerLayer.Value;
-                _originalPlayerLayer = null;
+                _wasCtrlHeld = false;
             }
 
-            _wasCtrlHeld = false;
-        }
-
-        if (!PlayerControl.LocalPlayer.Data.IsDead && !PlayerControl.LocalPlayer.IsImpostor())
-        {
-            var kill = __instance.KillButton;
-            var vent = __instance.ImpostorVentButton;
-
-            if (kill.isActiveAndEnabled)
+            if (!PlayerControl.LocalPlayer.Data.IsDead && !PlayerControl.LocalPlayer.IsImpostor())
             {
-                var killKey = ReInput.players.GetPlayer(0).GetButtonDown("ActionSecondary");
-                var controllerKill = ConsoleJoystick.player.GetButtonDown(8);
-                if (killKey || controllerKill)
+                var kill = __instance.KillButton;
+                var vent = __instance.ImpostorVentButton;
+
+                if (kill.isActiveAndEnabled)
                 {
-                    kill.DoClick();
+                    var killKey = ReInput.players.GetPlayer(0).GetButtonDown("ActionSecondary");
+                    var controllerKill = ConsoleJoystick.player.GetButtonDown(8);
+                    if (killKey || controllerKill)
+                    {
+                        kill.DoClick();
+                    }
+                }
+
+                if (vent.isActiveAndEnabled)
+                {
+                    var ventKey = ReInput.players.GetPlayer(0).GetButtonDown("UseVent");
+                    var controllerVent = ConsoleJoystick.player.GetButtonDown(50);
+                    if (ventKey || controllerVent)
+                    {
+                        vent.DoClick();
+                    }
                 }
             }
 
-            if (vent.isActiveAndEnabled)
+            if (ActiveInputManager.currentControlType != ActiveInputManager.InputType.Joystick)
             {
-                var ventKey = ReInput.players.GetPlayer(0).GetButtonDown("UseVent");
-                var controllerVent = ConsoleJoystick.player.GetButtonDown(50);
-                if (ventKey || controllerVent)
+                return;
+            }
+
+            var contPlayer = ConsoleJoystick.player;
+            var buttonList = CustomButtonManager.Buttons.Where(x =>
+                x.Enabled(PlayerControl.LocalPlayer.Data.Role) && x.Button != null && x.Button.isActiveAndEnabled &&
+                x.CanUse()).ToList();
+
+            foreach (var button in buttonList.Where(x => x is TownOfUsButton))
+            {
+                if (button is not TownOfUsButton touButton || touButton.ConsoleBind() == -1)
                 {
-                    vent.DoClick();
+                    continue;
+                }
+
+                if (contPlayer.GetButtonDown(touButton.ConsoleBind()))
+                {
+                    touButton.PassiveComp.OnClick.Invoke();
                 }
             }
-        }
 
-        if (ActiveInputManager.currentControlType != ActiveInputManager.InputType.Joystick)
-        {
-            return;
-        }
-
-        var contPlayer = ConsoleJoystick.player;
-        var buttonList = CustomButtonManager.Buttons.Where(x =>
-            x.Enabled(PlayerControl.LocalPlayer.Data.Role) && x.Button != null && x.Button.isActiveAndEnabled &&
-            x.CanUse()).ToList();
-
-        foreach (var button in buttonList.Where(x => x is TownOfUsButton))
-        {
-            if (button is not TownOfUsButton touButton || touButton.ConsoleBind() == -1)
+            foreach (var button in buttonList.Where(x => x is TownOfUsTargetButton<DeadBody>))
             {
-                continue;
+                if (button is not TownOfUsTargetButton<DeadBody> touButton || touButton.ConsoleBind() == -1)
+                {
+                    continue;
+                }
+
+                if (contPlayer.GetButtonDown(touButton.ConsoleBind()))
+                {
+                    touButton.PassiveComp.OnClick.Invoke();
+                }
             }
 
-            if (contPlayer.GetButtonDown(touButton.ConsoleBind()))
+            foreach (var button in buttonList.Where(x => x is TownOfUsTargetButton<Vent>))
             {
-                touButton.PassiveComp.OnClick.Invoke();
-            }
-        }
+                if (button is not TownOfUsTargetButton<Vent> touButton || touButton.ConsoleBind() == -1)
+                {
+                    continue;
+                }
 
-        foreach (var button in buttonList.Where(x => x is TownOfUsTargetButton<DeadBody>))
-        {
-            if (button is not TownOfUsTargetButton<DeadBody> touButton || touButton.ConsoleBind() == -1)
-            {
-                continue;
-            }
-
-            if (contPlayer.GetButtonDown(touButton.ConsoleBind()))
-            {
-                touButton.PassiveComp.OnClick.Invoke();
-            }
-        }
-
-        foreach (var button in buttonList.Where(x => x is TownOfUsTargetButton<Vent>))
-        {
-            if (button is not TownOfUsTargetButton<Vent> touButton || touButton.ConsoleBind() == -1)
-            {
-                continue;
+                if (contPlayer.GetButtonDown(touButton.ConsoleBind()))
+                {
+                    touButton.PassiveComp.OnClick.Invoke();
+                }
             }
 
-            if (contPlayer.GetButtonDown(touButton.ConsoleBind()))
+            foreach (var button in buttonList.Where(x => x is TownOfUsTargetButton<PlayerControl>))
             {
-                touButton.PassiveComp.OnClick.Invoke();
-            }
-        }
+                if (button is not TownOfUsTargetButton<PlayerControl> touButton || touButton.ConsoleBind() == -1)
+                {
+                    continue;
+                }
 
-        foreach (var button in buttonList.Where(x => x is TownOfUsTargetButton<PlayerControl>))
-        {
-            if (button is not TownOfUsTargetButton<PlayerControl> touButton || touButton.ConsoleBind() == -1)
-            {
-                continue;
-            }
-
-            if (contPlayer.GetButtonDown(touButton.ConsoleBind()))
-            {
-                touButton.PassiveComp.OnClick.Invoke();
+                if (contPlayer.GetButtonDown(touButton.ConsoleBind()))
+                {
+                    touButton.PassiveComp.OnClick.Invoke();
+                }
             }
         }
     }

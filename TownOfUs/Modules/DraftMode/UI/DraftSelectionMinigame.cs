@@ -863,8 +863,21 @@ namespace TownOfUs.Modules.DraftMode
 
             _hasPicked = true;
             DraftNetworkHelper.SendPickToHost(index, TargetPickerId);
-            Coroutines.Start(CoShowPickNotification(roleName, roleColor));
             Invoke(nameof(DestroySelf), 1.2f);
+        }
+
+        public static void ShowFinalPickNotification(ushort roleId)
+        {
+            var roleName = DraftRolePool.GetRoleNameFromId(roleId);
+            if (string.IsNullOrEmpty(roleName))
+                roleName = TouLocale.GetParsed("TouDraftUnknownRoleLabel", "Unknown Role");
+
+            var roleBehaviour = roleId != 0
+                ? MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)roleId)
+                : null;
+
+            var roleColor = roleBehaviour != null ? roleBehaviour.TeamColor : Color.white;
+            Coroutines.Start(CoShowPickNotification(roleName, roleColor));
         }
 
         private static IEnumerator CoShowPickNotification(string roleName, Color roleColor)

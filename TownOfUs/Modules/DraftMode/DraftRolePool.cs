@@ -97,7 +97,7 @@ namespace TownOfUs.Modules.DraftMode
             if (id == 0) return null!;
             try
             {
-                var role = MiscUtils.GetRegisteredRole((RoleTypes)id) ?? RoleManager.Instance?.GetRole((RoleTypes)id);
+                var role = MiscUtils.GetRegisteredRole((RoleTypes)id);
                 return (role?.GetRoleName() ?? role?.NiceName)!;
             }
             catch (Exception) { return null!; }
@@ -170,7 +170,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             try
             {
-                var r = MiscUtils.GetRegisteredRole((RoleTypes)id) ?? RoleManager.Instance?.GetRole((RoleTypes)id);
+                var r = MiscUtils.GetRegisteredRole((RoleTypes)id);
                 return r != null && r.IsImpostor();
             }
             catch { return false; }
@@ -199,7 +199,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             try
             {
-                var r = MiscUtils.GetRegisteredRole((RoleTypes)id) ?? RoleManager.Instance?.GetRole((RoleTypes)id);
+                var r = MiscUtils.GetRegisteredRole((RoleTypes)id);
                 return r != null && r.IsNeutral();
             }
             catch { return false; }
@@ -215,7 +215,7 @@ namespace TownOfUs.Modules.DraftMode
             {
                 try
                 {
-                    var r = MiscUtils.GetRegisteredRole((RoleTypes)id) ?? RoleManager.Instance?.GetRole((RoleTypes)id);
+                    var r = MiscUtils.GetRegisteredRole((RoleTypes)id);
                     if (r != null) return r;
                 }
                 catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }

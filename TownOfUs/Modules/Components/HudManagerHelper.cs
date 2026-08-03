@@ -5,8 +5,10 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Localization.Providers;
 using Reactor.Utilities.Attributes;
 using TMPro;
+using TownOfUs.Buttons;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
@@ -17,6 +19,8 @@ using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches;
+using TownOfUs.Patches.ControlSystem;
+using TownOfUs.Patches.Roles;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
@@ -32,7 +36,33 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
     #pragma warning disable CA1822
     public void FixedUpdate()
     {
+        if (!HudManager.InstanceExists || !PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
+        {
+            return;
+        }
+
+        var instance = HudManager.Instance;
+
+        HudManagerPatches.CreateUiRow(instance);
+        HudManagerPatches.CreateNewUiRow(instance);
+
+        HudManagerPatches.CreateWikiButton(instance);
+        HudManagerPatches.CreateZoomButton(instance);
+        HudManagerPatches.AdjustModifierTab();
+
+        HudManagerPatches.UpdateRoleList(instance);
+        HudManagerPatches.UpdateTeamChat();
+
         if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data || !PlayerControl.LocalPlayer.Data.Role ||
+            !ShipStatus.Instance ||
+            (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
+             !TutorialManager.InstanceExists))
+        {
+            return;
+        }
+        HudManagerPatches.UpdateSubmergedButtons(instance);
+        
+        if (!PlayerControl.LocalPlayer.Data.Role ||
             !ShipStatus.Instance ||
             (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
              !TutorialManager.InstanceExists))
@@ -42,6 +72,46 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
         UpdateCamouflageComms();
         UpdateRoleNameText();
+
+        if (!TutorialManager.InstanceExists)
+        {
+            GameTimerPatch.UpdateGameTimer(instance);
+        }
+    }
+    public void Update()
+    {
+        if (!HudManager.InstanceExists || !PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
+        {
+            return;
+        }
+
+        var instance = HudManager.Instance;
+        Bindings.UpdateKeybinds(instance);
+
+        if (HudManagerPatches.CanZoom)
+        {
+            HudManagerPatches.CheckForScrollZoom();
+        }
+        if (!PlayerControl.LocalPlayer.Data.Role ||
+            !ShipStatus.Instance ||
+            (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
+             !TutorialManager.InstanceExists))
+        {
+            return;
+        }
+
+        var role = PlayerControl.LocalPlayer.Data.Role;
+        var ghostRole = role as IGhostRole;
+        PuppeteerOverlayPatch.RunPuppetOverlay();
+        ParasiteOverlayPatch.RunOvertakeOverlay();
+        ControlledPlayerInteractionPatches.UpdateControlledUseButton(instance);
+        SentryCameraPortablePatch.ApplyPortableBlinkState();
+        TimeLordPatches.RecordTimeLordSnapshot(instance);
+        if (PlayerControl.LocalPlayer.Data.IsDead && ghostRole != null)
+        {
+            GhostRolePatches.HandleGhostRoleVent(instance, ghostRole);
+            SubmergedHudPatch.UpdateFloorButton(instance, ghostRole);
+        }
     }
     #pragma warning restore CA1822
     #pragma warning restore S2325

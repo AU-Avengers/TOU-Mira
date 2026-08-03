@@ -90,3 +90,16 @@ public static class HideCancelButtonOnDraftEnd
         DraftCancelButton.Hide();
     }
 }
+
+[HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
+public static class ShowCancelButtonOnPlayerLeft
+{
+    [HarmonyPostfix]
+    public static void Postfix()
+    {
+        if (DraftManager.IsDraftActive && AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+        {
+            DraftCancelButton.Show();
+        }
+    }
+}

@@ -48,6 +48,7 @@
   <string name="DraftAudioStart">Draft Start</string>
   <string name="DraftAudioYourTurn">Your Turn</string>
   <string name="DraftAudioNone">None</string>
+  <string name="DraftAudioBoth">Both</string>
   <!-- Client Options -->
   <string name="SelfKillBindToggle">LSHIFT + T + ENTER Triggers Self-Kill</string>
   <string name="AbortGameBindToggle">LSHIFT + L + ENTER Triggers Abort Game</string>

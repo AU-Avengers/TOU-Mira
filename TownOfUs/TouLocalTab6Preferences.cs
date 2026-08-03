@@ -105,5 +105,6 @@ public enum DraftAudioCueMode
 {
     Start,
     YourTurn,
+    Both,
     None
 }
