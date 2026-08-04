@@ -82,9 +82,15 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
         string[] otherModArray = [];
         var sbuilder = new StringBuilder();
         Error(
+            $"DEBUGGING DATA for {client.Data.PlayerName}: {list[0]}, {list[1]}, {list[2]}, {list[3]}");
+        Error(
             $"{client.Data.PlayerName} is joining with the following plugins:");
         foreach (var mod in list)
         {
+            if (mod.Key < 4)
+            {
+                continue;
+            }
             if (blacklist.Any(x => mod.Value.Contains(x, StringComparison.OrdinalIgnoreCase)))
             {
                 badModArray = badModArray.AddToArray(mod.Value);
@@ -130,23 +136,18 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
         if (!client.AmOwner && PlayerControl.LocalPlayer.IsHost() && HudManager.InstanceExists)
         {
             var mods = IL2CPPChainloader.Instance.Plugins;
-            var modDictionary = new Dictionary<byte, string>
-            {
-                { 0, $"BepInEx " + Paths.BepInExVersion.WithoutBuild() }
-            };
-            byte modByte = 1;
+            var modDictionary = new Dictionary<byte, string>();
+            byte modByte = 0;
             foreach (var mod in mods)
             {
                 modDictionary.Add(modByte, $"{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}");
                 modByte++;
             }
             var newModDictionary = new List<string>();
-            var bepChecked = false;
             foreach (var mod in list)
             {
-                if (mod.Value.Contains("BepInEx") && !bepChecked)
+                if (mod.Key < 4)
                 {
-                    bepChecked = true;
                     continue;
                 }
                 if (modDictionary.ContainsValue(mod.Value) || whitelist.Any(x => mod.Value.Contains(x, StringComparison.OrdinalIgnoreCase)))
