@@ -139,7 +139,7 @@ public static class DraftRpcs
         if (slot == localSlot)
         {
             DraftScreenController.Hide();
-            DraftScreenController.ShowFinalPickNotification((ushort)roleId);
+            DraftScreenController.ShowFinalPickNotification(roleId);
         }
     }
 
@@ -301,19 +301,28 @@ public static class DraftNetworkHelper
         {
             DraftScreenController.Hide();
         }
-        catch { }
+        catch
+        {
+            // ignored
+        }
 
         try
         {
             DraftSidebarManager.InvalidateCache();
         }
-        catch { }
+        catch
+        {
+            // ignored
+        }
 
         try
         {
             DraftStatusOverlay.Refresh();
         }
-        catch { }
+        catch
+        {
+            // ignored
+        }
     }
 
     public static void NotifyPickerReady()

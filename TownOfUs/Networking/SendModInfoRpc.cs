@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Hazel;
@@ -7,7 +6,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Options;
 using ModCompatibility = TownOfUs.Modules.ModCompatibility;
 
@@ -82,9 +80,15 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
         string[] otherModArray = [];
         var sbuilder = new StringBuilder();
         Error(
+            $"DEBUGGING DATA for {client.Data.PlayerName}: Among Us {list[0]} ({AmongUsClient.Instance.GetClientFromCharacter(client).PlatformData.Platform})");
+        Error(
             $"{client.Data.PlayerName} is joining with the following plugins:");
         foreach (var mod in list)
         {
+            if (mod.Key < 1)
+            {
+                continue;
+            }
             if (blacklist.Any(x => mod.Value.Contains(x, StringComparison.OrdinalIgnoreCase)))
             {
                 badModArray = badModArray.AddToArray(mod.Value);
@@ -130,23 +134,18 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
         if (!client.AmOwner && PlayerControl.LocalPlayer.IsHost() && HudManager.InstanceExists)
         {
             var mods = IL2CPPChainloader.Instance.Plugins;
-            var modDictionary = new Dictionary<byte, string>
-            {
-                { 0, $"BepInEx " + Paths.BepInExVersion.WithoutBuild() }
-            };
-            byte modByte = 1;
+            var modDictionary = new Dictionary<byte, string>();
+            byte modByte = 0;
             foreach (var mod in mods)
             {
                 modDictionary.Add(modByte, $"{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}");
                 modByte++;
             }
             var newModDictionary = new List<string>();
-            var bepChecked = false;
             foreach (var mod in list)
             {
-                if (mod.Value.Contains("BepInEx") && !bepChecked)
+                if (mod.Key < 1)
                 {
-                    bepChecked = true;
                     continue;
                 }
                 if (modDictionary.ContainsValue(mod.Value) || whitelist.Any(x => mod.Value.Contains(x, StringComparison.OrdinalIgnoreCase)))

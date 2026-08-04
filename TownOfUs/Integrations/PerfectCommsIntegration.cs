@@ -1,7 +1,3 @@
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using BepInEx.Unity.IL2CPP;
-using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.Modifiers;
 using PerfectComms.Api;
@@ -15,7 +11,6 @@ using TownOfUs.Modifiers.HnsImpostor;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Impostor.Herbalist;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Modules;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Crewmate;
@@ -33,8 +28,6 @@ namespace TownOfUs.Integrations;
 /// </summary>
 internal static class PerfectCommsIntegration
 {
-    internal const string PluginId = "com.edgetel.perfectcomms";
-    internal const string ModId = "auavengers.tou.mira";
     private const uint SetJaileeVoiceAllowedRpc = 0x50430001;
     private const float JailVoiceMaintenanceSeconds = 0.25f;
     private const float JailVoiceHeartbeatSeconds = 2f;
@@ -48,7 +41,6 @@ internal static class PerfectCommsIntegration
     private static readonly HashSet<byte> JailVoiceAllowedPlayers = [];
     private static readonly Dictionary<byte, GameObject> JailVoiceButtons = [];
     private static readonly List<byte> ScratchPlayerIds = [];
-    private static Sprite? _jailVoiceSprite;
     private static float _nextJailVoiceMaintenanceTime;
     private static float _nextJailVoiceHeartbeatTime;
     private static bool _muteBlackmailedInMeetings;
@@ -56,23 +48,6 @@ internal static class PerfectCommsIntegration
 
     internal static bool Registered { get; private set; }
     internal static bool JailVoiceControlEnabled { get; private set; }
-
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    internal static void TryRegister()
-    {
-        if (!IL2CPPChainloader.Instance.Plugins.ContainsKey(PluginId))
-        {
-            return;
-        }
-
-        RegisterAvailableRuntime();
-    }
-
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    private static void RegisterAvailableRuntime()
-    {
-        PerfectCommsRuntime.Register();
-    }
 
     internal static void MarkRegistered()
     {
@@ -237,7 +212,6 @@ internal static class PerfectCommsIntegration
         var jailee = jailorRole.Jailed;
         var meeting = MeetingHud.Instance;
         if (!Registered || !JailVoiceControlEnabled || meeting == null ||
-            !jailor.AmOwner || jailor.HasDied() || jailee == null || jailee.HasDied() ||
             IsJailVoiceAllowed(jailee.PlayerId))
         {
             ClearJailVoiceButton(jailor.PlayerId);
@@ -276,7 +250,7 @@ internal static class PerfectCommsIntegration
         label.m_enableWordWrapping = false;
 
         var renderer = buttonObject.GetComponent<SpriteRenderer>();
-        renderer.sprite = LoadJailVoiceSprite();
+        renderer.sprite = TouAssets.JailUnmute.LoadAsset();
         renderer.color = Color.white;
 
         label.text = TouLocale.Get("TouRoleJailorAllowVoice", "Allow Voice");
@@ -370,73 +344,7 @@ internal static class PerfectCommsIntegration
         passive.CachedZ = buttonObject.transform.position.z;
     }
 
-    private static Sprite LoadJailVoiceSprite()
-    {
-        if (_jailVoiceSprite != null)
-        {
-            return _jailVoiceSprite;
-        }
-
-        using var stream = Assembly.GetExecutingAssembly()
-            .GetManifestResourceStream("TownOfUs.Resources.JailUnmute.png")
-            ?? throw new InvalidOperationException("JailUnmute.png is not embedded.");
-        using var bytes = new MemoryStream();
-        stream.CopyTo(bytes);
-
-        var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false)
-        {
-            wrapMode = TextureWrapMode.Clamp,
-            filterMode = FilterMode.Bilinear,
-        };
-        texture.LoadImage(bytes.ToArray(), false);
-        texture.wrapMode = TextureWrapMode.Clamp;
-        texture.filterMode = FilterMode.Bilinear;
-
-        var pixels = texture.GetPixels32();
-        int minX = texture.width;
-        int minY = texture.height;
-        int maxX = -1;
-        int maxY = -1;
-        for (int y = 0; y < texture.height; y++)
-        {
-            int row = y * texture.width;
-            for (int x = 0; x < texture.width; x++)
-            {
-                if (pixels[row + x].a == 0)
-                {
-                    continue;
-                }
-
-                minX = Math.Min(minX, x);
-                minY = Math.Min(minY, y);
-                maxX = Math.Max(maxX, x);
-                maxY = Math.Max(maxY, y);
-            }
-        }
-        if (maxX < minX || maxY < minY)
-        {
-            throw new InvalidOperationException("JailUnmute.png has no visible pixels.");
-        }
-
-        minX = Math.Max(0, minX - 1);
-        minY = Math.Max(0, minY - 1);
-        maxX = Math.Min(texture.width - 1, maxX + 1);
-        maxY = Math.Min(texture.height - 1, maxY + 1);
-        float width = maxX - minX + 1;
-        float height = maxY - minY + 1;
-        var pivot = new Vector2(
-            (texture.width * 0.5f - minX) / width,
-            (texture.height * 0.5f - minY) / height);
-        _jailVoiceSprite = Sprite.Create(
-            texture,
-            new Rect(minX, minY, width, height),
-            pivot,
-            900f);
-        _jailVoiceSprite.hideFlags |= HideFlags.HideAndDontSave | HideFlags.DontSaveInEditor;
-        return _jailVoiceSprite;
-    }
-
-    private static void ClearJailVoiceButton(byte jailorId)
+    internal static void ClearJailVoiceButton(byte jailorId)
     {
         if (!JailVoiceButtons.Remove(jailorId, out var button))
         {
@@ -458,36 +366,6 @@ internal static class PerfectCommsIntegration
             button?.Destroy();
         }
         JailVoiceButtons.Clear();
-    }
-
-    [HarmonyPatch(typeof(ModCompatibility), nameof(ModCompatibility.Initialize))]
-    private static class InitializePatch
-    {
-        [HarmonyPostfix]
-        private static void Postfix()
-        {
-            TryRegister();
-        }
-    }
-
-    [HarmonyPatch(typeof(JailorRole), nameof(JailorRole.OnMeetingStart))]
-    private static class JailorMeetingPatch
-    {
-        [HarmonyPostfix]
-        private static void Postfix(JailorRole __instance)
-        {
-            TryCreateJailVoiceButton(__instance);
-        }
-    }
-
-    [HarmonyPatch(typeof(JailorRole), nameof(JailorRole.OnVotingComplete))]
-    private static class JailorVotingCompletePatch
-    {
-        [HarmonyPostfix]
-        private static void Postfix(JailorRole __instance)
-        {
-            ClearJailVoiceButton(__instance.Player.PlayerId);
-        }
     }
 }
 
@@ -565,35 +443,36 @@ internal static class PerfectCommsRuntime
             return;
         }
 
+        var id = TownOfUsPlugin.Id;
         try
         {
-            RegisterOptions();
-            PerfectCommsApi.RegisterVoiceRule(PerfectCommsIntegration.ModId, ResolveSpeakerRule);
-            PerfectCommsApi.RegisterVoicePhaseObserver(PerfectCommsIntegration.ModId, ObservePhase);
-            PerfectCommsApi.RegisterContextualListenerOrigin(PerfectCommsIntegration.ModId, ResolveListenerOrigin);
-            PerfectCommsApi.RegisterContextualListenerFilter(PerfectCommsIntegration.ModId, ResolveListenerFilter);
-            PerfectCommsApi.RegisterVoicePlayerTraits(PerfectCommsIntegration.ModId, ResolvePlayerTraits);
-            PerfectCommsApi.RegisterVoicePairRule(PerfectCommsIntegration.ModId, ResolveMediumPair);
-            PerfectCommsApi.RegisterManagedRadioChannel(PerfectCommsIntegration.ModId, ResolveVampireRadio);
-            PerfectCommsApi.RegisterManagedRadioChannel(PerfectCommsIntegration.ModId, ResolveLoversRadio);
-            PerfectCommsApi.RegisterOverlayViewerRule(PerfectCommsIntegration.ModId, ResolveOverlayViewer);
-            PerfectCommsApi.RegisterOverlaySpeakerRule(PerfectCommsIntegration.ModId, ResolveOverlaySpeaker);
-            PerfectCommsApi.RegisterAnimatedColorRule(PerfectCommsIntegration.ModId, RainbowUtils.IsRainbow);
+            RegisterOptions(id);
+            PerfectCommsApi.RegisterVoiceRule(id, ResolveSpeakerRule);
+            PerfectCommsApi.RegisterVoicePhaseObserver(id, ObservePhase);
+            PerfectCommsApi.RegisterContextualListenerOrigin(id, ResolveListenerOrigin);
+            PerfectCommsApi.RegisterContextualListenerFilter(id, ResolveListenerFilter);
+            PerfectCommsApi.RegisterVoicePlayerTraits(id, ResolvePlayerTraits);
+            PerfectCommsApi.RegisterVoicePairRule(id, ResolveMediumPair);
+            PerfectCommsApi.RegisterManagedRadioChannel(id, ResolveVampireRadio);
+            PerfectCommsApi.RegisterManagedRadioChannel(id, ResolveLoversRadio);
+            PerfectCommsApi.RegisterOverlayViewerRule(id, ResolveOverlayViewer);
+            PerfectCommsApi.RegisterOverlaySpeakerRule(id, ResolveOverlaySpeaker);
+            PerfectCommsApi.RegisterAnimatedColorRule(id, RainbowUtils.IsRainbow);
             _registered = true;
             PerfectCommsIntegration.MarkRegistered();
             Info($"Registered source-owned TOU-Mira voice integration with Perfect Comms API {PerfectCommsApi.RuntimeApiVersion}.");
         }
         catch (Exception ex)
         {
-            PerfectCommsApi.Unregister(PerfectCommsIntegration.ModId);
+            PerfectCommsApi.Unregister(id);
             PerfectCommsIntegration.Reset();
             Error($"Perfect Comms integration failed and was disabled: {ex}");
         }
     }
 
-    private static void RegisterOptions()
+    private static void RegisterOptions(string id)
     {
-        PerfectCommsApi.RegisterModTab(PerfectCommsIntegration.ModId, "TOU Mira");
+        PerfectCommsApi.RegisterModTab(id, "TOU Mira");
 
         RegisterToggle(MuteBlackmailedInMeetings,
             "<color=#FF0000><b>Blackmailer</b></color>: Mute Blackmailed in Meetings", true,
@@ -648,7 +527,7 @@ internal static class PerfectCommsRuntime
             context => context.TeamRadioEnabled);
 
         PerfectCommsApi.RegisterHostEnumOption(
-            PerfectCommsIntegration.ModId,
+            TownOfUsPlugin.Id,
             new VoiceHostEnumOption(
                 MediumGhostVoice,
                 "<color=#A680FF><b>Medium</b></color>: Ghost Voice",
@@ -670,7 +549,7 @@ internal static class PerfectCommsRuntime
         Func<VoiceHostOptionContext, bool>? visible = null)
     {
         PerfectCommsApi.RegisterHostOption(
-            PerfectCommsIntegration.ModId,
+            TownOfUsPlugin.Id,
             new VoiceHostOption(key, label, defaultValue)
             {
                 Description = description,
