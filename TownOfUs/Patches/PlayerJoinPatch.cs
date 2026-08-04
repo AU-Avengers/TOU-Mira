@@ -81,7 +81,7 @@ public static class PlayerJoinPatch
 
         var mods = IL2CPPChainloader.Instance.Plugins;
         var modDictionary = new Dictionary<byte, string>() { {0, Application.version}, { 1, EOSManager.Instance.friendCode }, { 2, EOSManager.Instance.ProductUserId }, { 3, BugReportService.GetPlatformString() } };
-        byte modByte = 3;
+        byte modByte = 4;
         foreach (var mod in mods)
         {
             modDictionary.Add(modByte, $"{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}"); 

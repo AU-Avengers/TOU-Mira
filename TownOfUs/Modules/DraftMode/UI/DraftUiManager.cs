@@ -105,7 +105,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             try
             {
-                return MiscUtils.GetRegisteredRole((RoleTypes)roleId);
+                return MiscUtils.GetRegisteredRole((RoleTypes)roleId)!;
             }
             catch
             {

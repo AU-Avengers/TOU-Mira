@@ -19,7 +19,6 @@ namespace TownOfUs.Modules.DraftMode
         private readonly List<int> _slotOrder = new();
         private int _currentTurnNumber;
         private int _totalSlots;
-        private int _turnIndex;
         private bool _running;
         private int _draftSessionId;
         private IEnumerator? _hostDraftLoopCoroutine;
@@ -82,7 +81,6 @@ namespace TownOfUs.Modules.DraftMode
             _slotOrder.Clear();
             _slotOrder.AddRange(pidToSlot.Values.OrderBy(x => x));
             _totalSlots = totalSlots;
-            _turnIndex = 0;
             _currentTurnNumber = 0;
             _running = true;
 
@@ -370,6 +368,7 @@ namespace TownOfUs.Modules.DraftMode
             }
         }
 
+        [HideFromIl2Cpp]
         private DraftSlotContext BuildSlotContext(int excludeSlot, bool ignoreConcurrentOffers = false, bool ignoreForce = false)
         {
             var context = new DraftSlotContext();
@@ -708,6 +707,7 @@ namespace TownOfUs.Modules.DraftMode
             return filtered;
         }
 
+        [HideFromIl2Cpp]
         private List<string> BuildGuaranteedOfferFallback(int targetCount, HashSet<string> avoidNames, int slot, DraftSlotContext context)
         {
             var allowedPoolCandidates = _pool
@@ -961,6 +961,7 @@ namespace TownOfUs.Modules.DraftMode
             }
         }
 
+        [HideFromIl2Cpp]
         private List<string> ReserveSeatsForOffers(List<string> offers)
         {
             var reserved = new List<string>();

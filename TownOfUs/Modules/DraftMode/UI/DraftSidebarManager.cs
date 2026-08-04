@@ -194,7 +194,7 @@ namespace TownOfUs.Modules.DraftMode
         private static (string text, string colorHex) GetStatusLabelForRole(ushort roleId)
         {
             RoleBehaviour role = roleId != 0
-                ? MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)roleId)
+                ? MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)roleId)!
                 : null!;
 
             if (role == null)

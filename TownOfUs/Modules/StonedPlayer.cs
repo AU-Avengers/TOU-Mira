@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using AmongUs.Data;
 using HarmonyLib;
+using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using PowerTools;
@@ -41,6 +42,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     public bool IsMiniPlayer { get; private set; }
 
     public IEnumerator? CurrentCoroutine;
+    [HideFromIl2Cpp]
     public IEnumerator CoStartStone()
     {
         var isShy = OriginalPlayer.HasModifier<ShyModifier>();

@@ -1,6 +1,5 @@
 ﻿using AmongUs.GameOptions;
 using HarmonyLib;
-using InnerNet;
 using MiraAPI.GameOptions;
 using Reactor.Utilities.Extensions;
 using TMPro;

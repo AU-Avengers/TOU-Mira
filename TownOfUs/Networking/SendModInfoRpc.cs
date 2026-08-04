@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Hazel;
@@ -7,7 +6,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Options;
 using ModCompatibility = TownOfUs.Modules.ModCompatibility;
 
