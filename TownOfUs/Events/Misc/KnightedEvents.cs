@@ -4,7 +4,6 @@ using MiraAPI.Events.Vanilla.Meeting.Voting;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.ModifierDisplay;
-using MiraAPI.Utilities;
 using MiraAPI.Voting;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;

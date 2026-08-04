@@ -34,6 +34,7 @@ using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Modules.Components;
 using TownOfUs.Modules.ControlSystem;
+using TownOfUs.Modules.DraftMode;
 using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
@@ -174,6 +175,8 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void IntroBeginEventHandler(IntroBeginEvent @event)
     {
+        DraftSidebarManager.Deactivate();
+        DraftSidebarManager.ClearBannerRef();
         if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
         {
             return;

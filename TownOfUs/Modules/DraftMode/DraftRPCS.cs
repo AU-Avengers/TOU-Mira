@@ -27,6 +27,7 @@ public static class DraftRpcs
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcStartDraft received (isHost={AmongUsClient.Instance.AmHost})");
         DraftManager.IsDraftActive = true;
         DraftAudio.PlayDraftStart();
+        DraftSidebarManager.Activate();
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftSlotNotify)]
@@ -74,7 +75,7 @@ public static class DraftRpcs
         if (slot == localSlot)
         {
             DraftScreenController.Hide();
-            DraftScreenController.ShowFinalPickNotification((ushort)roleId);
+            DraftScreenController.ShowFinalPickNotification(roleId);
         }
     }
 
@@ -353,19 +354,28 @@ public static class DraftNetworkHelper
         {
             DraftScreenController.Hide();
         }
-        catch { }
+        catch
+        {
+            // ignored
+        }
 
         try
         {
             DraftSidebarManager.InvalidateCache();
         }
-        catch { }
+        catch
+        {
+            // ignored
+        }
 
         try
         {
             DraftStatusOverlay.Refresh();
         }
-        catch { }
+        catch
+        {
+            // ignored
+        }
     }
 
     public static void NotifyPickerReady()
@@ -399,6 +409,7 @@ public static class DraftNetworkHelper
         DraftRpcs.RpcCancelDraft(PlayerControl.LocalPlayer);
         DraftManager.Reset(cancelledBeforeCompletion: true);
         DraftCancelButton.Hide();
+        DraftSidebarManager.Deactivate();
     }
 
     public static void BroadcastRecap(List<RecapEntry> entries, DraftRecapMode mode)
@@ -421,6 +432,7 @@ public static class DraftNetworkHelper
         }
 
         DraftRpcs.RpcBroadcastRecap(PlayerControl.LocalPlayer, recapData);
+        DraftSidebarManager.Deactivate();
     }
 
     public static void BroadcastDraftEnd()

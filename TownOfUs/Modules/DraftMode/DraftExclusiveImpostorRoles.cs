@@ -1,5 +1,4 @@
 using AmongUs.GameOptions;
-using MiraAPI.Utilities;
 
 namespace TownOfUs.Modules.DraftMode
 {

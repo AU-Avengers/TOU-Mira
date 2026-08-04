@@ -24,6 +24,14 @@ public static class SwapperEvents
             return;
         }
 
+        var prosecutor = CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>()
+            .FirstOrDefault(x => !x.Player.HasDied() && x.HasProsecuted && x.ProsecuteVictim != byte.MaxValue);
+
+        if (prosecutor != null)
+        {
+            return;
+        }
+
         var swap1 = swapper.Swap1.TargetPlayerId;
         var swap2 = swapper.Swap2.TargetPlayerId;
 
@@ -70,6 +78,13 @@ public static class SwapperEvents
             return;
         }
 
+        var prosecutor = CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>()
+            .FirstOrDefault(x => !x.Player.HasDied() && x.HasProsecuted && x.ProsecuteVictim != byte.MaxValue);
+
+        if (prosecutor != null)
+        {
+            return;
+        }
         Coroutines.Start(PerformSwaps());
     }
 
@@ -79,6 +94,14 @@ public static class SwapperEvents
     {
         var swapper = CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().FirstOrDefault(swapper => !swapper.Player.HasDied() && swapper.Swap1 && swapper.Swap2);
         if (swapper == null)
+        {
+            return;
+        }
+
+        var prosecutor = CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>()
+            .FirstOrDefault(x => !x.Player.HasDied() && x.HasProsecuted && x.ProsecuteVictim != byte.MaxValue);
+
+        if (prosecutor != null)
         {
             return;
         }

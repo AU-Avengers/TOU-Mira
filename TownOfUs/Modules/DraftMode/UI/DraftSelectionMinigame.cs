@@ -385,11 +385,8 @@ namespace TownOfUs.Modules.DraftMode
                     i, totalCards, card.Color, card.Faction,
                     cardScale, useGrid, spacing, card.Description);
 
-                var capturedName = card.RoleName;
-                var capturedColor = card.Color;
-
                 btn.OnClick.RemoveAllListeners();
-                btn.OnClick.AddListener((UnityAction)(() => OnCardClicked(capturedIdx, capturedName, capturedColor)));
+                btn.OnClick.AddListener((UnityAction)(() => OnCardClicked(capturedIdx)));
             }
 
             Coroutines.Start(CoAnimateCards(rolesHolder!, cardScale, useGrid, totalCards));
@@ -862,7 +859,7 @@ namespace TownOfUs.Modules.DraftMode
 
         public static byte TargetPickerId = 255;
 
-        private void OnCardClicked(int index, string roleName, Color roleColor)
+        private void OnCardClicked(int index)
         {
             if (_hasPicked) return;
 

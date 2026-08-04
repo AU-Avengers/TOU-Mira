@@ -5,10 +5,8 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Localization.Providers;
 using Reactor.Utilities.Attributes;
 using TMPro;
-using TownOfUs.Buttons;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
@@ -32,6 +30,46 @@ namespace TownOfUs.Modules.Components;
 [RegisterInIl2Cpp]
 public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 {
+    internal static Dictionary<int, string> PlatformAssociations = new();
+    private static bool HasFetchedIcons;
+
+    public static void RefreshPlatformData()
+    {
+        PlatformAssociations.Clear();
+        if (!HasFetchedIcons)
+        {
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.BlankSprite.LoadAsset(),
+                "Platform.Blank", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformEpic.LoadAsset(),
+                "Platform.Epic", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformItch.LoadAsset(),
+                "Platform.Itch", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformStarlight.LoadAsset(),
+                "Platform.Starlight", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformSteam.LoadAsset(),
+                "Platform.Steam", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformWindows.LoadAsset(),
+                "Platform.Windows", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformUnknown.LoadAsset(),
+                "Platform.Unknown", 1.45f);
+            HasFetchedIcons = true;
+        }
+
+        foreach (var client in AmongUsClient.Instance.allClients)
+        {
+            var platform = client.PlatformData.Platform;
+            var icon = platform switch
+            {
+                Platforms.StandaloneEpicPC => "<sprite name=\"Platform.Epic\">",
+                Platforms.StandaloneItch => "<sprite name=\"Platform.Itch\">",
+                Platforms.Android or (Platforms)112 => "<sprite name=\"Platform.Starlight\">",
+                Platforms.StandaloneSteamPC => "<sprite name=\"Platform.Steam\">",
+                Platforms.StandaloneWin10 or Platforms.Xbox => "<sprite name=\"Platform.Windows\">",
+                _ => "<sprite name=\"Platform.Unknown\">"
+            };
+            PlatformAssociations.Add(client.Id, icon);
+        }
+    }
     #pragma warning disable S2325
     #pragma warning disable CA1822
     public void FixedUpdate()

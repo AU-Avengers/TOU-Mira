@@ -2,6 +2,7 @@ using MiraAPI.GameOptions;
 using Reactor.Utilities.Attributes;
 using TMPro;
 using TownOfUs.Modules.Components;
+using TownOfUs.Modules.DraftMode;
 using TownOfUs.Options;
 using UnityEngine;
 
@@ -27,6 +28,12 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
 
     public void Update()
     {
+        if (DraftManager.IsDraftActive)
+        {
+            HudManagerPatches.IsHoveringRoleList = false;
+            return;
+        }
+        
         if (TextTarget == null || !TextTarget.gameObject.activeSelf)
         {
             HideTooltip();

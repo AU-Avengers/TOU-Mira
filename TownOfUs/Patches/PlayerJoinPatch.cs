@@ -69,7 +69,7 @@ public static class PlayerJoinPatch
 
         var player = PlayerControl.LocalPlayer;
 
-        while (!player)
+        while (!player || !player.Data)
         {
             yield return new WaitForEndOfFrame();
         }
@@ -80,8 +80,8 @@ public static class PlayerJoinPatch
         }
 
         var mods = IL2CPPChainloader.Instance.Plugins;
-        var modDictionary = new Dictionary<byte, string>();
-        byte modByte = 0;
+        var modDictionary = new Dictionary<byte, string>() { {0, Application.version}};
+        byte modByte = 1;
         foreach (var mod in mods)
         {
             modDictionary.Add(modByte, $"{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}"); 
