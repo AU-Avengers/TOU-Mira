@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
-using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using MiraAPI.Voting;
 using Reactor.Utilities;
 using TownOfUs.Events.Modifiers;
-using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
 

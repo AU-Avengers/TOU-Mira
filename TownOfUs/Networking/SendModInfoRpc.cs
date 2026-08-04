@@ -80,12 +80,12 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
         string[] otherModArray = [];
         var sbuilder = new StringBuilder();
         Error(
-            $"DEBUGGING DATA for {client.Data.PlayerName}: {list[0]}, {list[1]}, {list[2]}, {list[3]}");
+            $"DEBUGGING DATA for {client.Data.PlayerName}: Among Us {list[0]} ({AmongUsClient.Instance.GetClientFromCharacter(client).PlatformData.Platform})");
         Error(
             $"{client.Data.PlayerName} is joining with the following plugins:");
         foreach (var mod in list)
         {
-            if (mod.Key < 4)
+            if (mod.Key < 1)
             {
                 continue;
             }
@@ -144,7 +144,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
             var newModDictionary = new List<string>();
             foreach (var mod in list)
             {
-                if (mod.Key < 4)
+                if (mod.Key < 1)
                 {
                     continue;
                 }
