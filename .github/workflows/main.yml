@@ -30,12 +30,28 @@ jobs:
           verbosity: Diagnostic
 
       - uses: actions/upload-artifact@v4
+        if: github.ref_type != 'tag'
         with:
           name: TownOfUsMira.dll
           path: TownOfUs/bin/Release/TownOfUsMira.dll
           retention-days: 7
 
       - uses: actions/upload-artifact@v4
+        if: github.ref_type != 'tag'
+        with:
+          name: TownOfUsMira.nupkg
+          path: TownOfUs/bin/Release/TownOfUsMira.*.nupkg
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        if: github.ref_type == 'tag'
+        with:
+          name: TownOfUsMira.dll
+          path: TownOfUs/bin/Publish/TownOfUsMira.dll
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        if: github.ref_type == 'tag'
         with:
           name: TownOfUsMira.nupkg
           path: TownOfUs/bin/Publish/TownOfUsMira.*.nupkg
