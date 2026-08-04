@@ -1972,6 +1972,9 @@
   <string name="TouRoleVenererSprintWikiDescription">Stage 2 of the abilities.\%nl\%You will gain the speed of the Flash while hidden from camo.</string>
   <string name="TouRoleVenererFreeze">Freeze</string>
   <string name="TouRoleVenererFreezeWikiDescription">The Final Stage of the abilities.\%nl\%You will slow down players around you in a radius, as well as being fast and hidden from camo.</string>
+  <string name="TouRoleVenererUncamouflage">Uncamouflage</string>
+  <string name="TouRoleVenererUnsprint">Unsprint</string>
+  <string name="TouRoleVenererUnfreeze">Unfreeze</string>
   <!-- Venerer Options -->
   <string name="TouOptionVenererAbilityCooldown">Ability Cooldown</string>
   <string name="TouOptionVenererAbilityDuration">Ability Duration</string>
