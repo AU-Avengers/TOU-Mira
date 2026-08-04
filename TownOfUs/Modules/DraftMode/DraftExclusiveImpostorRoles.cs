@@ -33,7 +33,7 @@ namespace TownOfUs.Modules.DraftMode
             _defaultsRegistered = true;
 
             var recruiter = MiscUtils.AllRoles.FirstOrDefault(r =>
-                r != null && string.Equals(r.GetRoleName(), "Recruiter", System.StringComparison.OrdinalIgnoreCase));
+                r != null && r.GetType().Name.Contains("Recruiter", System.StringComparison.OrdinalIgnoreCase));
             if (recruiter != null) Register(recruiter);
         }
     }
