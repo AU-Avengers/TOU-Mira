@@ -1,3 +1,6 @@
+using System;
+using System.Diagnostics;
+
 namespace TownOfUs.Modules.DraftMode
 {
     public interface IRng
@@ -14,6 +17,17 @@ namespace TownOfUs.Modules.DraftMode
         public DeterministicRng(uint seed)
         {
             _state = seed == 0u ? 0x9E3779B9u : seed;
+        }
+        public static DeterministicRng CreateRandomlySeeded()
+        {
+            unchecked
+            {
+                uint seed = (uint)Environment.TickCount;
+                seed ^= (uint)Guid.NewGuid().GetHashCode();
+                seed ^= (uint)DateTime.UtcNow.Ticks;
+                seed ^= (uint)Stopwatch.GetTimestamp();
+                return new DeterministicRng(seed);
+            }
         }
 
         private uint NextState()
