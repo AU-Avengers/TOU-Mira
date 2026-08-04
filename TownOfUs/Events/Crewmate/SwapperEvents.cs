@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
+using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using MiraAPI.Voting;
 using Reactor.Utilities;
 using TownOfUs.Events.Modifiers;
+using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
 
@@ -20,6 +22,14 @@ public static class SwapperEvents
         // Error($"SwapperEvents.ProcessVotesEventHandler");
         var swapper = CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().FirstOrDefault(swapper => !swapper.Player.HasDied() && swapper.Swap1 && swapper.Swap2);
         if (swapper == null)
+        {
+            return;
+        }
+
+        var prosecutor = CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>()
+            .FirstOrDefault(x => !x.Player.HasDied() && x.HasProsecuted && x.ProsecuteVictim != byte.MaxValue);
+
+        if (prosecutor != null)
         {
             return;
         }
@@ -70,6 +80,13 @@ public static class SwapperEvents
             return;
         }
 
+        var prosecutor = CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>()
+            .FirstOrDefault(x => !x.Player.HasDied() && x.HasProsecuted && x.ProsecuteVictim != byte.MaxValue);
+
+        if (prosecutor != null)
+        {
+            return;
+        }
         Coroutines.Start(PerformSwaps());
     }
 
@@ -79,6 +96,14 @@ public static class SwapperEvents
     {
         var swapper = CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().FirstOrDefault(swapper => !swapper.Player.HasDied() && swapper.Swap1 && swapper.Swap2);
         if (swapper == null)
+        {
+            return;
+        }
+
+        var prosecutor = CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>()
+            .FirstOrDefault(x => !x.Player.HasDied() && x.HasProsecuted && x.ProsecuteVictim != byte.MaxValue);
+
+        if (prosecutor != null)
         {
             return;
         }
