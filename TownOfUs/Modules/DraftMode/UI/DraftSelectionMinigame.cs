@@ -25,6 +25,7 @@ namespace TownOfUs.Modules.DraftMode
 
         private GameObject _screenRoot;
         private ushort[] _offeredRoleIds;
+        private string[] _offeredRoleNames;
         private bool _hasPicked;
         private TextMeshPro _timerText;
         private GameObject _tooltipRoot;
@@ -219,12 +220,13 @@ namespace TownOfUs.Modules.DraftMode
         }
 
         [HideFromIl2Cpp]
-        public void CacheOfferedRoles(ushort[] offeredRoleIds)
+        public void CacheOfferedRoles(ushort[] offeredRoleIds, string[] offeredRoleNames = null!)
         {
             _offeredRoleIds = offeredRoleIds ?? Array.Empty<ushort>();
+            _offeredRoleNames = offeredRoleNames ?? Array.Empty<string>();
         }
 
-        public static void Show(ushort[] roleIds)
+        public static void Show(ushort[] roleIds, string[] roleNames = null!)
         {
             Hide();
             if (HudManager.Instance?.FullScreen != null)
@@ -233,6 +235,7 @@ namespace TownOfUs.Modules.DraftMode
             DontDestroyOnLoad(go);
             Instance = go.AddComponent<DraftScreenController>();
             Instance._offeredRoleIds = roleIds ?? Array.Empty<ushort>();
+            Instance._offeredRoleNames = roleNames ?? Array.Empty<string>();
             Instance._hasPicked = false;
             Instance._cardsReady = false;
             Instance._localTimeLeft = -1f;
@@ -348,7 +351,9 @@ namespace TownOfUs.Modules.DraftMode
 
             var idList = new List<ushort>();
             if (_offeredRoleIds != null) idList.AddRange(_offeredRoleIds);
-            var cards = DraftUiManager.BuildCards(idList);
+            var nameList = new List<string>();
+            if (_offeredRoleNames != null) nameList.AddRange(_offeredRoleNames);
+            var cards = DraftUiManager.BuildCards(idList, nameList);
 
             int totalCards = cards.Count;
             float cardScale = CardScaleForCount;
