@@ -20,6 +20,9 @@ public sealed class MonarchOptions : AbstractRoleOptionGroup<MonarchRole>
     [ModdedNumberOption("Knight Delay (Cancellable)", 1f, 10f, 1f, MiraNumberSuffixes.Seconds)]
     public float KnightDelay { get; set; } = 3f;
 
+    [ModdedToggleOption("Reveal Knighting At Meeting")]
+    public bool RevealAtMeeting { get; set; } = false;
+
     [ModdedToggleOption("Show Knighted Votes")]
     public bool ShowKnightedVotes { get; set; } = true;
 
