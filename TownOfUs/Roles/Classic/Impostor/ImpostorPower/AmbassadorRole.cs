@@ -372,7 +372,8 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             player.ChangeRole(role);
 
             if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
-                (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || ambassador.AmOwner))
+                (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || ambassador.AmOwner ||
+                 player.AmOwner))
             {
                 var text =
                     TouLocale.GetParsed("TouRoleAmbassadorPlayerHasBeenRetrained")

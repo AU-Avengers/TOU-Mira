@@ -324,6 +324,7 @@ public static class HudManagerPatches
         {
             var pingTracker = Object.FindObjectOfType<PingTracker>(true);
             RoleList = Object.Instantiate(pingTracker.gameObject, instance.transform);
+            RoleList.GetComponent<PingTracker>().Destroy();
             RoleList.name = "RoleListText";
             var pos = RoleList.gameObject.GetComponent<AspectPosition>();
             pos.Alignment = AspectPosition.EdgeAlignments.LeftTop;
@@ -680,40 +681,6 @@ public static class HudManagerPatches
             }
             TouLocalTabButtons.SetUpButtonPositions();
         }
-    }
-
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-    [HarmonyPostfix]
-    public static void HudManagerUpdatePatch(HudManager __instance)
-    {
-        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
-        {
-            return;
-        }
-
-        CreateUiRow(__instance);
-        CreateNewUiRow(__instance);
-
-        CreateWikiButton(__instance);
-        CreateZoomButton(__instance);
-        AdjustModifierTab();
-
-        UpdateRoleList(__instance);
-        UpdateTeamChat();
-
-        if (CanZoom)
-        {
-            CheckForScrollZoom();
-        }
-
-        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data || !PlayerControl.LocalPlayer.Data.Role ||
-            !ShipStatus.Instance ||
-            (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
-             !TutorialManager.InstanceExists))
-        {
-            return;
-        }
-        UpdateSubmergedButtons(__instance);
     }
 
     public static bool CanZoom =>

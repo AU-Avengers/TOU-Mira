@@ -138,12 +138,8 @@ public static class ControlledPlayerInteractionPatches
     /// Also patch HudManager Update to continuously check for interactables near controlled player
     /// Throttled to avoid performance issues
     /// </summary>
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-    [HarmonyPriority(Priority.Last)]
-    [HarmonyPostfix]
-    public static void HudManagerUpdatePostfix(HudManager __instance)
+    public static void UpdateControlledUseButton(HudManager __instance)
     {
-        // Throttle updates to avoid stuttering
         var now = Time.time;
         if (now - _lastUpdateTime < UpdateThrottle)
         {
@@ -151,7 +147,7 @@ public static class ControlledPlayerInteractionPatches
         }
         _lastUpdateTime = now;
 
-        if (__instance?.UseButton != null)
+        if (__instance.UseButton)
         {
             UpdateUseButtonTarget(__instance.UseButton);
         }
@@ -159,16 +155,16 @@ public static class ControlledPlayerInteractionPatches
 
     private static void UpdateUseButtonTarget(UseButton useButton)
     {
-        var localPlayer = PlayerControl.LocalPlayer;
-        if (localPlayer == null || useButton == null)
+        if (!useButton)
         {
             return;
         }
+        var localPlayer = PlayerControl.LocalPlayer;
 
         var isControlling = false;
         PlayerControl? controlledPlayer = null;
 
-        if (localPlayer.Data?.Role is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
+        if (localPlayer.Data.Role is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
         {
             var controlled = puppeteerRole.Controlled;
             if (controlled != null && !controlled.HasDied() && 
@@ -179,7 +175,7 @@ public static class ControlledPlayerInteractionPatches
             }
         }
 
-        if (localPlayer.Data?.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+        if (localPlayer.Data.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
         {
             var controlled = parasiteRole.Controlled;
             if (controlled != null && !controlled.HasDied() && 

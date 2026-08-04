@@ -30,22 +30,38 @@ jobs:
           verbosity: Diagnostic
 
       - uses: actions/upload-artifact@v4
+        if: github.ref_type != 'tag'
         with:
           name: TownOfUsMira.dll
           path: TownOfUs/bin/Release/TownOfUsMira.dll
           retention-days: 7
 
       - uses: actions/upload-artifact@v4
+        if: github.ref_type != 'tag'
         with:
           name: TownOfUsMira.nupkg
           path: TownOfUs/bin/Release/TownOfUsMira.*.nupkg
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        if: github.ref_type == 'tag'
+        with:
+          name: TownOfUsMira.dll
+          path: TownOfUs/bin/Publish/TownOfUsMira.dll
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        if: github.ref_type == 'tag'
+        with:
+          name: TownOfUsMira.nupkg
+          path: TownOfUs/bin/Publish/TownOfUsMira.*.nupkg
           retention-days: 7
 
       - uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:
           draft: true
-          files: TownOfUs/bin/Release/TownOfUsMira.dll
+          files: TownOfUs/bin/Publish/TownOfUsMira.dll
           
       - name: Push NuGet CI
         if: github.ref == 'refs/heads/dev'
@@ -55,4 +71,4 @@ jobs:
       - name: Push NuGet Release
         if: github.ref_type == 'tag'
         run: |
-          dotnet nuget push TownOfUs/bin/Release/TownOfUsMira.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+          dotnet nuget push TownOfUs/bin/Publish/TownOfUsMira.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
