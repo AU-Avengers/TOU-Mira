@@ -2,6 +2,7 @@ using Reactor.Networking.Attributes;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using MiraAPI.Utilities;
+using MiraAPI.GameOptions;
 using TownOfUs.Options;
 
 
@@ -197,6 +198,7 @@ public static class DraftRpcs
         }
 
         DraftScreenController.Hide();
+        DraftSidebarManager.Deactivate();
 
         bool willShowRecap = mode != DraftRecapMode.Nothing && entries.Count > 0;
 
@@ -261,11 +263,14 @@ public static class DraftNetworkHelper
         DraftManager.SetClientTurn(turnNumber, slot);
 
         const int maxOffered = 9;
-        if (roleIds.Count > maxOffered)
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, $"[DraftNetworkHelper] {roleIds.Count} roles offered but the RPC only carries {maxOffered}, truncating");
+        var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
+        int configured = Math.Max(1, (int)(roleOpts?.OfferedRolesCount.Value ?? 3));
+        int allowed = Math.Min(maxOffered, configured);
+        if (roleIds.Count > allowed)
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, $"[DraftNetworkHelper] {roleIds.Count} roles offered but the RPC only carries {allowed}, truncating");
 
         var padded = new ushort[maxOffered];
-        var count = Math.Min(maxOffered, roleIds.Count);
+        var count = Math.Min(allowed, roleIds.Count);
         for (int i = 0; i < count; i++)
         {
             padded[i] = roleIds[i];
@@ -278,8 +283,29 @@ public static class DraftNetworkHelper
     public static void BroadcastPickConfirmed(int slot, ushort roleId, bool timedOut = false)
     {
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] BroadcastPickConfirmed: slot {slot}, roleId {roleId}, timedOut {timedOut}");
+        // Confirm locally first so host UI updates immediately
         DraftManager.ConfirmPick(slot, roleId);
+        // Send RPC to clients
         DraftRpcs.RpcPickConfirmed(PlayerControl.LocalPlayer, slot, roleId, timedOut);
+
+        // Ensure local UI and sidebar reflect the confirmed pick in local lobbies
+        try
+        {
+            DraftScreenController.Hide();
+        }
+        catch { }
+
+        try
+        {
+            DraftSidebarManager.InvalidateCache();
+        }
+        catch { }
+
+        try
+        {
+            DraftStatusOverlay.Refresh();
+        }
+        catch { }
     }
 
     public static void NotifyPickerReady()

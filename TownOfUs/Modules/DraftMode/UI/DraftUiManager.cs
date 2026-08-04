@@ -12,9 +12,7 @@ namespace TownOfUs.Modules.DraftMode
         public static List<DraftRoleCard> BuildCards(List<ushort> roleIds)
         {
             var cards = new List<DraftRoleCard>();
-            var offered = OptionGroupSingleton<RoleOptions>.Instance.OfferedRolesCount.Value;
-            int count = System.Math.Min(roleIds.Count, (int)offered);
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < roleIds.Count; i++)
             {
                 ushort id   = roleIds[i];
                 var    role = ResolveRole(id);
