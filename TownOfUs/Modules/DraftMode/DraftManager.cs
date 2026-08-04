@@ -52,16 +52,43 @@ public static class DraftManager
     {
         var state = GetStateForPlayer(playerId);
         if (state == null) return;
+        if (state.HasPicked || state.ChosenRoleId != 0) return;
+        if (!state.IsPickingNow) return;
+        if (state.PendingPickIndex != 255 && state.PendingPickTurnNumber == _currentTurn) return;
+
         state.PendingPickIndex = index;
+        state.PendingPickTurnNumber = _currentTurn;
+
+        if (AmongUsClient.Instance.AmHost && DraftEngineBehaviour.Instance != null)
+        {
+            DraftEngineBehaviour.Instance.TryApplySubmittedPick(playerId, index);
+        }
     }
 
     public static void ConfirmPick(int slot, ushort roleId)
     {
         var state = GetStateForSlot(slot);
         if (state == null) return;
+
+        if (state.HasPicked && state.ChosenRoleId != 0)
+        {
+            if (state.ChosenRoleId == roleId)
+            {
+                state.PendingPickIndex = 255;
+                state.PendingPickTurnNumber = -1;
+                return;
+            }
+
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                $"[DraftManager] Ignoring duplicate pick confirmation for slot {slot}: existing role {state.ChosenRoleId}, new role {roleId}");
+            return;
+        }
+
         state.ChosenRoleId = roleId;
         state.HasPicked = true;
         state.IsPickingNow = false;
+        state.PendingPickIndex = 255;
+        state.PendingPickTurnNumber = -1;
 
         if (PlayerControl.LocalPlayer != null && state.PlayerId == PlayerControl.LocalPlayer.PlayerId)
             DraftStatusOverlay.NotifyLocalPlayerPicked(roleId);
@@ -83,12 +110,20 @@ public static class DraftManager
         {
             _currentTurn = turnNumber;
             foreach (var s in SlotStates)
+            {
                 s.IsPickingNow = false;
+                s.PendingPickIndex = 255;
+                s.PendingPickTurnNumber = -1;
+            }
         }
 
         var target = SlotStates.FirstOrDefault(s => s.SlotNumber == slot);
         if (target != null)
+        {
             target.IsPickingNow = true;
+            target.PendingPickIndex = 255;
+            target.PendingPickTurnNumber = turnNumber;
+        }
 
         DraftSidebarManager.InvalidateCache();
         DraftStatusOverlay.Refresh();
@@ -188,5 +223,6 @@ public class DraftSlotState
     public bool IsPickingNow;
     public bool IsPickerReady;
     public byte PendingPickIndex = 255;
+    public int PendingPickTurnNumber = -1;
     public string ForcedRoleName;
 }
