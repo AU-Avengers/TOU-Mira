@@ -204,7 +204,7 @@ public static class DraftRpcs
 
         DraftScreenController.Hide();
         DraftSidebarManager.Deactivate();
-
+        DraftStatusOverlay.DestroyRoleCard();
         bool willShowRecap = mode != DraftRecapMode.Nothing && entries.Count > 0;
 
         if (!willShowRecap)
