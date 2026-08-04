@@ -87,7 +87,6 @@ namespace TownOfUs.Modules.DraftMode
                 }
             }
 
-            // Respect configured offered roles count so callers don't need to trim again
             int cap = Math.Max(1, (int)(roleOpts?.OfferedRolesCount.Value ?? 3));
             if (picked.Count > cap) picked = picked.Take(cap).ToList();
 
@@ -232,10 +231,6 @@ namespace TownOfUs.Modules.DraftMode
                 ExpandBucket(pool, RoleListOption.NeutKilling, (int)neutOpts.MaxNeutKilling.Value, rng);
                 ExpandBucket(pool, RoleListOption.NeutOutlier, (int)neutOpts.MaxNeutOutlier.Value, rng);
 
-                // "Max Neutrals Total" can be configured higher than the sum of the four per-type
-                // maxes above, in which case the remaining slots should be filled from whichever
-                // sub-bucket still has room -- but each per-type max is still a hard ceiling, never
-                // something the wildcard fill below is allowed to exceed.
                 var neutralSubBucketCaps = new Dictionary<RoleListOption, int>
                 {
                     [RoleListOption.NeutBenign]  = (int)neutOpts.MaxNeutBenign.Value,
@@ -280,11 +275,6 @@ namespace TownOfUs.Modules.DraftMode
 
             int currentTotal = names.Sum(n => countsByName.GetValueOrDefault(n));
             int guard = Math.Max(0, targetTotal) * 10 + 20;
-
-            // Figure out which configured sub-bucket (Benign/Evil/Killing/Outlier) each candidate name
-            // actually belongs to, and how many of that sub-bucket are already in the pool, so the
-            // wildcard fill below can never push a sub-bucket past its own "Max X Roles" setting --
-            // that setting is a hard ceiling, not just an initial allocation the fill is free to ignore.
             Dictionary<string, RoleListOption>? nameToSubBucket = null;
             Dictionary<RoleListOption, int>? subBucketCounts = null;
             if (subBucketCaps is { Count: > 0 })
@@ -297,7 +287,6 @@ namespace TownOfUs.Modules.DraftMode
                         .Distinct(StringComparer.OrdinalIgnoreCase) ?? Enumerable.Empty<string>();
                     foreach (var n in subNames)
                     {
-                        // A role name should only ever belong to one of these sub-buckets; first claim wins.
                         nameToSubBucket.TryAdd(n, subBucket);
                     }
                 }
