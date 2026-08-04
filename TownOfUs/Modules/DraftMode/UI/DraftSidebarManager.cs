@@ -289,7 +289,8 @@ namespace TownOfUs.Modules.DraftMode
         [HarmonyPostfix]
         public static void Postfix()
         {
-            DraftManager.Reset(cancelledBeforeCompletion: true);
+            if (!DraftManager.IsDraftActive) return;
+
             DraftCancelButton.Hide();
             DraftShuffleButton.HideAndReset();
             DraftSidebarManager.Deactivate();

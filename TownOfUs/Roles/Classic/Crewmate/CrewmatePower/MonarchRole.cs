@@ -131,7 +131,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
             ShowNotification(TouLocale.GetParsed("TouRoleMonarchKnightSuccess").Replace("<player>", targetName));
         }
 
-        if (target.AmOwner)
+        if (target.AmOwner && !OptionGroupSingleton<MonarchOptions>.Instance.RevealAtMeeting)
         {
             if (target.Data.Role is MayorRole mayor && mayor.Revealed)
             {

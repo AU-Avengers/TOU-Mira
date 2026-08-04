@@ -2,9 +2,29 @@ namespace TownOfUs.Modules.DraftMode;
 
 public static class DraftAudio
 {
+    private static DraftAudioCueMode GetConfiguredCueMode()
+    {
+        try
+        {
+            return TouLocalTabPractice.CurrentDraftAudioCueMode;
+        }
+        catch (Exception)
+        {
+            try
+            {
+                return LocalSettingsTabSingleton<TouLocalTabPractice>.Instance?.DraftAudioCue?.Value ?? DraftAudioCueMode.None;
+            }
+            catch (Exception)
+            {
+                return DraftAudioCueMode.None;
+            }
+        }
+    }
+
     public static void PlayDraftStart()
     {
-        if ((LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.DraftAudioCue.Value == DraftAudioCueMode.Start) || (LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.DraftAudioCue.Value == DraftAudioCueMode.Both))
+        var mode = GetConfiguredCueMode();
+        if (mode == DraftAudioCueMode.Start || mode == DraftAudioCueMode.Both)
         {
             TouAudio.PlaySound(TouAudio.TribunalSound);
         }
@@ -12,7 +32,8 @@ public static class DraftAudio
 
     public static void PlayYourTurn()
     {
-        if (LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.DraftAudioCue.Value == DraftAudioCueMode.YourTurn || LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.DraftAudioCue.Value == DraftAudioCueMode.Both)
+        var mode = GetConfiguredCueMode();
+        if (mode == DraftAudioCueMode.YourTurn || mode == DraftAudioCueMode.Both)
         {
             TouAudio.PlaySound(TouAudio.TribunalSound);
         }

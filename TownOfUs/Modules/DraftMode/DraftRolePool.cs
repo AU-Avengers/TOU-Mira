@@ -59,8 +59,46 @@ namespace TownOfUs.Modules.DraftMode
                 }
             }
 
+            result = FilterRoleNamesByBucket(result, bucket);
+
             BucketToNamesCache[bucket] = new List<string>(result);
             return new List<string>(result);
+        }
+
+        public static ushort ResolveRoleIdFromName(string roleName)
+        {
+            if (string.IsNullOrWhiteSpace(roleName)) return 0;
+
+            var baseName = roleName;
+            int pipeIdx = baseName.IndexOf('|');
+            if (pipeIdx >= 0) baseName = baseName.Substring(0, pipeIdx);
+
+            if (RoleNameToIdCache.TryGetValue(baseName, out var cachedId) && cachedId != 0)
+                return cachedId;
+
+            if (ushort.TryParse(baseName, out var directId))
+            {
+                try
+                {
+                    var directRole = MiscUtils.GetRegisteredRole((RoleTypes)directId);
+                    if (directRole != null)
+                    {
+                        CacheRoleId(baseName, directId);
+                        return directId;
+                    }
+                }
+                catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+            }
+
+            var resolved = FindRoleByName(baseName);
+            if (resolved != null)
+            {
+                var resolvedId = (ushort)resolved.Role;
+                CacheRoleId(baseName, resolvedId);
+                return resolvedId;
+            }
+
+            return 0;
         }
 
         public static ushort ChooseRepresentativeRoleId(List<string> roleNames)
@@ -82,26 +120,11 @@ namespace TownOfUs.Modules.DraftMode
 
             foreach (var nm in roleNames)
             {
-                if (RoleNameToIdCache.TryGetValue(nm, out var cachedId) && cachedId != 0)
-                    return cachedId;
+                var resolvedId = ResolveRoleIdFromName(nm);
+                if (resolvedId != 0) return resolvedId;
             }
 
-            foreach (var nm in roleNames)
-            {
-                var resolved = FindRoleByName(nm);
-                if (resolved != null)
-                    return (ushort)resolved.Role;
-            }
-
-            var chosen = roleNames[0];
-            int pipeIdx = chosen.IndexOf('|');
-            if (pipeIdx >= 0) chosen = chosen.Substring(0, pipeIdx);
-
-            unchecked
-            {
-                var hash = (uint)chosen.GetHashCode();
-                return (ushort)(hash & 0xFFFF);
-            }
+            return 0;
         }
 
         public static string GetRoleNameFromId(ushort id)
@@ -152,8 +175,8 @@ namespace TownOfUs.Modules.DraftMode
                     (names[i], names[j]) = (names[j], names[i]);
                 }
 
-                resolvedNames = names;
-                return true;
+                resolvedNames = FilterRoleNamesByBucket(names, bucket);
+                return resolvedNames.Count > 0;
             }
 
             var directRole = FindRoleByName(bucket);
@@ -229,6 +252,32 @@ namespace TownOfUs.Modules.DraftMode
             catch { return false; }
         }
 
+        public static bool IsImpostorRoleListOption(RoleListOption opt) => opt switch
+        {
+            RoleListOption.ImpConceal or
+            RoleListOption.ImpKilling or
+            RoleListOption.ImpPower or
+            RoleListOption.ImpSupport or
+            RoleListOption.ImpCommon or
+            RoleListOption.ImpSpecial or
+            RoleListOption.ImpRandom => true,
+            _ => false
+        };
+
+        public static bool IsNeutralRoleListOption(RoleListOption opt) => opt switch
+        {
+            RoleListOption.NeutBenign or
+            RoleListOption.NeutEvil or
+            RoleListOption.NeutKilling or
+            RoleListOption.NeutOutlier or
+            RoleListOption.NeutCommon or
+            RoleListOption.NeutSpecial or
+            RoleListOption.NeutWildcard or
+            RoleListOption.NeutRandom => true,
+            _ => false
+        };
+
+
         private static RoleBehaviour FindRoleByName(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) return null!;
@@ -282,6 +331,76 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             return Enum.TryParse<RoleListOption>(bucket, true, out roleListOption);
+        }
+
+        private static List<string> FilterRoleNamesByBucket(IEnumerable<string> names, string bucket)
+        {
+            if (names == null) return new List<string>();
+            if (string.IsNullOrWhiteSpace(bucket)) return names.ToList();
+
+            if (!TryGetBucketAlignments(bucket, out var alignments) || alignments == null || alignments.Length == 0)
+                return names.Where(n => !string.IsNullOrWhiteSpace(n)).ToList();
+
+            var allowed = new HashSet<RoleAlignment>(alignments);
+            return names
+                .Where(n => !string.IsNullOrWhiteSpace(n))
+                .Where(n => IsRoleNameInAlignments(n, allowed))
+                .ToList();
+        }
+
+        private static bool TryGetBucketAlignments(string bucket, out RoleAlignment[]? alignments)
+        {
+            alignments = null;
+            if (string.IsNullOrWhiteSpace(bucket)) return false;
+
+            if (TryMatchBucketToRoleListOption(bucket, out var roleListOption))
+            {
+                alignments = roleListOption switch
+                {
+                    RoleListOption.CrewInvest => [RoleAlignment.CrewmateInvestigative],
+                    RoleListOption.CrewKilling => [RoleAlignment.CrewmateKilling],
+                    RoleListOption.CrewProtective => [RoleAlignment.CrewmateProtective],
+                    RoleListOption.CrewPower => [RoleAlignment.CrewmatePower],
+                    RoleListOption.CrewSupport => [RoleAlignment.CrewmateSupport],
+                    RoleListOption.CrewCommon => [RoleAlignment.CrewmateInvestigative, RoleAlignment.CrewmateProtective, RoleAlignment.CrewmateSupport],
+                    RoleListOption.CrewSpecial => [RoleAlignment.CrewmateKilling, RoleAlignment.CrewmatePower],
+                    RoleListOption.CrewRandom => [RoleAlignment.CrewmateInvestigative, RoleAlignment.CrewmateKilling, RoleAlignment.CrewmateProtective, RoleAlignment.CrewmatePower, RoleAlignment.CrewmateSupport],
+                    RoleListOption.NeutBenign => [RoleAlignment.NeutralBenign],
+                    RoleListOption.NeutEvil => [RoleAlignment.NeutralEvil],
+                    RoleListOption.NeutKilling => [RoleAlignment.NeutralKilling],
+                    RoleListOption.NeutOutlier => [RoleAlignment.NeutralOutlier],
+                    RoleListOption.NeutCommon => [RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil],
+                    RoleListOption.NeutSpecial => [RoleAlignment.NeutralKilling, RoleAlignment.NeutralOutlier],
+                    RoleListOption.NeutWildcard => [RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil, RoleAlignment.NeutralOutlier],
+                    RoleListOption.NeutRandom => [RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil, RoleAlignment.NeutralKilling, RoleAlignment.NeutralOutlier],
+                    RoleListOption.ImpConceal => [RoleAlignment.ImpostorConcealing],
+                    RoleListOption.ImpKilling => [RoleAlignment.ImpostorKilling],
+                    RoleListOption.ImpPower => [RoleAlignment.ImpostorPower],
+                    RoleListOption.ImpSupport => [RoleAlignment.ImpostorSupport],
+                    RoleListOption.ImpCommon => [RoleAlignment.ImpostorConcealing, RoleAlignment.ImpostorSupport],
+                    RoleListOption.ImpSpecial => [RoleAlignment.ImpostorKilling, RoleAlignment.ImpostorPower],
+                    RoleListOption.ImpRandom => [RoleAlignment.ImpostorConcealing, RoleAlignment.ImpostorKilling, RoleAlignment.ImpostorPower, RoleAlignment.ImpostorSupport],
+                    RoleListOption.NonImp => [RoleAlignment.CrewmateInvestigative, RoleAlignment.CrewmateKilling, RoleAlignment.CrewmateProtective, RoleAlignment.CrewmatePower, RoleAlignment.CrewmateSupport, RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil, RoleAlignment.NeutralKilling, RoleAlignment.NeutralOutlier],
+                    RoleListOption.Any => null,
+                    _ => null,
+                };
+
+                return alignments != null;
+            }
+
+            return false;
+        }
+
+        private static bool IsRoleNameInAlignments(string roleName, HashSet<RoleAlignment> alignments)
+        {
+            if (string.IsNullOrWhiteSpace(roleName) || alignments == null || alignments.Count == 0)
+                return false;
+
+            var role = FindRoleByName(roleName);
+            if (role == null) return false;
+
+            var currentAlignment = role.GetRoleAlignment();
+            return alignments.Contains(currentAlignment);
         }
 
         private static List<RoleBehaviour> GetRolesForBucket(RoleListOption bucket)
