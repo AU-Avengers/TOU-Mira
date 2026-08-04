@@ -1,6 +1,5 @@
 using TownOfUs.Options;
 using MiraAPI.GameOptions;
-using MiraAPI.Utilities;
 
 namespace TownOfUs.Modules.DraftMode
 {
@@ -59,31 +58,36 @@ namespace TownOfUs.Modules.DraftMode
                 (poolCopy[i], poolCopy[j]) = (poolCopy[j], poolCopy[i]);
             }
 
-            var picked = new List<string>();
-            var seen   = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var eligible = poolCopy
+                .Where(c => !string.IsNullOrWhiteSpace(c))
+                .Where(c =>
+                {
+                    var baseName = BaseRoleName(c);
+                    return avoid == null || (!avoid.Contains(c) && !avoid.Contains(baseName));
+                })
+                .ToList();
 
-            foreach (var candidate in poolCopy)
+            if (eligible.Count == 0 && currentPool != null && currentPool.Count > 0)
             {
-                if (string.IsNullOrEmpty(candidate)) continue;
-                var baseName = BaseRoleName(candidate);
-                if (avoid != null && (avoid.Contains(candidate) || avoid.Contains(baseName))) continue;
-
-                if (seen.Add(baseName)) picked.Add(candidate);
+                eligible = currentPool
+                    .Where(c => !string.IsNullOrWhiteSpace(c))
+                    .ToList();
             }
+
+            if (eligible.Count == 0) return new List<string>();
+
+            var picked = SelectWeightedDistinctCandidates(eligible, Math.Min(offered, eligible.Count), rng);
 
             if (picked.Count < offered)
             {
-                for (int i = 0; i < poolCopy.Count && picked.Count < offered; i++)
+                foreach (var candidate in poolCopy)
                 {
-                    var candidate = poolCopy[i];
-                    if (string.IsNullOrEmpty(candidate)) continue;
+                    if (picked.Count >= offered) break;
+                    if (string.IsNullOrWhiteSpace(candidate)) continue;
                     var baseName = BaseRoleName(candidate);
                     if (avoid != null && (avoid.Contains(candidate) || avoid.Contains(baseName))) continue;
-
-                    if (seen.Contains(baseName))
-                    {
-                        picked.Add(candidate);
-                    }
+                    if (picked.Any(existing => string.Equals(BaseRoleName(existing), baseName, StringComparison.OrdinalIgnoreCase))) continue;
+                    picked.Add(candidate);
                 }
             }
 
@@ -123,6 +127,42 @@ namespace TownOfUs.Modules.DraftMode
             return candidates[^1];
         }
 
+        private static List<string> SelectWeightedDistinctCandidates(List<string> candidates, int take, IRng rng)
+        {
+            if (candidates == null || candidates.Count == 0 || take <= 0) return new List<string>();
+
+            var result = new List<string>();
+            var remaining = new List<string>(candidates);
+            var seenBaseNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            while (result.Count < take && remaining.Count > 0)
+            {
+                var guaranteed = remaining
+                    .Where(candidate => !string.IsNullOrWhiteSpace(candidate))
+                    .Where(candidate => !seenBaseNames.Contains(BaseRoleName(candidate)))
+                    .Where(candidate => DraftRolePool.GetChanceForRoleName(candidate) >= 100)
+                    .ToList();
+
+                var available = guaranteed.Count > 0
+                    ? guaranteed
+                    : remaining
+                        .Where(candidate => !string.IsNullOrWhiteSpace(candidate))
+                        .Where(candidate => !seenBaseNames.Contains(BaseRoleName(candidate)))
+                        .ToList();
+
+                if (available.Count == 0) break;
+
+                var chosen = PickWeightedByChance(available, rng);
+                result.Add(chosen);
+                seenBaseNames.Add(BaseRoleName(chosen));
+
+                remaining.RemoveAll(candidate =>
+                    string.Equals(BaseRoleName(candidate), BaseRoleName(chosen), StringComparison.OrdinalIgnoreCase));
+            }
+
+            return result;
+        }
+
         private static List<string> TakeWeightedByChance(List<string> names, int take, IRng rng)
         {
             var remaining = new List<string>(names);
@@ -155,11 +195,10 @@ namespace TownOfUs.Modules.DraftMode
                 rl.Slot13.Value, rl.Slot14.Value, rl.Slot15.Value,
             ];
 
-            var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
-            int rolesPerSlot = roleOpts != null ? Math.Max(1, (int)roleOpts.OfferedRolesCount.Value) : 3;
+            int activeSlots = Math.Max(1, Math.Min(Math.Max(1, numPlayers), slots.Length));
+            var bucketNames = new List<string>();
 
-            int limit = Math.Min(numPlayers, slots.Length);
-            for (int i = 0; i < limit; i++)
+            for (int i = 0; i < activeSlots; i++)
             {
                 var roleNames = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(slots[i]));
                 if (roleNames == null || roleNames.Count == 0)
@@ -169,44 +208,58 @@ namespace TownOfUs.Modules.DraftMode
 
                 if (roleNames != null && roleNames.Count > 0)
                 {
-                    var candidates = roleNames
-                        .Where(n => !string.IsNullOrWhiteSpace(n))
-                        .Distinct(StringComparer.OrdinalIgnoreCase)
-                        .ToList();
-
-                    if (candidates.Count <= rolesPerSlot)
-                    {
-                        pool.AddRange(candidates);
-                    }
-                    else
-                    {
-                        var chosenNames = TakeWeightedByChance(candidates, rolesPerSlot, rng);
-                        pool.AddRange(chosenNames);
-                    }
-                }
-                else
-                {
-                    var anyNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any))
-                        ?.Where(n => !string.IsNullOrWhiteSpace(n)).ToList();
-                    if (anyNames != null && anyNames.Count > 0)
-                    {
-                        var chosen = PickWeightedByChance(anyNames, rng);
-                        pool.Add(chosen);
-                    }
-                    else
-                    {
-                        pool.Add("Crewmate");
-                    }
+                    bucketNames.AddRange(roleNames.Where(n => !string.IsNullOrWhiteSpace(n)));
                 }
             }
 
-            for (int i = pool.Count - 1; i > 0; i--)
+            if (bucketNames.Count == 0)
+            {
+                bucketNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any))
+                    ?.Where(n => !string.IsNullOrWhiteSpace(n))
+                    .ToList() ?? new List<string>();
+            }
+
+            var uniqueNames = bucketNames
+                .GroupBy(BaseRoleName, StringComparer.OrdinalIgnoreCase)
+                .Select(g => g.First())
+                .Where(n => !string.IsNullOrWhiteSpace(n))
+                .ToList();
+
+            if (uniqueNames.Count == 0)
+            {
+                uniqueNames.Add("Crewmate");
+            }
+
+            for (int i = uniqueNames.Count - 1; i > 0; i--)
             {
                 int j = rng.NextInt(i + 1);
-                (pool[i], pool[j]) = (pool[j], pool[i]);
+                (uniqueNames[i], uniqueNames[j]) = (uniqueNames[j], uniqueNames[i]);
             }
 
+            pool.AddRange(uniqueNames);
             return pool;
+        }
+
+        private static List<string> SelectRoleListCandidates(List<string> candidates, int takeCount, IRng rng)
+        {
+            var result = new List<string>();
+            if (candidates == null || candidates.Count == 0 || takeCount <= 0) return result;
+
+            var remaining = new List<string>(candidates);
+            while (result.Count < takeCount && remaining.Count > 0)
+            {
+                var available = remaining
+                    .Where(candidate => !string.IsNullOrWhiteSpace(candidate))
+                    .ToList();
+
+                if (available.Count == 0) break;
+
+                var chosen = PickWeightedByChance(available, rng);
+                result.Add(chosen);
+                remaining.RemoveAll(candidate => string.Equals(BaseRoleName(candidate), BaseRoleName(chosen), StringComparison.OrdinalIgnoreCase));
+            }
+
+            return result;
         }
 
         private static List<string> BuildPoolFromManualAmounts(IRng rng)
@@ -397,7 +450,7 @@ namespace TownOfUs.Modules.DraftMode
                 .ToList();
         }
 
-        private static string RoleListOptionToString(RoleListOption opt)
+        internal static string RoleListOptionToString(RoleListOption opt)
         {
             var ary = RoleOptions.OptionStrings;
             int idx = (int)opt;
