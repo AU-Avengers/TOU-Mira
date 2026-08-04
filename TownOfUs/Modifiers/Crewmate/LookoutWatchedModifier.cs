@@ -52,22 +52,25 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
         var showRoles = (LookoutView)OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Roles;
         if (SeenPlayers.Count != 0)
         {
+            var playerList = SeenPlayers.Select(x => x.Key).ToList();
+            var roleList = SeenPlayers.Select(x => x.Value).ToList();
             var message = new StringBuilder($"{TouLocale.GetParsed(showRoles ? "TouRoleLookoutInteractionFeedback" : "TouRoleLookoutAltInteractionFeedback").Replace("<player>", Player.Data.PlayerName)}:\n");
 
-            SeenPlayers.Shuffle();
+            playerList.Shuffle();
+            roleList.Shuffle();
 
             if (showRoles)
             {
-                foreach (var pair in SeenPlayers)
+                foreach (var role in roleList)
                 {
-                    message.Append(TownOfUsPlugin.Culture, $"{pair.Value.GetRoleName()}, ");
+                    message.Append(TownOfUsPlugin.Culture, $"{role.GetRoleName()}, ");
                 }
             }
             else
             {
-                foreach (var pair in SeenPlayers)
+                foreach (var plr in playerList)
                 {
-                    message.Append(TownOfUsPlugin.Culture, $"{pair.Key.CachedPlayerData.PlayerName}, ");
+                    message.Append(TownOfUsPlugin.Culture, $"{plr.CachedPlayerData.PlayerName}, ");
                 }
             }
 

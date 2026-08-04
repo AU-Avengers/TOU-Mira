@@ -1,8 +1,7 @@
 <Project>
     <ItemGroup>
-        <ProjectReference Include="..\GitSubmodules\Reactor\Reactor\Reactor.csproj" />
-        <ProjectReference Include="..\GitSubmodules\MiraAPI\MiraAPI\MiraAPI.csproj" />
-        <ProjectReference Include="..\GitSubmodules\Achievements-API\AchievementsAPI\AchievementsAPI.csproj" />
+        <PackageReference Include="AllOfUs.MiraAPI" Version="0.4.2"/>
+        <PackageReference Include="Reactor" Version="2.5.0-ci.371"/>
         <PackageReference Include="PerfectComms.Api" Version="4.1.7.1" PrivateAssets="all" />
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.735" Private="false" ExcludeAssets="runtime;native"/>
         <PackageReference Include="AmongUs.GameLibs.Steam" Version="2026.6.5" PrivateAssets="all"/>
