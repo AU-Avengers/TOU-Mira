@@ -385,9 +385,6 @@ namespace TownOfUs.Modules.DraftMode
                     i, totalCards, card.Color, card.Faction,
                     cardScale, useGrid, spacing, card.Description);
 
-                var capturedName = card.RoleName;
-                var capturedColor = card.Color;
-
                 btn.OnClick.RemoveAllListeners();
                 btn.OnClick.AddListener((UnityAction)(() => OnCardClicked(capturedIdx)));
             }

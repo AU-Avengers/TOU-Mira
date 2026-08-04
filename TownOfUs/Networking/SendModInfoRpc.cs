@@ -6,6 +6,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 using ModCompatibility = TownOfUs.Modules.ModCompatibility;
 
@@ -78,9 +79,12 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
         string[] knownModArray = [];
         string[] badModArray = [];
         string[] otherModArray = [];
+        var data = AmongUsClient.Instance.GetClientFromCharacter(client);
+        var platform = data.PlatformData.Platform;
+        HudManagerHelper.RefreshPlatformData();
         var sbuilder = new StringBuilder();
         Error(
-            $"DEBUGGING DATA for {client.Data.PlayerName}: Among Us {list[0]} ({AmongUsClient.Instance.GetClientFromCharacter(client).PlatformData.Platform})");
+            $"DEBUGGING DATA for {client.Data.PlayerName}: Among Us {list[0]} ({platform})");
         Error(
             $"{client.Data.PlayerName} is joining with the following plugins:");
         foreach (var mod in list)

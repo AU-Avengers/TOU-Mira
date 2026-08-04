@@ -366,6 +366,8 @@
   <string name="AnticheatKickMissingMessage">\%player\% is missing these mods:</string>
   <string name="AnticheatKickChatMessage">\%player\% was kicked for using cheat mods:</string>
   <string name="SpectatorCommandList">spec:spectate</string>
+    <string name="PlayerCommandList">players:plr:plrlist:playerlist</string>
+    <string name="PlayerCommandDetails">\%player\%'s Platform: \%platform\%</string>
   <string name="SpectatorLobbyError">You cannot toggle spectating outside the lobby!</string>
   <string name="SpectatorStartError">You cannot toggle spectator mode while the game is starting!</string>
     <string name="SpectatorDraftError">You cannot toggle spectator mode while draft is ongoing!</string>
@@ -392,6 +394,7 @@
   <string name="HelpMessageTitle">Chat Commands:</string>
   <string name="HelpCommandDescription">/help - Shows this message</string>
   <string name="NerfMeCommandDescription">/nerfme - Cuts your vision in half</string>
+    <string name="PlayerCommandDescription">/players - Displays information about players in the lobby.</string>
   <string name="SetNameCommandDescription">/setname - Change your name to whatever text follows the command (like /setname \%randomName\%) for the next match.</string>
   <string name="SpectateCommandDescription">/spec - Allows you to spectate for the rest of the game automatically. (if enabled by the host)</string>
   <string name="SummaryCommandDescription">/summary - Shows the previous end game summary</string>

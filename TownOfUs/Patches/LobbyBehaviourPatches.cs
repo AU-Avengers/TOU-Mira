@@ -3,6 +3,7 @@ using MiraAPI.Modifiers;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Networking;
 using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
@@ -54,6 +55,10 @@ public static class LobbyBehaviourPatches
                 }
                 touMod.BeforeModifierSpawns();
             }
+        }
+        else
+        {
+            HudManagerHelper.RefreshPlatformData();
         }
     }
 }
