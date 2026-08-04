@@ -48,17 +48,22 @@ public static class DraftRpcs
     [MethodRpc((uint)TownOfUsRpc.DraftAnnounceTurn)]
     public static void RpcAnnounceTurn(PlayerControl sender, int turnNumber, int slot, byte pickerId, byte offeredCount,
         ushort roleId1, ushort roleId2, ushort roleId3, ushort roleId4, ushort roleId5,
-        ushort roleId6, ushort roleId7, ushort roleId8, ushort roleId9)
+        ushort roleId6, ushort roleId7, ushort roleId8, ushort roleId9,
+        string roleName1, string roleName2, string roleName3, string roleName4, string roleName5,
+        string roleName6, string roleName7, string roleName8, string roleName9)
     {
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcAnnounceTurn: Turn {turnNumber}, Slot {slot}, PickerId {pickerId} (isHost={AmongUsClient.Instance.AmHost})");
 
         DraftManager.SetClientTurn(turnNumber, slot);
         var allIds = new[] { roleId1, roleId2, roleId3, roleId4, roleId5, roleId6, roleId7, roleId8, roleId9 };
-        var count = Math.Clamp((int)offeredCount, 0, allIds.Length);
+        var allNames = new[] { roleName1, roleName2, roleName3, roleName4, roleName5, roleName6, roleName7, roleName8, roleName9 };
+        var count = Math.Clamp((int)offeredCount, 0, Math.Min(allIds.Length, allNames.Length));
         var offeredList = new List<ushort>(count);
+        var offeredNames = new List<string>(count);
         for (int i = 0; i < count; i++)
         {
             offeredList.Add(allIds[i]);
+            offeredNames.Add(allNames[i] ?? string.Empty);
         }
 
         var localPlayerId = PlayerControl.LocalPlayer?.PlayerId ?? 255;
@@ -84,14 +89,14 @@ public static class DraftRpcs
         {
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] Caching {offeredList.Count} offered roles for my turn");
             var draftScreenController = Object.FindObjectOfType<DraftScreenController>();
-            draftScreenController?.CacheOfferedRoles(offeredList.ToArray());
+            draftScreenController?.CacheOfferedRoles(offeredList.ToArray(), offeredNames.ToArray());
 
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] IT'S MY TURN! Showing picker screen with {offeredList.Count} roles");
             DraftAudio.PlayYourTurn();
             try
             {
                 DraftScreenController.TargetPickerId = pickerId;
-                DraftScreenController.Show(offeredList.ToArray());
+                DraftScreenController.Show(offeredList.ToArray(), offeredNames.ToArray());
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftRpc] Picker screen shown successfully!");
             }
             catch (Exception e)
@@ -254,7 +259,7 @@ public static class DraftNetworkHelper
         }
     }
 
-    public static void SendTurnAnnouncement(int slot, byte playerId, List<ushort> roleIds, int turnNumber)
+    public static void SendTurnAnnouncement(int slot, byte playerId, List<ushort> roleIds, List<string> roleNames, int turnNumber)
     {
         if (roleIds == null) return;
 
@@ -270,14 +275,17 @@ public static class DraftNetworkHelper
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, $"[DraftNetworkHelper] {roleIds.Count} roles offered but the RPC only carries {allowed}, truncating");
 
         var padded = new ushort[maxOffered];
+        var paddedNames = new string[maxOffered];
         var count = Math.Min(allowed, roleIds.Count);
         for (int i = 0; i < count; i++)
         {
             padded[i] = roleIds[i];
+            paddedNames[i] = roleNames != null && i < roleNames.Count ? roleNames[i] : string.Empty;
         }
 
         DraftRpcs.RpcAnnounceTurn(PlayerControl.LocalPlayer, turnNumber, slot, playerId, (byte)count,
-            padded[0], padded[1], padded[2], padded[3], padded[4], padded[5], padded[6], padded[7], padded[8]);
+            padded[0], padded[1], padded[2], padded[3], padded[4], padded[5], padded[6], padded[7], padded[8],
+            paddedNames[0], paddedNames[1], paddedNames[2], paddedNames[3], paddedNames[4], paddedNames[5], paddedNames[6], paddedNames[7], paddedNames[8]);
     }
 
     public static void BroadcastPickConfirmed(int slot, ushort roleId, bool timedOut = false)
