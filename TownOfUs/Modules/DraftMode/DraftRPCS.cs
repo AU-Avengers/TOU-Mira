@@ -25,6 +25,7 @@ public static class DraftRpcs
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcStartDraft received (isHost={AmongUsClient.Instance.AmHost})");
         DraftManager.IsDraftActive = true;
         DraftAudio.PlayDraftStart();
+        DraftSidebarManager.Activate();
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftSlotNotify)]
@@ -356,6 +357,7 @@ public static class DraftNetworkHelper
         DraftRpcs.RpcCancelDraft(PlayerControl.LocalPlayer);
         DraftManager.Reset(cancelledBeforeCompletion: true);
         DraftCancelButton.Hide();
+        DraftSidebarManager.Deactivate();
     }
 
     public static void BroadcastRecap(List<RecapEntry> entries, DraftRecapMode mode)
@@ -378,6 +380,7 @@ public static class DraftNetworkHelper
         }
 
         DraftRpcs.RpcBroadcastRecap(PlayerControl.LocalPlayer, recapData);
+        DraftSidebarManager.Deactivate();
     }
 
     public static void BroadcastDraftEnd()

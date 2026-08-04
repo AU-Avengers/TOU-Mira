@@ -88,6 +88,8 @@ namespace TownOfUs.Modules.DraftMode
             EnsureExists();
             _instance._currentState = state;
             _instance.UpdateVisibility();
+            if (state == OverlayState.Hidden && !DraftManager.IsDraftActive)
+                DraftSidebarManager.Deactivate();
         }
 
         public static void Refresh()
