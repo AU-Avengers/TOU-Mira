@@ -23,8 +23,17 @@ using UnityEngine.UI;
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class SpectreRole(IntPtr cppPtr)
-    : NeutralGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable, IProgressTally
+    : NeutralGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable, IProgressTally, IAnnounceableKill
 {
+    public void AnnounceKill(PlayerControl source, PlayerControl victim)
+    {
+        var text = TouLocale.GetParsed("TouRoleSpectreSpookNotif");
+        var notif = Helpers.CreateAndShowNotification(
+            $"<b>{text.Replace("<victim>", victim.Data.PlayerName)}</b>",
+            Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
+        notif.AdjustNotification();
+        notif.alphaTimer = 5f;
+    }
     public bool ProgressOnName(bool localDead, bool inMeeting, bool amOwner, out string progress)
     {
         var taskOpt = OptionGroupSingleton<PostmortemOptions>.Instance;

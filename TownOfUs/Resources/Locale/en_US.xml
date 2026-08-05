@@ -2003,6 +2003,7 @@
   <!--Anonymous Feedback-->
   <string name="TouNeutAnonymousVictoryMessage">\%player\% has successfully won and left!</string>
   <string name="TouOptionNeutAnonymousVictoryWin">Hide Role On Win Notification</string>
+    <string name="TouRoleAnonymousVictoryKillNotif">\%source\% has killed \%victim\% after their victory!</string>
   <!-- Amnesiac -->
   <!-- Amnesiac Wiki / Abilities -->
   <string name="TouRoleAmnesiac">Amnesiac</string>
@@ -2095,6 +2096,7 @@
   <string name="TouRoleExecutionerWonSelf">You have successfully won as the \%role\%, as your target was voted out!</string>
   <string name="TouRoleExecutionerWonOther">The \%role\%, \%player\%, has successfully won, as their target was voted out!</string>
   <string name="TouRoleExecutionerTormentFeedback">You have one round to torment a player of your choice to death, choose wisely.</string>
+    <string name="TouRoleExecutionerTormentNotif">The Executioner has tormented \%victim\% to the grave!</string>
   <!-- Executioner Options -->
   <string name="TouOptionExecutionerBecomesTargetDeath">On Target Death, Executioner Becomes</string>
   <string name="TouOptionExecutionerCanButton">Executioner Can Button</string>
@@ -2207,6 +2209,7 @@
   <string name="TouNotifJesterHauntOwner">You have one round to haunt a player of your choice to death, choose wisely!</string>
   <string name="TouNotifJesterWinGlobal">The Jester, \%player\%, has successfully won, as they were voted out!</string>
   <string name="TouNotifJesterPoke">You have poked \%player\%!</string>
+    <string name="TouRoleJesterHauntNotif">The Jester has decided to haunt \%victim\% beyond the grave!</string>
   <!-- Jester Options -->
   <string name="TouOptionJesterCanButton">Can Use Button</string>
   <string name="TouOptionJesterCanVent">Can Hide In Vents</string>
@@ -2268,6 +2271,7 @@
   <string name="TouRoleSpectreTabDescription">Complete all your tasks without being caught!</string>
   <string name="TouRoleSpectreWikiDescription">The Spectre is a Neutral Ghost role that wins the game by finishing their tasks before a living player has clicked on them.</string>
   <string name="TouRoleSpectreSpook">Spook</string>
+    <string name="TouRoleSpectreSpookNotif">The Spectre has spooked \%victim\% to their end!</string>
   <!-- Spectre Options -->
   <string name="TouOptionSpectreTasksLeftClickable">Tasks Left Before Clickable</string>
   <string name="TouOptionSpectreWin">Spectre Win</string>
