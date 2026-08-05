@@ -2250,7 +2250,7 @@
   <string name="TouRoleMercenaryBribeWikiDescription">Bribing a player allows the Mercenary to gain their win condition, given that they have gold to spare.</string>
   <string name="TouRoleMercenaryGuardNotif">Once \%player\% is interacted with, you will get gold in return.</string>
   <!-- Mercenary Options -->
-  <string name="TouOptionMercenaryCooldown">Bribe Cooldown</string>
+  <string name="TouOptionMercenaryCooldown">Guard Cooldown</string>
   <string name="TouOptionMercenaryMaxGuards">Max Number Of Guards</string>
   <string name="TouOptionMercenaryBribeCost">Bribe Cost</string>
   <string name="TouOptionMercenaryProtectiveGuard">Guarding Stops Attacks</string>
