@@ -6,12 +6,15 @@ namespace TownOfUs;
 
 public class TouLocalTabPractice(ConfigFile config) : LocalSettingsTab(config)
 {
+    public static DraftAudioCueMode CurrentDraftAudioCueMode { get; private set; } = DraftAudioCueMode.None;
+
     public override string TabName => "<size=50%>Lobby / Practice</size>";
     protected override bool ShouldCreateLabels => true;
 
     public override void Open()
     {
         base.Open();
+        CurrentDraftAudioCueMode = DraftAudioCue.Value;
 
         foreach (var entry in TouLocale.LocalizedToggles)
         {
@@ -49,9 +52,18 @@ public class TouLocalTabPractice(ConfigFile config) : LocalSettingsTab(config)
     public ConfigEntry<GameSummaryAppearance> SummaryMessageAppearance { get; private set; } =
         config.Bind("Lobby", "SummaryMsgBreakdown", GameSummaryAppearance.Advanced);
 
-    [LocalizedLocalEnumSetting(names: ["DraftAudioStart", "DraftAudioYourTurn", "DraftAudioNone"])]
+    [LocalizedLocalEnumSetting(names: ["DraftAudioStart", "DraftAudioYourTurn", "DraftAudioBoth", "DraftAudioNone"])]
     public ConfigEntry<DraftAudioCueMode> DraftAudioCue { get; private set; } =
         config.Bind("Lobby", "DraftAudioCue", DraftAudioCueMode.None);
+
+    public override void OnOptionChanged(ConfigEntryBase configEntry)
+    {
+        base.OnOptionChanged(configEntry);
+        if (configEntry == DraftAudioCue)
+        {
+            CurrentDraftAudioCueMode = DraftAudioCue.Value;
+        }
+    }
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ZoomingInLobby { get; private set; } =

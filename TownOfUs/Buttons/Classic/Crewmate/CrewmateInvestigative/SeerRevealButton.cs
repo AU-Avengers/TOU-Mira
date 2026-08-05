@@ -16,6 +16,7 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Seer;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SeerOptions>.Instance.SeerCooldown + MapCooldown, 5f, 120f);
+    public override int MaxUses => (int)OptionGroupSingleton<SeerOptions>.Instance.MaxCompares;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.SeerSprite : TouCrewAssets.SeerSprite;
 
     public override bool Enabled(RoleBehaviour? role)
@@ -63,8 +64,8 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
         if (IsEvil(target))
         {
             target.AddModifier<SeerEvilRevealModifier>();
-            var possiblyGood = options.ShowCrewmateKillingAsRed ? "possibly" : string.Empty;
-            if (options.ShowNeutralBenignAsRed)
+            var possiblyGood = options.ShowCrewmateKillingAsRed.Value ? "possibly" : string.Empty;
+            if (options.ShowNeutralBenignAsRed.Value)
             {
                 possiblyGood = "possibly";
             }
@@ -74,32 +75,32 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Seer.LoadAsset());
             notif1.AdjustNotification();
 
-            if (options.ShowCrewmateKillingAsRed)
+            if (options.ShowCrewmateKillingAsRed.Value)
             {
                 possibleAlignment.Append("Crew Killer, ");
             }
 
-            if (options.ShowNeutralBenignAsRed)
+            if (options.ShowNeutralBenignAsRed.Value)
             {
                 possibleAlignment.Append("Neutral Benign, ");
             }
 
-            if (options.ShowNeutralEvilAsRed)
+            if (options.ShowNeutralEvilAsRed.Value)
             {
                 possibleAlignment.Append("Neutral Evil, ");
             }
 
-            if (options.ShowNeutralKillingAsRed)
+            if (options.ShowNeutralKillingAsRed.Value)
             {
                 possibleAlignment.Append("Neutral Killer, ");
             }
 
-            if (options.ShowNeutralOutlierAsRed)
+            if (options.ShowNeutralOutlierAsRed.Value)
             {
                 possibleAlignment.Append("Neutral Outlier, ");
             }
 
-            if (options.SwapTraitorColors)
+            if (options.SwapTraitorColors.Value)
             {
                 possibleAlignment.Append("Traitor, ");
             }
@@ -117,7 +118,7 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
         else
         {
             target.AddModifier<SeerGoodRevealModifier>();
-            var possiblyGood = !options.ShowNeutralBenignAsRed ? "likely" : string.Empty;
+            var possiblyGood = !options.ShowNeutralBenignAsRed.Value ? "likely" : string.Empty;
             if (!options.ShowNeutralEvilAsRed)
             {
                 possiblyGood = "probably";
@@ -133,22 +134,22 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Seer.LoadAsset());
             notif1.AdjustNotification();
 
-            if (!options.ShowNeutralBenignAsRed)
+            if (!options.ShowNeutralBenignAsRed.Value)
             {
                 possibleAlignment.Append("Neutral Benign, ");
             }
 
-            if (!options.ShowNeutralEvilAsRed)
+            if (!options.ShowNeutralEvilAsRed.Value)
             {
                 possibleAlignment.Append("Neutral Evil, ");
             }
 
-            if (!options.ShowNeutralKillingAsRed)
+            if (!options.ShowNeutralKillingAsRed.Value)
             {
                 possibleAlignment.Append("Neutral Killer, ");
             }
 
-            if (!options.ShowNeutralOutlierAsRed)
+            if (!options.ShowNeutralOutlierAsRed.Value)
             {
                 possibleAlignment.Append("Neutral Outlier, ");
             }
@@ -169,12 +170,12 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
     public static bool IsEvil(PlayerControl target)
     {
         var options = OptionGroupSingleton<SeerOptions>.Instance;
-        return ((target.Is(RoleAlignment.CrewmateKilling) && options.ShowCrewmateKillingAsRed) ||
-                (target.Is(RoleAlignment.NeutralBenign) && options.ShowNeutralBenignAsRed) ||
-                (target.Is(RoleAlignment.NeutralEvil) && options.ShowNeutralEvilAsRed) ||
-                (target.Is(RoleAlignment.NeutralKilling) && options.ShowNeutralKillingAsRed) ||
-                (target.Is(RoleAlignment.NeutralOutlier) && options.ShowNeutralOutlierAsRed) ||
+        return ((target.Is(RoleAlignment.CrewmateKilling) && options.ShowCrewmateKillingAsRed.Value) ||
+                (target.Is(RoleAlignment.NeutralBenign) && options.ShowNeutralBenignAsRed.Value) ||
+                (target.Is(RoleAlignment.NeutralEvil) && options.ShowNeutralEvilAsRed.Value) ||
+                (target.Is(RoleAlignment.NeutralKilling) && options.ShowNeutralKillingAsRed.Value) ||
+                (target.Is(RoleAlignment.NeutralOutlier) && options.ShowNeutralOutlierAsRed.Value) ||
                 (target.IsImpostor() && !target.IsTraitor()) ||
-                (target.IsTraitor() && options.SwapTraitorColors));
+                (target.IsTraitor() && options.SwapTraitorColors.Value));
     }
 }

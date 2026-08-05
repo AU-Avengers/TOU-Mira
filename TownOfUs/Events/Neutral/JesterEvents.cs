@@ -9,6 +9,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Buttons.Neutral;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
@@ -156,6 +157,28 @@ public static class JesterEvents
             }
 
             CustomButtonSingleton<JesterHauntButton>.Instance.Show = true;
+        }
+    }
+
+    [RegisterEvent]
+    public static void PlumberFlushJesterHandler(TouAbilityEvent @event)
+    {
+        if (@event.AbilityType is not AbilityType.PlumberFlush)
+        {
+            return;
+        }
+
+        if (PlayerControl.LocalPlayer.Data.Role is not JesterRole ||
+            !PlayerControl.LocalPlayer.inVent)
+        {
+            return;
+        }
+
+        var ventButton = CustomButtonSingleton<JesterVentButton>.Instance;
+        if (ventButton.EffectActive || !ventButton.HasEffect)
+        {
+            ventButton.EffectActive = false;
+            ventButton.Timer = ventButton.Cooldown;
         }
     }
 }

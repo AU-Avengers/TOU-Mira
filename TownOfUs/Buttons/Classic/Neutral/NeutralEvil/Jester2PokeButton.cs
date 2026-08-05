@@ -1,6 +1,7 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -16,9 +17,15 @@ public sealed class JesterPokeButton : TownOfUsRoleButton<JesterRole, PlayerCont
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.JesterPokeSprite;
     public override ButtonLocation Location => ButtonLocation.BottomRight;
 
+    public override void CreateButton(Transform parent)
+    {
+        base.CreateButton(parent);
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(this));
+    }
+
     public override bool Enabled(RoleBehaviour? role)
     {
-        return base.Enabled(role) && OptionGroupSingleton<JesterOptions>.Instance.CanPoke;
+        return base.Enabled(role) && OptionGroupSingleton<JesterOptions>.Instance.CanPoke.Value;
     }
 
     public override PlayerControl? GetTarget()

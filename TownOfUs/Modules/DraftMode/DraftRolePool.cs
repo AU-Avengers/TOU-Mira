@@ -14,35 +14,91 @@ namespace TownOfUs.Modules.DraftMode
         public static Func<ushort, string> NameResolver;
 
         private static readonly Dictionary<string, ushort> RoleNameToIdCache = new(StringComparer.Ordinal);
+        private static readonly Dictionary<string, List<string>> BucketToNamesCache = new(StringComparer.OrdinalIgnoreCase);
 
-        public static void ClearNameCache() => RoleNameToIdCache.Clear();
-
-        private static void CacheRoleId(string roleName, ushort roleId)
-        {
-            if (string.IsNullOrEmpty(roleName) || roleId == 0) return;
-            RoleNameToIdCache[roleName] = roleId;
-        }
+        public static void ClearNameCache()
+    {
+        RoleNameToIdCache.Clear();
+        BucketToNamesCache.Clear();
+    }
 
         public static List<string> ResolveBucketToRoleNames(string bucket)
         {
-            if (ResolveDelegate != null)
-            {
-                try { return ResolveDelegate(bucket) ?? new List<string>(); }
-                catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"DraftRolePool.ResolveDelegate threw: {e}"); }
-            }
-
             if (string.IsNullOrWhiteSpace(bucket)) return new List<string>();
 
-            if (TryResolveBucketToConcreteRoles(bucket, out var resolvedNames))
-                return resolvedNames;
+            if (BucketToNamesCache.TryGetValue(bucket, out var cached))
+                return new List<string>(cached);
 
-            var separators = new[] { '|', ';', ',' };
-            if (bucket.IndexOfAny(separators) >= 0)
+            List<string> result;
+            if (ResolveDelegate != null)
             {
-                return bucket.Split(separators, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).Where(x => x.Length > 0).ToList();
+                try
+                {
+                    result = ResolveDelegate(bucket) ?? new List<string>();
+                }
+                catch (Exception e)
+                {
+                    MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"DraftRolePool.ResolveDelegate threw: {e}");
+                    result = new List<string>();
+                }
+            }
+            else if (TryResolveBucketToConcreteRoles(bucket, out var resolvedNames))
+            {
+                result = resolvedNames;
+            }
+            else
+            {
+                var separators = new[] { '|', ';', ',' };
+                if (bucket.IndexOfAny(separators) >= 0)
+                {
+                    result = bucket.Split(separators, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).Where(x => x.Length > 0).ToList();
+                }
+                else
+                {
+                    result = new List<string> { bucket };
+                }
             }
 
-            return new List<string> { bucket };
+            result = TrimEmptyNames(result);
+
+            BucketToNamesCache[bucket] = new List<string>(result);
+            return new List<string>(result);
+        }
+
+        public static ushort ResolveRoleIdFromName(string roleName)
+        {
+            if (string.IsNullOrWhiteSpace(roleName)) return 0;
+
+            var baseName = roleName;
+            int pipeIdx = baseName.IndexOf('|');
+            if (pipeIdx >= 0) baseName = baseName.Substring(0, pipeIdx);
+
+            if (RoleNameToIdCache.TryGetValue(baseName, out var cachedId) && cachedId != 0)
+                return cachedId;
+
+            if (ushort.TryParse(baseName, out var directId))
+            {
+                try
+                {
+                    var directRole = MiscUtils.GetRegisteredRole((RoleTypes)directId);
+                    if (directRole != null)
+                    {
+                        CacheRoleId(baseName, directId);
+                        return directId;
+                    }
+                }
+                catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+            }
+
+            var resolved = FindRoleByName(baseName);
+            if (resolved != null)
+            {
+                var resolvedId = (ushort)resolved.Role;
+                CacheRoleId(baseName, resolvedId);
+                return resolvedId;
+            }
+
+            return 0;
         }
 
         public static ushort ChooseRepresentativeRoleId(List<string> roleNames)
@@ -64,26 +120,11 @@ namespace TownOfUs.Modules.DraftMode
 
             foreach (var nm in roleNames)
             {
-                if (RoleNameToIdCache.TryGetValue(nm, out var cachedId) && cachedId != 0)
-                    return cachedId;
+                var resolvedId = ResolveRoleIdFromName(nm);
+                if (resolvedId != 0) return resolvedId;
             }
 
-            foreach (var nm in roleNames)
-            {
-                var resolved = FindRoleByName(nm);
-                if (resolved != null)
-                    return (ushort)resolved.Role;
-            }
-
-            var chosen = roleNames[0];
-            int pipeIdx = chosen.IndexOf('|');
-            if (pipeIdx >= 0) chosen = chosen.Substring(0, pipeIdx);
-
-            unchecked
-            {
-                var hash = (uint)chosen.GetHashCode();
-                return (ushort)(hash & 0xFFFF);
-            }
+            return 0;
         }
 
         public static string GetRoleNameFromId(ushort id)
@@ -97,7 +138,7 @@ namespace TownOfUs.Modules.DraftMode
             if (id == 0) return null!;
             try
             {
-                var role = MiscUtils.GetRegisteredRole((RoleTypes)id) ?? RoleManager.Instance?.GetRole((RoleTypes)id);
+                var role = MiscUtils.GetRegisteredRole((RoleTypes)id);
                 return (role?.GetRoleName() ?? role?.NiceName)!;
             }
             catch (Exception) { return null!; }
@@ -122,7 +163,7 @@ namespace TownOfUs.Modules.DraftMode
                         int count = Math.Max(1, GetRoleCount(role));
                         for (int i = 0; i < count; i++)
                         {
-                            names.Add(((ushort)role!.Role).ToString(System.Globalization.CultureInfo.InvariantCulture));
+                            names.Add(name);
                         }
                     }
                 }
@@ -134,8 +175,8 @@ namespace TownOfUs.Modules.DraftMode
                     (names[i], names[j]) = (names[j], names[i]);
                 }
 
-                resolvedNames = names;
-                return true;
+                resolvedNames = TrimEmptyNames(names);
+                return resolvedNames.Count > 0;
             }
 
             var directRole = FindRoleByName(bucket);
@@ -158,6 +199,12 @@ namespace TownOfUs.Modules.DraftMode
             return role != null ? Math.Max(1, GetRoleCount(role)) : int.MaxValue;
         }
 
+        private static void CacheRoleId(string roleName, ushort roleId)
+        {
+            if (string.IsNullOrWhiteSpace(roleName) || roleId == 0) return;
+            RoleNameToIdCache[roleName] = roleId;
+        }
+
         public static bool IsImpostorRoleName(string name)
         {
             var role = FindRoleByName(name);
@@ -170,7 +217,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             try
             {
-                var r = MiscUtils.GetRegisteredRole((RoleTypes)id) ?? RoleManager.Instance?.GetRole((RoleTypes)id);
+                var r = MiscUtils.GetRegisteredRole((RoleTypes)id);
                 return r != null && r.IsImpostor();
             }
             catch { return false; }
@@ -199,11 +246,37 @@ namespace TownOfUs.Modules.DraftMode
         {
             try
             {
-                var r = MiscUtils.GetRegisteredRole((RoleTypes)id) ?? RoleManager.Instance?.GetRole((RoleTypes)id);
+                var r = MiscUtils.GetRegisteredRole((RoleTypes)id);
                 return r != null && r.IsNeutral();
             }
             catch { return false; }
         }
+
+        public static bool IsImpostorRoleListOption(RoleListOption opt) => opt switch
+        {
+            RoleListOption.ImpConceal or
+            RoleListOption.ImpKilling or
+            RoleListOption.ImpPower or
+            RoleListOption.ImpSupport or
+            RoleListOption.ImpCommon or
+            RoleListOption.ImpSpecial or
+            RoleListOption.ImpRandom => true,
+            _ => false
+        };
+
+        public static bool IsNeutralRoleListOption(RoleListOption opt) => opt switch
+        {
+            RoleListOption.NeutBenign or
+            RoleListOption.NeutEvil or
+            RoleListOption.NeutKilling or
+            RoleListOption.NeutOutlier or
+            RoleListOption.NeutCommon or
+            RoleListOption.NeutSpecial or
+            RoleListOption.NeutWildcard or
+            RoleListOption.NeutRandom => true,
+            _ => false
+        };
+
 
         private static RoleBehaviour FindRoleByName(string name)
         {
@@ -215,7 +288,7 @@ namespace TownOfUs.Modules.DraftMode
             {
                 try
                 {
-                    var r = MiscUtils.GetRegisteredRole((RoleTypes)id) ?? RoleManager.Instance?.GetRole((RoleTypes)id);
+                    var r = MiscUtils.GetRegisteredRole((RoleTypes)id);
                     if (r != null) return r;
                 }
                 catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
@@ -258,6 +331,11 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             return Enum.TryParse<RoleListOption>(bucket, true, out roleListOption);
+        }
+
+        private static List<string> TrimEmptyNames(IEnumerable<string> names)
+        {
+            return names?.Where(n => !string.IsNullOrWhiteSpace(n)).ToList() ?? new List<string>();
         }
 
         private static List<RoleBehaviour> GetRolesForBucket(RoleListOption bucket)

@@ -251,7 +251,7 @@ public class TouLocalTabButtons(ConfigFile config) : LocalSettingsTab(config)
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> PreciseCooldownsToggle { get; private set; } =
-        config.Bind("Abilities", "PreciseCooldowns", false);
+        config.Bind("Abilities", "PreciseCooldowns", true);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> OffsetButtonsToggle { get; private set; } =

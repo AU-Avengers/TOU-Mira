@@ -764,7 +764,7 @@
       "Number": "100039",
       "ShortTitle": "TOU: Mira v1.5.9 Beta 1",
       "Title": "A new Mira update? This can't be!",
-      "SubTitle": "- Shakespeare, probably.",
+      "SubTitle": "\n- Shakespeare, probably.",
       "Text": [
         "<b>This release changes a LOT. As a result, this has taken longer than expected, and we are fairly confident that most of the mod is now bug free. For the sake of everything though, v1.6.0 will not be released until we clear up most of the bugs that we can find.</b>",
         "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
@@ -1065,6 +1065,108 @@
         "\n- Role Name placement is now configurable in terms of size and position.",
         "\n- Added configurable mod stamp placement.",
         "\n- Added \"TV Show\" style for Skeld visuals."
+      ]
+    },
+    {
+      "Date": "2026-08-02T12:51:00Z",
+      "Number": "100044",
+      "ShortTitle": "TOU: Mira v1.7.0",
+      "Title": "Draft and Drink away",
+      "SubTitle": "With this major update, rolling out today!",
+      "Text": [
+        "<b>Mira has finally gotten its next major update. with 3 new roles, 2 new modifiers, and Draft Mode!</b>",
+        "\n\nWe've been working hard on this update, and have finally gotten the mod into what we consider its most stable state.",
+        "\n\nWe hope you enjoy the new content, reworks, and additions that our community has helped chip in with.",
+        "\n\nFrom the bottom of our hearts, thank you all for being such a great community.",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.7.0>TOU Mira v1.7.0 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Investigator footprints are layered correctly for every map.",
+        "\n- Medium's Spirit displays arrows for everyone properly.",
+        "\n- \"Medium can Identify\" setting properly makes ghosts anonymous.",
+        "\n- Mystic arrows no longer appear if their duration is 0 seconds.",
+        "\n- Swapper and Prosecutor vote changes reflect on Executioner, Jester, and Hunter.",
+        "\n- Disconnected Medics will not leave their shields behind on players anymore.",
+        "\n- Disconnected players that are protected will return uses to Medic, Mirrorcaster, and Warden.",
+        "\n- Noisemaker will properly check for rotting bodies or stoned players.",
+        "\n- Imitator priority is fixed for roles like Forensic.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Executioner and Doomsayer leave notifications appear properly for everyone now.",
+        "\n- Doomsayer killing all victims at once setting is fixed and no longer kills just one player.",
+        "\n- Glitch hack no longer prevents killers from being able to kill for the remainder of the game.",
+        "\n- Inquisitor will win solo in a 1v1 and will not take away wins in a 1v1 with dead heretics. (PR #225)",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Venerer abilities no longer reset from an additional kill.",
+        "\n- Added checks for Ambassador and Traitor to throw warnings when no roles are available.",
+        "\n- Miner explosion no longer appears on invisible vent.",
+
+        "\n\n\r<size=105%>Modifier Bugfixes:</size>",
+        "\n- Crewpostor Vigilante can no longer guess other impostors.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Fixed problems with the End Game Timer breaking and erroring.",
+        "\n- Submerged will no longer break in the role reveal.",
+        "\n- Neutral Wildcard no longer duplicates the amount of each neutral present. (PR #191)",
+        "\n- Wiki hyperlinks will check for gamemode-specific roles properly.",
+        "\n- Full support for Among Us v17.4.",
+
+        "\n\n\r<size=105%>Crewmate Role Changes:</size>",
+        "\n- Lookout by default sees who interacts, rather than what roles interact.",
+        "\n- In the \"See Players\" mode, Lookout will not be able to see Bomber or any other indirect attacks.",
+        "\n- Seer can optionally only use their ability once per round and / or compare each player once per game. (PR #231)",
+        "\n- Deputy by default will warn their camped target's killer about a Deputy existing. (PR #209)",
+        "\n- Deputy will now reveal themselves upon a successful shot.",
+        "\n- Prosecutor now has a full-screen animation for prosecutes.",
+        "\n- Time Lord by default will revive players for a single round, and make them die after the next meeting ends.",
+        "\n- Medic now sees \"Darker / Lighter\" on all players rather than just on living players.",
+        "\n- Transporter now uses a single multi-select menu for transporting players. (PR #212)",
+
+        "\n\n\r<size=105%>Neutral Role Changes:</size>",
+        "\n- Doomsayer shows guessing progress next to their name.",
+        "\n- Doomsayer no longer sees disabled roles in their feedback",
+        "\n- Jester has optional limited duration and cooldown adjustment for venting. (PR #237)",
+        "\n- Jester can now Poke players, triggering roles like Warden, Cleric, Herbalist, Lookout, and more. (PR #205)",
+        "\n- Soul Collector has been permanently replaced by **Medusa**. This rework makes players slowly fade into stone, and allows Transporters to still interact with them to an extend. Non-shattered stones will remain throughout rounds as evidence.",
+        "\n- Chef shows feeding progress on their name.",
+        "\n- Inquisitor marks off any heretic roles that have died in their role tab.",
+        "\n- Inquisitor now has a heretic progress count next to their name.",
+
+        "\n\n\r<size=105%>Impostor Role Changes:</size>",
+        "\n- Swooper can optionally be untrackable while swooping. (PR #201)",
+        "\n- Blackmailed players no longer immediately skip if too many players are alive.",
+
+        "\n\n\r<size=105%>Modifier Changes:</size>",
+        "\n- Tiebreaker now stalls the game as a solo crewmate or as a Jester / Executioner in a 1v1 / 1v2.",
+
+        "\n\n\r<size=105%>Other Changes:</size>",
+        "\n- Unity Rich Text is no longer allowed on players to prevent issues with tag abuse. (PR #206)",
+        "\n- Lobby Rules are now limited to being displayed at 3 second intervals due to malicious players that sell cheat mods to disrupt lobbies.",
+        "\n- Task tracking is mostly up for preference now, with the host simply toggling if other task amounts can be seen by the dead.",
+        "\n- All local game options are moved to 6 different categories.",
+
+        "\n\n\r<size=105%>Improvements:</size>",
+        "\n- Options for roles and modifiers display changes in a similar fashion to vanilla's option notifications.",
+        "\n- Hovering over the role list text in the lobby is now adjusted for the corresponding gamemode selected.",
+        "\n- Player text in meetings will now shrink depending on the amount of text within it.",
+        "\n- Meeting kill animations are synced for every player.",
+        "\n- In-Game Wiki will no longer stutter when reopening the roles search tab.",
+        "\n- Abilities disabled on round one now show that they are, in fact, disabled for that reason.",
+        "\n- More roles have additional visual and audio work.",
+        "\n- Game Modifiers display if they are guessable within their wiki entries.",
+        "\n- Roles now have their icons displayed in text.",
+        "\n- Wiki Hyperlinks in text will now display their corresponding icons.",
+
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Added Perfect Comms (Prox-Chat) role integration on the mod itself (PR #226)",
+        "\n- @idkimneil's Draft Mode is now part of the base mod. This can be toggled in the Role Distribution settings.",
+        "\n- Added Overclocker, an Assailant modifier that speeds up cooldowns for more general killers but then slows cooldowns afterwards.",
+        "\n- Added Drunk, a Universal modifier that also has roleblock immunity.",
+        "\n- Barkeeper joins the Crewmate Support alignment with a standard roleblock ability and also a spill ability, changing player speed for anyone who steps in it.",
+        "\n- Bootlegger joins the Impostor Support alignment with a roleblock ability that slowly turns into poison.",
+        "\n- Added \"Full Save Cooldown Multiplier\" for full protective roles.",
+        "\n- Added the all-important Flopster pet (she's a little silly)"
       ]
     }
   ]

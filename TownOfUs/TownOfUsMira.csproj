@@ -5,6 +5,7 @@
         <RootNamespace>TownOfUs</RootNamespace>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <Version>$(VersionPrefix)-$(VersionSuffix)</Version>
+        <Configurations>Debug;Release;Publish</Configurations>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,7 +14,8 @@
         <None Include="../README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
-    <Import Project="../AmongUs.props" />
+    <Import Project="../AmongUs.props" Condition="'$(Configuration)' != 'Publish'"/>
+    <Import Project="../AmongUsPublish.props" Condition="'$(Configuration)' == 'Publish'"/>
     
 
 </Project>

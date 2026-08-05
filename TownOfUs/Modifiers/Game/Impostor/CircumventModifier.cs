@@ -17,6 +17,7 @@ public sealed class CircumventModifier : TouGameModifier, IWikiDiscoverable
     public override string LocaleKey => "Circumvent";
     public bool NoVents => VentsAvailable <= 0;
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public bool InVent { get; set; }
 
     public override string IntroInfo => NoVents
         ? TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurbNone")
@@ -73,7 +74,7 @@ public sealed class CircumventModifier : TouGameModifier, IWikiDiscoverable
 
     public override bool? CanVent()
     {
-        if (VentsAvailable <= 0)
+        if (!InVent && VentsAvailable <= 0)
         {
             return false;
         }

@@ -83,7 +83,7 @@ public static class MedusaEvents
 
                 notif1.AdjustNotification();
             }
-            _ = new StonedPlayer(target);
+            _ = StonedPlayer.CreateStone(target);
         }
     }
 

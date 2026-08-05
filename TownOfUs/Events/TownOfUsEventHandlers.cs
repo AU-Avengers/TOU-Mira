@@ -34,6 +34,7 @@ using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Modules.Components;
 using TownOfUs.Modules.ControlSystem;
+using TownOfUs.Modules.DraftMode;
 using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
@@ -155,7 +156,11 @@ public static class TownOfUsEventHandlers
 
             instance.RoleBlurbText.text = tou.RoleDescription;
         }
-        // instance.RoleText.text = $"<size=80%>{MiscUtils.GetRoleTmpIcon(role)}</size>{instance.RoleText.text}";
+
+        if (LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.RoleIconOnReveal.Value)
+        {
+            instance.RoleText.text = $"<size=80%>{MiscUtils.GetRoleTmpIcon(role)}</size>{instance.RoleText.text}";
+        }
 
         var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault(x => x.AppearsInIntro);
         if (teamModifier != null && OptionGroupSingleton<InitialRoundOptions>.Instance.TeamModifierReveal)
@@ -170,6 +175,8 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void IntroBeginEventHandler(IntroBeginEvent @event)
     {
+        DraftSidebarManager.Deactivate();
+        DraftSidebarManager.ClearBannerRef();
         if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
         {
             return;

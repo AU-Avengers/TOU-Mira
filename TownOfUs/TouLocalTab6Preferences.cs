@@ -65,14 +65,18 @@ public class TouLocalTabPreferences(ConfigFile config) : LocalSettingsTab(config
         config.Bind("Gameplay", "SortGuessingByAlignment", false);
 
     [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> SeparateChatBubbles { get; private set; } =
+        config.Bind("Gameplay", "SeparateChatBubbles", false);
+
+    [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> DeadSeeGhostsToggle { get; private set; } = config.Bind("Miscellaneous", "DeadSeeGhosts", true);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowVentsToggle { get; private set; } = config.Bind("Miscellaneous", "ShowVents", true);
 
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> SeparateChatBubbles { get; private set; } =
-        config.Bind("Miscellaneous", "SeparateChatBubbles", false);
+    public ConfigEntry<bool> RoleIconOnReveal { get; private set; } =
+        config.Bind("Miscellaneous", "RoleIconOnReveal", false);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> RainbowColorAsFortegreen { get; private set; } =
@@ -105,5 +109,6 @@ public enum DraftAudioCueMode
 {
     Start,
     YourTurn,
+    Both,
     None
 }

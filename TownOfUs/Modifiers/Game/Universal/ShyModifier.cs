@@ -60,7 +60,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         var isValid = true;
-        if ((role is JesterRole && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn) ||
+        if ((role is JesterRole && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value) ||
             (role is SurvivorRole && OptionGroupSingleton<SurvivorOptions>.Instance.ScatterOn))
         {
             isValid = false;
