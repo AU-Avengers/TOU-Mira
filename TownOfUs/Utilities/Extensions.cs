@@ -631,6 +631,11 @@ public static class Extensions
             ghost.Clicked();
             if (player.AmOwner)
             {
+                if (Minigame.Instance)
+                {
+                    Minigame.Instance.Close();
+                    Minigame.Instance.Close();
+                }
                 HudManagerPatches.ZoomButton.SetActive(true);
             }
         }

@@ -263,7 +263,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
         if (!player._object.Is(RoleAlignment.ImpostorKilling) && !player._object.Is(RoleAlignment.ImpostorPower))
         {
             var curRoleList = MiscUtils.GetPotentialRoles()
-                .Where(role => impRoles.Contains(RoleId.Get(role.GetType())))
+                .Where(role => impRoles.Contains((ushort)role.Role))
                 .ToList();
 
             if (TutorialManager.InstanceExists)
@@ -272,7 +272,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                     .Where(x => !excluded.Contains(x.Role))
                     .Select(x => (ushort)x.Role).ToList();
                 curRoleList = MiscUtils.AllRegisteredRoles
-                    .Where(role => impRoles.Contains(RoleId.Get(role.GetType())))
+                    .Where(role => impRoles.Contains((ushort)role.Role))
                     .ToList();
             }
             foreach (var roleBehaviour in curRoleList)

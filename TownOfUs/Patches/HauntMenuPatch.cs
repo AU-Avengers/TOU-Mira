@@ -9,6 +9,7 @@ using MiraAPI.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Options;
+using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
 using UnityEngine;
 
@@ -51,14 +52,14 @@ public static class HauntMenuMinigamePatch
             }
 
             var role = target.Data.Role;
-            if (target.Data.IsDead && role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost)
+            if (target.Data.IsDead && (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost || role.Role == (RoleTypes)RoleId.Get<NeutralGhostRole>()))
             {
                 role = target.GetRoleWhenAlive();
             }
 
             var name = role.GetRoleName();
 
-            var rColor = role is ICustomRole custom ? custom.RoleColor : role.TeamColor;
+            var rColor = role.TeamColor;
 
             if (!OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow && !TutorialManager.InstanceExists)
             {
