@@ -491,6 +491,8 @@ public static class HudManagerPatches
                     else
                     {
                         DraftSidebarManager.DrawSidebar(RoleListTextComp);
+                        RoleList.SetActive(true);
+                        return;
                     }
 
                     break;
