@@ -180,7 +180,9 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             var directRole = FindRoleByName(bucket);
-            if (directRole != null)
+            if (directRole != null &&
+                directRole.Role != RoleTypes.Impostor &&
+                directRole.Role != RoleTypes.Crewmate)
             {
                 var name = directRole.GetRoleName();
                 if (!string.IsNullOrWhiteSpace(name))
@@ -428,6 +430,8 @@ namespace TownOfUs.Modules.DraftMode
             if (role.IsDead)
                 return false;
             if (role.Role == RoleTypes.Crewmate)
+                return false;
+            if (role.Role == AmongUs.GameOptions.RoleTypes.Impostor)
                 return false;
             if (role is ITownOfUsRole touRole && (!touRole.IsDraftable || touRole.RoleAlignment > RoleAlignment.GameOutlier))
                 return false;

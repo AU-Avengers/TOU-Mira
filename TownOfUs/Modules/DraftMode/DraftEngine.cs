@@ -533,6 +533,12 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (string.IsNullOrWhiteSpace(candidate) || candidate == "__RANDOM__") return false;
             var baseName = BaseRoleName(candidate);
+
+            var resolvedId = DraftRolePool.ResolveRoleIdFromName(baseName);
+            if (resolvedId == (ushort)AmongUs.GameOptions.RoleTypes.Impostor ||
+                resolvedId == (ushort)AmongUs.GameOptions.RoleTypes.Crewmate)
+                return false;
+
             context ??= BuildSlotContext(slot, ignoreConcurrentOffers, ignoreForce);
             if (context.AvoidNames.Contains(candidate) || context.AvoidNames.Contains(baseName)) return false;
 
