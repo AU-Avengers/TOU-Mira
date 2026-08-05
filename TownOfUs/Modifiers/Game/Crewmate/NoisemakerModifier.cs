@@ -85,7 +85,7 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
                 return;
             }
 
-            if (Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == player.PlayerId) == null &&
+            if (Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == player.PlayerId && x.myCollider.enabled) == null &&
                 OptionGroupSingleton<NoisemakerOptions>.Instance.BodyCheck)
             {
                 return;
@@ -146,7 +146,7 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
                 return;
             }
 
-            if (Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == player.PlayerId) == null &&
+            if (Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == player.PlayerId && x.myCollider.enabled) == null &&
                 OptionGroupSingleton<NoisemakerOptions>.Instance.BodyCheck)
             {
                 return;
