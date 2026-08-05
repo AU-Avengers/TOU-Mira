@@ -5,6 +5,7 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
@@ -16,8 +17,19 @@ using UnityEngine;
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class JesterRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IGuessable
+    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IGuessable, IAnnounceableKill
 {
+    public void AnnounceKill(PlayerControl source, PlayerControl victim)
+    {
+        var text = !OptionGroupSingleton<JesterOptions>.Instance.JestAnnounceWin.Value
+            ? TouLocale.GetParsed("TouRoleAnonymousVictoryKillNotif").Replace("<source>", source.Data.PlayerName)
+            : TouLocale.GetParsed("TouRoleJesterHauntNotif");
+        var notif = Helpers.CreateAndShowNotification(
+            $"<b>{text.Replace("<victim>", victim.Data.PlayerName)}</b>",
+            Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Jester.LoadAsset());
+        notif.AdjustNotification();
+        notif.alphaTimer = 5f;
+    }
     [HideFromIl2Cpp]
     public bool CanModifierContinueGame(BaseModifier modifier)
     {

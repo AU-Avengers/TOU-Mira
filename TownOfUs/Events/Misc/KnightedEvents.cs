@@ -8,6 +8,7 @@ using MiraAPI.Voting;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Options.Roles.Crewmate;
+using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Events.Misc;
 
@@ -70,6 +71,10 @@ public static class KnightedEvents
 
             var totalBonusVotes = knightModifiers.Count * baseExtraVotes;
 
+            if (player.Data.Role is MayorRole mayor && mayor.Revealed)
+            {
+                totalBonusVotes--;
+            }
             for (var i = 0; i < totalBonusVotes; i++)
             {
                 var extraVote = new CustomVote(vote.Voter, vote.Suspect);
@@ -91,7 +96,12 @@ public static class KnightedEvents
 
         @event.VoteData.SetRemainingVotes(0);
 
-        for (var i = 0; i < TotalVotes; i++)
+        var extraVotes = TotalVotes;
+        if (@event.VoteData.Owner.Data.Role is MayorRole mayor && mayor.Revealed)
+        {
+            extraVotes--;
+        }
+        for (var i = 0; i < extraVotes; i++)
         {
             @event.VoteData.VoteForPlayer(@event.TargetId);
         }

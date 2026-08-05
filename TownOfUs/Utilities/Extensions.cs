@@ -91,8 +91,7 @@ public static class Extensions
             return false;
         }
 
-        return player.Data.Role.IsImpostor() &&
-               (player.HasModifier<TraitorCacheModifier>() || player.Data.Role is TraitorRole) ||
+        return (player.HasModifier<TraitorCacheModifier>() || player.Data.Role is TraitorRole) ||
                (OptionGroupSingleton<CrewpostorOptions>.Instance.ShowsAsImpostor.Value &&
                 player.HasModifier<CrewpostorModifier>());
     }

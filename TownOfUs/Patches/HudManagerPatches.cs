@@ -499,7 +499,9 @@ public static class HudManagerPatches
             }
 
             if (!IsHoveringRoleList)
+            {
                 RoleListTextComp.text = rolelistBuilder.ToString();
+            }
 
             RoleList.SetActive(true);
         }
