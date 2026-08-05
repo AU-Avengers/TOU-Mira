@@ -1,4 +1,5 @@
 using System.Reflection;
+using UnityEngine;
 
 namespace TownOfUs.Modules.DraftMode;
 
@@ -15,6 +16,8 @@ public static class DraftManager
 
     private static readonly List<DraftSlotState> SlotStates = [];
     private static readonly Dictionary<byte, int> PlayerToSlot = [];
+    private static readonly Dictionary<byte, float> DisconnectSuspectSince = [];
+    private const float DisconnectConfirmSeconds = 1.5f;
     private static int _currentTurn;
 
     public static void SetDraftStateFromHost(int totalSlots, List<byte> playerIds, List<int> slotNumbers)
@@ -168,22 +171,36 @@ public static class DraftManager
         if (player.Data == null || player.Data.Disconnected) return true;
         if (IsBotLikePlayer(player)) return true;
 
+        bool isLocalGame = AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay;
+        if (isLocalGame)
+        {
+            DisconnectSuspectSince.Remove(playerId);
+            return false;
+        }
+
+        bool clientMissing;
         try
         {
-            var client = AmongUsClient.Instance.GetClient(player.OwnerId);
-            if (client == null)
-            {
-                if (AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay)
-                    return false;
-                return true;
-            }
+            clientMissing = AmongUsClient.Instance.GetClient(player.OwnerId) == null;
         }
         catch
         {
-            //ignored
+            clientMissing = false;
         }
 
-        return false;
+        if (!clientMissing)
+        {
+            DisconnectSuspectSince.Remove(playerId);
+            return false;
+        }
+
+        if (!DisconnectSuspectSince.TryGetValue(playerId, out var suspectSince))
+        {
+            DisconnectSuspectSince[playerId] = Time.time;
+            return false;
+        }
+
+        return Time.time - suspectSince >= DisconnectConfirmSeconds;
     }
 
     private static bool IsBotLikePlayer(PlayerControl player)
@@ -226,6 +243,7 @@ public static class DraftManager
         IsDraftActive = false;
         SlotStates.Clear();
         PlayerToSlot.Clear();
+        DisconnectSuspectSince.Clear();
         _currentTurn = 0;
         CurrentTurnNumber = 0;
         CurrentTurnSlot = -1;

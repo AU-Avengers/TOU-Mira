@@ -197,6 +197,7 @@
   <string name="WikiSettingsAssassinSettingsTitle">Assassin Settings</string>
   <string name="WikiSettingsMapsSabotageSettingsTitle">Maps/Sabotage Settings</string>
   <string name="WikiSettingsBetterMapsSettingsTitle">Better Maps Settings</string>
+  <string name="WikiSettingsRoleDistOptions">Role Distribution Options</string>
   <!-- Terminology Wiki -->
   <string name="TermsTargetSymbolsTitle">Target Symbols</string>
   <string name="TermsTargetSymbolsInfo">Target Symbols appear on player names in meetings and mid-game, usually only visible to the role they pertain to and/or the dead. • Executioner targets are marked with \%color=#643B1F\%X\%/color\% • Inquisitor heretics are marked with \%color=#D94291\%$\%/color\% to the dead. • Fairy targets are marked with \%color=#B3FFFF\%★\%/color\%</string>
@@ -366,6 +367,8 @@
   <string name="AnticheatKickMissingMessage">\%player\% is missing these mods:</string>
   <string name="AnticheatKickChatMessage">\%player\% was kicked for using cheat mods:</string>
   <string name="SpectatorCommandList">spec:spectate</string>
+    <string name="PlayerCommandList">players:plr:plrlist:playerlist</string>
+    <string name="PlayerCommandDetails">\%player\%'s Platform: \%platform\%</string>
   <string name="SpectatorLobbyError">You cannot toggle spectating outside the lobby!</string>
   <string name="SpectatorStartError">You cannot toggle spectator mode while the game is starting!</string>
     <string name="SpectatorDraftError">You cannot toggle spectator mode while draft is ongoing!</string>
@@ -392,6 +395,7 @@
   <string name="HelpMessageTitle">Chat Commands:</string>
   <string name="HelpCommandDescription">/help - Shows this message</string>
   <string name="NerfMeCommandDescription">/nerfme - Cuts your vision in half</string>
+    <string name="PlayerCommandDescription">/players - Displays information about players in the lobby.</string>
   <string name="SetNameCommandDescription">/setname - Change your name to whatever text follows the command (like /setname \%randomName\%) for the next match.</string>
   <string name="SpectateCommandDescription">/spec - Allows you to spectate for the rest of the game automatically. (if enabled by the host)</string>
   <string name="SummaryCommandDescription">/summary - Shows the previous end game summary</string>
@@ -1999,6 +2003,7 @@
   <!--Anonymous Feedback-->
   <string name="TouNeutAnonymousVictoryMessage">\%player\% has successfully won and left!</string>
   <string name="TouOptionNeutAnonymousVictoryWin">Hide Role On Win Notification</string>
+    <string name="TouRoleAnonymousVictoryKillNotif">\%source\% has killed \%victim\% after their victory!</string>
   <!-- Amnesiac -->
   <!-- Amnesiac Wiki / Abilities -->
   <string name="TouRoleAmnesiac">Amnesiac</string>
@@ -2091,6 +2096,7 @@
   <string name="TouRoleExecutionerWonSelf">You have successfully won as the \%role\%, as your target was voted out!</string>
   <string name="TouRoleExecutionerWonOther">The \%role\%, \%player\%, has successfully won, as their target was voted out!</string>
   <string name="TouRoleExecutionerTormentFeedback">You have one round to torment a player of your choice to death, choose wisely.</string>
+    <string name="TouRoleExecutionerTormentNotif">The Executioner has tormented \%victim\% to the grave!</string>
   <!-- Executioner Options -->
   <string name="TouOptionExecutionerBecomesTargetDeath">On Target Death, Executioner Becomes</string>
   <string name="TouOptionExecutionerCanButton">Executioner Can Button</string>
@@ -2203,6 +2209,7 @@
   <string name="TouNotifJesterHauntOwner">You have one round to haunt a player of your choice to death, choose wisely!</string>
   <string name="TouNotifJesterWinGlobal">The Jester, \%player\%, has successfully won, as they were voted out!</string>
   <string name="TouNotifJesterPoke">You have poked \%player\%!</string>
+    <string name="TouRoleJesterHauntNotif">The Jester has decided to haunt \%victim\% beyond the grave!</string>
   <!-- Jester Options -->
   <string name="TouOptionJesterCanButton">Can Use Button</string>
   <string name="TouOptionJesterCanVent">Can Hide In Vents</string>
@@ -2264,6 +2271,7 @@
   <string name="TouRoleSpectreTabDescription">Complete all your tasks without being caught!</string>
   <string name="TouRoleSpectreWikiDescription">The Spectre is a Neutral Ghost role that wins the game by finishing their tasks before a living player has clicked on them.</string>
   <string name="TouRoleSpectreSpook">Spook</string>
+    <string name="TouRoleSpectreSpookNotif">The Spectre has spooked \%victim\% to their end!</string>
   <!-- Spectre Options -->
   <string name="TouOptionSpectreTasksLeftClickable">Tasks Left Before Clickable</string>
   <string name="TouOptionSpectreWin">Spectre Win</string>

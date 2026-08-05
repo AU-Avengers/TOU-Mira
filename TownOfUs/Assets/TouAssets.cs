@@ -562,6 +562,24 @@ public static class TouAssets
     
     public static LoadableAsset<Sprite> ChefProgressNone { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.ChefNone.png");
+    
+    public static LoadableAsset<Sprite> PlatformEpic { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformEpic.png");
+    
+    public static LoadableAsset<Sprite> PlatformItch { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformItch.png");
+    
+    public static LoadableAsset<Sprite> PlatformStarlight { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformStarlight.png");
+    
+    public static LoadableAsset<Sprite> PlatformSteam { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformSteam.png");
+    
+    public static LoadableAsset<Sprite> PlatformWindows { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformWindows.png");
+    
+    public static LoadableAsset<Sprite> PlatformUnknown { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformUnknown.png");
 
     public static LoadableAsset<Sprite> LocalActions { get; } =
         new LoadableResourceAsset($"{LocalTabsPath}.Actions.png", 175f);

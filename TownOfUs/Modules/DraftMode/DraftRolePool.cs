@@ -59,7 +59,7 @@ namespace TownOfUs.Modules.DraftMode
                 }
             }
 
-            result = FilterRoleNamesByBucket(result, bucket);
+            result = TrimEmptyNames(result);
 
             BucketToNamesCache[bucket] = new List<string>(result);
             return new List<string>(result);
@@ -175,7 +175,7 @@ namespace TownOfUs.Modules.DraftMode
                     (names[i], names[j]) = (names[j], names[i]);
                 }
 
-                resolvedNames = FilterRoleNamesByBucket(names, bucket);
+                resolvedNames = TrimEmptyNames(names);
                 return resolvedNames.Count > 0;
             }
 
@@ -333,74 +333,9 @@ namespace TownOfUs.Modules.DraftMode
             return Enum.TryParse<RoleListOption>(bucket, true, out roleListOption);
         }
 
-        private static List<string> FilterRoleNamesByBucket(IEnumerable<string> names, string bucket)
+        private static List<string> TrimEmptyNames(IEnumerable<string> names)
         {
-            if (names == null) return new List<string>();
-            if (string.IsNullOrWhiteSpace(bucket)) return names.ToList();
-
-            if (!TryGetBucketAlignments(bucket, out var alignments) || alignments == null || alignments.Length == 0)
-                return names.Where(n => !string.IsNullOrWhiteSpace(n)).ToList();
-
-            var allowed = new HashSet<RoleAlignment>(alignments);
-            return names
-                .Where(n => !string.IsNullOrWhiteSpace(n))
-                .Where(n => IsRoleNameInAlignments(n, allowed))
-                .ToList();
-        }
-
-        private static bool TryGetBucketAlignments(string bucket, out RoleAlignment[]? alignments)
-        {
-            alignments = null;
-            if (string.IsNullOrWhiteSpace(bucket)) return false;
-
-            if (TryMatchBucketToRoleListOption(bucket, out var roleListOption))
-            {
-                alignments = roleListOption switch
-                {
-                    RoleListOption.CrewInvest => [RoleAlignment.CrewmateInvestigative],
-                    RoleListOption.CrewKilling => [RoleAlignment.CrewmateKilling],
-                    RoleListOption.CrewProtective => [RoleAlignment.CrewmateProtective],
-                    RoleListOption.CrewPower => [RoleAlignment.CrewmatePower],
-                    RoleListOption.CrewSupport => [RoleAlignment.CrewmateSupport],
-                    RoleListOption.CrewCommon => [RoleAlignment.CrewmateInvestigative, RoleAlignment.CrewmateProtective, RoleAlignment.CrewmateSupport],
-                    RoleListOption.CrewSpecial => [RoleAlignment.CrewmateKilling, RoleAlignment.CrewmatePower],
-                    RoleListOption.CrewRandom => [RoleAlignment.CrewmateInvestigative, RoleAlignment.CrewmateKilling, RoleAlignment.CrewmateProtective, RoleAlignment.CrewmatePower, RoleAlignment.CrewmateSupport],
-                    RoleListOption.NeutBenign => [RoleAlignment.NeutralBenign],
-                    RoleListOption.NeutEvil => [RoleAlignment.NeutralEvil],
-                    RoleListOption.NeutKilling => [RoleAlignment.NeutralKilling],
-                    RoleListOption.NeutOutlier => [RoleAlignment.NeutralOutlier],
-                    RoleListOption.NeutCommon => [RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil],
-                    RoleListOption.NeutSpecial => [RoleAlignment.NeutralKilling, RoleAlignment.NeutralOutlier],
-                    RoleListOption.NeutWildcard => [RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil, RoleAlignment.NeutralOutlier],
-                    RoleListOption.NeutRandom => [RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil, RoleAlignment.NeutralKilling, RoleAlignment.NeutralOutlier],
-                    RoleListOption.ImpConceal => [RoleAlignment.ImpostorConcealing],
-                    RoleListOption.ImpKilling => [RoleAlignment.ImpostorKilling],
-                    RoleListOption.ImpPower => [RoleAlignment.ImpostorPower],
-                    RoleListOption.ImpSupport => [RoleAlignment.ImpostorSupport],
-                    RoleListOption.ImpCommon => [RoleAlignment.ImpostorConcealing, RoleAlignment.ImpostorSupport],
-                    RoleListOption.ImpSpecial => [RoleAlignment.ImpostorKilling, RoleAlignment.ImpostorPower],
-                    RoleListOption.ImpRandom => [RoleAlignment.ImpostorConcealing, RoleAlignment.ImpostorKilling, RoleAlignment.ImpostorPower, RoleAlignment.ImpostorSupport],
-                    RoleListOption.NonImp => [RoleAlignment.CrewmateInvestigative, RoleAlignment.CrewmateKilling, RoleAlignment.CrewmateProtective, RoleAlignment.CrewmatePower, RoleAlignment.CrewmateSupport, RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil, RoleAlignment.NeutralKilling, RoleAlignment.NeutralOutlier],
-                    RoleListOption.Any => null,
-                    _ => null,
-                };
-
-                return alignments != null;
-            }
-
-            return false;
-        }
-
-        private static bool IsRoleNameInAlignments(string roleName, HashSet<RoleAlignment> alignments)
-        {
-            if (string.IsNullOrWhiteSpace(roleName) || alignments == null || alignments.Count == 0)
-                return false;
-
-            var role = FindRoleByName(roleName);
-            if (role == null) return false;
-
-            var currentAlignment = role.GetRoleAlignment();
-            return alignments.Contains(currentAlignment);
+            return names?.Where(n => !string.IsNullOrWhiteSpace(n)).ToList() ?? new List<string>();
         }
 
         private static List<RoleBehaviour> GetRolesForBucket(RoleListOption bucket)

@@ -88,6 +88,8 @@ namespace TownOfUs.Modules.DraftMode
             EnsureExists();
             _instance._currentState = state;
             _instance.UpdateVisibility();
+            if (state == OverlayState.Hidden && !DraftManager.IsDraftActive)
+                DraftSidebarManager.Deactivate();
         }
 
         public static void Refresh()
@@ -128,7 +130,7 @@ namespace TownOfUs.Modules.DraftMode
             _instance._yourNumberValue = null!;
             _instance._nowPickingLabel = null!;
             _instance._nowPickingValue = null!;
-            _instance.DestroyRoleCard();
+            _instance.DestroyRoleCardCore();
             _instance._cardTooltipRoot = null!;
             _instance._cardTooltipText = null!;
             _instance._pendingRoleId = null;
@@ -401,7 +403,7 @@ namespace TownOfUs.Modules.DraftMode
 
         private void ShowRoleCard(ushort roleId)
         {
-            DestroyRoleCard();
+            DestroyRoleCardCore();
             if (!EnsureRolePrefab() || HudManager.Instance == null) return;
 
             var role = DraftUiManager.ResolveRole(roleId);
@@ -417,14 +419,14 @@ namespace TownOfUs.Modules.DraftMode
 
             if (_roleCardNewRoleObj.transform.childCount == 0)
             {
-                DestroyRoleCard();
+                DestroyRoleCardCore();
                 return;
             }
 
             var actualCard = _roleCardNewRoleObj.transform.GetChild(0);
             if (actualCard.childCount < 3)
             {
-                DestroyRoleCard();
+                DestroyRoleCardCore();
                 return;
             }
 
@@ -593,7 +595,7 @@ namespace TownOfUs.Modules.DraftMode
             return false;
         }
 
-        private void DestroyRoleCard()
+        internal void DestroyRoleCardCore()
         {
             if (_roleCardNewRoleObj != null)
             {
@@ -609,6 +611,11 @@ namespace TownOfUs.Modules.DraftMode
             HideCardTooltip();
             _cardHiddenForMenu = false;
             _cardReady = false;
+        }
+
+        public static void DestroyRoleCard()
+        {
+            _instance?.DestroyRoleCardCore();
         }
 
         private void EnsureCardTooltip()
@@ -864,7 +871,7 @@ namespace TownOfUs.Modules.DraftMode
                 _root.SetActive(false);
                 if (_bgOverlay != null) _bgOverlay.SetActive(false);
                 if (_backdropArt != null) _backdropArt.SetActive(false);
-                DestroyRoleCard();
+                DestroyRoleCardCore();
                 _pendingRoleId = null;
                 _shownRoleId = null;
                 _waitAnimTime = 0f;

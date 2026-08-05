@@ -3,6 +3,7 @@ using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
+using TMPro;
 using TownOfUs.Options;
 using TownOfUs.Patches;
 using UnityEngine;
@@ -62,13 +63,8 @@ namespace TownOfUs.Modules.DraftMode
             _cachedDisconnectedCount = -1;
             _cachedDraftActive   = false;
         }
-        public static void DrawSidebar()
+        public static void DrawSidebar(TextMeshPro tmp)
         {
-            var roleList = HudManagerPatches.RoleList;
-            var tmp      = HudManagerPatches.RoleListTextComp;
-            if (roleList == null || tmp == null) return;
-
-            roleList.SetActive(true);
             tmp.fontSize           = 3f;
             tmp.fontSizeMin        = 0.5f;
             tmp.fontSizeMax        = 3f;
@@ -228,59 +224,6 @@ namespace TownOfUs.Modules.DraftMode
             }
             return (text, colorHex);
     }
-
-    [HarmonyPatch(typeof(HudManagerPatches), nameof(HudManagerPatches.UpdateRoleList))]
-    public static class DraftSidebarUpdateRoleListPatch
-    {
-        [HarmonyPostfix]
-        public static void Postfix()
-        {
-            if (!DraftSidebarManager.IsActive) return;
-            DraftSidebarManager.DrawSidebar();
-        }
-    }
-
-    [HarmonyPatch(typeof(DraftRpcs), nameof(DraftRpcs.RpcStartDraft))]
-    public static class DraftSidebarActivateOnClient
-    {
-        [HarmonyPostfix]
-        public static void Postfix() => DraftSidebarManager.Activate();
-    }
-
-    [HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastRecap))]
-    public static class DraftSidebarDeactivateOnRecap
-    {
-        [HarmonyPostfix]
-        public static void Postfix() => DraftSidebarManager.Deactivate();
-    }
-
-    [HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastCancelDraft))]
-    public static class DraftSidebarDeactivateOnCancel
-    {
-        [HarmonyPostfix]
-        public static void Postfix() => DraftSidebarManager.Deactivate();
-    }
-
-    [HarmonyPatch(typeof(DraftStatusOverlay), nameof(DraftStatusOverlay.SetState))]
-    public static class DraftSidebarDeactivateOnOverlayHidden
-    {
-        [HarmonyPostfix]
-        public static void Postfix(OverlayState state)
-        {
-            if (state == OverlayState.Hidden && !DraftManager.IsDraftActive)
-                DraftSidebarManager.Deactivate();
-        }
-    }
-
-    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.CoBegin))]
-    public static class DraftSidebarDeactivateOnIntro
-    {
-        [HarmonyPostfix]
-        public static void Postfix()
-        {
-            DraftSidebarManager.Deactivate();
-            DraftSidebarManager.ClearBannerRef();
-        }
     }
 
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnDisconnected))]
@@ -297,33 +240,4 @@ namespace TownOfUs.Modules.DraftMode
             DraftSidebarManager.ClearBannerRef();
         }
     }
-
-    [HarmonyPatch(typeof(LobbyBehaviour), nameof(LobbyBehaviour.Start))]
-    public static class DraftResetOnLobbyStart
-    {
-        [HarmonyPostfix]
-        public static void Postfix()
-        {
-            if (!DraftManager.IsDraftActive) return;
-            DraftManager.Reset(cancelledBeforeCompletion: true);
-            DraftCancelButton.Hide();
-            DraftShuffleButton.HideAndReset();
-            DraftSidebarManager.Deactivate();
-            DraftSidebarManager.ClearBannerRef();
-        }
-    }
-
-    [HarmonyPatch(typeof(RoleListHoverComponent), nameof(RoleListHoverComponent.Update))]
-    public static class RoleListHoverSuppressUpdate
-    {
-        [HarmonyPrefix]
-        public static bool Prefix()
-        {
-            if (!DraftManager.IsDraftActive) return true;
-
-            HudManagerPatches.IsHoveringRoleList = false;
-            return false;
-        }
-    }
-}
 }

@@ -518,7 +518,6 @@
   <string name="PiPLocationMiddleRight">Middenrechts</string>
   <string name="PiPLocationBottomRight">Rechtsonder</string>
   <string name="PiPLocationDynamic">Dynamisch</string>
-  <string name="TouControlControlledNotif">Je wordt gecontroleerd door een &lt;controller&gt;!</string>
   <string name="PiPSizeNormal">Normaal</string>
   <string name="PiPSizeSmall">Klein</string>
   <string name="PiPSizeLarge">Groot</string>

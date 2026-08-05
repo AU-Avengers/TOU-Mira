@@ -1057,6 +1057,10 @@ public static class CustomTouMurderRpcs
             return;
         }
 
+        if (role is IAnnounceableKill announce)
+        {
+            announce.AnnounceKill(source, target);
+        }
         source.AddModifier<IndirectAttackerModifier>(true);
 
         var cod = "Killer";
