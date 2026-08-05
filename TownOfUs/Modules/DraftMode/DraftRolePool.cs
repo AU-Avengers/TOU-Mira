@@ -225,13 +225,19 @@ public static bool IsImpostorRoleId(ushort id)
 
     public static bool IsImpostorRole(RoleBehaviour role)
     {
-    if (role == null) return false;
-    if (role.IsImpostor()) return true;
-    if (role.TeamType == RoleTeamTypes.Impostor) return true;
-    return role.Role == RoleTypes.Impostor ||
-           role.Role == RoleTypes.Shapeshifter ||
-           (int)role.Role == 16 || // Phantom
-           (int)role.Role == 17;   // Viper
+        if (role == null) return false;
+        var alignment = role.GetRoleAlignment();
+        if (
+            alignment == RoleAlignment.ImpostorKilling || 
+            alignment == RoleAlignment.ImpostorConcealing || 
+            alignment == RoleAlignment.ImpostorPower || 
+            alignment == RoleAlignment.ImpostorSupport)
+        {
+            return true;
+        }
+
+        // Fallback for native TeamType in case alignment isn't registered
+        return role.TeamType == RoleTeamTypes.Impostor;
     }
         public static bool IsExclusiveImpostorRoleName(string name)
         {

@@ -374,15 +374,14 @@ namespace TownOfUs.Modules.DraftMode
             context.MaxNeuts = maxNeuts;
 
             var allStates = DraftManager.GetAllStates();
-            foreach (var s in allStates)
-            {
+            foreach (var s in allStates){
                 if (s.HasPicked && s.ChosenRoleId != 0)
                 {
-        context.AssignedCountsById[s.ChosenRoleId] = context.AssignedCountsById.GetValueOrDefault(s.ChosenRoleId) + 1;
-        var assignedId = s.ChosenRoleId.ToString(System.Globalization.CultureInfo.InvariantCulture);
-        context.AvoidNames.Add(assignedId);
+                    context.AssignedCountsById[s.ChosenRoleId] = context.AssignedCountsById.GetValueOrDefault(s.ChosenRoleId) + 1;
+                    var assignedId = s.ChosenRoleId.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    context.AvoidNames.Add(assignedId);
 
-        var roleName = DraftRolePool.GetRoleNameFromId(s.ChosenRoleId);
+                    var roleName = DraftRolePool.GetRoleNameFromId(s.ChosenRoleId);
         if (!string.IsNullOrEmpty(roleName))
         {
             var norm = NormalizeRoleNameKey(roleName);
@@ -391,18 +390,33 @@ namespace TownOfUs.Modules.DraftMode
             context.AvoidNames.Add(BaseRoleName(roleName));
         }
 
-        if (DraftRolePool.IsImpostorRoleId(s.ChosenRoleId) || (!string.IsNullOrEmpty(roleName) && DraftRolePool.IsImpostorRoleName(roleName))) 
-            context.PickedImps++;
-        else if (DraftRolePool.IsNeutralRoleId(s.ChosenRoleId) || (!string.IsNullOrEmpty(roleName) && DraftRolePool.IsNeutralRoleName(roleName))) 
-            context.PickedNeuts++;
+        // --- Core Check Fix ---
+        // Evaluate role alignment using the ID first so vanilla RoleTypes evaluate via GetRoleAlignment()
+        bool isImp = DraftRolePool.IsImpostorRoleId(s.ChosenRoleId) || 
+                     (!string.IsNullOrEmpty(roleName) && DraftRolePool.IsImpostorRoleName(roleName));
+                     
+        bool isNeut = DraftRolePool.IsNeutralRoleId(s.ChosenRoleId) || 
+                      (!string.IsNullOrEmpty(roleName) && DraftRolePool.IsNeutralRoleName(roleName));
 
-        if (DraftRolePool.IsExclusiveImpostorRoleId(s.ChosenRoleId) || (!string.IsNullOrEmpty(roleName) && DraftRolePool.IsExclusiveImpostorRoleName(roleName))) 
-            context.ExclusiveImpReserved = true;
-        else if (DraftRolePool.IsImpostorRoleId(s.ChosenRoleId) || (!string.IsNullOrEmpty(roleName) && DraftRolePool.IsImpostorRoleName(roleName))) 
-            context.SharedImpReserved = true;
+        if (isImp)
+        {
+            context.PickedImps++;
+            if (DraftRolePool.IsExclusiveImpostorRoleId(s.ChosenRoleId) || 
+               (!string.IsNullOrEmpty(roleName) && DraftRolePool.IsExclusiveImpostorRoleName(roleName)))
+            {
+                context.ExclusiveImpReserved = true;
+            }
+            else
+            {
+                context.SharedImpReserved = true;
+            }
+        }
+        else if (isNeut)
+        {
+            context.PickedNeuts++;
         }
     }
-
+}
             foreach (var kvp in _currentOffersBySlot)
             {
                 if (kvp.Key == excludeSlot) continue;
@@ -538,15 +552,23 @@ namespace TownOfUs.Modules.DraftMode
             if (string.IsNullOrWhiteSpace(candidate) || candidate == "__RANDOM__") return false;
             var baseName = BaseRoleName(candidate);
 
-            var resolvedId = DraftRolePool.ResolveRoleIdFromName(baseName);
-            if (resolvedId == (ushort)AmongUs.GameOptions.RoleTypes.Impostor ||
-                resolvedId == (ushort)AmongUs.GameOptions.RoleTypes.Crewmate)
+            ushort resolvedId = DraftRolePool.ResolveRoleIdFromName(baseName);
+
+            if (resolvedId == (ushort)AmongUs.GameOptions.RoleTypes.Crewmate || 
+                resolvedId == (ushort)AmongUs.GameOptions.RoleTypes.Impostor)
+            {
                 return false;
+            }
+
+            bool isImp = DraftRolePool.IsImpostorRoleId(resolvedId) || DraftRolePool.IsImpostorRoleName(baseName);
+
+            if (isImp && context.PickedImps >= context.MaxImps)
+            {
+                return false; // Reached Max Impostors limit, do not offer/allow vanilla or custom Impostors
+            }
 
             context ??= BuildSlotContext(slot, ignoreConcurrentOffers, ignoreForce);
             if (context.AvoidNames.Contains(candidate) || context.AvoidNames.Contains(baseName)) return false;
-
-            bool isImp = DraftRolePool.IsImpostorRoleName(baseName);
             bool isNeut = DraftRolePool.IsNeutralRoleName(baseName);
 
             if ((context.ForceImp && context.ForceNeut && !isImp && !isNeut)
