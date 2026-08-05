@@ -98,9 +98,9 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
         }
         else
         {
-            var role = source.GetRoleWhenAlive();
+            var role = source.Data.Role is IGhostRole ? source.Data.Role : source.GetRoleWhenAlive();
             var cod = "Killer";
-            
+
             var roleToCheck = role is MirrorcasterRole mirror ? mirror.ContainedRole ?? mirror : role;
             var localeKey = roleToCheck.GetRoleLocaleKey();
             if (localeKey != "KEY_MISS" &&
