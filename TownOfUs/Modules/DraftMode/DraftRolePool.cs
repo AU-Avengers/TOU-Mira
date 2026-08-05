@@ -241,6 +241,7 @@ namespace TownOfUs.Modules.DraftMode
 
             return role.IsNeutral();
         }
+        
 
         public static bool IsNeutralRoleId(ushort id)
         {
@@ -412,11 +413,21 @@ namespace TownOfUs.Modules.DraftMode
                 .Where(IsUsableRole)
                 .Where(r => r.IsImpostor() && !known.Contains(r));
         }
+        public static ushort GetAnyUsableRoleId()
+        {
+            var role = MiscUtils.SpawnableRoles.FirstOrDefault(IsUsableRole);
+            if (role != null) return (ushort)role.Role;
+
+            role = MiscUtils.AllRoles.FirstOrDefault(r => r != null && IsUsableRole(r));
+            return role != null ? (ushort)role.Role : (ushort)0;
+        }
 
         private static bool IsUsableRole(RoleBehaviour role)
         {
             if (!role) return false;
             if (role.IsDead)
+                return false;
+            if (role.Role == RoleTypes.Crewmate)
                 return false;
             if (role is ITownOfUsRole touRole && (!touRole.IsDraftable || touRole.RoleAlignment > RoleAlignment.GameOutlier))
                 return false;
