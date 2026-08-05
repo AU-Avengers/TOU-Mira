@@ -41,7 +41,7 @@ namespace TownOfUs.Modules.DraftMode
             return manualPool;
         }
 
-        public static List<string> GetOfferedRoles(List<string> currentPool, IRng rng = null!, ICollection<string> avoid = null!)
+        public static List<string> GetOfferedRoles(List<string> currentPool, IRng rng = null!, ICollection<string> avoid = null!, bool allowGuaranteed = true)
         {
             rng ??= new UnityRng();
             var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
@@ -76,7 +76,7 @@ namespace TownOfUs.Modules.DraftMode
 
             if (eligible.Count == 0) return new List<string>();
 
-            var picked = SelectWeightedDistinctCandidates(eligible, Math.Min(offered, eligible.Count), rng);
+            var picked = SelectWeightedDistinctCandidates(eligible, Math.Min(offered, eligible.Count), rng, allowGuaranteed);
 
             if (picked.Count < offered)
             {
@@ -84,6 +84,7 @@ namespace TownOfUs.Modules.DraftMode
                 {
                     if (picked.Count >= offered) break;
                     if (string.IsNullOrWhiteSpace(candidate)) continue;
+                    if (!allowGuaranteed && DraftRolePool.GetChanceForRoleName(candidate) >= 100) continue;
                     var baseName = BaseRoleName(candidate);
                     if (avoid != null && (avoid.Contains(candidate) || avoid.Contains(baseName))) continue;
                     if (picked.Any(existing => string.Equals(BaseRoleName(existing), baseName, StringComparison.OrdinalIgnoreCase))) continue;
@@ -127,7 +128,7 @@ namespace TownOfUs.Modules.DraftMode
             return candidates[^1];
         }
 
-        private static List<string> SelectWeightedDistinctCandidates(List<string> candidates, int take, IRng rng)
+        private static List<string> SelectWeightedDistinctCandidates(List<string> candidates, int take, IRng rng, bool allowGuaranteed = true)
         {
             if (candidates == null || candidates.Count == 0 || take <= 0) return new List<string>();
 
@@ -137,17 +138,20 @@ namespace TownOfUs.Modules.DraftMode
 
             while (result.Count < take && remaining.Count > 0)
             {
-                var guaranteed = remaining
-                    .Where(candidate => !string.IsNullOrWhiteSpace(candidate))
-                    .Where(candidate => !seenBaseNames.Contains(BaseRoleName(candidate)))
-                    .Where(candidate => DraftRolePool.GetChanceForRoleName(candidate) >= 100)
-                    .ToList();
+                var guaranteed = allowGuaranteed
+                    ? remaining
+                        .Where(candidate => !string.IsNullOrWhiteSpace(candidate))
+                        .Where(candidate => !seenBaseNames.Contains(BaseRoleName(candidate)))
+                        .Where(candidate => DraftRolePool.GetChanceForRoleName(candidate) >= 100)
+                        .ToList()
+                    : new List<string>();
 
                 var available = guaranteed.Count > 0
                     ? guaranteed
                     : remaining
                         .Where(candidate => !string.IsNullOrWhiteSpace(candidate))
                         .Where(candidate => !seenBaseNames.Contains(BaseRoleName(candidate)))
+                        .Where(candidate => allowGuaranteed || DraftRolePool.GetChanceForRoleName(candidate) < 100)
                         .ToList();
 
                 if (available.Count == 0) break;
