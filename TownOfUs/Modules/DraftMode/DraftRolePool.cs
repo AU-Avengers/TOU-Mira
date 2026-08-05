@@ -208,23 +208,31 @@ namespace TownOfUs.Modules.DraftMode
         }
 
         public static bool IsImpostorRoleName(string name)
-        {
-            var role = FindRoleByName(name);
-            if (role == null) return false;
+{
+    var role = FindRoleByName(name);
+    return role != null && IsImpostorRole(role);
+}
 
-            return role.IsImpostor();
-        }
+public static bool IsImpostorRoleId(ushort id)
+{
+    try
+    {
+        var r = MiscUtils.GetRegisteredRole((RoleTypes)id);
+        return r != null && IsImpostorRole(r);
+    }
+    catch { return false; }
+}
 
-        public static bool IsImpostorRoleId(ushort id)
-        {
-            try
-            {
-                var r = MiscUtils.GetRegisteredRole((RoleTypes)id);
-                return r != null && r.IsImpostor();
-            }
-            catch { return false; }
-        }
-
+    public static bool IsImpostorRole(RoleBehaviour role)
+    {
+    if (role == null) return false;
+    if (role.IsImpostor()) return true;
+    if (role.TeamType == RoleTeamTypes.Impostor) return true;
+    return role.Role == RoleTypes.Impostor ||
+           role.Role == RoleTypes.Shapeshifter ||
+           (int)role.Role == 16 || // Phantom
+           (int)role.Role == 17;   // Viper
+    }
         public static bool IsExclusiveImpostorRoleName(string name)
         {
             var role = FindRoleByName(name);
