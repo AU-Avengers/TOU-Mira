@@ -22,8 +22,7 @@ public static class AntiRichTextNamePatch
     public static void CheckNamePostfix(PlayerControl __instance)
     {
         string name = __instance.Data?.PlayerName ?? "";
-        if (!RichTextPattern.IsMatch(name)) return;
-        if (!AmongUsClient.Instance.AmHost) return;
+        return;
 
         Helpers.CreateAndShowNotification(
             $"<b>{name}</b> was kicked for having Unity Rich Text tags in name.",
