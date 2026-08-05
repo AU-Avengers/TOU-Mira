@@ -1,4 +1,5 @@
 using System.Text;
+using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -111,6 +112,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
 
         Clear();
+        ModifierUtils.GetActiveModifiers<JailedModifier>().Do(x => x.Player.RemoveModifier(x));
     }
 
     public override void OnMeetingStart()
