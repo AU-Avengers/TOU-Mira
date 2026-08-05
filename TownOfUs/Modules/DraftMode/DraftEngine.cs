@@ -721,7 +721,12 @@ namespace TownOfUs.Modules.DraftMode
 
             if (allowedPoolCandidates.Count == 0)
             {
-                allowedPoolCandidates.Add("Crewmate");
+                var fallbackId = DraftRolePool.GetAnyUsableRoleId();
+                var fallbackName = fallbackId != 0 ? DraftRolePool.GetRoleNameFromId(fallbackId) : null;
+                if (!string.IsNullOrEmpty(fallbackName))
+                {
+                    allowedPoolCandidates.Add(fallbackName);
+                }
             }
 
             var guaranteed = DraftPoolBuilder.GetOfferedRoles(allowedPoolCandidates, _rng, new HashSet<string>(StringComparer.OrdinalIgnoreCase))
@@ -1117,32 +1122,8 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             ushort chosenRoleId = 0;
-            if (index != 255 && _offeredRoleIdsBySlot.TryGetValue(slot, out var offeredIds) && index < offeredIds.Count)
-            {
-                if (!string.IsNullOrEmpty(chosenName) && chosenName != "__RANDOM__")
-                {
-                    var offeredBaseName = BaseRoleName(chosenName);
-                    chosenRoleId = offeredIds[index];
-                    if (chosenRoleId == 0 || DraftRolePool.GetRoleNameFromId(chosenRoleId) == null)
-                    {
-                        chosenRoleId = DraftRolePool.ResolveRoleIdFromName(offeredBaseName);
-                    }
 
-                    if (chosenRoleId == 0)
-                    {
-                        chosenRoleId = DraftRolePool.ChooseRepresentativeRoleId(new List<string> { "Crewmate" });
-                    }
-
-                    ConsumeReservedSeat(slot, chosenName);
-                    _offeredRoleIdsBySlot.Remove(slot);
-                }
-                else
-                {
-                    _offeredRoleIdsBySlot.Remove(slot);
-                    chosenRoleId = 0;
-                }
-            }
-            else if (chosenName == "__RANDOM__" || chosenName == null)
+            if (chosenName == "__RANDOM__" || chosenName == null)
             {
                 bool isDc = DraftManager.IsPlayerDisconnected(state.PlayerId);
                 var strictValidationContext = BuildSlotContext(slot, ignoreConcurrentOffers: false, ignoreForce: true);
@@ -1196,6 +1177,25 @@ namespace TownOfUs.Modules.DraftMode
                         chosenRoleId = 0;
                     }
                 }
+
+                _offeredRoleIdsBySlot.Remove(slot);
+            }
+            else if (index != 255 && _offeredRoleIdsBySlot.TryGetValue(slot, out var offeredIds) && index < offeredIds.Count)
+            {
+                var offeredBaseName = BaseRoleName(chosenName);
+                chosenRoleId = offeredIds[index];
+                if (chosenRoleId == 0 || DraftRolePool.GetRoleNameFromId(chosenRoleId) == null)
+                {
+                    chosenRoleId = DraftRolePool.ResolveRoleIdFromName(offeredBaseName);
+                }
+
+                if (chosenRoleId == 0)
+                {
+                    chosenRoleId = DraftRolePool.ChooseRepresentativeRoleId(new List<string> { "Crewmate" });
+                }
+
+                ConsumeReservedSeat(slot, chosenName);
+                _offeredRoleIdsBySlot.Remove(slot);
             }
             else
             {
@@ -1235,12 +1235,8 @@ namespace TownOfUs.Modules.DraftMode
 
             if (chosenRoleId == 0 || MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)chosenRoleId) == null)
             {
-                var emergencyId = MiscUtils.AllRoles
-                    .Where(r => r != null)
-                    .Select(r => (ushort)r.Role)
-                    .FirstOrDefault(id => id != 0 && MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)id) != null);
-
-                if (emergencyId == 0)
+                var emergencyId = DraftRolePool.GetAnyUsableRoleId();
+                if (emergencyId == 0 || MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)emergencyId) == null)
                 {
                     emergencyId = (ushort)AmongUs.GameOptions.RoleTypes.Engineer;
                 }
@@ -1411,6 +1407,8 @@ namespace TownOfUs.Modules.DraftMode
                 pickedRoleCandidates.Add(roleId);
                 offeredRoleNames.Add(roleName ?? string.Empty);
             }
+
+            _offeredRoleIdsBySlot[currentSlot] = new List<ushort>(pickedRoleCandidates);
 
             DraftNetworkHelper.SendTurnAnnouncement(currentSlot, playerId, pickedRoleCandidates, offeredRoleNames, _currentTurnNumber);
         }
