@@ -378,26 +378,30 @@ namespace TownOfUs.Modules.DraftMode
             {
                 if (s.HasPicked && s.ChosenRoleId != 0)
                 {
-                    context.AssignedCountsById[s.ChosenRoleId] = context.AssignedCountsById.GetValueOrDefault(s.ChosenRoleId) + 1;
-                    var assignedId = s.ChosenRoleId.ToString(System.Globalization.CultureInfo.InvariantCulture);
-                    context.AvoidNames.Add(assignedId);
+        context.AssignedCountsById[s.ChosenRoleId] = context.AssignedCountsById.GetValueOrDefault(s.ChosenRoleId) + 1;
+        var assignedId = s.ChosenRoleId.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        context.AvoidNames.Add(assignedId);
 
-                    var roleName = DraftRolePool.GetRoleNameFromId(s.ChosenRoleId);
-                    if (!string.IsNullOrEmpty(roleName))
-                    {
-                        var norm = NormalizeRoleNameKey(roleName);
-                        context.AssignedCountsByName[norm] = context.AssignedCountsByName.GetValueOrDefault(norm) + 1;
-                        context.AvoidNames.Add(roleName);
-                        context.AvoidNames.Add(BaseRoleName(roleName));
-                    }
+        var roleName = DraftRolePool.GetRoleNameFromId(s.ChosenRoleId);
+        if (!string.IsNullOrEmpty(roleName))
+        {
+            var norm = NormalizeRoleNameKey(roleName);
+            context.AssignedCountsByName[norm] = context.AssignedCountsByName.GetValueOrDefault(norm) + 1;
+            context.AvoidNames.Add(roleName);
+            context.AvoidNames.Add(BaseRoleName(roleName));
+        }
 
-                    if (DraftRolePool.IsImpostorRoleId(s.ChosenRoleId) || DraftRolePool.IsImpostorRoleName(roleName)) context.PickedImps++;
-                    else if (DraftRolePool.IsNeutralRoleId(s.ChosenRoleId) || DraftRolePool.IsNeutralRoleName(roleName)) context.PickedNeuts++;
+        if (DraftRolePool.IsImpostorRoleId(s.ChosenRoleId) || (!string.IsNullOrEmpty(roleName) && DraftRolePool.IsImpostorRoleName(roleName))) 
+            context.PickedImps++;
+        else if (DraftRolePool.IsNeutralRoleId(s.ChosenRoleId) || (!string.IsNullOrEmpty(roleName) && DraftRolePool.IsNeutralRoleName(roleName))) 
+            context.PickedNeuts++;
 
-                    if (DraftRolePool.IsExclusiveImpostorRoleId(s.ChosenRoleId) || DraftRolePool.IsExclusiveImpostorRoleName(roleName)) context.ExclusiveImpReserved = true;
-                    else if (DraftRolePool.IsImpostorRoleId(s.ChosenRoleId) || DraftRolePool.IsImpostorRoleName(roleName)) context.SharedImpReserved = true;
-                }
-            }
+        if (DraftRolePool.IsExclusiveImpostorRoleId(s.ChosenRoleId) || (!string.IsNullOrEmpty(roleName) && DraftRolePool.IsExclusiveImpostorRoleName(roleName))) 
+            context.ExclusiveImpReserved = true;
+        else if (DraftRolePool.IsImpostorRoleId(s.ChosenRoleId) || (!string.IsNullOrEmpty(roleName) && DraftRolePool.IsImpostorRoleName(roleName))) 
+            context.SharedImpReserved = true;
+        }
+    }
 
             foreach (var kvp in _currentOffersBySlot)
             {
