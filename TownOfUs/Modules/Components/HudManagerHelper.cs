@@ -395,7 +395,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
             var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole);
             if (cachedMod is ICachedRole cache && cache.Visible &&
-                player.Data.Role.GetType() != cache.CachedRole.GetType())
+                cache.CanDisplayForRole(role))
             {
                 var cachedName = cache.CachedRoleName == "" ? MiscUtils.GetToggledRoleTmpIcon(cache.CachedRole, HudManagerPatches.IconOnRoleName) + cache.CachedRole.GetRoleName() : cache
                             .CachedRoleName;

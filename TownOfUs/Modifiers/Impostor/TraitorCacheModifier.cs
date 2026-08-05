@@ -12,6 +12,10 @@ namespace TownOfUs.Modifiers.Impostor;
 
 public sealed class TraitorCacheModifier : BaseModifier, ICachedRole
 {
+    public bool CanDisplayForRole(RoleBehaviour role)
+    {
+        return !role.IsDead && role.Role != CachedRole.Role;
+    }
     public override string ModifierName => "Traitor";
     public override bool HideOnUi => true;
     public bool ShowCurrentRoleFirst => true;
