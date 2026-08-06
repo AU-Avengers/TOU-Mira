@@ -1172,7 +1172,7 @@ public static class TouRoleManagerPatches
     [HarmonyPrefix]
     public static bool GetAdjustedImposters(IGameOptions __instance, ref int __result)
     {
-        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal || !CustomGameModeManager.IsClassic())
         {
             return true;
         }
