@@ -4,6 +4,7 @@ using HarmonyLib;
 using MiraAPI;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.GameModes;
 using MiraAPI.Networking;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -22,7 +23,7 @@ public static class MiraApiPatches
     {
         // Since TOU Engineer is just vanilla engineer with the fix mechanic, no need to have two engis around!
         if (role.Role is RoleTypes.Engineer &&
-            !(GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek or GameModes.SeekFools))
+            !CustomGameModeManager.IsHideNSeek())
         {
             __result = true;
             return false;

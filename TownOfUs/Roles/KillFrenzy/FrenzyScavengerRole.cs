@@ -9,6 +9,7 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.GameModes;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Impostor;
@@ -21,12 +22,6 @@ namespace TownOfUs.Roles.KillFrenzy;
 public sealed class FrenzyScavengerRole(IntPtr cppPtr)
     : FrenzyRole(cppPtr), ITownOfUsRole, IWikiDiscoverable
 {
-    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
-
-    public bool CanSpawnOnCurrentMode() => MiscUtils.CurrentGamemode() is TouGamemode.KillFrenzy;
-
-    [HideFromIl2Cpp]
-    Func<bool> ICustomRole.VisibleInSettings => () => MiscUtils.CurrentGamemode() is TouGamemode.KillFrenzy;
     public bool WinConditionMet()
     {
         var wwCount = CustomRoleUtils.GetActiveRolesOfType<FrenzyScavengerRole>().Count(x => !x.Player.HasDied());
@@ -140,6 +135,7 @@ public sealed class FrenzyScavengerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        AssociatedGameMode = typeof(KillFrenzyMode),
         GhostRole = (RoleTypes)RoleId.Get<FrenzyGhostRole>(),
         FreeplayFolder = "Kill Frenzy",
         CanUseVent = false,

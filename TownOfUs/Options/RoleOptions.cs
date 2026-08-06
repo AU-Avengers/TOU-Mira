@@ -1,15 +1,13 @@
-﻿using AmongUs.GameOptions;
-using MiraAPI.GameModes;
+﻿using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using TownOfUs.GameModes;
 
 namespace TownOfUs.Options;
 
-public sealed class RoleOptions : AbstractOptionGroup
+public sealed class RoleOptions : AbstractOptionGroup<ClassicMode>
 {
-    public override Func<bool> GroupVisible => () =>
-        CustomGameModeManager.IsDefault();
     internal static string[] OptionStrings =
     [
         MiscUtils.GetParsedRoleBucket("CrewInvestigative"),
@@ -50,19 +48,19 @@ public sealed class RoleOptions : AbstractOptionGroup
 
     public RoleDistribution CurrentRoleDistribution()
     {
-        var gameMode = CustomGameModeManager.ActiveMode;
         var roleDist = (RoleSelectionMode)RoleAssignmentType.Value;
-        if (/*gameMode is TouGamemode.HideAndSeek && */GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek or GameModes.SeekFools)
+        if (CustomGameModeManager.IsHideNSeek() || GameOptionsManager.Instance.CurrentGameOptions.GameMode is AmongUs.GameOptions.GameModes.HideNSeek or AmongUs.GameOptions.GameModes.SeekFools)
         {
             return RoleDistribution.HideAndSeek;
         }
 
-        switch (gameMode)
+        if (CustomGameModeManager.IsActiveGameMode<CultistMode>())
         {
-            case TouGamemode.Cultist:
-                return RoleDistribution.Cultist;
-            case TouGamemode.KillFrenzy:
-                return RoleDistribution.KillFrenzy;
+            return RoleDistribution.Cultist;
+        }
+        if (CustomGameModeManager.IsActiveGameMode<KillFrenzyMode>())
+        {
+            return RoleDistribution.KillFrenzy;
         }
 
         return roleDist switch
@@ -72,6 +70,14 @@ public sealed class RoleOptions : AbstractOptionGroup
             RoleSelectionMode.Draft => RoleDistribution.Draft,
             _ => RoleDistribution.Vanilla,
         };
+    }
+
+    public bool IsClassicRoleAssignment
+    {
+        get
+        {
+            return CustomGameModeManager.IsClassic();
+        }
     }
 
     public ModdedEnumOption RoleAssignmentType { get; } =

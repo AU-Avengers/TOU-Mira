@@ -3,6 +3,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using MiraAPI.Events;
+using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -907,7 +908,7 @@ public static class TouRoleManagerPatches
             touMod.BeforeModifierSpawns();
         }
 
-        if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla || OptionGroupSingleton<RoleOptions>.Instance.CustomGameMode.Value is TouGamemode.KillFrenzy or TouGamemode.Cultist)
+        if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla || !CustomGameModeManager.IsClassic())
         {
             return true;
         }

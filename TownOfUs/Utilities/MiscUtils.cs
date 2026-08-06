@@ -17,9 +17,11 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using MiraAPI.GameModes;
 using PowerTools;
 using TMPro;
 using TownOfUs.Events;
+using TownOfUs.GameModes;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
@@ -2160,9 +2162,17 @@ public static class MiscUtils
 
     public static TouGamemode CurrentGamemode()
     {
-        if (GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek or GameModes.SeekFools)
+        if (CustomGameModeManager.IsHideNSeek() || GameOptionsManager.Instance.CurrentGameOptions.GameMode is AmongUs.GameOptions.GameModes.HideNSeek or AmongUs.GameOptions.GameModes.SeekFools)
             return TouGamemode.HideAndSeek;
-        return OptionGroupSingleton<RoleOptions>.Instance.CustomGameMode.Value;
+        if (CustomGameModeManager.IsActiveGameMode<CultistMode>())
+        {
+            return TouGamemode.Cultist;
+        }
+        if (CustomGameModeManager.IsActiveGameMode<KillFrenzyMode>())
+        {
+            return TouGamemode.KillFrenzy;
+        }
+        return TouGamemode.Normal;
     }
 
     public static void LogInfo(TownOfUsEventHandlers.LogLevel logLevel, string text)

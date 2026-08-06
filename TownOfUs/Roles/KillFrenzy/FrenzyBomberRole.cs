@@ -7,6 +7,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.GameModes;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Utilities;
@@ -17,12 +18,6 @@ namespace TownOfUs.Roles.KillFrenzy;
 public sealed class FrenzyBomberRole(IntPtr cppPtr)
     : FrenzyRole(cppPtr), ITownOfUsRole, IWikiDiscoverable
 {
-    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
-
-    public bool CanSpawnOnCurrentMode() => MiscUtils.CurrentGamemode() is TouGamemode.KillFrenzy;
-
-    [HideFromIl2Cpp]
-    Func<bool> ICustomRole.VisibleInSettings => () => MiscUtils.CurrentGamemode() is TouGamemode.KillFrenzy;
     public bool WinConditionMet()
     {
         var wwCount = CustomRoleUtils.GetActiveRolesOfType<FrenzyBomberRole>().Count(x => !x.Player.HasDied());
@@ -71,6 +66,7 @@ public sealed class FrenzyBomberRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        AssociatedGameMode = typeof(KillFrenzyMode),
         GhostRole = (RoleTypes)RoleId.Get<FrenzyGhostRole>(),
         FreeplayFolder = "Kill Frenzy",
         Icon = TouRoleIcons.Bomber,

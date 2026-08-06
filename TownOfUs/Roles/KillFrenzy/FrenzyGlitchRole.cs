@@ -8,6 +8,7 @@ using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Neutral;
+using TownOfUs.GameModes;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -17,12 +18,6 @@ namespace TownOfUs.Roles.KillFrenzy;
 public sealed class FrenzyGlitchRole(IntPtr cppPtr)
     : FrenzyRole(cppPtr), ITownOfUsRole, IWikiDiscoverable
 {
-    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
-
-    public bool CanSpawnOnCurrentMode() => MiscUtils.CurrentGamemode() is TouGamemode.KillFrenzy;
-
-    [HideFromIl2Cpp]
-    Func<bool> ICustomRole.VisibleInSettings => () => MiscUtils.CurrentGamemode() is TouGamemode.KillFrenzy;
     public bool WinConditionMet()
     {
         var wwCount = CustomRoleUtils.GetActiveRolesOfType<FrenzyGlitchRole>().Count(x => !x.Player.HasDied());
@@ -86,6 +81,7 @@ public sealed class FrenzyGlitchRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        AssociatedGameMode = typeof(KillFrenzyMode),
         GhostRole = (RoleTypes)RoleId.Get<FrenzyGhostRole>(),
         FreeplayFolder = "Kill Frenzy",
         CanUseVent = false,
@@ -95,22 +91,12 @@ public sealed class FrenzyGlitchRole(IntPtr cppPtr)
     public void OffsetButtons()
     {
         // Because Glitch has multiple buttons, there's no need to offset it without a vent button; it looks weird with a random space - Atony
-        var canVent = OptionGroupSingleton<GlitchOptions>.Instance.CanVent;
         var hack = CustomButtonSingleton<GlitchHackButton>.Instance;
         var mimic = CustomButtonSingleton<GlitchMimicButton>.Instance;
         var kill = CustomButtonSingleton<GlitchKillButton>.Instance;
-        if (!canVent)
-        {
-            Coroutines.Start(MiscUtils.CoMoveButtonIndex(hack));
-            Coroutines.Start(MiscUtils.CoMoveButtonIndex(kill, !canVent));
-            Coroutines.Start(MiscUtils.CoMoveButtonIndex(mimic, !canVent));
-        }
-        else
-        {
-            Coroutines.Start(MiscUtils.CoMoveButtonIndex(hack, false));
-            Coroutines.Start(MiscUtils.CoMoveButtonIndex(mimic, false));
-            Coroutines.Start(MiscUtils.CoMoveButtonIndex(kill, false));
-        }
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(hack));
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(kill));
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(mimic));
     }
 
     public override void Initialize(PlayerControl player)

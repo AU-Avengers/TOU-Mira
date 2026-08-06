@@ -7,6 +7,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Neutral;
+using TownOfUs.GameModes;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -16,12 +17,6 @@ namespace TownOfUs.Roles.KillFrenzy;
 public sealed class FrenzyWerewolfRole(IntPtr cppPtr)
     : FrenzyRole(cppPtr), ITownOfUsRole, IWikiDiscoverable
 {
-    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
-
-    public bool CanSpawnOnCurrentMode() => MiscUtils.CurrentGamemode() is TouGamemode.KillFrenzy;
-
-    [HideFromIl2Cpp]
-    Func<bool> ICustomRole.VisibleInSettings => () => MiscUtils.CurrentGamemode() is TouGamemode.KillFrenzy;
     public bool WinConditionMet()
     {
         var wwCount = CustomRoleUtils.GetActiveRolesOfType<FrenzyWerewolfRole>().Count(x => !x.Player.HasDied());
@@ -83,6 +78,7 @@ public sealed class FrenzyWerewolfRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        AssociatedGameMode = typeof(KillFrenzyMode),
         GhostRole = (RoleTypes)RoleId.Get<FrenzyGhostRole>(),
         FreeplayFolder = "Kill Frenzy",
         CanUseVent = false,
@@ -96,7 +92,7 @@ public sealed class FrenzyWerewolfRole(IntPtr cppPtr)
 
     public void OffsetButtons()
     {
-        var canVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent || LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
+        var canVent = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.OffsetButtonsToggle.Value;
         var rampage = CustomButtonSingleton<WerewolfRampageButton>.Instance;
         var kill = CustomButtonSingleton<WerewolfKillButton>.Instance;
         Coroutines.Start(MiscUtils.CoMoveButtonIndex(rampage, !canVent));
