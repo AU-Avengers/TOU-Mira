@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using MiraAPI.GameEnd;
+using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
@@ -186,6 +187,11 @@ public static class LogicGameFlowPatches
             return false;
         }
 
+        if (!CustomGameModeManager.IsClassic())
+        {
+            return true;
+        }
+
         if (!GameData.Instance)
         {
             return false;
@@ -282,6 +288,9 @@ public static class LogicGameFlowPatches
     [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.IsGameOverDueToDeath))]
     public static void IsGameOverDueToDeathPatch(LogicGameFlowNormal __instance, ref bool __result)
     {
-        __result = false;
+        if (CustomGameModeManager.IsClassic())
+        {
+            __result = false;
+        }
     }
 }

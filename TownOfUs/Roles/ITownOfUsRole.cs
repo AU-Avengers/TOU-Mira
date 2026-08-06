@@ -24,8 +24,6 @@ public interface ITownOfUsRole : ICustomRole
         return false;
     }
 
-    [HideFromIl2Cpp]
-    Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     string? ICustomRole.GetCustomEjectionMessage(NetworkedPlayerInfo player)
     {
         var prefix = "A";
