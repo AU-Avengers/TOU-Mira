@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.TownOfPolus;
 
-public abstract class PolusGhostImpRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITownOfUsRole
+public class PolusGhostImpRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITownOfUsRole
 {
     RoleOptionsGroup ICustomRole.RoleOptionsGroup => TouRoleGroups.TownOfPolusImpostor;
     public virtual string LocaleKey => "Impostor";

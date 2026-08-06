@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.TownOfPolus;
 
-public abstract class PolusGhostCrewRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITownOfUsRole
+public class PolusGhostCrewRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITownOfUsRole
 {
     RoleOptionsGroup ICustomRole.RoleOptionsGroup => TouRoleGroups.TownOfPolusCrewmate;
     public virtual string LocaleKey => "Crewmate";

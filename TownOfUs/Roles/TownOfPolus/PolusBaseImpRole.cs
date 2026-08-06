@@ -15,6 +15,7 @@ public abstract class PolusBaseImpRole(IntPtr cppPtr) : ImpostorRole(cppPtr), IT
     public virtual string RoleDescription => TouLocale.GetParsed("TownOfPolusRoleImpDescription");
     public virtual string RoleDescriptionDead => TouLocale.GetParsed("TownOfPolusRoleImpDescriptionDead");
     public virtual string RoleLongDescription => TouLocale.GetParsed("TownOfPolusRoleImpDescription");
+
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (playerControl != PlayerControl.LocalPlayer)
@@ -23,8 +24,10 @@ public abstract class PolusBaseImpRole(IntPtr cppPtr) : ImpostorRole(cppPtr), IT
         }
 
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text =
-            $"{RoleColor.ToTextColor()}{TouLocale.GetParsed("TownOfPolusRoleEvilTabText").Replace("<roleName>", RoleName).Replace("<description>", RoleLongDescription)}</color>";
+        var text =
+            $"{RoleColor.ToTextColor()}{TouLocale.GetParsed("TownOfPolusRoleTabText").Replace("<roleName>", RoleName).Replace("<description>", RoleLongDescription)}</color>" +
+            "\n<color=#FFFFFF>" + TouLocale.GetParsed("TownOfPolusRoleFakeTaskTabText") + "</color>";
+        orCreateTask.Text = text;
         orCreateTask.name = "TownOfPolusRoleText";
     }
 

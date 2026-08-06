@@ -1,5 +1,4 @@
 ﻿using Reactor.Utilities.Extensions;
-using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.TownOfPolus.Crewmate;
 using UnityEngine;
 
@@ -49,7 +48,7 @@ public sealed class PolusEngineerFixButton : TownOfUsRoleButton<PolusEngineerRol
         {
             List<LoadableAsset<AudioClip>> audio = [TouAudio.EngiFix1, TouAudio.EngiFix2, TouAudio.EngiFix3];
             TouAudio.PlaySound(audio.Random()!, 4f);
-            EngineerTouRole.EngineerFix(PlayerControl.LocalPlayer);
+            PolusEngineerRole.EngineerFix(PlayerControl.LocalPlayer);
 
             if (LimitedUses)
             {

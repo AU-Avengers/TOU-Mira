@@ -647,7 +647,7 @@
     <!-- Better LI Options -->
     <string name="TouOptionTitleBetterLevelImpostor">Better Level Impostor</string>
     <string name="TownOfPolusRoleTabText">Role: \%roleName\% \%nl\%\%description\%</string>
-    <string name="TownOfPolusRoleEvilTabText">Role: \%roleName\% \%nl\%\%description\%\%nl\%Fake Tasks:</string>
+    <string name="TownOfPolusRoleFakeTaskTabText">Fake Tasks:</string>
     <string name="TownOfPolusRoleCrewDescription">Finish your tasks.</string>
     <string name="TownOfPolusRoleCrewDescriptionDead">You're dead, finish your tasks.</string>
     <string name="TownOfPolusRoleImpDescription">Sabotage and kill the crewmates.</string>
@@ -657,6 +657,11 @@
     <string name="TownOfPolusRoleEngineerIntroBlurb">Maintain the outpost</string>
     <string name="TownOfPolusRoleEngineerTabDescription">Finish your tasks.\%nl\%You can fix 1 sabotage.</string>
     <string name="TownOfPolusRoleEngineerWikiDescription">The Engineer is a Crewmate role that can fix one sabotage per game, from anywhere on the map.</string>
+    <!-- Swooper Wiki / Abilities -->
+    <string name="TownOfPolusRoleSwooper">Swooper</string>
+    <string name="TownOfPolusRoleSwooperIntroBlurb">Use the Swoop ability to turn invisible</string>
+    <string name="TownOfPolusRoleSwooperTabDescription">Sabotage and kill the crewmates.\%nl\%Use the Swoop ability to turn invisible.</string>
+    <string name="TownOfPolusRoleSwooperWikiDescription">The Swooper is an Impostor role that can go invisible at any time to either hide or run away from kills.</string>
   <!-- Spectator - Game Outlier -->
   <string name="TouRoleSpectator">Spectator</string>
   <string name="TouRoleSpectatorIntroBlurb">Watch the chaos from afar</string>
