@@ -59,7 +59,7 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
         const float minSizePercent = 35f; 
         const float sizeStep = 2.5f;
 
-        int lineCount = roleListText.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).Length;
+        int lineCount = roleListText.Split([ '\n', '\r' ], StringSplitOptions.RemoveEmptyEntries).Length;
 
         if (lineCount > 5)
         {
@@ -68,7 +68,7 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
 
         string formattedText = $"<page><size={sizePercent:0}%>{roleListText}</size>";
 
-        return new[] { formattedText };
+        return [ formattedText ];
     }
 
     internal static string[] OptionStrings =
