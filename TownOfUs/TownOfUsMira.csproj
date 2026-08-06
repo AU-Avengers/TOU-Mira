@@ -17,5 +17,9 @@
     <Import Project="../AmongUs.props" Condition="'$(Configuration)' != 'Publish'"/>
     <Import Project="../AmongUsPublish.props" Condition="'$(Configuration)' == 'Publish'"/>
     
+    <Target Name="CopyToPlugins" AfterTargets="Build">
+    <Copy SourceFiles="$(OutputPath)TownOfUsMira.dll" DestinationFolder="/Users/neiljain/Library/Application Support/CrossOver/Bottles/Mainly/drive_c/Program Files (x86)/Steam/steamapps/common/Among Us copy/BepInEx/plugins" />
+    <Message Text="Copied $(AssemblyName).dll to BepInEx plugins folder!" Importance="High" />
+  </Target>
 
 </Project>
