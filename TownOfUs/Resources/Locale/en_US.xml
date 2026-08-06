@@ -646,6 +646,17 @@
   <string name="TouOptionBetterSubmergedSpawnEnumLowerDeck">Lower Deck</string>
     <!-- Better LI Options -->
     <string name="TouOptionTitleBetterLevelImpostor">Better Level Impostor</string>
+    <string name="TownOfPolusRoleTabText">Role: \%roleName\% \%nl\%\%description\%</string>
+    <string name="TownOfPolusRoleEvilTabText">Role: \%roleName\% \%nl\%\%description\%\%nl\%Fake Tasks:</string>
+    <string name="TownOfPolusRoleCrewDescription">Finish your tasks.</string>
+    <string name="TownOfPolusRoleCrewDescriptionDead">You're dead, finish your tasks.</string>
+    <string name="TownOfPolusRoleImpDescription">Sabotage and kill the crewmates.</string>
+    <string name="TownOfPolusRoleImpDescriptionDead">You're dead.</string>
+    <!-- Engineer Wiki / Abilities -->
+    <string name="TownOfPolusRoleEngineer">Engineer</string>
+    <string name="TownOfPolusRoleEngineerIntroBlurb">Maintain the outpost</string>
+    <string name="TownOfPolusRoleEngineerTabDescription">Finish your tasks.\%nl\%You can fix 1 sabotage.</string>
+    <string name="TownOfPolusRoleEngineerWikiDescription">The Engineer is a Crewmate role that can fix one sabotage per game, from anywhere on the map.</string>
   <!-- Spectator - Game Outlier -->
   <string name="TouRoleSpectator">Spectator</string>
   <string name="TouRoleSpectatorIntroBlurb">Watch the chaos from afar</string>

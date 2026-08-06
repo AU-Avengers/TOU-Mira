@@ -33,7 +33,9 @@ using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
+using TownOfUs.Roles.TownOfPolus;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -522,7 +524,12 @@ public static class MiscUtils
 
     public static string GetParsedRoleAlignment(RoleBehaviour role, bool coloredText = false)
     {
-        var localeName = $"{role.GetRoleAlignment()}";
+        var roleAlignment = role.GetRoleAlignment();
+        var localeName = $"{roleAlignment}";
+        if (roleAlignment is RoleAlignment.Crewmate or RoleAlignment.Impostor or RoleAlignment.Neutral)
+        {
+            localeName = $"{roleAlignment}Keyword";
+        }
         var localizedName = TouLocale.Get(localeName);
 
         if (coloredText)
@@ -557,6 +564,11 @@ public static class MiscUtils
     public static string GetParsedRoleAlignment(RoleAlignment roleAlignment, bool coloredText = false)
     {
         var localeName = $"{roleAlignment}";
+        if (roleAlignment is RoleAlignment.Crewmate or RoleAlignment.Impostor or RoleAlignment.Neutral)
+        {
+            localeName = $"{roleAlignment}Keyword";
+        }
+
         var localizedName = TouLocale.Get(localeName);
 
         if (coloredText)
@@ -2160,6 +2172,19 @@ public static class MiscUtils
         }
     }
 
+    public static bool IsBasicGhost(RoleBehaviour role)
+    {
+        return IsBasicGhost(role.Role);
+    }
+
+    public static bool IsBasicGhost(RoleTypes role)
+    {
+        return role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost ||
+               role == (RoleTypes)RoleId.Get<NeutralGhostRole>() ||
+               role == (RoleTypes)RoleId.Get<PolusGhostCrewRole>() ||
+               role == (RoleTypes)RoleId.Get<PolusGhostImpRole>();
+    }
+
     public static TouGamemode CurrentGamemode()
     {
         if (CustomGameModeManager.IsHideNSeek() || GameOptionsManager.Instance.CurrentGameOptions.GameMode is AmongUs.GameOptions.GameModes.HideNSeek or AmongUs.GameOptions.GameModes.SeekFools)
@@ -2171,6 +2196,10 @@ public static class MiscUtils
         if (CustomGameModeManager.IsActiveGameMode<KillFrenzyMode>())
         {
             return TouGamemode.KillFrenzy;
+        }
+        if (CustomGameModeManager.IsActiveGameMode<TownOfPolusMode>())
+        {
+            return TouGamemode.TownOfPolus;
         }
         return TouGamemode.Normal;
     }
@@ -2484,6 +2513,7 @@ public enum TouGamemode
     HideAndSeek,
     Cultist,
     KillFrenzy,
+    TownOfPolus,
     // Legacy
 }
 public enum ExpandedMapNames

@@ -62,6 +62,10 @@ public sealed class RoleOptions : AbstractOptionGroup<ClassicMode>
         {
             return RoleDistribution.KillFrenzy;
         }
+        if (CustomGameModeManager.IsActiveGameMode<TownOfPolusMode>())
+        {
+            return RoleDistribution.TownOfPolus;
+        }
 
         return roleDist switch
         {
@@ -319,6 +323,7 @@ public enum RoleDistribution
     HideAndSeek,
     Cultist,
     KillFrenzy,
+    TownOfPolus,
     // Legacy
 }
 

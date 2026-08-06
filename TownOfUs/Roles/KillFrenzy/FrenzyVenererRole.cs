@@ -7,7 +7,6 @@ using MiraAPI.Utilities;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.GameModes;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.KillFrenzy;

@@ -33,4 +33,7 @@ public static class TouRoleGroups
     public static RoleOptionsGroup ImpGhost { get; } = new("Impostor Ghost Roles", TownOfUsColors.ImpSoft);
     public static RoleOptionsGroup ImpAfterlife { get; } = new("Impostor Afterlife Roles", TownOfUsColors.ImpSoft);
     public static RoleOptionsGroup Other { get; } = new("Other Roles", TownOfUsColors.Other);
+    public static RoleOptionsGroup TownOfPolusCrewmate { get; } = new("Crewmate Roles", TownOfUsColors.Crewmate);
+    public static RoleOptionsGroup TownOfPolusNeutral { get; } = new("Neutral Roles", Color.gray);
+    public static RoleOptionsGroup TownOfPolusImpostor { get; } = new("Impostor Roles", TownOfUsColors.ImpSoft);
 }

@@ -3,7 +3,6 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.GameModes;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.KillFrenzy;

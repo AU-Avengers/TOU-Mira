@@ -7,7 +7,6 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
 using TownOfUs.GameModes;
 using TownOfUs.Modules.Anims;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.KillFrenzy;

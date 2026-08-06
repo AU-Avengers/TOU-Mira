@@ -1,4 +1,3 @@
-using AmongUs.GameOptions;
 using HarmonyLib;
 using TownOfUs.Options.Maps;
 using TaskLength = NormalPlayerTask.TaskLength;

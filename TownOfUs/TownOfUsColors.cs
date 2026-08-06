@@ -17,6 +17,8 @@ public static class TownOfUsColors
     public static Color ImpSoft => new Color32(214, 64, 66, 255);
     public static Color Neutral => Color.gray;
     public static Color Other => Color.gray.DarkenColor();
+    // Town of Polus Colors
+    public static Color PolusEngineer => UseBasic ? Palette.CrewmateBlue : new Color32(248, 191, 21, 255);
 
     // Crew Colors
     public static Color Aurial => UseBasic ? Palette.CrewmateBlue : new Color32(179, 77, 153, 255);
