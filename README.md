@@ -203,6 +203,7 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 | Among Us          | Mod Version | Download Link                                                           |
 |-------------------|-------------|-------------------------------------------------------------------------|
+| 17.4.x            | 1.7.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.7.1)  |
 | 17.3.x and 17.4.x | 1.7.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.7.0)  |
 | 17.4.x            | 1.6.3       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.3)  |
 | 17.3.x            | 1.6.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.2)  |
@@ -252,7 +253,7 @@ All languages are added via our [Weblate](https://weblate.duikbo.at/projects/tow
 | Portuguese (Portugal) |  <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/pt_PT/svg-badge.svg" alt="Translation status" /></a>  |
 |        Russian        |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/ru/svg-badge.svg" alt="Translation status" /></a>    |
 |        Spanish        |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/es/svg-badge.svg" alt="Translation status" /></a>    |
-|    Spanish (LATIM)    | <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/es_419/svg-badge.svg" alt="Translation status" /></a>  |
+|    Spanish (LATAM)    | <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/es_419/svg-badge.svg" alt="Translation status" /></a>  |
 |        Swedish        |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/sv/svg-badge.svg" alt="Translation status" /></a>    |
 |        Turkish        |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/tr/svg-badge.svg" alt="Translation status" /></a>    |
 
