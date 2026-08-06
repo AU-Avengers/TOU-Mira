@@ -2328,7 +2328,7 @@
   <string name="TouRoleVenererUnsprint">Caminar</string>
   <string name="TouRoleVenererUnfreeze">Quitar</string>
   <string name="TouRoleAnonymousVictoryKillNotif">¡\%source\% mató a \%victim\% tras su victoria!</string>
-  <string name="TouRoleExecutionerTormentNotif">¡El verdugo torturó a %victim\% hasta la muerte!</string>
+  <string name="TouRoleExecutionerTormentNotif">¡El verdugo torturó a \%victim\% hasta la muerte!</string>
   <string name="TouRoleJesterHauntNotif">¡El Bufón decidió atormentar a %victim\% desde el más allá!</string>
   <string name="TouOptionJesterVentCooldown">Tiempo de recarga de Ductos</string>
   <string name="TouOptionJesterVentDuration">Duración de Ductos</string>
