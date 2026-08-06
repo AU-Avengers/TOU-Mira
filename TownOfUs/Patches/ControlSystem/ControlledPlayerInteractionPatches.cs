@@ -1,7 +1,6 @@
 using HarmonyLib;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 using UnityObject = UnityEngine.Object;
 
@@ -21,7 +20,7 @@ public static class ControlledPlayerInteractionPatches
 
     private static void RefreshInteractablesCache()
     {
-        _cachedInteractables = new List<IUsable>();
+        _cachedInteractables = [];
         var allUsables = UnityObject.FindObjectsOfType<MonoBehaviour>();
         foreach (var obj in allUsables)
         {
@@ -32,6 +31,40 @@ public static class ControlledPlayerInteractionPatches
         }
         _lastCacheRefresh = Time.time;
     }
+
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CanPet))]
+    [HarmonyPrefix]
+    public static bool PetButtonCanPetPrefix(PlayerControl __instance, ref bool __result)
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            return true;
+        }
+        if (__instance.Data?.Role is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
+        {
+            var controlled = puppeteerRole.Controlled;
+            if (controlled != null && !controlled.HasDied() && 
+                PuppeteerControlState.IsControlled(controlled.PlayerId, out _))
+            {
+                __result = false;
+                return false;
+            }
+        }
+
+        if (__instance.Data?.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+        {
+            var controlled = parasiteRole.Controlled;
+            if (controlled != null && !controlled.HasDied() && 
+                ParasiteControlState.IsControlled(controlled.PlayerId, out _))
+            {
+                __result = false;
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /// <summary>
     /// Allow UseButton to work for puppeteer/parasite when controlling someone
     /// </summary>
@@ -105,12 +138,8 @@ public static class ControlledPlayerInteractionPatches
     /// Also patch HudManager Update to continuously check for interactables near controlled player
     /// Throttled to avoid performance issues
     /// </summary>
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-    [HarmonyPriority(Priority.Last)]
-    [HarmonyPostfix]
-    public static void HudManagerUpdatePostfix(HudManager __instance)
+    public static void UpdateControlledUseButton(HudManager __instance)
     {
-        // Throttle updates to avoid stuttering
         var now = Time.time;
         if (now - _lastUpdateTime < UpdateThrottle)
         {
@@ -118,7 +147,7 @@ public static class ControlledPlayerInteractionPatches
         }
         _lastUpdateTime = now;
 
-        if (__instance?.UseButton != null)
+        if (__instance.UseButton)
         {
             UpdateUseButtonTarget(__instance.UseButton);
         }
@@ -127,7 +156,7 @@ public static class ControlledPlayerInteractionPatches
     private static void UpdateUseButtonTarget(UseButton useButton)
     {
         var localPlayer = PlayerControl.LocalPlayer;
-        if (localPlayer == null || useButton == null)
+        if (!useButton || !localPlayer || !localPlayer.Data || !localPlayer.Data.Role)
         {
             return;
         }
@@ -135,7 +164,7 @@ public static class ControlledPlayerInteractionPatches
         var isControlling = false;
         PlayerControl? controlledPlayer = null;
 
-        if (localPlayer.Data?.Role is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
+        if (localPlayer.Data.Role is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
         {
             var controlled = puppeteerRole.Controlled;
             if (controlled != null && !controlled.HasDied() && 
@@ -146,7 +175,7 @@ public static class ControlledPlayerInteractionPatches
             }
         }
 
-        if (localPlayer.Data?.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+        if (localPlayer.Data.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
         {
             var controlled = parasiteRole.Controlled;
             if (controlled != null && !controlled.HasDied() && 
@@ -186,10 +215,7 @@ public static class ControlledPlayerInteractionPatches
             {
                 if (sr == null) continue;
                 sr.color = Palette.EnabledColor;
-                if (sr.material != null)
-                {
-                    sr.material.SetFloat("_Desat", 0f);
-                }
+                sr.material?.SetFloat("_Desat", 0f);
             }
 
             var tmps = useButton.GetComponentsInChildren<TMPro.TMP_Text>(true);
@@ -255,8 +281,7 @@ public static class ControlledPlayerInteractionPatches
             }
 
             // Check if player can use this
-            bool canUse;
-            usable.CanUse(player.Data, out canUse, out _);
+            usable.CanUse(player.Data, out bool canUse, out _);
             if (!canUse)
             {
                 continue;

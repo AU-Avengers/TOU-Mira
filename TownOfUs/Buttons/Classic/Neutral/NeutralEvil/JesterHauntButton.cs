@@ -1,10 +1,8 @@
 ﻿using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Networking;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
@@ -23,12 +21,12 @@ public sealed class JesterHauntButton : TownOfUsButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return Show && ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().Any();
+        return Show && ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().HasAny();
     }
 
     protected override void OnClick()
     {
-        if (Minigame.Instance != null)
+        if (Minigame.Instance)
         {
             return;
         }
@@ -40,12 +38,12 @@ public sealed class JesterHauntButton : TownOfUsButton
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
         playerMenu.Begin(
             plr => !plr.HasDied() && plr.HasModifier<MisfortuneTargetModifier>() &&
-                   !plr.HasModifier<InvulnerabilityModifier>() && plr != PlayerControl.LocalPlayer,
+                   !plr.HasModifier<InvulnerabilityModifier>() && !plr.AmOwner,
             plr =>
             {
                 playerMenu.ForceClose();
 
-                if (plr != null && ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().Any())
+                if (plr != null && ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().HasAny())
                 {
                     PlayerControl.LocalPlayer.RpcGhostRoleMurder(plr);
                     foreach (var mod in ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>())
@@ -65,6 +63,6 @@ public sealed class JesterHauntButton : TownOfUsButton
             return false;
         }
 
-        return ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().Any();
+        return ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().HasAny();
     }
 }

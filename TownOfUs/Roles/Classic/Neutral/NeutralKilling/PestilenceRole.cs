@@ -14,7 +14,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -24,7 +23,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
-        if (playerControl != PlayerControl.LocalPlayer)
+        if (!playerControl.AmOwner)
         {
             return;
         }
@@ -34,6 +33,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     }
 
     public bool Announced { get; set; }
+    public bool IsDraftable => false;
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VeteranRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string YouAreText => TouLocale.Get("YouAre");
@@ -57,6 +57,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Pestilence.LoadAsset(), "TouMira.Role.Neutral.Pestilence", 1.45f),
         CanUseVent = OptionGroupSingleton<PlaguebearerOptions>.Instance.CanVent,
         HideSettings = true,
         CanModifyChance = false,
@@ -100,6 +101,11 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.TriggerPestilence, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcTriggerPestilence(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.HasDied() || (player.Data.Role is not PestilenceRole && player.Data.Role is not PlaguebearerRole))
         {
             return;
@@ -123,7 +129,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
             Player.AddModifier<InvulnerabilityModifier>(true, true, false);
         }
 
-        if (Player.AmOwner)
+        if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.PestVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Pestilence);
@@ -141,7 +147,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
             Player.RemoveModifier<InvulnerabilityModifier>();
         }
 
-        if (Player.AmOwner)
+        if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);

@@ -2,15 +2,16 @@
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -21,6 +22,12 @@ public sealed class BomberRole(IntPtr cppPtr)
     [HideFromIl2Cpp] public Bomb? Bomb { get; set; }
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TrapperRole>());
     public DoomableType DoomHintType => DoomableType.Relentless;
+
+    [HideFromIl2Cpp]
+    public bool IsModifierApplicable(BaseModifier modifier)
+    {
+        return modifier is not OverclockerModifier;
+    }
 
     public string LocaleKey => "Bomber";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -41,7 +48,10 @@ public sealed class BomberRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Bomber.LoadAsset(), "TouMira.Role.Impostor.Bomber", 1.45f),
         Icon = TouRoleIcons.Bomber,
+        IntroSound = TouAudio.ExplodeIntro,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         CanUseVent = OptionGroupSingleton<BomberOptions>.Instance.CanVent
     };
 
@@ -52,13 +62,13 @@ public sealed class BomberRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Place", "Place"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}PlaceWikiDescription").Replace("<maxKills>",
                         $"{(int)OptionGroupSingleton<BomberOptions>.Instance.MaxKillsInDetonation}"),
                     TouImpAssets.PlaceSprite)
-            };
+            ];
         }
     }
 
@@ -67,6 +77,7 @@ public sealed class BomberRole(IntPtr cppPtr)
     {
         if (LobbyBehaviour.Instance)
         {
+            MiscUtils.RunAnticheatWarning(player);
             return;
         }
         if (player.Data.Role is not BomberRole role)

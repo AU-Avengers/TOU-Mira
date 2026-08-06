@@ -1,23 +1,21 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class OracleConfessButton : TownOfUsRoleButton<OracleRole, PlayerControl>
+public sealed class OracleConfessButton : TownOfUsRoleButton<OracleRole, PlayerControl>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleOracleConfess", "Confess");
     public override Color TextOutlineColor => TownOfUsColors.Oracle;
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<OracleOptions>.Instance.ConfessCooldown + MapCooldown, 5f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.ConfessSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.ConfessSprite : TouCrewAssets.ConfessSprite;
 
     public override PlayerControl? GetTarget()
     {

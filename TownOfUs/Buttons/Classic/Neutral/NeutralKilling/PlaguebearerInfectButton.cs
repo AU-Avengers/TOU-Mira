@@ -1,21 +1,19 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class PlaguebearerInfectButton : TownOfUsRoleButton<PlaguebearerRole, PlayerControl>
+public sealed class PlaguebearerInfectButton : TownOfUsRoleButton<PlaguebearerRole, PlayerControl>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRolePlaguebearerInfect", "Infect");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Plaguebearer;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<PlaguebearerOptions>.Instance.InfectCooldown + MapCooldown, 5f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.InfectSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyNeutAssets.InfectSprite : TouNeutAssets.InfectSprite;
 
     public override PlayerControl? GetTarget()
     {

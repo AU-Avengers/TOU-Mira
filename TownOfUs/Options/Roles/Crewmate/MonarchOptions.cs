@@ -6,7 +6,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class MonarchOptions : AbstractOptionGroup<MonarchRole>
+public sealed class MonarchOptions : AbstractRoleOptionGroup<MonarchRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleMonarch", "Monarch");
 
@@ -20,6 +20,9 @@ public sealed class MonarchOptions : AbstractOptionGroup<MonarchRole>
     [ModdedNumberOption("Knight Delay (Cancellable)", 1f, 10f, 1f, MiraNumberSuffixes.Seconds)]
     public float KnightDelay { get; set; } = 3f;
 
+    [ModdedToggleOption("Reveal Knighting At Meeting")]
+    public bool RevealAtMeeting { get; set; } = false;
+
     [ModdedToggleOption("Show Knighted Votes")]
     public bool ShowKnightedVotes { get; set; } = true;
 
@@ -30,12 +33,6 @@ public sealed class MonarchOptions : AbstractOptionGroup<MonarchRole>
 
     [ModdedToggleOption("Crew Knights Grant Kill Immunity")]
     public bool CrewKnightsGrantKillImmunity { get; set; } = true;
-
-    public ModdedEnumOption ProtectionFlashColor { get; } =
-        new("Protection Flash That Killers See", (int)ProtectionFlash.Configurable, typeof(ProtectionFlash), ["Configurable", "No Flash", "Cleric", "Medic", "Mercenary", "Warden"])
-        {
-            Visible = () => OptionGroupSingleton<MonarchOptions>.Instance.CrewKnightsGrantKillImmunity
-        };
 }
 
 public enum ProtectionFlash

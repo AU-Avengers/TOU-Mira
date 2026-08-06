@@ -32,7 +32,7 @@ public static class SpellslingerSabotagePatches
     {
         var amount = reader.Buffer[reader.readHead - 1];
 
-        if (AmongUsClient.Instance.AmHost && MeetingHud.Instance == null && ExileController.Instance == null &&
+        if (AmongUsClient.Instance.AmHost && !MeetingHud.Instance && !ExileController.Instance &&
             amount == HexBombSabotageSystem.SabotageId)
         {
             ShipStatus.Instance.UpdateSystem((SystemTypes)HexBombSabotageSystem.SabotageId, player, 1);

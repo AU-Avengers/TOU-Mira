@@ -4,7 +4,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers.Alliance;
@@ -23,23 +22,20 @@ public static class TouRoleUtils
         {
             return;
         }
-        var playerTask = playerControl.myTasks.ToArray().FirstOrDefault(t => t.name == "NeutralRoleText");
-        if (playerTask == null)
-        {
-            playerTask = playerControl.myTasks.ToArray().FirstOrDefault(t => t.name == "ImpostorRole");
-        }
+
+        var playerTask = playerControl.myTasks.ToArray().FirstOrDefault(x => x is ImportantTextTask);
+
         if (playerTask != null)
         {
             playerControl.myTasks.Remove(playerTask);
-            playerTask.gameObject.Destroy();
+            playerTask.gameObject.DeepDestroy();
         }
     }
 
     public static Sprite GetRoleIcon(this RoleBehaviour role)
     {
         var roleImg = GetBasicRoleIcon(role);
-        var customRole = role as ICustomRole;
-        if (customRole != null && customRole.Configuration.Icon != null)
+        if (role is ICustomRole customRole && customRole.Configuration.Icon != null)
         {
             roleImg = customRole.Configuration.Icon.LoadAsset();
         }
@@ -63,10 +59,12 @@ public static class TouRoleUtils
         {
             return TouRoleIcons.Impostor.LoadAsset();
         }
+
         if (basicText.Contains("Crewmate"))
         {
             return TouRoleIcons.Crewmate.LoadAsset();
         }
+
         return TouRoleIcons.Neutral.LoadAsset();
     }
 
@@ -76,10 +74,12 @@ public static class TouRoleUtils
         {
             return TouRoleIcons.Impostor.LoadAsset();
         }
+
         if (role.IsCrewmate())
         {
             return TouRoleIcons.Crewmate.LoadAsset();
         }
+
         return TouRoleIcons.Neutral.LoadAsset();
     }
 
@@ -102,10 +102,11 @@ public static class TouRoleUtils
     public static bool CanGetGhostRole(this PlayerControl player)
     {
         return !player.HasModifier<BasicGhostModifier>()
-            && player.Data.Role is not SpectatorRole
-            && player.Data.Role is not GuardianAngelRole
-            && player.Data.Role is not IGhostRole;
+               && player.Data.Role is not SpectatorRole
+               && player.Data.Role is not GuardianAngelRole
+               && player.Data.Role is not IGhostRole;
     }
+
     public static bool AreTeammates(PlayerControl player, PlayerControl other)
     {
         var playerRole = player.GetRoleWhenAlive();
@@ -118,14 +119,15 @@ public static class TouRoleUtils
 
     public static bool CanKill(PlayerControl player)
     {
-        var canBetray = PlayerControl.LocalPlayer.IsLover() && OptionGroupSingleton<LoversOptions>.Instance.LoverKillTeammates;
+        var canBetray = PlayerControl.LocalPlayer.IsLover() &&
+                        OptionGroupSingleton<LoversOptions>.Instance.LoverKillTeammates;
 
         return !(AreTeammates(PlayerControl.LocalPlayer, player) && canBetray && !player.IsLover());
     }
+
     public static string GetRoleLocaleKey(this RoleBehaviour role)
     {
-        var touRole = role as ITownOfUsRole;
-        if (touRole != null && touRole.LocaleKey != "KEY_MISS")
+        if (role is ITownOfUsRole touRole && touRole.LocaleKey != "KEY_MISS")
         {
             return touRole.LocaleKey;
         }
@@ -137,9 +139,11 @@ public static class TouRoleUtils
 
         return role.GetRoleName().Replace(" ", "");
     }
+
     public static bool IsRevealed(this PlayerControl? player) =>
         player?.GetModifiers<BaseRevealModifier>().Any(x => x.Visible && x.RevealRole) == true ||
         player?.Data?.Role is MayorRole mayor && mayor.Revealed;
+
     public static StringBuilder SetTabText(ICustomRole role)
     {
         var alignment = MiscUtils.GetRoleAlignment(role);
@@ -180,31 +184,5 @@ public static class TouRoleUtils
         stringB.AppendLine(TownOfUsPlugin.Culture, $"{role.RoleLongDescription}");
 
         return stringB;
-    }
-
-    private static readonly ContactFilter2D Filter = Helpers.CreateFilter(Constants.Usables);
-
-    public static Vent? GetClosestUsableVent
-    {
-        get
-        {
-            var player = PlayerControl.LocalPlayer;
-            Vector2 truePosition = player.GetTruePosition();
-            var closestVents = Helpers.GetNearestObjectsOfType<Vent>(truePosition, player.MaxReportDistance, Filter);
-            Vent? vent = null;
-            if (closestVents.Count == 0)
-            {
-                return null;
-            }
-            foreach (var closeVent in closestVents)
-            {
-                if (player.CanUseVent(closeVent))
-                {
-                    vent = closeVent;
-                    break;
-                }
-            }
-            return vent;
-        }
     }
 }

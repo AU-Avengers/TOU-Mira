@@ -2,7 +2,6 @@
 using Reactor.Utilities.Attributes;
 using UnityEngine;
 using TMPro;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Modules.Components;
 
@@ -56,7 +55,7 @@ public class WikiHyperlink(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         Warning($"Looking for wiki entry: {id}");
         if (id.StartsWith("AmongUs.Roles.", StringComparison.InvariantCulture))
         {
-            id = id.Substring("AmongUs.Roles.".Length);
+            id = id["AmongUs.Roles.".Length..];
         }
 
         var role = MiscUtils.AllRoles.FirstOrDefault(x => x.GetType().FullName == id) ??

@@ -5,7 +5,6 @@ using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -14,11 +13,10 @@ namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class JailedModifier(byte jailorId) : BaseModifier
 {
-    private GameObject? jailCell;
+    private GameObject jailCell;
     public override string ModifierName => "Jailed";
     public override bool HideOnUi => true;
     public byte JailorId { get; } = jailorId;
-    public bool HasOpenedQuickChat { get; set; }
 
     public bool IsJailorValid => !GameData.Instance.GetPlayerById(JailorId).Object.HasDied() &&
                                  GameData.Instance.GetPlayerById(JailorId).Object.Data.Role is JailorRole;
@@ -34,9 +32,10 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
     public override void OnMeetingStart()
     {
         Clear();
+        var meeting = MeetingHud.Instance;
         if (GameData.Instance.GetPlayerById(JailorId).Object.HasDied() ||
             GameData.Instance.GetPlayerById(JailorId).Object.Data.Role is not JailorRole || Player.HasDied() ||
-            !MeetingHud.Instance)
+            meeting == null)
         {
             ModifierComponent!.RemoveModifier(this);
             return;
@@ -67,7 +66,7 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
             notif1.AdjustNotification();
         }
 
-        foreach (var voteArea in MeetingHud.Instance.playerStates)
+        foreach (var voteArea in meeting.playerStates)
         {
             if (Player.PlayerId == voteArea.TargetPlayerId)
             {
@@ -78,7 +77,10 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
 
     public void Clear()
     {
-        jailCell?.Destroy();
+        if (jailCell)
+        {
+            jailCell.Destroy();
+        }
     }
 
     private void GenCell(PlayerVoteArea voteArea)
@@ -95,7 +97,7 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
         jailCellObj.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
         jailCellObj.layer = 5;
         jailCellObj.transform.parent = parent;
-        jailCellObj.transform.GetChild(0).gameObject.Destroy();
+        jailCellObj.transform.GetChild(0).gameObject.DeepDestroy();
 
         var passive = jailCellObj.GetComponent<PassiveButton>();
         passive.OnClick = new Button.ButtonClickedEvent();

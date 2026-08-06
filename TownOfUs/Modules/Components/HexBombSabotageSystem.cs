@@ -5,7 +5,6 @@ using Reactor.Utilities.Attributes;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Modules.Components;
 
@@ -13,10 +12,11 @@ namespace TownOfUs.Modules.Components;
 public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cppPtr)
 {
     public const byte SabotageId = 150;
+    public const SystemTypes SystemType = (SystemTypes)SabotageId;
     public readonly float duration;
 
     public bool IsActive => (TimeRemaining > 0 || Stage == HexBombStage.Finished);
-    public static bool InMeeting => MeetingHud.Instance != null || ExileController.Instance != null;
+    public static bool InMeeting => MeetingHud.Instance || ExileController.Instance;
     public bool IsDirty { get; private set; }
     public float TimeRemaining { get; private set; }
     public HexBombStage Stage { get; private set; }
@@ -114,7 +114,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
                 BombFinished = true;
             }
         }
-        else if (Stage == HexBombStage.Countdown && !CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().Any())
+        else if (Stage == HexBombStage.Countdown && !CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().HasAny())
         {
             Stage = HexBombStage.SpellslingerDead;
             TimeRemaining = 3f;
@@ -123,7 +123,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
         }
     }
 
-    public void UpdateSystem(PlayerControl player, MessageReader msgReader)
+    public void UpdateSystem(PlayerControl _, MessageReader msgReader)
     {
         if (msgReader.ReadByte() != 1) return;
         Stage = HexBombStage.Initiate;
@@ -131,7 +131,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
         IsDirty = true;
     }
 
-    public void Deserialize(MessageReader reader, bool initialState)
+    public void Deserialize(MessageReader reader, bool _)
     {
         TimeRemaining = reader.ReadSingle();
         Stage = (HexBombStage)reader.ReadByte();

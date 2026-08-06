@@ -9,11 +9,11 @@ public abstract class BaseShieldModifier : TimedModifier, IAnimated
 {
     public override string ModifierName => "Shield Modifier";
     public virtual string ShieldDescription => "You are protected!";
-    public override float Duration => 1f;
+    public override float Duration => 0.001f;
     public override bool AutoStart => false;
 
     public override bool HideOnUi =>
-        !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowShieldHudToggle.Value;
+        !LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowShieldHudToggle.Value;
 
     public virtual bool VisibleSymbol => false;
     public bool IsVisible { get; set; } = true;

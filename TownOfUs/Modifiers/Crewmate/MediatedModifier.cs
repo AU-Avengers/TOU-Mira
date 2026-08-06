@@ -2,18 +2,17 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.Types;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
-using TownOfUs.Utilities.Appearances;
 
 namespace TownOfUs.Modifiers.Crewmate;
 
-public sealed class MediatedModifier(byte mediumId) : BaseModifier
+public sealed class MediatedModifier(byte mediumId) : TimedModifier
 {
     private ArrowBehaviour? _arrow;
 
@@ -22,6 +21,7 @@ public sealed class MediatedModifier(byte mediumId) : BaseModifier
     public override string ModifierName => "Mediated";
     public override bool HideOnUi => true;
     public byte MediumId { get; } = mediumId;
+    public override float Duration => OptionGroupSingleton<MediumOptions>.Instance.MediateDuration.Value + 1f;
 
     public override void OnMeetingStart()
     {
@@ -33,7 +33,7 @@ public sealed class MediatedModifier(byte mediumId) : BaseModifier
         _medium = GameData.Instance.GetPlayerById(MediumId).Role as MediumRole;
         _mediumPlayer = _medium?.Player;
 
-        if (_mediumPlayer == null || _medium == null || !Player.Data.IsDead)
+        if (_mediumPlayer == null || _medium == null || !Player.Data.IsDead || _medium.Spirit == null)
         {
             ModifierComponent?.RemoveModifier(this);
             return;
@@ -44,15 +44,15 @@ public sealed class MediatedModifier(byte mediumId) : BaseModifier
 
         _medium.MediatedPlayers.Add(this);
 
-        switch (OptionGroupSingleton<MediumOptions>.Instance.ArrowVisibility)
+        switch ((MediumVisibility)OptionGroupSingleton<MediumOptions>.Instance.ArrowVisibility.Value)
         {
             case MediumVisibility.Both:
-                var ownerTransform = Player.AmOwner ? _mediumPlayer.transform : Player.transform;
+                var ownerTransform = Player.AmOwner ? _medium.Spirit.transform : Player.transform;
                 _arrow = MiscUtils.CreateArrow(ownerTransform, TownOfUsColors.Medium);
                 break;
 
             case MediumVisibility.ShowMedium when Player.AmOwner:
-                _arrow = MiscUtils.CreateArrow(_mediumPlayer.transform, TownOfUsColors.Medium);
+                _arrow = MiscUtils.CreateArrow(_medium.Spirit.transform, TownOfUsColors.Medium);
                 break;
 
             case MediumVisibility.ShowMediate when _mediumPlayer.AmOwner:
@@ -60,9 +60,12 @@ public sealed class MediatedModifier(byte mediumId) : BaseModifier
                 break;
         }
 
-        if (_mediumPlayer.AmOwner && !OptionGroupSingleton<MediumOptions>.Instance.RevealMediateAppearance)
+        var hidden =
+            (AppearanceVisibility)OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
+            AppearanceVisibility.None or AppearanceVisibility.Living;
+        if (_mediumPlayer.AmOwner && hidden)
         {
-            Player.SetCamouflage();
+            Player.AddModifier<MediumHiddenModifier>();
         }
 
         Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Medium, alpha: 0.5f));
@@ -75,26 +78,24 @@ public sealed class MediatedModifier(byte mediumId) : BaseModifier
             return;
         }
 
-        if (_medium != null)
-        {
-            _medium.MediatedPlayers.Remove(this);
-        }
+        _medium?.MediatedPlayers.Remove(this);
 
         if (_mediumPlayer.AmOwner)
         {
             CustomButtonSingleton<MediumMediateButton>.Instance.SetTimerPaused(false);
             CustomButtonSingleton<MediumMediateButton>.Instance.ResetCooldownAndOrEffect();
 
-            if (!OptionGroupSingleton<MediumOptions>.Instance.RevealMediateAppearance)
+            var hidden =
+                (AppearanceVisibility)OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
+                AppearanceVisibility.None or AppearanceVisibility.Living;
+
+            if (hidden)
             {
-                Player.SetCamouflage(false);
+                Player.RemoveModifier<MediumHiddenModifier>();
             }
         }
 
-        if (_arrow != null)
-        {
-            _arrow.gameObject.Destroy();
-        }
+        _arrow?.gameObject.DeepDestroy();
     }
 
     public override void FixedUpdate()
@@ -114,5 +115,7 @@ public sealed class MediatedModifier(byte mediumId) : BaseModifier
         {
             _arrow.target = _arrow.transform.parent.position;
         }
+
+        base.FixedUpdate();
     }
 }

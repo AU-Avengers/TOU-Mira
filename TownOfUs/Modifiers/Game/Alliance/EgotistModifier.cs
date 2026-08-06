@@ -1,26 +1,29 @@
 ﻿using MiraAPI.GameEnd;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.GameOver;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Alliance;
 
 public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Egotist,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Egotist.LoadAsset(),
+            "TouMira.Modifier.Alliance.Egotist", 1.45f));
     public bool LeaveMessageSent { get; set; }
     public bool HasSurvived { get; set; } = true;
     public static float CooldownReduction { get; set; }
     public static float SpeedMultiplier { get; set; } = 1f;
     public override string LocaleKey => "Egotist";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public string ShortName => TouLocale.Get($"TouModifier{LocaleKey}ShortName");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
 
     public override string GetDescription()
@@ -35,7 +38,6 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
     }
 
     public override string Symbol => "#";
-    public override float IntroSize => 4f;
     public override bool DoesTasks => false;
     public override bool GetsPunished => false;
     public override bool CrewContinuesGame => false;
@@ -64,7 +66,7 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.EgotistChance;
+        return (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.EgotistChance.Value;
     }
 
     public override int GetAmountPerGame()

@@ -6,7 +6,6 @@ using Reactor.Networking.Attributes;
 using System.Text;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -51,8 +50,10 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Sentry.LoadAsset(), "TouMira.Role.Crewmate.Sentry", 1.45f),
         Icon = TouRoleIcons.Sentry,
         OptionsScreenshot = TouBanners.SentryRoleBanner,
+        IntroSound = TouAudio.SentryIntro,
     };
 
     [HideFromIl2Cpp] public static List<KeyValuePair<SurvCamera, int>> Cameras { get; set; } = [];
@@ -61,7 +62,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     [HideFromIl2Cpp] public bool PortableCamsUnlockedNotified { get; set; }
 
-    [HideFromIl2Cpp] public static HashSet<byte> PortableCamsUsers { get; } = new();
+    [HideFromIl2Cpp] public static HashSet<byte> PortableCamsUsers { get; } = [];
 
     [HideFromIl2Cpp]
     public static bool AnyPortableCamsInUse => PortableCamsUsers.Count > 0;
@@ -127,7 +128,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                         continue;
                     }
 
-                    var sr = cam.gameObject != null ? cam.gameObject.GetComponent<SpriteRenderer>() : null;
+                    var sr = cam.gameObject?.GetComponent<SpriteRenderer>();
                     var isPending = (sr != null && sr.color.a < 0.99f);
 
                     var remainingText = duration == 0 ? string.Empty : $" ({duration} rounds)";
@@ -221,6 +222,11 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.SentryPortableCamsInUse)]
     public static void RpcSentryPortableCamsInUse(PlayerControl player, bool inUse)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         try
         {
             if (player == null) return;
@@ -244,6 +250,11 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.SentryPlaceCamera)]
     public static void RpcPlaceCamera(PlayerControl player, Vector2 position)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not SentryRole sentry)
         {
             return;
@@ -255,6 +266,11 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.SentryRevealCamera)]
     public static void RpcRevealCamera(PlayerControl player, Vector2 position, float zAxis)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not SentryRole sentry)
         {
             return;
@@ -267,7 +283,8 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         sentry.FutureCameras.Remove(position);
 
-        var camera = SentryCameraUtilities.CreateCameraAtPosition(position, zAxis, player);
+        var newPos = new Vector3(position.x, position.y, zAxis);
+        var camera = SentryCameraUtilities.CreateCameraAtPosition(newPos, player);
         if (camera == null)
         {
             return;

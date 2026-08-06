@@ -2,7 +2,6 @@ using MiraAPI.Events;
 using MiraAPI.Modifiers;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Impostor;
@@ -29,7 +28,7 @@ public sealed class SpellslingerHexedModifier(PlayerControl spellslinger) : Base
 
     public override void FixedUpdate()
     {
-        if (PlayerControl.LocalPlayer.IsRole<SpellslingerRole>() && Player != PlayerControl.LocalPlayer)
+        if (PlayerControl.LocalPlayer.IsRole<SpellslingerRole>() && !Player.AmOwner)
         {
             Player?.cosmetics.SetOutline(true, new Il2CppSystem.Nullable<Color>(color));
         }

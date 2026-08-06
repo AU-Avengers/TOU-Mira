@@ -1,5 +1,3 @@
-using TownOfUs.Utilities;
-
 namespace TownOfUs.Modules;
 
 /// <summary>

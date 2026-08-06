@@ -7,19 +7,21 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IRewindImmune
 {
     public override bool IsAffectedByComms => false;
+    public bool IgnoredByRewind => false;
+    public bool IgnoredByRecording => false;
     public DoomableType DoomHintType => DoomableType.Perception;
 
     public string LocaleKey => "TimeLord";
@@ -46,7 +48,9 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.TimeLord.LoadAsset(), "TouMira.Role.Crewmate.TimeLord", 1.45f),
         Icon = TouRoleIcons.TimeLord,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         MaxRoleCount = 1,
         IntroSound = TouAudio.TimeLordIntroSound
     };
@@ -54,6 +58,11 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     [MethodRpc((uint)TownOfUsRpc.TimeLordRewind)]
     public static void RpcStartRewind(PlayerControl timeLord)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(timeLord);
+            return;
+        }
         var isTimeLordRole = timeLord.Data?.Role is TimeLordRole;
         var hasTestModifier = timeLord.HasModifier<TestTimeLordModifier>();
 
@@ -68,7 +77,7 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             return;
         }
 
-        if (PlayerControl.LocalPlayer != null)
+        if (PlayerControl.LocalPlayer)
         {
             try
             {
@@ -83,10 +92,11 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             }
         }
 
-        const float duration = 3.5f; var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 120f);
+        const float duration = 3.5f;
+        var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 1f, 15f);
 
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost &&
-OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost &&
+(RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
         {
             var now = DateTime.UtcNow;
             var cutoff = now - TimeSpan.FromSeconds(history);
@@ -109,7 +119,7 @@ OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
             TimeLordRewindSystem.ConfigureHostRevives(null);
         }
 
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost &&
+        if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost &&
 OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
         {
             TimeLordRewindSystem.ConfigureHostTaskUndosFromHistory(duration, history);
@@ -119,11 +129,11 @@ OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
             TimeLordRewindSystem.ConfigureHostTaskUndos(null);
         }
 
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+        if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
         {
             foreach (var drag in ModifierUtils.GetActiveModifiers<DragModifier>().ToList())
             {
-                if (drag?.Player == null || drag.DeadBody == null)
+                if (!drag.Player || drag.DeadBody == null)
                 {
                     continue;
                 }
@@ -141,6 +151,11 @@ OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
     [MethodRpc((uint)TownOfUsRpc.TimeLordRewindRevive)]
     public static void RpcRewindRevive(PlayerControl revived)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(revived);
+            return;
+        }
         if (!revived)
         {
             return;
@@ -156,6 +171,11 @@ OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
         {
             return;
         }
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(sender);
+            return;
+        }
 
         TimeLordRewindSystem.UndoTask(targetPlayerId, taskId);
     }
@@ -165,6 +185,11 @@ OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
     {
         if (sender == null)
         {
+            return;
+        }
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(sender);
             return;
         }
 

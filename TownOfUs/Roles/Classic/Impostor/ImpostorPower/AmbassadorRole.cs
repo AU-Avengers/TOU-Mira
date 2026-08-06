@@ -15,7 +15,6 @@ using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -41,12 +40,12 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}RetrainWiki", "Retrain (Meeting)"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}RetrainWikiDescription"),
                     TouAssets.RetrainCleanSprite)
-            };
+            ];
         }
     }
 
@@ -67,7 +66,9 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Ambassador.LoadAsset(), "TouMira.Role.Impostor.Ambassador", 1.45f),
         MaxRoleCount = 1,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Ambassador
     };
 
@@ -147,9 +148,10 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             return;
         }
 
-        if (Player.AmOwner)
+        var meeting = MeetingHud.Instance;
+        if (Player.AmOwner && meeting != null)
         {
-            meetingMenu?.GenButtons(MeetingHud.Instance,
+            meetingMenu?.GenButtons(meeting,
                 Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
         }
     }
@@ -261,7 +263,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
         if (!player._object.Is(RoleAlignment.ImpostorKilling) && !player._object.Is(RoleAlignment.ImpostorPower))
         {
             var curRoleList = MiscUtils.GetPotentialRoles()
-                .Where(role => impRoles.Contains(RoleId.Get(role.GetType())))
+                .Where(role => impRoles.Contains((ushort)role.Role))
                 .ToList();
 
             if (TutorialManager.InstanceExists)
@@ -270,7 +272,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                     .Where(x => !excluded.Contains(x.Role))
                     .Select(x => (ushort)x.Role).ToList();
                 curRoleList = MiscUtils.AllRegisteredRoles
-                    .Where(role => impRoles.Contains(RoleId.Get(role.GetType())))
+                    .Where(role => impRoles.Contains((ushort)role.Role))
                     .ToList();
             }
             foreach (var roleBehaviour in curRoleList)
@@ -282,8 +284,17 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             }
         }
 
-        if (Minigame.Instance == null)
+        if (!Minigame.Instance)
         {
+            if (roleList.Count == 0)
+            {
+                var notif1 = Helpers.CreateAndShowNotification(
+                    $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}No roles are available for the player.</color></b>",
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Ambassador.LoadAsset());
+
+                notif1.AdjustNotification();
+                return;
+            }
             var trainMenu = AmbassadorSelectionMinigame.Create();
             trainMenu.Open(
                 roleList,
@@ -312,6 +323,11 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     public static void RpcRetrainConfirm(PlayerControl ambassador, PlayerControl player, int cooldown, ushort role = 0,
         bool accepted = false)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (ambassador.Data.Role is not AmbassadorRole ambassadorRole)
         {
             Error("RpcRetrainConfirm - Invalid ambassador");
@@ -356,7 +372,8 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             player.ChangeRole(role);
 
             if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
-                (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || ambassador.AmOwner))
+                (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || ambassador.AmOwner ||
+                 player.AmOwner))
             {
                 var text =
                     TouLocale.GetParsed("TouRoleAmbassadorPlayerHasBeenRetrained")
@@ -457,9 +474,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             text = text.Replace("<newRole>",
                 $"{TownOfUsColors.ImpSoft.ToTextColor()}{ambassador.SelectedRole.GetRoleName()}</color>");
             var notif1 = Helpers.CreateAndShowNotification(text, Color.white, new Vector3(0f, 1f, -20f),
-                spr: ambassador.SelectedRole.RoleIconWhite != null
-                    ? ambassador.SelectedRole.RoleIconWhite
-                    : TouRoleIcons.Ambassador.LoadAsset());
+                spr: ambassador.SelectedRole.RoleIconWhite ?? TouRoleIcons.Ambassador.LoadAsset());
 
             notif1.AdjustNotification();
         }

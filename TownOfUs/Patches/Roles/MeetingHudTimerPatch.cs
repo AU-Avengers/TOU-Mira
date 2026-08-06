@@ -2,15 +2,13 @@ using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using TownOfUs.Events;
-using TownOfUs.Modifiers.Game;
-using TownOfUs.Options;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.Roles;
 
@@ -22,7 +20,7 @@ public static class MeetingHudTimerPatch
     public static void TimerUpdatePostfix(MeetingHud __instance)
     {
         var newText = string.Empty;
-        if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null ||
+        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
             PlayerControl.LocalPlayer.HasDied())
         {
             return;
@@ -84,7 +82,7 @@ public static class MeetingHudTimerPatch
         if (PlayerControl.LocalPlayer.TryGetModifier<AssassinModifier>(out var assassinMod))
         {
             newText +=
-                $"\n{assassinMod.maxKills} / {(int)OptionGroupSingleton<AssassinOptions>.Instance.AssassinKills} Guesses Remaining";
+                $"\n{assassinMod.maxKills} / {assassinMod.defaultKills} Guesses Remaining";
             if ((PlayerControl.LocalPlayer.TryGetModifier<DoubleShotModifier>(out var doubleShotMod)))
             {
                 newText += (doubleShotMod.Used) ? " | Double Shot Used" : " | Double Shot Available";

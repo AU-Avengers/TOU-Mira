@@ -1,8 +1,6 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
@@ -10,6 +8,10 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class FlashModifier : UniversalGameModifier, IWikiDiscoverable, IVisualAppearance
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Flash,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Flash.LoadAsset(),
+            "TouMira.Modifier.Universal.Flash", 1.45f));
     public override string LocaleKey => "Flash";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Flash;

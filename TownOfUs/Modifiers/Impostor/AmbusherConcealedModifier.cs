@@ -4,15 +4,12 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using PowerTools;
 using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Events;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Patches;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modifiers.Impostor;
 
@@ -29,11 +26,11 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
     {
         return new VisualAppearance(Player.GetDefaultModifiedAppearance(), TownOfUsAppearances.Swooper)
         {
-            HatId = string.Empty,
-            SkinId = string.Empty,
-            VisorId = string.Empty,
+            HatId = "hat_NoHat",
+            SkinId = "skin_None",
+            VisorId = "visor_EmptyVisor",
             PlayerName = string.Empty,
-            PetId = string.Empty,
+            PetId = "pet_EmptyPet",
             RendererColor = Color.clear,
             NameColor = Color.clear,
             ColorBlindTextColor = Color.clear
@@ -82,7 +79,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
                 lockInfo: DeathHandlerOverride.SetTrue);
 
             var bodyPos = body.transform.position;
-            if (MeetingHud.Instance == null && Player.AmOwner)
+            if (!MeetingHud.Instance && Player.AmOwner)
             {
                 Player.moveable = false;
                 Player.MyPhysics.ResetMoveState();
@@ -115,7 +112,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
 
             if (!Target.HasDied() || MeetingHud.Instance || Player.HasDied())
             {
-                ambushAnim.gameObject.Destroy();
+                ambushAnim.gameObject.DeepDestroy();
                 Player.Visible = true;
 
                 foreach (var shield in Player.GetModifiers<BaseShieldModifier>())
@@ -170,7 +167,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
 
             if (!Target.HasDied() || MeetingHud.Instance || Player.HasDied())
             {
-                ambushAnim.gameObject.Destroy();
+                ambushAnim.gameObject.DeepDestroy();
                 Player.Visible = true;
 
                 foreach (var shield in Player.GetModifiers<BaseShieldModifier>())
@@ -203,9 +200,9 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
                 yield break;
             }
 
-            ambushAnim.gameObject.Destroy();
+            ambushAnim.gameObject.DeepDestroy();
 
-            if (MeetingHud.Instance == null && Target.HasDied())
+            if (!MeetingHud.Instance && Target.HasDied())
             {
                 if (Player.AmOwner)
                 {
@@ -246,8 +243,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
     {
         base.FixedUpdate();
 
-        var mushroom = Object.FindObjectOfType<MushroomMixupSabotageSystem>();
-        if (mushroom && mushroom.IsActive)
+        if (VanillaSystemCheckPatches.ShroomSabotageSystem && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
         {
             Player.RawSetAppearance(this);
             Player.cosmetics.ToggleNameVisible(false);
@@ -260,7 +256,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
 
         if (ambushAnim != null)
         {
-            ambushAnim.gameObject.Destroy();
+            ambushAnim.gameObject.DeepDestroy();
 
             Player.Visible = true;
 
@@ -285,10 +281,9 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
             Player.cosmetics.ToggleNameVisible(false);
         }
 
-        var mushroom = Object.FindObjectOfType<MushroomMixupSabotageSystem>();
-        if (mushroom && mushroom.IsActive)
+        if (VanillaSystemCheckPatches.ShroomSabotageSystem && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
         {
-            MushroomMixUp(mushroom, Player);
+            MushroomMixUp(VanillaSystemCheckPatches.ShroomSabotageSystem, Player);
         }
     }
 

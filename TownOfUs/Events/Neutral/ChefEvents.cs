@@ -11,7 +11,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Neutral;
@@ -21,7 +20,7 @@ public static class ChefEvents
     [RegisterEvent]
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
-        if (!CustomRoleUtils.GetActiveRolesOfType<ChefRole>().Any())
+        if (!CustomRoleUtils.GetActiveRolesOfType<ChefRole>().HasAny())
         {
             return;
         }
@@ -55,7 +54,7 @@ public static class ChefEvents
     }
     
     [RegisterEvent]
-    public static void EjectionEventHandler(EjectionEvent @event)
+    public static void EjectionEventHandler(EjectionEvent _)
     {
         var chef = CustomRoleUtils.GetActiveRolesOfType<ChefRole>().FirstOrDefault();
         if (chef != null && chef.TargetsServed && !chef.Player.HasDied())
@@ -70,9 +69,24 @@ public static class ChefEvents
             }
             else
             {
+                string message;
+                LoadableAsset<Sprite> icon;
+
+                if (OptionGroupSingleton<ChefOptions>.Instance.ChefAnonymizeWin)
+                {
+                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
+                    icon = TouRoleIcons.Neutral;
+                }
+                else
+                {
+                    message = TouLocale.GetParsed("TouRoleChefVictoryMessage")
+                        .Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.RoleName}</color>");
+                    icon = TouRoleIcons.Chef;
+                }
+
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouRoleChefVictoryMessage").Replace("<player>", chef.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.RoleName}</color>"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
+                    message.Replace("<player>", chef.Player.Data.PlayerName),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
 
                 notif1.AdjustNotification();
             }
@@ -110,9 +124,23 @@ public static class ChefEvents
             }
             else
             {
+                string message;
+                LoadableAsset<Sprite> icon;
+                
+                if (OptionGroupSingleton<ChefOptions>.Instance.ChefAnonymizeWin)
+                {
+                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
+                    icon = TouRoleIcons.Neutral;
+                }
+                else
+                {
+                    message = TouLocale.GetParsed("TouRoleChefVictoryMessage");
+                    icon = TouRoleIcons.Chef;
+                }
+
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouRoleChefVictoryMessage").Replace("<player>", chef.Player.Data.PlayerName),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
+                    message.Replace("<player>", chef.Player.Data.PlayerName),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
 
                 notif1.AdjustNotification();
             }

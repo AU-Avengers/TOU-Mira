@@ -5,8 +5,13 @@ using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Modifiers;
+using MiraAPI.Utilities;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
+using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 
@@ -22,6 +27,28 @@ public static class TimeLordEvents
     {
         if (!@event.TriggeredByIntro)
         {
+            var temporaryRevives = ModifierUtils.GetPlayersWithModifier<TimeLordTempReviveModifier>().ToList();
+            var timeLord = ModifierUtils.GetActiveModifiers<TimeLordTempReviveModifier>().FirstOrDefault()?.TimeLord;
+            if (temporaryRevives.Count > 0)
+            {
+                var players = new List<PlayerControl>();
+                foreach (var temp in temporaryRevives)
+                {
+                    if (!temp.HasModifier<InvulnerabilityModifier>() && !temp.HasDied())
+                    {
+                        players.Add(temp);
+                    }
+                    temp.RemoveModifier<TimeLordTempReviveModifier>();
+                }
+
+                if (PlayerControl.LocalPlayer.IsHost())
+                {
+                    foreach (var player in players)
+                    {
+                        player.RpcSelfMurder(player, timeLord ?? player, true, true, false, false, false, false, "TempRevive");
+                    }
+                }
+            }
             return;
         }
 
@@ -30,7 +57,7 @@ public static class TimeLordEvents
 
         ActiveRewindTaskCount = 0;
         LastRewindUseTaskId = uint.MaxValue;
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+        if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
         {
             TimeLordRewindSystem.ClearHostTaskHistory();
         }
@@ -56,27 +83,27 @@ public static class TimeLordEvents
     [RegisterEvent]
     public static void CompleteTaskEvent(CompleteTaskEvent @event)
     {
-        if (@event.Task != null && @event.Player != null)
+        if (@event.Task && @event.Player)
         {
             TimeLordEventHandlers.RecordTaskComplete(@event.Player, @event.Task);
         }
 
-        if (AmongUsClient.Instance != null &&
+        if (AmongUsClient.Instance &&
             AmongUsClient.Instance.AmHost &&
-            @event.Task != null &&
-            @event.Player != null &&
+            @event.Task &&
+            @event.Player &&
             OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind &&
             TimeLordRewindSystem.MatchHasTimeLord())
         {
             TimeLordRewindSystem.RecordHostTaskCompletion(@event.Player, @event.Task);
         }
 
-        if (@event.Player == null || !@event.Player.AmOwner)
+        if (!@event.Player || !@event.Player.AmOwner || !@event.Player.Data)
         {
             return;
         }
 
-        if (@event.Player.Data?.Role is not TimeLordRole)
+        if (@event.Player.Data.Role is not TimeLordRole)
         {
             return;
         }
@@ -105,8 +132,8 @@ public static class TimeLordEvents
             return;
         }
 
-        if (PlayerControl.LocalPlayer == null ||
-            PlayerControl.LocalPlayer.Data == null ||
+        if (!PlayerControl.LocalPlayer ||
+            !PlayerControl.LocalPlayer.Data ||
             PlayerControl.LocalPlayer.Data.Role is not TimeLordRole)
         {
             return;
@@ -126,7 +153,7 @@ public static class TimeLordEvents
     }
 
     [RegisterEvent]
-    public static void StartMeetingEventHandler(StartMeetingEvent @event)
+    public static void StartMeetingEventHandler(StartMeetingEvent _)
     {
         TimeLordRewindSystem.CancelRewindForMeeting();
     }

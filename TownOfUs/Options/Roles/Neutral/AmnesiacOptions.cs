@@ -6,7 +6,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class AmnesiacOptions : AbstractOptionGroup<AmnesiacRole>
+public sealed class AmnesiacOptions : AbstractRoleOptionGroup<AmnesiacRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleAmnesiac", "Amnesiac");
 
@@ -21,4 +21,18 @@ public sealed class AmnesiacOptions : AbstractOptionGroup<AmnesiacRole>
     {
         Visible = () => OptionGroupSingleton<AmnesiacOptions>.Instance.RememberArrows
     };
+
+    public ModdedEnumOption AmneTurnImpAssassin { get; } = new($"TouOptionAmnesiacAssassinImpostor",
+        (int)AssassinRemember.IfAssassin, typeof(AssassinRemember), ["TouOptionAmnesiacAssassinEnumNever", "TouOptionAmnesiacAssassinEnumDependentImp", "TouOptionAmnesiacAssassinEnumAlways"]);
+
+    public ModdedEnumOption AmneTurnNeutAssassin { get; } =
+        new($"TouOptionAmnesiacAssassinNeutral", (int)AssassinRemember.Always, typeof(AssassinRemember),
+            ["TouOptionAmnesiacAssassinEnumNever", "TouOptionAmnesiacAssassinEnumDependentNeut", "TouOptionAmnesiacAssassinEnumAlways"]);
+}
+
+public enum AssassinRemember
+{
+    Never,
+    IfAssassin,
+    Always
 }

@@ -1,24 +1,21 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Networking;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
 public sealed class InquisitorVanquishButton : TownOfUsKillRoleButton<InquisitorRole, PlayerControl>, IDiseaseableButton,
-    IKillButton
+    IKillButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleInquisitorVanquish", "Vanquish");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Inquisitor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<InquisitorOptions>.Instance.VanquishCooldown + MapCooldown, 5f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.InquisKillSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.KillSprite : TouNeutAssets.InquisKillSprite;
 
-    public bool Usable { get; set; } =
-        OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
+    public override bool UsableFirstRound => OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse;
 
     public override bool ZeroIsInfinite { get; set; } = true;
 
@@ -29,7 +26,7 @@ public sealed class InquisitorVanquishButton : TownOfUsKillRoleButton<Inquisitor
 
     public override bool CanUse()
     {
-        return base.CanUse() && Usable && Role.CanVanquish;
+        return base.CanUse() && Role.CanVanquish;
     }
 
     public override PlayerControl? GetTarget()

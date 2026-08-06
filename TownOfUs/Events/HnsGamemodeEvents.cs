@@ -9,7 +9,7 @@ using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
-using TownOfUs.Utilities;
+using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
 namespace TownOfUs.Events;
@@ -64,7 +64,7 @@ public static class HnsGamemodeEvents
             {
                 if (PlayerControl.LocalPlayer.inVent)
                 {
-                    PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShowHacked();
+                    GlitchRole.RpcTriggerGlitchHack(PlayerControl.LocalPlayer, false);
                     PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
                     PlayerControl.LocalPlayer.MyPhysics.ExitAllVents();
                 }
@@ -77,7 +77,7 @@ public static class HnsGamemodeEvents
             }
 
             var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
-            var minimum = (int)OptionGroupSingleton<VanillaTweakOptions>.Instance.PlayerCountWhenVentsDisable.Value;
+            var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
 
             if (PlayerControl.LocalPlayer.inVent && (aliveCount <= minimum
                                                      || PlayerControl.LocalPlayer.IsImpostor()))

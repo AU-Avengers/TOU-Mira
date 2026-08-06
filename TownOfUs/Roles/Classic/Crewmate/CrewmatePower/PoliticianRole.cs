@@ -10,7 +10,6 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -44,8 +43,8 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Campaign", "Campaign"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CampaignWikiDescription"),
                     TouCrewAssets.CampaignButtonSprite),
@@ -54,7 +53,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
                         ? $"TouRole{LocaleKey}RevealWikiDescriptionPunished"
                         : $"TouRole{LocaleKey}RevealWikiDescription"),
                     TouAssets.RevealCleanSprite)
-            };
+            ];
         }
     }
 
@@ -65,7 +64,9 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Politician.LoadAsset(), "TouMira.Role.Crewmate.Politician", 1.45f),
         Icon = TouRoleIcons.Politician,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.PoliticianIntroSound,
         MaxRoleCount = 1
     };
@@ -89,12 +90,13 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
         if (Player.AmOwner)
         {
+            var classic = LegacyAssets.IsLegacy;
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
-                TouLocale.GetParsed("TouRolePoliticianReveal"),
+                classic ? string.Empty : TouLocale.GetParsed("TouRolePoliticianReveal"),
                 MeetingAbilityType.Click,
-                TouAssets.RevealCleanSprite,
+                classic ? LegacyAssets.RevealButtonSprite : TouAssets.RevealCleanSprite,
                 null!,
                 IsExempt)
             {
@@ -109,10 +111,11 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
         CanCampaign = true;
 
-        if (Player.AmOwner)
+        var meeting = MeetingHud.Instance;
+        if (Player.AmOwner && meeting != null)
             // Message($"PoliticianRole.OnMeetingStart '{Player.Data.PlayerName}' {Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>()}");
         {
-            meetingMenu.GenButtons(MeetingHud.Instance,
+            meetingMenu.GenButtons(meeting,
                 Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
         }
     }

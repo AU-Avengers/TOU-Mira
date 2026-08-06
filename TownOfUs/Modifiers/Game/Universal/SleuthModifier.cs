@@ -1,15 +1,17 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class SleuthModifier : UniversalGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Sleuth,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Sleuth.LoadAsset(),
+            "TouMira.Modifier.Universal.Sleuth", 1.45f));
     public override string LocaleKey => "Sleuth";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Sleuth;
@@ -47,10 +49,9 @@ public sealed class SleuthModifier : UniversalGameModifier, IWikiDiscoverable
 
     public static bool SleuthVisibilityFlag(PlayerControl player)
     {
-        if (PlayerControl.LocalPlayer.HasModifier<SleuthModifier>())
+        if (PlayerControl.LocalPlayer.TryGetModifier<SleuthModifier>(out var sleuth))
         {
-            var mod = PlayerControl.LocalPlayer.GetModifier<SleuthModifier>()!;
-            return mod.Reported.Contains(player.PlayerId);
+            return sleuth.Reported.Contains(player.PlayerId);
         }
 
         return false;

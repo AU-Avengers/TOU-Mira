@@ -8,7 +8,7 @@ namespace TownOfUs.Events.Crewmate;
 public static class MediumEvents
 {
     [RegisterEvent]
-    public static void EjectionEventHandler(EjectionEvent @event)
+    public static void EjectionEventHandler(EjectionEvent _)
     {
         if (PlayerControl.LocalPlayer.Data.Role is MediumRole medium)
         {

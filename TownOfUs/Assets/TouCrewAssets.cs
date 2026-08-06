@@ -1,4 +1,3 @@
-using MiraAPI.Utilities.Assets;
 using UnityEngine;
 
 namespace TownOfUs.Assets;
@@ -35,12 +34,12 @@ public static class TouCrewAssets
     public static LoadableAsset<Sprite> IntuitSprite { get; } =
         new LoadableBundleAsset<Sprite>("IntuitButton", TouAssets.MainBundle);
 
-    public static List<LoadableAsset<Sprite>> SeerButtonSprites { get; set; } = new()
-    {
+    public static List<LoadableAsset<Sprite>> SeerButtonSprites { get; set; } =
+    [
         SeerSprite,
         GazeSprite,
         IntuitSprite,
-    };
+    ];
 
     public static LoadableAsset<Sprite> KnightSprite { get; } =
         new LoadableBundleAsset<Sprite>("KnightButton", TouAssets.MainBundle);
@@ -65,6 +64,12 @@ public static class TouCrewAssets
 
     public static LoadableAsset<Sprite> HunterKillSprite { get; } =
         new LoadableBundleAsset<Sprite>("HunterKillButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> OfficerShootSprite { get; } =
+        new LoadableBundleAsset<Sprite>("OfficerShootButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> OfficerLoadSprite { get; } =
+        new LoadableBundleAsset<Sprite>("OfficerLoadButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> SheriffShootSprite { get; } =
         new LoadableBundleAsset<Sprite>("SheriffShootButton", TouAssets.MainBundle);
@@ -102,6 +107,12 @@ public static class TouCrewAssets
     public static LoadableAsset<Sprite> CampaignButtonSprite { get; } =
         new LoadableBundleAsset<Sprite>("CampaignButton", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> RoleblockSprite { get; } =
+        new LoadableBundleAsset<Sprite>("BeerRoleblockButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> SpillSprite { get; } =
+        new LoadableBundleAsset<Sprite>("BeerSpillButton", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> FlushSprite { get; } =
         new LoadableBundleAsset<Sprite>("FlushButton", TouAssets.MainBundle);
 
@@ -116,6 +127,9 @@ public static class TouCrewAssets
 
     public static LoadableAsset<Sprite> Transport { get; } =
         new LoadableBundleAsset<Sprite>("TransportButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> OverchargeSprite { get; } =
+        new LoadableBundleAsset<Sprite>("OverchargeButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> DeployCamSprite { get; } =
         new LoadableBundleAsset<Sprite>("DeployButton", TouAssets.MainBundle);

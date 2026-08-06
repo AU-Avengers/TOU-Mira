@@ -9,9 +9,15 @@ namespace TownOfUs.Options.Maps;
 public sealed class BetterMiraHqOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
-    public override string GroupName => "Better Mira HQ";
+    public override string GroupName => TouLocale.Get("TouOptionTitleBetterMira");
     public override uint GroupPriority => 4;
     public override Color GroupColor => new Color32(255, 128, 100, 255);
+    public override OptionNotifConfiguration Configuration => new(
+        GroupColor,
+        TmpSpriteUtils.CreateSpriteAsset(
+            TouAssets.IconMira.LoadAsset(),
+            "AmongUs.Map.Mira",
+            1.45f));
 
     public ModdedToggleOption CamoComms { get; set; } =
         new("TouOptionAdvancedSaboCamouflageComms", true)

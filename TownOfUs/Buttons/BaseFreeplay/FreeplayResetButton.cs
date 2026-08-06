@@ -1,5 +1,4 @@
 ﻿using MiraAPI.Hud;
-using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Rpc;
 using TownOfUs.Networking;
 using TownOfUs.Modules;
@@ -21,7 +20,7 @@ public sealed class FreeplayResetButton : TownOfUsButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null &&
+        return PlayerControl.LocalPlayer &&
                (TutorialManager.InstanceExists || MultiplayerFreeplayMode.Enabled) &&
                !FreeplayButtonsVisibility.Hidden;
     }
@@ -48,7 +47,7 @@ public sealed class FreeplayResetButton : TownOfUsButton
 
         HudManager.Instance.ShowPopUp(TouLocale.GetParsed("FreeplayRestartPopup"));
         ShipStatus.Instance.Begin();
-        if (GameManager.Instance != null)
+        if (GameManager.Instance)
         {
             GameManager.Instance.ReviveEveryoneFreeplay();
         }

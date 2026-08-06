@@ -5,25 +5,23 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
+public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>, ILegacyCapable
 {
     public PlayerControl? ClosestTarget;
     public override string Name => TouLocale.GetParsed("TouRoleArsonistIgnite", "Ignite");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Arsonist;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<ArsonistOptions>.Instance.DouseCooldown + MapCooldown, 5f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.IgniteButtonSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyNeutAssets.IgniteButtonSprite : TouNeutAssets.IgniteButtonSprite;
 
     private static List<PlayerControl> PlayersInRange => Helpers.GetClosestPlayers(PlayerControl.LocalPlayer,
         OptionGroupSingleton<ArsonistOptions>.Instance.IgniteRadius.Value * ShipStatus.Instance.MaxLightRadius);
@@ -55,11 +53,8 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
         }
         else
         {
-            if (Ignite != null)
-            {
-                Ignite.Clear();
-                Ignite = null;
-            }
+            Ignite?.Clear();
+            Ignite = null;
         }
 
         return base.CanUse() && count > 0;

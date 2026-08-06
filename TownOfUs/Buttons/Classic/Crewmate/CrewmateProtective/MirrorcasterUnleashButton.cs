@@ -1,18 +1,16 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class MirrorcasterUnleashButton : TownOfUsKillRoleButton<MirrorcasterRole, PlayerControl>, IDiseaseableButton,
-    IKillButton
+    IKillButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleMirrorcasterUnleash", "Unleash");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
@@ -21,7 +19,7 @@ public sealed class MirrorcasterUnleashButton : TownOfUsKillRoleButton<Mirrorcas
     public override float Cooldown =>
         Math.Clamp(OptionGroupSingleton<MirrorcasterOptions>.Instance.UnleashCooldown.Value + MapCooldown, 5f, 120f);
 
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.UnleashSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.KillSprite : TouCrewAssets.UnleashSprite;
 
     public void SetDiseasedTimer(float multiplier)
     {
@@ -60,7 +58,7 @@ public sealed class MirrorcasterUnleashButton : TownOfUsKillRoleButton<Mirrorcas
         var isValid = base.IsTargetValid(target);
 
         if (isValid && target != null && target.TryGetModifier<MagicMirrorModifier>(out var mirrorMod) &&
-            mirrorMod.Mirrorcaster == PlayerControl.LocalPlayer)
+            mirrorMod.Mirrorcaster.AmOwner)
         {
             isValid = false;
         }

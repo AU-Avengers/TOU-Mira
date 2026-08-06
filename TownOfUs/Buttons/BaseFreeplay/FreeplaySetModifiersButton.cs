@@ -1,12 +1,10 @@
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Networking;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.BaseFreeplay;
@@ -29,7 +27,7 @@ public sealed class FreeplaySetModifiersButton : TownOfUsButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null &&
+        return PlayerControl.LocalPlayer &&
                (TutorialManager.InstanceExists || MultiplayerFreeplayMode.Enabled) &&
                !FreeplayButtonsVisibility.Hidden;
     }

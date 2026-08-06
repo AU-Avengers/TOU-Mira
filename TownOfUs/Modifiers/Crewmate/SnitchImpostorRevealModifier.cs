@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Crewmate;

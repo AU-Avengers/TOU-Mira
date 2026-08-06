@@ -9,7 +9,6 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
@@ -37,8 +36,8 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Bless", "Bless"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}BlessWikiDescription"),
                     TouCrewAssets.BlessSprite),
@@ -46,7 +45,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                     TouLocale.GetParsed($"TouRole{LocaleKey}ConfessWikiDescription").Replace("<revealAccuracy>",
                         $"{OptionGroupSingleton<OracleOptions>.Instance.RevealAccuracyPercentage}"),
                     TouCrewAssets.ConfessSprite)
-            };
+            ];
         }
     }
 
@@ -56,7 +55,9 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Oracle.LoadAsset(), "TouMira.Role.Crewmate.Oracle", 1.45f),
         Icon = TouRoleIcons.Oracle,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.GuardianAngelSound
     };
 
@@ -98,7 +99,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
 
         var allPlayers = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => !x.HasDied() && x != PlayerControl.LocalPlayer && x != player).ToList();
+            .Where(x => !x.HasDied() && !x.AmOwner && x != player).ToList();
         if (allPlayers.Count < 2)
         {
             return TouLocale.GetParsed("TouRoleOracleTooFew");
@@ -155,30 +156,38 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.OracleConfess)]
     public static void RpcOracleConfess(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         var mod = ModifierUtils.GetActiveModifiers<OracleConfessModifier>(x => x.Oracle == player).FirstOrDefault();
 
-        if (mod != null)
-        {
-            mod.ConfessToAll = true;
-        }
+        mod?.ConfessToAll = true;
     }
 
     [MethodRpc((uint)TownOfUsRpc.OracleBless)]
     public static void RpcOracleBless(PlayerControl exiled)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(exiled);
+            return;
+        }
         // Message($"RpcOracleBless exiled '{exiled.Data.PlayerName}'");
         var mod = exiled.GetModifier<OracleBlessedModifier>();
 
-        if (mod != null)
-            // Message($"RpcOracleBless exiled '{exiled.Data.PlayerName}' SavedFromExile");
-        {
-            mod.SavedFromExile = true;
-        }
+        mod?.SavedFromExile = true;
     }
 
     [MethodRpc((uint)TownOfUsRpc.OracleBlessNotify)]
-    public static void RpcOracleBlessNotify(PlayerControl oracle, PlayerControl source, PlayerControl target)
+    public static void RpcOracleBlessNotify(PlayerControl source, PlayerControl oracle, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
         if (oracle.Data.Role is not OracleRole || !source.AmOwner && !oracle.AmOwner)
         {
             Error("RpcOracleBlessNotify - Invalid oracle");

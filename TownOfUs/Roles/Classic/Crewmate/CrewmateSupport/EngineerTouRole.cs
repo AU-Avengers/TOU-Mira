@@ -9,7 +9,6 @@ using TownOfUs.Buttons;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -35,13 +34,13 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Fix", "Fix"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}FixWikiDescription").Replace("<engiMaxFixes>",
                         $"{(int)OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes}"),
                     TouCrewAssets.FixButtonSprite)
-            };
+            ];
         }
     }
 
@@ -51,7 +50,8 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        // CanUseVent = true,
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Engineer.LoadAsset(), "TouMira.Role.Crewmate.Engineer", 1.45f),
+        GetsVentData = true,
         Icon = TouRoleIcons.Engineer,
         OptionsScreenshot = TouBanners.EngineerRoleBanner,
         IntroSound = TouAudio.EngineerIntroSound
@@ -79,7 +79,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     public static void EngineerFix(PlayerControl engineer)
     {
-        switch ((ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId)
+        switch ((ExpandedMapNames)GameOptionsManager.Instance.currentGameOptions.MapId)
         {
             case ExpandedMapNames.Skeld or ExpandedMapNames.Dleks:
                 var comms1 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
@@ -321,6 +321,11 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     [MethodRpc((uint)TownOfUsRpc.EngineerEventFix)]
     public static void RpcEngineerEventFix(PlayerControl engi)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(engi);
+            return;
+        }
         if (engi.Data.Role is not EngineerTouRole)
         {
             Error("Invalid engineer");

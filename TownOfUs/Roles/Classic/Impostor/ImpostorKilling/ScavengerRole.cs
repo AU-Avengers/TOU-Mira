@@ -10,10 +10,10 @@ using MiraAPI.Roles;
 using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -26,9 +26,15 @@ public sealed class ScavengerRole(IntPtr cppPtr)
     [HideFromIl2Cpp] public PlayerControl? Target { get; set; }
     public bool Scavenging { get; set; }
 
+    [HideFromIl2Cpp]
+    public bool IsModifierApplicable(BaseModifier modifier)
+    {
+        return modifier is not OverclockerModifier;
+    }
+
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not ScavengerRole)
+        if (!Player || Player.Data.Role is not ScavengerRole)
         {
             return;
         }
@@ -72,7 +78,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
                     x => !x.HasModifier<FirstDeadShield>() && !x.HasModifier<LoverModifier>())!;
             }
 
-            Target.AddModifier<ScavengerArrowModifier>(Player, TownOfUsColors.Impostor);
+            Target?.AddModifier<ScavengerArrowModifier>(Player, TownOfUsColors.Impostor);
         }
 
         if (TimeRemaining > 0)
@@ -109,7 +115,9 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Scavenger.LoadAsset(), "TouMira.Role.Impostor.Scavenger", 1.45f),
         Icon = TouRoleIcons.Scavenger,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         IntroSound = TouAudio.WarlockIntroSound
     };
 
@@ -169,7 +177,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
                     x => !x.HasModifier<FirstDeadShield>() && !x.HasModifier<LoverModifier>())!;
             }
 
-            scav.Target.AddModifier<ScavengerArrowModifier>(player, TownOfUsColors.Impostor);
+            scav.Target?.AddModifier<ScavengerArrowModifier>(player, TownOfUsColors.Impostor);
         }
     }
 
@@ -219,7 +227,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
             }
 
             // update arrow to point to new target
-            Target.AddModifier<ScavengerArrowModifier>(Player, TownOfUsColors.Impostor);
+            Target?.AddModifier<ScavengerArrowModifier>(Player, TownOfUsColors.Impostor);
         }
         else
         {

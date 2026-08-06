@@ -1,11 +1,59 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string name="ReverseSkeldMapName">dlekS</string>
+  <string name="ReverseSkeldMapTooltip">ehT dlekS: the medium-sized ship you know and (maybe) love, but flipped!</string>
   <string name="DiscordServer">Discord Server</string>
   <string name="SourceCode">Source Code</string>
   <string name="FoolsMode">Fools Mode</string>
+  <string name="LegacyThemeDisabled">Legacy: Off</string>
+  <string name="LegacyThemeArt">Legacy: Art</string>
+  <string name="LegacyThemePlayers">Legacy: Players</string>
+  <string name="LegacyThemeFull">Legacy: Full</string>
   <string name="TertiaryAbility">Tertiary Ability (Hack Ability)</string>
   <string name="ModifierAbility">Modifier Ability</string>
+  <!-- Draft Mode -->
+  <string name="TouDraftCancelButton">Cancel Draft</string>
+  <string name="TouDraftCancelledNotif">Draft Mode has been cancelled by the \%color=#FFBFCC\%\%b\%Host\%/b\%\%/color\%!</string>
+  <string name="TouDraftShuffleButton">Shuffle</string>
+  <string name="TouDraftShuffledNotif">Your picks have been Reshuffled!</string>
+  <string name="TouDraftRandomDescription">Locks in a completely random role for you.</string>
+  <string name="TouDraftUnknownRoleLabel">Role \%id\%</string>
+  <string name="TouDraftUnknownTeamLabel">Unknown</string>
+  <string name="TouDraftRecapHeader">DRAFT RECAP</string>
+  <string name="TouDraftRecapModeRole">Role</string>
+  <string name="TouDraftRecapModeFaction">Faction</string>
+  <string name="TouDraftPlayerLabel">Player \%slot\%</string>
+  <string name="TouDraftSlotLabel">Slot \%slot\%</string>
+  <string name="TouDraftPickPrompt">Pick Your Role!</string>
+  <string name="TouDraftTimerRemaining">\%secs\% Second(s) Remaining</string>
+  <string name="TouDraftWaitingToStart">Waiting to start...</string>
+  <string name="TouDraftRolesPickedLabel">ROLES PICKED</string>
+  <string name="TouDraftShimmerDraft">DRAFT</string>
+  <string name="TouDraftShimmerMode">MODE</string>
+  <string name="TouDraftPlayerNumberLabel">Player #\%num\%</string>
+  <string name="TouDraftYouLabel">YOU</string>
+  <string name="TouDraftIsPickingLabel">is picking...</string>
+  <string name="TouDraftIsWaitingLabel">is waiting</string>
+  <string name="TouDraftPickedLabel">picked</string>
+  <string name="TouDraftUnknownRoleStatus">UNKNOWN</string>
+  <string name="TouDraftARoleLabel">a role</string>
+  <string name="TouDraftYourNumberLabel">YOUR NUMBER:</string>
+  <string name="TouDraftYouAreLabel">YOU ARE</string>
+  <string name="TouDraftSpectatingValue">SPECTATING</string>
+  <string name="TouDraftNowPickingLabel">NOW PICKING:</string>
+  <string name="TouDraftYourTurnLabel">YOUR TURN!</string>
+  <string name="TouDraftNowPickingMultiLabel">NOW PICKING (MULTI):</string>
+  <string name="TouDraftMultiLabel">MULTI</string>
+  <string name="DraftAudioCue">When Draft Audio Plays</string>
+  <string name="DraftAudioStart">Draft Start</string>
+  <string name="DraftAudioYourTurn">Your Turn</string>
+  <string name="DraftAudioNone">None</string>
+  <string name="DraftAudioBoth">Both</string>
   <!-- Client Options -->
+  <string name="SelfKillBindToggle">LSHIFT + T + ENTER Triggers Self-Kill</string>
+  <string name="AbortGameBindToggle">LSHIFT + L + ENTER Triggers Abort Game</string>
+  <string name="StartMeetingBindToggle">LSHIFT + K + ENTER Triggers Meeting Start</string>
+  <string name="EndMeetingBindToggle">F6 Triggers Meeting End</string>
   <string name="ClientTabGameplay">Gameplay</string>
   <string name="ClientOptionsButton">Tou Client Options</string>
   <string name="ShowVanillaWikiEntries">Show Vanilla Wiki Entries</string>
@@ -14,17 +62,44 @@
   <string name="ShowWelcomeMessage">Show Welcome Msg</string>
   <string name="ShowSummaryMessage">Show Summary Msg</string>
   <string name="ShowPracticeButtons">Show Practice Buttons</string>
+  <string name="AutoRejoinDelay">Auto Rejoin Delay</string>
+  <string name="AutoRejoinSelection">Auto Rejoin</string>
+  <string name="EndRejoinAlways">Always</string>
+  <string name="EndRejoinHost">As Host</string>
+  <string name="EndRejoinClient">As Client</string>
+  <string name="EndRejoinNever">Never</string>
   <string name="ZoomingInLobby">Zoom In Lobby</string>
   <string name="ShowRoleIconOnRoleTab">Icon On Role Tab</string>
   <string name="RainbowColorAsFortegreen">Rainbow Color As Fortegreen</string>
   <string name="ZoomingInPractice">Zoom In Practice</string>
   <string name="SeparateChatBubbles">Separate Chat Bubbles</string>
+    <string name="RoleIconOnReveal">Show Role Icon on Intro</string>
   <string name="ColorPlayerName">Colored Player Name</string>
+  <string name="RoleNameStyle">Role Name Style</string>
+  <string name="NameStyleTop">Top</string>
+  <string name="NameStyleTopSmall">Top (Small)</string>
+  <string name="NameStyleBottom">Bottom</string>
+  <string name="NameStyleBottomSmall">Bottom (Small)</string>
+  <string name="DisplayPlayerProgress">Show Player Progress On Name For</string>
+    <string name="ShowRoleIcons">Show Role Icons on Player Names</string>
+  <string name="ProgressTrackingNever">No One</string>
+  <string name="ProgressTrackingOnSelf">Self</string>
+  <string name="ProgressTrackingOnOthers">Others</string>
+  <string name="ProgressTrackingAlways">Everyone</string>
+  <string name="ModStampPlacement">Mod Stamp</string>
+  <string name="ModStampTopLeft">Top-Left</string>
+  <string name="ModStampTopRight">Top-Right</string>
+  <string name="ModStampBottomLeft">Bottom-Left</string>
+  <string name="ModStampBottomRight">Bottom-Right</string>
   <string name="UseCrewmateTeamColor">Use Basic Crew Colors</string>
   <string name="ShowShieldHud">Show Shields On Hud</string>
+  <string name="ShowBasicAssassinOnHud">Show Assassin On Hud</string>
   <string name="UseSeparateRedChat">Show Separate Private Chat</string>
   <string name="ButtonUIFactor">Button Scale Factor</string>
   <string name="OffsetButtons">Offset Buttons If You Can't Vent</string>
+  <string name="TopRightUiScale">Top-Right UI Scale Factor</string>
+  <string name="WikiOnBottomRow">Wiki Button Below Main UI</string>
+  <string name="ZoomOnBottomRow">Zoom Button Below Main UI</string>
   <string name="SortGuessingByAlignment">Sort Guessing By Alignment</string>
   <string name="PreciseCooldowns">Button Cooldowns Are In Decimal Under 10s</string>
   <string name="ArrowStyle">Arrow Style</string>
@@ -36,6 +111,10 @@
   <string name="SummarySimple">Simplified</string>
   <string name="SummaryNormal">Normal</string>
   <string name="SummaryAdvanced">Advanced</string>
+  <string name="EndSummaryVisibility">End Summary Visibility</string>
+  <string name="EndSumLeftSide">Left-Side</string>
+  <string name="EndSumSplit">Split</string>
+  <string name="EndSumHidden">Hidden</string>
   <string name="GrenadierFlashColor">Grenadier Flash Color</string>
   <string name="FlashWhite">White</string>
   <string name="FlashLightGray">Light Gray</string>
@@ -50,10 +129,12 @@
   <string name="PiPLocationBottomRight">Bottom Right</string>
   <string name="PiPLocationDynamic">Dynamic</string>
   <string name="ParasitePiPSize">Parasite Picture-in-Picture Size</string>
-  <string name="TouControlControlledNotif">You are being controlled by a &lt;controller&gt;!</string>
   <string name="PiPSizeNormal">Normal</string>
   <string name="PiPSizeSmall">Small</string>
   <string name="PiPSizeLarge">Large</string>
+  <string name="SonarTargetType">Sonar Target Style</string>
+  <string name="SonarHeartbeats">Heartbeats</string>
+  <string name="SonarArrows">Arrows</string>
   <!-- Player Colors -->
   <string name="PlayerColorDarker">Darker</string>
   <string name="PlayerColorLighter">Lighter</string>
@@ -116,6 +197,7 @@
   <string name="WikiSettingsAssassinSettingsTitle">Assassin Settings</string>
   <string name="WikiSettingsMapsSabotageSettingsTitle">Maps/Sabotage Settings</string>
   <string name="WikiSettingsBetterMapsSettingsTitle">Better Maps Settings</string>
+  <string name="WikiSettingsRoleDistOptions">Role Distribution Options</string>
   <!-- Terminology Wiki -->
   <string name="TermsTargetSymbolsTitle">Target Symbols</string>
   <string name="TermsTargetSymbolsInfo">Target Symbols appear on player names in meetings and mid-game, usually only visible to the role they pertain to and/or the dead. • Executioner targets are marked with \%color=#643B1F\%X\%/color\% • Inquisitor heretics are marked with \%color=#D94291\%$\%/color\% to the dead. • Fairy targets are marked with \%color=#B3FFFF\%★\%/color\%</string>
@@ -145,6 +227,7 @@
   <!-- Role List -->
   <string name="SetRoleList">Set Role List</string>
   <string name="NeutralFactionList">Neutral Faction List</string>
+  <string name="StoredDraftTitle">Draft Mode</string>
   <string name="NeutralBenigns">Neutral Benigns</string>
   <string name="NeutralEvils">Neutral Evils</string>
   <string name="NeutralOutliers">Neutral Outliers</string>
@@ -155,6 +238,9 @@
   <string name="CrewmateGhost">Crewmate Ghost</string>
   <string name="NeutralGhost">Neutral Ghost</string>
   <string name="ImpostorGhost">Impostor Ghost</string>
+  <string name="CrewmateAfterlife">Crewmate Afterlife</string>
+  <string name="NeutralAfterlife">Neutral Afterlife</string>
+  <string name="ImpostorAfterlife">Impostor Afterlife</string>
   <string name="GameOutlier">Game Outlier</string>
   <string name="CrewmateInvestigative">Crewmate Investigative</string>
   <string name="CrewmateKilling">Crewmate Killing</string>
@@ -278,13 +364,16 @@
   <string name="JaileeChatTitle">\%player\% (Jailed)</string>
   <string name="SystemChatTitle">System</string>
   <string name="AnticheatChatTitle">Anticheat System</string>
-  <string name="AnticheatKillMessage">A kill was attempted in the lobby, attached to \%player\%.</string>
+  <string name="AnticheatIllegalRpcMessage">A non-lobby feature/ability was run by \%player\%. They may be cheating/exploiting.</string>
   <string name="AnticheatMessage">\%player\% is joining with these different mods:</string>
   <string name="AnticheatKickMissingMessage">\%player\% is missing these mods:</string>
   <string name="AnticheatKickChatMessage">\%player\% was kicked for using cheat mods:</string>
   <string name="SpectatorCommandList">spec:spectate</string>
+    <string name="PlayerCommandList">players:plr:plrlist:playerlist</string>
+    <string name="PlayerCommandDetails">\%player\%'s Platform: \%platform\%</string>
   <string name="SpectatorLobbyError">You cannot toggle spectating outside the lobby!</string>
   <string name="SpectatorStartError">You cannot toggle spectator mode while the game is starting!</string>
+    <string name="SpectatorDraftError">You cannot toggle spectator mode while draft is ongoing!</string>
   <string name="SpectatorToggleOn">Set yourself as a spectator!</string>
   <string name="SpectatorToggleOff">You are no longer a spectator!</string>
   <string name="SpectatorHostError">The host has disabled /spec!</string>
@@ -301,10 +390,14 @@
   <string name="SetNameSimilarError">Another player has a name too similar to \%name\%! Please try a different name.</string>
   <string name="SetNameSuccess">Changed player name for the next match to: \%name\%.</string>
   <string name="WelcomeMessageBlurb">Welcome to Town of Us Mira v\%modVersion\%!\%nl\%Use the wiki (the globe icon) to get more info on roles or modifiers, where you can use the searchbar. Otherwise, use /help in the chat to get a list of commands.\%nl\%You may disable this message through your option menu.</string>
+  <string name="InfoCommandList">info</string>
+  <string name="InfoCommandDescription">/info - Replay the most recent role information message you received</string>
+  <string name="InfoCommandNoInfo">You do not have any role information available to replay.</string>
   <string name="HelpCommandList">help:support:command:commands:guide</string>
   <string name="HelpMessageTitle">Chat Commands:</string>
   <string name="HelpCommandDescription">/help - Shows this message</string>
   <string name="NerfMeCommandDescription">/nerfme - Cuts your vision in half</string>
+    <string name="PlayerCommandDescription">/players - Displays information about players in the lobby.</string>
   <string name="SetNameCommandDescription">/setname - Change your name to whatever text follows the command (like /setname \%randomName\%) for the next match.</string>
   <string name="SpectateCommandDescription">/spec - Allows you to spectate for the rest of the game automatically. (if enabled by the host)</string>
   <string name="SummaryCommandDescription">/summary - Shows the previous end game summary</string>
@@ -323,7 +416,7 @@
   <string name="UpCommandSuccessOther">Successfully requested role: \%role\% for player '\%player\%' next game.</string>
   <string name="UpCommandSuccessGlobal">Host requested role for player '\%player\%' next game.</string>
   <string name="RulesCommandList">rules</string>
-  <string name="RulesMessageTitle">System</string>
+  <string name="RulesMessageTitle">Lobby Rules</string>
   <string name="RulesMissingError">Host has no rules saved.</string>
   <string name="RulesShowHostError">You must be the host to use /rules show.</string>
   <string name="ShowRulesOnLobbyJoin">Show Rules On Lobby Join</string>
@@ -352,11 +445,15 @@
   <string name="RoundOfDeath">R\%count\%</string>
   <string name="RoundOfDeathLong">Round \%count\%</string>
   <string name="FirstDeadText">(Died R1)</string>
-  <!-- Cause of Deaths -->
-  <string name="ExileTextConfirm">\%player\% was The \%role\%.</string>
+  <string name="ExileTextConfirmA">\%player\% was a \%role\%.</string>
+  <string name="ExileTextConfirmAn">\%player\% was an \%role\%.</string>
+  <string name="ExileTextConfirmThe">\%player\% was the \%role\%.</string>
+  <string name="ExileTextConfirm">\%player\% was \%role\%.</string>
   <string name="DiedByString">\%cod\% By \%player\%</string>
   <string name="DiedByStringBasic">By \%player\%</string>
   <string name="Alive">Alive</string>
+  <string name="DisconnectedData">D/C R\%round\% </string>
+  <string name="DisconnectedDataFull">\%cod\% | D/C R\%round\% </string>
   <string name="DiedToDisconnect">Disconnected</string>
   <string name="DiedToEjection">Ejected</string>
   <string name="DiedToKiller">Killed</string>
@@ -370,15 +467,19 @@
   <string name="DiedToGuess">Guessed</string>
   <string name="DiedToHeartbreak">Heartbroken</string>
   <string name="DiedToSheriff">Shot</string>
+  <string name="DiedToOfficer">Wounded</string>
   <string name="DiedToDeputy">Blasted</string>
+  <string name="DiedToSwapper">Swapped</string>
+  <string name="DiedToMarshal">Tribunal</string>
   <string name="DiedToVeteran">Attacked</string>
   <string name="DiedToJailor">Executed</string>
   <string name="DiedToProsecutor">Prosecuted</string>
   <string name="DiedToArsonist">Ignited</string>
   <string name="DiedToGlitch">Bugged</string>
   <string name="DiedToJuggernaut">Destroyed</string>
-  <string name="DiedToPestilence">Diseased</string>
+  <string name="DiedToPestilence">Obliterated</string>
   <string name="DiedToSoulCollector">Reaped</string>
+  <string name="DiedToMedusa">Stoned</string>
   <string name="DiedToVampire">Bit</string>
   <string name="DiedToWerewolf">Rampaged</string>
   <string name="DiedToDoomsayer">Doomed</string>
@@ -392,6 +493,8 @@
   <string name="DiedToViper">Dissolved</string>
   <string name="DiedToParasite">Overtaken</string>
   <string name="DiedToPuppetControl">Targeted</string>
+    <string name="DiedToPoison">Poisoned</string>
+    <string name="DiedToTempRevive">Temporarily Revived</string>
   <!-- Status Effects -->
   <string name="TouFirstDeathShield">First Death Shield</string>
   <string name="TouClericBarrier">Cleric Barrier</string>
@@ -418,6 +521,7 @@
   <string name="FreeplayRestartPopup">All dead players have been revived and tasks have been reset!</string>
   <string name="TouFirstRoundDeathIndicator">First Round Death Indicator</string>
   <!-- Advanced Utility Options -->
+    <string name="TouOptionTitleAdvancedUtility">Advanced Utilities</string>
   <string name="TouOptionAdvancedUtilTasksToUseAdmin">Tasks Required to Use Admin Table</string>
   <string name="TouOptionAdvancedUtilTasksToUseCams">Tasks Required to Use Cams</string>
   <string name="TouOptionAdvancedUtilTasksToUseDoorlog">Tasks Required to Use Doorlog</string>
@@ -426,6 +530,7 @@
   <string name="TouUnavailableUtilityNotif">You need to complete \%amount\% more tasks to use this!</string>
   <string name="TouUnavailableUtilityNotifSingle">You need to complete \%amount\% more task to use this!</string>
   <!-- Advanced Sabotage Options -->
+    <string name="TouOptionTitleAdvancedSabotages">Advanced Sabotages</string>
   <string name="TouOptionAdvancedSaboCamouflageComms">Camouflage Comms</string>
   <string name="TouOptionAdvancedSaboGlobalCamouflageComms">Toggle Camouflage Comms</string>
   <string name="TouOptionAdvancedSaboKillDuringCamoComms">Kill Anyone During Camouflage</string>
@@ -433,6 +538,7 @@
   <string name="TouOptionAdvancedSaboHidePlayerSizeInCamo">Camouflage Hides Player Size</string>
   <string name="TouOptionAdvancedSaboHidePlayerSpeedInCamo">Camouflage Hides Player Speed</string>
   <!-- Random Map Options -->
+    <string name="TouOptionTitleRandomMapChoice">Random Map Choice</string>
   <string name="TouOptionRandomMapsToggle">Enable Randomized Maps</string>
   <string name="TouOptionRandomMapsSkeldChance">Skeld Chance</string>
   <string name="TouOptionRandomMapsBackwardsSkeldChance">dlekS ecnahC</string>
@@ -443,6 +549,7 @@
   <string name="TouOptionRandomMapsSubmergedChance">Submerged Chance</string>
   <string name="TouOptionRandomMapsLevelImpostorChance">Level Impostor Chance</string>
   <!-- Better Door Options -->
+    <string name="TouOptionTitleRandomDoorMode">Randomized Door Mode</string>
   <string name="TouOptionBetterDoorsEnumSkeld">Skeld</string>
   <string name="TouOptionBetterDoorsEnumPolus">Polus</string>
   <string name="TouOptionBetterDoorsEnumAirship">Airship</string>
@@ -457,6 +564,7 @@
   <string name="TouOptionBetterDoorsFungleChance">Fungle Door Chance</string>
   <string name="TouOptionBetterDoorsSubmergedChance">Submerged Door Chance</string>
   <!-- Global Better Map Options -->
+    <string name="TouOptionTitleGlobalBetterMaps">Global Better Maps</string>
   <string name="TouOptionGlobalBetterMapCamouflageComms">Use Camouflage Comms</string>
   <string name="TouOptionGlobalBetterMapChangeEnumOff">Globally Disabled</string>
   <string name="TouOptionGlobalBetterMapChangeEnumOn">Globally Enabled</string>
@@ -490,18 +598,22 @@
   <string name="TouOptionBetterMapsThemeEnumBasic">No Decor </string>
   <string name="TouOptionBetterMapsThemeEnumHalloween">Halloween</string>
   <string name="TouOptionBetterMapsThemeEnumBirthday">Birthday</string>
+  <string name="TouOptionBetterMapsThemeEnumTvShow">TV Show</string>
   <string name="TouOptionBetterMapsThemeEnumAuto">Automatic</string>
   <!-- Better Skeld Options -->
+    <string name="TouOptionTitleBetterSkeld">Better Skeld</string>
   <string name="TouOptionBetterSkeldDoorType">Door Type on Skeld</string>
   <string name="TouOptionBetterSkeldVentNetwork">Skeld Vent Network</string>
   <string name="TouOptionBetterSkeldVentModeEnumNormal">Unchanged</string>
   <string name="TouOptionBetterSkeldVentModeEnumFourGroups">Quad-Group</string>
   <!-- Better Mira HQ Options -->
+    <string name="TouOptionTitleBetterMira">Better Mira HQ</string>
   <string name="TouOptionBetterMiraHqVentNetwork">Mira HQ Vent Network</string>
   <string name="TouOptionBetterMiraHqVentModeEnumNormal">Interconnected</string>
   <string name="TouOptionBetterMiraHqVentModeEnumThreeGroups">Tri-Group</string>
   <string name="TouOptionBetterMiraHqVentModeEnumFourGroups">Quad-Group</string>
   <!-- Better Polus Options -->
+    <string name="TouOptionTitleBetterPolus">Better Polus</string>
   <string name="TouOptionBetterPolusDoorType">Door Type on Polus</string>
   <string name="TouOptionBetterPolusVentNetwork">Adjusted Polus Vent Network</string>
   <string name="TouOptionBetterPolusVitalsInLab">Vitals Moved To Lab</string>
@@ -509,6 +621,7 @@
   <string name="TouOptionBetterPolusSwapWikiAndChart">Reboot Wifi And Chart Course Swapped</string>
   <string name="TouOptionBetterPolusMoveToiletVent">Move Bathroom Vent Outside the Stalls</string>
   <!-- Better Airship Options -->
+    <string name="TouOptionTitleBetterAirship">Better Airship</string>
   <string name="TouOptionBetterAirshipDoorType">Door Type on Airship</string>
   <string name="TouOptionBetterAirshipSpawnMode">Spawn Mode</string>
   <string name="TouOptionBetterAirshipSpawnEnumNormal">Normal</string>
@@ -522,13 +635,17 @@
   <string name="TouOptionBetterAirshipSpawnLocationEnumBrig">Brig</string>
   <string name="TouOptionBetterAirshipSpawnLocationEnumRecords">Records</string>
   <!-- Better Fungle Options -->
+    <string name="TouOptionTitleBetterFungle">Better Fungle</string>
   <string name="TouOptionBetterFungleDoorType">Door Type on Fungle</string>
   <!-- Better Submerged Options -->
+    <string name="TouOptionTitleBetterSubmerged">Better Submerged</string>
   <string name="TouOptionBetterSubmergedDoorType">Door Type on Submerged</string>
   <string name="TouOptionBetterSubmergedSpawnMode">Spawn Location</string>
   <string name="TouOptionBetterSubmergedSpawnEnumSelectable">Selectable</string>
   <string name="TouOptionBetterSubmergedSpawnEnumUpperDeck">Upper Deck</string>
   <string name="TouOptionBetterSubmergedSpawnEnumLowerDeck">Lower Deck</string>
+    <!-- Better LI Options -->
+    <string name="TouOptionTitleBetterLevelImpostor">Better Level Impostor</string>
   <!-- Spectator - Game Outlier -->
   <string name="TouRoleSpectator">Spectator</string>
   <string name="TouRoleSpectatorIntroBlurb">Watch the chaos from afar</string>
@@ -700,10 +817,18 @@
   <string name="TouRoleDeputyCamp">Camp</string>
   <string name="TouRoleDeputyCampWikiDescription">Camp a player to be alerted once they die. After their death, you may attempt to shoot the killer. If your shot is successful, the killer dies, if not, nothing will happen.</string>
   <!-- Deputy Feedback -->
+  <string name="TouRoleDeputyRevealedText"> (Blasted)</string>
   <string name="TouRoleDeputyCampNotif">Wait for \%player\%'s death so you can blast their killer in the meeting.</string>
   <string name="TouRoleDeputyCampedKillNotif">Your camped target, \%player\%, has died! Avenge them in the meeting.</string>
+  <string name="TouRoleDeputyKillerWarnNotif">A Deputy had camped your victim, watch out! </string>
   <string name="TouRoleDeputyMessageTitle">Deputy Feedback</string>
   <string name="TouRoleDeputyMissedShot">You missed your shot! They are either not the killer or are invincible.</string>
+  <!-- Deputy Options -->
+  <string name="TouOptionDeputyWarnKillerOnCampedKill">Warn Killer Upon Killing Camped Target</string>
+  <string name="TouOptionDeputyRevealDeputyUponShot">Reveal Deputy Upon Successful Shot</string>
+  <string name="TouOptionDeputyEnumNoReveal">Disabled</string>
+  <string name="TouOptionDeputyEnumAnnounceRole">Announce Role</string>
+  <string name="TouOptionDeputyEnumRevealPlayer">Reveal Deputy</string>
   <!-- Forensic - Crewmate Investigative -->
   <!-- Forensic Wiki / Abilities -->
   <string name="TouRoleForensic">Forensic</string>
@@ -731,7 +856,34 @@
   <string name="TouRoleForensicBodyKillerImpostor">The killer appears to be a Impostor!\%nl\%Killed \%time\%s ago.</string>
   <string name="TouRoleForensicAtScene">\%player\% was at the scene of \%deadPlayer\%'s death!\%nl\%They might be the killer or a witness.</string>
   <string name="TouRoleForensicNotAtScene">\%player\% was not at the scene of the crime.</string>
-  <!-- Engineer - Crewmate Investigative -->
+    <!-- Barkeeper - Crewmate Support -->
+    <!-- Barkeeper Wiki / Abilities -->
+    <string name="TouRoleBarkeeper">Barkeeper</string>
+    <string name="TouRoleBarkeeperIntroBlurb">Roleblock Evildoers to slow them down</string>
+    <string name="TouRoleBarkeeperTabDescription">Roleblock Evildoers to disable their abilities for \%blockTime\%s.</string>
+    <string name="TouRoleBarkeeperWikiDescription">The Barkeeper is a Crewmate Support role that can drink with others to roleblock them. They may also spill a drink to speed or slow down players.</string>
+    <string name="TouRoleBarkeeperRoleblock">Roleblock</string>
+    <string name="TouRoleBarkeeperRoleblocking">Roleblocking</string>
+    <string name="TouRoleBarkeeperRoleblockWikiDescription">Drink with a player, roleblocking them for \%blockTime\%s.</string>
+    <string name="TouRoleBarkeeperRoleblockWikiDescriptionWithHangover">Drink with a player, roleblocking them for \%blockTime\%s. After the roleblock is finished, they will be hungover for \%overTime\%s</string>
+    <string name="TouRoleBarkeeperSpill">Spill</string>
+    <string name="TouRoleBarkeeperSpilling">Settling</string>
+    <string name="TouRoleBarkeeperSpillWikiDescription">Spill one of your drinks, making anyone speed up if it's recently been spilled or make others slow down if it's old enough. This will only trigger once for each player.</string>
+    <string name="TouRoleBarkeeperSpillSpeedBuffNotif">You feel a slippery spill beneath you. You've got a speed boost!</string>
+    <string name="TouRoleBarkeeperSpillSpeedDebuffNotif">You feel an old spill beneath you. You feel slower than usual.</string>
+    <!-- Barkeeper Options -->
+    <string name="TouOptionBarkeeperRoleblockCooldown">Roleblock Cooldown</string>
+    <string name="TouOptionBarkeeperRoleblockDelayMin">Minimum Roleblock Delay</string>
+    <string name="TouOptionBarkeeperRoleblockDelayMax">Maximum Roleblock Delay</string>
+    <string name="TouOptionBarkeeperRoleblockDelaySummarized">Roleblock Delay: \%min\%s - \%max\%s</string>
+    <string name="TouOptionBarkeeperSpillDelay">Spill Settle Delay</string>
+    <string name="TouOptionBarkeeperSpillEffectDuration">Amount of Time Player is Affected By Spill</string>
+    <string name="TouOptionBarkeeperSpillBuffDuration">Time Before Spill Slows Players Down</string>
+    <string name="TouOptionBarkeeperSpillCleanUpDuration">Additional Time For Spill To Be Removed</string>
+    <string name="TouOptionBarkeeperSpillEffectBuffMultiplier">Spill Speed Buff Multiplier</string>
+    <string name="TouOptionBarkeeperSpillEffectDebuffMultiplier">Spill Speed Debuff Multiplier</string>
+    <string name="TouOptionBarkeeperSpillDurationOptionsSummarized">Spill Speed Duration: \%duration\%s | Buff: \%fast\%x, Debuff: \%slow\%x</string>
+  <!-- Engineer - Crewmate Support -->
   <!-- Engineer Wiki / Abilities -->
   <string name="TouRoleEngineer">Engineer</string>
   <string name="TouRoleEngineerIntroBlurb">Maintain important systems on the ship</string>
@@ -797,6 +949,7 @@
   <!-- Imitator - Crewmate Support -->
   <!-- Imitator Wiki / Abilities -->
   <string name="TouRoleImitator">Imitator</string>
+  <string name="TouRoleImitatorShortName">Imi</string>
   <string name="TouRoleImitatorIntroBlurb">Use the dead to benefit the Crew</string>
   <string name="TouRoleImitatorTabDescription">Use dead players to benefit the crew via imitation in meetings</string>
   <string name="TouRoleImitatorWikiDescription">The Imitator is a Crewmate Support role that can select a dead crewmate to imitate their role until they change targets. Certain roles are inaccessible if there are multiple living imitators.</string>
@@ -821,6 +974,7 @@
   <string name="TouRoleInvestigatorTabDescription">You can see everyone's footprints.</string>
   <string name="TouRoleInvestigatorWikiDescription">The Investigator is a Crewmate Investigative role can see player's footprints throughout the game. Swooped players' footprints will not be visible to the Investigator.</string>
   <!-- Investigator Options -->
+  <string name="TouOptionInvestigatorFootprintSeperated">Footprints Added Based On</string>
   <string name="TouOptionInvestigatorFootprintSize">Footprint Size</string>
   <string name="TouOptionInvestigatorFootprintInterval">Footprint Interval</string>
   <string name="TouOptionInvestigatorFootprintDuration">Footprint Duration</string>
@@ -855,17 +1009,21 @@
   <string name="TouRoleLookout">Lookout</string>
   <string name="TouRoleLookoutIntroBlurb">Keep your eyes wide open</string>
   <string name="TouRoleLookoutTabDescription">Watch other crewmates to see what roles interact with them</string>
-  <string name="TouRoleLookoutWikiDescription">The Lookout is a Crewmate Investigative role that can watch other players during rounds. During meetings, they will see all roles who interact with each watched player.</string>
+  <string name="TouRoleLookoutAltTabDescription">Watch other crewmates to see who interacts with them</string>
+  <string name="TouRoleLookoutWikiDescription">The Lookout is a Crewmate Investigative role that can watch other players during rounds. During meetings, they will see all roles or players who interact with each watched player.</string>
   <string name="TouRoleLookoutWatch">Watch</string>
   <string name="TouRoleLookoutWatchWikiDescription">Watch a player or multiple, the next meeting you will know which players interacted with the watched ones.</string>
   <string name="TouRoleLookoutWatchNotif">You will know what roles interact with \%player\% next meeting.</string>
+  <string name="TouRoleLookoutWatchAltNotif">You will know who interacts with \%player\% next meeting.</string>
   <!-- Lookout Feedback -->
   <string name="TouRoleLookoutFeedbackTitle">Lookout Feedback</string>
   <string name="TouRoleLookoutNoInteractionFeedback">No players interacted with \%player\%</string>
   <string name="TouRoleLookoutInteractionFeedback">Roles seen interacting with \%player\%</string>
+  <string name="TouRoleLookoutAltInteractionFeedback">Players seen interacting with \%player\%</string>
   <!-- Lookout Options -->
   <string name="TouOptionLookoutWatchCooldown">Watch Cooldown</string>
   <string name="TouOptionLookoutMaxWatches">Initial Players That Can be Watched</string>
+  <string name="TouOptionLookoutSeesIndirectAttacks">See Indirect Attacks</string>
   <string name="TouOptionLookoutLoResetOnNewRound">Lookout Watches Reset After Each Round</string>
   <string name="TouOptionLookoutTaskUses">Get More Uses From Completing Tasks</string>
   <!-- Mayor - Crewmate Power -->
@@ -911,14 +1069,23 @@
   <!-- Medium - Crewmate Support -->
   <!-- Medium Wiki / Abilities -->
   <string name="TouRoleMedium">Medium</string>
-  <string name="TouRoleMediumIntroBlurb">Watch the spooky ghosts</string>
-  <string name="TouRoleMediumTabDescription">Follow ghosts to get clues from them</string>
-  <string name="TouRoleMediumWikiDescription">The Medium is a Crewmate Investigative role who can Mediate to see one ghost per use. Both the Medium and Ghost then have an arrow showing them where each other are at all times.</string>
+  <string name="TouRoleMediumIntroBlurb">Become one with the ghosts</string>
+  <string name="TouRoleMediumTabDescription">Mediate to leave your mortal body behind for some time.\%nl\%Your body is still vulnerable in this state.</string>
+  <string name="TouRoleMediumWikiDescription">The Medium is a Crewmate Investigative role that can temporarily release their spirit. They can pass through walls and see ghosts, but leave their body unprotected.</string>
   <string name="TouRoleMediumMediate">Mediate</string>
-  <string name="TouRoleMediumMediateWikiDescription">Communicate with the dead, which may lead you to the killers.</string>
+  <string name="TouRoleMediumMediateWikiDescription">Project your spirit outside your body for some time to uncover clues. Once time is up, return to your mortal flesh and ghosts will disappear.</string>
   <!-- Medium Options -->
   <string name="TouOptionMediumMediateCooldown">Mediate Cooldown</string>
-  <string name="TouOptionMediumRevealAppearanceOfMediateTarget">Reveal Appearance of Mediated Target</string>
+  <string name="TouOptionMediumReworkToggle">Mediation Creates a Spirit Temporarily</string>
+  <string name="TouOptionMediumMediateDuration">Mediate Duration</string>
+  <string name="TouOptionMediumMediateEarlyCancel">Mediate Can Be Canceled Early</string>
+  <string name="TouOptionMediumMediatingSpeed">Spirit Speed When Mediating</string>
+  <string name="TouOptionMediumLivingSeeSpiritTimer">Time Before Spirit is Visible to Others</string>
+  <string name="TouOptionMediumAppearanceVisibility">Medium can Identify</string>
+  <string name="TouOptionMediumAppearanceEnumLiving">Living</string>
+  <string name="TouOptionMediumAppearanceEnumDead">Ghosts</string>
+  <string name="TouOptionMediumAppearanceEnumBoth">Living + Ghosts</string>
+  <string name="TouOptionMediumAppearanceEnumNone">Nobody</string>
   <string name="TouOptionMediumArrowVisibility">Arrow Visibility</string>
   <string name="TouOptionMediumArrowEnumShowMedium">Medium</string>
   <string name="TouOptionMediumArrowEnumShowMediated">Mediated</string>
@@ -976,11 +1143,10 @@
   <string name="TouRoleMonarchWikiDescription">The Monarch is a Crewmate Power role that can hand out additional votes to other players.</string>
   <string name="TouRoleMonarchKnight">Knight</string>
   <string name="TouRoleMonarchKnightDescription">Knight a player, giving them \%amount\% vote(s)</string>
-  <string name="TouRoleMonarchChangeFlash">Change Flash</string>
-  <string name="TouRoleMonarchChangeFlashDescription">If configurable, the Monarch can change how their defense appears to other attackers. The color can flash like a Cleric, Medic, Mercenary, Warden, or not flash at all!</string>
   <string name="TouRoleMonarchKnightTargetDied">\%player\% died before you could knight them.</string>
   <string name="TouRoleMonarchKnightSuccess">\%player\% was knighted!</string>
   <string name="TouRoleMonarchKnightedFeedback">You were knighted by a \%role\%. You gained \%votes\% vote(s)!</string>
+  <string name="TouRoleMonarchMessageTitle">Monarch Feedback</string>
   <string name="TouRoleMonarchKnightFallenFeedback">Your knight, \%player\%, has fallen...</string>
   <!-- Mystic - Crewmate Investigative -->
   <!-- Mystic Wiki / Description -->
@@ -1037,12 +1203,13 @@
   <string name="TouNotifPlumberBlock">This vent will be blocked at the beginning of next round.</string>
   <string name="TouRolePlumberWikiDescription">The Plumber is a Crewmate Support role that can place Barricades on vents and Flush anyone out of vents.</string>
   <string name="TouRolePlumberFlush">Flush</string>
-  <string name="TouRolePlumberFlushWikiDescription">Flushing the vents makes every vent open and close, kicking out anyone actively in a vent. The Plumber also gets an arrow pointing to every flushed player for one second.</string>
+  <string name="TouRolePlumberFlushWikiDescription">Flushing the vents kicks out anyone actively in a vent, and prevents them from being used temporarily. The Plumber also gets an arrow pointing to every flushed player for one second.</string>
   <string name="TouRolePlumberBlock">Block</string>
   <string name="TouRolePlumberBlockWikiDescription">Block a vent by placing a barricade on it for the next round, preventing players from using it.</string>
   <string name="TouRolePlumberBlockNotif">This vent will be blocked at the beginning of the next round.</string>
   <!-- Plumber Options -->
   <string name="TouOptionPlumberFlushCooldown">Flush Cooldown</string>
+  <string name="TouOptionPlumberFlushDuration">Flush Duration</string>
   <string name="TouOptionPlumberBlockCooldown">Block Cooldown</string>
   <string name="TouOptionPlumberMaxNumberOfBarricades">Initial Number Of Barricades</string>
   <string name="TouOptionPlumberAmountOfRoundsBarricadesLast">Amount Of Rounds Barricades Last</string>
@@ -1108,6 +1275,8 @@
   <string name="TouOptionSeerSalemMode">Compare Players Instead of Checking Alignments</string>
   <string name="TouOptionSeerCooldown">Reveal/Compare Cooldown</string>
   <string name="TouOptionSeerUses">Max Uses of Reveal/Compare</string>
+  <string name="TouOptionSeerMultiplePerRound">Can Reveal/Compare More Than Once Per Round</string>
+  <string name="TouOptionSeerCompareEachPlayerOnce">Can Only Compare Each Player Once</string>
   <string name="TouOptionSeerNeutralBenignFriendly">Neutral Benign Show Friends To All</string>
   <string name="TouOptionSeerNeutralEvilFriendly">Neutral Evils Show Friends To All</string>
   <string name="TouOptionSeerNeutralOutlierFriendly">Neutral Outliers Show Friends To All</string>
@@ -1218,13 +1387,44 @@
   <string name="TouSystemType_MushroomMixupSabotage">Mushroom Mixup</string>
   <string name="TouSystemType_HeliSabotage">Heli Sabotage</string>
 
+  <!-- Officer - Crewmate Killing -->
+  <!-- Officer Wiki / Abilities -->
+  <string name="TouRoleOfficer">Officer</string>
+  <string name="TouRoleOfficerIntroBlurb">Reload and shoot the \%color=#FF0000FF\%Killers\%/color\%</string>
+  <string name="TouRoleOfficerTabAdditionCount">Rounds left to shoot again: \%count\%</string>
+  <string name="TouRoleOfficerTabAdditionNext">Next round, you may shoot again.</string>
+  <string name="TouRoleOfficerTabAdditionMajorityInno">Only shoot Impostors and Neutral Killers.</string>
+  <string name="TouRoleOfficerTabAdditionCrewmatesInno">Only shoot Impostors and Neutrals.</string>
+  <string name="TouRoleOfficerTabAdditionKillBasedInno">Only shoot anyone who's killed already.</string>
+  <string name="TouRoleOfficerTabDescription">Load bullets strategically without wasting them.\%nl\%Loaded bullets older than 10s are reset next round.</string>
+  <string name="TouRoleOfficerWikiDescription">The Officer is a Crewmate Killing role that can shoot players with limited ammo. They must load bullets, which only last one round unless they are added within 10 seconds.</string>
+  <string name="TouRoleOfficerLoad">Load</string>
+  <string name="TouRoleOfficerLoadWikiDescription">Load a bullet into your gun, allowing you to shoot.</string>
+  <string name="TouRoleOfficerShoot">Shoot</string>
+  <string name="TouRoleOfficerShootWikiDescription">Shoot a player to kill them. If the player is considered "innocent," then you will put away your gun temporarily.</string>
+  <!-- Officer Feedback -->
+  <string name="TouRoleOfficerBadKillFeedback">You've shot an innocent player! Your gun has been confiscated for now.</string>
+  <!-- Officer Options -->
+  <string name="TouOptionOfficerShootCooldown">Shoot Cooldown</string>
+  <string name="TouOptionOfficerLoadCooldown">Load Cooldown</string>
+  <string name="TouOptionOfficerCanSelfReport">Can Self Report</string>
+  <string name="TouOptionOfficerCanOnlyShootActiveKillers">Officer Can Only Shoot Players That Have Killed</string>
+  <string name="TouOptionOfficerCrewKillingAreInnocent">Crewmate Killing Roles are Innocent</string>
+  <string name="TouOptionOfficerNonKillingNeutralsAreInnocent">Non-Killing Neutrals are Innocent</string>
+  <string name="TouOptionOfficerFirstRound">Allow Shooting in First Round</string>
+  <string name="TouOptionOfficerMaxBulletsTotal">Maximum Bullets in Total</string>
+  <string name="TouOptionOfficerMaxBulletsAtOnce">Maximum Bullets at Once</string>
+  <string name="TouOptionOfficerCooldownSummary">Shoot Cooldown: \%shoot\%s | Load Cooldown: \%load\%s</string>
+  <string name="TouOptionOfficerBulletsSummary">Bullets at Once: \%once\% | Bullets Total: \%total\%</string>
+  <string name="TouOptionOfficerRoundPunishment"># of Rounds to Shoot Again After Misfire</string>
+
   <!-- Sheriff - Crewmate Killing -->
   <!-- Sheriff Wiki / Abilities -->
   <string name="TouRoleSheriff">Sheriff</string>
   <string name="TouRoleSheriffIntroBlurb">Shoot the \%color=#FF0000FF\%Evildoers\%/color\%</string>
   <string name="TouRoleSheriffTabDescription">Kill off the impostors but don't kill crewmates</string>
   <string name="TouRoleSheriffTabDescriptionEgo">Kill off whoever you wish in hopes of crew losing</string>
-  <string name="TouRoleSheriffWikiDescription">The Sheriff is a Crewmate Killing that can shoot a player to attempt to kill them. If Sheriff doesn't die to misfire, they will lose the ability to shoot.</string>
+  <string name="TouRoleSheriffWikiDescription">The Sheriff is a Crewmate Killing role that can shoot a player to attempt to kill them. If Sheriff doesn't die to misfire, they will lose the ability to shoot.</string>
   <string name="TouRoleSheriffShoot">Shoot</string>
   <string name="TouRoleSheriffShootWikiDescription">Shoot a player to kill them, misfiring if they aren't an Impostor or one of the other selected shootable factions</string>
   <!-- Sheriff Misfire Text -->
@@ -1376,7 +1576,7 @@
   <string name="TouOptionTrapperMinAmountOfTimeInTrap">Min Amount Of Time In Trap To Register</string>
   <string name="TouOptionTrapperMaxNumberOfTraps">Initial Number Of Traps</string>
   <string name="TouOptionTrapperTrapSize">Trap Size</string>
-  <string name="TouOptionTrapperTrapsRemovedAfterRound">Traps Removed After Each Round</string>
+  <string name="TouOptionTrapperTrapsRemovedAfterRound">Traps Reset After Each Round</string>
   <string name="TouOptionTrapperGetUsesFromTasks">Get More Uses From Completing Tasks</string>
   <string name="TouOptionTrapperMinimumNumberOfRoles">Minimum Number Of Roles Required To Trigger Trap</string>
   <!-- Trapper Feedback -->
@@ -1506,10 +1706,27 @@
   <!-- Blackmailer Options -->
   <string name="TouOptionBlackmailerNumberOfBlackmailUsesPerGame">Number Of Blackmail Uses Per Game</string>
   <string name="TouOptionBlackmailerBlackmailCooldown">Blackmail Cooldown</string>
-  <string name="TouOptionBlackmailerMaxPlayersAliveUntilVoting">Max Players Alive Until Voting</string>
+  <string name="TouOptionBlackmailerMaxPlayersAliveUntilVoting">Max Players Alive To Allow Voting</string>
   <string name="TouOptionBlackmailerBlackmailSamePersonTwiceInARow">Blackmail Same Person Twice In A Row</string>
   <string name="TouOptionBlackmailerOnlyTargetSeesBlackmail">Only Target Sees Blackmail</string>
   <string name="TouOptionBlackmailerCanKillWithTeammate">Blackmailer Can Kill With Teammate</string>
+    <!-- Bootlegger - Impostor Support -->
+    <!-- Bootlegger Wiki / Abilities -->
+    <string name="TouRoleBootlegger">Bootlegger</string>
+    <string name="TouRoleBootleggerIntroBlurb">Roleblock Crewmates to stop them.</string>
+    <string name="TouRoleBootleggerTabDescription">Roleblock the crew to disable their abilities for \%blockTime\%s.\%nl\%Roleblock someone multiple times to poison them.</string>
+    <string name="TouRoleBootleggerWikiDescription">The Bootlegger is an Impostor Support role that can drink with others to roleblock them. Once a player is roleblocked three times, they will die of poison.</string>
+    <string name="TouRoleBootleggerSicken">Sicken</string>
+    <string name="TouRoleBootleggerSickening">Sickening</string>
+    <string name="TouRoleBootleggerPoison">Poison</string>
+    <string name="TouRoleBootleggerPoisoning">Poisoning</string>
+    <string name="TouRoleBootleggerMessageTitle">Bootlegger Feedback</string>
+    <string name="TouRoleBootleggerSickenFeedbackAffected">You have a sudden feeling that a drink is making you feel sick! Next time the Bootlegger gives you a drink, you will die of poison!</string>
+    <string name="TouRoleBootleggerSickenFeedbackBootlegger">Your victim, \%player\%, has noticed the effects of your drink! Next time you roleblock them, they will die of poison.</string>
+    <!-- Bootlegger Options -->
+    <string name="TouOptionBootleggerRoleblockCooldown">Roleblock Cooldown</string>
+    <string name="TouOptionBootleggerRoleblockDelayMin">Minimum Roleblock Delay</string>
+    <string name="TouOptionBootleggerRoleblockDelayMax">Maximum Roleblock Delay</string>
   <!-- Bomber Wiki / Abilities -->
   <string name="TouRoleBomber">Bomber</string>
   <string name="TouRoleBomberIntroBlurb">Drop bombs to multi-kill Crewmates.</string>
@@ -1565,7 +1782,17 @@
   <string name="TouOptionGrenadierFlashGrenadeDuration">Flash Grenade Duration</string>
   <string name="TouOptionGrenadierFlashRadius">Flash Radius</string>
   <string name="TouOptionGrenadierGrenadierCanVent">Grenadier Can Vent</string>
+
   <string name="TouRoleHerbalist">Herbalist</string>
+  <string name="TouRoleHerbalistIntroBlurb">Let your plants and herbs guide the way</string>
+  <string name="TouRoleHerbalistTabDescription">Use your deep knowledge of nature on others.\%nl\%Your kill cooldown is unlinked from other abilities.</string>
+  <string name="TouRoleHerbalistWikiDescription">The Herbalist is an Impostor Power role that has many abilities tied to one cooldown, either to help Impostors or to affect what others see.</string>
+  <string name="TouRoleHerbalistExpose">Expose</string>
+  <string name="TouRoleHerbalistExposeWikiDescription">Expose a player to all Impostors, revealing their role but preventing them from being guessed.</string>
+  <string name="TouRoleHerbalistConfuse">Confuse</string>
+  <string name="TouRoleHerbalistConfuseWikiDescription">Confuse a player with fungal spores to prevent them from identifying players.</string>
+  <string name="TouRoleHerbalistProtect">Protect</string>
+  <string name="TouRoleHerbalistProtectWikiDescription">Protect a player temporarily as if you were a Cleric, including other impostors.</string>
   <!-- Not in code yet -->
 
   <!-- Hypnotist Wiki / Abilities -->
@@ -1637,6 +1864,7 @@
   <string name="TouRoleParasiteOvertakeWikiDescription">Overtake a nearby non-impostor to take control of their movement. By default, you move with WASD and control them with Arrow Keys. If "Parasite Can Move Independently" is disabled, you cannot move and control them with WASD instead.</string>
   <string name="TouRoleParasiteDecay">Kill</string>
   <string name="TouRoleParasiteDecayWikiDescription">Kill your currently overtaken victim immediately.</string>
+    <string name="TouRoleParasiteOvertakeNotifSelf">You have overtaken \%player\%!</string>
   <!-- Parasite Options -->
   <string name="TouOptionParasiteOvertakeCooldown">Overtake Cooldown</string>
   <string name="TouOptionParasiteOvertakeKillCooldown">Kill Cooldown</string>
@@ -1667,6 +1895,7 @@
   <string name="TouRolePuppeteerControl">Control</string>
   <string name="TouRolePuppeteerKill">Control Kill</string>
   <string name="TouRolePuppeteerControlWikiDescription">Use your menu to control whoever you wish. In this state, the controlled player will kill as if they were an impostor, and not as whatever role they actually are.</string>
+    <string name="TouRolePuppeteerControlNotifSelf">You are controlling \%player\%!</string>
   <string name="TouRolePuppeteerControlNotifBasic">You are under the control of a \%role\%!</string>
   <string name="TouRolePuppeteerControlNotif1">You've lost sensation of yourself. You're under the control of a \%role\%!</string>
   <string name="TouRolePuppeteerControlNotif2">You feel a mystical power overtaking you. You're under the control of a \%role\%!</string>
@@ -1756,6 +1985,9 @@
   <string name="TouRoleVenererSprintWikiDescription">Stage 2 of the abilities.\%nl\%You will gain the speed of the Flash while hidden from camo.</string>
   <string name="TouRoleVenererFreeze">Freeze</string>
   <string name="TouRoleVenererFreezeWikiDescription">The Final Stage of the abilities.\%nl\%You will slow down players around you in a radius, as well as being fast and hidden from camo.</string>
+  <string name="TouRoleVenererUncamouflage">Uncamouflage</string>
+  <string name="TouRoleVenererUnsprint">Unsprint</string>
+  <string name="TouRoleVenererUnfreeze">Unfreeze</string>
   <!-- Venerer Options -->
   <string name="TouOptionVenererAbilityCooldown">Ability Cooldown</string>
   <string name="TouOptionVenererAbilityDuration">Ability Duration</string>
@@ -1776,6 +2008,10 @@
   <string name="TouOptionWarlockTimeItTakesToUseFullCharge">Time It Takes To Use Full Charge</string>
   <!-- Neutral Roles -->
 
+  <!--Anonymous Feedback-->
+  <string name="TouNeutAnonymousVictoryMessage">\%player\% has successfully won and left!</string>
+  <string name="TouOptionNeutAnonymousVictoryWin">Hide Role On Win Notification</string>
+    <string name="TouRoleAnonymousVictoryKillNotif">\%source\% has killed \%victim\% after their victory!</string>
   <!-- Amnesiac -->
   <!-- Amnesiac Wiki / Abilities -->
   <string name="TouRoleAmnesiac">Amnesiac</string>
@@ -1791,6 +2027,12 @@
   <string name="TouOptionAmnesiacInheritFactionModifier">Inherit Faction Modifiers</string>
   <string name="TouOptionAmnesiacShowArrows">Show Arrows Pointing To Dead Bodies</string>
   <string name="TouOptionAmnesiacArrowDelay">Time After Death Arrow Appears</string>
+  <string name="TouOptionAmnesiacAssassinImpostor">Can be Impostor Assassin</string>
+  <string name="TouOptionAmnesiacAssassinNeutral">Can be Neutral Killing Assassin</string>
+  <string name="TouOptionAmnesiacAssassinEnumNever">Never</string>
+  <string name="TouOptionAmnesiacAssassinEnumDependentNeut">If NK is Assassin</string>
+  <string name="TouOptionAmnesiacAssassinEnumDependentImp">If Imp is Assassin</string>
+  <string name="TouOptionAmnesiacAssassinEnumAlways">Always</string>
   <!-- Arsonist -->
   <!-- Arsonist Wiki / Abilities -->
   <string name="TouRoleArsonist">Arsonist</string>
@@ -1862,6 +2104,7 @@
   <string name="TouRoleExecutionerWonSelf">You have successfully won as the \%role\%, as your target was voted out!</string>
   <string name="TouRoleExecutionerWonOther">The \%role\%, \%player\%, has successfully won, as their target was voted out!</string>
   <string name="TouRoleExecutionerTormentFeedback">You have one round to torment a player of your choice to death, choose wisely.</string>
+    <string name="TouRoleExecutionerTormentNotif">The Executioner has tormented \%victim\% to the grave!</string>
   <!-- Executioner Options -->
   <string name="TouOptionExecutionerBecomesTargetDeath">On Target Death, Executioner Becomes</string>
   <string name="TouOptionExecutionerCanButton">Executioner Can Button</string>
@@ -1889,7 +2132,7 @@
   <!-- Translation note: KB = Keyboard -->
   <string name="TouOptionGlitchHackCooldown">Hack Cooldown</string>
   <string name="TouOptionGlitchHackDuration">Hack Duration</string>
-  <string name="TouOptionGlitchCan Vent">Glitch Can Vent</string>
+  <string name="TouOptionGlitchCanVent">Glitch Can Vent</string>
   <!-- Fairy -->
   <!-- Fairy Wiki / Abilities -->
   <string name="TouRoleFairy">Fairy</string>
@@ -1968,13 +2211,20 @@
   <string name="TouRoleJesterTabDescription">Be as suspicious as possible, and get voted out!</string>
   <string name="TouRoleJesterWikiDescription">The Jester is a Neutral Evil role that wins by getting themselves ejected.</string>
   <string name="TouRoleJesterHaunt">Haunt</string>
+  <string name="TouRoleJesterPoke">Poke</string>
   <!-- Jester Messages -->
   <string name="TouNotifJesterWinOwner">You have successfully won as the Jester, by getting voted out!</string>
-  <string name="TouNotifJesterHauntOwner">You have one round to haunt a player of your choice to death, choose wisely</string>
+  <string name="TouNotifJesterHauntOwner">You have one round to haunt a player of your choice to death, choose wisely!</string>
   <string name="TouNotifJesterWinGlobal">The Jester, \%player\%, has successfully won, as they were voted out!</string>
+  <string name="TouNotifJesterPoke">You have poked \%player\%!</string>
+    <string name="TouRoleJesterHauntNotif">The Jester has decided to haunt \%victim\% beyond the grave!</string>
   <!-- Jester Options -->
   <string name="TouOptionJesterCanButton">Can Use Button</string>
   <string name="TouOptionJesterCanVent">Can Hide In Vents</string>
+  <string name="TouOptionJesterVentCooldown">Vent Cooldown</string>
+  <string name="TouOptionJesterVentDuration">Vent Duration</string>
+  <string name="TouOptionJesterCanPoke">Can Poke Others</string>
+  <string name="TouOptionJesterPokeCooldown">Poke Cooldown</string>
   <string name="TouOptionJesterImpVision">Has Impostor Vision</string>
   <string name="TouOptionJesterScatterEnabled">Scatter Mechanic Enabled</string>
   <string name="TouOptionJesterScatterTimer">Scatter Timer</string>
@@ -1982,6 +2232,7 @@
   <string name="TouOptionJesterWinEnumEndsGame">Ends Game</string>
   <string name="TouOptionJesterWinEnumHaunts">Haunts</string>
   <string name="TouOptionJesterWinEnumNothing">Nothing</string>
+  <string name="TouOptionJesterNotifyWin">Notify Others On Win</string>
   <!-- Juggernaut -->
   <!-- Juggernaut Wiki / Description -->
   <string name="TouRoleJuggernaut">Juggernaut</string>
@@ -2007,7 +2258,7 @@
   <string name="TouRoleMercenaryBribeWikiDescription">Bribing a player allows the Mercenary to gain their win condition, given that they have gold to spare.</string>
   <string name="TouRoleMercenaryGuardNotif">Once \%player\% is interacted with, you will get gold in return.</string>
   <!-- Mercenary Options -->
-  <string name="TouOptionMercenaryCooldown">Bribe Cooldown</string>
+  <string name="TouOptionMercenaryCooldown">Guard Cooldown</string>
   <string name="TouOptionMercenaryMaxGuards">Max Number Of Guards</string>
   <string name="TouOptionMercenaryBribeCost">Bribe Cost</string>
   <string name="TouOptionMercenaryProtectiveGuard">Guarding Stops Attacks</string>
@@ -2028,6 +2279,7 @@
   <string name="TouRoleSpectreTabDescription">Complete all your tasks without being caught!</string>
   <string name="TouRoleSpectreWikiDescription">The Spectre is a Neutral Ghost role that wins the game by finishing their tasks before a living player has clicked on them.</string>
   <string name="TouRoleSpectreSpook">Spook</string>
+    <string name="TouRoleSpectreSpookNotif">The Spectre has spooked \%victim\% to their end!</string>
   <!-- Spectre Options -->
   <string name="TouOptionSpectreTasksLeftClickable">Tasks Left Before Clickable</string>
   <string name="TouOptionSpectreWin">Spectre Win</string>
@@ -2052,18 +2304,23 @@
   <string name="TouOptionPlaguebearerAnnounceTransformation">Announce Pestilence Transformation</string>
   <string name="TouOptionPlaguebearerPestilenceKillCooldown">Pestilence Kill Cooldown</string>
   <string name="TouOptionPlaguebearerPestilenceCanVent">Pestilence Can Vent</string>
-  <!-- Soul Collector -->
-  <!-- Soul Collector Wiki / Abilities -->
+  <!-- Medusa -->
+  <!-- Medusa Wiki / Abilities -->
   <string name="TouRoleSoulCollector">Soul Collector</string>
-  <string name="TouRoleSoulCollectorIntroBlurb">Reap the souls out of Crewmates</string>
-  <string name="TouRoleSoulCollectorTabDescription">Reap the souls of others, leaving behind a lasting image</string>
-  <string name="TouRoleSoulCollectorWikiDescription">The Soul Collector is a Neutral Killing role that takes the soul of players. Instead of leaving a body behind, they leave behind a soul-less decoy that looks identical to the reaped player, standing still.</string>
-  <string name="TouRoleSoulCollectorReap">Reap</string>
-  <string name="TouRoleSoulCollectorReapWikiDescription">Reaping acts like a kill button, but instead of making a dead body, makes a fake player in its place, appearing alive.</string>
-  <string name="TouRoleSoulCollectorReapNotif">You have taken \%player\%'s soul, leaving their lifeless body standing.</string>
-  <!-- Soul Collector Options -->
-  <string name="TouOptionSoulCollectorReapCooldown">Reap Cooldown</string>
-  <string name="TouOptionSoulCollectorCanVent">Soul Collector Can Vent</string>
+  <string name="TouRoleMedusa">Medusa</string>
+  <string name="TouRoleMedusaIntroBlurb">Petrify the Crewmates into stone.</string>
+  <string name="TouRoleMedusaTabDescription">Stone players into permanent statues.</string>
+  <string name="TouRoleMedusaWikiDescription">The Medusa is a Neutral Killing role that forces its victims to stand still and slowly turn into stone. Stoned players that haven't shattered will remain throughout rounds.</string>
+  <string name="TouRoleMedusaPetrify">Petrify</string>
+  <string name="TouRoleMedusaPetrifyWikiDescription">Petrify a player to turn them into stone, killing them and leaving a statue.</string>
+  <string name="TouRoleMedusaPetrifyNotif">\%player\% will slowly turn to stone!</string>
+  <string name="TouRoleMedusaStoneGaze">Stone Gaze</string>
+  <string name="TouRoleMedusaStoneGazing">Stone Gazing</string>
+  <string name="TouRoleMedusaStoneGazeWikiDescription">Petrify anyone who tries to interact with you while gazing, unless they attempt to kill you. You will also not lunge towards others.</string>
+  <!-- Medusa Options -->
+  <string name="TouOptionMedusaPetrifyCooldown">Petrify Cooldown</string>
+  <string name="TouOptionMedusaPetrifyFirstRound">Allow Petrify in First Round</string>
+  <string name="TouOptionMedusaCanVent">Medusa Can Vent</string>
   <!-- Survivor -->
   <!-- Survivor Wiki / Abilities -->
   <string name="TouRoleSurvivor">Survivor</string>
@@ -2122,6 +2379,7 @@
   <!-- Crewpostor - Crewmate Alliance -->
   <!-- Crewpostor Wiki / Description -->
   <string name="TouModifierCrewpostor">Crewpostor</string>
+  <string name="TouModifierCrewpostorShortName">Imp</string>
   <string name="TouModifierCrewpostorIntroBlurb">Aid the \%color=#FF0000FF\%Impostors\%/color\%</string>
   <string name="TouModifierCrewpostorTabDescription">Betray the crewmates as an Impostor.</string>
   <string name="TouModifierCrewpostorWikiDescription">The Crewpostor is a Crewmate Alliance modifier, which forces a crewmate to work for the impostor faction. If all impostors are dead, you become a Traitor.</string>
@@ -2129,6 +2387,7 @@
   <!-- Egotist - Crewmate Alliance -->
   <!-- Egotist Wiki / Description -->
   <string name="TouModifierEgotist">Egotist</string>
+  <string name="TouModifierEgotistShortName">Ego</string>
   <string name="TouModifierEgotistIntroBlurb">Betray the crew to feed your ego</string>
   <string name="TouModifierEgotistTabDescription">Defy the crew, win with killers.</string>
   <string name="TouModifierEgotistWikiDescription">The Egotist is a Crewmate Alliance modifier (signified by \%symbol\%). As the Egotist, you can only win if Crewmates lose, even when dead. If no crewmates remain after a meeting ends, you will leave in victory, but the game will continue.</string>
@@ -2167,6 +2426,11 @@
   <string name="TouOptionButtonBarryMaxUses">Max Uses</string>
   <string name="TouOptionButtonBarryIgnoreSabotage">Ignore Sabotages</string>
   <string name="TouOptionButtonBarryAllowFirstRound">Allow Usage in First Round</string>
+    <!-- Drunk -->
+    <!-- Drunk Wiki / Description -->
+    <string name="TouModifierDrunk">Drunk</string>
+    <string name="TouModifierDrunkTabDescription">You're tipsy, with inverted controls</string>
+    <string name="TouModifierDrunkWikiDescription">Your controls are permanently inverted. You are also immune to normal roleblocks.</string>
   <!-- Flash -->
   <!-- Flash Wiki / Description -->
   <string name="TouModifierFlash">Flash</string>
@@ -2285,12 +2549,54 @@
   <string name="TouOptionIncreasedWhen2">Increased Kill Cooldown When 2+ Imps</string>
   <!-- Assailant (NKs/Imp) Modifiers -->
   <string name="TouModifierAssassin">Assassin</string>
+  <string name="TouModifierAssassinIntroBlurb">Guess players in the meeting.</string>
+  <string name="TouModifierAssassinWikiDescription">You have the ability to guess a player in a meeting.</string>
+  <string name="TouModifierAssassinTabDescription">Guess players out of the meeting.</string>
+  <string name="MisguessSummary">Misguessed \%player\% as \%role\%</string>
+  <!-- Assassin Options -->
+  <string name="TouOptionAssassinNeutTitleNone">0 Neut Assassins</string>
+  <string name="TouOptionAssassinImpTitleNone">0 Imp Assassins</string>
+  <string name="TouOptionAssassinNeutTitleSingle">1 Neut Assassin (\%chance\%%) |</string>
+  <string name="TouOptionAssassinImpTitleSingle">1 Imp Assassin (\%chance\%%) |</string>
+  <string name="TouOptionAssassinNeutTitleFull">\%amount\% Neut Assassins (\%chance\%%) |</string>
+  <string name="TouOptionAssassinImpTitleFull">\%amount\% Imp Assassins (\%chance\%%) |</string>
+  <string name="TouOptionAssassinGuessableCrewRolesTitle">Unguessable Crewmate Roles: </string>
+  <string name="TouOptionAssassinGuessableNeutRolesTitle">Unguessable Neutral Roles: </string>
+  <string name="TouOptionAssassinGuessableImpRolesTitle">Unguessable Impostor Roles: </string>
+  <string name="TouOptionAssassinGuessableModifiersTitle">Unguessable Modifiers: </string>
+  <string name="TouOptionAssassinNone">None</string>
+  <string name="TouOptionAssassinAll">All</string>
+  <string name="TouOptionAssassinNeutBenign">Benign</string>
+  <string name="TouOptionAssassinNeutEvil">Evil</string>
+  <string name="TouOptionAssassinNeutKilling">Killing</string>
+  <string name="TouOptionAssassinNeutOutlier">Outlier</string>
+  <string name="TouOptionAssassinVanillaCrew">Unmodded</string>
+  <string name="TouOptionAssassinBasicCrew">Basic Crew</string>
+  <string name="TouOptionAssassinInvestCrew">Investigative</string>
+  <string name="TouOptionAssassinCrewMods">Crewmate</string>
+  <string name="TouOptionAssassinUtilityCrewMods">Crew Utility</string>
+  <string name="TouOptionAssassinAllianceMods">Alliance</string>
+  <string name="TouOptionAssassinNonCrewMods">Non-Crew</string>
+  <string name="TouOptionAssassinImpMods">Impostor</string>
+  <string name="TouOptionAssassinUniversalMods">Universal</string>
   <!-- Double Shot -->
   <!-- Double Shot Wiki / Description -->
   <string name="TouModifierDoubleShot">Double Shot</string>
   <string name="TouModifierDoubleShotIntroBlurb">You get a second chance when guessing.</string>
   <string name="TouModifierDoubleShotWikiDescription">You get a second chance when you fail to guess a player in a meeting.</string>
   <string name="TouModifierDoubleShotTabDescription">You have an extra chance when assassinating.</string>
+  <!-- Overclocker -->
+  <!-- Overclocker Wiki / Description -->
+  <string name="TouModifierOverclocker">Overclocker</string>
+  <string name="TouModifierOverclockerIntroBlurb">Decrease your cooldowns temporarily.</string>
+  <string name="TouModifierOverclockerWikiDescription">You may decrease your cooldowns at the cost of longer cooldowns once your Overclock is over. After an additional round, your cooldowns will normalize.</string>
+  <string name="TouModifierOverclockerTabDescription">Decrease cooldowns temporarily, at a cost.</string>
+  <string name="TouModifierOverclockerOverclock">Overclock</string>
+  <string name="TouModifierOverclockerOverclocked">Overclocked</string>
+  <string name="TouModifierOverclockerUnderclocked">Underclocked</string>
+  <string name="TouModifierOverclockerOverclockNotif">Your cooldowns are now \%multi\% times faster!</string>
+  <string name="TouModifierOverclockerUnderclockNotif">Your cooldowns are now \%multi\% times slower.</string>
+  <string name="TouModifierOverclockerUnderclockMeetingNotif">After this meeting, your cooldowns will be \%multi\% times slower.</string>
   <!-- Crewmate Modifiers -->
 
   <!-- Aftermath -->

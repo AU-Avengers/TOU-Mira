@@ -2,7 +2,6 @@
 using MiraAPI.Modifiers;
 using PowerTools;
 using TownOfUs.Modifiers.Game.Universal;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -108,7 +107,7 @@ public static class AnimStore
         bounceSync.Renderer = bounceSync.ParentRenderer = hatParent.SpriteSyncNode.Renderer;
 
         var spriteFlipper = animation.AddComponent<UE_SpriteFlipper>();
-        spriteFlipper.reference = cosmeticsLayer.GetComponent<CosmeticsLayer>();
+        spriteFlipper.Reference = cosmeticsLayer.GetComponent<CosmeticsLayer>();
         spriteFlipper.DoOffset = shouldOffset;
         spriteFlipper.Offset = offsetAmount;
 

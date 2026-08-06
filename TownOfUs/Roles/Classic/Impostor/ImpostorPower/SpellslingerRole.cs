@@ -3,7 +3,6 @@ using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Impostor;
@@ -50,7 +49,9 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spellslinger.LoadAsset(), "TouMira.Role.Impostor.Spellslinger", 1.45f),
         Icon = TouRoleIcons.Spellslinger,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         MaxRoleCount = 1,
         IntroSound = TouAudio.ArsoIgniteSound,
     };
@@ -82,7 +83,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     {
         var reportBuilder = new StringBuilder();
 
-        if (Player == null)
+        if (!Player)
         {
             return;
         }

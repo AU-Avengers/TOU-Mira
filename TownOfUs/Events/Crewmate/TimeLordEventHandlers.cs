@@ -325,7 +325,7 @@ public static class TimeLordEventHandlers
             return;
         }
 
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+        if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
         {
             TownOfUs.Roles.Crewmate.TimeLordRole.RpcRewindRevive(victim);
         }
@@ -464,7 +464,7 @@ public static class TimeLordEventHandlers
                 ? cooldownBefore + 1f
                 : maxKillCooldown;
             player.killTimer = Mathf.Clamp(cooldownBefore, 0, maxvalue);
-            if (HudManager.Instance != null && HudManager.Instance.KillButton != null)
+            if (HudManager.InstanceExists && HudManager.Instance.KillButton != null)
             {
                 HudManager.Instance.KillButton.SetCoolDown(player.killTimer, maxvalue);
             }

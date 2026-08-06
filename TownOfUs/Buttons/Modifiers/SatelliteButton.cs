@@ -3,16 +3,15 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
+
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Modifiers.Universal;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace TownOfUs.Buttons.Modifiers;
 
-public sealed class SatelliteButton : TownOfUsButton
+public sealed class SatelliteButton : TownOfUsButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouModifierSatelliteBroadcast", "Broadcast");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
@@ -20,28 +19,28 @@ public sealed class SatelliteButton : TownOfUsButton
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SatelliteOptions>.Instance.Cooldown + MapCooldown, 5f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
-    public override LoadableAsset<Sprite> Sprite => TouAssets.BroadcastSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyAssets.BroadcastSprite : TouAssets.BroadcastSprite;
+    public bool CanStillUse = true;
 
-    public bool Usable { get; set; } = OptionGroupSingleton<SatelliteOptions>.Instance.FirstRoundUse ||
-                                       TutorialManager.InstanceExists;
+    public override bool UsableFirstRound => OptionGroupSingleton<SatelliteOptions>.Instance.FirstRoundUse;
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null &&
+        return PlayerControl.LocalPlayer &&
                PlayerControl.LocalPlayer.HasModifier<SatelliteModifier>() &&
                !PlayerControl.LocalPlayer.Data.IsDead;
     }
 
     public override bool CanUse()
     {
-        return base.CanUse() && Usable;
+        return base.CanUse() && CanStillUse;
     }
 
     public override void CreateButton(Transform parent)
     {
         base.CreateButton(parent);
 
-        Button!.usesRemainingSprite.sprite = TouAssets.AbilityCounterBodySprite.LoadAsset();
+        Button!.usesRemainingSprite.sprite = LegacyAssets.IsLegacy ? TouAssets.BlankSprite.LoadAsset() : TouAssets.AbilityCounterBodySprite.LoadAsset();
     }
 
     protected override void OnClick()
@@ -64,7 +63,7 @@ public sealed class SatelliteButton : TownOfUsButton
 
         if (OptionGroupSingleton<SatelliteOptions>.Instance.OneUsePerRound)
         {
-            Usable = false;
+            CanStillUse = false;
         }
         // will return to this once i get more freetime
         //deadBodies.Do(x => PlayerControl.LocalPlayer.GetModifier<SatelliteModifier>().NewMapIcon(MiscUtils.PlayerById(x.ParentId)));

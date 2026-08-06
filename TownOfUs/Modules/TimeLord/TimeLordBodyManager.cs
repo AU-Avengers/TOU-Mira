@@ -2,7 +2,7 @@ using BepInEx.Logging;
 using MiraAPI.GameOptions;
 using Reactor.Utilities;
 using TownOfUs.Options;
-using TownOfUs.Utilities;
+using TownOfUs.Patches.Options;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -20,37 +20,20 @@ public static class TimeLordBodyManager
         Janitor = 2,
     }
 
-    public sealed class CleanedBodyRecord
+    public sealed record CleanedBodyRecord(byte BodyId, Vector3 Position, DateTime TimeUtc, float TimeSeconds, DeadBody? Body)
     {
-        public byte BodyId { get; }
-        public Vector3 Position { get; set; }
-        public DateTime TimeUtc { get; set; }
-        public float TimeSeconds { get; set; }
-        public DeadBody? Body { get; set; }
-        public CleanedBodySource Source { get; set; }
+        public DeadBody? Body { get; set; } = Body;
+        public CleanedBodySource Source { get; set; } = CleanedBodySource.Unknown;
         public bool Restored { get; set; }
         public bool RestoredThisRewind { get; set; }
         public string? OriginalPetId { get; set; }
         public bool PetWasRemoved { get; set; }
         public byte? DraggedByPlayerId { get; set; }
-
-        public CleanedBodyRecord(byte bodyId, Vector3 pos, DateTime timeUtc, float timeSeconds, DeadBody? body)
-        {
-            BodyId = bodyId;
-            Position = pos;
-            TimeUtc = timeUtc;
-            TimeSeconds = timeSeconds;
-            Body = body;
-            Restored = false;
-            RestoredThisRewind = false;
-            Source = CleanedBodySource.Unknown;
-            OriginalPetId = null;
-            PetWasRemoved = false;
-            DraggedByPlayerId = null;
-        }
     }
 
-    private static readonly Dictionary<byte, CleanedBodyRecord> CleanedBodies = new();
+    private static readonly Dictionary<byte, CleanedBodyRecord> CleanedBodies = [];
+
+    public static Dictionary<byte, CleanedBodyRecord> CleanBodies => CleanedBodies;
 
     public static readonly ManualLogSource BodyLogger =
         BepInEx.Logging.Logger.CreateLogSource("TOU.TimeLordBodies");
@@ -165,10 +148,7 @@ public static class TimeLordBodyManager
             LogBodyRestore($"RestoreCleanedBody: body={bodyId} already active; forcing alpha=1");
             foreach (var r in body.bodyRenderers)
             {
-                if (r != null)
-                {
-                    r.color = r.color.SetAlpha(1f);
-                }
+                r?.color = r.color.SetAlpha(1f);
             }
 
             if (rec.PetWasRemoved && !string.IsNullOrEmpty(rec.OriginalPetId))
@@ -188,13 +168,17 @@ public static class TimeLordBodyManager
         LogBodyRestore($"RestoreCleanedBody: body={bodyId} activating at pos={rec.Position}");
 
         body.gameObject.SetActive(true);
+        body.Reported = false;
+        body.myCollider.enabled = true;
+        var player2 = MiscUtils.PlayerById(body.ParentId);
+        if (player2 != null)
+        {
+            VitalsBodyPatches.RemoveMissingPlayer(player2.Data);
+        }
 
         foreach (var r in body.bodyRenderers)
         {
-            if (r != null)
-            {
-                r.color = r.color.SetAlpha(1f);
-            }
+            r?.color = r.color.SetAlpha(1f);
         }
 
         if (rec.PetWasRemoved && !string.IsNullOrEmpty(rec.OriginalPetId))
@@ -342,7 +326,7 @@ public static class TimeLordBodyManager
         }
     }
 
-    public static System.Collections.IEnumerator CoHideBodyForTimeLord(DeadBody body)
+    public static System.Collections.IEnumerator CoHideBodyForTimeLord(DeadBody body, BodyVitalsMode result)
     {
         if (body == null)
         {
@@ -354,15 +338,16 @@ public static class TimeLordBodyManager
 
         if (CleanedBodies.TryGetValue(body.ParentId, out var rec) && rec != null)
         {
-            var tweakOpt = OptionGroupSingleton<GameMechanicOptions>.Instance;
-            if (tweakOpt.HidePetsOnBodyRemove.Value && (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
+            var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
+            var hidePets = tweakOpt.PetVisibilityUponDeath;
+            if (hidePets is not PetHidden.Never)
             {
                 var player = MiscUtils.PlayerById(body.ParentId);
-                if (player != null && !player.AmOwner && player.CurrentOutfit.PetId != "")
+                if (player != null && !player.AmOwner && player.cosmetics.currentPet)
                 {
                     rec.OriginalPetId = player.CurrentOutfit.PetId;
                     rec.PetWasRemoved = true;
-                    MiscUtils.RemovePet(player);
+                    MiscUtils.RemovePet(player, hidePets);
                     BodyLogger?.LogError($"[CoHideBodyForTimeLord] Removed pet '{rec.OriginalPetId}' from player {body.ParentId}");
                 }
             }
@@ -372,18 +357,30 @@ public static class TimeLordBodyManager
         {
             foreach (var r in body.bodyRenderers)
             {
-                if (r != null)
-                {
-                    r.color = r.color.SetAlpha(1f);
-                }
+                r?.color = r.color.SetAlpha(1f);
             }
             rec2.Restored = false;
             yield break;
         }
 
-        body.gameObject.SetActive(false);
+        if (result is BodyVitalsMode.Disconnected)
+        {
+            body.gameObject.SetActive(false);
+        }
+        else
+        {
+            body.Reported = true;
+            body.myCollider.enabled = false;
+            if (result is BodyVitalsMode.Missing)
+            {
+                var player = MiscUtils.PlayerById(body.ParentId);
+                if (player != null)
+                {
+                    VitalsBodyPatches.AddMissingPlayer(player.Data);
+                }
+            }
+        }
     }
-
 
     private static System.Collections.IEnumerator CoRefreshPetState(PlayerControl player)
     {
@@ -396,6 +393,7 @@ public static class TimeLordBodyManager
             {
                 player.SetPet(petId);
             }
+            player.cosmetics.TogglePet(true);
         }
     }
 
@@ -449,10 +447,7 @@ public static class TimeLordBodyManager
     {
         foreach (var rec in CleanedBodies.Values)
         {
-            if (rec != null)
-            {
-                rec.RestoredThisRewind = false;
-            }
+            rec?.RestoredThisRewind = false;
         }
     }
 

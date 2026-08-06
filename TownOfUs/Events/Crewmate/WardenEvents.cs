@@ -7,22 +7,20 @@ using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
 
 public static class WardenEvents
 {
     [RegisterEvent]
-    public static void RoundStartEventHandler(RoundStartEvent @event)
+    public static void RoundStartEventHandler(RoundStartEvent _)
     {
         var wardenForts = ModifierUtils.GetActiveModifiers<WardenFortifiedModifier>();
 
-        if (!wardenForts.Any())
+        if (!wardenForts.HasAny())
         {
             return;
         }
@@ -40,15 +38,14 @@ public static class WardenEvents
 
             var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
                 x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-            var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
-                x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
+            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
             mod.ShowFort = showShieldedEveryone || showShieldedSelf || showShieldedWarden ||
                            (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
         }
     }
 
-    [RegisterEvent(-1)]
+    [RegisterEvent(-800)]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {
         // Error("WardenEvents KillButtonClickHandler");
@@ -64,7 +61,7 @@ public static class WardenEvents
         CheckForWardenFortify(@event, source, target);
     }
 
-    [RegisterEvent(-1)]
+    [RegisterEvent(-800)]
     public static void BeforeMurderEventHandler(BeforeMurderEvent @event)
     {
         var source = @event.Source;
@@ -104,18 +101,15 @@ public static class WardenEvents
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a warden fort, stopping an interaction from {source.Data.PlayerName}!");
 
         // The reason this exists is that otherwise, players can brute force through the warden fort if they spam fast enough
-        if (@event is MiraButtonClickEvent buttonClick)
+        if (@event is MiraButtonClickEvent buttonClick &&
+            buttonClick.Button is CustomActionButton<PlayerControl> button)
         {
-            var button = buttonClick.Button as CustomActionButton<PlayerControl>;
-            if (button != null)
-            {
-                button.Timer += 1f;
-            }
+            button.Timer = OptionGroupSingleton<GameMechanicOptions>.Instance.TempSaveCdReset;
         }
 
         if (@event is BeforeMurderEvent && source.IsImpostor())
         {
-            source.SetKillTimer(source.killTimer + 1f);
+            source.SetKillTimer(OptionGroupSingleton<GameMechanicOptions>.Instance.TempSaveCdReset);
         }
 
         // Find the warden which fortified the target

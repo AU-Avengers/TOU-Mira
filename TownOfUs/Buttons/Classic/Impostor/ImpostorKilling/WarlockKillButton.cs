@@ -1,14 +1,19 @@
 ﻿using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Networking;
-using MiraAPI.Utilities.Assets;
+using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Options;
+using TownOfUs.Options.Maps;
+using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
+using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, PlayerControl>, IDiseaseableButton, IKillButton
+public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, PlayerControl>, IDiseaseableButton,
+    IKillButton, ILegacyCapable
 {
     private string _killName = "Kill";
     private string _burstKill = "Burst Kill";
@@ -17,13 +22,31 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown();
-    public override LoadableAsset<Sprite> Sprite => TouAssets.KillSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.KillSprite : TouAssets.KillSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
 
     public float Charge { get; set; }
     public bool BurstActive { get; set; }
     public int Kills { get; set; }
+    public List<PlayerControl> MarkedPlayers = [];
+
+    public void MarkPlayerForDeath(PlayerControl player)
+    {
+        Error($"Marked {player.CachedPlayerData.PlayerName} for death!");
+        MarkedPlayers.Add(player);
+        player.AddModifier<WarlockMarkedModifier>();
+    }
+
+    public void ResetMarkedPlayers()
+    {
+        Warning("Marked Players are reset!");
+        MarkedPlayers.Clear();
+        foreach (var mod in ModifierUtils.GetActiveModifiers<WarlockMarkedModifier>().ToList())
+        {
+            mod.Player.RemoveModifier(mod);
+        }
+    }
 
     public void SetDiseasedTimer(float multiplier)
     {
@@ -33,10 +56,7 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
     public override void CreateButton(Transform parent)
     {
         base.CreateButton(parent);
-        if (KeybindIcon != null)
-        {
-            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
-        }
+        KeybindIcon?.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
 
         _killName = TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
         _burstKill = TouLocale.Get("TouRoleWarlockBurstKill", "Burst Kill");
@@ -55,6 +75,7 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
                 Charge = 0;
                 BurstActive = false;
                 SetTimer(Cooldown);
+                ResetMarkedPlayers();
             }
         }
         else
@@ -108,20 +129,20 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
             return;
         }
 
-        if (!Target.Data.IsDead)
+        if (!Target.Data.IsDead && !MarkedPlayers.Contains(Target))
         {
+            if (BurstActive || Charge > 99f)
+            {
+                MarkPlayerForDeath(Target);
+            }
             PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
         }
+    }
 
-        if (Target.Data.IsDead && Charge >= 100 && !BurstActive)
-        {
-            BurstActive = true;
-            Kills = 0;
-        }
-        else if (Target.Data.IsDead && Charge <= 100 && !BurstActive)
-        {
-            Charge = 0;
-        }
+    public override void ResetCooldownAndOrEffect()
+    {
+        ResetMarkedPlayers();
+        base.ResetCooldownAndOrEffect();
     }
 
     public override void ClickHandler()
@@ -133,14 +154,27 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
 
         OnClick();
         Button?.SetDisabled();
-        if (!BurstActive)
-        {
-            Timer = Cooldown;
-        }
+        // The timer changes are moved to WarlockEvents.cs due to the kill system changes adding a delay.
     }
 
     public override PlayerControl? GetTarget()
     {
-        return MiscUtils.GetImpostorTarget(Distance);
+        var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        var saboOpt = OptionGroupSingleton<AdvancedSabotageOptions>.Instance;
+        var closePlayer = PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
+
+        var includePostors = genOpt.FFAImpostorMode ||
+                             (PlayerControl.LocalPlayer.IsLover() &&
+                              OptionGroupSingleton<LoversOptions>.Instance.LoverKillTeammates) ||
+                             (saboOpt.KillDuringCamoComms &&
+                              closePlayer?.GetAppearanceType() == TownOfUsAppearances.Camouflage);
+        if (!OptionGroupSingleton<LoversOptions>.Instance.LoversKillEachOther && PlayerControl.LocalPlayer.IsLover())
+        {
+            return PlayerControl.LocalPlayer.GetClosestLivingPlayer(includePostors, Distance, false,
+                x => !MarkedPlayers.Contains(x) && !x.IsLover());
+        }
+
+        return PlayerControl.LocalPlayer.GetClosestLivingPlayer(includePostors, Distance, false,
+            x => !MarkedPlayers.Contains(x));
     }
 }

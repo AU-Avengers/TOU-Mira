@@ -5,7 +5,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Alliance;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 
 namespace TownOfUs.Patches.Options;

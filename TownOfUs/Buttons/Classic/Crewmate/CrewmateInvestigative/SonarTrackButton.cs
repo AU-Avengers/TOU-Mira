@@ -1,28 +1,26 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class SonarTrackButton : TownOfUsRoleButton<SonarRole, PlayerControl>
+public sealed class SonarTrackButton : TownOfUsRoleButton<SonarRole, PlayerControl>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleSonarTrack", "Track");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Sonar;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SonarOptions>.Instance.TrackCooldown + MapCooldown, 5f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<SonarOptions>.Instance.MaxTracks;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.TrackSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.TrackSprite : TouCrewAssets.TrackSprite;
     public int ExtraUses { get; set; }
 
     public override bool IsTargetValid(PlayerControl? target)
     {
-        return base.IsTargetValid(target) && !target!.HasModifier<TrackerArrowTargetModifier>();
+        return base.IsTargetValid(target) && !target!.HasModifier<SonarArrowTargetModifier>() && !target!.HasModifier<SonarHeartbeatTargetModifier>();
     }
 
     public override PlayerControl? GetTarget()
@@ -41,7 +39,15 @@ public sealed class SonarTrackButton : TownOfUsRoleButton<SonarRole, PlayerContr
         Color color = Palette.PlayerColors[Target.GetDefaultAppearance().ColorId];
         var update = OptionGroupSingleton<SonarOptions>.Instance.UpdateInterval;
 
-        Target.AddModifier<TrackerArrowTargetModifier>(PlayerControl.LocalPlayer, color, update);
+        if (LocalSettingsTabSingleton<TouLocalTabGameplay>.Instance.SonarTargetType.Value is SonarTargetStyle
+                .Arrows)
+        {
+            Target.AddModifier<SonarArrowTargetModifier>(PlayerControl.LocalPlayer, color, update);
+        }
+        else
+        {
+            Target.AddModifier<SonarHeartbeatTargetModifier>(PlayerControl.LocalPlayer, color, update);
+        }
 
         TouAudio.PlaySound(TouAudio.TrackerActivateSound);
     }

@@ -1,4 +1,3 @@
-using MiraAPI.Utilities.Assets;
 using UnityEngine;
 
 namespace TownOfUs.Assets;
@@ -9,6 +8,15 @@ public static class TouBanners
 
     public static LoadableAsset<Sprite> PlaceholderRoleBanner { get; } =
         new LoadableBundleAsset<Sprite>("WipBanner", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> CrewmateRoleBanner { get; } =
+        new LoadableBundleAsset<Sprite>("CrewmateBanner", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> NeutralRoleBanner { get; } =
+        new LoadableBundleAsset<Sprite>("NeutralBanner", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> ImpostorRoleBanner { get; } =
+        new LoadableBundleAsset<Sprite>("ImpostorBanner", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> AurialRoleBanner { get; } =
         new LoadableBundleAsset<Sprite>("AurialBanner", TouAssets.MainBundle);

@@ -7,10 +7,10 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using TownOfUs.Buttons;
 using TownOfUs.Options;
-using TownOfUs.Utilities;
 using UnityEngine;
 using TownOfUs.Options.Modifiers.Impostor;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 
 namespace TownOfUs.Events.Modifiers;
 
@@ -131,14 +131,16 @@ public static class DeadlyQuotaEvents
 
     private static void ResetButtonTimer(PlayerControl source, CustomActionButton<PlayerControl>? button = null)
     {
+        if (!source.AmOwner)
+        {
+            return;
+        }
+
         var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
 
         button?.SetTimer(reset);
-
-        if (!source.AmOwner || !source.IsImpostor())
-            return;
-
         source.SetKillTimer(reset);
+        Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.NeutralWiki, alpha: 0.5f));
     }
 
 }

@@ -1,15 +1,13 @@
 using MiraAPI.Hud;
 using MiraAPI.Networking;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Networking;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
 public sealed class PuppeteerKillButton : TownOfUsKillRoleButton<PuppeteerRole, PlayerControl>, IDiseaseableButton,
-    IKillButton
+    IKillButton, ILegacyCapable
 {
     private string _ctrlKillName = "Control Kill";
     private string _killName = "Kill";
@@ -17,7 +15,7 @@ public sealed class PuppeteerKillButton : TownOfUsKillRoleButton<PuppeteerRole, 
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown();
-    public override LoadableAsset<Sprite> Sprite => TouAssets.KillSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.KillSprite : TouAssets.KillSprite;
     private static PuppeteerControlButton ControlButton => CustomButtonSingleton<PuppeteerControlButton>.Instance;
 
     public override bool ZeroIsInfinite { get; set; } = true;
@@ -55,7 +53,7 @@ public sealed class PuppeteerKillButton : TownOfUsKillRoleButton<PuppeteerRole, 
                 Distance,
                 predicate: plr =>
                     plr != null &&
-                    plr != PlayerControl.LocalPlayer &&
+                    !plr.AmOwner &&
                     !plr.HasDied() &&
                     !plr.IsInTargetingAnimState() &&
                     !plr.IsImpostorAligned());

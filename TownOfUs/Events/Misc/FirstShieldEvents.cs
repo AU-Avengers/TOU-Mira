@@ -5,10 +5,10 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using Reactor.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.Modifiers;
 using TownOfUs.Options;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Misc;
 
@@ -62,16 +62,15 @@ public static class FirstShieldEvents
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a first round shield, fending off {source.Data.PlayerName}!");
         @event.Cancel();
 
-        var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
-
-        button?.SetTimer(reset);
-
-        // Reset impostor kill cooldown if they attack a shielded player
-        if (!source.AmOwner || !source.IsImpostor())
+        if (!source.AmOwner)
         {
             return;
         }
 
+        var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
+
+        button?.SetTimer(reset);
         source.SetKillTimer(reset);
+        Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.NeutralWiki, alpha: 0.5f));
     }
 }

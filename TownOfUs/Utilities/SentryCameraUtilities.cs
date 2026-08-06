@@ -97,7 +97,7 @@ public static class SentryCameraUtilities
     
     public static bool IsMapWithoutCameras(ExpandedMapNames mapId)
     {
-        if (ModCompatibility.IsSubmerged() && ShipStatus.Instance != null)
+        if (ModCompatibility.IsSubmerged() && ShipStatus.Instance)
         {
             try
             {
@@ -115,7 +115,7 @@ public static class SentryCameraUtilities
             }
         }
 
-        if (ShipStatus.Instance == null)
+        if (!ShipStatus.Instance)
         {
             return mapId is ExpandedMapNames.MiraHq or ExpandedMapNames.Fungle;
         }
@@ -177,9 +177,7 @@ public static class SentryCameraUtilities
         SurvCamera? polusTemplateCamera = null;
         try
         {
-            polusTemplateCamera = PrefabLoader.Polus != null
-                ? PrefabLoader.Polus.GetComponentsInChildren<SurvCamera>(true).FirstOrDefault()
-                : null;
+            polusTemplateCamera = PrefabLoader.Polus?.GetComponentsInChildren<SurvCamera>(true).FirstOrDefault();
         }
         catch
         {
@@ -193,7 +191,7 @@ public static class SentryCameraUtilities
             resourceTemplateCamera = all
                 .FirstOrDefault(x =>
                 {
-                    var cam = x != null ? x.TryCast<SurvCamera>() : null;
+                    var cam = x?.TryCast<SurvCamera>();
                     if (cam == null || cam.gameObject == null) return false;
                     var sr = cam.gameObject.GetComponent<SpriteRenderer>();
                     return sr != null && sr.sprite != null;
@@ -209,12 +207,12 @@ public static class SentryCameraUtilities
             polusTemplateCamera ??
             resourceTemplateCamera ??
             Object.FindObjectOfType<SurvCamera>() ??
-            (PrefabLoader.Skeld != null ? PrefabLoader.Skeld.GetComponentsInChildren<SurvCamera>(true).FirstOrDefault() : null);
+            (PrefabLoader.Skeld?.GetComponentsInChildren<SurvCamera>(true).FirstOrDefault());
 
         return referenceCamera;
     }
 
-    public static SurvCamera? CreateCameraAtPosition(Vector2 position, float zAxis, PlayerControl placer)
+    public static SurvCamera? CreateCameraAtPosition(Vector3 position, PlayerControl placer)
     {
         var referenceCamera = FindCameraTemplate();
         if (referenceCamera == null)
@@ -242,20 +240,16 @@ public static class SentryCameraUtilities
             camRenderer.sharedMaterial = ventRenderer.sharedMaterial;
         }
 
-        camera.transform.position = new Vector3(
-            position.x,
-            position.y,
-            vent.transform.position.z
-        );
+        camera.transform.position = position;
 
         camera.transform.localRotation = Quaternion.identity;
 
         camera.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
 
-        camera.Offset = new Vector3(0f, 0f, camera.Offset.z);
+        camera.Offset = new Vector3(0f, 0f, 0f);
 
         camera.NewName = StringNames.None;
-        var detectedRoomName = MiscUtils.GetRoomName(new Vector3(position.x, position.y, zAxis));
+        var detectedRoomName = MiscUtils.GetRoomName(position);
         camera.CamName = detectedRoomName;
 
         try
@@ -280,10 +274,10 @@ public static class SentryCameraUtilities
 
         var spriteRenderer = camera.gameObject.GetComponent<SpriteRenderer>();
         var legacy = OptionGroupSingleton<SentryOptions>.Instance.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting;
-        var isLocalDead = PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.Data != null && PlayerControl.LocalPlayer.Data.IsDead;
+        var isLocalDead = PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.Data && PlayerControl.LocalPlayer.Data.IsDead;
         if (legacy)
         {
-            var isPlacerClient = PlayerControl.LocalPlayer != null && placer != null &&
+            var isPlacerClient = PlayerControl.LocalPlayer && placer != null &&
                                  PlayerControl.LocalPlayer.PlayerId == placer.PlayerId;
             // Ghosts can see sentry cameras even in legacy mode
             var shouldBeVisible = isPlacerClient || isLocalDead;
@@ -295,14 +289,11 @@ public static class SentryCameraUtilities
         }
         else
         {
-            if (spriteRenderer != null)
-            {
-                spriteRenderer.color = Color.white;
-            }
+            spriteRenderer?.color = Color.white;
             camera.gameObject.SetActive(true);
         }
 
-        if (ShipStatus.Instance == null)
+        if (!ShipStatus.Instance)
         {
             Logger.LogError("RpcRevealCamera - ShipStatus.Instance is null");
             return null;
@@ -310,7 +301,7 @@ public static class SentryCameraUtilities
 
         var allCameras = ShipStatus.Instance.AllCameras != null
             ? ShipStatus.Instance.AllCameras.ToList()
-            : new List<SurvCamera>();
+            : [];
         allCameras.Add(camera);
         ShipStatus.Instance.AllCameras = allCameras.ToArray();
 

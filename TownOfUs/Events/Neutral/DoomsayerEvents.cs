@@ -7,7 +7,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Neutral;
@@ -30,13 +29,13 @@ public static class DoomsayerEvents
                 doom.NumberOfGuesses)
             {
                 DoomsayerRole.RpcDoomsayerWin(source);
-                DeathHandlerModifier.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, "DiedToWinning",
+                DeathHandlerModifier.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer, "DiedToWinning",
                     DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
                     lockInfo: DeathHandlerOverride.SetTrue);
             }
         }
         else if (source.GetRoleWhenAlive() is DoomsayerRole &&
-                 (MeetingHud.Instance != null || ExileController.Instance != null) &&
+                 (MeetingHud.Instance || ExileController.Instance) &&
                  GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
         {
             // This should fix doomsayer's guesses appearing as regular postmortem kills
@@ -63,7 +62,7 @@ public static class DoomsayerEvents
         {
             if (doom.Player.AmOwner)
             {
-                PlayerControl.LocalPlayer.RpcPlayerExile();
+                PlayerControl.LocalPlayer.DelayExile();
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TouLocale.GetParsed("TouRoleDoomsayerWonSelf").Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.RoleName}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());
@@ -72,9 +71,24 @@ public static class DoomsayerEvents
             }
             else
             {
+                string message;
+                LoadableAsset<Sprite> icon;
+
+                if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomAnonymizeWin.Value)
+                {
+                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
+                    icon = TouRoleIcons.Neutral;
+                }
+                else
+                {
+                    message = $"<b>{TouLocale.GetParsed("TouRoleDoomsayerWonOther")
+                        .Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.RoleName}</color>")}</b>";
+                    icon = TouRoleIcons.Doomsayer;
+                }
+
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TouLocale.GetParsed("TouRoleDoomsayerWonOther").Replace("<player>", doom.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.RoleName}</color>")}</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());
+                    message.Replace("<player>", doom.Player.Data.PlayerName),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
 
                 notif1.AdjustNotification();
             }

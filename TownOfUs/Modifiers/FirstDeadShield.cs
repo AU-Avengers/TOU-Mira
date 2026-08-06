@@ -1,13 +1,11 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Other;
-using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers;
@@ -18,11 +16,11 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.FirstRoundShield;
 
     public override bool HideOnUi =>
-        !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowShieldHudToggle.Value;
+        !LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowShieldHudToggle.Value;
 
     public override Color FreeplayFileColor => new Color32(100, 220, 100, 255);
 
-    public GameObject? FirstRoundShield { get; set; }
+    public GameObject FirstRoundShield { get; set; }
     public bool IsVisible { get; set; } = true;
 
     public void SetVisible()
@@ -40,7 +38,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
             .Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
             .OrderBy(obj => FirstDeadPatch.PlayerNames.IndexOf(obj.name)).FirstOrDefault();
 
-        return validPlayer != null && OptionGroupSingleton<GeneralOptions>.Instance.FirstDeathShield
+        return validPlayer != null && OptionGroupSingleton<InitialRoundOptions>.Instance.FirstDeathShield
             ? 1
             : 0;
     }
@@ -56,7 +54,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
             .Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
             .OrderBy(obj => FirstDeadPatch.PlayerNames.IndexOf(obj.name)).FirstOrDefault();
 
-        return validPlayer != null && OptionGroupSingleton<GeneralOptions>.Instance.FirstDeathShield
+        return validPlayer != null && OptionGroupSingleton<InitialRoundOptions>.Instance.FirstDeathShield
             ? 100
             : 0;
     }
@@ -96,7 +94,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
 
     public override void OnDeactivate()
     {
-        if (FirstRoundShield?.gameObject != null)
+        if (FirstRoundShield)
         {
             FirstRoundShield.Destroy();
         }
@@ -104,29 +102,20 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
 
     public override void Update()
     {
-        if (!MeetingHud.Instance && FirstRoundShield?.gameObject != null)
+        if (!MeetingHud.Instance && FirstRoundShield)
         {
-            // When morphed/mimicked, match ONLY the visual to the disguise target's First Death Shield state.
+            // When disguised, match ONLY the visual to the disguise target's First Death Shield state.
             // This prevents leaking the real player's metadata while keeping the shield effect unchanged.
             var showAsTarget = true;
-            if (Player.TryGetModifier<MorphlingMorphModifier>(out var morph) && morph.Target != null)
+            if (Player.TryGetModifier<DisguisedModifier>(out var disguise) && disguise.Target != null)
             {
-                showAsTarget = morph.Target.HasModifier<FirstDeadShield>();
-            }
-            else if (Player.TryGetModifier<GlitchMimicModifier>(out var mimic) && mimic.Target != null)
-            {
-                showAsTarget = mimic.Target.HasModifier<FirstDeadShield>();
+                showAsTarget = disguise.Target.HasModifier<FirstDeadShield>();
             }
 
-            // Morph/Mimic are implemented as ConcealedModifier, but they are still visible to others.
+            // Morph/Mimic are implemented as DisguisedModifier, but they are still visible to others.
             // Only hide the shield for "true conceal" (e.g. swoop/invis), vents, disabled, etc.
-            var trulyConcealed =
-                Player.GetModifiers<ConcealedModifier>().Any(x => !x.VisibleToOthers) ||
-                !Player.Visible ||
-                (Player.TryGetModifier<DisabledModifier>(out var disabled) && !disabled.IsConsideredAlive) ||
-                Player.inVent;
 
-            FirstRoundShield.SetActive(!trulyConcealed && IsVisible && showAsTarget);
+            FirstRoundShield.SetActive(Player.IsVisibleToOthers() && IsVisible && showAsTarget);
         }
         else if (MeetingHud.Instance)
         {

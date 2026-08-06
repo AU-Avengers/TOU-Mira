@@ -12,7 +12,6 @@ using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -21,7 +20,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
-        if (playerControl != PlayerControl.LocalPlayer)
+        if (!playerControl.AmOwner)
         {
             return;
         }
@@ -42,7 +41,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         if (button.LimitedUses)
         {
             var dousedCount = ModifierUtils.GetPlayersWithModifier<ArsonistDousedModifier>().Count(x => !x.HasDied());
-            var newUses = Math.Clamp(0, button.MaxUses - dousedCount, button.MaxUses);
+            var newUses = Math.Clamp(button.MaxUses - dousedCount, 0, button.MaxUses);
             button.SetUses(newUses);
         }
     }
@@ -66,8 +65,8 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Douse", "Douse"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}DouseWikiDescription"),
                     TouNeutAssets.DouseButtonSprite),
@@ -76,7 +75,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
                         ? $"TouRole{LocaleKey}IgniteWikiDescriptionLegacy"
                         : $"TouRole{LocaleKey}IgniteWikiDescription"),
                     TouNeutAssets.IgniteButtonSprite)
-            };
+            ];
         }
     }
 
@@ -88,8 +87,10 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Arsonist.LoadAsset(), "TouMira.Role.Neutral.Arsonist", 1.45f),
         CanUseVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent,
         IntroSound = TouAudio.ArsoIgniteSound,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         MaxRoleCount = 1,
         Icon = TouRoleIcons.Arsonist,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
@@ -103,7 +104,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         var allDoused = PlayerControl.AllPlayerControls.ToArray().Where(x =>
             !x.HasDied() && x.GetModifier<ArsonistDousedModifier>()?.ArsonistId == Player.PlayerId);
 
-        if (allDoused.Any())
+        if (allDoused.HasAny())
         {
             stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleArsonistTabDousedInfo")}</b>");
             foreach (var plr in allDoused)
@@ -130,7 +131,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
 
     public void OffsetButtons()
     {
-        var canVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent || LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
+        var canVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent || LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.OffsetButtonsToggle.Value;
         var douse = CustomButtonSingleton<ArsonistDouseButton>.Instance;
         var ignite = CustomButtonSingleton<ArsonistIgniteButton>.Instance;
         Coroutines.Start(MiscUtils.CoMoveButtonIndex(douse, !canVent));
@@ -143,8 +144,11 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         if (Player.AmOwner)
         {
             OffsetButtons();
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.ArsoVentSprite.LoadAsset();
-            HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Arsonist);
+            if (!LegacyAssets.IsLegacy)
+            {
+                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.ArsoVentSprite.LoadAsset();
+                HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Arsonist);
+            }
             SetDouseUses();
         }
     }
@@ -153,7 +157,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         TouRoleUtils.ClearTaskHeader(Player);
-        if (Player.AmOwner)
+        if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
@@ -163,12 +167,8 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     public override void OnDeath(DeathReason reason)
     {
         var button = CustomButtonSingleton<ArsonistIgniteButton>.Instance;
-
-        if (button.Ignite != null)
-        {
-            button.Ignite.Clear();
-            button.Ignite = null;
-        }
+        button.Ignite?.Clear();
+        button.Ignite = null;
 
         RoleBehaviourStubs.OnDeath(this, reason);
     }

@@ -1,13 +1,13 @@
 ﻿using AmongUs.Data;
 using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
+using MiraAPI.Modifiers;
+using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
@@ -15,6 +15,10 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Shy,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Shy.LoadAsset(),
+            "TouMira.Modifier.Universal.Shy", 1.45f));
     public override string LocaleKey => "Shy";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Shy;
@@ -56,7 +60,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         var isValid = true;
-        if ((role is JesterRole && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn) ||
+        if ((role is JesterRole && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value) ||
             (role is SurvivorRole && OptionGroupSingleton<SurvivorOptions>.Instance.ScatterOn))
         {
             isValid = false;
@@ -67,7 +71,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override void OnDeactivate()
     {
-        if (Player == null)
+        if (!Player)
         {
             return;
         }
@@ -93,12 +97,12 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
             return;
         }
 
-        if (Player == null)
+        if (!Player)
         {
             return;
         }
 
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return;
         }
@@ -131,7 +135,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         {
             var opacity = 0f;
 
-            if ((PlayerControl.LocalPlayer.IsImpostorAligned() && Player.Data.Role is SwooperRole) ||
+            if (Player.TryGetModifier<HypnotistHysteriaModifier>(out var hypnoMod) && hypnoMod.AppearanceType > 1 || (PlayerControl.LocalPlayer.IsImpostorAligned() && Player.Data.Role is SwooperRole) ||
                 (Player.AmOwner && Player.Data.Role is SwooperRole))
             {
                 opacity = 0.1f;

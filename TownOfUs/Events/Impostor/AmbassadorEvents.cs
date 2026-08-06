@@ -7,7 +7,6 @@ using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Impostor;
 

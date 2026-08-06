@@ -9,14 +9,13 @@ using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
 
 public static class JailorEvents
 {
     [RegisterEvent]
-    public static void EjectionEventHandler(EjectionEvent @event)
+    public static void EjectionEventHandler(EjectionEvent _)
     {
         var sparedPlayers = ModifierUtils.GetPlayersWithModifier<JailSparedModifier>().ToList();
         sparedPlayers.Do(x => x.RemoveModifier<JailSparedModifier>());

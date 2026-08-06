@@ -2,7 +2,6 @@
 using TMPro;
 using TownOfUs.Interfaces;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.ControlSystem;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
@@ -30,13 +29,13 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
     public bool VisualPriority => true;
     public PlayerControl Controller { get; } = controller;
 
-    private GameObject? _overlayRoot;
-    private SpriteRenderer? _controlOverlay;
-    private LobbyNotificationMessage? _controlledNotification;
+    private GameObject _overlayRoot;
+    private SpriteRenderer _controlOverlay;
+    private LobbyNotificationMessage _controlledNotification;
 
     public void UpdateOverlayLayout()
     {
-        if (_overlayRoot == null || _controlOverlay == null || _controlOverlay.sprite == null || !HudManager.InstanceExists ||
+        if (!_overlayRoot || !_controlOverlay || !HudManager.InstanceExists ||
             Camera.main == null)
         {
             return;
@@ -50,7 +49,7 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
         var worldTopRight =
             hudCam.ScreenToWorldPoint(new Vector3(screenWidth, screenHeight, hudCam.nearClipPlane));
 
-        var baseZ = HudManager.Instance.FullScreen != null ? HudManager.Instance.FullScreen.transform.position.z : 0f;
+        var baseZ = HudManager.Instance.FullScreen ? HudManager.Instance.FullScreen.transform.position.z : 0f;
         var z = baseZ + 1f;
 
         var worldCenter = new Vector3(
@@ -102,28 +101,19 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
         if (Player.AmOwner && HudManager.InstanceExists)
         {
             var pingTracker = Object.FindObjectOfType<PingTracker>(true);
-            if (pingTracker != null && HudManager.Instance != null)
+            if (pingTracker != null && HudManager.InstanceExists)
             {
                 _overlayRoot = Object.Instantiate(pingTracker.gameObject, HudManager.Instance.transform);
                 _overlayRoot.name = "ParasiteInfectedOverlay";
 
                 var tmp = _overlayRoot.GetComponent<TextMeshPro>();
-                if (tmp != null)
-                {
-                    tmp.enabled = false;
-                }
+                tmp?.enabled = false;
 
                 var meshRenderer = _overlayRoot.GetComponent<MeshRenderer>();
-                if (meshRenderer != null)
-                {
-                    meshRenderer.enabled = false;
-                }
+                meshRenderer?.enabled = false;
 
                 var aspect = _overlayRoot.GetComponent<AspectPosition>();
-                if (aspect != null)
-                {
-                    aspect.enabled = false;
-                }
+                aspect?.enabled = false;
                 
                 var borderObj = UnityEngine.Object.Instantiate(TouAssets.ParasiteOverlay.LoadAsset(), _overlayRoot.transform);
                 borderObj.layer = _overlayRoot.layer;
@@ -148,12 +138,12 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
     {
         Player.ResetAppearance(true);
 
-        if (_overlayRoot != null)
+        if (_overlayRoot)
         {
             _overlayRoot.SetActive(false);
             Object.Destroy(_overlayRoot);
-            _overlayRoot = null;
-            _controlOverlay = null;
+            _overlayRoot = null!;
+            _controlOverlay = null!;
         }
 
         ClearNotification();
@@ -161,24 +151,23 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
 
     private void CreateNotification()
     {
-        if (Player == null || !Player.AmOwner || PlayerControl.LocalPlayer == null)
+        if (!Player || !Player.AmOwner || !PlayerControl.LocalPlayer)
         {
             return;
         }
 
-        if (_controlledNotification == null)
+        if (!_controlledNotification)
         {
             var controllerName = Controller?.Data?.Role is Roles.ITownOfUsRole touRole ? touRole.RoleName : "Parasite";
             _controlledNotification = ControlledFeedbackUtilities.ShowControlledByNotification(
                 controllerName,
                 TownOfUsColors.Impostor,
-                TouRoleIcons.Parasite.LoadAsset());
-            _controlledNotification?.AdjustNotification();
+                TouRoleIcons.Parasite.LoadAsset())!;
         }
     }
 
     public void ClearNotification()
     {
-        ControlledFeedbackUtilities.ClearNotification(ref _controlledNotification);
+        ControlledFeedbackUtilities.ClearNotification(ref _controlledNotification!);
     }
 }

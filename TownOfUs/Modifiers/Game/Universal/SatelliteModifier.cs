@@ -1,17 +1,13 @@
 ﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
-using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
-using MiraAPI.Utilities.Assets;
-using Reactor.Utilities.Extensions;
-using TownOfUs.Buttons.Modifiers;
+using MiraAPI.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -19,6 +15,10 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable, IButtonModifier
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Satellite,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Satellite.LoadAsset(),
+            "TouMira.Modifier.Universal.Satellite", 1.45f));
     private readonly List<SpriteRenderer> CastedIcons = [];
     private readonly List<PlayerControl> CastedPlayers = [];
     public override string LocaleKey => "Satellite";
@@ -46,13 +46,13 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.Get($"TouModifier{LocaleKey}Broadcast"),
                     TouLocale.GetParsed($"TouModifier{LocaleKey}BroadcastWikiDescription").Replace("<maxUses>",
                         $"{Math.Round(OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast, 0)}"),
                     TouAssets.BroadcastSprite)
-            };
+            ];
         }
     }
 
@@ -74,7 +74,6 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
 
     public void OnRoundStart()
     {
-        CustomButtonSingleton<SatelliteButton>.Instance.Usable = true;
         ClearMapIcons();
     }
 
@@ -101,7 +100,7 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
     {
         foreach (var gameObject in CastedIcons.Select(icon => icon.gameObject).Where(gameObject => gameObject != null))
         {
-            gameObject.Destroy();
+            gameObject.DeepDestroy();
         }
 
         CastedIcons.Clear();

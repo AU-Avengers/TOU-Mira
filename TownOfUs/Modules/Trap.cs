@@ -41,8 +41,8 @@ public sealed class Trap : IDisposable
     public void Update()
     {
         if (_transform == null ||
-            PlayerControl.LocalPlayer == null ||
-            PlayerControl.LocalPlayer.Data == null ||
+            !PlayerControl.LocalPlayer ||
+            !PlayerControl.LocalPlayer.Data ||
             PlayerControl.LocalPlayer.Data.Role == null ||
             !ShipStatus.Instance ||
             (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started && !TutorialManager.InstanceExists))
@@ -70,8 +70,7 @@ public sealed class Trap : IDisposable
 
                 var role = entry.Data.Role;
 
-                var cachedMod = entry.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
-                if (cachedMod != null)
+                if (entry.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
                 {
                     role = cachedMod.CachedRole;
                 }

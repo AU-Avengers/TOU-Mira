@@ -9,7 +9,6 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -23,7 +22,7 @@ public sealed class HypnotistRole(IntPtr cppPtr)
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not HypnotistRole || Player.HasDied() || !Player.AmOwner ||
+        if (!Player || Player.Data.Role is not HypnotistRole || Player.HasDied() || !Player.AmOwner ||
             MeetingHud.Instance || (!HudManager.Instance.UseButton.isActiveAndEnabled &&
                                     !HudManager.Instance.PetButton.isActiveAndEnabled))
         {
@@ -56,7 +55,9 @@ public sealed class HypnotistRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Hypnotist.LoadAsset(), "TouMira.Role.Impostor.Hypnotist", 1.45f),
         UseVanillaKillButton = true,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Hypnotist
     };
 
@@ -67,15 +68,15 @@ public sealed class HypnotistRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Hypnotize", "Hypnotize"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}HypnotizeWikiDescription"),
                     TouImpAssets.HypnotiseButtonSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}MassHysteriaWiki", "Mass Hysteria (Meeting)"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MassHysteriaWikiDescription"),
                     TouAssets.HysteriaCleanSprite)
-            };
+            ];
         }
     }
 
@@ -85,12 +86,13 @@ public sealed class HypnotistRole(IntPtr cppPtr)
 
         if (Player.AmOwner)
         {
+            var classic = LegacyAssets.IsLegacy;
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
-                TouLocale.GetParsed("TouRoleHypnotistMassHysteria"),
+                classic ? string.Empty : TouLocale.GetParsed("TouRoleHypnotistMassHysteria"),
                 MeetingAbilityType.Click,
-                TouAssets.HysteriaCleanSprite,
+                classic ? LegacyAssets.HysteriaSprite : TouAssets.HysteriaCleanSprite,
                 null!,
                 IsExempt)
             {
@@ -103,9 +105,10 @@ public sealed class HypnotistRole(IntPtr cppPtr)
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
-        if (Player.AmOwner)
+        var meeting = MeetingHud.Instance;
+        if (Player.AmOwner && meeting != null)
         {
-            meetingMenu.GenButtons(MeetingHud.Instance,
+            meetingMenu.GenButtons(meeting,
                 Player.AmOwner && !Player.HasDied() && !HysteriaActive && !Player.HasModifier<JailedModifier>());
         }
     }
@@ -152,6 +155,11 @@ public sealed class HypnotistRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.Hysteria)]
     public static void RpcHysteria(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not HypnotistRole)
         {
             Error("RpcHysteria - Invalid hypnotist");

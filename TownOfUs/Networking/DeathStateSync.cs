@@ -10,7 +10,6 @@ using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Networking;
@@ -84,7 +83,7 @@ public static class DeathStateSync
             return;
         }
 
-        if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+        if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
         {
             return;
         }
@@ -100,7 +99,7 @@ public static class DeathStateSync
     {
         yield return new WaitForSeconds(0.1f);
 
-        if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+        if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
         {
             yield break;
         }
@@ -217,7 +216,7 @@ public static class DeathStateSync
             yield break;
         }
 
-        if (target.Data.IsDead != isDead && AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+        if (target.Data.IsDead != isDead && AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
         {
             RpcSyncDeathState(target, isDead);
         }
@@ -237,7 +236,7 @@ public static class DeathStateSync
             return;
         }
 
-        if (AmongUsClient.Instance == null || 
+        if (!AmongUsClient.Instance || 
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
         {
             return;
@@ -330,7 +329,7 @@ public static class DeathStateSyncPatches
             yield break;
         }
 
-        if (player.Data.IsDead && !player.HasDied() && AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+        if (player.Data.IsDead && !player.HasDied() && AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
         {
             DeathStateSync.ScheduleDeathStateSync(player, false);
         }

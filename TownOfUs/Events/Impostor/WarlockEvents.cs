@@ -3,7 +3,6 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Hud;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Impostor;
 
@@ -21,6 +20,19 @@ public static class WarlockEvents
         if (button.BurstActive)
         {
             ++button.Kills;
+        }
+        if (button.Charge >= 100 && !button.BurstActive)
+        {
+            button.BurstActive = true;
+            button.Kills = 0;
+        }
+        else if (button.Charge <= 100 && !button.BurstActive)
+        {
+            button.Charge = 0;
+        }
+        if (!button.BurstActive)
+        {
+            button.Timer = button.Cooldown;
         }
     }
 

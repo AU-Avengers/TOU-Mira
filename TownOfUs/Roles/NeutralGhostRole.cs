@@ -7,7 +7,6 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -16,7 +15,7 @@ public class NeutralGhostRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsR
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
-        if (playerControl != PlayerControl.LocalPlayer)
+        if (!playerControl.AmOwner)
         {
             return;
         }
@@ -30,7 +29,7 @@ public class NeutralGhostRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsR
         TouRoleUtils.ClearTaskHeader(Player);
     }
     private Minigame _hauntMenu = null!;
-
+    public bool IsDraftable => false;
     public override bool IsDead => true;
     public override bool IsAffectedByComms => false;
 
@@ -46,7 +45,7 @@ public class NeutralGhostRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsR
     public virtual string RoleLongDescription => Player != null ? Player.GetRoleWhenAlive().BlurbLong : string.Empty;
     public virtual Color RoleColor => Player != null ? Player.GetRoleWhenAlive().TeamColor : TownOfUsColors.Neutral;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
-    public virtual RoleAlignment RoleAlignment => RoleAlignment.NeutralBenign;
+    public virtual RoleAlignment RoleAlignment => RoleAlignment.GameOutlier;
 
     public virtual CustomRoleConfiguration Configuration => new(this)
     {

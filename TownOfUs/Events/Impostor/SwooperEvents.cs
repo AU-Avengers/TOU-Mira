@@ -10,7 +10,7 @@ namespace TownOfUs.Events.Impostor;
 public static class SwooperEvents
 {
     [RegisterEvent]
-    public static void EjectionEventEventHandler(EjectionEvent @event)
+    public static void EjectionEventEventHandler(EjectionEvent _)
     {
         var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
         button.SetUses((int)OptionGroupSingleton<SwooperOptions>.Instance.MaxSwoops);

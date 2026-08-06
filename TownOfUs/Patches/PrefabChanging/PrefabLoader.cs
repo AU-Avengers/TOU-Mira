@@ -3,8 +3,9 @@ using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Reactor.Utilities;
 using TownOfUs.Modules;
-using TownOfUs.Utilities;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace TownOfUs.Patches.PrefabChanging;
 
@@ -29,7 +30,7 @@ public class PrefabLoader
 
             if (_submarineStatus == null || _submarineStatus.WasCollected || !_submarineStatus || _submarineStatus == null)
             {
-                if (ShipStatus.Instance is null || ShipStatus.Instance.WasCollected || !ShipStatus.Instance || ShipStatus.Instance == null)
+                if (ShipStatus.Instance is null || ShipStatus.Instance.WasCollected || !ShipStatus.Instance || !ShipStatus.Instance)
                 {
                     return _submarineStatus = null!;
                 }
@@ -64,7 +65,7 @@ public class PrefabLoader
 
     public static IEnumerator LoadMaps()
     {
-        while (AmongUsClient.Instance == null)
+        while (!AmongUsClient.Instance)
         {
             yield return null;
         }
@@ -83,51 +84,64 @@ public class PrefabLoader
         {
             Out<ShipStatus> o = new();
             yield return LoadMap(MapNames.Skeld, o);
-            Skeld = o.Value;
+            Skeld = o;
         }
 
         if (!Polus)
         {
             Out<PolusShipStatus> o = new();
             yield return LoadMap(MapNames.Polus, o);
-            Polus = o.Value;
+            Polus = o;
         }
 
         if (!Airship)
         {
             Out<AirshipStatus> o = new();
             yield return LoadMap(MapNames.Airship, o);
-            Airship = o.Value;
+            Airship = o;
         }
 
         if (!Fungle)
         {
             Out<FungleShipStatus> o = new();
             yield return LoadMap(MapNames.Fungle, o);
-            Fungle = o.Value;
+            Fungle = o;
         }
     }
 
     private static IEnumerator LoadMap<T>(MapNames map, Out<T> shipStatus) where T : ShipStatus
     {
-        var reference = AmongUsClient.Instance.ShipPrefabs._items[(int)map];
+        AssetReference reference = AmongUsClient.Instance.ShipPrefabs._items[(int)map];
 
-        if (reference.IsValid())
+        AsyncOperationHandle<GameObject> handle;
+
+        if (reference.OperationHandle.IsValid())
         {
-            // TODO: find out why this errors if asset is already loaded by another mod
-            shipStatus.Value = reference.OperationHandle.Result.Cast<GameObject>().GetComponent<T>();
+            handle = reference.OperationHandle.Convert<GameObject>();
+
+            if (!handle.IsDone)
+                yield return handle;
         }
         else
         {
-            var asset = reference.LoadAsset<GameObject>();
-            yield return asset;
+            handle = reference.LoadAsset<GameObject>();
+            yield return handle;
+        }
 
-            shipStatus.Value = asset.Result.GetComponent<T>();
+        if (handle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+        {
+            shipStatus.Value = handle.Result.GetComponent<T>();
+        }
+        else
+        {
+            UnityEngine.Debug.LogError("Failed to load map asset");
         }
     }
 
-    private sealed class Out<T>
+    private sealed record Out<T>
     {
         public T Value { get; set; }
+
+        public static implicit operator T(Out<T> outT) => outT.Value;
     }
 }

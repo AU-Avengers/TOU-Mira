@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

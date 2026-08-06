@@ -8,7 +8,6 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modules;
@@ -17,7 +16,7 @@ namespace TownOfUs.Modules;
 public sealed class Bomb : IDisposable
 {
     private PlayerControl? _bomber;
-    private GameObject? _obj;
+    private GameObject _obj;
 
     public void Dispose()
     {
@@ -34,9 +33,13 @@ public sealed class Bomb : IDisposable
     {
         yield return new WaitForSeconds(0.1f);
 
+        if (!_obj)
+        {
+            yield break;
+        }
         var radius = OptionGroupSingleton<BomberOptions>.Instance.DetonateRadius * ShipStatus.Instance.MaxLightRadius;
 
-        var affected = Helpers.GetClosestPlayers(_obj!.transform.position, radius);
+        var affected = Helpers.GetClosestPlayers(_obj.transform.position, radius);
 
         affected.Shuffle();
 
@@ -50,6 +53,8 @@ public sealed class Bomb : IDisposable
             _obj.Destroy();
             yield break;
         }
+        TouAudio.PlaySound(TouAudio.BombExplode);
+        HudManager.Instance.StartCoroutine(HudManager.Instance.PlayerCam.CoShakeScreen(0.4f, 1.5f));
         var targetList = affected.Where(x => !x.HasDied() && !(x.HasModifier<BaseShieldModifier>() && x.AmOwner) && !(x.HasModifier<FirstDeadShield>() && x.AmOwner)).ToList();
         _bomber?.RpcSpecialMultiMurder(targetList, MeetingCheck.OutsideMeeting, true, teleportMurderer: false,
             causeOfDeath: "BomberBomb");
@@ -90,7 +95,7 @@ public sealed class Bomb : IDisposable
 
     private void Dispose(bool disposing)
     {
-        if (disposing && _obj != null)
+        if (disposing && _obj)
         {
             _obj.Destroy();
         }

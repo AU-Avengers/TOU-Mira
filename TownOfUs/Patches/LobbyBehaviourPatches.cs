@@ -1,8 +1,14 @@
 ﻿using HarmonyLib;
+using MiraAPI.Modifiers;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
+using TownOfUs.Modules.DraftMode;
+using TownOfUs.Networking;
+using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
-using TownOfUs.Utilities;
+using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Patches;
 
@@ -10,9 +16,13 @@ namespace TownOfUs.Patches;
 public static class LobbyBehaviourPatches
 {
     [HarmonyPatch(typeof(LobbyBehaviour), nameof(LobbyBehaviour.Start))]
+    [HarmonyPatch(typeof(TutorialManager), nameof(TutorialManager.Awake))]
     [HarmonyPostfix]
-    public static void LobbyStartPatch(LobbyBehaviour __instance)
+    public static void LobbyStartPatch()
     {
+        CustomTouMurderRpcs.StoredKillAnimations = [];
+        HaunterRole.ResetReveals();
+        GameTimerPatch.ResetTimer();
         foreach (var role in GameHistory.AllRoles)
         {
             if (!role || role is not ITownOfUsRole touRole)
@@ -23,6 +33,7 @@ public static class LobbyBehaviourPatches
             touRole.LobbyStart();
         }
 
+        TeamChatPatches.CleanUpChats();
         GameHistory.ClearAll();
         ScreenFlash.Clear();
         MeetingMenu.ClearAll();
@@ -32,5 +43,29 @@ public static class LobbyBehaviourPatches
 
         // Clear Time Lord snapshot data to prevent stale positions from previous games
         TimeLordRewindSystem.Reset();
+        MiraAPI.Utilities.Extensions.ClearGarbageCollector();
+        FakePlayer.ClearAll();
+        StonedPlayer.ClearAll(true);
+        if (TutorialManager.InstanceExists)
+        {
+            foreach (var mod in ModifierManager.Modifiers)
+            {
+                if (mod is not TouBaseGameModifier touMod)
+                {
+                    continue;
+                }
+                touMod.BeforeModifierSpawns();
+            }
+        }
+        else
+        {
+            HudManagerHelper.RefreshPlatformData();
+        }
+        if (!DraftManager.IsDraftActive) return;
+        DraftManager.Reset(cancelledBeforeCompletion: true);
+        DraftCancelButton.Hide();
+        DraftShuffleButton.HideAndReset();
+        DraftSidebarManager.Deactivate();
+        DraftSidebarManager.ClearBannerRef();
     }
 }

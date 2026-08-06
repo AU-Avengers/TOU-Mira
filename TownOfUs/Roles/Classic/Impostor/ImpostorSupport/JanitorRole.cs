@@ -4,6 +4,7 @@ using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
@@ -11,12 +12,11 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
 using TownOfUs.Modules.TimeLord;
 using TownOfUs.Modules.Components;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Impostor;
 
@@ -25,7 +25,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
 {
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not JanitorRole || Player.HasDied() || !Player.AmOwner ||
+        if (!Player || Player.Data.Role is not JanitorRole || Player.HasDied() || !Player.AmOwner ||
             MeetingHud.Instance || (!HudManager.Instance.UseButton.isActiveAndEnabled &&
                                     !HudManager.Instance.PetButton.isActiveAndEnabled))
         {
@@ -58,8 +58,10 @@ public sealed class JanitorRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Janitor.LoadAsset(), "TouMira.Role.Impostor.Janitor", 1.45f),
         UseVanillaKillButton = true,
         Icon = TouRoleIcons.Janitor,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         IntroSound = TouAudio.JanitorCleanSound
     };
 
@@ -70,18 +72,23 @@ public sealed class JanitorRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Clean", "Clean"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CleanWikiDescription"),
                     TouImpAssets.CleanButtonSprite)
-            };
+            ];
         }
     }
 
     [MethodRpc((uint)TownOfUsRpc.CleanBody, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcCleanBody(PlayerControl player, byte bodyId)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] RpcCleanBody called: player={player.Data.PlayerName}, bodyId={bodyId}, isLocal={player.AmOwner}");
 
         if (player.Data.Role is not JanitorRole)
@@ -91,21 +98,18 @@ public sealed class JanitorRole(IntPtr cppPtr)
             return;
         }
 
-        var body = TimeLordBodyManager.FindDeadBodyIncludingInactive(bodyId);
-        if (body == null)
-        {
-            body = Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == bodyId);
-        }
-
-        TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] Body found: body={body != null}, active={body?.gameObject?.activeSelf ?? false}, position={body?.transform?.position}");
+        var body = TimeLordBodyManager.FindDeadBodyIncludingInactive(bodyId)
+                ?? FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == bodyId);
+        TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] Body found: body={body != null}, active={body?.gameObject.activeSelf ?? false}, position={body?.transform?.position}");
 
         if (body != null)
         {
             var touAbilityEvent = new TouAbilityEvent(AbilityType.JanitorClean, player, body);
             MiraEventManager.InvokeEvent(touAbilityEvent);
 
-            var isHost = AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost;
+            var isHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
             var optionEnabled = OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind;
+            var destroyBody = (BodyVitalsMode)OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance.Value;
 
             var shouldRecord = isHost ? optionEnabled : (optionEnabled || TimeLordRewindSystem.MatchHasTimeLord());
 
@@ -121,12 +125,12 @@ public sealed class JanitorRole(IntPtr cppPtr)
                     TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(player, body, body.transform.position, 
                         TimeLordBodyManager.CleanedBodySource.Janitor);
                 }
-                Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body));
+                Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));
             }
             else
             {
-                TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] Option disabled and no Time Lord, calling CoClean (body will be destroyed)");
-                Coroutines.Start(body.CoClean());
+                TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] Option disabled and no Time Lord, calling CoClean (Body will appear {destroyBody.ToDisplayString()})");
+                Coroutines.Start(body.CoCleanCustom(destroyBody));
             }
             Coroutines.Start(CrimeSceneComponent.CoClean(body));
         }

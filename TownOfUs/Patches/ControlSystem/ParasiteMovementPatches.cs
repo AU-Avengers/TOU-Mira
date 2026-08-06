@@ -8,7 +8,6 @@ using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches.ControlSystem;
@@ -24,15 +23,15 @@ public static class ParasiteMovementPatches
 
     private const float MovementChangeEpsilonSqr = 0.0001f * 0.0001f;
     private const float MovementKeepAliveSeconds = 0.03f;
-    private static readonly Dictionary<byte, Vector2> _lastSentDir = new();
-    private static readonly Dictionary<byte, Vector2> _lastSentPos = new();
-    private static readonly Dictionary<byte, Vector2> _lastSentVel = new();
-    private static readonly Dictionary<byte, float> _lastSentAt = new();
-    private static readonly Dictionary<byte, Vector2> _localDesiredDir = new();
+    private static readonly Dictionary<byte, Vector2> _lastSentDir = [];
+    private static readonly Dictionary<byte, Vector2> _lastSentPos = [];
+    private static readonly Dictionary<byte, Vector2> _lastSentVel = [];
+    private static readonly Dictionary<byte, float> _lastSentAt = [];
+    private static readonly Dictionary<byte, Vector2> _localDesiredDir = [];
     
     private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir, Vector2 position, Vector2 velocity)
     {
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return;
         }
@@ -83,15 +82,15 @@ public static class ParasiteMovementPatches
             {
                 return true;
             }
-            if (player == PlayerControl.LocalPlayer)
+            if (player.AmOwner)
             {
                 return true;
             }
         }
 
 
-        if (player == PlayerControl.LocalPlayer &&
-            PlayerControl.LocalPlayer != null &&
+        if (player.AmOwner &&
+            PlayerControl.LocalPlayer &&
             PlayerControl.LocalPlayer.Data?.Role is ParasiteRole parasite &&
             parasite.Controlled != null)
         {
@@ -107,7 +106,7 @@ public static class ParasiteMovementPatches
                 return true;
             }
 
-            var shouldMove = Minigame.Instance == null && !player.inVent && !player.inMovingPlat && !player.onLadder && !player.walkingToVent;
+            var shouldMove = !Minigame.Instance && !player.inVent && !player.inMovingPlat && !player.onLadder && !player.walkingToVent;
             var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
 
             var victimId = victim.PlayerId;
@@ -117,21 +116,16 @@ public static class ParasiteMovementPatches
                                victim.onLadder ||
                                victim.walkingToVent;
 
-            Vector2 targetDir;
-
-            if (victimInAnim)
-            {
-                targetDir = Vector2.zero;
-            }
-            else
-            {
-                targetDir = canMoveIndependently ? GetSecondaryDirection() : GetNormalDirection();
-            }
+            Vector2 targetDir = canMoveIndependently ? GetSecondaryDirection() : GetNormalDirection();
             _localDesiredDir[victimId] = targetDir;
 
             if (victim.MyPhysics != null)
             {
-                if (targetDir == Vector2.zero)
+                if (victimInAnim)
+                {
+                    victim.MyPhysics.HandleAnimation(false);
+                }
+                else if (targetDir == Vector2.zero)
                 {
                     var cachedDir = _localDesiredDir.TryGetValue(victimId, out var cached) ? cached : Vector2.zero;
                     if (cachedDir != Vector2.zero)
@@ -223,10 +217,7 @@ public static class ParasiteMovementPatches
                 var delta = pos - currentPos;
                 if (delta.magnitude > 0.5f) // Only correct if significantly off
                 {
-                    if (__instance.body != null)
-                    {
-                        __instance.body.position = pos;
-                    }
+                    __instance.body?.position = pos;
                     __instance.myPlayer.transform.position = pos;
                 }
             }
@@ -277,10 +268,7 @@ public static class ParasiteMovementPatches
                 var delta = pos - currentPos;
                 if (delta.magnitude > 0.5f)
                 {
-                    if (__instance.body != null)
-                    {
-                        __instance.body.position = pos;
-                    }
+                    __instance.body?.position = pos;
                     __instance.myPlayer.transform.position = pos;
                 }
             }

@@ -8,7 +8,6 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -19,7 +18,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     [HideFromIl2Cpp] public CrimeSceneComponent? InvestigatingScene { get; set; }
 
-    [HideFromIl2Cpp] public List<byte> InvestigatedPlayers { get; init; } = new();
+    [HideFromIl2Cpp] public List<byte> InvestigatedPlayers { get; init; } = [];
 
     public DoomableType DoomHintType => DoomableType.Insight;
     public string LocaleKey => "Forensic";
@@ -39,15 +38,15 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Inspect", "Inspect"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}InspectWikiDescription"),
                     TouCrewAssets.InspectSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Examine", "Examine"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ExamineWikiDescription"),
                     TouCrewAssets.ExamineSprite)
-            };
+            ];
         }
     }
 
@@ -57,6 +56,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Forensic.LoadAsset(), "TouMira.Role.Crewmate.Forensic", 1.45f),
         Icon = TouRoleIcons.Forensic,
         OptionsScreenshot = TouBanners.ForensicRoleBanner,
         IntroSound = TouAudio.QuestionSound

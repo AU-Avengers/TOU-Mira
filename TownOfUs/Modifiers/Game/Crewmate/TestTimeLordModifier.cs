@@ -1,7 +1,5 @@
 using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Interfaces;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;
@@ -31,10 +29,10 @@ public sealed class TestTimeLordModifier : TouGameModifier, IWikiDiscoverable, I
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new("Rewind", "Rewind time for everyone (for testing)", TouCrewAssets.RewindSprite)
-            };
+            ];
         }
     }
 

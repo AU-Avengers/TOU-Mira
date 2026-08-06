@@ -2,6 +2,7 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Reactor.Localization;
 using Reactor.Localization.Providers;
 using Reactor.Utilities;
+using TownOfUs.Patches.AprilFools;
 
 namespace TownOfUs.Modules.Localization;
 
@@ -14,6 +15,16 @@ public class TouLocalizationProvider : LocalizationProvider
 
     public override bool TryGetText(StringNames stringName, out string? result)
     {
+        if (stringName == DleksMapOptionPickerPatches.DleksTooltip)
+        {
+            result = TouLocale.Get("ReverseSkeldMapTooltip");
+            return true;
+        }
+        if (stringName == DleksMapOptionPickerPatches.DleksName)
+        {
+            result = TouLocale.Get("ReverseSkeldMapName");
+            return true;
+        }
         if ((int)stringName < 0 && _reactorProvider!.TryGetText(stringName, out var reactorText))
         {
             if (reactorText.IsNullOrWhiteSpace())
@@ -42,10 +53,7 @@ public class TouLocalizationProvider : LocalizationProvider
 
     public override void OnLanguageChanged(SupportedLangs newLanguage)
     {
-        if (_reactorProvider == null)
-        {
-            _reactorProvider = LocalizationManager.Providers.First(x => x is HardCodedLocalizationProvider);
-        }
+        _reactorProvider ??= LocalizationManager.Providers.First(x => x is HardCodedLocalizationProvider);
         if (!_loadedStrings)
         {
             TouLocale.LoadExternalLocale();

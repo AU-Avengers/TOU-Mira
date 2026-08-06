@@ -7,7 +7,6 @@ using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.Game;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -26,12 +25,12 @@ public static class DummyBehaviourPatches
 
     private static IEnumerator TouDummyMode(PlayerControl dummy)
     {
-        while (PlayerControl.LocalPlayer == null)
+        while (!PlayerControl.LocalPlayer)
         {
             yield return null;
         }
 
-        while (PlayerControl.LocalPlayer.Data == null)
+        while (!PlayerControl.LocalPlayer.Data)
         {
             yield return null;
         }

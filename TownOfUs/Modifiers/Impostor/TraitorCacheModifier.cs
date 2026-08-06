@@ -7,12 +7,15 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Modifiers.Impostor;
 
 public sealed class TraitorCacheModifier : BaseModifier, ICachedRole
 {
+    public bool CanDisplayForRole(RoleBehaviour role)
+    {
+        return !role.IsDead && role.Role != CachedRole.Role;
+    }
     public override string ModifierName => "Traitor";
     public override bool HideOnUi => true;
     public bool ShowCurrentRoleFirst => true;

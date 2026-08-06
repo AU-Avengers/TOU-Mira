@@ -36,7 +36,7 @@ public static class ArsonistEvents
     {
         var source = @event.Source;
         var victim = @event.Target;
-        if (source.Data.Role is ArsonistRole && victim.AmOwner && MeetingHud.Instance == null && ExileController.Instance == null)
+        if (source.Data.Role is ArsonistRole && victim.AmOwner && !MeetingHud.Instance && !ExileController.Instance)
         {
             TouAudio.PlaySound(TouAudio.ArsoIgniteSound);
         }
@@ -44,7 +44,7 @@ public static class ArsonistEvents
     }
 
     [RegisterEvent]
-    public static void OnRoundStartEventHandler(RoundStartEvent @event)
+    public static void OnRoundStartEventHandler(RoundStartEvent _)
     {
         ArsonistRole.SetDouseUses();
     }

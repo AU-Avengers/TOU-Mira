@@ -19,7 +19,7 @@ public static class MinigameCanMovePatch
     [HarmonyPrefix]
     public static bool PlayerControlCanMovePatch(PlayerControl __instance, ref bool __result)
     {
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return true;
         }
@@ -41,7 +41,7 @@ public static class MinigameCanMovePatch
         if (PlayerControl.LocalPlayer.HasModifier<OperativeModifier>() &&
             ActiveInputManager.currentControlType == ActiveInputManager.InputType.Keyboard &&
             CustomButtonSingleton<SecurityButton>.Instance.EffectActive &&
-            CustomButtonSingleton<SecurityButton>.Instance.canMoveWithMinigame)
+            CustomButtonSingleton<SecurityButton>.Instance.CanMoveWithMinigame)
         {
             __result = __instance.moveable;
             return false;

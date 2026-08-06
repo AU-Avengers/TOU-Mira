@@ -12,14 +12,11 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
-using TownOfUs.Modifiers.Game.Impostor;
-using TownOfUs.Modifiers.Game.Neutral;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
-using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -29,7 +26,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
-        if (playerControl != PlayerControl.LocalPlayer)
+        if (!playerControl.AmOwner)
         {
             return;
         }
@@ -57,12 +54,12 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Remember", "Remember"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}RememberWikiDescription"),
                     TouNeutAssets.RememberButtonSprite)
-            };
+            ];
         }
     }
 
@@ -82,7 +79,9 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Amnesiac.LoadAsset(), "TouMira.Role.Neutral.Amnesiac", 1.45f),
         IntroSound = TouAudio.MediumIntroSound,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
         Icon = TouRoleIcons.Amnesiac
     };
@@ -108,12 +107,18 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.Remember)]
     public static void RpcRemember(PlayerControl player, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not AmnesiacRole)
         {
             Error("RpcRemember - Invalid amnesiac");
             return;
         }
 
+        var opts = OptionGroupSingleton<AmnesiacOptions>.Instance;
         var roleWhenAlive = target.GetRoleWhenAlive();
 
         if (roleWhenAlive is AmnesiacRole)
@@ -149,11 +154,14 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         player.ChangeRole((ushort)roleWhenAlive.Role);
         if (player.Data.Role is InquisitorRole inquis)
         {
-            inquis.Targets = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>().Where(x => x != player)
-                .ToList();
-            inquis.TargetRoles = ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>()
-                .Where(x => x.Player != player)
-                .Select([HideFromIl2Cpp](x) => x.TargetRole).OrderBy([HideFromIl2Cpp](x) => x.GetRoleName()).ToList();
+            var newTargets = new Dictionary<PlayerControl, RoleBehaviour>();
+            foreach (var heretic in ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>()
+                         .Where(x => x.Player != player).OrderBy([HideFromIl2Cpp](x) => x.TargetRole.GetRoleName()))
+            {
+                newTargets.Add(heretic.Player, heretic.TargetRole);
+            }
+
+            inquis.Targets = newTargets;
         }
         else if (player.Data.Role is PlaguebearerRole || player.Data.Role is PestilenceRole)
         {
@@ -203,12 +211,6 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
                 // Makes the og vampire a bitten vampire so to speak, yes it makes it more confusing, but that's how it is, deal with it - Atony
                 target.AddModifier<VampireBittenModifier>();
             }
-        }
-
-        var modifiers = target.GetModifiers<TouGameModifier>().ToList();
-        if (OptionGroupSingleton<AmnesiacOptions>.Instance.InheritFactionModifier && modifiers.Count > 0 && !player.GetModifiers<TouGameModifier>().Any())
-        {
-            player.AddModifier(modifiers.FirstOrDefault()!.GetType());
         }
 
         if (player.AmOwner)
@@ -263,14 +265,28 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
             }
         }
 
-        if (player.IsImpostor() && OptionGroupSingleton<AssassinOptions>.Instance.AmneTurnImpAssassin)
+        var playerIsAssassin = target.HasModifier<AssassinModifier>();
+        var assassinModeImp = (AssassinRemember)opts.AmneTurnImpAssassin.Value;
+        var assassinModeNeut = (AssassinRemember)opts.AmneTurnNeutAssassin.Value;
+        var amneIsAssassin = false;
+
+        if ((player.IsImpostor() && (assassinModeImp is AssassinRemember.Always ||
+                                     assassinModeImp is AssassinRemember.IfAssassin && playerIsAssassin))
+            ||
+            player.IsNeutral() && player.Is(RoleAlignment.NeutralKilling) &&
+            (assassinModeNeut is AssassinRemember.Always ||
+             assassinModeNeut is AssassinRemember.IfAssassin && playerIsAssassin))
         {
-            player.AddModifier<ImpostorAssassinModifier>();
+            amneIsAssassin = true;
+            player.AddModifier<AssassinModifier>();
         }
-        else if (player.IsNeutral() && player.Is(RoleAlignment.NeutralKilling) &&
-                 OptionGroupSingleton<AssassinOptions>.Instance.AmneTurnNeutAssassin)
+
+        // Doesn't give Double Shot if Assassin isn't available
+        var modifier = target.GetModifiers<TouGameModifier>().FirstOrDefault(x => x is not AssassinModifier &&
+            (x is not DoubleShotModifier || amneIsAssassin));
+        if (opts.InheritFactionModifier && modifier != null)
         {
-            player.AddModifier<NeutralKillerAssassinModifier>();
+            player.AddModifier(modifier.GetType());
         }
 
         var touAbilityEvent2 = new TouAbilityEvent(AbilityType.AmnesiacPostRemember, player, target);

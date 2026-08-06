@@ -7,7 +7,6 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Roles;
 using Reactor.Localization.Utilities;
 using Reactor.Utilities;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches.Misc;
@@ -15,6 +14,7 @@ namespace TownOfUs.Patches.Misc;
 [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
 public static class LogoPatch
 {
+    public static SpriteRenderer GameLogo;
     public const string BepInVersionPrefix = "6.0.0-be.";
     public const int BepInVersionMinimum = 738;
 #pragma warning disable S1075 // URIs should not be hardcoded
@@ -22,9 +22,16 @@ public static class LogoPatch
     public const string BepInExDownloadUrl64 = "https://builds.bepinex.dev/projects/bepinex_be/752/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.752%2Bdd0655f.zip";
 #pragma warning restore S1075
     public static string BepInExDownloadUrl => Environment.Is64BitProcess ? BepInExDownloadUrl64 : BepInExDownloadUrl32;
+
+    public static bool NeedsDeepDestroy;
     //public static bool UpdateRequired => !TownOfUsPlugin.IsMobile && Paths.BepInExVersion.ToString().Remove(BepInVersionPrefix.Length);
     public static void Postfix()
     {
+        var requiredVersion = new Version(2026, 6, 5);
+        var version = Version.Parse(Application.version);
+        NeedsDeepDestroy = version >= requiredVersion;
+        Warning($"Current AU Version is {version} | Needs Deep Destroy: {NeedsDeepDestroy}");
+        ModStampPatch.StampPlacement = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ModStampPlacement.Value;
         RoleManager.Instance.GetRole(RoleTypes.CrewmateGhost).StringName =
             CustomStringName.CreateAndRegister("Crewmate Ghost");
         RoleManager.Instance.GetRole(RoleTypes.ImpostorGhost).StringName =
@@ -42,7 +49,7 @@ public static class LogoPatch
             }
         }
 
-        Dictionary<RoleBehaviour, RoleTypes> vanillaRoles = new Dictionary<RoleBehaviour, RoleTypes>()
+        Dictionary<RoleBehaviour, RoleTypes> vanillaRoles = new()
         {
             { RoleManager.Instance.GetRole(RoleTypes.Scientist), RoleTypes.Scientist },
             { RoleManager.Instance.GetRole(RoleTypes.Noisemaker), RoleTypes.Noisemaker },
@@ -57,18 +64,46 @@ public static class LogoPatch
         {
             SoftWikiEntries.RegisterVanillaRoleEntry(rolePair.Key, rolePair.Value);
         }
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Neutral.LoadAsset(), "AmongUs.Role.Custom",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Neutral.LoadAsset(), "AmongUs.Role.Neutral",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Crewmate.LoadAsset(), "AmongUs.Role.Crewmate",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Impostor.LoadAsset(), "AmongUs.Role.Impostor",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Scientist.LoadAsset(), "AmongUs.Role.Scientist",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Engineer.LoadAsset(), "AmongUs.Role.Engineer",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.GuardianAngel.LoadAsset(), "AmongUs.Role.GuardianAngel",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Shapeshifter.LoadAsset(), "AmongUs.Role.Shapeshifter",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Crewmate.LoadAsset(), "AmongUs.Role.CrewmateGhost",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Impostor.LoadAsset(), "AmongUs.Role.ImpostorGhost",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Noisemaker.LoadAsset(), "AmongUs.Role.Noisemaker",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Phantom.LoadAsset(), "AmongUs.Role.Phantom",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Tracker.LoadAsset(), "AmongUs.Role.Tracker",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Detective.LoadAsset(), "AmongUs.Role.Detective",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Viper.LoadAsset(), "AmongUs.Role.Viper",
+            1.45f);
 
         var newLogo = GameObject.Find("LOGO-AU");
         var sizer = GameObject.Find("Sizer");
         if (newLogo != null)
         {
-            newLogo.GetComponent<SpriteRenderer>().sprite = TouAssets.Banner.LoadAsset();
+            GameLogo = newLogo.GetComponent<SpriteRenderer>();
+            GameLogo.sprite = TouAssets.Banner.LoadAsset();
         }
 
-        if (sizer != null)
-        {
-            sizer.GetComponent<AspectSize>().PercentWidth = 0.3f;
-        }
+        sizer?.GetComponent<AspectSize>().PercentWidth = 0.3f;
 
         var menuBg = GameObject.Find("BackgroundTexture");
 
@@ -85,6 +120,18 @@ public static class LogoPatch
             tint.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.1f);
             tint.transform.localScale = new Vector3(7.5f, 7.5f, 1f);
         }
+        var bgFill = GameObject.Find("AccountManager/BackgroundFill");
+        var loading = bgFill.transform.GetChild(0).gameObject;
+        var loadRend = loading.GetComponent<SpriteRenderer>();
+        loadRend.sprite = TouAssets.MayorPet.LoadAsset();
+        loadRend.flipX = false;
+        loadRend.SetMaterial(newLogo!.GetComponent<SpriteRenderer>().GetMaterial());
+        loadRend.color = Color.white;
+        var loading2 = GameObject.Find("AccountManager/Loading").transform.GetChild(1).GetChild(0);
+        var logo2 = loading2.GetComponent<SpriteRenderer>();
+        logo2.sprite = TouAssets.BannerDark.LoadAsset();
+        logo2.transform.localScale = new Vector3(0.15f, 0.15f, 1);
+        logo2.transform.localPosition = new Vector3(1.21f, 0.7556f, 1);
 
         if (TownOfUsPlugin.IsMobile)
         {

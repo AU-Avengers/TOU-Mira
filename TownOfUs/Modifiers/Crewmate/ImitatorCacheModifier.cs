@@ -1,4 +1,5 @@
 using AmongUs.GameOptions;
+using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -10,13 +11,16 @@ using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinuesGame
 {
+    public bool CanDisplayForRole(RoleBehaviour role)
+    {
+        return !role.IsDead && role.Role != CachedRole.Role;
+    }
     public bool ContinuesGame =>
         !Player.HasDied() && Player.IsCrewmate() && (MiscUtils.NKillersAliveCount > 0 || MiscUtils.ImpAliveCount > 0) && MiscUtils.CrewKillersAliveCount == 0 && PlayerControl.AllPlayerControls.ToArray().Any(x =>
             x.Data.IsDead && x.GetRoleWhenAlive() is ITouCrewRole crewRole && crewRole.IsPowerCrew) &&
@@ -24,6 +28,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
     private MeetingMenu? _meetingMenu;
     private NetworkedPlayerInfo? _selectedPlr;
     public override string ModifierName => "Imitator";
+    public string CachedRoleName => TouLocale.Get($"TouRoleImitatorShortName");
     public override bool HideOnUi => true;
     public bool ShowCurrentRoleFirst => true;
 
@@ -40,12 +45,13 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
 
         if (Player.AmOwner)
         {
+            var classic = LegacyAssets.IsLegacy;
             _meetingMenu = new MeetingMenu(
                 Player.Data.Role,
                 Click,
                 MeetingAbilityType.Toggle,
-                TouAssets.ImitateSelectSprite,
-                TouAssets.ImitateDeselectSprite,
+                classic ? LegacyAssets.ImitateSelectSprite : TouAssets.ImitateSelectSprite,
+                classic ? LegacyAssets.ImitateDeselectSprite : TouAssets.ImitateDeselectSprite,
                 IsExempt,
                 Color.white)
             {
@@ -56,6 +62,10 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
 
     public override void OnMeetingStart()
     {
+        if (Player.HasDied() && Player.AmOwner)
+        {
+            ModifierUtils.GetActiveModifiers<ImitatedRevealedModifier>().Do(x => x.Player.RemoveModifier(x));
+        }
         if (!Player.IsCrewmate())
         {
             var text = "Removed Imitator Cache Modifier On Meeting Start";
@@ -65,10 +75,11 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             return;
         }
 
-        if (Player.AmOwner)
+        var meeting = MeetingHud.Instance;
+        if (Player.AmOwner && meeting != null)
         {
             // _selectedPlr = null;
-            _meetingMenu!.GenButtons(MeetingHud.Instance,
+            _meetingMenu!.GenButtons(meeting,
                 Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
             if (_selectedPlr != null)
             {
@@ -188,7 +199,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
         if (_selectedPlr == null || !_selectedPlr.IsDead || _selectedPlr.Disconnected || _selectedPlr.Object == null)
         {
             _selectedPlr = null;
-            if (Player == null || Player.IsRole<ImitatorRole>())
+            if (!Player || Player.IsRole<ImitatorRole>())
             {
                 return;
             }

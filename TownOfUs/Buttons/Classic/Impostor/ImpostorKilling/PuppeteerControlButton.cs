@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using MiraAPI.Hud;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
@@ -10,7 +9,6 @@ using TownOfUs.Modules;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
@@ -133,7 +131,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
                 PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
             playerMenu.Begin(
-                plr => !plr.HasDied() && plr.PlayerId != PlayerControl.LocalPlayer.PlayerId &&
+                plr => !plr.HasDied() && !plr.AmOwner &&
                        !plr.IsInTargetingAnimState() &&
                        !plr.GetModifiers<BaseModifier>().Any(x => x is IUncontrollable) &&
                        ((plr.TryGetModifier<DisabledModifier>(out var mod) && mod.CanBeInteractedWith &&

@@ -1,15 +1,15 @@
 using AmongUs.GameOptions;
 using MiraAPI.Patches.Freeplay;
 using HarmonyLib;
+using MiraAPI;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Networking;
-using MiraAPI.Patches.Options;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Networking;
-using TownOfUs.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Patches.Misc;
 
@@ -70,7 +70,7 @@ public static class MiraApiPatches
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return false;
         }
 
@@ -92,22 +92,32 @@ public static class MiraApiPatches
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return false;
         }
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
-        var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+        var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
         if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
         {
             beforeMurderEvent.Cancel();
         }
 
-        if (beforeMurderEvent.IsCancelled)
+        if (target.ProtectedByGa())
+        {
+            beforeMurderEvent.Cancel();
+            murderResultFlags = MurderResultFlags.FailedProtected;
+        }
+        else if (beforeMurderEvent.IsCancelled)
         {
             murderResultFlags = MurderResultFlags.FailedError;
+        }
+
+        if (beforeMurderEvent.IsCancelled && source.AmOwner)
+        {
+            source.isKilling = true;
         }
 
         // Track kill cooldown before CustomMurder for Time Lord rewind
@@ -150,7 +160,8 @@ public static class MiraApiPatches
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            source.isKilling = false;
+            MiscUtils.RunAnticheatWarning(source);
             return false;
         }
         if (!host.IsHost() || target.HasDied())
@@ -177,16 +188,6 @@ public static class MiraApiPatches
         return false;
     }
 
-    [HarmonyPatch(typeof(RoleSettingMenuPatches), nameof(RoleSettingMenuPatches.ClosePatch))]
-    [HarmonyPrefix]
-#pragma warning disable S3400
-    public static bool MiraClosePatch()
-#pragma warning restore S3400
-    {
-        // Patching this for now
-        return false;
-    }
-
     [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.Start))]
     [HarmonyPostfix]
     public static void OpenPatch()
@@ -199,5 +200,70 @@ public static class MiraApiPatches
     public static void ClosePatch()
     {
         HudManager.Instance.PlayerCam.OverrideScreenShakeEnabled = true;
+    }
+
+    [HarmonyPatch(typeof(HowToPlayScene), nameof(HowToPlayScene.OpenRolesSelectionMenu))]
+    [HarmonyPrefix]
+    [HarmonyPriority(Priority.First)]
+    public static bool HowToPlayPrefix(HowToPlayScene __instance)
+    {
+        if (MiraApiPlugin.IsDevBuild)
+        {
+            // This is simply a fix for public release, no api update needed.
+            return true;
+        }
+
+        __instance.sceneIndex = 0;
+        __instance.category = HowToPlayScene.HowToPlayCategory.RolesSelection;
+        __instance.startPage.SetActive(false);
+        if (__instance.roleButtonsParent.childCount == 0)
+        {
+            foreach (var role in RoleManager.Instance.AllRoles.ToArray().Where(x => !x.IsCustomRole()))
+            {
+                if (!role.IsSimpleRole && role.Role != RoleTypes.CrewmateGhost && role.Role != RoleTypes.ImpostorGhost)
+                {
+                    HowToPlayRoleButton component = UnityEngine.Object
+                        .Instantiate(__instance.roleButtonPrefab, __instance.roleButtonsParent)
+                        .GetComponent<HowToPlayRoleButton>();
+                    Sprite roleIcon = __instance.rolesScenes.ToArray().First(r => r.role == role.Role).roleIcon;
+                    component.SetRoleInfo(role, roleIcon);
+                    component.SetButtonAction((Il2CppSystem.Action)(() => { OpenRolePage(__instance, role.Role); }));
+                    __instance.controllerSelectables.Add(component.GetComponent<PassiveButton>());
+                }
+            }
+
+            foreach (UiElement uiElement in __instance.controllerSelectables)
+            {
+                uiElement.ReceiveMouseOut();
+            }
+
+            ControllerManager.Instance.NewScene(__instance.name, __instance.closeButton,
+                __instance.defaultButtonSelected, __instance.controllerSelectables, false);
+        }
+
+        __instance.DisableAllScenes();
+        __instance.roleSelectionScene.SetActive(true);
+        ControllerManager.Instance.SetDefaultSelection(__instance.defaultButtonSelected, null);
+        return false;
+    }
+
+    public static void OpenRolePage(HowToPlayScene instance, RoleTypes roleType)
+    {
+        instance.category = HowToPlayScene.HowToPlayCategory.Roles;
+        var newList = instance.rolesScenes.ToArray().ToList();
+        var buttonList = instance.roleButtons;
+        instance.sceneIndex = newList.FindIndex(r => r.role == roleType);
+        if (roleType != RoleTypes.Crewmate)
+        {
+            foreach (var button in buttonList)
+            {
+                if (button.GetRole().Role == roleType)
+                {
+                    instance.previouslySelectedRoleButton = button.GetComponent<PassiveButton>();
+                }
+            }
+        }
+        instance.SetupDots(instance.rolesScenes[instance.sceneIndex].rolePages.Count);
+        instance.ChangeScene(0);
     }
 }

@@ -32,8 +32,8 @@ public static class TransporterEvents
             return;
         }
 
-        if (PlayerControl.LocalPlayer == null ||
-            PlayerControl.LocalPlayer.Data == null ||
+        if (!PlayerControl.LocalPlayer ||
+            !PlayerControl.LocalPlayer.Data ||
             PlayerControl.LocalPlayer.Data.Role is not TransporterRole)
         {
             return;

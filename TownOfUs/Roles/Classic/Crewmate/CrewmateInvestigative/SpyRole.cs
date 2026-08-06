@@ -4,7 +4,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -31,6 +30,7 @@ public sealed class SpyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spy.LoadAsset(), "TouMira.Role.Crewmate.Spy", 1.45f),
         Icon = TouRoleIcons.Spy,
         OptionsScreenshot = TouBanners.SpyRoleBanner,
         IntroSound = TouAudio.SpyIntroSound

@@ -1,7 +1,7 @@
 ﻿using AmongUs.GameOptions;
 using HarmonyLib;
-using InnerNet;
 using MiraAPI.GameOptions;
+using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Options;
 using UnityEngine;
@@ -15,6 +15,7 @@ public static class GameTimerPatch
     public static GameObject GameTimerObj;
     public static GameObject TimerSpriteObj;
     public static SpriteRenderer TimerSprite;
+    public static AspectPosition TimerAspectPos;
     public static bool Enabled { get; set; }
     public static bool TriggerEndGame { get; set; }
     public static float GameTimer { get; set; }
@@ -23,10 +24,12 @@ public static class GameTimerPatch
     {
         var pingTracker = Object.FindObjectOfType<PingTracker>(true);
         GameTimerObj = Object.Instantiate(pingTracker.gameObject, instance.transform);
+        GameTimerObj.GetComponent<PingTracker>().Destroy();
         GameTimerObj.name = "GameTimerText";
 
-        GameTimerObj.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(-0.6f, 5.5f);
-        GameTimerObj.GetComponent<AspectPosition>().Alignment = AspectPosition.EdgeAlignments.Bottom;
+        TimerAspectPos = GameTimerObj.GetComponent<AspectPosition>();
+        TimerAspectPos.DistanceFromEdge = new Vector3(-0.6f, 5.5f);
+        TimerAspectPos.Alignment = AspectPosition.EdgeAlignments.Bottom;
 
         TimerSpriteObj = new GameObject("TimerSprite");
         TimerSpriteObj.transform.SetParent(GameTimerObj.transform);
@@ -50,7 +53,7 @@ public static class GameTimerPatch
     public static void UpdateGameTimer(HudManager instance)
     {
         var timeOpt = OptionGroupSingleton<GameTimerOptions>.Instance;
-        if (GameTimerObj != null)
+        if (GameTimerObj)
         {
             GameTimerObj.SetActive(false);
         }
@@ -61,12 +64,12 @@ public static class GameTimerPatch
             return;
         }
 
-        if (GameTimerObj == null)
+        if (!GameTimerObj)
         {
             CreateGameTimer(instance);
         }
 
-        if (GameTimerObj == null)
+        if (!GameTimerObj)
         {
             return;
         }
@@ -98,16 +101,16 @@ public static class GameTimerPatch
 
         if (!MeetingHud.Instance)
         {
-            GameTimerObj.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(-0.6f, 5.5f);
-            GameTimerObj.GetComponent<AspectPosition>().Alignment = AspectPosition.EdgeAlignments.Bottom;
+            TimerAspectPos.DistanceFromEdge = new Vector3(-0.6f, 5.5f);
+            TimerAspectPos.Alignment = AspectPosition.EdgeAlignments.Bottom;
             timerText.text =
                 $"<size=200%>Time:{colour.ToTextColor()}{ts.ToString(@"mm\:ss", TownOfUsPlugin.Culture)}</color></size>";
             TimerSpriteObj.transform.localPosition = new Vector3(-1f, -0.4f, 1f);
         }
         else
         {
-            GameTimerObj.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(-0.25f, 0.9f);
-            GameTimerObj.GetComponent<AspectPosition>().Alignment = AspectPosition.EdgeAlignments.Bottom;
+            TimerAspectPos.DistanceFromEdge = new Vector3(-0.25f, 0.9f);
+            TimerAspectPos.Alignment = AspectPosition.EdgeAlignments.Bottom;
             timerText.text =
                 $"<size=130%>Time:{colour.ToTextColor()}{ts.ToString(@"mm\:ss", TownOfUsPlugin.Culture)}</color></size>";
             TimerSpriteObj.transform.localPosition = new Vector3(-1f, -0.25f, 1f);
@@ -121,6 +124,13 @@ public static class GameTimerPatch
         Enabled = false;
         TriggerEndGame = true;
         GameManager.Instance.ShouldCheckForGameEnd = true;
+    }
+
+    public static void ResetTimer()
+    {
+        GameTimer = OptionGroupSingleton<GameTimerOptions>.Instance.GameTimeLimit.GetFloatData() * 60f;
+        TriggerEndGame = false;
+        Enabled = false;
     }
 
     public static void BeginTimer()
@@ -138,22 +148,5 @@ public static class GameTimerPatch
         }
         TriggerEndGame = false;
         Enabled = true;
-    }
-
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-    [HarmonyPostfix]
-    public static void HudManagerUpdatePatch(HudManager __instance)
-    {
-        if (PlayerControl.LocalPlayer == null ||
-            PlayerControl.LocalPlayer.Data == null ||
-            PlayerControl.LocalPlayer.Data.Role == null ||
-            !ShipStatus.Instance ||
-            TutorialManager.InstanceExists ||
-            AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
-        {
-            return;
-        }
-
-        UpdateGameTimer(__instance);
     }
 }

@@ -6,13 +6,11 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches.ControlSystem;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -47,8 +45,10 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Puppeteer.LoadAsset(), "TouMira.Role.Impostor.Puppeteer", 1.45f),
         UseVanillaKillButton = false,
         Icon = TouRoleIcons.Puppeteer,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         MaxRoleCount = 1,
         CanUseVent = OptionGroupSingleton<PuppeteerOptions>.Instance.CanVent
     };
@@ -99,7 +99,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data == null || Player.HasDied() || !Player.AmOwner)
+        if (!Player || Player.Data == null || Player.HasDied() || !Player.AmOwner)
         {
             return;
         }
@@ -142,18 +142,19 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     private void CreateNotification()
     {
-        if (Controlled == null || PlayerControl.LocalPlayer == null || !Player.AmOwner)
+        if (Controlled == null || !PlayerControl.LocalPlayer || !Player.AmOwner)
         {
             return;
         }
 
         if (controllerNotification == null)
         {
-            var controllerText = TouLocale.GetParsed("TouRolePuppeteerControlNotif", $"You are controlling {Controlled.Data.PlayerName}!");
+            var controllerText = TouLocale.GetParsed("TouRolePuppeteerControlNotifSelf");
             controllerNotification = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Impostor.ToTextColor()}{controllerText.Replace("<player>", Controlled.Data.PlayerName)}</color></b>",
                 Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Puppeteer.LoadAsset());
-            controllerNotification?.AdjustNotification();
+            controllerNotification.AdjustNotification();
+            controllerNotification.alphaTimer = OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
         }
     }
 
@@ -161,7 +162,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     {
         if (controllerNotification != null && controllerNotification.gameObject != null)
         {
-            controllerNotification.gameObject.Destroy();
+            controllerNotification.gameObject.DeepDestroy();
             controllerNotification = null;
         }
     }
@@ -169,6 +170,11 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     [MethodRpc((uint)TownOfUsRpc.PuppeteerControl)]
     public static void RpcPuppeteerControl(PlayerControl puppeteer, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(puppeteer);
+            return;
+        }
         if (puppeteer.Data.Role is not PuppeteerRole role)
         {
             Error("RpcPuppeteerControl - Invalid puppeteer");
@@ -230,13 +236,18 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
         else if (target.AmOwner && OptionGroupSingleton<PuppeteerOptions>.Instance.VictimSeesControlDirection.Value > 0)
         {
-            puppeteer.AddModifier<PuppeteerHintArrowModifier>(PlayerControl.LocalPlayer);
+            puppeteer.AddModifier<PuppeteerHintArrowModifier>(target);
         }
     }
 
     [MethodRpc((uint)TownOfUsRpc.PuppeteerEndControl)]
     public static void RpcPuppeteerEndControl(PlayerControl puppeteer, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(puppeteer);
+            return;
+        }
         if (puppeteer.Data.Role is not PuppeteerRole role)
         {
             return;
@@ -252,10 +263,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
             if (target.MyPhysics != null)
             {
-                if (target.MyPhysics.body != null)
-                {
-                    target.MyPhysics.body.velocity = Vector2.zero;
-                }
+                target.MyPhysics.body?.velocity = Vector2.zero;
                 target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
             }
 
@@ -323,6 +331,11 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     [MethodRpc((uint)TownOfUsRpc.PuppeteerTriggerInteraction)]
     public static void RpcPuppeteerTriggerInteraction(PlayerControl puppeteer, PlayerControl controlled, Vector2 interactablePosition)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(puppeteer);
+            return;
+        }
         if (puppeteer.Data.Role is not PuppeteerRole role)
         {
             Error("RpcPuppeteerTriggerInteraction - Invalid puppeteer");
@@ -385,8 +398,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
                 continue;
             }
 
-            bool canUse;
-            usable.CanUse(player.Data, out canUse, out _);
+            usable.CanUse(player.Data, out bool canUse, out _);
             if (!canUse)
             {
                 continue;
@@ -434,7 +446,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
         else if (interactable.TryCast<ZiplineConsole>() is { } ziplineConsole)
         {
-            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
                 return;
             }
@@ -445,7 +457,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
         else if (interactable.TryCast<OpenDoorConsole>() is { } openDoorConsole)
         {
-            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
                 return;
             }
@@ -473,7 +485,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
         else if (interactable.TryCast<PlatformConsole>() is { } platformConsole)
         {
-            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
                 return;
             }
@@ -490,7 +502,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
         else if (interactable.TryCast<DeconControl>() is { } deconControl)
         {
-            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
                 return;
             }

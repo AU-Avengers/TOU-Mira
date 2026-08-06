@@ -6,7 +6,6 @@ using TownOfUs.Modules;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches.ControlSystem;
@@ -18,15 +17,15 @@ public static class PuppeteerMovementPatches
 
     private const float MovementChangeEpsilonSqr = 0.0001f * 0.0001f;
     private const float MovementKeepAliveSeconds = 0.03f;
-    private static readonly Dictionary<byte, Vector2> _lastSentDir = new();
-    private static readonly Dictionary<byte, Vector2> _lastSentPos = new();
-    private static readonly Dictionary<byte, Vector2> _lastSentVel = new();
-    private static readonly Dictionary<byte, float> _lastSentAt = new();
-    private static readonly Dictionary<byte, Vector2> _localDesiredDir = new();
+    private static readonly Dictionary<byte, Vector2> _lastSentDir = [];
+    private static readonly Dictionary<byte, Vector2> _lastSentPos = [];
+    private static readonly Dictionary<byte, Vector2> _lastSentVel = [];
+    private static readonly Dictionary<byte, float> _lastSentAt = [];
+    private static readonly Dictionary<byte, Vector2> _localDesiredDir = [];
 
     private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir, Vector2 position, Vector2 velocity)
     {
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return;
         }
@@ -77,15 +76,15 @@ public static class PuppeteerMovementPatches
             {
                 return true;
             }
-            if (player == PlayerControl.LocalPlayer)
+            if (player.AmOwner)
             {
                 return true;
             }
         }
 
 
-        if (player == PlayerControl.LocalPlayer &&
-            PlayerControl.LocalPlayer != null &&
+        if (player.AmOwner &&
+            PlayerControl.LocalPlayer &&
             PlayerControl.LocalPlayer.Data?.Role is PuppeteerRole puppeteer &&
             puppeteer.Controlled != null)
         {
@@ -108,12 +107,16 @@ public static class PuppeteerMovementPatches
                                victim.onLadder ||
                                victim.walkingToVent;
 
-            var dir = victimInAnim ? Vector2.zero : GetNormalDirection();
+            var dir = GetNormalDirection();
             _localDesiredDir[victimId] = dir;
 
             if (victim.MyPhysics != null)
             {
-                if (dir == Vector2.zero)
+                if (victimInAnim)
+                {
+                    victim.MyPhysics.HandleAnimation(false);
+                }
+                else if (dir == Vector2.zero)
                 {
                     var cachedDir = _localDesiredDir.TryGetValue(victimId, out var cached) ? cached : Vector2.zero;
                     if (cachedDir != Vector2.zero)
@@ -191,10 +194,7 @@ public static class PuppeteerMovementPatches
                 var delta = pos - currentPos;
                 if (delta.magnitude > 0.5f)
                 {
-                    if (__instance.body != null)
-                    {
-                        __instance.body.position = pos;
-                    }
+                    __instance.body?.position = pos;
                     __instance.myPlayer.transform.position = pos;
                 }
             }
@@ -244,10 +244,7 @@ public static class PuppeteerMovementPatches
                 var delta = pos - currentPos;
                 if (delta.magnitude > 0.5f)
                 {
-                    if (__instance.body != null)
-                    {
-                        __instance.body.position = pos;
-                    }
+                    __instance.body?.position = pos;
                     __instance.myPlayer.transform.position = pos;
                 }
             }

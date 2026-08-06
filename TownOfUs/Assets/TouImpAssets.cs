@@ -1,4 +1,3 @@
-using MiraAPI.Utilities.Assets;
 using UnityEngine;
 
 namespace TownOfUs.Assets;
@@ -95,4 +94,22 @@ public static class TouImpAssets
 
     public static LoadableAsset<Sprite> DropSprite { get; } =
         new LoadableBundleAsset<Sprite>("DropButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> HerbConfuseSprite { get; } =
+        new LoadableBundleAsset<Sprite>("HerbConfuseButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> HerbExposeSprite { get; } =
+        new LoadableBundleAsset<Sprite>("HerbExposeButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> HerbProtectSprite { get; } =
+        new LoadableBundleAsset<Sprite>("HerbProtectButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> DrinkRoleblockSprite { get; } =
+        new LoadableBundleAsset<Sprite>("WineRoleblockButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> DrinkSickenSprite { get; } =
+        new LoadableBundleAsset<Sprite>("WineSickenButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> DrinkPoisonSprite { get; } =
+        new LoadableBundleAsset<Sprite>("WinePoisonButton", TouAssets.MainBundle);
 }

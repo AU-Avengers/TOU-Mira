@@ -1,13 +1,15 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class FrostyModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Frosty,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Frosty.LoadAsset(),
+            "TouMira.Modifier.Crewmate.Frosty", 1.45f));
     public override string LocaleKey => "Frosty";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");

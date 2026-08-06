@@ -6,7 +6,6 @@ using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Modules.TimeLord;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modules;
@@ -105,7 +104,7 @@ public static class ReviveUtilities
             }
         }
 
-        if (ModCompatibility.IsSubmerged() && PlayerControl.LocalPlayer != null &&
+        if (ModCompatibility.IsSubmerged() && PlayerControl.LocalPlayer &&
             PlayerControl.LocalPlayer.PlayerId == revived.PlayerId)
         {
             ModCompatibility.ChangeFloor(revived.transform.position.y > -7);
@@ -147,10 +146,7 @@ public static class ReviveUtilities
         }
 
         revived.RemainingEmergencies = 0;
-        if (reviver != null)
-        {
-            reviver.RemainingEmergencies = 0;
-        }
+        reviver?.RemainingEmergencies = 0;
 
         if (!inMeetingOrExile && revived.AmOwner && !string.IsNullOrWhiteSpace(revivedOwnerNotificationText))
         {

@@ -5,14 +5,12 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Crewmate;
@@ -20,7 +18,6 @@ namespace TownOfUs.Events.Crewmate;
 public static class MonarchEvents
 {
     [RegisterEvent]
-    [Il2CppInterop.Runtime.Attributes.HideFromIl2Cpp]
     public static void OnKnightKilled(AfterMurderEvent @event)
     {
         var deadPlayer = @event.Target;
@@ -53,26 +50,18 @@ public static class MonarchEvents
         var button = @event.Button as CustomActionButton<PlayerControl>;
         var target = button?.Target;
 
-        if (target == null || button == null || !button.CanClick())
+        if (target == null || button == null || button is not IKillButton || !button.CanClick())
             return;
 
-        CheckForMonarchImmunity(@event, target);
-    }
-
-    [RegisterEvent]
-    public static void MiraButtonCancelledEventHandler(MiraButtonCancelledEvent @event)
-    {
-        var source = PlayerControl.LocalPlayer;
-        var button = @event.Button as CustomActionButton<PlayerControl>;
-        var target = button?.Target;
-
-        if (target == null || button is not IKillButton)
+        if (PlayerControl.LocalPlayer == target || PlayerControl.LocalPlayer.TryGetModifier<IndirectAttackerModifier>(out var mod) && mod.IgnoreShield)
+        {
             return;
+        }
 
-        if (!CheckForMonarchImmunity(null, target))
-            return;
-
-        ResetButtonTimer(source, button);
+        if (CheckForMonarchImmunity(@event, target))
+        {
+            ResetButtonTimer(PlayerControl.LocalPlayer, button);
+        }
     }
 
     [RegisterEvent]
@@ -81,19 +70,13 @@ public static class MonarchEvents
         var source = @event.Source;
         var target = @event.Target;
 
+        if (source == target || source.TryGetModifier<IndirectAttackerModifier>(out var mod) && mod.IgnoreShield)
+        {
+            return;
+        }
         if (CheckForMonarchImmunity(@event, target))
         {
             ResetButtonTimer(source);
-
-            if (target.Data?.Role is MonarchRole monarch && source.AmOwner)
-            {
-                var flash = monarch.GetFlashColor();
-                if (flash == null)
-                {
-                    return;
-                }
-                Coroutines.Start(MiscUtils.CoFlash((Color)flash));
-            }
         }
     }
 
@@ -113,7 +96,7 @@ public static class MonarchEvents
         var knightedAlive = Helpers.GetAlivePlayers()
             .Any(p =>
                 p.HasModifier<KnightedModifier>() &&
-                (p.IsCrewmate() || (allowEvilKnights && (p.IsImpostor() || p.IsNeutral())))
+                (allowEvilKnights || p.IsCrewmate())
             );
 
         if (!knightedAlive)
@@ -125,13 +108,14 @@ public static class MonarchEvents
 
     private static void ResetButtonTimer(PlayerControl source, CustomActionButton<PlayerControl>? button = null)
     {
+        if (!source.AmOwner)
+        {
+            return;
+        }
+
         var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
 
         button?.SetTimer(reset);
-
-        if (!source.AmOwner || !source.IsImpostor())
-            return;
-
         source.SetKillTimer(reset);
     }
 }

@@ -1,20 +1,18 @@
 ﻿using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class MercenaryBribeButton : TownOfUsRoleButton<MercenaryRole, PlayerControl>
+public sealed class MercenaryBribeButton : TownOfUsRoleButton<MercenaryRole, PlayerControl>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleMercenaryBribe", "Bribe");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Mercenary;
     public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.BribeSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyNeutAssets.BribeSprite : TouNeutAssets.BribeSprite;
 
     public override bool CanUse()
     {

@@ -10,13 +10,13 @@ namespace TownOfUs.Events.Impostor;
 public static class AmbusherEvents
 {
     [RegisterEvent]
-    public static void EjectionEventEventHandler(EjectionEvent @event)
+    public static void EjectionEventEventHandler(EjectionEvent _)
     {
         CustomRoleUtils.GetActiveRolesOfType<AmbusherRole>().Do(x => x.Clear());
     }
 
     [RegisterEvent]
-    public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
+    public static void PlayerDeathEventHandler(PlayerDeathEvent _)
     {
         CustomRoleUtils.GetActiveRolesOfType<AmbusherRole>().Do(x => x.CheckDeadPursued());
     }

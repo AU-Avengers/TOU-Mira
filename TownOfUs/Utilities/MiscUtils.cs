@@ -17,6 +17,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using PowerTools;
 using TMPro;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;
@@ -26,6 +27,7 @@ using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Alliance;
+using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
@@ -48,7 +50,7 @@ public static class MiscUtils
         x.Is(RoleAlignment.NeutralKilling) ||
         (x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
          !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
-         OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue));
+         OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue));
 
     public static int RealKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.IsImpostor() || x.Is(RoleAlignment.NeutralKilling));
@@ -60,7 +62,7 @@ public static class MiscUtils
         x.Is(RoleAlignment.NeutralKilling) ||
         (x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
          !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
-         OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue));
+         OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue));
 
     public static int ImpAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.IsImpostor() || x.GetModifiers<AllianceGameModifier>().Any(y => y.TrueFactionType is AlliedFaction.Impostor));
@@ -71,7 +73,7 @@ public static class MiscUtils
     public static int CrewKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
         !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
-        OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue);
+        OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue);
 
     public static IEnumerable<BaseModifier> AllModifiers => ModifierManager.Modifiers;
 
@@ -289,13 +291,13 @@ public static class MiscUtils
         {
             if (role.IsNeutral())
             {
-                return RoleAlignment.NeutralGhost;
+                return RoleAlignment.NeutralAfterlife;
             }
             if (role.IsImpostor())
             {
-                return RoleAlignment.ImpostorGhost;
+                return RoleAlignment.ImpostorAfterlife;
             }
-            return RoleAlignment.CrewmateGhost;
+            return RoleAlignment.CrewmateAfterlife;
         }
 
         if (role.Role is RoleTypes.Tracker or RoleTypes.Detective)
@@ -394,39 +396,11 @@ public static class MiscUtils
         return ModifierFaction.External;
     }
 
-    public static ModifierFaction GetModifierFaction(this AllianceGameModifier mod)
-    {
-        return mod.FactionType;
-    }
-
-    public static ModifierFaction GetModifierFaction(this TouGameModifier mod)
-    {
-        return mod.FactionType;
-    }
-
-    public static ModifierFaction GetModifierFaction(this UniversalGameModifier mod)
-    {
-        return mod.FactionType;
-    }
-
-    public static ModifierFaction GetModifierFaction(this GameModifier mod)
-    {
-        return GetModifierFaction(mod as BaseModifier);
-    }
-
     public static ModifierFaction GetModifierFaction(this BaseModifier mod)
     {
-        if (mod is TouGameModifier touMod)
+        if (mod is TouBaseGameModifier touMod)
         {
             return touMod.FactionType;
-        }
-        else if (mod is AllianceGameModifier allyMod)
-        {
-            return allyMod.FactionType;
-        }
-        else if (mod is UniversalGameModifier uniMod)
-        {
-            return uniMod.FactionType;
         }
 
         if (SoftWikiEntries.ModifierEntries.ContainsKey(mod))
@@ -612,6 +586,41 @@ public static class MiscUtils
         return localizedName;
     }
 
+    public static Color GetRoleFactionColor(RoleBehaviour role, bool useAltColors = false)
+    {
+        if (role)
+        {
+            if (role.IsCrewmate())
+            {
+                return useAltColors ? TownOfUsColors.Crewmate : Palette.CrewmateBlue;
+            }
+
+            if (role.IsImpostor())
+            {
+                return useAltColors ? TownOfUsColors.ImpSoft : TownOfUsColors.Impostor;
+            }
+        }
+
+        return TownOfUsColors.Neutral;
+    }
+
+    public static Color GetRoleFactionColor(RoleAlignment roleAlignment, bool useAltColors = false)
+    {
+        var localeName = $"{roleAlignment}";
+        var localizedName = TouLocale.Get(localeName);
+
+        if (localizedName.Contains("Crewmate") || localizedName.Contains(TouLocale.Get("CrewmateKeyword")))
+        {
+            return useAltColors ? TownOfUsColors.Crewmate : Palette.CrewmateBlue;
+        }
+        else if (localizedName.Contains("Impostor") || localizedName.Contains(TouLocale.Get("ImpostorKeyword")))
+        {
+            return useAltColors ? TownOfUsColors.ImpSoft : TownOfUsColors.Impostor;
+        }
+
+        return TownOfUsColors.Neutral;
+    }
+
     public static IEnumerable<RoleBehaviour> GetRegisteredRoles(RoleAlignment alignment)
     {
         var roles = AllRoles.Where(x => x.GetRoleAlignment() == alignment);
@@ -630,7 +639,7 @@ public static class MiscUtils
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Noisemaker));
                 // registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Engineer));
                 break;
-            case RoleAlignment.CrewmateGhost:
+            case RoleAlignment.CrewmateAfterlife:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.GuardianAngel));
                 break;
             case RoleAlignment.ImpostorSupport:
@@ -736,28 +745,14 @@ public static class MiscUtils
         return name;
     }
 
-    public static string GetLocaleKey(GameModifier modifier)
-    {
-        return GetLocaleKey(modifier as BaseModifier);
-    }
-
     public static string GetLocaleKey(BaseModifier modifier)
     {
-        var name = modifier.ModifierName;
-        if (modifier is TouGameModifier touMod)
+        if (modifier is TouBaseGameModifier touMod)
         {
-            name = touMod.LocaleKey;
-        }
-        else if (modifier is AllianceGameModifier allyMod)
-        {
-            name = allyMod.LocaleKey;
-        }
-        else if (modifier is UniversalGameModifier uniMod)
-        {
-            name = uniMod.LocaleKey;
+            return touMod.LocaleKey;
         }
 
-        return name;
+        return modifier.ModifierName;
     }
 
     public static Color GetRoleColour(string name)
@@ -776,50 +771,10 @@ public static class MiscUtils
 
     public static Color GetModifierColour(BaseModifier modifier)
     {
-        var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
-        if (modifier is IColoredModifier colorMod)
+        if (modifier is TouBaseGameModifier touMod)
         {
-            color = colorMod.ModifierColor;
+            return touMod.Configuration.UiColor;
         }
-
-        return color;
-    }
-
-    public static Color GetModifierColour(GameModifier modifier)
-    {
-        var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
-        if (modifier is IColoredModifier colorMod)
-        {
-            color = colorMod.ModifierColor;
-        }
-
-        return color;
-    }
-
-    public static Color GetModifierColour(TouGameModifier modifier)
-    {
-        var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
-        if (modifier is IColoredModifier colorMod)
-        {
-            color = colorMod.ModifierColor;
-        }
-
-        return color;
-    }
-
-    public static Color GetModifierColour(UniversalGameModifier modifier)
-    {
-        var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
-        if (modifier is IColoredModifier colorMod)
-        {
-            color = colorMod.ModifierColor;
-        }
-
-        return color;
-    }
-
-    public static Color GetModifierColour(AllianceGameModifier modifier)
-    {
         var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
         if (modifier is IColoredModifier colorMod)
         {
@@ -897,19 +852,30 @@ public static class MiscUtils
     public static void AddFakeChat(NetworkedPlayerInfo basePlayer, string nameText, string message,
         bool showHeadsup = false, bool altColors = false, bool onLeft = true)
     {
+        if (!FakeChatHistory.IsReplaying)
+        {
+            FakeChatHistory.Record(nameText, message);
+        }
+        
         var chat = HudManager.Instance.Chat;
 
         var pooledBubble = chat.GetPooledBubble();
+        var clonedBubble = chat.GetPooledBubble();
+        clonedBubble.gameObject.name = TeamChatPatches.PublicBubbleName;
 
-        pooledBubble.transform.SetParent(chat.scroller.Inner);
+        pooledBubble.transform.SetParent(TeamChatPatches.PublicChatItems);
+        clonedBubble.transform.SetParent(TeamChatPatches.MergedChatItems);
         pooledBubble.transform.localScale = Vector3.one;
+        clonedBubble.transform.localScale = Vector3.one;
         if (onLeft)
         {
             pooledBubble.SetLeft();
+            clonedBubble.SetLeft();
         }
         else
         {
             pooledBubble.SetRight();
+            clonedBubble.SetRight();
         }
 
         pooledBubble.SetCosmetics(basePlayer);
@@ -924,16 +890,108 @@ public static class MiscUtils
         pooledBubble.Background.size = new Vector2(5.52f,
             0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
         pooledBubble.MaskArea.size = pooledBubble.Background.size - new Vector2(0, 0.03f);
+
+        clonedBubble.SetCosmetics(basePlayer);
+        clonedBubble.NameText.text = nameText;
+        clonedBubble.NameText.color = Color.white;
+        clonedBubble.NameText.ForceMeshUpdate(true, true);
+        clonedBubble.votedMark.enabled = false;
+        clonedBubble.Xmark.enabled = false;
+        clonedBubble.TextArea.text = message;
+        clonedBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, clonedBubble.TextArea);
+        clonedBubble.TextArea.ForceMeshUpdate(true, true);
+        clonedBubble.Background.size = new Vector2(5.52f,
+            0.2f + clonedBubble.NameText.GetNotDumbRenderedHeight() + clonedBubble.TextArea.GetNotDumbRenderedHeight());
+        clonedBubble.MaskArea.size = clonedBubble.Background.size - new Vector2(0, 0.03f);
         if (altColors)
         {
             pooledBubble.Background.color = Color.black;
             pooledBubble.TextArea.color = Color.white;
+            clonedBubble.Background.color = Color.black;
+            clonedBubble.TextArea.color = Color.white;
         }
 
         pooledBubble.AlignChildren();
-        var pos = pooledBubble.NameText.transform.localPosition;
-        pooledBubble.NameText.transform.localPosition = pos;
-        chat.AlignAllBubbles();
+        clonedBubble.AlignChildren();
+        TeamChatPatches.PublicChatBubbles.Add(pooledBubble);
+        TeamChatPatches.MergedChatBubbles.Add(new TeamChatPatches.MergedBubble(clonedBubble, true));
+        TeamChatPatches.AlignAllChatBubbles(chat, ChatToCheck.Public);
+        if (chat is { IsOpenOrOpening: false, notificationRoutine: null })
+        {
+            chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
+        }
+
+        if (showHeadsup && !chat.IsOpenOrOpening)
+        {
+            SoundManager.Instance.PlaySound(chat.messageSound, false).pitch =
+                0.5f + PlayerControl.LocalPlayer.PlayerId / 15f;
+            chat.chatNotification.SetUp(PlayerControl.LocalPlayer, message);
+        }
+    }
+
+    public static void AddSystemChat(NetworkedPlayerInfo basePlayer, string nameText, string message,
+        bool showHeadsup = false, bool altColors = false, bool onLeft = true)
+    {
+        var chat = HudManager.Instance.Chat;
+
+        var pooledBubble = chat.GetPooledBubble();
+        var clonedBubble = chat.GetPooledBubble();
+        clonedBubble.gameObject.name = TeamChatPatches.PublicBubbleName;
+
+        pooledBubble.transform.SetParent(TeamChatPatches.PublicChatItems);
+        clonedBubble.transform.SetParent(TeamChatPatches.MergedChatItems);
+        pooledBubble.transform.localScale = Vector3.one;
+        clonedBubble.transform.localScale = Vector3.one;
+        if (onLeft)
+        {
+            pooledBubble.SetLeft();
+            clonedBubble.SetLeft();
+        }
+        else
+        {
+            pooledBubble.SetRight();
+            clonedBubble.SetRight();
+        }
+
+        pooledBubble.SetCosmetics(basePlayer);
+        pooledBubble.NameText.text = nameText;
+        pooledBubble.NameText.color = Color.white;
+        pooledBubble.NameText.ForceMeshUpdate(true, true);
+        pooledBubble.votedMark.enabled = false;
+        pooledBubble.Xmark.enabled = false;
+        pooledBubble.TextArea.text = message;
+        pooledBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, pooledBubble.TextArea);
+        pooledBubble.TextArea.ForceMeshUpdate(true, true);
+        pooledBubble.Background.size = new Vector2(5.52f,
+            0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
+        pooledBubble.MaskArea.size = pooledBubble.Background.size - new Vector2(0, 0.03f);
+
+        clonedBubble.SetCosmetics(basePlayer);
+        clonedBubble.NameText.text = nameText;
+        clonedBubble.NameText.color = Color.white;
+        clonedBubble.NameText.ForceMeshUpdate(true, true);
+        clonedBubble.votedMark.enabled = false;
+        clonedBubble.Xmark.enabled = false;
+        clonedBubble.TextArea.text = message;
+        clonedBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, clonedBubble.TextArea);
+        clonedBubble.TextArea.ForceMeshUpdate(true, true);
+        clonedBubble.Background.size = new Vector2(5.52f,
+            0.2f + clonedBubble.NameText.GetNotDumbRenderedHeight() + clonedBubble.TextArea.GetNotDumbRenderedHeight());
+        clonedBubble.MaskArea.size = clonedBubble.Background.size - new Vector2(0, 0.03f);
+
+        if (altColors)
+        {
+            pooledBubble.Background.color = Color.black;
+            pooledBubble.TextArea.color = Color.white;
+            clonedBubble.Background.color = Color.black;
+            clonedBubble.TextArea.color = Color.white;
+        }
+
+        pooledBubble.AlignChildren();
+        clonedBubble.AlignChildren();
+        TeamChatPatches.PublicChatBubbles.Add(pooledBubble);
+        TeamChatPatches.MergedChatBubbles.Add(new TeamChatPatches.MergedBubble(clonedBubble, true));
+        TeamChatPatches.AlignAllChatBubbles(chat, ChatToCheck.Public);
         if (chat is { IsOpenOrOpening: false, notificationRoutine: null })
         {
             chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
@@ -953,16 +1011,23 @@ public static class MiscUtils
         var chat = HudManager.Instance.Chat;
 
         var pooledBubble = chat.GetPooledBubble();
+        var clonedBubble = chat.GetPooledBubble();
 
-        pooledBubble.transform.SetParent(chat.scroller.Inner);
+        pooledBubble.transform.SetParent(blackoutText
+            ? TeamChatPatches.PrivateChatItems
+            : TeamChatPatches.PublicChatItems);
+        clonedBubble.transform.SetParent(TeamChatPatches.MergedChatItems);
         pooledBubble.transform.localScale = Vector3.one;
+        clonedBubble.transform.localScale = Vector3.one;
         if (onLeft)
         {
             pooledBubble.SetLeft();
+            clonedBubble.SetLeft();
         }
         else
         {
             pooledBubble.SetRight();
+            clonedBubble.SetRight();
         }
 
         pooledBubble.SetCosmetics(basePlayer);
@@ -976,11 +1041,50 @@ public static class MiscUtils
             0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
         pooledBubble.MaskArea.size = pooledBubble.Background.size - new Vector2(0, 0.03f);
 
+        clonedBubble.SetCosmetics(basePlayer);
+        clonedBubble.NameText.text = nameText;
+        clonedBubble.NameText.ForceMeshUpdate(true, true);
+        clonedBubble.votedMark.enabled = false;
+        clonedBubble.Xmark.enabled = false;
+        clonedBubble.TextArea.text = message;
+        clonedBubble.TextArea.ForceMeshUpdate(true, true);
+        clonedBubble.Background.size = new Vector2(5.52f,
+            0.2f + clonedBubble.NameText.GetNotDumbRenderedHeight() + clonedBubble.TextArea.GetNotDumbRenderedHeight());
+        clonedBubble.MaskArea.size = clonedBubble.Background.size - new Vector2(0, 0.03f);
+
+        if (bubbleType is BubbleType.Jailor)
+        {
+            pooledBubble.ColorBlindName.gameObject.SetActive(false);
+            clonedBubble.ColorBlindName.gameObject.SetActive(false);
+
+            var pooledCos = pooledBubble.Player.cosmetics;
+            pooledCos.skin.gameObject.SetActive(false);
+            pooledCos.hat.gameObject.SetActive(false);
+            pooledCos.skin.gameObject.SetActive(false);
+            pooledCos.currentBodySprite.BodySprite.enabled = false;
+            var jailedPlayer = Object.Instantiate(pooledCos.visor.gameObject, pooledCos.transform);
+            jailedPlayer.GetComponent<VisorLayer>().Destroy();
+            jailedPlayer.GetComponent<SpriteRenderer>().sprite = TouAssets.JailorPlayerSprite.LoadAsset();
+            pooledCos.visor.gameObject.SetActive(false);
+
+            var clonedCos = clonedBubble.Player.cosmetics;
+            clonedCos.skin.gameObject.SetActive(false);
+            clonedCos.hat.gameObject.SetActive(false);
+            clonedCos.skin.gameObject.SetActive(false);
+            clonedCos.currentBodySprite.BodySprite.enabled = false;
+            var jailedPlayer2 = Object.Instantiate(clonedCos.visor.gameObject, clonedCos.transform);
+            jailedPlayer2.GetComponent<VisorLayer>().Destroy();
+            jailedPlayer2.GetComponent<SpriteRenderer>().sprite = TouAssets.JailorPlayerSprite.LoadAsset();
+            clonedCos.visor.gameObject.SetActive(false);
+        }
         if (blackoutText)
         {
             pooledBubble.Background.color = new Color(0.2f, 0.2f, 0.27f, 1f);
             pooledBubble.NameText.color = Color.white;
             pooledBubble.TextArea.color = Color.white;
+            clonedBubble.Background.color = new Color(0.2f, 0.2f, 0.27f, 1f);
+            clonedBubble.NameText.color = Color.white;
+            clonedBubble.TextArea.color = Color.white;
         }
 
         // Tag *team/private* chat bubbles so the UI can reliably show/hide them.
@@ -988,26 +1092,28 @@ public static class MiscUtils
         // Note: Lovers chat intentionally uses `blackoutText: false` and should behave like regular chat.
         if (blackoutText && bubbleType != BubbleType.None)
         {
-            pooledBubble.gameObject.name = $"{TeamChatPatches.PrivateBubblePrefix}{bubbleType}";
+            clonedBubble.gameObject.name = TeamChatPatches.PrivateBubbleName;
+        }
+        else
+        {
+            clonedBubble.name = TeamChatPatches.PublicBubbleName;
         }
 
         pooledBubble.AlignChildren();
-        var pos = pooledBubble.NameText.transform.localPosition;
-        pooledBubble.NameText.transform.localPosition = pos;
-        // Only hide/store *team/private* bubbles when the user is currently viewing public chat.
-        // (System/feedback messages should remain in public chat even if they are "black tinted".)
-        if (!PlayerControl.LocalPlayer.Data.IsDead && !TeamChatPatches.TeamChatActive && blackoutText &&
-            bubbleType != BubbleType.None)
+        clonedBubble.AlignChildren();
+        if (blackoutText)
         {
-            TeamChatPatches.storedBubbles.Insert(0, pooledBubble);
-            pooledBubble.gameObject.SetActive(false);
-            if (chat.chatBubblePool.activeChildren.Contains(pooledBubble))
-            {
-                chat.chatBubblePool.activeChildren.Remove(pooledBubble);
-            }
+            TeamChatPatches.PrivateChatBubbles.Add(pooledBubble);
         }
+        else
+        {
+            TeamChatPatches.PublicChatBubbles.Add(pooledBubble);
+        }
+        TeamChatPatches.MergedChatBubbles.Add(new TeamChatPatches.MergedBubble(clonedBubble, !blackoutText));
 
-        chat.AlignAllBubbles();
+        TeamChatPatches.AlignAllChatBubbles(chat, blackoutText
+            ? ChatToCheck.Private
+            : ChatToCheck.Public);
         // Only show the for incoming messages
         // Otherwise you get a notification when you message yourself (e.g. Lovers chat).
         // (I think this is the right way to do that...)
@@ -1038,7 +1144,7 @@ public static class MiscUtils
             BubbleType.Impostor => TouChatAssets.ImpBubble.LoadAsset(),
             BubbleType.Vampire => TouChatAssets.VampBubble.LoadAsset(),
             BubbleType.Lover => TouChatAssets.LoveBubble.LoadAsset(),
-            BubbleType.Jailor => TouChatAssets.JailBubble.LoadAsset(),
+            BubbleType.Jailor or BubbleType.Jailed => TouChatAssets.JailBubble.LoadAsset(),
             _ => null,
         };
         if (actualSprite != null)
@@ -1066,7 +1172,7 @@ public static class MiscUtils
         return infected.Select(impData => impData.Object).ToList();
     }
 
-    public static List<(ushort RoleType, int Chance)> GetRolesToAssign(ModdedRoleTeams team,
+    public static List<(uint Id, ushort RoleType, int Chance)> GetRolesToAssign(ModdedRoleTeams team,
         Func<RoleBehaviour, bool>? filter = null)
     {
         var roles = GetRegisteredRoles(team).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
@@ -1074,15 +1180,15 @@ public static class MiscUtils
         return GetRolesToAssign(roles, filter);
     }
 
-    public static List<(ushort RoleType, int Chance)> GetRolesToAssign(RoleAlignment alignment,
+    public static HashSet<(uint Id, ushort RoleType, int Chance)> GetRolesToAssign(RoleAlignment alignment,
         Func<RoleBehaviour, bool>? filter = null)
     {
         var roles = GetRegisteredRoles(alignment).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
-        return GetRolesToAssign(roles, filter);
+        return GetRolesToAssign(roles, filter).ToHashSet();
     }
 
-    private static List<(ushort RoleType, int Chance)> GetRolesToAssign(IEnumerable<RoleBehaviour> roles,
+    private static List<(uint Id, ushort RoleType, int Chance)> GetRolesToAssign(IEnumerable<RoleBehaviour> roles,
         Func<RoleBehaviour, bool>? filter = null)
     {
         var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
@@ -1169,17 +1275,17 @@ public static class MiscUtils
         return rolesToKeep;
     }
 
-    private static List<(ushort RoleType, int Chance)> GetPossibleRoles(
+    private static List<(uint Id, ushort RoleType, int Chance)> GetPossibleRoles(
         List<RoleManager.RoleAssignmentData> assignmentData,
         Func<RoleManager.RoleAssignmentData, bool>? predicate = null)
     {
-        var roles = new List<(ushort, int)>();
+        var roles = new List<(uint, ushort, int)>();
 
         assignmentData.Where(x => predicate == null || predicate(x)).ToList().ForEach(x =>
         {
-            for (var i = 0; i < x.Count; i++)
+            for (uint i = 0; i < x.Count; i++)
             {
-                roles.Add(((ushort)x.Role.Role, x.Chance));
+                roles.Add((i, (ushort)x.Role.Role, x.Chance));
             }
         });
 
@@ -1198,7 +1304,7 @@ public static class MiscUtils
         return assignmentData;
     }
 
-    public static PlayerControl? PlayerById(byte id)
+    public static PlayerControl PlayerById(byte id)
     {
         foreach (var player in PlayerControl.AllPlayerControls)
         {
@@ -1208,7 +1314,7 @@ public static class MiscUtils
             }
         }
 
-        return null;
+        return null!;
     }
 
     public static IEnumerator PerformTimedAction(float duration, Action<float> action)
@@ -1295,6 +1401,73 @@ public static class MiscUtils
             yield return new WaitForSeconds(delay);
         }
     }
+    public static IEnumerator FadeInOutPair(SpriteRenderer? rendIn, SpriteRenderer? rendOut, float delay = 0.01f, float increase = 0.01f)
+    {
+        if (rendIn == null || rendOut == null)
+        {
+            yield break;
+        }
+
+        var tmpIn = rendIn.color;
+        tmpIn.a = 0;
+        rendIn.color = tmpIn;
+        var tmpOut = rendOut.color;
+        rendOut.color = tmpOut;
+
+        while (tmpOut.a > 0)
+        {
+            tmpIn.a = Mathf.Min(rendIn.color.a + increase, 1f); // Ensure it doesn't go above 1
+            rendIn.color = tmpIn;
+
+            tmpOut.a = Mathf.Max(rendOut.color.a - increase, 0f); // Ensure it doesn't go below 0
+            rendOut.color = tmpOut;
+
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
+    public static IEnumerator FadeInOutMultiRenderers(SpriteRenderer[] rendsIn, SpriteRenderer[] rendsOut, float delay = 0.01f,
+        float increase = 0.01f)
+    {
+        var tmpIn = rendsIn[0].color;
+        tmpIn.a = 0;
+        var tmpOut = rendsOut[0].color;
+
+        while (tmpOut.a > 0 || tmpIn.a < 1)
+        {
+            tmpIn.a = Mathf.Min(tmpIn.a + increase, 1f); // Ensure it doesn't go above 1
+            foreach (var rend in rendsIn)
+            {
+                rend.color = tmpIn;
+            }
+
+            tmpOut.a = Mathf.Max(tmpOut.a - increase, 0f); // Ensure it doesn't go below 0
+            foreach (var rend in rendsOut)
+            {
+                rend.color = tmpOut;
+            }
+
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
+    public static IEnumerator FadeOutMultiRenderers(SpriteRenderer[] rends, float delay = 0.01f,
+        float increase = 0.01f)
+    {
+        var tmp = rends[0].color;
+
+        while (tmp.a > 0)
+        {
+            tmp.a = Mathf.Max(tmp.a - increase, 0f); // Ensure it doesn't go above 1
+            foreach (var rend in rends)
+            {
+                rend.color = tmp;
+            }
+
+            yield return new WaitForSeconds(delay);
+        }
+
+    }
 
     public static IEnumerator FadeInDualRenderers(SpriteRenderer? rend, SpriteRenderer? rend2, float delay = 0.01f,
         float increase = 0.01f, float rend2Mult = 1f)
@@ -1371,6 +1544,30 @@ public static class MiscUtils
         renderer.color = color;
 
         var arrow = gameObject.AddComponent<ArrowBehaviour>();
+        arrow.image = renderer;
+        arrow.image.color = color;
+
+        return arrow;
+    }
+    public static PingBehaviour CreatePing(Transform parent, Color color)
+    {
+        var gameObject = new GameObject("Ping")
+        {
+            layer = 5,
+            transform =
+            {
+                parent = parent
+            }
+        };
+
+        var renderer = gameObject.AddComponent<SpriteRenderer>();
+        renderer.sprite = TouAssets.ArrowSprite.LoadAsset();
+        renderer.color = color;
+        gameObject.AddComponent<Animator>();
+        var spriteAnim = gameObject.AddComponent<SpriteAnim>();
+        spriteAnim.Play(TouAssets.HeartbeatAnim.LoadAsset());
+
+        var arrow = gameObject.AddComponent<PingBehaviour>();
         arrow.image = renderer;
         arrow.image.color = color;
 
@@ -1458,57 +1655,35 @@ public static class MiscUtils
         cam.centerPosition = cam.Target.transform.position;
     }
 
-    public static List<ushort> ReadFromBucket(List<RoleListOption> buckets, List<(ushort RoleType, int Chance)> roles,
-        RoleListOption roleType, RoleListOption replaceType, RoleListOption biggerType = (RoleListOption)(-1))
+    public static void AddFromBucket(this List<ushort> toApply, List<RoleListOption> buckets,
+        HashSet<(uint Id, ushort RoleType, int Chance)> roles, HashSet<(uint Id, ushort RoleType, int Chance)> applied,
+        RoleListOption roleType, RoleListOption replaceType = (RoleListOption)(-1), RoleListOption biggerType = (RoleListOption)(-1))
     {
-        var result = new List<ushort>();
+        roles.ExceptWith(applied);
 
         while (buckets.Contains(roleType))
         {
             if (roles.Count == 0)
             {
                 var count = buckets.RemoveAll(x => x == roleType);
-                buckets.AddRange(Enumerable.Repeat(replaceType, count));
-                if ((int)biggerType != -1) buckets.AddRange(Enumerable.Repeat(biggerType, count));
-
+                if ((int)replaceType != -1)
+                {
+                    buckets.AddRange(Enumerable.Repeat(replaceType, count));
+                    if ((int)biggerType != -1) buckets.AddRange(Enumerable.Repeat(biggerType, count));
+                }
                 break;
             }
 
             var addedRole = SelectRole(roles);
-            result.Add(addedRole.RoleType);
             roles.Remove(addedRole);
+            toApply.Add(addedRole.RoleType);
+            applied.Add(addedRole);
 
             buckets.Remove(roleType);
         }
-
-        return result;
     }
 
-    public static List<ushort> ReadFromBucket(List<RoleListOption> buckets, List<(ushort RoleType, int Chance)> roles,
-        RoleListOption roleType)
-    {
-        var result = new List<ushort>();
-
-        while (buckets.Contains(roleType))
-        {
-            if (roles.Count == 0)
-            {
-                buckets.RemoveAll(x => x == roleType);
-
-                break;
-            }
-
-            var addedRole = SelectRole(roles);
-            result.Add(addedRole.RoleType);
-            roles.Remove(addedRole);
-
-            buckets.Remove(roleType);
-        }
-
-        return result;
-    }
-
-    public static (ushort RoleType, int Chance) SelectRole(List<(ushort RoleType, int Chance)> roles)
+    public static (uint Id, ushort RoleType, int Chance) SelectRole(HashSet<(uint Id, ushort RoleType, int Chance)> roles)
     {
         var chosenRoles = roles.Where(x => x.Chance == 100).ToList();
         if (chosenRoles.Count > 0)
@@ -1522,7 +1697,7 @@ public static class MiscUtils
         var random = Random.RandomRangeInt(1, total + 1);
 
         var cumulative = 0;
-        (ushort RoleType, int SpawnChance) selectedRole = default;
+        (uint Id, ushort RoleType, int Chance) selectedRole = default;
 
         foreach (var role in chosenRoles)
         {
@@ -1547,7 +1722,7 @@ public static class MiscUtils
     }
 
     // Method to parse a JSON array string into an array of objects
-    public static T[] jsonToArray<T>(string json)
+    public static T[] JsonToArray<T>(string json)
     {
         // Wrap the JSON array in an object
         var newJson = "{ \"array\": " + json + "}";
@@ -1593,6 +1768,33 @@ public static class MiscUtils
     }
 
     /// <summary>
+    /// Gets a <see cref="StonedPlayer"/> by its parent ID.
+    /// </summary>
+    /// <param name="id">The player ID.</param>
+    /// <returns>A <see cref="StonedPlayer"/> or <see langword="null"/> if its not found.</returns>
+    public static StonedPlayer? GetStonedPlayerById(byte id)
+    {
+        var result = StonedPlayer.FakePlayers.FirstOrDefault(body => body.PlayerId == id);
+        return result;
+    }
+
+    /// <summary>
+    /// Gets a <see cref="StonedPlayer"/> by its parent ID if it is not permanent.
+    /// </summary>
+    /// <param name="id">The player ID.</param>
+    /// <returns>A <see cref="StonedPlayer"/> or <see langword="null"/> if its not found.</returns>
+    public static StonedPlayer? GetFreshStonedPlayerById(byte id)
+    {
+        var result = GetStonedPlayerById(id);
+        if (result != null && result.ProgressStage < StoneStage.Permanent)
+        {
+            return result;
+        }
+
+        return null;
+    }
+
+    /// <summary>
     ///     Gets a FakePlayer by comparing PlayerControl.
     /// </summary>
     /// <param name="player">The player themselves.</param>
@@ -1600,6 +1802,26 @@ public static class MiscUtils
     public static FakePlayer? GetFakePlayer(PlayerControl player)
     {
         return FakePlayer.FakePlayers.FirstOrDefault(x => x.body?.name == $"Fake {player.gameObject.name}");
+    }
+
+    /// <summary>
+    ///     Gets a FakePlayer by comparing a player id.
+    /// </summary>
+    /// <param name="playerId">The player id.</param>
+    /// <returns>A fake player or null if its not found.</returns>
+    public static FakePlayer? GetFakePlayer(int playerId)
+    {
+        return FakePlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == playerId && x.body);
+    }
+
+    /// <summary>
+    ///     Gets a FakePlayer by comparing a string.
+    /// </summary>
+    /// <param name="playerName">The player's name.</param>
+    /// <returns>A fake player or null if its not found.</returns>
+    public static FakePlayer? GetFakePlayer(string playerName)
+    {
+        return FakePlayer.FakePlayers.FirstOrDefault(x => x.body?.name == $"Fake {playerName}");
     }
 
     public static void SetForcedBodyType(this PlayerPhysics player, PlayerBodyTypes bodyType)
@@ -1631,37 +1853,21 @@ public static class MiscUtils
             return true;
         }
 
-        var mushroom = Object.FindObjectOfType<MushroomMixupSabotageSystem>();
-        if (mushroom && mushroom.IsActive)
+        if (VanillaSystemCheckPatches.ShroomSabotageSystem && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
         {
             return true;
         }
 
         if (TownOfUsMapOptions.IsCamoCommsOn())
         {
-            if (!ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Comms, out var commsSystem) ||
-                commsSystem == null)
-            {
-                return false;
-            }
-
             var isActive = false;
-            if (ShipStatus.Instance.Type == ShipStatus.MapType.Hq ||
-                ShipStatus.Instance.Type == ShipStatus.MapType.Fungle)
+            if (VanillaSystemCheckPatches.HudCommsSystem != null)
             {
-                var hqSystem = commsSystem.Cast<HqHudSystemType>();
-                if (hqSystem != null)
-                {
-                    isActive = hqSystem.IsActive;
-                }
+                isActive = VanillaSystemCheckPatches.HudCommsSystem.IsActive;
             }
-            else
+            else if (VanillaSystemCheckPatches.HqCommsSystem != null)
             {
-                var hudSystem = commsSystem.Cast<HudOverrideSystemType>();
-                if (hudSystem != null)
-                {
-                    isActive = hudSystem.IsActive;
-                }
+                isActive = VanillaSystemCheckPatches.HqCommsSystem.IsActive;
             }
 
             return isActive;
@@ -1674,14 +1880,9 @@ public static class MiscUtils
     {
         var couldUse = (!player.MustCleanVent(vent.Id) || (player.inVent && Vent.currentVent == vent)) &&
                        !player.Data.IsDead && (player.CanMove || player.inVent);
-        ISystemType systemType;
-        if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Ventilation, out systemType))
+        if (VanillaSystemCheckPatches.VentSystem != null && VanillaSystemCheckPatches.VentSystem.IsVentCurrentlyBeingCleaned(vent.Id))
         {
-            var ventilationSystem = ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>();
-            if (ventilationSystem != null && ventilationSystem.IsVentCurrentlyBeingCleaned(vent.Id))
-            {
-                couldUse = false;
-            }
+            couldUse = false;
         }
 
         if (couldUse)
@@ -1884,14 +2085,14 @@ public static class MiscUtils
         return text;
     }
 
-    private static List<SupportedLangs> _languagesToBold = new List<SupportedLangs>
-    {
+    private static readonly List<SupportedLangs> _languagesToBold =
+    [
         SupportedLangs.Russian,
         SupportedLangs.Japanese,
         SupportedLangs.SChinese,
         SupportedLangs.TChinese,
         SupportedLangs.Korean
-    };
+    ];
 
     public static void AdjustNotification(this LobbyNotificationMessage notification)
     {
@@ -1971,7 +2172,7 @@ public static class MiscUtils
             if (CanSeePostGameLogs)
             {
                 TownOfUsEventHandlers.LogBuffer.Add(
-                    new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+                    new(logLevel, $"At {DateTime.UtcNow:T} -> " + text));
             }
 
             return;
@@ -1996,7 +2197,7 @@ public static class MiscUtils
                 break;
         }
 
-        TownOfUsEventHandlers.LogBuffer.Add(new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+        TownOfUsEventHandlers.LogBuffer.Add(new(logLevel, $"At {DateTime.UtcNow:T} -> " + text));
     }
 
 
@@ -2032,7 +2233,7 @@ public static class MiscUtils
     public static object? TryOtherCast(this Il2CppObjectBase self, Type type)
     {
         return AccessTools.Method(self.GetType(), nameof(Il2CppObjectBase.TryCast)).MakeGenericMethod(type)
-            .Invoke(self, Array.Empty<object>());
+            .Invoke(self, []);
     }
 
     public static IList CreateList(Type myType)
@@ -2041,19 +2242,23 @@ public static class MiscUtils
         return (IList)Activator.CreateInstance(genericListType)!;
     }
 
-    public static void RemovePet(PlayerControl pc)
+    public static void RemovePet(PlayerControl pc, PetHidden hidden = PetHidden.Remove)
     {
-        if (pc == null || !pc.Data.IsDead)
+        if (pc == null || !pc.Data.IsDead || hidden is PetHidden.Never)
         {
             return;
         }
 
-        if (pc.CurrentOutfit.PetId == "")
+        if (!pc.cosmetics.currentPet)
         {
             return;
         }
 
-        pc.SetPet("");
+        if (hidden is PetHidden.DuringRound)
+        {
+            pc.cosmetics.petHiddenByViper = true;
+        }
+        pc.cosmetics.TogglePet(false);
     }
 
     public static void LungeToPos(PlayerControl player, Vector2 pos)
@@ -2071,10 +2276,7 @@ public static class MiscUtils
 
         if (attacker.AmOwner)
         {
-            if (cam != null)
-            {
-                cam.Locked = true;
-            }
+            cam?.Locked = true;
 
             attacker.isKilling = true;
         }
@@ -2085,10 +2287,7 @@ public static class MiscUtils
 
         KillAnimation.SetMovement(attacker, true);
 
-        if (cam != null)
-        {
-            cam.Locked = false;
-        }
+        cam?.Locked = false;
 
         attacker.isKilling = false;
     }
@@ -2161,11 +2360,103 @@ public static class MiscUtils
         return false;
     }
 
-    public static void RunKillWarning(PlayerControl source)
+    public static void RunAnticheatWarning(PlayerControl source)
     {
         var stringBuilder = new StringBuilder();
-        stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatKillMessage").Replace("<player>", source.Data.PlayerName)}");
+        stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatIllegalRpcMessage").Replace("<player>", source.Data.PlayerName)}");
         AddFakeChat(source.Data, $"<color=#D53F42>{TouLocale.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
+    }
+
+    public static string GetRegionName(IRegionInfo? region = null, bool shorten = true)
+    {
+        region ??= ServerManager.Instance.CurrentRegion;
+
+        string name = region.Name;
+
+        if (AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame)
+        {
+            name = "Local Game";
+            return name;
+        }
+
+        if (AmongUsClient.Instance.GameId == LobbyJoin.GameId && LobbyJoin.TempRegion != null)
+        {
+            region = LobbyJoin.TempRegion;
+            name = LobbyJoin.TempRegion.Name;
+        }
+
+        if (shorten)
+        {
+            if (region.PingServer.EndsWith("among.us", StringComparison.Ordinal))
+            {
+                // Official Server
+                if (name == "North America") name = "NA";
+                else if (name == "Europe") name = "EU";
+                else if (name == "Asia") name = "AS";
+
+                return name;
+            }
+
+            var Ip = region.Servers.FirstOrDefault()?.Ip ?? string.Empty;
+
+            if (Ip.Contains("aumods.us", StringComparison.Ordinal)
+                || Ip.Contains("duikbo.at", StringComparison.Ordinal))
+            {
+                // Official Modded Server
+                if (Ip.Contains("au-eu")) name = "MEU";
+                else if (Ip.Contains("au-as")) name = "MAS";
+                else if (Ip.Contains("www.")) name = "MNA";
+
+                return name;
+            }
+
+            if (name.Contains("nikocat233", StringComparison.OrdinalIgnoreCase))
+            {
+                name = name.Replace("nikocat233", "Niko233", StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        return name;
+    }
+
+    public static void DelayExile(this PlayerControl localPlayer)
+    {
+        Coroutines.Start(CoWaitExile(localPlayer));
+    }
+
+    private static IEnumerator CoWaitExile(PlayerControl player)
+    {
+        yield return new WaitForSeconds(1f);
+
+        player.RpcPlayerExile();
+    }
+
+    public static string GetRoleTmpIcon(RoleTypes role)
+    {
+        return GetRoleTmpIcon(RoleManager.Instance.GetRole(role));
+    }
+
+    public static string GetRoleTmpIcon(ICustomRole role)
+    {
+        return role.Configuration.IconTmp ? $"<sprite name=\"{role.Configuration.IconTmp.name}\">" : $"<sprite name=\"AmongUs.Role.{role.Team}\">";
+    }
+
+    public static string GetRoleTmpIcon(RoleBehaviour role)
+    {
+        if (role is ICustomRole custom)
+        {
+            return custom.Configuration.IconTmp ? $"<sprite name=\"{custom.Configuration.IconTmp.name}\">" : $"<sprite name=\"AmongUs.Role.{custom.Team}\">";
+        }
+        return $"<sprite name=\"AmongUs.Role.{role.Role}\">";
+    }
+
+    public static string GetToggledRoleTmpIcon(RoleBehaviour role, bool enabled)
+    {
+        if (!enabled)
+        {
+            return string.Empty;
+        }
+        return GetRoleTmpIcon(role);
     }
 }
 
@@ -2204,5 +2495,6 @@ public enum BubbleType
     Impostor,
     Vampire,
     Jailor,
+    Jailed,
     Lover
 }

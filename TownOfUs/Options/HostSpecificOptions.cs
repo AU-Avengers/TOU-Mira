@@ -1,12 +1,7 @@
-﻿using System.Collections;
-using MiraAPI.GameOptions;
+﻿using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
-using Reactor.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
-using TownOfUs.Utilities.Appearances;
-using UnityEngine;
 
 namespace TownOfUs.Options;
 
@@ -29,14 +24,14 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
 
     public ModdedToggleOption LobbyFunMode { get; set; } = new("Allow Lobby-Only No-Clip", true, false);
 
-    public ModdedToggleOption AllowAprilFools { get; set; } = new("Allow April Fools Visuals", true, false)
+    /*public ModdedToggleOption AllowAprilFools { get; set; } = new("Allow April Fools Visuals", true, false)
     {
         ChangedEvent = x =>
         {
             Debug("Toggle April Fools mode.");
             Coroutines.Start(CoSetAprilFools());
         }
-    };
+    };*/
     public ModdedToggleOption EnableSpectators { get; set; } = new("Allow Spectators", true, false)
     {
         ChangedEvent = x =>
@@ -70,7 +65,7 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
         Visible = () => TownOfUsPlugin.IsDevBuild
     };
 
-    private static IEnumerator CoSetAprilFools()
+    /*private static IEnumerator CoSetAprilFools()
     {
         yield return new WaitForSeconds(0.05f);
         
@@ -79,7 +74,7 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
             player.MyPhysics.SetForcedBodyType(player.BodyType);
             player.ResetAppearance();
         }
-    }
+    }*/
 }
 
 public enum LoggingLevel

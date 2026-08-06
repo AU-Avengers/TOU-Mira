@@ -758,6 +758,416 @@
         "\n\n\r<size=105%>Known Issues:</size>",
         "\n- Sentry's portable cameras are completely broken on Starlight"
       ]
+    },
+    {
+      "Date": "2026-03-21T12:51:00Z",
+      "Number": "100039",
+      "ShortTitle": "TOU: Mira v1.5.9 Beta 1",
+      "Title": "A new Mira update? This can't be!",
+      "SubTitle": "\n- Shakespeare, probably.",
+      "Text": [
+        "<b>This release changes a LOT. As a result, this has taken longer than expected, and we are fairly confident that most of the mod is now bug free. For the sake of everything though, v1.6.0 will not be released until we clear up most of the bugs that we can find.</b>",
+        "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.9>TOU Mira v1.5.9 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+        
+        "\n\n\r<size=105%>Critical Changes:</size>",
+        "\n- All Role List buckets are reset! The options are now unable to be affected by the addition of extra role buckets.",
+        "\n- Kills are now confirmed by the host before they are visible for everyone else. This means that there are no more death desyncs.",
+
+        "\n\n\r<size=105%>Main Changes:</size>",
+        "\n- Medium has been fully reworked now.",
+        "\n- A new Impostor Power role has been added: Herbalist!",
+        "\n- The wiki now has a way to view game settings and includes a Terminology page.",
+        "\n- Ghost roles are now in an Afterlife category rather than Crew Investigative or Neutral Evil.",
+        "\n- Vanilla roles have their own colors now, and are fully integrated into the mod.",
+
+        "\n\n\r<size=105%>Known Bugs:</size>",
+        "\n- Operative and Sentry Portable cameras are unusable on Android.",
+        "\n- Some roles (such as Hunter) are known to have issues on Android, for reasons unknown to us.",
+        "\n- Private chats are invisible by players killed mid-meeting.",
+        "\n- Neutral Wildcard may duplicate the amount of each neutral present if any selected slots are wildcards.",
+
+        "\n\n\r<size=105%>Possibly Fixed Bugs:</size>",
+        "\n- Medic Shield is no longer ignored if it is supposed to break.",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Monarch's Round One setting is properly checked.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Amnesiac properly removes their \"win condition\" information from the task tab.",
+        "\n- Doomsayer causes of death appear consistently now.",
+        "\n- Spectre no longer prevents Neutral Evils from winning.",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Hypnotist no longer breaks Mix-Up or kill animations",
+        "\n- Ambusher is no longer caught by Investigator footprints",
+        "\n- Traitor is no longer unguessable if Crewpostor is disabled.",
+        "\n- Players controlled by a Puppeteer can no longer no-clip when they're too close to the wall",
+        "\n- Grenadier's flash no longer prevents abilities from being used. (besides reports)",
+
+        "\n\n\r<size=105%>Modifier Bugfixes:</size>",
+        "\n- Lovers can no longer chat when under control",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Ghostwalker roles spawn properly on Submerged",
+        "\n- Players are no longer kicked out of vents that there were no longer present in.",
+        "\n- Multi-kills from Bomber and Arsonist no longer break when one of the players is shielded",
+        "\n- Negative rounds will no longer appear in the Game Summary.",
+        "\n- Skeld decor settings are now checked properly.",
+        "\n- dlekS will no longer cause the Create Game Menu to freeze.",
+        "\n- \"Airship\" is no longer shown when \"dlekS\" is actually selected.",
+        "\n- Better Skeld's Vent Network connects the Navigation vent to Weapons properly.",
+
+        "\n\n\r<size=105%>Local Setting Changes:</size>",
+        "\n- Added Role Icon on Role Tab toggle.",
+        "\n- Added Rainbow color as Fortegreen toggle.",
+
+        "\n\n\r<size=105%>Chat Changes:</size>",
+        "\n- When a player is kicked for missing a mod, the host is now properly notified.",
+        "\n- Lobby Rules Messages are now titled \"Lobby Rules,\" instead of \"System\".",
+        "\n- Added /info command for roles with meeting info. (PR #142)",
+
+        "\n\n\r<size=105%>Other Improvements:</size>",
+        "\n- More roles have role banners in the game options pane.",
+        "\n- More role and modifier icons have been redrawn in a higher quality."
+      ]
+    },
+    {
+      "Date": "2026-04-17T12:51:00Z",
+      "Number": "100040",
+      "ShortTitle": "TOU: Mira v1.6.0",
+      "Title": "It wasn't me Officer, I swear!",
+      "SubTitle": "        - Said the Egotist",
+      "Text": [
+        "<b>Finally, Mira is updated to v1.6.0! Thanks for sticking around even when the mod has been in some bad trouble in terms of bugs. Unfortunately, this release isn't fully bugfree, but many other bugs have been fixed for good.</b>",
+        "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.0>TOU Mira v1.6.0 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Known Bugs:</size>",
+        "\n- Private chats are invisible to players killed mid-meeting.",
+        "\n- Private chats for living players get deleted when a new public chat message is added.",
+        "\n- Controlled players (via Parasite/Puppeteer) appear to be stuck in a walk cycle when they are walking onto a wall, showing they are under control.",
+        "\n- Neutral Wildcard may duplicate the amount of each neutral present if any selected slots are wildcards.",
+        "\n- Ghostwalkers are sometimes unable to use the Zipline, Platform, or Ladders.",
+        "\n- When Haunter finishes their tasks, sometimes the Impostors will not get an arrow to the Haunter, essentially screwing them over.",
+
+        "\n\n\r<size=105%>Known Hide and Seek Bugs:</size>",
+        "\n- The Seeker is missing animations for the hiders",
+        "\n- Hiders ignore their vent uses",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Medic can no longer hand out shields again when settings forbid them.",
+        "\n- Medic shields are destroyed properly if the setting is set.",
+        "\n- Re-applying Magic Mirrors immediately no longer breaks.",
+        "\n- Guardian Angel's protection is properly checked.",
+        "\n- Engineer can no longer bypass Plumber's Barricades.",
+        "\n- Operative and Sentry's Portable cameras are now functioning on Android.",
+        "\n- Medium properly hides pets when anonymous players are enabled.",
+        "\n- Monarch can properly knight regardless of the First Round Use setting.",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Shapeshifter's name is properly changed.",
+        "\n- Parasite victims properly die when the time runs out.",
+        "\n- Hypnotist's Hysteria can no longer softlock the player upon death.",
+        "\n- Warlock's Burst Kill works again.",
+        "\n- Herbalist's herbs reset properly across rounds.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- First-Round settings no longer interfere with Amnesiac",
+        "\n- Spectre can spook properly again.",
+        "\n- Fairy can no longer target Neutral Outliers.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- When Crewpostor replaces a real Impostor, the player being replaced gets a proper role.",
+        "\n- Spectators that join without running /spec are no longer half-dead.",
+
+        "\n\n\r<size=105%>Changes:</size>",
+        "\n- Current Region is now displayed in the lobby.",
+        "\n- Trapper's feedback now includes Hyperlinks.",
+        "\n- Many game settings are re-organized",
+        "\n- April Fools mode is temporarily removed from the main menu for the sake of stability.",
+
+        "\n\n\r<size=105%>Improvements:</size>",
+        "\n- Egotist and Crewpostor labels are shortened on player names.",
+        "\n- The Wiki now allows searching by faction / alignment.",
+        "\n- Disconnected players are properly kept displayed in the meeting and in the end game summary.",
+        "\n- Camo Comms, Mix-Up, and Vent System checks are far more optimized now, reducing lagspikes and general instability.",
+        "\n- Plumber now has a Flush duration, blocking any vents in use for a set duration.",
+
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Cleaned bodies can now be set to display as Missing, Disconnected, or Dead, applicable to Viper, Rotting, Chef, and Janitor.",
+        "\n- Kill Animation background can now optionally be colored based on the killer's Faction or Role Color.",
+        "\n- Added Role List Bucket tooltips while hovering (PR #156 by Maxi0fc)",
+        "\n- Investigator footprints can now be set to be based on Distance or Time.",
+        "\n- New Crewmate Killing role has been added: Officer."
+      ]
+    },
+    {
+      "Date": "2026-05-02T12:51:00Z",
+      "Number": "100041",
+      "ShortTitle": "TOU: Mira v1.6.1",
+      "Title": "I vote, therefore I Mayor",
+      "SubTitle": "The Mayor is jubilant as ever, look at him go!",
+      "Text": [
+        "<b>Finally, Mira is updated to v1.6.1! This build fixes quite a few issues, so we hope you enjoy. Many remaining bugs will be fixed in v1.7.0, as there will be a complete overhaul to systems in the background.</b>",
+        "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.1>TOU Mira v1.6.1 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Known Bugs:</size>",
+        "\n- Controlled players (via Parasite/Puppeteer) appear to be stuck in a walk cycle when they are walking onto a wall, showing they are under control.",
+        "\n- Neutral Wildcard may duplicate the amount of each neutral present if any selected slots are wildcards.",
+        "\n- Ghostwalkers are sometimes unable to use the Zipline, Platform, or Ladders.",
+        "\n- When Haunter finishes their tasks, sometimes the Impostors will not get an arrow to the Haunter, essentially screwing them over.",
+        "\n- Pets aren't removed based on settings properly.",
+        "\n- Medic Shield still doesn't get shattered properly with the settings.",
+
+        "\n\n\r<size=105%>Known Hide and Seek Bugs:</size>",
+        "\n- The Seeker is missing animations for the hiders",
+        "\n- Hiders ignore their vent uses",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Officer no longer breaks across game sessions.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Executioner Torment kills players again.",
+        "\n- Jester Haunt kills players again.",
+        "\n- Mercenary protection is removed upon their death.",
+        "\n- Arsonist interactions contribute towards the douse limit.",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Grenadier flash no longer breaks kill screens and meetings.",
+        "\n- Dragging Viper / Rotting bodies no longer breaks Undertaker.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Impostor replaced by a Crewpostor can no longer see their previous task text.",
+        "\n- Camo Comms no longer shows other player names when revived.",
+        "\n- Doors can be set to Skeld doors or be flat out removed properly on Submerged.",
+        "\n- Private Chat is no longer broken.",
+        "\n- Players disconnecting from the lobby no longer breaks the player count.",
+        "\n- Disconnected players no longer leak their role color.",
+        "\n- Submerged and Level Impostor no longer break when loading base game map assets.",
+
+        "\n\n\r<size=105%>Changes:</size>",
+        "\n- dlekS tooltip in the Create Game Menu is legible now.",
+        "\n- Imitator now shows (Imi) next to their name while imitating roles.",
+        "\n- Zoom and Wiki buttons can be changed to be below or next to the Settings / Chat button.",
+        "\n- Amnesiac's Assassin configuration is improved.",
+        "\n- Lobby view pane has been adjusted to be smaller.",
+
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Keybind Actions are now available under the local settings, primarily for Android players.",
+        "\n- The host can now run /kick and /ban mid-game (PR #170 by VoidicChaos)",
+
+        "\n\n\r<size=105%>Improvements:</size>",
+        "\n- Assassin is now shown as a modifier, unless Double Shot is present, with a better wiki description.",
+        "\n- Misguessing now shows who/what was attempted to be guessed in the end game summary (PR #173 by DivaniNL)"
+      ]
+    },
+    {
+      "Date": "2026-05-10T12:51:00Z",
+      "Number": "100042",
+      "ShortTitle": "TOU: Mira v1.6.2",
+      "Title": "Chat and Yap all your want",
+      "SubTitle": "With more stability to go with it!",
+      "Text": [
+        "<b>Mira has now been updated once again, fixing crucial bugs and clearing up even more new-found bugs!</b>",
+        "\nAs a way to thank you all for sticking with us, maybe check out the goodies in the Pets tag, we're sure you'll enjoy it.",
+        "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.2>TOU Mira v1.6.2 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Known Bugs:</size>",
+        "\n- Neutral Wildcard may duplicate the amount of each neutral present if any selected slots are wildcards.",
+        "\n- Ghostwalkers are sometimes unable to use the Zipline, Platform, or Ladders.",
+
+        "\n\n\r<size=105%>Known Hide n Seek Bugs:</size>",
+        "\n- The Seeker is missing animations for the hiders.",
+        "\n- Hiders ignore their vent uses.",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Medium's Spirit movement no longer carries over from Time Lord rewinds.",
+        "\n- Killers now get arrows that point to the Haunter when they complete their tasks.",
+        "\n- Medic no longer breaks when a player is protected by multiple Medics. Only one Medic will be flashed at a time.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Glitch no longer resets mimic cooldowns for other Glitches.",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Venerer no longer displays its effects as \"Visual\" modifiers.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Changing the UI scale mid-game no longer breaks the UI at the top right.",
+        "\n- Chat messages are now capped to a maximum of 20 public and 20 private chat messages to prevent crashing.",
+        "\n- Roles are no longer revealed immediately upon death.",
+        "\n- Pets are removed based on settings properly.",
+        "\n- Celebrity's cause of death now displays all causes of death.",
+
+        "\n\n\r<size=105%>Changes:</size>",
+        "\n- Monarch will no longer be able to change their shield appearance, and is now always Grey. A future patch will allow further configuration, but not to the same degree as before with Warden / Cleric flashing.",
+        "\n- Seer can no longer compare revealed players.",
+
+        "\n\n\r<size=105%>Improvements:</size>",
+        "\n- It is now possible to disable any host keybind if you tend to misclick.",
+        "\n- Survivor, Fairy, and 1st Round Shield protection will flash grey, as a way to not appear unresponsive.",
+
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Two custom pets have been added",
+        "\n- Game Mechanic Option: All Shields Flash Anonymously.",
+        "\n- Top-Right UI can now be scaled up and down."
+      ]
+    },
+    {
+      "Date": "2026-06-13T12:51:00Z",
+      "Number": "100043",
+      "ShortTitle": "TOU: Mira v1.6.3",
+      "Title": "Play it your way.",
+      "SubTitle": "With Mira OR Reactivated",
+      "Text": [
+        "<b>Mira has been updated for the latest release of Among Us, alongside TOU Reactivated!</b>",
+        "\nYou may now choose to use <link=https://github.com/AU-Avengers/Town-Of-Us-Reactivated/>TOU Reactivated</link> again if you so wish, but Mira will get major content updates, unlike Reactivated.",
+        "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.3>TOU Mira v1.6.3 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Officer now sees Prosecutor as a valid killer.",
+        "\n- Monarch is no longer immune to basic interactions when they have a shield.",
+        "\n- Cleric Barrier duration is no longer tied to its cooldown.",
+        "\n- Warden no longer resets cooldowns to one second.",
+        "\n- Engineer and Plumber interact with vents in a more optimized fashion. (PR #190 by @TheDavSmasher)",
+        "\n- Plumber barricades prevent all venters from entering properly. (PR #192 by @TheDavSmasher)",
+        "\n- Sentry Cameras are no longer placed below the map.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Arsonist douse count is no longer more than intended.",
+        "\n- Executioner can no longer torment when their target becomes evil.",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Shapeshifter now inherits fake shields on players, like how Morphling / Glitch do.",
+        "\n- Parasite and Puppeteer can interact with Ladders, Platforms, and Ziplines properly. (PR #176 by @DrFreezyYT)",
+        "\n- Pet Button no longer interferes with forced player map interactions.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Pets tab now says \"Pets\" rather than \"Hats.\"",
+        "\n- Directly clicking on security utilities like Admin is no longer possible if task requirements aren't met.",
+        "\n- End Game Timer is no longer broken.",
+
+        "\n\n\r<size=105%>Changes:</size>",
+        "\n- Miner now places Polus vents and has an animation paired with it.",
+        "\n- By default, Sonar now uses Heartbeats instead of arrows to keep track of players.",
+        "\n- Haunter now marks players with a dark red name when they are revealed.",
+
+        "\n\n\r<size=105%>Improvements:</size>",
+        "\n- Glitch, Morphling, and Swooper now have better vent settings.",
+        "\n- UI changes are far more optimized now.",
+        "\n- Destroyed animations are now cleared from memory properly.",
+
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- TOU Mira: Legacy is now a part of the main mod.",
+        "\n- Role Name placement is now configurable in terms of size and position.",
+        "\n- Added configurable mod stamp placement.",
+        "\n- Added \"TV Show\" style for Skeld visuals."
+      ]
+    },
+    {
+      "Date": "2026-08-02T12:51:00Z",
+      "Number": "100044",
+      "ShortTitle": "TOU: Mira v1.7.0",
+      "Title": "Draft and Drink away",
+      "SubTitle": "With this major update, rolling out today!",
+      "Text": [
+        "<b>Mira has finally gotten its next major update. with 3 new roles, 2 new modifiers, and Draft Mode!</b>",
+        "\n\nWe've been working hard on this update, and have finally gotten the mod into what we consider its most stable state.",
+        "\n\nWe hope you enjoy the new content, reworks, and additions that our community has helped chip in with.",
+        "\n\nFrom the bottom of our hearts, thank you all for being such a great community.",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.7.0>TOU Mira v1.7.0 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Investigator footprints are layered correctly for every map.",
+        "\n- Medium's Spirit displays arrows for everyone properly.",
+        "\n- \"Medium can Identify\" setting properly makes ghosts anonymous.",
+        "\n- Mystic arrows no longer appear if their duration is 0 seconds.",
+        "\n- Swapper and Prosecutor vote changes reflect on Executioner, Jester, and Hunter.",
+        "\n- Disconnected Medics will not leave their shields behind on players anymore.",
+        "\n- Disconnected players that are protected will return uses to Medic, Mirrorcaster, and Warden.",
+        "\n- Noisemaker will properly check for rotting bodies or stoned players.",
+        "\n- Imitator priority is fixed for roles like Forensic.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Executioner and Doomsayer leave notifications appear properly for everyone now.",
+        "\n- Doomsayer killing all victims at once setting is fixed and no longer kills just one player.",
+        "\n- Glitch hack no longer prevents killers from being able to kill for the remainder of the game.",
+        "\n- Inquisitor will win solo in a 1v1 and will not take away wins in a 1v1 with dead heretics. (PR #225)",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Venerer abilities no longer reset from an additional kill.",
+        "\n- Added checks for Ambassador and Traitor to throw warnings when no roles are available.",
+        "\n- Miner explosion no longer appears on invisible vent.",
+
+        "\n\n\r<size=105%>Modifier Bugfixes:</size>",
+        "\n- Crewpostor Vigilante can no longer guess other impostors.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Fixed problems with the End Game Timer breaking and erroring.",
+        "\n- Submerged will no longer break in the role reveal.",
+        "\n- Neutral Wildcard no longer duplicates the amount of each neutral present. (PR #191)",
+        "\n- Wiki hyperlinks will check for gamemode-specific roles properly.",
+        "\n- Full support for Among Us v17.4.",
+
+        "\n\n\r<size=105%>Crewmate Role Changes:</size>",
+        "\n- Lookout by default sees who interacts, rather than what roles interact.",
+        "\n- In the \"See Players\" mode, Lookout will not be able to see Bomber or any other indirect attacks.",
+        "\n- Seer can optionally only use their ability once per round and / or compare each player once per game. (PR #231)",
+        "\n- Deputy by default will warn their camped target's killer about a Deputy existing. (PR #209)",
+        "\n- Deputy will now reveal themselves upon a successful shot.",
+        "\n- Prosecutor now has a full-screen animation for prosecutes.",
+        "\n- Time Lord by default will revive players for a single round, and make them die after the next meeting ends.",
+        "\n- Medic now sees \"Darker / Lighter\" on all players rather than just on living players.",
+        "\n- Transporter now uses a single multi-select menu for transporting players. (PR #212)",
+
+        "\n\n\r<size=105%>Neutral Role Changes:</size>",
+        "\n- Doomsayer shows guessing progress next to their name.",
+        "\n- Doomsayer no longer sees disabled roles in their feedback",
+        "\n- Jester has optional limited duration and cooldown adjustment for venting. (PR #237)",
+        "\n- Jester can now Poke players, triggering roles like Warden, Cleric, Herbalist, Lookout, and more. (PR #205)",
+        "\n- Soul Collector has been permanently replaced by **Medusa**. This rework makes players slowly fade into stone, and allows Transporters to still interact with them to an extend. Non-shattered stones will remain throughout rounds as evidence.",
+        "\n- Chef shows feeding progress on their name.",
+        "\n- Inquisitor marks off any heretic roles that have died in their role tab.",
+        "\n- Inquisitor now has a heretic progress count next to their name.",
+
+        "\n\n\r<size=105%>Impostor Role Changes:</size>",
+        "\n- Swooper can optionally be untrackable while swooping. (PR #201)",
+        "\n- Blackmailed players no longer immediately skip if too many players are alive.",
+
+        "\n\n\r<size=105%>Modifier Changes:</size>",
+        "\n- Tiebreaker now stalls the game as a solo crewmate or as a Jester / Executioner in a 1v1 / 1v2.",
+
+        "\n\n\r<size=105%>Other Changes:</size>",
+        "\n- Unity Rich Text is no longer allowed on players to prevent issues with tag abuse. (PR #206)",
+        "\n- Lobby Rules are now limited to being displayed at 3 second intervals due to malicious players that sell cheat mods to disrupt lobbies.",
+        "\n- Task tracking is mostly up for preference now, with the host simply toggling if other task amounts can be seen by the dead.",
+        "\n- All local game options are moved to 6 different categories.",
+
+        "\n\n\r<size=105%>Improvements:</size>",
+        "\n- Options for roles and modifiers display changes in a similar fashion to vanilla's option notifications.",
+        "\n- Hovering over the role list text in the lobby is now adjusted for the corresponding gamemode selected.",
+        "\n- Player text in meetings will now shrink depending on the amount of text within it.",
+        "\n- Meeting kill animations are synced for every player.",
+        "\n- In-Game Wiki will no longer stutter when reopening the roles search tab.",
+        "\n- Abilities disabled on round one now show that they are, in fact, disabled for that reason.",
+        "\n- More roles have additional visual and audio work.",
+        "\n- Game Modifiers display if they are guessable within their wiki entries.",
+        "\n- Roles now have their icons displayed in text.",
+        "\n- Wiki Hyperlinks in text will now display their corresponding icons.",
+
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Added Perfect Comms (Prox-Chat) role integration on the mod itself (PR #226)",
+        "\n- @idkimneil's Draft Mode is now part of the base mod. This can be toggled in the Role Distribution settings.",
+        "\n- Added Overclocker, an Assailant modifier that speeds up cooldowns for more general killers but then slows cooldowns afterwards.",
+        "\n- Added Drunk, a Universal modifier that also has roleblock immunity.",
+        "\n- Barkeeper joins the Crewmate Support alignment with a standard roleblock ability and also a spill ability, changing player speed for anyone who steps in it.",
+        "\n- Bootlegger joins the Impostor Support alignment with a roleblock ability that slowly turns into poison.",
+        "\n- Added \"Full Save Cooldown Multiplier\" for full protective roles.",
+        "\n- Added the all-important Flopster pet (she's a little silly)"
+      ]
     }
   ]
 }

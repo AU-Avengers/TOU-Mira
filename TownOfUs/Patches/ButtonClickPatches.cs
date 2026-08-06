@@ -37,7 +37,7 @@ public static class ButtonClickPatches
             return false;
         }
 
-        if (PlayerControl.LocalPlayer != null)
+        if (PlayerControl.LocalPlayer)
         {
             var disabledMods = PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>();
             if (__instance is UseButton)
@@ -85,7 +85,7 @@ public static class ButtonClickPatches
         if (MeetingHud.Instance)
         {
             if (__instance is AbilityButton &&
-                PlayerControl.LocalPlayer != null &&
+                PlayerControl.LocalPlayer &&
                 PlayerControl.LocalPlayer.Data?.Role != null &&
                 PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Detective)
             {
@@ -95,7 +95,7 @@ public static class ButtonClickPatches
             return false;
         }
 
-        if (PlayerControl.LocalPlayer != null &&
+        if (PlayerControl.LocalPlayer &&
             PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;

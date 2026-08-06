@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Options.Modifiers.Crewmate;
 
-public sealed class DiseasedOptions : AbstractOptionGroup<DiseasedModifier>
+public sealed class DiseasedOptions : AbstractTouModifierOptionGroup<DiseasedModifier>
 {
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierDiseased", "Diseased");

@@ -1,18 +1,15 @@
 ﻿using AmongUs.GameOptions;
+using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
-using Reactor.Utilities.Extensions;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Options;
 
 public sealed class RoleOptions : AbstractOptionGroup
 {
-    /*// TODO: Once hide and seek is possibly implemented as a selectable mode, then this code should be removed.
     public override Func<bool> GroupVisible => () =>
-        !(GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
-            or GameModes.SeekFools);*/
+        CustomGameModeManager.IsDefault();
     internal static string[] OptionStrings =
     [
         MiscUtils.GetParsedRoleBucket("CrewInvestigative"),
@@ -21,24 +18,24 @@ public sealed class RoleOptions : AbstractOptionGroup
         MiscUtils.GetParsedRoleBucket("CrewPower"),
         MiscUtils.GetParsedRoleBucket("CrewSupport"),
 
+        MiscUtils.GetParsedRoleBucket("CommonCrew"),
+        MiscUtils.GetParsedRoleBucket("SpecialCrew"),
+        MiscUtils.GetParsedRoleBucket("RandomCrew"),
+
         MiscUtils.GetParsedRoleBucket("NeutralBenign"),
         MiscUtils.GetParsedRoleBucket("NeutralEvil"),
         MiscUtils.GetParsedRoleBucket("NeutralKilling"),
         MiscUtils.GetParsedRoleBucket("NeutralOutlier"),
 
-        MiscUtils.GetParsedRoleBucket("ImpConcealing"),
-        MiscUtils.GetParsedRoleBucket("ImpKilling"),
-        MiscUtils.GetParsedRoleBucket("ImpPower"),
-        MiscUtils.GetParsedRoleBucket("ImpSupport"),
-
-        MiscUtils.GetParsedRoleBucket("CommonCrew"),
-        MiscUtils.GetParsedRoleBucket("SpecialCrew"),
-        MiscUtils.GetParsedRoleBucket("RandomCrew"),
-
         MiscUtils.GetParsedRoleBucket("CommonNeutral"),
         MiscUtils.GetParsedRoleBucket("SpecialNeutral"),
         MiscUtils.GetParsedRoleBucket("WildcardNeutral"),
         MiscUtils.GetParsedRoleBucket("RandomNeutral"),
+
+        MiscUtils.GetParsedRoleBucket("ImpConcealing"),
+        MiscUtils.GetParsedRoleBucket("ImpKilling"),
+        MiscUtils.GetParsedRoleBucket("ImpPower"),
+        MiscUtils.GetParsedRoleBucket("ImpSupport"),
 
         MiscUtils.GetParsedRoleBucket("CommonImp"),
         MiscUtils.GetParsedRoleBucket("SpecialImp"),
@@ -53,7 +50,7 @@ public sealed class RoleOptions : AbstractOptionGroup
 
     public RoleDistribution CurrentRoleDistribution()
     {
-        var gameMode = CustomGameMode.Value;
+        var gameMode = CustomGameModeManager.ActiveMode;
         var roleDist = (RoleSelectionMode)RoleAssignmentType.Value;
         if (/*gameMode is TouGamemode.HideAndSeek && */GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek or GameModes.SeekFools)
         {
@@ -68,107 +65,17 @@ public sealed class RoleOptions : AbstractOptionGroup
                 return RoleDistribution.KillFrenzy;
         }
 
-        switch (roleDist)
+        return roleDist switch
         {
-            case RoleSelectionMode.MinMaxList:
-                return RoleDistribution.MinMaxList;
-            case RoleSelectionMode.RoleList:
-                return RoleDistribution.RoleList;
-        }
-
-        return RoleDistribution.Vanilla;
-    }
-
-    public bool IsClassicRoleAssignment
-    {
-        get
-        {
-            var gameMode = CustomGameMode.Value;
-            return !(GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
-                or GameModes.SeekFools || gameMode is TouGamemode.Cultist || gameMode is TouGamemode.KillFrenzy);
-        }
-    }
-    public ModdedEnumOption<TouGamemode> CustomGameMode { get; } =
-        new("Current Game Mode", TouGamemode.Normal, ["Normal", "Hide And Seek (N/A)", "Cultist (N/A)", "Kill Frenzy"/*, "All Killers (N/A)", "Legacy TOU (N/A)"*/], false)
-        {
-            // Who could've possibly thought this code breaks the game?
-            /*ChangedEvent = x =>
-            {
-                var newGm = x;
-                var manager = GameOptionsManager.Instance;
-                if (manager != null)
-                {
-                    var oldGameMan = GameManager.Instance;
-                    if (newGm is TouGamemode.HideAndSeek && manager.currentGameMode is not GameModes.HideNSeek &&
-                        manager.currentGameMode is not GameModes.SeekFools)
-                    {
-                        GameOptionsManager.Instance.SwitchGameMode(GameModes.HideNSeek);
-                        var newGameMan =
-                            UnityEngine.Object.Instantiate<HideAndSeekManager>(GameManagerCreator.Instance
-                                .HideAndSeekManagerPrefab);
-                        UnityEngine.Object.DontDestroyOnLoad(newGameMan.gameObject);
-                        GameManager.Instance = newGameMan;
-                        oldGameMan.LogicComponents.Clear();
-                        oldGameMan.gameObject.Destroy();
-                        newGameMan.InitComponents();
-                        newGameMan.AllGameSettingData =
-                            new Il2CppSystem.Collections.Generic.Dictionary<StringNames, BaseGameSetting>();
-                        foreach (RulesCategory rulesCategory in newGameMan.gameSettingsList.AllCategories)
-                        {
-                            foreach (BaseGameSetting baseGameSetting in rulesCategory.AllGameSettings)
-                            {
-                                if (!newGameMan.AllGameSettingData.ContainsKey(baseGameSetting.Title))
-                                {
-                                    newGameMan.AllGameSettingData.Add(baseGameSetting.Title, baseGameSetting);
-                                }
-                            }
-                        }
-                    }
-                    else if (newGm is not TouGamemode.HideAndSeek && (manager.currentGameMode is GameModes.HideNSeek ||
-                                                                      manager.currentGameMode is GameModes.SeekFools))
-                    {
-                        GameOptionsManager.Instance.SwitchGameMode(GameModes.Normal);
-                        var newGameMan =
-                            UnityEngine.Object.Instantiate<NormalGameManager>(GameManagerCreator.Instance
-                                .NormalGameManagerPrefab);
-                        UnityEngine.Object.DontDestroyOnLoad(newGameMan.gameObject);
-                        GameManager.Instance = newGameMan;
-                        oldGameMan.LogicComponents.Clear();
-                        oldGameMan.gameObject.Destroy();
-                        newGameMan.InitComponents();
-                        newGameMan.AllGameSettingData =
-                            new Il2CppSystem.Collections.Generic.Dictionary<StringNames, BaseGameSetting>();
-                        foreach (RulesCategory rulesCategory in newGameMan.gameSettingsList.AllCategories)
-                        {
-                            foreach (BaseGameSetting baseGameSetting in rulesCategory.AllGameSettings)
-                            {
-                                if (!newGameMan.AllGameSettingData.ContainsKey(baseGameSetting.Title))
-                                {
-                                    newGameMan.AllGameSettingData.Add(baseGameSetting.Title, baseGameSetting);
-                                }
-                            }
-                        }
-
-                        foreach (RoleBehaviour roleBehaviour in RoleManager.Instance.AllRoles)
-                        {
-                            foreach (BaseGameSetting baseGameSetting2 in roleBehaviour.AllGameSettings)
-                            {
-                                if (!newGameMan.AllGameSettingData.ContainsKey(baseGameSetting2.Title))
-                                {
-                                    newGameMan.AllGameSettingData.Add(baseGameSetting2.Title, baseGameSetting2);
-                                }
-                            }
-                        }
-                    }
-
-                }
-
-                Debug($"New gamemode is {newGm.ToString().ToLowerInvariant()}!");
-            },*/
-            Visible = () => true
+            RoleSelectionMode.MinMaxList => RoleDistribution.MinMaxList,
+            RoleSelectionMode.RoleList => RoleDistribution.RoleList,
+            RoleSelectionMode.Draft => RoleDistribution.Draft,
+            _ => RoleDistribution.Vanilla,
         };
+    }
+
     public ModdedEnumOption RoleAssignmentType { get; } =
-        new("Role Assignment Type", (int)RoleSelectionMode.RoleList, typeof(RoleSelectionMode), ["Vanilla", "Role List", "Min/Max List"])
+        new("Role Assignment Type", (int)RoleSelectionMode.RoleList, typeof(RoleSelectionMode), ["Vanilla", "Role List", "Min/Max List", "Draft"])
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment
         };
@@ -176,13 +83,13 @@ public sealed class RoleOptions : AbstractOptionGroup
     public ModdedToggleOption LastImpostorBias { get; } =
         new("Reduce Impostor Streak", true)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla and not RoleDistribution.Draft
         };
 
     public ModdedNumberOption ImpostorBiasPercent { get; } =
         new("Reduction Chance", 15f, 0f, 100f, 5f, MiraNumberSuffixes.Percent)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.LastImpostorBias && OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.LastImpostorBias && OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla and not RoleDistribution.Draft
         };
 
     public bool RoleListEnabled => RoleAssignmentType.Value is (int)RoleSelectionMode.RoleList;
@@ -335,6 +242,51 @@ public sealed class RoleOptions : AbstractOptionGroup
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
         };
+
+    private static bool IsDraft =>
+        OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.Draft;
+
+    public ModdedEnumOption<DraftRecapMode> DraftRecap { get; } =
+        new("Draft Recap Displays", DraftRecapMode.Faction)
+        {
+            Visible = () => IsDraft
+        };
+
+    public ModdedEnumOption<DraftRecapMode> DraftSidebarDisplay { get; } =
+        new("Draft Sidebar Displays", DraftRecapMode.Faction)
+        {
+            Visible = () => IsDraft
+        };
+
+    public ModdedToggleOption UseRoleListForPool { get; set; } = new("Use Role List For Pool", false)
+    {
+        Visible = () => IsDraft
+    };
+
+    public ModdedNumberOption OfferedRolesCount { get; set; } = new("Offered Role Picks Per Turn", 3f, 1f, 9f, 1f, MiraNumberSuffixes.None, "0")
+    {
+        Visible = () => IsDraft
+    };
+
+    public ModdedToggleOption ShowRandomOption { get; set; } = new("Show Random Role Pick", true)
+    {
+        Visible = () => IsDraft
+    };
+
+    public ModdedNumberOption TurnDurationSeconds { get; set; } = new("Turn Duration", 10f, 5f, 60f, 1f, MiraNumberSuffixes.Seconds, "0")
+    {
+        Visible = () => IsDraft
+    };
+
+    public ModdedNumberOption ConcurrentPicks { get; set; } = new("Concurrent Picks Per Turn", 1f, 1f, 2f, 1f, MiraNumberSuffixes.None, "0")
+    {
+        Visible = () => IsDraft
+    };
+
+    public ModdedNumberOption ShufflesPerPlayer { get; set; } = new("Shuffles Per Player", 1f, 0f, 3f, 1f, MiraNumberSuffixes.None, "0")
+    {
+        Visible = () => IsDraft
+    };
 }
 
 public enum RequiredKiller
@@ -349,6 +301,7 @@ public enum RoleSelectionMode
     Vanilla,
     RoleList,
     MinMaxList,
+    Draft,
 }
 
 public enum RoleDistribution
@@ -356,10 +309,19 @@ public enum RoleDistribution
     Vanilla,
     RoleList,
     MinMaxList,
+    Draft,
     HideAndSeek,
     Cultist,
     KillFrenzy,
     // Legacy
+}
+
+public enum DraftRecapMode
+{
+    Nothing,
+    Faction,
+    Alignment,
+    Role,
 }
 
 public enum RoleListOption
@@ -370,21 +332,16 @@ public enum RoleListOption
     CrewPower,
     CrewSupport,
 
-    NeutBenign,
-    NeutEvil,
-    NeutKilling,
-    NeutOutlier,
-
-    ImpConceal,
-    ImpKilling,
-    ImpPower,
-    ImpSupport,
-
     CrewCommon, // Investigative / Protective / Support
     CrewSpecial, // Killing / Power
     // CrewUtility, // Investigative / Support
     // CrewBasic, // Vanilla Crewmate
     CrewRandom, // Any Crewmate role
+
+    NeutBenign,
+    NeutEvil,
+    NeutKilling,
+    NeutOutlier,
 
     NeutCommon, // Benign / Evil
     NeutSpecial, // Killing / Outlier
@@ -392,6 +349,11 @@ public enum RoleListOption
     // NeutChaos, // Evil / Outlier
     // NeutPassive, // Benign / Outlier, this name sucks btw - Atony
     NeutRandom, // Any Neutral role
+
+    ImpConceal,
+    ImpKilling,
+    ImpPower,
+    ImpSupport,
 
     ImpCommon, // Concealing / Support
     ImpSpecial, // Killing / Power

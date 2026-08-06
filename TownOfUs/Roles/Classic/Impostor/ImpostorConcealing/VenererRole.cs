@@ -5,7 +5,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -32,6 +31,8 @@ public sealed class VenererRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Venerer.LoadAsset(), "TouMira.Role.Impostor.Venerer", 1.45f),
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Venerer
     };
 
@@ -42,8 +43,8 @@ public sealed class VenererRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Camouflage", "Camouflage"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CamouflageWikiDescription"),
                     TouImpAssets.CamouflageSprite),
@@ -53,7 +54,7 @@ public sealed class VenererRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Freeze", "Freeze"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}FreezeWikiDescription"),
                     TouImpAssets.FreezeSprite)
-            };
+            ];
         }
     }
 

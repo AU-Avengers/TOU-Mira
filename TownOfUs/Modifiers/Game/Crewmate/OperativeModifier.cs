@@ -2,18 +2,20 @@
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Buttons.Modifiers;
 using TownOfUs.Interfaces;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class OperativeModifier : TouGameModifier, IWikiDiscoverable, IButtonModifier
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Operative,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Operative.LoadAsset(),
+            "TouMira.Modifier.Crewmate.Operative", 1.45f));
     public override string LocaleKey => "Operative";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");

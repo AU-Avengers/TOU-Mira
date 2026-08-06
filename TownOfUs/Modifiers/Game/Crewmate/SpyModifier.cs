@@ -3,19 +3,21 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Buttons.Modifiers;
 using TownOfUs.Interfaces;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class SpyModifier : TouGameModifier, IWikiDiscoverable, IColoredModifier, IButtonModifier
 {
+    public override ModifierUiConfiguration Configuration => new(
+        new(0.8f, 0.64f, 0.8f, 1f),
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spy.LoadAsset(),
+            "TouMira.Role.Crewmate.Spy", 1.45f));
     public Color ModifierColor => new(0.8f, 0.64f, 0.8f, 1f);
     public override string LocaleKey => "Spy";
     public override string ModifierName => TouLocale.Get($"TouRole{LocaleKey}");

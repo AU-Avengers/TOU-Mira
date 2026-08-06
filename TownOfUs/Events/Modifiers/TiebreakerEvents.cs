@@ -30,7 +30,7 @@ public static class TiebreakerEvents
         }
 
         var tieBreakers = ModifierUtils.GetPlayersWithModifier<TiebreakerModifier>();
-        if (!tieBreakers.Any())
+        if (!tieBreakers.HasAny())
         {
             return; // Skip everything if not a single person is tiebreaker
         }

@@ -12,7 +12,6 @@ using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -43,14 +42,14 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Stalk", "Stalk"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}StalkWikiDescription")
                         .Replace("<hunterMaxStalkUsages>",
                             $"{(int)OptionGroupSingleton<HunterOptions>.Instance.StalkUses}"),
                     TouCrewAssets.StalkButtonSprite)
-            };
+            ];
         }
     }
 
@@ -63,6 +62,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Hunter.LoadAsset(), "TouMira.Role.Crewmate.Hunter", 1.45f),
         Icon = TouRoleIcons.Hunter,
         OptionsScreenshot = TouBanners.HunterRoleBanner,
         IntroSound = TouAudio.OtherIntroSound
@@ -94,8 +94,13 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     }
 
     [MethodRpc((uint)TownOfUsRpc.CatchPlayer)]
-    public static void RpcCatchPlayer(PlayerControl hunter, PlayerControl source, bool playerInteraction)
+    public static void RpcCatchPlayer(PlayerControl source, PlayerControl hunter, bool playerInteraction)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
         if (hunter.Data.Role is not HunterRole role)
         {
             Error("RpcCatchPlayer - Invalid hunter");

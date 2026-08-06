@@ -14,7 +14,6 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -27,14 +26,12 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public static bool IsReviveInProgress { get; private set; }
     public static string ReviveString()
     {
-        switch ((ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value)
+        return (ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value switch
         {
-            case ReviveType.Sacrifice:
-                return "Sacrifice";
-            case ReviveType.GroupSacrifice:
-                return "GroupSacrifice";
-        }
-        return string.Empty;
+            ReviveType.Sacrifice => "Sacrifice",
+            ReviveType.GroupSacrifice => "GroupSacrifice",
+            _ => string.Empty,
+        };
     }
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
@@ -52,12 +49,12 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Revive", "Revive"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}Revive{ReviveString()}WikiDescription"),
                     TouCrewAssets.ReviveSprite)
-            };
+            ];
         }
     }
 
@@ -67,7 +64,9 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Altruist.LoadAsset(), "TouMira.Role.Crewmate.Altruist", 1.45f),
         IntroSound = TouAudio.AltruistReviveSound,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Altruist
     };
 
@@ -209,7 +208,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                     Player.RemoveModifier<AltruistArrowModifier>();
                 }
 
-                if (!dead.HasModifier<AltruistArrowModifier>() && dead != PlayerControl.LocalPlayer)
+                if (!dead.HasModifier<AltruistArrowModifier>() && !dead.AmOwner)
                 {
                     dead.AddModifier<AltruistArrowModifier>(PlayerControl.LocalPlayer, Color.white);
                 }
@@ -227,6 +226,11 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     [MethodRpc((uint)TownOfUsRpc.AltruistRevive)]
     public static void RpcRevive(PlayerControl alt, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(alt);
+            return;
+        }
         if (alt.GetRoleWhenAlive() is not AltruistRole role)
         {
             Error("RpcRevive - Invalid altruist");

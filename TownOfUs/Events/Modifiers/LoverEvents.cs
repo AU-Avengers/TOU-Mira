@@ -4,13 +4,12 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Networking;
 using TownOfUs.Options.Modifiers.Alliance;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Modifiers;
@@ -20,7 +19,7 @@ public static class LoverEvents
     [RegisterEvent(400)]
     public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
     {
-        if (@event.Player == null)
+        if (!@event.Player)
         {
             return;
         }
@@ -41,22 +40,20 @@ public static class LoverEvents
                 loveMod.OtherLover.Exiled();
                 break;
             case DeathReason.Kill:
-                var showAnim = MeetingHud.Instance == null && ExileController.Instance == null;
-                var murderResultFlags2 = MurderResultFlags.DecisionByHost | MurderResultFlags.Succeeded;
-
-                DeathHandlerModifier.UpdateDeathHandlerImmediate(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
-                    DeathEventHandlers.CurrentRound,
-                    (!MeetingHud.Instance && !ExileController.Instance)
-                        ? DeathHandlerOverride.SetTrue
-                        : DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
-                loveMod.OtherLover.CustomMurder(
-                    loveMod.OtherLover,
-                    murderResultFlags2,
-                    false,
-                    showAnim,
-                    false,
-                    showAnim,
-                    false);
+                if (PlayerControl.LocalPlayer.IsHost())
+                {
+                    if (MeetingHud.Instance)
+                    {
+                        loveMod.OtherLover.RpcMeetingMurder(loveMod.OtherLover, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
+                            causeOfDeath: "Heartbreak");
+                    }
+                    else
+                    {
+                        loveMod.OtherLover.RpcSpecialMurder(
+                            loveMod.OtherLover,
+                            causeOfDeath: "Heartbreak");
+                    }
+                }
                 break;
         }
     }

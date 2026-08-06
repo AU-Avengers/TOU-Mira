@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using TownOfUs.Options;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Roles;
 
@@ -14,13 +14,37 @@ public interface ITownOfUsRole : ICustomRole
     bool HasImpostorVision => false;
     public virtual bool MetWinCon => false;
     public virtual string LocaleKey => "KEY_MISS";
+    public virtual string ShortName => "";
+    public bool IsDraftable => true; 
     public static Dictionary<string, string> LocaleList => [];
+
+    [HideFromIl2Cpp]
+    public virtual bool CanModifierContinueGame(BaseModifier modifier)
+    {
+        return false;
+    }
 
     [HideFromIl2Cpp]
     Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     string? ICustomRole.GetCustomEjectionMessage(NetworkedPlayerInfo player)
     {
-        return TouLocale.GetParsed("ExileTextConfirm").Replace("<player>", player.PlayerName).Replace("<role>", RoleName);
+        var prefix = "A";
+        if (RoleName.StartsWithVowel())
+        {
+            prefix = "An";
+        }
+
+        if (Configuration.MaxRoleCount is 0 or 1)
+        {
+            prefix = "The";
+        }
+
+        if (RoleName.StartsWith("the", StringComparison.OrdinalIgnoreCase) ||
+            LocaleKey.StartsWith("the", StringComparison.OrdinalIgnoreCase))
+        {
+            prefix = "";
+        }
+        return TouLocale.GetParsed($"ExileTextConfirm{prefix}").Replace("<player>", player.PlayerName).Replace("<role>", RoleName);
     }
 
     public virtual string YouAreText
@@ -162,6 +186,21 @@ public interface ITownOfUsRole : ICustomRole
                 return TouRoleGroups.NeutralObstinate;
             }
 
+            if (RoleAlignment == RoleAlignment.CrewmateAfterlife)
+            {
+                return TouRoleGroups.CrewAfterlife;
+            }
+
+            if (RoleAlignment == RoleAlignment.NeutralAfterlife)
+            {
+                return TouRoleGroups.NeutralAfterlife;
+            }
+
+            if (RoleAlignment == RoleAlignment.ImpostorAfterlife)
+            {
+                return TouRoleGroups.ImpAfterlife;
+            }
+
             if (RoleAlignment == RoleAlignment.CrewmateGhost)
             {
                 return TouRoleGroups.CrewGhost;
@@ -252,6 +291,9 @@ public enum RoleAlignment
     CrewmateGhost,
     ImpostorGhost,
     NeutralGhost,
+    CrewmateAfterlife,
+    ImpostorAfterlife,
+    NeutralAfterlife,
     // Hide and Seek Alignments
     CrewmateHider,
     ImpostorSeeker,

@@ -1,12 +1,9 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -75,8 +72,8 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
         playerMenu.Begin(
             plr => (!plr.HasDied() ||
                     Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == plr.PlayerId) ||
-                    FakePlayer.FakePlayers.FirstOrDefault(x => x?.body?.name == $"Fake {plr.gameObject.name}")
-                        ?.body) && plr != PlayerControl.LocalPlayer,
+                    MiscUtils.GetFakePlayer(plr)
+                        ?.body) && !plr.AmOwner,
             plr =>
             {
                 playerMenu.ForceClose();
@@ -135,7 +132,7 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
                 text = text.Replace("<player>", Role.Protected.Data.PlayerName);
             }
 
-            if (text != string.Empty && MeetingHud.Instance == null)
+            if (text != string.Empty && !MeetingHud.Instance)
             {
                 var notif1 = Helpers.CreateAndShowNotification(text,
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Mirrorcaster.LoadAsset());

@@ -1,8 +1,8 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers.Types;
+using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Options.Modifiers.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Impostor;
@@ -34,7 +34,7 @@ public sealed class TelepathDeathNotifierModifier(PlayerControl telepath) : Time
     {
         if (!_arrow.IsDestroyedOrNull())
         {
-            _arrow?.gameObject.Destroy();
+            _arrow?.gameObject.DeepDestroy();
             _arrow?.Destroy();
         }
     }

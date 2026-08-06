@@ -3,15 +3,14 @@ using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modules.Components;
 using TownOfUs.Modules.TimeLord;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Modifiers;
@@ -65,6 +64,7 @@ public sealed class TestCleanButton : TownOfUsTargetButton<DeadBody>
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.JanitorClean, PlayerControl.LocalPlayer, body);
         MiraEventManager.InvokeEvent(touAbilityEvent);
+        var destroyBody = (BodyVitalsMode)OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance.Value;
 
         if (OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind)
         {
@@ -74,18 +74,18 @@ public sealed class TestCleanButton : TownOfUsTargetButton<DeadBody>
                 TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(PlayerControl.LocalPlayer, body, body.transform.position, 
                     TimeLordBodyManager.CleanedBodySource.Janitor);
             }
-            Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body));
+            Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));
         }
         else
         {
-            Coroutines.Start(body.CoClean());
+            Coroutines.Start(body.CoCleanCustom(destroyBody));
         }
         Coroutines.Start(CrimeSceneComponent.CoClean(body));
     }
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null &&
+        return PlayerControl.LocalPlayer &&
                PlayerControl.LocalPlayer.HasModifier<TestCleanModifier>() &&
                !PlayerControl.LocalPlayer.Data.IsDead;
     }

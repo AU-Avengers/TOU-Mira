@@ -7,8 +7,8 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -56,8 +56,8 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Barrier", "Barrier"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}BarrierWikiDescription").Replace("<BarrierCooldown>",
                         $"{OptionGroupSingleton<ClericOptions>.Instance.BarrierCooldown}"),
@@ -65,7 +65,7 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Cleanse", "Cleanse"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CleanseWikiDescription"),
                     TouCrewAssets.CleanseSprite)
-            };
+            ];
         }
     }
 
@@ -75,25 +75,31 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IntroSound = TouAudio.ScientistIntroSound,
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Cleric.LoadAsset(), "TouMira.Role.Crewmate.Cleric", 1.45f),
+        IntroSound = TouAudio.PotionIntro,
         OptionsScreenshot = TouBanners.ClericRoleBanner,
         Icon = TouRoleIcons.Cleric
     };
 
     [MethodRpc((uint)TownOfUsRpc.ClericBarrierAttacked)]
-    public static void RpcClericBarrierAttacked(PlayerControl cleric, PlayerControl source, PlayerControl shielded)
+    public static void RpcClericBarrierAttacked(PlayerControl source, PlayerControl cleric, PlayerControl shielded)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
         if (cleric.Data.Role is not ClericRole)
         {
             Error("RpcClericBarrierAttacked - Invalid cleric");
             return;
         }
 
-        if (PlayerControl.LocalPlayer.PlayerId == source.PlayerId ||
-            (PlayerControl.LocalPlayer.PlayerId == cleric.PlayerId &&
+        if (source.AmOwner ||
+            (cleric.AmOwner &&
              OptionGroupSingleton<ClericOptions>.Instance.AttackNotif))
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Cleric));
+            Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !cleric.AmOwner ? TownOfUsColors.NeutralWiki : TownOfUsColors.Cleric));
         }
     }
 }

@@ -2,13 +2,10 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.PluginLoading;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
-using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches.PrefabChanging;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -26,7 +23,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
     public override ButtonLocation Location => ButtonLocation.BottomRight;
     public override Color TextOutlineColor => TownOfUsColors.Sentry;
     public override float Cooldown => 0.001f;
-    public override LoadableAsset<Sprite> Sprite => TouAssets.CameraSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.SecuritySprite : TouAssets.CameraSprite;
 
     protected static bool AllCamerasPlaced()
     {
@@ -63,7 +60,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        if (role is not SentryRole sentryRole || PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data.IsDead)
+        if (role is not SentryRole sentryRole || !PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data.IsDead)
         {
             return false;
         }
@@ -90,8 +87,8 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
     public override void ClickHandler()
     {
-        if (!CanClick() || PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() ||
-            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities) || !MiscUtils.CanUseUtility(GameUtility.Cams, true))
+        if (!CanClick() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities) ||
+            !MiscUtils.CanUseUtility(GameUtility.Cams, true))
         {
             return;
         }
@@ -104,13 +101,10 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             if (TextOutlineColor != Color.clear)
             {
                 SetTextOutline(TextOutlineColor);
-                if (Button != null)
-                {
-                    Button.usesRemainingSprite.color = TextOutlineColor;
-                }
+                Button?.usesRemainingSprite.color = TextOutlineColor;
             }
 
-            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
+            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance
                 .UseCrewmateTeamColorToggle.Value;
         }
 
@@ -135,10 +129,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
         Button!.transform.localPosition =
             new Vector3(Button.transform.localPosition.x, Button.transform.localPosition.y + 1.1f, -150f);
-        if (KeybindIcon != null)
-        {
-            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
-        }
+        KeybindIcon?.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
     }
 
     private static void EnsureBatteryInitialized()
@@ -161,7 +152,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
             _securityMinigame = null;
 
-            if (_reportedInUse && PlayerControl.LocalPlayer != null)
+            if (_reportedInUse && PlayerControl.LocalPlayer)
             {
                 _reportedInUse = false;
                 SentryRole.RpcSentryPortableCamsInUse(PlayerControl.LocalPlayer, false);
@@ -202,7 +193,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
     private void RefreshAbilityButton()
     {
-        if (_availableCharge > 0f && PlayerControl.LocalPlayer != null && !PlayerControl.LocalPlayer.AreCommsAffected())
+        if (_availableCharge > 0f && PlayerControl.LocalPlayer && !PlayerControl.LocalPlayer.AreCommsAffected())
         {
             Button?.SetEnabled();
             return;
@@ -218,14 +209,14 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
         if (_securityMinigame != null)
         {
             var closed =
-                Minigame.Instance == null ||
+                !Minigame.Instance ||
                 Minigame.Instance != _securityMinigame ||
                 _securityMinigame.gameObject == null ||
                 !_securityMinigame.gameObject.activeInHierarchy;
 
             if (closed)
             {
-                if (_reportedInUse && PlayerControl.LocalPlayer != null)
+                if (_reportedInUse && PlayerControl.LocalPlayer)
                 {
                     _reportedInUse = false;
                     SentryRole.RpcSentryPortableCamsInUse(PlayerControl.LocalPlayer, false);
@@ -239,7 +230,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
         {
             _securityMinigame.Close();
             _securityMinigame = null;
-            if (_reportedInUse && PlayerControl.LocalPlayer != null)
+            if (_reportedInUse && PlayerControl.LocalPlayer)
             {
                 _reportedInUse = false;
                 SentryRole.RpcSentryPortableCamsInUse(PlayerControl.LocalPlayer, false);
@@ -255,7 +246,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
                 _availableCharge = 0f;
                 _securityMinigame.Close();
                 _securityMinigame = null;
-                if (_reportedInUse && PlayerControl.LocalPlayer != null)
+                if (_reportedInUse && PlayerControl.LocalPlayer)
                 {
                     _reportedInUse = false;
                     SentryRole.RpcSentryPortableCamsInUse(PlayerControl.LocalPlayer, false);
@@ -271,18 +262,17 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             return false;
         }
 
-        if (Minigame.Instance != null)
+        if (Minigame.Instance)
         {
             return false;
         }
 
-        if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.AreCommsAffected())
+        if (!PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.AreCommsAffected())
         {
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
-                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -314,7 +304,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             return false;
         }
 
-        var allCams = ShipStatus.Instance != null ? ShipStatus.Instance.AllCameras : null;
+        var allCams = ShipStatus.Instance ? ShipStatus.Instance.AllCameras : null;
         if (allCams == null || allCams.Length == 0)
         {
             return false;
@@ -339,31 +329,13 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
         
         var mapWithoutCameras = SentryCameraUtilities.IsMapWithoutCameras(mapId);
         SystemConsole? basicCams = null;
-        
+
         if (!mapWithoutCameras)
         {
-            var allConsoles = Object.FindObjectsOfType<SystemConsole>();
-            
-            if (mapId is ExpandedMapNames.Airship)
-            {
-                basicCams = allConsoles.FirstOrDefault(x => x != null && x.gameObject != null && x.gameObject.name.Contains("task_cams"));
-            }
-            else if (mapId is ExpandedMapNames.Skeld or ExpandedMapNames.Dleks)
-            {
-                basicCams = allConsoles.FirstOrDefault(x => x != null && x.gameObject != null && x.gameObject.name.Contains("SurvConsole"));
-            }
-            else if (mapId is ExpandedMapNames.Submerged)
-            {
-                basicCams = allConsoles.FirstOrDefault(x => x != null && x.gameObject != null && x.gameObject.name.Contains("SecurityConsole"));
-            }
-            else
-            {
-                basicCams = allConsoles.FirstOrDefault(x => x != null && x.gameObject != null &&
-                    (x.gameObject.name.Contains("Surv_Panel") || x.gameObject.name.Contains("Cam") ||
-                     x.gameObject.name.Contains("BinocularsSecurityConsole")));
-            }
+            basicCams = Object.FindObjectsOfType<SystemConsole>().FirstOrDefault(x =>
+                x.MinigamePrefab.TryCast<SurveillanceMinigame>() || x.MinigamePrefab.TryCast<PlanetSurveillanceMinigame>() ||
+                x.MinigamePrefab.TryCast<FungleSurveillanceMinigame>() || x.UseIcon is ImageNames.CamsButton);
         }
-
         if (basicCams == null)
         {
             try
@@ -393,12 +365,31 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
         try
         {
-            _securityMinigame.Begin(null);
+            var fungleGame = _securityMinigame.TryCast<FungleSurveillanceMinigame>();
+            var planetGame = _securityMinigame.TryCast<PlanetSurveillanceMinigame>();
+            var camsGame = _securityMinigame.TryCast<SurveillanceMinigame>();
+            // NOTE: The reason for checking the minigame itself is that Android shits the bed and refuses to show a camera feed. According to xtra, these are I2LCPP shenanigans.
+            if (fungleGame != null)
+            {
+                fungleGame.Begin(null);
+            }
+            else if (planetGame != null)
+            {
+                planetGame.Begin(null);
+            }
+            else if (camsGame != null)
+            {
+                camsGame.Begin(null);
+            }
+            else
+            {
+                _securityMinigame.Begin(null);
+            }
 
             SentryCameraMinigameUtilities.SwapAllCamerasForNonSentry(_securityMinigame);
             SentryCameraMinigameUtilities.AddSentryCameras(_securityMinigame);
             
-            if (!_reportedInUse && PlayerControl.LocalPlayer != null)
+            if (!_reportedInUse && PlayerControl.LocalPlayer)
             {
                 _reportedInUse = true;
                 SentryRole.RpcSentryPortableCamsInUse(PlayerControl.LocalPlayer, true);
@@ -415,14 +406,10 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
     public override void OnEffectEnd()
     {
         base.OnEffectEnd();
+        _securityMinigame?.Close();
+        _securityMinigame = null;
 
-        if (_securityMinigame != null)
-        {
-            _securityMinigame.Close();
-            _securityMinigame = null;
-        }
-
-        if (_reportedInUse && PlayerControl.LocalPlayer != null)
+        if (_reportedInUse && PlayerControl.LocalPlayer)
         {
             _reportedInUse = false;
             SentryRole.RpcSentryPortableCamsInUse(PlayerControl.LocalPlayer, false);

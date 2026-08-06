@@ -14,7 +14,6 @@ using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Random = System.Random;
 
@@ -25,7 +24,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
-        if (playerControl != PlayerControl.LocalPlayer)
+        if (!playerControl.AmOwner)
         {
             return;
         }
@@ -36,7 +35,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not PlaguebearerRole || Player.HasDied() || !Player.AmOwner)
+        if (!Player || Player.Data.Role is not PlaguebearerRole || Player.HasDied() || !Player.AmOwner)
         {
             return;
         }
@@ -73,12 +72,12 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Infect", "Infect"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}InfectWikiDescription"),
                     TouNeutAssets.InfectSprite)
-            };
+            ];
         }
     }
 
@@ -88,8 +87,10 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Plaguebearer.LoadAsset(), "TouMira.Role.Neutral.Plaguebearer", 1.45f),
         IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.Plaguebearer,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         MaxRoleCount = 1,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
@@ -103,7 +104,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
             !x.HasDied() && x != Player &&
             x.GetModifier<PlaguebearerInfectedModifier>()?.PlagueBearerId == Player.PlayerId);
 
-        if (allInfected.Any())
+        if (allInfected.HasAny())
         {
             stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRolePlaguebearerTabInfectedInfo")}</b>");
             foreach (var plr in allInfected)
@@ -200,6 +201,11 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.CheckInfected)]
     public static void RpcCheckInfected(PlayerControl source, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
         CheckInfected(source, target);
     }
 }

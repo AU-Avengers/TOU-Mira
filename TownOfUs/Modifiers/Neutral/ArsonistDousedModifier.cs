@@ -1,8 +1,9 @@
 using MiraAPI.Events;
 using MiraAPI.Modifiers;
+using Reactor.Utilities;
+using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Neutral;
@@ -18,6 +19,7 @@ public sealed class ArsonistDousedModifier(byte arsonistId) : BaseModifier
         var arso = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == ArsonistId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.ArsonistDouse, arso!, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
+        Coroutines.Start(ArsonistDouseButton.CoSetDouses());
     }
 
     public override void OnDeath(DeathReason reason)

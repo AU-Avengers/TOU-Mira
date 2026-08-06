@@ -16,6 +16,10 @@ public static class GlitchPatches
     [HarmonyPrefix]
     public static bool GlitchHackedSabotageButtonPatch(ActionButton __instance)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            return true;
+        }
         if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>())
         {
             if (!PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShouldHideHacked)
@@ -33,12 +37,6 @@ public static class GlitchPatches
     [HarmonyPrefix]
     public static bool GlitchHackedToggleMapVisiblePatch(HudManager __instance)
     {
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() &&
-            !PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShouldHideHacked)
-        {
-            return false;
-        }
-
         if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanOpenMap))
         {
             return false;

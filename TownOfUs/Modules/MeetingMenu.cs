@@ -1,9 +1,7 @@
 using HarmonyLib;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
 using TMPro;
-using TownOfUs.Utilities;
 using UnityEngine;
 using UObject = UnityEngine.Object;
 
@@ -144,7 +142,7 @@ public sealed class MeetingMenu : IDisposable
         var collider = targetBox.GetComponent<BoxCollider2D>();
         collider.size = renderer.sprite.bounds.size;
         collider.offset = Vector2.zero;
-        targetBox.transform.GetChild(0).gameObject.Destroy();
+        targetBox.transform.GetChild(0).gameObject.DeepDestroy();
 
         var buttonText = UObject.Instantiate(
             __instance.MeetingAbilityButton.buttonLabelText.gameObject,
@@ -164,6 +162,11 @@ public sealed class MeetingMenu : IDisposable
 
     public void GenButtons(MeetingHud meeting, bool usable)
     {
+        if (meeting == null)
+        {
+            return;
+        }
+
         HideButtons();
 
         // Message($"MeetingMenu.GenButtons '{Owner.Player.Data.PlayerName}' AmOwner: {Owner.Player.AmOwner}");

@@ -1,19 +1,18 @@
 using MiraAPI.Hud;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modules;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class EscapistMarkButton : TownOfUsRoleButton<EscapistRole>, IAftermathableButton
+public sealed class EscapistMarkButton : TownOfUsRoleButton<EscapistRole>, IAftermathableButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleEscapistMark", "Mark");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 0.001f;
     public override float InitialCooldown => 0.001f;
-    public override LoadableAsset<Sprite> Sprite => TouImpAssets.MarkSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyImpAssets.MarkSprite : TouImpAssets.MarkSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
 

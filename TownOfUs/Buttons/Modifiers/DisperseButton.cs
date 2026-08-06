@@ -1,6 +1,5 @@
 ﻿using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Networking;
@@ -8,7 +7,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Modifiers;
 
-public sealed class DisperseButton : TownOfUsButton
+public sealed class DisperseButton : TownOfUsButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouModifierDisperserDisperse", "Disperse");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
@@ -16,11 +15,11 @@ public sealed class DisperseButton : TownOfUsButton
     public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);
     public override int MaxUses => 1;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
-    public override LoadableAsset<Sprite> Sprite => TouAssets.DisperseSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyAssets.DisperseSprite : TouAssets.DisperseSprite;
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null &&
+        return PlayerControl.LocalPlayer &&
                PlayerControl.LocalPlayer.HasModifier<DisperserModifier>() &&
                !PlayerControl.LocalPlayer.Data.IsDead;
     }
@@ -29,7 +28,7 @@ public sealed class DisperseButton : TownOfUsButton
     {
         base.CreateButton(parent);
 
-        Button!.usesRemainingSprite.sprite = TouAssets.AbilityCounterVentSprite.LoadAsset();
+        Button!.usesRemainingSprite.sprite = LegacyAssets.IsLegacy ? TouAssets.BlankSprite.LoadAsset() : TouAssets.AbilityCounterVentSprite.LoadAsset();
     }
 
     protected override void OnClick()

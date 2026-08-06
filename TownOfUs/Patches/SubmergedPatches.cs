@@ -5,6 +5,7 @@ using TownOfUs.Roles;
 using System.Reflection;
 using Il2CppInterop.Runtime.InteropTypes;
 using MiraAPI.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Patches;
 
@@ -32,21 +33,23 @@ public static class SubmergedStartPatch
     }
 }
 
-[HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
 public static class SubmergedHudPatch
 {
-    public static void Postfix(HudManager __instance)
+    public static GameObject SubmergedFloorButton;
+    public static void UpdateFloorButton(HudManager __instance, IGhostRole ghost)
     {
-        if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null)
+        if (ModCompatibility.IsSubmerged())
         {
-            return;
-        }
+            if (!SubmergedFloorButton)
+            {
+                SubmergedFloorButton = __instance.MapButton.transform.parent.Find(__instance.MapButton.name + "(Clone)")
+                    ?.gameObject ?? null!;
+            }
 
-        if (ModCompatibility.IsSubmerged() && PlayerControl.LocalPlayer.Data.IsDead &&
-            PlayerControl.LocalPlayer.Data.Role is IGhostRole ghost)
-        {
-            __instance.MapButton.transform.parent.Find(__instance.MapButton.name + "(Clone)")?.gameObject
-                ?.SetActive(!ghost.GhostActive);
+            if (SubmergedFloorButton)
+            {
+                SubmergedFloorButton.SetActive(!ghost.GhostActive);
+            }
         }
     }
 }

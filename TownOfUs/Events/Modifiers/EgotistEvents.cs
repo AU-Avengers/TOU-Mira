@@ -8,7 +8,6 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options.Modifiers.Alliance;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Modifiers;

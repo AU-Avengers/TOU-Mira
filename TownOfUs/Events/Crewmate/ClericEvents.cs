@@ -10,20 +10,19 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
 
 public static class ClericEvents
 {
     [RegisterEvent]
-    public static void EjectionEventEventHandler(EjectionEvent @event)
+    public static void EjectionEventEventHandler(EjectionEvent _)
     {
         ModifierUtils.GetPlayersWithModifier<ClericCleanseModifier>()
             .Do(x => x.RemoveModifier<ClericCleanseModifier>());
     }
 
-    [RegisterEvent]
+    [RegisterEvent(-800)]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {
         var button = @event.Button as CustomActionButton<PlayerControl>;
@@ -37,7 +36,7 @@ public static class ClericEvents
         CheckForClericBarrier(@event, target, PlayerControl.LocalPlayer);
     }
 
-    [RegisterEvent]
+    [RegisterEvent(-800)]
     public static void MiraButtonCancelledEventHandler(MiraButtonCancelledEvent @event)
     {
         var source = PlayerControl.LocalPlayer;
@@ -52,7 +51,7 @@ public static class ClericEvents
         ResetButtonTimer(source, button);
     }
 
-    [RegisterEvent]
+    [RegisterEvent(-800)]
     public static void BeforeMurderEventHandler(BeforeMurderEvent @event)
     {
         var source = @event.Source;
@@ -86,7 +85,7 @@ public static class ClericEvents
 
         if (cleric != null && (TutorialManager.InstanceExists || source.AmOwner))
         {
-            ClericRole.RpcClericBarrierAttacked(cleric.Player, source, target);
+            ClericRole.RpcClericBarrierAttacked(source, cleric.Player, target);
         }
 
         return true;
@@ -94,16 +93,14 @@ public static class ClericEvents
 
     private static void ResetButtonTimer(PlayerControl source, CustomActionButton<PlayerControl>? button = null)
     {
-        var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
-
-        button?.SetTimer(reset);
-
-        // Reset impostor kill cooldown if they attack a shielded player
-        if (!source.AmOwner || !source.IsImpostor())
+        if (!source.AmOwner)
         {
             return;
         }
 
+        var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
+
+        button?.SetTimer(reset);
         source.SetKillTimer(reset);
     }
 }

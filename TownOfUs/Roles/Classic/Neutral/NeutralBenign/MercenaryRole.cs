@@ -12,7 +12,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -22,7 +21,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
-        if (playerControl != PlayerControl.LocalPlayer)
+        if (!playerControl.AmOwner)
         {
             return;
         }
@@ -54,15 +53,15 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Guard", "Guard"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}GuardWikiDescription"),
                     TouNeutAssets.GuardSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Bribe", "Bribe"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}BribeWikiDescription"),
                     TouNeutAssets.BribeSprite)
-            };
+            ];
         }
     }
 
@@ -82,8 +81,10 @@ public sealed class MercenaryRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mercenary.LoadAsset(), "TouMira.Role.Neutral.Mercenary", 1.45f),
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Mercenary,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
@@ -108,15 +109,32 @@ public sealed class MercenaryRole(IntPtr cppPtr)
 
         return stringB;
     }
-    
+
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         TouRoleUtils.ClearTaskHeader(Player);
 
-        if (!Player.HasModifier<BasicGhostModifier>() && ModifierUtils.GetActiveModifiers<MercenaryBribedModifier>([HideFromIl2Cpp](x) => x.Mercenary == Player).Any())
+        if (!Player.HasModifier<BasicGhostModifier>() && ModifierUtils
+                .GetActiveModifiers<MercenaryBribedModifier>([HideFromIl2Cpp](x) => x.Mercenary == Player).HasAny())
         {
             Player.AddModifier<BasicGhostModifier>();
+        }
+
+        var guardedMods = ModifierUtils.GetActiveModifiers<MercenaryGuardModifier>().ToList();
+        if (!guardedMods.HasAny())
+        {
+            return;
+        }
+
+        foreach (var guarded in guardedMods)
+        {
+            if (guarded.Mercenary != Player)
+            {
+                continue;
+            }
+
+            guarded.Player.RemoveModifier(guarded);
         }
     }
 
@@ -142,6 +160,11 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.Guarded)]
     public static void RpcGuarded(PlayerControl player, PlayerControl target, bool isMurder = false)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not MercenaryRole mercenary)
         {
             Error("RpcGuarded - Invalid mercenary");

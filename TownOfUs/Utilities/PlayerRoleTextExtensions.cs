@@ -4,6 +4,7 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modifiers.Impostor.Herbalist;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Options;
@@ -22,7 +23,7 @@ public static class PlayerRoleTextExtensions
         gaModifier => gaModifier.OwnerId == PlayerControl.LocalPlayer.PlayerId;
     
     private static Func<MedicShieldModifier, bool> MedicShieldPredicate { get; } =
-        msModifier => msModifier.Medic.AmOwner;
+        msModifier => msModifier.AllMedics.Contains(PlayerControl.LocalPlayer);
 
     private static Func<OracleBlessedModifier, bool> OracleBlessPredicate { get; } =
         msModifier => msModifier.Oracle.AmOwner;
@@ -72,7 +73,15 @@ public static class PlayerRoleTextExtensions
     private static Func<ParasiteInfectedModifier, bool> ParasiteOvertakenPredicate { get; } =
         shModifier => shModifier.Controller.AmOwner;
 
+    private static Func<HerbalistProtectionModifier, bool> HerbalistBarrierPredicate { get; } =
+        cbModifier => cbModifier.Herbalist.AmOwner;
+
     public static Color UpdateTargetColor(this Color color, PlayerControl player, bool hidden = false)
+    {
+        return color.UpdateTargetColor(player, hidden ? DataVisibility.Hidden : DataVisibility.Dependent);
+    }
+
+    public static Color UpdateTargetColor(this Color color, PlayerControl player, DataVisibility visibility)
     {
         if (player.HasModifier<EclipsalBlindModifier>() && PlayerControl.LocalPlayer.IsImpostor())
         {
@@ -114,19 +123,41 @@ public static class PlayerRoleTextExtensions
         return color;
     }
 
+    public static string UpdateAllSymbols(this string name, PlayerControl player, bool hidden = false)
+    {
+        return name.UpdateAllSymbols(player, hidden ? DataVisibility.Hidden : DataVisibility.Dependent);
+    }
+
+    public static string UpdateAllSymbols(this string name, PlayerControl player, DataVisibility visibility)
+    {
+        return name.UpdateTargetSymbols(player, visibility)
+                   .UpdateProtectionSymbols(player, visibility)
+                   .UpdateAllianceSymbols(player, visibility)
+                   .UpdateStatusSymbols(player, visibility);
+    }
+
     public static string UpdateTargetSymbols(this string name, PlayerControl player, bool hidden = false)
     {
+        return name.UpdateTargetSymbols(player, hidden ? DataVisibility.Hidden : DataVisibility.Dependent);
+    }
+
+    public static string UpdateTargetSymbols(this string name, PlayerControl player, DataVisibility visibility)
+    {
+        var hidden = visibility == DataVisibility.Hidden;
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        var isDead = visibility is DataVisibility.Show ||
+                     PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden;
         if ((player.HasModifier(ExecutionerTargetPredicate) &&
              PlayerControl.LocalPlayer.IsRole<ExecutionerRole>())
-            || (player.HasModifier<ExecutionerTargetModifier>() && PlayerControl.LocalPlayer.HasDied() &&
-                genOpt.TheDeadKnow && !hidden))
+            || (player.HasModifier<ExecutionerTargetModifier>() && isDead))
         {
             name += "<color=#643B1F> X</color>";
         }
 
-        if (player.HasModifier<InquisitorHereticModifier>() && PlayerControl.LocalPlayer.HasDied() &&
-            (genOpt.TheDeadKnow || PlayerControl.LocalPlayer.GetRoleWhenAlive() is InquisitorRole) && !hidden)
+        if (player.HasModifier<InquisitorHereticModifier>() && (visibility is DataVisibility.Show ||
+                                                                PlayerControl.LocalPlayer.HasDied() &&
+                                                                (PlayerControl.LocalPlayer.GetRoleWhenAlive() is
+                                                                    InquisitorRole || genOpt.TheDeadKnow) && !hidden))
         {
             name += "<color=#D94291> $</color>";
         }
@@ -147,8 +178,14 @@ public static class PlayerRoleTextExtensions
 
     public static string UpdateProtectionSymbols(this string name, PlayerControl player, bool hidden = false)
     {
+        return name.UpdateProtectionSymbols(player, hidden ? DataVisibility.Hidden : DataVisibility.Dependent);
+    }
+
+    public static string UpdateProtectionSymbols(this string name, PlayerControl player, DataVisibility visibility)
+    {
+        var hidden = visibility == DataVisibility.Hidden;
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-        var isDead = PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden;
+        var isDead = visibility is DataVisibility.Show || PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden;
 
         if (player.Data != null && !player.Data.Disconnected &&
             ((player.HasModifier(GuardianAngelPredicate) &&
@@ -200,6 +237,16 @@ public static class PlayerRoleTextExtensions
             name += "<color=#00FFB3> Ω</color>";
         }
 
+        if ((player.HasModifier(HerbalistBarrierPredicate) &&
+             PlayerControl.LocalPlayer.IsRole<HerbalistRole>())
+            || (player.HasModifier<HerbalistProtectionModifier>() &&
+                (isDead
+                 || (player.AmOwner && player.TryGetModifier<HerbalistProtectionModifier>(out var herbalist) &&
+                     herbalist.VisibleSymbol))))
+        {
+            name += "<color=#00FFB3> Ω</color>";
+        }
+
         if ((player.HasModifier(WardenFortifiedPredicate) &&
              PlayerControl.LocalPlayer.IsRole<WardenRole>())
             || (player.HasModifier<WardenFortifiedModifier>() &&
@@ -215,8 +262,14 @@ public static class PlayerRoleTextExtensions
 
     public static string UpdateAllianceSymbols(this string name, PlayerControl player, bool hidden = false)
     {
+        return name.UpdateAllianceSymbols(player, hidden ? DataVisibility.Hidden : DataVisibility.Dependent);
+    }
+
+    public static string UpdateAllianceSymbols(this string name, PlayerControl player, DataVisibility visibility)
+    {
+        var hidden = visibility == DataVisibility.Hidden;
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-        var isDead = PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden;
+        var isDead = visibility is DataVisibility.Show || PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden;
 
         if (player.HasModifier<LoverModifier>() && (PlayerControl.LocalPlayer.HasModifier<LoverModifier>() || isDead))
         {
@@ -224,15 +277,15 @@ public static class PlayerRoleTextExtensions
         }
 
         if (player.IsCrewmate() && player.TryGetModifier<EgotistModifier>(out var egoMod) && (player.AmOwner ||
-                                                                       (EgotistModifier.EgoVisibilityFlag(player) &&
-                                                                        (player.GetModifiers<BaseRevealModifier>().Any(RevealVisibleRolePredicate))) || isDead))
+                (EgotistModifier.EgoVisibilityFlag(player) &&
+                 (player.GetModifiers<BaseRevealModifier>().Any(RevealVisibleRolePredicate))) || isDead))
         {
-            name += $"<color=#FFFFFF> (<color=#669966>{egoMod.ModifierName}</color>)</color>";
+            name += $"<color=#FFFFFF> (<color=#669966>{egoMod.ShortName}</color>)</color>";
         }
 
         if (player.IsCrewmate() && player.TryGetModifier<CrewpostorModifier>(out var postorMod) && (CrewpostorModifier.CrewpostorVisibilityFlag(player) || isDead))
         {
-            name += $"<color=#FFFFFF> (<color=#D64042>{postorMod.ModifierName}</color>)</color>";
+            name += $"<color=#FFFFFF> (<color=#D64042>{postorMod.ShortName}</color>)</color>";
         }
 
         return name;
@@ -240,9 +293,15 @@ public static class PlayerRoleTextExtensions
 
     public static string UpdateStatusSymbols(this string name, PlayerControl player, bool hidden = false)
     {
+        return name.UpdateStatusSymbols(player, hidden ? DataVisibility.Hidden : DataVisibility.Dependent);
+    }
+
+    public static string UpdateStatusSymbols(this string name, PlayerControl player, DataVisibility visibility)
+    {
+        var hidden = visibility == DataVisibility.Hidden;
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-        var isImp = PlayerControl.LocalPlayer.IsImpostor() && genOpt.ImpsKnowRoles && !genOpt.FFAImpostorMode;
-        var isDead = PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden;
+        var isImp = visibility is DataVisibility.Show || PlayerControl.LocalPlayer.IsImpostor() && genOpt.ImpsKnowRoles && !genOpt.FFAImpostorMode;
+        var isDead = visibility is DataVisibility.Show || PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden;
 
         if ((player.HasModifier(PbPredicate1) && PlayerControl.LocalPlayer.IsRole<PlaguebearerRole>())
             || (player.HasModifier(PbPredicate2) && isDead))
@@ -294,4 +353,11 @@ public static class PlayerRoleTextExtensions
         
         return name;
     }
+}
+
+public enum DataVisibility
+{
+    Hidden,
+    Dependent,
+    Show
 }

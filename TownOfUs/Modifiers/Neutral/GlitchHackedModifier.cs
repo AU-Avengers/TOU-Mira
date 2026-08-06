@@ -2,29 +2,28 @@
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
-using MiraAPI.Modifiers.Types;
 using TownOfUs.Buttons;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Neutral;
 
-public sealed class GlitchHackedModifier(byte glitchId) : TimedModifier
+public sealed class GlitchHackedModifier(byte glitchId) : DisabledModifier
 {
     public override string ModifierName => "Hacked";
     public override float Duration => OptionGroupSingleton<GlitchOptions>.Instance.HackDuration;
-    public override bool AutoStart => false;
+    public override bool CanUseAbilities => ShouldHideHacked;
+    public override bool CanReport => ShouldHideHacked;
     public override bool HideOnUi => ShouldHideHacked;
     public byte GlitchId { get; } = glitchId;
 
     public bool ShouldHideHacked { get; set; } = true;
-    private GameObject? ReportButtonHackedSprite { get; set; }
-    private GameObject? KillButtonHackedSprite { get; set; }
-    private GameObject? VentButtonHackedSprite { get; set; }
-    private GameObject? UseButtonHackedSprite { get; set; }
-    private GameObject? SabotageButtonHackedSprite { get; set; }
+    private GameObject ReportButtonHackedSprite { get; set; }
+    private GameObject KillButtonHackedSprite { get; set; }
+    private GameObject VentButtonHackedSprite { get; set; }
+    private GameObject UseButtonHackedSprite { get; set; }
+    private GameObject SabotageButtonHackedSprite { get; set; }
     private List<GameObject> CustomButtonHackedSprites { get; } = [];
 
     public override void OnActivate()
@@ -70,6 +69,9 @@ public sealed class GlitchHackedModifier(byte glitchId) : TimedModifier
         }
 
         ShouldHideHacked = false;
+        // TimedModifier removes itself locally, so every client that received the trigger
+        // must run the timer. Otherwise observers retain a stale hacked modifier forever.
+        StartTimer();
         var glitch = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == GlitchId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchHackTrigger, glitch!, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
@@ -86,7 +88,6 @@ public sealed class GlitchHackedModifier(byte glitchId) : TimedModifier
 
             CustomButtonHackedSprites.Do(x => x.SetHackActive(true));
 
-            StartTimer();
         }
     }
 
@@ -94,7 +95,7 @@ public sealed class GlitchHackedModifier(byte glitchId) : TimedModifier
     {
         if (Player.AmOwner)
         {
-            if (MeetingHud.Instance == null)
+            if (!MeetingHud.Instance)
             {
                 TouAudio.PlaySound(TouAudio.UnhackedSound);
             }

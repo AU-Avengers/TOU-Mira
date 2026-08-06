@@ -1,16 +1,14 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
 public sealed class BlackmailerBlackmailButton : TownOfUsRoleButton<BlackmailerRole, PlayerControl>,
-    IAftermathablePlayerButton
+    IAftermathablePlayerButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleBlackmailerBlackmail", "Blackmail");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -18,7 +16,7 @@ public sealed class BlackmailerBlackmailButton : TownOfUsRoleButton<BlackmailerR
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<BlackmailerOptions>.Instance.BlackmailCooldown + MapCooldown, 1f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<BlackmailerOptions>.Instance.MaxBlackmails;
     public override bool ZeroIsInfinite => true;
-    public override LoadableAsset<Sprite> Sprite => TouImpAssets.BlackmailSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyImpAssets.BlackmailSprite : TouImpAssets.BlackmailSprite;
 
     public void AftermathHandler()
     {

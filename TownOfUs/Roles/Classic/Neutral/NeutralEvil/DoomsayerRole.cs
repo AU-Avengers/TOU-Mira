@@ -4,7 +4,6 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -20,17 +19,71 @@ using TownOfUs.Modules.Components;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class DoomsayerRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame
+    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame, IProgressTally
 {
+    [HideFromIl2Cpp]
+    public string GetGuessTally(DoomsayerOptions opts)
+    {
+        var playersAlive = PlayerControl.AllPlayerControls.ToArray()
+            .Count(x => !x.HasDied() && !x.IsJailed() && x != Player);
+        var completed = NumberOfGuesses;
+        var totalTasks = playersAlive < 3 ? 2 : (int)opts.DoomsayerGuessesToWin;
+        var colorbase = Color.yellow;
+        var color = Color.yellow;
+        if (completed <= 0)
+        {
+            color = TownOfUsColors.ImpSoft;
+        }
+        else if (completed >= totalTasks)
+        {
+            color = TownOfUsColors.Doomsayer;
+        }
+        else if (completed > totalTasks / 2)
+        {
+            var fraction = ((completed * 0.4f) / totalTasks);
+            Color color2 = TownOfUsColors.Doomsayer;
+            color = new
+            ((color2.r * fraction + colorbase.r * (1 - fraction)),
+                (color2.g * fraction + colorbase.g * (1 - fraction)),
+                (color2.b * fraction + colorbase.b * (1 - fraction)));
+        }
+        else if (completed < totalTasks / 2)
+        {
+            var fraction = ((completed * 0.9f) / totalTasks);
+            Color color2 = TownOfUsColors.ImpSoft;
+            color = new
+            ((colorbase.r * fraction + color2.r * (1 - fraction)),
+                (colorbase.g * fraction + color2.g * (1 - fraction)),
+                (colorbase.b * fraction + color2.b * (1 - fraction)));
+        }
+
+        return $"{color.ToTextColor()}({completed}/{totalTasks})</color>";
+    }
+    public bool ProgressOnName(bool localDead, bool inMeeting, bool amOwner, out string progress)
+    {
+        var opts = OptionGroupSingleton<DoomsayerOptions>.Instance;
+        if ((!opts.DoomsayerGuessAllAtOnce || inMeeting) && amOwner || !opts.DoomsayerGuessAllAtOnce && localDead)
+        {
+            progress = GetGuessTally(opts);
+            return true;
+        }
+
+        progress = string.Empty;
+        return false;
+    }
+
+    public string ProgressOnSummaryNormal => string.Empty;
+
+    public string ProgressOnSummaryDetailed =>
+        string.Empty;
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
-        if (playerControl != PlayerControl.LocalPlayer)
+        if (!playerControl.AmOwner)
         {
             return;
         }
@@ -64,8 +117,10 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Doomsayer.LoadAsset(), "TouMira.Role.Neutral.Doomsayer", 1.45f),
         IntroSound = TouAudio.QuestionSound,
         Icon = TouRoleIcons.Doomsayer,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
@@ -104,12 +159,12 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Observe", "Observe"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ObserveWikiDescription"),
                     TouNeutAssets.Observe)
-            };
+            ];
         }
     }
 
@@ -138,9 +193,10 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             NumberOfGuesses = 0;
         }
 
-        if (Player.AmOwner)
+        var meeting = MeetingHud.Instance;
+        if (Player.AmOwner && meeting != null)
         {
-            meetingMenu.GenButtons(MeetingHud.Instance,
+            meetingMenu.GenButtons(meeting,
                 Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
 
             IncorrectGuesses = 0;
@@ -184,7 +240,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
         var reportBuilder = new StringBuilder();
 
-        if (Player == null)
+        if (!Player)
         {
             return;
         }
@@ -201,9 +257,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             var doomableRole = role as IDoomable;
             var undoomableRole = role as IUnguessable;
             var hintType = DoomableType.Default;
-            var cachedMod =
-                player.Object.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
-            if (cachedMod != null)
+            if (player.Object.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
             {
                 role = cachedMod.CachedRole;
                 doomableRole = role as IDoomable;
@@ -233,18 +287,44 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 reportBuilder.AppendLine(TownOfUsPlugin.Culture, $"{hint.Replace("<player>", player.PlayerName)}\n");
             }
 
-            var roles = MiscUtils.AllRegisteredRoles
-                .Where(x => (x is IDoomable doomRole && doomRole.DoomHintType == DoomableType.Default &&
-                    x is not IUnguessable || x is not IDoomable) && !x.IsDead).ToList();
+            var roles = MiscUtils.GetPotentialRoles().Where(x => (x is IDoomable doomRole && doomRole.DoomHintType == DoomableType.Default &&
+                x is not IUnguessable || x is not IDoomable) && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).ToList();
+
+            var allRoles = MiscUtils.AllRoles.Where(x => (x is IDoomable doomRole && doomRole.DoomHintType == DoomableType.Default &&
+                x is not IUnguessable || x is not IDoomable) && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).Where(x => x is IGuessable && !roles.Contains(x)).ToList();
+
+            if (allRoles.Count > 0)
+            {
+                foreach (var addedRole in allRoles)
+                {
+                    if (addedRole is IGuessable guessable && guessable.CanBeGuessed)
+                    {
+                        roles.Add(addedRole);
+                    }
+                }
+            }
             roles = roles.OrderBy(x => x.GetRoleName()).ToList();
-            var lastRole = roles[roles.Count - 1];
+            var lastRole = roles[^1];
 
             if (hintType != DoomableType.Default)
             {
-                roles = MiscUtils.AllRoles
-                    .Where(x => x is IDoomable doomRole && doomRole.DoomHintType == hintType && x is not IUnguessable)
-                    .OrderBy(x => x.GetRoleName()).ToList();
-                lastRole = roles[roles.Count - 1];
+                roles = MiscUtils.GetPotentialRoles().Where(x => x is IDoomable doomRole && doomRole.DoomHintType == hintType &&
+                    x is not IUnguessable && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).ToList();
+
+                allRoles = MiscUtils.AllRoles.Where(x => x is IDoomable doomRole && doomRole.DoomHintType == hintType &&
+                    x is not IUnguessable && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).Where(x => x is IGuessable && !roles.Contains(x)).ToList();
+                if (allRoles.Count > 0)
+                {
+                    foreach (var addedRole in allRoles)
+                    {
+                        if (addedRole is IGuessable guessable && guessable.CanBeGuessed)
+                        {
+                            roles.Add(addedRole);
+                        }
+                    }
+                }
+                roles = roles.OrderBy(x => x.GetRoleName()).ToList();
+                lastRole = roles[^1];
             }
 
             if (roles.Count != 0)
@@ -301,7 +381,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             return;
         }
 
-        if (Minigame.Instance != null)
+        if (Minigame.Instance)
         {
             return;
         }
@@ -314,27 +394,20 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         void ClickRoleHandle(RoleBehaviour role)
         {
             var realRole = player.Data.Role;
-            
-            var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
+
 
             var pickVictim = role.Role == realRole.Role;
-            if (cachedMod != null)
+            if (player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
             {
-                switch (cachedMod.GuessMode)
+                pickVictim = cachedMod.GuessMode switch
                 {
-                    case CacheRoleGuess.ActiveRole:
-                        // Checks for the role the player is at the moment
-                        pickVictim = role.Role == realRole.Role;
-                        break;
-                    case CacheRoleGuess.CachedRole:
-                        // Checks for the cached role itself (like Imitator or Traitor)
-                        pickVictim = role.Role == cachedMod.CachedRole.Role;
-                        break;
-                    default:
-                        // Checks if it's the cached or active role
-                        pickVictim = role.Role == cachedMod.CachedRole.Role || role.Role == realRole.Role;
-                        break;
-                }
+                    // Checks for the role the player is at the moment
+                    CacheRoleGuess.ActiveRole => role.Role == realRole.Role,
+                    // Checks for the cached role itself (like Imitator or Traitor)
+                    CacheRoleGuess.CachedRole => role.Role == cachedMod.CachedRole.Role,
+                    // Checks if it's the cached or active role
+                    _ => role.Role == cachedMod.CachedRole.Role || role.Role == realRole.Role,
+                };
             }
             var victim = pickVictim ? player : Player;
 
@@ -402,13 +475,11 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 {
                     if (victim != Player && victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
                     {
-                        OracleRole.RpcOracleBlessNotify(oracleMod.Oracle, PlayerControl.LocalPlayer, victim);
+                        OracleRole.RpcOracleBlessNotify(PlayerControl.LocalPlayer, oracleMod.Oracle, victim);
                     }
                     else
                     {
-                        Player.RpcSpecialMurder(victim, MeetingCheck.ForMeeting, true, createDeadBody: false, teleportMurderer: false,
-                            showKillAnim: false,
-                            playKillSound: false,
+                        Player.RpcMeetingMurder(victim, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
                             causeOfDeath: "Doomsayer");
                     }
                 }
@@ -418,13 +489,11 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                     {
                         if (victim2.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
                         {
-                            OracleRole.RpcOracleBlessNotify(oracleMod.Oracle, PlayerControl.LocalPlayer, victim2);
+                            OracleRole.RpcOracleBlessNotify(PlayerControl.LocalPlayer, oracleMod.Oracle, victim2);
                         }
                         else
                         {
-                            Player.RpcSpecialMurder(victim2, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
-                                showKillAnim: false,
-                                playKillSound: false,
+                            Player.RpcMeetingMurder(victim2, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
                                 causeOfDeath: "Doomsayer");
                         }
                     }
@@ -434,7 +503,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             {
                 if (victim != Player && victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
                 {
-                    OracleRole.RpcOracleBlessNotify(oracleMod.Oracle, PlayerControl.LocalPlayer, victim);
+                    OracleRole.RpcOracleBlessNotify(PlayerControl.LocalPlayer, oracleMod.Oracle, victim);
 
                     MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
 
@@ -444,9 +513,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 }
 
                 // no incorrect guesses so this should be the target not the Doomsayer
-                Player.RpcSpecialMurder(victim, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
-                    showKillAnim: false,
-                    playKillSound: false,
+                Player.RpcMeetingMurder(victim, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
                     causeOfDeath: "Doomsayer");
             }
 
@@ -487,6 +554,11 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.DoomsayerWin)]
     public static void RpcDoomsayerWin(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not DoomsayerRole doom)
         {
             Error("RpcDoomsayerWin - Invalid Doomsayer");

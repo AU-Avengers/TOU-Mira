@@ -4,7 +4,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using TownOfUs.Modifiers;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Other;
@@ -16,6 +15,7 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
     public static readonly HashSet<string> TrackedSpectators = [];
     public static readonly List<PlayerControl> TrackedPlayers = [];
     public static bool FixedCam;
+    public bool IsDraftable => false;
     private static int CurrentTarget;
     private bool ShowHud;
     private bool ShowShadows;
@@ -72,6 +72,7 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spectator.LoadAsset(), "TouMira.Role.Game.Spectator", 1.45f),
         TasksCountForProgress = false,
         IntroSound = TouAudio.NoisemakerIntroSound,
         Icon = TouRoleIcons.Spectator,
@@ -131,7 +132,7 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
 
     public void Update()
     {
-        if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null ||
+        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
             PlayerControl.LocalPlayer.Data.Role is not SpectatorRole || LobbyBehaviour.Instance ||
             MeetingHud.Instance || ExileController.Instance ||
             !HudManager.Instance || HudManager.Instance.Chat.IsOpenOrOpening)

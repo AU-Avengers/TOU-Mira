@@ -1,17 +1,15 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class HunterStalkButton : TownOfUsRoleButton<HunterRole, PlayerControl>
+public sealed class HunterStalkButton : TownOfUsRoleButton<HunterRole, PlayerControl>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleHunterStalk", "Stalk");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -19,7 +17,7 @@ public sealed class HunterStalkButton : TownOfUsRoleButton<HunterRole, PlayerCon
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<HunterOptions>.Instance.HunterStalkCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<HunterOptions>.Instance.HunterStalkDuration;
     public override int MaxUses => (int)OptionGroupSingleton<HunterOptions>.Instance.StalkUses;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.StalkButtonSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.StalkButtonSprite : TouCrewAssets.StalkButtonSprite;
     public int ExtraUses { get; set; }
 
     protected override void OnClick()

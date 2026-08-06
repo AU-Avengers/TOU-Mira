@@ -3,7 +3,7 @@ using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
 using MiraAPI.Modifiers;
-using TownOfUs.Modifiers.Game;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modules;
 
 namespace TownOfUs.Events.Modifiers;
@@ -11,7 +11,7 @@ namespace TownOfUs.Events.Modifiers;
 public static class AssassinEvents
 {
     [RegisterEvent]
-    public static void VotingCompleteHandler(VotingCompleteEvent @event)
+    public static void VotingCompleteHandler(VotingCompleteEvent _)
     {
         ModifierUtils.GetActiveModifiers<AssassinModifier>().Do(x => x.OnVotingComplete());
     }

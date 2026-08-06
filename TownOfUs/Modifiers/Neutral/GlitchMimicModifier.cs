@@ -1,68 +1,52 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
-using MiraAPI.Modifiers;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Neutral;
-using TownOfUs.Patches;
 using TownOfUs.Utilities.Appearances;
 
 namespace TownOfUs.Modifiers.Neutral;
 
-public sealed class GlitchMimicModifier(PlayerControl target) : ConcealedModifier, IVisualAppearance
+public sealed class GlitchMimicModifier(PlayerControl target) : DisguisedModifier(target)
 {
     public override float Duration => OptionGroupSingleton<GlitchOptions>.Instance.MimicDuration;
-    public override string ModifierName => "Mimic";
-    public override bool HideOnUi => true;
-    public override bool AutoStart => true;
-    public override bool VisibleToOthers => true;
-    public bool VisualPriority => true;
+    public bool CanGlitchVent = true;
 
-    public PlayerControl Target { get; } = target;
-
-    public VisualAppearance GetVisualAppearance()
-    {
-        return new VisualAppearance(Target.GetDefaultModifiedAppearance(), TownOfUsAppearances.Mimic);
-    }
+    protected override TownOfUsAppearances Appearance => TownOfUsAppearances.Mimic;
 
     public override void OnActivate()
     {
-        Player.RawSetAppearance(this);
+        CanGlitchVent =
+            (GlitchVent)OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is GlitchVent.Always;
 
-        // Visual-only: match First Death Shield appearance to the mimicked target without granting the actual modifier.
-        if (!Player.HasModifier<FirstDeadShield>() && Target.HasModifier<FirstDeadShield>() &&
-            !Player.HasModifier<FirstDeadShieldDisguiseVisual>())
-        {
-            Player.AddModifier<FirstDeadShieldDisguiseVisual>(Target);
-        }
+        base.OnActivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchMimic, Player, Target);
         MiraEventManager.InvokeEvent(touAbilityEvent);
     }
 
-    public override void OnDeath(DeathReason reason)
-    {
-        ModifierComponent!.RemoveModifier(this);
-    }
-
     public override void OnDeactivate()
     {
-        CustomButtonSingleton<GlitchMimicButton>.Instance.SetTimer(OptionGroupSingleton<GlitchOptions>.Instance
-            .MimicCooldown);
-
-        if (Player.HasModifier<FirstDeadShieldDisguiseVisual>())
+        if (Player.AmOwner)
         {
-            Player.RemoveModifier<FirstDeadShieldDisguiseVisual>();
+            CustomButtonSingleton<GlitchMimicButton>.Instance.SetTimer(OptionGroupSingleton<GlitchOptions>.Instance
+                .MimicCooldown);
         }
 
-        Player.ResetAppearance();
+        base.OnDeactivate();
+
         var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchUnmimic, Player, Target);
         MiraEventManager.InvokeEvent(touAbilityEvent);
+    }
 
-        if (HudManagerPatches.CamouflageCommsEnabled)
+    public override bool? CanVent()
+    {
+        if (!CanGlitchVent)
         {
-            Player.cosmetics.ToggleNameVisible(false);
+            return false;
         }
+
+        return null;
     }
 }

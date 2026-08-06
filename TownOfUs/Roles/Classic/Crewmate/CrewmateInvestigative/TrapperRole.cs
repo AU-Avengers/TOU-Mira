@@ -7,7 +7,6 @@ using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -16,7 +15,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 {
     public override bool IsAffectedByComms => false;
 
-    [HideFromIl2Cpp] public List<RoleBehaviour> TrappedPlayers { get; set; } = new();
+    [HideFromIl2Cpp] public List<RoleBehaviour> TrappedPlayers { get; set; } = [];
 
     public DoomableType DoomHintType => DoomableType.Insight;
     public string LocaleKey => "Trapper";
@@ -36,12 +35,12 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Trap", "Trap"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}TrapWikiDescription"),
                     TouCrewAssets.TrapSprite)
-            };
+            ];
         }
     }
 
@@ -51,9 +50,10 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Trapper.LoadAsset(), "TouMira.Role.Crewmate.Trapper", 1.45f),
         Icon = TouRoleIcons.Trapper,
         OptionsScreenshot = TouBanners.TrapperRoleBanner,
-        IntroSound = TouAudio.TrackerIntroSound
+        IntroSound = TouAudio.SuspenseIntro,
     };
 
     public void LobbyStart()
@@ -99,7 +99,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
             foreach (var role in TrappedPlayers)
             {
-                message.Append(TownOfUsPlugin.Culture, $"{role.GetRoleName()}, ");
+                message.Append(TownOfUsPlugin.Culture, $"{MiscUtils.GetHyperlinkText(role)}, ");
             }
 
             message = message.Remove(message.Length - 2, 2);

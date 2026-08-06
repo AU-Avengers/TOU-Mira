@@ -1,7 +1,5 @@
 using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Interfaces;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;
@@ -31,10 +29,10 @@ public sealed class TestCleanModifier : TouGameModifier, IWikiDiscoverable, IBut
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new("Clean", "Clean dead bodies (for testing)", TouImpAssets.CleanButtonSprite)
-            };
+            ];
         }
     }
 

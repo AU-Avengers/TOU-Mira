@@ -2,7 +2,6 @@
 using Reactor.Utilities;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Options.Roles.HnsCrewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.HnsCrewmate;

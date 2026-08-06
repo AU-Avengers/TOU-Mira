@@ -3,7 +3,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers.Types;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Impostor.Venerer;
@@ -12,6 +11,7 @@ public sealed class VenererFreezeModifier(PlayerControl venerer) : TimedModifier
 {
     public override string ModifierName => "Freeze";
     public override bool AutoStart => true;
+    public override bool HideOnUi => true;
     public override float Duration => OptionGroupSingleton<VenererOptions>.Instance.AbilityDuration;
 
     public PlayerControl Venerer { get; set; } = venerer;

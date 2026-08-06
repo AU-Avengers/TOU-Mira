@@ -10,7 +10,6 @@ using System.Collections;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -166,7 +165,7 @@ public static class SentryEvents
     }
 
     [RegisterEvent]
-    public static void EjectionEventHandler(EjectionEvent @event)
+    public static void EjectionEventHandler(EjectionEvent _)
     {
         if (OptionGroupSingleton<SentryOptions>.Instance.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting)
         {
@@ -179,10 +178,7 @@ public static class SentryEvents
 
                 cameraPair.Key.gameObject.SetActive(true);
                 var spriteRenderer = cameraPair.Key.gameObject.GetComponent<SpriteRenderer>();
-                if (spriteRenderer != null)
-                {
-                    spriteRenderer.color = Color.white;
-                }
+                spriteRenderer?.color = Color.white;
             }
         }
 
@@ -200,7 +196,7 @@ public static class SentryEvents
 
                     if (cameraPair.Value <= 1)
                     {
-                        if (ShipStatus.Instance != null && ShipStatus.Instance.AllCameras != null)
+                        if (ShipStatus.Instance && ShipStatus.Instance.AllCameras != null)
                         {
                             var allCameras = ShipStatus.Instance.AllCameras.ToList();
                             if (allCameras.Contains(cameraPair.Key))

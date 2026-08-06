@@ -34,11 +34,11 @@ public sealed class HaunterArrowModifier(PlayerControl owner, Color color) : Arr
 
     private bool ShouldShowArrow()
     {
-        if (Owner == null || Owner.Data == null || PlayerControl.LocalPlayer == null)
+        if (Owner == null || Owner.Data == null || !PlayerControl.LocalPlayer)
         {
             return false;
         }
 
-        return PlayerControl.LocalPlayer.PlayerId == Owner.PlayerId;
+        return Owner.AmOwner;
     }
 }

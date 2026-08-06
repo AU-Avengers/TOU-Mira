@@ -2,16 +2,18 @@
 using Il2CppSystem.Text;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Taskmaster,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Taskmaster.LoadAsset(),
+            "TouMira.Modifier.Crewmate.Taskmaster", 1.45f));
     public override string LocaleKey => "Taskmaster";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
@@ -47,7 +49,7 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         return base.IsModifierValidOn(role) && role.IsCrewmate() && role is not SnitchRole &&
-               !(GameOptionsManager.Instance.currentNormalGameOptions.MapId is 4 or 6);
+               !(GameOptionsManager.Instance.currentGameOptions.MapId is 4 or 6);
     }
 
     public void OnRoundStart()

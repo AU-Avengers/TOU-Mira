@@ -3,17 +3,16 @@ using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Player;
-using MiraAPI.Hud;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
-using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
+using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Neutral;
@@ -108,9 +107,24 @@ public static class InquisitorEvents
             }
             else
             {
+                string message;
+                LoadableAsset<Sprite> icon;
+
+                if (OptionGroupSingleton<InquisitorOptions>.Instance.InquisAnonymizeWin)
+                {
+                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
+                    icon = TouRoleIcons.Neutral;
+                }
+                else
+                {
+                    message = TouLocale.GetParsed("TouRoleInquisitorVictoryMessage")
+                        .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>");
+                    icon = TouRoleIcons.Inquisitor;
+                }
+
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouRoleInquisitorVictoryMessage").Replace("<player>", inquis.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
+                    message.Replace("<player>", inquis.Player.Data.PlayerName),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
 
                 notif1.AdjustNotification();
             }
@@ -130,8 +144,6 @@ public static class InquisitorEvents
             return;
         }
 
-        CustomButtonSingleton<InquisitorVanquishButton>.Instance.Usable = true;
-
         var inquis = CustomRoleUtils.GetActiveRolesOfType<InquisitorRole>().FirstOrDefault();
         if (inquis != null && inquis.TargetsDead && !inquis.Player.HasDied())
         {
@@ -145,9 +157,23 @@ public static class InquisitorEvents
             }
             else
             {
+                string message;
+                LoadableAsset<Sprite> icon;
+
+                if (OptionGroupSingleton<InquisitorOptions>.Instance.InquisAnonymizeWin)
+                {
+                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage")
+                        .Replace("<player>", inquis.Player.Data.PlayerName);
+                    icon = TouRoleIcons.Neutral;
+                }
+                else
+                {
+                    message = $"<b>The {TownOfUsColors.Inquisitor.ToTextColor()}Inquisitor</color>, {inquis.Player.Data.PlayerName}, has successfully won, as all Heretics have perished!</b>";
+                    icon = TouRoleIcons.Inquisitor;
+                }
+
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>The {TownOfUsColors.Inquisitor.ToTextColor()}Inquisitor</color>, {inquis.Player.Data.PlayerName}, has successfully won, as all Heretics have perished!</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
+                    message, Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
 
                 notif1.AdjustNotification();
             }

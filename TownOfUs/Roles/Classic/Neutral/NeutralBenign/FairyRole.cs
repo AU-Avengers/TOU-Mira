@@ -19,7 +19,6 @@ using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Random = System.Random;
 
@@ -30,7 +29,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
-        if (playerControl != PlayerControl.LocalPlayer)
+        if (!playerControl.AmOwner)
         {
             return;
         }
@@ -61,7 +60,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         foreach (var ga in gas)
         {
             var filtered = PlayerControl.AllPlayerControls.ToArray()
-                .Where(x => !x.IsRole<FairyRole>() && !x.HasDied() &&
+                .Where(x => !x.IsRole<FairyRole>() && !x.Is(RoleAlignment.NeutralOutlier) && !x.HasDied() &&
                             !x.HasModifier<ExecutionerTargetModifier>() && !x.HasModifier<AllianceGameModifier>() &&
                             !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName))
                 .ToList();
@@ -128,8 +127,10 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Fairy.LoadAsset(), "TouMira.Role.Neutral.Fairy", 1.45f),
         Icon = TouRoleIcons.Fairy,
         IntroSound = TouAudio.GuardianAngelSound,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
@@ -138,7 +139,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
     public bool SetupIntroTeam(IntroCutscene instance,
         ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
     {
-        if (Player != PlayerControl.LocalPlayer)
+        if (!Player.AmOwner)
         {
             return true;
         }
@@ -161,12 +162,12 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Protect", "Protect"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ProtectWikiDescription"),
                     TouNeutAssets.ProtectSprite)
-            };
+            ];
         }
     }
 
@@ -224,8 +225,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
     public static bool FairySeesRoleVisibilityFlag(PlayerControl player)
     {
         var gaKnowsTargetRole = OptionGroupSingleton<FairyOptions>.Instance.FairyKnowsTargetRole &&
-                                PlayerControl.LocalPlayer.IsRole<FairyRole>() &&
-                                PlayerControl.LocalPlayer.GetRole<FairyRole>()!.Target == player;
+                                PlayerControl.LocalPlayer.Data.Role is FairyRole fairy && fairy.Target == player;
 
         return gaKnowsTargetRole;
     }
@@ -236,8 +236,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
             OptionGroupSingleton<FairyOptions>.Instance.ShowProtect is ProtectOptions.SelfAndFairy &&
             player.HasModifier<GuardianAngelTargetModifier>();
 
-        var gaKnowsTargetRole = PlayerControl.LocalPlayer.IsRole<FairyRole>() &&
-                                PlayerControl.LocalPlayer.GetRole<FairyRole>()!.Target == player;
+        var gaKnowsTargetRole = PlayerControl.LocalPlayer.Data.Role is FairyRole fairy && fairy.Target == player;
 
         return gaTargetKnows || gaKnowsTargetRole;
     }
@@ -268,7 +267,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
 
             Player.ChangeRole(roleType);
 
-            if ((roleType == RoleId.Get<JesterRole>() && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn) ||
+            if ((roleType == RoleId.Get<JesterRole>() && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value) ||
                 (roleType == RoleId.Get<SurvivorRole>() && OptionGroupSingleton<SurvivorOptions>.Instance.ScatterOn))
             {
                 StartCoroutine(Effects.Lerp(0.2f,
@@ -291,9 +290,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
             return;
         }
 
-        var role = player.GetRole<FairyRole>();
-
-        if (role == null)
+        if (player.Data.Role is not FairyRole role)
         {
             return;
         }

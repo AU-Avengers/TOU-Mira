@@ -6,7 +6,6 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Color = UnityEngine.Color;
 
@@ -14,7 +13,7 @@ namespace TownOfUs.Roles.Crewmate;
 
 public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
-    private readonly Dictionary<(Vector3, int), ArrowBehaviour> _senseArrows = new();
+    private readonly Dictionary<(Vector3, int), ArrowBehaviour> _senseArrows = [];
     public DoomableType DoomHintType => DoomableType.Perception;
     public string LocaleKey => "Aurial";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -34,6 +33,7 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Aurial.LoadAsset(), "TouMira.Role.Crewmate.Aurial", 1.45f),
         Icon = TouRoleIcons.Aurial,
         OptionsScreenshot = TouBanners.AurialRoleBanner,
         IntroSound = TouAudio.MediumIntroSound
@@ -134,6 +134,11 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.AurialSense)]
     public static void RpcSense(PlayerControl player, PlayerControl source)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not AurialRole aurial)
         {
             Error("Invalid Aurial");

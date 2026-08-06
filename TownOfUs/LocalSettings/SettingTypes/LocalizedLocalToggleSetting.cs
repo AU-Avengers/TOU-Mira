@@ -12,20 +12,17 @@ namespace TownOfUs.LocalSettings.SettingTypes;
 /// <summary>
 /// Local setting class for toggles.
 /// </summary>
-public class LocalizedLocalToggleSetting : LocalToggleSetting
+/// <remarks>
+/// Initializes a new instance of the <see cref="LocalizedLocalToggleSetting"/> class.
+/// </remarks>
+/// <inheritdoc/>
+public class LocalizedLocalToggleSetting(
+    Type tab,
+    ConfigEntryBase configEntry,
+    string? name = null,
+    string? description = null
+    ) : LocalToggleSetting(tab, configEntry, name, description)
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="LocalizedLocalToggleSetting"/> class.
-    /// </summary>
-    /// <inheritdoc/>
-    public LocalizedLocalToggleSetting(
-        Type tab,
-        ConfigEntryBase configEntry,
-        string? name = null,
-        string? description = null
-    ) : base(tab, configEntry, name, description)
-    {
-    }
 
     /// <inheritdoc />
     public override GameObject CreateOption(ToggleButtonBehaviour toggle, SlideBar slider, Transform parent,
@@ -98,7 +95,7 @@ public class LocalizedLocalToggleSetting : LocalToggleSetting
     public static void UpdateToggleText(TextMeshPro tmp, string localeName, bool value)
     {
         tmp.text = TouLocale.Get(localeName) + ": " +
-                   DestroyableSingleton<TranslationController>.Instance.GetString(value
+                   TranslationController.Instance.GetString(value
                        ? StringNames.SettingsOn
                        : StringNames.SettingsOff);
     }

@@ -1,16 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <LangVersion>latest</LangVersion>
+        <LangVersion>preview</LangVersion>
         <Description>Town Of Us Mira</Description>
         <RootNamespace>TownOfUs</RootNamespace>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <Version>$(VersionPrefix)-$(VersionSuffix)</Version>
+        <Configurations>Debug;Release;Publish</Configurations>
     </PropertyGroup>
 
     <ItemGroup>
         <EmbeddedResource Include="Resources\**\*.*" />
+        <None Include="../LICENSE.txt" Pack="true" PackagePath="\"/>
+        <None Include="../README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
-    <Import Project="../AmongUs.props" />
+    <Import Project="../AmongUs.props" Condition="'$(Configuration)' != 'Publish'"/>
+    <Import Project="../AmongUsPublish.props" Condition="'$(Configuration)' == 'Publish'"/>
+    
 
 </Project>

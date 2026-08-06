@@ -2,14 +2,13 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Roles;
-using MiraAPI.Utilities.Assets;
+using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
@@ -22,12 +21,17 @@ public sealed class TraitorChangeButton : TownOfUsRoleButton<TraitorRole>
     public override float Cooldown => 0.01f;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.TraitorSelect;
+    public bool NoRolesAvailable;
+    public override bool Enabled(RoleBehaviour? role)
+    {
+        return base.Enabled(role) && !NoRolesAvailable;
+    }
 
     public override bool ZeroIsInfinite { get; set; } = true;
 
     public override void ClickHandler()
     {
-        if (!CanClick() || Minigame.Instance != null || PlayerControl.LocalPlayer.HasDied())
+        if (!CanClick() || Minigame.Instance || PlayerControl.LocalPlayer.HasDied())
         {
             return;
         }
@@ -100,8 +104,18 @@ public sealed class TraitorChangeButton : TownOfUsRoleButton<TraitorRole>
             Role.RandomRole = random;
         }
 
-        if (Minigame.Instance == null)
+        if (!Minigame.Instance)
         {
+            if (Role.ChosenRoles.Count == 0)
+            {
+                NoRolesAvailable = true;
+                var notif1 = Helpers.CreateAndShowNotification(
+                    $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}No roles are available for the taking.</color></b>",
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Traitor.LoadAsset());
+
+                notif1.AdjustNotification();
+                return;
+            }
             var traitorMenu = TraitorSelectionMinigame.Create();
             traitorMenu.Open(
                 Role.ChosenRoles,

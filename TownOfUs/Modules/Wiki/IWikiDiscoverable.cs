@@ -1,7 +1,5 @@
 ﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modules.Wiki;
@@ -22,4 +20,4 @@ public interface IWikiDiscoverable
     }
 }
 
-public record struct CustomButtonWikiDescription(string name, string description, LoadableAsset<Sprite> icon);
+public record struct CustomButtonWikiDescription(string Name, string Description, LoadableAsset<Sprite> Icon);

@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -28,7 +27,9 @@ public sealed class GrenadierRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Grenadier.LoadAsset(), "TouMira.Role.Impostor.Grenadier", 1.45f),
         Icon = TouRoleIcons.Grenadier,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         CanUseVent = OptionGroupSingleton<GrenadierOptions>.Instance.CanVent
     };
 
@@ -39,12 +40,12 @@ public sealed class GrenadierRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Flash", "Flash"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}FlashWikiDescription"),
                     TouImpAssets.FlashSprite)
-            };
+            ];
         }
     }
 }

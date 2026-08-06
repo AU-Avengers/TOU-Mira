@@ -1,21 +1,19 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class TrapperTrapButton : TownOfUsRoleButton<TrapperRole>
+public sealed class TrapperTrapButton : TownOfUsRoleButton<TrapperRole>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleTrapperTrap", "Trap");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Trapper;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<TrapperOptions>.Instance.TrapCooldown + MapCooldown, 5f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<TrapperOptions>.Instance.MaxTraps;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.TrapSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.TrapSprite : TouCrewAssets.TrapSprite;
     public int ExtraUses { get; set; }
 
     protected override void OnClick()

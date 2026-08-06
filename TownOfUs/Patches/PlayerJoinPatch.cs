@@ -6,7 +6,6 @@ using Reactor.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Networking;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches;
@@ -62,18 +61,17 @@ public static class PlayerJoinPatch
             yield return null;
         }
 
-        Info("Client Initialized?");
 
         while (!PlayerControl.LocalPlayer)
         {
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
 
         var player = PlayerControl.LocalPlayer;
 
-        while (!player)
+        while (!player || !player.Data)
         {
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
 
         if (!player.AmOwner)
@@ -82,8 +80,8 @@ public static class PlayerJoinPatch
         }
 
         var mods = IL2CPPChainloader.Instance.Plugins;
-        var modDictionary = new Dictionary<byte, string>();
-        byte modByte = 0;
+        var modDictionary = new Dictionary<byte, string>() { {0, Application.version}};
+        byte modByte = 1;
         foreach (var mod in mods)
         {
             modDictionary.Add(modByte, $"{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}"); 
@@ -92,7 +90,6 @@ public static class PlayerJoinPatch
 
         Rpc<SendClientModInfoRpc>.Instance.Send(PlayerControl.LocalPlayer, modDictionary);
 
-        Info("Sending Message to Local Player...");
         TouRoleManagerPatches.ReplaceRoleManager = false;
         SpectatorRole.TrackedPlayers.Clear();
         SpectatorRole.FixedCam = false;
@@ -100,7 +97,7 @@ public static class PlayerJoinPatch
 
         var time = 0f;
         var summary = GameHistory.EndGameSummary;
-        switch (LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.SummaryMessageAppearance.Value)
+        switch (LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.SummaryMessageAppearance.Value)
         {
             case GameSummaryAppearance.Advanced:
                 summary = GameHistory.EndGameSummaryAdvanced;
@@ -109,7 +106,7 @@ public static class PlayerJoinPatch
                 summary = GameHistory.EndGameSummarySimple;
                 break;
         }
-        if (summary != string.Empty && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance
+        if (summary != string.Empty && LocalSettingsTabSingleton<TouLocalTabPractice>.Instance
                 .ShowSummaryMessageToggle.Value)
         {
             systemName = $"<color=#8BFDFD>{TouLocale.Get("EndGameSummary")}</color>";
@@ -122,16 +119,16 @@ public static class PlayerJoinPatch
 
             var title =
                 $"{systemName}\n<size=62%>{factionText}{summary}</size>";
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
         }
 
-        if (!SentOnce && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowWelcomeMessageToggle.Value)
+        if (!SentOnce && LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ShowWelcomeMessageToggle.Value)
         {
             var msg = TouLocale.GetParsed("WelcomeMessageBlurb").Replace("<modVersion>", TownOfUsPlugin.Version);
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, msg, true);
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName, msg, true);
             time = 5f;
         }
-        else if (!LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowWelcomeMessageToggle.Value)
+        else if (!LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ShowWelcomeMessageToggle.Value)
         {
             time = 2.48f;
         }
@@ -142,7 +139,6 @@ public static class PlayerJoinPatch
         }
 
         yield return new WaitForSeconds(time);
-        Info("Offset Wiki Button (if needed)");
         SentOnce = true;
     }
 }

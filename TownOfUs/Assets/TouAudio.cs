@@ -1,6 +1,5 @@
 using AmongUs.GameOptions;
 using MiraAPI.Roles;
-using MiraAPI.Utilities.Assets;
 using UnityEngine;
 
 namespace TownOfUs.Assets;
@@ -51,6 +50,9 @@ public static class TouAudio
         new LoadableBundleAsset<AudioClip>("ToppatIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> DeputyIntroSound { get; } =
+        new LoadableBundleAsset<AudioClip>("DeputyIntroNew", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> DeputyIntroSoundOld { get; } =
         new LoadableBundleAsset<AudioClip>("DeputyIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> VampIntroSound { get; } =
@@ -58,6 +60,9 @@ public static class TouAudio
 
     public static LoadableAsset<AudioClip> ProsIntroSound { get; } =
         new LoadableBundleAsset<AudioClip>("ProsIntro", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> ProsecuteSound { get; } =
+        new LoadableBundleAsset<AudioClip>("ProsecuteAudio", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> SpyIntroSound { get; } =
         new LoadableBundleAsset<AudioClip>("SpyIntro", TouAssets.MainBundle);
@@ -152,11 +157,49 @@ public static class TouAudio
     public static LoadableAsset<AudioClip> JanitorCleanSound { get; } =
         new LoadableBundleAsset<AudioClip>("JanitorClean", TouAssets.MainBundle);
 
+    public static LoadableAsset<AudioClip> TribunalSound { get; } =
+        new LoadableBundleAsset<AudioClip>("MarshalTribunal", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> LaserKillSound { get; } =
+        new LoadableBundleAsset<AudioClip>("ShootLaserMeeting", TouAssets.MainBundle);
     public static LoadableAsset<AudioClip> SentryPlaceSound { get; } =
         new LoadableBundleAsset<AudioClip>("SentryPlace", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> DenySound { get; } =
         new LoadableBundleAsset<AudioClip>("Deny", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> SentryIntro { get; } =
+        new LoadableBundleAsset<AudioClip>("SentryIntro", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> SinisterIntro { get; } =
+        new LoadableBundleAsset<AudioClip>("SinisterIntro", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> PotionIntro { get; } =
+        new LoadableBundleAsset<AudioClip>("PotionIntro", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> ScreamIntro { get; } =
+        new LoadableBundleAsset<AudioClip>("ScreamIntro", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> ExplodeIntro { get; } =
+        new LoadableBundleAsset<AudioClip>("ExplodeIntro", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> SuspenseIntro { get; } =
+        new LoadableBundleAsset<AudioClip>("SuspenseIntro", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> SneakyIntro { get; } =
+        new LoadableBundleAsset<AudioClip>("SneakyIntro", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> MirrorcasterIntro { get; } =
+        new LoadableBundleAsset<AudioClip>("MirrorcasterIntro", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> MirrorcasterShatter { get; } =
+        new LoadableBundleAsset<AudioClip>("MirrorcasterShatter", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> BombExplode { get; } =
+        new LoadableBundleAsset<AudioClip>("BombExplode", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> DeputyReveal { get; } =
+        new LoadableBundleAsset<AudioClip>("DeputyReveal", TouAssets.MainBundle);
 
     public static void PlaySound(LoadableAsset<AudioClip> clip, float vol = 1f)
     {

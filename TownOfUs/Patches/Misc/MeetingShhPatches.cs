@@ -15,7 +15,7 @@ public static class MeetingShhPatches
 {
     public static void Postfix(MeetingHud __instance)
     {
-        if (PlayerControl.LocalPlayer != null && !PlayerControl.LocalPlayer.Data.IsDead &&
+        if (PlayerControl.LocalPlayer && !PlayerControl.LocalPlayer.Data.IsDead &&
             (PlayerControl.LocalPlayer.HasModifier<BlackmailedModifier>() ||
              PlayerControl.LocalPlayer.TryGetModifier<JailedModifier>(out var jailMod) && jailMod.IsJailorValid))
         {
@@ -42,7 +42,7 @@ public static class MeetingShhPatches
             jailCell.gameObject.layer = HudManager.Instance.shhhEmblem!.gameObject.layer;
 
             var render = jailCell.AddComponent<SpriteRenderer>();
-            render.sprite = TouAssets.JailCellSprite.LoadAsset();
+            render.sprite = LegacyAssets.IsLegacy ? LegacyAssets.JailCellSprite.LoadAsset() : TouAssets.JailCellSprite.LoadAsset();
             jailCell.gameObject.SetActive(true);
             jailCell.GetComponent<SpriteRenderer>().enabled = true;
             HudManager.Instance.shhhEmblem.TextImage.text = PlayerControl.LocalPlayer.HasModifier<BlackmailedModifier>()

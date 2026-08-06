@@ -6,7 +6,6 @@ using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.WinConditions;
 

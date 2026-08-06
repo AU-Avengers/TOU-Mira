@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Modifiers.Game.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches.Modifiers;
@@ -45,7 +44,7 @@ public static class CelebrityMeetingIntroPatch
         var iconSprite = iconObj.GetComponent<SpriteRenderer>();
         iconSprite.sprite = TouModifierIcons.Celebrity.LoadAsset();
 
-        if (HudManager.Instance != null)
+        if (HudManager.InstanceExists)
         {
             var title = $"<color=#{TownOfUsColors.Celebrity.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleCelebrityMessageTitle")}</color>";
             MiscUtils.AddFakeChat(celebrity.Player.Data, title, message, false, true);

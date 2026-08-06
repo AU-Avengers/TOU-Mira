@@ -9,9 +9,15 @@ namespace TownOfUs.Options.Maps;
 public sealed class BetterSkeldOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
-    public override string GroupName => "Better Skeld";
+    public override string GroupName => TouLocale.Get("TouOptionTitleBetterSkeld");
     public override uint GroupPriority => 3;
     public override Color GroupColor => new Color32(188, 206, 200, 255);
+    public override OptionNotifConfiguration Configuration => new(
+        GroupColor,
+        TmpSpriteUtils.CreateSpriteAsset(
+            TouAssets.IconSkeld.LoadAsset(),
+            "AmongUs.Map.Skeld",
+            1.45f));
 
     public ModdedToggleOption CamoComms { get; set; } =
         new("TouOptionAdvancedSaboCamouflageComms", true)
@@ -86,7 +92,8 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
         (int)SkeldTheme.Auto, typeof(SkeldTheme),
         [
             "TouOptionBetterMapsThemeEnumAuto", "TouOptionBetterMapsThemeEnumBasic",
-            "TouOptionBetterMapsThemeEnumBirthday", "TouOptionBetterMapsThemeEnumHalloween"
+            "TouOptionBetterMapsThemeEnumBirthday", "TouOptionBetterMapsThemeEnumHalloween",
+            "TouOptionBetterMapsThemeEnumTvShow"
         ]);
     
     [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
@@ -122,4 +129,5 @@ public enum SkeldTheme
     Basic,
     Birthday,
     Halloween,
+    TvShow,
 }

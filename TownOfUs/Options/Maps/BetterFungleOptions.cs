@@ -9,9 +9,15 @@ namespace TownOfUs.Options.Maps;
 public sealed class BetterFungleOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
-    public override string GroupName => "Better Fungle";
+    public override string GroupName => TouLocale.Get("TouOptionTitleBetterFungle");
     public override uint GroupPriority => 7;
     public override Color GroupColor => new Color32(239, 98, 162, 255);
+    public override OptionNotifConfiguration Configuration => new(
+        GroupColor,
+        TmpSpriteUtils.CreateSpriteAsset(
+            TouAssets.IconFungle.LoadAsset(),
+            "AmongUs.Map.Fungle",
+            1.45f));
 
     public ModdedToggleOption CamoComms { get; set; } =
         new("TouOptionAdvancedSaboCamouflageComms", false)

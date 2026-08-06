@@ -16,7 +16,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -46,7 +45,10 @@ public sealed class AmbusherRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Ambusher.LoadAsset(), "TouMira.Role.Impostor.Ambusher", 1.45f),
         Icon = TouRoleIcons.Ambusher,
+        IntroSound = TouAudio.SneakyIntro,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         CanUseVent = OptionGroupSingleton<AmbusherOptions>.Instance.CanVent
     };
 
@@ -55,15 +57,15 @@ public sealed class AmbusherRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Pursue", "Pursue"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}PursueWikiDescription"),
                     TouImpAssets.PursueSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Ambush", "Ambush"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}AmbushWikiDescription"),
                     TouImpAssets.AmbushSprite)
-            };
+            ];
         }
     }
 
@@ -124,6 +126,11 @@ public sealed class AmbusherRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.AmbushPlayer)]
     public static void RpcAmbushPlayer(PlayerControl ambusher, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(ambusher);
+            return;
+        }
         if (ambusher.Data.Role is not AmbusherRole)
         {
             Error("RpcAmbushPlayer - Invalid ambusher");

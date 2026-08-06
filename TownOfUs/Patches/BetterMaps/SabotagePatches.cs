@@ -2,7 +2,6 @@ using HarmonyLib;
 using Hazel;
 using MiraAPI.GameOptions;
 using TownOfUs.Options.Maps;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.BetterMaps;
 

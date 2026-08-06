@@ -3,8 +3,8 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Options.Roles.Crewmate;
+using TownOfUs.Patches;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -14,9 +14,8 @@ public record PlayerEvent(byte PlayerId, float Unix, Vector3 Position);
 
 public record DeadPlayer(byte KillerId, byte VictimId, DateTime KillTime);
 
-public sealed class PlayerStats(byte playerId)
+public sealed record PlayerStats(byte PlayerId)
 {
-    public byte PlayerId { get; set; } = playerId;
     public int CorrectKills { get; set; }
     public int IncorrectKills { get; set; }
     public int CorrectAssassinKills { get; set; }
@@ -24,12 +23,12 @@ public sealed class PlayerStats(byte playerId)
 }
 
 // body report class for when medic/Forensic reports a body
-public sealed class BodyReport
+public sealed record BodyReport
 {
-    public PlayerControl? Killer { get; set; }
-    public PlayerControl? Reporter { get; set; }
-    public PlayerControl? Body { get; set; }
-    public float KillAge { get; set; }
+    public PlayerControl? Killer { get; init; }
+    public PlayerControl? Reporter { get; init; }
+    public PlayerControl? Body { get; init; }
+    public float KillAge { get; init; }
 
     public static string ParseMedicReport(BodyReport br)
     {
@@ -52,7 +51,7 @@ public sealed class BodyReport
             }
             else
             {
-                var typeOfColor = MedicRole.GetColorTypeForPlayer(br.Killer);
+                var typeOfColor = MedicRole.GetColorTypeForPlayer(br.Killer.Data.DefaultOutfit.ColorId);
                 text = TouLocale.GetParsed((typeOfColor == "lighter") ? "TouRoleMedicBodyKillerLightColor" : "TouRoleMedicBodyKillerDarkColor");
             }
         }
@@ -80,9 +79,7 @@ public sealed class BodyReport
             {
                 // if the killer died, they would still appear correctly here
                 var role = br.Killer.GetRoleWhenAlive();
-                var cacheMod =
-                    br.Killer.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
-                if (cacheMod != null)
+                if (br.Killer.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cacheMod)
                 {
                     role = cacheMod.CachedRole;
                 }
@@ -214,6 +211,8 @@ public static class GameHistory
         DeathHistory.Clear();
         PlayerStats.Clear();
         PlayerEvents.Clear();
+        EndGamePatches.EndGameData.DisconnectedPlayerRecords.Clear();
+        EndGamePatches.ContainedMeetingData.Clear();
     }
 
     public static RoleBehaviour GetRoleWhenAlive(this PlayerControl player)

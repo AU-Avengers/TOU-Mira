@@ -2,7 +2,6 @@
 using Reactor.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.ControlSystem;
 
 namespace TownOfUs.Modifiers.Impostor;
@@ -49,7 +48,7 @@ public sealed class PuppeteerControlModifier(PlayerControl controller) : Disable
         else if (Controller.AmOwner)
         {
             try { Controller.NetTransform.Halt(); } catch { /* ignored */ }
-            if (HudManager.InstanceExists && HudManager.Instance != null)
+            if (HudManager.InstanceExists)
             {
                 HudManager.Instance.PlayerCam.SetTarget(Player);
             }
@@ -77,7 +76,7 @@ public sealed class PuppeteerControlModifier(PlayerControl controller) : Disable
         {
             Controller.moveable = true;
             try { Controller.NetTransform.Halt(); } catch { /* ignored */ }
-            if (HudManager.InstanceExists && HudManager.Instance != null)
+            if (HudManager.InstanceExists)
             {
                 HudManager.Instance.PlayerCam.SetTarget(Controller);
             }
@@ -102,7 +101,6 @@ public sealed class PuppeteerControlModifier(PlayerControl controller) : Disable
                 controllerName,
                 TownOfUsColors.Impostor,
                 TouRoleIcons.Puppeteer.LoadAsset());
-            _controlledNotification?.AdjustNotification();
         }
     }
 

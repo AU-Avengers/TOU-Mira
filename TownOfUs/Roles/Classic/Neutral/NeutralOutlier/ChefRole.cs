@@ -10,26 +10,102 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Text;
+using TMPro;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.Neutral;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Modules.TimeLord;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame, IUnlovable
+public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame, IUnlovable, IProgressTally
 {
+    private static string GetIcon(TMP_SpriteAsset asset)
+    {
+        return $"<sprite name=\"{asset.name}\">";
+    }
+    private static string GetIconColored(TMP_SpriteAsset asset, string color)
+    {
+        return $"<sprite name=\"{asset.name}\" color=#{color}>";
+    }
+    public string GetBodyTally()
+    {
+        var count = OptionGroupSingleton<ChefOptions>.Instance.ServingsNeeded;
+        var tally = new StringBuilder();
+        var fedPlayers = ModifierUtils.GetPlayersWithModifier<ChefServedModifier>().ToList();
+        foreach (var plr in fedPlayers)
+        {
+            count--;
+            if (RainbowUtils.IsRainbow(plr.Data.DefaultOutfit.ColorId))
+            {
+                tally.Append(GetIcon(UxIcons[6]));
+            }
+            else
+            {
+                tally.Append(GetIconColored(UxIcons[5], Palette.TextColors[plr.Data.DefaultOutfit.ColorId].ToHtmlStringRGBA()));
+            }
+        }
+        foreach (var body in StoredBodies)
+        {
+            count--;
+            tally.Append(GetIcon(UxIcons[(int)body.Value]));
+        }
+
+        while (count > 0)
+        {
+            count--;
+            tally.Append(GetIcon(UxIcons[0]));
+        }
+
+        return $"({tally})";
+    }
+    public bool ProgressOnName(bool localDead, bool inMeeting, bool amOwner, out string progress)
+    {
+        if (amOwner || localDead)
+        {
+            progress = GetBodyTally();
+            return true;
+        }
+
+        progress = string.Empty;
+        return false;
+    }
+
+    public string ProgressOnSummaryNormal => string.Empty;
+
+    public string ProgressOnSummaryDetailed =>
+        string.Empty;
+
+    public TallyLocation TallyPlacement(bool inMeeting) => inMeeting ? TallyLocation.Auto : TallyLocation.AboveName;
+    private static TMP_SpriteAsset[] UxIcons => 
+    [
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressNone.LoadAsset(),
+            "TouMira.Role.Neutral.Chef.Ui.None", 1.45f),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyNormal.LoadAsset(),
+            "TouMira.Role.Neutral.Chef.Ui.BodyNormal", 1.45f),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyMini.LoadAsset(),
+            "TouMira.Role.Neutral.Chef.Ui.BodyMini", 1.45f),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyFlash.LoadAsset(),
+            "TouMira.Role.Neutral.Chef.Ui.BodyFlash", 1.45f),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyGiant.LoadAsset(),
+            "TouMira.Role.Neutral.Chef.Ui.BodyGiant", 1.45f),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressFedUncolored.LoadAsset(),
+            "TouMira.Role.Neutral.Chef.Ui.PlayerUncolored", 1.45f),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressFedRainbow.LoadAsset(),
+            "TouMira.Role.Neutral.Chef.Ui.PlayerRainbow", 1.45f),
+    ];
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
-        if (playerControl != PlayerControl.LocalPlayer)
+        if (!playerControl.AmOwner)
         {
             return;
         }
@@ -63,15 +139,15 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Cook", "Cook"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CookWikiDescription"),
                     TouNeutAssets.ChefCookSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Serve", "Serve"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ServeWikiDescription"),
                     TouNeutAssets.ChefServeSprites.AsEnumerable().Random()!),
-            };
+            ];
         }
     }
 
@@ -81,8 +157,10 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Chef.LoadAsset(), "TouMira.Role.Neutral.Chef", 1.45f),
         IntroSound = TouAudio.ChefSound,
         Icon = TouRoleIcons.Chef,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         MaxRoleCount = 1,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
@@ -166,6 +244,11 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     [MethodRpc((uint)TownOfUsRpc.CookBody)]
     public static void RpcCookBody(PlayerControl chef, DeadBody body)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(chef);
+            return;
+        }
         if (chef.Data.Role is not ChefRole role)
         {
             Error("RpcCookBody - Invalid chef");
@@ -199,6 +282,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
             {
                 TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordChefCook(chef, body, platter);
             }
+            var destroyBody = (BodyVitalsMode)OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance.Value;
 
             if (OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind)
             {
@@ -208,18 +292,23 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
                     TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(chef, body, body.transform.position, 
                         TimeLordBodyManager.CleanedBodySource.Janitor);
                 }
-                Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body));
+                Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));
             }
             else
             {
-                Coroutines.Start(body.CoClean());
+                Coroutines.Start(body.CoCleanCustom(destroyBody));
             }
-            //Coroutines.Start(CrimeSceneComponent.CoClean(body));
+            // Coroutines.Start(CrimeSceneComponent.CoClean(body));
         }
     }
     [MethodRpc((uint)TownOfUsRpc.ServeBody)]
     public static void RpcServeBody(PlayerControl chef, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(chef);
+            return;
+        }
         if (chef.Data.Role is not ChefRole role)
         {
             Error("RpcServeBody - Invalid chef");

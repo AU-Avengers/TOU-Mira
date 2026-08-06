@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using TownOfUs.Events.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches.Roles;

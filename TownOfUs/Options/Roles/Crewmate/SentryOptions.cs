@@ -7,7 +7,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class SentryOptions : AbstractOptionGroup<SentryRole>, IWikiOptionsSummaryProvider
+public sealed class SentryOptions : AbstractRoleOptionGroup<SentryRole>, IWikiOptionsSummaryProvider
 {
     public override string GroupName => TouLocale.Get("TouRoleSentry", "Sentry");
 
@@ -139,7 +139,7 @@ public sealed class SentryOptions : AbstractOptionGroup<SentryRole>, IWikiOption
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
         var count = (int)BlindspotsCount.Value;
-        var title = TranslationController.Instance != null
+        var title = TranslationController.Instance
             ? TranslationController.Instance.GetString(BlindspotsCount.StringName)
             : BlindspotsCount.StringName.ToString();
 

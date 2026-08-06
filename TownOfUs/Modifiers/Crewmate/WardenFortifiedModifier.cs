@@ -1,14 +1,11 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
 using PowerTools;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Crewmate;
@@ -18,7 +15,7 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
     public override string ModifierName => "Fortified";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Warden;
     public override string ShieldDescription => "You are fortified by a Warden!\nNo one can interact with you.";
-    public GameObject? WardenFort { get; set; }
+    public GameObject WardenFort { get; set; }
     public bool ShowFort { get; set; }
 
     public override bool HideOnUi
@@ -26,7 +23,7 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
         get
         {
             var showFort = OptionGroupSingleton<WardenOptions>.Instance.ShowFortified;
-            return !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowShieldHudToggle.Value ||
+            return !LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowShieldHudToggle.Value ||
                    showFort is FortifyOptions.Warden;
         }
     }
@@ -62,8 +59,7 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-        var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
-            x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
+            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
         ShowFort = showShieldedEveryone || showShieldedSelf || showShieldedWarden ||
                    (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
@@ -75,23 +71,23 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
 
     public override void OnDeactivate()
     {
-        if (WardenFort?.gameObject != null)
+        if (WardenFort)
         {
-            WardenFort.gameObject.Destroy();
+            WardenFort.Destroy();
         }
     }
 
     public override void Update()
     {
-        if (Player == null || Warden == null)
+        if (!Player || Warden == null)
         {
             ModifierComponent?.RemoveModifier(this);
             return;
         }
 
-        if (!MeetingHud.Instance && WardenFort?.gameObject != null)
+        if (!MeetingHud.Instance && WardenFort)
         {
-            WardenFort?.SetActive(!Player.IsConcealed() && IsVisible && ShowFort);
+            WardenFort.SetActive(!Player.IsConcealed() && IsVisible && ShowFort);
         }
     }
 }

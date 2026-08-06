@@ -1,18 +1,16 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using System.Collections;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IAftermathableButton
+public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IAftermathableButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleSentryPlaceCamera", "Deploy");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -29,7 +27,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
         }
     }
     public override int MaxUses => (int)OptionGroupSingleton<SentryOptions>.Instance.InitialCameras.Value;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.DeployCamSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.DeployCamSprite : TouCrewAssets.DeployCamSprite;
     public override bool ZeroIsInfinite { get; set; } = true;
     public int ExtraUses { get; set; }
 
@@ -181,7 +179,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
 
     private static SystemTypes GetRoomId(Vector3 position)
     {
-        if (ShipStatus.Instance == null)
+        if (!ShipStatus.Instance)
         {
             return SystemTypes.Outside;
         }
@@ -226,16 +224,17 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
     private IEnumerator PlaceCameraCoroutine()
     {
         var startPos = SavedPos!.Value;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(EffectDuration);
 
         if (SavedPos.HasValue && _pendingPlacement)
         {
             var distance = Vector2.Distance(PlayerControl.LocalPlayer.transform.position, startPos);
             if (distance <= MaxPlacementDistance)
             {
-                var pos2D = new Vector2(SavedPos.Value.x, SavedPos.Value.y);
-                SentryRole.RpcPlaceCamera(PlayerControl.LocalPlayer, pos2D);
-                SentryRole.RpcRevealCamera(PlayerControl.LocalPlayer, pos2D, SavedPos.Value.z);
+                var newPos = SavedPos.GetValueOrDefault();
+                var vec2 = new Vector2(newPos.x, newPos.y);
+                SentryRole.RpcPlaceCamera(PlayerControl.LocalPlayer, vec2);
+                SentryRole.RpcRevealCamera(PlayerControl.LocalPlayer, vec2, newPos.z);
                 TouAudio.PlaySound(TouAudio.SentryPlaceSound);
                 RefreshPortableButtons();
             }

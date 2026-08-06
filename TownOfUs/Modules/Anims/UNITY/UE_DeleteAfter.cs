@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using MiraAPI.Utilities;
 using Reactor.Utilities.Attributes;
-using Reactor.Utilities.Extensions;
 using UnityEngine;
 
 namespace AuAvengers.Animations;
@@ -22,12 +22,9 @@ public sealed class UE_DeleteAfter : MonoBehaviour
         currentPosition += Time.deltaTime;
         if (currentPosition > endTime)
         {
-            if (after != null)
-            {
-                after(this, inst);
-            }
+            after?.Invoke(this, inst);
 
-            gameObject.DestroyImmediate();
+            gameObject.DeepDestroy();
         }
     }
 }

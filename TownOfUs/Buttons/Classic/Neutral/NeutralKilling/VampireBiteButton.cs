@@ -2,7 +2,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Roles;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Neutral;
@@ -11,12 +10,11 @@ using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class VampireBiteButton : TownOfUsKillRoleButton<VampireRole, PlayerControl>, IDiseaseableButton, IKillButton
+public sealed class VampireBiteButton : TownOfUsKillRoleButton<VampireRole, PlayerControl>, IDiseaseableButton, IKillButton, ILegacyCapable
 {
     private string _biteName = "Bite";
     private string _killName = "Kill";
@@ -24,7 +22,7 @@ public sealed class VampireBiteButton : TownOfUsKillRoleButton<VampireRole, Play
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Vampire;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<VampireOptions>.Instance.BiteCooldown + MapCooldown, 5f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.BiteSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyNeutAssets.BiteSprite : TouNeutAssets.BiteSprite;
 
     public void SetDiseasedTimer(float multiplier)
     {
@@ -34,10 +32,7 @@ public sealed class VampireBiteButton : TownOfUsKillRoleButton<VampireRole, Play
     public override void CreateButton(Transform parent)
     {
         base.CreateButton(parent);
-        if (KeybindIcon != null)
-        {
-            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
-        }
+        KeybindIcon?.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
 
         _killName = TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
         _biteName = TouLocale.Get("TouRoleVampireBite", "Bite");

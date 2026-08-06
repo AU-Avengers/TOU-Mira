@@ -7,7 +7,6 @@ using MiraAPI.Roles;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Options.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -17,7 +16,7 @@ public sealed class SurvivorRole(IntPtr cppPtr)
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
-        if (playerControl != PlayerControl.LocalPlayer)
+        if (!playerControl.AmOwner)
         {
             return;
         }
@@ -44,12 +43,12 @@ public sealed class SurvivorRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Safeguard", "Safeguard"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}SafeguardWikiDescription"),
                     TouNeutAssets.VestSprite)
-            };
+            ];
         }
     }
 
@@ -69,8 +68,10 @@ public sealed class SurvivorRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Survivor.LoadAsset(), "TouMira.Role.Neutral.Survivor", 1.45f),
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Survivor,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
@@ -82,7 +83,7 @@ public sealed class SurvivorRole(IntPtr cppPtr)
 
         if (Player.AmOwner && OptionGroupSingleton<SurvivorOptions>.Instance.ScatterOn)
         {
-            Player.AddModifier<ScatterModifier>(OptionGroupSingleton<SurvivorOptions>.Instance.ScatterTimer);
+            Player.AddModifier<ScatterModifier>(OptionGroupSingleton<SurvivorOptions>.Instance.ScatterTimer.Value);
         }
     }
 

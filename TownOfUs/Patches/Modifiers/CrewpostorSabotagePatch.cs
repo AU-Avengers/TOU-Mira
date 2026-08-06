@@ -2,7 +2,6 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using TownOfUs.Options.Modifiers.Alliance;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.Modifiers;
 

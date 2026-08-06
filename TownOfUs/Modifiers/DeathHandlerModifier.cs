@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using AmongUs.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
+using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using TownOfUs.Events;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers;
@@ -38,6 +40,10 @@ public sealed class DeathHandlerModifier : BaseModifier
     // This will specify how the player died such as; Suicide, Prosecuted, Ejected, Rampaged, Reaped, etc.
     public string CauseOfDeath { get; set; } = "Suicide";
 
+    // Optional verbose cause of death used only by the extended end-game summary.
+    // The HUD and short summary keep showing the concise CauseOfDeath.
+    public string ExtendedCauseOfDeath { get; set; } = string.Empty;
+
     // This is set up by the game itself and will display in the lobby
     public int RoundOfDeath { get; set; } = -1;
 
@@ -59,13 +65,37 @@ public sealed class DeathHandlerModifier : BaseModifier
     }
 
     [MethodRpc((uint)TownOfUsRpc.UpdateLocalDeathHandler)]
-    public static void RpcUpdateLocalDeathHandler(PlayerControl player, string causeOfDeath = "null", int roundOfDeath = -1,
-        DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedByString = "null", PlayerControl? killedBy = null,
+    public static void RpcUpdateLocalDeathHandler(PlayerControl player, PlayerControl killedBy, string causeOfDeath = "null", int roundOfDeath = -1,
+        DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedByString = "null",
         DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore)
     {
         var localizedCod = TouLocale.Get(causeOfDeath).Contains("STRMISS") ? "null" : TouLocale.Get(causeOfDeath);
-        var localizedKilledBy = (TouLocale.GetParsed(killedByString).Contains("STRMISS") || killedBy == null) ? "null" : TouLocale.GetParsed(killedByString).Replace("<player>", killedBy.Data.PlayerName);
+        var localizedKilledBy = (TouLocale.GetParsed(killedByString).Contains("STRMISS") || killedBy == player) ? "null" : TouLocale.GetParsed(killedByString).Replace("<player>", killedBy.Data.PlayerName);
         UpdateDeathHandler(player, localizedCod, roundOfDeath, diedThisRound, localizedKilledBy, lockInfo);
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.MisguessSummary, LocalHandling = RpcLocalHandling.After)]
+    public static void RpcSetMisguessSummary(PlayerControl player, byte victimId, uint guessId, bool isRole)
+    {
+        var text = string.Empty;
+        if (isRole)
+        {
+            var role = RoleManager.Instance.GetRole((RoleTypes)guessId);
+            text = $"{role.TeamColor.ToTextColor()}{role.GetRoleName()}</color>";
+        }
+        else
+        {
+            var modifier = ModifierManager.Modifiers.FirstOrDefault(x => x.TypeId == guessId)!;
+            text =
+                $"{MiscUtils.GetRoleColour(modifier.ModifierName.Replace(" ", string.Empty)).ToTextColor()}{modifier.ModifierName}</color>";
+        }
+
+        var name = GameData.Instance?.GetPlayerById(victimId)?.Object?.Data?.PlayerName ?? "?";
+        var summary = TouLocale.GetParsed("MisguessSummary")
+            .Replace("<player>", name)
+            .Replace("<role>", text);
+
+        Coroutines.Start(CoSetExtended(player, summary));
     }
 
     public static void UpdateDeathHandler(PlayerControl player, string causeOfDeath = "null", int roundOfDeath = -1,
@@ -189,6 +219,21 @@ public sealed class DeathHandlerModifier : BaseModifier
         }
 
         IsAltCoroutineRunning = false;
+    }
+
+    private static IEnumerator CoSetExtended(PlayerControl player, string summary)
+    {
+        var timeout = 5f;
+        while (timeout > 0f && player && !player.HasModifier<DeathHandlerModifier>())
+        {
+            timeout -= Time.deltaTime;
+            yield return null;
+        }
+
+        if (player && player.TryGetModifier<DeathHandlerModifier>(out var deathHandler))
+        {
+            deathHandler.ExtendedCauseOfDeath = summary;
+        }
     }
 }
 

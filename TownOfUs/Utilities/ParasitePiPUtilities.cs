@@ -4,7 +4,7 @@ using UnityEngine;
 namespace TownOfUs.Utilities;
 
 /// <summary>
-/// Utility class for managing Parasite Picture-in-Picture camera positioning, sizing, and dragging.
+/// Utility class for managing <see cref="Roles.Impostor.ParasiteRole"/> Picture-in-Picture camera positioning, sizing, and dragging.
 /// </summary>
 public static class ParasitePiPUtilities
 {
@@ -25,7 +25,7 @@ public static class ParasitePiPUtilities
     /// </summary>
     public static bool HasLeftSideModifierButtons()
     {
-        if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data?.Role == null)
+        if (!PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data?.Role == null)
         {
             return false;
         }
@@ -75,7 +75,7 @@ public static class ParasitePiPUtilities
     /// </summary>
     public static ParasitePiPLocation GetEffectiveLocation()
     {
-        var setting = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ParasitePiPLocation.Value;
+        var setting = LocalSettingsTabSingleton<TouLocalTabGameplay>.Instance.ParasitePiPLocation.Value;
         return setting == ParasitePiPLocation.Dynamic ? GetDynamicLocation() : setting;
     }
 
@@ -142,7 +142,7 @@ public static class ParasitePiPUtilities
     /// </summary>
     public static float GetScaleMultiplier()
     {
-        var size = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ParasitePiPSize.Value;
+        var size = LocalSettingsTabSingleton<TouLocalTabGameplay>.Instance.ParasitePiPSize.Value;
         return size switch
         {
             ParasitePiPSize.Small => 0.85f,

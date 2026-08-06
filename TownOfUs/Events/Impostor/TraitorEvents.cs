@@ -13,7 +13,6 @@ using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Impostor;

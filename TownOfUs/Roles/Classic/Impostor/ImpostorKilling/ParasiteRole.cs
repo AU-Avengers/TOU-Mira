@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -13,7 +12,6 @@ using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches.ControlSystem;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -26,8 +24,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     private bool _killPendingFromTimer;
 
     private Camera? parasiteCam;
-    private GameObject? parasiteBorderObj;
-    private SpriteRenderer? parasiteBorderRenderer;
+    private GameObject parasiteBorderObj;
+    private SpriteRenderer parasiteBorderRenderer;
     private bool _pipDragging;
     private bool _pipManualMovedThisSession;
     private Vector2 _pipDragOffsetViewport;
@@ -62,7 +60,10 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Parasite.LoadAsset(), "TouMira.Role.Impostor.Parasite", 1.45f),
         UseVanillaKillButton = false,
+        IntroSound = TouAudio.ScreamIntro,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Parasite,
         CanUseVent = OptionGroupSingleton<ParasiteOptions>.Instance.CanVent
     };
@@ -95,7 +96,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         ClearControlLocal();
         if (AdvancedMovementUtilities.MobileJoystickR && AdvancedMovementUtilities.MobileJoystickR.gameObject != null)
         {
-            AdvancedMovementUtilities.MobileJoystickR.gameObject.Destroy();
+            AdvancedMovementUtilities.MobileJoystickR.gameObject.DeepDestroy();
         }
     }
 
@@ -144,7 +145,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data == null || Player.HasDied() || !Player.AmOwner)
+        if (!Player || Player.Data == null || Player.HasDied() || !Player.AmOwner)
         {
             return;
         }
@@ -152,10 +153,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         var target = Controlled;
         if (target == null)
         {
-            if (AdvancedMovementUtilities.MobileJoystickR != null)
-            {
-                AdvancedMovementUtilities.MobileJoystickR.ToggleVisuals(false);
-            }
+            AdvancedMovementUtilities.MobileJoystickR?.ToggleVisuals(false);
             _killPendingFromTimer = false;
             return;
         }
@@ -182,7 +180,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             !target.walkingToVent)
         {
             _killPendingFromTimer = false;
-            if (PlayerControl.LocalPlayer != null)
+            if (PlayerControl.LocalPlayer)
             {
                 PlayerControl.LocalPlayer.RpcSpecialMurder(
                     target,
@@ -191,7 +189,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
                     causeOfDeath: "Parasite");
             }
 
-            if (PlayerControl.LocalPlayer != null)
+            if (PlayerControl.LocalPlayer)
             {
                 RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
             }
@@ -200,7 +198,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     public void LateUpdate()
     {
-        if (Player == null || !Player.AmOwner || Controlled == null || parasiteCam == null)
+        if (!Player || !Player.AmOwner || Controlled == null || parasiteCam == null)
         {
             return;
         }
@@ -220,8 +218,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     /// </summary>
     public void TickPiP()
     {
-        if (Player == null || !Player.AmOwner || Controlled == null ||
-            parasiteCam == null || parasiteBorderObj == null || parasiteBorderRenderer == null || Camera.main == null)
+        if (!Player || !Player.AmOwner || Controlled == null ||
+            parasiteCam == null || !parasiteBorderObj || !parasiteBorderRenderer || Camera.main == null)
         {
             return;
         }
@@ -246,7 +244,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     /// </summary>
     public void UpdateCameraBorderLayout()
     {
-        if (parasiteCam == null || parasiteBorderObj == null || parasiteBorderRenderer == null || Camera.main == null)
+        if (parasiteCam == null || !parasiteBorderObj || !parasiteBorderRenderer || Camera.main == null)
         {
             return;
         }
@@ -308,7 +306,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     private void EnsureBorderCollider()
     {
-        if (parasiteBorderObj == null || parasiteBorderRenderer == null)
+        if (!parasiteBorderObj || !parasiteBorderRenderer)
         {
             return;
         }
@@ -334,7 +332,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        var locSetting = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ParasitePiPLocation.Value;
+        var locSetting = LocalSettingsTabSingleton<TouLocalTabGameplay>.Instance.ParasitePiPLocation.Value;
         var sizeMultiplier = ParasitePiPUtilities.GetScaleMultiplier();
 
         ParasitePiPLocation location;
@@ -483,7 +481,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     private void HandleDragInput()
     {
-        if (parasiteCam == null || parasiteBorderObj == null || Camera.main == null)
+        if (parasiteCam == null || !parasiteBorderObj || Camera.main == null)
         {
             return;
         }
@@ -494,11 +492,12 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        var down = false;
-        var held = false;
-        var up = false;
         Vector2 screenPos;
 
+
+        bool down;
+        bool held;
+        bool up;
         if (Input.touchCount > 0)
         {
             var touch = Input.GetTouch(0);
@@ -574,7 +573,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         local.RpcSpecialMurder(
             target,
-            MeetingCheck.ForMeeting,
             teleportMurderer: false,
             showKillAnim: false,
             causeOfDeath: "Parasite");
@@ -622,11 +620,11 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             parasiteCam = null;
         }
 
-        if (parasiteBorderObj != null)
+        if (parasiteBorderObj)
         {
             parasiteBorderObj.Destroy();
-            parasiteBorderObj = null;
-            parasiteBorderRenderer = null;
+            parasiteBorderObj = null!;
+            parasiteBorderRenderer = null!;
         }
     }
 
@@ -656,18 +654,19 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     private void CreateNotification()
     {
-        if (Controlled == null || PlayerControl.LocalPlayer == null || !Player.AmOwner)
+        if (Controlled == null || !PlayerControl.LocalPlayer || !Player.AmOwner)
         {
             return;
         }
 
         if (controllerNotification == null)
         {
-            var controllerText = TouLocale.GetParsed("TouRoleParasiteControlNotif", $"You are controlling {Controlled.Data.PlayerName}!");
+            var controllerText = TouLocale.GetParsed("TouRoleParasiteOvertakeNotifSelf");
             controllerNotification = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Impostor.ToTextColor()}{controllerText.Replace("<player>", Controlled.Data.PlayerName)}</color></b>",
                 Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Parasite.LoadAsset());
-            controllerNotification?.AdjustNotification();
+            controllerNotification.AdjustNotification();
+            controllerNotification.alphaTimer = OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
         }
     }
 
@@ -675,7 +674,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     {
         if (controllerNotification != null && controllerNotification.gameObject != null)
         {
-            controllerNotification.gameObject.Destroy();
+            controllerNotification.gameObject.DeepDestroy();
             controllerNotification = null;
         }
     }
@@ -684,6 +683,11 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     [MethodRpc((uint)TownOfUsRpc.ParasiteControl)]
     public static void RpcParasiteControl(PlayerControl parasite, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(parasite);
+            return;
+        }
         if (parasite.Data.Role is not ParasiteRole role)
         {
             Error("RpcParasiteControl - Invalid parasite");
@@ -752,6 +756,11 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     [MethodRpc((uint)TownOfUsRpc.ParasiteEndControl)]
     public static void RpcParasiteEndControl(PlayerControl parasite, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(parasite);
+            return;
+        }
         if (parasite.Data.Role is not ParasiteRole role)
         {
             return;
@@ -767,10 +776,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
             if (target.MyPhysics != null)
             {
-                if (target.MyPhysics.body != null)
-                {
-                    target.MyPhysics.body.velocity = Vector2.zero;
-                }
+                target.MyPhysics.body?.velocity = Vector2.zero;
                 target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
             }
 
@@ -846,6 +852,11 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     [MethodRpc((uint)TownOfUsRpc.ParasiteTriggerInteraction)]
     public static void RpcParasiteTriggerInteraction(PlayerControl parasite, PlayerControl controlled, Vector2 interactablePosition)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(parasite);
+            return;
+        }
         if (parasite.Data.Role is not ParasiteRole role)
         {
             Error("RpcParasiteTriggerInteraction - Invalid parasite");
@@ -914,8 +925,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             }
 
             // Check if player can use this
-            bool canUse;
-            usable.CanUse(player.Data, out canUse, out _);
+            usable.CanUse(player.Data, out bool canUse, out _);
             if (!canUse)
             {
                 continue;
@@ -963,7 +973,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
         else if (interactable.TryCast<ZiplineConsole>() is { } ziplineConsole)
         {
-            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
                 return;
             }
@@ -974,7 +984,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
         else if (interactable.TryCast<OpenDoorConsole>() is { } openDoorConsole)
         {
-            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
                 return;
             }
@@ -1002,7 +1012,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
         else if (interactable.TryCast<PlatformConsole>() is { } platformConsole)
         {
-            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
                 return;
             }
@@ -1019,7 +1029,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
         else if (interactable.TryCast<DeconControl>() is { } deconControl)
         {
-            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
                 return;
             }

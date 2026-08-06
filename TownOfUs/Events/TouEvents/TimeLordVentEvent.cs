@@ -3,63 +3,45 @@ namespace TownOfUs.Events.TouEvents;
 /// <summary>
 /// Event fired when a player enters a vent.
 /// </summary>
-public class TimeLordVentEnterEvent : TimeLordEvent
+public class TimeLordVentEnterEvent(PlayerControl player, Vent vent, float time) : TimeLordEvent(player, time)
 {
     /// <summary>
     /// The vent that was entered.
     /// </summary>
-    public Vent Vent { get; }
+    public Vent Vent { get; } = vent;
 
     /// <summary>
     /// The vent ID.
     /// </summary>
-    public int VentId { get; }
-
-    public TimeLordVentEnterEvent(PlayerControl player, Vent vent, float time) : base(player, time)
-    {
-        Vent = vent;
-        VentId = vent.Id;
-    }
+    public int VentId { get; } = vent.Id;
 }
 
 /// <summary>
 /// Event fired when a player exits a vent.
 /// </summary>
-public class TimeLordVentExitEvent : TimeLordEvent
+public class TimeLordVentExitEvent(PlayerControl player, Vent vent, float time) : TimeLordEvent(player, time)
 {
     /// <summary>
     /// The vent that was exited.
     /// </summary>
-    public Vent Vent { get; }
+    public Vent Vent { get; } = vent;
 
     /// <summary>
     /// The vent ID.
     /// </summary>
-    public int VentId { get; }
-
-    public TimeLordVentExitEvent(PlayerControl player, Vent vent, float time) : base(player, time)
-    {
-        Vent = vent;
-        VentId = vent.Id;
-    }
+    public int VentId { get; } = vent.Id;
 }
 
 /// <summary>
 /// Event fired to undo a vent enter action during rewind.
 /// </summary>
-public class TimeLordVentEnterUndoEvent : TimeLordUndoEvent
+public class TimeLordVentEnterUndoEvent(TimeLordVentEnterEvent originalEvent) : TimeLordUndoEvent(originalEvent)
 {
-    public TimeLordVentEnterUndoEvent(TimeLordVentEnterEvent originalEvent) : base(originalEvent)
-    {
-    }
 }
 
 /// <summary>
 /// Event fired to undo a vent exit action during rewind.
 /// </summary>
-public class TimeLordVentExitUndoEvent : TimeLordUndoEvent
+public class TimeLordVentExitUndoEvent(TimeLordVentExitEvent originalEvent) : TimeLordUndoEvent(originalEvent)
 {
-    public TimeLordVentExitUndoEvent(TimeLordVentExitEvent originalEvent) : base(originalEvent)
-    {
-    }
 }

@@ -2,19 +2,19 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
-using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;
 
-public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable, IColoredModifier
+public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable
 {
-    public Color ModifierColor => new(0f, 0.7f, 0.7f, 1f);
+    public override ModifierUiConfiguration Configuration => new(
+        new Color32(0, 179, 179, 255),
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Investigator.LoadAsset(),
+            "TouMira.Role.Crewmate.Investigator", 1.45f));
     public override string LocaleKey => "Investigator";
     public override string ModifierName => TouLocale.Get($"TouRole{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");

@@ -14,7 +14,6 @@ using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
 
@@ -120,9 +119,9 @@ public static class VeteranEvents
             {
                 miraEvent.Cancel();
             }
-            if (source.HasModifier<InvulnerabilityModifier>())
+            if (source.HasModifier<InvulnerabilityModifier>() || source.HasModifier<VeteranAlertModifier>())
             {
-                // stops pestilence from softlocking the game when attacking vet
+                // stops pestilence from softlocking the game when attacking vet, and stops vet from softlocking vet from other extension mod changes.
                 return;
             }
 

@@ -1,5 +1,4 @@
-﻿using System.Text;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using MiraAPI.GameOptions;
@@ -9,16 +8,17 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
+using System.Text;
 using TMPro;
 using TownOfUs.Interfaces;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -29,6 +29,9 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 {
     public GameObject SearchIcon;
     private List<Transform> _activeItems = [];
+    private readonly List<InGameModifierWikiEntry> _modifierEntries = [];
+    private readonly List<InGameRoleWikiEntry> _roleEntries = [];
+    private List<RoleBehaviour> _roleList = [];
 
     private WikiPage _currentPage = WikiPage.Homepage;
     private bool _modifiersSelected;
@@ -53,7 +56,8 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     public Il2CppReferenceField<PassiveButton> HomepageTermsBtn;
     public Il2CppReferenceField<PassiveButton> HomepageSettingsBtn;
     public Il2CppReferenceField<PassiveButton> OutsideCloseButton;
-    public Il2CppReferenceField<Transform> SearchItemTemplate;
+    public Il2CppReferenceField<InGameModifierWikiEntry> ModifierSearchItemTemplate;
+    public Il2CppReferenceField<InGameRoleWikiEntry> RoleSearchItemTemplate;
     public Il2CppReferenceField<SpriteRenderer> SearchPageIcon;
     public Il2CppReferenceField<TextMeshPro> SearchPageText;
 
@@ -95,33 +99,24 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
     public static void AddNewSettings(IngameWikiMinigame instance)
     {
-        instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsAmongUsGameSettingsTitle", new List<AbstractOptionGroup>(), TouRoleIcons.Detective, true));
+        instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsAmongUsGameSettingsTitle", [], TouRoleIcons.Detective, true));
         instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsTouMiraGameSettingsTitle",
-            new List<AbstractOptionGroup>()
-            {
+            [
                 OptionGroupSingleton<GeneralOptions>.Instance, OptionGroupSingleton<VanillaTweakOptions>.Instance,
                 OptionGroupSingleton<GameMechanicOptions>.Instance, OptionGroupSingleton<PostmortemOptions>.Instance,
-                OptionGroupSingleton<GameTimerOptions>.Instance, OptionGroupSingleton<TaskTrackingOptions>.Instance
-            }, TouRoleIcons.Engineer));
-        instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsAssassinSettingsTitle",
-            new List<AbstractOptionGroup>()
-            {
-                OptionGroupSingleton<AssassinOptions>.Instance
-            }, TouModifierIcons.DoubleShot));
+            ], TouRoleIcons.Engineer));
         instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsMapsSabotageSettingsTitle",
-            new List<AbstractOptionGroup>()
-            {
+            [
                 OptionGroupSingleton<GlobalBetterMapOptions>.Instance, OptionGroupSingleton<AdvancedUtilityOptions>.Instance,
                 OptionGroupSingleton<AdvancedSabotageOptions>.Instance
-            }, TouModifierIcons.Operative));
+            ], TouModifierIcons.Operative));
         instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsBetterMapsSettingsTitle",
-            new List<AbstractOptionGroup>()
-            {
+            [
                 OptionGroupSingleton<BetterSkeldOptions>.Instance, OptionGroupSingleton<BetterMiraHqOptions>.Instance,
                 OptionGroupSingleton<BetterPolusOptions>.Instance, OptionGroupSingleton<BetterAirshipOptions>.Instance,
                 OptionGroupSingleton<BetterFungleOptions>.Instance, OptionGroupSingleton<BetterSubmergedOptions>.Instance,
                 OptionGroupSingleton<BetterLevelImpostorOptions>.Instance
-            }, TouRoleIcons.Spy));
+            ], TouRoleIcons.Spy));
     }
     private void Awake()
     {
@@ -331,15 +326,9 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                     roleIcon.sprite = aliveRole.RoleIconSolid ?? TouRoleIcons.Parasite.LoadAsset();
                 }
 
-                if (modifierIcon != null)
-                {
-                    modifierIcon.SetSizeLimit(1.44f);
-                }
+                modifierIcon?.SetSizeLimit(1.44f);
 
-                if (playerRoleIcon != null)
-                {
-                    playerRoleIcon.SetSizeLimit(1.44f);
-                }
+                playerRoleIcon?.SetSizeLimit(1.44f);
 
                 break;
 
@@ -361,7 +350,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.UseCrewmateTeamColorToggle.Value;
     }
 
     private void LoadSettingsScreen()
@@ -403,7 +392,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             }
             else if (index == 0)
             {
-                SelectSettingsPage(_activeSettings[_activeSettings.Count - 1], true);
+                SelectSettingsPage(_activeSettings[^1], true);
             }
             else
             {
@@ -685,7 +674,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             }
             else if (index == 0)
             {
-                SelectTermsPage(_activeTerms[_activeTerms.Count - 1], true);
+                SelectTermsPage(_activeTerms[^1], true);
             }
             else
             {
@@ -738,9 +727,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         ToggleAbilitiesBtn.Value.buttonText.text =
             (_selectedItem != null) ? _selectedItem.SecondTabName : _selectedSoftItem!.SecondTabName;
 
-        DetailDescription.Value.text = (_selectedItem != null)
-            ? _selectedItem.GetAdvancedDescription()
-            : _selectedSoftItem!.GetAdvancedDescription;
+        DetailDescription.Value.text = GetDetailDescription();
         DetailDescription.Value.fontSizeMax = 2.4f;
 
         if (_selectedItem is ITownOfUsRole touRole)
@@ -753,7 +740,36 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         }
         else if (_selectedItem is BaseModifier baseModifier)
         {
-            DetailScreenItemName.Value.text = baseModifier.ModifierName;
+            var faction = MiscUtils.GetModifierFaction(baseModifier);
+            var alignment = MiscUtils.GetParsedModifierFaction(faction);
+            var basicFaction = faction.ToString();
+            var non = basicFaction.Contains("Non");
+            var color = MiscUtils.GetModifierColour(baseModifier);
+            if (baseModifier is not AllianceGameModifier)
+            {
+                if (basicFaction.Contains("Crew") && !non)
+                {
+                    color = TownOfUsColors.CrewmateWiki;
+                }
+                else if (basicFaction.Contains("Neut") && !non)
+                {
+                    color = TownOfUsColors.NeutralWiki;
+                }
+                else if (basicFaction.Contains("Imp") && !non)
+                {
+                    color = TownOfUsColors.ImpWiki;
+                }
+                else if (basicFaction.Contains("Game") || non)
+                {
+                    color = TownOfUsColors.Other;
+                }
+                else if (baseModifier is TouBaseGameModifier)
+                {
+                    color = baseModifier.FreeplayFileColor;
+                }
+            }
+            DetailScreenItemName.Value.text =
+                $"{baseModifier.ModifierName}\n<size=60%>{color.ToTextColor()}{alignment}</size></color>";
             DetailScreenIcon.Value.sprite = baseModifier.ModifierIcon != null
                 ? baseModifier.ModifierIcon.LoadAsset()
                 : TouRoleIcons.RandomAny.LoadAsset();
@@ -762,9 +778,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         {
             DetailScreenItemName.Value.text =
                 $"{_selectedSoftItem.EntryName}\n<size=60%>{_selectedSoftItem.EntryColor.ToTextColor()}{TouLocale.Get(_selectedSoftItem.TeamName, _selectedSoftItem.TeamName)}</size></color>";
-            DetailScreenIcon.Value.sprite = _selectedSoftItem.Icon != null
-                ? _selectedSoftItem.Icon
-                : TouRoleIcons.RandomAny.LoadAsset();
+            DetailScreenIcon.Value.sprite = _selectedSoftItem.Icon ?? TouRoleIcons.RandomAny.LoadAsset();
             var possibleIcon = TouRoleUtils.TryGetVanillaRoleIcon(_selectedSoftItem.AssociatedRole);
             if (possibleIcon != null)
             {
@@ -781,20 +795,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         {
             foreach (var ability in _selectedItem.Abilities)
             {
-                var newAbility = Instantiate(AbilityTemplate.Value, AbilityScroller.Value.Inner.transform);
-                var icon = newAbility.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
-                var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
-                var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
-
-                icon.sprite = ability.icon.LoadAsset();
-                icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
-                icon.tileMode = SpriteTileMode.Adaptive;
-
-                text.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.name}</font>";
-                desc.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.description}</font>";
-                newAbility.gameObject.SetActive(true);
+                LoadAbilityDetails(ability);
             }
 
             max = Mathf.Max(0f, _selectedItem.Abilities.Count * 0.875f);
@@ -803,20 +804,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         {
             foreach (var ability in _selectedSoftItem.Abilities)
             {
-                var newAbility = Instantiate(AbilityTemplate.Value, AbilityScroller.Value.Inner.transform);
-                var icon = newAbility.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
-                var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
-                var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
-
-                icon.sprite = ability.icon.LoadAsset();
-                icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
-                icon.tileMode = SpriteTileMode.Adaptive;
-
-                text.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.name}</font>";
-                desc.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.description}</font>";
-                newAbility.gameObject.SetActive(true);
+                LoadAbilityDetails(ability);
             }
 
             max = Mathf.Max(0f, _selectedSoftItem.Abilities.Count * 0.875f);
@@ -824,6 +812,47 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
         AbilityScroller.Value.SetBounds(new FloatRange(-0.5f, max), null);
         AbilityScroller.Value.ScrollToTop();
+    }
+
+    private string GetDetailDescription()
+    {
+        if (_selectedItem == null)
+        {
+            return _selectedSoftItem!.GetAdvancedDescription;
+        }
+
+        var description = _selectedItem.GetAdvancedDescription();
+        if (_selectedItem is not BaseModifier mod || !AssassinModifier.IsModifierGuessable(mod))
+        {
+            return description;
+        }
+        var guessable = "\n<size=50%> \n</size>This modifier can be guessed by an Assassin.";
+
+        int index = description.IndexOf("\n<size=50%> \n</size>", StringComparison.InvariantCulture);
+        if (index != -1)
+        {
+            return description.Insert(index, guessable);
+        }
+
+        return description + guessable;
+    }
+
+    private void LoadAbilityDetails(CustomButtonWikiDescription ability)
+    {
+        var newAbility = Instantiate(AbilityTemplate.Value, AbilityScroller.Value.Inner.transform);
+        var icon = newAbility.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
+        var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
+        var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
+
+        icon.sprite = ability.Icon.LoadAsset();
+        icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
+        icon.tileMode = SpriteTileMode.Adaptive;
+
+        text.text =
+            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.Name}</font>";
+        desc.text =
+            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.Description}</font>";
+        newAbility.gameObject.SetActive(true);
     }
 
     private void LoadSearchScreen()
@@ -845,9 +874,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
         SearchIcon.SetActive(true);
 
-        var oldMax = Mathf.Max(0f, SearchScroller.Value.Inner.GetChildCount() * 0.725f);
-
-        _activeItems.Do(x => x.gameObject.DestroyImmediate());
+        var oldMax = Mathf.Max(0f, _activeItems.Count * 0.725f);
         _activeItems.Clear();
 
         SearchTextbox.Value.SetText(string.Empty);
@@ -872,92 +899,67 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 .OrderBy(x => x, comparer)
                 .ToList();
 
-            foreach (var modifier in modifiers)
+            ToggleRoles(false);
+            if (!_modifierEntries.HasAny())
             {
-                if ((modifier is not IWikiDiscoverable wikiMod || wikiMod.IsHiddenFromList) &&
-                    !SoftWikiEntries.ModifierEntries.ContainsKey(modifier))
+                foreach (var modifier in modifiers)
                 {
-                    continue;
-                }
-
-                var amount = modifier is GameModifier gameMod ? gameMod.GetAmountPerGame() : 0;
-                var chance = modifier is GameModifier gameMod2 ? gameMod2.GetAssignmentChance() : 0;
-                var faction = MiscUtils.GetModifierFaction(modifier);
-                var alignment = MiscUtils.GetParsedModifierFaction(faction);
-                var basicFaction = faction.ToString();
-                var color = MiscUtils.GetModifierColour(modifier);
-                if (modifier is UniversalGameModifier uniMod2)
-                {
-                    amount = uniMod2.CustomAmount;
-                    chance = uniMod2.CustomChance;
-                }
-                else if (modifier is TouGameModifier touMod2)
-                {
-                    amount = touMod2.CustomAmount;
-                    chance = touMod2.CustomChance;
-                }
-                else if (modifier is AllianceGameModifier allyMod2)
-                {
-                    amount = allyMod2.CustomAmount;
-                    chance = allyMod2.CustomChance;
-                }
-                var non = basicFaction.Contains("Non");
-                if (modifier is not AllianceGameModifier)
-                {
-                    if (basicFaction.Contains("Crew") && !non)
+                    if ((modifier is not IWikiDiscoverable wikiMod || wikiMod.IsHiddenFromList) &&
+                        !SoftWikiEntries.ModifierEntries.ContainsKey(modifier))
                     {
-                        color = TownOfUsColors.CrewmateWiki;
+                        continue;
                     }
-                    else if (basicFaction.Contains("Neut") && !non)
+
+                    var faction = MiscUtils.GetModifierFaction(modifier);
+                    var alignment = MiscUtils.GetParsedModifierFaction(faction);
+                    var basicFaction = faction.ToString();
+                    var color = MiscUtils.GetModifierColour(modifier);
+                    var non = basicFaction.Contains("Non");
+                    if (modifier is not AllianceGameModifier)
                     {
-                        color = TownOfUsColors.NeutralWiki;
+                        if (basicFaction.Contains("Crew") && !non)
+                        {
+                            color = TownOfUsColors.CrewmateWiki;
+                        }
+                        else if (basicFaction.Contains("Neut") && !non)
+                        {
+                            color = TownOfUsColors.NeutralWiki;
+                        }
+                        else if (basicFaction.Contains("Imp") && !non)
+                        {
+                            color = TownOfUsColors.ImpWiki;
+                        }
+                        else if (basicFaction.Contains("Game") || non)
+                        {
+                            color = TownOfUsColors.Other;
+                        }
+                        else if (modifier is UniversalGameModifier || modifier is TouGameModifier)
+                        {
+                            color = modifier.FreeplayFileColor;
+                        }
                     }
-                    else if (basicFaction.Contains("Imp") && !non)
+
+                    var modInfoTxt = modifier.ParentMod.MiraPlugin.GetAbbreviatedModName();
+
+                    var newItem = CreateNewModifierItem(modifier, modifier.ModifierIcon?.LoadAsset(), alignment, color,
+                        modInfoTxt);
+                    if (modifier is IWikiDiscoverable wikiDiscoverable)
                     {
-                        color = TownOfUsColors.ImpWiki;
+                        SetupForItem(newItem.gameObject.GetComponent<PassiveButton>(), wikiDiscoverable);
                     }
-                    else if (basicFaction.Contains("Game") || non)
+                    else
                     {
-                        color = TownOfUsColors.Other;
-                    }
-                    else if (modifier is UniversalGameModifier || modifier is TouGameModifier)
-                    {
-                        color = modifier.FreeplayFileColor;
+                        SetupForItem(newItem.gameObject.GetComponent<PassiveButton>(),
+                            SoftWikiEntries.ModifierEntries.GetValueOrDefault(modifier));
                     }
                 }
-
-                var newItem = CreateNewItem(modifier.ModifierName, modifier.ModifierIcon?.LoadAsset(), color);
-                newItem.transform.GetChild(2).gameObject.SetActive(false);
-
-                var txt = amount != 0
-                    ? $"{TouLocale.Get("Amount", "Amount")}: {amount} - {TouLocale.Get("Chance", "Chance")}: {chance}%"
-                    : $"{TouLocale.Get("Amount", "Amount")}: 0";
-
-                var amountTxt = newItem.transform.FindChild("AmountTxt").gameObject.GetComponent<TextMeshPro>();
-                amountTxt.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{txt}</font>";
-                amountTxt.fontSizeMin = 1.66f;
-                amountTxt.fontSizeMax = 1.85f;
-                amountTxt.m_maxWidth = amountTxt.maxWidth + 0.1f;
-                amountTxt.m_enableWordWrapping = false;
-                newItem.GetChild(1).GetComponent<TextMeshPro>().transform.localPosition += new Vector3(0f, 0.12f);
-
-                var team = newItem.transform.GetChild(2).gameObject.GetComponent<TextMeshPro>();
-                team.fontSizeMax = 2.65f;
-                team.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Masked\">{alignment}</font>";
-                team.gameObject.SetActive(true);
-                team.SetOutlineColor(Color.black);
-                team.SetOutlineThickness(0.35f);
-
-                if (modifier is IWikiDiscoverable wikiDiscoverable)
+            }
+            else
+            {
+                _activeItems = _modifierEntries.Select(x => x.transform).ToList();
+                foreach (var entry in _modifierEntries)
                 {
-                    SetupForItem(newItem.gameObject.GetComponent<PassiveButton>(), wikiDiscoverable);
-                }
-                else
-                {
-                    SetupForItem(newItem.gameObject.GetComponent<PassiveButton>(),
-                        SoftWikiEntries.ModifierEntries.GetValueOrDefault(modifier));
+                    entry.SetData();
                 }
             }
         }
@@ -967,10 +969,8 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
             var curRole = PlayerControl.LocalPlayer.Data.Role.Role;
 
-            var cachedMod =
-                PlayerControl.LocalPlayer.GetModifiers<BaseModifier>().FirstOrDefault(x =>
-                    x is ICachedRole cached && cached.CachedRole.Role != curRole) as ICachedRole;
-            if (cachedMod != null)
+            if (PlayerControl.LocalPlayer.GetModifiers<BaseModifier>().FirstOrDefault(x =>
+                    x is ICachedRole cached && cached.CachedRole.Role != curRole) is ICachedRole cachedMod)
             {
                 roleList.Add((ushort)cachedMod.CachedRole.Role);
             }
@@ -990,140 +990,91 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             }
 
             var comparer = new RoleComparer(roleList);
-            var allRoles = MiscUtils.AllRegisteredRoles.Excluding(role =>
-                !SoftWikiEntries.RoleEntries.ContainsKey(role) && role is not IWikiDiscoverable ||
-                role is IWikiDiscoverable wikiMod && wikiMod.IsHiddenFromList).ToList();
-
-            // Warning($"Roles: {allRoles.Count}");
-            var roles = allRoles.OrderBy(x => x, comparer);
-
-            foreach (var role in roles)
+            if (!_roleList.HasAny())
             {
-                var customRole = role as ICustomRole;
-                var color = role.IsCrewmate() ? TownOfUsColors.CrewmateWiki : TownOfUsColors.ImpWiki;
+                _roleList = MiscUtils.AllRegisteredRoles.Excluding(role =>
+                    !SoftWikiEntries.RoleEntries.ContainsKey(role) && role is not IWikiDiscoverable ||
+                    role is IWikiDiscoverable wikiMod && wikiMod.IsHiddenFromList).ToList();
+            }
 
-                var teamName = MiscUtils.GetParsedRoleAlignment(role);
-                var roleImg = TouRoleUtils.GetBasicRoleIcon(role);
-                if (customRole != null)
+            var roles = _roleList.OrderBy(x => x, comparer);
+            /*_activeItems = _activeItems
+                .OrderByDescending(child => child.name.Equals(text, StringComparison.OrdinalIgnoreCase))
+                .ThenByDescending(child => child.name.Contains(text, StringComparison.InvariantCultureIgnoreCase))
+                .ThenBy(child => child.name.ToLowerInvariant())
+                .ToList();*/
+
+            ToggleRoles(true);
+            if (!_roleEntries.HasAny())
+            {
+                foreach (var role in roles)
                 {
-                    // Hides hidden roles from other mods, but keeps them visible for Pest/Mayor
-                    if (customRole.Configuration.HideSettings && role is not IWikiDiscoverable)
+                    var customRole = role as ICustomRole;
+                    var color = role.IsCrewmate() ? TownOfUsColors.CrewmateWiki : TownOfUsColors.ImpWiki;
+
+                    var teamName = MiscUtils.GetParsedRoleAlignment(role);
+                    var roleImg = TouRoleUtils.GetBasicRoleIcon(role);
+                    var modInfoTxt = "AU";
+                    if (customRole != null)
                     {
-                        continue;
+                        // Hides hidden roles from other mods, but keeps them visible for Pest/Mayor
+                        if (customRole.Configuration.HideSettings && role is not IWikiDiscoverable)
+                        {
+                            continue;
+                        }
+                        modInfoTxt = customRole.ParentMod.MiraPlugin.GetAbbreviatedModName();
+
+                        if (customRole.Team is ModdedRoleTeams.Crewmate)
+                        {
+                            color = TownOfUsColors.CrewmateWiki;
+                        }
+                        else if (customRole.Team is ModdedRoleTeams.Impostor)
+                        {
+                            color = TownOfUsColors.ImpWiki;
+                        }
+                        else
+                        {
+                            color = TownOfUsColors.NeutralWiki;
+                        }
+
+                        if (customRole.Configuration.Icon != null)
+                        {
+                            roleImg = customRole.Configuration.Icon.LoadAsset();
+                        }
+                    }
+                    else if (role.RoleIconSolid != null)
+                    {
+                        roleImg = role.RoleIconSolid;
                     }
 
-                    if (customRole.Team is ModdedRoleTeams.Crewmate)
+                    var newItem = customRole == null
+                        ? CreateNewRoleItem(role, roleImg, teamName, color, modInfoTxt)
+                        : CreateNewRoleItem(role, customRole, roleImg, teamName, color, modInfoTxt);
+
+                    if (role is IWikiDiscoverable wikiDiscoverable)
                     {
-                        color = TownOfUsColors.CrewmateWiki;
-                    }
-                    else if (customRole.Team is ModdedRoleTeams.Impostor)
-                    {
-                        color = TownOfUsColors.ImpWiki;
+                        SetupForItem(newItem.gameObject.GetComponent<PassiveButton>(), wikiDiscoverable);
                     }
                     else
                     {
-                        color = TownOfUsColors.NeutralWiki;
-                    }
-
-                    if (customRole.Configuration.Icon != null)
-                    {
-                        roleImg = customRole.Configuration.Icon.LoadAsset();
+                        SetupForItem(newItem.gameObject.GetComponent<PassiveButton>(),
+                            SoftWikiEntries.RoleEntries.GetValueOrDefault(role));
                     }
                 }
-                else if (role.RoleIconSolid != null)
+            }
+            else
+            {
+                _activeItems = _roleEntries.Select(x => x.transform).ToList();
+                foreach (var entry in _roleEntries)
                 {
-                    roleImg = role.RoleIconSolid;
-                }
-
-                var newItem = CreateNewItem(role.GetRoleName(), roleImg, color);
-                var team = newItem.transform.GetChild(2).gameObject.GetComponent<TextMeshPro>();
-                team.fontSizeMax = 2.65f;
-                team.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Masked\">{teamName}</font>";
-                team.gameObject.SetActive(true);
-                team.SetOutlineColor(Color.black);
-                team.SetOutlineThickness(0.35f);
-                var modInfo = Instantiate(newItem.transform.GetChild(2), newItem.transform).gameObject.GetComponent<TextMeshPro>();
-                modInfo.gameObject.name = "RoleOrigin";
-                var modInfoTxt = "AU";
-
-                var amount = 0;
-                var chance = 0;
-                if (customRole != null)
-                {
-                    modInfoTxt = RemoveNonCaps(customRole.ParentMod.MiraPlugin.OptionsTitleText);
-                    if (customRole.Configuration.MaxRoleCount != 0 &&
-                        !customRole.Configuration.HideSettings)
-                    {
-                        amount = (int)customRole.GetCount()!;
-                        chance = (int)customRole.GetChance()!;
-                        if (SoftWikiEntries.RoleEntries.ContainsKey(role))
-                        {
-                            SoftWikiEntries.RoleEntries.GetValueOrDefault(role)!.EntryName = customRole.RoleName;
-                            SoftWikiEntries.RoleEntries.GetValueOrDefault(role)!.GetAdvancedDescription =
-                                customRole.RoleDescription + MiscUtils.AppendOptionsText(role.GetType());
-                        }
-                    }
-                }
-                else if (customRole == null)
-                {
-                    var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
-                    var roleOptions = currentGameOptions.RoleOptions;
-
-                    amount = roleOptions.GetNumPerGame(role.Role);
-                    chance = roleOptions.GetChancePerGame(role.Role);
-                    var roleEntry = SoftWikiEntries.RoleEntries.GetValueOrDefault(role)!;
-                    roleEntry.EntryName = TranslationController.Instance.GetString(role.StringName);
-                    roleEntry.GetAdvancedDescription = TranslationController.Instance.GetString(role.BlurbNameLong);
-                    if (roleEntry.GetAdvancedDescription.Contains("STRMISS"))
-                    {
-                        var baseName = ($"{role.StringName}").Replace("Role", "");
-                        if (Enum.TryParse<StringNames>($"RolesHelp_{baseName}_01", out var helpName))
-                        {
-                            roleEntry.GetAdvancedDescription = TranslationController.Instance.GetString(helpName);
-                        }
-                    }
-                }
-
-                modInfo.alignment = TextAlignmentOptions.Center;
-                modInfo.text = 
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{modInfoTxt}</font>";
-                modInfo.fontSizeMin = 1.66f;
-                modInfo.fontSizeMax = 1.85f;
-                modInfo.fontSize = 1.85f;
-                modInfo.transform.localPosition += new Vector3(0.9f, 0f);
-                modInfo.color = Color.white;
-
-                modInfo.transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
-
-                var amountTxt = newItem.transform.FindChild("AmountTxt").gameObject.GetComponent<TextMeshPro>();
-                var txt = amount != 0
-                    ? $"{TouLocale.Get("Amount", "Amount")}: {amount} - {TouLocale.Get("Chance", "Chance")}: {chance}%"
-                    : $"{TouLocale.Get("Amount", "Amount")}: 0";
-                amountTxt.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{txt}</font>";
-                amountTxt.fontSizeMin = 1.66f;
-                amountTxt.fontSizeMax = 1.85f;
-                amountTxt.fontSize = 1.85f;
-                amountTxt.m_maxWidth = amountTxt.maxWidth + 0.1f;
-                amountTxt.m_enableWordWrapping = false;
-                newItem.GetChild(1).GetComponent<TextMeshPro>().transform.localPosition += new Vector3(0f, 0.12f);
-
-                if (role is IWikiDiscoverable wikiDiscoverable)
-                {
-                    SetupForItem(newItem.gameObject.GetComponent<PassiveButton>(), wikiDiscoverable);
-                }
-                else
-                {
-                    SetupForItem(newItem.gameObject.GetComponent<PassiveButton>(),
-                        SoftWikiEntries.RoleEntries.GetValueOrDefault(role));
+                    entry.SetData();
                 }
             }
         }
 
         SearchPageIcon.Value.SetSizeLimit(1.44f);
 
-        var max = Mathf.Max(0f, SearchScroller.Value.Inner.GetChildCount() * 0.725f);
+        var max = Mathf.Max(0f, _activeItems.Count * 0.725f);
         SearchScroller.Value.SetBounds(new FloatRange(-0.4f, max), null);
         if (oldMax != max)
         {
@@ -1131,6 +1082,11 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         }
     }
 
+    public void ToggleRoles(bool showRoles)
+    {
+        _roleEntries.Do(x => x.gameObject.SetActive(showRoles));
+        _modifierEntries.Do(x => x.gameObject.SetActive(!showRoles));
+    }
     [HideFromIl2Cpp]
     private void SetupForItem(PassiveButton passiveButton, IWikiDiscoverable? wikiDiscoverable)
     {
@@ -1153,31 +1109,43 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         }));
     }
 
-    private Transform CreateNewItem(string itemName, Sprite? sprite, Color color)
+    [HideFromIl2Cpp]
+    private Transform CreateNewRoleItem(RoleBehaviour role, Sprite? sprite, string team, Color color, string source)
     {
-        var newItem = Instantiate(SearchItemTemplate.Value, SearchScroller.Value.Inner);
-        var icon = newItem.GetChild(0).GetComponent<SpriteRenderer>();
-        var itemText = newItem.GetChild(1).GetComponent<TextMeshPro>();
-        var bgColor = newItem.GetChild(3).GetComponent<SpriteRenderer>();
-
-        var bgSprite = bgColor.GetComponent<SpriteRenderer>();
-        bgSprite.color = color;
-        newItem.GetChild(3).localPosition += Vector3.up * 0.015f;
-
-        var amountTextObj =
-            Instantiate(newItem.GetChild(1), newItem.GetChild(1).gameObject.transform.parent);
-        amountTextObj.name = "AmountTxt";
-        amountTextObj.transform.localPosition -= new Vector3(0f, 0.22f);
-
-        newItem.name = itemName.ToLowerInvariant();
-        icon.sprite = sprite != null ? sprite : TouRoleIcons.RandomAny.LoadAsset();
-        icon.SetSizeLimit(0.75f);
-        amountTextObj.GetComponent<TextMeshPro>().text = string.Empty;
-        itemText.text =
-            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{itemName}</font>";
+        var newItem = Instantiate(RoleSearchItemTemplate.Value, SearchScroller.Value.Inner);
         newItem.gameObject.SetActive(true);
-        _activeItems.Add(newItem);
-        return newItem;
+        var newSprite = sprite ?? TouRoleIcons.RandomAny.LoadAsset();
+
+        newItem.SetInitialData(role, newSprite, team, color, source);
+        _activeItems.Add(newItem.transform);
+        _roleEntries.Add(newItem);
+        return newItem.transform;
+    }
+
+    [HideFromIl2Cpp]
+    private Transform CreateNewRoleItem(RoleBehaviour role, ICustomRole customRole, Sprite? sprite, string team, Color color, string source)
+    {
+        var newItem = Instantiate(RoleSearchItemTemplate.Value, SearchScroller.Value.Inner);
+        newItem.gameObject.SetActive(true);
+        var newSprite = sprite ?? TouRoleIcons.RandomAny.LoadAsset();
+
+        newItem.SetInitialData(role, customRole, newSprite, team, color, source);
+        _activeItems.Add(newItem.transform);
+        _roleEntries.Add(newItem);
+        return newItem.transform;
+    }
+
+    [HideFromIl2Cpp]
+    private Transform CreateNewModifierItem(BaseModifier mod, Sprite? sprite, string team, Color color, string source)
+    {
+        var newItem = Instantiate(ModifierSearchItemTemplate.Value, SearchScroller.Value.Inner);
+        newItem.gameObject.SetActive(true);
+        var newSprite = sprite ?? TouRoleIcons.RandomAny.LoadAsset();
+
+        newItem.SetInitialData(mod, newSprite, team, color, source);
+        _activeItems.Add(newItem.transform);
+        _modifierEntries.Add(newItem);
+        return newItem.transform;
     }
 
     public static IngameWikiMinigame Create()
@@ -1203,7 +1171,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.UseCrewmateTeamColorToggle.Value;
     }
 
     [HideFromIl2Cpp]
@@ -1220,11 +1188,6 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         _selectedItem = null;
         _selectedSoftItem = softWikiInfo;
         UpdatePage(WikiPage.DetailScreen);
-    }
-
-    private static string RemoveNonCaps(string text)
-    {
-        return new string(text.Where(c => !Char.IsLower(c) && !Char.IsWhiteSpace(c)).ToArray());
     }
 }
 

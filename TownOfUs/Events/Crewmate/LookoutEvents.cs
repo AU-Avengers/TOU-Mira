@@ -8,6 +8,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -56,7 +57,7 @@ public static class LookoutEvents
     }
 
     [RegisterEvent]
-    public static void EjectionEventEventHandler(EjectionEvent @event)
+    public static void EjectionEventEventHandler(EjectionEvent _)
     {
         if (!OptionGroupSingleton<LookoutOptions>.Instance.LoResetOnNewRound)
         {
@@ -77,11 +78,11 @@ public static class LookoutEvents
             return;
         }
 
-        if (!target.HasModifier<LookoutWatchedModifier>() || !(TutorialManager.InstanceExists || source.AmOwner))
+        if (!target.HasModifier<LookoutWatchedModifier>() || !(TutorialManager.InstanceExists || source.AmOwner) || source.HasModifier<IndirectAttackerModifier>() && !OptionGroupSingleton<LookoutOptions>.Instance.LookoutSeesIndirectAttacks.Value)
         {
             return;
         }
 
-        LookoutRole.RpcSeePlayer(target, source);
+        LookoutRole.RpcSeePlayer(source, target);
     }
 }

@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Object = Il2CppSystem.Object;
 
 namespace TownOfUs.Patches.Misc;
 
@@ -15,7 +14,7 @@ public static class PaletteColorsPatch
             __result = "???";
             return false;
         }
-        var vanillaString = DestroyableSingleton<TranslationController>.Instance.GetString(Palette.ColorNames[colorId], Array.Empty<Object>());
+        var vanillaString = TranslationController.Instance.GetString(Palette.ColorNames[colorId]);
         
         if (vanillaString != null)
         {

@@ -3,7 +3,6 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Modifiers;
 
@@ -24,7 +23,7 @@ public static class UnderdogEvents
     }
 
     [RegisterEvent]
-    public static void RoundStartEventHandler(RoundStartEvent @event)
+    public static void RoundStartEventHandler(RoundStartEvent _)
     {
         if (!PlayerControl.LocalPlayer.HasModifier<UnderdogModifier>() ||
             PlayerControl.LocalPlayer.IsRole<ScavengerRole>())

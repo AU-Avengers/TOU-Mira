@@ -9,7 +9,6 @@ using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
 
@@ -21,10 +20,6 @@ public static class SheriffEvents
         if (@event.TriggeredByIntro)
         {
             CustomButtonSingleton<SheriffShootButton>.Instance.FailedShot = false;
-        }
-        else if (PlayerControl.LocalPlayer.Data.Role is SheriffRole)
-        {
-            SheriffRole.OnRoundStart();
         }
     }
 

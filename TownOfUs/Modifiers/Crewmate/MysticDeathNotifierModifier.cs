@@ -1,9 +1,9 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers.Types;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -15,7 +15,7 @@ public sealed class MysticDeathNotifierModifier(PlayerControl mystic) : TimedMod
 
     private ArrowBehaviour? _arrow;
     public override string ModifierName => "Death Notifier";
-    public override float Duration => OptionGroupSingleton<MysticOptions>.Instance.MysticArrowDuration;
+    public override float Duration => OptionGroupSingleton<MysticOptions>.Instance.MysticArrowDuration > 0 ? OptionGroupSingleton<MysticOptions>.Instance.MysticArrowDuration : 0.001f;
     public override bool HideOnUi => true;
     public PlayerControl Mystic { get; set; } = mystic;
 
@@ -30,8 +30,11 @@ public sealed class MysticDeathNotifierModifier(PlayerControl mystic) : TimedMod
             item.Show(Player, 0);
         }
 
-        _arrow = MiscUtils.CreateArrow(Mystic.transform, Color.white);
-        _arrow.target = Player.GetTruePosition();
+        if (OptionGroupSingleton<MysticOptions>.Instance.MysticArrowDuration > 0)
+        {
+            _arrow = MiscUtils.CreateArrow(Mystic.transform, Color.white);
+            _arrow.target = Player.GetTruePosition();
+        }
 
         Coroutines.Start(MiscUtils.CoFlash(FlashColor));
     }
@@ -40,7 +43,7 @@ public sealed class MysticDeathNotifierModifier(PlayerControl mystic) : TimedMod
     {
         if (!_arrow.IsDestroyedOrNull())
         {
-            _arrow?.gameObject.Destroy();
+            _arrow?.gameObject.DeepDestroy();
             _arrow?.Destroy();
         }
     }

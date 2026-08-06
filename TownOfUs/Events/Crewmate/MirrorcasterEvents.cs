@@ -11,13 +11,12 @@ using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
 
 public static class MirrorcasterEvents
 {
-    [RegisterEvent]
+    [RegisterEvent(-1000)]
     public static void BeforeMurderEventHandler(BeforeMurderEvent @event)
     {
         var source = @event.Source;
@@ -29,7 +28,7 @@ public static class MirrorcasterEvents
         }
     }
 
-    [RegisterEvent]
+    [RegisterEvent(-1000)]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {
         var source = PlayerControl.LocalPlayer;
@@ -101,7 +100,7 @@ public static class MirrorcasterEvents
 
         if (mirrorcaster != null && ((target.AmOwner && TutorialManager.InstanceExists) || source.AmOwner))
         {
-            MirrorcasterRole.RpcMagicMirrorAttacked(mirrorcaster.Player, source, target);
+            MirrorcasterRole.RpcMagicMirrorAttacked(source, mirrorcaster.Player, target);
         }
 
         return true;
@@ -109,19 +108,17 @@ public static class MirrorcasterEvents
 
     private static void ResetButtonTimer(PlayerControl source, CustomActionButton<PlayerControl>? button = null)
     {
-        button?.ResetCooldownAndOrEffect();
+        if (!source.AmOwner)
+        {
+            return;
+        }
+
+        button?.ResetButtonCooldown(true);
 
         if (source.Data.Role is WerewolfRole)
         {
             CustomButtonSingleton<WerewolfRampageButton>.Instance.ResetCooldownAndOrEffect();
         }
-
-        // Reset impostor kill cooldown if they attack a shielded player
-        if (!source.AmOwner || !source.IsImpostor())
-        {
-            return;
-        }
-
-        source.SetKillTimer(source.GetKillCooldown());
+        source.SetKillTimer(source.GetReducedKillCooldown());
     }
 }

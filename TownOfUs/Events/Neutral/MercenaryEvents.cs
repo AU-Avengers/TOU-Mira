@@ -10,9 +10,9 @@ using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Neutral;
 
@@ -20,20 +20,19 @@ public static class MercenaryEvents
 {
     private static void ResetButtonTimer(PlayerControl source, CustomActionButton<PlayerControl>? button = null)
     {
-        button?.ResetCooldownAndOrEffect();
+        if (!source.AmOwner)
+        {
+            return;
+        }
+
+        button?.ResetButtonCooldown(true);
 
         if (source.Data.Role is WerewolfRole)
         {
             CustomButtonSingleton<WerewolfRampageButton>.Instance.ResetCooldownAndOrEffect();
         }
 
-        // Reset impostor kill cooldown if they attack a shielded player
-        if (!source.AmOwner || !source.IsImpostor())
-        {
-            return;
-        }
-
-        source.SetKillTimer(source.GetKillCooldown());
+        source.SetKillTimer(source.GetReducedKillCooldown());
     }
     [RegisterEvent]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
@@ -103,7 +102,7 @@ public static class MercenaryEvents
             if (source.AmOwner)
             {
                 ResetButtonTimer(source, button);
-                Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Mercenary, alpha: 0.5f));
+                Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields ? TownOfUsColors.NeutralWiki : TownOfUsColors.Mercenary, alpha: 0.5f));
             }
         }
 

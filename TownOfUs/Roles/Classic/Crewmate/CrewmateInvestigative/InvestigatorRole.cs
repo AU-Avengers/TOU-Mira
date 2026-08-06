@@ -4,7 +4,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -30,6 +29,7 @@ public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Investigator.LoadAsset(), "TouMira.Role.Crewmate.Investigator", 1.45f),
         Icon = TouRoleIcons.Investigator,
         OptionsScreenshot = TouBanners.InvestigatorRoleBanner,
         IntroSound = TouAudio.SpyIntroSound

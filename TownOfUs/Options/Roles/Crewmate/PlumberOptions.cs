@@ -5,12 +5,15 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class PlumberOptions : AbstractOptionGroup<PlumberRole>
+public sealed class PlumberOptions : AbstractRoleOptionGroup<PlumberRole>
 {
     public override string GroupName => TouLocale.Get("TouRolePlumber", "Plumber");
 
     [ModdedNumberOption("TouOptionPlumberFlushCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float FlushCooldown { get; set; } = 25f;
+
+    [ModdedNumberOption("TouOptionPlumberFlushDuration", 1f, 20f, 1f, MiraNumberSuffixes.Seconds, "0.0")]
+    public float FlushDuration { get; set; } = 3f;
 
     [ModdedNumberOption("TouOptionPlumberBlockCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float BlockCooldown { get; set; } = 25f;

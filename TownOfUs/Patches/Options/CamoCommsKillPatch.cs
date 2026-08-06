@@ -20,11 +20,11 @@ public static class KillOverlayPatch
                 TownOfUsAppearances.Camouflage)
             {
                 ColorId = PlayerControl.LocalPlayer.Data.DefaultOutfit.ColorId,
-                HatId = string.Empty,
-                SkinId = string.Empty,
-                VisorId = string.Empty,
+                HatId = "hat_NoHat",
+                SkinId = "skin_None",
+                VisorId = "visor_EmptyVisor",
                 PlayerName = string.Empty,
-                PetId = string.Empty,
+                PetId = "pet_EmptyPet",
                 NameVisible = false,
                 PlayerMaterialColor = Color.grey,
             };

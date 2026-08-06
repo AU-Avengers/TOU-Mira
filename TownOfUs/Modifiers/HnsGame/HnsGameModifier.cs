@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.PluginLoading;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.HnsGame;
@@ -13,6 +12,8 @@ public abstract class HnsGameModifier : TouGameModifier, IWikiDiscoverable
 {
     public override string ModifierName => TouLocale.Get($"HnsModifier{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"HnsModifier{LocaleKey}IntroBlurb");
+
+    public override bool HideFromGuessing => true;
 
     public override string GetDescription()
     {
@@ -33,6 +34,6 @@ public abstract class HnsGameModifier : TouGameModifier, IWikiDiscoverable
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return !role.Player.GetModifierComponent().HasModifier<TouGameModifier>(true) && role is not SpectatorRole;
+        return !role.Player.GetModifierComponent().HasModifier<TouGameModifier>(true, x => x.PreventsOtherModifiers) && role is not SpectatorRole;
     }
 }

@@ -4,7 +4,6 @@ using MiraAPI.Events.Vanilla.Meeting;
 using TownOfUs.Modules.Components;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
 
@@ -70,7 +69,7 @@ public static class DetectiveEvents
     [RegisterEvent]
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
-        if (@event.Source.IsRole<SoulCollectorRole>())
+        if (@event.Source.IsRole<MedusaRole>())
         {
             return;
         }

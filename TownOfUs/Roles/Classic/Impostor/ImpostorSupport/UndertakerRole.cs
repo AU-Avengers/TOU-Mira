@@ -13,7 +13,6 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -23,7 +22,7 @@ public sealed class UndertakerRole(IntPtr cppPtr)
 {
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not UndertakerRole || Player.HasDied() || !Player.AmOwner ||
+        if (!Player || Player.Data.Role is not UndertakerRole || Player.HasDied() || !Player.AmOwner ||
             MeetingHud.Instance || (!HudManager.Instance.UseButton.isActiveAndEnabled &&
                                     !HudManager.Instance.PetButton.isActiveAndEnabled))
         {
@@ -56,6 +55,7 @@ public sealed class UndertakerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Undertaker.LoadAsset(), "TouMira.Role.Impostor.Undertaker", 1.45f),
         UseVanillaKillButton = true,
         CanUseVent = OptionGroupSingleton<UndertakerOptions>.Instance.CanVent,
         Icon = TouRoleIcons.Undertaker,
@@ -69,21 +69,26 @@ public sealed class UndertakerRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Drag", "Drag"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}DragWikiDescription"),
                     TouImpAssets.DragSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Drop", "Drop"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}DropWikiDescription"),
                     TouImpAssets.DropSprite)
-            };
+            ];
         }
     }
 
     [MethodRpc((uint)TownOfUsRpc.DragBody, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcStartDragging(PlayerControl playerControl, byte bodyId)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(playerControl);
+            return;
+        }
         if (ModifierUtils.GetActiveModifiers<DragModifier>().Any(x => x.BodyId == bodyId))
         {
             return;
@@ -103,6 +108,11 @@ public sealed class UndertakerRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.DropBody, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcStopDragging(PlayerControl playerControl, Vector2 dropLocation)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(playerControl);
+            return;
+        }
         var dragMod = playerControl.GetModifier<DragModifier>()!;
         var dropPos = (Vector3)dropLocation;
         dropPos.z = dropPos.y / 1000f;

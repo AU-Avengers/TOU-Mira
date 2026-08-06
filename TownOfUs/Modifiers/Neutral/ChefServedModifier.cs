@@ -4,7 +4,6 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Modifiers.Neutral;
 

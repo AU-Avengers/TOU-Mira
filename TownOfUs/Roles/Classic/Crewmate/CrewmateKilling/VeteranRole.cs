@@ -6,7 +6,6 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -35,12 +34,12 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Alert", "Alert"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}AlertWikiDescription"),
                     TouCrewAssets.AlertSprite)
-            };
+            ];
         }
     }
 
@@ -51,7 +50,9 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Veteran.LoadAsset(), "TouMira.Role.Crewmate.Veteran", 1.45f),
         Icon = TouRoleIcons.Veteran,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.ImpostorIntroSound
     };
 
@@ -82,6 +83,11 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     [MethodRpc((uint)TownOfUsRpc.RecentVetAttack)]
     public static void RpcRecentVetAttack(PlayerControl veteran)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(veteran);
+            return;
+        }
         if (veteran.Data.Role is not VeteranRole role)
         {
             Error("RpcRecentVetAttack - Invalid veteran");

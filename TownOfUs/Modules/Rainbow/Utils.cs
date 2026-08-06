@@ -5,7 +5,7 @@ namespace TownOfUs.Modules.RainbowMod;
 
 public static class RainbowUtils
 {
-    public static bool IsForte => LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.RainbowColorAsFortegreen.Value;
+    public static bool IsForte => LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.RainbowColorAsFortegreen.Value;
     public static Color ForteBodyColor { get; private set; } =new Color32(20, 140, 20, 255);
     public static Color ForteShadowColor { get; private set; } =new Color32(30, 120, 50, 255);
     public static Color Rainbow => IsForte ? ForteBodyColor : new HSBColor(PP(0, 1, 0.3f), 1, 1).ToColor();
@@ -19,6 +19,11 @@ public static class RainbowUtils
     public static Color Shadow(Color color)
     {
         return new Color(color.r - 0.3f, color.g - 0.3f, color.b - 0.3f);
+    }
+
+    public static Color LightUp(Color color)
+    {
+        return new Color(color.r + 0.3f, color.g + 0.3f, color.b + 0.3f);
     }
 
     public static void SetRainbow(Renderer rend)
@@ -47,20 +52,12 @@ public static class RainbowUtils
 }
 
 [Serializable]
-public struct HSBColor
+public struct HSBColor(float h, float s, float b)
 {
-    public float h;
-    public float s;
-    public float b;
-    public float a;
-
-    public HSBColor(float h, float s, float b)
-    {
-        this.h = h;
-        this.s = s;
-        this.b = b;
-        a = 1f;
-    }
+    public float h = h;
+    public float s = s;
+    public float b = b;
+    public float a = 1f;
 
     public static Color ToColor(HSBColor hsbColor)
     {
