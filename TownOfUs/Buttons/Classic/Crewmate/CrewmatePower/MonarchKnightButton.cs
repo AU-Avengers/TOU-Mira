@@ -13,7 +13,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, PlayerControl>
 {
-    public override string Name => "Knight";
+    public override string Name => TouLocale.GetParsed("TouRoleMonarchKnight");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Monarch;
     public override float Cooldown => OptionGroupSingleton<MonarchOptions>.Instance.KnightCooldown + MapCooldown;
@@ -113,7 +113,7 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
         if (EffectActive)
         {
             var notif2 = Helpers.CreateAndShowNotification(
-                $"<b>Knighting has been cancelled.</b>",
+                $"<b>{TouLocale.GetParsed("TouRoleMonarchKnightCancelled")}</b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Monarch.LoadAsset());
             notif2.Text.SetOutlineThickness(0.35f);
             _knightedTarget = null;
@@ -128,11 +128,11 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
             return;
         }
 
-        OverrideName("Knighting");
+        OverrideName(TouLocale.GetParsed("TouRoleMonarchKnighting"));
 
         _knightedTarget = Target;
         var notif = Helpers.CreateAndShowNotification(
-            $"<b>You chose to knight {_knightedTarget.CachedPlayerData.PlayerName}. They will be knighted in {OptionGroupSingleton<MonarchOptions>.Instance.KnightDelay} second(s)!</b>",
+            $"<b>{TouLocale.GetParsed("TouRoleMonarchKnightChosen") .Replace("<player>", _knightedTarget.CachedPlayerData.PlayerName) .Replace("<seconds>", OptionGroupSingleton<MonarchOptions>.Instance.KnightDelay.ToString(TownOfUsPlugin.Culture))}</b>",
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Monarch.LoadAsset());
         notif.Text.SetOutlineThickness(0.35f);
 
@@ -149,7 +149,7 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
 
     public override void OnEffectEnd()
     {
-        OverrideName("Knight");
+        OverrideName(TouLocale.GetParsed("TouRoleMonarchKnight"));
 
         if (_knightedTarget == null) return;
 
