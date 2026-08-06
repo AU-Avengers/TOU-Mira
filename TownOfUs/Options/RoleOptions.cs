@@ -2,14 +2,75 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using TownOfUs.Interfaces;
+using TownOfUs.Patches;
 
 namespace TownOfUs.Options;
 
-public sealed class RoleOptions : AbstractOptionGroup
+public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvider
 {
     public override Func<bool> GroupVisible => () =>
         !(GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
             or GameModes.SeekFools);
+    
+    public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
+        new HashSet<StringNames>
+        {
+            // These are hidden because rolelist text already handles this
+            MaxNeutralBenign.StringName,
+            MinNeutralBenign.StringName,
+            MaxNeutralEvil.StringName,
+            MinNeutralEvil.StringName,
+            MaxNeutralKiller.StringName,
+            MinNeutralKiller.StringName,
+            MaxNeutralOutlier.StringName,
+            MinNeutralOutlier.StringName,
+            Slot1.StringName,
+            Slot2.StringName,
+            Slot3.StringName,
+            Slot4.StringName,
+            Slot5.StringName,
+            Slot6.StringName,
+            Slot7.StringName,
+            Slot8.StringName,
+            Slot9.StringName,
+            Slot10.StringName,
+            Slot11.StringName,
+            Slot12.StringName,
+            Slot13.StringName,
+            Slot14.StringName,
+            Slot15.StringName
+        };
+
+    public IEnumerable<string> GetWikiOptionSummaryLines()
+    {
+        var currentDist = CurrentRoleDistribution();
+
+        if (currentDist == RoleDistribution.Vanilla) { return Enumerable.Empty<string>(); }
+
+        if (HudManagerPatches.RoleListTextComp == null || string.IsNullOrWhiteSpace(HudManagerPatches.RoleListTextComp.text))
+        {
+            return Enumerable.Empty<string>();
+        }
+
+        string roleListText = HudManagerPatches.RoleListTextComp.text;
+
+        float sizePercent = 100f;
+        const float minSizePercent = 35f; 
+        const float sizeStep = 2.5f;
+
+        int lineCount = roleListText.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).Length;
+
+        if (lineCount > 5)
+        {
+            sizePercent = Math.Max(minSizePercent, 100f - ((lineCount - 5) * sizeStep * 2.0f));
+        }
+
+        string formattedText = $"<page><size={sizePercent:0}%>{roleListText}</size>";
+
+        return new[] { formattedText };
+    }
+
     internal static string[] OptionStrings =
     [
         MiscUtils.GetParsedRoleBucket("CrewInvestigative"),
@@ -52,7 +113,7 @@ public sealed class RoleOptions : AbstractOptionGroup
     {
         var gameMode = (TouGamemode)CustomGameMode.Value;
         var roleDist = (RoleSelectionMode)RoleAssignmentType.Value;
-        if (/*gameMode is TouGamemode.HideAndSeek && */GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek or GameModes.SeekFools)
+        if (GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek or GameModes.SeekFools)
         {
             return RoleDistribution.HideAndSeek;
         }
@@ -61,8 +122,6 @@ public sealed class RoleOptions : AbstractOptionGroup
         {
             case TouGamemode.Cultist:
                 return RoleDistribution.Cultist;
-            /*case TouGamemode.AllKillers:
-                return RoleDistribution.AllKillers;*/
         }
 
         return roleDist switch
@@ -80,39 +139,17 @@ public sealed class RoleOptions : AbstractOptionGroup
         {
             var gameMode = (TouGamemode)CustomGameMode.Value;
             return !(GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
-                or GameModes.SeekFools || gameMode is TouGamemode.Cultist/* || gameMode is TouGamemode.AllKillers*/);
+                or GameModes.SeekFools || gameMode is TouGamemode.Cultist);
         }
     }
-    public ModdedEnumOption CustomGameMode { get; } =
-        new("Current Game Mode", (int)TouGamemode.Normal, typeof(TouGamemode), ["Normal", "Hide And Seek (N/A)", "Cultist (N/A)"/*, "All Killers (N/A)", "Legacy TOU (N/A)"*/], false)
-        {
-            // Who could've possibly thought this code breaks the game?
-            /*ChangedEvent = x =>
-            {
-                var newGm = (TouGamemode)x;
-                var manager = GameOptionsManager.Instance;
-                if (manager != null)
-                {
-                    if (newGm is TouGamemode.HideAndSeek && manager.currentGameMode is not GameModes.HideNSeek && manager.currentGameMode is not GameModes.SeekFools)
-                    {
-                        GameOptionsManager.Instance.SwitchGameMode(GameModes.HideNSeek);
-                        GameManager.DestroyInstance();
-                        GameManager netObjParent2 = GameManagerCreator.CreateGameManager(GameOptionsManager.Instance.CurrentGameOptions.GameMode);
-                        AmongUsClient.Instance.Spawn(netObjParent2, -2, SpawnFlags.None);
-                    }
-                    else if (newGm is not TouGamemode.HideAndSeek && (manager.currentGameMode is GameModes.HideNSeek || manager.currentGameMode is GameModes.SeekFools))
-                    {
-                        GameOptionsManager.Instance.SwitchGameMode(GameModes.Normal);
-                        GameManager.DestroyInstance();
-                        GameManager netObjParent2 = GameManagerCreator.CreateGameManager(GameOptionsManager.Instance.CurrentGameOptions.GameMode);
-                        AmongUsClient.Instance.Spawn(netObjParent2, -2, SpawnFlags.None);
-                    }
-                }
 
-                Debug($"New gamemode is {newGm.ToString().ToLowerInvariant()}!");
-            }*/
+    // --- Core Game Mode & Assignment Settings ---
+    public ModdedEnumOption CustomGameMode { get; } =
+        new("Current Game Mode", (int)TouGamemode.Normal, typeof(TouGamemode), ["Normal", "Hide And Seek (N/A)", "Cultist (N/A)"], false)
+        {
             Visible = () => true
         };
+
     public ModdedEnumOption RoleAssignmentType { get; } =
         new("Role Assignment Type", (int)RoleSelectionMode.RoleList, typeof(RoleSelectionMode), ["Vanilla", "Role List", "Min/Max List", "Draft"])
         {
@@ -131,19 +168,104 @@ public sealed class RoleOptions : AbstractOptionGroup
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.LastImpostorBias && OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla and not RoleDistribution.Draft
         };
 
+    // --- Draft Settings (Declared BEFORE Slots to fix wiki option ordering) ---
+    private static bool IsDraft =>
+        OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.Draft;
+
+    public ModdedEnumOption<DraftRecapMode> DraftRecap { get; } =
+        new("Draft Recap Displays", DraftRecapMode.Faction)
+        {
+            Visible = () => IsDraft
+        };
+
+    public ModdedEnumOption<DraftRecapMode> DraftSidebarDisplay { get; } =
+        new("Draft Sidebar Displays", DraftRecapMode.Faction)
+        {
+            Visible = () => IsDraft
+        };
+
+    public ModdedToggleOption UseRoleListForPool { get; set; } = new("Use Role List For Pool", false)
+    {
+        Visible = () => IsDraft
+    };
+
+    public ModdedNumberOption OfferedRolesCount { get; set; } = new("Offered Role Picks Per Turn", 3f, 1f, 9f, 1f, MiraNumberSuffixes.None, "0")
+    {
+        Visible = () => IsDraft
+    };
+
+    public ModdedToggleOption ShowRandomOption { get; set; } = new("Show Random Role Pick", true)
+    {
+        Visible = () => IsDraft
+    };
+
+    public ModdedNumberOption TurnDurationSeconds { get; set; } = new("Turn Duration", 10f, 5f, 60f, 1f, MiraNumberSuffixes.Seconds, "0")
+    {
+        Visible = () => IsDraft
+    };
+
+    public ModdedNumberOption ConcurrentPicks { get; set; } = new("Concurrent Picks Per Turn", 1f, 1f, 2f, 1f, MiraNumberSuffixes.None, "0")
+    {
+        Visible = () => IsDraft
+    };
+
+    public ModdedNumberOption ShufflesPerPlayer { get; set; } = new("Shuffles Per Player", 1f, 0f, 3f, 1f, MiraNumberSuffixes.None, "0")
+    {
+        Visible = () => IsDraft
+    };
+
     public bool RoleListEnabled => RoleAssignmentType.Value is (int)RoleSelectionMode.RoleList;
-    /*public ModdedEnumOption GuaranteedKiller { get; } =
-        new("Guaranteed Killer", (int)RequiredKiller.ImpostorOrNeutralKiller, typeof(RequiredKiller), ["Impostor", "Neutral Killer", "Impostor or Neutral Killer"])
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };*/
 
-    /*public ModdedStringOption SlotCustom { get; } =
-        new("Custom Slot", HudManagerPatches.StoredRoleBuckets[0], HudManagerPatches.StoredRoleBuckets.ToArray())
+    // --- Min/Max Neutral Options ---
+    public ModdedNumberOption MinNeutralBenign { get; } =
+        new("Min Neutral Benign", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };*/
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+        };
 
+    public ModdedNumberOption MaxNeutralBenign { get; } =
+        new("Max Neutral Benign", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+        };
+
+    public ModdedNumberOption MinNeutralEvil { get; } =
+        new("Min Neutral Evil", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+        };
+
+    public ModdedNumberOption MaxNeutralEvil { get; } =
+        new("Max Neutral Evil", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+        };
+
+    public ModdedNumberOption MinNeutralKiller { get; } =
+        new("Min Neutral Killer", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+        };
+
+    public ModdedNumberOption MaxNeutralKiller { get; } =
+        new("Max Neutral Killer", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+        };
+
+    public ModdedNumberOption MinNeutralOutlier { get; } =
+        new("Min Neutral Outliers", 0f, 0f, 15f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+        };
+
+    public ModdedNumberOption MaxNeutralOutlier { get; } =
+        new("Max Neutral Outliers", 0f, 0f, 15f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+        };
+
+    // --- Slot Definitions (Declared LAST to keep summary output cleanly at the end) ---
     public ModdedEnumOption<RoleListOption> Slot1 { get; } =
         new("Slot 1", RoleListOption.CrewCommon, OptionStrings)
         {
@@ -233,99 +355,6 @@ public sealed class RoleOptions : AbstractOptionGroup
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
-
-    public ModdedNumberOption MinNeutralBenign { get; } =
-        new("Min Neutral Benign", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
-        };
-
-    public ModdedNumberOption MaxNeutralBenign { get; } =
-        new("Max Neutral Benign", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
-        };
-
-    public ModdedNumberOption MinNeutralEvil { get; } =
-        new("Min Neutral Evil", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
-        };
-
-    public ModdedNumberOption MaxNeutralEvil { get; } =
-        new("Max Neutral Evil", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
-        };
-
-    public ModdedNumberOption MinNeutralKiller { get; } =
-        new("Min Neutral Killer", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
-        };
-
-    public ModdedNumberOption MaxNeutralKiller { get; } =
-        new("Max Neutral Killer", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
-        };
-
-    public ModdedNumberOption MinNeutralOutlier { get; } =
-        new("Min Neutral Outliers", 0f, 0f, 15f, 1f, MiraNumberSuffixes.None, "0")
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
-        };
-
-    public ModdedNumberOption MaxNeutralOutlier { get; } =
-        new("Max Neutral Outliers", 0f, 0f, 15f, 1f, MiraNumberSuffixes.None, "0")
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
-        };
-
-    private static bool IsDraft =>
-        OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.Draft;
-
-    public ModdedEnumOption<DraftRecapMode> DraftRecap { get; } =
-        new("Draft Recap Displays", DraftRecapMode.Faction)
-        {
-            Visible = () => IsDraft
-        };
-
-    public ModdedEnumOption<DraftRecapMode> DraftSidebarDisplay { get; } =
-        new("Draft Sidebar Displays", DraftRecapMode.Faction)
-        {
-            Visible = () => IsDraft
-        };
-
-    public ModdedToggleOption UseRoleListForPool { get; set; } = new("Use Role List For Pool", false)
-    {
-        Visible = () => IsDraft
-    };
-
-    public ModdedNumberOption OfferedRolesCount { get; set; } = new("Offered Role Picks Per Turn", 3f, 1f, 9f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => IsDraft
-    };
-
-    public ModdedToggleOption ShowRandomOption { get; set; } = new("Show Random Role Pick", true)
-    {
-        Visible = () => IsDraft
-    };
-
-    public ModdedNumberOption TurnDurationSeconds { get; set; } = new("Turn Duration", 10f, 5f, 60f, 1f, MiraNumberSuffixes.Seconds, "0")
-    {
-        Visible = () => IsDraft
-    };
-
-    public ModdedNumberOption ConcurrentPicks { get; set; } = new("Concurrent Picks Per Turn", 1f, 1f, 2f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => IsDraft
-    };
-
-    public ModdedNumberOption ShufflesPerPlayer { get; set; } = new("Shuffles Per Player", 1f, 0f, 3f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => IsDraft
-    };
 }
 
 public enum RequiredKiller
@@ -351,8 +380,6 @@ public enum RoleDistribution
     Draft,
     HideAndSeek,
     Cultist,
-    // AllKillers,
-    // Legacy
 }
 
 public enum DraftRecapMode
@@ -371,37 +398,29 @@ public enum RoleListOption
     CrewPower,
     CrewSupport,
 
-    CrewCommon, // Investigative / Protective / Support
-    CrewSpecial, // Killing / Power
-    // CrewUtility, // Investigative / Support
-    // CrewBasic, // Vanilla Crewmate
-    CrewRandom, // Any Crewmate role
+    CrewCommon,
+    CrewSpecial,
+    CrewRandom,
 
     NeutBenign,
     NeutEvil,
     NeutKilling,
     NeutOutlier,
 
-    NeutCommon, // Benign / Evil
-    NeutSpecial, // Killing / Outlier
-    NeutWildcard, // Benign / Evil / Outlier
-    // NeutChaos, // Evil / Outlier
-    // NeutPassive, // Benign / Outlier, this name sucks btw - Atony
-    NeutRandom, // Any Neutral role
+    NeutCommon,
+    NeutSpecial,
+    NeutWildcard,
+    NeutRandom,
 
     ImpConceal,
     ImpKilling,
     ImpPower,
     ImpSupport,
 
-    ImpCommon, // Concealing / Support
-    ImpSpecial, // Killing / Power
-    // ImpUtility, // Concealing / Killing / Support
-    // ImpBasic, // Vanilla Impostor
-    ImpRandom, // Any Impostor role
+    ImpCommon,
+    ImpSpecial,
+    ImpRandom,
 
-    NonImp, // Crewmate / Neutral
-    // NonKilling, // Everything but Impostors, NKs, and CKs
-    // AnyKilling, // Impostors, NKs, and CKs
+    NonImp,
     Any
 }
