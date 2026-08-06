@@ -103,6 +103,9 @@ namespace TownOfUs.Modules.DraftMode
 
         public static RoleBehaviour ResolveRole(ushort roleId)
         {
+            if (roleId == (ushort)RoleTypes.Crewmate || roleId == (ushort)RoleTypes.Impostor)
+                return null!;
+
             try
             {
                 return MiscUtils.GetRegisteredRole((RoleTypes)roleId)!;
@@ -153,4 +156,3 @@ namespace TownOfUs.Modules.DraftMode
 
     }
 }
-

@@ -370,7 +370,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
             if (Player.AmOwner && !silent)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Spectre.ToTextColor()}You are now clickable by players!</b></color>",
+                    $"<b>{TownOfUsColors.Spectre.ToTextColor()}{TouLocale.GetParsed("TouRoleSpectreClickableFeedback")}</b></color>",
                     Color.white,
                     new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
                 notif1.AdjustNotification();
