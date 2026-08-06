@@ -2,6 +2,7 @@
 using MiraAPI.Roles;
 using AmongUs.Data;
 using AmongUs.GameOptions;
+using MiraAPI.GameModes;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Utilities;
 using UnityEngine;
@@ -46,6 +47,7 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        AssociatedGameMode = typeof(HideAndSeekMode),
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Chameleon.LoadAsset(), "TouMira.Role.Crewmate.Chameleon", 1.45f),
         /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek,*/
         FreeplayFolder = "Hide n Seek",
@@ -62,13 +64,6 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
     {
         taskStringBuilder.AppendLine($"\n{RoleHintText}\n{RoleLongDescription}");
     }
-
-    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;
-
-    public bool CanSpawnOnCurrentMode() => MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek;
-
-    [HideFromIl2Cpp]
-    Func<bool> ICustomRole.VisibleInSettings => () => MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek;
     public override bool IsAffectedByComms => false;
 
     private Vent currentTarget;

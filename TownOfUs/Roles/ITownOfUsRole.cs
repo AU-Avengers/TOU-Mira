@@ -24,8 +24,6 @@ public interface ITownOfUsRole : ICustomRole
         return false;
     }
 
-    [HideFromIl2Cpp]
-    Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     string? ICustomRole.GetCustomEjectionMessage(NetworkedPlayerInfo player)
     {
         var prefix = "A";
@@ -221,6 +219,11 @@ public interface ITownOfUsRole : ICustomRole
                 return TouRoleGroups.Other;
             }
 
+            if (RoleAlignment == RoleAlignment.FrenzyKiller)
+            {
+                return TouRoleGroups.FrenzyKiller;
+            }
+
             return Team switch
             {
                 ModdedRoleTeams.Crewmate => TouRoleGroups.CrewSup,
@@ -298,4 +301,6 @@ public enum RoleAlignment
     CrewmateBeliever,
     CrewmateObstinate,
     NeutralObstinate,
+    // Killing Frenzy
+    FrenzyKiller
 }

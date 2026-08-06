@@ -4,6 +4,7 @@ using HarmonyLib;
 using MiraAPI;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.GameModes;
 using MiraAPI.Networking;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -21,13 +22,14 @@ public static class MiraApiPatches
     public static bool IsRoleBlacklisted(RoleBehaviour role, ref bool __result)
     {
         // Since TOU Engineer is just vanilla engineer with the fix mechanic, no need to have two engis around!
-        if (role.Role is RoleTypes.Engineer)
+        if (role.Role is RoleTypes.Engineer &&
+            !CustomGameModeManager.IsHideNSeek())
         {
             __result = true;
             return false;
         }
 
-        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek && (role.Role is RoleTypes.Detective ||
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek or TouGamemode.KillFrenzy or TouGamemode.Cultist && (role.Role is RoleTypes.Detective ||
                                                                        role.Role is RoleTypes.GuardianAngel ||
                                                                        role.Role is RoleTypes.Noisemaker ||
                                                                        role.Role is RoleTypes.Phantom ||

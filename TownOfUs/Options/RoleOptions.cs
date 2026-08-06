@@ -1,15 +1,13 @@
-﻿using AmongUs.GameOptions;
+﻿using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using TownOfUs.GameModes;
 
 namespace TownOfUs.Options;
 
-public sealed class RoleOptions : AbstractOptionGroup
+public sealed class RoleOptions : AbstractOptionGroup<ClassicMode>
 {
-    public override Func<bool> GroupVisible => () =>
-        !(GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
-            or GameModes.SeekFools);
     internal static string[] OptionStrings =
     [
         MiscUtils.GetParsedRoleBucket("CrewInvestigative"),
@@ -50,19 +48,19 @@ public sealed class RoleOptions : AbstractOptionGroup
 
     public RoleDistribution CurrentRoleDistribution()
     {
-        var gameMode = (TouGamemode)CustomGameMode.Value;
         var roleDist = (RoleSelectionMode)RoleAssignmentType.Value;
-        if (/*gameMode is TouGamemode.HideAndSeek && */GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek or GameModes.SeekFools)
+        if (CustomGameModeManager.IsHideNSeek() || GameOptionsManager.Instance.CurrentGameOptions.GameMode is AmongUs.GameOptions.GameModes.HideNSeek or AmongUs.GameOptions.GameModes.SeekFools)
         {
             return RoleDistribution.HideAndSeek;
         }
 
-        switch (gameMode)
+        if (CustomGameModeManager.IsActiveGameMode<CultistMode>())
         {
-            case TouGamemode.Cultist:
-                return RoleDistribution.Cultist;
-            /*case TouGamemode.AllKillers:
-                return RoleDistribution.AllKillers;*/
+            return RoleDistribution.Cultist;
+        }
+        if (CustomGameModeManager.IsActiveGameMode<KillFrenzyMode>())
+        {
+            return RoleDistribution.KillFrenzy;
         }
 
         return roleDist switch
@@ -78,41 +76,10 @@ public sealed class RoleOptions : AbstractOptionGroup
     {
         get
         {
-            var gameMode = (TouGamemode)CustomGameMode.Value;
-            return !(GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
-                or GameModes.SeekFools || gameMode is TouGamemode.Cultist/* || gameMode is TouGamemode.AllKillers*/);
+            return CustomGameModeManager.IsClassic();
         }
     }
-    public ModdedEnumOption CustomGameMode { get; } =
-        new("Current Game Mode", (int)TouGamemode.Normal, typeof(TouGamemode), ["Normal", "Hide And Seek (N/A)", "Cultist (N/A)"/*, "All Killers (N/A)", "Legacy TOU (N/A)"*/], false)
-        {
-            // Who could've possibly thought this code breaks the game?
-            /*ChangedEvent = x =>
-            {
-                var newGm = (TouGamemode)x;
-                var manager = GameOptionsManager.Instance;
-                if (manager != null)
-                {
-                    if (newGm is TouGamemode.HideAndSeek && manager.currentGameMode is not GameModes.HideNSeek && manager.currentGameMode is not GameModes.SeekFools)
-                    {
-                        GameOptionsManager.Instance.SwitchGameMode(GameModes.HideNSeek);
-                        GameManager.DestroyInstance();
-                        GameManager netObjParent2 = GameManagerCreator.CreateGameManager(GameOptionsManager.Instance.CurrentGameOptions.GameMode);
-                        AmongUsClient.Instance.Spawn(netObjParent2, -2, SpawnFlags.None);
-                    }
-                    else if (newGm is not TouGamemode.HideAndSeek && (manager.currentGameMode is GameModes.HideNSeek || manager.currentGameMode is GameModes.SeekFools))
-                    {
-                        GameOptionsManager.Instance.SwitchGameMode(GameModes.Normal);
-                        GameManager.DestroyInstance();
-                        GameManager netObjParent2 = GameManagerCreator.CreateGameManager(GameOptionsManager.Instance.CurrentGameOptions.GameMode);
-                        AmongUsClient.Instance.Spawn(netObjParent2, -2, SpawnFlags.None);
-                    }
-                }
 
-                Debug($"New gamemode is {newGm.ToString().ToLowerInvariant()}!");
-            }*/
-            Visible = () => true
-        };
     public ModdedEnumOption RoleAssignmentType { get; } =
         new("Role Assignment Type", (int)RoleSelectionMode.RoleList, typeof(RoleSelectionMode), ["Vanilla", "Role List", "Min/Max List", "Draft"])
         {
@@ -351,7 +318,7 @@ public enum RoleDistribution
     Draft,
     HideAndSeek,
     Cultist,
-    // AllKillers,
+    KillFrenzy,
     // Legacy
 }
 
