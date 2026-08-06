@@ -233,6 +233,7 @@ namespace TownOfUs.Modules.DraftMode
             return pipeIdx >= 0 ? name.Substring(0, pipeIdx) : name;
         }
 
+        [HideFromIl2Cpp]
         private List<int> GetPendingSlots()
         {
             return _slotOrder
@@ -589,7 +590,7 @@ namespace TownOfUs.Modules.DraftMode
         }
 
         [HideFromIl2Cpp]
-        private bool IsRoleAllowedForSlot(string candidate, int slot, bool ignoreConcurrentOffers = false, bool ignoreForce = false, DraftSlotContext? context = null)
+        private bool IsRoleAllowedForSlot(string candidate, int slot, bool ignoreConcurrentOffers = false, bool ignoreForce = false, DraftSlotContext context = null!)
         {
             if (string.IsNullOrWhiteSpace(candidate) || candidate == "__RANDOM__") return false;
             var baseName = BaseRoleName(candidate);
