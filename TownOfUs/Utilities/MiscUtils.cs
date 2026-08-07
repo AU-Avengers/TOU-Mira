@@ -112,27 +112,18 @@ public static class MiscUtils
     /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
     public static List<RoleBehaviour> AllInGameRoles { get; internal set; }
 
-    public static List<RoleBehaviour> AllRegisteredRoles => GetAllRegisteredRoles();
-
     /// <summary>
     /// Gets all registered <see cref="RoleBehaviour"/>s that aren't blacklisted.
     /// </summary>
     /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
-    public static List<RoleBehaviour> GetAllRegisteredRoles()
-    {
-        return AllInGameRoles.Where(x => !x.IsRoleBlacklisted()).ToList();
-    }
-
-    public static List<RoleBehaviour> SpawnableRoles => GetAllSpawnableRoles();
+    public static IEnumerable<RoleBehaviour> AllRegisteredRoles => AllInGameRoles.Where(x => !x.IsRoleBlacklisted());
 
     /// <summary>
     /// Gets all registered <see cref="RoleBehaviour"/>s that aren't blacklisted and spawn on the current mode.
     /// </summary>
     /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
-    public static List<RoleBehaviour> GetAllSpawnableRoles()
-    {
-        return AllInGameRoles.Where(x => !x.IsRoleBlacklisted() && CustomRoleUtils.CanSpawnOnCurrentMode(x)).ToList();
-    }
+    public static IEnumerable<RoleBehaviour> SpawnableRoles =>
+        AllInGameRoles.Where(x => !x.IsRoleBlacklisted() && CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
     public static ReadOnlyCollection<IModdedOption>? GetModdedOptionsForRole(Type classType)
     {

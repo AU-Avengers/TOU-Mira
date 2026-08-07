@@ -5,7 +5,6 @@ using BepInEx;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Roles;
-using Reactor.Localization.Utilities;
 using Reactor.Utilities;
 using UnityEngine;
 
@@ -26,8 +25,8 @@ public static class LogoPatch
     //public static bool UpdateRequired => !TownOfUsPlugin.IsMobile && Paths.BepInExVersion.ToString().Remove(BepInVersionPrefix.Length);
     public static void Postfix()
     {
-        var requiredVersion = new Version(2026, 6, 5);
-        var version = Version.Parse(Application.version);
+        /*var requiredVersion = new Version(2026, 6, 5);
+        var version = Version.Parse(Application.version);*/
         // NeedsDeepDestroy = version >= requiredVersion;
         ModStampPatch.StampPlacement = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ModStampPlacement.Value;
 
