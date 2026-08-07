@@ -52,7 +52,7 @@ public static class HauntMenuMinigamePatch
             }
 
             var role = target.Data.Role;
-            if (target.Data.IsDead && (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost || role.Role == (RoleTypes)RoleId.Get<NeutralGhostRole>()))
+            if (target.Data.IsDead && MiscUtils.IsBasicGhost(role))
             {
                 role = target.GetRoleWhenAlive();
             }

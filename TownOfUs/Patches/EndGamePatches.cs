@@ -81,8 +81,7 @@ public static class EndGamePatches
             foreach (var role in GameHistory.RoleHistory.Where(x => x.Key == playerControl.PlayerId)
                          .Select(x => x.Value))
             {
-                if (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost ||
-                    role.Role == (RoleTypes)RoleId.Get<NeutralGhostRole>())
+                if (MiscUtils.IsBasicGhost(role))
                 {
                     continue;
                 }

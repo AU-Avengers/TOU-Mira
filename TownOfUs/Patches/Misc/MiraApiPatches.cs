@@ -29,7 +29,7 @@ public static class MiraApiPatches
             return false;
         }
 
-        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek or TouGamemode.KillFrenzy or TouGamemode.Cultist && (role.Role is RoleTypes.Detective ||
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek or TouGamemode.KillFrenzy or TouGamemode.Cultist or TouGamemode.TownOfPolus && (role.Role is RoleTypes.Detective ||
                                                                        role.Role is RoleTypes.GuardianAngel ||
                                                                        role.Role is RoleTypes.Noisemaker ||
                                                                        role.Role is RoleTypes.Phantom ||

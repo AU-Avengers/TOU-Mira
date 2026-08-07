@@ -646,6 +646,22 @@
   <string name="TouOptionBetterSubmergedSpawnEnumLowerDeck">Lower Deck</string>
     <!-- Better LI Options -->
     <string name="TouOptionTitleBetterLevelImpostor">Better Level Impostor</string>
+    <string name="TownOfPolusRoleTabText">Role: \%roleName\% \%nl\%\%description\%</string>
+    <string name="TownOfPolusRoleFakeTaskTabText">Fake Tasks:</string>
+    <string name="TownOfPolusRoleCrewDescription">Finish your tasks.</string>
+    <string name="TownOfPolusRoleCrewDescriptionDead">You're dead, finish your tasks.</string>
+    <string name="TownOfPolusRoleImpDescription">Sabotage and kill the crewmates.</string>
+    <string name="TownOfPolusRoleImpDescriptionDead">You're dead.</string>
+    <!-- Engineer Wiki / Abilities -->
+    <string name="TownOfPolusRoleEngineer">Engineer</string>
+    <string name="TownOfPolusRoleEngineerIntroBlurb">Maintain the outpost</string>
+    <string name="TownOfPolusRoleEngineerTabDescription">Finish your tasks.\%nl\%You can fix 1 sabotage.</string>
+    <string name="TownOfPolusRoleEngineerWikiDescription">The Engineer is a Crewmate role that can fix one sabotage per game, from anywhere on the map.</string>
+    <!-- Swooper Wiki / Abilities -->
+    <string name="TownOfPolusRoleSwooper">Swooper</string>
+    <string name="TownOfPolusRoleSwooperIntroBlurb">Use the Swoop ability to turn invisible</string>
+    <string name="TownOfPolusRoleSwooperTabDescription">Sabotage and kill the crewmates.\%nl\%Use the Swoop ability to turn invisible.</string>
+    <string name="TownOfPolusRoleSwooperWikiDescription">The Swooper is an Impostor role that can go invisible at any time to either hide or run away from kills.</string>
   <!-- Spectator - Game Outlier -->
   <string name="TouRoleSpectator">Spectator</string>
   <string name="TouRoleSpectatorIntroBlurb">Watch the chaos from afar</string>
@@ -2742,4 +2758,35 @@
   <string name="TouModifierTorchIntroBlurb">See without lights on.</string>
   <string name="TouModifierTorchTabDescription">Your vision won't get reduced\%nl\%when the lights are sabotaged.</string>
   <string name="TouModifierTorchWikiDescription">The lights being off do not affect your vision.</string>
+
+  <!-- Extra Texts -->
+<string name="TouRoleProsecutorProsecutionsRemaining">Prosecutions Remaining</string>
+<string name="TouRoleDeputyShootKiller">Shoot a player successfully if they were the killer!</string>
+<string name="TouRolePoliticianRevealRequirement">Reveal successfully if half the crewmates are campaigned!</string>
+<string name="TouRoleMayorRevealedVotes">You unleash 3 votes at once!</string>
+<string name="TouRoleMayorRevealVotes">Reveal yourself to get 3 total votes!</string>
+<string name="TouRoleDoomsayerGuessAllAtOnce">Guess the roles of \%amount\% players at once to win!</string>
+<string name="TouRoleDoomsayerSuccessfulGuesses">
+\%current\% / \%total\% Successful Role Guesses to win!</string>
+<string name="TouRoleVigilanteGuessesRemaining">Guesses Remaining</string>
+<string name="TouRoleVigilanteSafeShots">Safe Shots</string>
+<string name="TouRoleAssassinGuessesRemaining">Guesses Remaining</string>
+<string name="TouRoleAssassinDoubleShotUsed">Double Shot Used</string>
+<string name="TouRoleAssassinDoubleShotAvailable">Double Shot Available</string>
+<string name="TouRoleTrackerTrackedPlayers">Tracked Players:</string>
+<string name="TouRoleMonarchKnightCancelled">Knighting has been cancelled.</string>
+<string name="TouRoleMonarchKnightChosen">You chose to knight \%player\%. They will be knighted in \%seconds\% second(s)!</string>
+<string name="TouRoleMonarchKnighting">Knighting</string>
+<string name="TouRoleInquisitorHereticPerished">A Heretic has perished!</string>
+<string name="TouRoleInquisitorWrongTarget">\%player\% was not a heretic! 
+You can no longer vanquish players.</string>
+<string name="TouRoleInquisitorCorrectTarget">\%player\% was a heretic!</string>
+<string name="TouRoleInquisitorWonSelf">You have successfully won as the \%role\%, as all Heretics have perished!</string>
+<string name="TouRoleInquisitorWonOther">The \%role\%, \%player\%, has successfully won, as all Heretics have perished!</string>
+<string name="TouRoleSpectreWonSelf">You have successfully won as the \%role\%, as you finished your tasks postmortem!</string>
+<string name="TouRoleSpectreSpookMessage">You have one round to spook a player of your choice to death, choose wisely.</string>
+<string name="TouRoleSpectreWonOther">\%role\%, \%player\%, has successfully won, as they completed their tasks postmortem!</string>
+<string name="TouRoleSpectreClickableFeedback">You are now clickable by players!</string>
+
+
 </resources>

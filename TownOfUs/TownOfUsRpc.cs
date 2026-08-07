@@ -144,6 +144,9 @@ public enum TownOfUsRpc : uint
     FrenzyMarkLocation,
     FrenzyPlantBomb,
 
+    // Town of Polus
+    TopEngineerFix,
+
     // Draft Mode
     DraftSubmitPick,
     DraftStart,

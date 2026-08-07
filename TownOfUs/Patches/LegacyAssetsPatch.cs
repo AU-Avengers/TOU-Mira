@@ -1,6 +1,8 @@
 using HarmonyLib;
+using MiraAPI.GameModes;
 using MiraAPI.Hud;
 using TownOfUs.Buttons;
+using TownOfUs.GameModes;
 
 namespace TownOfUs.Patches;
 
@@ -47,7 +49,7 @@ public static class VanillaAssetsPatch
     [HarmonyPrefix]
     public static bool SetFromSettings(UseButton __instance, UseButtonSettings settings)
     {
-        if (!LegacyAssets.IsLegacy)
+        if (!LegacyAssets.IsLegacy && !(!LobbyBehaviour.Instance && CustomGameModeManager.IsActiveGameMode<TownOfPolusMode>()))
         {
             return true;
         }

@@ -1,9 +1,7 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
-using TownOfUs.Options;
 
 namespace TownOfUs.Roles;
 
@@ -289,6 +287,9 @@ public enum RoleAlignment
     CrewmateGhost,
     ImpostorGhost,
     NeutralGhost,
+    Crewmate,
+    Impostor,
+    Neutral,
     CrewmateAfterlife,
     ImpostorAfterlife,
     NeutralAfterlife,

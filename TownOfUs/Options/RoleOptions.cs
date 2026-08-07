@@ -2,11 +2,13 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using TownOfUs.Interfaces;
 using TownOfUs.GameModes;
+using TownOfUs.Patches;
 
 namespace TownOfUs.Options;
 
-public sealed class RoleOptions : AbstractOptionGroup<ClassicMode>
+public sealed class RoleOptions : AbstractOptionGroup<ClassicMode>, IWikiOptionsSummaryProvider
 {
     internal static string[] OptionStrings =
     [
@@ -62,6 +64,10 @@ public sealed class RoleOptions : AbstractOptionGroup<ClassicMode>
         {
             return RoleDistribution.KillFrenzy;
         }
+        if (CustomGameModeManager.IsActiveGameMode<TownOfPolusMode>())
+        {
+            return RoleDistribution.TownOfPolus;
+        }
 
         return roleDist switch
         {
@@ -98,19 +104,104 @@ public sealed class RoleOptions : AbstractOptionGroup<ClassicMode>
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.LastImpostorBias && OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla and not RoleDistribution.Draft
         };
 
+    // --- Draft Settings (Declared BEFORE Slots to fix wiki option ordering) ---
+    private static bool IsDraft =>
+        OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.Draft;
+
+    public ModdedEnumOption<DraftRecapMode> DraftRecap { get; } =
+        new("Draft Recap Displays", DraftRecapMode.Faction)
+        {
+            Visible = () => IsDraft
+        };
+
+    public ModdedEnumOption<DraftRecapMode> DraftSidebarDisplay { get; } =
+        new("Draft Sidebar Displays", DraftRecapMode.Faction)
+        {
+            Visible = () => IsDraft
+        };
+
+    public ModdedToggleOption UseRoleListForPool { get; set; } = new("Use Role List For Pool", false)
+    {
+        Visible = () => IsDraft
+    };
+
+    public ModdedNumberOption OfferedRolesCount { get; set; } = new("Offered Role Picks Per Turn", 3f, 1f, 9f, 1f, MiraNumberSuffixes.None, "0")
+    {
+        Visible = () => IsDraft
+    };
+
+    public ModdedToggleOption ShowRandomOption { get; set; } = new("Show Random Role Pick", true)
+    {
+        Visible = () => IsDraft
+    };
+
+    public ModdedNumberOption TurnDurationSeconds { get; set; } = new("Turn Duration", 10f, 5f, 60f, 1f, MiraNumberSuffixes.Seconds, "0")
+    {
+        Visible = () => IsDraft
+    };
+
+    public ModdedNumberOption ConcurrentPicks { get; set; } = new("Concurrent Picks Per Turn", 1f, 1f, 2f, 1f, MiraNumberSuffixes.None, "0")
+    {
+        Visible = () => IsDraft
+    };
+
+    public ModdedNumberOption ShufflesPerPlayer { get; set; } = new("Shuffles Per Player", 1f, 0f, 3f, 1f, MiraNumberSuffixes.None, "0")
+    {
+        Visible = () => IsDraft
+    };
+
     public bool RoleListEnabled => RoleAssignmentType.Value is (int)RoleSelectionMode.RoleList;
-    /*public ModdedEnumOption GuaranteedKiller { get; } =
-        new("Guaranteed Killer", (int)RequiredKiller.ImpostorOrNeutralKiller, typeof(RequiredKiller), ["Impostor", "Neutral Killer", "Impostor or Neutral Killer"])
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };*/
 
-    /*public ModdedStringOption SlotCustom { get; } =
-        new("Custom Slot", HudManagerPatches.StoredRoleBuckets[0], HudManagerPatches.StoredRoleBuckets.ToArray())
+    // --- Min/Max Neutral Options ---
+    public ModdedNumberOption MinNeutralBenign { get; } =
+        new("Min Neutral Benign", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };*/
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+        };
 
+    public ModdedNumberOption MaxNeutralBenign { get; } =
+        new("Max Neutral Benign", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+        };
+
+    public ModdedNumberOption MinNeutralEvil { get; } =
+        new("Min Neutral Evil", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+        };
+
+    public ModdedNumberOption MaxNeutralEvil { get; } =
+        new("Max Neutral Evil", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+        };
+
+    public ModdedNumberOption MinNeutralKiller { get; } =
+        new("Min Neutral Killer", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+        };
+
+    public ModdedNumberOption MaxNeutralKiller { get; } =
+        new("Max Neutral Killer", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+        };
+
+    public ModdedNumberOption MinNeutralOutlier { get; } =
+        new("Min Neutral Outliers", 0f, 0f, 15f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+        };
+
+    public ModdedNumberOption MaxNeutralOutlier { get; } =
+        new("Max Neutral Outliers", 0f, 0f, 15f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+        };
+
+    // --- Slot Definitions (Declared LAST to keep summary output cleanly at the end) ---
     public ModdedEnumOption<RoleListOption> Slot1 { get; } =
         new("Slot 1", RoleListOption.CrewCommon, OptionStrings)
         {
@@ -200,99 +291,63 @@ public sealed class RoleOptions : AbstractOptionGroup<ClassicMode>
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
-
-    public ModdedNumberOption MinNeutralBenign { get; } =
-        new("Min Neutral Benign", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+    public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
+        new HashSet<StringNames>
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
+            // These are hidden because rolelist text already handles this
+            MaxNeutralBenign.StringName,
+            MinNeutralBenign.StringName,
+            MaxNeutralEvil.StringName,
+            MinNeutralEvil.StringName,
+            MaxNeutralKiller.StringName,
+            MinNeutralKiller.StringName,
+            MaxNeutralOutlier.StringName,
+            MinNeutralOutlier.StringName,
+            Slot1.StringName,
+            Slot2.StringName,
+            Slot3.StringName,
+            Slot4.StringName,
+            Slot5.StringName,
+            Slot6.StringName,
+            Slot7.StringName,
+            Slot8.StringName,
+            Slot9.StringName,
+            Slot10.StringName,
+            Slot11.StringName,
+            Slot12.StringName,
+            Slot13.StringName,
+            Slot14.StringName,
+            Slot15.StringName
         };
 
-    public ModdedNumberOption MaxNeutralBenign { get; } =
-        new("Max Neutral Benign", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
-        };
-
-    public ModdedNumberOption MinNeutralEvil { get; } =
-        new("Min Neutral Evil", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
-        };
-
-    public ModdedNumberOption MaxNeutralEvil { get; } =
-        new("Max Neutral Evil", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
-        };
-
-    public ModdedNumberOption MinNeutralKiller { get; } =
-        new("Min Neutral Killer", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
-        };
-
-    public ModdedNumberOption MaxNeutralKiller { get; } =
-        new("Max Neutral Killer", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
-        };
-
-    public ModdedNumberOption MinNeutralOutlier { get; } =
-        new("Min Neutral Outliers", 0f, 0f, 15f, 1f, MiraNumberSuffixes.None, "0")
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
-        };
-
-    public ModdedNumberOption MaxNeutralOutlier { get; } =
-        new("Max Neutral Outliers", 0f, 0f, 15f, 1f, MiraNumberSuffixes.None, "0")
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
-        };
-
-    private static bool IsDraft =>
-        OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.Draft;
-
-    public ModdedEnumOption<DraftRecapMode> DraftRecap { get; } =
-        new("Draft Recap Displays", DraftRecapMode.Faction)
-        {
-            Visible = () => IsDraft
-        };
-
-    public ModdedEnumOption<DraftRecapMode> DraftSidebarDisplay { get; } =
-        new("Draft Sidebar Displays", DraftRecapMode.Faction)
-        {
-            Visible = () => IsDraft
-        };
-
-    public ModdedToggleOption UseRoleListForPool { get; set; } = new("Use Role List For Pool", false)
+    public IEnumerable<string> GetWikiOptionSummaryLines()
     {
-        Visible = () => IsDraft
-    };
+        var currentDist = CurrentRoleDistribution();
 
-    public ModdedNumberOption OfferedRolesCount { get; set; } = new("Offered Role Picks Per Turn", 3f, 1f, 9f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => IsDraft
-    };
+        if (currentDist == RoleDistribution.Vanilla) { return Enumerable.Empty<string>(); }
 
-    public ModdedToggleOption ShowRandomOption { get; set; } = new("Show Random Role Pick", true)
-    {
-        Visible = () => IsDraft
-    };
+        if (HudManagerPatches.RoleListTextComp == null || string.IsNullOrWhiteSpace(HudManagerPatches.RoleListTextComp.text))
+        {
+            return Enumerable.Empty<string>();
+        }
 
-    public ModdedNumberOption TurnDurationSeconds { get; set; } = new("Turn Duration", 10f, 5f, 60f, 1f, MiraNumberSuffixes.Seconds, "0")
-    {
-        Visible = () => IsDraft
-    };
+        string roleListText = HudManagerPatches.RoleListTextComp.text;
 
-    public ModdedNumberOption ConcurrentPicks { get; set; } = new("Concurrent Picks Per Turn", 1f, 1f, 2f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => IsDraft
-    };
+        float sizePercent = 100f;
+        const float minSizePercent = 35f; 
+        const float sizeStep = 2.5f;
 
-    public ModdedNumberOption ShufflesPerPlayer { get; set; } = new("Shuffles Per Player", 1f, 0f, 3f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => IsDraft
-    };
+        int lineCount = roleListText.Split([ '\n', '\r' ], StringSplitOptions.RemoveEmptyEntries).Length;
+
+        if (lineCount > 5)
+        {
+            sizePercent = Math.Max(minSizePercent, 100f - ((lineCount - 5) * sizeStep * 2.0f));
+        }
+
+        string formattedText = $"<page><size={sizePercent:0}%>{roleListText}</size>";
+
+        return [ formattedText ];
+    }
 }
 
 public enum RequiredKiller
@@ -319,6 +374,7 @@ public enum RoleDistribution
     HideAndSeek,
     Cultist,
     KillFrenzy,
+    TownOfPolus,
     // Legacy
 }
 
@@ -338,37 +394,29 @@ public enum RoleListOption
     CrewPower,
     CrewSupport,
 
-    CrewCommon, // Investigative / Protective / Support
-    CrewSpecial, // Killing / Power
-    // CrewUtility, // Investigative / Support
-    // CrewBasic, // Vanilla Crewmate
-    CrewRandom, // Any Crewmate role
+    CrewCommon,
+    CrewSpecial,
+    CrewRandom,
 
     NeutBenign,
     NeutEvil,
     NeutKilling,
     NeutOutlier,
 
-    NeutCommon, // Benign / Evil
-    NeutSpecial, // Killing / Outlier
-    NeutWildcard, // Benign / Evil / Outlier
-    // NeutChaos, // Evil / Outlier
-    // NeutPassive, // Benign / Outlier, this name sucks btw - Atony
-    NeutRandom, // Any Neutral role
+    NeutCommon,
+    NeutSpecial,
+    NeutWildcard,
+    NeutRandom,
 
     ImpConceal,
     ImpKilling,
     ImpPower,
     ImpSupport,
 
-    ImpCommon, // Concealing / Support
-    ImpSpecial, // Killing / Power
-    // ImpUtility, // Concealing / Killing / Support
-    // ImpBasic, // Vanilla Impostor
-    ImpRandom, // Any Impostor role
+    ImpCommon,
+    ImpSpecial,
+    ImpRandom,
 
-    NonImp, // Crewmate / Neutral
-    // NonKilling, // Everything but Impostors, NKs, and CKs
-    // AnyKilling, // Impostors, NKs, and CKs
+    NonImp,
     Any
 }

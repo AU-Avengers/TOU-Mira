@@ -1,5 +1,4 @@
-﻿using AmongUs.GameOptions;
-using HarmonyLib;
+﻿using HarmonyLib;
 using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
 using Reactor.Utilities.Extensions;

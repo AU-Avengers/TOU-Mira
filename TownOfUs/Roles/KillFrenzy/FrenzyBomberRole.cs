@@ -10,7 +10,6 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.GameModes;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.KillFrenzy;
