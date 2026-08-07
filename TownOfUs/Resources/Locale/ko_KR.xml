@@ -140,7 +140,6 @@
   <string name="PiPLocationMiddleRight">오른쪽</string>
   <string name="PiPLocationBottomRight">우측 하단</string>
   <string name="PiPLocationDynamic">다이내믹</string>
-  <string name="TouControlControlledNotif">당신은 &lt;controller&gt;에게 조정당하고 있습니다!</string>
   <string name="PiPSizeNormal">적당하게</string>
   <string name="PiPSizeSmall">작게</string>
   <string name="PiPSizeLarge">크게</string>

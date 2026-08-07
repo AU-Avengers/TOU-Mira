@@ -16,6 +16,5 @@
 
     <Import Project="../AmongUs.props" Condition="'$(Configuration)' != 'Publish'"/>
     <Import Project="../AmongUsPublish.props" Condition="'$(Configuration)' == 'Publish'"/>
-    
 
 </Project>

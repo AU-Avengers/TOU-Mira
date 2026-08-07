@@ -2758,4 +2758,35 @@
   <string name="TouModifierTorchIntroBlurb">See without lights on.</string>
   <string name="TouModifierTorchTabDescription">Your vision won't get reduced\%nl\%when the lights are sabotaged.</string>
   <string name="TouModifierTorchWikiDescription">The lights being off do not affect your vision.</string>
+
+  <!-- Extra Texts -->
+<string name="TouRoleProsecutorProsecutionsRemaining">Prosecutions Remaining</string>
+<string name="TouRoleDeputyShootKiller">Shoot a player successfully if they were the killer!</string>
+<string name="TouRolePoliticianRevealRequirement">Reveal successfully if half the crewmates are campaigned!</string>
+<string name="TouRoleMayorRevealedVotes">You unleash 3 votes at once!</string>
+<string name="TouRoleMayorRevealVotes">Reveal yourself to get 3 total votes!</string>
+<string name="TouRoleDoomsayerGuessAllAtOnce">Guess the roles of \%amount\% players at once to win!</string>
+<string name="TouRoleDoomsayerSuccessfulGuesses">
+\%current\% / \%total\% Successful Role Guesses to win!</string>
+<string name="TouRoleVigilanteGuessesRemaining">Guesses Remaining</string>
+<string name="TouRoleVigilanteSafeShots">Safe Shots</string>
+<string name="TouRoleAssassinGuessesRemaining">Guesses Remaining</string>
+<string name="TouRoleAssassinDoubleShotUsed">Double Shot Used</string>
+<string name="TouRoleAssassinDoubleShotAvailable">Double Shot Available</string>
+<string name="TouRoleTrackerTrackedPlayers">Tracked Players:</string>
+<string name="TouRoleMonarchKnightCancelled">Knighting has been cancelled.</string>
+<string name="TouRoleMonarchKnightChosen">You chose to knight \%player\%. They will be knighted in \%seconds\% second(s)!</string>
+<string name="TouRoleMonarchKnighting">Knighting</string>
+<string name="TouRoleInquisitorHereticPerished">A Heretic has perished!</string>
+<string name="TouRoleInquisitorWrongTarget">\%player\% was not a heretic! 
+You can no longer vanquish players.</string>
+<string name="TouRoleInquisitorCorrectTarget">\%player\% was a heretic!</string>
+<string name="TouRoleInquisitorWonSelf">You have successfully won as the \%role\%, as all Heretics have perished!</string>
+<string name="TouRoleInquisitorWonOther">The \%role\%, \%player\%, has successfully won, as all Heretics have perished!</string>
+<string name="TouRoleSpectreWonSelf">You have successfully won as the \%role\%, as you finished your tasks postmortem!</string>
+<string name="TouRoleSpectreSpookMessage">You have one round to spook a player of your choice to death, choose wisely.</string>
+<string name="TouRoleSpectreWonOther">\%role\%, \%player\%, has successfully won, as they completed their tasks postmortem!</string>
+<string name="TouRoleSpectreClickableFeedback">You are now clickable by players!</string>
+
+
 </resources>
