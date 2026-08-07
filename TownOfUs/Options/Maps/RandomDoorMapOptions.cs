@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Maps;
 public sealed class RandomDoorMapOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
-    public override string GroupName => "Randomized Door Mode";
+    public override string GroupName => TouLocale.GetParsed("TouOptionTitleRandomDoorMode");
     public override uint GroupPriority => 1;
 
     public ModdedNumberOption DisabledDoorChance { get; } = new("TouOptionBetterDoorsNoneChance", 5f, 0, 100f, 10f, MiraNumberSuffixes.Percent);

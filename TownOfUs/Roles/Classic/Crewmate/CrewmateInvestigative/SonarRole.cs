@@ -69,7 +69,7 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
             return stringB;
         }
 
-        stringB.Append("\n<b>Tracked Players:</b>");
+        stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.GetParsed("TouRoleTrackerTrackedPlayers")}</b>");
         foreach (var plr in playerControls)
         {
             stringB.Append(TownOfUsPlugin.Culture, $"\n{plr.Data.PlayerName}");

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Reflection;
+using System.Text;
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
@@ -8,6 +9,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Modules.DraftMode;
 using TownOfUs.Options;
 using TownOfUs.Patches.Options;
@@ -107,6 +109,7 @@ public static class ChatPatches
         var summaryCommandList = TouLocale.GetParsed("SummaryCommandList").Split(":");
         var rolesCommandList = TouLocale.GetParsed("RolesCommandList").Split(":");
         var nerfCommandList = TouLocale.GetParsed("NerfMeCommandList").Split(":");
+        var playerCommandList = TouLocale.GetParsed("PlayerCommandList").Split(":");
         var nameCommandList = TouLocale.GetParsed("SetNameCommandList").Split(":");
         var helpCommandList = TouLocale.GetParsed("HelpCommandList").Split(":");
         var upCommandList = TouLocale.GetParsed("UpCommandList").Split(":");
@@ -120,6 +123,7 @@ public static class ChatPatches
             summaryCommandList = summaryCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "SummaryCommandList").Split(":"));
             rolesCommandList = rolesCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "RolesCommandList").Split(":"));
             nerfCommandList = nerfCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "NerfMeCommandList").Split(":"));
+            playerCommandList = playerCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "PlayerCommandList").Split(":"));
             nameCommandList = nameCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "SetNameCommandList").Split(":"));
             helpCommandList = helpCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "HelpCommandList").Split(":"));
             upCommandList = upCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "UpCommandList").Split(":"));
@@ -402,6 +406,32 @@ public static class ChatPatches
             return false;
         }
 
+        if (playerCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
+        {
+            var sBuilder = new StringBuilder();
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (HudManagerHelper.PlatformAssociations.TryGetValue(AmongUsClient.Instance.GetClientFromCharacter(player).Id, out var icon))
+                {
+                    sBuilder.AppendLine(TouLocale.GetParsed("PlayerCommandDetails")
+                        .Replace("<player>", player.CachedPlayerData.PlayerName).Replace("<platform>", icon));
+                }
+                else
+                {
+                    sBuilder.AppendLine(TouLocale.GetParsed("PlayerCommandDetails")
+                        .Replace("<player>", player.CachedPlayerData.PlayerName).Replace("<platform>", "<sprite name=\"Platform.Blank\">"));
+                }
+            }
+
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName, sBuilder.ToString());
+
+            __instance.freeChatField.Clear();
+            __instance.quickChatMenu.Clear();
+            __instance.quickChatField.Clear();
+            __instance.UpdateChatMode();
+            return false;
+        }
+
         if (nameCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
         {
             var stringToCheck =
@@ -666,6 +696,7 @@ public static class ChatPatches
             var msg = $"<size=75%>{TouLocale.GetParsed("HelpMessageTitle")}\n" +
                       $"{TouLocale.GetParsed("HelpCommandDescription")}\n" +
                       $"{TouLocale.GetParsed("NerfMeCommandDescription")}\n" +
+                      $"{TouLocale.GetParsed("PlayerCommandDescription")}\n" +
                       $"{TouLocale.GetParsed("SetNameCommandDescription").Replace("<randomName>", randomNames.Random())}\n" +
                       $"{TouLocale.GetParsed("SpectateCommandDescription")}\n" +
                       $"{TouLocale.GetParsed("RolesCommandDescription")}\n" +

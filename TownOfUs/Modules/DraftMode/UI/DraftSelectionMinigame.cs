@@ -25,6 +25,7 @@ namespace TownOfUs.Modules.DraftMode
 
         private GameObject _screenRoot;
         private ushort[] _offeredRoleIds;
+        private string[] _offeredRoleNames;
         private bool _hasPicked;
         private TextMeshPro _timerText;
         private GameObject _tooltipRoot;
@@ -219,12 +220,13 @@ namespace TownOfUs.Modules.DraftMode
         }
 
         [HideFromIl2Cpp]
-        public void CacheOfferedRoles(ushort[] offeredRoleIds)
+        public void CacheOfferedRoles(ushort[] offeredRoleIds, string[] offeredRoleNames = null!)
         {
             _offeredRoleIds = offeredRoleIds ?? Array.Empty<ushort>();
+            _offeredRoleNames = offeredRoleNames ?? Array.Empty<string>();
         }
 
-        public static void Show(ushort[] roleIds)
+        public static void Show(ushort[] roleIds, string[] roleNames = null!)
         {
             Hide();
             if (HudManager.Instance?.FullScreen != null)
@@ -233,6 +235,7 @@ namespace TownOfUs.Modules.DraftMode
             DontDestroyOnLoad(go);
             Instance = go.AddComponent<DraftScreenController>();
             Instance._offeredRoleIds = roleIds ?? Array.Empty<ushort>();
+            Instance._offeredRoleNames = roleNames ?? Array.Empty<string>();
             Instance._hasPicked = false;
             Instance._cardsReady = false;
             Instance._localTimeLeft = -1f;
@@ -348,7 +351,9 @@ namespace TownOfUs.Modules.DraftMode
 
             var idList = new List<ushort>();
             if (_offeredRoleIds != null) idList.AddRange(_offeredRoleIds);
-            var cards = DraftUiManager.BuildCards(idList);
+            var nameList = new List<string>();
+            if (_offeredRoleNames != null) nameList.AddRange(_offeredRoleNames);
+            var cards = DraftUiManager.BuildCards(idList, nameList);
 
             int totalCards = cards.Count;
             float cardScale = CardScaleForCount;
@@ -380,11 +385,8 @@ namespace TownOfUs.Modules.DraftMode
                     i, totalCards, card.Color, card.Faction,
                     cardScale, useGrid, spacing, card.Description);
 
-                var capturedName = card.RoleName;
-                var capturedColor = card.Color;
-
                 btn.OnClick.RemoveAllListeners();
-                btn.OnClick.AddListener((UnityAction)(() => OnCardClicked(capturedIdx, capturedName, capturedColor)));
+                btn.OnClick.AddListener((UnityAction)(() => OnCardClicked(capturedIdx)));
             }
 
             Coroutines.Start(CoAnimateCards(rolesHolder!, cardScale, useGrid, totalCards));
@@ -857,14 +859,27 @@ namespace TownOfUs.Modules.DraftMode
 
         public static byte TargetPickerId = 255;
 
-        private void OnCardClicked(int index, string roleName, Color roleColor)
+        private void OnCardClicked(int index)
         {
             if (_hasPicked) return;
 
             _hasPicked = true;
             DraftNetworkHelper.SendPickToHost(index, TargetPickerId);
-            Coroutines.Start(CoShowPickNotification(roleName, roleColor));
             Invoke(nameof(DestroySelf), 1.2f);
+        }
+
+        public static void ShowFinalPickNotification(ushort roleId)
+        {
+            var roleName = DraftRolePool.GetRoleNameFromId(roleId);
+            if (string.IsNullOrEmpty(roleName))
+                roleName = TouLocale.GetParsed("TouDraftUnknownRoleLabel", "Unknown Role");
+
+            var roleBehaviour = roleId != 0
+                ? MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)roleId)
+                : null;
+
+            var roleColor = roleBehaviour != null ? roleBehaviour.TeamColor : Color.white;
+            Coroutines.Start(CoShowPickNotification(roleName, roleColor));
         }
 
         private static IEnumerator CoShowPickNotification(string roleName, Color roleColor)

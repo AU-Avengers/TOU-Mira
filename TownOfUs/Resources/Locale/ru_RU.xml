@@ -966,7 +966,7 @@
   <string name="TouRoleSpectreWikiDescription">Фантом - Нейтральный Призрак, который побеждает, заканчивая все свои задания до того, как любой их живых игроков нажмёт на него.</string>
   <string name="TouRoleSpectreSpook">Пугать</string>
   <string name="SpecialNeutral">Специальный Нейтрал</string>
-  <string name="WildcardNeutral">Нейтрал-хаос</string>
+  <string name="WildcardNeutral">Хаотический Нейтрал</string>
   <string name="TouRoleDeputyCampNotif">Дождитесь смерти \%player\% и пристрелите его убийцу на собрании.</string>
   <string name="TouRoleForensicInspectNotif">Вы изучили место убийства \%player\%. Убийца, или любой, кто находился на месте преступления, при осмотре подсветится красным.</string>
   <string name="TouRoleHunterStalkNotif">Если \%player\% используйте способность, вы сможете убить его во время раунда.</string>
@@ -1454,7 +1454,6 @@
   <string name="PiPLocationBottomRight">Справа снизу</string>
   <string name="PiPLocationDynamic">Динамический</string>
   <string name="ParasitePiPSize">Размер отображения паразита</string>
-  <string name="TouControlControlledNotif">Вас контролирует &lt;controller&gt;!</string>
   <string name="PiPSizeNormal">Обычный</string>
   <string name="PiPSizeSmall">Маленький</string>
   <string name="PiPSizeLarge">Большой</string>
@@ -1636,4 +1635,48 @@
   <string name="TermsImpRoleAlignmentsTitle">Подроли \%color=#FF0000\%Предателей\%/color\%</string>
   <string name="TermsImpRoleAlignmentsInfo">• \%color=#FF0000\%Скрывающиеся\%/color\% роли могут \%color=#FF8B95\%убивать\%/color\%, а также прятаться. • \%color=#FF0000\%Убивающие\%/color\% роли имеют улучшенные или изменённые возможности \%color=#FF8B95\%убийства\%/color\% , позволяя им \%color=#FF8B95\%убивать\%/color\% более эффективно. • \%color=#FF0000\%Сильные\%/color\% роли имеют возможности намного сильнее других ролей, наделяют\%color=#FF0000\%Предателей\%/color\% уникальной силой. • \%color=#FF0000\%Поддерживающие\%/color\% роли могут помогать прятать тела, или делать \%color=#FF8B95\%убийства\%/color\% более простыми.</string>
   <string name="TermsRoleBucketsTitle">Список Ролей</string>
+  <string name="TouDraftCancelButton">Отменить назначение</string>
+  <string name="TouDraftCancelledNotif">Режим назначения ролей был отменён \%color=#FFBFCC\%\%b\%Хостом\%/b\%\%/color\%!</string>
+  <string name="TouDraftShuffleButton">Перемешать</string>
+  <string name="TouDraftShuffledNotif">Назначения были перемешаны!</string>
+  <string name="TouDraftRandomDescription">Назначает вам случайную роль.</string>
+  <string name="TouDraftUnknownRoleLabel">Роль \%id\%</string>
+  <string name="TouDraftUnknownTeamLabel">Неизвестная</string>
+  <string name="TouDraftRecapHeader">ИТОГИ НАЗНАЧЕНИЯ</string>
+  <string name="TouDraftRecapModeRole">Роль</string>
+  <string name="TouDraftRecapModeFaction">Фракция</string>
+  <string name="TouDraftPlayerLabel">Игрок \%slot\%</string>
+  <string name="TouDraftSlotLabel">Слот \%slot\%</string>
+  <string name="TouDraftPickPrompt">Выберите свою роль!</string>
+  <string name="TouDraftTimerRemaining">Осталось \%secs\% секунд(ы)</string>
+  <string name="TouDraftWaitingToStart">Ожидаем начала...</string>
+  <string name="TouDraftRolesPickedLabel">РОЛИ ВЫБРАНЫ</string>
+  <string name="TouDraftShimmerDraft">НАЗНАЧЕНИЕ</string>
+  <string name="TouDraftShimmerMode">РЕЖИМ</string>
+  <string name="TouDraftPlayerNumberLabel">Игрок №\%num\%</string>
+  <string name="TouDraftYouLabel">ВЫ</string>
+  <string name="TouDraftIsPickingLabel">выбирает...</string>
+  <string name="TouDraftIsWaitingLabel">ожидает</string>
+  <string name="TouDraftPickedLabel">выбрал</string>
+  <string name="TouDraftUnknownRoleStatus">НЕИЗВЕСТНО</string>
+  <string name="TouDraftARoleLabel">роль</string>
+  <string name="TouDraftYourNumberLabel">ВАШ НОМЕР:</string>
+  <string name="TouDraftYouAreLabel">ВЫ:</string>
+  <string name="TouDraftSpectatingValue">НАБЛЮДАЕТ</string>
+  <string name="TouDraftNowPickingLabel">ТЕПЕРЬ ВЫБИРАЕТ:</string>
+  <string name="TouDraftYourTurnLabel">ВАШ ЧЕРЁД!</string>
+  <string name="TouDraftNowPickingMultiLabel">ТЕПЕРЬ ВЫБИРАЮТ:</string>
+  <string name="TouDraftMultiLabel">НЕСКОЛЬКО</string>
+  <string name="DraftAudioCue">Когда воспроизводится звук назначения</string>
+  <string name="DraftAudioStart">Начало назначения</string>
+  <string name="DraftAudioYourTurn">Ваш ход</string>
+  <string name="DraftAudioNone">Никогда</string>
+  <string name="DisplayPlayerProgress">Показывать прогресс игрока над именем для</string>
+  <string name="ProgressTrackingNever">Никого</string>
+  <string name="ProgressTrackingOnSelf">Себя</string>
+  <string name="ProgressTrackingOnOthers">Других</string>
+  <string name="ProgressTrackingAlways">Всех</string>
+  <string name="TermsRoleBucketsInfo">Группы ролей актуальны только при использовании настройки "Задать список ролей"• Обычные роли\%color=#8CFFFF\%Экипажа\%/color\% содержат расследующие, защищающие, and поддерживающие роли. • Обычные роли \%color=#FF0000\%Предателей\%/color\% содержат скрытные и поддерживающие rроли. • Обычные роли \%color=#8A8A8A\%Нейтралов\%/color\% содержат добрые и злые роли нейтралов. • Особые роли \%color=#8CFFFF\%Экипажа\%/color\% содержат убивающие и сильные роли экипажа. • Особые роли \%color=#FF0000\%Предателей\%/color\% содержат убивающие и сильные роли. • Особые роли \%color=#8A8A8A\%Нейтралов\%/color\% содержат убивающие и оставшиеся роли нейтралов. • Хаотические роли \%color=#8A8A8A\%Нейтралов\%/color\% содержат добрые, злые и оставшиеся роли нейтралов. • Не-\%color=#FF0000\%Предатели\%/color\% содержат все роли \%color=#8A8A8A\%Нейтралов \%/color\% и \%color=#8CFFFF\%Экипажа\%/color\%. • Рандомные группы создают любую роль из указанной фракции (типа Случайный \%color=#8CFFFF\%Экипаж\%/color\%). • Любая группа позволяет появиться любой включенной роли.</string>
+  <string name="TouOptionBetterSkeldVentModeEnumNormal">Не изменено</string>
+  <string name="TermsCommonSlangTitle">Обычный сленг</string>
 </resources>

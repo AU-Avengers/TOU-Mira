@@ -1168,6 +1168,63 @@
         "\n- Added \"Full Save Cooldown Multiplier\" for full protective roles.",
         "\n- Added the all-important Flopster pet (she's a little silly)"
       ]
+    },
+    {
+      "Date": "2026-08-06T12:51:00Z",
+      "Number": "100045",
+      "ShortTitle": "TOU: Mira v1.7.1",
+      "Title": "Buggy Stone Fixes",
+      "SubTitle": "Stoning yourself isn't all it's made out to be.",
+      "Text": [
+        "<b>This update fixes (almost) all known sources of bugs and crashes!</b>",
+        "\n\nWe hope that this release stays stable enough to hold over until our next few updates, which will primarily focus on balance tweaks (and gameodes down the line too!)",
+        "\n\nWith that said, please enjoy this update and let us know of any new issues that may appear.",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.7.1>TOU Mira v1.7.1 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Lookout shuffles its watch findings properly again.",
+        "\n- Seer Reveal mode checks its options properly.",
+        "\n- Converted Jailor no longer leaves jailee in a broken state.",
+        "\n- Knighted Mayor no longer gets double votes.",
+        "\n- Imitator no longer shows (Imi) while dead.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Executioner, Fairy, and Inquisitor check for disconnected targets properly.",
+        "\n- Fixed errors thrown by unshattered Medusa stones that broke the whole game.",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Ambassador retrain is consistently functional on teammates now.",
+        "\n- Ambassador retrain no longer sets the trainee's kill cooldown to 0.",
+        "\n- Traitor no longer shows (Traitor) while dead.",
+
+        "\n\n\r<size=105%>Draft Mode Bugfixes:</size>",
+        "\n- Draft no longer softlocks if Host disconnects.",
+        "\n- Draft UI is no longer left behind during role intro or when leaving mid-draft.",
+        "\n- Alignment Mode no longer shows the actual faction instead.",
+
+        "\n\n\r<size=105%>Modifier Bugfixes:</size>",
+        "\n- Celebrity shows death by the Spectre properly.",
+        "\n- Circumvent uses are no longer bypassed with a meeting.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- End Game Summary shows role icons for disconnected players.",
+        "\n- Fixed the biggest source of memory leaking.",
+        "\n- Fixed crashing for Epic Games and Xbox Game Pass users.",
+        "\n- Game Options should no longer desync when initially joining.",
+
+        "\n\n\r<size=105%>Crewmate Role Changes:</size>",
+        "\n- Monarch can now optionally reveal knighting in the meeting",
+        "\n- Prosecutor now stops swaps from happening.",
+
+        "\n\n\r<size=105%>Neutral Role Changes:</size>",
+        "\n- Victims of Executioner Torment, Jester Haunt, and Spectre Spook are publicly announced.",
+
+        "\n\n\r<size=105%>Impostor Role Changes:</size>",
+        "\n- Venerer can now cancel their ability early.",
+
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Added Role Icon on Role Reveal screen local toggle."
+      ]
     }
   ]
 }

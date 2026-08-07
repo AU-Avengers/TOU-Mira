@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using InnerNet;
 using MiraAPI;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers.ModifierDisplay;
@@ -13,6 +12,7 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Modules.Components;
+using TownOfUs.Modules.DraftMode;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Patches.Options;
@@ -324,6 +324,7 @@ public static class HudManagerPatches
         {
             var pingTracker = Object.FindObjectOfType<PingTracker>(true);
             RoleList = Object.Instantiate(pingTracker.gameObject, instance.transform);
+            RoleList.GetComponent<PingTracker>().Destroy();
             RoleList.name = "RoleListText";
             var pos = RoleList.gameObject.GetComponent<AspectPosition>();
             pos.Alignment = AspectPosition.EdgeAlignments.LeftTop;
@@ -408,70 +409,99 @@ public static class HudManagerPatches
                     }
                     break;
                 case RoleDistribution.Draft:
-                    var draftOpts = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
-                    var draftCrewOpts = OptionGroupSingleton<RoleDraftCrewOptions>.Instance;
-                    var draftImpOpts = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
-                    var draftNeutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
-                    rolelistBuilder.Append(StoredDraftTitle);
-                    rolelistBuilder.Append(":</color>\n");
-                    if (list.UseRoleListForPool.Value)
+                    if (!DraftSidebarManager.IsActive)
                     {
-                        for (var i = 0; i < maxSlots; i++)
+                        var draftOpts = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
+                        var draftCrewOpts = OptionGroupSingleton<RoleDraftCrewOptions>.Instance;
+                        var draftImpOpts = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
+                        var draftNeutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
+                        rolelistBuilder.Append(StoredDraftTitle);
+                        rolelistBuilder.Append(":</color>\n");
+                        if (list.UseRoleListForPool.Value)
                         {
-                            var slotValue = i switch
+                            for (var i = 0; i < maxSlots; i++)
                             {
-                                0 => draftOpts.Slot1.Value,
-                                1 => draftOpts.Slot2.Value,
-                                2 => draftOpts.Slot3.Value,
-                                3 => draftOpts.Slot4.Value,
-                                4 => draftOpts.Slot5.Value,
-                                5 => draftOpts.Slot6.Value,
-                                6 => draftOpts.Slot7.Value,
-                                7 => draftOpts.Slot8.Value,
-                                8 => draftOpts.Slot9.Value,
-                                9 => draftOpts.Slot10.Value,
-                                10 => draftOpts.Slot11.Value,
-                                11 => draftOpts.Slot12.Value,
-                                12 => draftOpts.Slot13.Value,
-                                13 => draftOpts.Slot14.Value,
-                                14 => draftOpts.Slot15.Value,
-                                _ => (RoleListOption)(-1)
-                            };
+                                var slotValue = i switch
+                                {
+                                    0 => draftOpts.Slot1.Value,
+                                    1 => draftOpts.Slot2.Value,
+                                    2 => draftOpts.Slot3.Value,
+                                    3 => draftOpts.Slot4.Value,
+                                    4 => draftOpts.Slot5.Value,
+                                    5 => draftOpts.Slot6.Value,
+                                    6 => draftOpts.Slot7.Value,
+                                    7 => draftOpts.Slot8.Value,
+                                    8 => draftOpts.Slot9.Value,
+                                    9 => draftOpts.Slot10.Value,
+                                    10 => draftOpts.Slot11.Value,
+                                    11 => draftOpts.Slot12.Value,
+                                    12 => draftOpts.Slot13.Value,
+                                    13 => draftOpts.Slot14.Value,
+                                    14 => draftOpts.Slot15.Value,
+                                    _ => (RoleListOption)(-1)
+                                };
 
-                            rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
-                        }
-                    } else 
-                    {
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Investigative: {draftCrewOpts.MaxCrewInvestigative.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Killing: {draftCrewOpts.MaxCrewKilling.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Power: {draftCrewOpts.MaxCrewPower.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Protective: {draftCrewOpts.MaxCrewProtective.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┗ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Support: {draftCrewOpts.MaxCrewSupport.Value} Max");
-
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.ImpSoft.ToTextColor()}Impostors</color>: {draftImpOpts.MaxImpostors.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Concealing: {draftImpOpts.MaxImpConcealing.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Killing: {draftImpOpts.MaxImpKilling.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Power: {draftImpOpts.MaxImpPower.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┗ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Support: {draftImpOpts.MaxImpSupport.Value} Max");
-
-                        if (draftNeutOpts.MaxNeutrals.Value > 0)
-                        {
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: {draftNeutOpts.MaxNeutrals.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Benign: {draftNeutOpts.MaxNeutBenign.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Evil: {draftNeutOpts.MaxNeutEvil.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Killing: {draftNeutOpts.MaxNeutKilling.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┗ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Outlier: {draftNeutOpts.MaxNeutOutlier.Value} Max");
+                                rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
+                            }
                         }
                         else
                         {
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: None");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Investigative: {draftCrewOpts.MaxCrewInvestigative.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Killing: {draftCrewOpts.MaxCrewKilling.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Power: {draftCrewOpts.MaxCrewPower.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Protective: {draftCrewOpts.MaxCrewProtective.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                $"┗ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Support: {draftCrewOpts.MaxCrewSupport.Value} Max");
+
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                $"{TownOfUsColors.ImpSoft.ToTextColor()}Impostors</color>: {draftImpOpts.MaxImpostors.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Concealing: {draftImpOpts.MaxImpConcealing.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Killing: {draftImpOpts.MaxImpKilling.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Power: {draftImpOpts.MaxImpPower.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                $"┗ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Support: {draftImpOpts.MaxImpSupport.Value} Max");
+
+                            if (draftNeutOpts.MaxNeutrals.Value > 0)
+                            {
+                                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                    $"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: {draftNeutOpts.MaxNeutrals.Value} Max");
+                                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                    $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Benign: {draftNeutOpts.MaxNeutBenign.Value} Max");
+                                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                    $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Evil: {draftNeutOpts.MaxNeutEvil.Value} Max");
+                                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                    $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Killing: {draftNeutOpts.MaxNeutKilling.Value} Max");
+                                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                    $"┗ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Outlier: {draftNeutOpts.MaxNeutOutlier.Value} Max");
+                            }
+                            else
+                            {
+                                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                    $"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: None");
+                            }
                         }
                     }
+                    else
+                    {
+                        DraftSidebarManager.DrawSidebar(RoleListTextComp);
+                        RoleList.SetActive(true);
+                        return;
+                    }
+
                     break;
             }
 
             if (!IsHoveringRoleList)
+            {
                 RoleListTextComp.text = rolelistBuilder.ToString();
+            }
 
             RoleList.SetActive(true);
         }
@@ -680,40 +710,6 @@ public static class HudManagerPatches
             }
             TouLocalTabButtons.SetUpButtonPositions();
         }
-    }
-
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-    [HarmonyPostfix]
-    public static void HudManagerUpdatePatch(HudManager __instance)
-    {
-        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
-        {
-            return;
-        }
-
-        CreateUiRow(__instance);
-        CreateNewUiRow(__instance);
-
-        CreateWikiButton(__instance);
-        CreateZoomButton(__instance);
-        AdjustModifierTab();
-
-        UpdateRoleList(__instance);
-        UpdateTeamChat();
-
-        if (CanZoom)
-        {
-            CheckForScrollZoom();
-        }
-
-        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data || !PlayerControl.LocalPlayer.Data.Role ||
-            !ShipStatus.Instance ||
-            (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
-             !TutorialManager.InstanceExists))
-        {
-            return;
-        }
-        UpdateSubmergedButtons(__instance);
     }
 
     public static bool CanZoom =>

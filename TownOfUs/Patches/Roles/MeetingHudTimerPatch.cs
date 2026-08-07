@@ -46,34 +46,34 @@ public static class MeetingHudTimerPatch
                 var prosecutes = OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions -
                                  pros.ProsecutionsCompleted;
                 newText =
-                    $"\n{prosecutes} / {OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions} Prosecutions Remaining";
+                    $"\n{prosecutes} / {OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions} {TouLocale.GetParsed("TouRoleProsecutorProsecutionsRemaining")}";
                 break;
             case DeputyRole dep:
                 if (dep.Killer)
                 {
-                    newText = "\nShoot a player successfully if they were the killer!";
+                    newText = $"\n{TouLocale.GetParsed("TouRoleDeputyShootKiller")}";
                 }
 
                 break;
             case PoliticianRole:
-                newText = "\nReveal successfully if half the crewmates are campaigned!";
+                newText = $"\n{TouLocale.GetParsed("TouRolePoliticianRevealRequirement")}";
                 break;
             case MayorRole mayor:
-                newText = mayor.Revealed ? "\nYou unleash 3 votes at once!" : "\nReveal yourself to get 3 total votes!";
+                newText = mayor.Revealed ? $"\n{TouLocale.GetParsed("TouRoleMayorRevealedVotes")}" : $"\n{TouLocale.GetParsed("TouRoleMayorRevealVotes")}";
                 break;
             case DoomsayerRole doom:
                 var doomOpt = OptionGroupSingleton<DoomsayerOptions>.Instance;
                 newText = doomOpt.DoomsayerGuessAllAtOnce
-                    ? $"\nGuess the roles of {(int)doomOpt.DoomsayerGuessesToWin} players at once to win!"
-                    : $"\n{doom.NumberOfGuesses} / {(int)doomOpt.DoomsayerGuessesToWin} Successful Role Guesses to win!";
+                    ? TouLocale.GetParsed("TouRoleDoomsayerGuessAllAtOnce").Replace("<amount>", ((int)doomOpt.DoomsayerGuessesToWin).ToString(TownOfUsPlugin.Culture))
+                    : TouLocale.GetParsed("TouRoleDoomsayerSuccessfulGuesses").Replace("<current>", doom.NumberOfGuesses.ToString(TownOfUsPlugin.Culture)).Replace("<total>", ((int)doomOpt.DoomsayerGuessesToWin).ToString(TownOfUsPlugin.Culture));
                 break;
             case VigilanteRole vigi:
                 newText =
-                    $"\n{vigi.MaxKills} / {(int)OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteKills} Guesses Remaining";
+                    $"\n{vigi.MaxKills} / {(int)OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteKills} {TouLocale.GetParsed("TouRoleVigilanteGuessesRemaining")}";
                 if ((int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots > 0)
                 {
                     newText +=
-                        $" | {vigi.SafeShotsLeft} / {(int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots} Safe Shots";
+                        $" | {vigi.SafeShotsLeft} / {(int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots} {TouLocale.GetParsed("TouRoleVigilanteSafeShots")}";
                 }
 
                 break;
@@ -82,10 +82,10 @@ public static class MeetingHudTimerPatch
         if (PlayerControl.LocalPlayer.TryGetModifier<AssassinModifier>(out var assassinMod))
         {
             newText +=
-                $"\n{assassinMod.maxKills} / {assassinMod.defaultKills} Guesses Remaining";
+                $"\n{assassinMod.maxKills} / {assassinMod.defaultKills} {TouLocale.GetParsed("TouRoleAssassinGuessesRemaining")}";
             if ((PlayerControl.LocalPlayer.TryGetModifier<DoubleShotModifier>(out var doubleShotMod)))
             {
-                newText += (doubleShotMod.Used) ? " | Double Shot Used" : " | Double Shot Available";
+                newText += (doubleShotMod.Used) ? $" | {TouLocale.GetParsed("TouRoleAssassinDoubleShotUsed")}" : $" | {TouLocale.GetParsed("TouRoleAssassinDoubleShotAvailable")}";
             }
         }
 

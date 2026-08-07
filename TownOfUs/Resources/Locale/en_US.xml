@@ -48,6 +48,7 @@
   <string name="DraftAudioStart">Draft Start</string>
   <string name="DraftAudioYourTurn">Your Turn</string>
   <string name="DraftAudioNone">None</string>
+  <string name="DraftAudioBoth">Both</string>
   <!-- Client Options -->
   <string name="SelfKillBindToggle">LSHIFT + T + ENTER Triggers Self-Kill</string>
   <string name="AbortGameBindToggle">LSHIFT + L + ENTER Triggers Abort Game</string>
@@ -72,6 +73,7 @@
   <string name="RainbowColorAsFortegreen">Rainbow Color As Fortegreen</string>
   <string name="ZoomingInPractice">Zoom In Practice</string>
   <string name="SeparateChatBubbles">Separate Chat Bubbles</string>
+    <string name="RoleIconOnReveal">Show Role Icon on Intro</string>
   <string name="ColorPlayerName">Colored Player Name</string>
   <string name="RoleNameStyle">Role Name Style</string>
   <string name="NameStyleTop">Top</string>
@@ -195,6 +197,7 @@
   <string name="WikiSettingsAssassinSettingsTitle">Assassin Settings</string>
   <string name="WikiSettingsMapsSabotageSettingsTitle">Maps/Sabotage Settings</string>
   <string name="WikiSettingsBetterMapsSettingsTitle">Better Maps Settings</string>
+  <string name="WikiSettingsRoleDistOptions">Role Distribution Options</string>
   <!-- Terminology Wiki -->
   <string name="TermsTargetSymbolsTitle">Target Symbols</string>
   <string name="TermsTargetSymbolsInfo">Target Symbols appear on player names in meetings and mid-game, usually only visible to the role they pertain to and/or the dead. • Executioner targets are marked with \%color=#643B1F\%X\%/color\% • Inquisitor heretics are marked with \%color=#D94291\%$\%/color\% to the dead. • Fairy targets are marked with \%color=#B3FFFF\%★\%/color\%</string>
@@ -364,6 +367,8 @@
   <string name="AnticheatKickMissingMessage">\%player\% is missing these mods:</string>
   <string name="AnticheatKickChatMessage">\%player\% was kicked for using cheat mods:</string>
   <string name="SpectatorCommandList">spec:spectate</string>
+    <string name="PlayerCommandList">players:plr:plrlist:playerlist</string>
+    <string name="PlayerCommandDetails">\%player\%'s Platform: \%platform\%</string>
   <string name="SpectatorLobbyError">You cannot toggle spectating outside the lobby!</string>
   <string name="SpectatorStartError">You cannot toggle spectator mode while the game is starting!</string>
     <string name="SpectatorDraftError">You cannot toggle spectator mode while draft is ongoing!</string>
@@ -390,6 +395,7 @@
   <string name="HelpMessageTitle">Chat Commands:</string>
   <string name="HelpCommandDescription">/help - Shows this message</string>
   <string name="NerfMeCommandDescription">/nerfme - Cuts your vision in half</string>
+    <string name="PlayerCommandDescription">/players - Displays information about players in the lobby.</string>
   <string name="SetNameCommandDescription">/setname - Change your name to whatever text follows the command (like /setname \%randomName\%) for the next match.</string>
   <string name="SpectateCommandDescription">/spec - Allows you to spectate for the rest of the game automatically. (if enabled by the host)</string>
   <string name="SummaryCommandDescription">/summary - Shows the previous end game summary</string>
@@ -513,6 +519,7 @@
   <string name="FreeplayRestartPopup">All dead players have been revived and tasks have been reset!</string>
   <string name="TouFirstRoundDeathIndicator">First Round Death Indicator</string>
   <!-- Advanced Utility Options -->
+    <string name="TouOptionTitleAdvancedUtility">Advanced Utilities</string>
   <string name="TouOptionAdvancedUtilTasksToUseAdmin">Tasks Required to Use Admin Table</string>
   <string name="TouOptionAdvancedUtilTasksToUseCams">Tasks Required to Use Cams</string>
   <string name="TouOptionAdvancedUtilTasksToUseDoorlog">Tasks Required to Use Doorlog</string>
@@ -521,6 +528,7 @@
   <string name="TouUnavailableUtilityNotif">You need to complete \%amount\% more tasks to use this!</string>
   <string name="TouUnavailableUtilityNotifSingle">You need to complete \%amount\% more task to use this!</string>
   <!-- Advanced Sabotage Options -->
+    <string name="TouOptionTitleAdvancedSabotages">Advanced Sabotages</string>
   <string name="TouOptionAdvancedSaboCamouflageComms">Camouflage Comms</string>
   <string name="TouOptionAdvancedSaboGlobalCamouflageComms">Toggle Camouflage Comms</string>
   <string name="TouOptionAdvancedSaboKillDuringCamoComms">Kill Anyone During Camouflage</string>
@@ -528,6 +536,7 @@
   <string name="TouOptionAdvancedSaboHidePlayerSizeInCamo">Camouflage Hides Player Size</string>
   <string name="TouOptionAdvancedSaboHidePlayerSpeedInCamo">Camouflage Hides Player Speed</string>
   <!-- Random Map Options -->
+    <string name="TouOptionTitleRandomMapChoice">Random Map Choice</string>
   <string name="TouOptionRandomMapsToggle">Enable Randomized Maps</string>
   <string name="TouOptionRandomMapsSkeldChance">Skeld Chance</string>
   <string name="TouOptionRandomMapsBackwardsSkeldChance">dlekS ecnahC</string>
@@ -538,6 +547,7 @@
   <string name="TouOptionRandomMapsSubmergedChance">Submerged Chance</string>
   <string name="TouOptionRandomMapsLevelImpostorChance">Level Impostor Chance</string>
   <!-- Better Door Options -->
+    <string name="TouOptionTitleRandomDoorMode">Randomized Door Mode</string>
   <string name="TouOptionBetterDoorsEnumSkeld">Skeld</string>
   <string name="TouOptionBetterDoorsEnumPolus">Polus</string>
   <string name="TouOptionBetterDoorsEnumAirship">Airship</string>
@@ -552,6 +562,7 @@
   <string name="TouOptionBetterDoorsFungleChance">Fungle Door Chance</string>
   <string name="TouOptionBetterDoorsSubmergedChance">Submerged Door Chance</string>
   <!-- Global Better Map Options -->
+    <string name="TouOptionTitleGlobalBetterMaps">Global Better Maps</string>
   <string name="TouOptionGlobalBetterMapCamouflageComms">Use Camouflage Comms</string>
   <string name="TouOptionGlobalBetterMapChangeEnumOff">Globally Disabled</string>
   <string name="TouOptionGlobalBetterMapChangeEnumOn">Globally Enabled</string>
@@ -588,16 +599,19 @@
   <string name="TouOptionBetterMapsThemeEnumTvShow">TV Show</string>
   <string name="TouOptionBetterMapsThemeEnumAuto">Automatic</string>
   <!-- Better Skeld Options -->
+    <string name="TouOptionTitleBetterSkeld">Better Skeld</string>
   <string name="TouOptionBetterSkeldDoorType">Door Type on Skeld</string>
   <string name="TouOptionBetterSkeldVentNetwork">Skeld Vent Network</string>
   <string name="TouOptionBetterSkeldVentModeEnumNormal">Unchanged</string>
   <string name="TouOptionBetterSkeldVentModeEnumFourGroups">Quad-Group</string>
   <!-- Better Mira HQ Options -->
+    <string name="TouOptionTitleBetterMira">Better Mira HQ</string>
   <string name="TouOptionBetterMiraHqVentNetwork">Mira HQ Vent Network</string>
   <string name="TouOptionBetterMiraHqVentModeEnumNormal">Interconnected</string>
   <string name="TouOptionBetterMiraHqVentModeEnumThreeGroups">Tri-Group</string>
   <string name="TouOptionBetterMiraHqVentModeEnumFourGroups">Quad-Group</string>
   <!-- Better Polus Options -->
+    <string name="TouOptionTitleBetterPolus">Better Polus</string>
   <string name="TouOptionBetterPolusDoorType">Door Type on Polus</string>
   <string name="TouOptionBetterPolusVentNetwork">Adjusted Polus Vent Network</string>
   <string name="TouOptionBetterPolusVitalsInLab">Vitals Moved To Lab</string>
@@ -605,6 +619,7 @@
   <string name="TouOptionBetterPolusSwapWikiAndChart">Reboot Wifi And Chart Course Swapped</string>
   <string name="TouOptionBetterPolusMoveToiletVent">Move Bathroom Vent Outside the Stalls</string>
   <!-- Better Airship Options -->
+    <string name="TouOptionTitleBetterAirship">Better Airship</string>
   <string name="TouOptionBetterAirshipDoorType">Door Type on Airship</string>
   <string name="TouOptionBetterAirshipSpawnMode">Spawn Mode</string>
   <string name="TouOptionBetterAirshipSpawnEnumNormal">Normal</string>
@@ -618,13 +633,17 @@
   <string name="TouOptionBetterAirshipSpawnLocationEnumBrig">Brig</string>
   <string name="TouOptionBetterAirshipSpawnLocationEnumRecords">Records</string>
   <!-- Better Fungle Options -->
+    <string name="TouOptionTitleBetterFungle">Better Fungle</string>
   <string name="TouOptionBetterFungleDoorType">Door Type on Fungle</string>
   <!-- Better Submerged Options -->
+    <string name="TouOptionTitleBetterSubmerged">Better Submerged</string>
   <string name="TouOptionBetterSubmergedDoorType">Door Type on Submerged</string>
   <string name="TouOptionBetterSubmergedSpawnMode">Spawn Location</string>
   <string name="TouOptionBetterSubmergedSpawnEnumSelectable">Selectable</string>
   <string name="TouOptionBetterSubmergedSpawnEnumUpperDeck">Upper Deck</string>
   <string name="TouOptionBetterSubmergedSpawnEnumLowerDeck">Lower Deck</string>
+    <!-- Better LI Options -->
+    <string name="TouOptionTitleBetterLevelImpostor">Better Level Impostor</string>
   <!-- Spectator - Game Outlier -->
   <string name="TouRoleSpectator">Spectator</string>
   <string name="TouRoleSpectatorIntroBlurb">Watch the chaos from afar</string>
@@ -1119,6 +1138,7 @@
   <string name="TouRoleMonarchKnightTargetDied">\%player\% died before you could knight them.</string>
   <string name="TouRoleMonarchKnightSuccess">\%player\% was knighted!</string>
   <string name="TouRoleMonarchKnightedFeedback">You were knighted by a \%role\%. You gained \%votes\% vote(s)!</string>
+  <string name="TouRoleMonarchMessageTitle">Monarch Feedback</string>
   <string name="TouRoleMonarchKnightFallenFeedback">Your knight, \%player\%, has fallen...</string>
   <!-- Mystic - Crewmate Investigative -->
   <!-- Mystic Wiki / Description -->
@@ -1957,6 +1977,9 @@
   <string name="TouRoleVenererSprintWikiDescription">Stage 2 of the abilities.\%nl\%You will gain the speed of the Flash while hidden from camo.</string>
   <string name="TouRoleVenererFreeze">Freeze</string>
   <string name="TouRoleVenererFreezeWikiDescription">The Final Stage of the abilities.\%nl\%You will slow down players around you in a radius, as well as being fast and hidden from camo.</string>
+  <string name="TouRoleVenererUncamouflage">Uncamouflage</string>
+  <string name="TouRoleVenererUnsprint">Unsprint</string>
+  <string name="TouRoleVenererUnfreeze">Unfreeze</string>
   <!-- Venerer Options -->
   <string name="TouOptionVenererAbilityCooldown">Ability Cooldown</string>
   <string name="TouOptionVenererAbilityDuration">Ability Duration</string>
@@ -1980,6 +2003,7 @@
   <!--Anonymous Feedback-->
   <string name="TouNeutAnonymousVictoryMessage">\%player\% has successfully won and left!</string>
   <string name="TouOptionNeutAnonymousVictoryWin">Hide Role On Win Notification</string>
+    <string name="TouRoleAnonymousVictoryKillNotif">\%source\% has killed \%victim\% after their victory!</string>
   <!-- Amnesiac -->
   <!-- Amnesiac Wiki / Abilities -->
   <string name="TouRoleAmnesiac">Amnesiac</string>
@@ -2072,6 +2096,7 @@
   <string name="TouRoleExecutionerWonSelf">You have successfully won as the \%role\%, as your target was voted out!</string>
   <string name="TouRoleExecutionerWonOther">The \%role\%, \%player\%, has successfully won, as their target was voted out!</string>
   <string name="TouRoleExecutionerTormentFeedback">You have one round to torment a player of your choice to death, choose wisely.</string>
+    <string name="TouRoleExecutionerTormentNotif">The Executioner has tormented \%victim\% to the grave!</string>
   <!-- Executioner Options -->
   <string name="TouOptionExecutionerBecomesTargetDeath">On Target Death, Executioner Becomes</string>
   <string name="TouOptionExecutionerCanButton">Executioner Can Button</string>
@@ -2184,6 +2209,7 @@
   <string name="TouNotifJesterHauntOwner">You have one round to haunt a player of your choice to death, choose wisely!</string>
   <string name="TouNotifJesterWinGlobal">The Jester, \%player\%, has successfully won, as they were voted out!</string>
   <string name="TouNotifJesterPoke">You have poked \%player\%!</string>
+    <string name="TouRoleJesterHauntNotif">The Jester has decided to haunt \%victim\% beyond the grave!</string>
   <!-- Jester Options -->
   <string name="TouOptionJesterCanButton">Can Use Button</string>
   <string name="TouOptionJesterCanVent">Can Hide In Vents</string>
@@ -2224,7 +2250,7 @@
   <string name="TouRoleMercenaryBribeWikiDescription">Bribing a player allows the Mercenary to gain their win condition, given that they have gold to spare.</string>
   <string name="TouRoleMercenaryGuardNotif">Once \%player\% is interacted with, you will get gold in return.</string>
   <!-- Mercenary Options -->
-  <string name="TouOptionMercenaryCooldown">Bribe Cooldown</string>
+  <string name="TouOptionMercenaryCooldown">Guard Cooldown</string>
   <string name="TouOptionMercenaryMaxGuards">Max Number Of Guards</string>
   <string name="TouOptionMercenaryBribeCost">Bribe Cost</string>
   <string name="TouOptionMercenaryProtectiveGuard">Guarding Stops Attacks</string>
@@ -2245,6 +2271,7 @@
   <string name="TouRoleSpectreTabDescription">Complete all your tasks without being caught!</string>
   <string name="TouRoleSpectreWikiDescription">The Spectre is a Neutral Ghost role that wins the game by finishing their tasks before a living player has clicked on them.</string>
   <string name="TouRoleSpectreSpook">Spook</string>
+    <string name="TouRoleSpectreSpookNotif">The Spectre has spooked \%victim\% to their end!</string>
   <!-- Spectre Options -->
   <string name="TouOptionSpectreTasksLeftClickable">Tasks Left Before Clickable</string>
   <string name="TouOptionSpectreWin">Spectre Win</string>
@@ -2707,4 +2734,35 @@
   <string name="TouModifierTorchIntroBlurb">See without lights on.</string>
   <string name="TouModifierTorchTabDescription">Your vision won't get reduced\%nl\%when the lights are sabotaged.</string>
   <string name="TouModifierTorchWikiDescription">The lights being off do not affect your vision.</string>
+
+  <!-- Extra Texts -->
+<string name="TouRoleProsecutorProsecutionsRemaining">Prosecutions Remaining</string>
+<string name="TouRoleDeputyShootKiller">Shoot a player successfully if they were the killer!</string>
+<string name="TouRolePoliticianRevealRequirement">Reveal successfully if half the crewmates are campaigned!</string>
+<string name="TouRoleMayorRevealedVotes">You unleash 3 votes at once!</string>
+<string name="TouRoleMayorRevealVotes">Reveal yourself to get 3 total votes!</string>
+<string name="TouRoleDoomsayerGuessAllAtOnce">Guess the roles of \%amount\% players at once to win!</string>
+<string name="TouRoleDoomsayerSuccessfulGuesses">
+\%current\% / \%total\% Successful Role Guesses to win!</string>
+<string name="TouRoleVigilanteGuessesRemaining">Guesses Remaining</string>
+<string name="TouRoleVigilanteSafeShots">Safe Shots</string>
+<string name="TouRoleAssassinGuessesRemaining">Guesses Remaining</string>
+<string name="TouRoleAssassinDoubleShotUsed">Double Shot Used</string>
+<string name="TouRoleAssassinDoubleShotAvailable">Double Shot Available</string>
+<string name="TouRoleTrackerTrackedPlayers">Tracked Players:</string>
+<string name="TouRoleMonarchKnightCancelled">Knighting has been cancelled.</string>
+<string name="TouRoleMonarchKnightChosen">You chose to knight \%player\%. They will be knighted in \%seconds\% second(s)!</string>
+<string name="TouRoleMonarchKnighting">Knighting</string>
+<string name="TouRoleInquisitorHereticPerished">A Heretic has perished!</string>
+<string name="TouRoleInquisitorWrongTarget">\%player\% was not a heretic! 
+You can no longer vanquish players.</string>
+<string name="TouRoleInquisitorCorrectTarget">\%player\% was a heretic!</string>
+<string name="TouRoleInquisitorWonSelf">You have successfully won as the \%role\%, as all Heretics have perished!</string>
+<string name="TouRoleInquisitorWonOther">The \%role\%, \%player\%, has successfully won, as all Heretics have perished!</string>
+<string name="TouRoleSpectreWonSelf">You have successfully won as the \%role\%, as you finished your tasks postmortem!</string>
+<string name="TouRoleSpectreSpookMessage">You have one round to spook a player of your choice to death, choose wisely.</string>
+<string name="TouRoleSpectreWonOther">\%role\%, \%player\%, has successfully won, as they completed their tasks postmortem!</string>
+<string name="TouRoleSpectreClickableFeedback">You are now clickable by players!</string>
+
+
 </resources>

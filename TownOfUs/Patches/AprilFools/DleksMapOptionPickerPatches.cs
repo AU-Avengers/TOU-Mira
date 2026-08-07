@@ -10,8 +10,8 @@ namespace TownOfUs.Patches.AprilFools;
 [HarmonyPatch]
 public static class DleksMapOptionPickerPatches
 {
-    public static StringNames DleksName => CustomStringName.CreateAndRegister("ReverseSkeldMapName");
-    public static StringNames DleksTooltip => CustomStringName.CreateAndRegister("ReverseSkeldMapTooltip");
+    public static StringNames DleksName { get; } = CustomStringName.CreateAndRegister("ReverseSkeldMapName");
+    public static StringNames DleksTooltip { get; } = CustomStringName.CreateAndRegister("ReverseSkeldMapTooltip");
     
     [HarmonyPatch(typeof(GameOptionsMapPicker), nameof(GameOptionsMapPicker.SetupMapButtons))]
     [HarmonyPrefix]

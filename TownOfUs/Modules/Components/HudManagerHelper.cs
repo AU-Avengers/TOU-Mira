@@ -17,6 +17,8 @@ using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches;
+using TownOfUs.Patches.ControlSystem;
+using TownOfUs.Patches.Roles;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
@@ -28,11 +30,77 @@ namespace TownOfUs.Modules.Components;
 [RegisterInIl2Cpp]
 public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 {
+    internal static Dictionary<int, string> PlatformAssociations = new();
+    private static bool HasFetchedIcons;
+
+    public static void RefreshPlatformData()
+    {
+        PlatformAssociations.Clear();
+        if (!HasFetchedIcons)
+        {
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.BlankSprite.LoadAsset(),
+                "Platform.Blank", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformEpic.LoadAsset(),
+                "Platform.Epic", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformItch.LoadAsset(),
+                "Platform.Itch", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformStarlight.LoadAsset(),
+                "Platform.Starlight", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformSteam.LoadAsset(),
+                "Platform.Steam", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformWindows.LoadAsset(),
+                "Platform.Windows", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformUnknown.LoadAsset(),
+                "Platform.Unknown", 1.45f);
+            HasFetchedIcons = true;
+        }
+
+        foreach (var client in AmongUsClient.Instance.allClients)
+        {
+            var platform = client.PlatformData.Platform;
+            var icon = platform switch
+            {
+                Platforms.StandaloneEpicPC => "<sprite name=\"Platform.Epic\">",
+                Platforms.StandaloneItch => "<sprite name=\"Platform.Itch\">",
+                Platforms.Android or (Platforms)112 => "<sprite name=\"Platform.Starlight\">",
+                Platforms.StandaloneSteamPC => "<sprite name=\"Platform.Steam\">",
+                Platforms.StandaloneWin10 or Platforms.Xbox => "<sprite name=\"Platform.Windows\">",
+                _ => "<sprite name=\"Platform.Unknown\">"
+            };
+            PlatformAssociations.Add(client.Id, icon);
+        }
+    }
     #pragma warning disable S2325
     #pragma warning disable CA1822
     public void FixedUpdate()
     {
+        if (!HudManager.InstanceExists || !PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
+        {
+            return;
+        }
+
+        var instance = HudManager.Instance;
+
+        HudManagerPatches.CreateUiRow(instance);
+        HudManagerPatches.CreateNewUiRow(instance);
+
+        HudManagerPatches.CreateWikiButton(instance);
+        HudManagerPatches.CreateZoomButton(instance);
+        HudManagerPatches.AdjustModifierTab();
+
+        HudManagerPatches.UpdateRoleList(instance);
+        HudManagerPatches.UpdateTeamChat();
+
         if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data || !PlayerControl.LocalPlayer.Data.Role ||
+            !ShipStatus.Instance ||
+            (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
+             !TutorialManager.InstanceExists))
+        {
+            return;
+        }
+        HudManagerPatches.UpdateSubmergedButtons(instance);
+        
+        if (!PlayerControl.LocalPlayer.Data.Role ||
             !ShipStatus.Instance ||
             (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
              !TutorialManager.InstanceExists))
@@ -42,6 +110,46 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
         UpdateCamouflageComms();
         UpdateRoleNameText();
+
+        if (!TutorialManager.InstanceExists)
+        {
+            GameTimerPatch.UpdateGameTimer(instance);
+        }
+    }
+    public void Update()
+    {
+        if (!HudManager.InstanceExists || !PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
+        {
+            return;
+        }
+
+        var instance = HudManager.Instance;
+        Bindings.UpdateKeybinds(instance);
+
+        if (HudManagerPatches.CanZoom)
+        {
+            HudManagerPatches.CheckForScrollZoom();
+        }
+        if (!PlayerControl.LocalPlayer.Data.Role ||
+            !ShipStatus.Instance ||
+            (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
+             !TutorialManager.InstanceExists))
+        {
+            return;
+        }
+
+        var role = PlayerControl.LocalPlayer.Data.Role;
+        var ghostRole = role as IGhostRole;
+        PuppeteerOverlayPatch.RunPuppetOverlay();
+        ParasiteOverlayPatch.RunOvertakeOverlay();
+        ControlledPlayerInteractionPatches.UpdateControlledUseButton(instance);
+        SentryCameraPortablePatch.ApplyPortableBlinkState();
+        TimeLordPatches.RecordTimeLordSnapshot(instance);
+        if (PlayerControl.LocalPlayer.Data.IsDead && ghostRole != null)
+        {
+            GhostRolePatches.HandleGhostRoleVent(instance, ghostRole);
+            SubmergedHudPatch.UpdateFloorButton(instance, ghostRole);
+        }
     }
     #pragma warning restore CA1822
     #pragma warning restore S2325
@@ -287,7 +395,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
             var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole);
             if (cachedMod is ICachedRole cache && cache.Visible &&
-                player.Data.Role.GetType() != cache.CachedRole.GetType())
+                cache.CanDisplayForRole(role))
             {
                 var cachedName = cache.CachedRoleName == "" ? MiscUtils.GetToggledRoleTmpIcon(cache.CachedRole, HudManagerPatches.IconOnRoleName) + cache.CachedRole.GetRoleName() : cache
                             .CachedRoleName;

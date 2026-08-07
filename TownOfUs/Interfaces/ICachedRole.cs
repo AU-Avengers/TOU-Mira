@@ -8,6 +8,11 @@ public interface ICachedRole
     CacheRoleGuess GuessMode { get; }
     RoleBehaviour CachedRole { get; }
     string CachedRoleName => "";
+
+    public virtual bool CanDisplayForRole(RoleBehaviour role)
+    {
+        return role.Role != CachedRole.Role;
+    }
 }
 
 public enum CacheRoleGuess

@@ -1,5 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Roles.Neutral;
 
@@ -21,6 +22,9 @@ public sealed class SurvivorOptions : AbstractRoleOptionGroup<SurvivorRole>
     [ModdedToggleOption("TouOptionSurvivorScatterEnabled")]
     public bool ScatterOn { get; set; } = false;
 
-    [ModdedNumberOption("TouOptionSurvivorScatterTimer", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
-    public float ScatterTimer { get; set; } = 25f;
+    public ModdedNumberOption ScatterTimer { get; } =
+        new("TouOptionSurvivorScatterTimer", 25f, 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")
+        {
+            Visible = () => OptionGroupSingleton<SurvivorOptions>.Instance.ScatterOn
+        };
 }

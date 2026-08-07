@@ -11,6 +11,7 @@ using MiraAPI.Patches.Hud;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events;
+using TownOfUs.Integrations;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Maps;
@@ -122,6 +123,7 @@ public static class ModCompatibility
     {
         ResourceBundles.Add(assembly, resourcePath);
     }*/
+    public const string PerfectCommsGuid = "com.edgetel.perfectcomms";
     
     public static void Initialize()
     {
@@ -132,6 +134,7 @@ public static class ModCompatibility
         InitAleLudu();
         InitLaunchpad();
         // InitCorsac();
+        InitPerfectComms();
 
         var sBuilder = new StringBuilder();
 
@@ -143,6 +146,16 @@ public static class ModCompatibility
         }
 
         InternalModList = sBuilder.ToString();
+    }
+    
+    private static void InitPerfectComms()
+    {
+        if (!IL2CPPChainloader.Instance.Plugins.ContainsKey(PerfectCommsGuid))
+        {
+            return;
+        }
+
+        PerfectCommsRuntime.Register();
     }
 
 #pragma warning disable S3011

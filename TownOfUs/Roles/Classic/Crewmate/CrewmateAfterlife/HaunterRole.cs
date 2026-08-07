@@ -143,6 +143,10 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         }
 
         Player.RemoveModifier<HaunterArrowModifier>();
+        if (Player.TryGetModifier<DeathHandlerModifier>(out var deathMod))
+        {
+            deathMod.DiedThisRound = false;
+        }
     }
 
     public string LocaleKey => "Haunter";

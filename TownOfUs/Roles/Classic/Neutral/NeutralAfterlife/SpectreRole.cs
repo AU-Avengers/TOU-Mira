@@ -23,8 +23,17 @@ using UnityEngine.UI;
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class SpectreRole(IntPtr cppPtr)
-    : NeutralGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable, IProgressTally
+    : NeutralGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable, IProgressTally, IAnnounceableKill
 {
+    public void AnnounceKill(PlayerControl source, PlayerControl victim)
+    {
+        var text = TouLocale.GetParsed("TouRoleSpectreSpookNotif");
+        var notif = Helpers.CreateAndShowNotification(
+            $"<b>{text.Replace("<victim>", victim.Data.PlayerName)}</b>",
+            Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
+        notif.AdjustNotification();
+        notif.alphaTimer = 5f;
+    }
     public bool ProgressOnName(bool localDead, bool inMeeting, bool amOwner, out string progress)
     {
         var taskOpt = OptionGroupSingleton<PostmortemOptions>.Instance;
@@ -361,7 +370,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
             if (Player.AmOwner && !silent)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Spectre.ToTextColor()}You are now clickable by players!</b></color>",
+                    $"<b>{TownOfUsColors.Spectre.ToTextColor()}{TouLocale.GetParsed("TouRoleSpectreClickableFeedback")}</b></color>",
                     Color.white,
                     new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
                 notif1.AdjustNotification();
