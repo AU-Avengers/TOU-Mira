@@ -2151,7 +2151,7 @@
   <string name="TouRoleMercenaryBribe">Sobornar</string>
   <string name="TouRoleMercenaryBribeWikiDescription">Sobornar a un jugador permite al Mercenario obtener su condición de victoria, siempre que tenga suficiente oro.</string>
   <string name="TouRoleMercenaryGuardNotif">Cuando \%player\% sea objetivo de una interacción, recibirás oro a cambio.</string>
-  <string name="TouOptionMercenaryCooldown">Recarga de Sobornar</string>
+  <string name="TouOptionMercenaryCooldown">Recarga de Proteger</string>
   <string name="TouOptionMercenaryMaxGuards">Máx de protecciones</string>
   <string name="TouOptionMercenaryBribeCost">Costo de Sobornar</string>
   <string name="TouOptionMercenaryProtectiveGuard">Proteger detiene los ataques</string>
