@@ -2333,4 +2333,30 @@
   <string name="TouOptionJesterVentCooldown">Tiempo de recarga de Ductos</string>
   <string name="TouOptionJesterVentDuration">Duración de Ductos</string>
   <string name="TouRoleSpectreSpookNotif">¡El Espectro espantó a %victim\% hasta la muerte!</string>
+  <string name="TouRoleSpectreClickableFeedback">¡Ahora los jugadores pueden clickearte!</string>
+  <string name="TouRoleSpectreWonOther">El \%role\%, \%player\%, ha ganado, ¡ya que completó sus tareas tras morir!</string>
+  <string name="TouRoleSpectreSpookMessage">Tienes una ronda para asustar hasta la muerte a un jugador de tu elección; elige sabiamente.</string>
+  <string name="TouRoleSpectreWonSelf">Has ganado como \%role\%, ¡porque terminaste tus tareas tras morir!</string>
+  <string name="TouRoleInquisitorWonOther">El \%role\%, \%player\%, ha ganado, ¡pues todos sus objetivos fueron vencidos!</string>
+  <string name="TouRoleInquisitorWonSelf">Has ganado como \%role\%, ¡pues todos tus objetivos murieron!</string>
+  <string name="TouRoleInquisitorCorrectTarget">¡\%player\% era un objetivo!</string>
+  <string name="TouRoleInquisitorWrongTarget">¡\%player\% no era un objetivo!
+No podrás vencer más jugadores.</string>
+  <string name="TouRoleInquisitorHereticPerished">¡Ha muerto un objetivo!</string>
+  <string name="TouRoleMonarchKnighting">Invistiendo...</string>
+  <string name="TouRoleMonarchKnightChosen">Has elegido investir a \%player\%. ¡Será nombrado caballero en \%seconds\% segundo(s)!</string>
+  <string name="TouRoleMonarchKnightCancelled">El investimiento fue cancelado.</string>
+  <string name="TouRoleTrackerTrackedPlayers">Jugadores rastreados:</string>
+  <string name="TouRoleAssassinDoubleShotAvailable">Doble Tiro disponible</string>
+  <string name="TouRoleAssassinDoubleShotUsed">Doble Tiro usado</string>
+  <string name="TouRoleAssassinGuessesRemaining">Adivinaciones Restantes</string>
+  <string name="TouRoleVigilanteSafeShots">Tiros Seguros</string>
+  <string name="TouRoleVigilanteGuessesRemaining">Adivinaciones Restantes</string>
+  <string name="TouRoleDoomsayerSuccessfulGuesses">
+\%current\% / \%total\% Adivinaciones Correctas para ganar</string>
+  <string name="TouRoleDoomsayerGuessAllAtOnce">¡Adivina los roles de \%amount\% jugadores para ganar!</string>
+  <string name="TouRoleMayorRevealVotes">¡Revela tu identidad para conseguir 3 votos extra!</string>
+  <string name="TouRoleMayorRevealedVotes">¡Ahora tienes 3 votos extra!</string>
+  <string name="TouRolePoliticianRevealRequirement">¡Revélate si has convencido al menos a la mitad de los Tripulantes!</string>
+  <string name="TouRoleDeputyShootKiller">¡Dispara a un jugador con éxito si es el asesino!</string>
 </resources>
