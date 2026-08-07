@@ -1213,10 +1213,14 @@
         "\n- Game Options should no longer desync when initially joining.",
 
         "\n\n\r<size=105%>Crewmate Role Changes:</size>",
+        "\n- Monarch can now optionally reveal knighting in the meeting",
         "\n- Prosecutor now stops swaps from happening.",
 
         "\n\n\r<size=105%>Neutral Role Changes:</size>",
         "\n- Victims of Executioner Torment, Jester Haunt, and Spectre Spook are publicly announced.",
+
+        "\n\n\r<size=105%>Impostor Role Changes:</size>",
+        "\n- Venerer can now cancel their ability early.",
 
         "\n\n\r<size=105%>Additions:</size>",
         "\n- Added Role Icon on Role Reveal screen local toggle."
