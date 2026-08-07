@@ -85,7 +85,7 @@
   <string name="RandomImp">Zufällige Verräter</string>
   <string name="Any">Irgendwelche</string>
   <string name="Alliance">Allianz</string>
-  <string name="Universal">Universal</string>
+  <string name="Universal">Universell</string>
   <string name="CrewmateAlliance">Besatzungs Allianz</string>
   <string name="CrewmateVisibility">Besatzung Sichtbarkeit</string>
   <string name="CrewmatePassive">Besatzung Passiv</string>
@@ -231,7 +231,7 @@
   <string name="TouRoleMedium">Medium</string>
   <string name="TouRoleMediumIntroBlurb">Schaue Den Spukenden Geistern Zu</string>
   <string name="TouRoleWarden">Wächter</string>
-  <string name="JailorChatTitle">%player\% (Wärter)</string>
+  <string name="JailorChatTitle">%player\% (Gefängniswärter)</string>
   <string name="JaileeChatTitle">%player\% (Verhaftet)</string>
   <string name="TouRoleJailorIntroBlurb">Nehme Die %color=#FF0000FF\%Verräter%/color\% Gefangen und Exekutiere sie</string>
   <string name="TouRoleSwooper">Unsichtbarer</string>
@@ -667,7 +667,7 @@
   <string name="TouOptionMysticDeadBodyArrowDuration">Toter Körper Pfeil Dauer</string>
   <string name="TouRoleOracleIntroBlurb">Sorge dafür, das die Besatzung ihre Sünden gestehen</string>s
   <string name="TouRoleOracleTabDescription">Segne die Besatzung um die in Versammlungen zu beschützen, %nl\%und lass sie ihre Sünden beichten</string>
-  <string name="CrewmateHider">Besatzung Verstecken</string>
+  <string name="CrewmateHider">Besatzung Verstecker</string>
   <string name="TouRoleSonarWikiDescription">Der Sonar ist eine Besatzung Ermittlung Rolle welche</string>
   <string name="TouOptionSpectreWin">Gespenst Gewinnt</string>
   <string name="ImpostorSeeker">Verräter Sucher</string>
@@ -787,4 +787,20 @@
   <string name="WikiSettingsBetterMapsSettingsTitle">Bessere Karten Einstellungen</string>
   <string name="TermsProtectionSymbolsTitle">Schutz Symbole</string>
   <string name="TermsStatusEffectSymbolsTitle">Statuseffekt Symbole</string>
+  <string name="NeutralBasicDeadTaskHeader">Du bist tot. Lehn dich zurück und geniesse das Chaos.</string>
+  <string name="StoredDraftTitle">Draft Modus</string>
+  <string name="CrewmateGhost">Besatzung Geist</string>
+  <string name="NeutralGhost">Neutral Geist</string>
+  <string name="ImpostorGhost">Verräter Geist</string>
+  <string name="GhostKeyword">Geist</string>
+  <string name="HiderUtility">Verstecker Beistand</string>
+  <string name="HiderVisibility">Verstecker Sichtbarkeit</string>
+  <string name="HiderPostmortem">Verstecker nach Tod</string>
+  <string name="HiderPassive">Verstecker Passiv</string>
+  <string name="SeekerUtility">Sucher Beistand</string>
+  <string name="SeekerVisibility">Sucher Sichtbarkeit</string>
+  <string name="SeekerPostmortem">Sucher nach Tod</string>
+  <string name="SeekerPassive">Sucher Passiv</string>
+  <string name="AnticheatKickMissingMessage">\%player\% fehlen folgende mods:</string>
+  <string name="SpectatorDraftError">Du kannst den Zuschauer nicht während des drafts aktivieren!</string>
 </resources>
