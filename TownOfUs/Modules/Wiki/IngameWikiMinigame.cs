@@ -895,7 +895,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                     activeMods.Random()!.ModifierIcon?.LoadAsset() ?? TouModifierIcons.Bait.LoadAsset();
             }
 
-            var modifiers = MiscUtils.AllModifiers
+            var modifiers = MiscUtils.AllOverallWikiModifiers
                 .OrderBy(x => x, comparer)
                 .ToList();
 

@@ -1,6 +1,4 @@
 ﻿using HarmonyLib;
-using MiraAPI.Modifiers;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
@@ -48,13 +46,9 @@ public static class LobbyBehaviourPatches
         StonedPlayer.ClearAll(true);
         if (TutorialManager.InstanceExists)
         {
-            foreach (var mod in ModifierManager.Modifiers)
+            foreach (var mod in MiscUtils.AllBaseGameModifiers)
             {
-                if (mod is not TouBaseGameModifier touMod)
-                {
-                    continue;
-                }
-                touMod.BeforeModifierSpawns();
+                mod.BeforeModifierSpawns();
             }
         }
         else

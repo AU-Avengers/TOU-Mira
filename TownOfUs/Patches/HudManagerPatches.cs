@@ -3,6 +3,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI;
 using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.ModifierDisplay;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
@@ -831,10 +832,11 @@ public static class HudManagerPatches
         {
             var modifiers = MiscUtils.AllModifiers.Where(x =>
                 x.ParentMod != MiraPluginManager.GetPluginByGuid("auavengers.tou.mira") && x is GameModifier &&
-                x is not IWikiDiscoverable);
+                x is not IWikiDiscoverable).ToList();
             foreach (var modifier in modifiers)
             {
                 SoftWikiEntries.RegisterModifierEntry(modifier);
+                MiscUtils.AllOverallWikiModifiers = MiscUtils.AllOverallWikiModifiers.AddItem(modifier);
             }
 
             _registeredSoftModifiers = true;
