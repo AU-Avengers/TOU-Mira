@@ -1,4 +1,5 @@
-﻿using Il2CppSystem.Text;
+﻿using AmongUs.GameOptions;
+using Il2CppSystem.Text;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -36,8 +37,10 @@ public class PolusGhostImpRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
         }
 
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text =
-            $"{RoleColor.ToTextColor()}{TouLocale.GetParsed("TownOfPolusRoleTabText").Replace("<roleName>", RoleName).Replace("<description>", "<color=#FF0000>" + RoleLongDescription + "</color>")}</color>";
+        var text =
+            $"{RoleColor.ToTextColor()}{TouLocale.GetParsed("TownOfPolusRoleTabText").Replace("<roleName>", RoleName).Replace("<description>", "<color=#FF0000>" + RoleLongDescription + "</color>")}</color>" +
+            "\n<color=#FFFFFF>" + TouLocale.GetParsed("TownOfPolusRoleFakeTaskTabText") + "</color>";
+        orCreateTask.Text = text;
         orCreateTask.name = "TownOfPolusRoleText";
     }
 
@@ -60,6 +63,7 @@ public class PolusGhostImpRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
         DefaultChance = 0,
         CanModifyChance = false,
         ShowInFreeplay = false,
+        CanUseVent = false,
         AssociatedGameMode = typeof(TownOfPolusMode),
         FreeplayFolder = "Town of Polus",
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconImpostor.LoadAsset(), "TownOfPolus.Role.Impostor.Impostor", 1.45f),
@@ -67,14 +71,47 @@ public class PolusGhostImpRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
     };
     public override bool IsDead => true; // needed because we inherit from RoleBehaviour
     public override bool IsAffectedByComms => false;
-
-#pragma warning disable S927 // Parameter names should match base declaration and other partial definitions
-#pragma warning disable CA1725 // Parameter names should match base declaration
-    public override bool CanUse(IUsable usable)
-#pragma warning restore CA1725 // Parameter names should match base declaration
-#pragma warning restore S927 // Parameter names should match base declaration and other partial definitions
+    private Minigame _hauntMenu = null!;
+    public void Awake()
     {
-        return GameManager.Instance.LogicUsables.CanUse(usable, Player);
+        var crewGhost = RoleManager.Instance.GetRole(RoleTypes.ImpostorGhost).Cast<ImpostorGhostRole>();
+        _hauntMenu = crewGhost.HauntMenu;
+        Ability = crewGhost.Ability;
+    }
+
+    public override bool CanUse(IUsable usable)
+    {
+        if (!GameManager.Instance.LogicUsables.CanUse(usable, Player))
+        {
+            return false;
+        }
+
+        var console2 = usable.TryCast<Console>()!;
+        return console2 == null || console2.AllowImpostor;
+    }
+
+    // reimplement haunt minigame
+    public override void UseAbility()
+    {
+        if (HudManager.Instance.Chat.IsOpenOrOpening)
+        {
+            return;
+        }
+
+        if (Minigame.Instance)
+        {
+            if (Minigame.Instance.TryCast<HauntMenuMinigame>())
+            {
+                Minigame.Instance.Close();
+            }
+
+            return;
+        }
+
+        var minigame = Instantiate(_hauntMenu, HudManager.Instance.AbilityButton.transform, false);
+        minigame.transform.SetLocalZ(-5f);
+        minigame.Begin(null);
+        HudManager.Instance.AbilityButton.SetDisabled();
     }
 
     public override void AppendTaskHint(StringBuilder taskStringBuilder)

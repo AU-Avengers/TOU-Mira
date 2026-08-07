@@ -9,14 +9,15 @@ using UnityEngine;
 namespace TownOfUs.Roles.TownOfPolus;
 
 [MiraIgnore]
-public abstract class PolusBaseCrewRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole
+public abstract class PolusBaseNeutRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsRole
 {
-    RoleOptionsGroup ICustomRole.RoleOptionsGroup => TouRoleGroups.TownOfPolusCrewmate;
-    public virtual string LocaleKey => "Crewmate";
-    public virtual string RoleName => TouLocale.Get("CrewmateKeyword");
-    public virtual string RoleDescription => TouLocale.GetParsed("TownOfPolusRoleCrewDescription");
-    public virtual string RoleDescriptionDead => TouLocale.GetParsed("TownOfPolusRoleCrewDescriptionDead");
-    public virtual string RoleLongDescription => TouLocale.GetParsed("TownOfPolusRoleCrewDescription");
+    RoleOptionsGroup ICustomRole.RoleOptionsGroup => TouRoleGroups.TownOfPolusNeutral;
+    public virtual string LocaleKey => "Neutral";
+    public virtual string RoleName => TouLocale.Get("NeutralKeyword");
+    public virtual string RoleDescription => TouLocale.GetParsed("TownOfPolusRoleNeutDescription");
+    public virtual string RoleDescriptionDead => TouLocale.GetParsed("TownOfPolusRoleNeutDescriptionDead");
+    public virtual string RoleLongDescription => TouLocale.GetParsed("TownOfPolusRoleNeutDescription");
+
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (playerControl != PlayerControl.LocalPlayer)
@@ -25,8 +26,10 @@ public abstract class PolusBaseCrewRole(IntPtr cppPtr) : CrewmateRole(cppPtr), I
         }
 
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text =
-            $"{RoleColor.ToTextColor()}{TouLocale.GetParsed("TownOfPolusRoleTabText").Replace("<roleName>", RoleName).Replace("<description>", RoleLongDescription)}</color>";
+        var text =
+            $"{RoleColor.ToTextColor()}{TouLocale.GetParsed("TownOfPolusRoleTabText").Replace("<roleName>", RoleName).Replace("<description>", RoleLongDescription)}</color>" +
+            "\n<color=#FFFFFF>" + TouLocale.GetParsed("TownOfPolusRoleFakeTaskTabText") + "</color>";
+        orCreateTask.Text = text;
         orCreateTask.name = "TownOfPolusRoleText";
     }
 
@@ -36,18 +39,22 @@ public abstract class PolusBaseCrewRole(IntPtr cppPtr) : CrewmateRole(cppPtr), I
         TouRoleUtils.ClearTaskHeader(Player);
     }
 
-    public virtual Color RoleColor => Palette.CrewmateBlue;
-    public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
-    public RoleAlignment RoleAlignment => RoleAlignment.Crewmate;
+    public virtual Color RoleColor => TownOfUsColors.Neutral;
+    public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
+    public RoleAlignment RoleAlignment => RoleAlignment.Neutral;
+    public virtual bool WinConditionMet()
+    {
+        return false;
+    }
 
     public virtual CustomRoleConfiguration Configuration => new(this)
     {
         RoleHintType = RoleHintType.None,
         AssociatedGameMode = typeof(TownOfPolusMode),
-        GhostRole = (RoleTypes)RoleId.Get<PolusGhostCrewRole>(),
+        GhostRole = (RoleTypes)RoleId.Get<PolusGhostNeutRole>(),
         FreeplayFolder = "Town of Polus",
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconCrewmate.LoadAsset(), "TownOfPolus.Role.Crewmate.Crewmate", 1.45f),
-        Icon = PolusGgAssets.IconCrewmate
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconNeutralAlign.LoadAsset(), "TownOfPolus.Role.Neutral.Neutral", 1.45f),
+        Icon = PolusGgAssets.IconNeutralAlign
     };
     public override bool IsDead => false; // needed because we inherit from RoleBehaviour
     public override bool IsAffectedByComms => false;
