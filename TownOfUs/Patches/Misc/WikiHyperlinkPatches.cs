@@ -99,7 +99,7 @@ public static class WikiHyperLinkPatches
             }
             else if (match.Value[0] == '&') // Modifier tag
             {
-                var modifier = MiscUtils.AllModifiers
+                var modifier = MiscUtils.AllOverallWikiModifiers
                     .Where(m => m is GameModifier)
                     .FirstOrDefault(x => x.ModifierName.Equals(key, StringComparison.OrdinalIgnoreCase));
 
