@@ -9,12 +9,12 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.TownOfPolus;
 
-public class PolusGhostCrewRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITownOfUsRole
+public class PolusGhostNeutRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsRole
 {
-    RoleOptionsGroup ICustomRole.RoleOptionsGroup => TouRoleGroups.TownOfPolusCrewmate;
-    public virtual string LocaleKey => "Crewmate";
-    public virtual string RoleName => Player != null ? Player.GetRoleWhenAlive().GetRoleName() : TouLocale.Get("CrewmateKeyword");
-    public virtual string RoleDescription => Player != null ? Player.GetRoleWhenAlive().Blurb : TouLocale.GetParsed("TownOfPolusRoleCrewDescriptionDead");
+    RoleOptionsGroup ICustomRole.RoleOptionsGroup => TouRoleGroups.TownOfPolusNeutral;
+    public virtual string LocaleKey => "Neutral";
+    public virtual string RoleName => Player != null ? Player.GetRoleWhenAlive().GetRoleName() : TouLocale.Get("NeutralKeyword");
+    public virtual string RoleDescription => Player != null ? Player.GetRoleWhenAlive().Blurb : TouLocale.GetParsed("TownOfPolusRoleNeutDescriptionDead");
 
     public virtual string RoleLongDescription
     {
@@ -22,11 +22,11 @@ public class PolusGhostCrewRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         {
             if (Player == null)
             {
-                return TouLocale.GetParsed("TownOfPolusRoleCrewDescriptionDead");
+                return TouLocale.GetParsed("TownOfPolusRoleNeutDescriptionDead");
             }
 
             var role = Player.GetRoleWhenAlive();
-            return role is PolusBaseCrewRole polusRole ? polusRole.RoleDescriptionDead : role.BlurbLong;
+            return role is PolusBaseNeutRole polusRole ? polusRole.RoleDescriptionDead : role.BlurbLong;
         }
     }
     public override void SpawnTaskHeader(PlayerControl playerControl)
@@ -37,8 +37,10 @@ public class PolusGhostCrewRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         }
 
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text =
-            $"{RoleColor.ToTextColor()}{TouLocale.GetParsed("TownOfPolusRoleTabText").Replace("<roleName>", RoleName).Replace("<description>", "<color=#FF0000>" + RoleLongDescription + "</color>")}</color>";
+        var text =
+            $"{RoleColor.ToTextColor()}{TouLocale.GetParsed("TownOfPolusRoleTabText").Replace("<roleName>", RoleName).Replace("<description>", "<color=#FF0000>" + RoleLongDescription + "</color>")}</color>" +
+            "\n<color=#FFFFFF>" + TouLocale.GetParsed("TownOfPolusRoleFakeTaskTabText") + "</color>";
+        orCreateTask.Text = text;
         orCreateTask.name = "TownOfPolusRoleText";
     }
 
@@ -48,9 +50,9 @@ public class PolusGhostCrewRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         TouRoleUtils.ClearTaskHeader(Player);
     }
 
-    public virtual Color RoleColor => Player != null ? Player.GetRoleWhenAlive().TeamColor : Palette.CrewmateBlue;
-    public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
-    public RoleAlignment RoleAlignment => RoleAlignment.Crewmate;
+    public virtual Color RoleColor => TownOfUsColors.Neutral;
+    public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
+    public RoleAlignment RoleAlignment => RoleAlignment.Neutral;
 
     public virtual CustomRoleConfiguration Configuration => new(this)
     {
@@ -63,8 +65,8 @@ public class PolusGhostCrewRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         ShowInFreeplay = false,
         AssociatedGameMode = typeof(TownOfPolusMode),
         FreeplayFolder = "Town of Polus",
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconCrewmate.LoadAsset(), "TownOfPolus.Role.Crewmate.Crewmate", 1.45f),
-        Icon = PolusGgAssets.IconCrewmate
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconNeutralAlign.LoadAsset(), "TownOfPolus.Role.Neutral.Neutral", 1.45f),
+        Icon = PolusGgAssets.IconNeutralAlign
     };
     public override bool IsDead => true; // needed because we inherit from RoleBehaviour
     public override bool IsAffectedByComms => false;
@@ -110,6 +112,15 @@ public class PolusGhostCrewRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         minigame.transform.SetLocalZ(-5f);
         minigame.Begin(null);
         HudManager.Instance.AbilityButton.SetDisabled();
+    }
+
+    public override bool DidWin(GameOverReason gameOverReason)
+    {
+        var role = Player.GetRoleWhenAlive();
+
+        var win = role.DidWin(gameOverReason);
+
+        return win;
     }
 
     public override void AppendTaskHint(StringBuilder taskStringBuilder)

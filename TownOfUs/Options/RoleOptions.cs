@@ -8,8 +8,9 @@ using TownOfUs.Patches;
 
 namespace TownOfUs.Options;
 
-public sealed class RoleOptions : AbstractOptionGroup<ClassicMode>, IWikiOptionsSummaryProvider
+public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvider
 {
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     internal static string[] OptionStrings =
     [
         MiscUtils.GetParsedRoleBucket("CrewInvestigative"),

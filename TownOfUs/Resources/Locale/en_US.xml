@@ -650,6 +650,8 @@
     <string name="TownOfPolusRoleFakeTaskTabText">Fake Tasks:</string>
     <string name="TownOfPolusRoleCrewDescription">Finish your tasks.</string>
     <string name="TownOfPolusRoleCrewDescriptionDead">You're dead, finish your tasks.</string>
+    <string name="TownOfPolusRoleNeutDescription">Complete your objective.</string>
+    <string name="TownOfPolusRoleNeutDescriptionDead">You're dead.</string>
     <string name="TownOfPolusRoleImpDescription">Sabotage and kill the crewmates.</string>
     <string name="TownOfPolusRoleImpDescriptionDead">You're dead.</string>
     <!-- Engineer Wiki / Abilities -->
@@ -661,7 +663,12 @@
     <string name="TownOfPolusRoleSwooper">Swooper</string>
     <string name="TownOfPolusRoleSwooperIntroBlurb">Use the Swoop ability to turn invisible</string>
     <string name="TownOfPolusRoleSwooperTabDescription">Sabotage and kill the crewmates.\%nl\%Use the Swoop ability to turn invisible.</string>
-    <string name="TownOfPolusRoleSwooperWikiDescription">The Swooper is an Impostor role that can go invisible at any time to either hide or run away from kills.</string>
+    <string name="TownOfPolusRoleSwooperWikiDescription">The Swooper is an Impostor role that can go invisible at any time to either hide or run away from kills. However, they cannot vent.</string>
+    <!-- SerialKiller Wiki / Abilities -->
+    <string name="TownOfPolusRoleSerialKiller">Serial Killer</string>
+    <string name="TownOfPolusRoleSerialKillerIntroBlurb">Kill everyone</string>
+    <string name="TownOfPolusRoleSerialKillerTabDescription">Kill everyone.</string>
+    <string name="TownOfPolusRoleSerialKillerWikiDescription">The Serial Killer is a Neutral role that has the sole goal of killing every player. If they do not kill the minimum amount of players needed, they will lose.</string>
   <!-- Spectator - Game Outlier -->
   <string name="TouRoleSpectator">Spectator</string>
   <string name="TouRoleSpectatorIntroBlurb">Watch the chaos from afar</string>

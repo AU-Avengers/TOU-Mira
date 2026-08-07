@@ -2,18 +2,20 @@
 using Il2CppInterop.Runtime.Attributes;
 using Il2CppSystem.Text;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using TownOfUs.GameModes;
 using UnityEngine;
 
-namespace TownOfUs.Roles.TownOfPolus.Impostor;
+namespace TownOfUs.Roles.TownOfPolus.Neutral;
 
-public class PolusSwooperRole(IntPtr cppPtr) : PolusBaseImpRole(cppPtr), IWikiDiscoverable
+public class PolusSerialKillerRole(IntPtr cppPtr) : PolusBaseNeutRole(cppPtr), IWikiDiscoverable
 {
-    public override string LocaleKey => "Swooper";
+    public override string LocaleKey => "SerialKiller";
     public override string RoleName => TouLocale.Get($"TownOfPolusRole{LocaleKey}");
     public override string RoleDescription => TouLocale.GetParsed($"TownOfPolusRole{LocaleKey}IntroBlurb");
     public override string RoleLongDescription => TouLocale.GetParsed($"TownOfPolusRole{LocaleKey}TabDescription");
     [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.TownOfPolus;
+    public int KillCount;
 
     public string GetAdvancedDescription()
     {
@@ -24,17 +26,34 @@ public class PolusSwooperRole(IntPtr cppPtr) : PolusBaseImpRole(cppPtr), IWikiDi
 
     [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities => [];
 
-    public override Color RoleColor => TownOfUsColors.PolusSwooper;
+    public override Color RoleColor => TownOfUsColors.PolusSerialKiller;
     public override CustomRoleConfiguration Configuration => new(this)
     {
         RoleHintType = RoleHintType.None,
         AssociatedGameMode = typeof(TownOfPolusMode),
-        GhostRole = (RoleTypes)RoleId.Get<PolusGhostImpRole>(),
+        GhostRole = (RoleTypes)RoleId.Get<PolusGhostNeutRole>(),
         FreeplayFolder = "Town of Polus",
         CanUseVent = false,
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconImpostor.LoadAsset(), "TownOfPolus.Role.Impostor.Swooper", 1.45f),
-        Icon = PolusGgAssets.IconImpostor
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconSerialKiller.LoadAsset(), "TownOfPolus.Role.Neutral.SerialKiller", 1.45f),
+        Icon = PolusGgAssets.IconSerialKiller
     };
+    public override bool WinConditionMet()
+    {
+        var juggCount = CustomRoleUtils.GetActiveRolesOfType<PolusSerialKillerRole>().Count(x => !x.Player.HasDied());
+
+        if (MiscUtils.KillersAliveCount > juggCount)
+        {
+            return false;
+        }
+
+        return juggCount >= Helpers.GetAlivePlayers().Count - juggCount;
+    }
+
+    public override bool DidWin(GameOverReason gameOverReason)
+    {
+        return WinConditionMet();
+    }
+
     public override bool IsDead => false; // needed because we inherit from RoleBehaviour
     public override bool IsAffectedByComms => false;
 

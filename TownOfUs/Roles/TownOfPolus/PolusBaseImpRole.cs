@@ -1,12 +1,14 @@
 ﻿using AmongUs.GameOptions;
 using Il2CppSystem.Text;
 using MiraAPI.Patches.Stubs;
+using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using TownOfUs.GameModes;
 using UnityEngine;
 
 namespace TownOfUs.Roles.TownOfPolus;
 
+[MiraIgnore]
 public abstract class PolusBaseImpRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole
 {
     RoleOptionsGroup ICustomRole.RoleOptionsGroup => TouRoleGroups.TownOfPolusImpostor;
