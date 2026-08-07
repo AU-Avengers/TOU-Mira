@@ -31,6 +31,7 @@ using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
@@ -75,15 +76,63 @@ public static class MiscUtils
         !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
         OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue);
 
-    public static IEnumerable<BaseModifier> AllModifiers => ModifierManager.Modifiers;
+    /// <summary>
+    /// Gets all registered <see cref="BaseModifier"/>s in MiraAPI.
+    /// </summary>
+    /// <returns>A list of <see cref="BaseModifier"/>s.</returns>
+    public static List<BaseModifier> AllModifiers { get; internal set; }
+    /// <summary>
+    /// Gets all registered <see cref="BaseModifier"/>s in MiraAPI that have the <see cref="IAssignableTargets"/> interface.
+    /// </summary>
+    /// <returns>A list of <see cref="IAssignableTargets"/>s.</returns>
+    public static List<IAssignableTargets> AssignableTargetModifiers { get; internal set; }
+    /// <summary>
+    /// Gets all registered <see cref="BaseModifier"/>s in MiraAPI that have the <see cref="IWikiDiscoverable"/> interface.
+    /// </summary>
+    /// <returns>A list of <see cref="BaseModifier"/>s.</returns>
+    public static List<BaseModifier> AllTouWikiModifiers { get; internal set; }
+    /// <summary>
+    /// Gets all registered <see cref="BaseModifier"/>s in MiraAPI that have the <see cref="IWikiDiscoverable"/> interface or are present in <see cref="SoftWikiEntries.RoleEntries"/>.
+    /// </summary>
+    /// <returns>A list of <see cref="BaseModifier"/>s.</returns>
+    public static List<BaseModifier> AllOverallWikiModifiers { get; internal set; }
+    /// <summary>
+    /// Gets all registered <see cref="TouBaseGameModifier"/>s in MiraAPI.
+    /// </summary>
+    /// <returns>A list of <see cref="TouBaseGameModifier"/>s.</returns>
+    public static List<TouBaseGameModifier> AllBaseGameModifiers { get; internal set; }
+    /// <summary>
+    /// Gets all registered <see cref="RoleBehaviour"/>s added through in MiraAPI, excluding <see cref="NeutralGhostRole"/> and possibly any other registered basic roles.
+    /// </summary>
+    /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
+    public static List<RoleBehaviour> AllRoles { get; internal set; }
+    /// <summary>
+    /// Gets all registered <see cref="RoleBehaviour"/>s, excluding <see cref="CrewmateGhostRole"/>, <see cref="ImpostorGhostRole"/>, <see cref="NeutralGhostRole"/>, and possibly any other registered basic roles.
+    /// </summary>
+    /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
+    public static List<RoleBehaviour> AllInGameRoles { get; internal set; }
 
-    public static IEnumerable<RoleBehaviour> AllRoles => CustomRoleManager.CustomRoleBehaviours;
+    public static List<RoleBehaviour> AllRegisteredRoles => GetAllRegisteredRoles();
 
-    public static IEnumerable<RoleBehaviour> AllRegisteredRoles =>
-        RoleManager.Instance.AllRoles.ToArray().Excluding(x => x.IsRoleBlacklisted());
+    /// <summary>
+    /// Gets all registered <see cref="RoleBehaviour"/>s that aren't blacklisted.
+    /// </summary>
+    /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
+    public static List<RoleBehaviour> GetAllRegisteredRoles()
+    {
+        return AllInGameRoles.Where(x => !x.IsRoleBlacklisted()).ToList();
+    }
 
-    public static IEnumerable<RoleBehaviour> SpawnableRoles =>
-        AllRegisteredRoles.Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
+    public static List<RoleBehaviour> SpawnableRoles => GetAllSpawnableRoles();
+
+    /// <summary>
+    /// Gets all registered <see cref="RoleBehaviour"/>s that aren't blacklisted and spawn on the current mode.
+    /// </summary>
+    /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
+    public static List<RoleBehaviour> GetAllSpawnableRoles()
+    {
+        return AllInGameRoles.Where(x => !x.IsRoleBlacklisted() && CustomRoleUtils.CanSpawnOnCurrentMode(x)).ToList();
+    }
 
     public static ReadOnlyCollection<IModdedOption>? GetModdedOptionsForRole(Type classType)
     {

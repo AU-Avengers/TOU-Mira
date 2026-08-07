@@ -831,13 +831,14 @@ public static class HudManagerPatches
         {
             var modifiers = MiscUtils.AllModifiers.Where(x =>
                 x.ParentMod != MiraPluginManager.GetPluginByGuid("auavengers.tou.mira") && x is GameModifier &&
-                x is not IWikiDiscoverable);
+                x is not IWikiDiscoverable).ToList();
             foreach (var modifier in modifiers)
             {
                 SoftWikiEntries.RegisterModifierEntry(modifier);
             }
 
             _registeredSoftModifiers = true;
+            MiscUtils.AllOverallWikiModifiers.AddRange(modifiers);
         }
 
         MiraApiSettings.OldButtonScaleFactor =
