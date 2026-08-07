@@ -29,13 +29,11 @@ public static class ApiRegistrationPatches
         _runOnce = true;
 
         var newList = CustomRoleManager.CustomRoleBehaviours.Where(x =>
-            x.Role is not RoleTypes.CrewmateGhost and not RoleTypes.ImpostorGhost &&
-            x.Role != (RoleTypes)RoleId.Get<NeutralGhostRole>()).ToList();
+            !MiscUtils.IsBasicGhost(x.Role)).ToList();
         MiscUtils.AllRoles = newList;
 
         var newList2 = RoleManager.Instance.AllRoles.ToArray().Where(x =>
-            x.Role is not RoleTypes.CrewmateGhost and not RoleTypes.ImpostorGhost &&
-            x.Role != (RoleTypes)RoleId.Get<NeutralGhostRole>()).ToList();
+            !MiscUtils.IsBasicGhost(x.Role)).ToList();
         MiscUtils.AllInGameRoles = newList2;
         var newModifiers = new List<TouBaseGameModifier>();
         var assignableMods = new List<IAssignableTargets>();

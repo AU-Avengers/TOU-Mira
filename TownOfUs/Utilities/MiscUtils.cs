@@ -2221,7 +2221,8 @@ public static class MiscUtils
         return role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost ||
                role == (RoleTypes)RoleId.Get<NeutralGhostRole>() ||
                role == (RoleTypes)RoleId.Get<PolusGhostCrewRole>() ||
-               role == (RoleTypes)RoleId.Get<PolusGhostImpRole>();
+               role == (RoleTypes)RoleId.Get<PolusGhostImpRole>() ||
+               role == (RoleTypes)RoleId.Get<PolusGhostNeutRole>();
     }
 
     public static TouGamemode CurrentGamemode()
