@@ -80,37 +80,37 @@ public static class MiscUtils
     /// Gets all registered <see cref="BaseModifier"/>s in MiraAPI.
     /// </summary>
     /// <returns>A list of <see cref="BaseModifier"/>s.</returns>
-    public static List<BaseModifier> AllModifiers { get; internal set; }
+    public static IEnumerable<BaseModifier> AllModifiers { get; internal set; }
     /// <summary>
     /// Gets all registered <see cref="BaseModifier"/>s in MiraAPI that have the <see cref="IAssignableTargets"/> interface.
     /// </summary>
     /// <returns>A list of <see cref="IAssignableTargets"/>s.</returns>
-    public static List<IAssignableTargets> AssignableTargetModifiers { get; internal set; }
+    public static IEnumerable<IAssignableTargets> AssignableTargetModifiers { get; internal set; }
     /// <summary>
     /// Gets all registered <see cref="BaseModifier"/>s in MiraAPI that have the <see cref="IWikiDiscoverable"/> interface.
     /// </summary>
     /// <returns>A list of <see cref="BaseModifier"/>s.</returns>
-    public static List<BaseModifier> AllTouWikiModifiers { get; internal set; }
+    public static IEnumerable<BaseModifier> AllTouWikiModifiers { get; internal set; }
     /// <summary>
     /// Gets all registered <see cref="BaseModifier"/>s in MiraAPI that have the <see cref="IWikiDiscoverable"/> interface or are present in <see cref="SoftWikiEntries.RoleEntries"/>.
     /// </summary>
     /// <returns>A list of <see cref="BaseModifier"/>s.</returns>
-    public static List<BaseModifier> AllOverallWikiModifiers { get; internal set; }
+    public static IEnumerable<BaseModifier> AllOverallWikiModifiers { get; internal set; }
     /// <summary>
     /// Gets all registered <see cref="TouBaseGameModifier"/>s in MiraAPI.
     /// </summary>
     /// <returns>A list of <see cref="TouBaseGameModifier"/>s.</returns>
-    public static List<TouBaseGameModifier> AllBaseGameModifiers { get; internal set; }
+    public static IEnumerable<TouBaseGameModifier> AllBaseGameModifiers { get; internal set; }
     /// <summary>
     /// Gets all registered <see cref="RoleBehaviour"/>s added through in MiraAPI, excluding <see cref="NeutralGhostRole"/> and possibly any other registered basic roles.
     /// </summary>
     /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
-    public static List<RoleBehaviour> AllRoles { get; internal set; }
+    public static IEnumerable<RoleBehaviour> AllRoles { get; internal set; }
     /// <summary>
     /// Gets all registered <see cref="RoleBehaviour"/>s, excluding <see cref="CrewmateGhostRole"/>, <see cref="ImpostorGhostRole"/>, <see cref="NeutralGhostRole"/>, and possibly any other registered basic roles.
     /// </summary>
     /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
-    public static List<RoleBehaviour> AllInGameRoles { get; internal set; }
+    public static IEnumerable<RoleBehaviour> AllInGameRoles { get; internal set; }
 
     /// <summary>
     /// Gets all registered <see cref="RoleBehaviour"/>s that aren't blacklisted.
