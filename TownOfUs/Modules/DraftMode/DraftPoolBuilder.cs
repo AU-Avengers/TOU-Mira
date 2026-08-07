@@ -200,47 +200,40 @@ namespace TownOfUs.Modules.DraftMode
             ];
 
             int activeSlots = Math.Max(1, Math.Min(Math.Max(1, numPlayers), slots.Length));
-            var bucketNames = new List<string>();
 
+            var bucketCounts = new Dictionary<RoleListOption, int>();
             for (int i = 0; i < activeSlots; i++)
             {
-                var roleNames = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(slots[i]));
-                if (roleNames == null || roleNames.Count == 0)
-                {
-                    roleNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any));
-                }
-
-                if (roleNames != null && roleNames.Count > 0)
-                {
-                    bucketNames.AddRange(roleNames.Where(n => !string.IsNullOrWhiteSpace(n)));
-                }
+                bucketCounts[slots[i]] = bucketCounts.GetValueOrDefault(slots[i]) + 1;
             }
 
-            if (bucketNames.Count == 0)
+            foreach (var kvp in bucketCounts)
             {
-                bucketNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any))
-                    ?.Where(n => !string.IsNullOrWhiteSpace(n))
-                    .ToList() ?? new List<string>();
+                ExpandBucketCapped(pool, kvp.Key, kvp.Value, rng);
             }
 
-            var uniqueNames = bucketNames
-                .GroupBy(BaseRoleName, StringComparer.OrdinalIgnoreCase)
-                .Select(g => g.First())
-                .Where(n => !string.IsNullOrWhiteSpace(n))
-                .ToList();
-
-            if (uniqueNames.Count == 0)
+            if (pool.Count < activeSlots)
             {
-                uniqueNames.Add("Crewmate");
+                var shortfall = activeSlots - pool.Count;
+                ExpandBucketCapped(pool, RoleListOption.Any, shortfall, rng);
             }
 
-            for (int i = uniqueNames.Count - 1; i > 0; i--)
+            if (pool.Count == 0)
+            {
+                var fallbackId = DraftRolePool.GetAnyUsableRoleId();
+                var fallbackName = fallbackId != 0 ? DraftRolePool.GetRoleNameFromId(fallbackId) : null;
+                if (!string.IsNullOrEmpty(fallbackName))
+                {
+                    pool.Add(fallbackName);
+                }
+            }
+
+            for (int i = pool.Count - 1; i > 0; i--)
             {
                 int j = rng.NextInt(i + 1);
-                (uniqueNames[i], uniqueNames[j]) = (uniqueNames[j], uniqueNames[i]);
+                (pool[i], pool[j]) = (pool[j], pool[i]);
             }
 
-            pool.AddRange(uniqueNames);
             return pool;
         }
 
@@ -320,7 +313,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (targetTotal <= 0) return;
 
-            var names = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(bucket))
+            var names = DraftRolePool.ResolveBucketToRoleNames(bucket.ToString())
                 ?.Where(n => !string.IsNullOrWhiteSpace(n))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();
@@ -339,7 +332,7 @@ namespace TownOfUs.Modules.DraftMode
                 nameToSubBucket = new Dictionary<string, RoleListOption>(StringComparer.OrdinalIgnoreCase);
                 foreach (var subBucket in subBucketCaps.Keys)
                 {
-                    var subNames = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(subBucket))
+                    var subNames = DraftRolePool.ResolveBucketToRoleNames(subBucket.ToString())
                         ?.Where(n => !string.IsNullOrWhiteSpace(n))
                         .Distinct(StringComparer.OrdinalIgnoreCase) ?? Enumerable.Empty<string>();
                     foreach (var n in subNames)
@@ -395,7 +388,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (maxSlots <= 0) return;
 
-            var names = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(bucket))
+            var names = DraftRolePool.ResolveBucketToRoleNames(bucket.ToString())
                 ?.Where(n => !string.IsNullOrWhiteSpace(n))
                 .ToList();
             if (names == null || names.Count == 0) return;
