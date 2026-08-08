@@ -2,7 +2,7 @@
 <resources>
   <string name="ReverseSkeldMapName">dlekS</string>
   <string name="ReverseSkeldMapTooltip">aL dlekS: la nave de tamaño mediano que conoces y (tal vez) amas, ¡pero al revés!</string>
-  <string name="DiscordServer">Discord (inglés) </string>
+  <string name="DiscordServer">Discord (inglés)</string>
   <string name="SourceCode">Código Fuente</string>
   <string name="FoolsMode">Modo De Los Inocentes</string>
   <string name="LegacyThemeDisabled">Clásico: No</string>
@@ -196,7 +196,7 @@
   <string name="TermsNeutRoleAlignmentsTitle">Subalineaciones de [color=#8A8A8A]Neutrales[/color]</string>
   <string name="TermsNeutRoleAlignmentsInfo">• Los roles [color=#8A8A8A]Benignos[/color] no pueden ganar por sí mismos, lo hacen ayudando a otros o sobreviviendo tanto como puedan • Los roles [color=#8A8A8A]Malvados[/color] cumplen sus propios objetivos, manipulando las partidas, saliendo victoriosos o acabando el juego de forma abrupta. • Los roles [color=#8A8A8A]Asesinos[/color] intentan ser los últimos [color=#FF8B95]asesinos[/color] en pie cueste lo que cueste. • Los roles [color=#8A8A8A]Atípicos[/color] tienen sus propios objetivos para cumplir, pero cada uno afecta el juego de forma diferente, comportándose a veces como una mezcla de [color=#8A8A8A]Benigno[/color], [color=#8A8A8A]Malvado[/color], y [color=#8A8A8A]Asesino[/color].</string>
   <string name="TermsImpRoleAlignmentsTitle">Subalineaciones de [color=#FF0000]Impostores[/color]</string>
-  <string name="TermsImpRoleAlignmentsInfo">• Los roles de [color=#FF0000]Ocultación[/color] tienen la habilidad de [color=#FF8B95]matar[/color] y engañar a otros, o esconderse mientras lo hacen.  • Los roles [color=#FF0000]Asesinos[/color] tienen habilidades mejoradas o alteradas para   [color=#FF8B95]matar[/color] de forma más efectiva. • Los roles [color=#FF0000]Superiores[/color] tienen habilidades clasificadas como mucho mejores que los de otros roles, dándole a los [color=#FF0000]Impostores[/color] la ventaja en fuerza. • Los roles de [color=#FF0000]Apoyo[/color] pueden ayudar a esconder cuerpos o hacer que [color=#FF8B95]matar[/color] sea más accesible.</string>
+  <string name="TermsImpRoleAlignmentsInfo">• Los roles de [color=#FF0000]Ocultación[/color] tienen la habilidad de [color=#FF8B95]matar[/color] y engañar a otros, o esconderse mientras lo hacen. • Los roles [color=#FF0000]Asesinos[/color] tienen habilidades mejoradas o alteradas para [color=#FF8B95]matar[/color] de forma más efectiva. • Los roles [color=#FF0000]Superiores[/color] tienen habilidades clasificadas como mucho mejores que los de otros roles, dándole a los [color=#FF0000]Impostores[/color] la ventaja en fuerza. • Los roles de [color=#FF0000]Apoyo[/color] pueden ayudar a esconder cuerpos o hacer que [color=#FF8B95]matar[/color] sea más accesible.</string>
   <string name="TermsRoleBucketsTitle">Conjuntos de Roles de roles</string>
   <string name="TermsRoleBucketsInfo">Los Conjuntos de Roles solo son relevantes cuando se usa el ajuste "Establecer Lista de Roles" para la aparición de roles. • El conjunto Común de [color=#8CFFFF]Tripulante[/color] contiene roles de Investigación, Protección y Apoyo. • El conjunto Común de [color=#FF0000]Impostor[/color] contiene roles de Ocultación y Apoyo. • El conjunto Común de [color=#8A8A8A]Neutral[/color] contiene roles Benignos y Malvados. • El conjunto Especial de [color=#8CFFFF]Tripulante[/color] contiene roles de Asesinato y Superior. • El conjunto Especial de [color=#FF0000]Impostor[/color] contiene roles de Asesinato y Superiores. • El conjunto Especial de [color=#8A8A8A]Neutral[/color] contiene roles Asesinos y Atípicos. • El conjunto Comodín de [color=#8A8A8A]Neutral[/color] contiene roles Benignos, Malvados y Atípicos. • El conjunto No-[color=#FF0000]Impostor[/color] contiene todos los roles [color=#8A8A8A]Neutrales[/color] y [color=#8CFFFF]Tripulantes[/color]. • Los grupos Aleatorios generan cualquier rol de ese bando (como [color=#8CFFFF]Tripulante[/color] Aleatorio). • El conjunto Cualquiera permite que aparezca cualquier rol habilitado.</string>
   <string name="TermsCommonSlangTitle">Jerga común</string>
@@ -578,8 +578,8 @@ Puedes desactivar este mensaje desde el menú de opciones.</string>
   <string name="TouOptionBetterMapsSaboCountdownWaterLevelStabilizer">Cuenta regresiva del sabotaje del Estabilizador del Nivel del Agua</string>
   <string name="TouOptionBetterMapsSaboCountdownOxygenMask">Cuenta regresiva del sabotaje de la Máscara de Oxígeno</string>
   <string name="TouOptionBetterMapsSaboDurationMixUp">Duración del sabotaje Confusión</string>
-  <string name="TouOptionBetterMapsTheme">Decoración temática del mapa</string>
-  <string name="TouOptionBetterMapsThemeEnumBasic">Sin decorar</string>
+  <string name="TouOptionBetterMapsTheme">Decoración del mapa </string>
+  <string name="TouOptionBetterMapsThemeEnumBasic">Sin decorar </string>
   <string name="TouOptionBetterMapsThemeEnumHalloween">Halloween</string>
   <string name="TouOptionBetterMapsThemeEnumBirthday">Cumpleaños</string>
   <string name="TouOptionBetterMapsThemeEnumAuto">Automático</string>
@@ -750,8 +750,8 @@ en Seguidores Impostores equivalentes!</string>
   <string name="TouOptionAltruistKillerEnumNeutralsAndImpostors">Neutrales e Impostores</string>
   <!-- Perceptor - Tripulante de Investigación -->
         <string name="TouRoleAurial">Perceptor</string>
-  <string name="TouRoleAurialIntroBlurb">Siente cambios en tu aura</string>
-  <string name="TouRoleAurialTabDescription">Sabrás cuando alguien use una habilidad dentro de tu aura.</string>
+  <string name="TouRoleAurialIntroBlurb">Siente cambios en tu aura.</string>
+  <string name="TouRoleAurialTabDescription">Sabrás cuando alguien use una habilidad dentro de tu aura</string>
   <!-- Perceptor - Wiki -->
         <string name="TouRoleAurialWikiDescription">El Perceptor es un Tripulante que será alertado cada vez que un jugador cercano use una de sus habilidades. Los jugadores más cercanos serán apuntados con una flecha de su color correspondiente, mientras que los que estén un poco más lejos se indicarán con una flecha gris.</string>
   <!-- Opciones del Perceptor -->
@@ -840,14 +840,13 @@ Podría ser el asesino o un testigo.</string>
   <!-- Cantinero - Tripulante de Apoyo -->
       <!-- Cantinero - Wiki / Habilidades -->
         <string name="TouRoleBarkeeper">Cantinero</string>
-  <string name="TouRoleBarkeeperIntroBlurb">Embriaga a los malos para ralentizarlos.</string>
-  <string name="TouRoleBarkeeperTabDescription">Embriaga a los malos para
-bloquear sus habilidades durante [blockTime] s.</string>
+  <string name="TouRoleBarkeeperIntroBlurb">Embriaga a los malos para ralentizarlos</string>
+  <string name="TouRoleBarkeeperTabDescription">Embriaga a los malos para bloquear sus habilidades durante [blockTime] s.</string>
   <string name="TouRoleBarkeeperWikiDescription">El Cantinero es un Tripulante de Apoyo que puede beber con otros jugadores para bloquear sus habilidades. También puede derramar una bebida para acelerar o ralentizar a los jugadores.</string>
   <string name="TouRoleBarkeeperRoleblock">Embriagar</string>
   <string name="TouRoleBarkeeperRoleblocking">Embriagando...</string>
   <string name="TouRoleBarkeeperRoleblockWikiDescription">Bebe con un jugador, bloqueando sus habilidades durante [blockTime] s.</string>
-  <string name="TouRoleBarkeeperRoleblockWikiDescriptionWithHangover">Bebe con un jugador, bloqueando sus habilidades durante [blockTime] s. Después de que termine el bloqueo de habilidades, tendrá resaca durante [overTime] s.</string>
+  <string name="TouRoleBarkeeperRoleblockWikiDescriptionWithHangover">Bebe con un jugador, bloqueando sus habilidades durante [blockTime] s. Después de que termine el bloqueo de habilidades, tendrá resaca durante [overTime] s</string>
   <string name="TouRoleBarkeeperSpill">Derramar</string>
   <string name="TouRoleBarkeeperSpilling">Asentándose</string>
   <string name="TouRoleBarkeeperSpillWikiDescription">Derrama una de tus bebidas. Si alguien pasa por ella poco después de ser derramada, obtendrá un aumento de velocidad; si ya lleva un tiempo en el suelo, ralentizará a quienes la pisen. Este efecto solo se activará una vez por jugador.</string>
@@ -983,7 +982,7 @@ hablar con ellos en privado
 y ejecútalos si son malos.</string>
   <string name="TouRoleJailorTabDescriptionEvil">Encarcela jugadores para hablar con ellos en privado
 y ejecútalos si así lo deseas.</string>
-  <string name="TouRoleJailorWikiDescription">El Carcelero es un Tripulante Superior que puede encarcelar a otros jugadores. Durante una reunión, el Carcelero puede elegir ejecutar al jugador encarcelado. (A menos que el Carcelero sea un Imitador).</string>
+  <string name="TouRoleJailorWikiDescription">El Carcelero es un Tripulante Superior que puede encarcelar a otros jugadores. Durante una reunión, el Carcelero puede elegir ejecutar al jugador encarcelado. (A menos que el Carcelero sea un Imitador)</string>
   <string name="TouRoleJailorJail">Encarcelar</string>
   <string name="TouRoleJailorJailWikiDescription">Encarcela a un jugador. Durante la reunión todos verán quién está encarcelado. Puedes hablar en privado con tu prisionero usando el interruptor del chat privado.</string>
   <string name="TouRoleJailorExecute">Ejecutar</string>
@@ -1008,7 +1007,7 @@ y ejecútalos si así lo deseas.</string>
   <string name="TouRoleLookoutTabDescription">Vigila a otros Tripulantes para
 ver qué roles interactúan con ellos</string>
   <string name="TouRoleLookoutAltTabDescription">Vigila a otros Tripulantes para
-ver quién interactúa con ellos.</string>
+ver quién interactúa con ellos</string>
   <string name="TouRoleLookoutWikiDescription">El Vigía es un Tripulante que puede vigilar a otros jugadores durante las rondas. Durante las reuniones, podrá ver qué roles interactuaron con cada jugador vigilado.</string>
   <string name="TouRoleLookoutWatch">Observar</string>
   <string name="TouRoleLookoutWatchWikiDescription">Vigila a uno o varios jugadores. En la siguiente reunión sabrás qué jugadores interactuaron con los vigilados.</string>
@@ -1156,7 +1155,7 @@ para ayudar en las reuniones.</string>
   <string name="TouRoleMonarchKnight">Investir</string>
   <string name="TouRoleMonarchKnighting">Invistiendo...</string>
   <string name="TouRoleMonarchKnightDescription">Nombra caballero a un jugador, otorgándole [amount] voto(s).</string>
-  <string name="TouRoleMonarchKnightTargetDied">[player] murió antes de que pudieras investirlo</string>
+  <string name="TouRoleMonarchKnightTargetDied">[player] murió antes de que pudieras investirlo.</string>
   <string name="TouRoleMonarchKnightSuccess">¡[player] fue investido!</string>
   <string name="TouRoleMonarchKnightedFeedback">¡Has sido investido por el [role]! ¡Obtuviste [votes] voto(s)!</string>
   <string name="TouRoleMonarchKnightFallenFeedback">Tu caballero, [player], ha caído...</string>
@@ -2912,4 +2911,17 @@ No podrás vencer más jugadores.</string>
 ¡[time] segundos restantes!</string>
   <string name="TouHexBombSpellslingerDead">¡El Conjurador ha muerto!</string>
   <string name="TouRoleHerbalistChangeHerb">Cambiar Planta</string>
+  <string name="Lilac">Lila</string>
+  <string name="Azure">Cielo</string>
+  <string name="Plum">Arándano</string>
+  <string name="Chartreuse">Cartujo</string>
+  <string name="Macau">Macau</string>
+  <string name="Tawny">Leonado</string>
+  <string name="Mandarin">Mandarina</string>
+  <string name="Shimmer">Perlado</string>
+  <string name="Crimson">Carmesí</string>
+  <string name="Denim">Mezclilla</string>
+  <string name="TouOptionProsecutorMaxProsecutions">Máx de acusaciones</string>
+  <string name="TouRolePuppeteerControlNotifSelf">Estás controlando a [player]!</string>
+  <string name="TouRoleSoulCollector">Medusa</string>
 </resources>
