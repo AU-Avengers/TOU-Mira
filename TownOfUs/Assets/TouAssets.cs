@@ -465,7 +465,7 @@ public static class TouAssets
         new LoadableBundleAsset<Sprite>("Action", MainBundle);
 
     public static LoadableAsset<Sprite> JailUnmute { get; } =
-        new LoadableResourceAsset($"{ShortPath}.JailUnmute.png");
+        new LoadableResourceAsset($"{ShortPath}.JailUnmute.png", 900f);
 
     public static LoadableAsset<Sprite> MayorPet { get; } =
         new LoadableResourceAsset($"{ShortPath}.MayorPet.png", 500f);

@@ -3,7 +3,6 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI;
 using MiraAPI.GameOptions;
-using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.ModifierDisplay;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;

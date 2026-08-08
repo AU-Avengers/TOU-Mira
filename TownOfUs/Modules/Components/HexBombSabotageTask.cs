@@ -165,18 +165,18 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
             color = _even ? new Color(0.7f, 0.5f, 0f) : Color.red;
         }
 
-        var text = "The Hex Bomb has been triggered!";
+        var text = TouLocale.Get("TouHexBombTriggered");
         switch (_sabotage.Stage)
         {
             case HexBombStage.Initiate:
-                text = $"The Spellslinger is unleashing a Hex Bomb!\n{(int)_sabotage.TimeRemaining + 1 + (int)_sabotage.duration} seconds left!";
+                text = TouLocale.GetParsed("TouHexBombCountdown").Replace("<time>", $"{(int)_sabotage.TimeRemaining + 1 + (int)_sabotage.duration}");
                 break;
             case HexBombStage.Countdown:
-                text = $"The Spellslinger is unleashing a Hex Bomb!\n{(int)_sabotage.TimeRemaining + 1} seconds left!";
+                text = TouLocale.GetParsed("TouHexBombCountdown").Replace("<time>", $"{(int)_sabotage.TimeRemaining + 1}");
                 break;
             case HexBombStage.SpellslingerDead:
                 color = Palette.CrewmateBlue;
-                text = $"The Spellslinger has perished!";
+                text = TouLocale.Get("TouHexBombSpellslingerDead");
                 break;
         }
 

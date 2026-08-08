@@ -104,9 +104,8 @@ public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRol
 
         _roleblockedTarget = Target;
 
-        NotifMessage = Helpers.CreateAndShowNotification(
-            $"<b>You chose to roleblock {_roleblockedTarget.CachedPlayerData.PlayerName}.</b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Bootlegger.LoadAsset());
+        NotifMessage = Helpers.CreateAndShowNotification($"<b>{TouLocale.GetParsed("TouRoleBootleggerRoleblockChosen") .Replace("<player>", _roleblockedTarget.CachedPlayerData.PlayerName)}</b>",
+        Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Bootlegger.LoadAsset());
         NotifMessage.Text.SetOutlineThickness(0.35f);
     }
 
