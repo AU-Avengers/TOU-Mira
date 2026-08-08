@@ -2367,4 +2367,14 @@ chwili aby umknąć ze sceny zbrodni</string>
   <string name="TouRoleGrenadierFlash"></string>
   <string name="TouRoleJuggernautIntroBlurb"></string>
   <string name="TouRoleJuggernautTabDescription"></string>
+  <string name="TouOptionSpectreWin"></string>
+  <string name="TouRoleForensicMessageTitle"></string>
+  <string name="TouRoleSpectre"></string>
+  <string name="TouRoleForensicWikiDescription"></string>
+  <string name="TouOptionForensicReportOn"></string>
+  <string name="TouOptionForensicRoleDuration"></string>
+  <string name="TouRoleSonar"></string>
+  <string name="TouRoleSonarWikiDescription"></string>
+  <string name="TouRoleSpectreWikiDescription"></string>
+  <string name="TouOptionForensicFactionDuration"></string>
 </resources>

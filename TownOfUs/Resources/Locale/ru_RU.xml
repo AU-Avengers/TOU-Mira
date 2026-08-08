@@ -935,7 +935,7 @@ Data Lost</string>
   <string name="TouRoleFairy">Ангел-хранитель</string>
   <string name="TouRoleFairyTabDescription">Защитите \%target\% ценой своей жизни!</string>
   <string name="TouRoleFairyIfNoTarget">Защитите цель ценой своей жизни!</string>
-  <string name="TouRoleFairyWikiDescription">Ангел-хранитель - Нейтральный Мирный, который должен защитить свою цель (обозначенную [symbol]) от убийства/исключения.</string>
+  <string name="TouRoleFairyWikiDescription">Ангел-хранитель - Нейтральный Мирный, который должен защитить свою цель (обозначенную \%symbol\%) от убийства/исключения.</string>
   <string name="TouRoleFairyProtect">Защита</string>
   <string name="TouRoleFairyProtectWikiDescription">Защитите свою цель от смерти.</string>
   <string name="TouOptionFairyCooldown">Откат Защиты</string>

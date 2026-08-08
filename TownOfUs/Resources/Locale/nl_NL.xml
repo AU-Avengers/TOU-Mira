@@ -432,7 +432,7 @@ barricadeer ventilatieschachten om deze de volgende ronde te blokkeren</string>
   <string name="TouRoleFairy">Engelbewaarder</string>
   <string name="TouRoleFairyTabDescription">Bescherm \%target\% Met Je Leven!</string>
   <string name="TouRoleFairyIfNoTarget">Bescherm Je Doelwit Met Je Leven!</string>
-  <string name="TouRoleFairyWikiDescription">De Engelbewaarder is een Neutraal Goedaardige wiens doel het is om hun doelwit te beschermen (aangeduid door [symbol] )</string>
+  <string name="TouRoleFairyWikiDescription">De Engelbewaarder is een Neutraal Goedaardige wiens doel het is om hun doelwit te beschermen (aangeduid door \%symbol\% )</string>
   <string name="TouRoleFairyProtect">Bescherm</string>
   <string name="TouRoleFairyProtectWikiDescription">Voorkom dat jouw doelwit wordt vermoord.</string>
   <string name="TouOptionFairyCooldown">Bescherm Afkoelperiode</string>
@@ -2356,4 +2356,10 @@ barricadeer ventilatieschachten om deze de volgende ronde te blokkeren</string>
   <string name="TouRoleUndertakerDrop"></string>
   <string name="TouRoleDoomsayerMessageTitle"></string>
   <string name="TouModifierCrewpostorTabDescription"></string>
+  <string name="TouRoleSonarWikiDescription"></string>
+  <string name="TouRoleForensicMessageTitle"></string>
+  <string name="TouOptionSpectreWin"></string>
+  <string name="TouRoleSonar"></string>
+  <string name="TouRoleSpectre"></string>
+  <string name="TouRoleSpectreWikiDescription"></string>
 </resources>

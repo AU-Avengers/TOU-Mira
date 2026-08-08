@@ -2342,4 +2342,21 @@ vers le joueur le plus proche.</string>
   <string name="TouOptionAssassinImpTitleSingle"></string>
   <string name="TouModifierBaitTriggeredNotif"></string>
   <string name="TouModifierInvestigatorWikiDescription"></string>
+  <string name="TouRoleForensic"></string>
+  <string name="TouRoleSpectre"></string>
+  <string name="TouRoleFairyWikiDescription"></string>
+  <string name="TouOptionForensicReportOn"></string>
+  <string name="TouRoleForensicMessageTitle"></string>
+  <string name="TouRoleForensicWikiDescription"></string>
+  <string name="TouRoleFairy"></string>
+  <string name="TouOptionFairyOnDeathFairyBecomes"></string>
+  <string name="TouOptionFairyTargetKnowsFairyExists"></string>
+  <string name="TouOptionFairyFairyKnowsRole"></string>
+  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription"></string>
+  <string name="TouOptionForensicRoleDuration"></string>
+  <string name="TouOptionForensicFactionDuration"></string>
+  <string name="TouRoleSonarWikiDescription"></string>
+  <string name="TouRoleSonar"></string>
+  <string name="TouRoleSpectreWikiDescription"></string>
+  <string name="TouOptionSpectreWin"></string>
 </resources>
