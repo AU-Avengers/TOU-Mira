@@ -240,8 +240,7 @@
   <string name="TouRoleDeputyMissedShot">你射偏了！对方不是凶手或拥有无敌效果。</string>
   <string name="TouRoleForensic">侧写师</string>
   <string name="TouRoleForensicIntroBlurb">调查案发现场，找出凶手</string>
-  <string name="TouRoleForensicTabDescription">调查犯罪现场，
-然后检查玩家是否在现场。</string>
+  <string name="TouRoleForensicTabDescription">调查犯罪现场，\%nl\%然后检查玩家是否在现场。</string>
   <string name="TouRoleForensicWikiDescription">侧写师是一名船员调查型职业, 可以调查案发现场并检查玩家是否在现场。如果玩家在现场会闪红光。</string>
   <string name="TouRoleForensicInspect">调查</string>
   <string name="TouRoleForensicInspectWikiDescription">所有尸体都会生成案发现场。调查案发现场后检查玩家以发现线索。下次会议你会收到凶手身份的报告。</string>
@@ -251,9 +250,8 @@
   <string name="TouOptionForensicReportOn">显示侧写师报告</string>
   <string name="TouOptionForensicRoleDuration">最大死亡时间 —— 侧写报告包含职业</string>
   <string name="TouOptionForensicFactionDuration">最大死亡时间 —— 侧写报告包含阵营</string>
-  <string name="TouRoleForensicAtScene">[player]在[deadPlayer]的案发现场！
-他们可能是凶手或证人。</string>
-  <string name="TouRoleForensicNotAtScene">[player]不在案发现场。</string>
+  <string name="TouRoleForensicAtScene">\%player\%在\%deadPlayer\%的案发现场！\%nl\%他们可能是凶手或证人。</string>
+  <string name="TouRoleForensicNotAtScene">\%player\%不在案发现场。</string>
   <string name="TouRoleEngineer">工程师</string>
   <string name="TouRoleEngineerIntroBlurb">维护飞船重要系统</string>
   <string name="TouRoleEngineerTabDescription">可在飞船中使用通风管并远程修复破坏</string>
@@ -635,7 +633,7 @@
   <string name="TouModifierImmovableTabDescription">你不会被传送到会议区，也不会被分散或传送。</string>
   <string name="TouModifierImmovableWikiDescription">你不会被技能或会议移动。</string>
   <string name="TouModifierMiniTabDescription">你比普通玩家更小，移动速度也比普通玩家快\%miniSpeed\%倍。</string>
-  <string name="TouModifierMiniWikiDescription">你比普通玩家更小，移动速度也比普通玩家快[miniSpeed]倍。</string>
+  <string name="TouModifierMiniWikiDescription">你比普通玩家更小，移动速度也比普通玩家快\%miniSpeed\%倍。</string>
   <string name="TouOptionMiniSpeed">迷你速度</string>
   <string name="TouModifierRadarTabDescription">获得一个指向最近玩家的箭头。</string>
   <string name="TouModifierRadarWikiDescription">你会获得一个指向\%nl\%最近玩家的箭头。</string>
@@ -710,7 +708,7 @@
   <string name="TouOptionOperativeMaxDisplayDuration">最大监控显示时长</string>
   <string name="TouModifierRottingIntroBlurb">你的尸体会腐烂，无法被报告。</string>
   <string name="TouModifierRottingTabDescription">你的尸体将在\%rotDelay\%秒后腐烂消失。</string>
-  <string name="TouModifierRottingWikiDescription">[rotDelay]秒后，你的尸体会腐烂，无法被报告</string>
+  <string name="TouModifierRottingWikiDescription">\%rotDelay\%秒后，你的尸体会腐烂，无法被报告</string>
   <string name="TouOptionRottingDelay">尸体腐烂前的时间</string>
   <string name="TouModifierScientistIntroBlurb">随时随地查看生命体征。</string>
   <string name="TouModifierScientistTabDescription">可随时随地查看生命体征，只要有电量。</string>
@@ -850,7 +848,7 @@
   <string name="TouOptionGlitchHackCooldown">黑入冷却</string>
   <string name="TouOptionGlitchHackDuration">黑入持续时间</string>
   <string name="TouOptionGlitchCanVent">混沌可使用通风口</string>
-  <string name="TouRoleFairyTabDescription">保护[target]免于被击杀！</string>
+  <string name="TouRoleFairyTabDescription">保护\%target\%免于被击杀！</string>
   <string name="TouRoleFairyIfNoTarget">保护你的目标免于被击杀！</string>
   <string name="TouRoleFairyWikiDescription">天使是一名中立善良型职业，需要保护带有%symbol\%标记的目标不被击杀或放逐。</string>
   <string name="TouRoleFairyProtect">守护</string>
@@ -1196,7 +1194,7 @@
   <string name="SpecialNeutral">特殊中立</string>
   <string name="WildcardNeutral">非杀手中立</string>
   <string name="TouRoleDeputyCampNotif">等待\%player\%死亡后，你可以在会议中为其复仇。</string>
-  <string name="TouRoleForensicInspectNotif">你已调查了[player]的案发现场。凶手或任何进入案发现场的人在被检查时会闪红光。</string>
+  <string name="TouRoleForensicInspectNotif">你已调查了\%player\%的案发现场。凶手或任何进入案发现场的人在被检查时会闪红光。</string>
   <string name="TouRoleHunterStalkNotif">如果\%player\%使用了技能，你将在本回合内可以随时击他们。</string>
   <string name="TouRoleLookoutWatchNotif">如果\%player\%在下次会议前未死亡，你将得知与其互动的所有职业。</string>
   <string name="TouRoleMirrorcasterAlreadyDiedNotif">你试图保护的玩家已经死亡！</string>
