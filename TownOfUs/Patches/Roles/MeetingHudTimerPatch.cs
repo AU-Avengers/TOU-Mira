@@ -43,10 +43,10 @@ public static class MeetingHudTimerPatch
 
                 break;
             case ProsecutorRole pros:
-                var prosecutes = OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions -
-                                 pros.ProsecutionsCompleted;
+                var total = (int)OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
+                var prosecutes = total - pros.ProsecutionsCompleted;
                 newText =
-                    $"\n{prosecutes} / {OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions} {TouLocale.GetParsed("TouRoleProsecutorProsecutionsRemaining")}";
+                    $"\n{TouLocale.GetParsed("TouRoleProsecutorProsecutionsRemaining").Replace("<count>", prosecutes.ToString(TownOfUsPlugin.Culture)).Replace("<total>", total.ToString(TownOfUsPlugin.Culture))}";
                 break;
             case DeputyRole dep:
                 if (dep.Killer)
@@ -63,9 +63,12 @@ public static class MeetingHudTimerPatch
                 break;
             case DoomsayerRole doom:
                 var doomOpt = OptionGroupSingleton<DoomsayerOptions>.Instance;
-                newText = doomOpt.DoomsayerGuessAllAtOnce
-                    ? TouLocale.GetParsed("TouRoleDoomsayerGuessAllAtOnce").Replace("<amount>", ((int)doomOpt.DoomsayerGuessesToWin).ToString(TownOfUsPlugin.Culture))
-                    : TouLocale.GetParsed("TouRoleDoomsayerSuccessfulGuesses").Replace("<current>", doom.NumberOfGuesses.ToString(TownOfUsPlugin.Culture)).Replace("<total>", ((int)doomOpt.DoomsayerGuessesToWin).ToString(TownOfUsPlugin.Culture));
+                newText = "\n" + (doomOpt.DoomsayerGuessAllAtOnce
+                    ? TouLocale.GetParsed("TouRoleDoomsayerGuessAllAtOnce").Replace("<amount>",
+                        ((int)doomOpt.DoomsayerGuessesToWin).ToString(TownOfUsPlugin.Culture))
+                    : TouLocale.GetParsed("TouRoleDoomsayerSuccessfulGuesses")
+                        .Replace("<current>", doom.NumberOfGuesses.ToString(TownOfUsPlugin.Culture)).Replace("<total>",
+                            ((int)doomOpt.DoomsayerGuessesToWin).ToString(TownOfUsPlugin.Culture)));
                 break;
             case VigilanteRole vigi:
                 newText =

@@ -133,22 +133,6 @@ public static class TouLocale
             text = translation;
         }
 
-        text = Regex.Replace(text, @"\%([^%]+)\%", @"<$1>");
-        if (text.Contains("\\<"))
-        {
-            text = text.Replace("\\<", "<");
-        }
-
-        if (text.Contains("\\>"))
-        {
-            text = text.Replace("\\>", ">");
-        }
-
-        foreach (var tmpText in TmpTextList.Where(x => text.Contains(x.Key)))
-        {
-            text = text.Replace(tmpText.Key, tmpText.Value);
-        }
-
         if (parseList != null)
         {
             foreach (var tmpText in parseList.Where(x => text.Contains(x.Key)))
@@ -195,7 +179,11 @@ public static class TouLocale
             TouLocalization.TryAdd((SupportedLangs)locale.Key, []);
             ParseXmlFile(xmlContent, (SupportedLangs)locale.Key);
         }
+
+        HasLoadedInternalXmls = true;
     }
+
+    public static bool HasLoadedInternalXmls;
 
     public static void SearchDirectory(string directory)
     {
@@ -281,10 +269,40 @@ public static class TouLocale
                         string name = node.Attributes["name"]!.Value;
                         string value = node.InnerText;
 
+                        value = Regex.Replace(value, @"\%([^%]+)\%", @"<$1>");
+                        if (value.Contains("\\<"))
+                        {
+                            value = value.Replace("\\<", "<");
+                        }
+
+                        if (value.Contains("\\>"))
+                        {
+                            value = value.Replace("\\>", ">");
+                        }
+
+                        if (value.Contains('['))
+                        {
+                            value = value.Replace("[", "<");
+                        }
+
+                        if (value.Contains(']'))
+                        {
+                            value = value.Replace("]", ">");
+                        }
+
+                        foreach (var tmpText in TmpTextList.Where(x => value.Contains(x.Key)))
+                        {
+                            value = value.Replace(tmpText.Key, tmpText.Value);
+                        }
+
                         if (TouLocalization[language].ContainsKey(name))
                         {
                             var ogValuePair = TouLocalization[language].FirstOrDefault(x => x.Key == name);
                             TouLocalization[language].Remove(ogValuePair.Key);
+                            if (!HasLoadedInternalXmls)
+                            {
+                                Logger.LogError($"String for {name} in {(ExtendedLangs)language} was overwritten by duplicate!");
+                            }
                         }
 
                         TouLocalization[language].TryAdd(name, value);

@@ -12,8 +12,8 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRole, PlayerControl>
 {
-    public override string Name => "Kill";
-    public string CurrentName = "Kill";
+    public override string Name => CurrentName;
+    public string CurrentName = string.Empty;
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<HerbalistOptions>.Instance.HerbCooldown + MapCooldown, 5f, 120f);
@@ -106,19 +106,22 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
         TouImpAssets.HerbProtectSprite,
     ];
 
-    public static List<string> ProtectionText { get; set; } =
+    public static List<string> ProtectionText =>
     [
-        "Kill",
-        "Expose",
-        "Confuse",
-        "Protect",
+        TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill"),
+        TouLocale.Get("TouRoleHerbalistExpose"),
+        TouLocale.Get("TouRoleHerbalistConfuse"),
+        TouLocale.Get("TouRoleHerbalistProtect"),
     ];
 
     public override void CreateButton(Transform parent)
     {
-        base.CreateButton(parent);
+    base.CreateButton(parent);
 
-        Button!.usesRemainingSprite.sprite = TouAssets.AbilityCounterKillSprite.LoadAsset();
+    Button!.usesRemainingSprite.sprite = TouAssets.AbilityCounterKillSprite.LoadAsset();
+
+    CurrentName = TouLocale.Get("HerbalistKill");
+    OverrideName(CurrentName);
     }
 
     protected override void OnClick()
@@ -217,10 +220,24 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
         OverrideName(ProtectionText[(int)CurrentAbility]);
     }
     public override void OverrideName(string name)
+{
+    CurrentName = CurrentAbility switch
     {
-        CurrentName = name;
-        Button?.OverrideText(CurrentHerbsLimited ? (CurrentName + " - " + CurrentHerbsText) : CurrentName);
+        HerbAbilities.Kill => TouLocale.Get("HerbalistKill"),
+        HerbAbilities.Expose => TouLocale.Get("HerbalistExpose"),
+        HerbAbilities.Confuse => TouLocale.Get("HerbalistConfuse"),
+        HerbAbilities.Protect => TouLocale.Get("HerbalistProtect"),
+        _ => string.Empty
+    };
+
+    if (Button != null)
+    {
+        Button.OverrideText(
+            CurrentHerbsLimited
+                ? $"{CurrentName} - {CurrentHerbsText}"
+                : CurrentName);
     }
+}
     private static Func<HerbalistExposedModifier, bool> ExposedPredicate { get; } =
         msModifier => msModifier.Herbalist.AmOwner;
     

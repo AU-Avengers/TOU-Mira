@@ -19,10 +19,8 @@ public sealed class BarkeeperSpillButton : TownOfUsRoleButton<BarkeeperRole>
     public LobbyNotificationMessage? NotifMessage;
     protected override void OnClick()
     {
-        OverrideName(TouLocale.GetParsed("TouRoleBarkeeperSpilling"));
-        NotifMessage = Helpers.CreateAndShowNotification(
-            $"<b>Your spilled drink will take {EffectDuration}s to take effect for others!</b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper.LoadAsset());
+        var message = TouLocale.GetParsed("TouRoleBarkeeperSpillNotification") .Replace("<time>", EffectDuration.ToString(TownOfUsPlugin.Culture));
+        NotifMessage = Helpers.CreateAndShowNotification($"<b>{message}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper.LoadAsset());
         NotifMessage.Text.SetOutlineThickness(0.35f);
         CustomButtonSingleton<BarkeeperRoleblockButton>.Instance.ResetCooldownAndOrEffect();
         var pos = PlayerControl.LocalPlayer.transform.position;

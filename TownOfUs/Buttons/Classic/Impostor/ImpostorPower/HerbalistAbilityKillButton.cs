@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class HerbalistAbilityKillButton : TownOfUsRoleButton<HerbalistRole, PlayerControl>, IDiseaseableButton, IKillButton, ILegacyCapable
 {
-    public override string Name => "Kill";
+    public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown();

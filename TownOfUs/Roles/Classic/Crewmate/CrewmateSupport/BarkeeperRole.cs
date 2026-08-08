@@ -84,7 +84,7 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         var applyHangover = options.Hangover.Value;
         var invertControls = options.InvertControlsOfRoleblocked.Value;
         var targetName = target.CachedPlayerData.PlayerName;
-        var rbText = $"{targetName} was roleblocked!";
+        var rbText = TouLocale.GetParsed("TouRoleBarkeeperRoleblocked").Replace("<player>", targetName);
         var poisonPlayer = false;
         if (player.Data.Role is BootleggerRole)
         {
@@ -114,13 +114,13 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
                 switch (progress)
                 {
                     case PoisonProgress.Begun:
-                        rbText += "\nNext time, they will become sick.";
+                        rbText += "\n" + TouLocale.GetParsed("TouRoleBootleggerPoisonStage1");
                         break;
                     case PoisonProgress.Sick:
-                        rbText += "\nNext time, they will be poisoned.";
+                        rbText += "\n" + TouLocale.GetParsed("TouRoleBootleggerPoisonStage2");
                         break;
                     case PoisonProgress.Poison:
-                        rbText += "\nWait for the poison to kick in.";
+                        rbText += "\n" + TouLocale.GetParsed("TouRoleBootleggerPoisonStage3");
                         break;
                 }
                 var notif = CustomButtonSingleton<BootleggerRoleblockButton>.Instance.NotifMessage;
@@ -163,15 +163,13 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         if (target.AmOwner)
         {
             var iconTarget = TouRoleIcons.Barkeeper.LoadAsset();
-            var msg = immune
-                ? "Someone gave you a drink, but you are too hungover!"
-                : "Someone gave you a drink, you were roleblocked!";
+            var msg = immune ? TouLocale.GetParsed("TouRoleBarkeeperHungover") : TouLocale.GetParsed("TouRoleBarkeeperRoleblockedTarget");
             if (poisonPlayer)
             {
-                msg += "\n<color=#D64042>You feel a sense of impending doom.</color>";
+                msg += "\n<color=#D64042>" + TouLocale.GetParsed("TouRoleBootleggerImpendingDoom") + "</color>";
                 iconTarget = TouRoleIcons.Bootlegger.LoadAsset();
             }
-            ShowNotification(msg, iconTarget);
+                ShowNotification(msg, iconTarget);
         }
 
 
