@@ -156,7 +156,7 @@
   <string name="YouWereAn">Jij was een</string>
   <string name="YouWereThe">Jij was de</string>
   <string name="YouWere">Jij was</string>
-  <string name="DiedByString">[cod] Door [player]</string>
+  <string name="DiedByString">\%cod\% Door \%player\%</string>
   <string name="DiedToDisconnect">Ontkoppeld</string>
   <string name="DiedToEjection">Uitwerping</string>
   <string name="DiedToKiller">Vermoord</string>
@@ -219,15 +219,14 @@
   <string name="TouOptionAurialSenseDuration">Zintuiglijke duur</string>
   <string name="TouRoleCleric">Geestelijke</string>
   <string name="TouRoleClericIntroBlurb">Red de bemanningsleden</string>
-  <string name="TouRoleClericTabDescription">Verwijder negatieve effecten van bemanningsleden en 
- cast Barrières om alle interacties volledig te stoppen</string>
+  <string name="TouRoleClericTabDescription">Verwijder negatieve effecten van bemanningsleden en \%nl\% cast Barrières om alle interacties volledig te stoppen</string>
   <string name="TouRoleClericWikiDescription">De Geestelijke is een beschermende Bemanningslid die Bemanningsleden kan beschermen door hun negatieve effecten teniet te doen en barrières om hen heen te plaatsen om interacties te voorkomen.</string>
   <string name="TouRoleClericBarrier">Barrière</string>
-  <string name="TouRoleClericBarrierWikiDescription">Voorkom dat een bemanningslid wordt aangevallen. Het schild houdt voor [BarrierCooldown] seconden vast.</string>
+  <string name="TouRoleClericBarrierWikiDescription">Voorkom dat een bemanningslid wordt aangevallen. Het schild houdt voor \%BarrierCooldown\% seconden vast.</string>
   <string name="TouRoleClericCleanse">Reinig</string>
   <string name="TouRoleClericCleanseWikiDescription">Verwijder alle negatieve effecten op een speler. (Overgoten, Gehackt, Infectie, Gechanteerd, Blind, Flits en Hypnose)</string>
   <string name="TouRoleClericMessageTitle">Geestelijke Feedback:</string>
-  <string name="TouRoleClericCleansedEffects">Effecten op [player] gereinigd:</string>
+  <string name="TouRoleClericCleansedEffects">Effecten op \%player\% gereinigd:</string>
   <string name="TouOptionClericBarrierCooldown">Barrière Afkoelperiode</string>
   <string name="TouOptionClericBarrierDuration">Barrière Duur</string>
   <string name="TouOptionClericCleanseCooldown">Reinigen Afkoelperiode</string>
@@ -259,7 +258,7 @@
   <string name="TouRoleEngineerWikiDescription">De Werktuigkundige is een ondersteunende rol binnen de bemanning die op afstand ventilatieopeningen kan openen en sabotages kan repareren.</string>
   <string name="TouRoleEngineerFix">Repareer</string>
   <string name="TouRoleEngineerFixing">Repareren</string>
-  <string name="TouRoleEngineerFixWikiDescription">Het maakt niet uit waar je je op de kaart bevindt, je kunt je repareerknop gebruiken om de actieve sabotage onmiddellijk te verhelpen. Je kunt dit [engiMaxFixes] keer per spel doen.</string>
+  <string name="TouRoleEngineerFixWikiDescription">Het maakt niet uit waar je je op de kaart bevindt, je kunt je repareerknop gebruiken om de actieve sabotage onmiddellijk te verhelpen. Je kunt dit \%engiMaxFixes\% keer per spel doen.</string>
   <string name="TouOptionEngineerMaxVents">Ventilatieschacht-Gebruiken Per Spel</string>
   <string name="TouOptionEngineerVentCooldown">Ventilatie afkoelperiode</string>
   <string name="TouOptionEngineerVentDuration">Ventilatie duur</string>
