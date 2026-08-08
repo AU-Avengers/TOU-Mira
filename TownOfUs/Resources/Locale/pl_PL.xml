@@ -111,7 +111,7 @@
   <string name="Modifiers">Modyfikatory</string>
   <string name="Terminology">Terminologia</string>
   <string name="GameSettings">Ustawienia Gry</string>
-  <string name="TermsPageCount">Sekcja [so]/[st] | Strona[po]/[pt]</string>
+  <string name="TermsPageCount">Sekcja \%so\%/\%st\% | Strona\%po\%/\%pt\%</string>
   <string name="Amount">Ilość</string>
   <string name="Chance">Szansa</string>
   <string name="Options">Opcje</string>
@@ -121,7 +121,7 @@
   <string name="WikiSettingsMapsSabotageSettingsTitle">Ustawienia Map/Sabotaży</string>
   <string name="WikiSettingsBetterMapsSettingsTitle">Ustawienia Polepszeń Map</string>
   <string name="TermsTargetSymbolsTitle">Symbole Celów</string>
-  <string name="TermsTargetSymbolsInfo">Symbole Celów pojawiają się przy nazwie gracza na spotkaniach oraz podczas gry i są one przeważnie widoczne tylko dla ról do których należą oraz/bądź martwych. • Cel Kata jest zaznaczony za pomocą [color=#643B1F]X[/color] • Heretycy Inkwizytora są zaznaczeni za pomocą [color=#D94291]$[/color] dla martwych. • Cel Wróżki jest zaznaczony za pomocą [color=#B3FFFF]★[/color]</string>
+  <string name="TermsTargetSymbolsInfo">Symbole Celów pojawiają się przy nazwie gracza na spotkaniach oraz podczas gry i są one przeważnie widoczne tylko dla ról do których należą oraz/bądź martwych. • Cel Kata jest zaznaczony za pomocą \%color=#643B1F\%X\%/color\% • Heretycy Inkwizytora są zaznaczeni za pomocą \%color=#D94291\%$\%/color\% dla martwych. • Cel Wróżki jest zaznaczony za pomocą \%color=#B3FFFF\%★\%/color\%</string>
   <string name="TertiaryAbility">Umiejętność Trzecia (Umiejętność Hakowania)</string>
   <string name="UseCrewmateTeamColor">Używaj Podstawowego Koloru Dla Ról Załogi</string>
   <string name="ShowShieldHud">Pokazuj Tarcze w Hudzie Modyfikatorów</string>
@@ -131,10 +131,8 @@
   <string name="TermsProtectionSymbolsInfo">Symbole ochron pojawiają się przy nazwach graczy podczas spotkań oraz/lub w trakcie gry, pokazując że są odporni na większość ataków. Są one zwykle widoczne jedynie dla ról do których należą, dla ich celu, oraz/lub dla martwych. • Tarcze Medyka zaznaczone są \%color=#006600\%+\%/color\% • Bariery Kleryka zaznaczone są \%color=#00FFB3\%Ω\%/color\% • Fortyfikacja Opiekuna zaznaczona jest \%color=#9900FF\%π\%/color\% • Odbicia Zaklinacza Luster zaznaczone są\%color=#90A2C3\%〚〛\%/color\% • Ochrony Wróżki zaznaczone są \%color=#FFD900\%★\%/color\% • Ochrona Anioła Stróża zaznaczona jest \%color=#66AAF3\%☀\%/color\% • błogosławieństwo Wyroczni zaznaczone jest \%color=#BF00BF\%†\%/color\%</string>
   <string name="TermsStatusEffectSymbolsTitle">Symbole Efektów</string>
   <string name="TermsStatusEffectInfo">Symbole Efektów pojawiają się przy nazwach graczy podczas spotkań oraz/lub w trakcie gry, są one zwykle widoczne jedynie dla ról do których należą, dla ich celu, oraz/lub dla martwych. • Oblania Piromana zaznaczone są \%color=#FF4D00\%Δ\%/color\% • Plaga Mory zaznaczona jest \%color=#E6FFB3\%¥\%/color\% • Kontrolowani gracze oznaczeni są \%color=#FF2660\%⦿\%/color\% • Szantażowani gracze oznaczeni są \%color=#2A1119\%M\%/color\% • Hipnoza zaznaczona jest \%color=#D53F42\%@\%/color\% • Klątwa Szamana zaznaczona jest \%color=#FF0000\%乂\%/color\% • Rycerze Monarchy zaznaczeni są \%color=#EA535B\%♠\%/color\%</string>
-  <string name="NeutralKillingTaskHeader">Pozbądź się pozostałych drużyn w jakikolwiek sposób.
-Fałszywe Zadania:</string>
-  <string name="NeutralOutlierTaskHeader">Musisz ukończyć swój cel aby wygrać.
-Fałszywe Zadania:</string>
+  <string name="NeutralKillingTaskHeader">Pozbądź się pozostałych drużyn w jakikolwiek sposób.\%nl\%Fałszywe Zadania:</string>
+  <string name="NeutralOutlierTaskHeader">Musisz ukończyć swój cel aby wygrać.\%nl\%Fałszywe Zadania:</string>
   <string name="NeutralSpectreTaskHeader">Nie żyjesz. Ukończ swoje zadania aby wygrać!</string>
   <string name="SetRoleList">Ustawiona Lista Ról</string>
   <string name="NeutralFactionList">Lista Frakcji Neutralnych</string>
@@ -144,7 +142,7 @@ Fałszywe Zadania:</string>
   <string name="NeutralKillers">Neutralni Zabijający</string>
   <string name="MinimumShort">Min</string>
   <string name="MaximumShort">Maks</string>
-  <string name="TermsCrewRoleAlignmentsInfo">• Role [color=#8CFFFF]śledcze[/color] są w stanie zbierać informacje o innych graczach. Mogą później użyć tej informacji aby dowiedzieć się kto jest z załogą, a kto nie. • Role [color=#8CFFFF]zabijające[/color] mogą [color=#FF8B95]zabić[/color] innych, ale [color=#FF8B95]zabicie[/color] [color=#8CFFFF]Załoganta[/color] może mieć konsekwencje. • Role [color=#8CFFFF]ochronne[/color] mają umiejętności, aby chronić innych graczy oraz czasami samych siebie. • Role [color=#8CFFFF]wpływowe[/color] mogą wpływać na głosowanie podczas spotkania albo mają znacznie mocniejsze umiejętności w porównaniu do reszty [color=#8CFFFF]Załogi[/color]. • Role [color=#8CFFFF]wsparcia[/color] mają możliwość aby pomóc reszcie [color=#8CFFFF]Załogi[/color], albo mogą wesprzeć samych siebie.</string>
+  <string name="TermsCrewRoleAlignmentsInfo">• Role \%color=#8CFFFF\%śledcze\%/color\% są w stanie zbierać informacje o innych graczach. Mogą później użyć tej informacji aby dowiedzieć się kto jest z załogą, a kto nie. • Role \%color=#8CFFFF\%zabijające\%/color\% mogą \%color=#FF8B95\%zabić\%/color\% innych, ale \%color=#FF8B95\%zabicie\%/color\% \%color=#8CFFFF\%Załoganta\%/color\% może mieć konsekwencje. • Role \%color=#8CFFFF\%ochronne\%/color\% mają umiejętności, aby chronić innych graczy oraz czasami samych siebie. • Role \%color=#8CFFFF\%wpływowe\%/color\% mogą wpływać na głosowanie podczas spotkania albo mają znacznie mocniejsze umiejętności w porównaniu do reszty \%color=#8CFFFF\%Załogi\%/color\%. • Role \%color=#8CFFFF\%wsparcia\%/color\% mają możliwość aby pomóc reszcie \%color=#8CFFFF\%Załogi\%/color\%, albo mogą wesprzeć samych siebie.</string>
   <string name="CrewmateInvestigative">Załogant Śledczy</string>
   <string name="CrewmateKilling">Załogant Zabijający</string>
   <string name="CrewmatePower">Załogant Wpływowy</string>
@@ -173,17 +171,17 @@ Fałszywe Zadania:</string>
   <string name="Any">Losowy</string>
   <string name="Random">Losowe</string>
   <string name="CrewInvestigative">Zał Śledczy</string>
-  <string name="LoverChatTitle">[player] (Czat Kochanków)</string>
-  <string name="ImpostorChatTitle">[player] (Czat Intruzów)</string>
-  <string name="VampireChatTitle">[player] (Czat Wampirów)</string>
+  <string name="LoverChatTitle">\%player\% (Czat Kochanków)</string>
+  <string name="ImpostorChatTitle">\%player\% (Czat Intruzów)</string>
+  <string name="VampireChatTitle">\%player\% (Czat Wampirów)</string>
   <string name="SystemChatTitle">System</string>
-  <string name="AnticheatMessage">[player] dołączył do gry z następującymi dodatkowymi modami:</string>
-  <string name="AnticheatKickMissingMessage">[player] nie posiada następujących modów:</string>
-  <string name="AnticheatKickChatMessage">[player] został wyrzucony za używanie cheatów:</string>
-  <string name="TermsCrewRoleAlignmentsTitle">Przynależności [color=#8CFFFF]Załogi[/color]</string>
+  <string name="AnticheatMessage">\%player\% dołączył do gry z następującymi dodatkowymi modami:</string>
+  <string name="AnticheatKickMissingMessage">\%player\% nie posiada następujących modów:</string>
+  <string name="AnticheatKickChatMessage">\%player\% został wyrzucony za używanie cheatów:</string>
+  <string name="TermsCrewRoleAlignmentsTitle">Przynależności \%color=#8CFFFF\%Załogi\%/color\%</string>
   <string name="WikiOnBottomRow">Przycisk Wiki Poniżej Głównego UI</string>
   <string name="ZoomOnBottomRow">Przycisk Przybliżenia Poniżej Głównego UI</string>
-  <string name="TermsNeutRoleAlignmentsTitle">Przynależności [color=#8A8A8A]Neutralnych[/color]</string>
+  <string name="TermsNeutRoleAlignmentsTitle">Przynależności \%color=#8A8A8A\%Neutralnych\%/color\%</string>
   <string name="CrewmateKeyword">Załogant</string>
   <string name="CrewKeyword">Zał</string>
   <string name="NeutralKeyword">Neutralny</string>
@@ -294,8 +292,8 @@ Fałszywe Zadania:</string>
   <string name="SonarTargetType">Rodzaj Śledzenia Sonara</string>
   <string name="SonarHeartbeats">Bicia Serc</string>
   <string name="SonarArrows">Strzałki</string>
-  <string name="TermsImpRoleAlignmentsInfo">• Role [color=#FF0000]Skrywające[/color] mogą [color=#FF8B95]zabijać[/color] oraz mają umiejętności które pozwalają im oszukać innych, bądź schować się podczas zabijania. • Role [color=#FF0000]Zabijające[/color] mają ulepszone, bądź dodatkowe umiejętności które pomagają im szczególnie w [color=#FF8B95]zabijaniu[/color] innych. • Role [color=#FF0000]Silne[/color] mają umiejętności które są znacznie mocniejsze niż inne role, dając [color=#FF0000]Intruzom[/color] znaczną przewagę. • Role [color=#FF0000]Wsparcia[/color] mają umiejętności które pomagają w ukryciu ciał, bądź ułatwiają [color=#FF8B95]zabójstwa[/color] innym.</string>
-  <string name="TermsRoleBucketsInfo">Pakiety Ról są tylko używane gdy ustawienie "Lista Ról" jest używana jako generacja ról. Regularny [color=#8CFFFF]Załogant[/color] zawiera role Śledcze, Ochronne i Wsparcia. Regularny [color=#8CFFFF]Intruz[/color] zawiera role Skrywające i Wsparcia. • Regularny [color=#8A8A8A]Neutralny[/color] zawiera role Nieszkodliwe i Szkodliwe. • Specjalny [color=#8CFFFF]Załogant[/color] zawiera role Zabijące i Wpływowe. • Specjalny [color=#FF0000]Intruz[/color] zawiera role Zabijące i Silne. • Specjalny [color=#8A8A8A]Neutralny[/color] zawiera role Zabijące i Odrzutków. • Dziki [color=#8A8A8A]Neutralny[/color] zawiera role Nieszkodliwe, Szkodliwe i Odrzutków. • Nie-[color=#FF0000]Intruz[/color] zawiera wszystkie role [color=#8A8A8A]Neutralne[/color] i [color=#8CFFFF]Załogi[/color]. • Losowe pakiety zawirają jakąkolwiek rolę z danej frakcji (np. Losowy [color=#8CFFFF]Załogant[/color]). • Pakiet Losowy zawiera każdą włączoną rolę.</string>
+  <string name="TermsImpRoleAlignmentsInfo">• Role \%color=#FF0000\%Skrywające\%/color\% mogą \%color=#FF8B95\%zabijać\%/color\% oraz mają umiejętności które pozwalają im oszukać innych, bądź schować się podczas zabijania. • Role \%color=#FF0000\%Zabijające\%/color\% mają ulepszone, bądź dodatkowe umiejętności które pomagają im szczególnie w \%color=#FF8B95\%zabijaniu\%/color\% innych. • Role \%color=#FF0000\%Silne\%/color\% mają umiejętności które są znacznie mocniejsze niż inne role, dając \%color=#FF0000\%Intruzom\%/color\% znaczną przewagę. • Role \%color=#FF0000\%Wsparcia\%/color\% mają umiejętności które pomagają w ukryciu ciał, bądź ułatwiają \%color=#FF8B95\%zabójstwa\%/color\% innym.</string>
+  <string name="TermsRoleBucketsInfo">Pakiety Ról są tylko używane gdy ustawienie "Lista Ról" jest używana jako generacja ról. Regularny \%color=#8CFFFF\%Załogant\%/color\% zawiera role Śledcze, Ochronne i Wsparcia. Regularny \%color=#8CFFFF\%Intruz\%/color\% zawiera role Skrywające i Wsparcia. • Regularny \%color=#8A8A8A\%Neutralny\%/color\% zawiera role Nieszkodliwe i Szkodliwe. • Specjalny \%color=#8CFFFF\%Załogant\%/color\% zawiera role Zabijące i Wpływowe. • Specjalny \%color=#FF0000\%Intruz\%/color\% zawiera role Zabijące i Silne. • Specjalny \%color=#8A8A8A\%Neutralny\%/color\% zawiera role Zabijące i Odrzutków. • Dziki \%color=#8A8A8A\%Neutralny\%/color\% zawiera role Nieszkodliwe, Szkodliwe i Odrzutków. • Nie-\%color=#FF0000\%Intruz\%/color\% zawiera wszystkie role \%color=#8A8A8A\%Neutralne\%/color\% i \%color=#8CFFFF\%Załogi\%/color\%. • Losowe pakiety zawirają jakąkolwiek rolę z danej frakcji (np. Losowy \%color=#8CFFFF\%Załogant\%/color\%). • Pakiet Losowy zawiera każdą włączoną rolę.</string>
   <string name="AnticheatChatTitle">System Anticheat</string>
   <string name="SpectatorCommandList">ogl:oglądaj:ogladaj:widz</string>
   <string name="SummaryCommandList">pods:podsumowanie</string>
@@ -307,16 +305,14 @@ Fałszywe Zadania:</string>
   <string name="NerfMeToggleOff">Wyłączono osłabianie. Twoja wizja będzie normalna.</string>
   <string name="SetNameCommandList">ustawnick:ustaw:zmiennick:nick:nazwa:pseudonim</string>
   <string name="SetNameLobbyError">Nie możesz zmienić swojej nazwy poza lobby!</string>
-  <string name="WelcomeMessageBlurb">Witaj w Town Of Us Mira v[modVersion]!
- Użyj wiki (ikona globu) aby dowiedzieć się więcej o rolach i modyfikatorach. Możesz także użyć /pomoc aby dostać listę wszystkich komend.
-Możesz wyłączyć tą wiadomość w ustawieniach klienta.</string>
+  <string name="WelcomeMessageBlurb">Witaj w Town Of Us Mira v\%modVersion\%!\%nl\% Użyj wiki (ikona globu) aby dowiedzieć się więcej o rolach i modyfikatorach. Możesz także użyć /pomoc aby dostać listę wszystkich komend.\%nl\%Możesz wyłączyć tą wiadomość w ustawieniach klienta.</string>
   <string name="InfoCommandDescription">/info - Ponownie wysyła najnowszą informację z twojej roli (Np. Obserwacje Zgaduli)</string>
   <string name="InfoCommandNoInfo">Nie masz żadnej informacji z roli która może być ponownie wysłana.</string>
   <string name="HelpCommandList">help:pomoc:wsparcie:komendy</string>
   <string name="HelpMessageTitle">Komendy:</string>
   <string name="HelpCommandDescription">/pomoc - Wyświetla tą wiadomość</string>
   <string name="NerfMeCommandDescription">/wizja - Zmniejsza twoją wizję o połowę</string>
-  <string name="SetNameCommandDescription">/ustawnick - Zmienia twój nick na to co wpiszesz po komendzie (np. /ustawnick [randomName]) na jedną grę.</string>
+  <string name="SetNameCommandDescription">/ustawnick - Zmienia twój nick na to co wpiszesz po komendzie (np. /ustawnick \%randomName\%) na jedną grę.</string>
   <string name="SummaryCommandDescription">/podsumowanie - Pokazuje podsumowanie poprzedniej gry</string>
   <string name="RolesCommandDescription">/role - Pokazuje wszystkie obecnie włączone role.</string>
   <string name="RulesCommandDescription">/zasady - Pokazuje zasady ustawione przez hosta.</string>
@@ -327,11 +323,11 @@ Możesz wyłączyć tą wiadomość w ustawieniach klienta.</string>
   <string name="UpCommandLobbyError">Możesz użyć /up tylko w lobby!</string>
   <string name="UpCommandInvalidError">Nieprawidłowe użycie komendy /up. Spróbuj /up [Rola] albo /up [Rola] [NazwaGracza].</string>
   <string name="UpCommandNoRoleError">Wpisz nazwę roli. Prawidłowe użycie /up [Rola] albo /up [Rola] [NazwaGracza].</string>
-  <string name="UpCommandRoleNotFoundError">Rola "[role]" nie została znaleziona. Upewnij się, że rola jest wpisana poprawnie.</string>
-  <string name="UpCommandPlayerNotFoundError">Gracz "[player]" nie został znaleziony. Upewnij się, że nazwa gracza została wpisana poprawnie.</string>
-  <string name="UpCommandSuccess">Poprawnie ustawiono role: [role] na następną grę.</string>
-  <string name="UpCommandSuccessOther">Poprawnie ustawiono role: [role] dla "[player]" na następną grę.</string>
-  <string name="UpCommandSuccessGlobal">Host ustawił role dla gracza "[player]" na następną grę.</string>
+  <string name="UpCommandRoleNotFoundError">Rola "\%role\%" nie została znaleziona. Upewnij się, że rola jest wpisana poprawnie.</string>
+  <string name="UpCommandPlayerNotFoundError">Gracz "%player\%" nie został znaleziony. Upewnij się, że nazwa gracza została wpisana poprawnie.</string>
+  <string name="UpCommandSuccess">Poprawnie ustawiono role: \%role\% na następną grę.</string>
+  <string name="UpCommandSuccessOther">Poprawnie ustawiono role: \%role\% dla "\%player\%" na następną grę.</string>
+  <string name="UpCommandSuccessGlobal">Host ustawił role dla gracza "\%player\%" na następną grę.</string>
   <string name="RulesCommandList">zasady:regulamin</string>
   <string name="RulesMessageTitle">Zasady Lobby</string>
   <string name="RulesMissingError">Host nie ma ustawionych zasad.</string>
@@ -424,8 +420,8 @@ Możesz wyłączyć tą wiadomość w ustawieniach klienta.</string>
   <string name="TouOptionAdvancedUtilTasksToUseDoorlog">Wymagane Wykonane Zadania Do Użycia Doorlogów</string>
   <string name="TouOptionAdvancedUtilTasksToUseVitals">Wymagane Wykonane Zadania Do Użycia Vitalsów</string>
   <string name="TouOptionAdvancedUtilTasksRequiredOnPortableUtils">Wymóg Zadań Jest Potrzebny Do Przenośnych Paneli</string>
-  <string name="TouUnavailableUtilityNotif">Musisz wykonać jeszcze [amount] zadań aby tego użyć!</string>
-  <string name="TouUnavailableUtilityNotifSingle">Musisz wykonać jeszcze [amount] zadanie aby tego użyć!</string>
+  <string name="TouUnavailableUtilityNotif">Musisz wykonać jeszcze \%amount\% zadań aby tego użyć!</string>
+  <string name="TouUnavailableUtilityNotifSingle">Musisz wykonać jeszcze \%amount\% zadanie aby tego użyć!</string>
   <string name="TouOptionAdvancedSaboCamouflageComms">Kamuflaż Na Komunikacji</string>
   <string name="TouOptionAdvancedSaboGlobalCamouflageComms">Przełącz Kamuflaż Na Komunikacji</string>
   <string name="TouOptionAdvancedSaboKillDuringCamoComms">Zabij Kogokolwiek Podczas Kamuflażu</string>
@@ -568,7 +564,7 @@ Możesz wyłączyć tą wiadomość w ustawieniach klienta.</string>
   <string name="TouRoleBlackmailer">Szantażysta</string>
   <string name="TouRoleBlackmailerIntroBlurb">Ucisz Załogę podczas spotkań</string>
   <string name="TouRoleBlackmailerTabDescription">Ucisz członka załogi na następne spotkanie</string>
-  <string name="TouRoleBlackmailerWikiDescription">Szantażysta to Intruz Wsparcia który może powstrzymać gracza przed rozmawianiem (zaznaczony symbolem [symbol]) podczas następnego spotkania</string>
+  <string name="TouRoleBlackmailerWikiDescription">Szantażysta to Intruz Wsparcia który może powstrzymać gracza przed rozmawianiem (zaznaczony symbolem \%symbol\%) podczas następnego spotkania</string>
   <string name="TouRoleBlackmailerBlackmail">Zszantażuj</string>
   <string name="TouRoleBlackmailerBlackmailWikiDescription">Wycisz gracza na następne spotkanie. Nie będzie on w stanie rozmawiać. Nie będzie on w stanie także głosować dopóki ilość żywych osób nie będzie równa, bądź mniejsza niż ta ustawiona. Szantaż będzie widoczny dla innych osób tylko gdy odpowiednie ustawienie będzie przełączone</string>
   <string name="TouOptionBlackmailerNumberOfBlackmailUsesPerGame">Ilość Szantaży Na Grę</string>
