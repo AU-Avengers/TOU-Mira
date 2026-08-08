@@ -278,7 +278,7 @@ Tareas falsas:</string>
   <string name="RolesHeader">[type] Roles</string>
   <string name="GameKeyword">Juego</string>
   <string name="CrewmateKeyword">Tripulante</string>
-  <string name="CrewKeyword">Tripulación</string>
+  <string name="CrewKeyword">Trip</string>
   <string name="NeutralKeyword">Neutral</string>
   <string name="NeutKeyword">Neut</string>
   <string name="ImpostorKeyword">Impostor</string>
