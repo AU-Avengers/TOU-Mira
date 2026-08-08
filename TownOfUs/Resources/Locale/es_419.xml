@@ -227,9 +227,9 @@ Tareas falsas:</string>
   <string name="CrewmateGhost">Fantasma Tripulante</string>
   <string name="NeutralGhost">Fantasma Neutral</string>
   <string name="ImpostorGhost">Fantasma Impostor</string>
-  <string name="CrewmateAfterlife">Tripulante Post Mórtem</string>
-  <string name="NeutralAfterlife">Neutral Post Mórtem</string>
-  <string name="ImpostorAfterlife">Impostor Post Mórtem</string>
+  <string name="CrewmateAfterlife">Tripulante Fantasma</string>
+  <string name="NeutralAfterlife">Neutral Fantasma</string>
+  <string name="ImpostorAfterlife">Impostor Fantasma</string>
   <string name="GameOutlier">Atípico del juego</string>
   <string name="CrewmateInvestigative">Tripulante Investigador</string>
   <string name="CrewmateKilling">Tripulante Asesino</string>
@@ -376,7 +376,7 @@ Tareas falsas:</string>
   <string name="SetNameSimilarError">¡Otro jugador tiene un nombre demasiado parecido a [name]! Prueba con otro nombre.</string>
   <string name="SetNameSuccess">Se cambió tu nombre para la próxima partida a: [name].</string>
   <string name="WelcomeMessageBlurb">¡Bienvenido a Town of Us Mira v[modVersion]! 
-Usa la wiki (el ícono del globo) para conocer más sobre los roles y modificadores, ahí también puedes usar la barra de búsqueda.
+Usa la wiki (el ícono del globo) para conocer más sobre los roles y modificadores, ahí puedes usar la barra de búsqueda.
 También puedes usar /help en el chat para ver la lista de comandos.
 Puedes desactivar este mensaje desde el menú de opciones.</string>
   <string name="InfoCommandList">info</string>
@@ -660,10 +660,10 @@ pero revelan tu ubicación.</string>
   <string name="HnsOptionSnitchLongTaskMultiplier">Multiplicador de tareas largas</string>
   <string name="HnsOptionSnitchNotifyDuration">Duración de la notificación al Buscador</string>
   <!-- Bullicioso - Wiki / Descripción -->
-    <string name="HnsRoleNoisemaker">Bullicioso</string>
-  <string name="HnsRoleNoisemakerTabHint">Pista del Bullicioso</string>
+    <string name="HnsRoleNoisemaker">Alertador</string>
+  <string name="HnsRoleNoisemakerTabHint">Pista del Alertador</string>
   <string name="HnsRoleNoisemakerTabDescription">Al morir, alerta a todos los tripulantes de tu ubicación.</string>
-  <string name="HnsRoleNoisemakerWikiDescription">El Bullicioso es un Tripulante que alerta a todos los jugadores del mapa al morir, mostrando un indicador rojo sobre su cuerpo.</string>
+  <string name="HnsRoleNoisemakerWikiDescription">El Alertador es un Tripulante que alerta a todos los jugadores del mapa al morir, mostrando un indicador rojo sobre su cuerpo.</string>
   <!-- Modificador Gélido - Wiki / Descripción -->
     <string name="HnsModifierFrosty">Gélido</string>
   <string name="HnsModifierFrostyTabDescription">Ralentiza a tu asesino por un corto tiempo.</string>
@@ -2763,7 +2763,7 @@ Asesinatos: [amount] / [total]</string>
   <string name="TouModifierMultitaskerWikiDescription">Todos tus menús son transparentes, lo que te permite ver lo que hay detrás de ellos.</string>
   <!-- Bullicioso -->
       <!-- Bullicioso - Wiki / Descripción -->
-        <string name="TouModifierNoisemaker">Bullicioso</string>
+        <string name="TouModifierNoisemaker">Alertador</string>
   <string name="TouModifierNoisemakerIntroBlurb">Al morir, alertas a todos los jugadores.</string>
   <string name="TouModifierNoisemakerTabDescription">Cuando mueras, enviarás una alerta a todos los jugadores del mapa durante [noiseTime] segundo(s).</string>
   <string name="TouModifierNoisemakerWikiDescription">Después de morir, todos los jugadores del mapa verán un indicador rojo sobre tu cadáver.</string>
