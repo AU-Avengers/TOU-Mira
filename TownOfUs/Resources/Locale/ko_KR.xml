@@ -2339,4 +2339,5 @@
   <string name="TouOptionVampireValidNeutralConversions"></string>
   <string name="TouOptionAmbassadorKillsNeededByAmbassadorOrTeammateToRetrain"></string>
   <string name="TouRoleSurvivor"></string>
+  <string name="NeutKeyword"></string>
 </resources>
