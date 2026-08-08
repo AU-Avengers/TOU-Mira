@@ -2340,4 +2340,21 @@
   <string name="TouOptionAmbassadorKillsNeededByAmbassadorOrTeammateToRetrain"></string>
   <string name="TouRoleSurvivor"></string>
   <string name="NeutKeyword"></string>
+  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription"></string>
+  <string name="TouRoleSpectre"></string>
+  <string name="TouOptionSpectreWin"></string>
+  <string name="TouRoleForensic"></string>
+  <string name="TouOptionForensicReportOn"></string>
+  <string name="TouOptionForensicRoleDuration"></string>
+  <string name="TouRoleSonarWikiDescription"></string>
+  <string name="TouRoleFairy"></string>
+  <string name="TouRoleFairyWikiDescription"></string>
+  <string name="TouOptionFairyOnDeathFairyBecomes"></string>
+  <string name="TouOptionFairyTargetKnowsFairyExists"></string>
+  <string name="TouOptionFairyFairyKnowsRole"></string>
+  <string name="TouRoleSpectreWikiDescription"></string>
+  <string name="TouRoleForensicWikiDescription"></string>
+  <string name="TouRoleSonar"></string>
+  <string name="TouOptionForensicFactionDuration"></string>
+  <string name="TouRoleForensicMessageTitle"></string>
 </resources>
