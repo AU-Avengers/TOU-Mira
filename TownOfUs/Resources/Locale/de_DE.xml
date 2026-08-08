@@ -231,7 +231,7 @@
   <string name="TouRoleMedium">Medium</string>
   <string name="TouRoleMediumIntroBlurb">Schaue Den Spukenden Geistern Zu</string>
   <string name="TouRoleWarden">Wächter</string>
-  <string name="JailorChatTitle">[player] (Gefängniswärter)</string>
+  <string name="JailorChatTitle">%player\% (Gefängniswärter)</string>
   <string name="JaileeChatTitle">%player\% (Verhaftet)</string>
   <string name="TouRoleJailorIntroBlurb">Nehme Die [color=#FF0000FF]Verräter[/color] Gefangen und Exekutiere sie</string>
   <string name="TouRoleSwooper">Unsichtbarer</string>
@@ -403,7 +403,7 @@
   <string name="SetNameLobbyError">Du kannst deinen Namen nicht Außerhalb der Lobby ändern!</string>
   <string name="SetNameRequirementError">Der Spiele Name muss mindestens ein Zeichen lang sein und kann nicht länger als 12 Zeichen sein!</string>
   <string name="SetNameSimilarError">Ein anderer Spieler hat einen Namen zu ähnlich zu [name]! Bitte wähle einen Anderen.</string>
-  <string name="SetNameSuccess">Dein Name wurde für das nächst speil auf :[name] geändert.</string>
+  <string name="SetNameSuccess">Dein Name wurde für das nächste spiel auf :\%name\% geändert.</string>
   <string name="WelcomeMessageBlurb">Wilkomen bei "Town of Us Mira" v[modVersion]!
  Nutze das Wiki (Das Globus Symbol) um mehr Infos über Rollen und Modifikatoren zu bekommen. Nutze Dafür auch gerne die Suchleiste! Amsonsten kannst du auch /help in den Chat schreiben um eine Liste an Befehlen zu bekommen. 
  Du kannst diese Nachricht auch im Menü "Einstellungen" ändern.</string>
@@ -714,20 +714,20 @@ und lass sie ihre Sünden beichten</string>
   <string name="ReverseSkeldMapTooltip">saD dlekS: das mittelgroße raumschiff, welches du kennst und (villeicht) liebst, aber gedreht!</string>
   <string name="DiscordServer">Discord Server</string>
   <string name="TouDraftCancelButton">Draft Abbrechen</string>
-  <string name="TouDraftCancelledNotif">Draft Modus wurde von dem [color=#FFBFCC][b]\Host[/b][/color] abgebrochen!</string>
+  <string name="TouDraftCancelledNotif">Draft Modus wurde von dem \%color=#FFBFCC\%\%b\%\Host\%/b\%/color\% abgebrochen!</string>
   <string name="TouDraftShuffleButton">Mischen</string>
   <string name="TouDraftShuffledNotif">Deine möglichkeiten wurden geändert!</string>
   <string name="TouDraftRandomDescription">Sucht eine komplett zufällige Rolle für dich aus.</string>
-  <string name="TouDraftUnknownRoleLabel">Rolle [id]</string>
+  <string name="TouDraftUnknownRoleLabel">Rolle \%id\%</string>
   <string name="TouDraftUnknownTeamLabel">Unbekannt</string>
   <string name="TouDraftRecapHeader">DRAFT RÜCKBLICK</string>
   <string name="TouDraftRecapModeRole">Rolle</string>
   <string name="TouDraftRecapModeFaction">Fraktion</string>
-  <string name="TouDraftPlayerLabel">Spieler [slot]</string>
+  <string name="TouDraftPlayerLabel">Spieler \%slot\%</string>
   <string name="TouDraftPickPrompt">Suche Deine Rolle Aus!</string>
-  <string name="TouDraftTimerRemaining">[secs] Sekunde(n) Verbliebend</string>
+  <string name="TouDraftTimerRemaining">\%secs\% Sekunde(n) Verbliebend</string>
   <string name="TouDraftRolesPickedLabel">ROLLEN AUSGESUCHT</string>
-  <string name="TouDraftPlayerNumberLabel">Spieler #[num]</string>
+  <string name="TouDraftPlayerNumberLabel">Spieler #\%num\%</string>
   <string name="TouDraftYouLabel">DU</string>
   <string name="TouDraftIsPickingLabel">ist am Wählen...</string>
   <string name="TouDraftIsWaitingLabel">ist am warten</string>
@@ -795,7 +795,7 @@ und lass sie ihre Sünden beichten</string>
   <string name="PlayerColorDarker">Dunkler</string>
   <string name="PlayerColorLighter">Heller</string>
   <string name="GameSettings">Spieleinstellungen</string>
-  <string name="TermsPageCount">Abschnitt [so]/[st] | Seite [po]/[pt]</string>
+  <string name="TermsPageCount">Abschnitt \%so\%/\%st\% | Seite \%po\%/\%pt\%</string>
   <string name="WikiSettingsAssassinSettingsTitle">Assassine Einstellungen</string>
   <string name="WikiSettingsMapsSabotageSettingsTitle">Karten/Sabotage Einstellungen</string>
   <string name="WikiSettingsBetterMapsSettingsTitle">Bessere Karten Einstellungen</string>
@@ -815,6 +815,6 @@ und lass sie ihre Sünden beichten</string>
   <string name="SeekerVisibility">Sucher Sichtbarkeit</string>
   <string name="SeekerPostmortem">Sucher nach Tod</string>
   <string name="SeekerPassive">Sucher Passiv</string>
-  <string name="AnticheatKickMissingMessage">[player] fehlen folgende mods:</string>
+  <string name="AnticheatKickMissingMessage">\%player\% fehlen folgende mods:</string>
   <string name="SpectatorDraftError">Du kannst den Zuschauer nicht während des drafts aktivieren!</string>
 </resources>
