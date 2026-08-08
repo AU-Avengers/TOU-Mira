@@ -2407,7 +2407,7 @@
       <!-- Gigante - Wiki / Descripción -->
         <string name="TouModifierGiant">Gigante</string>
   <string name="TouModifierGiantTabDescription">Eres más grande que un jugador normal y\%nl\%te mueves \%giantSpeed\% veces más lento</string>
-  <string name="TouModifierGiantWikiDescription">Eres más grande que los jugadores normales y además te mueves [giantSpeed] veces más lento que ellos.</string>
+  <string name="TouModifierGiantWikiDescription">Eres más grande que los jugadores normales y además te mueves \%giantSpeed\% veces más lento que ellos.</string>
   <!-- Opciones de Gigante -->
         <string name="TouOptionGiantSpeed">Velocidad</string>
   <!-- Inamovible -->
@@ -2418,8 +2418,7 @@
   <!-- Mini -->
       <!-- Mini - Wiki / Descripción -->
         <string name="TouModifierMini">Mini</string>
-  <string name="TouModifierMiniTabDescription">Eres más pequeño que los jugadores normales
-y además te mueves [miniSpeed] veces más rápido que ellos.</string>
+  <string name="TouModifierMiniTabDescription">Eres más pequeño y además te mueves \%miniSpeed\% veces más rápido.</string>
   <string name="TouModifierMiniWikiDescription">Eres más pequeño que los jugadores normales\%nl\%y además te mueves \%miniSpeed\% veces más rápido que ellos.</string>
   <!-- Opciones de Mini -->
         <string name="TouOptionMiniSpeed">Velocidad</string>
@@ -2427,32 +2426,31 @@ y además te mueves [miniSpeed] veces más rápido que ellos.</string>
       <!-- Radar - Wiki / Descripción -->
         <string name="TouModifierRadar">Radar</string>
   <string name="TouModifierRadarTabDescription">Obtén una flecha que apunta\%nl\%al jugador más cercano.</string>
-  <string name="TouModifierRadarWikiDescription">Tienes una flecha que apunta al jugador más cercano.</string>
+  <string name="TouModifierRadarWikiDescription">Tienes una flecha que apunta \%nl\%al jugador más cercano.</string>
   <!-- Satélite -->
       <!-- Satélite - Wiki / Habilidades -->
         <string name="TouModifierSatellite">Satélite</string>
   <string name="TouModifierSatelliteTabDescription">Puedes emitir una señal para\%nl\%saber dónde hay cuerpos.</string>
-  <string name="TouModifierSatelliteWikiDescription">Puedes buscar cadáveres en el mapa [maxUses] vez(veces) por partida.</string>
+  <string name="TouModifierSatelliteWikiDescription">Puedes buscar cadáveres en el mapa \%maxUses\% vez(veces) por partida.</string>
   <string name="TouModifierSatelliteBroadcast">Emitir</string>
-  <string name="TouModifierSatelliteBroadcastWikiDescription">Puedes buscar cadáveres en el mapa [maxUses] vez(veces) por partida.</string>
-  <string name="TouModifierSatelliteFailedNotif">No se encontraron cadáveres en el mapa.</string>
-  <string name="TouModifierSatelliteSingleNotif">Se encontró un cadáver en el mapa.</string>
-  <string name="TouModifierSatellitePluralNotif">Se encontraron [count] cadáveres en el mapa.</string>
+  <string name="TouModifierSatelliteBroadcastWikiDescription">Puedes buscar cuerpos en el mapa \%maxUses\% vez(veces) por partida.</string>
+  <string name="TouModifierSatelliteFailedNotif">No se encontraron cuerpos en el mapa.</string>
+  <string name="TouModifierSatelliteSingleNotif">Se encontró un cuerpo en el mapa.</string>
+  <string name="TouModifierSatellitePluralNotif">Se encontraron \%count\% cuerpos en el mapa.</string>
   <!-- Opciones de Satélite -->
         <string name="TouOptionSatelliteCooldown">Recarga de Emitir</string>
   <string name="TouOptionSatelliteMaxUses">Usos máximos</string>
   <string name="TouOptionSatelliteOnePerRound">Un uso por ronda</string>
-  <string name="TouOptionSatelliteAllowFirst">Permitir en la primera ronda</string>
+  <string name="TouOptionSatelliteAllowFirst">Permitir en la Primera Ronda</string>
   <!-- Tímido -->
       <!-- Tímido - Wiki / Descripción -->
         <string name="TouModifierShy">Tímido</string>
-  <string name="TouModifierShyTabDescription">Te vuelves transparente cuando
-permaneces quieto durante un breve tiempo.</string>
+  <string name="TouModifierShyTabDescription">Te vuelves transparente cuando\%nl\%permaneces quieto durante un breve tiempo.</string>
   <string name="TouModifierShyWikiDescription">Te camuflas con el entorno y te vuelves transparente al permanecer quieto.</string>
   <!-- Opciones de Tímido -->
-        <string name="TouOptionShyDelay">Retraso de la transparencia</string>
-  <string name="TouOptionShyDuration">Duración de la transparencia</string>
-  <string name="TouOptionFinalOpacity">Opacidad final</string>
+        <string name="TouOptionShyDelay">Retraso de la Transparencia</string>
+  <string name="TouOptionShyDuration">Duración de la Transparencia</string>
+  <string name="TouOptionFinalOpacity">Opacidad Final</string>
   <!-- Sexto Sentido -->
       <!-- Sexto Sentido - Wiki / Descripción -->
         <string name="TouModifierSixthSense">Sexto Sentido</string>
@@ -2461,8 +2459,7 @@ permaneces quieto durante un breve tiempo.</string>
   <!-- Sabueso -->
       <!-- Sabueso - Wiki / Descripción -->
         <string name="TouModifierSleuth">Sabueso</string>
-  <string name="TouModifierSleuthTabDescription">Conoce el rol de los cadáveres
-que reportas.</string>
+  <string name="TouModifierSleuthTabDescription">Conoce el rol de los cadáveres\%nl\%que reportas.</string>
   <string name="TouModifierSleuthWikiDescription">Verás el rol de los cadáveres que reportes.</string>
   <!-- Desempate -->
       <!-- Desempate - Wiki / Descripción -->
@@ -2473,8 +2470,7 @@ que reportas.</string>
     <!-- Dispersor -->
       <!-- Dispersor - Wiki / Habilidades -->
         <string name="TouModifierDisperser">Dispersor</string>
-  <string name="TouModifierDisperserIntroBlurb">Puedes dispersar a los jugadores
-hacia ductos aleatorios del mapa.</string>
+  <string name="TouModifierDisperserIntroBlurb">Puedes dispersar a los jugadores\%nl\%hacia ductos aleatorios del mapa.</string>
   <string name="TouModifierDisperserTabDescription">Separa a la tripulación.</string>
   <string name="TouModifierDisperserWikiDescription">Dispersa a todos los jugadores hacia un ducto aleatorio del mapa, siempre que no sean Inamovibles. No puedes tener ningún otro modificador de botón junto con Dispersor.</string>
   <string name="TouModifierDisperserDisperse">Dispersar</string>
@@ -2491,37 +2487,37 @@ hacia ductos aleatorios del mapa.</string>
   <string name="TouModifierTelepathIntroBlurbNoDeath">Se te informará cuando un compañero mate o muera.</string>
   <string name="TouModifierTelepathIntroBlurb">Se te informará cuando un compañero mate.</string>
   <string name="TouModifierTelepathDescriptionBasic">Sabrás cuándo tu compañero de equipo mate</string>
-  <string name="TouModifierTelepathDescriptionIfKnowWhen">Sabrás cuándo [and] dónde mata tu compañero de equipo</string>
+  <string name="TouModifierTelepathDescriptionIfKnowWhen">Sabrás cuándo \%and\% dónde mata tu compañero de equipo</string>
   <string name="TouModifierTelepathDescriptionAddIfKnowDeath">, sabe cuándo mueren</string>
-  <string name="TouModifierTelepathDescriptionAddIfKnowDeathLoc">, sabe cuándo [and] dónde mueren.</string>
-  <string name="TouModifierTelepathKillNotif">Tu compañero de equipo, [player], ha matado.</string>
-  <string name="TouModifierTelepathDeathNotif">¡Tu compañero de equipo, [player], ha muerto!</string>
-  <string name="TouModifierTelepathGuessNotif">¡Tu compañero de equipo, [player], identificó correctamente a [victim] como [role]!</string>
-  <string name="TouModifierTelepathMisguessNotif">¡Tu compañero de equipo, [player], intentó identificar a [victim] como [role], pero falló!</string>
+  <string name="TouModifierTelepathDescriptionAddIfKnowDeathLoc">, sabe cuándo \%and\% dónde mueren.</string>
+  <string name="TouModifierTelepathKillNotif">Tu compañero de equipo, \%player\%, ha matado.</string>
+  <string name="TouModifierTelepathDeathNotif">¡Tu compañero de equipo, \%player\%, ha muerto!</string>
+  <string name="TouModifierTelepathGuessNotif">¡Tu compañero de equipo, \%player\%, adivinó correctamente a \%victim\% como \%role\%!</string>
+  <string name="TouModifierTelepathMisguessNotif">¡Tu compañero de equipo, \%player\%, intentó adivinar a \%victim\% como \%role\%, pero falló!</string>
   <!-- Opciones de Telépata -->
-        <string name="TouOptionTelepathKnowKill">Saber dónde mata tu compañero</string>
-  <string name="TouOptionTelepathKnowDeath">Saber cuándo muere tu compañero</string>
-  <string name="TouOptionTelepathKnowDeathLoc">Saber dónde muere tu compañero</string>
+        <string name="TouOptionTelepathKnowKill">Saber dónde mata tu compañero de equipo</string>
+  <string name="TouOptionTelepathKnowDeath">Saber cuándo muere tu compañero de equipo</string>
+  <string name="TouOptionTelepathKnowDeathLoc">Saber dónde muere tu compañero de equipo</string>
   <string name="TouOptionTelepathArrowDuration">Duración de la flecha del cuerpo</string>
-  <string name="TouOptionTelepathKnowGoodGuess">Saber cuándo tu compañero acierta una identificación</string>
-  <string name="TouOptionTelepathKnowBadGuess">Saber cuándo tu compañero falla una identificación</string>
+  <string name="TouOptionTelepathKnowGoodGuess">Saber cuándo tu compañero de equipo acierta al adivinar</string>
+  <string name="TouOptionTelepathKnowBadGuess">Saber cuándo tu compañero de equipo falla al adivinar</string>
   <!-- Rezagado -->
       <!-- Rezagado - Wiki / Descripción -->
         <string name="TouModifierUnderdog">Rezagado</string>
-  <string name="TouModifierUnderdogIntroBlurb">Tu tiempo de recarga para asesinar es menor cuando eres el único impostor.</string>
+  <string name="TouModifierUnderdogIntroBlurb">Tu tiempo de recarga para matar es menor cuando eres el único impostor.</string>
   <string name="TouModifierUnderdogTabDescription">Cuando eres el único impostor, tu\%nl\%tiempo de recarga para matar se reduce.</string>
   <string name="TouModifierUnderdogWikiDescription">Tu tiempo de recarga para matar es menor si estás solo o si tu compañero de equipo ha muerto.</string>
   <!-- Opciones de Rezagado -->
         <string name="TouOptionUnderdogBonus">Bonificación al tiempo de recarga para asesinar</string>
-  <string name="TouOptionIncreasedWhen2">Aumento del tiempo de recarga para asesinar con 2 o más Impostores</string>
+  <string name="TouOptionIncreasedWhen2">Aumento del Tiempo de Recarga para asesinar con 2 o más Impostores</string>
   <!-- Modificadores de Atacantes (Neutrales Asesinos/Impostores) -->
     <!-- Asesino -->
       <!-- Asesino - Wiki / Descripción -->
         <string name="TouModifierAssassin">Asesino</string>
   <string name="TouModifierAssassinIntroBlurb">Adivina jugadores durante reuniones.</string>
   <string name="TouModifierAssassinWikiDescription">Tienes la capacidad de adivinar el rol de un jugador durante una reunión.</string>
-  <string name="TouModifierAssassinTabDescription">Adivina jugadores durante la reunión.</string>
-  <string name="MisguessSummary">Adivinó erróneamente a [player] como [role]</string>
+  <string name="TouModifierAssassinTabDescription">Adivina jugadores durante las reuniones.</string>
+  <string name="MisguessSummary">Adivinó erróneamente a \%player\% como \%role\%</string>
   <!-- Opciones de Asesino -->
 
         <string name="TouOptionAssassinNeutTitleNone">0 Neut Adivinadores</string>
@@ -2540,8 +2536,8 @@ hacia ductos aleatorios del mapa.</string>
   <string name="TouOptionAssassinNeutEvil">Malvado</string>
   <string name="TouOptionAssassinNeutKilling">Asesino</string>
   <string name="TouOptionAssassinNeutOutlier">Atípico</string>
-  <string name="TouOptionAssassinVanillaCrew">Sin modificar</string>
-  <string name="TouOptionAssassinBasicCrew">Tripulación básica</string>
+  <string name="TouOptionAssassinVanillaCrew">Sin mods</string>
+  <string name="TouOptionAssassinBasicCrew">Tripulación Básica</string>
   <string name="TouOptionAssassinInvestCrew">Investigación</string>
   <string name="TouOptionAssassinCrewMods">Tripulante</string>
   <string name="TouOptionAssassinUtilityCrewMods">Utilidad de Tripulante</string>
@@ -2552,21 +2548,21 @@ hacia ductos aleatorios del mapa.</string>
   <!-- Doble Tiro -->
       <!-- Doble Tiro - Wiki / Descripción -->
         <string name="TouModifierDoubleShot">Doble Tiro</string>
-  <string name="TouModifierDoubleShotIntroBlurb">Obtienes una segunda oportunidad al adivinar.</string>
+  <string name="TouModifierDoubleShotIntroBlurb">Obtienes una segunda oportunidad para adivinar.</string>
   <string name="TouModifierDoubleShotWikiDescription">Obtienes una segunda oportunidad si fallas al adivinar el rol de un jugador durante una reunión.</string>
   <string name="TouModifierDoubleShotTabDescription">Tienes una oportunidad adicional\%nl\%para adivinar.</string>
   <!-- Acelerador -->
       <!-- Acelerador - Wiki / Descripción -->
         <string name="TouModifierOverclocker">Acelerador</string>
   <string name="TouModifierOverclockerIntroBlurb">Reduce temporalmente tus\%nl\%tiempos de recarga.</string>
-  <string name="TouModifierOverclockerWikiDescription">Puedes reducir tus tiempos de recarga a costa de que sean más largos una vez que termine el Overclock. Después de una ronda adicional, volverán a la normalidad.</string>
-  <string name="TouModifierOverclockerTabDescription">Reduce temporalmente tus tiempos de recarga, a un costo.</string>
+  <string name="TouModifierOverclockerWikiDescription">Puedes reducir tus tiempos de recarga a cambio de que estos sean más largos una vez que termine el efecto. Después de una ronda adicional, tus tiempos de recarga volverán a la normalidad.</string>
+  <string name="TouModifierOverclockerTabDescription">Reduce temporalmente los tiempos de recarga, pero con un costo.</string>
   <string name="TouModifierOverclockerOverclock">Acelerar</string>
   <string name="TouModifierOverclockerOverclocked">Acelerado</string>
-  <string name="TouModifierOverclockerUnderclocked">Agotado</string>
-  <string name="TouModifierOverclockerOverclockNotif">¡Tus tiempos de recarga ahora son [multi] veces más rápidos!</string>
-  <string name="TouModifierOverclockerUnderclockNotif">Tus tiempos de recarga ahora son [multi] veces más lentos.</string>
-  <string name="TouModifierOverclockerUnderclockMeetingNotif">Después de esta reunión, tus tiempos de recarga serán [multi] veces más lentos.</string>
+  <string name="TouModifierOverclockerUnderclocked">Retardado</string>
+  <string name="TouModifierOverclockerOverclockNotif">¡Tus tiempos de recarga ahora son \%multi\% veces más rápidos!</string>
+  <string name="TouModifierOverclockerUnderclockNotif">Tus tiempos de recarga ahora son \%multi\% veces más lentos.</string>
+  <string name="TouModifierOverclockerUnderclockMeetingNotif">Después de esta reunión, tus tiempos de recarga serán \%multi\% veces más lentos.</string>
   <!-- Modificadores de Tripulante -->
     <!-- Consecuencias -->
       <!-- Consecuencias - Wiki / Descripción -->
@@ -2574,151 +2570,143 @@ hacia ductos aleatorios del mapa.</string>
   <string name="TouModifierAftermathIntroBlurb">Al morir, activas las habilidades de quien te asesinó.</string>
   <string name="TouModifierAftermathTabDescription">¡Quien te asesinó se verá obligado\%nl\%a usar sus habilidades!</string>
   <string name="TouModifierAftermathWikiDescription">Después de morir, quien te asesinó se verá obligado a usar sus habilidades sobre tu cuerpo o sobre sí mismo.</string>
-  <string name="TouModifierAftermathTriggeredNotif">[player] era [modifier], obligándote a usar tu habilidad.</string>
+  <string name="TouModifierAftermathTriggeredNotif">\%player\% era \%modifier\%, obligándote a usar tu habilidad.</string>
   <!-- Cebo -->
       <!-- Cebo - Wiki / Descripción -->
         <string name="TouModifierBait">Cebo</string>
-  <string name="TouModifierBaitIntroBlurb">Obligas a quien te asesinó a reportar tu cuerpo.</string>
-  <string name="TouModifierBaitTabDescription">Obliga a quien te asesinó a auto-reportarse.</string>
-  <string name="TouModifierBaitWikiDescription">Después de morir, quien te asesinó se auto-reportará, reportando tu cuerpo.</string>
-  <string name="TouModifierBaitTriggeredNotif">[player] era [modifier], obligándote a auto-reportar.</string>
+  <string name="TouModifierBaitIntroBlurb">Obliga a quien te asesine a reportar tu cuerpo.</string>
+  <string name="TouModifierBaitTabDescription">Obliga a quien te asesinó a auto-reportar.</string>
+  <string name="TouModifierBaitWikiDescription">Después de morir, quien te asesinó auto-reportará tu cuerpo.</string>
+  <string name="TouModifierBaitTriggeredNotif">\%player\% era \%modifier\%, obligándote a auto-reportar.</string>
   <!-- Opciones de Cebo -->
-        <string name="TouOptionBaitMinDelay">Retraso mín del auto-reporte</string>
-  <string name="TouOptionBaitMaxDelay">Retraso máx del auto-reporte</string>
+        <string name="TouOptionBaitMinDelay">Retraso Mínimo del Auto-Reporte</string>
+  <string name="TouOptionBaitMaxDelay">Retraso Máximo del Auto-Reporte</string>
   <!-- Celebridad -->
       <!-- Celebridad - Wiki / Descripción -->
         <string name="TouModifierCelebrity">Celebridad</string>
   <string name="TouModifierCelebrityIntroBlurb">Revelas información sobre tu muerte durante la reunión.</string>
   <string name="TouModifierCelebrityTabDescription">Anuncia cómo moriste al fallecer.</string>
   <string name="TouModifierCelebrityWikiDescription">Después de morir, durante la reunión se revelarán detalles sobre tu muerte, como el lugar donde fuiste asesinado y el rol que te asesinó.</string>
-  <string name="TouModifierCelebrityPopup">¡La Celebridad, [player], ha muerto! (Chisme en el chat)</string>
+  <string name="TouModifierCelebrityPopup">¡La Celebridad, \%player\%, ha muerto! (Chisme en el chat)</string>
   <string name="TouRoleCelebrityMessageTitle">Informe de la Celebridad</string>
-  <string name="TouModifierCelebrityDetailsSelf">¡La [modifier], [player], ha muerto!
-Ubicación: [room]
-Muerte: Suicidio
-Hace: [timeAgo] segundos.</string>
-  <string name="TouModifierCelebrityDetailsKilled">¡La [modifier], [player], fue [killed]!
-Ubicación: [room]
-Muerte: A manos del [role]
-Hace: [timeAgo] segundos.</string>
+  <string name="TouModifierCelebrityDetailsSelf">¡La \%modifier\%, \%player\%, ha muerto!\%nl\%Ubicación: \%room\%\%nl\%Muerte: Suicidio\%nl\%Hace: \%timeAgo\% segundos.</string>
+  <string name="TouModifierCelebrityDetailsKilled">¡La \%modifier\%, \%player\%, fue \%killed\%!\%nl\%Ubicación: \%room\%\%nl\%Muerte: A manos de \%role\%\%nl\%Hace: \%timeAgo\% segundos.</string>
   <!-- Limitado -->
       <!-- Limitado - Wiki / Descripción -->
         <string name="TouModifierCircumvent">Limitado</string>
   <string name="TouModifierCircumventIntroBlurb">Tu capacidad para usar ductos es limitada.</string>
   <string name="TouModifierCircumventIntroBlurbNone">No tienes la capacidad de usar ductos.</string>
   <string name="TouModifierCircumventTabDescriptionNone">No puedes usar ductos.</string>
-  <string name="TouModifierCircumventTabDescription">Ductos restantes: [amount]</string>
+  <string name="TouModifierCircumventTabDescription">Ductos restantes: \%amount\%</string>
   <string name="TouModifierCircumventWikiDescription">Tu capacidad para usar ductos por el mapa está muy limitada o incluso puede estar completamente deshabilitada.</string>
   <!-- Cuota Mortal -->
       <!-- Cuota Mortal - Wiki / Descripción -->
         <string name="TouModifierDeadlyQuota">Cuota Mortal</string>
-  <string name="TouModifierDeadlyQuotaIntroBlurb">Debes asesinar al menos a una persona.</string>
-  <string name="TouModifierDeadlyQuotaIntroBlurbPlural">Debes asesinar al menos a [amount] personas.</string>
-  <string name="TouModifierDeadlyQuotaTabDescription">¡Cumple tu cuota o perderás!
-Asesinatos: [amount] / [total]</string>
-  <string name="TouModifierDeadlyQuotaWikiDescription">Perderás si no cumples tu cuota. Para hacerlo, debes asesinar a una cantidad determinada de personas, elegida al inicio de la partida.</string>
-  <string name="TouModifierDeadlyQuotaWarningNotif">Aún no has comenzado a cumplir tu cuota. PERDERÁS si los Impostores ganan y no alcanzas tu cuota de [amount] antes de que termine la partida.</string>
+  <string name="TouModifierDeadlyQuotaIntroBlurb">Debes matar al menos a un jugador.</string>
+  <string name="TouModifierDeadlyQuotaIntroBlurbPlural">Debes matar al menos a \%amount\% jugadores.</string>
+  <string name="TouModifierDeadlyQuotaTabDescription">¡Cumple tu cuota o perderás!\%nl\%Muertes: \%amount\% / \%total\%</string>
+  <string name="TouModifierDeadlyQuotaWikiDescription">Perderás si no cumples tu cuota. Para hacerlo, debes matar a una cantidad determinada de jugadores, elegida al inicio de la partida.</string>
+  <string name="TouModifierDeadlyQuotaWarningNotif">Aún no has comenzado a cumplir tu cuota. PERDERÁS si los Impostores ganan y no alcanzas tu cuota de \%amount\% antes de que termine la partida.</string>
   <!-- Enfermo -->
       <!-- Enfermo - Wiki / Descripción -->
         <string name="TouModifierDiseased">Enfermo</string>
   <string name="TouModifierDiseasedIntroBlurb">Al morir, aumentas el tiempo\%nl\%de recarga de quien te mató.</string>
-  <string name="TouModifierDiseasedTabDescription">Aumenta el tiempo de recarga  de quien te mató.</string>
-  <string name="TouModifierDiseasedWikiDescription">El tiempo de recarga de quien te mató se multiplica por [cooldownMultiplier].</string>
-  <string name="TouModifierDiseasedTriggeredNotif">[player] era [modifier], por lo que tu tiempo de recarga para matar se multiplicó por [cooldownMultiplier].</string>
+  <string name="TouModifierDiseasedTabDescription">Aumenta el tiempo de recarga de quien te mató.</string>
+  <string name="TouModifierDiseasedWikiDescription">El tiempo de recarga de quien te mató se multiplica por \%cooldownMultiplier\%.</string>
+  <string name="TouModifierDiseasedTriggeredNotif">\%player\% era \%modifier\%, por lo que tu tiempo de recarga para matar se multiplicó por \%cooldownMultiplier\%.</string>
   <!-- Opciones de Enfermo -->
-        <string name="TouOptionDiseasedCooldownModifier">Multiplicador de recarga de Enfermo</string>
+        <string name="TouOptionDiseasedCooldownModifier">Multiplicador de Recarga del Enfermo</string>
   <!-- Gélido -->
       <!-- Gélido - Wiki / Descripción -->
         <string name="TouModifierFrosty">Gélido</string>
   <string name="TouModifierFrostyIntroBlurb">Haz más lento a tu asesino cuando mueras.</string>
   <string name="TouModifierFrostyTabDescription">Ralentiza temporalmente a quien te mató.</string>
-  <string name="TouModifierFrostyWikiDescription">¡Después de morir, quien te mató se moverá más lento!</string>
-  <string name="TouModifierFrostyTriggeredNotif">[player] era [modifier], por lo que te moverás más lento durante [time] segundos.</string>
+  <string name="TouModifierFrostyWikiDescription">Después de morir, ¡quien te mató se moverá más lento!</string>
+  <string name="TouModifierFrostyTriggeredNotif">\%player\% era \%modifier\%, por lo que te moverás más lento durante \%time\% segundos.</string>
   <!-- Opciones de Gélido -->
-        <string name="TouOptionFrostyChillDuration">Duración</string>
-  <string name="TouOptionFrostyChillStartSpeed">Ralentización inicial</string>
+        <string name="TouOptionFrostyChillDuration">Duración de Ralentización</string>
+  <string name="TouOptionFrostyChillStartSpeed">Velocidad Inicial de Ralentización</string>
   <!-- Investigador -->
       <!-- Investigador - Wiki / Descripción -->
           <string name="TouModifierInvestigatorIntroBlurb">Puedes ver las huellas de los demás.</string>
   <string name="TouModifierInvestigatorTabDescription">Ve las huellas de todos.</string>
-  <string name="TouModifierInvestigatorWikiDescription">El Investigador puede ver las huellas de los jugadores durante toda la partida. Las huellas de los jugadores Esfumados no serán visibles para el Investigador.</string>
+  <string name="TouModifierInvestigatorWikiDescription">El Investigador puede ver las huellas de los jugadores durante toda la partida. Las huellas del Esfumador no serán visibles para el Investigador.</string>
   <!-- Multitarea -->
       <!-- Multitarea - Wiki / Descripción -->
         <string name="TouModifierMultitasker">Multitarea</string>
   <string name="TouModifierMultitaskerIntroBlurb">Puedes ver a través de las tareas.</string>
   <string name="TouModifierMultitaskerTabDescription">Tus tareas son transparentes.</string>
-  <string name="TouModifierMultitaskerWikiDescription">Todos tus menús son transparentes, lo que te permite ver lo que hay detrás de ellos.</string>
+  <string name="TouModifierMultitaskerWikiDescription">Todos tus menús son transparentes, ¡lo que te permite ver lo que pasa detrás de ellos!</string>
   <!-- Bullicioso -->
       <!-- Bullicioso - Wiki / Descripción -->
         <string name="TouModifierNoisemaker">Bullicioso</string>
   <string name="TouModifierNoisemakerIntroBlurb">Al morir, alertas a todos los jugadores.</string>
   <string name="TouModifierNoisemakerTabDescription">Cuando mueras, enviarás una alerta\%nl\%a todos los jugadores durante \%noiseTime\% seg.</string>
-  <string name="TouModifierNoisemakerWikiDescription">Después de morir, todos los jugadores del mapa verán un indicador rojo sobre tu cadáver.</string>
+  <string name="TouModifierNoisemakerWikiDescription">Después de morir, todos los jugadores del mapa verán un indicador rojo hacia tu cadáver.</string>
   <!-- Opciones de Bullicioso -->
-        <string name="TouOptionNoisemakerImpAlert">Los Impostores reciben la alerta</string>
-  <string name="TouOptionNoisemakerNeutAlert">Los Neutrales reciben la alerta</string>
-  <string name="TouOptionNoisemakerCommsPreventsAlert">El sabotaje de Comunicaciones impide la alerta</string>
-  <string name="TouOptionNoisemakerOnlyWithBody">Solo se activa si existe un cuerpo</string>
-  <string name="TouOptionNoisemakerAlertDuration">Duración de la alerta</string>
+        <string name="TouOptionNoisemakerImpAlert">Los Impostores Reciben la Alerta</string>
+  <string name="TouOptionNoisemakerNeutAlert">Los Neutrales Reciben la Alerta</string>
+  <string name="TouOptionNoisemakerCommsPreventsAlert">Sabotear Comunicaciones Impide la Alerta</string>
+  <string name="TouOptionNoisemakerOnlyWithBody">Sólo Activar si Existe un Cuerpo</string>
+  <string name="TouOptionNoisemakerAlertDuration">Duración de la Alerta</string>
   <!-- Guardia -->
       <!-- Guardia - Wiki / Descripción -->
         <string name="TouModifierOperative">Guardia</string>
   <string name="TouModifierOperativeIntroBlurb">Usa los sistemas de seguridad\%nl\%desde cualquier lugar.</string>
-  <string name="TouModifierOperativeTabDescription">Utiliza las cámaras desde cualquier lugar.</string>
+  <string name="TouModifierOperativeTabDescription">Utiliza las Cámaras desde cualquier lugar.</string>
   <string name="TouModifierOperativeWikiDescription">Usa las cámaras en cualquier momento con una batería de carga limitada.</string>
   <!-- Opciones de Guardia -->
-        <string name="TouOptionOperativeMiraDoorlog">Moverse mientras usa el registro de puertas</string>
-  <string name="TouOptionOperativeStartingCharge">Carga inicial</string>
-  <string name="TouOptionOperativeChargedEachRound">Carga de batería por ronda</string>
-  <string name="TouOptionOperativeChargedPerTask">Carga de batería por tarea</string>
-  <string name="TouOptionOperativeDisplayCooldown">Tiempo de recarga de la pantalla de seguridad</string>
-  <string name="TouOptionOperativeMaxDisplayDuration">Duración máx de la pantalla de seguridad</string>
+        <string name="TouOptionOperativeMiraDoorlog">Moverse mientras se usa el Registro de Puertas de Mira</string>
+  <string name="TouOptionOperativeStartingCharge">Carga Inicial</string>
+  <string name="TouOptionOperativeChargedEachRound">Carga de Batería por Ronda</string>
+  <string name="TouOptionOperativeChargedPerTask">Carga de Batería por Tarea</string>
+  <string name="TouOptionOperativeDisplayCooldown">Tiempo de Recarga del Panel de Seguridad</string>
+  <string name="TouOptionOperativeMaxDisplayDuration">Duración Máxima del Panel de Seguridad</string>
   <!-- Podrido -->
       <!-- Podrido - Wiki / Descripción -->
         <string name="TouModifierRotting">Podrido</string>
   <string name="TouModifierRottingIntroBlurb">Tu cuerpo se pudrirá al morir.</string>
-  <string name="TouModifierRottingTabDescription">Tu cuerpo se pudrirá después de [rotDelay] segundo(s).</string>
-  <string name="TouModifierRottingWikiDescription">Después de [rotDelay] segundo(s), tu cuerpo se pudrirá, impidiendo que pueda ser reportado.</string>
+  <string name="TouModifierRottingTabDescription">Tu cadáver se pudrirá después de \%rotDelay\% segundo(s).</string>
+  <string name="TouModifierRottingWikiDescription">Después de \%rotDelay\% segundo(s), tu cadáver se pudrirá, impidiendo que pueda ser reportado</string>
   <!-- Opciones de Podrido -->
         <string name="TouOptionRottingDelay">Tiempo Antes de Podrirse</string>
   <!-- Científico -->
       <!-- Científico - Wiki / Descripción -->
         <string name="TouModifierScientist">Científico</string>
-  <string name="TouModifierScientistIntroBlurb">Usa Signos Vitales desde cualquier lugar.</string>
+  <string name="TouModifierScientistIntroBlurb">Usa Vitales desde cualquier lugar.</string>
   <string name="TouModifierScientistTabDescription">Accede a Vitales en cualquier momento\%nl\%y lugar, siempre que tengas carga.</string>
-  <string name="TouModifierScientistWikiDescription">Usa Signos Vitales en cualquier momento con una batería de carga limitada.</string>
+  <string name="TouModifierScientistWikiDescription">Usa Vitales en cualquier momento con una batería de carga limitada.</string>
   <!-- Opciones de Científico -->
         <string name="TouOptionScientistMoveVitals">Moverse mientras usa Vitales</string>
-  <string name="TouOptionScientistStartingCharge">Carga inicial</string>
-  <string name="TouOptionScientistChargedEachRound">Carga de batería por ronda</string>
-  <string name="TouOptionScientistChargedPerTask">Carga de batería por tarea</string>
-  <string name="TouOptionScientistDisplayCooldown">Tiempo de recarga de Vitales</string>
-  <string name="TouOptionScientistMaxDisplayDuration">Duración máx de Vitales</string>
+  <string name="TouOptionScientistStartingCharge">Carga Inicial</string>
+  <string name="TouOptionScientistChargedEachRound">Carga de Batería por Ronda</string>
+  <string name="TouOptionScientistChargedPerTask">Carga de Batería por Tarea</string>
+  <string name="TouOptionScientistDisplayCooldown">Tiempo de Recarga de Vitales</string>
+  <string name="TouOptionScientistMaxDisplayDuration">Duración Máx de Vitales</string>
   <!-- Explorador -->
       <!-- Explorador - Wiki / Descripción -->
         <string name="TouModifierScout">Explorador</string>
-  <string name="TouModifierScoutIntroBlurb">Ves más lejos con las luces encendidas, pero mucho menos en la oscuridad.</string>
+  <string name="TouModifierScoutIntroBlurb">Ve más con luz, pero mucho menos en la oscuridad.</string>
   <string name="TouModifierScoutTabDescription">Tu visión es mayor cuando las\%nl\%luces están encendidas, pero muy baja\%nl\%cuando están apagadas.</string>
-  <string name="TouModifierScoutWikiDescription">Aunque puedes ver el doble que un Tripulante normal, tu visión se reduce cuando las luces están apagadas.</string>
+  <string name="TouModifierScoutWikiDescription">Aunque puedes ver el doble que un Tripulante normal, tu visión falla cuando las luces están apagadas.</string>
   <!-- Espía -->
       <!-- Espía - Wiki / Descripción -->
-        <string name="TouModifierSpyIntroBlurb">Obtén información adicional en la mesa de Admin.</string>
-  <string name="TouModifierSpyTabDescription">Obtén información adicional en la mesa de Admin.</string>
-  <string name="TouModifierSpyWikiDescription">El Espía obtiene información adicional en la mesa de Admin. Ahora no solo ve cuántas personas hay en una sala, sino también quiénes se encuentran en cada una.</string>
+        <string name="TouModifierSpyIntroBlurb">Obtén información adicional en el Panel de Gestión</string>
+  <string name="TouModifierSpyTabDescription">Obtén información adicional en el panel de Gestión.</string>
+  <string name="TouModifierSpyWikiDescription">El Espía obtiene información adicional en el panel de Gestión. Ahora no solo ve cuántas personas hay en una sala, sino también quiénes se encuentran en cada una.</string>
   <!-- Supervisor -->
       <!-- Supervisor - Wiki / Descripción -->
         <string name="TouModifierTaskmaster">Supervisor</string>
   <string name="TouModifierTaskmasterIntroBlurb">Completa tareas aleatorias automáticamente cada ronda.</string>
   <string name="TouModifierTaskmasterTabDescription">Se completará automáticamente\%nl\%una tarea aleatoria después de cada reunión.</string>
   <string name="TouModifierTaskmasterWikiDescription">Cada vez que comienza una ronda, completarás automáticamente una tarea.</string>
-  <string name="TouModifierTaskmasterTaskNotif">La tarea '[taskName]' ha sido completada por ti.</string>
+  <string name="TouModifierTaskmasterTaskNotif">La tarea \%taskName\% ha sido completada por ti.</string>
   <!-- Antorcha -->
       <!-- Antorcha - Wiki / Descripción -->
         <string name="TouModifierTorch">Antorcha</string>
   <string name="TouModifierTorchIntroBlurb">Ve incluso con las luces apagadas.</string>
-  <string name="TouModifierTorchTabDescription">Tu visión no se reducirá
-cuando las luces sean saboteadas.</string>
-  <string name="TouModifierTorchWikiDescription">Las luces apagadas no afectan tu visión.</string>
+  <string name="TouModifierTorchTabDescription">Tu visión no se reducirá\%nl\% cuando se saboteen las luces.</string>
+  <string name="TouModifierTorchWikiDescription">Aunque las luces estén apagadas no se afecta tu visión.</string>
   <!-- Últimos Textos Añadidos -->
 <string name="DraftAudioBoth">Ambos</string>
   <string name="RoleIconOnReveal">Mostrar ícono de rol en Intro</string>
@@ -2740,7 +2728,7 @@ cuando las luces sean saboteadas.</string>
   <string name="TouOptionTitleBetterSubmerged">Submerged mejorado</string>
   <string name="TouOptionTitleBetterLevelImpostor">Level Impostor mejorado</string>
   <string name="TouRoleAnonymousVictoryKillNotif">¡\%source\% mató a \%victim\% tras su victoria!</string>
-  <string name="TouRoleExecutionerTormentNotif">¡El Verdugo torturó a [victim] hasta la muerte!</string>
+  <string name="TouRoleExecutionerTormentNotif">¡El verdugo torturó a \%victim\% hasta la muerte!</string>
   <string name="TouRoleJesterHauntNotif">¡El Bufón decidió atormentar a %victim\% desde el más allá!</string>
   <string name="TouOptionJesterVentCooldown">Tiempo de recarga de Ductos</string>
   <string name="TouOptionJesterVentDuration">Duración de Ductos</string>
@@ -2751,25 +2739,26 @@ cuando las luces sean saboteadas.</string>
   <string name="TouRolePoliticianRevealRequirement">¡Revélate si has convencido al menos a la mitad de los Tripulantes!</string>
   <string name="TouRoleMayorRevealedVotes">¡Ahora tienes 3 votos extra!</string>
   <string name="TouRoleMayorRevealVotes">¡Revela tu identidad para conseguir 3 votos extra!</string>
-  <string name="TouRoleDoomsayerGuessAllAtOnce">¡Adivina los roles de [amount] jugadores para ganar!</string>
-  <string name="TouRoleDoomsayerSuccessfulGuesses">[current] / [total] Adivinaciones correctas para ganar</string>
-  <string name="TouRoleVigilanteGuessesRemaining">Adivinaciones restantes</string>
-  <string name="TouRoleVigilanteSafeShots">Tiros seguros</string>
-  <string name="TouRoleAssassinGuessesRemaining">Adivinaciones restantes</string>
-  <string name="TouRoleAssassinDoubleShotUsed">Dobles Tiros usados</string>
-  <string name="TouRoleAssassinDoubleShotAvailable">Dobles Tiros disponibles</string>
+  <string name="TouRoleDoomsayerGuessAllAtOnce">¡Adivina los roles de \%amount\% jugadores para ganar!</string>
+  <string name="TouRoleDoomsayerSuccessfulGuesses">
+\%current\% / \%total\% Adivinaciones Correctas para ganar</string>
+  <string name="TouRoleVigilanteGuessesRemaining">Adivinaciones Restantes</string>
+  <string name="TouRoleVigilanteSafeShots">Tiros Seguros</string>
+  <string name="TouRoleAssassinGuessesRemaining">Adivinaciones Restantes</string>
+  <string name="TouRoleAssassinDoubleShotUsed">Doble Tiro usado</string>
+  <string name="TouRoleAssassinDoubleShotAvailable">Doble Tiro disponible</string>
   <string name="TouRoleTrackerTrackedPlayers">Jugadores rastreados:</string>
   <string name="TouRoleMonarchKnightCancelled">El investimiento fue cancelado.</string>
-  <string name="TouRoleMonarchKnightChosen">Has elegido investir a [player]. ¡Será nombrado caballero en [seconds] segundo(s)!</string>
+  <string name="TouRoleMonarchKnightChosen">Has elegido investir a \%player\%. ¡Será nombrado caballero en \%seconds\% segundo(s)!</string>
   <string name="TouRoleInquisitorHereticPerished">¡Ha muerto un objetivo!</string>
-  <string name="TouRoleInquisitorWrongTarget">¡[player] no era un objetivo! 
+  <string name="TouRoleInquisitorWrongTarget">¡\%player\% no era un objetivo!
 No podrás vencer más jugadores.</string>
-  <string name="TouRoleInquisitorCorrectTarget">¡[player] era un objetivo!</string>
-  <string name="TouRoleInquisitorWonSelf">Has ganado como [role], ¡pues todos tus objetivos murieron!</string>
-  <string name="TouRoleInquisitorWonOther">El [role], [player], ha ganado, ¡pues todos sus objetivos fueron vencidos!</string>
-  <string name="TouRoleSpectreWonSelf">Has ganado como [role], ¡porque terminaste tus tareas tras morir!</string>
+  <string name="TouRoleInquisitorCorrectTarget">¡\%player\% era un objetivo!</string>
+  <string name="TouRoleInquisitorWonSelf">Has ganado como \%role\%, ¡pues todos tus objetivos murieron!</string>
+  <string name="TouRoleInquisitorWonOther">El \%role\%, \%player\%, ha ganado, ¡pues todos sus objetivos fueron vencidos!</string>
+  <string name="TouRoleSpectreWonSelf">Has ganado como \%role\%, ¡porque terminaste tus tareas tras morir!</string>
   <string name="TouRoleSpectreSpookMessage">Tienes una ronda para asustar hasta la muerte a un jugador de tu elección; elige sabiamente.</string>
-  <string name="TouRoleSpectreWonOther">[role], [player], ha ganado, ¡ya que completó sus tareas tras morir!</string>
+  <string name="TouRoleSpectreWonOther">El \%role\%, \%player\%, ha ganado, ¡ya que completó sus tareas tras morir!</string>
   <string name="TouRoleSpectreClickableFeedback">¡Ahora los jugadores pueden clickearte!</string>
   <string name="TouModifierDeadlyQuotaCompleted">¡Has completado tu cuota!</string>
   <string name="TouModifierDeadlyQuotaCompletedShield">¡Has completado tu cuota! Has perdido tu escudo temporal.</string>
