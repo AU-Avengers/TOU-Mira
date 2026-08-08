@@ -293,7 +293,7 @@
   <string name="TouRoleHunterWikiDescription">巡猎者是一名船员击杀型职业，他可以在一轮中盯梢玩家。如果被盯梢的玩家使用某种技能，他们可以在游戏中的任何时候被巡猎者杀死，甚至是船员。</string>
   <string name="TouRoleHunterStalk">盯梢</string>
   <string name="TouRoleHunterStalking">盯梢中</string>
-  <string name="TouRoleHunterStalkWikiDescription">选择一个要盯梢的目标。你可以盯梢[hunterMaxStalkUsages]个玩家。如果他们在被盯梢时使用任何技能，他们就会被添加到你的命中列表中并可以被杀死。</string>
+  <string name="TouRoleHunterStalkWikiDescription">选择一个要盯梢的目标。你可以盯梢\%hunterMaxStalkUsages\%个玩家。如果他们在被盯梢时使用任何技能，他们就会被添加到你的命中列表中并可以被杀死。</string>
   <string name="TouOptionHunterKillCooldown">巡猎者击杀冷却</string>
   <string name="TouOptionHunterStalkCooldown">巡猎者盯梢冷却</string>
   <string name="TouOptionHunterStalkDuration">巡猎者盯梢持续时间</string>
@@ -509,10 +509,7 @@
   <string name="TouOptionAmbusherPursueArrowUpdateInterval">追踪箭头刷新间隔</string>
   <string name="TouOptionAmbusherStopPursuingPlayerOnAmbush">伏击后停止追踪玩家</string>
   <string name="TouOptionAmbusherCanVent">伏击者可使用通风口</string>
-  <string name="TouRoleInquisitorTabDescription">消灭你的异端目标或让他们被杀。
-所有异端死亡后你将会获胜。
-若所有异端在会议结束后死亡，
-你将离开游戏[and]宣布你的胜利</string>
+  <string name="TouRoleInquisitorTabDescription">消灭你的异端目标或让他们被杀。\%nl\%所有异端死亡后你将会获胜。\%nl\%若所有异端在会议结束后死亡，\%nl\%你将离开游戏\%and\%宣布你的胜利</string>
   <string name="TouRoleInquisitorTabAddition">你的异端目标身份：</string>
   <string name="TouRoleInquisitorWikiDescription">审判官是一名中立外来者型职业，只要所有异端目标死亡即可获胜。你只知道他们的身份，需要审判官自己找出这些玩家（对死者以\%symbol\%标记），并想办法让他们被杀。</string>
   <string name="TouRoleInquisitorMessageTitle">审判官报告</string>
@@ -566,8 +563,8 @@
   <string name="TouOptionMirrorcasterUnleashCooldown">反射（击杀）冷却</string>
   <string name="TouOptionMirrorcasterAccumulateMultipleUnleashes">可累积并多次反射</string>
   <string name="TouOptionMirrorcasterMaxNumberOfMagicMirrors">魔法镜最大数量</string>
-  <string name="TouRoleMirrorcasterAttackedMessageWithType">[player]被[attackerRole]攻击！你现在可以将这次攻击反射到另一名玩家！</string>
-  <string name="TouRoleMirrorcasterAttackedMessageWithoutType">[player]被攻击！你现在可以将这次攻击反射到另一名玩家！</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithType">\%player\%被\%attackerRole\%攻击！你现在可以将这次攻击反射到另一名玩家！</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithoutType">\%player\%被攻击！你现在可以将这次攻击反射到另一名玩家！</string>
   <string name="TouRoleOracleIntroBlurb">让其他玩家坦白他们的身份</string>s
   <string name="TouRoleOracleTabDescription">佑护船员以在会议中保护他们，
 并让他们在会议中坦白</string>
@@ -587,7 +584,7 @@
   <string name="TouRoleOracleBlessingMessageOthers">[player]因被[color=#FFBF00BF]神谕者[/color]佑护而幸存！</string>
   <string name="TouModifierEgotistIntroBlurb">背叛船员以满足你的虚荣心</string>
   <string name="TouModifierEgotistTabDescription">背叛船员，与杀手一同获胜。</string>
-  <string name="TouModifierEgotistWikiDescription">自大狂是一种船员同盟附加属性（以[symbol]为标识）。作为自大狂，只有船员失败你才能获胜，即使你已死亡。如果会议结束后没有船员存活，你会直接胜利离场，但游戏会继续。</string>
+  <string name="TouModifierEgotistWikiDescription">自大狂是一种船员同盟附加属性（以\%symbol\%为标识）。作为自大狂，只有船员失败你才能获胜，即使你已死亡。如果会议结束后没有船员存活，你会直接胜利离场，但游戏会继续。</string>
   <string name="TouModifierLoverInfo">你的恋人是[player]。</string>
   <string name="TouModifierLoverWikiDescription">作为恋人，你可以在回合中与另一位恋人 (以[symbol]标识）聊天。如果你们是最后三人之一且都存活，则恋人可以共同获胜。</string>
   <string name="TouOptionLoverDieAndRevive">恋人同生共死</string>
@@ -598,9 +595,9 @@
   <string name="TouModifierTelepathIntroBlurbNoDeath">知晓队友击杀及死亡的信息。</string>
   <string name="TouModifierTelepathIntroBlurb">你会收到队友击杀情况的通知。</string>
   <string name="TouModifierTelepathDescriptionBasic">知晓队友击杀的信息</string>
-  <string name="TouModifierTelepathDescriptionIfKnowWhen">知晓队友击杀的时间[and]位置</string>
+  <string name="TouModifierTelepathDescriptionIfKnowWhen">知晓队友击杀的时间\%and\%位置</string>
   <string name="TouModifierTelepathDescriptionAddIfKnowDeath">，知晓队友死亡的时间</string>
-  <string name="TouModifierTelepathDescriptionAddIfKnowDeathLoc">，知晓队友死亡的时间[and]位置。</string>
+  <string name="TouModifierTelepathDescriptionAddIfKnowDeathLoc">，知晓队友死亡的时间\%and\%位置。</string>
   <string name="TouOptionTelepathKnowKill">知晓队友击杀位置</string>
   <string name="TouOptionTelepathKnowDeath">知晓队友死亡时间</string>
   <string name="TouOptionTelepathKnowDeathLoc">知晓队友死亡位置</string>
@@ -634,7 +631,7 @@
   <string name="TouOptionButtonBarryIgnoreSabotage">无视破坏</string>
   <string name="TouOptionButtonBarryAllowFirstRound">首回合可用</string>
   <string name="TouModifierFlash">闪电侠</string>
-  <string name="TouModifierFlashTabDescription">你的移动速度比普通玩家快[flashSpeed]倍。</string>
+  <string name="TouModifierFlashTabDescription">你的移动速度比普通玩家快\%flashSpeed\%倍。</string>
   <string name="TouModifierFlashWikiDescription">你的移动速度比普通玩家快[flashSpeed]倍。</string>
   <string name="TouOptionFlashSpeed">闪电侠速度</string>
   <string name="TouModifierGiantTabDescription">你比普通玩家更大，移动速度也比普通玩家慢%giantSpeed\%倍</string>
@@ -758,12 +755,10 @@
   <string name="TouOptionMedicMaxAmountOfShieldUses">最大护盾使用次数</string>
   <string name="TouOptionMedicShowReportsInChat">显示法医报告</string>
   <string name="TouRoleVenererIntroBlurb">每次击杀都会强化你的能力</string>
-  <string name="TouRoleVenererTabDescription">击杀玩家以解锁能力加成。
-你的技能允许你隐蔽，然后变得快速，最后还能减慢你路径上其他人的速度。</string>
+  <string name="TouRoleVenererTabDescription">击杀玩家以解锁能力加成。\%nl\%你的技能允许你隐蔽，然后变得快速，最后还能减慢你路径上其他人的速度。</string>
   <string name="TouRoleVenererWikiDescription">狩猎者是一名伪装者隐匿型职业，可以通过击杀玩家获得新能力，防止被抓住！但每次获得新能力时会立即使用，并且能力会叠加。</string>
   <string name="TouRoleVenererCamouflage">伪装</string>
-  <string name="TouRoleVenererCamouflageWikiDescription">能力第一阶段。
-你在所有玩家眼中会变成灰豆，可以悄悄离开击杀现场。</string>
+  <string name="TouRoleVenererCamouflageWikiDescription">能力第一阶段。\%nl\%你在所有玩家眼中会变成灰豆，可以悄悄离开击杀现场。</string>
   <string name="TouRoleVenererSprint">疾跑</string>
   <string name="TouRoleVenererSprintWikiDescription">能力第二阶段。
 n你在伪装状态下会获得闪电侠般的速度。</string>
@@ -801,7 +796,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRolePestilenceTabDescription">击杀所有与自己互动的玩家！</string>
   <string name="TouRolePestilenceWikiDescription">万疫之神是一名中立击杀型职业，可以击杀并且除被放逐或猜错外无敌。通过成为场上最后一名杀手获胜。</string>
   <string name="TouRoleSpectreIntroBlurb">利用你的第二次机会赢得胜利</string>
-  <string name="TouRolePlaguebearerIntroBlurb">散播瘟疫以成为[color=#4D4D4DFF]万疫之神[/color]</string>
+  <string name="TouRolePlaguebearerIntroBlurb">散播瘟疫以成为\%color=#4D4D4DFF\%万疫之神\%/color\%</string>
   <string name="TouRolePlaguebearerTabDescription">感染所有人以成为[color=#4D4D4DFF]万疫之神[/color]</string>
   <string name="TouRolePlaguebearerWikiDescription">瘟疫之源是一名中立击杀型职业，需要感染所有其他玩家后变为万疫之神。</string>
   <string name="TouRolePlaguebearerInfect">感染</string>
@@ -869,7 +864,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionGlitchCanVent">混沌可使用通风口</string>
   <string name="TouRoleFairyTabDescription">保护[target]免于被击杀！</string>
   <string name="TouRoleFairyIfNoTarget">保护你的目标免于被击杀！</string>
-  <string name="TouRoleFairyWikiDescription">天使是一名中立善良型职业，需要保护带有[symbol]标记的目标不被击杀或放逐。</string>
+  <string name="TouRoleFairyWikiDescription">天使是一名中立善良型职业，需要保护带有%symbol\%标记的目标不被击杀或放逐。</string>
   <string name="TouRoleFairyProtect">守护</string>
   <string name="TouRoleFairyProtectWikiDescription">保护你的目标免于被击杀。</string>
   <string name="TouOptionFairyCooldown">守护冷却</string>
@@ -885,7 +880,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleJesterWikiDescription">小丑是一名中立邪恶型职业，通过让自己被放逐来获胜。</string>
   <string name="TouNotifJesterWinOwner">你成功以小丑身份获胜，是通过被投票淘汰而获胜的！</string>
   <string name="TouNotifJesterHauntOwner">你有一轮时间来选择一个玩家将其吓死，请明智地选择！</string>
-  <string name="TouNotifJesterWinGlobal">小丑，[player]，已成功获胜，因为他们被投票淘汰了！</string>
+  <string name="TouNotifJesterWinGlobal">小丑，\%player\%，已成功获胜，因为他们被投票淘汰了！</string>
   <string name="TouOptionJesterCanButton">小丑可召开会议</string>
   <string name="TouOptionJesterCanVent">小丑可藏身通风口</string>
   <string name="TouOptionJesterImpVision">小丑拥有伪装者视野</string>
@@ -987,7 +982,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionJanitorCleanUsesPerGame">每局可用清理次数</string>
   <string name="TouOptionJanitorCleanCooldown">清理冷却</string>
   <string name="TouOptionJanitorCleanDelay">清理延迟</string>
-  <string name="TouOptionJanitorResetKillAndCleanCooldownsTogether">击杀[and]清理冷却同步重置</string>
+  <string name="TouOptionJanitorResetKillAndCleanCooldownsTogether">击杀\%and\%清理冷却同步重置</string>
   <string name="TouOptionJanitorJanitorCanKillWithTeammate">清理者可与队友一起击杀</string>
   <string name="TouRoleMinerIntroBlurb">随处造通风口，随处潜行</string>
   <string name="TouRoleMinerTabDescription">在地图上放置互通的通风口</string>
@@ -1064,7 +1059,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleSnitchIntroBlurb">找出[color=#FF0000FF]伪装者[/color]！</string>
   <string name="TouRoleSnitchTabDescription">完成所有任务以发现伪装者。</string>
   <string name="TouRoleSnitchTabDescriptionCompletedTasks">找出伪装者！</string>
-  <string name="TouRoleSnitchTabDescriptionEgo">完成所有任务以发现[and]帮助伪装者。</string>
+  <string name="TouRoleSnitchTabDescriptionEgo">完成所有任务以发现\%and\%帮助伪装者。</string>
   <string name="TouRoleSnitchTabDescriptionCompletedTasksEgo">帮助伪装者！</string>
   <string name="TouRoleSnitchWikiDescription">告密者是一名船员调查型职业，通过完成所有任务可以发现伪装者。完成所有任务后，伪装者会被箭头和红名标记。</string>
   <string name="TouOptionSnitchRevealsNeutralKillers">告密者揭示中立杀手</string>
@@ -1181,7 +1176,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleDoomsayerRoleHintDeath">你观察到\%player\%对尸体有异常的执着</string>
   <string name="TouRoleDoomsayerRoleHintHunter">你观察到\%player\%擅长追猎猎物</string>
   <string name="TouRoleDoomsayerRoleHintFearmonger">你观察到\%player\%在队伍中散播恐惧</string>
-  <string name="TouRoleDoomsayerRoleHintProtective">你观察到[player]会隐藏来保护自己或他人</string>
+  <string name="TouRoleDoomsayerRoleHintProtective">你观察到\%player\%会隐藏来保护自己或他人</string>
   <string name="TouRoleDoomsayerRoleHintTrickster">你观察到\%player\%暗藏诡计</string>
   <string name="TouRoleDoomsayerRoleHintRelentless">你观察到\%player\%能够发动无情的攻击</string>
   <string name="TouRoleDoomsayerRoleHintDefault">你观察到\%player\%并不来自这座小镇</string>
@@ -1250,8 +1245,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleSpellslingerWarningNotif">\%role\%将在\%time\%秒后释放诅咒炸弹！</string>
   <string name="TouRoleChef">饕餮神厨</string>
   <string name="TouRoleChefIntroBlurb">新鲜出炉，随时待命</string>
-  <string name="TouRoleChefTabDescription">用烹饪过的尸体喂食船员。
-一旦达到配额人数被喂饱，就可以胜利离开！</string>
+  <string name="TouRoleChefTabDescription">用烹饪过的尸体喂食船员。\%nl\%一旦达到配额人数被喂饱，就可以胜利离开！</string>
   <string name="TouRoleChefTabCounter">喂食尸体：\%bodiesFed\% / \%bodiesTotal\%</string>
   <string name="TouRoleChefWikiDescription">饕餮神厨是一名中立外来者型职业，只要他们喂食了足够的尸体给船员，就可以与任何其他阵营一起获胜。</string>
   <string name="TouRoleChefMessageTitle">饕餮神厨反馈</string>
@@ -1264,7 +1258,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleChefServeWikiDescription">将你手头上最早的食物喂给另一个空腹的人。</string>
   <string name="TouOptionChefServeCooldown">喂食冷却</string>
   <string name="TouOptionChefCookCooldown">烹饪冷却</string>
-  <string name="TouOptionChefLinkedCooldowns">烹饪[and] 喂食冷却同步重置</string>
+  <string name="TouOptionChefLinkedCooldowns">烹饪\%and\% 喂食冷却同步重置</string>
   <string name="TouOptionChefServingAmount">所需喂食数量</string>
   <string name="TouRoleSeerAltIntroBlurb">比较两名玩家的阵营</string>
   <string name="TouRoleSeerAltTabDescription">比较两名玩家，\%nl\%确认他们是敌是友！</string>
@@ -1297,7 +1291,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="JaileeChatTitle">\%player\% (被囚禁者)</string>
   <string name="SystemChatTitle">系统</string>
   <string name="AnticheatChatTitle">反作弊系统</string>
-  <string name="AnticheatMessage">[player]正在使用以下模组加入游戏：</string>
+  <string name="AnticheatMessage">\%player\%正在使用以下模组加入游戏：</string>
   <string name="SpectatorCommandList">观众:观战</string>
   <string name="SpectatorLobbyError">你不能在大厅之外切换观战模式！</string>
   <string name="SpectatorToggleOn">将自己设置为观众！</string>
@@ -1336,7 +1330,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleAmnesiacRememberFailNotif">\%player\%是 \%role\%，所以他们无法被回忆。</string>
   <string name="TouRoleDoomsayerObserveNotif">你将在下次会议期间收到关于\%player\% 的报告。这将帮助你缩小他们的角色范围。</string>
   <string name="TouRoleGlitchHackNotif">一旦\%player\% 尝试使用技能，其的所有技能都暂时被禁用。</string>
-  <string name="TouRoleInquisitorInquireNotif">你将在下次会议中得知[player]是否为异端。</string>
+  <string name="TouRoleInquisitorInquireNotif">你将在下次会议中得知\%player\%是否为异端。</string>
   <string name="TouRoleMercenaryGuardNotif">当\%player\%被互动时，你将获得一枚金币。</string>
   <string name="DiedToSuicideAltruist">牺牲</string>
   <string name="DiedToSuicideSheriff">走火</string>
@@ -1352,7 +1346,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouModifierEgotistCooldownSpeedChangeMessage">\%modifier\%的肾上腺素正在增强。技能冷却时间现已缩短 \%newOffset\% 秒，玩家移动速度提升至 \%newSpeed\% 倍！</string>
   <string name="TouModifierEgotistDeadMessage">\%modifier\% 已死亡，他们的肾上腺素也随之消退！</string>
   <string name="DiedToSubmergedOxygen">窒息</string>
-  <string name="TouRoleClericTabProtecting">屏障开启在： [player]</string>
+  <string name="TouRoleClericTabProtecting">屏障开启在： \%player\%</string>
   <string name="TouRoleMedicTabProtecting">被上盾: \%player\%</string>
   <string name="TouRoleMirrorcasterTabProtecting">保护中: \%player\%</string>
   <string name="TouRoleWardenTabProtecting">正在强化: \%player\%</string>
@@ -1369,10 +1363,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouModifierBaitTriggeredNotif">\%player\% 是 \%modifier\%，导致你强制自报尸体。</string>
   <string name="TouModifierCelebrityPopup">名人, \%player\%,已死亡!:(详情见聊天框)</string>
   <string name="TouRoleCelebrityMessageTitle">名人报告</string>
-  <string name="TouModifierCelebrityDetailsSelf">[modifier], [player],已死亡! 
-地点:[room], 
-死因: 自杀, 
-时间:[timeAgo]秒前。</string>
+  <string name="TouModifierCelebrityDetailsSelf">\%modifier\%, \%player\%,已死亡! \%nl\%地点:\%room\%, \%nl\%死因: 自杀, \%nl\%时间:\%timeAgo\%秒前。</string>
   <string name="TouModifierCelebrityDetailsKilled">\%modifier\%, \%player\%,遭 \%killed\%! \%nl\%地点:\%room\%, \%nl\%凶手: \%role\%, \%nl\%时间:\%timeAgo\%秒前。</string>
   <string name="TouModifierDiseasedTriggeredNotif">\%player\% 是 \%modifier\%，你的击杀冷却将乘以 \%cooldownMultiplier\%倍。</string>
   <string name="TouModifierFrostyTriggeredNotif">\%player\% 是 \%modifier\%，你将在 \%time\% 秒内变得更慢。</string>
@@ -1469,7 +1460,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionDoomsayerWinEnumNothing">无</string>
   <string name="TouOptionDoomsayerContinuesGame">末日预言者继续游戏</string>
   <string name="TouOptionExecutionerWinEnumEndsGame">结束游戏</string>
-  <string name="TouOptionExecutionerWinEnumTorments">胜利离场[and] 带走一人</string>
+  <string name="TouOptionExecutionerWinEnumTorments">胜利离场\%and\% 带走一人</string>
   <string name="TouOptionExecutionerWinEnumNothing">继续游戏</string>
   <string name="TouOptionFairyProtectionEnumFairy">天使</string>
   <string name="TouOptionFairyProtectionEnumFairyAndTarget">天使 + 目标</string>
@@ -1999,7 +1990,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleMonarchKnightTargetDied">\%player\%在你册封骑士前就已死亡。</string>
   <string name="TouRoleMonarchKnightSuccess">\%player\% 已被册封骑士！</string>
   <string name="TouRoleMonarchKnightedFeedback">你被 \%role\% 册封了骑士身份，获得了\%votes\% 票！</string>
-  <string name="TouRoleMonarchKnightFallenFeedback">你的骑士 [player] 已阵亡...</string>
+  <string name="TouRoleMonarchKnightFallenFeedback">你的骑士 \%player\% 已阵亡...</string>
   <string name="TouRoleOracleConfessionTitle">神谕者坦白</string>
   <string name="TouRolePlumberExtraTabTextForever">路障整局存在</string>
   <string name="TouRolePoliticianEgotistTabInfo">当你的身份被揭露时，邪恶阵营将知道你的真正目的。</string>
@@ -2037,19 +2028,19 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TermsTargetSymbolsTitle">目标标记</string>
   <string name="TermsTargetSymbolsInfo">目标标记会显示在会议和游戏进行中玩家的名字旁，通常只有相关职业或死亡玩家能看到。• 行刑者的目标会标记为 \%color=#643B1F\%X\%/color\% • 审判官的异端在死亡玩家视角下会标记为 \%color=#D94291\%$\%/color\% • 天使的目标会标记为 \%color=#B3FFFF\%★\%/color\%</string>
   <string name="TermsProtectionSymbolsTitle">保护标记</string>
-  <string name="TermsProtectionSymbolsInfo">保护标记会显示在会议或游戏过程中玩家名字旁，表示他们对大多数攻击免疫。通常只有相关职业、目标玩家或死亡玩家可见。• 法医护盾标记为 [color=#006600]+[/color]• 牧师屏障标记为 [color=#00FFB3]Ω[/color]• 护卫者驻防标记为 [color=#9900FF]π[/color]• 镜法师反射标记为 [color=#90A2C3]〚〛[/color] • 天使保护标记为 [color=#FFD900]★[/color]• 守护天使保护标记为 [color=#66AAF3]☀[/color]• 神谕者佑护标记为 [color=#BF00BF]†[/color]</string>
+  <string name="TermsProtectionSymbolsInfo">保护标记会显示在会议或游戏过程中玩家名字旁，表示他们对大多数攻击免疫。通常只有相关职业、目标玩家或死亡玩家可见。• 法医护盾标记为 \%color=#006600\%+\%/color\%• 牧师屏障标记为 \%color=#00FFB3\%Ω\%/color\%• 护卫者驻防标记为 \%color=#9900FF\%π\%/color\%• 镜法师反射标记为 \%color=#90A2C3\%〚〛\%/color\% • 天使保护标记为 \%color=#FFD900\%★\%/color\%• 守护天使保护标记为 \%color=#66AAF3\%☀\%/color\%• 神谕者佑护标记为 \%color=#BF00BF\%†\%/color\%</string>
   <string name="TermsStatusEffectSymbolsTitle">状态效果标记</string>
-  <string name="TermsStatusEffectInfo">状态效果标记会显示在会议或游戏过程中玩家名字旁，通常只有相关职业或死亡玩家可见。• 纵火狂浇油标记为 [color=#FF4D00]Δ[/color] • 瘟疫之源感染标记为 [color=#E6FFB3]¥[/color] • 被控制的玩家标记为 [color=#FF2660]⦿[/color] • 被勒索的目标标记为 [color=#2A1119]M[/color] • 被催眠标记为 [color=#D53F42]@[/color] • 爆咒师诅咒标记为 [color=#FF0000]乂[/color] • 君主册封的骑士标记为 [color=#EA535B]♠[/color]</string>
+  <string name="TermsStatusEffectInfo">状态效果标记会显示在会议或游戏过程中玩家名字旁，通常只有相关职业或死亡玩家可见。• 纵火狂浇油标记为 \%color=#FF4D00\%Δ\%/color\% • 瘟疫之源感染标记为 \%color=#E6FFB3\%¥\%/color\% • 被控制的玩家标记为 \%color=#FF2660\%⦿\%/color\% • 被勒索的目标标记为 \%color=#2A1119\%M\%/color\% • 被催眠标记为 \%color=#D53F42\%@\%/color\% • 爆咒师诅咒标记为 \%color=#FF0000\%乂\%/color\% • 君主册封的骑士标记为 \%color=#EA535B\%♠\%/color\%</string>
   <string name="TermsCrewRoleAlignmentsTitle">\%color=#8CFFFF\%船员\%/color\% 子阵营</string>
   <string name="TermsCrewRoleAlignmentsInfo">• \%color=#8CFFFF\%调查型\%/color\% 职业可以收集其他玩家的信息，从而判断谁是船员。 • \%color=#8CFFFF\%击杀型\%/color\%职业可以\%color=#FF8B95\%击杀\%/color\%他人，但\%color=#FF8B95\%击杀\%/color\%\%color=#8CFFFF\%船员\%/color\%可能会带来后果。 • \%color=#8CFFFF\%保护型\%/color\%职业可以保护其他玩家，有时也能保护自己。 • \%color=#8CFFFF\%强力型\%/color\% 职业通常会影响投票，或拥有比其他\%color=#8CFFFF\%船员\%/color\%更强的能力。 • \%color=#8CFFFF\%支援型\%/color\%职业通常可以帮助其他\%color=#8CFFFF\%船员\%/color\%，或为自己提供帮助。</string>
   <string name="TermsNeutRoleAlignmentsTitle">\%color=#8A8A8A\%中立\%/color\% 子阵营</string>
   <string name="TermsNeutRoleAlignmentsInfo">•\%color=#8A8A8A\%友善型\%/color\% 职业无法单独获胜，通常需要帮助别人或尽可能存活。 • \%color=#8A8A8A\%邪恶型\%/color\%职业专注完成自己的目标，可能操控胜负或提前结束游戏。 • \%color=#8A8A8A\%杀手型\%/color\% 职业的目标是不惜一切成为最后存活的 \%color=#FF8B95\%杀手\%/color\%。 • \%color=#8A8A8A\%外来者型\%/color\%职业拥有各自独特的胜利条件，行为可能类似于\%color=#8A8A8A\%友善型\%/color\%、\%color=#8A8A8A\%邪恶型\%/color\%或\%color=#8A8A8A\%杀手型\%/color\%职业的混合。</string>
   <string name="TermsImpRoleAlignmentsTitle">\%color=#FF0000\%伪装者\%/color\% 子阵营</string>
-  <string name="TermsImpRoleAlignmentsInfo">• [color=#FF0000]隐匿型[/color]职业可以[color=#FF8B95]击杀[/color] 并通过伪装或隐藏来欺骗他人。 • [color=#FF0000]击杀型[/color]职业拥有强化或特殊的 [color=#FF8B95]击杀[/color]能力, 从而提升[color=#FF8B95]击杀[/color]效率。 • [color=#FF0000]强力型[/color]职业拥有非常强大的技能，可以显著增强[color=#FF0000]伪装者[/color]阵营。 • [color=#FF0000]辅助型[/color]职业可以隐藏尸体或让 [color=#FF8B95]击杀[/color]更加容易。</string>
+  <string name="TermsImpRoleAlignmentsInfo">• \%color=#FF0000\%隐匿型\%/color\%职业可以\%color=#FF8B95\%击杀\%/color\% 并通过伪装或隐藏来欺骗他人。 • \%color=#FF0000\%击杀型\%/color\%职业拥有强化或特殊的 \%color=#FF8B95\%击杀\%/color\%能力, 从而提升\%color=#FF8B95\%击杀\%/color\%效率。 • \%color=#FF0000\%强力型\%/color\%职业拥有非常强大的技能，可以显著增强\%color=#FF0000\%伪装者\%/color\%阵营。 • \%color=#FF0000\%辅助型\%/color\%职业可以隐藏尸体或让 \%color=#FF8B95\%击杀\%/color\%更加容易。</string>
   <string name="TermsRoleBucketsTitle">职业池分类</string>
-  <string name="TermsRoleBucketsInfo">职业池分类仅在启用“设置职业列表”生成方式时生效。 • 常规 [color=#8CFFFF]船员[/color] ：调查型、保护型、支援型。• 常规 [color=#FF0000]伪装者[/color] ：隐匿型、辅助型。 • 常规 [color=#8A8A8A]中立[/color] ：友善型、邪恶型。 • 特殊[color=#8CFFFF]船员[/color] ：击杀型、强力型。 • 特殊 [color=#FF0000]伪装者[/color] ：击杀型、强力型。• 特殊 [color=#8A8A8A]中立[/color] ：杀手型、外来者型。 • 非杀手[color=#8A8A8A]中立[/color] ：友善型、邪恶型、外来者型。 • 非-[color=#FF0000]伪装者[/color] 包含所有 [color=#8A8A8A]中立[/color] 和[color=#8CFFFF]船员[/color] 职业。• “随机”分类会生成该阵营的任意职业 (如随机 [color=#8CFFFF]船员[/color])。• “任意”分类允许生成任何启用的职业。</string>
+  <string name="TermsRoleBucketsInfo">职业池分类仅在启用“设置职业列表”生成方式时生效。 • 常规 \%color=#8CFFFF\%船员\%/color\% ：调查型、保护型、支援型。• 常规 \%color=#FF0000\%伪装者\%/color\% ：隐匿型、辅助型。 • 常规 \%color=#8A8A8A\%中立\%/color\% ：友善型、邪恶型。 • 特殊\%color=#8CFFFF\%船员\%/color\% ：击杀型、强力型。 • 特殊 \%color=#FF0000\%伪装者\%/color\% ：击杀型、强力型。• 特殊 \%color=#8A8A8A\%中立\%/color\% ：杀手型、外来者型。 • 非杀手\%color=#8A8A8A\%中立\%/color\% ：友善型、邪恶型、外来者型。 • 非-\%color=#FF0000\%伪装者\%/color\% 包含所有 \%color=#8A8A8A\%中立\%/color\% 和\%color=#8CFFFF\%船员\%/color\% 职业。• “随机”分类会生成该阵营的任意职业 (如随机 \%color=#8CFFFF\%船员\%/color\%)。• “任意”分类允许生成任何启用的职业。</string>
   <string name="TermsCommonSlangTitle">常见术语</string>
-  <string name="TermsCommonSlangInfo">常见术语通常由 TOU / TOS 社区创造，用于快速交流信息。 • 金水HC：Hard-Cleared，表示该玩家几乎可以确定是好人。 •变身 Glorphing：指玩家变成另一名玩家的外观，例如来自[color=#00FF00]混沌[/color]、[color=#FF0000]化形者[/color]、[color=#FF0000]变形者[/color] 等相关职业。 • 鬼影Ghostwalkers：用于称呼 [color=#D4D4D4]冤魂[/color] 和[color=#662961]幻影[/color] 等能在死亡后行动的幽灵职业。 • 说悄悄话Sidebars：在近距离语音房间中把玩家拉到一旁进行私下交流。</string>
+  <string name="TermsCommonSlangInfo">常见术语通常由 TOU / TOS 社区创造，用于快速交流信息。 • 金水HC：Hard-Cleared，表示该玩家几乎可以确定是好人。 •变身 Glorphing：指玩家变成另一名玩家的外观，例如来自\%color=#00FF00\%混沌\%/color\%、\%color=#FF0000\%化形者\%/color\%、\%color=#FF0000\%变形者\%/color\% 等相关职业。 • 鬼影Ghostwalkers：用于称呼 \%color=#D4D4D4\%冤魂\%/color\% 和\%color=#662961\%幻影\%/color\% 等能在死亡后行动的幽灵职业。 • 说悄悄话Sidebars：在近距离语音房间中把玩家拉到一旁进行私下交流。</string>
   <string name="CrewmateGhost">船员幽灵型</string>
   <string name="NeutralGhost">中立幽灵型</string>
   <string name="ImpostorGhost">伪装者幽灵型</string>
@@ -2127,7 +2118,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionOfficerMaxBulletsTotal">最大总子弹数</string>
   <string name="TouOptionOfficerMaxBulletsAtOnce">同时可装填的最大子弹数</string>
   <string name="TouOptionOfficerCooldownSummary">射击冷却：\%shoot\%秒 | 装填冷却：\%load\%秒</string>
-  <string name="TouOptionOfficerBulletsSummary">最大装填数：[once]| 总子弹数：[total]</string>
+  <string name="TouOptionOfficerBulletsSummary">最大装填数：\%once\%| 总子弹数：\%total\%</string>
   <string name="TouOptionOfficerRoundPunishment">误射后需等待的回合数</string>
   <string name="TouOptionInvestigatorFootprintSeperated">足迹生成依据</string>
   <string name="TouModifierCrewpostorShortName">伪</string>
