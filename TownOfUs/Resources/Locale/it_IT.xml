@@ -2347,4 +2347,17 @@
   <string name="TouOptionAssassinAllianceMods"></string>
   <string name="TouOptionAssassinNonCrewMods"></string>
   <string name="TouModifierOverclocker"></string>
+  <string name="TouOptionForensicFactionDuration"></string>
+  <string name="TouRoleSonarWikiDescription"></string>
+  <string name="TouRoleSpectreWikiDescription"></string>
+  <string name="TouOptionFairyOnDeathFairyBecomes"></string>
+  <string name="TouRoleSpectre"></string>
+  <string name="TouRoleFairyWikiDescription"></string>
+  <string name="TouRoleForensicMessageTitle"></string>
+  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription"></string>
+  <string name="TouRoleSonar"></string>
+  <string name="TouRoleFairy"></string>
+  <string name="TouOptionFairyTargetKnowsFairyExists"></string>
+  <string name="TouOptionFairyFairyKnowsRole"></string>
+  <string name="TouOptionSpectreWin"></string>
 </resources>

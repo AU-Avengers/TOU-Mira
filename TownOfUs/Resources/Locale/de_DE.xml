@@ -2352,4 +2352,9 @@
   <string name="TouOptionOperativeMiraDoorlog"></string>
   <string name="TouOptionScientistChargedPerTask"></string>
   <string name="TouOptionScientistMaxDisplayDuration"></string>
+  <string name="TouOptionFairyFairyKnowsRole"></string>
+  <string name="TouRoleSpectreWikiDescription"></string>
+  <string name="TouRoleFairyWikiDescription"></string>
+  <string name="TouOptionFairyTargetKnowsFairyExists"></string>
+  <string name="TouOptionFairyOnDeathFairyBecomes"></string>
 </resources>
