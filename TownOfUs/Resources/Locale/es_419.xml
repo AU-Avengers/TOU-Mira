@@ -2349,10 +2349,10 @@ con ellos, luego soborna a los ganadores</string>
 [role], el Jinete del Apocalipsis, ¡ha emergido!</string>
   <!-- Espectro -->
     <!-- Espectro - Wiki / Descripción -->
-      <string name="TouRoleSpectre">Espectro</string>
+      <string name="TouRoleSpectre">Aparición</string>
   <string name="TouRoleSpectreIntroBlurb">Usa tu segunda oportunidad para ganar</string>
   <string name="TouRoleSpectreTabDescription">¡Completa todas tus tareas sin que te descubran!</string>
-  <string name="TouRoleSpectreWikiDescription">El Espectro es un Fantasma Neutral que gana la partida al completar todas sus tareas antes de que un jugador vivo haga clic sobre él.</string>
+  <string name="TouRoleSpectreWikiDescription">La Aparición es un Fantasma Neutral que gana la partida al completar todas sus tareas antes de que un jugador vivo haga clic sobre él.</string>
   <string name="TouRoleSpectreSpook">Espantar</string>
   <!-- Opciones del Espectro -->
       <string name="TouOptionSpectreTasksLeftClickable">Tareas antes de poder ser detectado</string>
@@ -2857,7 +2857,7 @@ cuando las luces sean saboteadas.</string>
   <string name="TouRoleJesterHauntNotif">¡El Bufón decidió atormentar a [victim] desde el más allá!</string>
   <string name="TouOptionJesterVentCooldown">Tiempo de recarga de Ductos</string>
   <string name="TouOptionJesterVentDuration">Duración de Ductos</string>
-  <string name="TouRoleSpectreSpookNotif">¡El Espectro espantó a [victim] hasta la muerte!</string>
+  <string name="TouRoleSpectreSpookNotif">¡La Aparición espantó a [victim] hasta la muerte!</string>
   <string name="TouOptionBetterMapsThemeEnumTvShow">La Serie</string>
   <!-- Textos Sueltos -->
 <string name="TouRoleDeputyShootKiller">¡Dispara a un jugador con éxito si es el asesino!</string>
