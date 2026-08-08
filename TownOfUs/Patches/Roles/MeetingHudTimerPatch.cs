@@ -43,10 +43,10 @@ public static class MeetingHudTimerPatch
 
                 break;
             case ProsecutorRole pros:
-                var prosecutes = OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions -
-                                 pros.ProsecutionsCompleted;
+                var total = (int)OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
+                var prosecutes = total - pros.ProsecutionsCompleted;
                 newText =
-                    $"\n{prosecutes} / {OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions} {TouLocale.GetParsed("TouRoleProsecutorProsecutionsRemaining")}";
+                    $"{TouLocale.GetParsed("TouRoleProsecutorProsecutionsRemaining").Replace("<count>", prosecutes.ToString(TownOfUsPlugin.Culture)).Replace("<total>", total.ToString(TownOfUsPlugin.Culture))}";
                 break;
             case DeputyRole dep:
                 if (dep.Killer)

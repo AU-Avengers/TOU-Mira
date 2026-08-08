@@ -1232,7 +1232,7 @@
   <string name="TouRoleProsecutorIntroBlurb">Exile players of your choosing</string>
   <string name="TouRoleProsecutorTabDescription">Choose to exile anyone of your choosing</string>
   <string name="TouRoleProsecutorCanProsecuteCrew">\%b\%You may prosecute crew.\%/b\%</string>
-  <string name="TouRoleProsecutorProsecutionsRemaining">\%count\% Prosecution(s) Remaining</string>
+  <string name="TouRoleProsecutorProsecutionsRemaining">\%count\%/\%total\% Prosecutions</string>
   <string name="TouRoleProsecutorWikiDescription">The Prosecutor is a Crewmate Power role that can Exile a player, applying five votes to a player of their choosing. They can also see who voted for whom, even if they're anonymous.</string>
   <string name="TouRoleProsecutorProsecute">Prosecute</string>
   <string name="TouRoleProsecutorProsecuteWiki">Prosecute (Meeting)</string>
@@ -1785,6 +1785,7 @@
   <string name="TouRoleHerbalistConfuseWikiDescription">Confuse a player with fungal spores to prevent them from identifying players.</string>
   <string name="TouRoleHerbalistProtect">Protect</string>
   <string name="TouRoleHerbalistProtectWikiDescription">Protect a player temporarily as if you were a Cleric, including other impostors.</string>
+    <string name="TouRoleHerbalistChangeHerb">Change Herb</string>
   <!-- Not in code yet -->
 
   <!-- Hypnotist Wiki / Abilities -->
@@ -2736,7 +2737,6 @@
   <string name="TouModifierTorchWikiDescription">The lights being off do not affect your vision.</string>
 
   <!-- Extra Texts -->
-<string name="TouRoleProsecutorProsecutionsRemaining">Prosecutions Remaining</string>
 <string name="TouRoleDeputyShootKiller">Shoot a player successfully if they were the killer!</string>
 <string name="TouRolePoliticianRevealRequirement">Reveal successfully if half the crewmates are campaigned!</string>
 <string name="TouRoleMayorRevealedVotes">You unleash 3 votes at once!</string>
@@ -2763,6 +2763,28 @@ You can no longer vanquish players.</string>
 <string name="TouRoleSpectreSpookMessage">You have one round to spook a player of your choice to death, choose wisely.</string>
 <string name="TouRoleSpectreWonOther">\%role\%, \%player\%, has successfully won, as they completed their tasks postmortem!</string>
 <string name="TouRoleSpectreClickableFeedback">You are now clickable by players!</string>
-
-
+<string name="TouModifierDeadlyQuotaCompleted">You have completed your quota!</string>
+<string name="TouModifierDeadlyQuotaCompletedShield">You have completed your quota! You have lost your temporarily shield.</string>
+<string name="TouModifierDeadlyQuotaRemaining">You need \%amount\% more \%kills\% to complete your quota!</string>
+<string name="TouModifierDeadlyQuotaKill">kill</string>
+<string name="TouModifierDeadlyQuotaKills">kills</string>
+<string name="TouRoleBootleggerRoleblockChosen">You chose to roleblock \%player\%.</string>
+<string name="TouRoleBarkeeperRoleblockChosen">You chose to roleblock \%player\%.</string>
+<string name="TouRoleBarkeeperRoleblocked">\%player\% was roleblocked!</string>
+<string name="TouRoleBootleggerPoisonStage1">Next time, they will become sick.</string>
+<string name="TouRoleBootleggerPoisonStage2">Next time, they will be poisoned.</string>
+<string name="TouRoleBootleggerPoisonStage3">Wait for the poison to kick in.</string>
+<string name="TouRoleBarkeeperHungover">Someone gave you a drink, but you are too hungover!</string>
+<string name="TouRoleBarkeeperRoleblockedTarget">Someone gave you a drink, you were roleblocked!</string>
+<string name="TouRoleBootleggerImpendingDoom">You feel a sense of impending doom.</string>
+<string name="TouRoleBarkeeperSpillNotification">Your spilled drink will take \%time\%s to take effect for others!</string>
+<string name="TouModifierTelepathFailedGuess">Your teammate, \%player\%, attempted to shoot \%target\% as \%guess\%, but failed!</string>
+<string name="TouModifierTelepathCorrectGuess">Your teammate, \%player\%, shot \%target\% as \%role\%!</string>
+<string name="TouModifierTelepathKill">Your teammate, \%player\%, has killed.</string>
+<string name="TouModifierTelepathDeath">Your teammate, \%player\%, has been murdered!</string>
+<string name="TouRoleAmbassadorRetrain">Ambassador Retrain</string>
+<string name="TouRoleAmbassadorRetrainConfirm">Are you sure you want to be retrained into \%role\%?\%nl\%This change is permanent.</string>
+<string name="TouHexBombTriggered">The Hex Bomb has been triggered!</string>
+<string name="TouHexBombCountdown">The Spellslinger is unleashing a Hex Bomb!\%nl\%\%time\% seconds left!</string>
+<string name="TouHexBombSpellslingerDead">The Spellslinger has perished!</string>
 </resources>

@@ -46,9 +46,8 @@ public sealed class BarkeeperRoleblockButton : TownOfUsRoleButton<BarkeeperRole,
 
         _roleblockedTarget = Target;
 
-        NotifMessage = Helpers.CreateAndShowNotification(
-            $"<b>You chose to roleblock {_roleblockedTarget.CachedPlayerData.PlayerName}.</b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper.LoadAsset());
+        NotifMessage = Helpers.CreateAndShowNotification($"<b>{TouLocale.GetParsed("TouRoleBarkeeperRoleblockChosen") .Replace("<player>", _roleblockedTarget.CachedPlayerData.PlayerName)}</b>",
+        Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper.LoadAsset());
         NotifMessage.Text.SetOutlineThickness(0.35f);
         CustomButtonSingleton<BarkeeperSpillButton>.Instance.ResetCooldownAndOrEffect();
     }
