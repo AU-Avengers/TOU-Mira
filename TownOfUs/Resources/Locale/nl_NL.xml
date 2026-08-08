@@ -275,12 +275,11 @@
   <string name="TouRoleHaunterSelfAlertFeedback">Je hebt de moordenaren gealarmeerd!</string>
   <string name="TouRoleHaunterImpAlertFeedback">Een Spoker loopt los! Vang hem voordat hij jullie onthult!</string>
   <string name="TouRoleHunter">Jager</string>
-  <string name="TouRoleHunterTabDescription">Stalk spelers om gealarmeerd te worden als ze hun vaardigheden gebruiken.
-Zodra ze hun vaardigheden gebruiken, kun je ze doden.</string>
+  <string name="TouRoleHunterTabDescription">Stalk spelers om gealarmeerd te worden als ze hun vaardigheden gebruiken.%nl\%Zodra ze hun vaardigheden gebruiken, kun je ze doden.</string>
   <string name="TouRoleHunterWikiDescription">De Jager is een Bemanning Doden rol die spelers gedurende de ronde kan stalken. Als een gestalkte speler een vaardigheid gebruikt, kunnen ze gedood worden door de Jager tijdens elk punt in het spel, zelfs Bemanning.</string>
   <string name="TouRoleHunterStalk">Stalk</string>
   <string name="TouRoleHunterStalking">Stalken</string>
-  <string name="TouRoleHunterStalkWikiDescription">Kies een doelwit om te stalken. Je kunt [hunterMaxStalkUsages] spelers stalken. Als zij hun vaardigheden gebruiken als ze gestalkt worden, worden ze aan je dodenlijst toegevoegd en kun je ze doden.</string>
+  <string name="TouRoleHunterStalkWikiDescription">Kies een doelwit om te stalken. Je kunt %hunterMaxStalkUsages\% spelers stalken. Als zij hun vaardigheden gebruiken als ze gestalkt worden, worden ze aan je dodenlijst toegevoegd en kun je ze doden.</string>
   <string name="TouOptionHunterStalkCooldown">Jager stalk afkoelperiode</string>
   <string name="TouOptionHunterStalkDuration">Jager stalk duur</string>
   <string name="TouOptionHunterStalkUses">Maximale stalk toepassingen</string>
@@ -303,14 +302,14 @@ Zodra ze hun vaardigheden gebruiken, kun je ze doden.</string>
   <string name="TouOptionJailorJailInARow">Sluit dezelfde speler 2 keer achter elkaar op</string>
   <string name="TouOptionJailorJaileePublicChat">Gevangene kan publieke chat gebruiken</string>
   <string name="TouRoleJailorJailorFeedback">Communiceer met je gevangene in de %b\%RODE%/b\% privé-chatbox naast de %b\%NORMALE%/b\% chatbox.</string>
-  <string name="TouRoleJailorCannotExecute">[player] kan niet worden geëxecuteerd! Ze zijn onkwetsbaar of gezegend!</string>
-  <string name="TouRoleJailorExecutedCrew">[player] was een Bemanningslid! Je kunt niemand meer opsluiten!</string>
-  <string name="TouRoleJailorExecutedEvil">[player] was succesvol geëxecuteerd!</string>
+  <string name="TouRoleJailorCannotExecute">%player\% kan niet worden geëxecuteerd! Ze zijn onkwetsbaar of gezegend!</string>
+  <string name="TouRoleJailorExecutedCrew">%player\% was een Bemanningslid! Je kunt niemand meer opsluiten!</string>
+  <string name="TouRoleJailorExecutedEvil">%player\% was succesvol geëxecuteerd!</string>
   <string name="TouRoleLookout">Uitkijker</string>
   <string name="TouRoleLookoutIntroBlurb">Hou je ogen open</string>
   <string name="TouRoleLookoutTabDescription">Bekijk andere bemanningsleden en zie welke rollen geïnteracteerd hebben met hen</string>
   <string name="Modifier">Modificator</string>
-  <string name="DiedByStringBasic">Door [player]</string>
+  <string name="DiedByStringBasic">Door %player\%</string>
   <string name="TouRoleImitatorIntroBlurb">Gebruik geëlimineerde rollen om de Bemanning te laten profiteren</string>
   <string name="TouRoleImitatorTabDescription">Gebruik dode spelers om de Bemanning te laten profiteren door middel van imitatie tijdens vergaderingen</string>
   <string name="TouRoleImitatorWikiDescription">De Imitator is een Bemanning Ondersteuning rol die een dood Bemanningslid kan selecteren om hun rol te imiteren. Hij zal hun rol en vaardigheden overnemen totdat hij zijn doelwit veranderd. Sommige rollen kunnen niet worden geïmiteerd als er meerdere Imitators levend zijn.</string>
@@ -375,8 +374,8 @@ Zodra ze hun vaardigheden gebruiken, kun je ze doden.</string>
   <string name="TouOptionMirrorcasterUnleashCooldown">Ontketen afkoelperiode</string>
   <string name="TouOptionMirrorcasterAccumulateMultipleUnleashes">Verzamel meerdere ontketeningen</string>
   <string name="TouOptionMirrorcasterMaxNumberOfMagicMirrors">Maximale aantal Magische Spiegels</string>
-  <string name="TouRoleMirrorcasterAttackedMessageWithType">[player] was aangevallen door de [attackerRole]! Je kunt nu je aanval op een andere speler ontketenen!</string>
-  <string name="TouRoleMirrorcasterAttackedMessageWithoutType">[player] was aangevallen! Je kunt nu je aanval op een andere speler ontketenen!</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithType">%player\% was aangevallen door de %attackerRole\%! Je kunt nu je aanval op een andere speler ontketenen!</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithoutType">%player\% was aangevallen! Je kunt nu je aanval op een andere speler ontketenen!</string>
   <string name="TouRoleMystic">Mysticus</string>
   <string name="TouRoleMysticIntroBlurb">Weet waar en wanneer doden vallen</string>
   <string name="TouRoleMysticTabDescription">Begrijp waar en wanneer doden vallen</string>
@@ -384,8 +383,7 @@ Zodra ze hun vaardigheden gebruiken, kun je ze doden.</string>
   <string name="TouOptionMysticDeadBodyArrowDuration">Dood Lichaam Pijl Duur</string>
   <string name="TouRoleOracle">Orakel</string>
   <string name="TouRoleOracleIntroBlurb">Laat Bemanningsleden hun zondes opbiechten</string>s
-  <string name="TouRoleOracleTabDescription">Zegen Bemanningsleden om hen te beschermen tijdens vergaderingen en
-laat ze biechten tijdens de vergadering</string>
+  <string name="TouRoleOracleTabDescription">Zegen Bemanningsleden om hen te beschermen tijdens vergaderingen en%nl\%laat ze biechten tijdens de vergadering</string>
   <string name="SetRoleList">Lijst met rollen instellen</string>
   <string name="NeutralFactionList">Lijst van Neutrale Facties</string>
   <string name="NeutralBenigns">Neutraal Goedaardige</string>
@@ -393,24 +391,23 @@ laat ze biechten tijdens de vergadering</string>
   <string name="NeutralKillers">Neutraal Moordenaar</string>
   <string name="MinimumShort">Minimaal</string>
   <string name="MaximumShort">Maximaal</string>
-  <string name="TouRoleOracleWikiDescription">Het Orakel is een Bemanning Beschermend rol die andere spelers kan laten biechten (dit onthult hun geaardheid met een nauwkeurigheid van [revealAccuracy] als het Orakel dood gaat) of een speler kan beschermen tegen vaardigheden in vergaderingen.</string>
+  <string name="TouRoleOracleWikiDescription">Het Orakel is een Bemanning Beschermend rol die andere spelers kan laten biechten (dit onthult hun geaardheid met een nauwkeurigheid van %revealAccuracy\% als het Orakel dood gaat) of een speler kan beschermen tegen vaardigheden in vergaderingen.</string>
   <string name="TouRoleOracleBless">Zegen</string>
   <string name="TouRoleOracleBlessWikiDescription">Door een speler te zegenen voorkom je dat er iets met hen gebeurd tijdens vergaderingen.</string>
   <string name="TouRoleOracleConfess">Opbiechten</string>
-  <string name="TouRoleOracleConfessWikiDescription">Laat een speler biechten in een vergadering zodat je een visioen krijgt van 3 mogelijke slechteriken (inclusief de biechtvader) en onthul hun geaardheid aan iedereen met [revealAccuracy] nauwkeurigheid als het Orakel sterft.</string>
+  <string name="TouRoleOracleConfessWikiDescription">Laat een speler biechten in een vergadering zodat je een visioen krijgt van 3 mogelijke slechteriken (inclusief de biechtvader) en onthul hun geaardheid aan iedereen met %revealAccuracy\% nauwkeurigheid als het Orakel sterft.</string>
   <string name="TouOptionOracleConfessCooldown">Biechten Afkoelperiode</string>
   <string name="TouOptionOracleBlessCooldown">Zegen Afkoelperiode</string>
   <string name="TouOptionOracleRevealAccuracy">Onthul Nauwkeurigheid</string>
   <string name="TouRoleOracleConfessorDied">Je biechtvader heeft het niet overleefd, dus krijg je geen bekentenis</string>
   <string name="TouRoleOracleTooFew">Er zijn te weinig overlevende op een bekentenis te krijgen</string>
-  <string name="TouRoleOracleNoMoreEvil">[player] biecht op te weten dat er geen slechte spelers meer zijn!</string>
-  <string name="TouRoleOracleThreePlayers">[player1] biecht op te weten dat hij, [player2] en/of [player3] slecht is!</string>
-  <string name="TouRoleOracleBlessingMessageSelf">Jouw zegen heeft [player] van de dood beschermd!</string>
-  <string name="TouRoleOracleBlessingMessageOthers">[player] heeft het overleefd omdat hij gezegend is door een [color=#FFBF00BF]Orakel[/color]!</string>
+  <string name="TouRoleOracleNoMoreEvil">%player\% biecht op te weten dat er geen slechte spelers meer zijn!</string>
+  <string name="TouRoleOracleThreePlayers">%player1\% biecht op te weten dat hij, %player2\% en/of %player3\% slecht is!</string>
+  <string name="TouRoleOracleBlessingMessageSelf">Jouw zegen heeft %player\% van de dood beschermd!</string>
+  <string name="TouRoleOracleBlessingMessageOthers">%player\% heeft het overleefd omdat hij gezegend is door een %color=#FFBF00BF\%Orakel%/color\%!</string>
   <string name="TouRolePlumber">Loodgieter</string>
   <string name="TouRolePlumberIntroBlurb">Haal de ratten uit het riool</string>
-  <string name="TouRolePlumberTabDescription">Spoel het ventilatiesysteem om venters eruit te gooien en
-barricadeer ventilatieschachten om deze de volgende ronde te blokkeren</string>
+  <string name="TouRolePlumberTabDescription">Spoel het ventilatiesysteem om venters eruit te gooien en%nl\%barricadeer ventilatieschachten om deze de volgende ronde te blokkeren</string>
   <string name="TouRolePlumberWikiDescription">De Loodgieter is een Bemanning Ondersteuning rol die barricades op ventilatieschachten kan plaatsen en iedereen uit ventilatieschachten kan spoelen.</string>
   <string name="TouRolePlumberFlush">Spoel</string>
   <string name="TouRoleMirrorcasterMagicMirror">Magische Spiegel</string>
@@ -423,8 +420,8 @@ barricadeer ventilatieschachten om deze de volgende ronde te blokkeren</string>
   <string name="TouRolePlumberExtraTabText">Let op: Barricades blijven voor %roundCount\% ronde(s)</string>
   <string name="TouRolePlumberVentListTabText">Ventilatieschachten lijst</string>
   <string name="TouRolePlumberUnbuiltBarricadeTabText">Voorbereiden...</string>
-  <string name="TouRolePlumberVentLabelTabText">[roomName] ventilatieschacht</string>
-  <string name="TouRolePlumberVentRoundsTabText">Nog [roundsRemaining] rondes resterend</string>
+  <string name="TouRolePlumberVentLabelTabText">%roomName\% ventilatieschacht</string>
+  <string name="TouRolePlumberVentRoundsTabText">Nog %roundsRemaining\% rondes resterend</string>
   <string name="TouNotifPlumberBlock">Deze ventilatieschacht zal geblokkeerd zijn aan het begin van de volgende ronde.</string>
   <string name="TouRolePlumberFlushWikiDescription">Door ventilatieschachten te spoelen, gaan ze open en dicht, waardoor iedereen die zich in een ventilatieschacht bevindt eruit wordt gegooid. De Loodgieter krijgt ook een pijl naar elke gespoelde speler voor 1 seconde.</string>
   <string name="TouRolePlumberBlock">Blokkeer</string>
