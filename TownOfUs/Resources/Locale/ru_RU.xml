@@ -134,8 +134,7 @@
   <string name="TouInfection">Инфекция</string>
   <string name="TouRoleSpectator">Наблюдатель</string>
   <string name="TouRoleSpectatorIntroBlurb">Наслаждайтесь хаосом</string>
-  <string name="TouRoleSpectatorTabDescription">Вы не участвуете. Наблюдайте за хаосом,
-пока играют другие!</string>
+  <string name="TouRoleSpectatorTabDescription">Вы не участвуете. Наблюдайте за хаосом,\%nl\%пока играют другие!</string>
   <string name="TouRoleSpectatorWikiDescription">Вы не участвуете и не взаимодействуете с игроками. Просто смотрите и наблюдайте!</string>
   <string name="TouRoleAltruist">Альтруист</string>
   <string name="TouRoleAltruistIntroBlurb">Возрождайте умерших игроков</string>
@@ -151,8 +150,7 @@
   <string name="TouRoleHunter">Охотник</string>
   <string name="TouRoleImitator">Имитатор</string>
   <string name="TouRoleImitatorIntroBlurb">Копируйте способности мёртвых в пользу Экипажа</string>
-  <string name="TouRoleImitatorTabDescription">Копируйте способности мёртвых игроков
-во время собраний и помогайте Экипажу</string>
+  <string name="TouRoleImitatorTabDescription">Копируйте способности мёртвых игроков\%nl\%во время собраний и помогайте Экипажу</string>
   <string name="TouRoleImitatorWikiDescription">Имитатор - Поддерживающий Член Экипажа, который может временно копировать роль выбранного мёртвого игрока. Имитатор остается выбранной ролью, пока не сменит цель. Некоторые роли недоступны, если в игре несколько Имитаторов.</string>
   <string name="TouRoleImitatorCrewmateImitation">Имитация Экипажа</string>
   <string name="TouRoleImitatorCrewmateImitationWikiDescription">Может копировать любую роль Экипажа, кроме Имитатора, Политика, Мэра, и обычного Члена экипажа. Пленник и Прокурор не смогут использовать свои способности во время собрания, а Линчеватель не получает право на ошибку в гадалке.</string>
@@ -198,8 +196,8 @@
   <string name="YouWereAn">Вы были</string>
   <string name="YouWereThe">Вы были</string>
   <string name="YouWere">Вы были</string>
-  <string name="DiedByString">[cod] от [player]</string>
-  <string name="DiedByStringBasic">От [player]</string>
+  <string name="DiedByString">\%cod\% от \%player\%</string>
+  <string name="DiedByStringBasic">От \%player\%</string>
   <string name="Alive">Жив</string>
   <string name="DiedToEjection">Выкинут</string>
   <string name="DiedToHeartbreak">♥Суицид♥</string>
@@ -225,16 +223,15 @@
   <string name="TouOptionAurialSenseDuration">Длительность чувствительности</string>
   <string name="TouRoleCleric">Клирик</string>
   <string name="TouRoleClericIntroBlurb">Защищайте Экипаж</string>
-  <string name="TouRoleClericTabDescription">Очищайте негативные эффекты с Членом Экипажа
-и создавайте щиты, защищающие от взаимодействий</string>
+  <string name="TouRoleClericTabDescription">Очищайте негативные эффекты с Членом Экипажа%nl\%и создавайте щиты, защищающие от взаимодействий</string>
   <string name="TouRoleClericWikiDescription">Клирик - Защищающий Член Экипажа, который может защищать Членов Экипажа, убирая с них негативные эффекта и создавая щиты, блокирующие эффекты в будущем.</string>
   <string name="TouRoleClericBarrier">Защитить</string>
-  <string name="TouRoleClericBarrierWikiDescription">Защитить Членов Экипажа от взаимодействий других ролей. Щит длится [BarrierCooldown]с.</string>
+  <string name="TouRoleClericBarrierWikiDescription">Защитить Членов Экипажа от взаимодействий других ролей. Щит длится %BarrierCooldown\%с.</string>
   <string name="TouRoleClericCleanse">Очистить</string>
   <string name="TouRoleClericCleanseWikiDescription">Снять все негативные эффекты с игрока (Обливание, Взлом, Заражение, Шантаж, Ослепления, Флеш, Гипноз)</string>
   <string name="TouRoleClericMessageTitle">Отзыв на Клирика</string>
-  <string name="TouRoleClericCleansedEffects">Счищенные с [player] эффекты:</string>
-  <string name="TouRoleClericCleansedNoEffects">На [player] не было негативных эффектов.</string>
+  <string name="TouRoleClericCleansedEffects">Счищенные с %player\% эффекты:</string>
+  <string name="TouRoleClericCleansedNoEffects">На %player\% не было негативных эффектов.</string>
   <string name="TouOptionClericBarrierCooldown">Откат щита</string>
   <string name="TouOptionClericBarrierDuration">Длительность щита</string>
   <string name="TouOptionClericCleanseCooldown">Откат Очищения</string>
@@ -257,7 +254,7 @@
   <string name="TouRoleEngineerWikiDescription">Инженер - Поддерживающий Член Экипажа, который может использовать люки и удалённо чинить саботажи.</string>
   <string name="TouRoleEngineerFix">Починить</string>
   <string name="TouRoleEngineerFixing">Починка</string>
-  <string name="TouRoleEngineerFixWikiDescription">Неважно где вы, вы можете использовать кнопку починки, чтобы мгновенно починить саботаж. Вы можете делать это [engiMaxFixes] раз(-а) за игру</string>
+  <string name="TouRoleEngineerFixWikiDescription">Неважно где вы, вы можете использовать кнопку починки, чтобы мгновенно починить саботаж. Вы можете делать это %engiMaxFixes\% раз(-а) за игру</string>
   <string name="TouOptionEngineerMaxVents">Макс. использований люков</string>
   <string name="TouOptionEngineerVentCooldown">Откат люка</string>
   <string name="TouOptionEngineerVentDuration">Макс. длительность нахождения в люке</string>
@@ -273,8 +270,7 @@
   <string name="TouRoleForensicIntroBlurb">Исследуйте место убийства чтобы поймать убийцу</string>
   <string name="TouRoleForensicTabDescription">Исследуйте место убийства, а затем проверяйте игроков,\%nl\%чтобы узнать, были ли они на месте убийства.</string>
   <string name="TouRoleHaunterIntroBlurb">Посмертно разоблачите Предателей!</string>
-  <string name="TouRoleHaunterTabDescription">Завершите все свои задания не попадаясь
-на глаза, чтобы найти Предателей!</string>
+  <string name="TouRoleHaunterTabDescription">Завершите все свои задания не попадаясь\%nl\%на глаза, чтобы найти Предателей!</string>
   <string name="TouRoleHaunterWikiDescription">Дух - Призрачный Член Экипажа, который может выполнять задания. Он отображается как полупрозрачный игрок. Если он выполнит все свои задания, все живые игроки увидят Предателей. Однако, если Предатель нажмёт на духа раньше, дух превратится в обычного призрака. Предатели получают оповещение незадолго до того, как Дух выполнит все свои задания.</string>
   <string name="TouOptionHaunterNumTasksLeftBeforeClickable">Осталось заданий до того как на вас можно нажать</string>
   <string name="TouOptionHaunterNumTasksLeftBeforeAlerted">Осталось заданий до оповещения</string>
@@ -283,9 +279,7 @@
   <string name="TouRoleHaunterSelfAlertFeedback">Вы оповестили Предателей!</string>
   <string name="TouRoleHaunterImpAlertFeedback">Дух на свободе, поймайте его быстрее чем он выдаст вас!</string>
   <string name="TouRoleHunterIntroBlurb">Охотьтесь за \%color=#FF0000FF\%Предателями\%/color\%</string>
-  <string name="TouRoleHunterTabDescription">Охотьтесь за игроками, чтобы получить оповещение,
-когда они используют способность.
-Как только они используют способность, вы можете убить их.</string>
+  <string name="TouRoleHunterTabDescription">Охотьтесь за игроками, чтобы получить оповещение,\%nl\%когда они используют способность.\%nl\%Как только они используют способность, вы можете убить их.</string>
   <string name="TouRoleHunterCaughtPlayersText">Пойманные игроки:</string>
   <string name="TouRoleHunterWikiDescription">Охотник - Убивающий Член Экипажа, который может охотиться за игроками во время раунда. Если игрок, за которым охотятся использует способность, он может быть убит Охотником в любой момент игры, убить можно даже Члена Экипажа.</string>
   <string name="TouRoleHunterStalk">Охота</string>
@@ -314,8 +308,7 @@
   <string name="TouRoleJailorExecutedEvil">\%player\% был казнён!</string>
   <string name="TouRoleLookout">Дозорный</string>
   <string name="TouRoleLookoutIntroBlurb">Будьте начеку</string>
-  <string name="TouRoleLookoutTabDescription">Наблюдайте за другими Членами Экипажа,
-чтобы увидеть, какие роли взаимодействовали с ними</string>
+  <string name="TouRoleLookoutTabDescription">Наблюдайте за другими Членами Экипажа,\%nl\%чтобы увидеть, какие роли взаимодействовали с ними</string>
   <string name="TouRoleLookoutWikiDescription">Дозорный - Расследующий Член Экипажа, который может наблюдать за другими игроками во время игры. Во время собрания, Дозорный увидит все роли, которые взаимодействовали с каждым наблюдаемым игроком.</string>
   <string name="TouRoleLookoutWatch">Наблюдать</string>
   <string name="TouRoleLookoutWatchWikiDescription">Наблюдайте за игроками, чтобы узнать, кто взаимодействовал с наблюдаемыми, на следующем собрании.</string>
@@ -366,8 +359,8 @@
   <string name="TouOptionMirrorcasterUnleashCooldown">Откат Атаки</string>
   <string name="TouOptionMirrorcasterAccumulateMultipleUnleashes">Накапливать Атаки</string>
   <string name="TouOptionMirrorcasterMaxNumberOfMagicMirrors">Макс. количество Магических Зеркал</string>
-  <string name="TouRoleMirrorcasterAttackedMessageWithType">[attackerRole] атаковал(-а) [player]! Теперь вы можете атаковать другого игрока!</string>
-  <string name="TouRoleMirrorcasterAttackedMessageWithoutType">[player] был(-а) атакован(-а)! Теперь вы можете атаковать другого игрока!</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithType">\%attackerRole\% атаковал(-а) \%player\%! Теперь вы можете атаковать другого игрока!</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithoutType">\%player\% был(-а) атакован(-а)! Теперь вы можете атаковать другого игрока!</string>
   <string name="TouRoleMystic">Мистик</string>
   <string name="TouRoleMysticIntroBlurb">Знайте когда и где случается убийство</string>
   <string name="TouRoleMysticTabDescription">Узнавайте когда и где случится убийство</string>
@@ -375,14 +368,12 @@
   <string name="TouOptionMysticDeadBodyArrowDuration">Длительность стрелки к трупу</string>
   <string name="TouRoleOracle">Оракул</string>
   <string name="TouRoleOracleIntroBlurb">Заставляйте игроков признаваться в содеянных грехах</string>s
-  <string name="TouRoleOracleTabDescription">Благословляйте Членов Экипажа,
-чтобы защищать их на собраниях, затем
- заставляйте их раскрыть свою роль на собрании</string>
-  <string name="TouRoleOracleWikiDescription">Оракул - Защищающий Член Экипажа, который может заставить другого игрока признаться (раскрыв его фракцию с шансом [revealAccuracy]%, если Оракул умрёт) или защитить игрока от любых вредных взаимодействий во время собрания.</string>
+  <string name="TouRoleOracleTabDescription">Благословляйте Членов Экипажа,\%nl\%чтобы защищать их на собраниях, затем\%nl\% заставляйте их раскрыть свою роль на собрании</string>
+  <string name="TouRoleOracleWikiDescription">Оракул - Защищающий Член Экипажа, который может заставить другого игрока признаться (раскрыв его фракцию с шансом \%revealAccuracy\%%, если Оракул умрёт) или защитить игрока от любых вредных взаимодействий во время собрания.</string>
   <string name="TouRoleOracleBless">Благословить</string>
   <string name="TouRoleOracleBlessWikiDescription">Благословляя игроков, вы защищаете их от любых вредных способностей во время собрания.</string>
   <string name="TouRoleOracleConfess">Признание</string>
-  <string name="TouRoleOracleConfessWikiDescription">Заставляйте игрока признаться на в трёх возможных злодеяниях, а также раскройте его фракцию для всех с [revealAccuracy]% шансом после смерти Оракула.</string>
+  <string name="TouRoleOracleConfessWikiDescription">Заставляйте игрока признаться на в трёх возможных злодеяниях, а также раскройте его фракцию для всех с \%revealAccuracy\%% шансом после смерти Оракула.</string>
   <string name="TouOptionOracleConfessCooldown">Откат Признания</string>
   <string name="TouOptionOracleBlessCooldown">Откат Благословения</string>
   <string name="TouOptionOracleRevealAccuracy">Шанс Раскрытия</string>
@@ -407,13 +398,12 @@
   <string name="TouRoleForensic">Детектив</string>
   <string name="TouRolePlumber">Сантехник</string>
   <string name="TouRolePlumberIntroBlurb">Выкидывайте игроков из люков</string>
-  <string name="TouRolePlumberTabDescription">Выкидывайте игроков из люков, и
-баррикадируйте люки, чтобы в них нельзя было залезть в след. раундах</string>
+  <string name="TouRolePlumberTabDescription">Выкидывайте игроков из люков, и%nl\%баррикадируйте люки, чтобы в них нельзя было залезть в след. раундах</string>
   <string name="TouRolePlumberExtraTabText">Примечание: баррикады исчезают через %roundCount\% раунд(-а)</string>
   <string name="TouRolePlumberVentListTabText">Список люков</string>
   <string name="TouRolePlumberUnbuiltBarricadeTabText">Приготовление...</string>
-  <string name="TouRolePlumberVentLabelTabText">Люк в [roomName]</string>
-  <string name="TouRolePlumberVentRoundsTabText">Остаётся [roundsRemaining] раунд(-а)</string>
+  <string name="TouRolePlumberVentLabelTabText">Люк в %roomName\%</string>
+  <string name="TouRolePlumberVentRoundsTabText">Остаётся %roundsRemaining\% раунд(-а)</string>
   <string name="TouNotifPlumberBlock">Этот люк будет заблокирован, начиная со след. раунда.</string>
   <string name="TouRolePlumberWikiDescription">Сантехник - Поддерживающий Член Экипажа, который может баррикадировать люки и выкидывать из них игроков.</string>
   <string name="TouRolePlumberFlush">Выкинуть</string>
@@ -458,9 +448,7 @@
   <string name="TouRoleTrapper">Ловушечник</string>
   <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Подрывник ⇨ Ловушечник | Гипнотизёр ⇨ Дозорный | Уборщик ⇨ Детектив\%nl\%Шахтёр ⇨ Инженер | Падальщик - Трекер\%nl\%Гробовщик ⇨ Альтруист | Колдун ⇨ Ветеран</string>
   <string name="TouRolePoliticianIntroBlurb">Агитируйте игроков, чтобы стать Мэром!</string>
-  <string name="TouRolePoliticianTabDescription">Агитируйте Членов Экипажа, чтобы стать Мэром.
-Как минимум половина мирных игроков должна быть
-агитирована, чтобы кампания завершилась успешно</string>
+  <string name="TouRolePoliticianTabDescription">Агитируйте Членов Экипажа, чтобы стать Мэром.\%nl\%Как минимум половина мирных игроков должна быть\%nl\%агитирована, чтобы кампания завершилась успешно</string>
   <string name="TouRolePoliticianWikiDescription">Политик - Сильный Член Экипажа, который может стать Мэром, агитировав хотя бы половину мирных игроков.</string>
   <string name="TouRolePoliticianCampaign">Агитировать</string>
   <string name="TouRolePoliticianCampaignWikiDescription">Дайте игроку бюллетень, который будет полезен только в том случае, если игрок является Членом Экипажа.</string>
@@ -513,10 +501,10 @@
   <string name="TouOptionSheriffCanShootNeutralKillingRoles">Может застрелить Нейтральных Убийц</string>
   <string name="TouOptionSheriffMisfireKills">Промах убивает</string>
   <string name="TouRoleSnitch">Стукач</string>
-  <string name="TouRoleSnitchIntroBlurb">Сделайте задания и найдите [color=#FF0000FF]убийц[/color]!</string>
+  <string name="TouRoleSnitchIntroBlurb">Сделайте задания и найдите \%color=#FF0000FF\%убийц\%/color\%!</string>
   <string name="TouRoleSnitchTabDescription">Выполните все задания, чтобы найти убийц.</string>
   <string name="TouRoleSnitchTabDescriptionCompletedTasks">Найдите убийц!</string>
-  <string name="TouRoleSnitchTabDescriptionEgo">Сделайте все задания, чтобы найти[and] помочь Предателям.</string>
+  <string name="TouRoleSnitchTabDescriptionEgo">Сделайте все задания, чтобы найти%and\% помочь Предателям.</string>
   <string name="TouRoleSnitchTabDescriptionCompletedTasksEgo">Помогите Предателям!</string>
   <string name="TouRoleSnitchWikiDescription">Стукач - Расследующий Член Экипажа, который может раскрыть для себя всех убийц, выполнив все задания. После выполнения всех заданий, Стукач будет видеть убийц и стрелки на них.</string>
   <string name="TouOptionSnitchRevealsNeutralKillers">Раскрывает Нейтральных Убийц</string>
@@ -542,8 +530,7 @@
   <string name="TouRoleTrapperTrap">Ловушка</string>
   <string name="TouRoleTrapperTrapWikiDescription">Устанавливает ловушку. В зависимости от настроек, ловушка останется на всю игру или будет убрана после собрания.</string>
   <string name="TouOptionTrapperTrapCooldown">Откат установки ловушки</string>
-  <string name="TouRoleTrapperTabDescription">Устанавливайте ловушки по всей карте,
-чтобы раскрывать роли подошедших к ним</string>
+  <string name="TouRoleTrapperTabDescription">Устанавливайте ловушки по всей карте,\%nl\%чтобы раскрывать роли подошедших к ним</string>
   <string name="TouRolePestilenceYouAreText">Вы -</string>
   <string name="ClientTabGameplay">Игровой процесс</string>
   <string name="PlayerHasNoModifiers">Без атрибутов</string>
@@ -616,16 +603,16 @@
   <string name="TouOptionAmbassadorKillsNeededByAmbassadorOrTeammateToRetrain">Кол-во убийств, нужных Куратору или его союзникам для Изменения роли</string>
   <string name="TouOptionAmbassadorRoundInWhichRetrainingIsPossible">В каком раунде возможно Изменение</string>
   <string name="TouOptionAmbassadorRoundsNeededToRetrainAgain">До следующего Изменения необходимо раундов</string>
-  <string name="TouRoleAmbassadorDecidedToRetrainYou">Куратор решил изменить вашу роль на [newRole]</string>
-  <string name="TouRoleAmbassadorDecidedToRetrainSelf">Куратор решил изменить свою роль на [newRole]</string>
-  <string name="TouRoleAmbassadorDecidedToRetrainYourself">Вы решили изменить свою роль на [newRole]</string>
-  <string name="TouRoleAmbassadorDecidedToRetrain">Куратор решил изменить роль игрока [player] на [newRole]</string>
-  <string name="TouRoleAmbassadorRetrainCancelled">Изменение роли [player] было отменено</string>
-  <string name="TouRoleAmbassadorYouDeniedRetrain">Вы отменили изменение роли на [newRole]!</string>
-  <string name="TouRoleAmbassadorPlayerHasDenied">[player] отменил изменение роли на [newRole]!</string>
-  <string name="TouRoleAmbassadorYouHaveAccepted">Вы приняли изменение роли на [newRole]!</string>
-  <string name="TouRoleAmbassadorPlayerHasBeenRetrained">Роль игрока[player] изменена на [newRole]!</string>
-  <string name="TouRoleAmbassadorNeedKills">У вас или у Предателя, у которого вы хотите изменить роль, должно быть минимум [requiredKills] убийств(-а).</string>
+  <string name="TouRoleAmbassadorDecidedToRetrainYou">Куратор решил изменить вашу роль на \%newRole\%</string>
+  <string name="TouRoleAmbassadorDecidedToRetrainSelf">Куратор решил изменить свою роль на \%newRole\%</string>
+  <string name="TouRoleAmbassadorDecidedToRetrainYourself">Вы решили изменить свою роль на \%newRole\%</string>
+  <string name="TouRoleAmbassadorDecidedToRetrain">Куратор решил изменить роль игрока \%player\% на \%newRole\%</string>
+  <string name="TouRoleAmbassadorRetrainCancelled">Изменение роли \%player\% было отменено</string>
+  <string name="TouRoleAmbassadorYouDeniedRetrain">Вы отменили изменение роли на \%newRole\%!</string>
+  <string name="TouRoleAmbassadorPlayerHasDenied">\%player\% отменил изменение роли на \%newRole\%!</string>
+  <string name="TouRoleAmbassadorYouHaveAccepted">Вы приняли изменение роли на \%newRole\%!</string>
+  <string name="TouRoleAmbassadorPlayerHasBeenRetrained">Роль игрока\%player\% изменена на \%newRole\%!</string>
+  <string name="TouRoleAmbassadorNeedKills">У вас или у Предателя, у которого вы хотите изменить роль, должно быть минимум \%requiredKills\% убийств(-а).</string>
   <string name="TouRoleAmbusher">Засадник</string>
   <string name="TouRoleAmbusherIntroBlurb">Похищайте членов экипажа во тьму</string>
   <string name="TouRoleAmbusherTabDescription">Преследуй игрока, а затем устраивай засаду на ближайшего к нему.\%nl\%Если жертва засады погибает, ты утаскиваешь её тело во тьму.</string>
@@ -642,7 +629,7 @@
   <string name="TouRoleBlackmailer">Шантажист</string>
   <string name="TouRoleBlackmailerIntroBlurb">Лишайте игроков голоса на собрании</string>
   <string name="TouRoleBlackmailerTabDescription">Заставь игрока замолчать на следующем собрании</string>
-  <string name="TouRoleBlackmailerWikiDescription">Шантажист - Поддерживающий Предатель, который может не дать выбранному игроку говорить (помечается [symbol]) на следующем собрании</string>
+  <string name="TouRoleBlackmailerWikiDescription">Шантажист - Поддерживающий Предатель, который может не дать выбранному игроку говорить (помечается \%symbol\%) на следующем собрании</string>
   <string name="TouRoleBlackmailerBlackmail">Шантаж</string>
   <string name="TouRoleBlackmailerBlackmailWikiDescription">Заставь игрока замолчать на следующем собрании. Он не сможет говорить, а также не сможет голосовать, пока количество живых игроков не станет меньше или равно лимиту, указанному в настройках Шантажиста</string>
   <string name="TouOptionBlackmailerNumberOfBlackmailUsesPerGame">Количество Шантажа за игру</string>
@@ -654,7 +641,7 @@
   <string name="TouRoleBomber">Подрывник</string>
   <string name="TouRoleBomberIntroBlurb">Убейте сразу несколько игроков, заложив бомбу</string>
   <string name="TouRoleBomberTabDescription">Размести бомбы, чтобы при взрыве уничтожить сразу нескольких игроков</string>
-  <string name="TouRoleBomberWikiDescription">Подрывник - Убивающий Предатель, который может установить на карте бомбу. Она взрывается через [detonateDelay] секунд(ы).</string>
+  <string name="TouRoleBomberWikiDescription">Подрывник - Убивающий Предатель, который может установить на карте бомбу. Она взрывается через \%detonateDelay\% секунд(ы).</string>
   <string name="TouRoleBomberPlace">Бомба</string>
   <string name="TouRoleBomberPlaceWikiDescription">Установи бомбу — отобразится радиус её поражения. При взрыве в радиусе могут погибнуть до \%maxKills\% игроков</string>
   <string name="TouOptionBomberBombUsesPerGame">Количество бомб за игру</string>
@@ -667,9 +654,8 @@
   <string name="TouRoleEclipsal">Затменник</string>
   <string name="TouRoleHypnotist">Гипнотизёр</string>
   <string name="TouRoleHypnotistIntroBlurb">Гипнотизируйте Членов Экипажа</string>
-  <string name="TouRoleHypnotistTabDescription">Гипнотизируйте членов экипажа, чтобы не дать им
-отличать друг друга во время массовой истерии</string>
-  <string name="TouRoleHypnotistWikiDescription">Гипнотизёр - Поддерживающий Предатель, который может гипнотизировать игроков. Во время собрания он может начать Массовую Истерию, из-за которой все игроки под гипнозом (отмеченные знаком [symbol]) будут видеть друг друга по-другому в след. раунде.</string>
+  <string name="TouRoleHypnotistTabDescription">Гипнотизируйте членов экипажа, чтобы не дать им%nl\%отличать друг друга во время массовой истерии</string>
+  <string name="TouRoleHypnotistWikiDescription">Гипнотизёр - Поддерживающий Предатель, который может гипнотизировать игроков. Во время собрания он может начать Массовую Истерию, из-за которой все игроки под гипнозом (отмеченные знаком %symbol\%) будут видеть друг друга по-другому в след. раунде.</string>
   <string name="TouRoleHypnotistHypnotize">Гипнотизировать</string>
   <string name="TouRoleHypnotistHypnotizeWikiDescription">Гипнотизировать игрока, из-за чего он будет видеть игру по-другому во время Массовой Истерии.</string>
   <string name="TouRoleHypnotistMassHysteria">Массовая Истерия</string>
@@ -859,8 +845,8 @@
   <string name="TouRoleDoomsayer">Предвестник</string>
   <string name="TouRoleDoomsayerIntroBlurb">Угадывайте роли игроков, чтобы победить!</string>
   <string name="TouRoleDoomsayerTabDescription">Победите, угадав роли \%guessCount\% игрока(ов).</string>
-  <string name="TouRoleDoomsayerWikiDescription">Предвестник - Злой Нейтрал, который побеждает, угадывая роли [guessCount] игроков.</string>
-  <string name="TouRoleDoomsayerWikiDescriptionIfCanObserve">Предвестник - Злой Нейтрал, который побеждает, угадывая роли [guessCount] игроков. Он может изучать поведение игроков, чтобы в следующем собрании получить подсказку о том, какая у них роль.</string>
+  <string name="TouRoleDoomsayerWikiDescription">Предвестник - Злой Нейтрал, который побеждает, угадывая роли \%guessCount\% игроков.</string>
+  <string name="TouRoleDoomsayerWikiDescriptionIfCanObserve">Предвестник - Злой Нейтрал, который побеждает, угадывая роли \%guessCount\% игроков. Он может изучать поведение игроков, чтобы в следующем собрании получить подсказку о том, какая у них роль.</string>
   <string name="TouRoleDoomsayerObserve">Изучать</string>
   <string name="TouRoleDoomsayerObserveWikiDescription">Изучите игрока, получая подсказку о том, какая у него может быть роль.</string>
   <string name="TouOptionDoomsayerCooldown">Откат Изучения</string>
@@ -1058,7 +1044,7 @@
   <string name="TouModifierEgotist">Эгоист</string>
   <string name="TouModifierEgotistIntroBlurb">Предайте экипаж, чтобы потешить своё эго</string>
   <string name="TouModifierEgotistTabDescription">Бросьте вызов команде, победите с убийцами.</string>
-  <string name="TouModifierEgotistWikiDescription">Эгоист - Атрибут Экипажа (помеченный [symbol]). Эгоист может победить только в том случае, если экипаж проиграет, даже будучи мёртвым. Если после окончания собрания не осталось ни одного члена экипажа - вы победите, но игра продолжится.</string>
+  <string name="TouModifierEgotistWikiDescription">Эгоист - Атрибут Экипажа (помеченный \%symbol\%). Эгоист может победить только в том случае, если экипаж проиграет, даже будучи мёртвым. Если после окончания собрания не осталось ни одного члена экипажа - вы победите, но игра продолжится.</string>
   <string name="TouModifierLover">Любовник</string>
   <string name="TouModifierLoverInfo">Вы влюблены в \%player\%.</string>
   <string name="TouModifierLoverWikiDescription">В качестве любовника вы можете переписываться со своим партнёром (помеченным \%symbol\%) во время раунда, вы победите вместе, если останетесь в финальной тройке.</string>
