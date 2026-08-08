@@ -290,7 +290,7 @@ Tareas falsas:</string>
   <string name="CrewmateAlliance">Alianza Tripulante</string>
   <string name="CrewmateUtility">Utilidad Tripulante</string>
   <string name="CrewmateVisibility">Visibilidad Tripulante</string>
-  <string name="CrewmatePostmortem">PostMórtem Tripulante</string>
+  <string name="CrewmatePostmortem">Tripulante Fantasma</string>
   <string name="CrewmatePassive">Pasivo Tripulante</string>
   <string name="NeutralAlliance">Alianza Neutral</string>
   <string name="NeutralUtility">Utilidad Neutral</string>
@@ -1199,7 +1199,7 @@ reuniones y haz que confiesen</string>
   <!-- Retroalimentación del Oráculo -->
         <string name="TouRoleOracleConfessionTitle">Confesión del Oráculo</string>
   <string name="TouRoleOracleConfessorDied">Tu objetivo murió, por lo que no pudo confesar</string>
-  <string name="TouRoleOracleTooFew">Hay muy pocos vivos para recibir una confesión.</string>
+  <string name="TouRoleOracleTooFew">Hay muy pocos vivos para recibir una confesión</string>
   <string name="TouRoleOracleNoMoreEvil">[player] confiesa saber que ya no quedan jugadores malvados.</string>
   <string name="TouRoleOracleThreePlayers">[player1] confiesa saber que [player2], [player3] o él mismo es malvado.</string>
   <string name="TouRoleOracleBlessingMessageSelf">¡Tu bendición salvó a [player] de morir!</string>
@@ -1279,13 +1279,13 @@ para revelarte con éxito.</string>
   <string name="TouRoleSeerWikiDescription">El Vidente es un Tripulante de Investigación que puede revelar la alianza de otros jugadores.</string>
   <string name="TouRoleSeerAltWikiDescription">El Vidente es un Tripulante de Investigación que puede comparar a dos jugadores para ver si sus alineaciones coinciden o entran en conflicto.</string>
   <string name="TouRoleSeerReveal">Revelar</string>
-  <string name="TouRoleSeerRevealWikiDescription">Revela el bando de un jugador.</string>
+  <string name="TouRoleSeerRevealWikiDescription">Revela el bando de un jugador</string>
   <string name="TouRoleSeerIntuit">Intuir</string>
   <string name="TouRoleSeerGaze">Sospechar</string>
-  <string name="TouRoleSeerCompare">Intuir [and] Sospechar</string>
+  <string name="TouRoleSeerCompare">Intuir [and] Sospechar </string>
   <string name="TouRoleSeerCompareWikiDescription">Compara las alineaciones de dos jugadores usando las habilidades Intuir y Sospechar sobre dos personas distintas. Si aparecen como enemigos, serás informado de ello.</string>
-  <string name="TouRoleSeerGazeNotif">Actualmente estás observando a [player]. Puedes cambiarlo si lo deseas.</string>
-  <string name="TouRoleSeerIntuitNotif">Actualmente estás intuyendo a [player]. Puedes cambiarlo si lo deseas.</string>
+  <string name="TouRoleSeerGazeNotif">Actualmente estás observando a [player]. Puedes cambiarlo si lo deseas. </string>
+  <string name="TouRoleSeerIntuitNotif">Actualmente estás intuyendo a [player]. Puedes cambiarlo si lo deseas. </string>
   <string name="TouRoleSeerCompareErrorAmountNotif">Debes elegir dos objetivos para Sospechar e Intuir.</string>
   <string name="TouRoleSeerCompareErrorSelfNotif">¡No puedes compararte contigo mismo!</string>
   <string name="TouRoleSeerCompareEnemiesNotif">¡[gazed] y [intuited] parecen ser enemigos!</string>
@@ -1445,11 +1445,11 @@ Las balas cargadas hace más de
   <string name="TouRoleSheriffIntroBlurb">Dispara a los [color=#FF0000FF]malos[/color]</string>
   <string name="TouRoleSheriffTabDescription">Acaba con los Impostores, pero
 no mates a los Tripulantes.
-Si te equivocas de objetivo, morirás.</string>
-  <string name="TouRoleSheriffTabDescriptionEgo">Mata a quien quieras con la esperanza de que los Tripulantes pierdan.</string>
+Si te equivocas de objetivo, morirás</string>
+  <string name="TouRoleSheriffTabDescriptionEgo">Mata a quien quieras con la esperanza de que los Tripulantes pierdan</string>
   <string name="TouRoleSheriffWikiDescription">El Sheriff es un Tripulante Asesino que puede dispararle a un jugador para intentar matarlo. Si el Sheriff no muere por un disparo fallido, perderá la capacidad de volver a disparar.</string>
   <string name="TouRoleSheriffShoot">Disparar</string>
-  <string name="TouRoleSheriffShootWikiDescription">Dispara a un jugador para matarlo. Si no es un Impostor o no pertenece a uno de los bandos configurados como válidos, el disparo fallará.</string>
+  <string name="TouRoleSheriffShootWikiDescription">Dispara a un jugador para matarlo. Si no es un Impostor o no pertenece a uno de los bandos configurados como válidos, el disparo fallará</string>
   <!-- Texto de disparo fallido del Sheriff -->
         <string name="TouRoleSheriffTabMisfired">Ya no puedes disparar.</string>
   <string name="TouRoleSheriffTabMisfireKillsBoth">Un disparo fallido te mata a ti y a tu objetivo.</string>
@@ -1506,7 +1506,7 @@ para descubrir a los Impostores.</string>
         <string name="TouRoleSpy">Espía</string>
   <string name="TouRoleSpyIntroBlurb">Husmea y descubre la verdad</string>
   <string name="TouRoleSpyTabDescription">Obtén información adicional en
-la Mesa de Administración</string>
+la Mesa de Admin</string>
   <string name="TouRoleSpyWikiDescription">El Espía es un Tripulante Investigativo que obtiene información adicional en la Mesa de Administración. No solo puede ver cuántas personas hay en una sala, sino también quién está en cada sala.</string>
   <!-- Opciones del Espía -->
         <string name="TouOptionSpyWhoSeesDeadBodiesOnAdmin">Quién ve los cuerpos en Admin</string>
@@ -1562,7 +1562,7 @@ vuelvan unos segundos atrás.</string>
       <!-- Rastreador - Wiki / Habilidades -->
         <string name="TouRoleSonar">Rastreador</string>
   <string name="TouRoleSonarIntroBlurb">Percibe el movimiento de todos</string>
-  <string name="TouRoleSonarTabDescription">Rastrea a jugadores sospechosos para ver adónde van.</string>
+  <string name="TouRoleSonarTabDescription">Rastrea a jugadores sospechosos para ver adónde van</string>
   <string name="TouRoleSonarWikiDescription">El Rastreador es un Tripulante de Investigación que puede rastrear a otros jugadores para conocer su posición aproximada en el mapa, mostrando flechas de colores hacia todos los jugadores rastreados.</string>
   <string name="TouRoleSonarTrack">Rastrear</string>
   <string name="TouRoleSonarTrackWikiDescription">Rastrea a un jugador para ver adónde va. Tendrás una flecha apuntando a su ubicación que se actualizará periódicamente. Desaparecerá si muere o, según la configuración, los rastreos se reiniciarán después de una reunión.</string>
@@ -1595,7 +1595,7 @@ intercambiar sus posiciones</string>
       <!-- Trampero - Wiki / Habilidades -->
         <string name="TouRoleTrapper">Trampero</string>
   <string name="TouRoleTrapperIntroBlurb">Identifica qué roles hay en la partida</string>
-  <string name="TouRoleTrapperTabDescription">Coloca trampas por el mapa para revelar los roles de quienes caigan en ellas.</string>
+  <string name="TouRoleTrapperTabDescription">Coloca trampas por el mapa para revelar los roles de quienes caigan en ellas</string>
   <string name="TouRoleTrapperWikiDescription">El Trampero es un Tripulante Investigador que puede colocar trampas por el mapa. Si un jugador permanece en una trampa el tiempo suficiente y pasan suficientes jugadores por ella, durante la siguiente reunión recibirás una lista con sus roles en orden aleatorio.</string>
   <string name="TouRoleTrapperTrap">Trampa</string>
   <string name="TouRoleTrapperTrapWikiDescription">Coloca una trampa. Dependiendo de la configuración, puede permanecer durante toda la partida o reiniciarse después de las reuniones.</string>
@@ -1639,7 +1639,7 @@ intercambiar sus posiciones</string>
   <string name="TouRoleVigilanteNoSafeShots">No te quedan tiros seguros.</string>
   <string name="TouRoleVigilanteSafeShotsLeft">Te quedan [count] tiro(s) seguro(s).</string>
   <string name="TouRoleVigilanteMultiShotFeedback">¡Te has salvado de morir en esta reunión! ¡Te quedan [count] tiro(s) seguro(s)!</string>
-  <string name="TouRoleVigilanteWikiDescription">El Vigilante Tripulante Asesino que puede adivinar los roles de otros jugadores durante las reuniones. Si acierta, el otro jugador morirá. Si falla, morirá él.</string>
+  <string name="TouRoleVigilanteWikiDescription">El Vigilante Tripulante Asesino que puede adivinar los roles de otros jugadores durante las reuniones. Si acierta, el otro jugador morirá. Si falla, morirá él. </string>
   <!-- Opciones del Vigilante -->
         <string name="TouOptionVigilanteNumberOfGuesses">Intentos</string>
   <string name="TouOptionVigilanteCanGuessMoreThanOncePerMeeting">Más de un intento por reunión</string>
@@ -2735,7 +2735,7 @@ Asesinatos: [amount] / [total]</string>
       <!-- Enfermo - Wiki / Descripción -->
         <string name="TouModifierDiseased">Enfermo</string>
   <string name="TouModifierDiseasedIntroBlurb">Al morir, aumentas el tiempo de recarga de quien te mató.</string>
-  <string name="TouModifierDiseasedTabDescription">Aumenta el tiempo de recarga  de quien te mató.</string>
+  <string name="TouModifierDiseasedTabDescription">Aumenta el tiempo de recarga de quien te mató.</string>
   <string name="TouModifierDiseasedWikiDescription">El tiempo de recarga de quien te mató se multiplica por [cooldownMultiplier].</string>
   <string name="TouModifierDiseasedTriggeredNotif">[player] era [modifier], por lo que tu tiempo de recarga para matar se multiplicó por [cooldownMultiplier].</string>
   <!-- Opciones de Enfermo -->
