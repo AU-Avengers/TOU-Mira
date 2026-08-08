@@ -814,4 +814,7 @@
   <string name="TouOptionFairyTargetKnowsFairyExists">Cel Jest Świadom Istnienia Wróżki</string>
   <string name="TouOptionFairyFairyKnowsRole">Wróżka Zna Rolę Celu</string>
   <string name="TouOptionFairyEvilOdds">Szansa Że Cel Będzie Zły</string>
+  <string name="TouRoleForensic">Kryminolog</string>
+  <string name="TouRoleForensicIntroBlurb">Przebadaj sceny zbrodni aby znaleźć mordercę</string>
+  <string name="TouRoleForensicTabDescription">Przebadaj scenę zbrodni, po czym przesłuchaj graczy, by\%nl\% zobaczyć czy byli przy zabójstwie.</string>
 </resources>
