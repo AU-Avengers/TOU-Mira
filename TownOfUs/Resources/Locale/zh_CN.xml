@@ -225,8 +225,8 @@
   <string name="TouRoleClericCleanse">净化</string>
   <string name="TouRoleClericCleanseWikiDescription">移除玩家身上的所有负面效果。（涂油、黑入、感染、勒索、致盲、闪光、催眠）</string>
   <string name="TouRoleClericMessageTitle">牧师反馈</string>
-  <string name="TouRoleClericCleansedEffects">净化效果在[player]:</string>
-  <string name="TouRoleClericCleansedNoEffects">未在[player]上发现负面效果。</string>
+  <string name="TouRoleClericCleansedEffects">净化效果在\%player\%:</string>
+  <string name="TouRoleClericCleansedNoEffects">未在\%player\%上发现负面效果。</string>
   <string name="TouOptionClericBarrierCooldown">屏障冷却</string>
   <string name="TouOptionClericBarrierDuration">屏障持续时间</string>
   <string name="TouOptionClericCleanseCooldown">净化冷却</string>
@@ -260,7 +260,7 @@
   <string name="TouRoleEngineerWikiDescription">工程师是一名船员辅助型职业，可以使用通风管并远程修复破坏。</string>
   <string name="TouRoleEngineerFix">维修</string>
   <string name="TouRoleEngineerFixing">维修中</string>
-  <string name="TouRoleEngineerFixWikiDescription">无论你在地图的哪个位置，都可以使用修复按钮立即修复当前的破坏。每局游戏可用[engiMaxFixes]次。</string>
+  <string name="TouRoleEngineerFixWikiDescription">无论你在地图的哪个位置，都可以使用修复按钮立即修复当前的破坏。每局游戏可用\%engiMaxFixes\%次。</string>
   <string name="TouOptionEngineerMaxVents">每局游戏通风口可使用次数</string>
   <string name="TouOptionEngineerVentCooldown">通风口使用冷却</string>
   <string name="TouOptionEngineerVentDuration">通风口持续时间</string>
@@ -336,8 +336,8 @@
   <string name="TouOptionJailorJaileePublicChat">被监禁人可公屏聊天</string>
   <string name="TouRoleJailorJailorFeedback">请在“用户举报”按钮上方的私聊框与被关押者进行沟通。</string>
   <string name="TouRoleJailorCannotExecute">\%player\%无法被处决！他们一定是无敌的或者被佑护的！</string>
-  <string name="TouRoleJailorExecutedCrew">[player]是船员！你不能再关押任何人了！</string>
-  <string name="TouRoleJailorExecutedEvil">[player]被成功处决！</string>
+  <string name="TouRoleJailorExecutedCrew">\%player\%是船员！你不能再关押任何人了！</string>
+  <string name="TouRoleJailorExecutedEvil">\%player\%被成功处决！</string>
   <string name="TouRoleLookout">观测者</string>
   <string name="TouRoleLookoutIntroBlurb">睁大你的眼睛仔细看</string>
   <string name="TouRoleLookoutTabDescription">观察其他船员，了解与其互动的角色</string>
@@ -437,9 +437,7 @@
   <string name="TouRoleMirrorcasterUnleash">反射</string>
   <string name="TouRoleMirrorcasterUnleashWikiDescription">一旦魔法镜破碎，利用其力量将攻击反射到另一名玩家！</string>
   <string name="TouRoleAmbassadorIntroBlurb">带领\%color=#FF0000FF\%伪装者\%/color\%取得胜利</string>
-  <string name="TouRoleAmbassadorTabDescription">将自己或其他伪装者覆写为其他职业
-[b]伪装者击杀不能成为强力职业[/b]
-[b]伪装者隐匿/辅助不能成为击杀/强力职业[/b]</string>
+  <string name="TouRoleAmbassadorTabDescription">将自己或其他伪装者覆写为其他职业\%nl\%\%b\%伪装者击杀不能成为强力职业\%/b\%\%nl\%\%b\%伪装者隐匿/辅助不能成为击杀/强力职业\%/b\%</string>
   <string name="TouRoleAmbassadorWikiDescription">伪面使是伪装者强力型职业，可以将伪装者覆写为其他伪装者职业。</string>
   <string name="TouRoleAmbassadorRetrain">覆写</string>
   <string name="TouRoleAmbassadorRetrainWiki">覆写（会议）</string>
@@ -449,16 +447,16 @@
   <string name="TouOptionAmbassadorKillsNeededByAmbassadorOrTeammateToRetrain">伪面使或队友覆写所需击杀数</string>
   <string name="TouOptionAmbassadorRoundInWhichRetrainingIsPossible">可进行覆写的回合数</string>
   <string name="TouOptionAmbassadorRoundsNeededToRetrainAgain">再次覆写所需回合数</string>
-  <string name="TouRoleAmbassadorDecidedToRetrainYou">伪面使已决定将你覆写为[newRole]</string>
-  <string name="TouRoleAmbassadorDecidedToRetrainSelf">伪面使已决定将他们覆写为[newRole]</string>
-  <string name="TouRoleAmbassadorDecidedToRetrainYourself">你已决定覆写为[newRole]</string>
-  <string name="TouRoleAmbassadorDecidedToRetrain">伪面使已决定将[player]覆写为[newRole]</string>
-  <string name="TouRoleAmbassadorRetrainCancelled">伪面使对[player]的覆写已取消</string>
-  <string name="TouRoleAmbassadorYouDeniedRetrain">你已拒绝覆写为[newRole]！</string>
-  <string name="TouRoleAmbassadorPlayerHasDenied">[player]拒绝了覆写为[newRole]！</string>
-  <string name="TouRoleAmbassadorYouHaveAccepted">你已接受覆写为[newRole]！</string>
-  <string name="TouRoleAmbassadorPlayerHasBeenRetrained">[player]现已被覆写为[newRole]！</string>
-  <string name="TouRoleAmbassadorNeedKills">你或伪装者要想覆写必须至少有[requiredKills]次击杀。</string>
+  <string name="TouRoleAmbassadorDecidedToRetrainYou">伪面使已决定将你覆写为\%newRole\%</string>
+  <string name="TouRoleAmbassadorDecidedToRetrainSelf">伪面使已决定将他们覆写为\%newRole\%</string>
+  <string name="TouRoleAmbassadorDecidedToRetrainYourself">你已决定覆写为\%newRole\%</string>
+  <string name="TouRoleAmbassadorDecidedToRetrain">伪面使已决定将\%player\%覆写为\%newRole\%</string>
+  <string name="TouRoleAmbassadorRetrainCancelled">伪面使对\%player\%的覆写已取消</string>
+  <string name="TouRoleAmbassadorYouDeniedRetrain">你已拒绝覆写为\%newRole\%！</string>
+  <string name="TouRoleAmbassadorPlayerHasDenied">\%player\%拒绝了覆写为\%newRole\%！</string>
+  <string name="TouRoleAmbassadorYouHaveAccepted">你已接受覆写为\%newRole\%！</string>
+  <string name="TouRoleAmbassadorPlayerHasBeenRetrained">\%player\%现已被覆写为\%newRole\%！</string>
+  <string name="TouRoleAmbassadorNeedKills">你或伪装者要想覆写必须至少有\%requiredKills\%次击杀。</string>
   <string name="TouRoleMirrorcasterMagicMirror">魔法镜</string>
   <string name="TouRoleMirrorcasterMagicMirrorWikiDescription">为一名玩家放置魔法镜。如果该玩家被直接攻击，你会收到通知，并可以将攻击反射到另一名玩家。无视魔法镜的职业有纵火狂、老兵、万疫之神、爆破手（被炸弹炸时）等。</string>
   <string name="TouRoleMayorTabDescriptionEgo">带领邪恶走向胜利！</string>
@@ -497,8 +495,7 @@
   <string name="TouRoleWardenFortifyWikiDescription">为一名玩家强化，防止他人对其进行互动。如果有人尝试与被强化玩家互动，该能力将失效，且护卫者和被强化者都会收到紫色闪光提示。</string>
   <string name="TouOptionWardenShowFortifyPlayer">强化结界显示对象</string>
   <string name="TouRoleAmbusherIntroBlurb">将船员拖入黑暗之中</string>
-  <string name="TouRoleAmbusherTabDescription">追踪一名玩家，然后伏击其身边最近的玩家。
-如果你伏击的玩家死亡，则将其尸体带走。</string>
+  <string name="TouRoleAmbusherTabDescription">追踪一名玩家，然后伏击其身边最近的玩家。%nl\%如果你伏击的玩家死亡，则将其尸体带走。</string>
   <string name="TouRoleAmbusherWikiDescription">伏击者是伪装者击杀型职业，可以追踪一名玩家并获得指向他们的箭头。你可以伏击其身边最近的玩家。如果成功击杀该玩家，你会将其尸体拖入黑暗，并与伏击者一起传送回去。</string>
   <string name="TouRoleAmbusherPursue">追踪</string>
   <string name="TouRoleAmbusherPursueWikiDescription">追踪一名玩家，以便之后伏击其身边的其他玩家。</string>
@@ -513,8 +510,8 @@
   <string name="TouRoleInquisitorTabAddition">你的异端目标身份：</string>
   <string name="TouRoleInquisitorWikiDescription">审判官是一名中立外来者型职业，只要所有异端目标死亡即可获胜。你只知道他们的身份，需要审判官自己找出这些玩家（对死者以\%symbol\%标记），并想办法让他们被杀。</string>
   <string name="TouRoleInquisitorMessageTitle">审判官报告</string>
-  <string name="TouRoleInquisitorInquiredHeretic">你的调查显示[player]是异端！</string>
-  <string name="TouRoleInquisitorInquiredNonHeretic">你的调查显示[player]不是异端！</string>
+  <string name="TouRoleInquisitorInquiredHeretic">你的调查显示\%player\%是异端！</string>
+  <string name="TouRoleInquisitorInquiredNonHeretic">你的调查显示\%player\%不是异端！</string>
   <string name="TouRoleInquisitorInquire">审问</string>
   <string name="TouRoleInquisitorInquireWikiDescription">审问一名玩家，在会议中得知其是否为你的目标。</string>
   <string name="TouRoleInquisitorVanquish">审判</string>
@@ -526,8 +523,8 @@
   <string name="TouOptionInquisitorMaxInquiries">最大审问次数</string>
   <string name="TouOptionInquisitorHereticAmount">所需消灭异端数量</string>
   <string name="TouRoleDoomsayerIntroBlurb">猜中他人身份即可获胜！</string>
-  <string name="TouRoleDoomsayerTabDescription">通过猜中[guessCount]名玩家的身份获胜。</string>
-  <string name="TouRoleDoomsayerWikiDescription">末日预言者是一名中立邪恶型职业，通过猜中[guessCount]名玩家的身份获胜。</string>
+  <string name="TouRoleDoomsayerTabDescription">通过猜中\%guessCount\%名玩家的身份获胜。</string>
+  <string name="TouRoleDoomsayerWikiDescription">末日预言者是一名中立邪恶型职业，通过猜中\%guessCount\%名玩家的身份获胜。</string>
   <string name="TouRoleDoomsayerObserve">洞察</string>
   <string name="TouRoleDoomsayerObserveWikiDescription">洞察一名玩家，在下次会议获得其身份线索。</string>
   <string name="TouOptionDoomsayerCooldown">洞察冷却</string>
@@ -566,27 +563,26 @@
   <string name="TouRoleMirrorcasterAttackedMessageWithType">\%player\%被\%attackerRole\%攻击！你现在可以将这次攻击反射到另一名玩家！</string>
   <string name="TouRoleMirrorcasterAttackedMessageWithoutType">\%player\%被攻击！你现在可以将这次攻击反射到另一名玩家！</string>
   <string name="TouRoleOracleIntroBlurb">让其他玩家坦白他们的身份</string>s
-  <string name="TouRoleOracleTabDescription">佑护船员以在会议中保护他们，
-并让他们在会议中坦白</string>
-  <string name="TouRoleOracleWikiDescription">神谕者是一名船员保护型职业，可以让一名玩家坦白（当神谕者死亡时，以[revealAccuracy]的准确率揭示其阵营），也可以保护一名玩家免受会议技能影响。</string>
+  <string name="TouRoleOracleTabDescription">佑护船员以在会议中保护他们，\%nl\%并让他们在会议中坦白</string>
+  <string name="TouRoleOracleWikiDescription">神谕者是一名船员保护型职业，可以让一名玩家坦白（当神谕者死亡时，以\%revealAccuracy\%的准确率揭示其阵营），也可以保护一名玩家免受会议技能影响。</string>
   <string name="TouRoleOracleBless">佑护</string>
   <string name="TouRoleOracleBlessWikiDescription">佑护一名玩家，使其在会议中免受任何伤害。</string>
   <string name="TouRoleOracleConfess">坦白</string>
-  <string name="TouRoleOracleConfessWikiDescription">让一名玩家在会议中坦白，展示3个可能的恶人（包括坦白者），并在神谕者死亡时以[revealAccuracy]的准确率向所有人揭示其阵营。</string>
+  <string name="TouRoleOracleConfessWikiDescription">让一名玩家在会议中坦白，展示3个可能的恶人（包括坦白者），并在神谕者死亡时以\%revealAccuracy\%的准确率向所有人揭示其阵营。</string>
   <string name="TouOptionOracleConfessCooldown">坦白冷却</string>
   <string name="TouOptionOracleBlessCooldown">佑护冷却</string>
   <string name="TouOptionOracleRevealAccuracy">揭示准确率</string>
   <string name="TouRoleOracleConfessorDied">你的坦白者未能存活，因此没有获得坦白信息</string>
   <string name="TouRoleOracleTooFew">存活人数过少，无法获得坦白信息</string>
-  <string name="TouRoleOracleNoMoreEvil">[player]坦白得知场上已无恶人!</string>
-  <string name="TouRoleOracleThreePlayers">[player1]坦白得知自己、[player2]和/或[player3]是恶人！</string>
-  <string name="TouRoleOracleBlessingMessageSelf">你的佑护让[player]免于被杀！</string>
-  <string name="TouRoleOracleBlessingMessageOthers">[player]因被[color=#FFBF00BF]神谕者[/color]佑护而幸存！</string>
+  <string name="TouRoleOracleNoMoreEvil">\%player\%坦白得知场上已无恶人!</string>
+  <string name="TouRoleOracleThreePlayers">\%player1\%坦白得知自己、\%player2\%和/或\%player3\%是恶人！</string>
+  <string name="TouRoleOracleBlessingMessageSelf">你的佑护让\%player\%免于被杀！</string>
+  <string name="TouRoleOracleBlessingMessageOthers">\%player\%因被\%color=#FFBF00BF\%神谕者\%/color\%佑护而幸存！</string>
   <string name="TouModifierEgotistIntroBlurb">背叛船员以满足你的虚荣心</string>
   <string name="TouModifierEgotistTabDescription">背叛船员，与杀手一同获胜。</string>
   <string name="TouModifierEgotistWikiDescription">自大狂是一种船员同盟附加属性（以\%symbol\%为标识）。作为自大狂，只有船员失败你才能获胜，即使你已死亡。如果会议结束后没有船员存活，你会直接胜利离场，但游戏会继续。</string>
-  <string name="TouModifierLoverInfo">你的恋人是[player]。</string>
-  <string name="TouModifierLoverWikiDescription">作为恋人，你可以在回合中与另一位恋人 (以[symbol]标识）聊天。如果你们是最后三人之一且都存活，则恋人可以共同获胜。</string>
+  <string name="TouModifierLoverInfo">你的恋人是\%player\%。</string>
+  <string name="TouModifierLoverWikiDescription">作为恋人，你可以在回合中与另一位恋人 (以\%symbol\%标识）聊天。如果你们是最后三人之一且都存活，则恋人可以共同获胜。</string>
   <string name="TouOptionLoverDieAndRevive">恋人同生共死</string>
   <string name="TouOptionLoverAnotherKiller">恋人一方是杀手的概率</string>
   <string name="TouOptionLoverCanBeNeutral">中立职业可以成为恋人</string>
@@ -621,40 +617,37 @@
   <string name="TouRoleWerewolfWikiDescription">月下狼人是一名中立击杀型职业，通过成为场上最后一名杀手获胜。可以进入狂暴状态获得击杀能力。</string>
   <string name="TouRoleWerewolfRampage">狂暴</string>
   <string name="TouRoleWerewolfRampageWikiDescription">进入狂暴状态，获得击杀和伪装者视野。狂暴期间击杀冷却大幅降低。</string>
-  <string name="TouModifierButtonBarryTabDescription">你可以在地图任意位置
-召开会议。</string>
+  <string name="TouModifierButtonBarryTabDescription">你可以在地图任意位置\%nl\%召开会议。</string>
   <string name="TouModifierButtonBarryWikiDescription">你可以在地图任意位置按下按钮召开紧急会议。</string>
   <string name="TouModifierButtonBarryButton">紧急按钮</string>
-  <string name="TouModifierButtonBarryButtonWikiDescription">你可以在地图任意位置触发紧急会议，每局可用[barryUses]次。</string>
+  <string name="TouModifierButtonBarryButtonWikiDescription">你可以在地图任意位置触发紧急会议，每局可用\%barryUses\%次。</string>
   <string name="TouOptionButtonBarryButtonCooldown">紧急按钮冷却</string>
   <string name="TouOptionButtonBarryMaxUses">最大可用次数</string>
   <string name="TouOptionButtonBarryIgnoreSabotage">无视破坏</string>
   <string name="TouOptionButtonBarryAllowFirstRound">首回合可用</string>
   <string name="TouModifierFlash">闪电侠</string>
   <string name="TouModifierFlashTabDescription">你的移动速度比普通玩家快\%flashSpeed\%倍。</string>
-  <string name="TouModifierFlashWikiDescription">你的移动速度比普通玩家快[flashSpeed]倍。</string>
+  <string name="TouModifierFlashWikiDescription">你的移动速度比普通玩家快\%flashSpeed\%倍。</string>
   <string name="TouOptionFlashSpeed">闪电侠速度</string>
   <string name="TouModifierGiantTabDescription">你比普通玩家更大，移动速度也比普通玩家慢%giantSpeed\%倍</string>
-  <string name="TouModifierGiantWikiDescription">你比普通玩家更大，移动速度也比普通玩家慢[giantSpeed]倍。</string>
+  <string name="TouModifierGiantWikiDescription">你比普通玩家更大，移动速度也比普通玩家慢\%giantSpeed\%倍。</string>
   <string name="TouOptionGiantSpeed">巨人速度</string>
   <string name="TouModifierImmovableTabDescription">你不会被传送到会议区，也不会被分散或传送。</string>
   <string name="TouModifierImmovableWikiDescription">你不会被技能或会议移动。</string>
-  <string name="TouModifierMiniTabDescription">你比普通玩家更小，移动速度也比普通玩家快[miniSpeed]倍。</string>
+  <string name="TouModifierMiniTabDescription">你比普通玩家更小，移动速度也比普通玩家快\%miniSpeed\%倍。</string>
   <string name="TouModifierMiniWikiDescription">你比普通玩家更小，移动速度也比普通玩家快[miniSpeed]倍。</string>
   <string name="TouOptionMiniSpeed">迷你速度</string>
   <string name="TouModifierRadarTabDescription">获得一个指向最近玩家的箭头。</string>
-  <string name="TouModifierRadarWikiDescription">你会获得一个指向
-最近玩家的箭头。</string>
+  <string name="TouModifierRadarWikiDescription">你会获得一个指向\%nl\%最近玩家的箭头。</string>
   <string name="TouModifierSatelliteTabDescription">你可以发射信号，探测地图上所有尸体的位置。</string>
-  <string name="TouModifierSatelliteWikiDescription">你可以在地图上检测尸体，每局可用[maxUses]次。</string>
+  <string name="TouModifierSatelliteWikiDescription">你可以在地图上检测尸体，每局可用\%maxUses\%次。</string>
   <string name="TouModifierSatelliteBroadcast">广播搜索</string>
-  <string name="TouModifierSatelliteBroadcastWikiDescription">你可以在地图上检测尸体，每局可用[maxUses]次。</string>
+  <string name="TouModifierSatelliteBroadcastWikiDescription">你可以在地图上检测尸体，每局可用\%maxUses\%次。</string>
   <string name="TouOptionSatelliteCooldown">发射按钮冷却</string>
   <string name="TouOptionSatelliteMaxUses">最大可用次数</string>
   <string name="TouOptionSatelliteOnePerRound">每回合限用一次</string>
   <string name="TouOptionSatelliteAllowFirst">首回合可用</string>
-  <string name="TouModifierShyTabDescription">你静止一段时间后
-会变得半透明。</string>
+  <string name="TouModifierShyTabDescription">你静止一段时间后\%nl\%会变得半透明。</string>
   <string name="TouModifierShyWikiDescription">你会与环境融为一体，静止时变得半透明。</string>
   <string name="TouOptionShyDelay">变透明延迟</string>
   <string name="TouOptionShyDuration">变透明持续时间</string>
@@ -699,7 +692,7 @@
   <string name="TouModifierMultitaskerTabDescription">你的任务界面是透明的。</string>
   <string name="TouModifierMultitaskerWikiDescription">你所有的菜单都是半透明的，可以看到菜单背后的内容！</string>
   <string name="TouModifierNoisemakerIntroBlurb">死亡时向所有玩家发出警报。</string>
-  <string name="TouModifierNoisemakerTabDescription">你死亡时，会在地图上向所有玩家发出持续[noiseTime]秒的警报。</string>
+  <string name="TouModifierNoisemakerTabDescription">你死亡时，会在地图上向所有玩家发出持续\%noiseTime\%秒的警报。</string>
   <string name="TouModifierNoisemakerWikiDescription">你死后，所有玩家的地图上会显示一个红色尸体指示器。</string>
   <string name="TouOptionNoisemakerImpAlert">伪装者收到大嗓门警报</string>
   <string name="TouOptionNoisemakerNeutAlert">中立收到大嗓门警报</string>
@@ -716,7 +709,7 @@
   <string name="TouOptionOperativeDisplayCooldown">监控显示冷却</string>
   <string name="TouOptionOperativeMaxDisplayDuration">最大监控显示时长</string>
   <string name="TouModifierRottingIntroBlurb">你的尸体会腐烂，无法被报告。</string>
-  <string name="TouModifierRottingTabDescription">你的尸体将在[rotDelay]秒后腐烂消失。</string>
+  <string name="TouModifierRottingTabDescription">你的尸体将在\%rotDelay\%秒后腐烂消失。</string>
   <string name="TouModifierRottingWikiDescription">[rotDelay]秒后，你的尸体会腐烂，无法被报告</string>
   <string name="TouOptionRottingDelay">尸体腐烂前的时间</string>
   <string name="TouModifierScientistIntroBlurb">随时随地查看生命体征。</string>
@@ -738,13 +731,11 @@
   <string name="TouModifierTaskmasterTabDescription">每次会议后会自动完成一个随机任务。</string>
   <string name="TouModifierTaskmasterWikiDescription">每回合开始时，你会自动完成一个任务。</string>
   <string name="TouModifierTorchIntroBlurb">当灯被破坏时，视野不会减少。</string>
-  <string name="TouModifierTorchTabDescription">当灯被破坏时，
-你的视野不会减少。</string>
+  <string name="TouModifierTorchTabDescription">当灯被破坏时，\%nl\%你的视野不会减少。</string>
   <string name="TouModifierTorchWikiDescription">灯被破坏时不会影响你的视野。</string>
   <string name="TouRoleHypnotistIntroBlurb">催眠船员</string>
-  <string name="TouRoleHypnotistTabDescription">催眠船员使其无法分辨玩家
-并陷入疯狂</string>
-  <string name="TouRoleHypnotistWikiDescription">催眠师是一名伪装者辅助型职业，可以催眠玩家。在会议期间可释放集体癔症，使所有被催眠的玩家（以[symbol]标记）在下一回合看到不同的视觉效果。</string>
+  <string name="TouRoleHypnotistTabDescription">催眠船员使其无法分辨玩家\%nl\%并陷入疯狂</string>
+  <string name="TouRoleHypnotistWikiDescription">催眠师是一名伪装者辅助型职业，可以催眠玩家。在会议期间可释放集体癔症，使所有被催眠的玩家（以\%symbol\%标记）在下一回合看到不同的视觉效果。</string>
   <string name="TouRoleHypnotistHypnotize">催眠</string>
   <string name="TouRoleHypnotistHypnotizeWikiDescription">催眠一名玩家，若集体癔症生效，被催眠者看到的游戏画面将与其他玩家不同。</string>
   <string name="TouRoleHypnotistMassHysteria">集体癔症</string>
@@ -760,11 +751,9 @@
   <string name="TouRoleVenererCamouflage">伪装</string>
   <string name="TouRoleVenererCamouflageWikiDescription">能力第一阶段。\%nl\%你在所有玩家眼中会变成灰豆，可以悄悄离开击杀现场。</string>
   <string name="TouRoleVenererSprint">疾跑</string>
-  <string name="TouRoleVenererSprintWikiDescription">能力第二阶段。
-n你在伪装状态下会获得闪电侠般的速度。</string>
+  <string name="TouRoleVenererSprintWikiDescription">能力第二阶段。\%nl\%n你在伪装状态下会获得闪电侠般的速度。</string>
   <string name="TouRoleVenererFreeze">冰封</string>
-  <string name="TouRoleVenererFreezeWikiDescription">能力最终阶段。
-n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状态。</string>
+  <string name="TouRoleVenererFreezeWikiDescription">能力最终阶段。\%nl\%n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状态。</string>
   <string name="TouOptionVenererAbilityCooldown">技能冷却</string>
   <string name="TouOptionVenererAbilityDuration">技能持续时间</string>
   <string name="TouOptionVenererSprintSpeed">冲刺速度</string>
@@ -797,7 +786,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRolePestilenceWikiDescription">万疫之神是一名中立击杀型职业，可以击杀并且除被放逐或猜错外无敌。通过成为场上最后一名杀手获胜。</string>
   <string name="TouRoleSpectreIntroBlurb">利用你的第二次机会赢得胜利</string>
   <string name="TouRolePlaguebearerIntroBlurb">散播瘟疫以成为\%color=#4D4D4DFF\%万疫之神\%/color\%</string>
-  <string name="TouRolePlaguebearerTabDescription">感染所有人以成为[color=#4D4D4DFF]万疫之神[/color]</string>
+  <string name="TouRolePlaguebearerTabDescription">感染所有人以成为\%color=#4D4D4DFF\%万疫之神\%/color\%</string>
   <string name="TouRolePlaguebearerWikiDescription">瘟疫之源是一名中立击杀型职业，需要感染所有其他玩家后变为万疫之神。</string>
   <string name="TouRolePlaguebearerInfect">感染</string>
   <string name="TouRolePlaguebearerInfectWikiDescription">感染一名玩家，使其被感染。当被感染的玩家或尸体与其他未感染玩家互动时，感染会继续传播。</string>
@@ -814,9 +803,9 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionJuggernautCanVent">天启可使用通风口</string>
   <string name="TouRoleBomberIntroBlurb">放下炸弹，一次性击杀多名船员。</string>
   <string name="TouRoleBomberTabDescription">布置炸弹，一次性击杀多名船员</string>
-  <string name="TouRoleBomberWikiDescription">爆破手是一名伪装者击杀型职业，可以在地图上布置炸弹，[detonateDelay]秒后爆炸。</string>
+  <string name="TouRoleBomberWikiDescription">爆破手是一名伪装者击杀型职业，可以在地图上布置炸弹，\%detonateDelay\%秒后爆炸。</string>
   <string name="TouRoleBomberPlace">布置</string>
-  <string name="TouRoleBomberPlaceWikiDescription">布置一个炸弹，显示其爆炸范围，最多可击杀[maxKills]名玩家</string>
+  <string name="TouRoleBomberPlaceWikiDescription">布置一个炸弹，显示其爆炸范围，最多可击杀\%maxKills\%名玩家</string>
   <string name="TouOptionBomberBombUsesPerGame">每局可用炸弹次数</string>
   <string name="TouOptionBomberDetonateDelay">引爆延迟</string>
   <string name="TouOptionBomberDetonateRadius">引爆半径</string>
@@ -842,14 +831,13 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleAmnesiacWikiDescription">失忆者是一名中立善良型职业，可以通过回忆一具尸体的身份获得新身份。利用你回忆的身份赢得游戏。</string>
   <string name="TouOptionAmnesiacShowArrows">失忆者获得指向尸体的箭头</string>
   <string name="TouOptionAmnesiacArrowDelay">死亡后箭头出现时间</string>
-  <string name="TouRoleExecutionerTabDescription">投票放逐[target]即可获胜。</string>
-  <string name="TouRoleExecutionerWikiDescription">行刑者是一名中立邪恶型职业，只要让带有[symbol]标记的目标在会议中被放逐即可获胜。</string>
+  <string name="TouRoleExecutionerTabDescription">投票放逐\%target\%即可获胜。</string>
+  <string name="TouRoleExecutionerWikiDescription">行刑者是一名中立邪恶型职业，只要让带有\%symbol\%标记的目标在会议中被放逐即可获胜。</string>
   <string name="TouOptionExecutionerBecomesTargetDeath">目标死亡后，行刑者变为</string>
   <string name="TouOptionExecutionerCanButton">行刑者可召开会议</string>
   <string name="TouOptionExecutionerWin">行刑者胜利效果</string>
   <string name="TouRoleGlitchIntroBlurb">谋杀、模仿、黑入……数据丢失</string>
-  <string name="TouRoleGlitchTabDescription">黑入玩家，暂时停止他们的能力。
-并模仿他人以陷害他们。</string>
+  <string name="TouRoleGlitchTabDescription">黑入玩家，暂时停止他们的能力。\%nl\%并模仿他人以陷害他们。</string>
   <string name="TouRoleGlitchWikiDescription">混沌是一名中立击杀型职业，通过成为场上最后一名杀手获胜。可以模仿其他玩家的外观，也可以黑入使其失去能力。</string>
   <string name="TouRoleGlitchMimic">模仿</string>
   <string name="TouRoleGlitchMimicWikiDescription">模仿另一名玩家的外观，完全变成对方的样子。</string>
@@ -953,19 +941,18 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionSwooperSwoopCooldown">隐身冷却</string>
   <string name="TouOptionSwooperSwoopDuration">隐身持续时间</string>
   <string name="TouOptionSwooperCanVent">隐身人可使用通风口</string>
-  <string name="TouRolePlumberTabDescription">清理并管理通风口系统，同时
-放置路障在管道上，阻止下一轮的使用</string>
+  <string name="TouRolePlumberTabDescription">清理并管理通风口系统，同时\%nl\%放置路障在管道上，阻止下一轮的使用</string>
   <string name="TouRolePlumberExtraTabText">路障将持续\%roundCount\%回合</string>
   <string name="TouRolePlumberVentListTabText">管道列表</string>
   <string name="TouRolePlumberUnbuiltBarricadeTabText">准备中...</string>
-  <string name="TouRolePlumberVentLabelTabText">[roomName]管道</string>
-  <string name="TouRolePlumberVentRoundsTabText">剩余[roundsRemaining]回合</string>
+  <string name="TouRolePlumberVentLabelTabText">\%roomName\%管道</string>
+  <string name="TouRolePlumberVentRoundsTabText">剩余\%roundsRemaining\%回合</string>
   <string name="TouNotifPlumberBlock">这个通风口将在下一轮开始时被堵住。</string>
   <string name="TouRolePlumberWikiDescription">水管工是一名船员辅助型职业，可以在通风口放置路障并将所有人赶出通风口。</string>
   <string name="TouRolePlumberFlush">冲洗</string>
   <string name="TouRoleBlackmailerIntroBlurb">在会议中让船员沉默</string>
   <string name="TouRoleBlackmailerTabDescription">让一名船员在下次会议中无法发言</string>
-  <string name="TouRoleBlackmailerWikiDescription">勒索者是一名伪装者辅助型职业，可以让一名玩家在下次会议中无法发言（以[symbol]标记）</string>
+  <string name="TouRoleBlackmailerWikiDescription">勒索者是一名伪装者辅助型职业，可以让一名玩家在下次会议中无法发言（以\%symbol\%标记）</string>
   <string name="TouRoleBlackmailerBlackmail">勒索</string>
   <string name="TouRoleBlackmailerBlackmailWikiDescription">让一名玩家在下次会议中无法发言。他们将无法说话，且在存活人数小于等于设定值前无法投票。是否公开勒索状态可由设置决定</string>
   <string name="TouOptionBlackmailerNumberOfBlackmailUsesPerGame">每局可用勒索次数</string>
@@ -995,8 +982,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionMinerMineDelay">通风口延迟可见</string>
   <string name="TouOptionMinerCanKillWithTeammate">管道工可与队友一起击杀</string>
   <string name="TouRoleMorphlingIntroBlurb">变身为船员</string>
-  <string name="TouRoleMorphlingTabDescription">采样玩家并变身为其伪装自己。
-每回合开始时采样会被清除。</string>
+  <string name="TouRoleMorphlingTabDescription">采样玩家并变身为其伪装自己。\%nl\%每回合开始时采样会被清除。</string>
   <string name="TouRoleMorphlingWikiDescription">化形者是一名伪装者隐匿型职业，可以采样一名玩家并变身为其外观。</string>
   <string name="TouRoleMorphlingSample">采样</string>
   <string name="TouRoleMorphlingSampleWikiDescription">采集一名玩家的DNA，之后可变身为其。</string>
@@ -1046,8 +1032,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleSheriffTabMisfired">你已无法再开枪。</string>
   <string name="TouRoleSheriffTabMisfireKillsBoth">误伤会导致你和目标同归于尽。</string>
   <string name="TouRoleSheriffTabMisfireKillsSheriff">误伤会导致自杀。</string>
-  <string name="TouRoleSheriffTabMisfireKillsTarget">误伤会导致目标死亡，
-且你失去开枪能力。</string>
+  <string name="TouRoleSheriffTabMisfireKillsTarget">误伤会导致目标死亡，\%nl\%且你失去开枪能力。</string>
   <string name="TouRoleSheriffTabMisfireKillsNobody">误伤后你将无法再开枪。</string>
   <string name="TouRoleSheriffMisfireFeedback">你已无法再开枪！</string>
   <string name="TouOptionSheriffKillCooldown">警长击杀冷却</string>
@@ -1056,7 +1041,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionSheriffCanShootNeutralEvilRoles">警长可射击中立邪恶职业</string>
   <string name="TouOptionSheriffCanShootNeutralKillingRoles">警长可射击中立杀手职业</string>
   <string name="TouOptionSheriffMisfireKills">警长误杀后死亡者为</string>
-  <string name="TouRoleSnitchIntroBlurb">找出[color=#FF0000FF]伪装者[/color]！</string>
+  <string name="TouRoleSnitchIntroBlurb">找出\%color=#FF0000FF\%伪装者\%/color\%！</string>
   <string name="TouRoleSnitchTabDescription">完成所有任务以发现伪装者。</string>
   <string name="TouRoleSnitchTabDescriptionCompletedTasks">找出伪装者！</string>
   <string name="TouRoleSnitchTabDescriptionEgo">完成所有任务以发现\%and\%帮助伪装者。</string>
@@ -1121,8 +1106,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleTrapperNotEnoughPLayers">触发你陷阱的玩家数量不足</string>
   <string name="TouRoleTrapperRolesCaught">被你陷阱捕获的身份：</string>
   <string name="TouRolePoliticianIntroBlurb">竞选成为市长！</string>
-  <string name="TouRolePoliticianTabDescription">宣传你的竞选活动，成为市长！
-至少一半的清白玩家必须被动员起来，以成功竞选</string>
+  <string name="TouRolePoliticianTabDescription">宣传你的竞选活动，成为市长！\%nl\%至少一半的清白玩家必须被动员起来，以成功竞选</string>
   <string name="TouRolePoliticianWikiDescription">政治家是一名船员强力型职业，只要拉拢到至少一半船员支持，就能向全体公开身份并成为市长。</string>
   <string name="TouRolePoliticianCampaign">拉票</string>
   <string name="TouRolePoliticianCampaignWikiDescription">给一名玩家发放选票，只有船员身份的玩家才会对你有用。</string>
@@ -1167,7 +1151,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleAmnesiacRemember">回忆</string>
   <string name="TouRoleAmnesiacRememberWikiDescription">回忆尸体的职业。如果尸体的职业是独特的职业，你会回忆基础阵营的职业。</string>
   <string name="TouOptionIncreasedWhen2">当2+个伪装者存在时，增加击杀冷却时间</string>
-  <string name="TouModifierDiseasedWikiDescription">击杀你的凶手的击杀冷却时间乘以 [cooldownMultiplier]。</string>
+  <string name="TouModifierDiseasedWikiDescription">击杀你的凶手的击杀冷却时间乘以 \%cooldownMultiplier\%。</string>
   <string name="TouRoleDoomsayerMisguessOne">只有一次猜测错误！</string>
   <string name="TouRoleDoomsayerMisguessMultiple">\%misguessCount\%次猜测错误。</string>
   <string name="TouRoleDoomsayerMessageTitle">末日报告</string>
