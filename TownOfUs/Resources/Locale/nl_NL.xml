@@ -446,8 +446,7 @@
   <string name="TouOptionPlumberGetMoreFromTasks">Krijg meer barrières voor het voltooien van taken</string>
   <string name="TouRolePolitician">Politicus</string>
   <string name="TouRolePoliticianIntroBlurb">Voer een Campagne om Burgemeester te worden!</string>
-  <string name="TouRolePoliticianTabDescription">Voer een campagne in de hoop dat jij de Burgemeester wordt! Minstens de helft van 
- de onschuldige spelers in de campagne zit om succesvol te onthullen</string>
+  <string name="TouRolePoliticianTabDescription">Voer een campagne in de hoop dat jij de Burgemeester wordt! Minstens de helft van \%nl\% de onschuldige spelers in de campagne zit om succesvol te onthullen</string>
   <string name="TouRolePoliticianWikiDescription">The Politicus is een Bemanningslid Kracht die zichzelf kan onthullen als de Burgemeester, mits de helft van de Bemanning  (campagned)   is.</string>
   <string name="TouModifierTorchWikiDescription">Als de lichten uitgaan, zie jij nog prima.</string>
   <string name="TouRolePoliticianCampaignWikiDescription">Geef een speler een folder, wat alleen nuttig is als ze Bemanning zijn.</string>
@@ -472,11 +471,11 @@
   <string name="NeutralOutliers">Neutraal Buitenbeentje</string>
   <string name="SpecialNeutral">Neutraal Speciaal</string>
   <string name="Random">Willekeurig</string>
-  <string name="TouRoleDeputyCampNotif">Wacht op de dood van [player] zodat je zijn moordenaar tijdens een vergadering kan neerschieten.</string>
+  <string name="TouRoleDeputyCampNotif">Wacht op de dood van %player\% zodat je zijn moordenaar tijdens een vergadering kan neerschieten.</string>
   <string name="TouRoleDeputyMessageTitle">Hulpsherrif Feedback</string>
   <string name="TouRoleForensicInspectNotif">Je hebt de plek waar %player\% is doodgegaan geïnspecteerd. De moordenaar en iedereen die hier in stapt zal rood flikkeren als je ze onderzoekt.</string>
-  <string name="TouRoleHunterStalkNotif">Als [player] een vaardigheid gebruikt, kan je hem vanaf dan vermoorden.</string>
-  <string name="TouRoleLookoutWatchNotif">Je zal weten welke rollen er met [player] heeft geïnteracteerd.</string>
+  <string name="TouRoleHunterStalkNotif">Als %player\% een vaardigheid gebruikt, kan je hem vanaf dan vermoorden.</string>
+  <string name="TouRoleLookoutWatchNotif">Je zal weten welke rollen er met %player\% heeft geïnteracteerd.</string>
   <string name="TouRolePoliticianFailedRevealCannotCampaign">Je moet meer Bemanningsleden overtuigen, maar je mag geen campanges uitvoeren volgende ronde.</string>
   <string name="TouRolePoliticianFeedbackText">Politicus Feedback</string>
   <string name="TouRoleSeerIntroBlurb">Toon De Aliantie Van Andere Spelers</string>
@@ -489,8 +488,8 @@
   <string name="TouRoleSeerReveal">Onthul</string>
   <string name="TouRoleSeerRevealWikiDescription">Onthul de aliantie van een speler</string>
   <string name="TouRoleMirrorcasterAlreadyDiedNotif">De speler die je probeerde te beschermen was al dood!</string>
-  <string name="TouRoleMirrorcasterTargetDiedNotif">[player] ging dood aan een indirecte aanval, die je spiegels niet konden tegenhouden.</string>
-  <string name="TouRoleMirrorcasterTargetDidNotDieNotif">[player] was niet aangevallen.</string>
+  <string name="TouRoleMirrorcasterTargetDiedNotif">%player\% ging dood aan een indirecte aanval, die je spiegels niet konden tegenhouden.</string>
+  <string name="TouRoleMirrorcasterTargetDidNotDieNotif">%player\% was niet aangevallen.</string>
   <string name="TouRolePlumberBlockNotif">Dit ventilatiesysteem word geblokkeerd aan het begin van de volgende ronde.</string>
   <string name="TouOptionSeerCrewmateKillingRolesAreRed">Bemanning Doden Rollen Zijn Rood</string>
   <string name="TouOptionSeerNeutralBenignRolesAreRed">Neutraal Goedaardige Rollen Zijn Rood</string>
