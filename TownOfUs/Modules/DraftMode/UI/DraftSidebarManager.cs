@@ -1,6 +1,7 @@
 using System.Text;
 using HarmonyLib;
 using MiraAPI.GameOptions;
+using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
@@ -201,13 +202,14 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             var faction = DraftUiManager.GetTeamLabel(role);
+            var actualFaction = role is ICustomRole custom ? custom.Team.ToString() : role.TeamType.ToString();
             string colorHex = "";
             var displayMode = OptionGroupSingleton<RoleOptions>.Instance.DraftSidebarDisplay.Value;
             string text = displayMode switch
             {
-                DraftRecapMode.Alignment => $"{MiscUtils.GetParsedRoleAlignment(role).ToUpperInvariant()} <sprite name=\"AmongUs.Role.{faction}\">",
+                DraftRecapMode.Alignment => $"{MiscUtils.GetParsedRoleAlignment(role).ToUpperInvariant()} <sprite name=\"AmongUs.Role.{actualFaction}\">",
                 DraftRecapMode.Role      => $"{role.GetRoleName().ToUpperInvariant()} {MiscUtils.GetRoleTmpIcon(role)}",
-                DraftRecapMode.Faction   => $"{faction.ToUpperInvariant()} <sprite name=\"AmongUs.Role.{faction}\">",
+                DraftRecapMode.Faction   => $"{faction.ToUpperInvariant()} <sprite name=\"AmongUs.Role.{actualFaction}\">",
                 _   => TouLocale.GetParsed("TouDraftARoleLabel", "a role"),
             };
             if(displayMode == DraftRecapMode.Nothing)
