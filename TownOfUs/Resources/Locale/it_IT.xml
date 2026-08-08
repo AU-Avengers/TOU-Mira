@@ -160,8 +160,8 @@
   <string name="YouWereAn">Tu eri un</string>
   <string name="YouWereThe">Eri il</string>
   <string name="YouWere">Tu eri il</string>
-  <string name="DiedByString">\%cod\% Da \%player\%</string>
-  <string name="DiedByStringBasic">Da \%player\%</string>
+  <string name="DiedByString">[cod] Da [player]</string>
+  <string name="DiedByStringBasic">Da [player]</string>
   <string name="Alive">Vivo</string>
   <string name="DiedToDisconnect">Disconnesso</string>
   <string name="DiedToEjection">Espulso</string>
@@ -206,7 +206,7 @@
   <string name="TouRoleClericIntroBlurb">Salva i Crewmate</string>
   <string name="TouRoleClericWikiDescription">Il Chierico è un Astronauta Protettivo che può proteggere gli Astronauti negando i loro effetti negativi, mettendogli delle barriere per prevenire le interazioni.</string>
   <string name="TouRoleClericBarrier">Barriera</string>
-  <string name="TouRoleClericBarrierWikiDescription">Impedisci ad un Astronauta di essere interagito. Lo scudo durerà per \%BarrierCooldown\% secondi.</string>
+  <string name="TouRoleClericBarrierWikiDescription">Impedisci ad un Astronauta di essere interagito. Lo scudo durerà per [BarrierCooldown] secondi.</string>
   <string name="PlayerHasNoModifiers">Nessun Modificatore</string>
   <string name="ClientTabGameplay">Gioco</string>
   <string name="External">Esterno</string>
@@ -239,8 +239,8 @@
   <string name="TouRoleClericCleanse">Rimuovi</string>
   <string name="TouRoleClericCleanseWikiDescription">Rimuove tutti gli effetti negativi su un giocatore. (Ignezione, Hack, Infezione, Ricatto, Cecità, Veloce, e Ipnosi)</string>
   <string name="TouRoleClericMessageTitle">Feedback Chierico</string>
-  <string name="TouRoleClericCleansedEffects">Effetti Rimossi su \%player\%:</string>
-  <string name="TouRoleClericCleansedNoEffects">Nessun effetto negativo è stato trovato su \%player\%.</string>
+  <string name="TouRoleClericCleansedEffects">Effetti Rimossi su [player]:</string>
+  <string name="TouRoleClericCleansedNoEffects">Nessun effetto negativo è stato trovato su [player].</string>
   <string name="TouOptionClericBarrierCooldown">Ricarica Barriera</string>
   <string name="TouOptionClericBarrierDuration">Durata Barriera</string>
   <string name="TouOptionClericCleanseCooldown">Ricarica Rimuovi</string>
@@ -258,13 +258,13 @@
   <string name="TouOptionHunterKillCooldown">Ricarica Uccisione Cacciatore</string>
   <string name="TouOptionForensicExamineCooldown">Esamina Ricarica</string>
   <string name="TouOptionForensicReportOn">Mostra Segnalazioni Detective</string>
-  <string name="TouRoleForensicNotAtScene">\%player\% non era nella scena del crimine.</string>
+  <string name="TouRoleForensicNotAtScene">[player] non era nella scena del crimine.</string>
   <string name="TouRoleEngineer">Ingegnere</string>
   <string name="TouRoleEngineerTabDescription">Botola in giro e sistema i sabotaggi da remoto</string>
   <string name="TouRoleEngineerWikiDescription">L'ingegnere è un ruolo da Astronauta Supporto che può botola e sistemare i sabotaggi da remoto.</string>
   <string name="TouRoleEngineerFix">Sistema</string>
   <string name="TouRoleEngineerFixing">Sistemando</string>
-  <string name="TouRoleEngineerFixWikiDescription">Non importa dove sei nella mappa, puoi usare il tasto "Sistema" per sistemare istantaneamente il sabotaggio attivo. Puoi farlo per \%engiMaxFixes\% volte per partita.</string>
+  <string name="TouRoleEngineerFixWikiDescription">Non importa dove sei nella mappa, puoi usare il tasto "Sistema" per sistemare istantaneamente il sabotaggio attivo. Puoi farlo per [engiMaxFixes] volte per partita.</string>
   <string name="TouOptionEngineerMaxVents">Usi Botola Per Partita</string>
   <string name="TouOptionEngineerVentCooldown">Ricarica Botola</string>
   <string name="TouOptionEngineerVentDuration">Durata Botola</string>
@@ -299,7 +299,7 @@
   <string name="TouModifierDiseased">Malato</string>
   <string name="TouModifierDiseasedIntroBlurb">Estendersi la ricarica del tuo assassino quando muori.</string>
   <string name="TouModifierDiseasedTabDescription">Aumenta la ricarica uccisione del tuo assassino.</string>
-  <string name="TouModifierDiseasedWikiDescription">La ricarica uccisione del tuo assassino sarà moltiplicato da un fattore del \%cooldownMultiplier\%.</string>
+  <string name="TouModifierDiseasedWikiDescription">La ricarica uccisione del tuo assassino sarà moltiplicato da un fattore del [cooldownMultiplier].</string>
   <string name="TouOptionDiseasedCooldownModifier">Modificatore Uccisione Malato</string>
   <string name="TouModifierFrosty">Gelido</string>
   <string name="TouModifierFrostyIntroBlurb">Rallenterai il tuo assassino quando muori.</string>
@@ -316,7 +316,7 @@
   <string name="TouModifierMultitaskerWikiDescription">Tutti i tuoi menù sono visibili attraverso, permettendoti di vedere sotto i menù!</string>
   <string name="TouModifierNoisemaker">Starnazzatore</string>
   <string name="TouModifierNoisemakerIntroBlurb">Indicherai a tutti i giocatori la posizione del tuo corpo.</string>
-  <string name="TouModifierNoisemakerTabDescription">Quando muori, manderai un allerta a tutti i giocatori nella mappa per \%noiseTime\% secondo(i).</string>
+  <string name="TouModifierNoisemakerTabDescription">Quando muori, manderai un allerta a tutti i giocatori nella mappa per [noiseTime] secondo(i).</string>
   <string name="TouModifierNoisemakerWikiDescription">Dopo la tua morte, mostrerai un indicatore rosso di un cadavere a tutti nella mappa.</string>
   <string name="TouOptionNoisemakerImpAlert">Gli Impostori Vengono Avvertiti</string>
   <string name="TouOptionNoisemakerNeutAlert">I Neutrali Vengono Avvertiti</string>
@@ -335,8 +335,8 @@
   <string name="TouOptionOperativeMaxDisplayDuration">Ricarica Massima del Display Sicurezza</string>
   <string name="TouModifierRotting">Putrefazione</string>
   <string name="TouModifierRottingIntroBlurb">Il tuo corpo marcire quando muori.</string>
-  <string name="TouModifierRottingTabDescription">Il tuo corpo marcirà dopo \%rotDelay\% secondo(i).</string>
-  <string name="TouModifierRottingWikiDescription">Dopo \%rotDelay\% secondo(i), il tuo corpo marcirà, prevendoti dall'essere segnalato</string>
+  <string name="TouModifierRottingTabDescription">Il tuo corpo marcirà dopo [rotDelay] secondo(i).</string>
+  <string name="TouModifierRottingWikiDescription">Dopo [rotDelay] secondo(i), il tuo corpo marcirà, prevendoti dall'essere segnalato</string>
   <string name="TouOptionRottingDelay">Tempo Prima Che Il Corpo Marcisca</string>
   <string name="TouModifierScientist">Scienziato</string>
   <string name="TouModifierScientistIntroBlurb">Puoi usare i segnali vitali in movimento.</string>
@@ -373,20 +373,20 @@
   <string name="TouRoleForensicInspectWikiDescription">Le scene del crimine cominceranno con tutti i corpi morti. Ispeziona una scena del crimine ed Esamina i giocatori per scovare indizi. Durante la riunione successiva, riceverai una segnalazione rivelando il ruolo dell'assassino.</string>
   <string name="TouRoleForensicExamine">Esamina</string>
   <string name="TouRoleForensicExamineWikiDescription">Esamina i giocatori dopo aver ispezionato una scena del crimine. Ti sarà detto se il giocatore esaminato era nella scena del crimine.</string>
-  <string name="TouRoleForensicInspectNotif">Hai ispezionato la scena del crimine di \%player\%. L'assassino o chiunque metta i piedi sulla scena del crimine lampeggerà in rosso quando esaminato.</string>
+  <string name="TouRoleForensicInspectNotif">Hai ispezionato la scena del crimine di [player]. L'assassino o chiunque metta i piedi sulla scena del crimine lampeggerà in rosso quando esaminato.</string>
   <string name="TouOptionForensicRoleDuration">Tempo Dove Il Detective Avrà Il Ruolo</string>
-  <string name="TouRoleForensicAtScene">\%player\% era alla scena di morte di \%deadPlayer\%! Potrebbe essere al 
+  <string name="TouRoleForensicAtScene">[player] era alla scena di morte di [deadPlayer]! Potrebbe essere al 
  l'assassino o un testimone.</string>
   <string name="TouRoleEngineerIntroBlurb">Mantieni Sistemi Importanti Nella Navicella</string>
-  <string name="TouRoleHunterIntroBlurb">Pedina Gli \%color=#FF0000FF\%Impostori\%/color\%</string>
+  <string name="TouRoleHunterIntroBlurb">Pedina Gli [color=#FF0000FF]Impostori[/color]</string>
   <string name="TouRoleHunterTabDescription">Pedina i giocatori per essere allertato quando usano una abilità. Al 
  quando usano una abilità, potresti ucciderli.</string>
   <string name="TouRoleHunterCaughtPlayersText">Giocatori Catturati:</string>
   <string name="TouRoleHunterWikiDescription">Il Cacciatore è un Astronauta Uccisore che può pedinare i giocatori durante il round. Se un giocatore pedinato usa una abilità, potrebbe venir ucciso dal Cacciatore a qualsiasi punto della partita, anche se è un Compagno d'Equipaggio.</string>
   <string name="TouRoleHunterStalk">Pedina</string>
   <string name="TouRoleHunterStalking">Pedinando</string>
-  <string name="TouRoleHunterStalkWikiDescription">Scegli un bersaglio da pedinare. Puoi pedinare \%hunterMaxStalkUsages\% giocatori. Se provano ad usare una abilità mentre sono pedinati, sono aggiunti alla tua hitlist e potrebbero essere uccisi.</string>
-  <string name="TouRoleHunterStalkNotif">Se \%player\% usa una sua abilità, sarai in grado di udciderlo in qualsiasi momento nel round.</string>
+  <string name="TouRoleHunterStalkWikiDescription">Scegli un bersaglio da pedinare. Puoi pedinare [hunterMaxStalkUsages] giocatori. Se provano ad usare una abilità mentre sono pedinati, sono aggiunti alla tua hitlist e potrebbero essere uccisi.</string>
+  <string name="TouRoleHunterStalkNotif">Se [player] usa una sua abilità, sarai in grado di udciderlo in qualsiasi momento nel round.</string>
   <string name="TouOptionHunterStalkCooldown">Ricarica Pedina Cacciatore</string>
   <string name="TouOptionHunterStalkDuration">Durata Pedina Cacciatore</string>
   <string name="TouOptionHunterStalkUses">Usi Massimi Pedina</string>

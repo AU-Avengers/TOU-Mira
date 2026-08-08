@@ -133,22 +133,6 @@ public static class TouLocale
             text = translation;
         }
 
-        text = Regex.Replace(text, @"\%([^%]+)\%", @"<$1>");
-        if (text.Contains("\\<"))
-        {
-            text = text.Replace("\\<", "<");
-        }
-
-        if (text.Contains("\\>"))
-        {
-            text = text.Replace("\\>", ">");
-        }
-
-        foreach (var tmpText in TmpTextList.Where(x => text.Contains(x.Key)))
-        {
-            text = text.Replace(tmpText.Key, tmpText.Value);
-        }
-
         if (parseList != null)
         {
             foreach (var tmpText in parseList.Where(x => text.Contains(x.Key)))
@@ -284,6 +268,32 @@ public static class TouLocale
                     {
                         string name = node.Attributes["name"]!.Value;
                         string value = node.InnerText;
+
+                        value = Regex.Replace(value, @"\%([^%]+)\%", @"<$1>");
+                        if (value.Contains("\\<"))
+                        {
+                            value = value.Replace("\\<", "<");
+                        }
+
+                        if (value.Contains("\\>"))
+                        {
+                            value = value.Replace("\\>", ">");
+                        }
+
+                        if (value.Contains('['))
+                        {
+                            value = value.Replace("[", "<");
+                        }
+
+                        if (value.Contains(']'))
+                        {
+                            value = value.Replace("]", ">");
+                        }
+
+                        foreach (var tmpText in TmpTextList.Where(x => value.Contains(x.Key)))
+                        {
+                            value = value.Replace(tmpText.Key, tmpText.Value);
+                        }
 
                         if (TouLocalization[language].ContainsKey(name))
                         {

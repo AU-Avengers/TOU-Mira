@@ -165,8 +165,8 @@
   <string name="YouWereAn">Eras un</string>
   <string name="YouWereThe">Eras el</string>
   <string name="YouWere">Eras</string>
-  <string name="DiedByString">\%cod\% Por \%player\%</string>
-  <string name="DiedByStringBasic">Por \%player\%</string>
+  <string name="DiedByString">[cod] Por [player]</string>
+  <string name="DiedByStringBasic">Por [player]</string>
   <string name="Alive">Vivo</string>
   <string name="DiedToDisconnect">Desconectado</string>
   <string name="DiedToEjection">Votado</string>
@@ -236,12 +236,12 @@
  lanza barreras para detener cualquier interacción por completo</string>
   <string name="TouRoleClericWikiDescription">El Clérigo es un Tripulante Protector que puede proteger a sus compañeros de tripulación negando sus efectos negativos, así como colocando barreras sobre ellos para evitar interacciones.</string>
   <string name="TouRoleClericBarrier">Barrera</string>
-  <string name="TouRoleClericBarrierWikiDescription">Evita que un compañero de tripulación sea interactuado. El escudo durará \%BarrierCooldown\% segundos.</string>
+  <string name="TouRoleClericBarrierWikiDescription">Evita que un compañero de tripulación sea interactuado. El escudo durará [BarrierCooldown] segundos.</string>
   <string name="TouRoleClericCleanse">Limpiar</string>
   <string name="TouRoleClericCleanseWikiDescription">Elimina todos los efectos negativos de un jugador (Empapar, Hackear, Infectar, Chantajear, Cegar, Destello e Hipnosis)</string>
   <string name="TouRoleClericMessageTitle">Comentarios del clérigo:</string>
-  <string name="TouRoleClericCleansedEffects">Efectos limpiados en \%player\%:</string>
-  <string name="TouRoleClericCleansedNoEffects">No se encontraron efectos negativos en \%player\%.</string>
+  <string name="TouRoleClericCleansedEffects">Efectos limpiados en [player]:</string>
+  <string name="TouRoleClericCleansedNoEffects">No se encontraron efectos negativos en [player].</string>
   <string name="TouOptionClericBarrierCooldown">Tiempo de espera de barrera</string>
   <string name="TouOptionClericBarrierDuration">Duración de la barrera</string>
   <string name="TouOptionClericCleanseCooldown">Tiempo de espera de limpieza</string>
@@ -265,16 +265,16 @@
   <string name="TouOptionForensicReportOn">Mostrar Informes de Detective</string>
   <string name="TouOptionForensicRoleDuration">Tiempo Durante el que el Detective Tendrá el Rol</string>
   <string name="TouOptionForensicFactionDuration">Tiempo Durante el cual Detective Tendrá Facción</string>
-  <string name="TouRoleForensicAtScene">\%player\% estaba en la escena de la muerte de \%deadPlayer\%
+  <string name="TouRoleForensicAtScene">[player] estaba en la escena de la muerte de [deadPlayer]
 Es posible que sea el asesino o un testigo.</string>
-  <string name="TouRoleForensicNotAtScene">\%player\%no estaba en la escena del crimen.</string>
+  <string name="TouRoleForensicNotAtScene">[player]no estaba en la escena del crimen.</string>
   <string name="TouRoleEngineer">Ingeniero</string>
   <string name="TouRoleEngineerIntroBlurb">Mantén Sistemas Importantes en la Nave</string>
   <string name="TouRoleEngineerTabDescription">Usa las ventilaciones y arregla sabotajes remotamente</string>
   <string name="TouRoleEngineerWikiDescription">El Ingeniero es un Tripulante de Apoyo que puede usar las ventilaciones y arreglar sabotajes remotamente.</string>
   <string name="TouRoleEngineerFix">Arreglar</string>
   <string name="TouRoleEngineerFixing">Arreglando</string>
-  <string name="TouRoleEngineerFixWikiDescription">No importa donde estés en el mapa, puedes utilizar tu botón arreglar para arreglar inmediatamente el sabotaje activo. Puedes hacer esto \%engiMaxFixes\% veces por partida.</string>
+  <string name="TouRoleEngineerFixWikiDescription">No importa donde estés en el mapa, puedes utilizar tu botón arreglar para arreglar inmediatamente el sabotaje activo. Puedes hacer esto [engiMaxFixes] veces por partida.</string>
   <string name="TouOptionEngineerMaxVents">Usos de Ventilación por Partida</string>
   <string name="TouOptionEngineerVentDuration">Duración de Ventilación</string>
   <string name="TouOptionEngineerMaxFixes">Usos de Arreglar Por Partida</string>
@@ -292,21 +292,21 @@ Es posible que sea el asesino o un testigo.</string>
   <string name="ShowVanillaWikiEntries">Mostrar Entradas Base de la Wiki</string>
   <string name="PlayerHasNoModifiers">No modificadores</string>
   <string name="SpecialNeutral">Neutral Especial</string>
-  <string name="TouRoleDeputyCampNotif">Espera para la muerte de \%player\% para poder disparar a su asesino en la discusión.</string>
+  <string name="TouRoleDeputyCampNotif">Espera para la muerte de [player] para poder disparar a su asesino en la discusión.</string>
   <string name="TouRoleDeputyMessageTitle">Comentarios del Diputado</string>
-  <string name="TouRoleForensicInspectNotif">Has inspeccionados la escena del crimen de \%player\%. El asesino, o cualquiera que haya pisado en la escena del crimen, parpadeará rojo cuando sea examinado.</string>
+  <string name="TouRoleForensicInspectNotif">Has inspeccionados la escena del crimen de [player]. El asesino, o cualquiera que haya pisado en la escena del crimen, parpadeará rojo cuando sea examinado.</string>
   <string name="TouOptionEngineerVentCooldown">Tiempo de Espera de Ventilaciones</string>
   <string name="TouRoleHaunterImpAlertFeedback">Un Perseguidor está libre, ¡Atrápalo antes de que pueda revelarte!</string>
   <string name="TouRoleHunter">Cazador</string>
-  <string name="TouRoleHunterIntroBlurb">Acecha El \%color=#FF0000FF\%Impostor\%/color\%</string>
+  <string name="TouRoleHunterIntroBlurb">Acecha El [color=#FF0000FF]Impostor[/color]</string>
   <string name="TouRoleHunterTabDescription">Acecha jugadores para ser alertado cuando usan una habilidad. 
 Una vez usen una habilidad, podrás matarlos.</string>
   <string name="TouRoleHunterCaughtPlayersText">Jugadores Atrapados:</string>
   <string name="TouRoleHunterWikiDescription">El Cazador es un rol de Tripulante Asesino que puede acechar jugadores durante la ronda. Si un jugador acechado usa una habilidad, podrán ser matados por el Cazador en cualquier punto de la partida, incluso Tripulantes.</string>
   <string name="TouRoleHunterStalk">Acechar</string>
   <string name="TouRoleHunterStalking">Acechando</string>
-  <string name="TouRoleHunterStalkWikiDescription">Elige un objetivo para acechar. Puedes acechar \%hunterMaxStalkUsages\% jugadores. Si usan cualquier habilidad mientras son acechados, serán añadidos a tu lista de objetivos, y podrán ser matados.</string>
-  <string name="TouRoleHunterStalkNotif">Si \%player\% usa una habilidad, serás capaz de matarlos en cualquier momento de la ronda.</string>
+  <string name="TouRoleHunterStalkWikiDescription">Elige un objetivo para acechar. Puedes acechar [hunterMaxStalkUsages] jugadores. Si usan cualquier habilidad mientras son acechados, serán añadidos a tu lista de objetivos, y podrán ser matados.</string>
+  <string name="TouRoleHunterStalkNotif">Si [player] usa una habilidad, serás capaz de matarlos en cualquier momento de la ronda.</string>
   <string name="TouOptionHunterKillCooldown">Tiempo de Espera tras Matar del Cazador</string>
   <string name="TouOptionHunterStalkCooldown">Tiempo de Espera de Acechamiento del Cazador</string>
   <string name="CrewmateHider">Tripulante Escondido</string>
@@ -318,14 +318,14 @@ Una vez usen una habilidad, podrás matarlos.</string>
   <string name="NeutralObstinate">Neutral Obstinado</string>
   <string name="WildcardNeutral">Neutral Comodín</string>
   <string name="Random">Aleatorio</string>
-  <string name="LoverChatTitle">\%player\% (Chat para Amantes)</string>
-  <string name="ImpostorChatTitle">\%player\% (Chat para Impostores)</string>
-  <string name="VampireChatTitle">\%player\% (Chat para Vampiros)</string>
-  <string name="JailorChatTitle">\%player\% (Encarcelador)</string>
-  <string name="JaileeChatTitle">\%player\% (Encarcelado)</string>
+  <string name="LoverChatTitle">[player] (Chat para Amantes)</string>
+  <string name="ImpostorChatTitle">[player] (Chat para Impostores)</string>
+  <string name="VampireChatTitle">[player] (Chat para Vampiros)</string>
+  <string name="JailorChatTitle">[player] (Encarcelador)</string>
+  <string name="JaileeChatTitle">[player] (Encarcelado)</string>
   <string name="SystemChatTitle">Sistema</string>
   <string name="AnticheatChatTitle">Sistema Antitrampas</string>
-  <string name="AnticheatMessage">\%player\% se une con estos mods distintos:</string>
+  <string name="AnticheatMessage">[player] se une con estos mods distintos:</string>
   <string name="SpectatorCommandList">obser:observar</string>
   <string name="SpectatorLobbyError">¡No puedes alternar observar fuera de la sala!</string>
   <string name="SpectatorStartError">¡No puedes alternar modo observador mientras la partida está empezando!</string>
@@ -338,15 +338,15 @@ Una vez usen una habilidad, podrás matarlos.</string>
   <string name="NerfMeToggleOff">Alternado estado de debilitado a no. Tu visión será normal.</string>
   <string name="SetNameLobbyError">¡No puedes cambiar tu nombre fuera de la sala!</string>
   <string name="SetNameRequirementError">¡El nombre debe contener al menos un caracter y no puede tener más de 12 caracteres!</string>
-  <string name="SetNameSimilarError">¡Otro jugador tiene un nombre demasiado similar a \%name\%! Por favor, intenta otro nombre.</string>
-  <string name="SetNameSuccess">Nombre cambiado para la siguiente partida a: \%name\%.</string>
-  <string name="WelcomeMessageBlurb">¡Bienvenido a Town of Us Mira v\%modVersion\%! 
+  <string name="SetNameSimilarError">¡Otro jugador tiene un nombre demasiado similar a [name]! Por favor, intenta otro nombre.</string>
+  <string name="SetNameSuccess">Nombre cambiado para la siguiente partida a: [name].</string>
+  <string name="WelcomeMessageBlurb">¡Bienvenido a Town of Us Mira v[modVersion]! 
  Usa la wiki (el icono de globo terráqueo) para ver más información en algunos roles o modificadores, donde puedes usar la barra de búsqueda. De lo contrario, utiliza /help en el chat para obtener una lista de comandos. 
  Podrás desactivar este mensaje a través del menú de opciones.</string>
   <string name="HelpMessageTitle">Comandos de chat:</string>
   <string name="HelpCommandDescription">/help - Muestra este mensaje</string>
   <string name="NerfMeCommandDescription">/nerfme - Divide tu visión a la mitad</string>
-  <string name="SetNameCommandDescription">/setname - Cambia tu nombre a cualquier texto que siga el comando (como /setname \%randomName\%) para la siguiente partida.</string>
+  <string name="SetNameCommandDescription">/setname - Cambia tu nombre a cualquier texto que siga el comando (como /setname [randomName]) para la siguiente partida.</string>
   <string name="SpectateCommandDescription">/spec - Te permite observar el resto de la partida automáticamente. (si habilitado por el anfitrión)</string>
   <string name="SummaryCommandDescription">/summary - Muestra el resumen de fin de partida de la partida previa</string>
   <string name="SummaryMsgBreakdown">Análisis del Mensaje de Resumen</string>
@@ -360,7 +360,7 @@ Una vez usen una habilidad, podrás matarlos.</string>
   <string name="FlashDarkGray">Gris Oscuro</string>
   <string name="PlayerColorDarker">Más Oscuro</string>
   <string name="PlayerColorLighter">Más Claro</string>
-  <string name="RolesHeader">\%type\% Roles</string>
+  <string name="RolesHeader">[type] Roles</string>
   <string name="GhostKeyword">Fantasma</string>
   <string name="HiderUtility">Utilidades del Escondido</string>
   <string name="HiderVisibility">Visión del Escondido</string>
@@ -370,7 +370,7 @@ Una vez usen una habilidad, podrás matarlos.</string>
   <string name="SeekerVisibility">Visión del Cazador</string>
   <string name="SeekerPostmortem">Cazador Post Mortem</string>
   <string name="SeekerPassive">Cazador Pasivo</string>
-  <string name="AnticheatKickChatMessage">\%player\% fue expulsado por usar mods de trampas:</string>
+  <string name="AnticheatKickChatMessage">[player] fue expulsado por usar mods de trampas:</string>
   <string name="SummaryCommandList">resumen:resumendelapartida:resumenpartida</string>
   <string name="RolesCommandList">roles:rol:r</string>
   <string name="NerfMeCommandList">debilitar:debilitame:vision</string>
