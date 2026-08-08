@@ -225,7 +225,8 @@
   <string name="SetNameRequirementError">玩家名稱必須至少有1個字元,且不能超過12個字元!</string>
   <string name="SetNameSimilarError">另一位玩家的名字與\%name\%太相似,請嘗試使用其他名字。</string>
   <string name="SetNameSuccess">已將下一場比賽的玩家名稱更改為:\%name\%。</string>
-  <string name="WelcomeMessageBlurb">歡迎來到我們的小鎮Mira v\%modVersion\%! 使用百科(地球圖標)可獲取更多關於角色或附加特性的資訊。你可以使用搜索欄,或者在聊天中輸入/help獲取命令清單。\%nl\%你也可以在選項清單中關閉此消息。</string>
+  <string name="WelcomeMessageBlurb">歡迎來到我們的小鎮Mira v\%modVersion\%! 使用百科(地球圖標)可獲取更多關於角色或附加特性的資訊。你可以使用搜索欄,或者在聊天中輸入/help獲取命令清單。
+你也可以在選項清單中關閉此消息。</string>
   <string name="HelpCommandList">幫助:支持:指令:命令:指南</string>
   <string name="HelpMessageTitle">聊天指令:</string>
   <string name="HelpCommandDescription">/help - 顯示此訊息</string>
@@ -409,7 +410,8 @@
   <string name="HnsOptionMysticDeadBodyArrowDuration">指向屍體箭頭的持續時間</string>
   <string name="HnsRoleSnitch">告密者</string>
   <string name="HnsRoleSnitchTabHint">告密者提示</string>
-  <string name="HnsRoleSnitchTabDescription">你的任務會更快減少倒數時長,\%nl\%但會暴露你的位置。</string>
+  <string name="HnsRoleSnitchTabDescription">你的任務會更快減少倒數時長,
+但會暴露你的位置。</string>
   <string name="HnsOptionSnitchCommonTaskMultiplier">普通任務速度倍率</string>
   <string name="HnsOptionSnitchShortTaskMultiplier">短任務速度倍率</string>
   <string name="HnsRoleSnitchWikiDescription">告密者是船員陣營角色,比起其他玩家,通過完成任務可以更快地減少剩餘時間，但代價是自己的位置會暴露給追捕者。</string>
@@ -452,7 +454,8 @@
   <string name="HnsOptionCamouflagerCamoDisablesProxBar">隱蔽會禁用距離提示條</string>
   <string name="CultistRoleNecromancer">死靈巫師</string>
   <string name="CultistRoleNecromancerIntroBlurb">復活亡者,讓他們聽命於你</string>
-  <string name="CultistRoleNecromancerTabDescription">擊殺船員,並將信徒\%nl\%轉化為對應的偽裝者職業!</string>
+  <string name="CultistRoleNecromancerTabDescription">擊殺船員,並將信徒
+轉化為對應的偽裝者職業!</string>
   <string name="CultistRoleNecromancerWikiDescription">死靈巫師是一個偽裝者陣營的異教徒角色,既可以像普通偽裝者一樣擊殺玩家,也能將"船員信徒"復活成"偽裝者狂信徒"。</string>
   <string name="CultistRoleNecromancerRevive">復活</string>
   <string name="CultistRoleNecromancerReviving">復活中</string>
@@ -460,7 +463,8 @@
   <string name="TouRoleAltruist">殉道者</string>
   <string name="TouRoleAltruistIntroBlurb">復活死去的船員</string>
   <string name="TouRoleAltruistTabDescription">成組復活死去的船員。</string>
-  <string name="TouRoleAltruistTabDescriptionGroupSacrifice">為已死亡的船員群體犧牲自己,\%nl\%以自身性命為代價。</string>
+  <string name="TouRoleAltruistTabDescriptionGroupSacrifice">為已死亡的船員群體犧牲自己,
+以自身性命為代價。</string>
   <string name="TouRoleAltruistTabDescriptionSacrifice">為一名已死亡的船員犧牲自己。</string>
   <string name="TouRoleAltruistWikiDescription">殉道者是一個可以復活玩家的船員保護型職業。然而,自己和被復活的船員無法召集會議。</string>
   <string name="TouRoleAltruistRevive">復活</string>
@@ -492,7 +496,8 @@
   <string name="TouOptionAurialSenseDuration">感知持續時間</string>
   <string name="TouRoleCleric">牧師</string>
   <string name="TouRoleClericIntroBlurb">拯救船員</string>
-  <string name="TouRoleClericTabDescription">淨化船員的負面效果,\%nl\%並放置屏障以阻止任何交互</string>
+  <string name="TouRoleClericTabDescription">淨化船員的負面效果,
+並放置屏障以阻止任何交互</string>
   <string name="TouRoleClericTabProtecting">屏障開啟在: \%player\%</string>
   <string name="TouRoleClericWikiDescription">牧師是一個船員保護型職業,可以通過消除船員的負面效果來保護船員,並在他們身上釋放屏障以防止互動。</string>
   <string name="TouRoleClericBarrier">屏障</string>
@@ -519,7 +524,8 @@
   <string name="TouRoleDeputyMissedShot">你射偏了! 對方不是兇手或擁有無敵效果。</string>
   <string name="TouRoleForensic">側寫師</string>
   <string name="TouRoleForensicIntroBlurb">調查案發現場,找出兇手</string>
-  <string name="TouRoleForensicTabDescription">調查犯罪現場,\%nl\%然後檢查玩家是否在現場。</string>
+  <string name="TouRoleForensicTabDescription">調查犯罪現場,
+然後檢查玩家是否在現場。</string>
   <string name="TouRoleForensicWikiDescription">側寫師是一名船員調查型職業,可以調查案發現場並檢查玩家是否在現場。如果玩家在現場會閃紅光。</string>
   <string name="TouRoleForensicInspect">調查</string>
   <string name="TouRoleForensicInspectWikiDescription">所有屍體都會生成案發現場。調查案發現場後檢查玩家以發現線索。下次會議中,你會收到兇手身份的報告。</string>
@@ -531,14 +537,22 @@
   <string name="TouOptionForensicRoleDuration">最大死亡時間 -- 側寫報告包含職業</string>
   <string name="TouOptionForensicFactionDuration">最大死亡時間 -- 側寫報告包含陣營</string>
   <string name="TouRoleForensicMessageTitle">側寫報告</string>
-  <string name="TouRoleForensicBodyError">無法從屍體中獲取任何資訊。\%nl\% (死亡時間: \%time\%秒前)。</string>
-  <string name="TouRoleForensicBodyOld">屍體太久遠,無法獲得任何資訊。\%nl\% (死亡時間: \%time\%秒前)。</string>
-  <string name="TouRoleForensicBodySuicide">看來這個死亡是自殺造成的! \%nl\% (死亡時間: \%time\%秒前)。</string>
-  <string name="TouRoleForensicBodyKillerRole">兇手似乎是\%role\%! \%nl\% (擊殺時間: \%time\%秒前)。</string>
-  <string name="TouRoleForensicBodyKillerNeutral">兇手似乎是中立職業! \%nl\% (擊殺時間: \%time\%秒前)。</string>
-  <string name="TouRoleForensicBodyKillerCrewmate">兇手似乎是船員! \%nl\% (擊殺時間: \%time\%秒前)。</string>
-  <string name="TouRoleForensicBodyKillerImpostor">兇手似乎是偽裝者! \%nl\% (擊殺時間: \%time\%秒前)。</string>
-  <string name="TouRoleForensicAtScene">\%player\%在\%deadPlayer\%的案發現場! \%nl\%他們可能是兇手或證人。</string>
+  <string name="TouRoleForensicBodyError">無法從屍體中獲取任何資訊。
+ (死亡時間: \%time\%秒前)。</string>
+  <string name="TouRoleForensicBodyOld">屍體太久遠,無法獲得任何資訊。
+ (死亡時間: \%time\%秒前)。</string>
+  <string name="TouRoleForensicBodySuicide">看來這個死亡是自殺造成的! 
+ (死亡時間: \%time\%秒前)。</string>
+  <string name="TouRoleForensicBodyKillerRole">兇手似乎是\%role\%! 
+ (擊殺時間: \%time\%秒前)。</string>
+  <string name="TouRoleForensicBodyKillerNeutral">兇手似乎是中立職業! 
+ (擊殺時間: \%time\%秒前)。</string>
+  <string name="TouRoleForensicBodyKillerCrewmate">兇手似乎是船員! 
+ (擊殺時間: \%time\%秒前)。</string>
+  <string name="TouRoleForensicBodyKillerImpostor">兇手似乎是偽裝者! 
+ (擊殺時間: \%time\%秒前)。</string>
+  <string name="TouRoleForensicAtScene">\%player\%在\%deadPlayer\%的案發現場! 
+他們可能是兇手或證人。</string>
   <string name="TouRoleForensicNotAtScene">\%player\%不在案發現場。</string>
   <string name="TouRoleEngineer">工程師</string>
   <string name="TouRoleEngineerIntroBlurb">維護飛船重要系統</string>
@@ -569,7 +583,8 @@
   <string name="TouRoleHaunterImpAlertFeedback">一隻冤魂正在遊蕩,趕在他們揭示你之前抓住他們!</string>
   <string name="TouRoleHunter">巡獵者</string>
   <string name="TouRoleHunterIntroBlurb">盯梢\%color=#FF0000FF\%偽裝者\%/color\%</string>
-  <string name="TouRoleHunterTabDescription">盯梢玩家,在他們使用技能時收到警報。\%nl\%一旦他們使用了某種技能,你就可以殺死他們。</string>
+  <string name="TouRoleHunterTabDescription">盯梢玩家,在他們使用技能時收到警報。
+一旦他們使用了某種技能,你就可以殺死他們。</string>
   <string name="TouRoleHunterCaughtPlayersText">被抓到的玩家:</string>
   <string name="TouRoleHunterWikiDescription">巡獵者是一個船員擊殺型職業,他可以在一輪中盯梢玩家。如果被盯梢的玩家使用某種技能,他們就可以在遊戲中的任何時候被巡獵者殺死,甚至是船員。</string>
   <string name="TouRoleHunterStalk">盯梢</string>
@@ -616,9 +631,14 @@
   <string name="TouRoleImitatorCrewmateImitation">船員效仿</string>
   <string name="TouRoleImitatorCrewmateImitationWikiDescription">除了政治家、市長之外,所有船員職業都可以使用。典獄長和檢察官無法使用他們的會議技能,而俠客無法獲得安全猜測。</string>
   <string name="TouRoleImitatorNeutralCounterparts">中立對應表</string>
-  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">失憶者 ⇨ 法醫 |末日預言者 ⇨ 俠客 |行刑者 ⇨ 告密者\%nl\%混沌 ⇨ 警長 |守護天使 ⇨ 牧師 |審判官 ⇨ 神諭者\%nl\%小丑 ⇨ 水管工 |僱傭兵 ⇨ 護衛者\%nl\%瘟疫之源/萬疫之神 ⇨ 靈光師 |噬魂獸 ⇨ 招魂師 |月下狼人 ⇨ 巡獵者</string>
+  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">失憶者 ⇨ 法醫 |末日預言者 ⇨ 俠客 |行刑者 ⇨ 告密者
+混沌 ⇨ 警長 |守護天使 ⇨ 牧師 |審判官 ⇨ 神諭者
+小丑 ⇨ 水管工 |僱傭兵 ⇨ 護衛者
+瘟疫之源/萬疫之神 ⇨ 靈光師 |噬魂獸 ⇨ 招魂師 |月下狼人 ⇨ 巡獵者</string>
   <string name="TouRoleImitatorImpostorCounterparts">偽裝者對應表</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">爆破手 ⇨ 陷阱師 |催眠師 ⇨ 觀測者 |清理者 ⇨ 側寫師\%nl\%管道工 ⇨ 工程師 |賞金獵人 ⇨ 追踪者\%nl\%送葬者 ⇨ 殉道者 |巫術師 ⇨ 老兵</string>
+  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">爆破手 ⇨ 陷阱師 |催眠師 ⇨ 觀測者 |清理者 ⇨ 側寫師
+管道工 ⇨ 工程師 |賞金獵人 ⇨ 追踪者
+送葬者 ⇨ 殉道者 |巫術師 ⇨ 老兵</string>
   <string name="TouOptionImitatorImitateNeutrals">效仿特定中立職業作為相似船員職業</string>
   <string name="TouOptionImitatorImitateImpostors">效仿特定偽裝者職業作為相似船員職業</string>
   <string name="TouOptionImitatorImitateBasicCrewmate">效仿基礎船員</string>
@@ -637,8 +657,10 @@
   <string name="TouOptionInvestigatorShowFootprintVent">足跡通風口可見度</string>
   <string name="TouRoleJailor">典獄長</string>
   <string name="TouRoleJailorIntroBlurb">關押並處決\%color=#FF0000FF\%壞人\%/color\%</string>
-  <string name="TouRoleJailorTabDescription">監禁船員以與他們進行私人對話,以及\%nl\%如果他們是邪惡的,就處決他們</string>
-  <string name="TouRoleJailorTabDescriptionEvil">監禁船員以與他們進行私人對話,以及\%nl\%如果你願意,就處決他們</string>
+  <string name="TouRoleJailorTabDescription">監禁船員以與他們進行私人對話,以及
+如果他們是邪惡的,就處決他們</string>
+  <string name="TouRoleJailorTabDescriptionEvil">監禁船員以與他們進行私人對話,以及
+如果你願意,就處決他們</string>
   <string name="TouRoleJailorWikiDescription">典獄長是一名船員強力型職業，可以關押其他玩家。在會議期間，典獄長可以選擇處決被關押的玩家。（如果是效顰者變身的典獄長則無法處決）</string>
   <string name="TouRoleJailorJail">關押</string>
   <string name="TouRoleJailorJailWikiDescription">關押一名玩家。會議期間所有人都能看到被關押者。你可以通過私聊與被關押者交流。</string>
@@ -693,15 +715,22 @@
   <string name="TouOptionMedicShieldEnumEveryone">所有人</string>
   <string name="TouOptionMedicShieldEnumNobody">無人</string>
   <string name="TouRoleMedicMessageTitle">法醫報告</string>
-  <string name="TouRoleMedicBodyError">無法從屍體中獲取任何資訊。\%nl\%(死亡時間: \%time\%秒前)。</string>
-  <string name="TouRoleMedicBodyOld">屍體太久遠,無法獲得任何資訊。\%nl\%(死亡時間: \%time\%秒前)。</string>
-  <string name="TouRoleMedicBodySuicide">看起來這個死亡是自殺造成的!\%nl\%(死亡時間: \%time\%秒前)。</string>
-  <string name="TouRoleMedicBodyKillerName">兇手似乎是\%player\%!\%nl\%(擊殺時間: \%time\%秒前)。</string>
-  <string name="TouRoleMedicBodyKillerDarkColor">兇手似乎是深色的!\%nl\%(擊殺時間: \%time\%秒前)。</string>
-  <string name="TouRoleMedicBodyKillerLightColor">兇手似乎是淺色的!\%nl\%(擊殺時間: \%time\%秒前)。</string>
+  <string name="TouRoleMedicBodyError">無法從屍體中獲取任何資訊。
+(死亡時間: \%time\%秒前)。</string>
+  <string name="TouRoleMedicBodyOld">屍體太久遠,無法獲得任何資訊。
+(死亡時間: \%time\%秒前)。</string>
+  <string name="TouRoleMedicBodySuicide">看起來這個死亡是自殺造成的!
+(死亡時間: \%time\%秒前)。</string>
+  <string name="TouRoleMedicBodyKillerName">兇手似乎是\%player\%!
+(擊殺時間: \%time\%秒前)。</string>
+  <string name="TouRoleMedicBodyKillerDarkColor">兇手似乎是深色的!
+(擊殺時間: \%time\%秒前)。</string>
+  <string name="TouRoleMedicBodyKillerLightColor">兇手似乎是淺色的!
+(擊殺時間: \%time\%秒前)。</string>
   <string name="TouRoleMedium">靈化使</string>
   <string name="TouRoleMediumIntroBlurb">與幽靈合一</string>
-  <string name="TouRoleMediumTabDescription">通過冥想暫時離開你的肉身。\%nl\%在此狀態下你的身體仍然會受到攻擊。</string>
+  <string name="TouRoleMediumTabDescription">通過冥想暫時離開你的肉身。
+在此狀態下你的身體仍然會受到攻擊。</string>
   <string name="TouRoleMediumMediate">冥想</string>
   <string name="TouRoleMediumMediateWikiDescription">將靈魂投射到身體之外一段時間以尋找線索。時間結束後,你會回到身體中,幽靈也會消失。</string>
   <string name="TouRoleMediumWikiDescription">靈化使是一名船員調查型職業,可以暫時釋放自己的靈魂。靈魂可以穿牆並看見幽靈,但身體會處於無人保護的狀態。</string>
@@ -718,7 +747,9 @@
   <string name="TouOptionMediumGhostEnumAllDead">全部死亡者</string>
   <string name="TouRoleMirrorcaster">鏡法師</string>
   <string name="TouRoleMirrorcasterIntroBlurb">反射攻擊到其他人</string>
-  <string name="TouRoleMirrorcasterTabDescription">用魔法鏡保護一名玩家。\%nl\%如果他們被直接攻擊,\%nl\%則將攻擊反射到另一名玩家身上!</string>
+  <string name="TouRoleMirrorcasterTabDescription">用魔法鏡保護一名玩家。
+如果他們被直接攻擊,
+則將攻擊反射到另一名玩家身上!</string>
   <string name="TouRoleMirrorcasterTabProtecting">保護中:\%player\%</string>
   <string name="TouRoleMirrorcasterWikiDescription">鏡法師是船員保護型職業,可以為一名玩家施加魔法鏡進行保護。如果被直接攻擊,鏡法師可以將攻擊反射到另一名玩家身上。</string>
   <string name="TouRoleMirrorcasterMagicMirror">魔法鏡</string>
@@ -746,7 +777,8 @@
   <string name="TouRoleMirrorcasterAttackedMessageWithoutType">\%player\%被攻擊! 你現在可以將這次攻擊反射到另一名玩家!</string>
   <string name="TouRoleMonarch">君主</string>
   <string name="TouRoleMonarchIntroBlurb">冊封船員為騎士以獲得額外投票數</string>
-  <string name="TouRoleMonarchTabDescription">冊封船員以在會議中獲得幫助,\%nl\%但請避免冊封邪惡陣營玩家。</string>
+  <string name="TouRoleMonarchTabDescription">冊封船員以在會議中獲得幫助,
+但請避免冊封邪惡陣營玩家。</string>
   <string name="TouRoleMonarchTabDescriptionEgo">冊封邪惡陣營玩家以在會議中協助他們。</string>
   <string name="TouRoleMonarchTabVoteInfo">被冊封為騎士的玩家各自獲得\%amount\%票。</string>
   <string name="TouRoleMonarchTabDefenseInfoEgo">存活的騎士會為你提供防護。</string>
@@ -763,7 +795,8 @@
   <string name="TouOptionMysticHnsPopUp">顯示死亡彈窗</string>
   <string name="TouRoleOracle">神諭者</string>
   <string name="TouRoleOracleIntroBlurb">讓其他玩家坦白他們的身份</string>s
-  <string name="TouRoleOracleTabDescription">佑護船員以在會議中保護他們,\%nl\%並讓他們在會議中坦白</string>
+  <string name="TouRoleOracleTabDescription">佑護船員以在會議中保護他們,
+並讓他們在會議中坦白</string>
   <string name="TouRoleOracleWikiDescription">神諭者是一名船員保護型職業,可以讓一名玩家坦白(當神諭者死亡時,以\%revealAccuracy\%的準確率揭示其陣營),也可以保護一名玩家免受會議技能影響。</string>
   <string name="TouRoleOracleBless">佑護</string>
   <string name="TouRoleOracleBlessWikiDescription">佑護一名玩家,使其在會議中免受任何傷害。</string>
@@ -790,7 +823,8 @@
   <string name="TouRoleOracleBlessingMessageOthers">\%player\%因被\%color=#FFBF00BF\%神諭者\%/color\%佑護而倖存!</string>
   <string name="TouRolePlumber">水管工</string>
   <string name="TouRolePlumberIntroBlurb">把船上那些煩人的鑽管道者踢出去</string>
-  <string name="TouRolePlumberTabDescription">清理並管理通風口系統,同時\%nl\%放置路障在管道上,阻止下一輪的使用</string>
+  <string name="TouRolePlumberTabDescription">清理並管理通風口系統,同時
+放置路障在管道上,阻止下一輪的使用</string>
   <string name="TouRolePlumberExtraTabText">路障將持續\%roundCount\%回合</string>
   <string name="TouRolePlumberVentListTabText">管道清單</string>
   <string name="TouRolePlumberUnbuiltBarricadeTabText">準備中...</string>
@@ -810,7 +844,8 @@
   <string name="TouOptionPlumberGetMoreFromTasks">完成任務可獲得更多路障</string>
   <string name="TouRolePolitician">政治家</string>
   <string name="TouRolePoliticianIntroBlurb">競選成為市長!</string>
-  <string name="TouRolePoliticianTabDescription">宣傳你的競選活動,成為市長!\%nl\%至少一半的清白玩家必須被動員起來,以成功競選</string>
+  <string name="TouRolePoliticianTabDescription">宣傳你的競選活動,成為市長!
+至少一半的清白玩家必須被動員起來,以成功競選</string>
   <string name="TouRolePoliticianWikiDescription">政治家是一名船員強力型職業,只要拉攏到至少一半船員支持,就能向全體公開身份並成為市長。</string>
   <string name="TouRolePoliticianCampaign">拉票</string>
   <string name="TouRolePoliticianCampaignWikiDescription">給一名玩家發放選票,只有船員身份的玩家才會對你有用。</string>
@@ -836,7 +871,8 @@
   <string name="TouRoleSeerIntroBlurb">揭示其他玩家的陣營</string>
   <string name="TouRoleSeerAltIntroBlurb">比較兩名玩家的陣營</string>
   <string name="TouRoleSeerTabDescription">揭露其他玩家的陣營以找出壞人。</string>
-  <string name="TouRoleSeerAltTabDescription">比較兩名玩家,\%nl\%確認他們是敵是友!</string>
+  <string name="TouRoleSeerAltTabDescription">比較兩名玩家,
+確認他們是敵是友!</string>
   <string name="TouRoleSeerWikiDescription">預言家是一名船員調查型職業,可以揭示其他玩家的陣營。</string>
   <string name="TouRoleSeerAltWikiDescription">預言家是一名船員調查型職業,能夠比較兩名玩家,判斷他們的陣營是匹配的還是衝突的。</string>
   <string name="TouRoleSeerReveal">揭示</string>
@@ -965,7 +1001,8 @@
   <string name="TouRoleSheriffTabMisfired">你已無法再開槍。</string>
   <string name="TouRoleSheriffTabMisfireKillsBoth">誤傷會導致你和目標同歸於盡。</string>
   <string name="TouRoleSheriffTabMisfireKillsSheriff">誤傷會導致自殺。</string>
-  <string name="TouRoleSheriffTabMisfireKillsTarget">誤傷會導致目標死亡,\%nl\%且你失去開槍能力。</string>
+  <string name="TouRoleSheriffTabMisfireKillsTarget">誤傷會導致目標死亡,
+且你失去開槍能力。</string>
   <string name="TouRoleSheriffTabMisfireKillsNobody">誤傷後你將無法再開槍。</string>
   <string name="TouRoleSheriffMisfireFeedback">你已無法再開槍!</string>
   <string name="TouOptionSheriffKillCooldown">警長擊殺冷卻</string>
@@ -1139,13 +1176,16 @@
   <string name="TouRoleAmbassadorChooseRole">選擇一個職業進行覆寫。</string>
   <string name="TouRoleAmbassadorRandomImpostorOption">隨機偽裝者</string>
   <string name="TouRoleAmbassadorConfirmPromptTitle">偽面使的覆寫</string>
-  <string name="TouRoleAmbassadorConfirmPromptText">你確定要覆寫成為\%newRole\%?\%nl\%這項變更是永久的。</string>
+  <string name="TouRoleAmbassadorConfirmPromptText">你確定要覆寫成為\%newRole\%?
+這項變更是永久的。</string>
   <string name="TouRoleAmbassadorConfirmPromptDeny">拒絕</string>
   <string name="TouRoleAmbassadorConfirmPromptAccept">接受</string>
   <string name="TouRoleAmbassadorRetrainedPlayerTag">已覆寫</string>
   <string name="TouOptionAmbassadorMaxRetrainsAvailable">最大可覆寫次數</string>
   <string name="TouOptionAmbassadorRetrainRequiresConfirmation">覆寫需要確認</string>
-  <string name="TouRoleAmbassadorTabDescription">將自己或其他偽裝者覆寫為其他職業\%nl\%\%b\%偽裝者擊殺不能成為強力職業\%/b\%\%nl\%\%b\%偽裝者隱匿/輔助不能成為擊殺/強力職業\%b\%</string>
+  <string name="TouRoleAmbassadorTabDescription">將自己或其他偽裝者覆寫為其他職業
+\%b\%偽裝者擊殺不能成為強力職業\%/b\%
+\%b\%偽裝者隱匿/輔助不能成為擊殺/強力職業\%b\%</string>
   <string name="TouRoleAmbassadorRetrainWikiDescription">將自己或其他偽裝者覆寫為其陣營內的職業。偽裝者擊殺可變為非強力職業,隱匿/輔助職業可變為隱匿或輔助職業。</string>
   <string name="TouOptionAmbassadorKillsNeededByAmbassadorOrTeammateToRetrain">偽面使或隊友覆寫所需擊殺數目</string>
   <string name="TouOptionAmbassadorRoundInWhichRetrainingIsPossible">可進行覆寫的回合數</string>
@@ -1162,7 +1202,8 @@
   <string name="TouRoleAmbassadorNeedKills">你或偽裝者要想覆寫必須至少有\%requiredKills\%次擊殺。</string>
   <string name="TouRoleAmbusher">伏擊者</string>
   <string name="TouRoleAmbusherIntroBlurb">將船員拖入黑暗之中</string>
-  <string name="TouRoleAmbusherTabDescription">追蹤一名玩家,然後伏擊其身邊最近的玩家。\%nl\%如果你伏擊的玩家死亡,則將其屍體帶走。</string>
+  <string name="TouRoleAmbusherTabDescription">追蹤一名玩家,然後伏擊其身邊最近的玩家。
+如果你伏擊的玩家死亡,則將其屍體帶走。</string>
   <string name="TouRoleAmbusherTabPursuingPlayer">正在追蹤: \%player\%</string>
   <string name="TouRoleAmbusherWikiDescription">伏擊者是偽裝者擊殺型職業,可以追蹤一名玩家並獲得指向他們的箭頭。你可以伏擊其身邊最近的玩家。如果成功擊殺該玩家,你會將其屍體拖入黑暗,並與伏擊者一起傳送回去。</string>
   <string name="TouRoleAmbusherPursue">追蹤</string>
@@ -1212,7 +1253,8 @@
   <string name="TouOptionEclipsalBlindRadius">致盲半徑</string>
   <string name="TouRoleEscapist">逃逸者</string>
   <string name="TouRoleEscapistIntroBlurb">輕鬆脫離擊殺現場</string>
-  <string name="TouRoleEscapistTabDescription">標記一個位置,\%nl\%然後隨時回溯到該位置以逃離犯罪現場</string>
+  <string name="TouRoleEscapistTabDescription">標記一個位置,
+然後隨時回溯到該位置以逃離犯罪現場</string>
   <string name="TouRoleEscapistWikiDescription">逃逸者是一名偽裝者隱匿型職業,可以標記一個位置並隨後傳送(回溯)到該位置。</string>
   <string name="TouRoleEscapistMark">標記</string>
   <string name="TouRoleEscapistMarkWikiDescription">標記一個位置以備後用。</string>
@@ -1237,7 +1279,8 @@
   <string name="TouRoleHypnotist">催眠師</string>
   <string name="TouRoleHypnotistWikiDescription">催眠師是一名偽裝者輔助型職業,可以催眠玩家。在會議期間可釋放集體癔症,使所有被催眠的玩家(以\%symbol\%標記)在下一回合看到不同的視覺效果。</string>
   <string name="TouRoleHypnotistIntroBlurb">催眠船員</string>
-  <string name="TouRoleHypnotistTabDescription">催眠船員使其無法分辨玩家\%nl\%並陷入瘋狂</string>
+  <string name="TouRoleHypnotistTabDescription">催眠船員使其無法分辨玩家
+並陷入瘋狂</string>
   <string name="TouRoleHypnotistHypnotize">催眠</string>
   <string name="TouRoleHypnotistHypnotizeWikiDescription">催眠一名玩家,若集體癔症生效,被催眠者看到的遊戲畫面將與其他玩家不同。</string>
   <string name="TouRoleHypnotistMassHysteria">集體癔症</string>
@@ -1272,7 +1315,8 @@
   <string name="TouOptionMinerCanKillWithTeammate">管道工可與隊友一起擊殺</string>
   <string name="TouRoleMorphling">化形者</string>
   <string name="TouRoleMorphlingIntroBlurb">變身為船員</string>
-  <string name="TouRoleMorphlingTabDescription">採樣玩家並變身為他們以偽裝自己。\%nl\%每回合開始時採樣會被清除。</string>
+  <string name="TouRoleMorphlingTabDescription">採樣玩家並變身為他們以偽裝自己。
+每回合開始時採樣會被清除。</string>
   <string name="TouRoleMorphlingTabMorphed">當前變身: \%player\%</string>
   <string name="TouRoleMorphlingWikiDescription">化形者是一名偽裝者隱匿型職業,可以採樣一名玩家並變身為他們的外觀。</string>
   <string name="TouRoleMorphlingSample">採樣</string>
@@ -1288,7 +1332,8 @@
   <string name="TouOptionMorphlingCanVent">化形者可使用通風口</string>
   <string name="TouRoleParasite">寄宿者</string>
   <string name="TouRoleParasiteIntroBlurb">侵占並控制玩家</string>
-  <string name="TouRoleParasiteTabDescription">侵占一名目標以控制其移動。\%nl\%再次按下同一按鈕可立即擊殺,或等待計時器結束。</string>
+  <string name="TouRoleParasiteTabDescription">侵占一名目標以控制其移動。
+再次按下同一按鈕可立即擊殺,或等待計時器結束。</string>
   <string name="TouRoleParasiteOvertake">侵占</string>
   <string name="TouRoleParasiteDecay">撃殺</string>
   <string name="TouRoleParasiteDecayWikiDescription">立即擊殺當前侵占的目標。</string>
@@ -1302,7 +1347,8 @@
   <string name="TouOptionParasiteOvertakenLooksLikeParasite">被侵占目標顯示為寄宿者形象</string>
   <string name="TouRoleScavenger">賞金獵人</string>
   <string name="TouRoleScavengerIntroBlurb">追獵你的獵物</string>
-  <string name="TouRoleScavengerTabDescription">擊殺指定目標可獲得更短的擊殺冷卻。\%nl\%如果你未能殺死他們,你將受到懲罰。</string>
+  <string name="TouRoleScavengerTabDescription">擊殺指定目標可獲得更短的擊殺冷卻。
+如果你未能殺死他們,你將受到懲罰。</string>
   <string name="TouRoleScavengerYourNextTarget">是你的下個目標。</string>
   <string name="TouRoleScavengerTabTimer">追獵時間: \%timeLeft\%</string>
   <string name="TouRoleScavengerTabTarget">當前目標: \%player\%</string>
@@ -1360,7 +1406,8 @@
   <string name="TouRoleTraitorChangeRole">變更職業</string>
   <string name="TouRoleTraitorChangeRoleWikiDescription">背叛者可以從提供的職業卡中選擇變更的職業,或隨機抽取。選擇後將一直保持該身份直到死亡,但仍需被猜中為背叛者。</string>
   <string name="TouRoleTraitorRoleSelectTitle">選擇一個職業。</string>
-  <string name="TouRoleTraitorRandomImpostorCard">隨機\%nl\%偽裝者</string>
+  <string name="TouRoleTraitorRandomImpostorCard">隨機
+偽裝者</string>
   <string name="TouOptionTraitorMinimumPeopleAlive">背叛者可生成時最少存活人數</string>
   <string name="TouOptionTraitorTraitorWontSpawnIfNKIsAlive">有中立殺手存活時不生成背叛者</string>
   <string name="TouOptionTraitorDisableExistingImpostorRoles">禁用本場遊戲出現的偽裝者職業</string>
@@ -1377,7 +1424,8 @@
   <string name="TouRolePuppeteerControlWikiDescription">通過清單控制你想要的目標。在此狀態下,被控制的玩家會像偽裝者一樣擊殺,而不再是他們本來的職業。</string>
   <string name="TouRoleSpellslingerWikiDescription">爆咒師是一個偽裝者強力型職業,可以對玩家施加詛咒使其準備被引爆。一旦所有非偽裝者都被詛咒,爆咒師可以在設定時間後引爆詛咒炸彈來獲得勝利。</string>
   <string name="TouRoleTraitorWikiDescription">背叛者是一名偽裝者強力型職業,會在會議後滿足條件時生成。市長不會成為背叛者,背叛者也必須是船員。其目標是為已死偽裝者贏得遊戲並消滅船員,同時可以變更為更強力的職業。</string>
-  <string name="TouRoleVenererTabDescription">擊殺玩家以解鎖能力加成。\%nl\%你的技能允許你隱蔽為灰人,然後變得快速,最後還能減慢你路徑上其他人的速度。</string>
+  <string name="TouRoleVenererTabDescription">擊殺玩家以解鎖能力加成。
+你的技能允許你隱蔽為灰人,然後變得快速,最後還能減慢你路徑上其他人的速度。</string>
   <string name="TouRoleVenererWikiDescription">狩獵者是一名偽裝者隱匿型職業,可以通過擊殺玩家獲得新能力,防止被抓住! 但每次獲得新能力時會立即使用,並且能力會疊加。</string>
   <string name="TouRoleUndertakerTabDescription">拖動屍體到地圖各處以隱藏他們,防止被舉報</string>
   <string name="TouRoleUndertakerWikiDescription">送葬者是一名偽裝者輔助型職業,可以拖動屍體到地圖各處。</string>
@@ -1394,11 +1442,14 @@
   <string name="TouRoleVenerer">狩獵者</string>
   <string name="TouRoleVenererIntroBlurb">每次擊殺都會強化你的能力</string>
   <string name="TouRoleVenererCamouflage">偽裝</string>
-  <string name="TouRoleVenererCamouflageWikiDescription">能力第一階段。\%nl\%你在所有玩家眼中會變成灰豆,可以悄悄離開擊殺現場。</string>
+  <string name="TouRoleVenererCamouflageWikiDescription">能力第一階段。
+你在所有玩家眼中會變成灰豆,可以悄悄離開擊殺現場。</string>
   <string name="TouRoleVenererSprint">疾跑</string>
-  <string name="TouRoleVenererSprintWikiDescription">能力第二階段。\%nl\%你在偽裝狀態下會獲得閃電俠般的速度。</string>
+  <string name="TouRoleVenererSprintWikiDescription">能力第二階段。
+你在偽裝狀態下會獲得閃電俠般的速度。</string>
   <string name="TouRoleVenererFreeze">冰封</string>
-  <string name="TouRoleVenererFreezeWikiDescription">能力最終階段。\%nl\%你會減緩周圍玩家的速度,同時自己依然快速且處於偽裝狀態。</string>
+  <string name="TouRoleVenererFreezeWikiDescription">能力最終階段。
+你會減緩周圍玩家的速度,同時自己依然快速且處於偽裝狀態。</string>
   <string name="TouOptionVenererAbilityCooldown">技能冷卻</string>
   <string name="TouOptionVenererAbilityDuration">技能持續時間</string>
   <string name="TouOptionVenererSprintSpeed">衝刺速度</string>
@@ -1532,7 +1583,8 @@
   <string name="TouOptionBetterSkeldVentModeEnumNormal">維持不變</string>
   <string name="TouOptionArsonistDouseUses">最大同時被澆油的玩家數量</string>
   <string name="TouRoleGlitchIntroBlurb">謀殺、模仿、黑入...數據丟失</string>
-  <string name="TouRoleGlitchTabDescription">黑入玩家,暫時停止他們的能力。\%nl\%並模仿他人以陷害他們。</string>
+  <string name="TouRoleGlitchTabDescription">黑入玩家,暫時停止他們的能力。
+並模仿他人以陷害他們。</string>
   <string name="TouRoleGlitchWikiDescription">混沌是一名中立擊殺型職業,通過成為場上最後一名殺手獲勝。可以模仿其他玩家的外觀,也可以黑入使其失去能力。</string>
   <string name="TouRoleGlitchMimic">模仿</string>
   <string name="TouRoleGlitchUnmimic">取消模仿</string>
@@ -1566,7 +1618,10 @@
   <string name="TouOptionFairyEvilOdds">目標為邪惡陣營概率</string>
   <string name="TouRoleInquisitor">審判官</string>
   <string name="TouRoleInquisitorIntroBlurb">消滅異端!</string>
-  <string name="TouRoleInquisitorTabDescription">消滅你的異端目標或讓他們被殺。\%nl\%所有異端死亡後你將會獲勝。\%nl\%若所有異端在會議結束後死亡,\%nl\%你將離開遊戲\%and\%宣佈你的勝利</string>
+  <string name="TouRoleInquisitorTabDescription">消滅你的異端目標或讓他們被殺。
+所有異端死亡後你將會獲勝。
+若所有異端在會議結束後死亡,
+你將離開遊戲\%and\%宣佈你的勝利</string>
   <string name="TouRoleInquisitorTabAddition">你的異端目標身份:</string>
   <string name="TouRoleInquisitorWikiDescription">審判官是一名中立外來者型職業,只要所有異端目標死亡即可獲勝。你只知道他們的身份,需要審判官自己找出這些玩家(對死者以\%symbol\%標記),並想辦法讓他們被殺。</string>
   <string name="TouRoleInquisitorInquireNotif">你將在下次會議中得知\%player\%是否為異端。</string>
@@ -1588,7 +1643,8 @@
   <string name="TouRoleChef">饕餮神廚</string>
   <string name="TouRoleInquisitorVanquishWikiDescription">審判一名玩家。如果對方是異端,你會被告知並可繼續審判；如果不是異端,你將失去審判能力。</string>
   <string name="TouRoleChefIntroBlurb">新鮮出爐,隨時待命</string>
-  <string name="TouRoleChefTabDescription">用烹飪過的屍體餵食船員。\%nl\%一旦達到配額人數被餵飽,就可以勝利離開!</string>
+  <string name="TouRoleChefTabDescription">用烹飪過的屍體餵食船員。
+一旦達到配額人數被餵飽,就可以勝利離開!</string>
   <string name="TouRoleChefTabCounter">餵飽屍體: \%bodiesFed\% / \%bodiesTotal\%</string>
   <string name="TouRoleChefMessageTitle">饕餮神廚反饋</string>
   <string name="TouRoleChefCustomerMessage">你被饕餮神廚餵食了一具屍體!</string>
@@ -1634,7 +1690,8 @@
   <string name="TouOptionJuggernautCanVent">天啟可使用通風口</string>
   <string name="TouRoleMercenary">僱傭兵</string>
   <string name="TouRoleMercenaryIntroBlurb">通過行賄與他人共同獲勝</string>
-  <string name="TouRoleMercenaryTabDescription">守護船員,獲取金幣,\%nl\%然後賄賂獲勝者!</string>
+  <string name="TouRoleMercenaryTabDescription">守護船員,獲取金幣,
+然後賄賂獲勝者!</string>
   <string name="TouRoleMercenaryTabGoldCounter">金幣:\%count\%</string>
   <string name="TouRoleMercenaryTabBribedInfo">已賄賂:</string>
   <string name="TouRoleMercenaryWikiDescription">僱傭兵是一名中立善良型職業,只能通過賄賂玩家來獲勝,可以獲得多個勝利條件。</string>
@@ -1711,7 +1768,8 @@
   <string name="TouOptionVampireCanVent">吸血魔可使用通風口</string>
   <string name="TouRoleWerewolf">月下狼人</string>
   <string name="TouRoleWerewolfIntroBlurb">以狂暴殺死所有人</string>
-  <string name="TouRoleWerewolfTabDescription">快速狂暴殺敵,提升你的視野,\%nl\%並暫時可以進入通風口</string>
+  <string name="TouRoleWerewolfTabDescription">快速狂暴殺敵,提升你的視野,
+並暫時可以進入通風口</string>
   <string name="TouRoleWerewolfWikiDescription">月下狼人是一名中立擊殺型職業,通過成為場上最後一名殺手獲勝。可以進入狂暴狀態獲得擊殺能力。</string>
   <string name="TouRoleWerewolfRampage">狂暴</string>
   <string name="TouRoleWerewolfRampageWikiDescription">進入狂暴狀態,獲得擊殺和偽裝者視野。狂暴期間擊殺冷卻大幅降低。</string>
@@ -1743,7 +1801,8 @@
   <string name="TouModifierLovers">戀人</string>
   <string name="TouModifierLoverWikiDescription">作為戀人,你可以在回合中與另一位戀人(以\%symbol\%標識)聊天。如果你們是最後三人之一且都存活,戀人可以共同獲勝。</string>
   <string name="TouModifierButtonBarry">執鈕人</string>
-  <string name="TouModifierButtonBarryTabDescription">你可以在地圖任意位置\%nl\%召開會議。</string>
+  <string name="TouModifierButtonBarryTabDescription">你可以在地圖任意位置
+召開會議。</string>
   <string name="TouModifierButtonBarryWikiDescription">你可以在地圖任意位置按下按鈕召開緊急會議。</string>
   <string name="TouModifierButtonBarryButton">緊急按鈕</string>
   <string name="TouModifierButtonBarryButtonWikiDescription">你可以在地圖任意位置觸發緊急會議,每局可用\%barryUses\%次。</string>
@@ -1768,7 +1827,8 @@
   <string name="TouOptionMiniSpeed">迷你速度</string>
   <string name="TouModifierRadar">雷達</string>
   <string name="TouModifierRadarTabDescription">獲得一個指向最近玩家的箭頭。</string>
-  <string name="TouModifierRadarWikiDescription">你會獲得一個指向\%nl\%最近玩家的箭頭。</string>
+  <string name="TouModifierRadarWikiDescription">你會獲得一個指向
+最近玩家的箭頭。</string>
   <string name="TouModifierSatellite">衛星員</string>
   <string name="TouModifierSatelliteTabDescription">你可以發射訊號,探測地圖上所有屍體的位置。</string>
   <string name="TouModifierSatelliteWikiDescription">你可以在地圖上檢測屍體,每局可用\%maxUses\%次。</string>
@@ -1782,7 +1842,8 @@
   <string name="TouOptionSatelliteOnePerRound">每回合限用一次</string>
   <string name="TouOptionSatelliteAllowFirst">首回合可用</string>
   <string name="TouModifierShy">變色龍</string>
-  <string name="TouModifierShyTabDescription">你靜止一段時間後\%nl\%會變得半透明。</string>
+  <string name="TouModifierShyTabDescription">你靜止一段時間後
+會變得半透明。</string>
   <string name="TouModifierShyWikiDescription">你會與環境融為一體,靜止時變得半透明。</string>
   <string name="TouOptionShyDelay">變透明延遲</string>
   <string name="TouOptionShyDuration">變透明持續時間</string>
@@ -1852,8 +1913,14 @@
   <string name="TouModifierCelebrityWikiDescription">你死後,你的死亡細節會被公布,包括你被殺的位置和殺你的職業,並會在會議中顯示。</string>
   <string name="TouModifierCelebrityPopup">名人,\%player\%,已死亡!:(詳情見聊天框)</string>
   <string name="TouRoleCelebrityMessageTitle">名人報告</string>
-  <string name="TouModifierCelebrityDetailsSelf">\%modifier\%,\%player\%,已死亡!\%nl\%地點:\%room\%,\%nl\%死因:自殺,\%nl\%時間: \%timeAgo\%秒前。</string>
-  <string name="TouModifierCelebrityDetailsKilled">\%modifier\%,\%player\%,遭\%killed\%!\%nl\%地點:\%room\%,\%nl\%兇手:\%role\%,\%nl\%時間:\%timeAgo\%秒前。</string>
+  <string name="TouModifierCelebrityDetailsSelf">\%modifier\%,\%player\%,已死亡!
+地點:\%room\%,
+死因:自殺,
+時間: \%timeAgo\%秒前。</string>
+  <string name="TouModifierCelebrityDetailsKilled">\%modifier\%,\%player\%,遭\%killed\%!
+地點:\%room\%,
+兇手:\%role\%,
+時間:\%timeAgo\%秒前。</string>
   <string name="TouModifierCircumvent">禁管者</string>
   <string name="TouModifierCircumventIntroBlurb">你的通風口使用能力受限。</string>
   <string name="TouModifierCircumventIntroBlurbNone">你失去了使用通風管道的能力。</string>
@@ -1863,7 +1930,8 @@
   <string name="TouModifierDeadlyQuota">必戮之契</string>
   <string name="TouModifierDeadlyQuotaIntroBlurb">你必須至少擊殺一個人。</string>
   <string name="TouModifierDeadlyQuotaIntroBlurbPlural">你必須擊殺至少\%amount\%人。</string>
-  <string name="TouModifierDeadlyQuotaTabDescription">達成契約目標,否則失敗!\%nl\%撃殺數:\%amount\% / \%total\%</string>
+  <string name="TouModifierDeadlyQuotaTabDescription">達成契約目標,否則失敗!
+撃殺數:\%amount\% / \%total\%</string>
   <string name="TouModifierDeadlyQuotaWikiDescription">若未達成契約目標,你將失敗。遊戲開始時,你需要完成規定數量的擊殺以達成目標。</string>
   <string name="TouModifierDeadlyQuotaWarningNotif">你尚未開始履行契約。若偽裝者獲勝,而你未能在遊戲結束前達成\%amount\%的擊殺配額,你將失敗。</string>
   <string name="TouModifierDiseased">病人</string>
@@ -1934,14 +2002,19 @@
   <string name="TouModifierTaskmasterTaskNotif">任務\%taskName\%已為你自動完成。</string>
   <string name="TouModifierTorch">火炬</string>
   <string name="TouModifierTorchIntroBlurb">當燈被破壞時,視野不會減少。</string>
-  <string name="TouModifierTorchTabDescription">當燈被破壞時,\%nl\%你的視野不會減少。</string>
+  <string name="TouModifierTorchTabDescription">當燈被破壞時,
+你的視野不會減少。</string>
   <string name="TouModifierTorchWikiDescription">燈被破壞時不會影響你的視野。</string>
   <string name="NeutralBasicTaskHeader">完成你的目標。</string>
   <string name="NeutralBasicDeadTaskHeader">你已經死亡。坐下來,盡情欣賞混亂吧。</string>
-  <string name="NeutralBenignTaskHeader">你無法獨自獲勝。\%nl\%可選任務:</string>
-  <string name="NeutralEvilTaskHeader">不惜一切代價完成你的目標。\%nl\%偽裝任務:</string>
-  <string name="NeutralKillingTaskHeader">用任何手段消滅所有其他陣營。\%nl\%偽裝任務:</string>
-  <string name="NeutralOutlierTaskHeader">你必須完成你的目標才能獲勝。\%nl\%偽裝任務:</string>
+  <string name="NeutralBenignTaskHeader">你無法獨自獲勝。
+可選任務:</string>
+  <string name="NeutralEvilTaskHeader">不惜一切代價完成你的目標。
+偽裝任務:</string>
+  <string name="NeutralKillingTaskHeader">用任何手段消滅所有其他陣營。
+偽裝任務:</string>
+  <string name="NeutralOutlierTaskHeader">你必須完成你的目標才能獲勝。
+偽裝任務:</string>
   <string name="NeutralSpectreTaskHeader">你已經死亡。完成任務即可獲勝!</string>
   <string name="TouRoleAmnesiacRememberFailTargetNotif">\%player\%的職業以你為目標,因此該職業無法被繼承。</string>
   <string name="TouModifierCrewpostorIntroMessage">你獲得了\%modifier\%附加屬性。你只能與偽裝者陣營一同獲勝,並會在他們死亡後變為\%role\%。</string>
@@ -1958,7 +2031,8 @@
   <string name="TouOptionVeteranKnowWhenAttackedInMeeting">在會議中得知自己遭到攻擊</string>
   <string name="TouOptionAmnesiacInheritFactionModifier">繼承陣營的附加屬性</string>
   <string name="TouRolePestilenceMessageTitle">萬疫之神警告</string>
-  <string name="TouRolePestilenceAnnounceMessage">致命瘟疫席捲了全體船員。\%nl\%\%role\%,天啟四騎士之ー,已然降臨!</string>
+  <string name="TouRolePestilenceAnnounceMessage">致命瘟疫席捲了全體船員。
+\%role\%,天啟四騎士之ー,已然降臨!</string>
   <string name="TouRolePlumberExtraTabTextForever">路障整局存在</string>
   <string name="ShowRoleIconOnRoleTab">在職業標簽頁顯示圖標</string>
   <string name="RainbowColorAsFortegreen">彩虹顏色顯示為Fortegreen</string>
@@ -2045,7 +2119,8 @@
   <string name="TouRoleSnitchImpCompletedEgoFeedback">告密者現在可以以自大狂的身份幫助你!</string>
   <string name="TouRoleSnitchImpCompletedFeedback">告密者現在知道你的身份了!</string>
   <string name="TouRoleHerbalistIntroBlurb">讓你的草藥與植物指引方向</string>
-  <string name="TouRoleHerbalistTabDescription">運用你對自然與草藥的深厚知識影響他人。\%nl\%你的擊殺冷卻與其他技能互不關聯。</string>
+  <string name="TouRoleHerbalistTabDescription">運用你對自然與草藥的深厚知識影響他人。
+你的擊殺冷卻與其他技能互不關聯。</string>
   <string name="TouRoleHerbalistWikiDescription">草藥師是一名偽裝者強力型職業,擁有多種共享冷卻的技能,可以幫助偽裝者或影響其他玩家看到的訊息。</string>
   <string name="TouRoleHerbalistExpose">暴露</string>
   <string name="TouRoleHerbalistExposeWikiDescription">將一名玩家暴露給所有偽裝者,顯示其職業,但該玩家將無法被猜測者猜中。</string>
@@ -2079,7 +2154,8 @@
   <string name="TouRoleOfficerTabAdditionMajorityInno">只能射擊偽裝者和中立殺手。</string>
   <string name="TouRoleOfficerTabAdditionCrewmatesInno">只能射擊偽裝者和中立陣營。</string>
   <string name="TouRoleOfficerTabAdditionKillBasedInno">只能射擊已經殺過人的玩家。</string>
-  <string name="TouRoleOfficerTabDescription">合理裝填子彈,避免浪費。\%nl\%已裝填超過10秒的子彈將在下一回合重置。</string>
+  <string name="TouRoleOfficerTabDescription">合理裝填子彈,避免浪費。
+已裝填超過10秒的子彈將在下一回合重置。</string>
   <string name="TouRoleOfficerWikiDescription">執法者是一名船員擊殺型職業,擁有有限的子彈射擊玩家。必須先裝填子彈,子彈僅持續一回合,除非在10秒內補充。</string>
   <string name="TouRoleOfficerLoad">裝填</string>
   <string name="TouRoleOfficerShoot">射擊</string>

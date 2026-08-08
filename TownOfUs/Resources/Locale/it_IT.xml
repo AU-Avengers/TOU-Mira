@@ -226,14 +226,16 @@
   <string name="TouRoleSpectatorWikiDescription">Non parteciperai in gioco e non farai interazioni con i giocatori. Tutto ciò che puoi fare è guardare.</string>
   <string name="TouRoleAltruist">Altruista</string>
   <string name="TouRoleAltruistIntroBlurb">Rivivi Gli Astronauti Morti</string>
-  <string name="TouRoleAltruistTabDescription">Rivivi gli Astronauti Morti in gruppi, al costo del \%nl\% di allertare gli assassini e rimuovere gli usi delle emergenze.</string>
+  <string name="TouRoleAltruistTabDescription">Rivivi gli Astronauti Morti in gruppi, al costo del 
+ di allertare gli assassini e rimuovere gli usi delle emergenze.</string>
   <string name="TouRoleAltruistWikiDescription">L'Altruista è un ruolo da Astronauta Protettivo che può rivivere i giocatori morti in gruppi. Tuttavia, la sua posizione e la posizione dei giocatori rivissuti saranno rilevati a tutti gli Impostori.</string>
   <string name="TouRoleAltruistRevive">Rivivi</string>
   <string name="TouRoleAltruistReviving">Rivivere</string>
   <string name="TouRoleAltruistReviveWikiDescription">Rianima un gruppo di giocatori morti vicino a te. Resterai bloccato durante la rianimazione e non potrai muoverti finché la rianimazione non sarà completa. Gli Impostori avranno anche una freccia puntata verso di te durante la rianimazione, quindi fai attenzione.</string>
   <string name="TouRoleAurialIntroBlurb">Percepisci disturbi nella tua aura.</string>
   <string name="TouRoleAurialTabDescription">Qualunque abilità usata dei giocatori vicini alla tua aura saranno percepite</string>
-  <string name="TouRoleClericTabDescription">Rimuove gli effetti negativi degli Astronauti e mette il \%nl\% di barriere per interrompere del tutto qualsiasi interazione</string>
+  <string name="TouRoleClericTabDescription">Rimuove gli effetti negativi degli Astronauti e mette il 
+ di barriere per interrompere del tutto qualsiasi interazione</string>
   <string name="TouRoleClericCleanse">Rimuovi</string>
   <string name="TouRoleClericCleanseWikiDescription">Rimuove tutti gli effetti negativi su un giocatore. (Ignezione, Hack, Infezione, Ricatto, Cecità, Veloce, e Ipnosi)</string>
   <string name="TouRoleClericMessageTitle">Feedback Chierico</string>
@@ -251,7 +253,8 @@
   <string name="TouRoleDeputyMissedShot">Hai mancato il tuo colpo! Non è un assassino oppure è invincibile.</string>
   <string name="TouRoleForensic">Ispettore</string>
   <string name="TouRoleForensicIntroBlurb">Ispeziona Scene Del Crimine Per Catturare Gli Assassini</string>
-  <string name="TouRoleForensicTabDescription">Ispeziona le scene del crimine, quindi esamina i giocatori per \%nl\% vedere se erano sulla scena.</string>
+  <string name="TouRoleForensicTabDescription">Ispeziona le scene del crimine, quindi esamina i giocatori per 
+ vedere se erano sulla scena.</string>
   <string name="TouOptionHunterKillCooldown">Ricarica Uccisione Cacciatore</string>
   <string name="TouOptionForensicExamineCooldown">Esamina Ricarica</string>
   <string name="TouOptionForensicReportOn">Mostra Segnalazioni Detective</string>
@@ -358,7 +361,8 @@
   <string name="TouModifierTaskmasterWikiDescription">Ogni volta che inizia un round, completerai automaticamente un incarico.</string>
   <string name="TouModifierTorch">Torcia</string>
   <string name="TouModifierTorchIntroBlurb">Puoi vedere anche senza le luci accese.</string>
-  <string name="TouModifierTorchTabDescription">La tua visuale non verrà ridotta \%nl\% quando le luci sono sabotare.</string>
+  <string name="TouModifierTorchTabDescription">La tua visuale non verrà ridotta 
+ quando le luci sono sabotare.</string>
   <string name="TouModifierTorchWikiDescription">Le luci spente non affliggono la tua visuale.</string>
   <string name="NeutralOutliers">Neutrali Anomali</string>
   <string name="NeutralOutlier">Neutrale Anomalo</string>
@@ -371,10 +375,12 @@
   <string name="TouRoleForensicExamineWikiDescription">Esamina i giocatori dopo aver ispezionato una scena del crimine. Ti sarà detto se il giocatore esaminato era nella scena del crimine.</string>
   <string name="TouRoleForensicInspectNotif">Hai ispezionato la scena del crimine di \%player\%. L'assassino o chiunque metta i piedi sulla scena del crimine lampeggerà in rosso quando esaminato.</string>
   <string name="TouOptionForensicRoleDuration">Tempo Dove Il Detective Avrà Il Ruolo</string>
-  <string name="TouRoleForensicAtScene">\%player\% era alla scena di morte di \%deadPlayer\%! Potrebbe essere al \%nl\% l'assassino o un testimone.</string>
+  <string name="TouRoleForensicAtScene">\%player\% era alla scena di morte di \%deadPlayer\%! Potrebbe essere al 
+ l'assassino o un testimone.</string>
   <string name="TouRoleEngineerIntroBlurb">Mantieni Sistemi Importanti Nella Navicella</string>
   <string name="TouRoleHunterIntroBlurb">Pedina Gli \%color=#FF0000FF\%Impostori\%/color\%</string>
-  <string name="TouRoleHunterTabDescription">Pedina i giocatori per essere allertato quando usano una abilità. Al \%nl\% quando usano una abilità, potresti ucciderli.</string>
+  <string name="TouRoleHunterTabDescription">Pedina i giocatori per essere allertato quando usano una abilità. Al 
+ quando usano una abilità, potresti ucciderli.</string>
   <string name="TouRoleHunterCaughtPlayersText">Giocatori Catturati:</string>
   <string name="TouRoleHunterWikiDescription">Il Cacciatore è un Astronauta Uccisore che può pedinare i giocatori durante il round. Se un giocatore pedinato usa una abilità, potrebbe venir ucciso dal Cacciatore a qualsiasi punto della partita, anche se è un Compagno d'Equipaggio.</string>
   <string name="TouRoleHunterStalk">Pedina</string>

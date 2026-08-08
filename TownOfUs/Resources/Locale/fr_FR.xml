@@ -52,7 +52,8 @@
   <string name="TouModifierTaskmasterWikiDescription">Au début de chaque tour, vous finissez une tâche automatiquement.</string>
   <string name="TouModifierTorch">Torche</string>
   <string name="TouModifierTorchIntroBlurb">Vous pouvez aussi voir sans les lumières.</string>
-  <string name="TouModifierTorchTabDescription">Votre vision ne sera pas réduite\%nl\%quand les lumières sont sabotées.</string>
+  <string name="TouModifierTorchTabDescription">Votre vision ne sera pas réduite
+quand les lumières sont sabotées.</string>
   <string name="TouModifierTorchWikiDescription">L'extinction des lumières n'affecte pas votre vision.</string>
   <string name="TouModifierOperative">Agent</string>
   <string name="TouModifierOperativeTabDescription">Accédez aux Caméras n'importe où.</string>
@@ -110,7 +111,8 @@
   <string name="TouModifierGiantWikiDescription">Vous êtes plus grand que les joueurs lambda, et vous vous déplacez \%giantSpeed\%x plus lentement qu'eux.</string>
   <string name="TouOptionGiantSpeed">Vitesse du Géant</string>
   <string name="TouModifierRadarTabDescription">Affiche une flèche vers le joueur le plus proche.</string>
-  <string name="TouModifierRadarWikiDescription">Vous avez une flèche qui pointe\%nl\%vers le joueur le plus proche.</string>
+  <string name="TouModifierRadarWikiDescription">Vous avez une flèche qui pointe
+vers le joueur le plus proche.</string>
   <string name="TouModifierDisperserWikiDescription">Dispersez toute personne sur la carte dans un conduit aléatoire, si elle n'est pas indéplaçable. Vous ne pouvez pas avoir d'autre modificateurs ajoutant des boutons.</string>
   <string name="TouModifierDisperserDisperse">Disperser</string>
   <string name="TouModifierDisperserDisperseWikiDescription">Vous pouvez disperser les joueurs de la carte dans des conduits aléatoire, une fois par partie.</string>
@@ -119,7 +121,8 @@
   <string name="TouOptionSatelliteOnePerRound">Une Utilisation Par Tour</string>
   <string name="TouOptionSatelliteAllowFirst">Autoriser l'Utilisation au Premier Tour</string>
   <string name="TouModifierShy">Timide</string>
-  <string name="TouModifierShyTabDescription">Vous devenez transparent après \%nl\% être resté immobile pendant une courte durée.</string>
+  <string name="TouModifierShyTabDescription">Vous devenez transparent après 
+ être resté immobile pendant une courte durée.</string>
   <string name="TouModifierShyWikiDescription">Vous vous fondez dans l'environnement, devenant transparent quand vous êtes immobile.</string>
   <string name="TouOptionShyDelay">Délai de Transparence</string>
   <string name="TouOptionShyDuration">Durée de la Transparence</string>

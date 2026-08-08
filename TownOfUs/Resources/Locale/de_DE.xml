@@ -404,7 +404,9 @@
   <string name="SetNameRequirementError">Der Spiele Name muss mindestens ein Zeichen lang sein und kann nicht länger als 12 Zeichen sein!</string>
   <string name="SetNameSimilarError">Ein anderer Spieler hat einen Namen zu ähnlich zu %name\%! Bitte wähle einen Anderen.</string>
   <string name="SetNameSuccess">Dein Name wurde für das nächst speil auf :\%name\% geändert.</string>
-  <string name="WelcomeMessageBlurb">Wilkomen bei "Town of Us Mira" v\%modVersion\%!\%nl\% Nutze das Wiki (Das Globus Symbol) um mehr Infos über Rollen und Modifikatoren zu bekommen. Nutze Dafür auch gerne die Suchleiste! Amsonsten kannst du auch /help in den Chat schreiben um eine Liste an Befehlen zu bekommen. \%nl\% Du kannst diese Nachricht auch im Menü "Einstellungen" ändern.</string>
+  <string name="WelcomeMessageBlurb">Wilkomen bei "Town of Us Mira" v\%modVersion\%!
+ Nutze das Wiki (Das Globus Symbol) um mehr Infos über Rollen und Modifikatoren zu bekommen. Nutze Dafür auch gerne die Suchleiste! Amsonsten kannst du auch /help in den Chat schreiben um eine Liste an Befehlen zu bekommen. 
+ Du kannst diese Nachricht auch im Menü "Einstellungen" ändern.</string>
   <string name="HelpMessageTitle">Chat Befehle:</string>
   <string name="HelpCommandDescription">/help - Zeigt diese Nachricht</string>
   <string name="NerfMeCommandDescription">/nerfme - Halbiert deine Sichtweite</string>
@@ -435,7 +437,9 @@
   <string name="TouRoleAltruistWikiDescription">Der Altruist ist eine Besatzungs Schutz Rolle, die Tote Spieler wiederbeleben kann. Allerdings können weder der Altruist noch die wiederbelebten Spieler eine Versammlung Einrufen.</string>
   <string name="TouRoleAltruistReviveWikiDescription">Belebe eine Gruppe toter Körper in deiner Nähe wieder.</string>
   <string name="TouRoleAurialTabDescription">Nehme Jede Spieler Fähigkeit war, die in deiner Umgebung benutzt wurde</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bombenleger ⇨ Fallensteller | Hypnotiseur ⇨ Wache | Hausmeister ⇨ Spurensucher\%nl\%Grubenarbeiter ⇨ Ingenieur | Geier ⇨ Spürnase\%nl\%Grabschänder ⇨ Altruist | Hexenmeister ⇨ Veteran</string>
+  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bombenleger ⇨ Fallensteller | Hypnotiseur ⇨ Wache | Hausmeister ⇨ Spurensucher
+Grubenarbeiter ⇨ Ingenieur | Geier ⇨ Spürnase
+Grabschänder ⇨ Altruist | Hexenmeister ⇨ Veteran</string>
   <string name="TouRoleBomberIntroBlurb">Plaziere Bomben um mehrere Besatzungsmitglieder gleichzeitig zu töten</string>
   <string name="TouRoleBomberTabDescription">Plaziere Bomben um mehrere Besatzungsmitglieder bei Sprengung zu töten</string>
   <string name="TouRoleBomberWikiDescription">Der Bombenleger ist eine Verräter Mord Rolle die eine Bombe legen kann, welche nach %detonateDelay\% Sekund(en) explodiert.</string>
@@ -465,7 +469,10 @@
   <string name="TouOptionJuggernautInitialCooldown">Anfangs Kill-Wartezeit</string>
   <string name="TouOptionJuggernautCooldownReduction">Kill-Wartezeit Reduktion</string>
   <string name="TouOptionJuggernautCanVent">Moloch Kann In Schächte</string>
-  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Vergesslicher ⇨ Mystiker | Doom ⇨ Vigi | Exe ⇨ Petze\%nl\%Glitch ⇨ Sheriff | Fairy ⇨ Kleriker | Inquis ⇨ Orakel\%nl\%Narr ⇨ Klempner | Merc ⇨ Wächter\%nl\%Pb/Pest ⇨ Feinfühler | SC ⇨ Medium | WW ⇨ Jäger</string>
+  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Vergesslicher ⇨ Mystiker | Doom ⇨ Vigi | Exe ⇨ Petze
+Glitch ⇨ Sheriff | Fairy ⇨ Kleriker | Inquis ⇨ Orakel
+Narr ⇨ Klempner | Merc ⇨ Wächter
+Pb/Pest ⇨ Feinfühler | SC ⇨ Medium | WW ⇨ Jäger</string>
   <string name="SummaryCommandList">zusammenfassung:Spielzusammenfassung:spzu</string>
   <string name="NerfMeCommandList">nerf:nerfme:kurzsichtig</string>
   <string name="SetNameCommandList">ändername:wechslename:umbennenen:name</string>
@@ -495,7 +502,8 @@
   <string name="TouRoleDeputyCampNotif">Warte auf \%player\% Tod, so dass du deren Mörder in den Versammlungen erschießen kannst.</string>
   <string name="TouRoleDeputyMessageTitle">Hilfssheriff Rückmeldung</string>
   <string name="TouRoleDeputyMissedShot">Du hast verfehlt! Der Spieler ist entweder nicht der Mörder oder unverwundbar.</string>
-  <string name="TouRoleForensicTabDescription">Inspiziere den Tatort, danach untersuche Spieler um\%nl\% herauszufinden, ob sie an diesen Ort waren.</string>
+  <string name="TouRoleForensicTabDescription">Inspiziere den Tatort, danach untersuche Spieler um
+ herauszufinden, ob sie an diesen Ort waren.</string>
   <string name="TouRoleForensicWikiDescription">Der Detektiv kann einen Tatort inspizieren und Spieler untersuchen, um herauszufinden, ob diese am Tatort waren. Sollte das der Fall sein, blinkt der Bildschirm rot.</string>
   <string name="TouRoleForensicInspectWikiDescription">Ein Tatort erscheint um jeden Leiche. Inspiziere den Tatort und untersuche Spieler, um Hinweise zu erhalten. In der nächsten Versammlung erhältst du einen Bericht, welche die Rolle des Mörders dir offenbart.</string>
   <string name="TouRoleForensicExamineWikiDescription">Untersuche Spieler nachdem du einen Tatort inspiziert hast. Du erfährst, ob der Spieler sich an dem Tatort befand.</string>
@@ -505,7 +513,8 @@
   <string name="TouOptionForensicRoleDuration">Zeit, in welcher der Detektiv die Rolle des Spielers bekommt</string>
   <string name="TouOptionForensicFactionDuration">Zeit, in welcher der Spurensucher die Fraktion bekommt</string>
   <string name="TouRoleForensicMessageTitle">Spurensucher Bericht</string>
-  <string name="TouRoleForensicAtScene">\%player\% war am Tatort, wo \%deadPlayer\% ermordet wurde! \%nl\% Er könnte der Mörder oder ein Zeuge sein.</string>
+  <string name="TouRoleForensicAtScene">\%player\% war am Tatort, wo \%deadPlayer\% ermordet wurde! 
+ Er könnte der Mörder oder ein Zeuge sein.</string>
   <string name="TouRoleForensicNotAtScene">\%player\% war nicht am Tatort.</string>
   <string name="TouRoleEngineerIntroBlurb">Erhalte die wichtigsten Systeme auf dem Schiff</string>
   <string name="TouRoleEngineerTabDescription">Krieche durch Schächte und repariere Sabotagen aus der Distanz</string>
@@ -523,7 +532,8 @@
   <string name="TouOptionHaunterCanBeClickedBy">Kann geklickt werden von</string>
   <string name="TouRoleHaunterImpAlertFeedback">Ein Poltergeist ist aufgetaucht, fang ihn, bevor er euch enttarnt!</string>
   <string name="TouRoleHunterIntroBlurb">Verfolge die \%color=#FF0000FF\%Verräter\%/color\%</string>
-  <string name="TouRoleHunterTabDescription">Verfolge Spieler um alarmiert zu erden, wenn diese eine Fähigkeit benutzen. \%nl\%Sobald sie dies tun, darfst du diese umbringen.</string>
+  <string name="TouRoleHunterTabDescription">Verfolge Spieler um alarmiert zu erden, wenn diese eine Fähigkeit benutzen. 
+Sobald sie dies tun, darfst du diese umbringen.</string>
   <string name="TouRoleHunterWikiDescription">Der Jäger ist eine Besatzungs Mord Rolle, welche Spieler während den Runden verfolgen kann. Wenn ein verfolgter Spieler eine Fähigkeit nutzt, kann dieser zu jeder Zeit im Spiel von dem Jäger umgebracht werden, darunter auch die Besatzung.</string>
   <string name="TouRoleHunterStalk">Verfolgen</string>
   <string name="TouRoleHunterStalking">Verfolgen</string>
@@ -553,8 +563,10 @@
   <string name="TouOptionInvestigatorFootprintDuration">Fußspur Dauer</string>
   <string name="TouOptionInvestigatorShowAnonymousFootprints">Anonyme Fußspuren</string>
   <string name="TouOptionInvestigatorShowFootprintVent">Fußspuren in Schächten Sichtbar</string>
-  <string name="TouRoleJailorTabDescription">Diskutiere mit der Besatzung in einem privaten Treffen und \%nl\%exekutiere diese, wenn sie verdächtigt sind</string>
-  <string name="TouRoleJailorTabDescriptionEvil">Diskutiere mit der Besatzung in Privaten Treffen, und \%nl\%exekutiere diese nach deinem Willen</string>
+  <string name="TouRoleJailorTabDescription">Diskutiere mit der Besatzung in einem privaten Treffen und 
+exekutiere diese, wenn sie verdächtigt sind</string>
+  <string name="TouRoleJailorTabDescriptionEvil">Diskutiere mit der Besatzung in Privaten Treffen, und 
+exekutiere diese nach deinem Willen</string>
   <string name="TouRoleJailorWikiDescription">Der Wärter ist eine Besatzungs Macht Rolle, welche andere Spieler verhaften kann. Während einer Versammlung, darf der Wärter den verhafteten Spieler exekutieren. (Imitatoren können nicht exekutieren)</string>
   <string name="TouRoleJailorJailWikiDescription">Verhafte einen Spieler. Während einer Versammlung kann jeder sehen, wer verhaftet ist. Du kannst privat mit dem verhafteten Spieler sprechen, in dem du den Anweisungen in dem privaten Chat folgst</string>
   <string name="TouRoleJailorExecuteWiki">Exekutier(Versammlung)</string>
@@ -695,7 +707,8 @@
   <string name="HnsOptionMysticDeadBodyArrowDuration">Toter Körper Pfeil Dauer</string>
   <string name="HnsRoleSnitch">Petze</string>
   <string name="HnsRoleSnitchTabHint">Petze Tipp</string>
-  <string name="HnsRoleSnitchTabDescription">Deine Aufgaben verringern den Timer schneller, \%nl\% dafür gibt's du deinen Aufenthaltsort preis.</string>
+  <string name="HnsRoleSnitchTabDescription">Deine Aufgaben verringern den Timer schneller, 
+ dafür gibt's du deinen Aufenthaltsort preis.</string>
   <string name="ReverseSkeldMapName">dlekS</string>
   <string name="ReverseSkeldMapTooltip">saD dlekS: das mittelgroße raumschiff, welches du kennst und (villeicht) liebst, aber gedreht!</string>
   <string name="DiscordServer">Discord Server</string>

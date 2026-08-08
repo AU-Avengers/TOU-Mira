@@ -213,7 +213,8 @@
   <string name="TouRoleSpectatorWikiDescription">No participas en el juego ni interactúas con los jugadores. Solo puedes observar.</string>
   <string name="TouRoleAltruist">Altruista</string>
   <string name="TouRoleAltruistIntroBlurb">Revivir Tripulantes Muertos</string>
-  <string name="TouRoleAltruistTabDescription">Reviva a los compañeros de tripulación muertos en grupos, al \%nl\% costo de alertar a los asesinos y eliminar los usos de la reunión.</string>
+  <string name="TouRoleAltruistTabDescription">Reviva a los compañeros de tripulación muertos en grupos, al 
+ costo de alertar a los asesinos y eliminar los usos de la reunión.</string>
   <string name="TouRoleAltruistWikiDescription">El Altruista es un rol de Tripulante Protector que puede revivir a jugadores muertos en grupos. Sin embargo, su ubicación y la de los jugadores revividos se revelarán a todos los impostores.</string>
   <string name="TouRoleAltruistRevive">Revivir</string>
   <string name="TouRoleAltruistReviving">Reviviendo</string>
@@ -231,7 +232,8 @@
   <string name="TouOptionAurialSenseDuration">Duración del sentido</string>
   <string name="TouRoleCleric">Clérigo</string>
   <string name="TouRoleClericIntroBlurb">Salva los tripulantes</string>
-  <string name="TouRoleClericTabDescription">Limpia los efectos negativos de los compañeros de tripulación y \%nl\% lanza barreras para detener cualquier interacción por completo</string>
+  <string name="TouRoleClericTabDescription">Limpia los efectos negativos de los compañeros de tripulación y 
+ lanza barreras para detener cualquier interacción por completo</string>
   <string name="TouRoleClericWikiDescription">El Clérigo es un Tripulante Protector que puede proteger a sus compañeros de tripulación negando sus efectos negativos, así como colocando barreras sobre ellos para evitar interacciones.</string>
   <string name="TouRoleClericBarrier">Barrera</string>
   <string name="TouRoleClericBarrierWikiDescription">Evita que un compañero de tripulación sea interactuado. El escudo durará \%BarrierCooldown\% segundos.</string>
@@ -263,7 +265,8 @@
   <string name="TouOptionForensicReportOn">Mostrar Informes de Detective</string>
   <string name="TouOptionForensicRoleDuration">Tiempo Durante el que el Detective Tendrá el Rol</string>
   <string name="TouOptionForensicFactionDuration">Tiempo Durante el cual Detective Tendrá Facción</string>
-  <string name="TouRoleForensicAtScene">\%player\% estaba en la escena de la muerte de \%deadPlayer\%\%nl\%Es posible que sea el asesino o un testigo.</string>
+  <string name="TouRoleForensicAtScene">\%player\% estaba en la escena de la muerte de \%deadPlayer\%
+Es posible que sea el asesino o un testigo.</string>
   <string name="TouRoleForensicNotAtScene">\%player\%no estaba en la escena del crimen.</string>
   <string name="TouRoleEngineer">Ingeniero</string>
   <string name="TouRoleEngineerIntroBlurb">Mantén Sistemas Importantes en la Nave</string>
@@ -296,7 +299,8 @@
   <string name="TouRoleHaunterImpAlertFeedback">Un Perseguidor está libre, ¡Atrápalo antes de que pueda revelarte!</string>
   <string name="TouRoleHunter">Cazador</string>
   <string name="TouRoleHunterIntroBlurb">Acecha El \%color=#FF0000FF\%Impostor\%/color\%</string>
-  <string name="TouRoleHunterTabDescription">Acecha jugadores para ser alertado cuando usan una habilidad. \%nl\%Una vez usen una habilidad, podrás matarlos.</string>
+  <string name="TouRoleHunterTabDescription">Acecha jugadores para ser alertado cuando usan una habilidad. 
+Una vez usen una habilidad, podrás matarlos.</string>
   <string name="TouRoleHunterCaughtPlayersText">Jugadores Atrapados:</string>
   <string name="TouRoleHunterWikiDescription">El Cazador es un rol de Tripulante Asesino que puede acechar jugadores durante la ronda. Si un jugador acechado usa una habilidad, podrán ser matados por el Cazador en cualquier punto de la partida, incluso Tripulantes.</string>
   <string name="TouRoleHunterStalk">Acechar</string>
@@ -336,7 +340,9 @@
   <string name="SetNameRequirementError">¡El nombre debe contener al menos un caracter y no puede tener más de 12 caracteres!</string>
   <string name="SetNameSimilarError">¡Otro jugador tiene un nombre demasiado similar a \%name\%! Por favor, intenta otro nombre.</string>
   <string name="SetNameSuccess">Nombre cambiado para la siguiente partida a: \%name\%.</string>
-  <string name="WelcomeMessageBlurb">¡Bienvenido a Town of Us Mira v\%modVersion\%! \%nl\% Usa la wiki (el icono de globo terráqueo) para ver más información en algunos roles o modificadores, donde puedes usar la barra de búsqueda. De lo contrario, utiliza /help en el chat para obtener una lista de comandos. \%nl\% Podrás desactivar este mensaje a través del menú de opciones.</string>
+  <string name="WelcomeMessageBlurb">¡Bienvenido a Town of Us Mira v\%modVersion\%! 
+ Usa la wiki (el icono de globo terráqueo) para ver más información en algunos roles o modificadores, donde puedes usar la barra de búsqueda. De lo contrario, utiliza /help en el chat para obtener una lista de comandos. 
+ Podrás desactivar este mensaje a través del menú de opciones.</string>
   <string name="HelpMessageTitle">Comandos de chat:</string>
   <string name="HelpCommandDescription">/help - Muestra este mensaje</string>
   <string name="NerfMeCommandDescription">/nerfme - Divide tu visión a la mitad</string>

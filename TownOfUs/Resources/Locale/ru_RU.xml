@@ -134,11 +134,13 @@
   <string name="TouInfection">Инфекция</string>
   <string name="TouRoleSpectator">Наблюдатель</string>
   <string name="TouRoleSpectatorIntroBlurb">Наслаждайтесь хаосом</string>
-  <string name="TouRoleSpectatorTabDescription">Вы не участвуете. Наблюдайте за хаосом,\%nl\%пока играют другие!</string>
+  <string name="TouRoleSpectatorTabDescription">Вы не участвуете. Наблюдайте за хаосом,
+пока играют другие!</string>
   <string name="TouRoleSpectatorWikiDescription">Вы не участвуете и не взаимодействуете с игроками. Просто смотрите и наблюдайте!</string>
   <string name="TouRoleAltruist">Альтруист</string>
   <string name="TouRoleAltruistIntroBlurb">Возрождайте умерших игроков</string>
-  <string name="TouRoleAltruistTabDescription">Возрождайте умерших игроков в группах. Возрождения сообщаются\%nl\%убийцам и не дают начать собрание.</string>
+  <string name="TouRoleAltruistTabDescription">Возрождайте умерших игроков в группах. Возрождения сообщаются
+убийцам и не дают начать собрание.</string>
   <string name="TouRoleAltruistRevive">Возродить</string>
   <string name="TouRoleAltruistReviving">Возрождение</string>
   <string name="TouOptionAltruistReviveDuration">Длительность возрождения</string>
@@ -150,7 +152,8 @@
   <string name="TouRoleHunter">Охотник</string>
   <string name="TouRoleImitator">Имитатор</string>
   <string name="TouRoleImitatorIntroBlurb">Копируйте способности мёртвых в пользу Экипажа</string>
-  <string name="TouRoleImitatorTabDescription">Копируйте способности мёртвых игроков\%nl\%во время собраний и помогайте Экипажу</string>
+  <string name="TouRoleImitatorTabDescription">Копируйте способности мёртвых игроков
+во время собраний и помогайте Экипажу</string>
   <string name="TouRoleImitatorWikiDescription">Имитатор - Поддерживающий Член Экипажа, который может временно копировать роль выбранного мёртвого игрока. Имитатор остается выбранной ролью, пока не сменит цель. Некоторые роли недоступны, если в игре несколько Имитаторов.</string>
   <string name="TouRoleImitatorCrewmateImitation">Имитация Экипажа</string>
   <string name="TouRoleImitatorCrewmateImitationWikiDescription">Может копировать любую роль Экипажа, кроме Имитатора, Политика, Мэра, и обычного Члена экипажа. Пленник и Прокурор не смогут использовать свои способности во время собрания, а Линчеватель не получает право на ошибку в гадалке.</string>
@@ -248,7 +251,8 @@
   <string name="TouOptionForensicReportOn">Показывать репорты Детектива</string>
   <string name="TouOptionForensicRoleDuration">Детектив узнает роль через</string>
   <string name="TouOptionForensicFactionDuration">Детектив узнает фракцию через</string>
-  <string name="TouRoleForensicAtScene">\%player\% был на месте убийства \%deadPlayer\%!\%nl\%Возможно, он(-а) - убийца или свидетель.</string>
+  <string name="TouRoleForensicAtScene">\%player\% был на месте убийства \%deadPlayer\%!
+Возможно, он(-а) - убийца или свидетель.</string>
   <string name="TouRoleForensicNotAtScene">\%player\% не был на месте убийства.</string>
   <string name="TouRoleEngineerTabDescription">Используйте люки и удалённо чините саботажи</string>
   <string name="TouRoleEngineerWikiDescription">Инженер - Поддерживающий Член Экипажа, который может использовать люки и удалённо чинить саботажи.</string>
@@ -268,9 +272,11 @@
   <string name="TouRoleDeputyCampWikiDescription">Поджидайте игрока, чтобы быть оповещённым о его смерти. После смерти игрока вы можете попытаться застрелить его убийцу. Если выстрел окажется верным, убийца погибает; если нет — ничего не произойдёт.</string>
   <string name="TouRoleDeputyMissedShot">Вы промахнулись! Цель либо не убийца, либо бессмертна.</string>
   <string name="TouRoleForensicIntroBlurb">Исследуйте место убийства чтобы поймать убийцу</string>
-  <string name="TouRoleForensicTabDescription">Исследуйте место убийства, а затем проверяйте игроков,\%nl\%чтобы узнать, были ли они на месте убийства.</string>
+  <string name="TouRoleForensicTabDescription">Исследуйте место убийства, а затем проверяйте игроков,
+чтобы узнать, были ли они на месте убийства.</string>
   <string name="TouRoleHaunterIntroBlurb">Посмертно разоблачите Предателей!</string>
-  <string name="TouRoleHaunterTabDescription">Завершите все свои задания не попадаясь\%nl\%на глаза, чтобы найти Предателей!</string>
+  <string name="TouRoleHaunterTabDescription">Завершите все свои задания не попадаясь
+на глаза, чтобы найти Предателей!</string>
   <string name="TouRoleHaunterWikiDescription">Дух - Призрачный Член Экипажа, который может выполнять задания. Он отображается как полупрозрачный игрок. Если он выполнит все свои задания, все живые игроки увидят Предателей. Однако, если Предатель нажмёт на духа раньше, дух превратится в обычного призрака. Предатели получают оповещение незадолго до того, как Дух выполнит все свои задания.</string>
   <string name="TouOptionHaunterNumTasksLeftBeforeClickable">Осталось заданий до того как на вас можно нажать</string>
   <string name="TouOptionHaunterNumTasksLeftBeforeAlerted">Осталось заданий до оповещения</string>
@@ -279,7 +285,9 @@
   <string name="TouRoleHaunterSelfAlertFeedback">Вы оповестили Предателей!</string>
   <string name="TouRoleHaunterImpAlertFeedback">Дух на свободе, поймайте его быстрее чем он выдаст вас!</string>
   <string name="TouRoleHunterIntroBlurb">Охотьтесь за \%color=#FF0000FF\%Предателями\%/color\%</string>
-  <string name="TouRoleHunterTabDescription">Охотьтесь за игроками, чтобы получить оповещение,\%nl\%когда они используют способность.\%nl\%Как только они используют способность, вы можете убить их.</string>
+  <string name="TouRoleHunterTabDescription">Охотьтесь за игроками, чтобы получить оповещение,
+когда они используют способность.
+Как только они используют способность, вы можете убить их.</string>
   <string name="TouRoleHunterCaughtPlayersText">Пойманные игроки:</string>
   <string name="TouRoleHunterWikiDescription">Охотник - Убивающий Член Экипажа, который может охотиться за игроками во время раунда. Если игрок, за которым охотятся использует способность, он может быть убит Охотником в любой момент игры, убить можно даже Члена Экипажа.</string>
   <string name="TouRoleHunterStalk">Охота</string>
@@ -291,7 +299,8 @@
   <string name="TouOptionHunterStalkUses">Макс. использования Охоты</string>
   <string name="TouOptionHunterRetributionOnVote">Если Охотника кикнут, он убивает последнего проголосовавшего</string>
   <string name="TouOptionHunterHunterBodyReport">Охотник может репортить убитых им игроков</string>
-  <string name="TouRoleJailorTabDescription">Лично допрашивайте игроков на собраниях\%nl\%и казните злых игроков.</string>
+  <string name="TouRoleJailorTabDescription">Лично допрашивайте игроков на собраниях
+и казните злых игроков.</string>
   <string name="TouRoleJailorWikiDescription">Тюремщик - Сильный Член Экипажа, который может заключать других игроков в тюрьму. Во время собрания Тюремщик может казнить заключенного игрока. (Если только Тюремщик не является Имитатором)</string>
   <string name="TouRoleJailorJail">Заключить</string>
   <string name="TouRoleJailorJailWikiDescription">Заключайте игроков. Во время собрания все видят кто заключён в тюрьму. Вы можете приватно разговаривать с заключённым используя инструкции в личном чате</string>
@@ -308,7 +317,8 @@
   <string name="TouRoleJailorExecutedEvil">\%player\% был казнён!</string>
   <string name="TouRoleLookout">Дозорный</string>
   <string name="TouRoleLookoutIntroBlurb">Будьте начеку</string>
-  <string name="TouRoleLookoutTabDescription">Наблюдайте за другими Членами Экипажа,\%nl\%чтобы увидеть, какие роли взаимодействовали с ними</string>
+  <string name="TouRoleLookoutTabDescription">Наблюдайте за другими Членами Экипажа,
+чтобы увидеть, какие роли взаимодействовали с ними</string>
   <string name="TouRoleLookoutWikiDescription">Дозорный - Расследующий Член Экипажа, который может наблюдать за другими игроками во время игры. Во время собрания, Дозорный увидит все роли, которые взаимодействовали с каждым наблюдаемым игроком.</string>
   <string name="TouRoleLookoutWatch">Наблюдать</string>
   <string name="TouRoleLookoutWatchWikiDescription">Наблюдайте за игроками, чтобы узнать, кто взаимодействовал с наблюдаемыми, на следующем собрании.</string>
@@ -347,7 +357,8 @@
   <string name="TouOptionMediumWhoisRevealed">Будет показан</string>
   <string name="TouRoleMirrorcaster">Отражатель</string>
   <string name="TouRoleMirrorcasterIntroBlurb">Отражайте атаки в других</string>
-  <string name="TouRoleMirrorcasterTabDescription">Защищайте игроков Магическим Зеркалом.%nl\%Если их атакуют,\%nl\%отразите атаку в другого игрока!</string>
+  <string name="TouRoleMirrorcasterTabDescription">Защищайте игроков Магическим Зеркалом.%nl\%Если их атакуют,
+отразите атаку в другого игрока!</string>
   <string name="TouRoleMirrorcasterWikiDescription">Отражатель - Защищающий Член Экипажа, который может создавать Магические Зеркала, чтобы защищать игроков. Если защищаемый игрок атакован, Отражатель может перенаправить атаку на другого.</string>
   <string name="TouRoleMirrorcasterMagicMirror">Магическое Зеркало</string>
   <string name="TouRoleMirrorcasterMagicMirrorWikiDescription">Защитите игрока Магическим Зеркалом. Если игрок атакован, вы будете оповещены и сможете атаковать другого игрока. Роли которые игнорируют Магическое Зеркало: Поджигатель, Ветеран, Чума, Подрывник (если игрок взорван), и несколько других.</string>
@@ -368,7 +379,9 @@
   <string name="TouOptionMysticDeadBodyArrowDuration">Длительность стрелки к трупу</string>
   <string name="TouRoleOracle">Оракул</string>
   <string name="TouRoleOracleIntroBlurb">Заставляйте игроков признаваться в содеянных грехах</string>s
-  <string name="TouRoleOracleTabDescription">Благословляйте Членов Экипажа,\%nl\%чтобы защищать их на собраниях, затем\%nl\% заставляйте их раскрыть свою роль на собрании</string>
+  <string name="TouRoleOracleTabDescription">Благословляйте Членов Экипажа,
+чтобы защищать их на собраниях, затем
+ заставляйте их раскрыть свою роль на собрании</string>
   <string name="TouRoleOracleWikiDescription">Оракул - Защищающий Член Экипажа, который может заставить другого игрока признаться (раскрыв его фракцию с шансом \%revealAccuracy\%%, если Оракул умрёт) или защитить игрока от любых вредных взаимодействий во время собрания.</string>
   <string name="TouRoleOracleBless">Благословить</string>
   <string name="TouRoleOracleBlessWikiDescription">Благословляя игроков, вы защищаете их от любых вредных способностей во время собрания.</string>
@@ -443,12 +456,19 @@
   <string name="External">Расширенный</string>
   <string name="Other">Другое</string>
   <string name="TouRoleImitatorNeutralCounterparts">Аналоги Нейтрала</string>
-  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Амнезияк ⇨ Медик | Предвестник ⇨ Линчеватель | Палач ⇨ Стукач\%nl\%Глич ⇨ Шериф | Ангел-хранитель ⇨ Клирик | Инквизитор - Оракул\%nl\%Шут - Сантехник | Наёмник ⇨ Хранитель\%nl\%Чумоносец/Чума ⇨ Ауриал | Падальщик - Медиум | Оборотень ⇨ Охотник</string>
+  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Амнезияк ⇨ Медик | Предвестник ⇨ Линчеватель | Палач ⇨ Стукач
+Глич ⇨ Шериф | Ангел-хранитель ⇨ Клирик | Инквизитор - Оракул
+Шут - Сантехник | Наёмник ⇨ Хранитель
+Чумоносец/Чума ⇨ Ауриал | Падальщик - Медиум | Оборотень ⇨ Охотник</string>
   <string name="TouRoleImitatorImpostorCounterparts">Аналоги Предателя</string>
   <string name="TouRoleTrapper">Ловушечник</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Подрывник ⇨ Ловушечник | Гипнотизёр ⇨ Дозорный | Уборщик ⇨ Детектив\%nl\%Шахтёр ⇨ Инженер | Падальщик - Трекер\%nl\%Гробовщик ⇨ Альтруист | Колдун ⇨ Ветеран</string>
+  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Подрывник ⇨ Ловушечник | Гипнотизёр ⇨ Дозорный | Уборщик ⇨ Детектив
+Шахтёр ⇨ Инженер | Падальщик - Трекер
+Гробовщик ⇨ Альтруист | Колдун ⇨ Ветеран</string>
   <string name="TouRolePoliticianIntroBlurb">Агитируйте игроков, чтобы стать Мэром!</string>
-  <string name="TouRolePoliticianTabDescription">Агитируйте Членов Экипажа, чтобы стать Мэром.\%nl\%Как минимум половина мирных игроков должна быть\%nl\%агитирована, чтобы кампания завершилась успешно</string>
+  <string name="TouRolePoliticianTabDescription">Агитируйте Членов Экипажа, чтобы стать Мэром.
+Как минимум половина мирных игроков должна быть
+агитирована, чтобы кампания завершилась успешно</string>
   <string name="TouRolePoliticianWikiDescription">Политик - Сильный Член Экипажа, который может стать Мэром, агитировав хотя бы половину мирных игроков.</string>
   <string name="TouRolePoliticianCampaign">Агитировать</string>
   <string name="TouRolePoliticianCampaignWikiDescription">Дайте игроку бюллетень, который будет полезен только в том случае, если игрок является Членом Экипажа.</string>
@@ -472,7 +492,8 @@
   <string name="TouOptionProsecutorMaxProsecutions">Макс. количество Изгнаний</string>
   <string name="TouRoleSeer">Провидец</string>
   <string name="TouRoleSeerIntroBlurb">Раскрывайте фракции других игроков</string>
-  <string name="TouRoleSeerTabDescription">Раскрывайте фракции других игроков,\%nl\%чтобы найти Предателей</string>
+  <string name="TouRoleSeerTabDescription">Раскрывайте фракции других игроков,
+чтобы найти Предателей</string>
   <string name="TouRoleSeerWikiDescription">Провидец - Расследующий Член Экипажа, который может раскрыть фракцию других игроков.</string>
   <string name="TouRoleSeerReveal">Раскрыть</string>
   <string name="TouRoleSeerRevealWikiDescription">Раскройте фракцию игрока</string>
@@ -491,7 +512,8 @@
   <string name="TouRoleSheriffTabMisfired">Вы больше не можете стрелять.</string>
   <string name="TouRoleSheriffTabMisfireKillsBoth">Промах убивает и вас и вашу цель.</string>
   <string name="TouRoleSheriffTabMisfireKillsSheriff">Промах убьёт только вас.</string>
-  <string name="TouRoleSheriffTabMisfireKillsTarget">Промах приводит к смерти вашей цели,\%nl\%однако вы больше не можете стрелять.</string>
+  <string name="TouRoleSheriffTabMisfireKillsTarget">Промах приводит к смерти вашей цели,
+однако вы больше не можете стрелять.</string>
   <string name="TouRoleSheriffTabMisfireKillsNobody">Промахнувшись вы не сможете выстрелить снова.</string>
   <string name="TouRoleSheriffMisfireFeedback">Вы больше не можете стрелять!</string>
   <string name="TouOptionSheriffKillCooldown">Откат Выстрела</string>
@@ -530,7 +552,8 @@
   <string name="TouRoleTrapperTrap">Ловушка</string>
   <string name="TouRoleTrapperTrapWikiDescription">Устанавливает ловушку. В зависимости от настроек, ловушка останется на всю игру или будет убрана после собрания.</string>
   <string name="TouOptionTrapperTrapCooldown">Откат установки ловушки</string>
-  <string name="TouRoleTrapperTabDescription">Устанавливайте ловушки по всей карте,\%nl\%чтобы раскрывать роли подошедших к ним</string>
+  <string name="TouRoleTrapperTabDescription">Устанавливайте ловушки по всей карте,
+чтобы раскрывать роли подошедших к ним</string>
   <string name="TouRolePestilenceYouAreText">Вы -</string>
   <string name="ClientTabGameplay">Игровой процесс</string>
   <string name="PlayerHasNoModifiers">Без атрибутов</string>
@@ -593,7 +616,9 @@
   <string name="TouOptionWardenShowFortifyPlayer">Показать Укреплённого игрока</string>
   <string name="TouRoleAmbassador">Куратор</string>
   <string name="TouRoleAmbassadorIntroBlurb">Приведите Предателей к победе</string>
-  <string name="TouRoleAmbassadorTabDescription">Переподготовь себя или других Предателей в другую роль\%nl\%\%b\%Убивающий Предатель не может стать Сильным Предателем\%/b\%\%nl\%\%b\%Поддерживающий/Скрывающийся Предатель не может стать Убивающим/Сильным Предателем\%/b\%</string>
+  <string name="TouRoleAmbassadorTabDescription">Переподготовь себя или других Предателей в другую роль
+\%b\%Убивающий Предатель не может стать Сильным Предателем\%/b\%
+\%b\%Поддерживающий/Скрывающийся Предатель не может стать Убивающим/Сильным Предателем\%/b\%</string>
   <string name="TouRoleAmbassadorWikiDescription">Куратор - Сильный Предатель, который может изменять роли других Предателей.</string>
   <string name="TouRoleAmbassadorRetrain">Изменить</string>
   <string name="TouRoleAmbassadorRetrainWiki">Изменить (Собрание)</string>
@@ -615,7 +640,8 @@
   <string name="TouRoleAmbassadorNeedKills">У вас или у Предателя, у которого вы хотите изменить роль, должно быть минимум \%requiredKills\% убийств(-а).</string>
   <string name="TouRoleAmbusher">Засадник</string>
   <string name="TouRoleAmbusherIntroBlurb">Похищайте членов экипажа во тьму</string>
-  <string name="TouRoleAmbusherTabDescription">Преследуй игрока, а затем устраивай засаду на ближайшего к нему.\%nl\%Если жертва засады погибает, ты утаскиваешь её тело во тьму.</string>
+  <string name="TouRoleAmbusherTabDescription">Преследуй игрока, а затем устраивай засаду на ближайшего к нему.
+Если жертва засады погибает, ты утаскиваешь её тело во тьму.</string>
   <string name="TouRoleAmbusherWikiDescription">Засадник - Убивающий Предатель, который может преследовать цель, получая стрелку-наводку на неё. Он может устроить засаду на ближайшего к преследуемому игроку. Если убийство удачно, тело исчезает во тьме и переносится вместе с Засадником.</string>
   <string name="TouRoleAmbusherPursue">Преследовать</string>
   <string name="TouRoleAmbusherPursueWikiDescription">Выбери игрока для слежки, чтобы позже устроить засаду на другого рядом с ним.</string>
@@ -670,7 +696,8 @@
   <string name="TouRoleAmbassadorRetrainCooldown">Восстановится через: \%roundsLeft\% / \%roundsTotal\%</string>
   <string name="TouRoleAmbassadorChooseRole">Выберите роль для переподготовки.</string>
   <string name="TouRoleAmbassadorConfirmPromptTitle">Переподготовка</string>
-  <string name="TouRoleAmbassadorConfirmPromptText">Вы уверены что хотите переподготовиться в \%newRole\%?\%nl\%Это нельзя будет изменить.</string>
+  <string name="TouRoleAmbassadorConfirmPromptText">Вы уверены что хотите переподготовиться в \%newRole\%?
+Это нельзя будет изменить.</string>
   <string name="TouRoleAmbassadorConfirmPromptDeny">Отклонить</string>
   <string name="TouRoleAmbassadorConfirmPromptAccept">Принять</string>
   <string name="TouRoleAmbassadorRetrainedPlayerTag">Переподготовлен</string>
@@ -731,7 +758,8 @@
   <string name="TouOptionMinerCanKillWithTeammate">Шахтёр может убивать с союзником</string>
   <string name="TouRoleMorphling">Морфлинг</string>
   <string name="TouRoleMorphlingIntroBlurb">Превращайтесь в игроков</string>
-  <string name="TouRoleMorphlingTabDescription">Берите образцы игроков и превращайтесь в них, маскируясь.\%nl\%Образец сбрасывается после каждого раунда.</string>
+  <string name="TouRoleMorphlingTabDescription">Берите образцы игроков и превращайтесь в них, маскируясь.
+Образец сбрасывается после каждого раунда.</string>
   <string name="TouRoleMorphlingWikiDescription">Морфлинг - Скрывающийся Предатель, который может взять образец игрока и превратиться в него.</string>
   <string name="TouRoleMorphlingSample">Образец</string>
   <string name="TouRoleMorphlingSampleWikiDescription">Возьмите образец ДНК игрока, чтобы позже превратиться в него.</string>
@@ -745,10 +773,12 @@
   <string name="TouOptionMorphlingCanVent">Морфлинг может использовать вент</string>
   <string name="TouRoleScavenger">Падальщик</string>
   <string name="TouRoleScavengerIntroBlurb">Выслеживайте свою добычу</string>
-  <string name="TouRoleScavengerTabDescription">Убивайте заданные цели, сокращая откат убийств.\%nl\% Если вам не удастся их убить, вы будете наказаны.</string>
+  <string name="TouRoleScavengerTabDescription">Убивайте заданные цели, сокращая откат убийств.
+ Если вам не удастся их убить, вы будете наказаны.</string>
   <string name="TouRoleScavengerWikiDescription">Падальщик - Убивающий Предатель, который получает новую цель после каждого убийства и в начале раунда. Если он убьёт свою цель, то откат убийства сократится, но если он этого не сделает, откат убийства сильно увеличится.</string>
   <string name="TouOptionScavengerScavengeDuration">Длительность Охоты Падальщика</string>
-  <string name="TouOptionScavengerScavengeDurationIncreasePerKill">Длительность Охоты\%nl\%Увеличивается с каждым убийством</string>
+  <string name="TouOptionScavengerScavengeDurationIncreasePerKill">Длительность Охоты
+Увеличивается с каждым убийством</string>
   <string name="TouOptionScavengerScavengeKillCooldownOnCorrectKill">Откат убийства при правильном убийстве</string>
   <string name="TouOptionScavengerKillCooldownMultiplierOnIncorrectKill">Множитель отката убийства при неправильном убийстве</string>
   <string name="TouRoleSwooper">Невидимка</string>
@@ -775,7 +805,8 @@
   <string name="TouRoleScavengerYourNextTarget">Следующая цель.</string>
   <string name="TouRoleTraitorChangeRoleWikiDescription">Отступник может поменять свою роль на одну из предложенных карточек, или выбрать случайно. Выбрав роль, он останется с ней до своей смерти. Однако его всё равно можно угадать как Отступник.</string>
   <string name="TouRoleTraitorRoleSelectTitle">Выберите роль.</string>
-  <string name="TouRoleTraitorRandomImpostorCard">Случайный\%nl\%Предатель</string>
+  <string name="TouRoleTraitorRandomImpostorCard">Случайный
+Предатель</string>
   <string name="TouOptionTraitorMinimumPeopleAlive">Мин. количество живых игроков для появления Отступника</string>
   <string name="TouOptionTraitorTraitorWontSpawnIfNKIsAlive">Отступник не появится, если жив Нейтральный Убийца</string>
   <string name="TouOptionTraitorDisableExistingImpostorRoles">Отключить существующие роли Предателей</string>
@@ -795,21 +826,26 @@
   <string name="TouOptionUndertakerUndertakerCanKillWithTeammate">Гробовщик может убивать с союзником</string>
   <string name="TouRoleVenerer">Венер</string>
   <string name="TouRoleVenererIntroBlurb">С каждым убийством вы становитесь сильнее</string>
-  <string name="TouRoleVenererTabDescription">Убивайте игроков, чтобы открыть новые способности. Ваши способности позволяют вам\%nl\%использовать камуфляж, бегать и замедлять других игроков.</string>
+  <string name="TouRoleVenererTabDescription">Убивайте игроков, чтобы открыть новые способности. Ваши способности позволяют вам
+использовать камуфляж, бегать и замедлять других игроков.</string>
   <string name="TouRoleVenererWikiDescription">Венер - Скрывающийся Предатель, который убивает игроков для получения новых способностей. Однако эта способность будет использована сразу, как только он её получит, и она будет накапливаться.</string>
   <string name="TouRoleVenererCamouflage">Камуфляж</string>
-  <string name="TouRoleVenererCamouflageWikiDescription">Первая стадия способности.\%nl\%Вы становитесь серым для всех игроков, что позволит вам ускользать от убийств.</string>
+  <string name="TouRoleVenererCamouflageWikiDescription">Первая стадия способности.
+Вы становитесь серым для всех игроков, что позволит вам ускользать от убийств.</string>
   <string name="TouRoleVenererSprint">Бежать</string>
-  <string name="TouRoleVenererSprintWikiDescription">Вторая стадия способности.\%nl\%Вы бегаете супербыстро, оставаясь серым.</string>
+  <string name="TouRoleVenererSprintWikiDescription">Вторая стадия способности.
+Вы бегаете супербыстро, оставаясь серым.</string>
   <string name="TouRoleVenererFreeze">Заморозка</string>
-  <string name="TouRoleVenererFreezeWikiDescription">Последняя стадия способности.\%nl\%Вы замедляете игроков вокруг вас, вы супербыстрый и серый.</string>
+  <string name="TouRoleVenererFreezeWikiDescription">Последняя стадия способности.
+Вы замедляете игроков вокруг вас, вы супербыстрый и серый.</string>
   <string name="TouOptionVenererAbilityCooldown">Откат Способности</string>
   <string name="TouOptionVenererAbilityDuration">Длительность Способности</string>
   <string name="TouOptionVenererSprintSpeed">Скорость Бега</string>
   <string name="TouOptionVenererMinimumFreezeSpeed">Минимальная скорость заморозки</string>
   <string name="TouOptionVenererFreezeRadius">Радиус заморозки</string>
   <string name="TouRoleWarlock">Колдун</string>
-  <string name="TouRoleWarlockIntroBlurb">Заряжайте свою кнопку убийства,\%nl\%чтобы совершить сразу несколько убийств</string>
+  <string name="TouRoleWarlockIntroBlurb">Заряжайте свою кнопку убийства,
+чтобы совершить сразу несколько убийств</string>
   <string name="TouRoleWarlockTabDescription">Зарядите свою атаку до 100%, чтобы убивать экипаж группами</string>
   <string name="TouRoleWarlockWikiDescription">Колдун - Убивающий Предатель, чья кнопка убийства начинает заряжаться после окончания отката убийства. Сделав убийство с заряженной кнопкой, заряд начнёт стремительно убавляться, а Колдун сможет убить ещё несколько, пока заряд не кончится.</string>
   <string name="TouRoleWarlockBurstKill">Волна убийств</string>
@@ -829,7 +865,8 @@
   <string name="TouRoleArsonist">Поджигатель</string>
   <string name="TouRoleArsonistIntroBlurb">Обливайте игроков и поджигайте их</string>
   <string name="TouRoleArsonistTabDescription">Облейте игроков и подожгите их, чтобы убить все облитые цели.</string>
-  <string name="TouRoleArsonistTabDescriptionLegacy">Облейте игроков и подожгите ближайшего к себе,\%nl\% чтобы убить всех облитых целей.</string>
+  <string name="TouRoleArsonistTabDescriptionLegacy">Облейте игроков и подожгите ближайшего к себе,
+ чтобы убить всех облитых целей.</string>
   <string name="TouRoleArsonistWikiDescription">Поджигатель - Нейтральный Убийца, который побеждает, будучи последним выжившим убийцей.</string>
   <string name="TouRoleArsonistWikiAddition">Может обливать игроков и поджигать их, когда вблизи.</string>
   <string name="TouRoleArsonistWikiAdditionLegacy">Может обливать игроков и поджигать их, чтобы убить всех облитых игроков.</string>
@@ -858,15 +895,24 @@
   <string name="TouRoleDoomsayerMisguessOne">Только одно угадывание было неверным!</string>
   <string name="TouRoleDoomsayerMisguessMultiple">\%misguessCount\% угадывания(ий) были неправильными.</string>
   <string name="TouRoleDoomsayerMessageTitle">Отчёт Предвестника</string>
-  <string name="TouRoleDoomsayerRoleHintPerception">Вы изучили игрока \%player\%.\%nl\%Он обладает изменённым восприятием реальности</string>
-  <string name="TouRoleDoomsayerRoleHintInsight">Вы изучили игрока \%player\%.\%nl\%Он разбирается в личной информации</string>
-  <string name="TouRoleDoomsayerRoleHintDeath">Вы изучили игрока \%player\%.\%nl\%У него необычная одержимость мёртвыми телами</string>
-  <string name="TouRoleDoomsayerRoleHintHunter">Вы изучили игрока \%player\%.\%nl\%Он хорошо обучен выслеживать добычу</string>
-  <string name="TouRoleDoomsayerRoleHintFearmonger">Вы изучили игрока \%player\%.\%nl\%Он распространяет страх среди группы</string>
-  <string name="TouRoleDoomsayerRoleHintProtective">Вы изучили игрока \%player\%.\%nl\%Он прячется, чтобы защитить себя или других</string>
-  <string name="TouRoleDoomsayerRoleHintTrickster">Вы изучили игрока \%player\%.\%nl\% У него есть туз в рукаве</string>
-  <string name="TouRoleDoomsayerRoleHintRelentless">Вы изучили игрока \%player\%.\%nl\%Он способен совершать безжалостные атаки</string>
-  <string name="TouRoleDoomsayerRoleHintDefault">Вы изучили игрока \%player\%.\%nl\%Он не здешний</string>
+  <string name="TouRoleDoomsayerRoleHintPerception">Вы изучили игрока \%player\%.
+Он обладает изменённым восприятием реальности</string>
+  <string name="TouRoleDoomsayerRoleHintInsight">Вы изучили игрока \%player\%.
+Он разбирается в личной информации</string>
+  <string name="TouRoleDoomsayerRoleHintDeath">Вы изучили игрока \%player\%.
+У него необычная одержимость мёртвыми телами</string>
+  <string name="TouRoleDoomsayerRoleHintHunter">Вы изучили игрока \%player\%.
+Он хорошо обучен выслеживать добычу</string>
+  <string name="TouRoleDoomsayerRoleHintFearmonger">Вы изучили игрока \%player\%.
+Он распространяет страх среди группы</string>
+  <string name="TouRoleDoomsayerRoleHintProtective">Вы изучили игрока \%player\%.
+Он прячется, чтобы защитить себя или других</string>
+  <string name="TouRoleDoomsayerRoleHintTrickster">Вы изучили игрока \%player\%.
+ У него есть туз в рукаве</string>
+  <string name="TouRoleDoomsayerRoleHintRelentless">Вы изучили игрока \%player\%.
+Он способен совершать безжалостные атаки</string>
+  <string name="TouRoleDoomsayerRoleHintDefault">Вы изучили игрока \%player\%.
+Он не здешний</string>
   <string name="TouRoleExecutioner">Палач</string>
   <string name="TouRoleHerbalist">Травник</string>
   <string name="TouRoleExecutionerTabDescription">Добейтесь исключения \%target\%.</string>
@@ -877,8 +923,10 @@
   <string name="TouOptionExecutionerCanButton">Палач может созывать экстренное собрание</string>
   <string name="TouOptionExecutionerWin">Палач побеждает</string>
   <string name="TouRoleGlitch">Глич</string>
-  <string name="TouRoleGlitchIntroBlurb">Убивайте, Мимикрируйте, Взламывайте...\%nl\%Data Lost</string>
-  <string name="TouRoleGlitchTabDescription">Взламывайте игроков, чтобы лишить их способностей,\%nl\%мимикрируйте в других, чтобы подставить их.</string>
+  <string name="TouRoleGlitchIntroBlurb">Убивайте, Мимикрируйте, Взламывайте...
+Data Lost</string>
+  <string name="TouRoleGlitchTabDescription">Взламывайте игроков, чтобы лишить их способностей,
+мимикрируйте в других, чтобы подставить их.</string>
   <string name="TouRoleGlitchWikiDescription">Глич - Нейтральный Убийца, который побеждает, будучи последним живым убийцей. Он может мимикрировать в других игроков, или взламывать их.</string>
   <string name="TouRoleGlitchMimic">Мимик</string>
   <string name="TouRoleGlitchUnmimic">Снять облик</string>
@@ -908,7 +956,10 @@
   <string name="TouOptionFairyEvilOdds">Шанс того, что цель будет злодеем</string>
   <string name="TouRoleInquisitor">Инквизитор</string>
   <string name="TouRoleInquisitorIntroBlurb">Уничтожьте Еретиков!</string>
-  <string name="TouRoleInquisitorTabDescription">Уничтожьте Еретиков любым способом.\%nl\%Вы побеждаете после смерти каждого еретика.\%nl\%Если все еретики мертвы после окончания собрания\%nl\%вы победите</string>
+  <string name="TouRoleInquisitorTabDescription">Уничтожьте Еретиков любым способом.
+Вы побеждаете после смерти каждого еретика.
+Если все еретики мертвы после окончания собрания
+вы победите</string>
   <string name="TouRoleInquisitorTabAddition">Роли Еретиков:</string>
   <string name="TouRoleInquisitorWikiDescription">Инквизитор - Нейтральный Останец, который побеждает, если все Еретики умирают. Инквизитору известны только роли целей, и ему предстоит самому вычислить этих игроков (для мёртвых они помечены \%symbol\%) и добиться их смерти любыми способами.</string>
   <string name="TouRoleInquisitorMessageTitle">Отзыв Инквизитора</string>
@@ -947,7 +998,8 @@
   <string name="TouOptionJuggernautCanVent">Джаггернаут может исп. вент.</string>
   <string name="TouRoleMercenary">Наёмник</string>
   <string name="TouRoleMercenaryIntroBlurb">Подкупайте игроков</string>
-  <string name="TouRoleMercenaryTabDescription">Охраняйте игроков, чтобы получать золото от взаимодействий,\%nl\%а затем, подкупайте победителей!</string>
+  <string name="TouRoleMercenaryTabDescription">Охраняйте игроков, чтобы получать золото от взаимодействий,
+а затем, подкупайте победителей!</string>
   <string name="TouRoleMercenaryWikiDescription">Наёмник - Нейтральный Мирный, который может выиграть, подкупая игроков, что позволяет ему получить несколько условий для победы.</string>
   <string name="TouRoleMercenaryGuard">Охрана</string>
   <string name="TouRoleMercenaryGuardWikiDescription">Охрана позволяет Наёмнику впитать способность, использованную на цели. Это даст ему золото для подкупа. Если любая из подкупленных целей победит, Наёмник победит вместе с ней.</string>
@@ -979,7 +1031,8 @@
   <string name="TouRoleInquisitorVictoryMessageSelf">Вы выиграли как \%role\%, так как все еретики были убиты!</string>
   <string name="TouRoleChef">Шеф</string>
   <string name="TouRoleChefIntroBlurb">Свежий и готовый к подаче</string>
-  <string name="TouRoleChefTabDescription">Кормите игроков приготовленными трупами.\%nl\%Как только норма выполнена, вы победите!</string>
+  <string name="TouRoleChefTabDescription">Кормите игроков приготовленными трупами.
+Как только норма выполнена, вы победите!</string>
   <string name="TouRoleChefTabCounter">Тел скормлено: \%bodiesFed\% / \%bodiesTotal\%</string>
   <string name="TouRoleChefWikiDescription">Шеф - Нейтральный Останец, который побеждает с любой другой фракцией, скормив достаточно тел экипажу.</string>
   <string name="TouRoleChefMessageTitle">Отзыв на шефа:</string>
@@ -1021,7 +1074,8 @@
   <string name="TouOptionSurvivorScatterTimer">Таймер Активности Выжившего</string>
   <string name="TouRoleVampire">Вампир</string>
   <string name="TouRoleVampireIntroBlurb">Кусайте игроков и убивайте остальных</string>
-  <string name="TouRoleVampireTabDescription">Кусайте других игроков, чтобы превратить их в вампиров\%nl\%или убить их</string>
+  <string name="TouRoleVampireTabDescription">Кусайте других игроков, чтобы превратить их в вампиров
+или убить их</string>
   <string name="TouRoleVampireWikiDescription">Вампир - Нейтральный Убийца, который побеждает, будучи последним живым убийцей. Он может кусать игроков, превращая их в вампиров, или убивать других.</string>
   <string name="TouRoleVampireBite">Укус</string>
   <string name="TouRoleVampireBiteWikiDescription">Укусите игрока. Если укушенный игрок может стать вампиром и вы не превысили максимальное количество вампиров, вы превратите его в вампира. В ином случае, он просто умрёт.</string>
@@ -1033,7 +1087,9 @@
   <string name="TouOptionVampireCanVent">Вампир может исп. вент.</string>
   <string name="TouRoleWerewolf">Ликантроп</string>
   <string name="TouRoleWerewolfIntroBlurb">Войдите в ярость, чтобы убить всех</string>
-  <string name="TouRoleWerewolfTabDescription">Войдите в ярость, чтобы убивать быстрее,\%nl\%получить большую дальность обзора\%nl\%и скрываться в вентиляциях</string>
+  <string name="TouRoleWerewolfTabDescription">Войдите в ярость, чтобы убивать быстрее,
+получить большую дальность обзора
+и скрываться в вентиляциях</string>
   <string name="TouRoleWerewolfWikiDescription">Ликантроп - Нейтральный Убийца, который побеждает, будучи последним живым убийцей. Он может войти в ярость, чтобы получить возможность убивать.</string>
   <string name="TouRoleWerewolfRampage">Ярость</string>
   <string name="TouRoleWerewolfRampageWikiDescription">Войдите в ярость, чтобы получить возможность убивать и получить дальность обзора предателя. Во время ярости ваш откат убийства намного меньше.</string>
@@ -1055,7 +1111,8 @@
   <string name="TouOptionLoverKillOneAnother">Любовники могут убивать друг друга</string>
   <string name="TouModifierLovers">Любовники</string>
   <string name="TouModifierButtonBarry">Кнопочник</string>
-  <string name="TouModifierButtonBarryTabDescription">Вы можете созвать экстренное собрание\%nl\%в любой части карты.</string>
+  <string name="TouModifierButtonBarryTabDescription">Вы можете созвать экстренное собрание
+в любой части карты.</string>
   <string name="TouModifierButtonBarryWikiDescription">Вы можете созвать экстренное собрание в любой части карты.</string>
   <string name="TouModifierButtonBarryButton">Кнопка</string>
   <string name="TouModifierButtonBarryButtonWikiDescription">Вы можете созвать экстренное собрание в любой части карты, \%barryUses\% раз(а) в игру.</string>
@@ -1072,7 +1129,8 @@
   <string name="TouModifierGiantWikiDescription">Вы больше остальных, вы передвигаетесь в \%giantSpeed\% раз(а) медленнее остальных.</string>
   <string name="TouOptionGiantSpeed">Скорость Гиганта</string>
   <string name="TouModifierImmovable">Недвижимый</string>
-  <string name="TouModifierImmovableTabDescription">Вы не можете быть телепортированы к месту собрания,\%nl\%вас нельзя переместить или выбросить из вента.</string>
+  <string name="TouModifierImmovableTabDescription">Вы не можете быть телепортированы к месту собрания,
+вас нельзя переместить или выбросить из вента.</string>
   <string name="TouModifierImmovableWikiDescription">Вас нельзя переместить способностями или началом собрания.</string>
   <string name="TouModifierMini">Мини</string>
   <string name="TouModifierMiniTabDescription">Вы меньше остальных и передвигаетесь в \%miniSpeed\% раз(а) быстрее остальных.</string>
@@ -1080,9 +1138,11 @@
   <string name="TouOptionMiniSpeed">Скорость Мини</string>
   <string name="TouModifierRadar">Радарный</string>
   <string name="TouModifierRadarTabDescription">Получите стрелку, указывающую на ближайшего игрока.</string>
-  <string name="TouModifierRadarWikiDescription">Вы получаете стрелку,\%nl\% указывающую на ближайшего игрока.</string>
+  <string name="TouModifierRadarWikiDescription">Вы получаете стрелку,
+ указывающую на ближайшего игрока.</string>
   <string name="TouModifierSatellite">Спутниковый</string>
-  <string name="TouModifierSatelliteTabDescription">Вы можете отправить сигнал,\%nl\%чтобы узнать местонахождение мёртвых тел.</string>
+  <string name="TouModifierSatelliteTabDescription">Вы можете отправить сигнал,
+чтобы узнать местонахождение мёртвых тел.</string>
   <string name="TouModifierSatelliteWikiDescription">Вы можете узнать местонахождение мёртвых тел на карте \%maxUses\% раз(а).</string>
   <string name="TouModifierSatelliteBroadcast">Сигнал</string>
   <string name="TouModifierSatelliteBroadcastWikiDescription">Вы можете узнать местонахождение мёртвых тел на карте \%maxUses\% раз(а).</string>
@@ -1196,7 +1256,8 @@
   <string name="TouOptionRottingDelay">Время перед гниением тела</string>
   <string name="TouModifierScientist">Учёный</string>
   <string name="TouModifierScientistIntroBlurb">Вы можете использовать переносной пульс.</string>
-  <string name="TouModifierScientistTabDescription">Получите доступ к пульсам где угодно,\%nl\%до тех пор, пока у вас есть заряд.</string>
+  <string name="TouModifierScientistTabDescription">Получите доступ к пульсам где угодно,
+до тех пор, пока у вас есть заряд.</string>
   <string name="TouModifierScientistWikiDescription">Получайте доступ к панели пульса в любое время с ограниченным зарядом.</string>
   <string name="TouOptionScientistMoveVitals">Двигаться при использовании пульса</string>
   <string name="TouOptionScientistStartingCharge">Начальный Заряд</string>
@@ -1217,7 +1278,8 @@
   <string name="TouModifierTaskmasterWikiDescription">Каждый раз, когда начинается раунд, вы закончите случайное задание.</string>
   <string name="TouModifierTorch">Фонарный</string>
   <string name="TouModifierTorchIntroBlurb">Вы можете видеть без света.</string>
-  <string name="TouModifierTorchTabDescription">Ваша дальность обзора не уменьшается\%nl\%при выключении света.</string>
+  <string name="TouModifierTorchTabDescription">Ваша дальность обзора не уменьшается
+при выключении света.</string>
   <string name="TouModifierTorchWikiDescription">Отключение света не влияет на вашу дальность обзора.</string>
   <string name="TouModifierBait">Приманка</string>
   <string name="TouRoleAmbusherTabPursuingPlayer">Преследует: \%player\%</string>
@@ -1274,7 +1336,10 @@
   <string name="SetNameRequirementError">Имя игрока должно содержать хотя бы 1 символ, но не может превышать 12!</string>
   <string name="SetNameSimilarError">Другой игрок имеет схожее с \%name\% имя! Попробуйте другое.</string>
   <string name="SetNameSuccess">Имя игрока в следующей игре будет изменено на \%name\%.</string>
-  <string name="WelcomeMessageBlurb">Добро пожаловать в Town of Us Mira v\%modVersion\%!\%nl\%Используйте вики (иконка глобуса), чтобы получить больше информации о ролях или модификаторах, для этого вы можете использовать поиск.\%nl\%Либо вы можете написать /help в чат, чтобы получить список команд.\%nl\%Вы можете отключить это сообщение в настройках.</string>
+  <string name="WelcomeMessageBlurb">Добро пожаловать в Town of Us Mira v\%modVersion\%!
+Используйте вики (иконка глобуса), чтобы получить больше информации о ролях или модификаторах, для этого вы можете использовать поиск.
+Либо вы можете написать /help в чат, чтобы получить список команд.
+Вы можете отключить это сообщение в настройках.</string>
   <string name="HelpCommandList">Помощь</string>
   <string name="HelpMessageTitle">Команды:</string>
   <string name="HelpCommandDescription">/help - Показывает это сообщение</string>
@@ -1327,7 +1392,8 @@
   <string name="HnsOptionMysticDeadBodyArrowDuration">Длительность стрелки к мёртвому телу</string>
   <string name="HnsRoleSnitch">Стукач</string>
   <string name="HnsRoleSnitchTabHint">Подсказка Стукача</string>
-  <string name="HnsRoleSnitchTabDescription">Ваши задания уменьшают время быстрее,\%nl\%показывая ваше местоположение.</string>
+  <string name="HnsRoleSnitchTabDescription">Ваши задания уменьшают время быстрее,
+показывая ваше местоположение.</string>
   <string name="HnsRoleSnitchWikiDescription">Стукач - Экипаж, который может уменьшать оставшееся время быстрее, чем остальные игроки, параллельно раскрывая себя искателю.</string>
   <string name="HnsOptionSnitchCommonTaskMultiplier">Множитель обычных заданий</string>
   <string name="HnsOptionSnitchShortTaskMultiplier">Множитель коротких заданий</string>
@@ -1367,7 +1433,8 @@
   <string name="HnsOptionCamouflagerCamoDisablesProxBar">Камуфляж отключает полоску</string>
   <string name="CultistRoleNecromancer">Некромант</string>
   <string name="CultistRoleNecromancerIntroBlurb">Возрождайте мёртвых, чтобы те исполняли ваши приказы</string>
-  <string name="CultistRoleNecromancerTabDescription">Убивайте экипаж и превращайте верующих\%nl\%в их эквивалент предателей!</string>
+  <string name="CultistRoleNecromancerTabDescription">Убивайте экипаж и превращайте верующих
+в их эквивалент предателей!</string>
   <string name="CultistRoleNecromancerWikiDescription">Некромант - Предатель Культист, который может убивать игроков как обычно, но может и возрождать Верующий Экипаж, превращая их в своих Последователей.</string>
   <string name="CultistRoleNecromancerRevive">Возродить</string>
   <string name="CultistRoleNecromancerReviving">Возрождается</string>
@@ -1398,7 +1465,8 @@
   <string name="TouOptionImitatorGuessEnumCached">Имитатор</string>
   <string name="TouOptionImitatorGuessEnumActive">Имитируемая Роль</string>
   <string name="TouOptionImitatorGuessEnumActiveOrCached">Имитатор или Имитируемая Роль</string>
-  <string name="TouRoleJailorTabDescriptionEvil">Ведите приватные обсуждения с игроками, при необходимости\%nl\%казните их</string>
+  <string name="TouRoleJailorTabDescriptionEvil">Ведите приватные обсуждения с игроками, при необходимости
+казните их</string>
   <string name="TouRoleJailorMessageTitle">Отзыв на Тюремщика</string>
   <string name="TouRoleMayorTabDescriptionPostor">Приведите Предателей к победе!</string>
   <string name="TouRoleMedicTabProtecting">Защищён: \%player\%</string>
@@ -1428,7 +1496,8 @@
   <string name="TouOptionOracleNeutralKillingShowEvil">Нейтральные Убийцы показываются как Злодеи</string>
   <string name="TouOptionOracleNeutralOutlierShowEvil">Нейтральные Останцы показываются как Злодеи</string>
   <string name="TouRoleSeerAltIntroBlurb">Сравнивать фракции двух игроков</string>
-  <string name="TouRoleSeerAltTabDescription">Сравните двух игроков, чтобы понять,\%nl\%друзья они, или враги!</string>
+  <string name="TouRoleSeerAltTabDescription">Сравните двух игроков, чтобы понять,
+друзья они, или враги!</string>
   <string name="TouRoleSeerAltWikiDescription">Провидец = Расследующий Экипаж, который может сравнить двух игроков, чтобы выяснить, совпадают их фракции или нет.</string>
   <string name="TouRoleSeerIntuit">Интуиция</string>
   <string name="TouRoleSeerGaze">Взор</string>

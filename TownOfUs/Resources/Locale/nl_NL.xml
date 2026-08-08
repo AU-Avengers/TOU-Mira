@@ -201,7 +201,9 @@
   <string name="TouRoleSpectatorWikiDescription">Je neemt niet daadwerkelijk deel aan het spel en hebt geen interactie met andere spelers. Je kunt alleen maar toekijken.</string>
   <string name="TouRoleAltruist">Altruïst</string>
   <string name="TouRoleAltruistIntroBlurb">Wek Dode Bemanningsleden Tot Leven</string>
-  <string name="TouRoleAltruistTabDescription">Breng dode bemanningsleden in groepen weer tot leven, \%nl\%ten koste van het alarmeren van moordenaars en het \%nl\%verwijderen van vergaderingsgebruik.</string>
+  <string name="TouRoleAltruistTabDescription">Breng dode bemanningsleden in groepen weer tot leven, 
+ten koste van het alarmeren van moordenaars en het 
+verwijderen van vergaderingsgebruik.</string>
   <string name="TouRoleAltruistWikiDescription">De Altruïst is een beschermende rol voor bemanningsleden die dode spelers in groepen kan reanimeren. Hun locatie en de locatie van de gereanimeerde spelers worden echter aan alle bedriegers onthuld.</string>
   <string name="TouRoleAltruistRevive">Herleven</string>
   <string name="TouRoleAltruistReviving">Herleven</string>
@@ -219,7 +221,8 @@
   <string name="TouOptionAurialSenseDuration">Zintuiglijke duur</string>
   <string name="TouRoleCleric">Geestelijke</string>
   <string name="TouRoleClericIntroBlurb">Red de bemanningsleden</string>
-  <string name="TouRoleClericTabDescription">Verwijder negatieve effecten van bemanningsleden en \%nl\% cast Barrières om alle interacties volledig te stoppen</string>
+  <string name="TouRoleClericTabDescription">Verwijder negatieve effecten van bemanningsleden en 
+ cast Barrières om alle interacties volledig te stoppen</string>
   <string name="TouRoleClericWikiDescription">De Geestelijke is een beschermende Bemanningslid die Bemanningsleden kan beschermen door hun negatieve effecten teniet te doen en barrières om hen heen te plaatsen om interacties te voorkomen.</string>
   <string name="TouRoleClericBarrier">Barrière</string>
   <string name="TouRoleClericBarrierWikiDescription">Voorkom dat een bemanningslid wordt aangevallen. Het schild houdt voor \%BarrierCooldown\% seconden vast.</string>
@@ -250,7 +253,8 @@
   <string name="TouOptionForensicReportOn">Detectiveverslagen weergeven</string>
   <string name="TouOptionForensicRoleDuration">Tijd Waarin Detective Een Rol Zal Hebben</string>
   <string name="TouOptionForensicFactionDuration">Tijd Waarin Detective Een Factie Zal Hebben</string>
-  <string name="TouRoleForensicAtScene">\%player\% was op de plaats van \%deadPlayer\%'s dood!\%nl\%Zij zijn mogelijk de moordenaar of een getuige.</string>
+  <string name="TouRoleForensicAtScene">\%player\% was op de plaats van \%deadPlayer\%'s dood!
+Zij zijn mogelijk de moordenaar of een getuige.</string>
   <string name="TouRoleForensicNotAtScene">\%player\% was niet op de plaats delict.</string>
   <string name="TouRoleEngineer">Werktuigkundige</string>
   <string name="TouRoleEngineerIntroBlurb">Onderhoud belangrijke systemen op het schip</string>
@@ -446,7 +450,8 @@
   <string name="TouOptionPlumberGetMoreFromTasks">Krijg meer barrières voor het voltooien van taken</string>
   <string name="TouRolePolitician">Politicus</string>
   <string name="TouRolePoliticianIntroBlurb">Voer een Campagne om Burgemeester te worden!</string>
-  <string name="TouRolePoliticianTabDescription">Voer een campagne in de hoop dat jij de Burgemeester wordt! Minstens de helft van \%nl\% de onschuldige spelers in de campagne zit om succesvol te onthullen</string>
+  <string name="TouRolePoliticianTabDescription">Voer een campagne in de hoop dat jij de Burgemeester wordt! Minstens de helft van 
+ de onschuldige spelers in de campagne zit om succesvol te onthullen</string>
   <string name="TouRolePoliticianWikiDescription">The Politicus is een Bemanningslid Kracht die zichzelf kan onthullen als de Burgemeester, mits de helft van de Bemanning  (campagned)   is.</string>
   <string name="TouModifierTorchWikiDescription">Als de lichten uitgaan, zie jij nog prima.</string>
   <string name="TouRolePoliticianCampaignWikiDescription">Geef een speler een folder, wat alleen nuttig is als ze Bemanning zijn.</string>
