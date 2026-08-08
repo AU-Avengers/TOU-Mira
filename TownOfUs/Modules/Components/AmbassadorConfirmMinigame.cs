@@ -46,7 +46,7 @@ public sealed class AmbassadorConfirmMinigame(IntPtr cppPtr) : Minigame(cppPtr)
 
         TitleText.font = HudManager.Instance.TaskPanel.taskText.font;
         TitleText.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
-        TitleText.text = TouLocale.Get("TouRoleAmbassadorRetrain");
+        TitleText.text = TouLocale.Get("TouRoleAmbassadorRetrainTitle");
 
         RetrainText.font = HudManager.Instance.TaskPanel.taskText.font;
         RetrainText.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;

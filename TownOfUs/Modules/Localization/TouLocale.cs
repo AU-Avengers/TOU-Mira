@@ -195,7 +195,11 @@ public static class TouLocale
             TouLocalization.TryAdd((SupportedLangs)locale.Key, []);
             ParseXmlFile(xmlContent, (SupportedLangs)locale.Key);
         }
+
+        HasLoadedInternalXmls = true;
     }
+
+    public static bool HasLoadedInternalXmls;
 
     public static void SearchDirectory(string directory)
     {
@@ -285,6 +289,10 @@ public static class TouLocale
                         {
                             var ogValuePair = TouLocalization[language].FirstOrDefault(x => x.Key == name);
                             TouLocalization[language].Remove(ogValuePair.Key);
+                            if (!HasLoadedInternalXmls)
+                            {
+                                Logger.LogError($"String for {name} in {(ExtendedLangs)language} was overwritten by duplicate!");
+                            }
                         }
 
                         TouLocalization[language].TryAdd(name, value);

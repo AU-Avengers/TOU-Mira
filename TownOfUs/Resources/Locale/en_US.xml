@@ -2859,7 +2859,7 @@ You can no longer vanquish players.</string>
 <string name="TouModifierTelepathCorrectGuess">Your teammate, \%player\%, shot \%target\% as \%role\%!</string>
 <string name="TouModifierTelepathKill">Your teammate, \%player\%, has killed.</string>
 <string name="TouModifierTelepathDeath">Your teammate, \%player\%, has been murdered!</string>
-<string name="TouRoleAmbassadorRetrain">Ambassador Retrain</string>
+<string name="TouRoleAmbassadorRetrainTitle">Ambassador Retrain</string>
 <string name="TouRoleAmbassadorRetrainConfirm">Are you sure you want to be retrained into \%role\%?
 This change is permanent.</string>
 <string name="TouHexBombTriggered">The Hex Bomb has been triggered!</string>
