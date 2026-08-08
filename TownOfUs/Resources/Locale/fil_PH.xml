@@ -2356,4 +2356,5 @@
   <string name="TouRoleSonar"></string>
   <string name="TouRoleForensicWikiDescription"></string>
   <string name="TouRoleSpectre"></string>
+  <string name="NeutKeyword"></string>
 </resources>
