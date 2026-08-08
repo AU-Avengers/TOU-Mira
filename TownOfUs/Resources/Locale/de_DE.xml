@@ -99,8 +99,8 @@
   <string name="YouWereThe">Du warst der</string>
   <string name="YouWere">Du warst</string>
   <string name="Alive">Am Leben</string>
-  <string name="DiedByStringBasic">Von [player]</string>
-  <string name="DiedByString">[cod] Von [player]</string>
+  <string name="DiedByStringBasic">Von \%player\%</string>
+  <string name="DiedByString">\%cod\% Von \%player\%</string>
   <string name="DiedToEjection">Rausgeworfen</string>
   <string name="DiedToKiller">Getötet</string>
   <string name="DiedToPunishment">Bestraft</string>
@@ -212,13 +212,12 @@
   <string name="TouRoleJanitor">Hausmeister</string>
   <string name="TouRoleChef">Koch</string>
   <string name="TouRoleChefIntroBlurb">Frisch und servierbereit</string>
-  <string name="TouRoleChefTabDescription">Füttere die Besatzung mit gekochten Leichen. 
-Wenn deine Quote gefütteret ist hast du gewonnen!</string>
-  <string name="TouRoleChefTabCounter">Gefütterte Leichen: [bodiesFed] / [bodiesTotal]</string>
+  <string name="TouRoleChefTabDescription">Füttere die Besatzung mit gekochten Leichen. %nl\%Wenn deine Quote gefütteret ist hast du gewonnen!</string>
+  <string name="TouRoleChefTabCounter">Gefütterte Leichen: \%bodiesFed\% / \%bodiesTotal\%</string>
   <string name="TouRoleChefWikiDescription">Der Koch ist eine neutrale Außenseiterrolle, die bei jeder anderen Fraktion gewinnt, solange sie der Besatzung genügend Leichen serviert hat.</string>
   <string name="TouRoleChefCustomerMessage">Dir wurde eine Leiche Von dem Koch serviert!</string>
-  <string name="TouRoleChefVictoryMessage">Der [role], [player], war siegreich, da er genügend Spieler Gefüttert hat!</string>
-  <string name="TouRoleChefVictoryMessageSelf">Du bist Siegreich als [role], da du genug Spieler gefüttert hast!</string>
+  <string name="TouRoleChefVictoryMessage">Der %role\%, %player\%, war siegreich, da er genügend Spieler Gefüttert hat!</string>
+  <string name="TouRoleChefVictoryMessageSelf">Du bist Siegreich als %role\%, da du genug Spieler gefüttert hast!</string>
   <string name="TouRoleChefCook">Kochen</string>
   <string name="TouRoleChefCookWikiDescription">Koche eine Leiche und speichere sie für spätere Verwendung.</string>
   <string name="TouRoleChefServe">Servieren</string>
@@ -233,7 +232,7 @@ Wenn deine Quote gefütteret ist hast du gewonnen!</string>
   <string name="TouRoleMediumIntroBlurb">Schaue Den Spukenden Geistern Zu</string>
   <string name="TouRoleWarden">Wächter</string>
   <string name="JailorChatTitle">[player] (Gefängniswärter)</string>
-  <string name="JaileeChatTitle">[player] (Verhaftet)</string>
+  <string name="JaileeChatTitle">%player\% (Verhaftet)</string>
   <string name="TouRoleJailorIntroBlurb">Nehme Die [color=#FF0000FF]Verräter[/color] Gefangen und Exekutiere sie</string>
   <string name="TouRoleSwooper">Unsichtbarer</string>
   <string name="TouRoleSwooperIntroBlurb">Mach Dich Temporär Unsichtbar</string>
@@ -247,7 +246,7 @@ Wenn deine Quote gefütteret ist hast du gewonnen!</string>
   <string name="TouRoleDoomsayer">Unheilsprophet</string>
   <string name="TouRolePlaguebearer">Seuchenbringer</string>
   <string name="TouRolePlaguebearerIntroBlurb">Infiziere alle um zur [color=#4D4D4DFF]Pest[/color] zu werden</string>
-  <string name="TouRolePlaguebearerTabDescription">Infiziere alle um zur [color=#4D4D4DFF]Pest[/color] zu werden</string>
+  <string name="TouRolePlaguebearerTabDescription">Infiziere alle um zur %color=#4D4D4DFF\%Pest%/color\% zu werden</string>
   <string name="TouRolePlumber">Klempner</string>
   <string name="TouRolePlumberIntroBlurb">Hol die Ratten aus dem Abfluss</string>
   <string name="TouRoleMirrorcaster">Spiegelwerfer</string>
@@ -271,7 +270,7 @@ Wenn deine Quote gefütteret ist hast du gewonnen!</string>
   <string name="DiedToSpellslingerHexBomb">Zerfallen</string>
   <string name="TouRoleSpellslingerIntroBlurb">Verhexe alle um sie zu bomben</string>
   <string name="TouRoleSpellslingerTabDescription">Verhexe alle nicht Verräter um eine Hex Bombe zu zünden</string>
-  <string name="TouRoleSpellslingerTabHexCounter">Verbleibende Spieler zum Verhexen: [count]</string>
+  <string name="TouRoleSpellslingerTabHexCounter">Verbleibende Spieler zum Verhexen: %count\%</string>
   <string name="TouRoleSpellslingerTabHexFinished">Alle Spieler sind Verhext.</string>
   <string name="TouRoleSpellslingerTabHexedInfo">Verhexte Spieler:</string>
   <string name="TouRoleSpellslingerHex">Verhexen</string>
@@ -303,7 +302,7 @@ Wenn deine Quote gefütteret ist hast du gewonnen!</string>
   <string name="TouModifierEgotistIntroBlurb">Verrate die Besatzung um dein Ego zu Steigern</string>
   <string name="LoversWin">Verliebte Gewinnen</string>
   <string name="TouModifierLover">Verliebter</string>
-  <string name="TouModifierLoverInfo">Du bist Verliebt in [player].</string>
+  <string name="TouModifierLoverInfo">Du bist Verliebt in %player\%.</string>
   <string name="TouOptionLoverAnotherKiller">Sich in einen anderen Mörder Verlieben Wahrscheinlichkeit</string>
   <string name="TouOptionLoverCanBeNeutral">Neutrale Rollen Können Verliebt sein</string>
   <string name="TouModifierLovers">Verliebte</string>
@@ -425,7 +424,7 @@ Wenn deine Quote gefütteret ist hast du gewonnen!</string>
   <string name="NobodyWins">Unentschieden</string>
   <string name="SoloWin">[role] Gewinnt</string>
   <string name="TeamWin">[role] Gewinnen</string>
-  <string name="StatsKillCount">Kills: [count]</string>
+  <string name="StatsKillCount">Kills: \%count\%</string>
   <string name="StatsGoodGuessCount">Erraten: [count]</string>
   <string name="StatsBadGuessCount">Falsch Erraten:[count]</string>
   <string name="RoundOfDeath">R[count]</string>
@@ -443,10 +442,10 @@ Grubenarbeiter ⇨ Ingenieur | Geier ⇨ Spürnase
 Grabschänder ⇨ Altruist | Hexenmeister ⇨ Veteran</string>
   <string name="TouRoleBomberIntroBlurb">Plaziere Bomben um mehrere Besatzungsmitglieder gleichzeitig zu töten</string>
   <string name="TouRoleBomberTabDescription">Plaziere Bomben um mehrere Besatzungsmitglieder bei Sprengung zu töten</string>
-  <string name="TouRoleBomberWikiDescription">Der Bombenleger ist eine Verräter Mord Rolle die eine Bombe legen kann, welche nach [detonateDelay] Sekund(en) explodiert.</string>
+  <string name="TouRoleBomberWikiDescription">Der Bombenleger ist eine Verräter Mord Rolle die eine Bombe legen kann, welche nach %detonateDelay\% Sekund(en) explodiert.</string>
   <string name="TouRoleBomberPlace">Legen</string>
   <string name="TouRoleBomberDetonating">Zünden</string>
-  <string name="TouRoleBomberPlaceWikiDescription">Lege eine Bombe, die dann zeigt in welchem Radius sie töten wird, sie kann maximal [maxKills] Spieler töten</string>
+  <string name="TouRoleBomberPlaceWikiDescription">Lege eine Bombe, die dann zeigt in welchem Radius sie töten wird, sie kann maximal %maxKills\% Spieler töten</string>
   <string name="TouOptionBomberDetonateDelay">Zünd Verzögerung</string>
   <string name="TouOptionBomberDetonateRadius">Zünd Radius</string>
   <string name="TouOptionBomberAllImpostorsSeeBomb">Alle Verräter Sehen Bombe</string>
@@ -459,21 +458,18 @@ Grabschänder ⇨ Altruist | Hexenmeister ⇨ Veteran</string>
   <string name="TouRoleJesterTabDescription">Sei so verdächtig wie möglich, und werde rausgeworfen!</string>
   <string name="TouRoleJesterWikiDescription">Der Narr is eine Neutral Böse Rolle welche gewinnt wenn sie rausgeworfen wurde.</string>
   <string name="TouRoleJesterHaunt">Heimsuchen</string>
-  <string name="TouNotifJesterWinGlobal">Der Narr, [player], war siegreich, da er rausgeworfen wurde!</string>
+  <string name="TouNotifJesterWinGlobal">Der Narr, %player\%, war siegreich, da er rausgeworfen wurde!</string>
   <string name="TouOptionJesterCanButton">Kann Notfall-Knopf Benutzen</string>
   <string name="TouOptionJesterCanVent">Kann sich in Schächten Verstecken</string>
   <string name="TouOptionJesterImpVision">Hat Verräter Sicht</string>
   <string name="TouRoleJuggernautIntroBlurb">Deine Macht Vergrößert sich mit jedem Mord</string>
   <string name="TouRoleJuggernautTabDescription">Mit Jedem Kill wird deine Kill-Wartezeit verkürzt.</string>
-  <string name="TouRoleJuggernautTabKillCounter">Kill Anzahl: [count]</string>
+  <string name="TouRoleJuggernautTabKillCounter">Kill Anzahl: %count\%</string>
   <string name="TouRoleJuggernautWikiDescription">Der Moloch ist eine Neutral Killing Rolle welche als letzter lebendiger Killer gewinnt. Für jeden Kill den er macht, wird seine Kill-Wartezeit gekürzt.</string>
   <string name="TouOptionJuggernautInitialCooldown">Anfangs Kill-Wartezeit</string>
   <string name="TouOptionJuggernautCooldownReduction">Kill-Wartezeit Reduktion</string>
   <string name="TouOptionJuggernautCanVent">Moloch Kann In Schächte</string>
-  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Vergesslicher ⇨ Mystiker | Doom ⇨ Vigi | Exe ⇨ Petze
-Glitch ⇨ Sheriff | Fairy ⇨ Kleriker | Inquis ⇨ Orakel
-Narr ⇨ Klempner | Merc ⇨ Wächter
-Pb/Pest ⇨ Feinfühler | SC ⇨ Medium | WW ⇨ Jäger</string>
+  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Vergesslicher ⇨ Mystiker | Doom ⇨ Vigi | Exe ⇨ Petze\%nl\%Glitch ⇨ Sheriff | Fairy ⇨ Kleriker | Inquis ⇨ Orakel\%nl\%Narr ⇨ Klempner | Merc ⇨ Wächter\%nl\%Pb/Pest ⇨ Feinfühler | SC ⇨ Medium | WW ⇨ Jäger</string>
   <string name="SummaryCommandList">zusammenfassung:Spielzusammenfassung:spzu</string>
   <string name="NerfMeCommandList">nerf:nerfme:kurzsichtig</string>
   <string name="SetNameCommandList">ändername:wechslename:umbennenen:name</string>
@@ -595,7 +591,7 @@ exekutiere diese nach deinem Willen</string>
   <string name="TouRoleMedicTabDescription">Schütze ein Besatzungsmitglied mit einem Schild was for Angriffen schützt</string>
   <string name="TouRoleMedicWikiDescription">Der Arzt ist eine Besatzungs Schutz Rolle welche ein Schild zu einem Spieler vergeben kann.</string>
   <string name="TouRoleMedicShield">Schild</string>
-  <string name="TouRoleExecutionerTabDescription">Werfe [target] raus um zu gewinnen.</string>
+  <string name="TouRoleExecutionerTabDescription">Werfe %target\% raus um zu gewinnen.</string>
   <string name="TouRoleExecutionerTorment">Quälen</string>
   <string name="TouRoleSpectreSpook">Spuken</string>
   <string name="DiedToSuicideAltruist">Geopfert</string>
