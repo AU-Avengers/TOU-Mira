@@ -20,6 +20,7 @@ public static class DeathEventHandlers
     public static bool IsDeathRecent { get; set; }
     public static IEnumerator CoWaitForDeathHandler(PlayerDeathEvent @event)
     {
+        IsDeathRecent = true;
         yield return new WaitForSeconds(0.011f);
         var victim = @event.Player;
         if (!victim.HasModifier<DeathHandlerModifier>())
@@ -47,12 +48,14 @@ public static class DeathEventHandlers
 
     public static IEnumerator CoWaitForDeathHandler(PlayerControl exiled)
     {
+        IsDeathRecent = true;
         yield return new WaitForSeconds(0.02f);
         if (!exiled.HasModifier<DeathHandlerModifier>())
         {
             DeathHandlerModifier.UpdateDeathHandler(exiled, TouLocale.Get("DiedToEjection"), CurrentRound,
                 DeathHandlerOverride.SetFalse);
         }
+        IsDeathRecent = false;
     }
 
     public static IEnumerator CoWaitDeathHandler()
