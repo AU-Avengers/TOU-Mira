@@ -72,7 +72,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
     public void AssignTargets()
     {
-        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        if (!RoleOptions.IsClassicRoleAssignment)
         {
             return;
         }

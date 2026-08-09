@@ -57,13 +57,9 @@ public class PolusSerialKillerRole(IntPtr cppPtr) : PolusBaseNeutRole(cppPtr), I
     public override bool IsDead => false; // needed because we inherit from RoleBehaviour
     public override bool IsAffectedByComms => false;
 
-#pragma warning disable S927 // Parameter names should match base declaration and other partial definitions
-#pragma warning disable CA1725 // Parameter names should match base declaration
-    public override bool CanUse(IUsable usable)
-#pragma warning restore CA1725 // Parameter names should match base declaration
-#pragma warning restore S927 // Parameter names should match base declaration and other partial definitions
+    public override bool CanUse(IUsable console)
     {
-        return GameManager.Instance.LogicUsables.CanUse(usable, Player);
+        return GameManager.Instance.LogicUsables.CanUse(console, Player);
     }
 
     public override void AppendTaskHint(StringBuilder taskStringBuilder)

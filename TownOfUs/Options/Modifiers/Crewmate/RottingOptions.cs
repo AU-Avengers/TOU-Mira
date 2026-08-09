@@ -1,5 +1,4 @@
-﻿using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
+﻿using MiraAPI.GameOptions.Attributes;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Crewmate;
 using UnityEngine;
@@ -8,7 +7,7 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 
 public sealed class RottingOptions : AbstractTouModifierOptionGroup<RottingModifier>
 {
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierRotting", "Rotting");
     public override uint GroupPriority => 25;
     public override Color GroupColor => TownOfUsColors.Rotting;

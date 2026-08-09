@@ -58,7 +58,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
 
     public void AssignTargets()
     {
-        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        if (!RoleOptions.IsClassicRoleAssignment)
         {
             return;
         }

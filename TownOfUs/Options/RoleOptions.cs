@@ -10,7 +10,7 @@ namespace TownOfUs.Options;
 
 public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvider
 {
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override Func<bool> GroupVisible => () => IsClassicRoleAssignment;
     internal static string[] OptionStrings =
     [
         MiscUtils.GetParsedRoleBucket("CrewInvestigative"),
@@ -79,7 +79,7 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
         };
     }
 
-    public bool IsClassicRoleAssignment
+    public static bool IsClassicRoleAssignment
     {
         get
         {
@@ -90,19 +90,19 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
     public ModdedEnumOption RoleAssignmentType { get; } =
         new("Role Assignment Type", (int)RoleSelectionMode.RoleList, typeof(RoleSelectionMode), ["Vanilla", "Role List", "Min/Max List", "Draft"])
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment
+            Visible = () => IsClassicRoleAssignment
         };
 
     public ModdedToggleOption LastImpostorBias { get; } =
         new("Reduce Impostor Streak", true)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla and not RoleDistribution.Draft
+            Visible = () => IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla and not RoleDistribution.Draft
         };
 
     public ModdedNumberOption ImpostorBiasPercent { get; } =
         new("Reduction Chance", 15f, 0f, 100f, 5f, MiraNumberSuffixes.Percent)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.LastImpostorBias && OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla and not RoleDistribution.Draft
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.LastImpostorBias && IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla and not RoleDistribution.Draft
         };
 
     // --- Draft Settings (Declared BEFORE Slots to fix wiki option ordering) ---

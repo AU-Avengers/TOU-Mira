@@ -9,7 +9,6 @@ using MiraAPI.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Options;
-using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
 using UnityEngine;
 

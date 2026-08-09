@@ -3,7 +3,7 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
-using TownOfUs.Buttons.TownofPolus.Neutral;
+using TownOfUs.Buttons.TownOfPolus.Neutral;
 using TownOfUs.Options.Roles.PolusNeutral;
 using TownOfUs.Roles.TownOfPolus.Neutral;
 

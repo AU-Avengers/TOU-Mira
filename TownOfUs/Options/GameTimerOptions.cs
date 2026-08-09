@@ -1,4 +1,3 @@
-using AmongUs.GameOptions;
 using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
