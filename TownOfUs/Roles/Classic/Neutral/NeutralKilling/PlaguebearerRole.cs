@@ -121,6 +121,28 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         return stringB;
     }
 
+    public override void OnMeetingStart()
+    {
+        base.OnMeetingStart();
+        ClearNonCurrentInfections();
+    }
+
+    public void ClearNonCurrentInfections()
+    {
+        // If these aren't cleared, then the plaguebearer will be unable to transform properly.
+        var badInfections = ModifierUtils.GetActiveModifiers<PlaguebearerInfectedModifier>().Where(x => x.PlagueBearerId != Player.PlayerId).ToList();
+
+        if (badInfections.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var plague in badInfections)
+        {
+            plague.Player.RemoveModifier(plague);
+        }
+    }
+
     public bool WinConditionMet()
     {
         if (Player.HasDied())
@@ -137,6 +159,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
     {
         RoleBehaviourStubs.Initialize(this, player);
         Player.AddModifier<PlaguebearerInfectedModifier>(Player.PlayerId);
+        ClearNonCurrentInfections();
         if (Player.AmOwner && (int)OptionGroupSingleton<PlaguebearerOptions>.Instance.PestChance != 0)
         {
             Coroutines.Start(CheckForPestChance(Player));
