@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Alliance;
 
 public sealed class LoversOptions : AbstractTouModifierOptionGroup<LoverModifier>
 {
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierLovers", "Lovers");
     public override uint GroupPriority => 12;
     public override Color GroupColor => TownOfUsColors.Lover;

@@ -11,7 +11,7 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
 {
     public override string GroupName => "Assassin Options";
     public override uint GroupPriority => 7;
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
 
     public AmountChanceOption NumberOfImpostorAssassins { get; } =
         new("Number Of Impostor Assassins", 1, 0, 4, 1,

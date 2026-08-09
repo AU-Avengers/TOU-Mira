@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Universal;
 
 public sealed class FlashOptions : AbstractTouModifierOptionGroup<FlashModifier>
 {
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierFlash", "Flash");
     public override uint GroupPriority => 31;
     public override Color GroupColor => TownOfUsColors.Flash;

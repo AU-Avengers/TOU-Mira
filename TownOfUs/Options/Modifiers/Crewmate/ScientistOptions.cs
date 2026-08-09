@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 
 public sealed class ScientistOptions : AbstractTouModifierOptionGroup<ScientistModifier>
 {
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierScientist", "Scientist");
     public override uint GroupPriority => 26;
     public override Color GroupColor => TownOfUsColors.Scientist;

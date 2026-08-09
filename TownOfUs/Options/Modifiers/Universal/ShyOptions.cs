@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Universal;
 
 public sealed class ShyOptions : AbstractTouModifierOptionGroup<ShyModifier>
 {
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierShy", "Shy");
     public override uint GroupPriority => 35;
     public override Color GroupColor => TownOfUsColors.Shy;

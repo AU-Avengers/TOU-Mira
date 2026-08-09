@@ -102,7 +102,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
     public void AssignTargets()
     {
-        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        if (!RoleOptions.IsClassicRoleAssignment)
         {
             return;
         }

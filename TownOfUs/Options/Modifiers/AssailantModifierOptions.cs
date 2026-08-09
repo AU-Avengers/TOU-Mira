@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Modifiers;
 public sealed class AssailantModifierOptions : AbstractOptionGroup
 {
     public override string GroupName => "Assailant Modifiers";
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override Color GroupColor => TownOfUsColors.Overclocker;
     public override MenuCategory ParentMenu => MenuCategory.Modifiers;
     public override uint GroupPriority => 3;
