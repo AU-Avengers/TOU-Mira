@@ -895,6 +895,7 @@ public static class TouRoleManagerPatches
         Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager} | Assignment type is set to {assignmentType.ToDisplayString()}!");
         GameManager.Instance.LogicOptions.SyncOptions();
         ModifierManager.MiraAssignsModifiers = false;
+        MiraAPI.Patches.Roles.SelectRolesPatch.ApiHandlesRoleSelect = false;
         foreach (var mod in MiscUtils.AllBaseGameModifiers)
         {
             mod.BeforeModifierSpawns();
@@ -902,6 +903,7 @@ public static class TouRoleManagerPatches
 
         if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla)
         {
+            MiraAPI.Patches.Roles.SelectRolesPatch.ApiHandlesRoleSelect = true;
             return true;
         }
 
