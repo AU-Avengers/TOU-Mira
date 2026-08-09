@@ -42,6 +42,5 @@ jobs:
           retention-days: 7
 
       - name: Push NuGet CI
-        if: github.ref == 'refs/heads/dev'
         run: |
           dotnet nuget push TownOfUs/bin/Release/TownOfUsMira.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
