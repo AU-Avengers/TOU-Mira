@@ -222,6 +222,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         return mod?.ExtraNameText ?? string.Empty;
     }
 
+    public static bool HasSetMeetingColorText;
     public static void UpdateRoleNameText()
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
@@ -249,7 +250,10 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     continue;
                 }
                 var player = MiscUtils.PlayerById(playerVA.TargetPlayerId)!;
-                playerVA.ColorBlindName.transform.localPosition = new Vector3(-0.93f, -0.2f, -0.1f);
+                if (!HasSetMeetingColorText)
+                {
+                    playerVA.ColorBlindName.transform.localPosition = new Vector3(-0.93f, -0.2f, -0.1f);
+                }
 
                 var curText = playerVA.NameText.text;
                 if (!player || !player.Data || !player.Data.Role)
@@ -294,9 +298,12 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
                 playerVA.NameText.color = playerColor;
             }
+
+            HasSetMeetingColorText = true;
         }
         else
         {
+            HasSetMeetingColorText = false;
             var isVisible = (PlayerControl.LocalPlayer.TryGetModifier<DeathHandlerModifier>(out var deathHandler) &&
                              !deathHandler.DiedThisRound) || TutorialManager.InstanceExists;
             foreach (var player in PlayerControl.AllPlayerControls)
