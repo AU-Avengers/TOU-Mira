@@ -55,13 +55,15 @@ public abstract class PolusBaseImpRole(IntPtr cppPtr) : ImpostorRole(cppPtr), IT
     public override bool IsDead => false; // needed because we inherit from RoleBehaviour
     public override bool IsAffectedByComms => false;
 
-#pragma warning disable S927 // Parameter names should match base declaration and other partial definitions
-#pragma warning disable CA1725 // Parameter names should match base declaration
     public override bool CanUse(IUsable usable)
-#pragma warning restore CA1725 // Parameter names should match base declaration
-#pragma warning restore S927 // Parameter names should match base declaration and other partial definitions
     {
-        return GameManager.Instance.LogicUsables.CanUse(usable, Player);
+        if (!GameManager.Instance.LogicUsables.CanUse(usable, Player))
+        {
+            return false;
+        }
+
+        var console = usable.TryCast<Console>()!;
+        return console == null || console.AllowImpostor;
     }
 
     public override void AppendTaskHint(StringBuilder taskStringBuilder)

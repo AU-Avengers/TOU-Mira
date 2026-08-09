@@ -1,5 +1,4 @@
-﻿using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.OptionTypes;
+﻿using MiraAPI.GameOptions.OptionTypes;
 using TownOfUs.Modifiers.Game.Alliance;
 using UnityEngine;
 

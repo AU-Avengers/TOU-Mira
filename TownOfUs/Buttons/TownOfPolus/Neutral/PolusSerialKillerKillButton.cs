@@ -4,7 +4,7 @@ using TownOfUs.Options.Roles.PolusNeutral;
 using TownOfUs.Roles.TownOfPolus.Neutral;
 using UnityEngine;
 
-namespace TownOfUs.Buttons.TownofPolus.Neutral;
+namespace TownOfUs.Buttons.TownOfPolus.Neutral;
 
 public sealed class PolusSerialKillerKillButton : TownOfUsKillRoleButton<PolusSerialKillerRole, PlayerControl>, IKillButton, ILegacyButton
 {

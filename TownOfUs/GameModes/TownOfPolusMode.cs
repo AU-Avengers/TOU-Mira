@@ -149,7 +149,7 @@ public class TownOfPolusMode : AbstractGameMode
             useBtn.RemoveLabel();
             petBtn.RemoveLabel();
             ventBtn.RemoveLabel();
-        };
+        }
         foreach (var button in CustomButtonManager.Buttons.Where(x => x is ILegacyButton))
         {
             button.RemoveLabel();
@@ -166,7 +166,7 @@ public class TownOfPolusMode : AbstractGameMode
             !PlayerControl.LocalPlayer.Data.Role.IsImpostor ||
             pcd.Role.TeamType == PlayerControl.LocalPlayer.Data.Role.TeamType;
         var list = global::IntroCutscene.SelectTeamToShow(method);
-        if (list == null || list.Count < 1)
+        if (list.Count < 1)
         {
             Logger.GlobalInstance.Error("IntroCutscene :: CoBegin() :: teamToShow is EMPTY or NULL", null);
         }
@@ -246,6 +246,5 @@ public class TownOfPolusMode : AbstractGameMode
             __instance.overlayHandle.color.SetAlpha(1f - fade.a);
             yield return null;
         }
-        yield break;
     }
 }

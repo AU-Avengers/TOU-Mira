@@ -1,5 +1,4 @@
-﻿using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
+﻿using MiraAPI.GameOptions.Attributes;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Impostor;
 using UnityEngine;

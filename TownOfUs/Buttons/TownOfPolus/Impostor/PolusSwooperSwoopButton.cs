@@ -5,7 +5,7 @@ using TownOfUs.Options.Roles.PolusImpostor;
 using TownOfUs.Roles.TownOfPolus.Impostor;
 using UnityEngine;
 
-namespace TownOfUs.Buttons.TownofPolus.Impostor;
+namespace TownOfUs.Buttons.TownOfPolus.Impostor;
 
 public sealed class PolusSwooperSwoopButton : TownOfUsRoleButton<PolusSwooperRole>, ILegacyButton
 {

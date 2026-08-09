@@ -1,5 +1,4 @@
-﻿using AmongUs.GameOptions;
-using MiraAPI.Events;
+﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
