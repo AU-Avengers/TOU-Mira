@@ -126,13 +126,16 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     public bool MetWinCon => AllGuessesCorrect;
 
-
-
     public bool WinConditionMet()
     {
         if (Player.HasDied())
         {
             return false;
+        }
+
+        if (Helpers.GetAlivePlayers().Count == 1)
+        {
+            return true;
         }
 
         if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomWin is not DoomWinOptions.EndsGame)
