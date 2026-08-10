@@ -4,6 +4,8 @@ using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Localization.Utilities;
 using TownOfUs.Modifiers;
+using TownOfUs.Roles;
+using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Patches.Roles;
 
@@ -30,6 +32,12 @@ public static class ApiRegistrationPatches
         var newList = CustomRoleManager.CustomRoleBehaviours.Where(x =>
             !MiscUtils.IsBasicGhost(x.Role)).ToList();
         MiscUtils.AllRoles = newList;
+        var touList = MiscUtils.AllRoles.OfType<ITownOfUsRole>().ToList();
+        MiscUtils.AllTouRoles = touList;
+        foreach (var role in MiscUtils.AllTouRoles)
+        {
+            role.InitialSetup();
+        }
 
         var newList2 = RoleManager.Instance.AllRoles.ToArray().Where(x =>
             !MiscUtils.IsBasicGhost(x.Role)).ToList();

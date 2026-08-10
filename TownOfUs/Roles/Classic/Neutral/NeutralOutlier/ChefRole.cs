@@ -10,7 +10,6 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Text;
-using TMPro;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.Neutral;
 using TownOfUs.Interfaces;
@@ -29,13 +28,30 @@ namespace TownOfUs.Roles.Neutral;
 
 public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame, IUnlovable, IProgressTally
 {
-    private static string GetIcon(TMP_SpriteAsset asset)
+    public void InitialSetup()
     {
-        return $"<sprite name=\"{asset.name}\">";
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressNone.LoadAsset(),
+            "TouMira.Role.Neutral.Chef.Ui.None", 1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyNormal.LoadAsset(),
+            "TouMira.Role.Neutral.Chef.Ui.BodyNormal", 1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyMini.LoadAsset(),
+            "TouMira.Role.Neutral.Chef.Ui.BodyMini", 1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyFlash.LoadAsset(),
+            "TouMira.Role.Neutral.Chef.Ui.BodyFlash", 1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyGiant.LoadAsset(),
+            "TouMira.Role.Neutral.Chef.Ui.BodyGiant", 1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressFedUncolored.LoadAsset(),
+            "TouMira.Role.Neutral.Chef.Ui.PlayerUncolored", 1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressFedRainbow.LoadAsset(),
+            "TouMira.Role.Neutral.Chef.Ui.PlayerRainbow", 1.45f);
     }
-    private static string GetIconColored(TMP_SpriteAsset asset, string color)
+    private static string GetIcon(string name)
     {
-        return $"<sprite name=\"{asset.name}\" color=#{color}>";
+        return $"<sprite name=\"{name}\">";
+    }
+    private static string GetIconColored(string name, string color)
+    {
+        return $"<sprite name=\"{name}\" color=#{color}>";
     }
     public string GetBodyTally()
     {
@@ -47,23 +63,23 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
             count--;
             if (RainbowUtils.IsRainbow(plr.Data.DefaultOutfit.ColorId))
             {
-                tally.Append(GetIcon(UxIcons[6]));
+                tally.Append(GetIcon(_uxIcons[6]));
             }
             else
             {
-                tally.Append(GetIconColored(UxIcons[5], Palette.TextColors[plr.Data.DefaultOutfit.ColorId].ToHtmlStringRGBA()));
+                tally.Append(GetIconColored(_uxIcons[5], Palette.TextColors[plr.Data.DefaultOutfit.ColorId].ToHtmlStringRGBA()));
             }
         }
         foreach (var body in StoredBodies)
         {
             count--;
-            tally.Append(GetIcon(UxIcons[(int)body.Value]));
+            tally.Append(GetIcon(_uxIcons[(int)body.Value]));
         }
 
         while (count > 0)
         {
             count--;
-            tally.Append(GetIcon(UxIcons[0]));
+            tally.Append(GetIcon(_uxIcons[0]));
         }
 
         return $"({tally})";
@@ -86,22 +102,15 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
         string.Empty;
 
     public TallyLocation TallyPlacement(bool inMeeting) => inMeeting ? TallyLocation.Auto : TallyLocation.AboveName;
-    private static TMP_SpriteAsset[] UxIcons => 
+    private static string[] _uxIcons =
     [
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressNone.LoadAsset(),
-            "TouMira.Role.Neutral.Chef.Ui.None", 1.45f),
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyNormal.LoadAsset(),
-            "TouMira.Role.Neutral.Chef.Ui.BodyNormal", 1.45f),
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyMini.LoadAsset(),
-            "TouMira.Role.Neutral.Chef.Ui.BodyMini", 1.45f),
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyFlash.LoadAsset(),
-            "TouMira.Role.Neutral.Chef.Ui.BodyFlash", 1.45f),
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyGiant.LoadAsset(),
-            "TouMira.Role.Neutral.Chef.Ui.BodyGiant", 1.45f),
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressFedUncolored.LoadAsset(),
-            "TouMira.Role.Neutral.Chef.Ui.PlayerUncolored", 1.45f),
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressFedRainbow.LoadAsset(),
-            "TouMira.Role.Neutral.Chef.Ui.PlayerRainbow", 1.45f),
+        "TouMira.Role.Neutral.Chef.Ui.None",
+        "TouMira.Role.Neutral.Chef.Ui.BodyNormal",
+        "TouMira.Role.Neutral.Chef.Ui.BodyMini",
+        "TouMira.Role.Neutral.Chef.Ui.BodyFlash",
+        "TouMira.Role.Neutral.Chef.Ui.BodyGiant",
+        "TouMira.Role.Neutral.Chef.Ui.PlayerUncolored",
+        "TouMira.Role.Neutral.Chef.Ui.PlayerRainbow",
     ];
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
