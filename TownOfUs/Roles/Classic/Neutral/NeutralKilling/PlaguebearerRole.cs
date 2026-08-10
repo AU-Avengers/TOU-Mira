@@ -123,7 +123,8 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
     public override void OnMeetingStart()
     {
-        base.OnMeetingStart();
+        RoleBehaviourStubs.OnMeetingStart(this);
+
         ClearNonCurrentInfections();
     }
 
