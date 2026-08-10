@@ -821,4 +821,6 @@ und lass sie ihre Sünden beichten</string>
   <string name="SeekerPassive">Sucher Passiv</string>
   <string name="AnticheatKickMissingMessage">[player] fehlen folgende mods:</string>
   <string name="SpectatorDraftError">Du kannst den Zuschauer nicht während des drafts aktivieren!</string>
+  <string name="TermsTargetSymbolsTitle">Zielsymbole</string>
+  <string name="TermsTargetSymbolsInfo">Zielsymbole sind neben Spielernamen in Sitzungen und wärend des Spiels, normalerweise nur sichtbar zur Person mit der jeweiligen Rolle Und/Oder den Toten. Henker ziele sind mit einem[/color][color=#643B1F]X[/color]markiert. Inquisitor ziele sind mit einem [color=#D94291]$[/color]markiert. Ziele der Fee sind mit einem [color=#B3FFFF]★[/color]markiert.</string>
 </resources>
