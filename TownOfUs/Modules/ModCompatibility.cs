@@ -50,7 +50,7 @@ public static class ModCompatibility
     private static FieldInfo submergedInstance;
     private static FieldInfo submergedElevators;
 
-    public static FieldInfo lastMapID;
+    // public static FieldInfo lastMapID;
 
     private static PropertyInfo currentMap;
     private static PropertyInfo elements;
@@ -651,9 +651,9 @@ public static class ModCompatibility
 
         LITypes = AccessTools.GetTypesFromAssembly(LIAssembly);
 
-        var mapLoader = LITypes.First(x => x.Name == "MapLoader");
-        lastMapID = AccessTools.Field(mapLoader, "_lastMapID");
-        currentMap = AccessTools.Property(mapLoader, "CurrentMap");
+        var gameConfig = LITypes.First(x => x.Name == "GameConfiguration");
+        //lastMapID = AccessTools.Field(gameConfig, "_lastMapID"); // Unused? (Also, only accessible through CurrentMap.ID)
+        currentMap = AccessTools.Property(gameConfig, "CurrentMap");
 
         var liMap = LITypes.First(x => x.Name == "LIMap");
         elements = AccessTools.Property(liMap, "elements");
