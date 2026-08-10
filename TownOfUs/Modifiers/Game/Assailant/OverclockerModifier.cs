@@ -181,7 +181,7 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
 
     public override void FixedUpdate()
     {
-        if (!Player.AmOwner || CurrentState is ChargeState.Normal)
+        if (!Player.AmOwner || CurrentState is ChargeState.Normal || MeetingHud.Instance || ExileController.Instance)
         {
             return;
         }
@@ -221,7 +221,7 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
 
             if (Player.killTimer > 0)
             {
-                Player.killTimer *= Time.deltaTime * value;
+                Player.killTimer += Time.deltaTime * value;
             }
         }
     }

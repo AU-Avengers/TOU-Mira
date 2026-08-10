@@ -102,10 +102,15 @@ public static class MiscUtils
     /// <returns>A list of <see cref="TouBaseGameModifier"/>s.</returns>
     public static IEnumerable<TouBaseGameModifier> AllBaseGameModifiers { get; internal set; }
     /// <summary>
-    /// Gets all registered <see cref="RoleBehaviour"/>s added through in MiraAPI, excluding <see cref="NeutralGhostRole"/> and possibly any other registered basic roles.
+    /// Gets all registered <see cref="RoleBehaviour"/>s added through MiraAPI, excluding <see cref="NeutralGhostRole"/> and possibly any other registered basic roles.
     /// </summary>
     /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
     public static IEnumerable<RoleBehaviour> AllRoles { get; internal set; }
+    /// <summary>
+    /// Gets all registered <see cref="ITownOfUsRole"/>s.
+    /// </summary>
+    /// <returns>A list of <see cref="ITownOfUsRole"/>s.</returns>
+    public static IEnumerable<ITownOfUsRole> AllTouRoles { get; internal set; }
     /// <summary>
     /// Gets all registered <see cref="RoleBehaviour"/>s, excluding <see cref="CrewmateGhostRole"/>, <see cref="ImpostorGhostRole"/>, <see cref="NeutralGhostRole"/>, and possibly any other registered basic roles.
     /// </summary>

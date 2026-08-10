@@ -126,13 +126,18 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     public bool MetWinCon => AllGuessesCorrect;
 
-
-
     public bool WinConditionMet()
     {
         if (Player.HasDied())
         {
             return false;
+        }
+
+        var opts = OptionGroupSingleton<DoomsayerOptions>.Instance;
+        if (Helpers.GetAlivePlayers().Count == 1 &&
+            ((NumberOfGuesses > 0 && !opts.DoomsayerGuessAllAtOnce) || opts.DoomsayerGuessAllAtOnce))
+        {
+            return true;
         }
 
         if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomWin is not DoomWinOptions.EndsGame)
@@ -371,7 +376,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     public override bool DidWin(GameOverReason gameOverReason)
     {
-        return AllGuessesCorrect;
+        return AllGuessesCorrect || WinConditionMet();
     }
 
     public void ClickGuess(PlayerVoteArea voteArea, MeetingHud meetingHud)
