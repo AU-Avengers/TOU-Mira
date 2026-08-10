@@ -834,9 +834,9 @@ chwili aby umknąć ze sceny zbrodni</string>
   <string name="TouOptionFairyFairyKnowsRole">Wróżka Zna Rolę Celu</string>
   <string name="TouOptionFairyEvilOdds">Szansa Że Cel Będzie Zły</string>
   <string name="TouRoleForensic">Kryminolog</string>
-  <string name="TouRoleForensicIntroBlurb">Przebadaj sceny zbrodni aby znaleźć mordercę</string>
+  <string name="TouRoleForensicIntroBlurb">Badaj sceny zbrodni aby odnaleźć mordercę</string>
   <string name="TouRoleForensicTabDescription">Przebadaj scenę zbrodni, po czym przesłuchaj graczy, by
- zobaczyć czy byli przy zabójstwie.</string>
+zobaczyć czy byli przy zabójstwie.</string>
   <string name="TouDraftCancelButton">Anuluj Draft</string>
   <string name="TouDraftCancelledNotif">Draft został anulowany przez [color=#FFBFCC][b]Hosta[/b][/color]!</string>
   <string name="TouDraftShuffleButton">Przetasuj</string>
@@ -926,4 +926,9 @@ Upij jednego gracza wiele razy, aby go zatruć.</string>
   <string name="TouOptionBarkeeperSpillEffectBuffMultiplier">Mnożnik Prędkości z Wylanego Piwa</string>
   <string name="TouOptionBarkeeperSpillEffectDebuffMultiplier">Mnożnik Spowolnienia z Wylanego Piwa</string>
   <string name="TouOptionBarkeeperSpillDurationOptionsSummarized">Czas Prędkości Od Piwa: [duration]s | Prędkość [fast]x, Spowolnienie [slow]x</string>
+  <string name="TouRoleForensicWikiDescription">Kryminolog to Załogant Śledczy który może przebadać sceny zbrodni i przesłuchać graczy by zobaczyć czy byli w pobliżu zabójstwa, świecąc ekranem na czerwono jeśli tak.</string>
+  <string name="TouRoleForensicInspect">Przebadaj</string>
+  <string name="TouRoleForensicInspectWikiDescription">Sceny zbrodni pojawią się wraz z kolejnymi martwymi ciałami. Przebadaj je, po czym przesłuchaj graczy aby dowiedzieć się czegoś więcej. Na następnym spotkaniu otrzymasz raport ujawniający rolę zabójcy.</string>
+  <string name="TouRoleForensicExamine">Przesłuchaj</string>
+  <string name="TouRoleForensicExamineWikiDescription">Przesłuchaj graczy gdy zbadasz scenę zbrodni. Dostaniesz informację czy dana osoba była przy zabójstwie.</string>
 </resources>
