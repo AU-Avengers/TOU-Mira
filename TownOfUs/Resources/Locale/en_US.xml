@@ -1590,6 +1590,7 @@ at the cost of your ability.</string>
   <string name="TouRoleTimeLordRevivedNotif">You were revived thanks to the Time Lord!</string>
   <!-- Time Lord Options -->
   <string name="TouOptionTimeLordRewindCooldown">Rewind Cooldown</string>
+    <string name="TouOptionTimeLordRewindDuration">Rewind Duration</string>
   <string name="TouOptionTimeLordRewindHistory">Rewind History</string>
   <string name="TouOptionTimeLordMaxUses">Initial Uses</string>
   <string name="TouOptionTimeLordUsesPerTasks">Tasks Required For Additional Rewind Use</string>

@@ -3,7 +3,6 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Neutral;
@@ -21,6 +20,10 @@ public static class DoomsayerEvents
 
         if (source.Data.Role is DoomsayerRole doom)
         {
+            if (!source.AmOwner)
+            {
+                doom.NumberOfGuesses++;
+            }
             if (GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
             {
                 stats.CorrectAssassinKills++;

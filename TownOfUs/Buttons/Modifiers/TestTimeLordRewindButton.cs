@@ -16,7 +16,7 @@ public sealed class TestTimeLordRewindButton : TownOfUsButton
     public override float Cooldown =>
         Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindCooldown + MapCooldown, 5f, 120f);
 
-    public override float EffectDuration => 3.5f;
+    public override float EffectDuration => OptionGroupSingleton<TimeLordOptions>.Instance.RewindDuration;
 
     public override int MaxUses => (int)OptionGroupSingleton<TimeLordOptions>.Instance.MaxUses;
 
@@ -27,7 +27,7 @@ public sealed class TestTimeLordRewindButton : TownOfUsButton
     protected override void OnClick()
     {
         // Use the same RPC as Time Lord role, but check for modifier instead
-        TimeLordRole.RpcStartRewind(PlayerControl.LocalPlayer);
+        TimeLordRole.RpcStartRewind(PlayerControl.LocalPlayer, EffectDuration);
         OverrideName(TouLocale.GetParsed("TouRoleTimeLordRewinding", "Rewinding"));
     }
 

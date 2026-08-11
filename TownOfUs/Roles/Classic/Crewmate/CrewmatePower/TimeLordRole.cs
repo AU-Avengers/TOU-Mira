@@ -56,7 +56,7 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     };
 
     [MethodRpc((uint)TownOfUsRpc.TimeLordRewind)]
-    public static void RpcStartRewind(PlayerControl timeLord)
+    public static void RpcStartRewind(PlayerControl timeLord, float duration)
     {
         if (LobbyBehaviour.Instance)
         {
@@ -85,14 +85,13 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                     $"<b>{TownOfUsColors.TimeLord.ToTextColor()}{TouLocale.GetParsed("TouRoleTimeLordRewindNotif", "Time is being rewound!")}</color></b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.TimeLord.LoadAsset());
                 notif.AdjustNotification();
+                notif.alphaTimer = duration + 1f;
             }
             catch
             {
                // ignored
             }
         }
-
-        const float duration = 3.5f;
         var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 1f, 15f);
 
         if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost &&
