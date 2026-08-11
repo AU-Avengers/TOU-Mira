@@ -295,8 +295,7 @@ public static class GameHistory
             RoleWhenAlive.Remove(player.PlayerId);
             RoleWhenAlive.Add(player.PlayerId, role);
         }
-        else if (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost ||
-                 role.Role == (RoleTypes)RoleId.Get<NeutralGhostRole>())
+        else if (MiscUtils.IsBasicGhost(role))
         {
             trackRole = false;
         }
