@@ -47,6 +47,8 @@ public static class MiscUtils
         x.Data.Role is IContinuesGame gameHalt && gameHalt.ContinuesGame || x.GetModifiers<BaseModifier>()
             .Any(y => y is IContinuesGame gameHaltMod && gameHaltMod.ContinuesGame));
 
+    public static int NonGameEndingNeutralCount => Helpers.GetAlivePlayers().Count(x => x.Is(RoleAlignment.NeutralBenign));
+
     public static int KillersAliveCount => Helpers.GetAlivePlayers().Count(x => x.IsImpostor() ||
         x.Is(RoleAlignment.NeutralKilling) ||
         (x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
