@@ -21,6 +21,10 @@ public static class DoomsayerEvents
 
         if (source.Data.Role is DoomsayerRole doom)
         {
+            if (!source.AmOwner)
+            {
+                doom.NumberOfGuesses++;
+            }
             if (GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
             {
                 stats.CorrectAssassinKills++;
