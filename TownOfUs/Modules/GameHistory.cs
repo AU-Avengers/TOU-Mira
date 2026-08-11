@@ -259,12 +259,10 @@ public static class GameHistory
     }
     public static bool IsFullyDead(PlayerControl player)
     {
-        if (!player.HasDied())
+        if (!player.HasDied() || !PlayerStats.TryGetValue(player.PlayerId, out var stats))
         {
             return false;
         }
-
-        var stats = PlayerStats[player.PlayerId];
         return stats.DiedThisRound;
     }
     public static void RegisterRole(PlayerControl player, RoleBehaviour role, bool clean = false)
