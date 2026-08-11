@@ -56,7 +56,7 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     };
 
     [MethodRpc((uint)TownOfUsRpc.TimeLordRewind)]
-    public static void RpcStartRewind(PlayerControl timeLord)
+    public static void RpcStartRewind(PlayerControl timeLord, float duration)
     {
         if (LobbyBehaviour.Instance)
         {
@@ -91,8 +91,6 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                // ignored
             }
         }
-
-        const float duration = 3.5f;
         var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 1f, 15f);
 
         if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost &&
