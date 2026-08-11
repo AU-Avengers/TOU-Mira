@@ -19,6 +19,7 @@ using Object = UnityEngine.Object;
 using System.Runtime.CompilerServices;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Modules.Components;
 
 namespace TownOfUs.Modules;
 
@@ -1102,6 +1103,8 @@ public static class TimeLordRewindSystem
             RewindDuration = 0f;
             return;
         }
+        // This allows killers to be revived properly
+        HudManagerHelper.Instance.DeathTimer = Math.Max(HudManagerHelper.Instance.DeathTimer + RewindDuration, 0);
 
         if (Minigame.Instance)
         {
