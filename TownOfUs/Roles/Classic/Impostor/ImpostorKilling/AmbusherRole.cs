@@ -11,7 +11,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using TownOfUs.Buttons.Impostor;
-using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;

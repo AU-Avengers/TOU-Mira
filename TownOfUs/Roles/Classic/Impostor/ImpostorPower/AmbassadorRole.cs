@@ -7,7 +7,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
-using TownOfUs.Events;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;

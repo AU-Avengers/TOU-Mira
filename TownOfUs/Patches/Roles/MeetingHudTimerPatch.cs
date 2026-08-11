@@ -1,7 +1,6 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using TownOfUs.Events;
 using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;

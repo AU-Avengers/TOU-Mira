@@ -6,7 +6,6 @@ using MiraAPI.PluginLoading;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Globalization;
-using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;

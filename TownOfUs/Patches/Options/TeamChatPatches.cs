@@ -13,7 +13,6 @@ using TownOfUs.Roles.Neutral;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using UnityEngine.UI;
-using TownOfUs.Modifiers;
 
 namespace TownOfUs.Patches.Options;
 
