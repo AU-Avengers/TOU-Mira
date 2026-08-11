@@ -1,7 +1,5 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
-using MiraAPI.Modifiers;
-using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
@@ -14,7 +12,6 @@ using TownOfUs.Achievements;
 using TownOfUs.Events;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
