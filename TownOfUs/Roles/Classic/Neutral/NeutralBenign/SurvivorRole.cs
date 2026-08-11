@@ -108,7 +108,9 @@ public sealed class SurvivorRole(IntPtr cppPtr)
     {
         var hasLivingHalters = MiscUtils.NKillersAliveCount > 0 ||
                                (MiscUtils.ImpAliveCount > 0 && MiscUtils.CrewKillersAliveCount > 0) ||
-                               (MiscUtils.GameHaltersAliveCount > 0 && Helpers.GetAlivePlayers().Count > 1);
+                               (MiscUtils.GameHaltersAliveCount > 0 && Helpers.GetAlivePlayers().Count > 1)
+                               || Helpers.GetAlivePlayers().All(x =>
+                                   (x.IsCrewmate() || x.Is(RoleAlignment.NeutralBenign)) && !x.IsImpostorAligned());
         var survCount = CustomRoleUtils.GetActiveRolesOfType<SurvivorRole>().Count(x => !x.Player.HasDied());
 
         if (survCount == 0 || MiscUtils.NonGameEndingNeutralCount == 0 || Helpers.GetAlivePlayers().Count > 3 ||
