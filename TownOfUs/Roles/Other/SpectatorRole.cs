@@ -4,6 +4,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using TownOfUs.Modifiers;
+using TownOfUs.Modules;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Other;

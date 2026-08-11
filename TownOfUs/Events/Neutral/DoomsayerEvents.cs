@@ -30,7 +30,7 @@ public static class DoomsayerEvents
                 doom.NumberOfGuesses)
             {
                 DoomsayerRole.RpcDoomsayerWin(source);
-                DeathHandlerModifier.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer, "DiedToWinning",
+                GameHistory.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer, "DiedToWinning",
                     HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
                     lockInfo: DeathHandlerOverride.SetTrue);
             }

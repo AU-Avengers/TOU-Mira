@@ -13,6 +13,7 @@ using TownOfUs.Events;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
@@ -159,6 +160,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
         {
             HudManager.Instance.AbilityButton.SetEnabled();
         }
+        GameHistory.PlayerStats[Player.PlayerId].DiedThisRound = false;
     }
 
     public string LocaleKey => "Spectre";

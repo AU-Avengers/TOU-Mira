@@ -9,6 +9,7 @@ using TownOfUs.Modifiers.Impostor;
 using MiraAPI.Patches.Stubs;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
+using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 using TownOfUs.Roles.Crewmate;

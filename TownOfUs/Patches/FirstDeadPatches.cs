@@ -1,6 +1,7 @@
 using HarmonyLib;
 using TownOfUs.Events;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Roles.Other;
 
 namespace TownOfUs.Patches;

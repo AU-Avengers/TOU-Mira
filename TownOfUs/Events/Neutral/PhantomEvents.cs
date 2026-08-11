@@ -38,7 +38,7 @@ public static class PhantomEvents
                 HudManagerPatches.ZoomButton.SetActive(true);
                 if (OptionGroupSingleton<SpectreOptions>.Instance.SpectreWin is SpectreWinOptions.Spooks)
                 {
-                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", -1,
+                    GameHistory.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", -1,
                         DeathHandlerOverride.SetTrue, lockInfo: DeathHandlerOverride.SetTrue);
                     var notif2 = Helpers.CreateAndShowNotification(
                         $"<b>{TouLocale.GetParsed("TouRoleSpectreSpookMessage")}</b>",
