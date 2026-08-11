@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using AmongUs.Data;
+using HarmonyLib;
 using MiraAPI.GameEnd;
 using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
@@ -11,6 +12,7 @@ using TownOfUs.GameOver;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
+using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
 
@@ -269,7 +271,7 @@ public static class LogicGameFlowPatches
         }
 
         // Causes the game to draw in extreme scenarios
-        if (Helpers.GetAlivePlayers().Count <= 0)
+        if (MiscUtils.GetImpactfulLivingPlayers().Count <= 0)
         {
             var randomPlayer = PlayerControl.AllPlayerControls.ToArray().Where(x =>
                 !x.Data.Role.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) && !x.GetModifiers<GameModifier>()
@@ -278,8 +280,37 @@ public static class LogicGameFlowPatches
                 randomPlayer != null ? randomPlayer.Data : PlayerControl.LocalPlayer.Data
             ]);
         }
+        var playerCounts = GetPlayerCounts();
+        int item = playerCounts.Item1;
+        int item2 = playerCounts.Item2;
+        if (item2 <= 0)
+        {
+            GameOverReason endReason = GameOverReason.CrewmatesByVote;
+            __instance.Manager.RpcEndGame(endReason, !DataManager.Player.Ads.HasPurchasedAdRemoval);
+        }
+        else if (item <= item2)
+        {
+            GameOverReason endReason2;
+            switch (GameData.LastDeathReason)
+            {
+                case DeathReason.Exile:
+                    endReason2 = GameOverReason.ImpostorsByVote;
+                    break;
+                case DeathReason.Kill:
+                    endReason2 = GameOverReason.ImpostorsByKill;
+                    break;
+                default:
+                    endReason2 = GameOverReason.CrewmateDisconnect;
+                    break;
+            }
+            __instance.Manager.RpcEndGame(endReason2, !DataManager.Player.Ads.HasPurchasedAdRemoval);
+        }
+        else
+        {
+            __instance.Manager.CheckEndGameViaTasks();
+        }
 
-        return true;
+        return false;
     }
 
     [HarmonyPostfix]
@@ -290,5 +321,19 @@ public static class LogicGameFlowPatches
         {
             __result = false;
         }
+    }
+    public static ValueTuple<int, int> GetPlayerCounts()
+    {
+        var nonBenignNeuts = MiscUtils.GetImpactfulLivingPlayers().Count(x => x.IsNeutral());
+        var impostors = MiscUtils.GetImpactfulLivingPlayers().Count(x => x.IsImpostorAligned());
+        var crewmates = MiscUtils.GetImpactfulLivingPlayers().Count - (nonBenignNeuts + impostors);
+        var benigns = Helpers.GetAlivePlayers().Count - (nonBenignNeuts + impostors + crewmates);
+        var checkBenign = impostors > 0 && (crewmates > 0 || nonBenignNeuts > 0);
+        if (checkBenign)
+        {
+            crewmates += benigns;
+        }
+
+        return new ValueTuple<int, int>(crewmates + nonBenignNeuts, impostors);
     }
 }
