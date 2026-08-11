@@ -85,6 +85,7 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                     $"<b>{TownOfUsColors.TimeLord.ToTextColor()}{TouLocale.GetParsed("TouRoleTimeLordRewindNotif", "Time is being rewound!")}</color></b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.TimeLord.LoadAsset());
                 notif.AdjustNotification();
+                notif.alphaTimer = duration + 1f;
             }
             catch
             {
