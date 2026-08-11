@@ -10,6 +10,8 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 
@@ -131,11 +133,10 @@ public static class ProsecutorEvents
 
             if (hasProsecuted)
             {
-                DeathHandlerModifier.UpdateDeathHandlerImmediate(player, TouLocale.Get("DiedToProsecutor"),
-                    DeathEventHandlers.CurrentRound,
-                    DeathHandlerOverride.SetFalse,
+                GameHistory.UpdatePlayerDeathData(player.PlayerId, TouLocale.Get("DiedToProsecutor"), 0,
+                    HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
                     TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", pros.Player.Data.PlayerName),
-                    lockInfo: DeathHandlerOverride.SetTrue);
+                    lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
 
                 if (pros.Player.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
                 {
@@ -155,10 +156,9 @@ public static class ProsecutorEvents
                         {
                             celeb.Announced = true;
                         }
-
-                        DeathHandlerModifier.UpdateDeathHandlerImmediate(pros.Player, TouLocale.Get("DiedToPunishment"),
-                            DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                            lockInfo: DeathHandlerOverride.SetTrue);
+                        GameHistory.UpdatePlayerDeathData(pros.Player.PlayerId, TouLocale.Get("DiedToPunishment"), 0,
+                            HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
+                            lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
 
                         pros.Player.Exiled();
                     }

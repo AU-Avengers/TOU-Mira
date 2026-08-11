@@ -6,7 +6,9 @@ using PowerTools;
 using Reactor.Utilities;
 using TownOfUs.Events;
 using TownOfUs.Modifiers.Game.Universal;
+using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
+using TownOfUs.Modules.Components;
 using TownOfUs.Patches;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
@@ -72,11 +74,10 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
 
         if (body != null)
         {
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(Target, TouLocale.Get("DiedToAmbusherAmbush"),
-                DeathEventHandlers.CurrentRound,
+            GameHistory.UpdatePlayerDeathData(Target, TouLocale.Get("DiedToAmbusherAmbush"), 0, HudManagerHelper.Instance.CurrentRound,
                 DeathHandlerOverride.SetTrue,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", Player.Data.PlayerName),
-                lockInfo: DeathHandlerOverride.SetTrue);
+                lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
 
             var bodyPos = body.transform.position;
             if (!MeetingHud.Instance && Player.AmOwner)

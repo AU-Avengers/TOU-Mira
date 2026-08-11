@@ -9,6 +9,7 @@ using TownOfUs.Modifiers.Impostor;
 using MiraAPI.Patches.Stubs;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
+using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 using TownOfUs.Roles.Crewmate;
@@ -114,7 +115,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
         var alivePlayers = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => !DeathHandlerModifier.IsFullyDead(x)).ToList();
+            .Where(x => !GameHistory.IsFullyDead(x)).ToList();
 
         var hexed = alivePlayers
             .Where(p => p.HasModifier<SpellslingerHexedModifier>())
