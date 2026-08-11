@@ -456,6 +456,7 @@ You may disable this message through your option menu.</string>
   <string name="DiedByString">[cod] By [player]</string>
   <string name="DiedByStringBasic">By [player]</string>
   <string name="Alive">Alive</string>
+    <string name="Revived">Revived</string>
   <string name="DisconnectedData">D/C R[round] </string>
   <string name="DisconnectedDataFull">[cod] | D/C R[round] </string>
   <string name="DiedToDisconnect">Disconnected</string>
@@ -1558,6 +1559,7 @@ at the cost of your ability.</string>
   <string name="TouRoleTimeLordRevivedNotif">You were revived thanks to the Time Lord!</string>
   <!-- Time Lord Options -->
   <string name="TouOptionTimeLordRewindCooldown">Rewind Cooldown</string>
+    <string name="TouOptionTimeLordRewindDuration">Rewind Duration</string>
   <string name="TouOptionTimeLordRewindHistory">Rewind History</string>
   <string name="TouOptionTimeLordMaxUses">Initial Uses</string>
   <string name="TouOptionTimeLordUsesPerTasks">Tasks Required For Additional Rewind Use</string>

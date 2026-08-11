@@ -682,20 +682,6 @@ public static class TownOfUsEventHandlers
             CustomButtonSingleton<SpellslingerHexButton>.Instance.SetActive(false, PlayerControl.LocalPlayer.Data.Role);
         }
 
-        if (target.AmOwner && HudManager.InstanceExists)
-        {
-            HudManager.Instance.SetHudActive(false);
-
-            if (!MeetingHud.Instance)
-            {
-                HudManager.Instance.SetHudActive(true);
-                if (OptionGroupSingleton<PostmortemOptions>.Instance.HideChatButton && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.HideAndSeek)
-                {
-                    HudManager.Instance.Chat.chatButton.gameObject.SetActive(false);
-                }
-            }
-        }
-
         if (target.Data.Role is IAnimated animated)
         {
             animated.IsVisible = false;

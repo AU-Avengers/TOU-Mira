@@ -80,12 +80,12 @@ public sealed class MedusaRole(IntPtr cppPtr)
     {
         var scCount = CustomRoleUtils.GetActiveRolesOfType<MedusaRole>().Count(x => !x.Player.HasDied());
 
-        if (MiscUtils.KillersAliveCount > scCount)
+        if (MiscUtils.KillersAliveCount > scCount || MiscUtils.KillersAliveCount == 0)
         {
             return false;
         }
 
-        return scCount >= Helpers.GetAlivePlayers().Count - scCount;
+        return scCount >= MiscUtils.GetImpactfulLivingPlayers().Count - scCount;
     }
 
 

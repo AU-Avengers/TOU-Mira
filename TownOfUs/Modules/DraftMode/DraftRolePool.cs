@@ -370,30 +370,30 @@ public static bool IsImpostorRoleId(ushort id)
         {
             RoleAlignment[]? alignments = bucket switch
             {
-                RoleListOption.CrewInvest => new [] {RoleAlignment.CrewmateInvestigative},
-                RoleListOption.CrewKilling => new [] {RoleAlignment.CrewmateKilling},
-                RoleListOption.CrewProtective => new [] {RoleAlignment.CrewmateProtective},
-                RoleListOption.CrewPower => new [] {RoleAlignment.CrewmatePower},
-                RoleListOption.CrewSupport => new [] {RoleAlignment.CrewmateSupport},
-                RoleListOption.CrewCommon => new [] {RoleAlignment.CrewmateInvestigative, RoleAlignment.CrewmateProtective, RoleAlignment.CrewmateSupport},
-                RoleListOption.CrewSpecial => new [] {RoleAlignment.CrewmateKilling, RoleAlignment.CrewmatePower},
-                RoleListOption.CrewRandom => new [] {RoleAlignment.CrewmateInvestigative, RoleAlignment.CrewmateKilling, RoleAlignment.CrewmateProtective, RoleAlignment.CrewmatePower, RoleAlignment.CrewmateSupport},
-                RoleListOption.NeutBenign => new [] {RoleAlignment.NeutralBenign},
-                RoleListOption.NeutEvil => new [] {RoleAlignment.NeutralEvil},
-                RoleListOption.NeutKilling => new [] {RoleAlignment.NeutralKilling},
-                RoleListOption.NeutOutlier => new [] {RoleAlignment.NeutralOutlier},
-                RoleListOption.NeutCommon => new [] {RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil},
-                RoleListOption.NeutSpecial => new [] {RoleAlignment.NeutralKilling, RoleAlignment.NeutralOutlier},
-                RoleListOption.NeutWildcard => new [] {RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil, RoleAlignment.NeutralOutlier},
-                RoleListOption.NeutRandom => new [] {RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil, RoleAlignment.NeutralKilling, RoleAlignment.NeutralOutlier},
-                RoleListOption.ImpConceal => new [] {RoleAlignment.ImpostorConcealing},
-                RoleListOption.ImpKilling => new [] {RoleAlignment.ImpostorKilling},
-                RoleListOption.ImpPower => new [] {RoleAlignment.ImpostorPower},
-                RoleListOption.ImpSupport => new [] {RoleAlignment.ImpostorSupport},
-                RoleListOption.ImpCommon => new [] {RoleAlignment.ImpostorConcealing, RoleAlignment.ImpostorSupport},
-                RoleListOption.ImpSpecial => new [] {RoleAlignment.ImpostorKilling, RoleAlignment.ImpostorPower},
-                RoleListOption.ImpRandom => new [] {RoleAlignment.ImpostorConcealing, RoleAlignment.ImpostorKilling, RoleAlignment.ImpostorPower, RoleAlignment.ImpostorSupport},
-                RoleListOption.NonImp => new [] {RoleAlignment.CrewmateInvestigative, RoleAlignment.CrewmateKilling, RoleAlignment.CrewmateProtective, RoleAlignment.CrewmatePower, RoleAlignment.CrewmateSupport, RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil, RoleAlignment.NeutralKilling, RoleAlignment.NeutralOutlier},
+                RoleListOption.CrewInvest => [ RoleAlignment.CrewmateInvestigative ],
+                RoleListOption.CrewKilling => [ RoleAlignment.CrewmateKilling ],
+                RoleListOption.CrewProtective => [ RoleAlignment.CrewmateProtective ],
+                RoleListOption.CrewPower => [ RoleAlignment.CrewmatePower ],
+                RoleListOption.CrewSupport => [ RoleAlignment.CrewmateSupport ],
+                RoleListOption.CrewCommon => [ RoleAlignment.CrewmateInvestigative, RoleAlignment.CrewmateProtective, RoleAlignment.CrewmateSupport ],
+                RoleListOption.CrewSpecial => [ RoleAlignment.CrewmateKilling, RoleAlignment.CrewmatePower ],
+                RoleListOption.CrewRandom => [ RoleAlignment.CrewmateInvestigative, RoleAlignment.CrewmateKilling, RoleAlignment.CrewmateProtective, RoleAlignment.CrewmatePower, RoleAlignment.CrewmateSupport ],
+                RoleListOption.NeutBenign => [ RoleAlignment.NeutralBenign ],
+                RoleListOption.NeutEvil => [ RoleAlignment.NeutralEvil ],
+                RoleListOption.NeutKilling => [ RoleAlignment.NeutralKilling ],
+                RoleListOption.NeutOutlier => [ RoleAlignment.NeutralOutlier ],
+                RoleListOption.NeutCommon => [ RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil ],
+                RoleListOption.NeutSpecial => [ RoleAlignment.NeutralKilling, RoleAlignment.NeutralOutlier ],
+                RoleListOption.NeutWildcard => [ RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil, RoleAlignment.NeutralOutlier ],
+                RoleListOption.NeutRandom => [ RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil, RoleAlignment.NeutralKilling, RoleAlignment.NeutralOutlier ],
+                RoleListOption.ImpConceal => [ RoleAlignment.ImpostorConcealing ],
+                RoleListOption.ImpKilling => [ RoleAlignment.ImpostorKilling ],
+                RoleListOption.ImpPower => [ RoleAlignment.ImpostorPower ],
+                RoleListOption.ImpSupport => [ RoleAlignment.ImpostorSupport ],
+                RoleListOption.ImpCommon => [ RoleAlignment.ImpostorConcealing, RoleAlignment.ImpostorSupport ],
+                RoleListOption.ImpSpecial => [ RoleAlignment.ImpostorKilling, RoleAlignment.ImpostorPower ],
+                RoleListOption.ImpRandom => [ RoleAlignment.ImpostorConcealing, RoleAlignment.ImpostorKilling, RoleAlignment.ImpostorPower, RoleAlignment.ImpostorSupport ],
+                RoleListOption.NonImp => [ RoleAlignment.CrewmateInvestigative, RoleAlignment.CrewmateKilling, RoleAlignment.CrewmateProtective, RoleAlignment.CrewmatePower, RoleAlignment.CrewmateSupport, RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil, RoleAlignment.NeutralKilling, RoleAlignment.NeutralOutlier ],
                 RoleListOption.Any => null,
                 _ => null,
             };
@@ -424,10 +424,10 @@ public static bool IsImpostorRoleId(ushort id)
         }
 
         private static readonly RoleAlignment[] KnownImpSubAlignments =
-        {
+        [
             RoleAlignment.ImpostorConcealing, RoleAlignment.ImpostorKilling,
             RoleAlignment.ImpostorPower, RoleAlignment.ImpostorSupport
-        };
+        ];
 
         private static IEnumerable<RoleBehaviour> GetUncategorizedImpostors()
         {

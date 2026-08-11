@@ -9,6 +9,8 @@ using MiraAPI.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Networking;
 using TownOfUs.Options.Modifiers.Alliance;
 using UnityEngine;
@@ -35,9 +37,9 @@ public static class LoverEvents
         switch (@event.DeathReason)
         {
             case DeathReason.Exile:
-                DeathHandlerModifier.UpdateDeathHandlerImmediate(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    lockInfo: DeathHandlerOverride.SetTrue);
+                GameHistory.UpdatePlayerDeathData(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"), 0, HudManagerHelper.Instance.CurrentRound,
+                    DeathHandlerOverride.SetTrue,
+                    lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
                 loveMod.OtherLover.Exiled();
                 break;
             case DeathReason.Kill:
@@ -51,11 +53,11 @@ public static class LoverEvents
                     var showAnim = !ExileController.Instance;
                     var murderResultFlags2 = MurderResultFlags.DecisionByHost | MurderResultFlags.Succeeded;
 
-                    DeathHandlerModifier.UpdateDeathHandlerImmediate(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
-                        DeathEventHandlers.CurrentRound,
+                    GameHistory.UpdatePlayerDeathData(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"), 0, HudManagerHelper.Instance.CurrentRound,
                         showAnim
                             ? DeathHandlerOverride.SetTrue
-                            : DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
+                            : DeathHandlerOverride.SetFalse,
+                        lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
                     loveMod.OtherLover.CustomMurder(
                         loveMod.OtherLover,
                         murderResultFlags2,

@@ -4,6 +4,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using TownOfUs.Modifiers;
+using TownOfUs.Modules;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Other;
@@ -89,7 +90,12 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
             Player.AddModifier<BasicGhostModifier>();
         }
 
-        DeathHandlerModifier.UpdateDeathHandlerImmediate(Player, "Spectating", 0, DeathHandlerOverride.SetFalse);
+        var stats = GameHistory.PlayerStats[Player.PlayerId];
+        stats.DeathString = TouLocale.Get("Spectating");
+        stats.RoundOfDeath = 0;
+        stats.DiedThisRound = false;
+        stats.PlayerState = StoredPlayerState.Dead;
+        stats.IsSpectator = true;
 
         if (!Player.AmOwner)
         {

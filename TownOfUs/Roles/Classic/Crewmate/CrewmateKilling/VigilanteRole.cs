@@ -166,7 +166,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
             if (ClickHandler(victim) && victim == Player)
             {
-                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, (ushort)role.Role, true);
+                GameHistory.RpcSetMisguessSummary(Player, player.PlayerId, (ushort)role.Role, true);
             }
         }
 
@@ -177,7 +177,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
             if (ClickHandler(victim) && victim == Player)
             {
-                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, modifier.TypeId, false);
+                GameHistory.RpcSetMisguessSummary(Player, player.PlayerId, modifier.TypeId, false);
             }
         }
 

@@ -2,9 +2,9 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
-using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -42,7 +42,7 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
             return false;
         }
 
-        if (!UsableFirstRound && DeathEventHandlers.CurrentRound == 1 && !TutorialManager.InstanceExists)
+        if (!UsableFirstRound && HudManagerHelper.Instance.CurrentRound == 1 && !TutorialManager.InstanceExists)
         {
             return false;
         }
