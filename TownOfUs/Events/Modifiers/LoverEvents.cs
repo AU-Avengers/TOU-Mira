@@ -9,6 +9,8 @@ using MiraAPI.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Networking;
 using TownOfUs.Options.Modifiers.Alliance;
 using UnityEngine;
@@ -36,7 +38,7 @@ public static class LoverEvents
         {
             case DeathReason.Exile:
                 DeathHandlerModifier.UpdateDeathHandlerImmediate(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                    HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
                     lockInfo: DeathHandlerOverride.SetTrue);
                 loveMod.OtherLover.Exiled();
                 break;
@@ -52,7 +54,7 @@ public static class LoverEvents
                     var murderResultFlags2 = MurderResultFlags.DecisionByHost | MurderResultFlags.Succeeded;
 
                     DeathHandlerModifier.UpdateDeathHandlerImmediate(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
-                        DeathEventHandlers.CurrentRound,
+                        HudManagerHelper.Instance.CurrentRound,
                         showAnim
                             ? DeathHandlerOverride.SetTrue
                             : DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);

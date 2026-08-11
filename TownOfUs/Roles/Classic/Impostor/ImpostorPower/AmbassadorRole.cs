@@ -137,7 +137,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             return;
         }
 
-        if (DeathEventHandlers.CurrentRound <
+        if (HudManagerHelper.Instance.CurrentRound <
             (int)OptionGroupSingleton<AmbassadorOptions>.Instance.RoundWhenAvailable)
         {
             return;

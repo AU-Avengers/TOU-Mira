@@ -129,7 +129,7 @@ public static class InquisitorEvents
                 notif1.AdjustNotification();
             }
             DeathHandlerModifier.UpdateDeathHandlerImmediate(inquis.Player, TouLocale.Get("DiedToWinning"),
-                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
                 lockInfo: DeathHandlerOverride.SetTrue);
 
             inquis.Player.Exiled();
@@ -178,7 +178,7 @@ public static class InquisitorEvents
                 notif1.AdjustNotification();
             }
             DeathHandlerModifier.UpdateDeathHandlerImmediate(inquis.Player, TouLocale.Get("DiedToWinning"),
-                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
                 lockInfo: DeathHandlerOverride.SetTrue);
 
             inquis.Player.Exiled();

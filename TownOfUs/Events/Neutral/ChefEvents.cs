@@ -9,6 +9,8 @@ using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -91,7 +93,7 @@ public static class ChefEvents
                 notif1.AdjustNotification();
             }
             DeathHandlerModifier.UpdateDeathHandlerImmediate(chef.Player, TouLocale.Get("DiedToWinning"),
-                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
                 lockInfo: DeathHandlerOverride.SetTrue);
 
             chef.Player.Exiled();
@@ -145,7 +147,7 @@ public static class ChefEvents
                 notif1.AdjustNotification();
             }
             DeathHandlerModifier.UpdateDeathHandlerImmediate(chef.Player, TouLocale.Get("DiedToWinning"),
-                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
                 lockInfo: DeathHandlerOverride.SetTrue);
 
             chef.Player.Exiled();

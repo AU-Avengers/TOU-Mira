@@ -3,6 +3,8 @@ using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers;
+using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Neutral;

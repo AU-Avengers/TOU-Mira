@@ -17,6 +17,7 @@ using TownOfUs.Events;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Roles;
 using UnityEngine;
@@ -316,9 +317,8 @@ public static class CustomTouMurderRpcs
         var allVictims = PlayerControl.AllPlayerControls.ToArray().Where(x => victims.ContainsKey(x.PlayerId)).ToList();
         foreach (var target in allVictims)
         {
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
-                DeathEventHandlers.CurrentRound,
-                (!MeetingHud.Instance && !ExileController.Instance)
+            GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 1,
+                HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
@@ -401,9 +401,8 @@ public static class CustomTouMurderRpcs
             if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
                 murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
             {
-                DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
-                    DeathEventHandlers.CurrentRound,
-                    (!MeetingHud.Instance && !ExileController.Instance)
+                GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 1,
+                    HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                         ? DeathHandlerOverride.SetTrue
                         : DeathHandlerOverride.SetFalse,
                     TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
@@ -576,9 +575,8 @@ public static class CustomTouMurderRpcs
         if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
             murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
         {
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
-                DeathEventHandlers.CurrentRound,
-                (!MeetingHud.Instance && !ExileController.Instance)
+            GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 1,
+                HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
@@ -772,9 +770,8 @@ public static class CustomTouMurderRpcs
         if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
             murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
         {
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
-                DeathEventHandlers.CurrentRound,
-                (!MeetingHud.Instance && !ExileController.Instance)
+            GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 1,
+                HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 framed != target ? TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", framed.Data.PlayerName) : "",
@@ -984,9 +981,8 @@ public static class CustomTouMurderRpcs
         if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
             murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
         {
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
-                DeathEventHandlers.CurrentRound,
-                (!MeetingHud.Instance && !ExileController.Instance)
+            GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 1,
+                HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
@@ -1069,13 +1065,14 @@ public static class CustomTouMurderRpcs
             cod = touRole.LocaleKey;
         }
 
-        DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
-            DeathEventHandlers.CurrentRound,
-            DeathHandlerOverride.SetTrue,
+        GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 1,
+            HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetTrue,
             TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
             lockInfo: DeathHandlerOverride.SetTrue);
-        DeathHandlerModifier.UpdateDeathHandlerImmediate(source, "null", -1, DeathHandlerOverride.SetFalse,
+        GameHistory.UpdatePlayerDeathData(source.PlayerId, "null", 0,
+            -1, DeathHandlerOverride.SetFalse,
             lockInfo: DeathHandlerOverride.SetTrue);
+
         source.CustomMurder(
             target,
             MurderResultFlags.Succeeded);
@@ -1198,9 +1195,8 @@ public static class CustomTouMurderRpcs
         if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
             murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
         {
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
-                DeathEventHandlers.CurrentRound,
-                (!MeetingHud.Instance && !ExileController.Instance)
+            GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 1,
+                HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),

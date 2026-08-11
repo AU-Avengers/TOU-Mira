@@ -14,6 +14,8 @@ using TownOfUs.Buttons.Impostor;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -155,7 +157,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
             murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
         {
             DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get("DiedToAmbusherAmbush"),
-                DeathEventHandlers.CurrentRound,
+                HudManagerHelper.Instance.CurrentRound,
                 DeathHandlerOverride.SetTrue,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", ambusher.Data.PlayerName),
                 lockInfo: DeathHandlerOverride.SetTrue);

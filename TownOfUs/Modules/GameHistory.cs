@@ -2,10 +2,16 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Networking.Attributes;
+using Reactor.Networking.Rpc;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Crewmate;
+using TownOfUs.Roles.Neutral;
+using TownOfUs.Roles.Other;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -21,11 +27,15 @@ public sealed record PlayerStats(string Name, byte PlayerId, NetworkedPlayerInfo
     public byte PlayerId { get; private set; } = PlayerId;
     public NetworkedPlayerInfo PlayerInfo { get; private set; } = PlayerInfo;
     public List<RoleBehaviour> TrackedRoles { get; internal set; } = [];
-    public List<RoleBehaviour> LivingRoles { get; internal set; } = [];
+    public RoleBehaviour DisplayedRole { get; internal set; }
     public List<BaseModifier> LastKnownModifiers { get; internal set; } = [];
     public StoredPlayerState PlayerState { get; set; } = State;
+    public bool LockDeathInfo { get; set; }
     public string DeathString { get; set; } = TouLocale.Get("Alive");
     public int RoundOfDeath { get; set; } = -1;
+    public bool DiedThisRound { get; set; }
+    public string KilledBy { get; set; } = string.Empty;
+    public string ExtendedCauseOfDeath { get; set; } = string.Empty;
 
     public int CorrectKills { get; set; }
     public int IncorrectKills { get; set; }
@@ -147,6 +157,108 @@ public static class GameHistory
     public static string WinningFaction = string.Empty;
     public static IEnumerable<RoleBehaviour> AllRoles => [.. RoleDictionary.Values];
 
+    [MethodRpc((uint)TownOfUsRpc.UpdateDeathHandler)]
+    public static void RpcUpdateDeathHandler(PlayerControl player, string causeOfDeath = "null", int roundOfDeath = -1,
+        DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedBy = "null",
+        DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore)
+    {
+        UpdatePlayerDeathData(player.PlayerId, causeOfDeath, 1f, roundOfDeath, diedThisRound, killedBy, lockInfo: lockInfo);
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.UpdateLocalDeathHandler)]
+    public static void RpcUpdateLocalDeathHandler(PlayerControl player, PlayerControl killedBy,
+        string causeOfDeath = "null", int roundOfDeath = -1,
+        DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedByString = "null",
+        DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore)
+    {
+        var localizedCod = TouLocale.Get(causeOfDeath).Contains("STRMISS") ? "null" : TouLocale.Get(causeOfDeath);
+        var localizedKilledBy = (TouLocale.GetParsed(killedByString).Contains("STRMISS") || killedBy == player)
+            ? "null"
+            : TouLocale.GetParsed(killedByString).Replace("<player>", killedBy.Data.PlayerName);
+        UpdatePlayerDeathData(player.PlayerId, localizedCod, 1f, roundOfDeath, diedThisRound, localizedKilledBy, lockInfo: lockInfo);
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.MisguessSummary, LocalHandling = RpcLocalHandling.After)]
+    public static void RpcSetMisguessSummary(PlayerControl player, byte victimId, uint guessId, bool isRole)
+    {
+        var text = string.Empty;
+        if (isRole)
+        {
+            var role = RoleManager.Instance.GetRole((RoleTypes)guessId);
+            text = $"{role.TeamColor.ToTextColor()}{role.GetRoleName()}</color>";
+        }
+        else
+        {
+            var modifier = ModifierManager.Modifiers.FirstOrDefault(x => x.TypeId == guessId)!;
+            text =
+                $"{MiscUtils.GetModifierColour(modifier).ToTextColor()}{modifier.ModifierName}</color>";
+        }
+
+        var name = GameData.Instance?.GetPlayerById(victimId)?.Object?.Data?.PlayerName ?? "?";
+        var summary = TouLocale.GetParsed("MisguessSummary")
+            .Replace("<player>", name)
+            .Replace("<role>", text);
+
+        UpdatePlayerDeathData(player.PlayerId, "null", 0, extendedDeathInfo: summary);
+    }
+
+    public static void UpdatePlayerDeathData(PlayerControl player, string causeOfDeath = "null",
+        float additionalDelayTime = 1f, int roundOfDeath = -1,
+        DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedBy = "null",
+        string extendedDeathInfo = "null",
+        DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore)
+    {
+        UpdatePlayerDeathData(player.PlayerId, causeOfDeath, additionalDelayTime, roundOfDeath, diedThisRound, killedBy,
+            extendedDeathInfo, lockInfo);
+    }
+
+    public static void UpdatePlayerDeathData(byte playerId, string causeOfDeath = "null", float additionalDelayTime = 1f, int roundOfDeath = -1,
+        DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedBy = "null",
+        string extendedDeathInfo = "null",
+        DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore)
+    {
+        HudManagerHelper.Instance.DeathTimer = Math.Max(HudManagerHelper.Instance.DeathTimer + additionalDelayTime, 0);
+        var stats = PlayerStats[playerId];
+        if (causeOfDeath != "null")
+        {
+            stats.DeathString = causeOfDeath;
+        }
+
+        if (roundOfDeath != -1)
+        {
+            stats.RoundOfDeath = roundOfDeath;
+        }
+
+        if (diedThisRound != DeathHandlerOverride.Ignore)
+        {
+            stats.DiedThisRound = diedThisRound is DeathHandlerOverride.SetTrue;
+        }
+
+        if (killedBy != "null")
+        {
+            stats.KilledBy = killedBy;
+        }
+
+        if (extendedDeathInfo != "null")
+        {
+            stats.ExtendedCauseOfDeath = extendedDeathInfo;
+        }
+
+        if (lockInfo != DeathHandlerOverride.Ignore)
+        {
+            stats.LockDeathInfo = lockInfo is DeathHandlerOverride.SetTrue;
+        }
+    }
+    public static bool IsFullyDead(PlayerControl player)
+    {
+        if (!player.HasDied())
+        {
+            return false;
+        }
+
+        var stats = PlayerStats[player.PlayerId];
+        return stats.DiedThisRound;
+    }
     public static void RegisterRole(PlayerControl player, RoleBehaviour role, bool clean = false)
     {
         //Message($"RegisterRole - player: '{player.Data.PlayerName}', role: '{role.GetRoleName()}'");
@@ -157,26 +269,41 @@ public static class GameHistory
                 new PlayerStats(player.Data.PlayerName, player.PlayerId, player.CachedPlayerData,
                     role.IsDead ? StoredPlayerState.Dead : StoredPlayerState.Alive));
             stats = PlayerStats[player.PlayerId];
+            Info($"Added stats for {player.Data.PlayerName}");
         }
 
         if (clean)
         {
             RoleHistory.RemoveAll(x => x.Key == player.PlayerId);
             stats.TrackedRoles = [];
-            stats.LivingRoles = [];
         }
 
         RoleDictionary.Remove(player.PlayerId);
         RoleDictionary.Add(player.PlayerId, role);
 
         RoleHistory.Add(KeyValuePair.Create(player.PlayerId, role));
-        stats.TrackedRoles.Add(role);
+        stats.DisplayedRole = role;
 
+        var trackRole = true;
         if (!role.IsDead)
         {
             RoleWhenAlive.Remove(player.PlayerId);
             RoleWhenAlive.Add(player.PlayerId, role);
-            stats.LivingRoles.Add(role);
+        }
+        else if (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost ||
+                 role.Role == (RoleTypes)RoleId.Get<NeutralGhostRole>())
+        {
+            trackRole = false;
+        }
+
+        if (role is SpectatorRole)
+        {
+            stats.PlayerState = StoredPlayerState.Spectating;
+            stats.TrackedRoles.Add(role);
+        }
+        else if (trackRole)
+        {
+            stats.TrackedRoles.Add(role);
         }
     }
 
@@ -238,7 +365,6 @@ public static class GameHistory
         DeathHistory.Clear();
         PlayerStats.Clear();
         PlayerEvents.Clear();
-        EndGamePatches.EndGameData.DisconnectedPlayerRecords.Clear();
         EndGamePatches.ContainedMeetingData.Clear();
     }
 
@@ -271,4 +397,11 @@ public static class GameHistory
     {
         return RoleWhenAlive.Count(x => x.Value is T);
     }
+}
+
+public enum DeathHandlerOverride
+{
+    SetTrue,
+    SetFalse,
+    Ignore
 }

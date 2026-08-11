@@ -5,6 +5,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -30,7 +31,7 @@ public static class DoomsayerEvents
             {
                 DoomsayerRole.RpcDoomsayerWin(source);
                 DeathHandlerModifier.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer, "DiedToWinning",
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                    HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
                     lockInfo: DeathHandlerOverride.SetTrue);
             }
         }

@@ -10,6 +10,7 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Events;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
@@ -178,7 +179,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
             var text = TouLocale.GetParsed("TouRoleSeerCompareEnemiesNotif").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
             ShowNotification($"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{text}</color></b>");
             var compareResult = TouLocale.GetParsed("TouRoleSeerTabComparison").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
-            ComparisonList.Add($"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{compareResult.Replace("<num>", DeathEventHandlers.CurrentRound.ToString(TownOfUsPlugin.Culture))}</color></b>");
+            ComparisonList.Add($"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{compareResult.Replace("<num>", HudManagerHelper.Instance.CurrentRound.ToString(TownOfUsPlugin.Culture))}</color></b>");
         }
         else
         {
@@ -186,7 +187,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
             var text = TouLocale.GetParsed("TouRoleSeerCompareFriendsNotif").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
             ShowNotification($"<b>{Palette.CrewmateBlue.ToTextColor()}{text}</color></b>");
             var compareResult = TouLocale.GetParsed("TouRoleSeerTabComparison").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
-            ComparisonList.Add($"<b>{Palette.CrewmateBlue.ToTextColor()}{compareResult.Replace("<num>", DeathEventHandlers.CurrentRound.ToString(TownOfUsPlugin.Culture))}</color></b>");
+            ComparisonList.Add($"<b>{Palette.CrewmateBlue.ToTextColor()}{compareResult.Replace("<num>", HudManagerHelper.Instance.CurrentRound.ToString(TownOfUsPlugin.Culture))}</color></b>");
         }
 
         if (GazeTarget != null)

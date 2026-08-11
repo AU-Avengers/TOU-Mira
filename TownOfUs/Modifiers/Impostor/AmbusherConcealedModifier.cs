@@ -73,7 +73,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
         if (body != null)
         {
             DeathHandlerModifier.UpdateDeathHandlerImmediate(Target, TouLocale.Get("DiedToAmbusherAmbush"),
-                DeathEventHandlers.CurrentRound,
+                HudManagerHelper.Instance.CurrentRound,
                 DeathHandlerOverride.SetTrue,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", Player.Data.PlayerName),
                 lockInfo: DeathHandlerOverride.SetTrue);

@@ -1995,9 +1995,10 @@ public static class MiscUtils
             return false;
         }
 
-        if (player.TryGetModifier<DeathHandlerModifier>(out var deathHandler) && player.HasDied())
+        var state = GameHistory.PlayerStats[player.PlayerId];
+        if (player.HasDied())
         {
-            return !deathHandler.DiedThisRound;
+            return !state.DiedThisRound;
         }
 
         return false;
