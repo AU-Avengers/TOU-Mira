@@ -19,6 +19,7 @@ using TownOfUs.Events;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
@@ -114,7 +115,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
         RoleBehaviourStubs.OnMeetingStart(this);
         
         if (TribunalsLeft <= 0) return;
-        if (DeathEventHandlers.CurrentRound < (int)OptionGroupSingleton<MarshalOptions>.Instance.RoundWhenAvailable) return;
+        if (HudManagerHelper.Instance.CurrentRound < (int)OptionGroupSingleton<MarshalOptions>.Instance.RoundWhenAvailable) return;
 
         if (Player.AmOwner)
         {
