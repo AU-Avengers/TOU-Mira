@@ -9,6 +9,7 @@ using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Neutral;
@@ -143,10 +144,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         }
 
         Player.RemoveModifier<HaunterArrowModifier>();
-        if (Player.TryGetModifier<DeathHandlerModifier>(out var deathMod))
-        {
-            deathMod.DiedThisRound = false;
-        }
+        GameHistory.PlayerStats[Player.PlayerId].DiedThisRound = false;
     }
 
     public string LocaleKey => "Haunter";

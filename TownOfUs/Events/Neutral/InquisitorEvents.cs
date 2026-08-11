@@ -11,6 +11,7 @@ using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -128,9 +129,12 @@ public static class InquisitorEvents
 
                 notif1.AdjustNotification();
             }
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(inquis.Player, TouLocale.Get("DiedToWinning"),
-                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                lockInfo: DeathHandlerOverride.SetTrue);
+            var stats = GameHistory.PlayerStats[inquis.Player.PlayerId];
+            stats.DeathString = TouLocale.Get("DiedToWinning");
+            stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
+            stats.DiedThisRound = false;
+            stats.PlayerState = StoredPlayerState.Dead;
+            stats.LockDeathInfo = true;
 
             inquis.Player.Exiled();
         }
@@ -177,9 +181,12 @@ public static class InquisitorEvents
 
                 notif1.AdjustNotification();
             }
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(inquis.Player, TouLocale.Get("DiedToWinning"),
-                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                lockInfo: DeathHandlerOverride.SetTrue);
+            var stats = GameHistory.PlayerStats[inquis.Player.PlayerId];
+            stats.DeathString = TouLocale.Get("DiedToWinning");
+            stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
+            stats.DiedThisRound = false;
+            stats.PlayerState = StoredPlayerState.Dead;
+            stats.LockDeathInfo = true;
 
             inquis.Player.Exiled();
         }

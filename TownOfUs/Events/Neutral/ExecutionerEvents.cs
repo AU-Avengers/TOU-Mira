@@ -12,6 +12,8 @@ using MiraAPI.Utilities;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Neutral;
@@ -106,8 +108,8 @@ public static class ExecutionerEvents
                 if (winOption is ExeWinOptions.Torments)
                 {
                     CustomButtonSingleton<ExeTormentButton>.Instance.SetActive(true, exe);
-                    DeathHandlerModifier.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer,
-                        "DiedToWinning", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,
+                    GameHistory.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer,
+                        "DiedToWinning", HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetTrue,
                         lockInfo: DeathHandlerOverride.SetTrue);
                     var notif2 = Helpers.CreateAndShowNotification(
                         $"<b>{TouLocale.GetParsed("TouRoleExecutionerTormentFeedback")}</b>",
@@ -116,8 +118,8 @@ public static class ExecutionerEvents
                 }
                 else
                 {
-                    DeathHandlerModifier.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer,
-                        "DiedToWinning", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                    GameHistory.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer,
+                        "DiedToWinning", HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
                         lockInfo: DeathHandlerOverride.SetTrue);
                 }
             }

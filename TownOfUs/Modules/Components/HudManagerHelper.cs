@@ -33,6 +33,9 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
     internal static Dictionary<int, string> PlatformAssociations = new();
     private static bool HasFetchedIcons;
 
+    public static HudManagerHelper Instance { get; private set; }
+    public float DeathTimer;
+    public int CurrentRound { get; set; } = 1;
     public static void RefreshPlatformData()
     {
         PlatformAssociations.Clear();
@@ -70,7 +73,12 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
             PlatformAssociations.Add(client.Id, icon);
         }
     }
-    #pragma warning disable S2325
+
+    public void Awake()
+    {
+        Instance = this;
+    }
+#pragma warning disable S2325
     #pragma warning disable CA1822
     public void FixedUpdate()
     {
@@ -121,6 +129,11 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         if (!HudManager.InstanceExists || !PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
         {
             return;
+        }
+
+        if (DeathTimer > 0)
+        {
+            DeathTimer -= Time.deltaTime;
         }
 
         var instance = HudManager.Instance;
@@ -304,8 +317,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         else
         {
             HasSetMeetingColorText = false;
-            var isVisible = (PlayerControl.LocalPlayer.TryGetModifier<DeathHandlerModifier>(out var deathHandler) &&
-                             !deathHandler.DiedThisRound) || TutorialManager.InstanceExists;
+            var stats = GameHistory.PlayerStats[PlayerControl.LocalPlayer.PlayerId];
+            var isVisible = (!stats.DiedThisRound) || TutorialManager.InstanceExists;
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (player == null || !player.Data || !player.Data.Role)
@@ -411,15 +424,16 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     : $"<size={roleNameSize}>{cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{role.GetRoleName()}</color>)</size>";
             }
 
+            var stats = GameHistory.PlayerStats[player.PlayerId];
             if (removeCod)
             {
                 topText += "<cod>\n";
             }
             else if (localDead && isVisible &&
-                player.TryGetModifier<DeathHandlerModifier>(out var deathMod))
+                stats.PlayerState != StoredPlayerState.Alive)
             {
                 topText +=
-                    $"<size={(inMeeting ? 60 : 75)}%>『{Color.yellow.ToTextColor()}{deathMod.CauseOfDeath}</color>』</size>\n";
+                    $"<size={(inMeeting ? 60 : 75)}%>『{Color.yellow.ToTextColor()}{stats.DeathString}</color>』</size>\n";
             }
         }
         else if (removeCod)

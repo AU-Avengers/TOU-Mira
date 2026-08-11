@@ -58,7 +58,7 @@ public static class ModCompatibility
     private static PropertyInfo liElementType;
     private static PropertyInfo liElementName;
 
-    public static Type MapObjectData;
+    // public static Type MapObjectData;
 
     public static Version SubVersion { get; private set; }
     public static bool SubLoaded { get; private set; }
@@ -455,8 +455,8 @@ public static class ModCompatibility
 
     public static void OxygenDeathPostfix(PlayerControl player)
     {
-        DeathHandlerModifier.UpdateDeathHandlerImmediate(player, TouLocale.Get("DiedToSubmergedOxygen"),
-        DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,
+        GameHistory.UpdatePlayerDeathData(player.PlayerId, TouLocale.Get("DiedToSubmergedOxygen"),
+            0f, HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetTrue,
         lockInfo: DeathHandlerOverride.SetTrue);
     }
 
@@ -668,7 +668,7 @@ public static class ModCompatibility
         var console = LITypes.First(x => x.Name == "TriggerConsole");
         var canUseMethod = AccessTools.Method(console, "CanUse");
 
-        MapObjectData = LITypes.First(x => x.Name == "MapObjectData");
+        // MapObjectData = LITypes.First(x => x.Name == "MapObjectData");
 
         var compatType = typeof(ModCompatibility);
         var harmony = new Harmony("tou.levelimposter.patch");

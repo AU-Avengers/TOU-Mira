@@ -13,6 +13,7 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Neutral;
@@ -56,7 +57,7 @@ public static class JesterEvents
                 if (OptionGroupSingleton<JesterOptions>.Instance.JestWin is JestWinOptions.Haunts)
                 {
                     CustomButtonSingleton<JesterHauntButton>.Instance.SetActive(true, jester);
-                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", DeathEventHandlers.CurrentRound,
+                    GameHistory.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", HudManagerHelper.Instance.CurrentRound,
                         DeathHandlerOverride.SetTrue, lockInfo: DeathHandlerOverride.SetTrue);
                     var notif2 = Helpers.CreateAndShowNotification(TouLocale.GetParsed("TouNotifJesterHauntOwner"),
                         Color.white, new Vector3(0f, 0.85f, -20f));
@@ -64,7 +65,7 @@ public static class JesterEvents
                 }
                 else
                 {
-                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", DeathEventHandlers.CurrentRound,
+                    GameHistory.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", HudManagerHelper.Instance.CurrentRound,
                         DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
                 }
             }
