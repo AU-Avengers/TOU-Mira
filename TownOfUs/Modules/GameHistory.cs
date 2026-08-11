@@ -36,6 +36,7 @@ public sealed record PlayerStats(string Name, byte PlayerId, NetworkedPlayerInfo
     public bool DiedThisRound { get; set; }
     public string KilledBy { get; set; } = string.Empty;
     public string ExtendedCauseOfDeath { get; set; } = string.Empty;
+    public bool IsSpectator { get; set; }
 
     public int CorrectKills { get; set; }
     public int IncorrectKills { get; set; }
@@ -161,7 +162,7 @@ public static class GameHistory
         DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedBy = "null",
         DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore)
     {
-        UpdatePlayerDeathData(player.PlayerId, causeOfDeath, 1f, roundOfDeath, diedThisRound, killedBy, lockInfo: lockInfo);
+        UpdatePlayerDeathData(player.PlayerId, causeOfDeath, 0, roundOfDeath, diedThisRound, killedBy, lockInfo: lockInfo);
     }
 
     [MethodRpc((uint)TownOfUsRpc.UpdateLocalDeathHandler)]
@@ -174,7 +175,7 @@ public static class GameHistory
         var localizedKilledBy = (TouLocale.GetParsed(killedByString).Contains("STRMISS") || killedBy == player)
             ? "null"
             : TouLocale.GetParsed(killedByString).Replace("<player>", killedBy.Data.PlayerName);
-        UpdatePlayerDeathData(player.PlayerId, localizedCod, 1f, roundOfDeath, diedThisRound, localizedKilledBy, lockInfo: lockInfo);
+        UpdatePlayerDeathData(player.PlayerId, localizedCod, 0, roundOfDeath, diedThisRound, localizedKilledBy, lockInfo: lockInfo);
     }
 
     [MethodRpc((uint)TownOfUsRpc.MisguessSummary, LocalHandling = RpcLocalHandling.After)]
@@ -303,6 +304,7 @@ public static class GameHistory
         if (role is SpectatorRole)
         {
             stats.PlayerState = StoredPlayerState.Dead;
+            stats.IsSpectator = true;
             stats.TrackedRoles.Add(role);
         }
         else if (trackRole)

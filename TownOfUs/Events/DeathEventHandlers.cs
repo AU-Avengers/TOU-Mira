@@ -56,6 +56,7 @@ public static class DeathEventHandlers
             stats.DeathString = TouLocale.Get($"DiedTo{cod}");
             stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
             stats.PlayerState = StoredPlayerState.Dead;
+            HudManagerHelper.Instance.DeathTimer = Math.Max(HudManagerHelper.Instance.DeathTimer + 1, 0);
         }
     }
 

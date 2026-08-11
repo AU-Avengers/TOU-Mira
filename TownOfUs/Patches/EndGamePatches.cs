@@ -54,7 +54,7 @@ public static class EndGamePatches
             summaryRoleInfo.Clear();
             summaryStats.Clear();
             summaryCod.Clear();
-            if (playerStats.DisplayedRole is SpectatorRole)
+            if (playerStats.IsSpectator)
             {
                 EndGameData.PlayerRecords.Add(new EndGameData.PlayerRecord
                 {
@@ -63,8 +63,8 @@ public static class EndGamePatches
                     ChatSummaryStats = string.Empty,
                     ChatSummaryCod = string.Empty,
                     PlayerName = playerStats.PlayerName,
-                    RoleString = TouLocale.Get("TouRoleSpectator"),
-                    RoleStringShort = TouLocale.Get("TouRoleSpectator"),
+                    RoleString = MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>()) + TouLocale.Get("TouRoleSpectator"),
+                    RoleStringShort = MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>()) + TouLocale.Get("TouRoleSpectator"),
                     Winner = false,
                     LastRole = (RoleTypes)RoleId.Get<SpectatorRole>(),
                     Team = ModdedRoleTeams.Custom,
@@ -268,14 +268,17 @@ public static class EndGamePatches
                         $" {playerStats.KilledBy}");
                 }
 
-                playerRoleString.Append(TownOfUsPlugin.Culture,
-                    $" ({TouLocale.GetParsed("RoundOfDeath").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
+                if (playerStats.RoundOfDeath != -1)
+                {
+                    playerRoleString.Append(TownOfUsPlugin.Culture,
+                        $" ({TouLocale.GetParsed("RoundOfDeath").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
 
-                playerRoleStringShort.Append(TownOfUsPlugin.Culture,
-                    $" ({TouLocale.GetParsed("RoundOfDeath").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
+                    playerRoleStringShort.Append(TownOfUsPlugin.Culture,
+                        $" ({TouLocale.GetParsed("RoundOfDeath").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
 
-                summaryCod.Append(TownOfUsPlugin.Culture,
-                    $" ({TouLocale.GetParsed("RoundOfDeathLong").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
+                    summaryCod.Append(TownOfUsPlugin.Culture,
+                        $" ({TouLocale.GetParsed("RoundOfDeathLong").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
+                }
 
             var playerName = new StringBuilder();
             var playerWinner = false;

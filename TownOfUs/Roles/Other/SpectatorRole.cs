@@ -95,6 +95,7 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
         stats.RoundOfDeath = 0;
         stats.DiedThisRound = false;
         stats.PlayerState = StoredPlayerState.Dead;
+        stats.IsSpectator = true;
 
         if (!Player.AmOwner)
         {
