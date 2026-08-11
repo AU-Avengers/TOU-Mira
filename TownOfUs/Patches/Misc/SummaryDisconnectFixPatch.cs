@@ -1,4 +1,5 @@
 using HarmonyLib;
+using MiraAPI.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 
@@ -18,6 +19,12 @@ public static class SummaryDisconnectFixPatch
         EndGamePatches.ContainedMeetingData.AddPlayerData(player);
         if (GameHistory.PlayerStats.TryGetValue(player.PlayerId, out var stats))
         {
+            var newList = new List<BaseModifier>();
+            foreach (var modifier in stats.LastKnownModifiers)
+            {
+                newList.Add(MiscUtils.AllModifiers.First(x => x.GetType() == modifier.GetType()));
+            }
+            stats.LastKnownModifiers = newList;
             stats.LockDeathInfo = true;
             if (stats.PlayerState is StoredPlayerState.Alive)
             {
