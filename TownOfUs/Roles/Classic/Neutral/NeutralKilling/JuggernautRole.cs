@@ -74,7 +74,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     {
         var juggCount = CustomRoleUtils.GetActiveRolesOfType<JuggernautRole>().Count(x => !x.Player.HasDied());
 
-        if (MiscUtils.KillersAliveCount > juggCount)
+        if (MiscUtils.KillersAliveCount > juggCount || MiscUtils.KillersAliveCount == 0)
         {
             return false;
         }

@@ -71,7 +71,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
 
     public bool WinConditionMet()
     {
-        if (Player.HasDied())
+        if (Player.HasDied() || MiscUtils.KillersAliveCount == 0)
         {
             return false;
         }

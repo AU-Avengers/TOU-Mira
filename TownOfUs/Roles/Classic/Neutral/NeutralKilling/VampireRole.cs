@@ -83,7 +83,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
     {
         var vampireCount = CustomRoleUtils.GetActiveRolesOfType<VampireRole>().Count(x => !x.Player.HasDied());
 
-        if (MiscUtils.KillersAliveCount > vampireCount)
+        if (MiscUtils.KillersAliveCount > vampireCount || MiscUtils.KillersAliveCount == 0)
         {
             return false;
         }

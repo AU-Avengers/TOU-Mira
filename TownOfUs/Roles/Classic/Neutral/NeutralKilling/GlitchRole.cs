@@ -89,7 +89,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
     {
         var glitchCount = CustomRoleUtils.GetActiveRolesOfType<GlitchRole>().Count(x => !x.Player.HasDied());
 
-        if (MiscUtils.KillersAliveCount > glitchCount)
+        if (MiscUtils.KillersAliveCount > glitchCount || MiscUtils.KillersAliveCount == 0)
         {
             return false;
         }

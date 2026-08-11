@@ -84,7 +84,7 @@ public sealed class WerewolfRole(IntPtr cppPtr)
     {
         var wwCount = CustomRoleUtils.GetActiveRolesOfType<WerewolfRole>().Count(x => !x.Player.HasDied());
 
-        if (MiscUtils.KillersAliveCount > wwCount)
+        if (MiscUtils.KillersAliveCount > wwCount || MiscUtils.KillersAliveCount == 0)
         {
             return false;
         }
