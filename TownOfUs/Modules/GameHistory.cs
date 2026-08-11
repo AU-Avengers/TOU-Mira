@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using AmongUs.GameOptions;
+using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
@@ -14,12 +15,31 @@ public record PlayerEvent(byte PlayerId, float Unix, Vector3 Position);
 
 public record DeadPlayer(byte KillerId, byte VictimId, DateTime KillTime);
 
-public sealed record PlayerStats(byte PlayerId)
+public sealed record PlayerStats(string Name, byte PlayerId, NetworkedPlayerInfo PlayerInfo, StoredPlayerState State = StoredPlayerState.Alive)
 {
+    public string PlayerName { get; private set; } = Name;
+    public byte PlayerId { get; private set; } = PlayerId;
+    public NetworkedPlayerInfo PlayerInfo { get; private set; } = PlayerInfo;
+    public List<RoleBehaviour> TrackedRoles { get; internal set; } = [];
+    public List<RoleBehaviour> LivingRoles { get; internal set; } = [];
+    public List<BaseModifier> LastKnownModifiers { get; internal set; } = [];
+    public StoredPlayerState PlayerState { get; set; } = State;
+    public string DeathString { get; set; } = TouLocale.Get("Alive");
+    public int RoundOfDeath { get; set; } = -1;
+
     public int CorrectKills { get; set; }
     public int IncorrectKills { get; set; }
     public int CorrectAssassinKills { get; set; }
     public int IncorrectAssassinKills { get; set; }
+}
+
+public enum StoredPlayerState
+{
+    Alive,
+    Revived,
+    Dead,
+    Disconnected,
+    Spectating
 }
 
 // body report class for when medic/Forensic reports a body
@@ -131,25 +151,32 @@ public static class GameHistory
     {
         //Message($"RegisterRole - player: '{player.Data.PlayerName}', role: '{role.GetRoleName()}'");
 
+        if (!PlayerStats.TryGetValue(player.PlayerId, out var stats))
+        {
+            PlayerStats.Add(player.PlayerId,
+                new PlayerStats(player.Data.PlayerName, player.PlayerId, player.CachedPlayerData,
+                    role.IsDead ? StoredPlayerState.Dead : StoredPlayerState.Alive));
+            stats = PlayerStats[player.PlayerId];
+        }
+
         if (clean)
         {
             RoleHistory.RemoveAll(x => x.Key == player.PlayerId);
+            stats.TrackedRoles = [];
+            stats.LivingRoles = [];
         }
 
         RoleDictionary.Remove(player.PlayerId);
         RoleDictionary.Add(player.PlayerId, role);
 
         RoleHistory.Add(KeyValuePair.Create(player.PlayerId, role));
-
-        if (!PlayerStats.TryGetValue(player.PlayerId, out _))
-        {
-            PlayerStats.Add(player.PlayerId, new PlayerStats(player.PlayerId));
-        }
+        stats.TrackedRoles.Add(role);
 
         if (!role.IsDead)
         {
             RoleWhenAlive.Remove(player.PlayerId);
             RoleWhenAlive.Add(player.PlayerId, role);
+            stats.LivingRoles.Add(role);
         }
     }
 

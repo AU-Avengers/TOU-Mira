@@ -239,7 +239,7 @@ public static class LogicGameFlowPatches
             return false;
         }
 
-        if (DeathHandlerModifier.IsCoroutineRunning || DeathHandlerModifier.IsAltCoroutineRunning || DeathEventHandlers.IsDeathRecent)
+        if (HudManagerHelper.Instance.DeathTimer > 0)
         {
             return false;
         }

@@ -33,6 +33,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
     internal static Dictionary<int, string> PlatformAssociations = new();
     private static bool HasFetchedIcons;
 
+    public static HudManagerHelper Instance { get; private set; }
+    public float DeathTimer;
     public static void RefreshPlatformData()
     {
         PlatformAssociations.Clear();
@@ -70,7 +72,12 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
             PlatformAssociations.Add(client.Id, icon);
         }
     }
-    #pragma warning disable S2325
+
+    public void Awake()
+    {
+        Instance = this;
+    }
+#pragma warning disable S2325
     #pragma warning disable CA1822
     public void FixedUpdate()
     {
@@ -121,6 +128,11 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         if (!HudManager.InstanceExists || !PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
         {
             return;
+        }
+
+        if (DeathTimer > 0)
+        {
+            DeathTimer -= Time.deltaTime;
         }
 
         var instance = HudManager.Instance;
