@@ -89,7 +89,7 @@ public sealed class WerewolfRole(IntPtr cppPtr)
             return false;
         }
 
-        return wwCount >= Helpers.GetAlivePlayers().Count - wwCount;
+        return wwCount >= MiscUtils.GetImpactfulLivingPlayers().Count - wwCount;
     }
 
 

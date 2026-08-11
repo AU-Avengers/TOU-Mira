@@ -76,7 +76,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
             return false;
         }
 
-        var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
+        var result = MiscUtils.GetImpactfulLivingPlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
 
         return result;
     }

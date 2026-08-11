@@ -88,7 +88,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
             return false;
         }
 
-        return vampireCount >= Helpers.GetAlivePlayers().Count - vampireCount;
+        return vampireCount >= MiscUtils.GetImpactfulLivingPlayers().Count - vampireCount;
     }
 
     public override void Initialize(PlayerControl player)

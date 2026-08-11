@@ -85,7 +85,7 @@ public sealed class MedusaRole(IntPtr cppPtr)
             return false;
         }
 
-        return scCount >= Helpers.GetAlivePlayers().Count - scCount;
+        return scCount >= MiscUtils.GetImpactfulLivingPlayers().Count - scCount;
     }
 
 

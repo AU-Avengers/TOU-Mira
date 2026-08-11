@@ -94,7 +94,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
             return false;
         }
 
-        return glitchCount >= Helpers.GetAlivePlayers().Count - glitchCount;
+        return glitchCount >= MiscUtils.GetImpactfulLivingPlayers().Count - glitchCount;
     }
 
 

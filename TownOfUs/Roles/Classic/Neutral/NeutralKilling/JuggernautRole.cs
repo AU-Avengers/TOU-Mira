@@ -79,7 +79,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
             return false;
         }
 
-        return juggCount >= Helpers.GetAlivePlayers().Count - juggCount;
+        return juggCount >= MiscUtils.GetImpactfulLivingPlayers().Count - juggCount;
     }
 
     public override void Initialize(PlayerControl player)
