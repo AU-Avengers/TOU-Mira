@@ -1995,9 +1995,9 @@ public static class MiscUtils
             return false;
         }
 
-        var state = GameHistory.PlayerStats[player.PlayerId];
         if (player.HasDied())
         {
+            var state = GameHistory.PlayerStats[player.PlayerId];
             return !state.DiedThisRound;
         }
 
