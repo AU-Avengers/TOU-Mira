@@ -1,13 +1,9 @@
-﻿using System.Collections;
-using HarmonyLib;
+﻿using HarmonyLib;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Player;
-using MiraAPI.Modifiers;
-using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Roles;
@@ -18,7 +14,6 @@ namespace TownOfUs.Events;
 
 public static class DeathEventHandlers
 {
-
     [RegisterEvent(-1)]
     public static void RoundStartHandler(RoundStartEvent @event)
     {
@@ -60,6 +55,7 @@ public static class DeathEventHandlers
 
             stats.DeathString = TouLocale.Get($"DiedTo{cod}");
             stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
+            stats.PlayerState = StoredPlayerState.Dead;
         }
     }
 
@@ -72,7 +68,7 @@ public static class DeathEventHandlers
             return;
         }
         GameHistory.UpdatePlayerDeathData(exiled, TouLocale.Get("DiedToEjection"), 0, HudManagerHelper.Instance.CurrentRound,
-            DeathHandlerOverride.SetFalse);
+            DeathHandlerOverride.SetFalse, playerState: StoredPlayerState.Dead);
     }
 
     [RegisterEvent(500)]
@@ -106,6 +102,8 @@ public static class DeathEventHandlers
             {
                 return;
             }
+
+            stats.PlayerState = StoredPlayerState.Dead;
             if (target == source)
             {
                 var role = target.GetRoleWhenAlive();

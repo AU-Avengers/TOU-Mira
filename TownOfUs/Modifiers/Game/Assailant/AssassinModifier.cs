@@ -244,7 +244,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
             if (ClickHandler(victim) && victim == Player)
             {
-                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItemId, LastGuessedIsRole);
+                GameHistory.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItemId, LastGuessedIsRole);
             }
         }
 
@@ -261,7 +261,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
             if (ClickHandler(victim) && victim == Player)
             {
-                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItemId, LastGuessedIsRole);
+                GameHistory.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItemId, LastGuessedIsRole);
             }
         }
 

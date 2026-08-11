@@ -92,9 +92,12 @@ public static class ChefEvents
 
                 notif1.AdjustNotification();
             }
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(chef.Player, TouLocale.Get("DiedToWinning"),
-                HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
-                lockInfo: DeathHandlerOverride.SetTrue);
+            var stats = GameHistory.PlayerStats[chef.Player.PlayerId];
+            stats.DeathString = TouLocale.Get("DiedToWinning");
+            stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
+            stats.DiedThisRound = false;
+            stats.PlayerState = StoredPlayerState.Dead;
+            stats.LockDeathInfo = true;
 
             chef.Player.Exiled();
         }
@@ -146,9 +149,12 @@ public static class ChefEvents
 
                 notif1.AdjustNotification();
             }
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(chef.Player, TouLocale.Get("DiedToWinning"),
-                HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
-                lockInfo: DeathHandlerOverride.SetTrue);
+            var stats = GameHistory.PlayerStats[chef.Player.PlayerId];
+            stats.DeathString = TouLocale.Get("DiedToWinning");
+            stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
+            stats.DiedThisRound = false;
+            stats.PlayerState = StoredPlayerState.Dead;
+            stats.LockDeathInfo = true;
 
             chef.Player.Exiled();
         }

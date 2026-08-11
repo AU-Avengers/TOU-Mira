@@ -37,9 +37,9 @@ public static class LoverEvents
         switch (@event.DeathReason)
         {
             case DeathReason.Exile:
-                DeathHandlerModifier.UpdateDeathHandlerImmediate(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
-                    HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
-                    lockInfo: DeathHandlerOverride.SetTrue);
+                GameHistory.UpdatePlayerDeathData(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"), 0, HudManagerHelper.Instance.CurrentRound,
+                    DeathHandlerOverride.SetTrue,
+                    lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
                 loveMod.OtherLover.Exiled();
                 break;
             case DeathReason.Kill:
@@ -53,11 +53,11 @@ public static class LoverEvents
                     var showAnim = !ExileController.Instance;
                     var murderResultFlags2 = MurderResultFlags.DecisionByHost | MurderResultFlags.Succeeded;
 
-                    DeathHandlerModifier.UpdateDeathHandlerImmediate(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
-                        HudManagerHelper.Instance.CurrentRound,
+                    GameHistory.UpdatePlayerDeathData(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"), 0, HudManagerHelper.Instance.CurrentRound,
                         showAnim
                             ? DeathHandlerOverride.SetTrue
-                            : DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
+                            : DeathHandlerOverride.SetFalse,
+                        lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
                     loveMod.OtherLover.CustomMurder(
                         loveMod.OtherLover,
                         murderResultFlags2,

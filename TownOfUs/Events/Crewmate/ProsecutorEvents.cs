@@ -136,7 +136,7 @@ public static class ProsecutorEvents
                 GameHistory.UpdatePlayerDeathData(player.PlayerId, TouLocale.Get("DiedToProsecutor"), 0,
                     HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
                     TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", pros.Player.Data.PlayerName),
-                    lockInfo: DeathHandlerOverride.SetTrue);
+                    lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
 
                 if (pros.Player.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
                 {
@@ -158,7 +158,7 @@ public static class ProsecutorEvents
                         }
                         GameHistory.UpdatePlayerDeathData(pros.Player.PlayerId, TouLocale.Get("DiedToPunishment"), 0,
                             HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
-                            lockInfo: DeathHandlerOverride.SetTrue);
+                            lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
 
                         pros.Player.Exiled();
                     }

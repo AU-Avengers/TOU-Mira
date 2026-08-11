@@ -322,7 +322,8 @@ public static class CustomTouMurderRpcs
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
-                lockInfo: DeathHandlerOverride.SetTrue);
+                lockInfo: DeathHandlerOverride.SetTrue,
+                playerState: StoredPlayerState.Dead);
 
             source.CustomMurder(
                 target,
@@ -406,7 +407,8 @@ public static class CustomTouMurderRpcs
                         ? DeathHandlerOverride.SetTrue
                         : DeathHandlerOverride.SetFalse,
                     TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
-                    lockInfo: DeathHandlerOverride.SetTrue);
+                    lockInfo: DeathHandlerOverride.SetTrue,
+                    playerState: StoredPlayerState.Dead);
             }
 
             source.CustomMurder(
@@ -580,7 +582,8 @@ public static class CustomTouMurderRpcs
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
-                lockInfo: DeathHandlerOverride.SetTrue);
+                lockInfo: DeathHandlerOverride.SetTrue,
+                playerState: StoredPlayerState.Dead);
         }
 
         source.CustomMurder(
@@ -775,7 +778,8 @@ public static class CustomTouMurderRpcs
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 framed != target ? TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", framed.Data.PlayerName) : "",
-                lockInfo: DeathHandlerOverride.SetTrue);
+                lockInfo: DeathHandlerOverride.SetTrue,
+                playerState: StoredPlayerState.Dead);
         }
 
         source.CustomMurder(
@@ -986,7 +990,8 @@ public static class CustomTouMurderRpcs
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
-                lockInfo: DeathHandlerOverride.SetTrue);
+                lockInfo: DeathHandlerOverride.SetTrue,
+                playerState: StoredPlayerState.Dead);
         }
 
         source.CustomMurder(
@@ -1068,10 +1073,12 @@ public static class CustomTouMurderRpcs
         GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 1,
             HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetTrue,
             TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
-            lockInfo: DeathHandlerOverride.SetTrue);
+            lockInfo: DeathHandlerOverride.SetTrue,
+            playerState: StoredPlayerState.Dead);
         GameHistory.UpdatePlayerDeathData(source.PlayerId, "null", 0,
             -1, DeathHandlerOverride.SetFalse,
-            lockInfo: DeathHandlerOverride.SetTrue);
+            lockInfo: DeathHandlerOverride.SetTrue,
+            playerState: StoredPlayerState.Dead);
 
         source.CustomMurder(
             target,
@@ -1200,7 +1207,8 @@ public static class CustomTouMurderRpcs
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
-                lockInfo: DeathHandlerOverride.SetTrue);
+                lockInfo: DeathHandlerOverride.SetTrue,
+                playerState: StoredPlayerState.Dead);
         }
 
         source.MeetingMurder(

@@ -48,8 +48,7 @@ public enum StoredPlayerState
     Alive,
     Revived,
     Dead,
-    Disconnected,
-    Spectating
+    Disconnected
 }
 
 // body report class for when medic/Forensic reports a body
@@ -206,16 +205,16 @@ public static class GameHistory
         float additionalDelayTime = 1f, int roundOfDeath = -1,
         DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedBy = "null",
         string extendedDeathInfo = "null",
-        DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore)
+        DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore, StoredPlayerState playerState = (StoredPlayerState)4)
     {
         UpdatePlayerDeathData(player.PlayerId, causeOfDeath, additionalDelayTime, roundOfDeath, diedThisRound, killedBy,
-            extendedDeathInfo, lockInfo);
+            extendedDeathInfo, lockInfo, playerState);
     }
 
     public static void UpdatePlayerDeathData(byte playerId, string causeOfDeath = "null", float additionalDelayTime = 1f, int roundOfDeath = -1,
         DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedBy = "null",
         string extendedDeathInfo = "null",
-        DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore)
+        DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore, StoredPlayerState playerState = (StoredPlayerState)4)
     {
         HudManagerHelper.Instance.DeathTimer = Math.Max(HudManagerHelper.Instance.DeathTimer + additionalDelayTime, 0);
         var stats = PlayerStats[playerId];
@@ -242,6 +241,11 @@ public static class GameHistory
         if (extendedDeathInfo != "null")
         {
             stats.ExtendedCauseOfDeath = extendedDeathInfo;
+        }
+
+        if (playerState != (StoredPlayerState)4)
+        {
+            stats.PlayerState = playerState;
         }
 
         if (lockInfo != DeathHandlerOverride.Ignore)
@@ -298,7 +302,7 @@ public static class GameHistory
 
         if (role is SpectatorRole)
         {
-            stats.PlayerState = StoredPlayerState.Spectating;
+            stats.PlayerState = StoredPlayerState.Dead;
             stats.TrackedRoles.Add(role);
         }
         else if (trackRole)
