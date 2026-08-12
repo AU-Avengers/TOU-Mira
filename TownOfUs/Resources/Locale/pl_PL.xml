@@ -81,7 +81,7 @@
   <string name="Chartreuse">Żółto-zielony</string>
   <string name="Macau">Makau</string>
   <string name="Tawny">Brunatny</string>
-  <string name="Nacho">Naczosowy</string>
+  <string name="Nacho">Naczos</string>
   <string name="Mandarin">Mandarynkowy</string>
   <string name="Glass">Szklany</string>
   <string name="Ash">Popielaty</string>
@@ -587,8 +587,8 @@ Mora/Chor ⇨ Aurysta | Żniw ⇨ Medium | Wilk ⇨ Łowca</string>
   <string name="TouOptionBlackmailerBlackmailCooldown">Cooldown Szantażu</string>
   <string name="TouOptionBlackmailerOnlyTargetSeesBlackmail">Tylko Szantażowany Widzi Szantaż</string>
   <string name="TouOptionBlackmailerCanKillWithTeammate">Szantażysta Może Zabijać Ze Wspólnikami</string>
-  <string name="TouOptionBlackmailerMaxPlayersAliveUntilVoting">Maks Ilość Żywych Graczy Zanim Szantażowany Może Głosować</string>
-  <string name="TouOptionBlackmailerBlackmailSamePersonTwiceInARow">Można Szantażować Gracza Dwa Razy Pod Rząd</string>
+  <string name="TouOptionBlackmailerMaxPlayersAliveUntilVoting">Maksymalna Liczba Żywych Graczy Zanim Może Głosować</string>
+  <string name="TouOptionBlackmailerBlackmailSamePersonTwiceInARow">Szantażowanie Gracza Dwa Razy Z Rzędu</string>
   <string name="TouOptionBetterMapsSaboCountdownCrashCourse">Czas Trwania Sabotażu Kolizyjnego Kursu</string>
   <string name="TouOptionBetterMapsTheme">Dekoracja Mapy </string>
   <string name="TouOptionBetterMapsThemeEnumBasic">Brak </string>
@@ -669,7 +669,7 @@ Mora/Chor ⇨ Aurysta | Żniw ⇨ Medium | Wilk ⇨ Łowca</string>
   <string name="TouOptionBomberDetonateRadius">Obszar Detonacji</string>
   <string name="TouOptionBomberMAxKillsInDetonation">Maks Ilość Ofiar Detonacji</string>
   <string name="TouOptionBomberAllImpostorsSeeBomb">Wszyscy Intruzi Widzą Bombę</string>
-  <string name="TouOptionBomberAllowBombinginFirstRound">Bombowanie w Rundzie Pierwszej</string>
+  <string name="TouOptionBomberAllowBombinginFirstRound">Bomba w Pierwszej Rundzie</string>
   <string name="TouOptionBomberCanVent">Terrorysta Może Wentować</string>
   <string name="TouRoleChef">Kuchcik</string>
   <string name="TouRoleChefIntroBlurb">Świeżutkie i gotowe do podania</string>
@@ -886,7 +886,7 @@ zobaczyć czy byli przy zabójstwie.</string>
   <string name="GameOutlier">Odrzutek Gry</string>
   <string name="NeutralUtility">Neutralny Użytkowy</string>
   <string name="NeutralVisibility">Neutralny Widoczny</string>
-  <string name="NeutralPostmortem"/>
+  <string name="NeutralPostmortem">Neutralny Pośmiertny</string>
   <string name="TouRoleBootlegger">Szmugler</string>
   <string name="TouRoleBootleggerIntroBlurb">Upij Załogę aby ich zatrzymać.</string>
   <string name="TouRoleBootleggerTabDescription">Upij załoganta, aby zablokować jego umiejętności na [blockTime]s.
@@ -947,4 +947,5 @@ Umarł [time]s temu.</string>
 Zabił [time]s temu.</string>
   <string name="TouRoleForensicBodyKillerNeutral">Wygląda na to, że zabójca jest Neutralny!
 Zabił [time]s temu.</string>
+  <string name="NeutralPassive">Neutralny Pasywny</string>
 </resources>
