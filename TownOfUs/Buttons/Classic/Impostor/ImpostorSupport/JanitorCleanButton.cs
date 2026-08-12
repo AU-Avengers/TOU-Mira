@@ -52,6 +52,22 @@ public sealed class JanitorCleanButton : TownOfUsKillRoleButton<JanitorRole, Dea
         OverrideName(TouLocale.Get("TouRoleJanitorCleaning", "Cleaning"));
     }
 
+    public void CheckReset(bool resetSelf)
+    {
+        var opts = OptionGroupSingleton<JanitorOptions>.Instance.CooldownSync;
+        if (opts == JanitorCooldownSync.Always || opts == JanitorCooldownSync.WithTeammates && MiscUtils.ImpAliveCount > 1)
+        {
+            if (resetSelf)
+            {
+                ResetCooldownAndOrEffect();
+            }
+            else
+            {
+                PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.LocalPlayer.GetKillCooldown());
+            }
+        }
+    }
+
     public override void OnEffectEnd()
     {
         OverrideName(TouLocale.Get("TouRoleJanitorClean", "Clean"));
@@ -62,9 +78,6 @@ public sealed class JanitorCleanButton : TownOfUsKillRoleButton<JanitorRole, Dea
         }
 
         CleaningBody = null;
-        if (OptionGroupSingleton<JanitorOptions>.Instance.ResetCooldowns)
-        {
-            PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.LocalPlayer.GetKillCooldown());
-        }
+        CheckReset(false);
     }
 }
