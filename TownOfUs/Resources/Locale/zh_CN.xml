@@ -1652,12 +1652,12 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="RolesCommandList">职业:角色:主职业</string>
   <string name="RolesCommandDescription">/roles - 显示游戏中所有已启用的职业列表。</string>
   <string name="UpCommandList">指定</string>
-  <string name="UpCommandDescription">/up [角色] - 确保你在下一局获得指定角色。使用 /up [角色] [玩家名] 可为另一名玩家指定角色。（仅限房主与开发版）</string>
+  <string name="UpCommandDescription">/up [PlayerName]- 确保你在下一局获得指定角色。使用 /up [Role] [PlayerName]可为另一名玩家指定角色。（仅限房主与开发版）</string>
   <string name="UpCommandHostError">你必须是房主才能使用 /up 指令。</string>
   <string name="UpCommandDevBuildError">/up 指令仅在开发版中可用。</string>
   <string name="UpCommandLobbyError">你只能在大厅中使用 /up 指令！</string>
-  <string name="UpCommandInvalidError">无效的 /up 指令用法。请使用 /up [角色] 或 /up [角色] [玩家名]。</string>
-  <string name="UpCommandNoRoleError">请指定角色名。用法：/up [角色] 或 /up [角色] [玩家名]。</string>
+  <string name="UpCommandInvalidError">无效的 /up 指令用法。请使用 /up [Role] 或 /up [Role] [PlayerName]。</string>
+  <string name="UpCommandNoRoleError">请指定角色名。用法：/up [Role] 或 /up [Role] [PlayerName]。</string>
   <string name="UpCommandRoleNotFoundError">未找到角色 '[role]'。请确认角色名称拼写正确。</string>
   <string name="UpCommandPlayerNotFoundError">未找到玩家 '[player]' 。请确认玩家名称拼写正确。</string>
   <string name="UpCommandSuccess">已成功请求下一局的职业： [role]。</string>
@@ -2052,7 +2052,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRolePlumberExtraTabTextForever">路障整局存在</string>
   <string name="TouRolePoliticianEgotistTabInfo">当你的身份被揭露时，邪恶阵营将知道你的真正目的。</string>
   <string name="TouRoleProsecutorCanProsecuteCrew">[b]你可以起诉船员。[/b]</string>
-  <string name="TouRoleProsecutorProsecutionsRemaining">剩余起诉次数：[count]</string>
+  <string name="TouRoleProsecutorProsecutionsRemaining">剩余起诉次数：[count]/[total]</string>
   <string name="TouRoleSnitchSelfRevealedEgoFeedback">伪装者已经知道你的位置，并且知道你是自大狂！</string>
   <string name="TouRoleSnitchSelfRevealedFeedback">伪装者已经知道你的位置！</string>
   <string name="TouRoleSnitchImpRevealedEgoFeedback">告密者是一名自大狂，他会帮助你推翻船员！</string>
@@ -2437,4 +2437,31 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleSpectreSpookMessage">你有一轮时间将一名你选择的玩家吓死，谨慎选择。</string>
   <string name="TouRoleSpectreWonOther">[player]（[role]）死后完成了任务，成功获胜！</string>
   <string name="TouRoleSpectreClickableFeedback">现在玩家可以点击你了！</string>
+  <string name="TouRoleHerbalistChangeHerb">更换草药</string>
+  <string name="TouModifierDeadlyQuotaCompleted">你已完成配额！</string>
+  <string name="TouModifierDeadlyQuotaCompletedShield">你已完成配额！你的临时护盾已失效。</string>
+  <string name="TouModifierDeadlyQuotaRemaining">你还需要完成 [amount] 次 [kills] 才能完成配额！</string>
+  <string name="TouModifierDeadlyQuotaKill">击杀</string>
+  <string name="TouModifierDeadlyQuotaKills">击杀</string>
+  <string name="TouRoleBootleggerRoleblockChosen">你选择对 [player] 进行角色封锁。</string>
+  <string name="TouRoleBarkeeperRoleblockChosen">你选择对 [player] 进行角色封锁。</string>
+  <string name="TouRoleBarkeeperRoleblocked">[player] 被角色封锁了！</string>
+  <string name="TouRoleBootleggerPoisonStage1">下一次，他们将会生病。</string>
+  <string name="TouRoleBootleggerPoisonStage2">下一次，他们将会中毒。</string>
+  <string name="TouRoleBootleggerPoisonStage3">等待毒药发作。</string>
+  <string name="TouRoleBarkeeperHungover">有人给你喝了酒，但你醉得太厉害了！</string>
+  <string name="TouRoleBarkeeperRoleblockedTarget">有人给你喝了酒，但你被角色封锁了！</string>
+  <string name="TouRoleBootleggerImpendingDoom">你感到一股大难临头的感觉。</string>
+  <string name="TouRoleBarkeeperSpillNotification">你洒出的饮料将在 [time] 秒后对其他人产生效果！</string>
+  <string name="TouModifierTelepathFailedGuess">你的队友 [player] 试图以 [guess] 的身份射杀 [target]，但失败了！</string>
+  <string name="TouModifierTelepathCorrectGuess">你的队友 [player] 以 [role] 的身份射杀了 [target]！</string>
+  <string name="TouModifierTelepathKill">你的队友 [player] 已完成击杀。</string>
+  <string name="TouModifierTelepathDeath">你的队友 [player] 被杀了！</string>
+  <string name="TouRoleAmbassadorRetrainTitle">伪面使覆写</string>
+  <string name="TouRoleAmbassadorRetrainConfirm">你确定要覆写为 [role] 吗？
+此更改是永久性的。</string>
+  <string name="TouHexBombTriggered">咒术炸弹已触发！</string>
+  <string name="TouHexBombCountdown">爆咒师正在释放咒术炸弹！
+剩余 [time] 秒！</string>
+  <string name="TouHexBombSpellslingerDead">爆咒师已经死亡！</string>
 </resources>
