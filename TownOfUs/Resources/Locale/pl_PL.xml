@@ -939,8 +939,12 @@ Upij jednego gracza wiele razy, aby go zatruć.</string>
   <string name="TouRoleForensicMessageTitle">Raport Ciała Kryminologa</string>
   <string name="TouRoleForensicBodyError">Ciało nie mogło dać żadnej informacji.
 Umarło [time]s temu.</string>
-  <string name="TouRoleForensicBodyOld">Ciało jest za stare aby mogło dać jakiekolwiek info.
+  <string name="TouRoleForensicBodyOld">Ciało jest za stare aby mogło dać jakąkolwiek informację.
 Umarło [time]s temu.</string>
   <string name="TouRoleForensicBodySuicide">Wygląda na to, że śmierć była samobójstwem!
 Umarł [time]s temu.</string>
+  <string name="TouRoleForensicBodyKillerRole">Wygląda na to, że morderca to [role]!
+Zabił [time]s temu.</string>
+  <string name="TouRoleForensicBodyKillerNeutral">Wygląda na to, że zabójca jest Neutralny!
+Zabił [time]s temu.</string>
 </resources>
