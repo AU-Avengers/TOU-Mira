@@ -317,8 +317,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         else
         {
             HasSetMeetingColorText = false;
-            var stats = GameHistory.PlayerStats[PlayerControl.LocalPlayer.PlayerId];
-            var isVisible = (!stats.DiedThisRound) || TutorialManager.InstanceExists;
+            var isVisible = TutorialManager.InstanceExists || PlayerControl.LocalPlayer.DiedOtherRound();
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (player == null || !player.Data || !player.Data.Role)
