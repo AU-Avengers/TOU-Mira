@@ -234,6 +234,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
         return voteArea?.TargetPlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true ||
                (voteArea.GetPlayer()?.Data.Role is MayorRole mayor && mayor.Revealed) ||
+               voteArea.GetPlayer()?.IsRevealed() == true ||
                voteArea.GetPlayer()?.IsImpostorAligned() == true && Player.IsImpostorAligned() && !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode ||
                (Player.IsLover() && voteArea.GetPlayer()?.IsLover() == true);
     }

@@ -537,6 +537,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                Player.Data.IsDead || voteArea.AmDead ||
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true ||
                (voteArea.GetPlayer()?.Data.Role is MayorRole mayor && mayor.Revealed) ||
+               voteArea.GetPlayer()?.IsRevealed() == true ||
                (Player.IsLover() && voteArea.GetPlayer()?.IsLover() == true);
     }
 

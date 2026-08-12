@@ -31,6 +31,8 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
     public override string LocaleKey => "Lover";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => LoverString();
+    public bool LoverDisconnected { get; internal set; }
+    public string LoverDcString { get; internal set; } = string.Empty;
 
     public override string GetDescription()
     {
@@ -45,8 +47,8 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
     public string LoverString()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}Info")
-            .Replace("<player>", OtherLover != null ? OtherLover.Data.PlayerName : "???");
+        return LoverDisconnected || OtherLover == null ? LoverDcString : TouLocale.GetParsed($"TouModifier{LocaleKey}Info")
+            .Replace("<player>", OtherLover.Data.PlayerName);
     }
 
     public override string Symbol => "♥";
@@ -242,7 +244,11 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         var sourceModifier = randomTarget.AddModifier<LoverModifier>();
         yield return new WaitForSeconds(0.01f);
         sourceModifier!.OtherLover = localPlr;
+        sourceModifier.LoverDcString = TouLocale.GetParsed("TouModifierLoverInfoDisconnected")
+            .Replace("<player>", localPlr.Data.PlayerName);
         loverMod!.OtherLover = randomTarget;
+        loverMod.LoverDcString = TouLocale.GetParsed("TouModifierLoverInfoDisconnected")
+            .Replace("<player>", randomTarget.Data.PlayerName);
     }
 
     public override void OnDeactivate()
@@ -374,7 +380,11 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         var targetModifier = target.AddModifier<LoverModifier>();
         var sourceModifier = player.AddModifier<LoverModifier>();
         targetModifier!.OtherLover = player;
+        targetModifier.LoverDcString = TouLocale.GetParsed("TouModifierLoverInfoDisconnected")
+            .Replace("<player>", player.Data.PlayerName);
         sourceModifier!.OtherLover = target;
+        sourceModifier.LoverDcString = TouLocale.GetParsed("TouModifierLoverInfoDisconnected")
+            .Replace("<player>", target.Data.PlayerName);
         if (!player.IsCrewmate() || !target.IsCrewmate())
         {
             targetModifier.ForceDisableTasks = true;
