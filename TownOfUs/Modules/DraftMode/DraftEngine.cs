@@ -32,6 +32,8 @@ namespace TownOfUs.Modules.DraftMode
         private readonly HashSet<int> _processingPickSlots = new();
         private readonly HashSet<int> _reclaimedSlots = new();
         private readonly Dictionary<int, HashSet<string>> _seenBaseNamesBySlot = new();
+        private readonly HashSet<int> _allowedImpSlots = new();
+        private readonly HashSet<int> _allowedNeutSlots = new();
 
         private void Awake()
         {
@@ -81,6 +83,74 @@ namespace TownOfUs.Modules.DraftMode
             _slotOrder.Clear();
             _slotOrder.AddRange(pidToSlot.Values.OrderBy(x => x));
             _totalSlots = totalSlots;
+
+            _allowedImpSlots.Clear();
+            _allowedNeutSlots.Clear();
+
+            var (maxImps, maxNeuts) = GetTargetLimits();
+            
+            if (UseRoleListMode)
+            {
+                var rl = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
+                if (rl != null)
+                {
+                    RoleListOption[] slots =
+                    [
+                        rl.Slot1.Value,  rl.Slot2.Value,  rl.Slot3.Value,
+                        rl.Slot4.Value,  rl.Slot5.Value,  rl.Slot6.Value,
+                        rl.Slot7.Value,  rl.Slot8.Value,  rl.Slot9.Value,
+                        rl.Slot10.Value, rl.Slot11.Value, rl.Slot12.Value,
+                        rl.Slot13.Value, rl.Slot14.Value, rl.Slot15.Value,
+                    ];
+                    int activeSlots = Math.Max(1, Math.Min(totalSlots, slots.Length));
+                    var activeBuckets = slots.Take(activeSlots).ToList();
+                    while (activeBuckets.Count < totalSlots)
+                    {
+                        activeBuckets.Add(RoleListOption.Any);
+                    }
+                    
+                    // Shuffle the active buckets using _rng
+                    for (int i = activeBuckets.Count - 1; i > 0; i--)
+                    {
+                        int j = _rng.NextInt(i + 1);
+                        (activeBuckets[i], activeBuckets[j]) = (activeBuckets[j], activeBuckets[i]);
+                    }
+
+                    for (int i = 0; i < activeBuckets.Count; i++)
+                    {
+                        var opt = activeBuckets[i];
+                        int slotNum = i + 1;
+                        if (DraftRolePool.IsImpostorRoleListOption(opt) || opt == RoleListOption.Any)
+                        {
+                            _allowedImpSlots.Add(slotNum);
+                        }
+                        if (DraftRolePool.IsNeutralRoleListOption(opt) || opt == RoleListOption.NonImp || opt == RoleListOption.Any)
+                        {
+                            _allowedNeutSlots.Add(slotNum);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var allTurns = Enumerable.Range(1, totalSlots).ToList();
+                for (int i = allTurns.Count - 1; i > 0; i--)
+                {
+                    int j = _rng.NextInt(i + 1);
+                    (allTurns[i], allTurns[j]) = (allTurns[j], allTurns[i]);
+                }
+
+                for (int i = 0; i < Math.Min(maxImps, allTurns.Count); i++)
+                {
+                    _allowedImpSlots.Add(allTurns[i]);
+                }
+
+                for (int i = maxImps; i < Math.Min(maxImps + maxNeuts, allTurns.Count); i++)
+                {
+                    _allowedNeutSlots.Add(allTurns[i]);
+                }
+            }
+
             _currentTurnNumber = 0;
             _running = true;
 
@@ -648,6 +718,9 @@ namespace TownOfUs.Modules.DraftMode
             if (context.AvoidNames.Contains(candidate) || context.AvoidNames.Contains(baseName)) return false;
             bool isNeut = DraftRolePool.IsNeutralRoleName(baseName);
             int candidateWeight = DraftRolePool.IsDoubleDraftRoleName(baseName) ? 2 : 1;
+
+            if (!context.ForceImp && isImp && !_allowedImpSlots.Contains(slot)) return false;
+            if (!context.ForceNeut && isNeut && !_allowedNeutSlots.Contains(slot)) return false;
 
             if ((context.ForceImp && context.ForceNeut && !isImp && !isNeut)
                 || (context.ForceImp && !isImp)
