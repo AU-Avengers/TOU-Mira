@@ -2269,7 +2269,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouDraftTimerRemaining">剩余 [secs] 秒</string>
   <string name="TouDraftWaitingToStart">等待开始……</string>
   <string name="TouDraftRolesPickedLabel">已选择职业</string>
-  <string name="TouDraftShimmerDraft">选角</string>
+  <string name="TouDraftShimmerDraft">轮抽选角</string>
   <string name="TouDraftShimmerMode">模式</string>
   <string name="TouDraftPlayerNumberLabel">玩家 #[num]</string>
   <string name="TouDraftYouLabel">你</string>
