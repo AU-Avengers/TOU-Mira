@@ -83,7 +83,7 @@ public static class GuardianAngelEvents
 
         if (!target.HasModifier<GuardianAngelProtectModifier>() ||
             source.PlayerId == target.PlayerId ||
-            (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield))
+            @event is BeforeMurderEvent murderEvent && murderEvent.IgnoreDefense)
         {
             return false;
         }

@@ -24,6 +24,7 @@ using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
@@ -293,6 +294,19 @@ public static class TownOfUsEventHandlers
         panel.openPosition = new Vector3(ogPanel.openPosition.x, ogPanel.open ? y : 2f, ogPanel.openPosition.z);
 
         panel.SetTaskText(role.SetTabText().ToString());
+    }
+
+    [RegisterEvent(-1000)]
+    public static void BeforeMurderEventHandler(BeforeMurderEvent murderEvent)
+    {
+        if (murderEvent.Source.TryGetModifier<IndirectAttackerModifier>(out var mod))
+        {
+            if (mod.IgnoreShield)
+            {
+                murderEvent.IgnoreDefense = true;
+            }
+            murderEvent.IsIndirectAttack = true;
+        }
     }
 
     [RegisterEvent]

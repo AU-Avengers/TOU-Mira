@@ -79,7 +79,7 @@ public static class MercenaryEvents
         var mercOpts = OptionGroupSingleton<MercenaryOptions>.Instance;
 
         var noAttack = (target.PlayerId == source.PlayerId ||
-                        source.HasModifier<IndirectAttackerModifier>() ||
+                        @event is BeforeMurderEvent murderEvent && murderEvent.IgnoreDefense ||
                         source.HasModifier<InvulnerabilityModifier>() ||
                         source.HasModifier<VeteranAlertModifier>() ||
                         @event is not BeforeMurderEvent);

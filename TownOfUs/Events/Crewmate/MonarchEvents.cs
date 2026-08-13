@@ -70,7 +70,7 @@ public static class MonarchEvents
         var source = @event.Source;
         var target = @event.Target;
 
-        if (source == target || source.TryGetModifier<IndirectAttackerModifier>(out var mod) && mod.IgnoreShield)
+        if (source == target || @event.IgnoreDefense)
         {
             return;
         }

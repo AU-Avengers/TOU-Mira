@@ -92,7 +92,7 @@ public static class WardenEvents
         }
 
         if (!target.HasModifier<WardenFortifiedModifier>() || source == target ||
-            (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield))
+            @event is BeforeMurderEvent murderEvent && murderEvent.IgnoreDefense)
         {
             return;
         }
