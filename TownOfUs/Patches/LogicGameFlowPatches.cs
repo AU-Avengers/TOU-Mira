@@ -165,6 +165,7 @@ public static class LogicGameFlowPatches
 
     [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
     [HarmonyPrefix]
+    [HarmonyPriority(Priority.First)]
     public static bool CheckEndCriteriaPatch(LogicGameFlowNormal __instance)
     {
         if (OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay.Value)
@@ -187,14 +188,24 @@ public static class LogicGameFlowPatches
             return false;
         }
 
+        if (!GameData.Instance)
+        {
+            return false;
+        }
+
         if (!CustomGameModeManager.IsClassic())
         {
             return true;
         }
 
-        if (!GameData.Instance)
+        if (CustomGameModeManager.ActiveMode != null)
         {
-            return false;
+            CustomGameModeManager.ActiveMode.CheckGameEnd(out var runOriginal, __instance);
+
+            if (!runOriginal)
+            {
+                return false;
+            }
         }
 
         // Prevents game end on exile screen
