@@ -87,47 +87,12 @@ namespace TownOfUs.Modules.DraftMode
             _allowedImpSlots.Clear();
             _allowedNeutSlots.Clear();
 
-            var (maxImps, maxNeuts) = GetTargetLimits();
-            
-            if (UseRoleListMode)
+            // Every slot may receive Evil/Neutral. The distribution is now handled
+            // by the position tilt, soft floor spread, and Impostor nudge below.
+            for (int slotNum = 1; slotNum <= totalSlots; slotNum++)
             {
-                var rl = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
-                if (rl != null)
-                {
-                    // Every player draws from the SAME fully-mixed pool built from
-                    // all configured role-list slots, instead of being locked to
-                    // whichever bucket their own turn happened to land on. The
-                    // role-list slots still fully determine the OVERALL caps (how
-                    // many Impostor/Neutral/per-category seats exist in total) via
-                    // GetTargetLimits() and the pool's own tagged seat counts -
-                    // just not which specific player is allowed to draw which
-                    // category, which is what makes this "fully random" while
-                    // still enforcing every configured limit.
-                    for (int slotNum = 1; slotNum <= totalSlots; slotNum++)
-                    {
-                        _allowedImpSlots.Add(slotNum);
-                        _allowedNeutSlots.Add(slotNum);
-                    }
-                }
-            }
-            else
-            {
-                var allTurns = Enumerable.Range(1, totalSlots).ToList();
-                for (int i = allTurns.Count - 1; i > 0; i--)
-                {
-                    int j = _rng.NextInt(i + 1);
-                    (allTurns[i], allTurns[j]) = (allTurns[j], allTurns[i]);
-                }
-
-                for (int i = 0; i < Math.Min(maxImps, allTurns.Count); i++)
-                {
-                    _allowedImpSlots.Add(allTurns[i]);
-                }
-
-                for (int i = maxImps; i < Math.Min(maxImps + maxNeuts, allTurns.Count); i++)
-                {
-                    _allowedNeutSlots.Add(allTurns[i]);
-                }
+                _allowedImpSlots.Add(slotNum);
+                _allowedNeutSlots.Add(slotNum);
             }
 
             _currentTurnNumber = 0;
@@ -413,12 +378,7 @@ namespace TownOfUs.Modules.DraftMode
 
         private int CountDistinctPoolSeatsForGroup(string candidateBaseName)
         {
-            // Pool-based counting works uniformly for both modes: every pool
-            // entry is tagged with the role-list slot (or manual-mode bucket
-            // expansion) it originated from, so tallying distinct tags for
-            // matching-alignment entries correctly reflects total remaining
-            // seats for that group - independent of which player ends up
-            // drawing any particular one of them.
+
             var seatKeys = new HashSet<string>(StringComparer.Ordinal);
             foreach (var n in _pool)
             {
@@ -617,8 +577,12 @@ namespace TownOfUs.Modules.DraftMode
 
                 if (context.RemainingUnpicked > 0 && context.RemainingUnpicked <= totalNeeded)
                 {
-                    if (neededImps > 0) context.ForceImp = true;
-                    if (neededNeuts > 0) context.ForceNeut = true;
+                    // The current picker can only be locked to one faction. Prefer the
+                    // larger remaining deficit; the next picker will re-evaluate the other.
+                    if (neededImps >= neededNeuts && neededImps > 0)
+                        context.ForceImp = true;
+                    else if (neededNeuts > 0)
+                        context.ForceNeut = true;
                 }
             }
 
@@ -710,8 +674,8 @@ namespace TownOfUs.Modules.DraftMode
             bool isNeut = DraftRolePool.IsNeutralRoleName(baseName);
             int candidateWeight = DraftRolePool.IsDoubleDraftRoleName(baseName) ? 2 : 1;
 
-            if (!context.ForceImp && isImp && !_allowedImpSlots.Contains(slot)) return false;
-            if (!context.ForceNeut && isNeut && !_allowedNeutSlots.Contains(slot)) return false;
+            // Evil/Neutral eligibility is no longer tied to pre-assigned slot buckets.
+            // Position and spread probabilities decide when those roles are offered.
             if (!ignoreSlotBucket && !RoleMatchesSlotBucket(baseName, slot)) return false;
 
             if ((context.ForceImp && context.ForceNeut && !isImp && !isNeut)
@@ -754,117 +718,339 @@ namespace TownOfUs.Modules.DraftMode
         {
             var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
             int offered = Math.Max(1, (int)(roleOpts?.OfferedRolesCount.Value ?? 3));
+
             var context = BuildSlotContext(slot);
             var avoidNames = new HashSet<string>(context.AvoidNames, StringComparer.OrdinalIgnoreCase);
             if (extraAvoid != null) avoidNames.UnionWith(extraAvoid);
 
-            var candidateSource = _pool;
-            var allowGuaranteed = DecideAllowGuaranteedThisTurn();
+            // Hard floor: when the remaining players can no longer satisfy the
+            // configured Evil/Neutral floor, the whole offer is locked to that faction.
+            DraftFaction? lockedFaction = GetHardFloorFaction(context);
 
-            var offers = DraftPoolBuilder.GetOfferedRoles(candidateSource, _rng, avoidNames, allowGuaranteed)
-                .Where(o => !string.IsNullOrWhiteSpace(o) && o != "__RANDOM__")
-                .Where(o => IsRoleAllowedForSlot(o, slot, ignoreConcurrentOffers: false, context: context))
+            // Soft floor spread: before the hard deadline, occasionally lock an offer
+            // to the faction with the largest remaining deficit. This is the important
+            // part that prevents the last few picks from receiving all the Evil roles.
+            if (!lockedFaction.HasValue)
+                lockedFaction = GetSoftFloorFaction(context, slot);
+
+            var allowed = _pool
+                .Where(n => !string.IsNullOrWhiteSpace(n) && n != "__RANDOM__")
+                .Where(n => !avoidNames.Contains(n) && !avoidNames.Contains(BaseRoleName(n)))
+                .Where(n => IsRoleAllowedForSlot(
+                    n, slot,
+                    ignoreConcurrentOffers: false,
+                    ignoreForce: lockedFaction.HasValue,
+                    context: context))
+                .GroupBy(BaseRoleName, StringComparer.OrdinalIgnoreCase)
+                .Select(g => g.First())
                 .ToList();
 
-            var relaxedContext = BuildSlotContext(slot, ignoreConcurrentOffers: false);
-            var relaxedAvoid = new HashSet<string>(relaxedContext.AvoidNames, StringComparer.OrdinalIgnoreCase);
-            if (extraAvoid != null) relaxedAvoid.UnionWith(extraAvoid);
-
-            if (offers.Count < offered)
+            // If a floor lock was selected, only show roles from that faction.
+            if (lockedFaction.HasValue)
             {
-                var relaxedOffers = DraftPoolBuilder.GetOfferedRoles(_pool, _rng, relaxedAvoid, allowGuaranteed)
-                    .Where(o => !string.IsNullOrWhiteSpace(o) && o != "__RANDOM__")
-                    .Where(o => IsRoleAllowedForSlot(o, slot, ignoreConcurrentOffers: false, context: context))
+                var lockedCandidates = allowed
+                    .Where(n => GetRoleFaction(n) == lockedFaction.Value)
                     .ToList();
-                offers = MergeOfferLists(offers, relaxedOffers, offered);
+
+                if (lockedCandidates.Count > 0)
+                    return BuildDiverseOffer(lockedCandidates, offered);
             }
 
-            if (offers.Count < offered)
+            if (allowed.Count == 0)
             {
-                var fallbackAvoid = new HashSet<string>(relaxedContext.AvoidNames, StringComparer.OrdinalIgnoreCase);
-                if (extraAvoid != null) fallbackAvoid.UnionWith(extraAvoid);
-
-                var anyCandidates = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any))
-                    ?.Where(n => !string.IsNullOrWhiteSpace(n))
-                    .Where(n => IsBackedByPoolSeat(BaseRoleName(n)))
-                    .Where(n => IsRoleAllowedForSlot(n, slot, ignoreConcurrentOffers: true, context: relaxedContext))
-                    .Where(n => !fallbackAvoid.Contains(n) && !fallbackAvoid.Contains(BaseRoleName(n)))
-                    .ToList() ?? new List<string>();
-
-                offers = MergeOfferLists(offers, DraftPoolBuilder.GetOfferedRoles(anyCandidates, _rng, fallbackAvoid, allowGuaranteed), offered);
-            }
-
-            if (offers.Count == 0)
-            {
-                var rawPoolCandidates = _pool
+                var fallbackContext = BuildSlotContext(slot, ignoreConcurrentOffers: true, ignoreForce: true);
+                allowed = _pool
                     .Where(n => !string.IsNullOrWhiteSpace(n) && n != "__RANDOM__")
                     .Where(n => !avoidNames.Contains(n) && !avoidNames.Contains(BaseRoleName(n)))
-                    .Where(n => IsRoleAllowedForSlot(n, slot, ignoreConcurrentOffers: true, context: relaxedContext))
-                    .GroupBy(n => BaseRoleName(n), StringComparer.OrdinalIgnoreCase)
-                    .Select(g => g.First())
-                    .ToList();
-
-                if (rawPoolCandidates.Count == 0)
-                {
-                    rawPoolCandidates = _pool
-                        .Where(n => !string.IsNullOrWhiteSpace(n) && n != "__RANDOM__")
-                        .Where(n => IsRoleAllowedForSlot(n, slot, ignoreConcurrentOffers: true, context: relaxedContext))
-                        .GroupBy(n => BaseRoleName(n), StringComparer.OrdinalIgnoreCase)
-                        .Select(g => g.First())
-                        .ToList();
-                }
-
-                offers = MergeOfferLists(offers, DraftPoolBuilder.GetOfferedRoles(rawPoolCandidates, _rng, avoidNames, allowGuaranteed), Math.Max(1, offered));
-            }
-
-            var filtered = offers
-                .Where(o => !string.IsNullOrWhiteSpace(o) && o != "__RANDOM__")
-                .Where(o => IsRoleAllowedForSlot(o, slot, ignoreConcurrentOffers: false, context: context))
-                .ToList();
-
-            if (filtered.Count < offered)
-            {
-                var relaxedOffers = DraftPoolBuilder.GetOfferedRoles(_pool, _rng, relaxedAvoid, allowGuaranteed)
-                    .Where(o => !string.IsNullOrWhiteSpace(o) && o != "__RANDOM__")
-                    .Where(o => IsRoleAllowedForSlot(o, slot, ignoreConcurrentOffers: false, context: relaxedContext))
-                    .ToList();
-
-                var anyCandidates = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any))
-                    ?.Where(n => !string.IsNullOrWhiteSpace(n))
-                    .Where(n => IsBackedByPoolSeat(BaseRoleName(n)))
-                    .Where(n => IsRoleAllowedForSlot(n, slot, ignoreConcurrentOffers: false, context: relaxedContext))
-                    .Where(n => !relaxedAvoid.Contains(n) && !relaxedAvoid.Contains(BaseRoleName(n)))
-                    .ToList() ?? new List<string>();
-
-                var poolFallback = _pool
-                    .Where(n => !string.IsNullOrWhiteSpace(n))
-                    .Where(n => IsRoleAllowedForSlot(n, slot, ignoreConcurrentOffers: false, context: relaxedContext))
+                    .Where(n => IsRoleAllowedForSlot(
+                        n, slot, ignoreConcurrentOffers: true, ignoreForce: true, context: fallbackContext))
                     .GroupBy(BaseRoleName, StringComparer.OrdinalIgnoreCase)
                     .Select(g => g.First())
                     .ToList();
-
-                var prioritized = new List<string>();
-                prioritized.AddRange(offers);
-                prioritized.AddRange(relaxedOffers);
-                prioritized.AddRange(DraftPoolBuilder.GetOfferedRoles(anyCandidates, _rng, relaxedAvoid, allowGuaranteed));
-                prioritized.AddRange(DraftPoolBuilder.GetOfferedRoles(poolFallback, _rng, relaxedAvoid, allowGuaranteed));
-
-                filtered = MergeOfferLists(filtered, prioritized, offered);
             }
 
-            if (filtered.Count < offered)
+            if (allowed.Count == 0)
+                return BuildGuaranteedOfferFallback(offered, avoidNames, slot, context);
+
+            var result = new List<string>();
+            var usedAlignments = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            // Position tilt:
+            // first slot = 1.15x evil chance, middle = 1.0x, last = 0.85x.
+            // The minimum Evil count is deliberately zero, so first/last are never
+            // forced into a faction just because of their position.
+            double positionTilt = PositionTilt(slot, _totalSlots);
+            double evilChance = Math.Min(0.95, EvilOfferChance * positionTilt);
+
+            var nonCrew = allowed.Where(IsEvilRole).ToList();
+            var crew = allowed.Where(n => !IsEvilRole(n)).ToList();
+
+            // Soft Impostor Nudge:
+            // calculate the chance from Impostors still needed divided by players left.
+            // This makes Impostors progressively more likely as the draft advances
+            // instead of front-loading them onto the first few players.
+            bool addImpostor = false;
+            if (SoftImpostorNudge &&
+                context.PickedImps < context.MaxImps)
             {
-                var finalContext = BuildSlotContext(slot, ignoreConcurrentOffers: true, ignoreForce: false);
-                var finalAvoid = new HashSet<string>(finalContext.AvoidNames, StringComparer.OrdinalIgnoreCase);
-                if (extraAvoid != null) finalAvoid.UnionWith(extraAvoid);
+                int impDeficit = Math.Max(0, context.MaxImps - context.PickedImps);
+                int playersLeft = Math.Max(1, context.RemainingUnpicked);
+                double density = _totalSlots > 0
+                    ? (double)Math.Max(1, context.MaxImps) / _totalSlots
+                    : 0.20;
+                double boost = Math.Pow(0.20 / Math.Max(0.04, density), ImpostorSpreadPower);
+                boost = Math.Min(4.0, Math.Max(0.4, boost));
+                double nudgeProb = Math.Min(1.0, boost * impDeficit / playersLeft);
 
-                var guaranteedFallback = BuildGuaranteedOfferFallback(offered, finalAvoid, slot, finalContext);
-                filtered = MergeOfferLists(filtered, guaranteedFallback, offered);
+                if (nudgeProb < 1.0)
+                    nudgeProb = Math.Min(0.99, nudgeProb * positionTilt);
+
+                var impCandidates = allowed
+                    .Where(n => DraftRolePool.IsImpostorRoleName(BaseRoleName(n)))
+                    .ToList();
+
+                addImpostor = impCandidates.Count > 0 && _rng.NextDouble() < nudgeProb;
+                if (addImpostor)
+                {
+                    var imp = PickDiverseRole(impCandidates, usedAlignments);
+                    result.Add(imp);
+                }
             }
 
-            if (filtered.Count > offered) filtered = filtered.Take(offered).ToList();
+            // General Evil/Neutral offer chance. It may add one or more Evil cards,
+            // but never forces an Evil card solely because a player picked early.
+            int maxEvil = Math.Min(nonCrew.Count, Math.Min(offered, 3));
+            for (int i = result.Count; i < maxEvil; i++)
+            {
+                if (_rng.NextDouble() >= evilChance) break;
 
-            return filtered;
+                var evilCandidates = nonCrew
+                    .Where(n => !result.Contains(n))
+                    .Where(n => !addImpostor || !DraftRolePool.IsImpostorRoleName(BaseRoleName(n)))
+                    .ToList();
+
+                if (evilCandidates.Count == 0) break;
+
+                var pick = PickDiverseRole(evilCandidates, usedAlignments);
+                result.Add(pick);
+            }
+
+            // Fill the rest with Crew first, using alignment diversity. If Crew runs
+            // out, use any remaining legal role.
+            while (result.Count < offered && crew.Count > 0)
+            {
+                var candidates = crew.Where(n => !result.Contains(n)).ToList();
+                if (candidates.Count == 0) break;
+
+                var pick = PickDiverseRole(candidates, usedAlignments);
+                result.Add(pick);
+                crew.RemoveAll(n => string.Equals(BaseRoleName(n), BaseRoleName(pick), StringComparison.OrdinalIgnoreCase));
+            }
+
+            while (result.Count < offered)
+            {
+                var remaining = allowed
+                    .Where(n => !result.Contains(n))
+                    .ToList();
+                if (remaining.Count == 0) break;
+
+                result.Add(PickDiverseRole(remaining, usedAlignments));
+            }
+
+            // If diversity was too restrictive because the pool is small, use the
+            // normal builder as a final top-up before the generic fallback.
+            if (result.Count < offered)
+            {
+                var topUp = DraftPoolBuilder.GetOfferedRoles(
+                        allowed, _rng,
+                        new HashSet<string>(result.Select(BaseRoleName), StringComparer.OrdinalIgnoreCase),
+                        DecideAllowGuaranteedThisTurn())
+                    .Where(n => !string.IsNullOrWhiteSpace(n) && !result.Contains(n))
+                    .ToList();
+
+                result = MergeOfferLists(result, topUp, offered);
+            }
+
+            if (result.Count > offered)
+                result = result.Take(offered).ToList();
+
+            return result;
+        }
+
+        private enum DraftFaction
+        {
+            Crewmate,
+            Impostor,
+            Neutral
+        }
+
+        // Tuned to be a small positional advantage rather than a guarantee.
+        private const double PositionEdge = 0.15;
+        private const double EvilOfferChance = 0.45;
+        private const double FloorSpreadBias = 0.50;
+        private const bool SoftImpostorNudge = true;
+        private const double ImpostorSpreadPower = 1.0;
+
+        private double PositionTilt(int slot, int totalSlots)
+        {
+            if (PositionEdge <= 0 || totalSlots <= 1) return 1.0;
+
+            double pos = (double)(slot - 1) / Math.Max(1, totalSlots - 1);
+            pos = Math.Max(0.0, Math.Min(1.0, pos));
+            double tilt = 1.0 + PositionEdge * (0.5 - pos) * 2.0;
+            return Math.Max(0.35, Math.Min(1.65, tilt));
+        }
+
+        private DraftFaction GetRoleFaction(string roleName)
+        {
+            var baseName = BaseRoleName(roleName);
+            if (DraftRolePool.IsImpostorRoleName(baseName))
+                return DraftFaction.Impostor;
+            if (DraftRolePool.IsNeutralRoleName(baseName))
+                return DraftFaction.Neutral;
+            return DraftFaction.Crewmate;
+        }
+
+        private bool IsEvilRole(string roleName)
+        {
+            var baseName = BaseRoleName(roleName);
+            return DraftRolePool.IsImpostorRoleName(baseName) ||
+                   DraftRolePool.IsNeutralRoleName(baseName);
+        }
+
+        private string GetDiversityKey(string roleName)
+        {
+            var baseName = BaseRoleName(roleName);
+            var alignment = DraftRolePool.GetRoleAlignment(baseName);
+            if (alignment.HasValue)
+                return alignment.Value.ToString();
+
+            return GetRoleFaction(baseName).ToString();
+        }
+
+        private string PickDiverseRole(List<string> candidates, HashSet<string> usedAlignments)
+        {
+            if (candidates == null || candidates.Count == 0)
+                return string.Empty;
+
+            var distinct = candidates
+                .Where(n => !string.IsNullOrWhiteSpace(n))
+                .GroupBy(BaseRoleName, StringComparer.OrdinalIgnoreCase)
+                .Select(g => g.First())
+                .ToList();
+
+            if (distinct.Count == 0)
+                return string.Empty;
+
+            var preferred = distinct
+                .Where(n => !usedAlignments.Contains(GetDiversityKey(n)))
+                .ToList();
+
+            var pool = preferred.Count > 0 ? preferred : distinct;
+            var chosen = PickWeightedRoleName(pool);
+            usedAlignments.Add(GetDiversityKey(chosen));
+            return chosen;
+        }
+
+        private string PickWeightedRoleName(List<string> candidates)
+        {
+            if (candidates == null || candidates.Count == 0)
+                return string.Empty;
+            if (candidates.Count == 1)
+                return candidates[0];
+
+            int total = 0;
+            var weights = new int[candidates.Count];
+            for (int i = 0; i < candidates.Count; i++)
+            {
+                weights[i] = Math.Max(1, DraftRolePool.GetChanceForRoleName(BaseRoleName(candidates[i])));
+                total += weights[i];
+            }
+
+            int roll = _rng.NextInt(total);
+            int cumulative = 0;
+            for (int i = 0; i < candidates.Count; i++)
+            {
+                cumulative += weights[i];
+                if (roll < cumulative)
+                    return candidates[i];
+            }
+
+            return candidates[^1];
+        }
+
+        private List<string> BuildDiverseOffer(List<string> candidates, int offered)
+        {
+            var result = new List<string>();
+            var used = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var remaining = candidates
+                .GroupBy(BaseRoleName, StringComparer.OrdinalIgnoreCase)
+                .Select(g => g.First())
+                .ToList();
+
+            while (result.Count < offered && remaining.Count > 0)
+            {
+                var pick = PickDiverseRole(remaining, used);
+                if (string.IsNullOrEmpty(pick)) break;
+
+                result.Add(pick);
+                remaining.RemoveAll(n =>
+                    string.Equals(BaseRoleName(n), BaseRoleName(pick), StringComparison.OrdinalIgnoreCase));
+            }
+
+            // A locked offer is intentionally faction-pure, but it should still contain
+            // different alignments whenever the faction has them.
+            return result;
+        }
+
+        private DraftFaction? GetHardFloorFaction(DraftSlotContext context)
+        {
+            int neededImps = Math.Max(0, context.MaxImps - context.PickedImps);
+            int neededNeuts = Math.Max(0, context.MaxNeuts - context.PickedNeuts);
+            int totalNeeded = neededImps + neededNeuts;
+
+            if (context.RemainingUnpicked <= 0 || totalNeeded <= 0)
+                return null;
+
+            if (context.RemainingUnpicked <= totalNeeded)
+            {
+                if (neededImps >= neededNeuts && neededImps > 0)
+                    return DraftFaction.Impostor;
+                if (neededNeuts > 0)
+                    return DraftFaction.Neutral;
+            }
+
+            return null;
+        }
+
+        private DraftFaction? GetSoftFloorFaction(DraftSlotContext context, int slot)
+        {
+            int neededImps = Math.Max(0, context.MaxImps - context.PickedImps);
+            int neededNeuts = Math.Max(0, context.MaxNeuts - context.PickedNeuts);
+            int totalNeeded = neededImps + neededNeuts;
+
+            if (totalNeeded <= 0 || context.RemainingUnpicked <= totalNeeded)
+                return null;
+
+            double density = (double)totalNeeded / Math.Max(1, _totalSlots);
+            double adaptive = Math.Max(0.0, Math.Min(0.5, 1.5 * (density - 0.35)));
+            double spread = FloorSpreadBias * adaptive;
+            double probability = spread * totalNeeded / Math.Max(1, context.RemainingUnpicked);
+
+            if (_rng.NextDouble() >= probability)
+                return null;
+
+            if (neededImps > 0 && neededNeuts > 0)
+            {
+                double impWeight = (double)neededImps / totalNeeded;
+                return _rng.NextDouble() < impWeight
+                    ? DraftFaction.Impostor
+                    : DraftFaction.Neutral;
+            }
+
+            if (neededImps > 0) return DraftFaction.Impostor;
+            if (neededNeuts > 0) return DraftFaction.Neutral;
+            return null;
         }
 
         [HideFromIl2Cpp]
@@ -890,11 +1076,6 @@ namespace TownOfUs.Modules.DraftMode
 
             if (allowedPoolCandidates.Count == 0)
             {
-                // Genuine last resort: the slot's own specific alignment is
-                // exhausted. Relax the bucket-match requirement rather than
-                // leave the player with nothing (or something illegal) -
-                // still requires everything else (quotas, max counts, etc.)
-                // to hold.
                 allowedPoolCandidates = _pool
                     .Where(n => !string.IsNullOrWhiteSpace(n) && n != "__RANDOM__")
                     .Where(n => IsRoleAllowedForSlot(n, slot, ignoreConcurrentOffers: false, ignoreForce: false, context: context, ignoreSlotBucket: true))
@@ -1692,9 +1873,6 @@ namespace TownOfUs.Modules.DraftMode
                 }
             }
 
-            // Pool has no fresh roles left for this slot. A repeat is still
-            // far better than a short/empty hand, so top up the rest of the
-            // way allowing repeats now.
             if (result.Count < offeredCount)
             {
                 foreach (var n in _pool)
@@ -1710,9 +1888,6 @@ namespace TownOfUs.Modules.DraftMode
                 }
             }
 
-            // Absolute floor: the pool has nothing left to give at all. Never
-            // hand the player zero offers - restore exactly what they had
-            // before this shuffle instead.
             if (result.Count == 0 && previousOffers != null && previousOffers.Count > 0)
             {
                 result = new List<string>(previousOffers.Where(n => !string.IsNullOrWhiteSpace(n)));
