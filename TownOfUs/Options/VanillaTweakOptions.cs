@@ -8,8 +8,8 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
     public override string GroupName => TouLocale.Get("TouOptionTitleVanillaTweaks");
     public override uint GroupPriority => 1;
 
-    /*[ModdedToggleOption("TouOptionHideNamesOutOfSight")]
-    public bool HideNamesOutOfSight { get; set; } = true;*/
+    public ModdedToggleOption HideNamesOutOfSight { get; set; } =
+        new("TouOptionHideNamesOutOfSight", false);
 
     public ModdedToggleOption TickCooldownsInMinigame { get; set; } =
         new("TouOptionTickCooldownsInMinigame", true);
