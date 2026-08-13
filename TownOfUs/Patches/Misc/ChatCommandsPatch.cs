@@ -68,6 +68,10 @@ public static class ChatPatches
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Close))]
     public static void TogglePrefix(ChatController __instance)
 	{
+        if (!HudManagerPatches.ClonedChatButton)
+        {
+            return;
+        }
         __instance.chatButton.transform.localPosition = HudManagerPatches.ClonedChatButton.transform.localPosition + new Vector3(-0.3f, 0);
     }
 
