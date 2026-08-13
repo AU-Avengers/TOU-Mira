@@ -225,7 +225,8 @@
   <string name="SetNameRequirementError">玩家名稱必須至少有1個字元,且不能超過12個字元!</string>
   <string name="SetNameSimilarError">另一位玩家的名字與[name]太相似,請嘗試使用其他名字。</string>
   <string name="SetNameSuccess">已將下一場比賽的玩家名稱更改為:[name]。</string>
-  <string name="WelcomeMessageBlurb">歡迎來到我們的小鎮Mira v[modVersion]! 使用百科(地球圖標)可獲取更多關於角色或附加特性的資訊。你可以使用搜索欄,或者在聊天中輸入/help獲取命令清單。
+  <string name="WelcomeMessageBlurb">歡迎來到我們的小鎮Mira v[modVersion]!
+使用百科(地球圖標)可獲取更多關於角色或附加特性的資訊。你可以使用搜索欄,或者在聊天中輸入/help獲取命令清單。
 你也可以在選項清單中關閉此消息。</string>
   <string name="HelpCommandList">幫助:支持:指令:命令:指南</string>
   <string name="HelpMessageTitle">聊天指令:</string>
@@ -236,12 +237,12 @@
   <string name="SummaryCommandDescription">/summary - 顯示上一局遊戲的結算總結</string>
   <string name="RolesCommandDescription">/roles - 顯示遊戲中所有已啟用的職業清單。</string>
   <string name="UpCommandList">指定</string>
-  <string name="UpCommandDescription">/up [角色] - 確保你在下一局獲得指定角色。使用 /up [角色] [玩家名稱]可為另一名玩家指定角色。(僅限房主與開發版)</string>
+  <string name="UpCommandDescription">/up [Role] - 確保你在下一局獲得指定角色。使用 /up [Role] [PlayerName] 可為另一名玩家指定角色。(僅限房主與開發版)</string>
   <string name="UpCommandHostError">你必須是房主才能使用 /up 指令。</string>
   <string name="UpCommandDevBuildError">/up 指令僅在開發版中可用。</string>
   <string name="UpCommandLobbyError">你只能在大廳中使用 /up 指令!</string>
-  <string name="UpCommandInvalidError">無效的 /up 指令用法。請使用 /up [角色] 或 /up [角色][玩家名稱]。</string>
-  <string name="UpCommandNoRoleError">請指定角色名稱。用法: /up [角色]或 /up [角色][玩家名稱]。</string>
+  <string name="UpCommandInvalidError">無效的 /up 指令用法。請使用 /up [Role] 或 /up [Role] [PlayerName]。</string>
+  <string name="UpCommandNoRoleError">請指定角色名稱。用法: /up [Role] 或 /up [Role] [PlayerName]。</string>
   <string name="UpCommandRoleNotFoundError">未找到角色'[role]'。請確認玩家名稱拼字正確。</string>
   <string name="UpCommandPlayerNotFoundError">未找到玩家 '[player]' 。請確定玩家名稱拼字正確。</string>
   <string name="UpCommandSuccess">已成功請求下一局的職業: [role]。</string>
@@ -291,7 +292,7 @@
   <string name="DiedToArsonist">被點燃</string>
   <string name="DiedToGlitch">被黑入</string>
   <string name="DiedToJuggernaut">被摧毀</string>
-  <string name="DiedToPestilence">被染疫</string>
+  <string name="DiedToPestilence">被摧毀</string>
   <string name="DiedToSoulCollector">被收割</string>
   <string name="DiedToVampire">被吸血</string>
   <string name="DiedToWerewolf">被撕碎</string>
@@ -1668,7 +1669,7 @@
   <string name="TouRoleJesterWikiDescription">小丑是一名中立邪惡型職業,通過讓自己被放逐來獲勝。</string>
   <string name="TouRoleJesterHaunt">纏繞</string>
   <string name="TouNotifJesterWinOwner">你成功以小丑身份獲勝,是通過被投票淘汰而獲勝的!</string>
-  <string name="TouNotifJesterHauntOwner">你有一輪時間來選擇一名玩家將其吓死,請明智地選擇</string>
+  <string name="TouNotifJesterHauntOwner">你有一輪時間來選擇一名玩家將其嚇死, 請明智地選擇!</string>
   <string name="TouNotifJesterWinGlobal">小丑,[player],已成功獲勝,因為他們被投票淘汰了!</string>
   <string name="TouOptionJesterCanButton">小丑可召開會議</string>
   <string name="TouOptionJesterCanVent">小丑可藏身通風口</string>
@@ -2091,7 +2092,7 @@
   <string name="TermsCrewRoleAlignmentsInfo">• [color=#8CFFFF]調查型[/color]職業可以收集其他玩家的資料,從而判斷誰是船員。• [color=#8CFFFF]擊殺型[/color]職業可以[color=#FF8B95]擊殺[/color]他人,但[color=#FF8B95]擊殺[/color][color=#8CFFFF]船員[/color]可能會帶來後果。 • [color=#8CFFFF]保護型[/color]職業可以保護其他玩家,有時也能保護自己。 • [color=#8CFFFF]強力型[/color] 職業通常會影響投票,或擁有比其他[color=#8CFFFF]船員[/color]更強的能力。 • [color=#8CFFFF]支援型[/color]職業通常可以幫助其他[color=#8CFFFF]船員[/color]，或為自己提供幫助。</string>
   <string name="TermsNeutRoleAlignmentsTitle">[color=#8A8A8A]中立[/color]子陣營</string>
   <string name="TouRoleProsecutorCanProsecuteCrew">[b]你可以起訴船員。[/b]</string>
-  <string name="TouRoleProsecutorProsecutionsRemaining">剩餘起訴次數: [count]</string>
+  <string name="TouRoleProsecutorProsecutionsRemaining">剩餘起訴次數: [count]/[total]</string>
   <string name="TouRoleSnitchSelfRevealedEgoFeedback">偽裝者已經知道你的位置,並且知道你是自大狂!</string>
   <string name="TouRoleSnitchSelfRevealedFeedback">偽裝者已經知道你的位置!</string>
   <string name="TouRoleSnitchImpRevealedEgoFeedback">告密者是一名自大狂,他會幫助你推翻船員!</string>
@@ -2297,4 +2298,61 @@
   <string name="ProgressTrackingAlways">所有人</string>
   <string name="WikiSettingsRoleDistOptions">職業分配選項</string>
   <string name="StoredDraftTitle">輪抽選角模式</string>
+  <string name="PlayerCommandDetails">[player] 的平台: [platform]</string>
+  <string name="SpectatorDraftError">選角進行期間無法切換觀戰模式!</string>
+  <string name="PlayerCommandDescription">/players - 顯示大廳中玩家的資訊。</string>
+  <string name="DiedToMedusa">被石化</string>
+  <string name="DiedToPoison">被毒殺</string>
+  <string name="DiedToTempRevive">暫時復活</string>
+  <string name="PlayerCommandList">玩家:玩家清單:清單:玩家清單</string>
+  <string name="ExileTextConfirmA">[player] 曾是 [role]。</string>
+  <string name="ExileTextConfirmAn">[player] 曾是 [role]。</string>
+  <string name="ExileTextConfirmThe">[player] 曾是 [role]。</string>
+  <string name="TouOptionTitleAdvancedUtility">進階功能</string>
+  <string name="TouOptionTitleAdvancedSabotages">進階破壞</string>
+  <string name="TouOptionTitleRandomMapChoice">隨機地圖選擇</string>
+  <string name="TouOptionTitleRandomDoorMode">隨機門模式</string>
+  <string name="TouOptionTitleGlobalBetterMaps">全局 優化版地圖</string>
+  <string name="TouOptionTitleBetterSkeld">優化版Skeld</string>
+  <string name="TouOptionTitleBetterMira">優化版Mira HQ</string>
+  <string name="TouOptionTitleBetterPolus">優化版Polus</string>
+  <string name="TouOptionTitleBetterAirship">優化版Airship</string>
+  <string name="TouOptionTitleBetterFungle">優化版Fungle</string>
+  <string name="TouOptionTitleBetterSubmerged">優化版Submerged</string>
+  <string name="TouOptionTitleBetterLevelImpostor">優化版Level Impostor</string>
+  <string name="TouRoleBarkeeper">酒保</string>
+  <string name="TouRoleBarkeeperIntroBlurb">阻斷邪惡之徒的職業能力, 讓他們行動受阻</string>
+  <string name="TouRoleBarkeeperTabDescription">阻斷邪惡之徒的職業能力, 使其在 [blockTime] 秒內無法使用能力。</string>
+  <string name="TouRoleBarkeeperWikiDescription">酒保是一名船員輔助型職業, 可以與其他玩家喝酒並阻斷其職業能力。還可以打翻飲料, 使玩家加速或減速。</string>
+  <string name="TouRoleBarkeeperRoleblock">能力阻斷</string>
+  <string name="TouRoleBarkeeperRoleblocking">能力阻斷中</string>
+  <string name="TouRoleBarkeeperRoleblockWikiDescription">與一名玩家喝酒, 使其在 [blockTime] 秒內無法使用職業能力。</string>
+  <string name="TouRoleBarkeeperRoleblockWikiDescriptionWithHangover">與一名玩家喝酒, 使其在 [blockTime] 秒內無法使用職業能力。能力阻斷結束後, 該玩家會宿醉 [overTime] 秒</string>
+  <string name="TouRoleBarkeeperSpill">打翻</string>
+  <string name="TouRoleBarkeeperSpilling">沉澱中</string>
+  <string name="TouRoleBarkeeperSpillWikiDescription">打翻一杯飲料。剛打翻的飲料會使接觸到的玩家加速, 而放置一段時間後則會使玩家減速。每名玩家只會觸發一次效果。</string>
+  <string name="TouRoleBarkeeperSpillSpeedBuffNotif">你感覺腳下有一灘滑溜溜的飲料。你的移動速度提升了!</string>
+  <string name="TouRoleBarkeeperSpillSpeedDebuffNotif">你感覺腳下有一灘放置已久的飲料。你的移動速度比平時更慢了。</string>
+  <string name="TouOptionBarkeeperRoleblockCooldown">能力阻斷冷卻時間</string>
+  <string name="TouOptionBarkeeperRoleblockDelayMin">最小能力阻斷延遲</string>
+  <string name="TouOptionBarkeeperRoleblockDelayMax">最大能力阻斷延遲</string>
+  <string name="TouOptionBarkeeperRoleblockDelaySummarized">能力阻斷延遲: [min]秒 - [max]秒</string>
+  <string name="TouOptionBarkeeperSpillDelay">飲料沉澱時間</string>
+  <string name="TouOptionBarkeeperSpillEffectDuration">玩家受飲料影響的持續時間</string>
+  <string name="TouOptionBarkeeperSpillBuffDuration">飲料使玩家減速前的時間</string>
+  <string name="TouOptionBarkeeperSpillCleanUpDuration">飲料殘留消失的額外時間</string>
+  <string name="TouOptionBarkeeperSpillEffectBuffMultiplier">飲料加速倍率</string>
+  <string name="TouOptionBarkeeperSpillEffectDebuffMultiplier">飲料減速倍率</string>
+  <string name="TouOptionBarkeeperSpillDurationOptionsSummarized">飲料效果持續時間: [duration]秒 | 加速: [fast]倍, 減速: [slow]倍</string>
+  <string name="TouOptionLookoutSeesIndirectAttacks">可看到間接攻擊</string>
+  <string name="TouRoleMonarchMessageTitle">君主反饋</string>
+  <string name="TouOptionSeerMultiplePerRound">每回合可進行多次揭示/比較</string>
+  <string name="TouOptionSeerCompareEachPlayerOnce">每名玩家只能比較一次</string>
+  <string name="TouRoleParasiteOvertakeNotifSelf">你已奪取 [player] 的身體!</string>
+  <string name="TouRolePuppeteerControlNotifSelf">你正在控制 [player]!</string>
+  <string name="TouRoleVenererUncamouflage">解除偽裝</string>
+  <string name="TouRoleVenererUnsprint">結束疾跑</string>
+  <string name="TouRoleVenererUnfreeze">解凍</string>
+  <string name="TouRoleAnonymousVictoryKillNotif">[source] 在獲勝後擊殺了 [victim]!</string>
+  <string name="TouRoleExecutionerTormentNotif">行刑者已折磨 [victim] 至死!</string>
 </resources>

@@ -154,7 +154,7 @@
   <string name="DiedToArsonist">被点燃</string>
   <string name="DiedToGlitch">被黑入</string>
   <string name="DiedToJuggernaut">被摧毁</string>
-  <string name="DiedToPestilence">被染疫</string>
+  <string name="DiedToPestilence">被摧毀</string>
   <string name="DiedToSoulCollector">被收割</string>
   <string name="DiedToVampire">被吸血</string>
   <string name="DiedToWerewolf">被撕碎</string>
@@ -1652,7 +1652,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="RolesCommandList">职业:角色:主职业</string>
   <string name="RolesCommandDescription">/roles - 显示游戏中所有已启用的职业列表。</string>
   <string name="UpCommandList">指定</string>
-  <string name="UpCommandDescription">/up [PlayerName]- 确保你在下一局获得指定角色。使用 /up [Role] [PlayerName]可为另一名玩家指定角色。（仅限房主与开发版）</string>
+  <string name="UpCommandDescription">/up [Role]- 确保你在下一局获得指定角色。使用 /up [Role] [PlayerName]可为另一名玩家指定角色。（仅限房主与开发版）</string>
   <string name="UpCommandHostError">你必须是房主才能使用 /up 指令。</string>
   <string name="UpCommandDevBuildError">/up 指令仅在开发版中可用。</string>
   <string name="UpCommandLobbyError">你只能在大厅中使用 /up 指令！</string>
@@ -2305,14 +2305,14 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleBarkeeper">酒保</string>
   <string name="TouRoleBarkeeperIntroBlurb">阻断邪恶之徒的职业能力，让他们行动受阻</string>
   <string name="TouRoleBarkeeperTabDescription">阻断邪恶之徒的职业能力，使其在 [blockTime] 秒内无法使用能力。</string>
-  <string name="TouRoleBarkeeperWikiDescription">酒保是一名船员辅助型职业，可以与其他玩家喝酒并阻断其职业能力。还可以洒出饮料，使玩家加速或减速。</string>
+  <string name="TouRoleBarkeeperWikiDescription">酒保是一名船员辅助型职业，可以与其他玩家喝酒并阻断其职业能力。还可以打翻饮料，使玩家加速或减速。</string>
   <string name="TouRoleBarkeeperRoleblock">能力阻断</string>
   <string name="TouRoleBarkeeperRoleblocking">能力阻断中</string>
   <string name="TouRoleBarkeeperRoleblockWikiDescription">与一名玩家喝酒，使其在 [blockTime] 秒内无法使用职业能力。</string>
   <string name="TouRoleBarkeeperRoleblockWikiDescriptionWithHangover">与一名玩家喝酒，使其在 [blockTime] 秒内无法使用职业能力。能力阻断结束后，该玩家会宿醉 [overTime] 秒</string>
-  <string name="TouRoleBarkeeperSpill">洒出</string>
+  <string name="TouRoleBarkeeperSpill">打翻</string>
   <string name="TouRoleBarkeeperSpilling">沉淀中</string>
-  <string name="TouRoleBarkeeperSpillWikiDescription">洒出一杯饮料。刚洒出的饮料会使接触到的玩家加速，而放置一段时间后则会使玩家减速。每名玩家只会触发一次效果。</string>
+  <string name="TouRoleBarkeeperSpillWikiDescription">打翻一杯饮料。刚打翻的饮料会使接触到的玩家加速，而放置一段时间后则会使玩家减速。每名玩家只会触发一次效果。</string>
   <string name="TouRoleBarkeeperSpillSpeedBuffNotif">你感觉脚下有一滩滑溜溜的饮料。你的移动速度提升了！</string>
   <string name="TouRoleBarkeeperSpillSpeedDebuffNotif">你感觉脚下有一滩放置已久的饮料。你的移动速度比平时更慢了。</string>
   <string name="TouOptionBarkeeperRoleblockCooldown">能力阻断冷却时间</string>
@@ -2390,8 +2390,8 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="PlayerCommandList">玩家:玩家列表:列表:玩家列表</string>
   <string name="PlayerCommandDetails">[player] 的平台：[platform]</string>
   <string name="PlayerCommandDescription">/players - 显示大厅中玩家的信息。</string>
-  <string name="TouOptionTitleAdvancedUtility">高级功能</string>
-  <string name="TouOptionTitleAdvancedSabotages">高级破坏</string>
+  <string name="TouOptionTitleAdvancedUtility">进阶功能</string>
+  <string name="TouOptionTitleAdvancedSabotages">进阶破坏</string>
   <string name="TouOptionTitleRandomMapChoice">随机地图选择</string>
   <string name="TouOptionTitleRandomDoorMode">随机门模式</string>
   <string name="TouOptionTitleGlobalBetterMaps">全局 优化版地图</string>
@@ -2407,7 +2407,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleVenererUnsprint">结束疾跑</string>
   <string name="TouRoleVenererUnfreeze">解冻</string>
   <string name="TouRoleAnonymousVictoryKillNotif">[source] 在获胜后击杀了 [victim]！</string>
-  <string name="TouRoleExecutionerTormentNotif">行刑者折磨 [victim] 至死！</string>
+  <string name="TouRoleExecutionerTormentNotif">行刑者已折磨 [victim] 至死！</string>
   <string name="TouRoleJesterHauntNotif">小丑决定死后继续纠缠 [victim] ！</string>
   <string name="TouOptionJesterVentCooldown">使用通风管道冷却</string>
   <string name="TouOptionJesterVentDuration">使用通风管道持续时间</string>
