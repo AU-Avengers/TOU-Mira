@@ -938,9 +938,9 @@ Upij jednego gracza wiele razy, aby go zatruć.</string>
   <string name="TouOptionForensicFactionDuration">Czas w Jakim Kryminolog Dostanie Frakcję</string>
   <string name="TouRoleForensicMessageTitle">Raport Ciała Kryminologa</string>
   <string name="TouRoleForensicBodyError">Ciało nie mogło dać żadnej informacji.
-Umarło [time]s temu.</string>
+Umarł [time]s temu.</string>
   <string name="TouRoleForensicBodyOld">Ciało jest za stare aby mogło dać jakąkolwiek informację.
-Umarło [time]s temu.</string>
+Umarł [time]s temu.</string>
   <string name="TouRoleForensicBodySuicide">Wygląda na to, że śmierć była samobójstwem!
 Umarł [time]s temu.</string>
   <string name="TouRoleForensicBodyKillerRole">Wygląda na to, że morderca to [role]!
@@ -1069,4 +1069,12 @@ w odpowiadającą im role!</string>
   <string name="TouRoleHaunterImpRevealFeedback">Nawiedzacz ukończył swoje zadania!</string>
   <string name="TouRoleHunter">Łowca</string>
   <string name="TouRoleHunterIntroBlurb">Śledź [color=#FF0000FF]Intruzów[/color]</string>
+  <string name="TouRoleForensicBodyKillerCrewmate">Wygląda na to, że zabójca jest Załogantem!
+Zabił [time]s temu.</string>
+  <string name="TouRoleForensicBodyKillerImpostor">Wygląda na to, że zabójca jest Intruzem!
+Zabił [time]s temu.</string>
+  <string name="TouRoleForensicAtScene">[player] był w pobliżu gdy [deadPlayer] umarł!
+Może być zabójcą bądź świadkiem.</string>
+  <string name="TouRoleForensicNotAtScene">[player] nie był na miejscu zbrodni.</string>
+  <string name="TermsCommonSlangInfo">Częsty Slang jest na okrągło używany przez społeczności TOU oraz TOS aby szybko przekazywać informacje. • HC oznacza "Hard-Cleared", czyli że dana osoba jest bez wątpienia czysta. • "Glorphing" bądź Przebranie się jest wyrażeniem określające gdy ktoś przybierze wygląd innej osoby, choćby za sprawą [color=#00FF00]Glicza[/color], [color=#FF0000]Morflinga[/color], [color=#FF0000]Zmiennokształtnego[/color], lub innej, podobnej roli. • "Ghostwalkers" nawiązuje do ról pośmiertnych takich jak [color=#D4D4D4]Nawiedzacz[/color] i [color=#662961]Widmo[/color], aby móc odróżnić je od zwykłych duchów. • WORK IN PROGRESS OKOK?</string>
 </resources>
