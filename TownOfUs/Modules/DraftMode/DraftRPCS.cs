@@ -301,6 +301,9 @@ public static class DraftNetworkHelper
         if (pidToSlot == null) return;
 
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] Broadcasting {pidToSlot.Count} slot assignments");
+        DraftManager.IsDraftActive = true;
+        DraftAudio.PlayDraftStart();
+        DraftSidebarManager.Activate();
 
         DraftRpcs.RpcStartDraft(PlayerControl.LocalPlayer, totalSlots);
 
@@ -344,12 +347,8 @@ public static class DraftNetworkHelper
     public static void BroadcastPickConfirmed(int slot, ushort roleId, bool timedOut = false)
     {
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] BroadcastPickConfirmed: slot {slot}, roleId {roleId}, timedOut {timedOut}");
-        // Confirm locally first so host UI updates immediately
         DraftManager.ConfirmPick(slot, roleId);
-        // Send RPC to clients
         DraftRpcs.RpcPickConfirmed(PlayerControl.LocalPlayer, slot, roleId, timedOut);
-
-        // Ensure local UI and sidebar reflect the confirmed pick in local lobbies
         try
         {
             DraftScreenController.Hide();

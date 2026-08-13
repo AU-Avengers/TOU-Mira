@@ -716,11 +716,8 @@ public static class TownOfUsEventHandlers
                     bombButton.ResetCooldownAndOrEffect();
                     break;
                 case JanitorRole:
-                    if (OptionGroupSingleton<JanitorOptions>.Instance.ResetCooldowns)
-                    {
-                        var cleanButton = CustomButtonSingleton<JanitorCleanButton>.Instance;
-                        cleanButton.ResetCooldownAndOrEffect();
-                    }
+                    var cleanButton = CustomButtonSingleton<JanitorCleanButton>.Instance;
+                    cleanButton.CheckReset(true);
 
                     break;
             }

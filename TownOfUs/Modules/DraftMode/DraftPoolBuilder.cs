@@ -20,10 +20,15 @@ namespace TownOfUs.Modules.DraftMode
             var manualPool = BuildPoolFromManualAmounts(rng);
             
             int rolesPerSlot = Math.Max(1, (int)roleOpts.OfferedRolesCount.Value);
-            int targetSize = numPlayers + rolesPerSlot;
+            int concurrency = Math.Max(1, Math.Min(2, (int)roleOpts.ConcurrentPicks.Value));
+            int targetSize = numPlayers + rolesPerSlot * concurrency;
             if (manualPool.Count < targetSize)
             {
-                var fallbackNames = GetAllowedManualFallbackNames();
+                var fallbackNames = GetAllowedCrewFallbackNames();
+                if (fallbackNames.Count == 0)
+                {
+                    fallbackNames = GetAllowedManualFallbackNames();
+                }
                 if (fallbackNames.Count == 0)
                 {
                     fallbackNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any))
@@ -432,6 +437,31 @@ namespace TownOfUs.Modules.DraftMode
             if (names == null || names.Count == 0) return;
 
             pool.AddRange(TakeWeightedByChance(names, maxSlots, rng));
+        }
+
+        private static List<string> GetAllowedCrewFallbackNames()
+        {
+            var fallbackNames = new List<string>();
+
+            var crewOpts = OptionGroupSingleton<RoleDraftCrewOptions>.Instance;
+            if (crewOpts != null)
+            {
+                if (crewOpts.MaxCrewInvestigative.Value > 0)
+                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewInvest)));
+                if (crewOpts.MaxCrewKilling.Value > 0)
+                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewKilling)));
+                if (crewOpts.MaxCrewPower.Value > 0)
+                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewPower)));
+                if (crewOpts.MaxCrewProtective.Value > 0)
+                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewProtective)));
+                if (crewOpts.MaxCrewSupport.Value > 0)
+                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewSupport)));
+            }
+
+            return fallbackNames
+                .Where(name => !string.IsNullOrWhiteSpace(name))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
         }
 
         private static List<string> GetAllowedManualFallbackNames()

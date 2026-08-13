@@ -28,7 +28,7 @@ public static class LoverEvents
         }
 
         if (!@event.Player.TryGetModifier<LoverModifier>(out var loveMod)
-            || !OptionGroupSingleton<LoversOptions>.Instance.BothLoversDie || loveMod.OtherLover == null
+            || !OptionGroupSingleton<LoversOptions>.Instance.BothLoversDie || loveMod.LoverDisconnected || loveMod.OtherLover == null
             || loveMod.OtherLover.HasDied() || loveMod.OtherLover.HasModifier<InvulnerabilityModifier>())
         {
             return;
