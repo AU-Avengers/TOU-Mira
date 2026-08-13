@@ -7,6 +7,7 @@ using Reactor.Utilities.Attributes;
 using TownOfUs.Options;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
+using TownOfUs.Roles;
 
 namespace TownOfUs.Modules.DraftMode
 {
@@ -94,40 +95,19 @@ namespace TownOfUs.Modules.DraftMode
                 var rl = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
                 if (rl != null)
                 {
-                    RoleListOption[] slots =
-                    [
-                        rl.Slot1.Value,  rl.Slot2.Value,  rl.Slot3.Value,
-                        rl.Slot4.Value,  rl.Slot5.Value,  rl.Slot6.Value,
-                        rl.Slot7.Value,  rl.Slot8.Value,  rl.Slot9.Value,
-                        rl.Slot10.Value, rl.Slot11.Value, rl.Slot12.Value,
-                        rl.Slot13.Value, rl.Slot14.Value, rl.Slot15.Value,
-                    ];
-                    int activeSlots = Math.Max(1, Math.Min(totalSlots, slots.Length));
-                    var activeBuckets = slots.Take(activeSlots).ToList();
-                    while (activeBuckets.Count < totalSlots)
+                    // Every player draws from the SAME fully-mixed pool built from
+                    // all configured role-list slots, instead of being locked to
+                    // whichever bucket their own turn happened to land on. The
+                    // role-list slots still fully determine the OVERALL caps (how
+                    // many Impostor/Neutral/per-category seats exist in total) via
+                    // GetTargetLimits() and the pool's own tagged seat counts -
+                    // just not which specific player is allowed to draw which
+                    // category, which is what makes this "fully random" while
+                    // still enforcing every configured limit.
+                    for (int slotNum = 1; slotNum <= totalSlots; slotNum++)
                     {
-                        activeBuckets.Add(RoleListOption.Any);
-                    }
-                    
-                    // Shuffle the active buckets using _rng
-                    for (int i = activeBuckets.Count - 1; i > 0; i--)
-                    {
-                        int j = _rng.NextInt(i + 1);
-                        (activeBuckets[i], activeBuckets[j]) = (activeBuckets[j], activeBuckets[i]);
-                    }
-
-                    for (int i = 0; i < activeBuckets.Count; i++)
-                    {
-                        var opt = activeBuckets[i];
-                        int slotNum = i + 1;
-                        if (DraftRolePool.IsImpostorRoleListOption(opt) || opt == RoleListOption.Any)
-                        {
-                            _allowedImpSlots.Add(slotNum);
-                        }
-                        if (DraftRolePool.IsNeutralRoleListOption(opt) || opt == RoleListOption.NonImp || opt == RoleListOption.Any)
-                        {
-                            _allowedNeutSlots.Add(slotNum);
-                        }
+                        _allowedImpSlots.Add(slotNum);
+                        _allowedNeutSlots.Add(slotNum);
                     }
                 }
             }
@@ -434,6 +414,12 @@ namespace TownOfUs.Modules.DraftMode
 
         private int CountDistinctPoolSeatsForGroup(string candidateBaseName)
         {
+            // Pool-based counting works uniformly for both modes: every pool
+            // entry is tagged with the role-list slot (or manual-mode bucket
+            // expansion) it originated from, so tallying distinct tags for
+            // matching-alignment entries correctly reflects total remaining
+            // seats for that group - independent of which player ends up
+            // drawing any particular one of them.
             var seatKeys = new HashSet<string>(StringComparer.Ordinal);
             foreach (var n in _pool)
             {
@@ -447,7 +433,7 @@ namespace TownOfUs.Modules.DraftMode
             return seatKeys.Count;
         }
 
-        private void ConsumeExtraSeatForDoubleDraft(string pickedBaseName)
+        private void ConsumeExtraSeatForDoubleDraft(string pickedBaseName, int excludeSlot)
         {
             string? target = null;
             foreach (var n in _pool)
@@ -698,8 +684,14 @@ namespace TownOfUs.Modules.DraftMode
             return (context.PickedImps, context.PickedNeuts, context.OfferedImps, context.OfferedNeuts, context.AssignedCountsById, context.AssignedCountsByName);
         }
 
+        // Role offers are fully mixed across every configured bucket rather than
+        // restricted to a single bucket per player - overall category counts are
+        // still enforced via GetTargetLimits() and CountDistinctPoolSeatsForGroup,
+        // so this intentionally always allows a role to be offered for any slot.
+        private bool RoleMatchesSlotBucket(string baseName, int slot) => true;
+
         [HideFromIl2Cpp]
-        private bool IsRoleAllowedForSlot(string candidate, int slot, bool ignoreConcurrentOffers = false, bool ignoreForce = false, DraftSlotContext context = null!)
+        private bool IsRoleAllowedForSlot(string candidate, int slot, bool ignoreConcurrentOffers = false, bool ignoreForce = false, DraftSlotContext context = null!, bool ignoreSlotBucket = false)
         {
             if (string.IsNullOrWhiteSpace(candidate) || candidate == "__RANDOM__") return false;
             var baseName = BaseRoleName(candidate);
@@ -721,6 +713,7 @@ namespace TownOfUs.Modules.DraftMode
 
             if (!context.ForceImp && isImp && !_allowedImpSlots.Contains(slot)) return false;
             if (!context.ForceNeut && isNeut && !_allowedNeutSlots.Contains(slot)) return false;
+            if (!ignoreSlotBucket && !RoleMatchesSlotBucket(baseName, slot)) return false;
 
             if ((context.ForceImp && context.ForceNeut && !isImp && !isNeut)
                 || (context.ForceImp && !isImp)
@@ -898,9 +891,24 @@ namespace TownOfUs.Modules.DraftMode
 
             if (allowedPoolCandidates.Count == 0)
             {
+                // Genuine last resort: the slot's own specific alignment is
+                // exhausted. Relax the bucket-match requirement rather than
+                // leave the player with nothing (or something illegal) -
+                // still requires everything else (quotas, max counts, etc.)
+                // to hold.
+                allowedPoolCandidates = _pool
+                    .Where(n => !string.IsNullOrWhiteSpace(n) && n != "__RANDOM__")
+                    .Where(n => IsRoleAllowedForSlot(n, slot, ignoreConcurrentOffers: false, ignoreForce: false, context: context, ignoreSlotBucket: true))
+                    .GroupBy(n => BaseRoleName(n), StringComparer.OrdinalIgnoreCase)
+                    .Select(g => g.First())
+                    .ToList();
+            }
+
+            if (allowedPoolCandidates.Count == 0)
+            {
                 allowedPoolCandidates = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any))
                     ?.Where(n => !string.IsNullOrWhiteSpace(n))
-                    .Where(n => IsRoleAllowedForSlot(n, slot, ignoreConcurrentOffers: false, ignoreForce: false, context: context))
+                    .Where(n => IsRoleAllowedForSlot(n, slot, ignoreConcurrentOffers: false, ignoreForce: false, context: context, ignoreSlotBucket: true))
                     .GroupBy(n => BaseRoleName(n), StringComparer.OrdinalIgnoreCase)
                     .Select(g => g.First())
                     .ToList() ?? new List<string>();
@@ -1352,7 +1360,7 @@ namespace TownOfUs.Modules.DraftMode
                     var eligibleContext = BuildSlotContext(slot, ignoreConcurrentOffers: false, ignoreForce: true);
                     var anyNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any))
                         ?.Where(n => !string.IsNullOrWhiteSpace(n))
-                        .Where(n => IsRoleAllowedForSlot(n, slot, ignoreConcurrentOffers: false, ignoreForce: true, context: eligibleContext))
+                        .Where(n => IsRoleAllowedForSlot(n, slot, ignoreConcurrentOffers: false, ignoreForce: true, context: eligibleContext, ignoreSlotBucket: true))
                         .Where(n => !isDc || (!DraftRolePool.IsImpostorRoleName(BaseRoleName(n)) && !DraftRolePool.IsNeutralRoleName(BaseRoleName(n))))
                         .ToList() ?? new List<string>();
 
@@ -1456,7 +1464,7 @@ namespace TownOfUs.Modules.DraftMode
 
                 if (DraftRolePool.IsDoubleDraftRoleId(chosenRoleId) || DraftRolePool.IsDoubleDraftRoleName(finalBaseName))
                 {
-                    ConsumeExtraSeatForDoubleDraft(finalBaseName);
+                    ConsumeExtraSeatForDoubleDraft(finalBaseName, slot);
                 }
             }
 
@@ -1607,7 +1615,7 @@ namespace TownOfUs.Modules.DraftMode
                 .ToList();
             seen.UnionWith(justShownBaseNames);
             var offers = GenerateOffersForSlot(currentSlot, seen);
-            offers = FinalizeShuffleOffers(currentSlot, offers, seen, offeredCount);
+            offers = FinalizeShuffleOffers(currentSlot, offers, seen, offeredCount, previousOffers);
 
             _currentOffersBySlot[currentSlot] = offers;
             seen.UnionWith(offers
@@ -1638,7 +1646,7 @@ namespace TownOfUs.Modules.DraftMode
         }
 
         [HideFromIl2Cpp]
-        private List<string> FinalizeShuffleOffers(int slot, List<string> offers, HashSet<string> seenBaseNames, int offeredCount)
+        private List<string> FinalizeShuffleOffers(int slot, List<string> offers, HashSet<string> seenBaseNames, int offeredCount, List<string> previousOffers)
         {
             var result = new List<string>((offers ?? new List<string>()).Where(n => !string.IsNullOrWhiteSpace(n)));
             var usedBaseNames = new HashSet<string>(result.Select(BaseRoleName), StringComparer.OrdinalIgnoreCase);
@@ -1683,6 +1691,32 @@ namespace TownOfUs.Modules.DraftMode
                     result.Add(n);
                     usedBaseNames.Add(baseName);
                 }
+            }
+
+            // Pool has no fresh roles left for this slot. A repeat is still
+            // far better than a short/empty hand, so top up the rest of the
+            // way allowing repeats now.
+            if (result.Count < offeredCount)
+            {
+                foreach (var n in _pool)
+                {
+                    if (result.Count >= offeredCount) break;
+                    if (string.IsNullOrWhiteSpace(n)) continue;
+                    var baseName = BaseRoleName(n);
+                    if (usedBaseNames.Contains(baseName)) continue;
+                    if (!IsRoleAllowedForSlot(n, slot, ignoreConcurrentOffers: true, context: EnsureContext())) continue;
+
+                    result.Add(n);
+                    usedBaseNames.Add(baseName);
+                }
+            }
+
+            // Absolute floor: the pool has nothing left to give at all. Never
+            // hand the player zero offers - restore exactly what they had
+            // before this shuffle instead.
+            if (result.Count == 0 && previousOffers != null && previousOffers.Count > 0)
+            {
+                result = new List<string>(previousOffers.Where(n => !string.IsNullOrWhiteSpace(n)));
             }
 
             return result;
