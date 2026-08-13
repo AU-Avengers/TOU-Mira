@@ -9,7 +9,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Crewmate;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;

@@ -489,7 +489,6 @@ public static class CustomTouMurderRpcs
         var beforeMurderEvent = new BeforeMurderEvent(source, target, true, ignoreShield, MeetingCheck.OutsideMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
         var defenseFlag = beforeMurderEvent.IgnoreDefense;
-        var indirectFlag = beforeMurderEvent.IsIndirectAttack;
 
         var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
         if (isMeetingActive)
@@ -663,7 +662,6 @@ public static class CustomTouMurderRpcs
         var beforeMurderEvent = new BeforeMurderEvent(source, target, true, ignoreShield, MeetingCheck.OutsideMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
         var defenseFlag = beforeMurderEvent.IgnoreDefense;
-        var indirectFlag = beforeMurderEvent.IsIndirectAttack;
 
         var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
         if (isMeetingActive)
@@ -1123,8 +1121,6 @@ public static class CustomTouMurderRpcs
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, true, true, MeetingCheck.ForMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
-        var defenseFlag = beforeMurderEvent.IgnoreDefense;
-        var indirectFlag = beforeMurderEvent.IsIndirectAttack;
         if (!MeetingHud.Instance && !ExileController.Instance)
         {
             beforeMurderEvent.Cancel();

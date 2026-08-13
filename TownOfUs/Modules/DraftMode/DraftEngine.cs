@@ -7,7 +7,6 @@ using Reactor.Utilities.Attributes;
 using TownOfUs.Options;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
-using TownOfUs.Roles;
 
 namespace TownOfUs.Modules.DraftMode
 {
@@ -688,7 +687,7 @@ namespace TownOfUs.Modules.DraftMode
         // restricted to a single bucket per player - overall category counts are
         // still enforced via GetTargetLimits() and CountDistinctPoolSeatsForGroup,
         // so this intentionally always allows a role to be offered for any slot.
-        private bool RoleMatchesSlotBucket(string baseName, int slot) => true;
+        private static bool RoleMatchesSlotBucket(string baseName, int slot) => true;
 
         [HideFromIl2Cpp]
         private bool IsRoleAllowedForSlot(string candidate, int slot, bool ignoreConcurrentOffers = false, bool ignoreForce = false, DraftSlotContext context = null!, bool ignoreSlotBucket = false)

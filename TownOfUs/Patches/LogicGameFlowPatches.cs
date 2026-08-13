@@ -11,7 +11,6 @@ using TownOfUs.GameOver;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
-using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
 
