@@ -502,4 +502,11 @@ Fausses tâches :</string>
   <string name="SpectateCommandDescription">/spec - Permet de basculer automatiquement en Mode Spectateur pour le reste de la partie (si activé par l'hôte)</string>
   <string name="SummaryCommandDescription">/summary - Affiche le résumé de la fin de partie précédente</string>
   <string name="RolesCommandDescription">/roles - Affiche la liste de tous les rôles activés dans la partie.</string>
+  <string name="RulesCommandDescription">/rules - Affiche les règles du Lobby sauvegardées par l'hôte.</string>
+  <string name="UpCommandList">haut</string>
+  <string name="UpCommandDescription">/up [Role] - Vous garantie l'assignation du rôle à la prochaine partie. Utilisez /up [Role] [PlayerName] pour assigner un rôle à un autre joueur. (Hôte et Dev Build uniquement)</string>
+  <string name="UpCommandHostError">Vous devez être l'Hôte pour utiliser la commande /up.</string>
+  <string name="UpCommandDevBuildError">La commande /up est uniquement disponible dans les Dev Builds.</string>
+  <string name="UpCommandLobbyError">Vous pouvez utiliser la commande /up uniquement dans le Lobby !</string>
+  <string name="UpCommandInvalidError">Utilisation invalide de la commande /up. Utilisez /up [Role] ou /up [Role] [PlayerName].</string>
 </resources>
