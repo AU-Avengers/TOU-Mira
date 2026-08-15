@@ -1,4 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-
+  <string name="ReverseSkeldMapName">dlekS</string>
+  <string name="ReverseSkeldMapTooltip">ehT dleks: a nave-espacial de tamanho médio que conheces e (talvez) adores, mas invertida!</string>
+  <string name="DiscordServer">Servidor de Discord</string>
+  <string name="SourceCode">Código-fonte</string>
+  <string name="FoolsMode">Modo de Primeiro de Abril</string>
+  <string name="LegacyThemeDisabled">Legacia: Off</string>
+  <string name="LegacyThemeArt">Legacia: Arte</string>
+  <string name="LegacyThemePlayers">Legacia: Jogadores</string>
+  <string name="LegacyThemeFull">Legacia: Tudo</string>
+  <string name="ModifierAbility">Habilidade de Modificador</string>
+  <string name="TertiaryAbility">Terceira Habilidade (Habilidade de Hackear)</string>
+  <string name="TouDraftCancelButton">Cancelar Seleção</string>
+  <string name="TouDraftCancelledNotif">Modo de Seleção foi cancelado por [color=#FFBFCC]Anfitrião[/b][/color]!</string>
 </resources>
