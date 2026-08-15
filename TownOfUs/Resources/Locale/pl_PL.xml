@@ -1036,8 +1036,8 @@ Zabił [time]s temu.</string>
 ceną tego, że twoja lokalizacja jest ujawniona.</string>
   <string name="HnsRoleSnitchWikiDescription">Kapuś to Załogant który skraca czas szybciej niż inni gracze gdy robi zadania, za cenę tego, że jego lokalizacja jest ujawniona dla szukającego.</string>
   <string name="HnsOptionSnitchCommonTaskMultiplier">Mnożnik Zadań Powszechnych</string>
-  <string name="HnsOptionSnitchShortTaskMultiplier">Mnożnik Zadań Krótkich</string>
-  <string name="HnsOptionSnitchLongTaskMultiplier">Mnożnik Zadań Długich</string>
+  <string name="HnsOptionSnitchShortTaskMultiplier">Mnożnik Krótkich Zadań</string>
+  <string name="HnsOptionSnitchLongTaskMultiplier">Mnożnik Długich Zadań</string>
   <string name="HnsOptionSnitchNotifyDuration">Czas Powiadomienia dla Szukającego</string>
   <string name="HnsRoleNoisemaker">Krzyczacz</string>
   <string name="HnsRoleNoisemakerTabHint">Wskazówka Krzykacza</string>
@@ -1077,4 +1077,152 @@ Zabił [time]s temu.</string>
 Może być zabójcą bądź świadkiem.</string>
   <string name="TouRoleForensicNotAtScene">[player] nie był na miejscu zbrodni.</string>
   <string name="TermsCommonSlangInfo">Częsty Slang jest na okrągło używany przez społeczności TOU oraz TOS aby szybko przekazywać informacje. • HC oznacza "Hard-Cleared", czyli że dana osoba jest bez wątpienia czysta. • "Glorphing" bądź Przebranie się jest wyrażeniem określające gdy ktoś przybierze wygląd innej osoby, choćby za sprawą [color=#00FF00]Glicza[/color], [color=#FF0000]Morflinga[/color], [color=#FF0000]Zmiennokształtnego[/color], lub innej, podobnej roli. • "Ghostwalkers" nawiązuje do ról pośmiertnych takich jak [color=#D4D4D4]Nawiedzacz[/color] i [color=#662961]Widmo[/color], aby móc odróżnić je od zwykłych duchów. • WORK IN PROGRESS OKOK?</string>
+  <string name="TouRoleHunterTabDescription">Śledź innych graczy, aby dowiedzieć się kiedy użyją umiejętności.
+Gdy takowej użyją, możesz go zabić.</string>
+  <string name="TouRoleHunterCaughtPlayersText">Złapani Gracze:</string>
+  <string name="TouRoleHunterWikiDescription">Łowca to Załogant Zabijający który może śledzić innych graczy podczas rundy. Jeśli śledzony gracz użyje umiejętności, może zostać zabity przez Łowcę. Nawet Załogant może zostać zabity.</string>
+  <string name="TouRoleHunterStalk">Śledź</string>
+  <string name="TouRoleHunterStalking">Śledzisz</string>
+  <string name="TouRoleHunterStalkWikiDescription">Wybierz gracza do śledzenia. Możesz śledzić [hunterMaxStalkUsages] graczy. Jeśli śledzony użyje umiejętności, zostanie on dodany do twojej listy i może zostać zabity.</string>
+  <string name="TouRoleHunterStalkNotif">Jeśli [player] użyje umiejętności, będziesz mógł go zabić, gdy tylko będziesz chcieć.</string>
+  <string name="TouRoleHunterCaughtInteractionNotif">[player] użył umiejętności na innym graczu!</string>
+  <string name="TouRoleHunterCaughtAbilityNotif">[player] użył zwykłej umiejętności!</string>
+  <string name="TouOptionHunterKillCooldown">Cooldown Zabicia Łowcy</string>
+  <string name="TouOptionHunterStalkCooldown">Cooldown Śledzenia Łowcy</string>
+  <string name="TouOptionHunterStalkDuration">Czas Trwania Śledzenia Łowcy</string>
+  <string name="TouOptionHunterStalkUses">Początkowa Ilość Użyć Śledzenia</string>
+  <string name="TouOptionHunterStalksPerTasks">Wymagane Zadania Na Dodatkowe Użycia Śledzenia</string>
+  <string name="TouOptionHunterSeesTypeOfInteraction">Łowca Widzi Typ Interakcji</string>
+  <string name="TouOptionHunterStalkTriggeredBy">Śledzenie Jest Aktywowane Przez</string>
+  <string name="TouOptionHunterStalkTriggerEnumInteraction">Interakcję</string>
+  <string name="TouOptionHunterStalkTriggerEnumAlways">Wszystkie Umiejętności</string>
+  <string name="TouOptionHunterRetributionOnVote">Łowca Zabija Ostatniego Głosującego Gdy Jest Wyrzucony</string>
+  <string name="TouOptionHunterHunterBodyReport">Łowca Może Zgłosić Graczy Których Zabił</string>
+  <string name="TouRoleImitator">Naśladowca</string>
+  <string name="TouRoleImitatorShortName">Naśl</string>
+  <string name="TouRoleImitatorIntroBlurb">Użyj zmarłych aby pomóc Załodze</string>
+  <string name="TouRoleImitatorTabDescription">Użyj zmarłych aby pomóc Załodze przez naśladowanie ich</string>
+  <string name="TouRoleImitatorWikiDescription">Naśladowca to Załogant Wsparcia który może wybrać martwego załoganta aby naśladować jego rolę dopóki nie zmieni celu. Niektóre role nie są dostępne jeśli żyje wiele naśladowców.</string>
+  <string name="TouRoleImitatorCrewmateImitation">Naśladowanie Załogi</string>
+  <string name="TouRoleImitatorCrewmateImitationWikiDescription">Wszystkie role Załogi są dostępne prócz Polityka i Burmistrza. Role takie jak Strażnik Więzienny oraz Prokurator nie mogą użyć swoich umiejętności na spotkaniu, a Mściciel nie dostaje bezpiecznych strzałów.</string>
+  <string name="TouRoleImitatorNeutralCounterparts">Odpowiedniki Neutralne</string>
+  <string name="TouRoleImitatorImpostorCounterparts">Odpowiedniki Intruzów</string>
+  <string name="TouOptionImitatorImitateNeutrals">Może Naśladować Odpowiedniki Neutralne</string>
+  <string name="TouOptionImitatorImitateImpostors">Może Naśladować Odpowiedniki Intruzów</string>
+  <string name="TouOptionImitatorImitateBasicCrewmate">Może Naśladować Podstawowego Załoganta</string>
+  <string name="TouOptionImitatorGuessAs">Naśladowca Musi Być Zgadnięty Jako</string>
+  <string name="TouOptionImitatorGuessEnumCached">Naśladowca</string>
+  <string name="TouOptionImitatorGuessEnumActive">Naśladowana Rola</string>
+  <string name="TouOptionImitatorGuessEnumActiveOrCached">Naśladowca bądź Naśladowana Rola</string>
+  <string name="TouOptionBetterMapsSaboDurationMixUp">Czas Trwania Sabotażu Grzybowej Mieszanki</string>
+  <string name="HnsModifierFrosty">Zmarźlak</string>
+  <string name="HnsModifierFrostyTabDescription">Spowolnij swojego zabójcę na chwilę.</string>
+  <string name="HnsModifierFrostyWikiDescription">Po twojej śmierci, zabójca zostanie spowolniony!</string>
+  <string name="HnsModifierFrostyTriggeredNotif">[player] miał modyfikator [modifier] sprawiając, że jesteś wolniejszy przez następne [time]s.</string>
+  <string name="HnsOptionFrostyChillDuration">Czas Trwania Chłodu</string>
+  <string name="HnsOptionFrostyChillStartSpeed">Prędkość Na Początek Chłodu</string>
+  <string name="HnsModifierOblivious">Nieświadomy</string>
+  <string name="HnsModifierObliviousTabDescription">Nie masz świadomości o zagrożeniu.</string>
+  <string name="HnsModifierObliviousWikiDescription">Nie widzisz wskaźnika zagrożenia gdy szukający zbliża się do ciebie.</string>
+  <string name="HnsModifierTransporter">Transporter</string>
+  <string name="HnsModifierTransporterTabDescription">Przetransportuj szukającego po swojej śmierci.</string>
+  <string name="HnsModifierTransporterWikiDescription">Gdy zostaniesz zabity, szukający będzie zamieniony lokalizacją z losowych chowającym się.</string>
+  <string name="HnsModifierGiant">Olbrzym</string>
+  <string name="HnsModifierGiantTabDescription">Jesteś większy od innych chowających.</string>
+  <string name="HnsModifierGiantWikiDescription">Jesteś większy od innych chowających, wyróżniając się od innych dla szukającego.</string>
+  <string name="HnsModifierMini">Mini</string>
+  <string name="HnsModifierMiniTabDescription">Jesteś mniejszy od innych chowających.</string>
+  <string name="HnsModifierMiniWikiDescription">Jesteś mniejszy od innych chowających, pozwalając ci na łatwiejsze ukrycie się przed szukającym.</string>
+  <string name="HnsModifierMultitasker">Wielozadaniowiec</string>
+  <string name="HnsModifierMultitaskerTabDescription">Twoje zadania są przezroczyste.</string>
+  <string name="HnsModifierMultitaskerWikiDescription">Wszystkie twoje panele są przezroczyste pozwalając ci na zwiększoną świadomość swojego otoczenia!</string>
+  <string name="HnsRoleCamouflager">Kamuflażer</string>
+  <string name="HnsRoleCamouflagerTabHint">Wskazówka Kamuflażera</string>
+  <string name="HnsRoleCamouflagerTabDescription">Wywołaj zamieszanie pomiędzy chowającymi się.</string>
+  <string name="HnsRoleCamouflagerWikiDescription">Kamuflażer to Intruz który może tymczasowo sprawić, że wszyscy gracze będą wyglądać tak samo.</string>
+  <string name="HnsRoleCamouflagerCamo">Kamuflaż</string>
+  <string name="HnsRoleCamouflagerCamoWikiDescription">Tymczasowo włącza globalny kamuflaż, aby ułatwić wtopienie się w resztę chowających.</string>
+  <string name="HnsOptionCamouflagerCamoUses">Ilość Użyć Kamuflażu</string>
+  <string name="HnsOptionCamouflagerCamoCooldown">Cooldown Kamuflażu</string>
+  <string name="HnsOptionCamouflagerCamoDuration">Czas Trwania Kamuflażu</string>
+  <string name="HnsOptionCamouflagerCamoDisablesProxBar">Kamuflaż Wyłącza Wskaźnik Zagrożenia</string>
+  <string name="TouOptionTitleAdvancedUtility">Zaawansowane Urządzenia</string>
+  <string name="TouRoleInvestigator">Śledczy</string>
+  <string name="TouRoleInvestigatorIntroBlurb">Znajdź złoczyńców poprzez śledzenie ich śladów</string>
+  <string name="TouRoleInvestigatorTabDescription">Widzisz ślady wszystkich.</string>
+  <string name="TouRoleInvestigatorWikiDescription">Śledczy to Załogant Śledczy widzi ślady wszystkich graczy podczas gry. Ślady graczy niewidzialnych nie będą widoczne dla Śledczego.</string>
+  <string name="TouOptionInvestigatorFootprintSeperated">Ślady Są Tworzone na Bazie</string>
+  <string name="TouOptionInvestigatorFootprintSize">Rozmiar Śladów</string>
+  <string name="TouOptionInvestigatorFootprintInterval">Przerwa Pomiędzy Śladami</string>
+  <string name="TouOptionInvestigatorFootprintDuration">Czas Trwania Śladu</string>
+  <string name="TouOptionInvestigatorShowAnonymousFootprints">Anonimowe Ślady</string>
+  <string name="TouOptionInvestigatorShowFootprintVent">Ślady Widoczne Przy Wentach</string>
+  <string name="TouRoleJailor">Strażnik Więzienny</string>
+  <string name="TouRoleJailorIntroBlurb">Uwięź i skarz na śmierć [color=#FF0000FF]złoczyńców[/color]</string>
+  <string name="TouRoleJailorTabDescription">Uwięź graczy, aby porozmawiać z nimi prywatnie
+i skarz ich na śmierć jeśli są złoczyńcami</string>
+  <string name="TouRoleJailorTabDescriptionEvil">Uwięź graczy, aby porozmawiać z nimi prywatnie
+i skarz ich na śmierć jeśli będziesz chciał</string>
+  <string name="TouRoleJailorWikiDescription">Strażnik Więzienny to Załogant Wpływowy który może uwięzić innych graczy. Podczas spotkania, Strażnik Więzienny może zdecydować, aby skazać na śmierć uwięzionego gracza. (Chyba, że Strażnik Więzienny to Naśladowca)</string>
+  <string name="TouRoleJailorJail">Uwięź</string>
+  <string name="TouRoleJailorJailWikiDescription">Uwięź gracza. Podczas spotkania każdy zobaczy kto jest uwięziony. Na spotkaniu może prywatnie rozmawiać z uwięzionym graczem przełączając specjalny czat.</string>
+  <string name="TouRoleJailorExecute">Skarz</string>
+  <string name="TouRoleJailorExecuteWiki">Skarz (Na Spotkaniu)</string>
+  <string name="TouRoleJailorExecuteWikiDescription">Skarz na śmierć uwięzionego gracza. Jeśli gracz był załogantem, Strażnik Więzienny straci umiejętność więzienia graczy.</string>
+  <string name="TouOptionJailorJailCooldown">Cooldown Uwięzienia</string>
+  <string name="TouOptionJailorMaxExecutes">Ilość Skazań na Śmierć</string>
+  <string name="TouOptionJailorJailInARow">Więzienie Gracza Dwa Razy Z Rzędu</string>
+  <string name="TouOptionJailorJaileePublicChat">Uwięziony Może Rozmawiać Publicznie</string>
+  <string name="TouRoleJailorMessageTitle">Informacja Strażnika Więziennego</string>
+  <string name="TouRoleJailorJailorFeedback">Rozmawiaj z osobą uwięzioną za pomocą przycisku czatu nad guzikiem zgłoszenia graczy.</string>
+  <string name="TouRoleJailorCannotExecute">[player] nie może zostać skazany! Musi być on Nieśmiertelny, bądź pobłogosławiony!</string>
+  <string name="TouRoleJailorExecutedCrew">[player] był załogantem! Nie możesz już zamykać graczy w więzieniu!</string>
+  <string name="TouRoleJailorExecutedEvil">[player] został pomyślnie skazany!</string>
+  <string name="TouRoleJailorEvilTabInfo">Możesz skazywać załogę.</string>
+  <string name="TouRoleMayor">Burmistrz</string>
+  <string name="TouRoleMayorIntroBlurb">Ujawnij się, aby wesprzeć Załogę</string>
+  <string name="TouRoleMayorTabDescription">Poprowadź załogę do wygranej!</string>
+  <string name="TouRoleMayorTabDescriptionEgo">Poprowadź złoczyńców do wygranej!</string>
+  <string name="TouRoleMayorTabDescriptionPostor">Poprowadź intruzów do wygranej!</string>
+  <string name="TouRoleMayorUnrevealedTabText">Ujawnij się kiedy tylko zechcesz.</string>
+  <string name="TouRoleMayorWikiDescription">Burmistrz to Załogant Wpływowy który dostaje trzy dodatkowe głosy i jest ujawniony dla wszystkich innych graczy. Zmienia on także swój wygląd na spotkaniu.</string>
+  <string name="TouRoleMedic">Medyk</string>
+  <string name="TouRoleMedicIntroBlurb">Stwórz tarczę, aby ochronić Załoganta</string>
+  <string name="TouRoleMedicTabDescription">Ochroń załoganta za pomocą tarczy, aby obronić go przed wszelkimi atakami</string>
+  <string name="TouRoleMedicTabProtecting">Gracz z tarczą: [player]</string>
+  <string name="TouRoleMedicWikiDescription">Medyk to Załogant Ochronny który może stworzyć Tarczę dla gracza.</string>
+  <string name="TouRoleMedicShield">Tarcza</string>
+  <string name="TouRoleMedicShieldWikiDescription">Nadaj Tarczę graczowi, która ochroni go przed wszelkimi atakami</string>
+  <string name="TouOptionMedicShowShieldedPlayer">Kto Widzi Tarczę</string>
+  <string name="TouOptionMedicWhoGetsMurderAttemptIndicator">Kto Dostaje Powiadomienie o Próbie Zabójstwa</string>
+  <string name="TouOptionMedicCanGiveShieldAwayNextRound">Może Nadać Tarczę W Następnej Rundzie</string>
+  <string name="TouOptionMedicMaxAmountOfShieldUses">Maksymalna Ilość Użyć Tarczy</string>
+  <string name="TouOptionMedicShieldBreaksOnMurderAttempt">Tarcza Niszczy Się Przy Próbie Zabójstwa</string>
+  <string name="TouOptionMedicShowReportsInChat">Pokaż Zgłoszenia na Czacie</string>
+  <string name="TouOptionMedicTimeWhereMedicWillHaveName">Czas W Którym Medyk Będzie Miał Nazwę Zabójcy</string>
+  <string name="TouOptionMedicTimeWhereMedicWillHaveColorType">Czas W Którym Medyk Będzie Miał Typ Koloru Zabójcy</string>
+  <string name="TouOptionMedicShieldEnumMedic">Medyk</string>
+  <string name="TouOptionMedicShieldEnumShielded">Osoba z Tarczą</string>
+  <string name="TouOptionMedicShieldEnumShieldedAndMedic">Osoba z Tarczą + Medyk</string>
+  <string name="TouOptionMedicShieldEnumEveryone">Wszyscy</string>
+  <string name="TouOptionMedicShieldEnumNobody">Nikt</string>
+  <string name="TouRoleMedicMessageTitle">Raport Zgłoszonego Ciała</string>
+  <string name="TouRoleMedicBodyError">Ciało nie mogło dać żadnej informacji.
+Umarł [time]s temu.</string>
+  <string name="TouRoleMedicBodyOld">Ciało jest za stare aby mogło dać jakąkolwiek informację.
+Umarł [time]s temu.</string>
+  <string name="TouRoleMedicBodySuicide">Wygląda na to, że śmierć była samobójstwem!
+Umarł [time]s temu.</string>
+  <string name="TouRoleMedicBodyKillerName">Wygląda na to, że zabójcą jest [player]!
+Zabił [time]s temu.</string>
+  <string name="TouRoleMedicBodyKillerDarkColor">Wygląda na to, że zabójca jest ciemnego koloru!
+Zabił [time]s temu.</string>
+  <string name="TouRoleMedicBodyKillerLightColor">Wygląda na to, że zabójca jest jasnego koloru!
+Zabił [time]s temu.</string>
+  <string name="TouRoleLookout">Obserwator</string>
+  <string name="TouRoleLookoutIntroBlurb">Miej oczy szeroko otwarte</string>
+  <string name="TouRoleLookoutTabDescription">Obserwuj załogę, aby dowiedzieć się jakie role z nimi interaktują</string>
+  <string name="TouRoleLookoutAltTabDescription">Obserwuj załogę, aby dowiedzieć się jacy gracze z nimi interaktują</string>
+  <string name="TouRoleLookoutWikiDescription">Obserwator to Załogant Śledczy który może obserwować innych graczy podczas rundy. Na spotkaniu, będzie on mógł zobaczyć jakie role, bądź jacy gracze interaktowali z każdym obserwowanym graczem.</string>
+  <string name="TouRoleLookoutWatch">Obserwuj</string>
 </resources>
