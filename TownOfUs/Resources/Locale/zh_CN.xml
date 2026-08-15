@@ -2411,7 +2411,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleJesterHauntNotif">小丑决定死后继续纠缠 [victim] ！</string>
   <string name="TouOptionJesterVentCooldown">使用通风管道冷却</string>
   <string name="TouOptionJesterVentDuration">使用通风管道持续时间</string>
-  <string name="TouRoleSpectreSpookNotif">幻影将 [victim] 吓至死亡！</string>
+  <string name="TouRoleSpectreSpookNotif">幻影已将 [victim] 吓至死亡！</string>
   <string name="TouRoleDeputyShootKiller">如果目标是凶手，成功射击即可将其击杀！</string>
   <string name="TouRolePoliticianRevealRequirement">如果有一半船员已被拉拢，即可成功公开身份！</string>
   <string name="TouRoleMayorRevealedVotes">你一次可以投出3票！</string>

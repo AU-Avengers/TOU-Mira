@@ -2355,4 +2355,20 @@
   <string name="TouRoleVenererUnfreeze">解凍</string>
   <string name="TouRoleAnonymousVictoryKillNotif">[source] 在獲勝後擊殺了 [victim]!</string>
   <string name="TouRoleExecutionerTormentNotif">行刑者已折磨 [victim] 至死!</string>
+  <string name="TouRoleHerbalistChangeHerb">更換草藥</string>
+  <string name="TouRoleJesterPoke">戳弄</string>
+  <string name="TouNotifJesterPoke">你戳了 [player]!</string>
+  <string name="TouRoleJesterHauntNotif">小丑決定死後繼續糾纏 [victim]!</string>
+  <string name="TouOptionJesterVentCooldown">使用通風管道冷卻</string>
+  <string name="TouOptionJesterVentDuration">使用通風管道持續時間</string>
+  <string name="TouOptionJesterCanPoke">可以戳弄其他玩家</string>
+  <string name="TouOptionJesterPokeCooldown">戳弄冷卻時間</string>
+  <string name="TouRoleSpectreSpookNotif">幻影已將 [victim] 嚇至死亡!</string>
+  <string name="TouOptionAssassinNeutTitleNone">0 名中立刺客</string>
+  <string name="TouOptionAssassinImpTitleNone">0 名偽裝者刺客</string>
+  <string name="TouOptionAssassinNeutTitleSingle">1 名中立刺客 ([chance]%) |</string>
+  <string name="TouOptionAssassinImpTitleSingle">1 名偽裝者刺客 ([chance]%) |</string>
+  <string name="TouOptionAssassinNeutTitleFull">[amount] 名中立刺客 ([chance]%) |</string>
+  <string name="TouOptionAssassinImpTitleFull">[amount] 名偽裝者刺客 ([chance]%) |</string>
+  <string name="TouOptionAssassinImpMods">偽裝者</string>
 </resources>
