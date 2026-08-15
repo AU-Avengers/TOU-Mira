@@ -884,4 +884,7 @@ Faake-Aufgaben:</string>
   <string name="TermsNeutRoleAlignmentsTitle">[color=#8A8A8A]Neutral[/color] Teilausrichtung</string>
   <string name="TermsNeutRoleAlignmentsInfo">• [color=#8A8A8A]Gutartige Rollen[/color] können nicht alleine gewinnen, entweder indem sie anderen helfen oder indem sie so lange wie möglich überlegen. • [color=#8A8A8A]Böse Rollen[/color] [color=#8A8A8A] verfolgen ihre Ziele, gehen als Sieger hervor oder beenden das Spiel abrupt. • [color=#8A8A8A]Tötende[/color] Rollen verfolgen, um jeden Preis das Ziel der letzte [color=#FF8B95]Mörder[/color] zu sein. • [color=#8A8A8A]Ausreißer Rollen[/color] versuchen ihre eigenen Ziele zu erreichen, aber alle Rollen beeinflussen das Spiel unterschiedlich, daher ergibt es Sinn manchmal wie sich eine Mischung aus [color=#8A8A8A]Neutral[/color], [color=#8A8A8A]Böse[/color] und [color=#8A8A8A]Tötend[/color] Rolle zu spielen.</string>
   <string name="TermsImpRoleAlignmentsTitle">[color=#FF0000]Verräter[/color] Teilausrichtung</string>
+  <string name="ParasitePiPLocation">Parasit Bild-In-Bild Position</string>
+  <string name="PiPLocationMiddleLeft">Mittig Links</string>
+  <string name="PiPLocationMiddleRight">Mittig Rechts</string>
 </resources>
