@@ -830,4 +830,7 @@ Falsch Aufgaben:</string>
   <string name="NeutralKillingTaskHeader">Eliminiere alle anderen Teams unter allen umständen.
 Faake-Aufgaben:</string>
   <string name="NeutralSpectreTaskHeader">Du bist tot. Erfülle deine Aufgaben um zu gewinnen!</string>
+  <string name="PreviousButtonText">Vorherige</string>
+  <string name="NextButtonText">Nächste</string>
+  <string name="EndSummaryVisibility">Endende Zusammenfassungs Sichtbarkeit</string>
 </resources>
