@@ -1202,8 +1202,8 @@ i skaż ich na śmierć jeśli będziesz chciał</string>
   <string name="TouOptionMedicTimeWhereMedicWillHaveName">Czas W Którym Medyk Będzie Miał Nazwę Zabójcy</string>
   <string name="TouOptionMedicTimeWhereMedicWillHaveColorType">Czas W Którym Medyk Będzie Miał Typ Koloru Zabójcy</string>
   <string name="TouOptionMedicShieldEnumMedic">Medyk</string>
-  <string name="TouOptionMedicShieldEnumShielded">Cel</string>
-  <string name="TouOptionMedicShieldEnumShieldedAndMedic">Cel + Medyk</string>
+  <string name="TouOptionMedicShieldEnumShielded">Gracz z Tarczą</string>
+  <string name="TouOptionMedicShieldEnumShieldedAndMedic">Gracz z Tarczą + Medyk</string>
   <string name="TouOptionMedicShieldEnumEveryone">Wszyscy</string>
   <string name="TouOptionMedicShieldEnumNobody">Nikt</string>
   <string name="TouRoleMedicMessageTitle">Raport Zgłoszonego Ciała</string>
