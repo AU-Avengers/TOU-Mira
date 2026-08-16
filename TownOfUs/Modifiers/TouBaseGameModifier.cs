@@ -1,6 +1,7 @@
 ﻿using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using TMPro;
+using TownOfUs.Modules;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers;
@@ -30,6 +31,30 @@ public abstract class TouBaseGameModifier : GameModifier
     public override int GetAmountPerGame()
     {
         return 1;
+    }
+
+    public override void OnActivate()
+    {
+        base.OnActivate();
+        AddModifierToStats(GameHistory.PlayerStats[Player.PlayerId]);
+    }
+
+    public override void OnDeactivate()
+    {
+        base.OnDeactivate();
+        RemoveModifierFromStats(GameHistory.PlayerStats[Player.PlayerId]);
+    }
+
+    public virtual void AddModifierToStats(PlayerStats stats)
+    {
+        // stats.LastKnownModifiers.Add(this);
+    }
+    public virtual void RemoveModifierFromStats(PlayerStats stats)
+    {
+        if (stats.LastKnownModifiers.Contains(this))
+        {
+            stats.LastKnownModifiers.Remove(this);
+        }
     }
 }
 

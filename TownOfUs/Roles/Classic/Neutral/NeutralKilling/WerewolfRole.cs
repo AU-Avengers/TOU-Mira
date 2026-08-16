@@ -5,7 +5,6 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
-using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers.Game.Assailant;
@@ -84,12 +83,12 @@ public sealed class WerewolfRole(IntPtr cppPtr)
     {
         var wwCount = CustomRoleUtils.GetActiveRolesOfType<WerewolfRole>().Count(x => !x.Player.HasDied());
 
-        if (MiscUtils.KillersAliveCount > wwCount)
+        if (MiscUtils.KillersAliveCount > wwCount || MiscUtils.KillersAliveCount == 0)
         {
             return false;
         }
 
-        return wwCount >= Helpers.GetAlivePlayers().Count - wwCount;
+        return wwCount >= MiscUtils.GetImpactfulLivingPlayers().Count - wwCount;
     }
 
 

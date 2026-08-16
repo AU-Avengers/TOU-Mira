@@ -6,110 +6,110 @@ public static class TouImpAssets
 {
     // THIS FILE SHOULD ONLY HOLD BUTTONS AND ROLE BANNERS, EVERYTHING ELSE BELONGS IN TouAssets.cs
     public static LoadableAsset<Sprite> MarkSprite { get; } =
-        new LoadableBundleAsset<Sprite>("MarkButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("MarkButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> RecallSprite { get; } =
-        new LoadableBundleAsset<Sprite>("RecallButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("RecallButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> FlashSprite { get; } =
-        new LoadableBundleAsset<Sprite>("FlashButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("FlashButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> BlindSprite { get; } =
-        new LoadableBundleAsset<Sprite>("BlindButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("BlindButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> SampleSprite { get; } =
-        new LoadableBundleAsset<Sprite>("SampleButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("SampleButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> MorphSprite { get; } =
-        new LoadableBundleAsset<Sprite>("MorphButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("MorphButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> OvertakeSprite { get; } =
-        new LoadableBundleAsset<Sprite>("OvertakeButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("OvertakeButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> SwoopSprite { get; } =
-        new LoadableBundleAsset<Sprite>("SwoopButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("SwoopButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> UnswoopSprite { get; } =
-        new LoadableBundleAsset<Sprite>("UnswoopButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("UnswoopButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> NoAbilitySprite { get; } =
-        new LoadableBundleAsset<Sprite>("NoAbilityButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("NoAbilityButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> CamouflageSprite { get; } =
-        new LoadableBundleAsset<Sprite>("CamouflageButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("CamouflageButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> SprintSprite { get; } =
-        new LoadableBundleAsset<Sprite>("CamoSprintButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("CamoSprintButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> FreezeSprite { get; } =
-        new LoadableBundleAsset<Sprite>("CamoSprintFreezeButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("CamoSprintFreezeButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> PursueSprite { get; } =
-        new LoadableBundleAsset<Sprite>("PursueButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("PursueButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> AmbushSprite { get; } =
-        new LoadableBundleAsset<Sprite>("AmbushButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("AmbushButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> PlaceSprite { get; } =
-        new LoadableBundleAsset<Sprite>("PlaceButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("PlaceButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> DetonatingSprite { get; } =
-        new LoadableBundleAsset<Sprite>("DetonatingButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("DetonatingButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> PlantSprite { get; } =
-        new LoadableBundleAsset<Sprite>("PlantButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("PlantButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> PoisonSprite { get; } =
-        new LoadableBundleAsset<Sprite>("PoisonButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("PoisonButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> PoisonedSprite { get; } =
-        new LoadableBundleAsset<Sprite>("PoisonButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("PoisonButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> ControlSprite { get; } =
-        new LoadableBundleAsset<Sprite>("ControlButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("ControlButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> HexSprite { get; } =
-        new LoadableBundleAsset<Sprite>("HexButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("HexButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> HexBombSprite { get; } =
-        new LoadableBundleAsset<Sprite>("HexBombButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("HexBombButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> TraitorSelect { get; } =
-        new LoadableBundleAsset<Sprite>("TraitorSelect", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("TraitorSelect", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> BlackmailSprite { get; } =
-        new LoadableBundleAsset<Sprite>("BlackmailButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("BlackmailButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> HypnotiseButtonSprite { get; } =
-        new LoadableBundleAsset<Sprite>("HypnotiseButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("HypnotiseButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> CleanButtonSprite { get; } =
-        new LoadableBundleAsset<Sprite>("CleanButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("CleanButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> MineSprite { get; } =
-        new LoadableBundleAsset<Sprite>("MineButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("MineButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> DragSprite { get; } =
-        new LoadableBundleAsset<Sprite>("DragButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("DragButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> DropSprite { get; } =
-        new LoadableBundleAsset<Sprite>("DropButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("DropButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> HerbConfuseSprite { get; } =
-        new LoadableBundleAsset<Sprite>("HerbConfuseButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("HerbConfuseButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> HerbExposeSprite { get; } =
-        new LoadableBundleAsset<Sprite>("HerbExposeButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("HerbExposeButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> HerbProtectSprite { get; } =
-        new LoadableBundleAsset<Sprite>("HerbProtectButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("HerbProtectButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> DrinkRoleblockSprite { get; } =
-        new LoadableBundleAsset<Sprite>("WineRoleblockButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("WineRoleblockButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> DrinkSickenSprite { get; } =
-        new LoadableBundleAsset<Sprite>("WineSickenButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("WineSickenButton", TouAssets.AbilityHolder);
 
     public static LoadableAsset<Sprite> DrinkPoisonSprite { get; } =
-        new LoadableBundleAsset<Sprite>("WinePoisonButton", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("WinePoisonButton", TouAssets.AbilityHolder);
 }

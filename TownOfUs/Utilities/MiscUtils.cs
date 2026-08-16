@@ -42,10 +42,24 @@ namespace TownOfUs.Utilities;
 
 public static class MiscUtils
 {
-
+    /// <summary>
+    /// Get all living players that aren't neutral benigns.
+    /// </summary>
+    /// <returns>A list of alive players.</returns>
+    public static List<PlayerControl> GetImpactfulLivingPlayers()
+    {
+        return
+        [
+            .. GameData.Instance.AllPlayers.ToArray()
+                .Where(x => !x.IsDead && !x.Disconnected && x.Object && !x.Object.Is(RoleAlignment.NeutralBenign))
+                .Select(x => x.Object)
+        ];
+    }
     public static int GameHaltersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.Data.Role is IContinuesGame gameHalt && gameHalt.ContinuesGame || x.GetModifiers<BaseModifier>()
             .Any(y => y is IContinuesGame gameHaltMod && gameHaltMod.ContinuesGame));
+
+    public static int NonGameEndingNeutralCount => Helpers.GetAlivePlayers().Count(x => x.Is(RoleAlignment.NeutralBenign));
 
     public static int KillersAliveCount => Helpers.GetAlivePlayers().Count(x => x.IsImpostor() ||
         x.Is(RoleAlignment.NeutralKilling) ||
@@ -102,10 +116,15 @@ public static class MiscUtils
     /// <returns>A list of <see cref="TouBaseGameModifier"/>s.</returns>
     public static IEnumerable<TouBaseGameModifier> AllBaseGameModifiers { get; internal set; }
     /// <summary>
-    /// Gets all registered <see cref="RoleBehaviour"/>s added through in MiraAPI, excluding <see cref="NeutralGhostRole"/> and possibly any other registered basic roles.
+    /// Gets all registered <see cref="RoleBehaviour"/>s added through MiraAPI, excluding <see cref="NeutralGhostRole"/> and possibly any other registered basic roles.
     /// </summary>
     /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
     public static IEnumerable<RoleBehaviour> AllRoles { get; internal set; }
+    /// <summary>
+    /// Gets all registered <see cref="ITownOfUsRole"/>s.
+    /// </summary>
+    /// <returns>A list of <see cref="ITownOfUsRole"/>s.</returns>
+    public static IEnumerable<ITownOfUsRole> AllTouRoles { get; internal set; }
     /// <summary>
     /// Gets all registered <see cref="RoleBehaviour"/>s, excluding <see cref="CrewmateGhostRole"/>, <see cref="ImpostorGhostRole"/>, <see cref="NeutralGhostRole"/>, and possibly any other registered basic roles.
     /// </summary>
@@ -1960,6 +1979,11 @@ public static class MiscUtils
     public static void SetSizeLimit(this SpriteRenderer sprite, float pixelSize)
     {
         sprite.drawMode = SpriteDrawMode.Sliced;
+        if (!sprite.sprite)
+        {
+            return;
+        }
+
         float spriteWidth = sprite.sprite.rect.width;
         float spriteHeight = sprite.sprite.rect.height;
 
@@ -1990,9 +2014,10 @@ public static class MiscUtils
             return false;
         }
 
-        if (player.TryGetModifier<DeathHandlerModifier>(out var deathHandler) && player.HasDied())
+        if (player.HasDied())
         {
-            return !deathHandler.DiedThisRound;
+            var state = GameHistory.PlayerStats[player.PlayerId];
+            return !state.DiedThisRound;
         }
 
         return false;

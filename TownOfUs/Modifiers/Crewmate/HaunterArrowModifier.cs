@@ -34,7 +34,7 @@ public sealed class HaunterArrowModifier(PlayerControl owner, Color color) : Arr
 
     private bool ShouldShowArrow()
     {
-        if (Owner == null || Owner.Data == null || !PlayerControl.LocalPlayer)
+        if (Owner == null || Owner.Data == null || !PlayerControl.LocalPlayer || Player.HasDied() || Owner.HasDied())
         {
             return false;
         }

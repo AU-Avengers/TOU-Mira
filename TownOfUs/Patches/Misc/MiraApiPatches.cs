@@ -63,7 +63,8 @@ public static class MiraApiPatches
         return false;
     }
 
-    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.CustomMurder))]
+    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.CustomMurder), typeof(PlayerControl), typeof(PlayerControl), typeof(MurderResultFlags), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool))]
+    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.CustomMurder), typeof(PlayerControl), typeof(PlayerControl), typeof(PlayerControl), typeof(bool), typeof(bool), typeof(MurderResultFlags), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool))]
     [HarmonyPrefix]
     public static bool CustomMurderPatch(PlayerControl source)
     {
@@ -98,13 +99,15 @@ public static class MiraApiPatches
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
+        var defenseFlag = beforeMurderEvent.IgnoreDefense;
+        var indirectFlag = beforeMurderEvent.IsIndirectAttack;
         var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
         if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
         {
             beforeMurderEvent.Cancel();
         }
 
-        if (target.ProtectedByGa())
+        if (!defenseFlag && target.ProtectedByGa())
         {
             beforeMurderEvent.Cancel();
             murderResultFlags = MurderResultFlags.FailedProtected;
@@ -135,6 +138,8 @@ public static class MiraApiPatches
             PlayerControl.LocalPlayer,
             source,
             target,
+            indirectFlag,
+            defenseFlag,
             murderResultFlags,
             resetKillTimer,
             createDeadBody,
@@ -144,7 +149,104 @@ public static class MiraApiPatches
         return false;
     }
 
-    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.RpcConfirmCustomMurder), typeof(PlayerControl), typeof(PlayerControl), typeof(PlayerControl), typeof(MurderResultFlags), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool))]
+    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.RpcConfirmAdvancedCustomMurder), typeof(PlayerControl), typeof(PlayerControl), typeof(PlayerControl), typeof(bool), typeof(bool), typeof(MurderResultFlags), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool))]
+    [HarmonyPrefix]
+    public static bool RpcConfirmAdvancedCustomMurderPatch(
+        this PlayerControl host,
+        PlayerControl source,
+        PlayerControl target,
+        bool isIndirect,
+        bool ignoreDefense,
+        MurderResultFlags murderResultFlags,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool teleportMurderer = true,
+        bool showKillAnim = true,
+        bool playKillSound = true)
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            source.isKilling = false;
+            MiscUtils.RunAnticheatWarning(source);
+            return false;
+        }
+        if (!host.IsHost() || target.HasDied())
+        {
+            return false;
+        }
+
+        var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
+
+        source.CustomMurder(
+            target,
+            null,
+            isIndirect,
+            ignoreDefense,
+            murderResultFlags2,
+            resetKillTimer,
+            createDeadBody,
+            teleportMurderer,
+            showKillAnim,
+            playKillSound);
+
+        // Record kill cooldown change after CustomMurder if it was reset
+        if (CustomTouMurderRpcs.RecordedKillCooldown > -1f && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+        {
+            Coroutines.Start(CustomTouMurderRpcs.CoRecordKillCooldownAfterCustomMurder(source, CustomTouMurderRpcs.RecordedKillCooldown));
+        }
+        return false;
+    }
+
+    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.RpcConfirmFramedCustomMurder), typeof(PlayerControl), typeof(PlayerControl), typeof(PlayerControl), typeof(PlayerControl), typeof(bool), typeof(bool), typeof(MurderResultFlags), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool))]
+    [HarmonyPrefix]
+    public static bool RpcConfirmFramedCustomMurderPatch(
+        this PlayerControl host,
+        PlayerControl source,
+        PlayerControl target,
+        PlayerControl framed,
+        bool isIndirect,
+        bool ignoreDefense,
+        MurderResultFlags murderResultFlags,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool teleportMurderer = true,
+        bool showKillAnim = true,
+        bool playKillSound = true)
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            source.isKilling = false;
+            MiscUtils.RunAnticheatWarning(source);
+            return false;
+        }
+        if (!host.IsHost() || target.HasDied())
+        {
+            return false;
+        }
+
+        var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
+
+        source.CustomMurder(
+            target,
+            framed,
+            isIndirect,
+            ignoreDefense,
+            murderResultFlags2,
+            resetKillTimer,
+            createDeadBody,
+            teleportMurderer,
+            showKillAnim,
+            playKillSound);
+
+        // Record kill cooldown change after CustomMurder if it was reset
+        if (CustomTouMurderRpcs.RecordedKillCooldown > -1f && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+        {
+            Coroutines.Start(CustomTouMurderRpcs.CoRecordKillCooldownAfterCustomMurder(source, CustomTouMurderRpcs.RecordedKillCooldown));
+        }
+        return false;
+    }
+
+    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.RpcConfirmCustomMurder), typeof(PlayerControl), typeof(PlayerControl), typeof(PlayerControl), typeof(bool), typeof(bool), typeof(MurderResultFlags), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool))]
     [HarmonyPrefix]
     public static bool RpcConfirmCustomMurderPatch(
         this PlayerControl host,

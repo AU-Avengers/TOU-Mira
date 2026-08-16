@@ -5,7 +5,6 @@ using BepInEx.Unity.IL2CPP.Utils;
 using HarmonyLib;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
-using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using PowerTools;
@@ -13,10 +12,9 @@ using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Events;
 using TownOfUs.Interfaces;
-using TownOfUs.Modifiers;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Roles;
 using UnityEngine;
@@ -153,11 +151,11 @@ public static class CustomTouMurderRpcs
             return;
         }
 
-        Coroutines.Start(CoWaitForMultiIndirect(source, targets, inMeeting, isIndirect, ignoreShields, didSucceed,
-            resetKillTimer, createDeadBody, teleportMurderer, showKillAnim, playKillSound, causeOfDeath));
+        MultiIndirect(source, targets, inMeeting, isIndirect, ignoreShields, didSucceed,
+            resetKillTimer, createDeadBody, teleportMurderer, showKillAnim, playKillSound, causeOfDeath);
     }
 
-    public static IEnumerator CoWaitForMultiIndirect(
+    public static void MultiIndirect(
         PlayerControl source,
         Dictionary<byte, string> targets,
         MeetingCheck inMeeting,
@@ -171,28 +169,19 @@ public static class CustomTouMurderRpcs
         bool playKillSound = true,
         string causeOfDeath = "null")
     {
-        // Wait for the modifier component to set up.
-        if (isIndirect)
-        {
-            source.AddModifier<IndirectAttackerModifier>(ignoreShields);
-            while (!source.HasModifier<IndirectAttackerModifier>())
-            {
-                yield return null;
-            }
-        }
-
         var firstTarget = true;
         var victims = new Dictionary<byte, string>();
         var survivors = new Dictionary<byte, string>();
         var allPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => targets.ContainsKey(x.PlayerId)).ToList();
         foreach (var target in allPlayers)
         {
-            var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
+            var beforeMurderEvent = new BeforeMurderEvent(source, target, isIndirect, ignoreShields, inMeeting);
             MiraEventManager.InvokeEvent(beforeMurderEvent);
+            var defenseFlag = beforeMurderEvent.IgnoreDefense;
             var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
             if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) ||
                 (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive) ||
-                target.ProtectedByGa())
+                !defenseFlag && target.ProtectedByGa())
             {
                 beforeMurderEvent.Cancel();
             }
@@ -226,7 +215,7 @@ public static class CustomTouMurderRpcs
 
         if (!PlayerControl.LocalPlayer.IsHost())
         {
-            yield break;
+            return;
         }
 
         if (survivors.Count == 0)
@@ -235,6 +224,8 @@ public static class CustomTouMurderRpcs
                 PlayerControl.LocalPlayer,
                 source,
                 victims,
+                isIndirect,
+                ignoreShields,
                 MurderResultFlags.Succeeded,
                 resetKillTimer,
                 createDeadBody,
@@ -249,6 +240,8 @@ public static class CustomTouMurderRpcs
                 PlayerControl.LocalPlayer,
                 source,
                 survivors,
+                isIndirect,
+                ignoreShields,
                 MurderResultFlags.FailedError,
                 resetKillTimer,
                 createDeadBody,
@@ -264,6 +257,8 @@ public static class CustomTouMurderRpcs
                 source,
                 victims,
                 survivors,
+                isIndirect,
+                ignoreShields,
                 resetKillTimer,
                 createDeadBody,
                 teleportMurderer,
@@ -279,6 +274,8 @@ public static class CustomTouMurderRpcs
         PlayerControl source,
         Dictionary<byte, string> victims,
         Dictionary<byte, string> survivors,
+        bool isIndirect,
+        bool ignoreDefense,
         bool resetKillTimer = true,
         bool createDeadBody = true,
         bool teleportMurderer = true,
@@ -316,16 +313,19 @@ public static class CustomTouMurderRpcs
         var allVictims = PlayerControl.AllPlayerControls.ToArray().Where(x => victims.ContainsKey(x.PlayerId)).ToList();
         foreach (var target in allVictims)
         {
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
-                DeathEventHandlers.CurrentRound,
-                (!MeetingHud.Instance && !ExileController.Instance)
+            GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 0,
+                HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
-                lockInfo: DeathHandlerOverride.SetTrue);
+                lockInfo: DeathHandlerOverride.SetTrue,
+                playerState: StoredPlayerState.Dead);
 
             source.CustomMurder(
                 target,
+                null,
+                isIndirect,
+                ignoreDefense,
                 murderResultFlagsGood,
                 resetKillTimer,
                 createDeadBody,
@@ -340,6 +340,9 @@ public static class CustomTouMurderRpcs
         {
             source.CustomMurder(
                 target,
+                null,
+                isIndirect,
+                ignoreDefense,
                 murderResultFlagsBad,
                 resetKillTimer,
                 createDeadBody,
@@ -361,6 +364,8 @@ public static class CustomTouMurderRpcs
         this PlayerControl host,
         PlayerControl source,
         Dictionary<byte, string> targets,
+        bool isIndirect,
+        bool ignoreDefense,
         MurderResultFlags murderResultFlags,
         bool resetKillTimer = true,
         bool createDeadBody = true,
@@ -401,17 +406,20 @@ public static class CustomTouMurderRpcs
             if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
                 murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
             {
-                DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
-                    DeathEventHandlers.CurrentRound,
-                    (!MeetingHud.Instance && !ExileController.Instance)
+                GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 0,
+                    HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                         ? DeathHandlerOverride.SetTrue
                         : DeathHandlerOverride.SetFalse,
                     TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
-                    lockInfo: DeathHandlerOverride.SetTrue);
+                    lockInfo: DeathHandlerOverride.SetTrue,
+                    playerState: StoredPlayerState.Dead);
             }
 
             source.CustomMurder(
                 target,
+                null,
+                isIndirect,
+                ignoreDefense,
                 murderResultFlags2,
                 resetKillTimer,
                 createDeadBody,
@@ -460,11 +468,11 @@ public static class CustomTouMurderRpcs
             return;
         }
 
-        Coroutines.Start(CoWaitForFramedIndirect(source, target, framed, ignoreShield, didSucceed, resetKillTimer,
-            createDeadBody, showKillAnim, playKillSound, causeOfDeath));
+        FramedIndirect(source, target, framed, ignoreShield, didSucceed, resetKillTimer,
+            createDeadBody, showKillAnim, playKillSound, causeOfDeath);
     }
 
-    public static IEnumerator CoWaitForFramedIndirect(
+    public static void FramedIndirect(
         PlayerControl source,
         PlayerControl target,
         PlayerControl framed,
@@ -476,17 +484,11 @@ public static class CustomTouMurderRpcs
         bool playKillSound = true,
         string causeOfDeath = "null")
     {
-        // Wait for the modifier component to set up.
-        source.AddModifier<IndirectAttackerModifier>(ignoreShield);
-        while (!source.HasModifier<IndirectAttackerModifier>())
-        {
-            yield return null;
-        }
-
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
-        var beforeMurderEvent = new BeforeMurderEvent(source, target, MeetingCheck.OutsideMeeting);
+        var beforeMurderEvent = new BeforeMurderEvent(source, target, true, ignoreShield, MeetingCheck.OutsideMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
+        var defenseFlag = beforeMurderEvent.IgnoreDefense;
 
         var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
         if (isMeetingActive)
@@ -494,7 +496,7 @@ public static class CustomTouMurderRpcs
             beforeMurderEvent.Cancel();
         }
 
-        if (target.ProtectedByGa())
+        if (!defenseFlag && target.ProtectedByGa())
         {
             beforeMurderEvent.Cancel();
             murderResultFlags = MurderResultFlags.FailedProtected;
@@ -518,7 +520,7 @@ public static class CustomTouMurderRpcs
 
         if (!PlayerControl.LocalPlayer.IsHost())
         {
-            yield break;
+            return;
         }
 
         RpcConfirmFramedMurder(
@@ -526,6 +528,7 @@ public static class CustomTouMurderRpcs
             source,
             target,
             framed,
+            ignoreShield,
             murderResultFlags,
             resetKillTimer,
             createDeadBody,
@@ -540,6 +543,7 @@ public static class CustomTouMurderRpcs
         PlayerControl source,
         PlayerControl target,
         PlayerControl framed,
+        bool ignoreShield,
         MurderResultFlags murderResultFlags,
         bool resetKillTimer = true,
         bool createDeadBody = true,
@@ -576,25 +580,26 @@ public static class CustomTouMurderRpcs
         if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
             murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
         {
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
-                DeathEventHandlers.CurrentRound,
-                (!MeetingHud.Instance && !ExileController.Instance)
+            GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 0,
+                HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
-                lockInfo: DeathHandlerOverride.SetTrue);
+                lockInfo: DeathHandlerOverride.SetTrue,
+                playerState: StoredPlayerState.Dead);
         }
 
         source.CustomMurder(
             target,
+            framed,
+            true,
+            ignoreShield,
             murderResultFlags2,
             resetKillTimer,
             createDeadBody,
             false,
             showKillAnim,
             playKillSound);
-
-        Coroutines.Start(CoWaitForJump(murderResultFlags2, framed, target));
 
         // Record kill cooldown change after CustomMurder if it was reset
         if (RecordedKillCooldown > -1f && resetKillTimer && source.AmOwner &&
@@ -604,25 +609,12 @@ public static class CustomTouMurderRpcs
         }
     }
 
-    public static IEnumerator CoWaitForJump(MurderResultFlags flags, PlayerControl framed, PlayerControl target)
-    {
-        // Wait for CustomMurder to process and get the proper position
-        yield return null;
-        yield return null;
-
-        var targetPos = target.transform.position;
-        if (flags.HasFlag(MurderResultFlags.Succeeded))
-        {
-            MiscUtils.LungeToPos(framed, targetPos);
-        }
-    }
-
     /// <summary>
     /// Networked Custom Murder method.
     /// </summary>
     /// <param name="source">The killer.</param>
     /// <param name="target">The player to murder.</param>
-    /// <param name="framed">The player that will be shown on the sumamry. If they are the same player as the target, then the cause of death will be basic.</param>
+    /// <param name="framed">The player that will be shown on the summary. If they are the same player as the target, then the cause of death will be basic.</param>
     /// <param name="ignoreShield">If indirect, determines if shields are ignored.</param>
     /// <param name="didSucceed">Whether the murder was successful or not.</param>
     /// <param name="resetKillTimer">Should the kill timer be reset.</param>
@@ -649,11 +641,11 @@ public static class CustomTouMurderRpcs
             return;
         }
 
-        Coroutines.Start(CoWaitForSelfIndirect(source, target, framed, ignoreShield, didSucceed, resetKillTimer,
-            createDeadBody, showKillAnim, playKillSound, causeOfDeath));
+        SelfIndirect(source, target, framed, ignoreShield, didSucceed, resetKillTimer,
+            createDeadBody, showKillAnim, playKillSound, causeOfDeath);
     }
 
-    public static IEnumerator CoWaitForSelfIndirect(
+    public static void SelfIndirect(
         PlayerControl source,
         PlayerControl target,
         PlayerControl framed,
@@ -665,17 +657,11 @@ public static class CustomTouMurderRpcs
         bool playKillSound = true,
         string causeOfDeath = "null")
     {
-        // Wait for the modifier component to set up.
-        source.AddModifier<IndirectAttackerModifier>(ignoreShield);
-        while (!source.HasModifier<IndirectAttackerModifier>())
-        {
-            yield return null;
-        }
-
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
-        var beforeMurderEvent = new BeforeMurderEvent(source, target, MeetingCheck.OutsideMeeting);
+        var beforeMurderEvent = new BeforeMurderEvent(source, target, true, ignoreShield, MeetingCheck.OutsideMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
+        var defenseFlag = beforeMurderEvent.IgnoreDefense;
 
         var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
         if (isMeetingActive)
@@ -683,7 +669,7 @@ public static class CustomTouMurderRpcs
             beforeMurderEvent.Cancel();
         }
 
-        if (target.ProtectedByGa())
+        if (!defenseFlag && target.ProtectedByGa())
         {
             beforeMurderEvent.Cancel();
             murderResultFlags = MurderResultFlags.FailedProtected;
@@ -707,7 +693,7 @@ public static class CustomTouMurderRpcs
 
         if (!PlayerControl.LocalPlayer.IsHost())
         {
-            yield break;
+            return;
         }
 
         RpcConfirmSelfMurder(
@@ -715,6 +701,7 @@ public static class CustomTouMurderRpcs
             source,
             target,
             framed,
+            defenseFlag,
             murderResultFlags,
             resetKillTimer,
             createDeadBody,
@@ -736,6 +723,7 @@ public static class CustomTouMurderRpcs
         PlayerControl source,
         PlayerControl target,
         PlayerControl framed,
+        bool defenseFlag,
         MurderResultFlags murderResultFlags,
         bool resetKillTimer = true,
         bool createDeadBody = true,
@@ -772,17 +760,20 @@ public static class CustomTouMurderRpcs
         if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
             murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
         {
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
-                DeathEventHandlers.CurrentRound,
-                (!MeetingHud.Instance && !ExileController.Instance)
+            GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 0,
+                HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 framed != target ? TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", framed.Data.PlayerName) : "",
-                lockInfo: DeathHandlerOverride.SetTrue);
+                lockInfo: DeathHandlerOverride.SetTrue,
+                playerState: StoredPlayerState.Dead);
         }
 
         source.CustomMurder(
             target,
+            framed,
+            true,
+            defenseFlag,
             murderResultFlags2,
             resetKillTimer,
             createDeadBody,
@@ -859,11 +850,11 @@ public static class CustomTouMurderRpcs
             return;
         }
 
-        Coroutines.Start(CoWaitForIndirect(source, target, inMeeting, isIndirect, ignoreShield, didSucceed,
-            resetKillTimer, createDeadBody, teleportMurderer, showKillAnim, playKillSound, causeOfDeath));
+        Indirect(source, target, inMeeting, isIndirect, ignoreShield, didSucceed,
+            resetKillTimer, createDeadBody, teleportMurderer, showKillAnim, playKillSound, causeOfDeath);
     }
 
-    public static IEnumerator CoWaitForIndirect(
+    public static void Indirect(
         PlayerControl source,
         PlayerControl target,
         MeetingCheck inMeeting,
@@ -877,20 +868,12 @@ public static class CustomTouMurderRpcs
         bool playKillSound = true,
         string causeOfDeath = "null")
     {
-        // Wait for the modifier component to set up.
-        if (isIndirect)
-        {
-            source.AddModifier<IndirectAttackerModifier>(ignoreShield);
-            while (!source.HasModifier<IndirectAttackerModifier>())
-            {
-                yield return null;
-            }
-        }
-
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
-        var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
+        var beforeMurderEvent = new BeforeMurderEvent(source, target, isIndirect, ignoreShield, inMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
+        var defenseFlag = beforeMurderEvent.IgnoreDefense;
+        var indirectFlag = beforeMurderEvent.IsIndirectAttack;
         var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
         if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) ||
             (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
@@ -898,7 +881,7 @@ public static class CustomTouMurderRpcs
             beforeMurderEvent.Cancel();
         }
 
-        if (target.ProtectedByGa())
+        if (!defenseFlag && target.ProtectedByGa())
         {
             beforeMurderEvent.Cancel();
             murderResultFlags = MurderResultFlags.FailedProtected;
@@ -922,7 +905,7 @@ public static class CustomTouMurderRpcs
 
         if (!PlayerControl.LocalPlayer.IsHost())
         {
-            yield break;
+            return;
         }
 
         RpcConfirmSpecialMurder(
@@ -930,7 +913,7 @@ public static class CustomTouMurderRpcs
             source,
             target,
             murderResultFlags,
-            isIndirect,
+            indirectFlag,
             ignoreShield,
             resetKillTimer,
             createDeadBody,
@@ -984,17 +967,20 @@ public static class CustomTouMurderRpcs
         if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
             murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
         {
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
-                DeathEventHandlers.CurrentRound,
-                (!MeetingHud.Instance && !ExileController.Instance)
+            GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 0,
+                HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
-                lockInfo: DeathHandlerOverride.SetTrue);
+                lockInfo: DeathHandlerOverride.SetTrue,
+                playerState: StoredPlayerState.Dead);
         }
 
         source.CustomMurder(
             target,
+            null,
+            isIndirect,
+            ignoreShield,
             murderResultFlags2,
             resetKillTimer,
             createDeadBody,
@@ -1061,7 +1047,6 @@ public static class CustomTouMurderRpcs
         {
             announce.AnnounceKill(source, target);
         }
-        source.AddModifier<IndirectAttackerModifier>(true);
 
         var cod = "Killer";
         if (touRole.LocaleKey != "KEY_MISS")
@@ -1069,15 +1054,21 @@ public static class CustomTouMurderRpcs
             cod = touRole.LocaleKey;
         }
 
-        DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
-            DeathEventHandlers.CurrentRound,
-            DeathHandlerOverride.SetTrue,
+        GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 0,
+            HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetTrue,
             TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
-            lockInfo: DeathHandlerOverride.SetTrue);
-        DeathHandlerModifier.UpdateDeathHandlerImmediate(source, "null", -1, DeathHandlerOverride.SetFalse,
-            lockInfo: DeathHandlerOverride.SetTrue);
+            lockInfo: DeathHandlerOverride.SetTrue,
+            playerState: StoredPlayerState.Dead);
+        GameHistory.UpdatePlayerDeathData(source.PlayerId, "null", 0,
+            -1, DeathHandlerOverride.SetFalse,
+            lockInfo: DeathHandlerOverride.SetTrue,
+            playerState: StoredPlayerState.Dead);
+
         source.CustomMurder(
             target,
+            null,
+            true,
+            true,
             MurderResultFlags.Succeeded);
     }
 
@@ -1128,7 +1119,7 @@ public static class CustomTouMurderRpcs
 
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
-        var beforeMurderEvent = new BeforeMurderEvent(source, target, MeetingCheck.ForMeeting);
+        var beforeMurderEvent = new BeforeMurderEvent(source, target, true, true, MeetingCheck.ForMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
         if (!MeetingHud.Instance && !ExileController.Instance)
         {
@@ -1198,13 +1189,13 @@ public static class CustomTouMurderRpcs
         if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
             murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
         {
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
-                DeathEventHandlers.CurrentRound,
-                (!MeetingHud.Instance && !ExileController.Instance)
+            GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 0,
+                HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
-                lockInfo: DeathHandlerOverride.SetTrue);
+                lockInfo: DeathHandlerOverride.SetTrue,
+                playerState: StoredPlayerState.Dead);
         }
 
         source.MeetingMurder(

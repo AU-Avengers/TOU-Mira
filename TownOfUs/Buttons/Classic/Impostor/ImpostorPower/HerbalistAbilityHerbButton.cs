@@ -116,12 +116,12 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
 
     public override void CreateButton(Transform parent)
     {
-    base.CreateButton(parent);
+        base.CreateButton(parent);
 
-    Button!.usesRemainingSprite.sprite = TouAssets.AbilityCounterKillSprite.LoadAsset();
+        Button!.usesRemainingSprite.sprite = TouAssets.AbilityCounterKillSprite.LoadAsset();
 
-    CurrentName = TouLocale.Get("HerbalistKill");
-    OverrideName(CurrentName);
+        CurrentName = ProtectionText[0];
+        OverrideName(CurrentName);
     }
 
     protected override void OnClick()
@@ -220,15 +220,13 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
         OverrideName(ProtectionText[(int)CurrentAbility]);
     }
     public override void OverrideName(string name)
-{
-    CurrentName = CurrentAbility switch
     {
-        HerbAbilities.Kill => TouLocale.Get("HerbalistKill"),
-        HerbAbilities.Expose => TouLocale.Get("HerbalistExpose"),
-        HerbAbilities.Confuse => TouLocale.Get("HerbalistConfuse"),
-        HerbAbilities.Protect => TouLocale.Get("HerbalistProtect"),
-        _ => string.Empty
-    };
+        CurrentName = CurrentAbility switch
+        {
+            HerbAbilities.Kill or HerbAbilities.Expose or HerbAbilities.Confuse or HerbAbilities.Protect =>
+                ProtectionText[(int)CurrentAbility],
+            _ => string.Empty
+        };
 
     if (Button != null)
     {

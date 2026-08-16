@@ -2,7 +2,7 @@
 using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
-using TownOfUs.Modifiers;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Neutral;
@@ -36,7 +36,7 @@ public static class PhantomEvents
                 HudManagerPatches.ZoomButton.SetActive(true);
                 if (OptionGroupSingleton<SpectreOptions>.Instance.SpectreWin is SpectreWinOptions.Spooks)
                 {
-                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", -1,
+                    GameHistory.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", -1,
                         DeathHandlerOverride.SetTrue, lockInfo: DeathHandlerOverride.SetTrue);
                     var notif2 = Helpers.CreateAndShowNotification(
                         $"<b>{TouLocale.GetParsed("TouRoleSpectreSpookMessage")}</b>",

@@ -1,8 +1,8 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using TownOfUs.Events;
 using TownOfUs.Modifiers.Game.Assailant;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Options.Roles.Neutral;
@@ -31,7 +31,7 @@ public static class MeetingHudTimerPatch
             case AmbassadorRole ambass:
                 var ambassOpt = OptionGroupSingleton<AmbassadorOptions>.Instance;
                 newText = $"\n{ambass.RetrainsString()}";
-                if (DeathEventHandlers.CurrentRound < (int)ambassOpt.RoundWhenAvailable)
+                if (HudManagerHelper.Instance.CurrentRound < (int)ambassOpt.RoundWhenAvailable)
                 {
                     newText =
                         $"{newText} | {AmbassadorRole.RetrainWaitString.Replace("<roundToWait>", $"{(int)ambassOpt.RoundWhenAvailable}")}";

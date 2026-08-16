@@ -6,9 +6,9 @@ using MiraAPI.PluginLoading;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Globalization;
-using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Roles.Other;
@@ -197,7 +197,7 @@ public abstract class TownOfUsButton : CustomActionButton
             return false;
         }
 
-        if (!UsableFirstRound && DeathEventHandlers.CurrentRound == 1 && !TutorialManager.InstanceExists)
+        if (!UsableFirstRound && HudManagerHelper.Instance.CurrentRound == 1 && !TutorialManager.InstanceExists)
         {
             return false;
         }
@@ -401,7 +401,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
             return false;
         }
 
-        if (!UsableFirstRound && DeathEventHandlers.CurrentRound == 1 && !TutorialManager.InstanceExists)
+        if (!UsableFirstRound && HudManagerHelper.Instance.CurrentRound == 1 && !TutorialManager.InstanceExists)
         {
             return false;
         }

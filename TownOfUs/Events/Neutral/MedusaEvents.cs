@@ -45,7 +45,7 @@ public static class MedusaEvents
 
     private static void CheckForMedusaGaze(MiraCancelableEvent miraEvent, PlayerControl source, PlayerControl target, bool isAttack)
     {
-        if (MeetingHud.Instance || ExileController.Instance || isAttack || source.HasModifier<IndirectAttackerModifier>())
+        if (MeetingHud.Instance || ExileController.Instance || isAttack || miraEvent is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
         {
             return;
         }

@@ -3,7 +3,6 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
-using MiraAPI.Utilities;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -80,12 +79,12 @@ public sealed class MedusaRole(IntPtr cppPtr)
     {
         var scCount = CustomRoleUtils.GetActiveRolesOfType<MedusaRole>().Count(x => !x.Player.HasDied());
 
-        if (MiscUtils.KillersAliveCount > scCount)
+        if (MiscUtils.KillersAliveCount > scCount || MiscUtils.KillersAliveCount == 0)
         {
             return false;
         }
 
-        return scCount >= Helpers.GetAlivePlayers().Count - scCount;
+        return scCount >= MiscUtils.GetImpactfulLivingPlayers().Count - scCount;
     }
 
 

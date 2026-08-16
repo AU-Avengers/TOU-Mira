@@ -19,6 +19,11 @@ namespace TownOfUs.Roles.Crewmate;
 
 public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
 {
+    public void InitialSetup()
+    {
+        TmpSpriteUtils.CreateSpriteAsset(TouCrewAssets.MagicMirrorSprite.LoadAsset(),
+            "TouMira.Role.Crewmate.Mirrorcaster.Ui.MagicMirror", 1.45f);
+    }
     public override bool IsAffectedByComms => false;
 
     [HideFromIl2Cpp] public PlayerControl? Protected { get; set; }
@@ -102,7 +107,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 
         if (Protected != null)
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{ProtectionString.Replace("<player>", Protected.Data.PlayerName)}</b>");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b><sprite name=\"TouMira.Role.Crewmate.Mirrorcaster.Ui.MagicMirror\">{ProtectionString.Replace("<player>", Protected.Data.PlayerName)}</b>");
         }
 
         return stringB;

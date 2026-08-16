@@ -17,8 +17,11 @@ public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverabl
     {
         get
         {
-            if (!Player.IsImpostorAligned() &&
-                (!Player.IsCrewmate() || Helpers.GetAlivePlayers().Count(x => x.IsCrewmate()) == 1) &&
+            if (Player.HasDied() || Player.IsImpostorAligned())
+            {
+                return false;
+            }
+            if ((!Player.IsCrewmate() || Helpers.GetAlivePlayers().Count(x => x.IsCrewmate()) == 1) &&
                 Player.Data.Role is ITownOfUsRole touRole &&
                 touRole.RoleAlignment is not RoleAlignment.NeutralKilling && Helpers.GetAlivePlayers().Count < 4 &&
                 Helpers.GetAlivePlayers().Count > 1)

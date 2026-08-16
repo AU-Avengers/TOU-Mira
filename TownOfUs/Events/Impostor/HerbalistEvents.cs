@@ -4,7 +4,6 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Impostor.Herbalist;
 using TownOfUs.Options;
 using TownOfUs.Roles.Impostor;
@@ -65,7 +64,8 @@ public static class HerbalistEvents
         if (!target.TryGetModifier<HerbalistProtectionModifier>(out var protectMod) ||
             protectMod.Herbalist.PlayerId == source.PlayerId ||
             target.PlayerId == source.PlayerId ||
-            (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield))
+            @event is BeforeMurderEvent { IgnoreDefense: true } ||
+            @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
         {
             return false;
         }

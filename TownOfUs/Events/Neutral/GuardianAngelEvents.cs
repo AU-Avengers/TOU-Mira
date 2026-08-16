@@ -8,7 +8,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Utilities;
 using TownOfUs.Buttons;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
 using TownOfUs.Roles.Neutral;
@@ -83,7 +82,8 @@ public static class GuardianAngelEvents
 
         if (!target.HasModifier<GuardianAngelProtectModifier>() ||
             source.PlayerId == target.PlayerId ||
-            (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield))
+            @event is BeforeMurderEvent { IgnoreDefense: true } ||
+            @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
         {
             return false;
         }

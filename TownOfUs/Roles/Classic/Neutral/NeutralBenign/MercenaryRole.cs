@@ -19,6 +19,13 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class MercenaryRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IGuessable
 {
+    public void InitialSetup()
+    {
+        TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.BribeSprite.LoadAsset(),
+            "TouMira.Role.Neutral.Mercenary.Ui.Bribe", 1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.GuardSprite.LoadAsset(),
+            "TouMira.Role.Neutral.Mercenary.Ui.Guard", 1.45f);
+    }
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (!playerControl.AmOwner)
@@ -93,8 +100,8 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
         var players = ModifierUtils.GetPlayersWithModifier<MercenaryBribedModifier>();
-
-        stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.GetParsed("TouRoleMercenaryTabGoldCounter").Replace("<count>", $"{Gold}")}</b>");
+        
+        stringB.Append(TownOfUsPlugin.Culture, $"\n<b><sprite name=\"TouMira.Role.Neutral.Mercenary.Ui.Bribe\">{TouLocale.GetParsed("TouRoleMercenaryTabGoldCounter").Replace("<count>", $"{Gold}")}</b>");
 
         var playerControls = players as PlayerControl[] ?? [.. players];
         if (playerControls.Length != 0)

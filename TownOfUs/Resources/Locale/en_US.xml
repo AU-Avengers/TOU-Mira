@@ -456,6 +456,7 @@ You may disable this message through your option menu.</string>
   <string name="DiedByString">[cod] By [player]</string>
   <string name="DiedByStringBasic">By [player]</string>
   <string name="Alive">Alive</string>
+    <string name="Revived">Revived</string>
   <string name="DisconnectedData">D/C R[round] </string>
   <string name="DisconnectedDataFull">[cod] | D/C R[round] </string>
   <string name="DiedToDisconnect">Disconnected</string>
@@ -968,14 +969,7 @@ Once they use an ability, you may kill them.</string>
   <string name="TouRoleImitatorCrewmateImitation">Crewmate Imitation</string>
   <string name="TouRoleImitatorCrewmateImitationWikiDescription">All crewmate roles are available besides Politician and Mayor. Roles like Jailor and Prosecutor cannot use their meeting abilities, and Vigi does not get safe shots.</string>
   <string name="TouRoleImitatorNeutralCounterparts">Neutral Counterparts</string>
-  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Amnesiac ⇨ Medic | Doom ⇨ Vigi | Exe ⇨ Snitch
-Glitch ⇨ Sheriff | Fairy ⇨ Cleric | Inquis ⇨ Oracle
-Jester ⇨ Plumber | Merc ⇨ Warden
-Pb/Pest ⇨ Aurial | SC ⇨ Medium | WW ⇨ Hunter</string>
-  <string name="TouRoleImitatorImpostorCounterparts">Impostor Counterparts</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bomber ⇨ Trapper | Hypnotist ⇨ Lookout | Janitor ⇨ Forensic
-Miner ⇨ Engineer | Scavenger ⇨ Sonar
-Undertaker ⇨ Altruist | Warlock ⇨ Veteran</string>
+    <string name="TouRoleImitatorImpostorCounterparts">Impostor Counterparts</string>
   <!-- Imitator Options -->
   <string name="TouOptionImitatorImitateNeutrals">Imitate Neutral Counterparts</string>
   <string name="TouOptionImitatorImitateImpostors">Imitate Impostor Counterparts</string>
@@ -1558,6 +1552,7 @@ at the cost of your ability.</string>
   <string name="TouRoleTimeLordRevivedNotif">You were revived thanks to the Time Lord!</string>
   <!-- Time Lord Options -->
   <string name="TouOptionTimeLordRewindCooldown">Rewind Cooldown</string>
+    <string name="TouOptionTimeLordRewindDuration">Rewind Duration</string>
   <string name="TouOptionTimeLordRewindHistory">Rewind History</string>
   <string name="TouOptionTimeLordMaxUses">Initial Uses</string>
   <string name="TouOptionTimeLordUsesPerTasks">Tasks Required For Additional Rewind Use</string>
@@ -2461,6 +2456,7 @@ vision, and vent away temporarily</string>
   <!-- Lover - Universal Alliance -->
   <!-- Lover Wiki / Description -->
   <string name="TouModifierLover">Lover</string>
+    <string name="TouModifierLoverInfoDisconnected">You were in love with [player], whom disconnected.</string>
   <string name="TouModifierLoverInfo">You are in love with [player].</string>
   <string name="TouModifierLoverWikiDescription">As a lover, you can chat with your other lover (signified with [symbol]) during the round, and you can win with your lover if you are both a part of the final three players.</string>
   <string name="TouModifierLoverIntroMessage">You are a [modifier] with [player]. Chat with them and win with them when you two are part of the final three.</string>
