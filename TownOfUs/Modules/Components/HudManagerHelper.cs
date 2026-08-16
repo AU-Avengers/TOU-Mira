@@ -1,12 +1,16 @@
 ﻿using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
+using MiraAPI.Events;
+using MiraAPI.Events.Mira;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Attributes;
 using TMPro;
+using TownOfUs.Events;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
@@ -24,6 +28,8 @@ using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace TownOfUs.Modules.Components;
 
@@ -77,6 +83,67 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
     public void Awake()
     {
         Instance = this;
+    }
+
+    public void Start()
+    {
+        foreach (var button in CustomButtonManager.Buttons)
+        {
+            try
+            {
+                if (button.Button == null)
+                {
+                    continue;
+                }
+                var pb = button.Button.GetComponent<PassiveButton>();
+                pb.OnClick = new Button.ButtonClickedEvent();
+                pb.OnClick.AddListener((UnityAction)(() =>
+                {
+                    // Invoke the generic button click event.
+                    var genericEvent = new ExtendedMiraButtonClickEvent(button);
+                    if (PlayerControl.LocalPlayer.TryGetModifier<IndirectAttackerModifier>(out var indirectMod))
+                    {
+                        genericEvent.IsIndirectInteraction = true;
+                        genericEvent.IgnoreDefense = indirectMod.IgnoreShield;
+                    }
+                    MiraEventManager.InvokeEvent(genericEvent);
+                    if (genericEvent.IsCancelled)
+                    {
+                        MiraEventManager.InvokeEvent(new MiraButtonCancelledEvent(button));
+                    }
+
+                    // Invoke the button click event for specific button.
+                    var eventType = CustomButtonManager.EventTypes[button.GetType()];
+                    var @event = (MiraCancelableEvent)Activator.CreateInstance(eventType, button, genericEvent)!;
+                    var specificInvoked = MiraEventManager.InvokeEvent(@event, eventType);
+                    if (@event.IsCancelled)
+                    {
+                        var cancelEventType = CustomButtonManager.CancelledEventTypes[button.GetType()];
+                        var cancelEvent = (MiraEvent)Activator.CreateInstance(cancelEventType, button)!;
+                        MiraEventManager.InvokeEvent(cancelEvent, cancelEventType);
+                    }
+
+                    if (specificInvoked)
+                    {
+                        if (!@event.IsCancelled)
+                        {
+                            button.ClickHandler();
+                        }
+                    }
+                    else
+                    {
+                        if (!genericEvent.IsCancelled)
+                        {
+                            button.ClickHandler();
+                        }
+                    }
+                }));
+            }
+            catch (System.Exception e)
+            {
+                Error($"Failed to create custom button {button.GetType().Name}: {e}");
+            }
+        }
     }
 #pragma warning disable S2325
     #pragma warning disable CA1822
