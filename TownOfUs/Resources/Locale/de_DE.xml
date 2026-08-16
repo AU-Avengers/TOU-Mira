@@ -438,9 +438,6 @@ Wenn deine Quote gefütteret ist hast du gewonnen!</string>
   <string name="TouRoleAltruistWikiDescription">Der Altruist ist eine Besatzungs Schutz Rolle, die Tote Spieler wiederbeleben kann. Allerdings können weder der Altruist noch die wiederbelebten Spieler eine Versammlung Einrufen.</string>
   <string name="TouRoleAltruistReviveWikiDescription">Belebe eine Gruppe toter Körper in deiner Nähe wieder.</string>
   <string name="TouRoleAurialTabDescription">Nehme Jede Spieler Fähigkeit war, die in deiner Umgebung benutzt wurde</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bombenleger ⇨ Fallensteller | Hypnotiseur ⇨ Wache | Hausmeister ⇨ Spurensucher
-Grubenarbeiter ⇨ Ingenieur | Geier ⇨ Spürnase
-Grabschänder ⇨ Altruist | Hexenmeister ⇨ Veteran</string>
   <string name="TouRoleBomberIntroBlurb">Plaziere Bomben um mehrere Besatzungsmitglieder gleichzeitig zu töten</string>
   <string name="TouRoleBomberTabDescription">Plaziere Bomben um mehrere Besatzungsmitglieder bei Sprengung zu töten</string>
   <string name="TouRoleBomberWikiDescription">Der Bombenleger ist eine Verräter Mord Rolle die eine Bombe legen kann, welche nach [detonateDelay] Sekund(en) explodiert.</string>
@@ -470,10 +467,6 @@ Grabschänder ⇨ Altruist | Hexenmeister ⇨ Veteran</string>
   <string name="TouOptionJuggernautInitialCooldown">Anfangs Kill-Wartezeit</string>
   <string name="TouOptionJuggernautCooldownReduction">Kill-Wartezeit Reduktion</string>
   <string name="TouOptionJuggernautCanVent">Moloch Kann In Schächte</string>
-  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Vergesslicher ⇨ Mystiker | Doom ⇨ Vigi | Exe ⇨ Petze
-Glitch ⇨ Sheriff | Fairy ⇨ Kleriker | Inquis ⇨ Orakel
-Narr ⇨ Klempner | Merc ⇨ Wächter
-Pb/Pest ⇨ Feinfühler | SC ⇨ Medium | WW ⇨ Jäger</string>
   <string name="SummaryCommandList">zusammenfassung:Spielzusammenfassung:spzu</string>
   <string name="NerfMeCommandList">nerf:nerfme:kurzsichtig</string>
   <string name="SetNameCommandList">ändername:wechslename:umbennenen:name</string>

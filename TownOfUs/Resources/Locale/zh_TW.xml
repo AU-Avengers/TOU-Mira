@@ -632,14 +632,7 @@
   <string name="TouRoleImitatorCrewmateImitation">船員效仿</string>
   <string name="TouRoleImitatorCrewmateImitationWikiDescription">除了政治家、市長之外,所有船員職業都可以使用。典獄長和檢察官無法使用他們的會議技能,而俠客無法獲得安全猜測。</string>
   <string name="TouRoleImitatorNeutralCounterparts">中立對應表</string>
-  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">失憶者 ⇨ 法醫 |末日預言者 ⇨ 俠客 |行刑者 ⇨ 告密者
-混沌 ⇨ 警長 |守護天使 ⇨ 牧師 |審判官 ⇨ 神諭者
-小丑 ⇨ 水管工 |僱傭兵 ⇨ 護衛者
-瘟疫之源/萬疫之神 ⇨ 靈光師 |噬魂獸 ⇨ 招魂師 |月下狼人 ⇨ 巡獵者</string>
   <string name="TouRoleImitatorImpostorCounterparts">偽裝者對應表</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">爆破手 ⇨ 陷阱師 |催眠師 ⇨ 觀測者 |清理者 ⇨ 側寫師
-管道工 ⇨ 工程師 |賞金獵人 ⇨ 追踪者
-送葬者 ⇨ 殉道者 |巫術師 ⇨ 老兵</string>
   <string name="TouOptionImitatorImitateNeutrals">效仿特定中立職業作為相似船員職業</string>
   <string name="TouOptionImitatorImitateImpostors">效仿特定偽裝者職業作為相似船員職業</string>
   <string name="TouOptionImitatorImitateBasicCrewmate">效仿基礎船員</string>

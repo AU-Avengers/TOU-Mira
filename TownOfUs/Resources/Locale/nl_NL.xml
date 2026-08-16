@@ -322,14 +322,7 @@ executeer ze als ze slecht zijn</string>
   <string name="TouRoleImitatorCrewmateImitation">Bemanningslid imitatie</string>
   <string name="TouRoleImitatorCrewmateImitationWikiDescription">Alle Bemanningslid rollen zijn beschikbaar behalve Imitator, Politicus, Burgemeester en Cipier. Cipier en Aanklager kunnen hun vaardigheden niet in vergaderingen gebruiken, en Burgerwacht krijgt geen veilige schoten.</string>
   <string name="TouRoleImitatorNeutralCounterparts">Neutrale tegenhangers</string>
-  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Vergeetachtige ⇨ Dokter | Doemdenker ⇨ Burgerwacht | Beul ⇨ Verklikker
-Glitch ⇨ Sheriff | Beschermengel ⇨ Geestelijke | Inquisitor ⇨ Orakel
-Nar ⇨ Loodgieter | Huurling ⇨ Directeur
-Pestdrager ⇨ Aurial | Zielverzamelaar ⇨ Medium | Weerwolf ⇨ Jager</string>
   <string name="TouRoleImitatorImpostorCounterparts">Bedrieger tegenhangers</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bommenwerper ⇨ Vallensteller | Hypnotiseur ⇨ Uitkijker | Conciërge ⇨ Detective
-Mijnwerker ⇨ Werktuigkundige | Aaseter ⇨ Tracker
-Ondernemer ⇨ Altruïst | Tovenaar ⇨ Veteraan</string>
   <string name="TouOptionImitatorImitateNeutrals">Imiteer specifieke Neutrale als vergelijkbare Bemanningsrollen</string>
   <string name="TouOptionImitatorImitateImpostors">Imiteer specifieke Bedriegersrollen als vergelijkbare Bemanningsrollen</string>
   <string name="TouRoleInvestigator">Onderzoeker</string>

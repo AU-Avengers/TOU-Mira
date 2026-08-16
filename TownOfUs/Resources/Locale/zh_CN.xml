@@ -309,14 +309,7 @@
   <string name="TouRoleImitatorCrewmateImitation">船员效仿</string>
   <string name="TouRoleImitatorCrewmateImitationWikiDescription">除了政治家、市长之外，所有船员职业都可用。典狱长和检察官无法使用他们的会议技能，侠客无法获得安全猜测。</string>
   <string name="TouRoleImitatorNeutralCounterparts">中立对应表</string>
-  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">失忆者 ⇨ 法医 |末日预言者 ⇨ 侠客 |行刑者 ⇨ 告密者
-混沌 ⇨ 警长 |守护天使 ⇨ 牧师 |审判官 ⇨ 神谕者
-小丑 ⇨ 水管工 |雇佣兵 ⇨ 护卫者
-瘟疫之源/万疫之神 ⇨ 灵光师 |噬魂兽 ⇨ 灵化使 |月下狼人 ⇨ 巡猎者</string>
   <string name="TouRoleImitatorImpostorCounterparts">伪装者对应表</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">爆破手 ⇨ 陷阱师 |催眠师 ⇨ 观测者 |清理者 ⇨ 侧写师
-管道工 ⇨ 工程师 |赏金猎人 ⇨ 追踪者
-送葬者 ⇨ 殉道者 |巫术师 ⇨ 老兵</string>
   <string name="TouOptionImitatorImitateNeutrals">效仿特定中立职业作为相似船员职业</string>
   <string name="TouOptionImitatorImitateImpostors">效仿特定伪装者职业作为相似船员职业</string>
   <string name="TouRoleInvestigator">调查员</string>

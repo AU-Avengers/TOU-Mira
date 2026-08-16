@@ -367,9 +367,6 @@ za cenę własnego życia.</string>
   <string name="TouOptionAltruistKillerEnumNeutrals">Neutralni</string>
   <string name="TouOptionAltruistKillerEnumImpostors">Intruzi</string>
   <string name="TouOptionAltruistKillerEnumNeutralsAndImpostors">Neutralni i Intruzi</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Terrorysta ⇨ Traper | Hipnotyzer ⇨ Obserwator | Sprzątacz ⇨ Kryminolog
-Górnik ⇨ Inżynier | Łowca Głów ⇨ Sonar
-Grabarz ⇨ Altruista | Czarnoksiężnik ⇨ Weteran</string>
   <string name="TouRoleAmbassador">Ambasador</string>
   <string name="TouRoleAmbassadorIntroBlurb">Zaprowadź [color=#FF0000FF]Intruzów[/color] do zwycięstwa</string>
   <string name="TouRoleAmbassadorTabDescription">Zmień rolę swoją lub pozostałych Intruzów
@@ -525,10 +522,6 @@ Po śmierci osaczonego gracza zabierzesz jego ciało.</string>
   <string name="TouOptionAmbusherPursueArrowUpdateInterval">Przerwa Między Aktualizacją Srzałki</string>
   <string name="TouOptionAmbusherStopPursuingPlayerOnAmbush">Przestań Nękać Po Osaczeniu</string>
   <string name="TouOptionAmbusherCanVent">Czyhacz Może Wentować</string>
-  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Sklerotyk ⇨ Medyk | Zgad ⇨ Mścic | Kat ⇨ Kapuś
-Glicz ⇨ Szeryf | Wróżka ⇨ Kleryk | Inkwiz ⇨ Wyrocznia
-Błazen ⇨ Hydraulik | Najem ⇨ Opiekun
-Mora/Chor ⇨ Aurysta | Żniw ⇨ Medium | Wilk ⇨ Łowca</string>
   <string name="TouRoleAmnesiac">Sklerotyk</string>
   <string name="TouRoleAmnesiacIntroBlurb">Przypomnij sobie rolę martwego</string>
   <string name="TouRoleAmnesiacTabDescription">Znajdź martwe ciało przypominając sobie i zostając jego rolą.</string>

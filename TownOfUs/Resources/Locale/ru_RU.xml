@@ -459,15 +459,8 @@
   <string name="External">Расширенный</string>
   <string name="Other">Другое</string>
   <string name="TouRoleImitatorNeutralCounterparts">Аналоги Нейтрала</string>
-  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Амнезияк ⇨ Медик | Предвестник ⇨ Линчеватель | Палач ⇨ Стукач
-Глич ⇨ Шериф | Ангел-хранитель ⇨ Клирик | Инквизитор - Оракул
-Шут - Сантехник | Наёмник ⇨ Хранитель
-Чумоносец/Чума ⇨ Ауриал | Падальщик - Медиум | Оборотень ⇨ Охотник</string>
   <string name="TouRoleImitatorImpostorCounterparts">Аналоги Предателя</string>
   <string name="TouRoleTrapper">Ловушечник</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Подрывник ⇨ Ловушечник | Гипнотизёр ⇨ Дозорный | Уборщик ⇨ Детектив
-Шахтёр ⇨ Инженер | Падальщик - Трекер
-Гробовщик ⇨ Альтруист | Колдун ⇨ Ветеран</string>
   <string name="TouRolePoliticianIntroBlurb">Агитируйте игроков, чтобы стать Мэром!</string>
   <string name="TouRolePoliticianTabDescription">Агитируйте Членов Экипажа, чтобы стать Мэром.
 Как минимум половина мирных игроков должна быть

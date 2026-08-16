@@ -944,14 +944,7 @@ sus roles en las reuniones</string>
   <string name="TouRoleImitatorCrewmateImitation">Imitación de Tripulante</string>
   <string name="TouRoleImitatorCrewmateImitationWikiDescription">Todos los roles de Tripulante están disponibles excepto Político y Alcalde. Roles como Carcelero y Fiscal no pueden usar sus habilidades de reunión, y el Vigilante no obtiene disparos seguros.</string>
   <string name="TouRoleImitatorNeutralCounterparts">Contrapartes Neutrales</string>
-  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Amnésico ⇨ Místico | Conspiranoico ⇨ Vigilante | Verdugo ⇨ Soplón
-Glitch ⇨ Sheriff | Hada ⇨ Clérigo | Inquisidor ⇨ Oráculo
-Bufón ⇨ Plomero | Mercenario ⇨ Guardián
-Propagador/Pestilencia ⇨ Perceptor | Cambiaformas ⇨ Médium | Hombre Lobo ⇨ Cazador</string>
   <string name="TouRoleImitatorImpostorCounterparts">Contrapartes de Impostor</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bombardero ⇨ Trampero | Hipnotista ⇨ Vigía | Conserje ⇨ Forense
-Minero ⇨ Ingeniero | Carroñero ⇨ Rastreador
-Sepultador ⇨ Altruista | Hechicero ⇨ Veterano</string>
   <!-- Opciones del Imitador -->
         <string name="TouOptionImitatorImitateNeutrals">Imitar contrapartes Neutrales</string>
   <string name="TouOptionImitatorImitateImpostors">Imitar contrapartes de Impostor</string>
