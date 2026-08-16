@@ -64,7 +64,8 @@ public static class HerbalistEvents
         if (!target.TryGetModifier<HerbalistProtectionModifier>(out var protectMod) ||
             protectMod.Herbalist.PlayerId == source.PlayerId ||
             target.PlayerId == source.PlayerId ||
-            @event is BeforeMurderEvent murderEvent && murderEvent.IgnoreDefense)
+            @event is BeforeMurderEvent { IgnoreDefense: true } ||
+            @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
         {
             return false;
         }

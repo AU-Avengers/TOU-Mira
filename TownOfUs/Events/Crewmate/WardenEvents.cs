@@ -91,7 +91,8 @@ public static class WardenEvents
         }
 
         if (!target.HasModifier<WardenFortifiedModifier>() || source == target ||
-            @event is BeforeMurderEvent murderEvent && murderEvent.IgnoreDefense)
+            @event is BeforeMurderEvent { IgnoreDefense: true } ||
+            @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
         {
             return;
         }

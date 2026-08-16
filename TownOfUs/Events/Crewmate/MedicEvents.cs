@@ -162,7 +162,8 @@ public static class MedicEvents
 
         if (!target.HasModifier<MedicShieldModifier>() ||
             target.PlayerId == source.PlayerId ||
-            @event is BeforeMurderEvent murderEvent && murderEvent.IgnoreDefense)
+            @event is BeforeMurderEvent { IgnoreDefense: true } ||
+            @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
         {
             return false;
         }

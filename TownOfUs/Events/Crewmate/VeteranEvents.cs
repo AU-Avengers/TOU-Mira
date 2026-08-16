@@ -106,6 +106,11 @@ public static class VeteranEvents
             ignoreAlert = murderEvent.IgnoreDefense;
             indirect = murderEvent.IsIndirectAttack;
         }
+        else if (miraEvent is ExtendedMiraButtonClickEvent clickEvent)
+        {
+            ignoreAlert = clickEvent.IgnoreDefense;
+            indirect = clickEvent.IsIndirectInteraction;
+        }
 
         if (target.HasModifier<VeteranAlertModifier>() && source != target)
         {

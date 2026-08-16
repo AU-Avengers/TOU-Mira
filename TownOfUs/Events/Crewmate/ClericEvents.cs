@@ -72,7 +72,8 @@ public static class ClericEvents
 
         if (!target.HasModifier<ClericBarrierModifier>() ||
             target.PlayerId == source.PlayerId ||
-            @event is BeforeMurderEvent murderEvent && murderEvent.IgnoreDefense)
+            @event is BeforeMurderEvent { IgnoreDefense: true } ||
+            @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
         {
             return false;
         }

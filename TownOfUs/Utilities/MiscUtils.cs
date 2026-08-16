@@ -1979,6 +1979,11 @@ public static class MiscUtils
     public static void SetSizeLimit(this SpriteRenderer sprite, float pixelSize)
     {
         sprite.drawMode = SpriteDrawMode.Sliced;
+        if (!sprite.sprite)
+        {
+            return;
+        }
+
         float spriteWidth = sprite.sprite.rect.width;
         float spriteHeight = sprite.sprite.rect.height;
 
