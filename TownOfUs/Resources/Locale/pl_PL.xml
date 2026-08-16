@@ -364,9 +364,9 @@ za cenę własnego życia.</string>
   <string name="TouOptionAltruistKillersAlertedAtStart">Mordercy ostrzeżeni przed Wskrzeszeniem</string>
   <string name="TouOptionAltruistKillersAlertedAtEnd">Mordercy ostrzeżeni po Wskrzeszeniu</string>
   <string name="TouOptionAltruistKillerEnumNobody">Nikt</string>
-  <string name="TouOptionAltruistKillerEnumNeutrals">Neutrale</string>
+  <string name="TouOptionAltruistKillerEnumNeutrals">Neutralni</string>
   <string name="TouOptionAltruistKillerEnumImpostors">Intruzi</string>
-  <string name="TouOptionAltruistKillerEnumNeutralsAndImpostors">Neutrale i Intruzi</string>
+  <string name="TouOptionAltruistKillerEnumNeutralsAndImpostors">Neutralni i Intruzi</string>
   <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Terrorysta ⇨ Traper | Hipnotyzer ⇨ Obserwator | Sprzątacz ⇨ Kryminolog
 Górnik ⇨ Inżynier | Łowca Głów ⇨ Sonar
 Grabarz ⇨ Altruista | Czarnoksiężnik ⇨ Weteran</string>
@@ -647,7 +647,7 @@ Mora/Chor ⇨ Aurysta | Żniw ⇨ Medium | Wilk ⇨ Łowca</string>
   <string name="HnsRoleMysticTabHint">Wskazówka Mistyka</string>
   <string name="HnsRoleMysticTabDescription">Dowiedz się gdzie zabito innych graczy.</string>
   <string name="HnsRoleMysticWikiDescription">Mistyk to Załogant który dostaje strzałki w stronę zabójstw.</string>
-  <string name="HnsOptionMysticDeadBodyArrowDuration">Czas Trwania Strzałki Do Ciała</string>
+  <string name="HnsOptionMysticDeadBodyArrowDuration">Czas Trwania Strzałki</string>
   <string name="HnsRoleSnitch">Kapuś</string>
   <string name="HnsRoleSnitchTabHint">Wskazówka Kapusia</string>
   <string name="TouRoleAurial">Aurysta</string>
@@ -692,9 +692,9 @@ Wygrasz gdy nakarmisz wystarczającą ilość załogi!</string>
   <string name="TouOptionChefServingSideEffects">Czas Trwania Efektów Ubocznych</string>
   <string name="TouOptionChefArrowsToBodies">Pokazuj Strzałki Do Martwych Ciał</string>
   <string name="TouOptionChefArrowDelay">Opóźnienie Strzałki Do Ciała</string>
-  <string name="TouOptionMysticDeadBodyArrowDuration">Czas Trwania Strzałki Do Ciała</string>
-  <string name="TouOptionChefArrowDuration">Czas Trwania Strzałki Do Ciała</string>
-  <string name="TouOptionTelepathArrowDuration">Czas Trwania Strzałki Do Ciała</string>
+  <string name="TouOptionMysticDeadBodyArrowDuration">Czas Trwania Strzałki</string>
+  <string name="TouOptionChefArrowDuration">Czas Trwania Strzałki</string>
+  <string name="TouOptionTelepathArrowDuration">Czas Trwania Strzałki</string>
   <string name="TouRoleClericTabDescription">Oczyść załogę z negatywnych efektów oraz
 narzuć Bariery by całkowicie powstrzymać wszelkie interakcje</string>
   <string name="TouRoleClericWikiDescription">Kleryk to Załogant Ochronny potrafiący ochronić załogantów chociażby poprzez negowanie ich negatywnych efektów, oraz nakładanie barier powstrzymujących interakcje.</string>
@@ -782,7 +782,7 @@ narzuć Bariery by całkowicie powstrzymać wszelkie interakcje</string>
   <string name="TouRoleEngineerFix">Napraw</string>
   <string name="TouRoleEngineerFixing">Naprawianie</string>
   <string name="TouRoleEngineerFixWikiDescription">Nie ważne gdzie aktualnie się znajdujesz, możesz naprawić aktywny sabotaż dzięki swojemu naprawczemu guziczkowi. Możesz to zrobić [engiMaxFixes] razy na grę.</string>
-  <string name="TouOptionEngineerMaxVents">Ilość Wentowania Na Grę</string>
+  <string name="TouOptionEngineerMaxVents">Ilość Wentowań Na Grę</string>
   <string name="TouOptionEngineerVentPerTasks">Ilość Zadań Wymaganych Na Kolejny Went</string>
   <string name="TouOptionEngineerVentCooldown">Cooldown Wentowania</string>
   <string name="TouOptionEngineerVentDuration">Czas Trwania Wentowania</string>
@@ -825,12 +825,12 @@ chwili aby umknąć ze sceny zbrodni</string>
   <string name="TouOptionFairyCooldown">Cooldown Ochrony</string>
   <string name="TouOptionFairyDuration">Czas Trwania Ochrony</string>
   <string name="TouOptionFairyMaxProtects">Maks Ilość Ochron</string>
-  <string name="TouOptionFairyShowProtected">Pokaż Chronionego Gracza</string>
+  <string name="TouOptionFairyShowProtected">Kto Widzi Ochronę</string>
   <string name="TouOptionFairyProtectionEnumFairy">Wróżka</string>
   <string name="TouOptionFairyProtectionEnumFairyAndTarget">Wróżka + Cel</string>
   <string name="TouOptionFairyProtectionEnumEveryone">Wszyscy</string>
   <string name="TouOptionFairyOnDeathFairyBecomes">W Przypadku Śmierci Celu, Wróżka Zostaje</string>
-  <string name="TouOptionFairyTargetKnowsFairyExists">Cel Jest Świadom Istnienia Wróżki</string>
+  <string name="TouOptionFairyTargetKnowsFairyExists">Cel Wie Że Wróżka Istnieje</string>
   <string name="TouOptionFairyFairyKnowsRole">Wróżka Zna Rolę Celu</string>
   <string name="TouOptionFairyEvilOdds">Szansa Że Cel Będzie Zły</string>
   <string name="TouRoleForensic">Kryminolog</string>
@@ -1196,14 +1196,14 @@ i skaż ich na śmierć jeśli będziesz chciał</string>
   <string name="TouOptionMedicShowShieldedPlayer">Kto Widzi Tarczę</string>
   <string name="TouOptionMedicWhoGetsMurderAttemptIndicator">Kto Wie o Próbie Zabójstwa</string>
   <string name="TouOptionMedicCanGiveShieldAwayNextRound">Może Nadać Tarczę W Następnej Rundzie</string>
-  <string name="TouOptionMedicMaxAmountOfShieldUses">Maksymalna Ilość Użyć Tarczy</string>
+  <string name="TouOptionMedicMaxAmountOfShieldUses">Maks Ilość Tarcz</string>
   <string name="TouOptionMedicShieldBreaksOnMurderAttempt">Tarcza Niszczy Się Przy Próbie Zabójstwa</string>
   <string name="TouOptionMedicShowReportsInChat">Pokaż Zgłoszenia na Czacie</string>
   <string name="TouOptionMedicTimeWhereMedicWillHaveName">Czas W Którym Medyk Będzie Miał Nazwę Zabójcy</string>
   <string name="TouOptionMedicTimeWhereMedicWillHaveColorType">Czas W Którym Medyk Będzie Miał Typ Koloru Zabójcy</string>
   <string name="TouOptionMedicShieldEnumMedic">Medyk</string>
-  <string name="TouOptionMedicShieldEnumShielded">Osoba z Tarczą</string>
-  <string name="TouOptionMedicShieldEnumShieldedAndMedic">Osoba z Tarczą + Medyk</string>
+  <string name="TouOptionMedicShieldEnumShielded">Cel</string>
+  <string name="TouOptionMedicShieldEnumShieldedAndMedic">Cel + Medyk</string>
   <string name="TouOptionMedicShieldEnumEveryone">Wszyscy</string>
   <string name="TouOptionMedicShieldEnumNobody">Nikt</string>
   <string name="TouRoleMedicMessageTitle">Raport Zgłoszonego Ciała</string>
@@ -1226,12 +1226,15 @@ Zabił [time]s temu.</string>
   <string name="TouRoleLookoutWikiDescription">Obserwator to Załogant Śledczy który może obserwować innych graczy podczas rundy. Na spotkaniu, będzie on mógł zobaczyć jakie role, bądź jacy gracze interaktowali z każdym obserwowanym graczem.</string>
   <string name="TouRoleLookoutWatch">Obserwuj</string>
   <string name="TouRoleGlitch">Glicz</string>
-  <string name="TouRoleGlitchMimic">Mimikuj</string>
+  <string name="TouRoleGlitchMimic">Imituj</string>
   <string name="TouRoleGlitchIntroBlurb">Morduj, Imituj, Hakuj... Utracono Dane</string>
   <string name="TouRoleGlitchTabDescription">Hakuj graczy żeby chwilowo zastopować ich umiejętności,
-Mimikuj się w innych aby ich wrobić.</string>
-  <string name="TouRoleGlitchWikiDescription">Glicz jest Neutralną Zabijającą rolą która wygrywa poprzez zostanie ostatnim żywym mordercą. Może mimikować bądź hakować innych graczy.</string>
+Imituj się w innych aby ich wrobić.</string>
+  <string name="TouRoleGlitchWikiDescription">Glicz jest Neutralną Zabijającą rolą która wygrywa poprzez zostanie ostatnim żywym mordercą. Może imitować bądź hakować innych graczy.</string>
   <string name="TouRoleGlitchUnmimic">Odmień się</string>
-  <string name="TouRoleGlitchMimicWikiDescription">Mimikuj wygląd innego gracza, przybierając ich cały wygląd.</string>
+  <string name="TouRoleGlitchMimicWikiDescription">Imituj wygląd innego gracza, przybierając jego cały wygląd.</string>
   <string name="TouRoleGlitchHackWikiDescription">Wyłącz umiejętności gracza.</string>
+  <string name="TouRoleGlitchHackNotif">Kiedy [player] spróbuje użyć swoich umiejętności, zostaną one tymczasowo wyłączone.</string>
+  <string name="TouOptionGlitchKillCooldown">Cooldown Zabicia</string>
+  <string name="TouOptionGlitchMimicCooldown">Cooldown Imitacji</string>
 </resources>
