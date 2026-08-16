@@ -238,7 +238,7 @@ Fałszywe Zadania:</string>
   <string name="RolesHeader">[type] Role</string>
   <string name="GameKeyword">Gra</string>
   <string name="NeutralAlliance">Neutralne Sojusze</string>
-  <string name="JailorChatTitle">[player] (Strażnik Więzienny)</string>
+  <string name="JailorChatTitle">[player] (Klawisz)</string>
   <string name="JaileeChatTitle">[player] (Więzień)</string>
   <string name="TermsRoleBucketsTitle">Lista Pakietów Ról</string>
   <string name="AnticheatIllegalRpcMessage">Nieznana funkcja/umiejętność została użyta przez [player]. Mogą oszukiwać/exploitować.</string>
@@ -892,7 +892,7 @@ zobaczyć czy byli przy zabójstwie.</string>
   <string name="TouRoleBootleggerTabDescription">Upij załoganta, aby zablokować jego umiejętności na [blockTime]s.
 Upij jednego gracza wiele razy, aby go zatruć.</string>
   <string name="TouRoleBootleggerWikiDescription">Szmugler to Intruz Wsparcia który może upić innego gracza aby tymczasowo zablokować jego umiejętności. Gdy gracz został upity trzy razy, zginie on od trucizny.</string>
-  <string name="TouRoleBootleggerSicken">Zachoruj</string>
+  <string name="TouRoleBootleggerSicken">Rozchoruj</string>
   <string name="TouRoleBootleggerSickening">Chorowanie</string>
   <string name="TouRoleBootleggerPoison">Zatruj</string>
   <string name="TouRoleBootleggerPoisoning">Zatruwanie</string>
@@ -1104,7 +1104,7 @@ Gdy takowej użyją, możesz go zabić.</string>
   <string name="TouRoleImitatorTabDescription">Użyj zmarłych aby pomóc Załodze przez naśladowanie ich</string>
   <string name="TouRoleImitatorWikiDescription">Naśladowca to Załogant Wsparcia który może wybrać martwego załoganta aby naśladować jego rolę dopóki nie zmieni celu. Niektóre role nie są dostępne jeśli żyje wiele naśladowców.</string>
   <string name="TouRoleImitatorCrewmateImitation">Naśladowanie Załogi</string>
-  <string name="TouRoleImitatorCrewmateImitationWikiDescription">Wszystkie role Załogi są dostępne prócz Polityka i Burmistrza. Role takie jak Strażnik Więzienny oraz Prokurator nie mogą użyć swoich umiejętności na spotkaniu, a Mściciel nie dostaje bezpiecznych strzałów.</string>
+  <string name="TouRoleImitatorCrewmateImitationWikiDescription">Wszystkie role Załogi są dostępne prócz Polityka i Burmistrza. Role takie jak Klawisz oraz Prokurator nie mogą użyć swoich umiejętności na spotkaniu, a Mściciel nie dostaje bezpiecznych strzałów.</string>
   <string name="TouRoleImitatorNeutralCounterparts">Odpowiedniki Neutralne</string>
   <string name="TouRoleImitatorImpostorCounterparts">Odpowiedniki Intruzów</string>
   <string name="TouOptionImitatorImitateNeutrals">Może Naśladować Odpowiedniki Neutralne</string>
@@ -1157,23 +1157,23 @@ Gdy takowej użyją, możesz go zabić.</string>
   <string name="TouOptionInvestigatorFootprintDuration">Czas Trwania Śladu</string>
   <string name="TouOptionInvestigatorShowAnonymousFootprints">Anonimowe Ślady</string>
   <string name="TouOptionInvestigatorShowFootprintVent">Ślady Widoczne Przy Wentach</string>
-  <string name="TouRoleJailor">Strażnik Więzienny</string>
-  <string name="TouRoleJailorIntroBlurb">Uwięź i skarz na śmierć [color=#FF0000FF]złoczyńców[/color]</string>
+  <string name="TouRoleJailor">Klawisz</string>
+  <string name="TouRoleJailorIntroBlurb">Uwięź i skaż na śmierć [color=#FF0000FF]złoczyńców[/color]</string>
   <string name="TouRoleJailorTabDescription">Uwięź graczy, aby porozmawiać z nimi prywatnie
-i skarz ich na śmierć jeśli są złoczyńcami</string>
+i skaż ich na śmierć jeśli są złoczyńcami</string>
   <string name="TouRoleJailorTabDescriptionEvil">Uwięź graczy, aby porozmawiać z nimi prywatnie
-i skarz ich na śmierć jeśli będziesz chciał</string>
-  <string name="TouRoleJailorWikiDescription">Strażnik Więzienny to Załogant Wpływowy który może uwięzić innych graczy. Podczas spotkania, Strażnik Więzienny może zdecydować, aby skazać na śmierć uwięzionego gracza. (Chyba, że Strażnik Więzienny to Naśladowca)</string>
+i skaż ich na śmierć jeśli będziesz chciał</string>
+  <string name="TouRoleJailorWikiDescription">Klawisz to Załogant Wpływowy który może uwięzić innych graczy. Podczas spotkania, Klawisz może zdecydować, aby skazać na śmierć uwięzionego gracza. (Chyba, że Klawisz to Naśladowca)</string>
   <string name="TouRoleJailorJail">Uwięź</string>
-  <string name="TouRoleJailorJailWikiDescription">Uwięź gracza. Podczas spotkania każdy zobaczy kto jest uwięziony. Na spotkaniu może prywatnie rozmawiać z uwięzionym graczem przełączając specjalny czat.</string>
-  <string name="TouRoleJailorExecute">Skarz</string>
-  <string name="TouRoleJailorExecuteWiki">Skarz (Na Spotkaniu)</string>
-  <string name="TouRoleJailorExecuteWikiDescription">Skarz na śmierć uwięzionego gracza. Jeśli gracz był załogantem, Strażnik Więzienny straci umiejętność więzienia graczy.</string>
+  <string name="TouRoleJailorJailWikiDescription">Uwięź gracza. Podczas spotkania każdy zobaczy kto jest uwięziony. Na spotkaniu możesz prywatnie rozmawiać z uwięzionym graczem przełączając specjalny czat.</string>
+  <string name="TouRoleJailorExecute">Skaż</string>
+  <string name="TouRoleJailorExecuteWiki">Skaż (Na Spotkaniu)</string>
+  <string name="TouRoleJailorExecuteWikiDescription">Skaż na śmierć uwięzionego gracza. Jeśli gracz był załogantem, Klawisz straci umiejętność więzienia graczy.</string>
   <string name="TouOptionJailorJailCooldown">Cooldown Uwięzienia</string>
   <string name="TouOptionJailorMaxExecutes">Ilość Skazań na Śmierć</string>
   <string name="TouOptionJailorJailInARow">Więzienie Gracza Dwa Razy Z Rzędu</string>
   <string name="TouOptionJailorJaileePublicChat">Uwięziony Może Rozmawiać Publicznie</string>
-  <string name="TouRoleJailorMessageTitle">Informacja Strażnika Więziennego</string>
+  <string name="TouRoleJailorMessageTitle">Informacja Klawisza</string>
   <string name="TouRoleJailorJailorFeedback">Rozmawiaj z osobą uwięzioną za pomocą przycisku czatu nad guzikiem zgłoszenia graczy.</string>
   <string name="TouRoleJailorCannotExecute">[player] nie może zostać skazany! Musi być on Nieśmiertelny, bądź pobłogosławiony!</string>
   <string name="TouRoleJailorExecutedCrew">[player] był załogantem! Nie możesz już zamykać graczy w więzieniu!</string>
@@ -1194,7 +1194,7 @@ i skarz ich na śmierć jeśli będziesz chciał</string>
   <string name="TouRoleMedicShield">Tarcza</string>
   <string name="TouRoleMedicShieldWikiDescription">Nadaj Tarczę graczowi, która ochroni go przed wszelkimi atakami</string>
   <string name="TouOptionMedicShowShieldedPlayer">Kto Widzi Tarczę</string>
-  <string name="TouOptionMedicWhoGetsMurderAttemptIndicator">Kto Dostaje Powiadomienie o Próbie Zabójstwa</string>
+  <string name="TouOptionMedicWhoGetsMurderAttemptIndicator">Kto Wie o Próbie Zabójstwa</string>
   <string name="TouOptionMedicCanGiveShieldAwayNextRound">Może Nadać Tarczę W Następnej Rundzie</string>
   <string name="TouOptionMedicMaxAmountOfShieldUses">Maksymalna Ilość Użyć Tarczy</string>
   <string name="TouOptionMedicShieldBreaksOnMurderAttempt">Tarcza Niszczy Się Przy Próbie Zabójstwa</string>
