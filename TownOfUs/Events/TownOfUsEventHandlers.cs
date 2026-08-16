@@ -24,6 +24,7 @@ using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
@@ -38,7 +39,6 @@ using TownOfUs.Modules.DraftMode;
 using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.Options;
@@ -94,6 +94,11 @@ public static class TownOfUsEventHandlers
             newObj.layer = LayerMask.NameToLayer("UI");
             newObj.transform.localPosition = new Vector3(-1.2f, 0.325f, -0.1f);
             RoleIconRenderer = newObj.AddComponent<SpriteRenderer>();
+            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.Data.Role.GetRoleIcon();
+            newObj.transform.localScale = new Vector3(1, 1, 1);
+            RoleIconRenderer.SetSizeLimit(0.4f);
+            var oldScale = newObj.transform.localScale;
+            newObj.transform.localScale = new(3.3333333333f * oldScale.x, 0.7843137255f * oldScale.y, 1);
         }
 
         if (RoleIconRenderer != null)
@@ -103,7 +108,6 @@ public static class TownOfUsEventHandlers
             RoleIconRenderer.SetSizeLimit(0.4f);
             var oldScale = RoleIconRenderer.transform.localScale;
             RoleIconRenderer.transform.localScale = new(3.3333333333f * oldScale.x, 0.7843137255f * oldScale.y, 1);
-            RoleIconRenderer.gameObject.SetActive(true);
         }
 
         return RolePanel;
@@ -295,6 +299,32 @@ public static class TownOfUsEventHandlers
 
         panel.SetTaskText(role.SetTabText().ToString());
     }
+
+    [RegisterEvent(-1000)]
+    public static void BeforeMurderEventHandler(BeforeMurderEvent murderEvent)
+    {
+        if (murderEvent.Source.TryGetModifier<IndirectAttackerModifier>(out var mod))
+        {
+            if (mod.IgnoreShield)
+            {
+                murderEvent.IgnoreDefense = true;
+            }
+            murderEvent.IsIndirectAttack = true;
+        }
+    }
+
+    /*[RegisterEvent(-1000)]
+    public static void BeforeMurderEventHandler(ExtendedMiraButtonClickEvent clickEvent)
+    {
+        if (PlayerControl.LocalPlayer.TryGetModifier<IndirectAttackerModifier>(out var mod))
+        {
+            if (mod.IgnoreShield)
+            {
+                clickEvent.IgnoreDefense = true;
+            }
+            clickEvent.IsIndirectInteraction = true;
+        }
+    }*/
 
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent _)

@@ -54,7 +54,8 @@ public static class FirstShieldEvents
         }
 
         if (!target.HasModifier<FirstDeadShield>() || source == target ||
-            (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield))
+            @event is BeforeMurderEvent { IgnoreDefense: true } ||
+            @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
         {
             return;
         }

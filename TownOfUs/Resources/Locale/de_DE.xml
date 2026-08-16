@@ -10,7 +10,7 @@
   <string name="ShowSummaryMessage">Zusammenfassungsnachricht Anzeigen</string>
   <string name="ColorPlayerName">Farbige Spielernamen</string>
   <string name="UseCrewmateTeamColor">Verwende Grundlegende Besatzungsfarben</string>
-  <string name="ShowShieldHud">Schilde Auf HUD Anzeigen</string>
+  <string name="ShowShieldHud">Schilde Auf Benutzeroberfläche Anzeigen</string>
   <string name="ButtonUIFactor">Knopfskalierungsfaktor</string>
   <string name="OffsetButtons">Versetzte Tasten Wenn Du Nicht In Schächte Kannst</string>
   <string name="SortGuessingByAlignment">Sortiere Raten Nach Fraktion</string>
@@ -380,7 +380,7 @@ Wenn deine Quote gefütteret ist hast du gewonnen!</string>
   <string name="NonNeutPostmortem">Nicht-Neutral nach Tod</string>
   <string name="NonNeutPassive">Nicht-Neutral Passiv</string>
   <string name="NonImpostor">Nicht-Verräter</string>
-  <string name="NonImpUtility">NIcht-Verräter Beistand</string>
+  <string name="NonImpUtility">Nicht-Verräter Beistand</string>
   <string name="NonImpVisibility">Nicht-Verräter Sichtbarkeit</string>
   <string name="NonImpPostmortem">Nicht-Verräter nach Tod</string>
   <string name="NonImpPassive">Nicht-Verräter Passiv</string>
@@ -628,10 +628,10 @@ in Gruppen wieder zu beleben.</string>
   <string name="TouRoleWardenTabDescription">Verschanze Besastzungsmitglieder um interactionen mit ihnen zu verhindern</string>
   <string name="TouRoleWardenWikiDescription">Der Wächter ist eine Besatzungs Schutz Rolle welche Spieler Verschanzen kann um interationen mit ihnen zu verhindern. </string>
   <string name="TouRoleWardenFortify">Verschanzen</string>
-  <string name="TouRoleWardenFortifyWikiDescription">Verschanze einen Spieler um interaktionen mit disem zu verhindern. Wenn irgendjemand versucht mit dem verschanzten Spieler zu interagieren, wird die fähigkeit nicht funktionieren und der Wächter und der Verschanzte Spieler werden mit einem lilanen flash alarmiert.</string>
+  <string name="TouRoleWardenFortifyWikiDescription">Verschanze einen Spieler um interaktionen mit disem zu verhindern. Wenn irgendjemand versucht mit dem verschanzten Spieler zu interagieren, wird die fähigkeit nicht funktionieren und der Wächter und der Verschanzte Spieler werden mit einem lilanen Blitz alarmiert.</string>
   <string name="TouOptionWardenShowFortifyPlayer">Zeige Verschanzten Spieler</string>
   <string name="TouRoleAmbassadorIntroBlurb">Leite die [color=#FF0000FF]Verräter[/color] zun Sieg</string>
-  <string name="TouRoleVigilanteIntroBlurb">Töte [color=#FF0000FF]Verräter[/color] wenn du ihre Rollen raten kannst</string>
+  <string name="TouRoleVigilanteIntroBlurb">Töte [color=#FF0000FF]Verräter[/color] wenn du ihre Rollen raten kannst!</string>
   <string name="TouRoleVigilanteTabDescription">Rate die Rollen der Verräter in Treffen um sie zu töten!</string>
   <string name="TouRoleVigilanteWikiDescription">Der Vigilante ist eine Besatzung Mord Rolle welche die Rollen anderer Spieler in Treffen raten kann. If they guess correctly, the other player will die. If not, they will die. </string>
   <string name="TouOptionVigilanteNumberOfGuesses">Rat Anzahl</string>
@@ -821,4 +821,70 @@ und lass sie ihre Sünden beichten</string>
   <string name="SeekerPassive">Sucher Passiv</string>
   <string name="AnticheatKickMissingMessage">[player] fehlen folgende mods:</string>
   <string name="SpectatorDraftError">Du kannst den Zuschauer nicht während des drafts aktivieren!</string>
+  <string name="TermsTargetSymbolsTitle">Zielsymbole</string>
+  <string name="TermsTargetSymbolsInfo">Zielsymbole sind neben Spielernamen in Sitzungen und wärend des Spiels, normalerweise nur sichtbar zur Person mit der jeweiligen Rolle Und/Oder den Toten. Henker ziele sind mit einem[/color][color=#643B1F]X[/color]markiert. Inquisitor ziele sind mit einem [color=#D94291]$[/color]markiert. Ziele der Fee sind mit einem [color=#B3FFFF]★[/color]markiert.</string>
+  <string name="NeutralBenignTaskHeader">Du kannst nicht durch dich selbst gewinnen.
+Optionale Aufgaben:</string>
+  <string name="NeutralEvilTaskHeader">Du musst dein Ziel unter allen Umstänen erfüllen
+Falsch Aufgaben:</string>
+  <string name="NeutralKillingTaskHeader">Eliminiere alle anderen Teams unter allen umständen.
+Faake-Aufgaben:</string>
+  <string name="NeutralSpectreTaskHeader">Du bist tot. Erfülle deine Aufgaben um zu gewinnen!</string>
+  <string name="PreviousButtonText">Vorherige</string>
+  <string name="NextButtonText">Nächste</string>
+  <string name="EndSummaryVisibility">Endzusammenfassungs Sichtbarkeit</string>
+  <string name="SourceCode">Quellcode</string>
+  <string name="WikiSettingsAmongUsGameSettingsTitle">Among Us Spieleinstellungen</string>
+  <string name="SummaryAdvanced">Erweitert</string>
+  <string name="TouDraftShimmerDraft">Entwurf</string>
+  <string name="TouDraftShimmerMode">Modus</string>
+  <string name="TouDraftWaitingToStart">Auf Start warten...</string>
+  <string name="LegacyThemeDisabled">Legacy: Aus</string>
+  <string name="LegacyThemeArt">Legacy: Design</string>
+  <string name="LegacyThemePlayers">Legacy: Spieler</string>
+  <string name="LegacyThemeFull">Legacy: Alles</string>
+  <string name="TouDraftSlotLabel">Platz [slot]</string>
+  <string name="DraftAudioNone">Nichts</string>
+  <string name="AutoRejoinDelay">Verzögerung für Automatischen Wiederbeitritt</string>
+  <string name="AutoRejoinSelection">Automatischer Wiederbeitritt</string>
+  <string name="RainbowColorAsFortegreen">Regenbogenfarbe statt Standard Grün</string>
+  <string name="SeparateChatBubbles">Getrentte Chatsymbole</string>
+  <string name="RoleIconOnReveal">Rollenzeichen im Intro anzeigen</string>
+  <string name="DisplayPlayerProgress">Spielervortschritt neben Namen anzeigen für</string>
+  <string name="ShowRoleIcons">Rollensymbol neben Spielernamen anzeigen</string>
+  <string name="ShowBasicAssassinOnHud">Assasine auf der Benutzeroberfläche anzeigen</string>
+  <string name="UseSeparateRedChat">Getrennten Privatchat zeigen</string>
+  <string name="TopRightUiScale">Skalierung der Benutzeroberfläche Oben Rechts</string>
+  <string name="SummaryMsgBreakdown">Zusammenfassung</string>
+  <string name="GrenadierFlashColor">Grenadier Blitz Farbe</string>
+  <string name="SonarTargetType">Sonar Zieltyp</string>
+  <string name="Terminology">Terminologie</string>
+  <string name="WikiSettingsTouMiraGameSettingsTitle">TOU Mira Spiel Einstellungen</string>
+  <string name="WikiSettingsRoleDistOptions">Rollenverteilungsoptionen</string>
+  <string name="TermsProtectionSymbolsInfo">Schutzsymbole erscheinen neben Spielernamen in Besprechungen und/oder während des Spiels, um zu zeigen, dass der Spieler gegen die meisten Attacken immun ist. Dieses ist aber normalerweise nur für Betroffende Rollen, das Ziel oder die Toten sichtbar. • Arzt Schilder sind in der Farbe [color=#006600]+[/color] makiert • Kleriker Barrieren sind mit der Farbe [color=#00FFB3]Ω[/color] makiert • Wächterverstärkungen sind in der Farbe [color=#9900FF]π[/color] makiert • Spiegelwerfers Refelexionen sind mit der Farbe [color=#90A2C3]〚〛[/color] • Feen Schutz ist mit der Farbe [color=#FFD900]★[/color] makiert • Schutzengel Schutz ist mit der Farbe [color=#66AAF3]☀[/color] makiert • Segen des Orakel ist mit der Farbe [color=#BF00BF]†[/color] makiert</string>
+  <string name="TermsStatusEffectInfo">Status Effekte werden während der Besprechungen und/oder während des Spiels auf dem Spielernamen für die betroffenen Rollen und/oder die Toten angezeigt. • Brandstifter Tränkungen sind mit der Farbe [color=#FF4D00]Δ[/color] markiert • Seuchenhüters plagen sind mit der Farbe [color=#E6FFB3]¥[/color] markiert • Ferngesteuerte Spieler sind mit der Farbe [color=#FF2660]⦿[/color] markiert • Erpresste ziele sind mit der Farbe [color=#2A1119]M[/color markiert] • Hypnose ist mit der Farbe [color=#D53F42]@[/color] markiert • Der Zauberwirker Fluch wird mit der Farbe [color=#FF0000]乂[/color] markiert • Die Ritter des Monarch sind mit der Farbe [color=#EA535B]♠[/color] markiert</string>
+  <string name="TermsCrewRoleAlignmentsTitle">[color=#8CFFFF]Besatzung[/color] Teilausrichtung</string>
+  <string name="UpCommandHostError">Du musst der Host sein um den /up Befehl nutzen zu können.</string>
+  <string name="UpCommandDevBuildError">Der /up Befehl ist nur in den Entwicklungsversionen verfügbar.</string>
+  <string name="UpCommandLobbyError">Du kann den /up Befehl nur in der Lobby verwenden!</string>
+  <string name="UpCommandInvalidError">Ungültige verwendung des /up Befehl. Nutze /up [Role] oder /up [Role] [PlayerName].</string>
+  <string name="UpCommandNoRoleError">Bitte benenne einen Rollennamen. Verwedung: /up [Role] oder /up [Role] [PlayerName].</string>
+  <string name="UpCommandRoleNotFoundError">Rolle "[role]" konnte nicht gefunden werden. Bitte gehe sicher, dass du den korrekten Namen eingegeben hast.</string>
+  <string name="UpCommandPlayerNotFoundError">Spieler "[player]" konnte nicht gefunden werden. Bitte gehe sicher, dass du den korrekten Namen eingegeben hast.</string>
+  <string name="UpCommandSuccess">Erfolgreich folgende Rolle für das nächste Spiel angefragt: [role].</string>
+  <string name="UpCommandSuccessOther">Erfolgreich folgende Rolle für den Spieler "[player]" für das nächste Spiel angefragt: [role].</string>
+  <string name="UpCommandSuccessGlobal">Der Host in der nächsten Runde eine Rolle für den Spieler "[player]" angefragt.</string>
+  <string name="RulesCommandList">Regeln</string>
+  <string name="RulesMessageTitle">Lobby Regeln</string>
+  <string name="RulesMissingError">Der Host hat keine Regeln gespeichert.</string>
+  <string name="RulesShowHostError">Du musst der Host der Runde sein um den "/rules show" Befehl zu nutzen.</string>
+  <string name="ShowRulesOnLobbyJoin">Regeln beim betreten der Lobby zeigen</string>
+  <string name="ShowRoleIconOnRoleTab">Symbol auf der "Rollen" Registerkarte</string>
+  <string name="TermsCrewRoleAlignmentsInfo">• [color=#8CFFFF]Investigativrollen[/color] können Informationen über andere Spieler sammeln. Sie können diese nutzen um herrauszufinden wer Besatzung ist und wer nicht. • [color=#8CFFFF]Tötenderollen[/color] können andere [color=#FF8B95]töten[/color], aber [color=#FF8B95]tötende[/color] [color=#8CFFFF]Besatzungsrollen[/color] erhalten möglicherweise Konsequenzen. • [color=#8CFFFF]Beschützenderollen[/color] haben die möglichkeit andere Spieler oder teils sich selbst zu schützen. • [color=#8CFFFF]Machtrollen[/color] beeinflussen die Stimmen oder haben stärkere Fähigkeiten als andere [color=#8CFFFF]Besatzungsmitglieder[/color]. • [color=#8CFFFF]Unterstützungsrollen[/color] haben meistens wegen um den anderen [color=#8CFFFF]Besatzungsmitgliedern[/color] zu helfen oder um sich selbst zu unterstützen.</string>
+  <string name="TermsNeutRoleAlignmentsTitle">[color=#8A8A8A]Neutral[/color] Teilausrichtung</string>
+  <string name="TermsNeutRoleAlignmentsInfo">• [color=#8A8A8A]Gutartige Rollen[/color] können nicht alleine gewinnen, entweder indem sie anderen helfen oder indem sie so lange wie möglich überlegen. • [color=#8A8A8A]Böse Rollen[/color] [color=#8A8A8A] verfolgen ihre Ziele, gehen als Sieger hervor oder beenden das Spiel abrupt. • [color=#8A8A8A]Tötende[/color] Rollen verfolgen, um jeden Preis das Ziel der letzte [color=#FF8B95]Mörder[/color] zu sein. • [color=#8A8A8A]Ausreißer Rollen[/color] versuchen ihre eigenen Ziele zu erreichen, aber alle Rollen beeinflussen das Spiel unterschiedlich, daher ergibt es Sinn manchmal wie sich eine Mischung aus [color=#8A8A8A]Neutral[/color], [color=#8A8A8A]Böse[/color] und [color=#8A8A8A]Tötend[/color] Rolle zu spielen.</string>
+  <string name="TermsImpRoleAlignmentsTitle">[color=#FF0000]Verräter[/color] Teilausrichtung</string>
+  <string name="ParasitePiPLocation">Parasit Bild-In-Bild Position</string>
+  <string name="PiPLocationMiddleLeft">Mittig Links</string>
+  <string name="PiPLocationMiddleRight">Mittig Rechts</string>
 </resources>

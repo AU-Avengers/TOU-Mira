@@ -53,7 +53,7 @@ public static class MonarchEvents
         if (target == null || button == null || button is not IKillButton || !button.CanClick())
             return;
 
-        if (PlayerControl.LocalPlayer == target || PlayerControl.LocalPlayer.TryGetModifier<IndirectAttackerModifier>(out var mod) && mod.IgnoreShield)
+        if (PlayerControl.LocalPlayer == target || @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
         {
             return;
         }
@@ -70,7 +70,7 @@ public static class MonarchEvents
         var source = @event.Source;
         var target = @event.Target;
 
-        if (source == target || source.TryGetModifier<IndirectAttackerModifier>(out var mod) && mod.IgnoreShield)
+        if (source == target || @event.IgnoreDefense)
         {
             return;
         }
