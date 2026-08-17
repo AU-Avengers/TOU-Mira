@@ -44,7 +44,7 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                 $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{TouLocale.GetParsed($"TouRole{LocaleKey}CrewmateImitationWikiDescription")}</font>";
             newAbility.gameObject.SetActive(true);
             listOfAbilities.Add(newAbility.gameObject);
-            var variantRoles = MiscUtils.AllRoles.Where(x => x is ICrewVariant);
+            var variantRoles = MiscUtils.AllRoles.Where(x => x is ICrewVariant).OrderBy(x => x.GetRoleName()).ToList();
             var neutEquivalents = new Dictionary<RoleBehaviour, RoleBehaviour>();
             var impEquivalents = new Dictionary<RoleBehaviour, RoleBehaviour>();
             foreach (var role in variantRoles)
@@ -67,8 +67,8 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             newTransform.offsetMax = new Vector2(5.5f, -2.4f);
             newTransform.offsetMin = new Vector2(3f, 0f);
             newTransform.transform.localPosition = new Vector3(0, 0f, -10f);
-            listOfAbilities.Add(AddTabInfo(TouLocale.GetParsed($"TouRole{LocaleKey}NeutralCounterparts"), neutEquivalents, abilityTemplateLong, 1f, newSubObject.transform));
-            listOfAbilities.Add(AddTabInfo(TouLocale.GetParsed($"TouRole{LocaleKey}ImpostorCounterparts"), impEquivalents, abilityTemplateLong, -1f, newSubObject.transform));
+            listOfAbilities.Add(AddTabInfo(TouLocale.GetParsed($"TouRole{LocaleKey}NeutralCounterparts"), neutEquivalents, abilityTemplateLong, 1.025f, newSubObject.transform));
+            listOfAbilities.Add(AddTabInfo(TouLocale.GetParsed($"TouRole{LocaleKey}ImpostorCounterparts"), impEquivalents, abilityTemplateLong, -1.025f, newSubObject.transform));
 
         return Mathf.Max(0f, 3.4f);
     }
@@ -88,7 +88,7 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             var ogRole = rolePair.Key;
             var newRole = rolePair.Value;
             description.AppendLine(TownOfUsPlugin.Culture,
-                $"{MiscUtils.GetRoleTmpIcon(ogRole)}{ogRole.GetRoleName()} ⇨ {MiscUtils.GetRoleTmpIcon(newRole)}{newRole.GetRoleName()}");
+                $"{ogRole.GetRoleName()} ⇨ {newRole.GetRoleName()}");
         }
         desc.text =
             $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{description}</font>";
