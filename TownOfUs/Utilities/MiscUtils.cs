@@ -2266,7 +2266,11 @@ public static class MiscUtils
         {
             return TouGamemode.TownOfPolus;
         }
-        return TouGamemode.Normal;
+        if (CustomGameModeManager.IsClassic())
+        {
+            return TouGamemode.Normal;
+        }
+        return TouGamemode.Other;
     }
 
     public static void LogInfo(TownOfUsEventHandlers.LogLevel logLevel, string text)
@@ -2579,6 +2583,7 @@ public enum TouGamemode
     Cultist,
     KillFrenzy,
     TownOfPolus,
+    Other,
     // Legacy
 }
 public enum ExpandedMapNames
