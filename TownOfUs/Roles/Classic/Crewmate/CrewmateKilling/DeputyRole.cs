@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -44,7 +45,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             else
             {
                 TriggerKillAnimation(HudManager.Instance.KillOverlay, source.Data, target.Data, targetVoteArea);
-                source.AddModifier<DeputyRevealedModifier>();
+                source.AddModifier<DeputyRevealedModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<DeputyRole>()));
                 MeetingMenu.Instances.Do(x => x.HideSingle(source.PlayerId));
             }
             Coroutines.Start(CoStopShot());
