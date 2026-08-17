@@ -490,12 +490,12 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     : $"<size={roleNameSize}>{cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{role.GetRoleName()}</color>)</size>";
             }
 
-            var stats = GameHistory.PlayerStats[player.PlayerId];
             if (removeCod)
             {
                 topText += "<cod>\n";
             }
             else if (localDead && isVisible &&
+                     GameHistory.PlayerStats.TryGetValue(player.PlayerId, out var stats) &&
                 stats.PlayerState != StoredPlayerState.Alive)
             {
                 topText +=
