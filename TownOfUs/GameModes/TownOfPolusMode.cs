@@ -16,10 +16,13 @@ namespace TownOfUs.GameModes;
 
 public class TownOfPolusMode : AbstractGameMode
 {
+    public override bool HideMode => !TownOfUsPlugin.IsDevBuild;
     public override string Name => "Town of Polus";
-    public override string Description => "Polus.gg's Town of Polus mode, reimplemented in Mira.";
+    public override string Description => "Play the classic Polus.gg mode, with new coat of paint!\nFind the Impostors or deceive the crew.";
+    public override LoadableAsset<Sprite> Icon => TouAssets.IconTownOfPolus;
     public override Color Color => new Color32(157, 146, 198, 255);
     public override bool ShowGameModeIntroCutscene => true;
+    public override bool ShowNormalRoleSettings => false;
     public override void AssignRoles(out bool runOriginal, LogicRoleSelectionNormal instance)
     {
         runOriginal = false;
