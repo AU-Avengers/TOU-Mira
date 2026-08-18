@@ -2298,14 +2298,14 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleBarkeeper">酒保</string>
   <string name="TouRoleBarkeeperIntroBlurb">阻断邪恶之徒的职业能力，让他们行动受阻</string>
   <string name="TouRoleBarkeeperTabDescription">阻断邪恶之徒的职业能力，使其在 [blockTime] 秒内无法使用能力。</string>
-  <string name="TouRoleBarkeeperWikiDescription">酒保是一名船员辅助型职业，可以与其他玩家喝酒并阻断其职业能力。还可以打翻饮料，使玩家加速或减速。</string>
+  <string name="TouRoleBarkeeperWikiDescription">酒保是一名船员辅助型职业，可以与其他玩家喝酒并阻断其职业能力。还可以倾倒饮料，使玩家加速或减速。</string>
   <string name="TouRoleBarkeeperRoleblock">能力阻断</string>
   <string name="TouRoleBarkeeperRoleblocking">能力阻断中</string>
   <string name="TouRoleBarkeeperRoleblockWikiDescription">与一名玩家喝酒，使其在 [blockTime] 秒内无法使用职业能力。</string>
   <string name="TouRoleBarkeeperRoleblockWikiDescriptionWithHangover">与一名玩家喝酒，使其在 [blockTime] 秒内无法使用职业能力。能力阻断结束后，该玩家会宿醉 [overTime] 秒</string>
-  <string name="TouRoleBarkeeperSpill">打翻</string>
+  <string name="TouRoleBarkeeperSpill">倾倒</string>
   <string name="TouRoleBarkeeperSpilling">沉淀中</string>
-  <string name="TouRoleBarkeeperSpillWikiDescription">打翻一杯饮料。刚打翻的饮料会使接触到的玩家加速，而放置一段时间后则会使玩家减速。每名玩家只会触发一次效果。</string>
+  <string name="TouRoleBarkeeperSpillWikiDescription">倾倒一杯饮料。刚倾倒的饮料会使接触到的玩家加速，而放置一段时间后则会使玩家减速。每名玩家只会触发一次效果。</string>
   <string name="TouRoleBarkeeperSpillSpeedBuffNotif">你感觉脚下有一滩滑溜溜的饮料。你的移动速度提升了！</string>
   <string name="TouRoleBarkeeperSpillSpeedDebuffNotif">你感觉脚下有一滩放置已久的饮料。你的移动速度比平时更慢了。</string>
   <string name="TouOptionBarkeeperRoleblockCooldown">能力阻断冷却时间</string>
@@ -2325,7 +2325,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleBootlegger">私酒贩</string>
   <string name="TouRoleBootleggerIntroBlurb">阻断船员的职业能力，让他们无法行动。</string>
   <string name="TouRoleBootleggerTabDescription">阻断船员的职业能力，使其在 [blockTime] 秒内无法使用能力。
-多次阻断同一名玩家，使其中毒。</string>
+若多次阻断同一名玩家，会使其中毒。</string>
   <string name="TouRoleBootleggerWikiDescription">私酒贩是一名伪装者辅助型职业，可以与其他玩家喝酒并阻断其职业能力。当一名玩家被阻断三次后，会因中毒死亡。</string>
   <string name="TouRoleBootleggerSicken">致病</string>
   <string name="TouRoleBootleggerSickening">致病中</string>
@@ -2334,7 +2334,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleBootleggerMessageTitle">私酒贩反馈</string>
   <string name="TouRoleBootleggerSickenFeedbackAffected">你突然感觉喝下的饮料让你身体不适！下次私酒贩给你喝酒时，你将因中毒而死亡！</string>
   <string name="TouRoleBootleggerSickenFeedbackBootlegger">你的目标 [player] 已经察觉到饮料的效果！下次你阻断其职业能力时，他们将因中毒而死亡。</string>
-  <string name="TouOptionBootleggerRoleblockCooldown">能力阻断冷却时间</string>
+  <string name="TouOptionBootleggerRoleblockCooldown">能力阻断冷却</string>
   <string name="TouOptionBootleggerRoleblockDelayMin">最小能力阻断延迟</string>
   <string name="TouOptionBootleggerRoleblockDelayMax">最大能力阻断延迟</string>
   <string name="TouRoleParasiteOvertakeNotifSelf">你已夺取 [player] 的身体！</string>
@@ -2353,9 +2353,9 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleMedusaStoneGaze">石化凝视</string>
   <string name="TouRoleMedusaStoneGazing">凝视中</string>
   <string name="TouRoleMedusaStoneGazeWikiDescription">凝视期间，任何试图与你互动的玩家都会被石化，除非对方试图杀死你。凝视期间你也不会主动冲向其他玩家。</string>
-  <string name="TouOptionMedusaPetrifyCooldown">石化冷却时间</string>
+  <string name="TouOptionMedusaPetrifyCooldown">石化冷却</string>
   <string name="TouOptionMedusaPetrifyFirstRound">首回合允许石化</string>
-  <string name="TouOptionMedusaCanVent">美杜莎可以使用通风管道</string>
+  <string name="TouOptionMedusaCanVent">美杜莎可使用通风口</string>
   <string name="TouModifierDrunk">醉汉</string>
   <string name="TouModifierDrunkTabDescription">你喝醉了，操作方向完全相反</string>
   <string name="TouModifierDrunkWikiDescription">你的操作方向将永久反转。同时，你免疫普通的职业阻断。</string>
@@ -2427,13 +2427,13 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleInquisitorWonSelf">由于所有异端都已死亡，你作为 [role]成功获胜！</string>
   <string name="TouRoleInquisitorWonOther">由于所有异端都已死亡， [player]（[role]）成功获胜！</string>
   <string name="TouRoleSpectreWonSelf">你死后完成了任务，作为[role]成功获胜！</string>
-  <string name="TouRoleSpectreSpookMessage">你有一轮时间将一名你选择的玩家吓死，谨慎选择。</string>
+  <string name="TouRoleSpectreSpookMessage">你有一轮时间将一名你选择的玩家吓死，请谨慎选择。</string>
   <string name="TouRoleSpectreWonOther">[player]（[role]）死后完成了任务，成功获胜！</string>
   <string name="TouRoleSpectreClickableFeedback">现在玩家可以点击你了！</string>
   <string name="TouRoleHerbalistChangeHerb">更换草药</string>
   <string name="TouModifierDeadlyQuotaCompleted">你已完成配额！</string>
   <string name="TouModifierDeadlyQuotaCompletedShield">你已完成配额！你的临时护盾已失效。</string>
-  <string name="TouModifierDeadlyQuotaRemaining">你还需要完成 [amount] 次 [kills] 才能完成配额！</string>
+  <string name="TouModifierDeadlyQuotaRemaining">你还需要 [amount] 次 [kills] 才能完成配额！</string>
   <string name="TouModifierDeadlyQuotaKill">击杀</string>
   <string name="TouModifierDeadlyQuotaKills">击杀</string>
   <string name="TouRoleBootleggerRoleblockChosen">你选择对 [player] 进行角色封锁。</string>
@@ -2443,9 +2443,9 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleBootleggerPoisonStage2">下一次，他们将会中毒。</string>
   <string name="TouRoleBootleggerPoisonStage3">等待毒药发作。</string>
   <string name="TouRoleBarkeeperHungover">有人给你喝了酒，但你醉得太厉害了！</string>
-  <string name="TouRoleBarkeeperRoleblockedTarget">有人给你喝了酒，但你被角色封锁了！</string>
+  <string name="TouRoleBarkeeperRoleblockedTarget">有人给你喝了酒，你被角色封锁了！</string>
   <string name="TouRoleBootleggerImpendingDoom">你感到一股大难临头的感觉。</string>
-  <string name="TouRoleBarkeeperSpillNotification">你洒出的饮料将在 [time] 秒后对其他人产生效果！</string>
+  <string name="TouRoleBarkeeperSpillNotification">你倾倒的饮料将在 [time] 秒后对其他人产生效果！</string>
   <string name="TouModifierTelepathFailedGuess">你的队友 [player] 试图以 [guess] 的身份射杀 [target]，但失败了！</string>
   <string name="TouModifierTelepathCorrectGuess">你的队友 [player] 以 [role] 的身份射杀了 [target]！</string>
   <string name="TouModifierTelepathKill">你的队友 [player] 已完成击杀。</string>
@@ -2453,8 +2453,8 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouRoleAmbassadorRetrainTitle">伪面使覆写</string>
   <string name="TouRoleAmbassadorRetrainConfirm">你确定要覆写为 [role] 吗？
 此更改是永久性的。</string>
-  <string name="TouHexBombTriggered">咒术炸弹已触发！</string>
-  <string name="TouHexBombCountdown">爆咒师正在释放咒术炸弹！
+  <string name="TouHexBombTriggered">诅咒炸弹已触发！</string>
+  <string name="TouHexBombCountdown">爆咒师正在释放诅咒炸弹！
 剩余 [time] 秒！</string>
   <string name="TouHexBombSpellslingerDead">爆咒师已经死亡！</string>
 </resources>
