@@ -2917,4 +2917,7 @@ No podrás vencer más jugadores.</string>
   <string name="TouOptionProsecutorMaxProsecutions">Máx de acusaciones</string>
   <string name="TouRolePuppeteerControlNotifSelf">Estás controlando a [player]!</string>
   <string name="TouRoleSoulCollector">Medusa</string>
+  <string name="Revived">Resucitado</string>
+  <string name="TouOptionTimeLordRewindDuration">Duración de Retroceso</string>
+  <string name="TouModifierLoverInfoDisconnected">Estabas enamorado de [player], y se desconectó.</string>
 </resources>
