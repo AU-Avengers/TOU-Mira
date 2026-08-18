@@ -5,7 +5,6 @@ using MiraAPI.Roles;
 using Reactor.Localization.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Patches.Roles;
 

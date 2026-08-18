@@ -392,7 +392,7 @@ namespace TownOfUs.Modules.DraftMode
             return seatKeys.Count;
         }
 
-        private void ConsumeExtraSeatForDoubleDraft(string pickedBaseName, int excludeSlot)
+        private void ConsumeExtraSeatForDoubleDraft(string pickedBaseName)
         {
             string? target = null;
             foreach (var n in _pool)
@@ -731,7 +731,7 @@ namespace TownOfUs.Modules.DraftMode
             // to the faction with the largest remaining deficit. This is the important
             // part that prevents the last few picks from receiving all the Evil roles.
             if (!lockedFaction.HasValue)
-                lockedFaction = GetSoftFloorFaction(context, slot);
+                lockedFaction = GetSoftFloorFaction(context);
 
             var allowed = _pool
                 .Where(n => !string.IsNullOrWhiteSpace(n) && n != "__RANDOM__")
@@ -891,7 +891,7 @@ namespace TownOfUs.Modules.DraftMode
         private const bool SoftImpostorNudge = true;
         private const double ImpostorSpreadPower = 1.0;
 
-        private double PositionTilt(int slot, int totalSlots)
+        private static double PositionTilt(int slot, int totalSlots)
         {
             if (PositionEdge <= 0 || totalSlots <= 1) return 1.0;
 
@@ -901,7 +901,7 @@ namespace TownOfUs.Modules.DraftMode
             return Math.Max(0.35, Math.Min(1.65, tilt));
         }
 
-        private DraftFaction GetRoleFaction(string roleName)
+        private static DraftFaction GetRoleFaction(string roleName)
         {
             var baseName = BaseRoleName(roleName);
             if (DraftRolePool.IsImpostorRoleName(baseName))
@@ -911,14 +911,14 @@ namespace TownOfUs.Modules.DraftMode
             return DraftFaction.Crewmate;
         }
 
-        private bool IsEvilRole(string roleName)
+        private static bool IsEvilRole(string roleName)
         {
             var baseName = BaseRoleName(roleName);
             return DraftRolePool.IsImpostorRoleName(baseName) ||
                    DraftRolePool.IsNeutralRoleName(baseName);
         }
 
-        private string GetDiversityKey(string roleName)
+        private static string GetDiversityKey(string roleName)
         {
             var baseName = BaseRoleName(roleName);
             var alignment = DraftRolePool.GetRoleAlignment(baseName);
@@ -1003,7 +1003,7 @@ namespace TownOfUs.Modules.DraftMode
             return result;
         }
 
-        private DraftFaction? GetHardFloorFaction(DraftSlotContext context)
+        private static DraftFaction? GetHardFloorFaction(DraftSlotContext context)
         {
             int neededImps = Math.Max(0, context.MaxImps - context.PickedImps);
             int neededNeuts = Math.Max(0, context.MaxNeuts - context.PickedNeuts);
@@ -1023,7 +1023,7 @@ namespace TownOfUs.Modules.DraftMode
             return null;
         }
 
-        private DraftFaction? GetSoftFloorFaction(DraftSlotContext context, int slot)
+        private DraftFaction? GetSoftFloorFaction(DraftSlotContext context)
         {
             int neededImps = Math.Max(0, context.MaxImps - context.PickedImps);
             int neededNeuts = Math.Max(0, context.MaxNeuts - context.PickedNeuts);
@@ -1644,7 +1644,7 @@ namespace TownOfUs.Modules.DraftMode
 
                 if (DraftRolePool.IsDoubleDraftRoleId(chosenRoleId) || DraftRolePool.IsDoubleDraftRoleName(finalBaseName))
                 {
-                    ConsumeExtraSeatForDoubleDraft(finalBaseName, slot);
+                    ConsumeExtraSeatForDoubleDraft(finalBaseName);
                 }
             }
 

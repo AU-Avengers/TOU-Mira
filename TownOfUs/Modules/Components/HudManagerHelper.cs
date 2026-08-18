@@ -85,6 +85,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         Instance = this;
     }
 
+#pragma warning disable S2325
+#pragma warning disable CA1822
     public void Start()
     {
         foreach (var button in CustomButtonManager.Buttons)
@@ -145,8 +147,6 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
             }
         }
     }
-#pragma warning disable S2325
-    #pragma warning disable CA1822
     public void FixedUpdate()
     {
         if (!HudManager.InstanceExists || !PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
