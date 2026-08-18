@@ -286,7 +286,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public void ClickGuess(PlayerVoteArea voteArea, MeetingHud __)
     {
-        var target = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId).Object;
+        var target = GameData.Instance.GetPlayerById(voteArea.PlayerId).Object;
         var role = Player.GetRole<DeputyRole>()!;
 
         if (role.Killer == target && !target.HasModifier<InvulnerabilityModifier>())
@@ -317,7 +317,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public bool IsExempt(PlayerVoteArea voteArea)
     {
-        return voteArea?.TargetPlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
+        return voteArea?.PlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true;
     }
 }

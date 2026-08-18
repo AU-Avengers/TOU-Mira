@@ -381,7 +381,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     public void ClickGuess(PlayerVoteArea voteArea, MeetingHud meetingHud)
     {
-        if (meetingHud.state == MeetingHud.VoteStates.Discussion)
+        if (meetingHud.state == MeetingHud.MeetingStates.Discussion)
         {
             return;
         }
@@ -391,7 +391,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             return;
         }
 
-        var player = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId).Object;
+        var player = GameData.Instance.GetPlayerById(voteArea.PlayerId).Object;
 
         var shapeMenu = GuesserMenu.Create();
         shapeMenu.Begin(IsRoleValid, ClickRoleHandle);
@@ -416,7 +416,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             }
             var victim = pickVictim ? player : Player;
 
-            ClickHandler(victim, voteArea.TargetPlayerId);
+            ClickHandler(victim, voteArea.PlayerId);
         }
 
         void ClickHandler(PlayerControl victim, byte targetId)
@@ -533,7 +533,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     public bool IsExempt(PlayerVoteArea voteArea)
     {
-        return voteArea.TargetPlayerId == Player.PlayerId ||
+        return voteArea.PlayerId == Player.PlayerId ||
                Player.Data.IsDead || voteArea.AmDead ||
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true ||
                (voteArea.GetPlayer()?.Data.Role is MayorRole mayor && mayor.Revealed) ||

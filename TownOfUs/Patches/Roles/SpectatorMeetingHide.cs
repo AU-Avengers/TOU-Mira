@@ -20,7 +20,7 @@ public static class HideSpecVoteAreas
             {
                 continue;
             }
-            if (GameData.Instance.GetPlayerById(voteArea.TargetPlayerId)
+            if (GameData.Instance.GetPlayerById(voteArea.PlayerId)
                     .Role is SpectatorRole)
             {
                 voteArea.gameObject.SetActive(false);
@@ -38,14 +38,14 @@ public static class HideSpecVoteAreas
                 return 0;
             }
 
-            if (GameData.Instance.GetPlayerById(p.TargetPlayerId)
+            if (GameData.Instance.GetPlayerById(p.PlayerId)
                     .Role is SpectatorRole)
             {
                 return 100;
             }
 
             return 50;
-        }).ThenBy(p => p.TargetPlayerId).ToArray();
+        }).ThenBy(p => p.PlayerId).ToArray();
         for (int i = 0; i < array.Length; i++)
         {
             int num = i % 3;
