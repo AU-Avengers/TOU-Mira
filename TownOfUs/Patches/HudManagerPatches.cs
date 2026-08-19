@@ -39,6 +39,7 @@ public static class HudManagerPatches
     public static GameObject ZoomButton;
     public static GameObject WikiButton;
     public static GameObject ModifierDisplayObject;
+    public static GameObject VanillaMatchInfoButton;
     public static bool ModifierDisplayOnRight;
     public static GameObject ClonedChatButton;
     public static GameObject ExtraUiTopRight;
@@ -585,6 +586,8 @@ public static class HudManagerPatches
             mapButton.GetComponent<AspectPosition>().Destroy();
             var settingsButton = instance.SettingsButton;
             settingsButton.GetComponent<AspectPosition>().Destroy();
+            VanillaMatchInfoButton = instance.MatchInfoButton.gameObject;
+            VanillaMatchInfoButton.GetComponent<AspectPosition>().Destroy();
             var oldPos = settingsButton.transform.localPosition;
             settingsButton.transform.localPosition = new Vector3(oldPos.x, oldPos.y, -100);
             var chatButton = instance.Chat.chatButton.gameObject;
@@ -633,6 +636,10 @@ public static class HudManagerPatches
         {
             var isChatButtonVisible = HudManager.Instance.Chat.isActiveAndEnabled;
             instance.Chat.chatButton.gameObject.SetActive(isChatButtonVisible);
+            if (VanillaMatchInfoButton)
+            {
+                VanillaMatchInfoButton.SetActive(false);
+            }
         }
     }
     public static void CreateNewUiRow(HudManager instance)
