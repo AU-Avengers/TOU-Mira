@@ -18,6 +18,7 @@ public static class LobbyBehaviourPatches
     [HarmonyPostfix]
     public static void LobbyStartPatch()
     {
+        ProsecutorRole.HasProsecutedBefore = false;
         CustomTouMurderRpcs.StoredKillAnimations = [];
         HaunterRole.ResetReveals();
         GameTimerPatch.ResetTimer();

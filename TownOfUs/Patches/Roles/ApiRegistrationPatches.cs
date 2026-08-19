@@ -95,5 +95,7 @@ public static class ApiRegistrationPatches
             1.45f);
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Viper.LoadAsset(), "AmongUs.Role.Viper",
             1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Prosecutor.LoadAsset(), "AmongUs.Role.Judge",
+            1.45f);
     }
 }

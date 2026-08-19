@@ -6,6 +6,8 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities.Extensions;
+using TMPro;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Impostor;
@@ -13,6 +15,8 @@ using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
+using UnityEngine;
+using Object = System.Object;
 
 namespace TownOfUs.Events.Crewmate;
 
@@ -36,7 +40,7 @@ public static class ProsecutorEvents
             return;
         }
 
-        if (voteArea.Parent.state is MeetingHud.VoteStates.Proceeding or MeetingHud.VoteStates.Results)
+        if (voteArea.Parent.state is MeetingHud.MeetingStates.Proceeding or MeetingHud.MeetingStates.Results)
         {
             @event.Cancel();
             return;
@@ -52,7 +56,7 @@ public static class ProsecutorEvents
         if (voteArea != prosecutor.ProsecuteButton && voteArea != MeetingHud.Instance.SkipVoteButton &&
             prosecutor.SelectingProsecuteVictim)
         {
-            ProsecutorRole.RpcProsecute(PlayerControl.LocalPlayer, voteArea.TargetPlayerId);
+            ProsecutorRole.RpcProsecute(PlayerControl.LocalPlayer, voteArea.PlayerId);
         }
 
         if (voteArea == MeetingHud.Instance.SkipVoteButton && prosecutor.SelectingProsecuteVictim)
@@ -84,7 +88,10 @@ public static class ProsecutorEvents
             return;
         }
 
-        ProsecutorRole.RpcShowProsAnimation(PlayerControl.LocalPlayer);
+        if (!ProsecutorRole.HasProsecutedBefore)
+        {
+            ProsecutorRole.RpcShowProsAnimation(PlayerControl.LocalPlayer);
+        }
 
         foreach (var plr in PlayerControl.AllPlayerControls.ToArray())
         {
@@ -97,6 +104,29 @@ public static class ProsecutorEvents
         for (var i = 0; i < 5; i++)
         {
             prosdata.VoteForPlayer(prosecutor.ProsecuteVictim);
+        }
+    }
+
+    [RegisterEvent]
+    public static void VotingCompleteEventHandler(VotingCompleteEvent _)
+    {
+        var prosecutor = CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>()
+            .FirstOrDefault(x => !x.Player.HasDied() && x.HasProsecuted && x.ProsecuteVictim != byte.MaxValue);
+
+        if (prosecutor == null)
+        {
+            return;
+        }
+
+        MeetingHud.Instance.wasOverruled = true;
+        if (ProsecutorRole.HasProsecutedBefore)
+        {
+            var gameObject = UnityEngine.Object.Instantiate(MeetingHud.Instance.judgeGavelPrefab, MeetingHud.Instance.transform);
+            JudgeGavel component = gameObject.GetComponent<JudgeGavel>();
+            var tmp = component.text.transform.GetComponent<TextMeshPro>();
+            component.text.Destroy();
+            component.text = null;
+            tmp.text = "The Prosecutor has spoken.";
         }
     }
 
@@ -132,6 +162,7 @@ public static class ProsecutorEvents
 
             if (hasProsecuted)
             {
+                ProsecutorRole.HasProsecutedBefore = true;
                 GameHistory.UpdatePlayerDeathData(player.PlayerId, TouLocale.Get("DiedToProsecutor"), 0,
                     HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
                     TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", pros.Player.Data.PlayerName),

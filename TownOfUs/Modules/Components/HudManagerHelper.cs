@@ -329,7 +329,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 {
                     continue;
                 }
-                var player = MiscUtils.PlayerById(playerVA.TargetPlayerId)!;
+                var player = MiscUtils.PlayerById(playerVA.PlayerId)!;
                 if (!HasSetMeetingColorText)
                 {
                     playerVA.ColorBlindName.transform.localPosition = new Vector3(-0.93f, -0.2f, -0.1f);
@@ -338,7 +338,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 var curText = playerVA.NameText.text;
                 if (!player || !player.Data || !player.Data.Role)
                 {
-                    var data = EndGamePatches.ContainedMeetingData.PlayerMeetingRecords.FirstOrDefault(x => x.PlayerId == playerVA.TargetPlayerId);
+                    var data = EndGamePatches.ContainedMeetingData.PlayerMeetingRecords.FirstOrDefault(x => x.PlayerId == playerVA.PlayerId);
                     if (data != null)
                     {
                         EndGamePatches.ContainedMeetingData.DisplayRecordData(
@@ -496,7 +496,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
             }
             else if (localDead && isVisible &&
                      GameHistory.PlayerStats.TryGetValue(player.PlayerId, out var stats) &&
-                stats.PlayerState != StoredPlayerState.Alive)
+                     stats.PlayerState != StoredPlayerState.Alive)
             {
                 topText +=
                     $"<size={(inMeeting ? 60 : 75)}%>『{Color.yellow.ToTextColor()}{stats.DeathString}</color>』</size>\n";

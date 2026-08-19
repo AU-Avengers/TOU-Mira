@@ -1245,7 +1245,7 @@ public static class CustomTouMurderRpcs
         target.gameObject.layer = LayerMask.NameToLayer("Ghost");
 
         var properAnim = (ExtendedKillAnimType)associatedAnimation;
-        var targetVoteArea = MeetingHud.Instance?.playerStates.First(x => x.TargetPlayerId == target.PlayerId);
+        var targetVoteArea = MeetingHud.Instance?.playerStates.First(x => x.PlayerId == target.PlayerId);
         switch (animationType)
         {
             case MeetingAnimation.FullscreenKill:

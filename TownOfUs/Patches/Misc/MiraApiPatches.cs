@@ -4,7 +4,6 @@ using HarmonyLib;
 using MiraAPI;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
-using MiraAPI.GameModes;
 using MiraAPI.Networking;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -22,21 +21,18 @@ public static class MiraApiPatches
     public static bool IsRoleBlacklisted(RoleBehaviour role, ref bool __result)
     {
         // Since TOU Engineer is just vanilla engineer with the fix mechanic, no need to have two engis around!
-        if (role.Role is RoleTypes.Engineer &&
-            !CustomGameModeManager.IsHideNSeek())
+        // Also Judge being a near carbon copy of Prosecutor is lame.
+        if (role.Role is RoleTypes.Engineer or RoleTypes.Judge)
         {
             __result = true;
             return false;
         }
-
-        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek or TouGamemode.KillFrenzy or TouGamemode.Cultist or TouGamemode.TownOfPolus && (role.Role is RoleTypes.Detective ||
-                                                                       role.Role is RoleTypes.GuardianAngel ||
-                                                                       role.Role is RoleTypes.Noisemaker ||
-                                                                       role.Role is RoleTypes.Phantom ||
-                                                                       role.Role is RoleTypes.Scientist ||
-                                                                       role.Role is RoleTypes.Shapeshifter ||
-                                                                       role.Role is RoleTypes.Tracker ||
-                                                                       role.Role is RoleTypes.Viper))
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek && (role.Role is not RoleTypes.Engineer and not RoleTypes.Impostor))
+        {
+            __result = true;
+            return false;
+        }
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
         {
             __result = true;
             return false;

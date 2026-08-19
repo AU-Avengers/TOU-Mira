@@ -182,6 +182,6 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
     public bool IsExempt(PlayerVoteArea voteArea)
     {
-        return voteArea?.TargetPlayerId != Player.PlayerId;
+        return voteArea?.PlayerId != Player.PlayerId;
     }
 }

@@ -32,8 +32,8 @@ public static class SwapperEvents
             return;
         }
 
-        var swap1 = swapper.Swap1.TargetPlayerId;
-        var swap2 = swapper.Swap2.TargetPlayerId;
+        var swap1 = swapper.Swap1.PlayerId;
+        var swap2 = swapper.Swap2.PlayerId;
 
         var originalVoteList = @event.Votes.ToList();
 
@@ -105,8 +105,8 @@ public static class SwapperEvents
         {
             return;
         }
-        var swap1 = swapper.Swap1.TargetPlayerId;
-        var swap2 = swapper.Swap2.TargetPlayerId;
+        var swap1 = swapper.Swap1.PlayerId;
+        var swap2 = swapper.Swap2.PlayerId;
 
         var originalVoteList = @event.Votes.ToList();
         @event.Votes.Clear();

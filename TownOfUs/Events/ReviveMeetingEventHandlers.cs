@@ -36,7 +36,7 @@ public static class ReviveMeetingEventHandlers
             return;
         }
 
-        var voteArea = states.FirstOrDefault(x => x && x.TargetPlayerId == player.PlayerId);
+        var voteArea = states.FirstOrDefault(x => x && x.PlayerId == player.PlayerId);
         if (voteArea == null)
         {
             return;
