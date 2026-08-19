@@ -52,7 +52,7 @@
   <string name="EndSumLeftSide">Po Lewej</string>
   <string name="EndSumSplit">Podzielone</string>
   <string name="EndSumHidden">Ukryte</string>
-  <string name="GrenadierFlashColor">Kolor Dymu Grenadiera</string>
+  <string name="GrenadierFlashColor">Kolor Oślepienia Grenadiera</string>
   <string name="FlashWhite">Biały</string>
   <string name="FlashLightGray">Jasno Szary</string>
   <string name="FlashGray">Szary</string>
@@ -1230,4 +1230,15 @@ Imituj się w innych aby ich wrobić.</string>
   <string name="TouRoleGlitchHackNotif">Kiedy [player] spróbuje użyć swoich umiejętności, zostaną one tymczasowo wyłączone.</string>
   <string name="TouOptionGlitchKillCooldown">Cooldown Zabicia</string>
   <string name="TouOptionGlitchMimicCooldown">Cooldown Imitacji</string>
+  <string name="TouOptionGlitchMimicDuration">Czas Trwania Imitacji</string>
+  <string name="TouOptionGlitchMoveInMimicMenu">Poruszanie Się Przy Używaniu Menu Imitacji (KLAWIATURA)</string>
+  <string name="TouOptionGlitchHackCooldown">Cooldown Hakowania</string>
+  <string name="TouOptionGlitchHackDuration">Czas Trwania Hakowania</string>
+  <string name="TouOptionGlitchCanVent">Glicz Może Wentować</string>
+  <string name="TouRoleGrenadier">Grenadier</string>
+  <string name="TouRoleGrenadierIntroBlurb">Utrudnij widoczność Załogantów</string>
+  <string name="TouRoleGrenadierTabDescription">Rzuć na załogę granat hukowy aby dyskretnie powybijać graczy</string>
+  <string name="TouRoleGrenadierWikiDescription">Grenadier to Intruz Skrywający mogący rzucić granat który oślepi wszystkich graczy w zasięgu</string>
+  <string name="TouRoleGrenadierFlash">Oślep</string>
+  <string name="TouRoleGrenadierFlashWikiDescription">Rzuć granat który oślepi wszystkich graczy w jego zasięgu.</string>
 </resources>
