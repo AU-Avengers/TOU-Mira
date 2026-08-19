@@ -40,8 +40,6 @@ public static class DraftManager
         CurrentTurnNumber = 0;
         CurrentTurnSlot = -1;
         DraftSidebarManager.InvalidateCache();
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
-            $"[DraftManager] SetDraftStateFromHost: [{string.Join(", ", playerIds.Zip(slotNumbers, (p, s) => $"{p}->{s}"))}]");
     }
 
     public static void AddSlotState(DraftSlotState state)
@@ -55,8 +53,6 @@ public static class DraftManager
         SlotStates.Add(state);
         PlayerToSlot[state.PlayerId] = state.SlotNumber;
         DraftSidebarManager.InvalidateCache();
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
-            $"[DraftManager] AddSlotState: player {state.PlayerId} -> slot {state.SlotNumber}");
     }
 
     public static void SubmitPick(byte playerId, byte index)
