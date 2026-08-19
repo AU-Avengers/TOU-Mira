@@ -109,7 +109,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         MaxRoleCount = 1,
         Icon = TouRoleIcons.Prosecutor,
         OptionsScreenshot = TouBanners.ProsecutorRoleBanner,
-        IntroSound = TouAudio.ProsIntroSound
+        IntroSound = TouAudio.JudgeIntroSound
     };
 
     [HideFromIl2Cpp]
