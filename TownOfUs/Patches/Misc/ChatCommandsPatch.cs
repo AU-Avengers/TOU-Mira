@@ -729,15 +729,27 @@ public static class ChatPatches
             return false;
         }
 
-        // /info — replays all FakeChat messages received this meeting
         if (infoCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
         {
-            if (FakeChatHistory.HasInfo)
+            var infoStringToCheck = infoCommandList.FirstOrDefault(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase))!;
+            var infoArg = textRegular;
+            if (infoArg.StartsWith($"/{infoStringToCheck} ", StringComparison.OrdinalIgnoreCase))
+            {
+                infoArg = infoArg[$"/{infoStringToCheck} ".Length..];
+            }
+            else if (infoArg.StartsWith($"/{infoStringToCheck}", StringComparison.OrdinalIgnoreCase))
+            {
+                infoArg = infoArg[$"/{infoStringToCheck}".Length..];
+            }
+
+            int? infoRound = int.TryParse(infoArg.Trim(), out var parsedRound) ? parsedRound : null;
+
+            if (FakeChatHistory.HasInfo(infoRound))
             {
                 FakeChatHistory.IsReplaying = true;
-                foreach (var (infoTitle, infoMsg) in FakeChatHistory.GetEntries())
+                foreach (var (infoPlayer, infoTitle, infoMsg) in FakeChatHistory.GetEntries(infoRound))
                 {
-                    MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, infoTitle, infoMsg, false, true);
+                    MiscUtils.AddSystemChat(infoPlayer ? infoPlayer : PlayerControl.LocalPlayer.Data, infoTitle, infoMsg, false, true);
                 }
                 FakeChatHistory.IsReplaying = false;
             }
