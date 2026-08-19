@@ -62,7 +62,7 @@ public static class MarshalEvents
         if (_previousVotes.TryGetValue(@event.Player.PlayerId, out var targetId))
         {
             var previousState =
-                MeetingHud.Instance.playerStates.FirstOrDefault(state => state.TargetPlayerId == targetId);
+                MeetingHud.Instance.playerStates.FirstOrDefault(state => state.PlayerId == targetId);
 
             if (previousState != null)
             {
@@ -71,7 +71,7 @@ public static class MarshalEvents
             }
         }
         
-        var targetState = MeetingHud.Instance.playerStates.FirstOrDefault(state => state.TargetPlayerId == @event.TargetId);
+        var targetState = MeetingHud.Instance.playerStates.FirstOrDefault(state => state.PlayerId == @event.TargetId);
         if (targetState == null)
         {
             return;

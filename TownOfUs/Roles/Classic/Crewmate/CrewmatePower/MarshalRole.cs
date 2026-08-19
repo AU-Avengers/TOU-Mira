@@ -147,7 +147,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
 
     public void Click(PlayerVoteArea voteArea, MeetingHud meetingHud)
     {
-        if (meetingHud.state == MeetingHud.VoteStates.Discussion)
+        if (meetingHud.state == MeetingHud.MeetingStates.Discussion)
         {
             return;
         }
@@ -168,7 +168,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
 
     public bool IsExempt(PlayerVoteArea voteArea)
     {
-        return voteArea?.TargetPlayerId != Player.PlayerId;
+        return voteArea?.PlayerId != Player.PlayerId;
     }
 
     private static void Cleanup()
@@ -222,7 +222,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
         {
             pva.UnsetVote();
 
-            var voteAreaPlayer = MiscUtils.PlayerById(pva.TargetPlayerId);
+            var voteAreaPlayer = MiscUtils.PlayerById(pva.PlayerId);
             if (voteAreaPlayer == null)
             {
                 continue;
@@ -238,7 +238,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
             pva.ThumbsDown.enabled = false;
         }
         
-        meetingHud.ClearVote();
+        meetingHud.ClearVote(PlayerControl.LocalPlayer.PlayerId, true);
         meetingHud.SkipVoteButton.gameObject.SetActive(false);
 
         foreach (var pros in CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>())
@@ -279,7 +279,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
 
         MeetingMenu.Instances.Do(x => x.HideButtons());
 
-        var victimPva = MeetingHud.Instance.playerStates.FirstOrDefault(x => x.TargetPlayerId == victim.PlayerId);
+        var victimPva = MeetingHud.Instance.playerStates.FirstOrDefault(x => x.PlayerId == victim.PlayerId);
         if (victimPva != null)
         {
             victimPva.SetDisabled();
@@ -300,7 +300,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
         AmongUsClient.Instance.DisconnectHandlers.Remove(MeetingHud.Instance.Cast<IDisconnectHandler>());
         PlayerControl.AllPlayerControls.ToArray().Do(p => p.Data.Role.OnVotingComplete());
 
-        instance.state = MeetingHud.VoteStates.Results;
+        instance.state = MeetingHud.MeetingStates.Results;
         PlayerControl.LocalPlayer.GetVoteData().VotesRemaining = 0;
         instance.TimerText.gameObject.SetActive(false);
         instance.ProceedButton.gameObject.SetActive(false);
@@ -376,12 +376,12 @@ public sealed class MarshalRole(IntPtr cppPtr)
         if (skipped)
         {
             Warning($"The tribunal is skipped");
-            exileController.BeginForGameplay(null, false);
+            exileController.BeginForGameplay(null, false, false);
             yield break;
         }
         
         Warning($"Creating exile controller for {exiled!.PlayerName}");
-        exileController.BeginForGameplay(exiled, false);
+        exileController.BeginForGameplay(exiled, false, false);
     }
 
     public static void CheckForEjection()
