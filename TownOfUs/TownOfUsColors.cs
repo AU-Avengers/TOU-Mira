@@ -87,6 +87,7 @@ public static class TownOfUsColors
 
     public static Color Arsonist => new Color32(255, 77, 0, 255);
     public static Color Glitch => Color.green;
+    public static Color Martian => new Color32(133, 188, 110, 255);
     public static Color Juggernaut => new Color32(140, 0, 77, 255);
     public static Color Plaguebearer => new Color32(230, 255, 179, 255);
     public static Color Pestilence => new Color32(77, 77, 77, 255);
