@@ -11,6 +11,7 @@ using UnityEngine;
 namespace TownOfUs.Patches.Misc;
 
 [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
+[HarmonyAfter(nameof(MiraAPI.Patches.Roles.GameStartupPatch))]
 public static class LogoPatch
 {
     public static SpriteRenderer GameLogo;

@@ -111,12 +111,12 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
 
     public void Click(PlayerVoteArea voteArea, MeetingHud __)
     {
-        var player = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId);
+        var player = GameData.Instance.GetPlayerById(voteArea.PlayerId);
 
         if (_selectedPlr == player)
         {
             _selectedPlr = null;
-            _meetingMenu!.Actives[voteArea.TargetPlayerId] = false;
+            _meetingMenu!.Actives[voteArea.PlayerId] = false;
             return;
         }
 
@@ -126,15 +126,15 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             _selectedPlr = null;
         }
 
-        _meetingMenu!.Actives[voteArea.TargetPlayerId] = true;
+        _meetingMenu!.Actives[voteArea.PlayerId] = true;
         _selectedPlr = player;
     }
 
     private bool IsExempt(PlayerVoteArea voteArea)
     {
-        var player = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId);
+        var player = GameData.Instance.GetPlayerById(voteArea.PlayerId);
         var opts = OptionGroupSingleton<ImitatorOptions>.Instance;
-        if (Player.Data.IsDead || player == null || player.Object == null || voteArea.TargetPlayerId == Player.PlayerId || player.Object.Data.Disconnected || !voteArea.AmDead)
+        if (Player.Data.IsDead || player == null || player.Object == null || voteArea.PlayerId == Player.PlayerId || player.Object.Data.Disconnected || !voteArea.AmDead)
         {
             return true;
         }

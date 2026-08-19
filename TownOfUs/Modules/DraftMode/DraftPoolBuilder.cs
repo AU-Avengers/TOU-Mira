@@ -20,7 +20,7 @@ namespace TownOfUs.Modules.DraftMode
             var manualPool = BuildPoolFromManualAmounts(rng);
             
             int rolesPerSlot = Math.Max(1, (int)roleOpts.OfferedRolesCount.Value);
-            int concurrency = Math.Max(1, Math.Min(2, (int)roleOpts.ConcurrentPicks.Value));
+            // int concurrency = Math.Max(1, Math.Min(2, (int)roleOpts.ConcurrentPicks.Value));
             int targetSize = numPlayers * rolesPerSlot;
             if (manualPool.Count < targetSize)
             {

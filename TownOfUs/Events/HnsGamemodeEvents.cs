@@ -41,7 +41,7 @@ public static class HnsGamemodeEvents
     [RegisterEvent]
     public static void PlayerCanUseEventHandler(PlayerCanUseEvent @event)
     {
-        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek or TouGamemode.Other)
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek)
         {
             return;
         }

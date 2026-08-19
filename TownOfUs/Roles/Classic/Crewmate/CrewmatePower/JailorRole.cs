@@ -191,7 +191,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
         foreach (var voteArea in __instance.playerStates)
         {
-            if (Jailed?.PlayerId == voteArea.TargetPlayerId)
+            if (Jailed?.PlayerId == voteArea.PlayerId)
                 // if (!(jailorRole.Jailed.IsLover() && PlayerControl.LocalPlayer.IsLover()))
             {
                 GenButton(voteArea, __instance);

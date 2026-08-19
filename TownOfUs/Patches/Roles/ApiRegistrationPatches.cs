@@ -5,7 +5,6 @@ using MiraAPI.Roles;
 using Reactor.Localization.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Patches.Roles;
 
@@ -95,6 +94,8 @@ public static class ApiRegistrationPatches
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Detective.LoadAsset(), "AmongUs.Role.Detective",
             1.45f);
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Viper.LoadAsset(), "AmongUs.Role.Viper",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Prosecutor.LoadAsset(), "AmongUs.Role.Judge",
             1.45f);
     }
 }

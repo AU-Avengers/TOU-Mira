@@ -223,7 +223,7 @@ internal static class PerfectCommsIntegration
             return;
         }
 
-        var voteArea = meeting.playerStates.FirstOrDefault(area => area.TargetPlayerId == jailee.PlayerId);
+        var voteArea = meeting.playerStates.FirstOrDefault(area => area.PlayerId == jailee.PlayerId);
         if (voteArea == null)
         {
             return;
