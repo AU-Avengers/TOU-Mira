@@ -33,6 +33,7 @@ public static class LobbyBehaviourPatches
 
         TeamChatPatches.CleanUpChats();
         GameHistory.ClearAll();
+        FakeChatHistory.ClearAll();
         ScreenFlash.Clear();
         MeetingMenu.ClearAll();
         EgotistModifier.CooldownReduction = 0f;
