@@ -11,7 +11,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using TownOfUs.Buttons.Impostor;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
@@ -137,12 +136,9 @@ public sealed class AmbusherRole(IntPtr cppPtr)
             Error("RpcAmbushPlayer - Invalid ambusher");
             return;
         }
-
-        ambusher.AddModifier<IndirectAttackerModifier>(false);
-
         var murderResultFlags = MurderResultFlags.Succeeded;
 
-        var beforeMurderEvent = new BeforeMurderEvent(ambusher, target);
+        var beforeMurderEvent = new BeforeMurderEvent(ambusher, target, true);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
 
         if (beforeMurderEvent.IsCancelled)
@@ -163,6 +159,9 @@ public sealed class AmbusherRole(IntPtr cppPtr)
 
         ambusher.CustomMurder(
             target,
+            null,
+            true,
+            false,
             murderResultFlags2,
             true,
             true,

@@ -162,7 +162,7 @@ public static class DeathEventHandlers
             return;
         }
 
-        var pva = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == player.PlayerId);
+        var pva = MeetingHud.Instance.playerStates.First(x => x.PlayerId == player.PlayerId);
 
         if (!pva)
         {

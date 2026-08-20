@@ -24,6 +24,7 @@ using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
@@ -38,7 +39,6 @@ using TownOfUs.Modules.DraftMode;
 using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.Options;
@@ -93,6 +93,11 @@ public static class TownOfUsEventHandlers
             newObj.layer = LayerMask.NameToLayer("UI");
             newObj.transform.localPosition = new Vector3(-1.2f, 0.325f, -0.1f);
             RoleIconRenderer = newObj.AddComponent<SpriteRenderer>();
+            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.Data.Role.GetRoleIcon();
+            newObj.transform.localScale = new Vector3(1, 1, 1);
+            RoleIconRenderer.SetSizeLimit(0.4f);
+            var oldScale = newObj.transform.localScale;
+            newObj.transform.localScale = new(3.3333333333f * oldScale.x, 0.7843137255f * oldScale.y, 1);
         }
 
         if (RoleIconRenderer != null)
@@ -102,7 +107,6 @@ public static class TownOfUsEventHandlers
             RoleIconRenderer.SetSizeLimit(0.4f);
             var oldScale = RoleIconRenderer.transform.localScale;
             RoleIconRenderer.transform.localScale = new(3.3333333333f * oldScale.x, 0.7843137255f * oldScale.y, 1);
-            RoleIconRenderer.gameObject.SetActive(true);
         }
 
         return RolePanel;
@@ -294,6 +298,32 @@ public static class TownOfUsEventHandlers
 
         panel.SetTaskText(role.SetTabText().ToString());
     }
+
+    [RegisterEvent(-1000)]
+    public static void BeforeMurderEventHandler(BeforeMurderEvent murderEvent)
+    {
+        if (murderEvent.Source.TryGetModifier<IndirectAttackerModifier>(out var mod))
+        {
+            if (mod.IgnoreShield)
+            {
+                murderEvent.IgnoreDefense = true;
+            }
+            murderEvent.IsIndirectAttack = true;
+        }
+    }
+
+    /*[RegisterEvent(-1000)]
+    public static void BeforeMurderEventHandler(ExtendedMiraButtonClickEvent clickEvent)
+    {
+        if (PlayerControl.LocalPlayer.TryGetModifier<IndirectAttackerModifier>(out var mod))
+        {
+            if (mod.IgnoreShield)
+            {
+                clickEvent.IgnoreDefense = true;
+            }
+            clickEvent.IsIndirectInteraction = true;
+        }
+    }*/
 
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent _)
@@ -923,7 +953,7 @@ public static class TownOfUsEventHandlers
             return;
         }
 
-        var pva = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == player.PlayerId);
+        var pva = MeetingHud.Instance.playerStates.First(x => x.PlayerId == player.PlayerId);
 
         if (!pva)
         {
@@ -954,7 +984,7 @@ public static class TownOfUsEventHandlers
 
     private static void HandleMeetingMurder(MeetingHud instance, PlayerControl source, PlayerControl target)
     {
-        if (MeetingHud.Instance.CurrentState == MeetingHud.VoteStates.Animating)
+        if (MeetingHud.Instance.CurrentState == MeetingHud.MeetingStates.Animating)
         {
             if (target.AmOwner)
             {
@@ -967,7 +997,7 @@ public static class TownOfUsEventHandlers
                 MeetingMenu.Instances.Do(x => x.HideSingle(target.PlayerId));
             }
 
-            var targetVoteAreaEarly = instance.playerStates.First(x => x.TargetPlayerId == target.PlayerId);
+            var targetVoteAreaEarly = instance.playerStates.First(x => x.PlayerId == target.PlayerId);
 
             if (!targetVoteAreaEarly)
             {
@@ -991,7 +1021,7 @@ public static class TownOfUsEventHandlers
         }
 
         // To handle murders during a meeting
-        var targetVoteArea = instance.playerStates.First(x => x.TargetPlayerId == target.PlayerId);
+        var targetVoteArea = instance.playerStates.First(x => x.PlayerId == target.PlayerId);
 
         if (!targetVoteArea)
         {
@@ -1041,14 +1071,14 @@ public static class TownOfUsEventHandlers
 
         foreach (var pva in instance.playerStates)
         {
-            if (pva.VotedFor != target.PlayerId || pva.AmDead)
+            if (pva.VotedForId != target.PlayerId || pva.AmDead)
             {
                 continue;
             }
 
             pva.UnsetVote();
 
-            var voteAreaPlayer = MiscUtils.PlayerById(pva.TargetPlayerId);
+            var voteAreaPlayer = MiscUtils.PlayerById(pva.PlayerId);
 
             if (voteAreaPlayer == null)
             {
@@ -1064,7 +1094,7 @@ public static class TownOfUsEventHandlers
                 continue;
             }
 
-            instance.ClearVote();
+            instance.ClearVote(pva.PlayerId, true);
         }
 
         instance.SetDirtyBit(1U);

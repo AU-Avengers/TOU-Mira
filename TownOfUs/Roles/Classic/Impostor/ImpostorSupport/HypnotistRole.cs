@@ -149,7 +149,7 @@ public sealed class HypnotistRole(IntPtr cppPtr)
 
     public bool IsExempt(PlayerVoteArea voteArea)
     {
-        return voteArea?.TargetPlayerId != Player.PlayerId;
+        return voteArea?.PlayerId != Player.PlayerId;
     }
 
     [MethodRpc((uint)TownOfUsRpc.Hysteria)]

@@ -181,18 +181,18 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
     public void Click(PlayerVoteArea voteArea, MeetingHud __)
     {
-        var player = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId);
+        var player = GameData.Instance.GetPlayerById(voteArea.PlayerId);
 
         if (SelectedPlr == player)
         {
             RpcRetrain(PlayerControl.LocalPlayer);
-            meetingMenu.Actives[voteArea.TargetPlayerId] = false;
+            meetingMenu.Actives[voteArea.PlayerId] = false;
             return;
         }
 
         if (SelectedPlr != null)
         {
-            meetingMenu.Actives[voteArea.TargetPlayerId] = false;
+            meetingMenu.Actives[voteArea.PlayerId] = false;
             meetingMenu.Actives[SelectedPlr.PlayerId] = false;
             RpcRetrain(PlayerControl.LocalPlayer);
         }
@@ -301,7 +301,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                 {
                     if (role != null)
                     {
-                        meetingMenu.Actives[voteArea.TargetPlayerId] = true;
+                        meetingMenu.Actives[voteArea.PlayerId] = true;
                         RpcRetrain(PlayerControl.LocalPlayer, player.PlayerId, (ushort)role.Role);
                     }
 

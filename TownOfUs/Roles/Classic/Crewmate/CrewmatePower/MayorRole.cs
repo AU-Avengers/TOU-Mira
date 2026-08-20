@@ -90,7 +90,7 @@ public sealed class MayorRole(IntPtr cppPtr)
 
         if (MeetingHud.Instance && !DisabledAnimation)
         {
-            var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == player.PlayerId);
+            var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.PlayerId == player.PlayerId);
             Coroutines.Start(CoAnimateReveal(targetVoteArea));
         }
 
@@ -121,7 +121,7 @@ public sealed class MayorRole(IntPtr cppPtr)
             return;
         }
 
-        var targetVoteArea = meeting.playerStates.First(x => x.TargetPlayerId == Player.PlayerId);
+        var targetVoteArea = meeting.playerStates.First(x => x.PlayerId == Player.PlayerId);
         if (Revealed && !DisabledAnimation)
         {
             Coroutines.Start(CoAnimatePostReveal(targetVoteArea));
@@ -185,14 +185,14 @@ public sealed class MayorRole(IntPtr cppPtr)
             return;
         }
 
-        var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == plr.PlayerId);
+        var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.PlayerId == plr.PlayerId);
         Coroutines.Start(CoAnimateReveal(targetVoteArea));
     }
 
 
     public bool IsExempt(PlayerVoteArea voteArea)
     {
-        return voteArea?.TargetPlayerId != Player.PlayerId;
+        return voteArea?.PlayerId != Player.PlayerId;
     }
 
     private static IEnumerator CoAnimateReveal(PlayerVoteArea voteArea)
@@ -204,9 +204,9 @@ public sealed class MayorRole(IntPtr cppPtr)
         }
 
         // hide meeting menu buttons (such as for guessers) for everyone but the mayor
-        if (voteArea.TargetPlayerId != PlayerControl.LocalPlayer.PlayerId)
+        if (voteArea.PlayerId != PlayerControl.LocalPlayer.PlayerId)
         {
-            MeetingMenu.Instances.Do(x => x.HideSingle(voteArea.TargetPlayerId));
+            MeetingMenu.Instances.Do(x => x.HideSingle(voteArea.PlayerId));
         }
 
         MayorPlayer = Instantiate(TouAssets.MayorRevealPrefab.LoadAsset(), voteArea.transform);
@@ -248,7 +248,7 @@ public sealed class MayorRole(IntPtr cppPtr)
         handAnim.SetSpeed(1.02f);
         TouAudio.PlaySound(TouAudio.MayorRevealSound);
         yield return new WaitForSeconds(0.1f);
-        var player = MiscUtils.PlayerById(voteArea.TargetPlayerId);
+        var player = MiscUtils.PlayerById(voteArea.PlayerId);
         if (player!.Data.Role is MayorRole mayor)
         {
             mayor.Revealed = true;

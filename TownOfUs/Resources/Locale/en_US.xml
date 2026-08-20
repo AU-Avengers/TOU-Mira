@@ -969,14 +969,7 @@ Once they use an ability, you may kill them.</string>
   <string name="TouRoleImitatorCrewmateImitation">Crewmate Imitation</string>
   <string name="TouRoleImitatorCrewmateImitationWikiDescription">All crewmate roles are available besides Politician and Mayor. Roles like Jailor and Prosecutor cannot use their meeting abilities, and Vigi does not get safe shots.</string>
   <string name="TouRoleImitatorNeutralCounterparts">Neutral Counterparts</string>
-  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Amnesiac ⇨ Medic | Doom ⇨ Vigi | Exe ⇨ Snitch
-Glitch ⇨ Sheriff | Fairy ⇨ Cleric | Inquis ⇨ Oracle
-Jester ⇨ Plumber | Merc ⇨ Warden
-Pb/Pest ⇨ Aurial | SC ⇨ Medium | WW ⇨ Hunter</string>
-  <string name="TouRoleImitatorImpostorCounterparts">Impostor Counterparts</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bomber ⇨ Trapper | Hypnotist ⇨ Lookout | Janitor ⇨ Forensic
-Miner ⇨ Engineer | Scavenger ⇨ Sonar
-Undertaker ⇨ Altruist | Warlock ⇨ Veteran</string>
+    <string name="TouRoleImitatorImpostorCounterparts">Impostor Counterparts</string>
   <!-- Imitator Options -->
   <string name="TouOptionImitatorImitateNeutrals">Imitate Neutral Counterparts</string>
   <string name="TouOptionImitatorImitateImpostors">Imitate Impostor Counterparts</string>

@@ -73,15 +73,15 @@ public static class Bindings
             var areas = hud.playerStates;
             foreach (var area in areas)
             {
-                if (area.VotedFor != byte.MaxValue && area.VotedFor != area.TargetPlayerId)
+                if (area.VotedForId != byte.MaxValue && area.VotedForId != area.PlayerId)
                 {
-                    var voter = MiscUtils.PlayerById(area.TargetPlayerId);
+                    var voter = MiscUtils.PlayerById(area.PlayerId);
                     if (voter != null && !voter.HasDied())
                     {
                         var voteData = voter.GetVoteData();
-                        if (!voteData.Votes.Any(v => v.Voter == area.TargetPlayerId && v.Suspect == area.VotedFor))
+                        if (!voteData.Votes.Any(v => v.Voter == area.PlayerId && v.Suspect == area.VotedForId))
                         {
-                            voteData.VoteForPlayer(area.VotedFor);
+                            voteData.VoteForPlayer(area.VotedForId);
                         }
                     }
                 }
@@ -166,7 +166,7 @@ public static class Bindings
                 exiled = VotingUtils.GetExiled(processEvent.Votes, out tie);
             }
 
-            hud.RpcVotingComplete(voterStates, exiled, tie);
+            hud.RpcVotingComplete(voterStates, exiled, tie, processEvent.OverruledVote, processEvent.OverruledNonce);
         }
 
         CreateNotif("HostEndMeetingNotif", TouRoleIcons.Prosecutor.LoadAsset());

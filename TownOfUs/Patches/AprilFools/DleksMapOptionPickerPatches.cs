@@ -44,7 +44,7 @@ public static class DleksMapOptionPickerPatches
                 return;
             }
         }
-        catch (Exception e)
+        catch
         {
             return;
         }

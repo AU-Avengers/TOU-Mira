@@ -94,6 +94,8 @@ public static class TouRoleUtils
             RoleTypes.Noisemaker => TouRoleIcons.Noisemaker.LoadAsset(),
             RoleTypes.Phantom => TouRoleIcons.Phantom.LoadAsset(),
             RoleTypes.Shapeshifter => TouRoleIcons.Shapeshifter.LoadAsset(),
+            RoleTypes.Engineer => TouRoleIcons.Engineer.LoadAsset(),
+            RoleTypes.Judge => TouRoleIcons.Prosecutor.LoadAsset(),
             RoleTypes.Viper => TouRoleIcons.Viper.LoadAsset(),
             _ => null
         };
