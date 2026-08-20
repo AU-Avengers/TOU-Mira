@@ -87,6 +87,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
     public void Start()
     {
+        HudManagerPatches.HasAdjustedSubButton = false;
         foreach (var button in CustomButtonManager.Buttons)
         {
             try
@@ -156,12 +157,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
         var instance = HudManager.Instance;
 
-        HudManagerPatches.CreateUiRow(instance);
-        HudManagerPatches.CreateNewUiRow(instance);
-
         HudManagerPatches.CreateWikiButton(instance);
         HudManagerPatches.CreateZoomButton(instance);
-        HudManagerPatches.AdjustModifierTab();
 
         HudManagerPatches.UpdateRoleList(instance);
         HudManagerPatches.UpdateTeamChat();

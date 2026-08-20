@@ -995,6 +995,8 @@ Once they use an ability, you may kill them.</string>
   <!-- Jailor Wiki / Abilities -->
   <string name="TouRoleJailor">Jailor</string>
   <string name="TouRoleJailorIntroBlurb">Jail and execute [color=#FF0000FF]evildoers[/color]</string>
+    <string name="TouRoleJailorWikiBlurb">Jail players and execute them if necessary.
+Discuss with them privately before judging.</string>
   <string name="TouRoleJailorTabDescription">Jail crewmates to private talk to them, and
 execute them if they are an evildoer</string>
   <string name="TouRoleJailorTabDescriptionEvil">Jail crewmates to private talk to them, and

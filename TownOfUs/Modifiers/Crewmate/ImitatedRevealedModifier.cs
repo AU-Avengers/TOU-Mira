@@ -3,6 +3,7 @@
 using AmongUs.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;

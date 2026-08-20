@@ -30,6 +30,7 @@ public interface ITownOfUsRole : ICustomRole
     {
         return false;
     }
+    string ICustomRole.RoleFactionTitle => MiscUtils.GetParsedRoleAlignment(RoleAlignment);
 
     [HideFromIl2Cpp]
     Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;

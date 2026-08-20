@@ -55,47 +55,6 @@ public static class ChatPatches
 
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
-    [HarmonyPatch(typeof(FriendsListManager), nameof(FriendsListManager.SetFriendButtonColor))]
-    public static bool SetFriendButtonColor(FriendsListManager __instance, bool isGrayedOut)
-    {
-        __instance.FriendsListButton?.SetGlyphColor(isGrayedOut);
-        return false;
-    }
-
-    [HarmonyPrefix]
-    [HarmonyPriority(Priority.First)]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.Toggle))]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.Close))]
-    public static void TogglePrefix(ChatController __instance)
-	{
-        if (!HudManagerPatches.ClonedChatButton)
-        {
-            return;
-        }
-        __instance.chatButton.transform.localPosition = HudManagerPatches.ClonedChatButton.transform.localPosition + new Vector3(-0.3f, 0);
-    }
-
-    [HarmonyPostfix]
-    [HarmonyPriority(Priority.First)]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.Toggle))]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.Close))]
-    public static void TogglePostfix(ChatController __instance)
-    {
-        HudManagerPatches.UiGrid.ArrangeChilds();
-    }
-
-    [HarmonyPrefix]
-    [HarmonyPriority(Priority.First)]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatNote))]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatWarning))]
-    public static void ChatBubbleUpdatePrefix(ChatController __instance)
-    {
-        __instance.chatNotifyDot.transform.localPosition = new Vector3(-0.34f, 0.373f, -1f);
-    }
-
-    [HarmonyPrefix]
-    [HarmonyPriority(Priority.First)]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.SendChat))]
     public static bool FirstPrefix(ChatController __instance)
     {

@@ -43,6 +43,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     public string LocaleKey => "Jailor";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleMedDescription => TouLocale.GetParsed($"TouRole{LocaleKey}WikiBlurb");
     public string RoleLongDescription => PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished ? TouLocale.GetParsed($"TouRole{LocaleKey}TabDescriptionEvil") : TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
 
     public string GetAdvancedDescription()

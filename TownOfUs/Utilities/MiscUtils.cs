@@ -1976,37 +1976,6 @@ public static class MiscUtils
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(includePostors, distance);
     }
 
-    public static void SetSizeLimit(this SpriteRenderer sprite, float pixelSize)
-    {
-        sprite.drawMode = SpriteDrawMode.Sliced;
-        if (!sprite.sprite)
-        {
-            return;
-        }
-
-        float spriteWidth = sprite.sprite.rect.width;
-        float spriteHeight = sprite.sprite.rect.height;
-
-        if (spriteWidth < spriteHeight)
-        {
-            sprite.size = new Vector2(pixelSize * spriteWidth / spriteHeight, pixelSize);
-        }
-        else
-        {
-            sprite.size = new Vector2(pixelSize, pixelSize * spriteHeight / spriteWidth);
-        }
-    }
-
-    public static void SetSizeLimit(this GameObject spriteObj, float pixelSize)
-    {
-        if (!spriteObj.TryGetComponent<SpriteRenderer>(out var sprite))
-        {
-            return;
-        }
-
-        sprite.SetSizeLimit(pixelSize);
-    }
-
     public static bool DiedOtherRound(this PlayerControl player)
     {
         if (player == null)

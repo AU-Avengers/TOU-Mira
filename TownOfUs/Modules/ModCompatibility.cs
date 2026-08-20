@@ -7,6 +7,7 @@ using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Patches.Hud;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
@@ -331,8 +332,8 @@ public static class ModCompatibility
 
     public static bool FloorStylePrefix(bool isMovingUp)
     {
-        var hoverRend = HudManagerPatches.SubmergedFloorButtonRendererHover;
-        var basicRend = HudManagerPatches.SubmergedFloorButtonRenderer;
+        var hoverRend = MiraHudHelper.SubmergedFloorButtonRendererHover;
+        var basicRend = MiraHudHelper.SubmergedFloorButtonRenderer;
         if (basicRend && hoverRend)
         {
             if (isMovingUp)

@@ -2,6 +2,7 @@ using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
+using MiraAPI.Utilities;
 using Reactor.Utilities.Attributes;
 using TMPro;
 using TownOfUs.Modifiers;

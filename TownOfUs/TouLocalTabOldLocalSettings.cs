@@ -16,9 +16,6 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
 
     public ConfigEntry<bool> ShowVentsToggle =>
         LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.ShowVentsToggle;
-    
-    public ConfigEntry<float> ButtonUIFactorSlider =>
-        LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ButtonUIFactorSlider;
 
     public ConfigEntry<bool> WikiOnBottomRow =>
         LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.WikiOnBottomRow;
