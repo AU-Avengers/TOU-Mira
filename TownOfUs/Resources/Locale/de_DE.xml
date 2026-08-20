@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="FoolsMode">Aprilscherz Modus</string>
-  <string name="TertiaryAbility">Tertiäre Fähigkeit (Hack-Fähigkeit)</string>
+  <string name="TertiaryAbility">dritte Fertigkeit (Hack Fertigkeit)</string>
   <string name="ModifierAbility">Modifikator Fähigkeit</string>
   <string name="ClientOptionsButton">Tou Client Optionen</string>
   <string name="DeadSeeGhosts">Andere Geister Anzeigen Wenn Du Tot Bist</string>
