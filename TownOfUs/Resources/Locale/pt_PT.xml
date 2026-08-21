@@ -1273,4 +1273,9 @@ eles são amigos ou inimigos!</string>
   <string name="TouSystemType_Jungle">Selva</string>
   <string name="TouSystemType_SleepingQuarters">Alojamentos</string>
   <string name="TouSystemType_MushroomMixupSabotage">Confusão dos Cogumelos</string>
+  <string name="TouSystemType_HeliSabotage">Sabotagem do Helicóptero</string>
+  <string name="TouRoleOfficer">Agente</string>
+  <string name="TouRoleOfficerIntroBlurb">Recarrega e Atira nos [color=#FF0000FF]Assassinos[/color]</string>
+  <string name="TouRoleOfficerTabAdditionCount">Rondas a faltar para atirar denovo: [count]</string>
+  <string name="TouRoleOfficerTabAdditionNext">Na próxima ronda, podes atirar denovo.</string>
 </resources>
