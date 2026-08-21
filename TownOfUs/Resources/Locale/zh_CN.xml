@@ -2457,4 +2457,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouHexBombCountdown">爆咒师正在释放诅咒炸弹！
 剩余 [time] 秒！</string>
   <string name="TouHexBombSpellslingerDead">爆咒师已经死亡！</string>
+  <string name="Revived">已复活</string>
+  <string name="TouOptionTimeLordRewindDuration">回溯持续时间</string>
+  <string name="TouModifierLoverInfoDisconnected">与你相爱的是 [player]，但对方已断开连接。</string>
 </resources>
