@@ -1241,4 +1241,10 @@ Imituj się w innych aby ich wrobić.</string>
   <string name="TouRoleGrenadierWikiDescription">Grenadier to Intruz Skrywający mogący rzucić granat który oślepi wszystkich graczy w zasięgu</string>
   <string name="TouRoleGrenadierFlash">Oślep</string>
   <string name="TouRoleGrenadierFlashWikiDescription">Rzuć granat który oślepi wszystkich graczy w jego zasięgu.</string>
+  <string name="TouRoleGrenadierFlashNotif">Wszyscy gracze w twoim zasięgu zostali oślepieni!</string>
+  <string name="TouOptionGrenadierFlashUsesPerGame">Ilość Oślepień Na Grę</string>
+  <string name="TouOptionGrenadierFlashGrenadeCooldown">Cooldown Oślepienia</string>
+  <string name="TouOptionGrenadierFlashGrenadeDuration">Czas Trwania Oślepienia</string>
+  <string name="TouOptionGrenadierFlashRadius">Zasięg Oślepienia</string>
+  <string name="TouOptionGrenadierGrenadierCanVent">Grenadier Może Wentować</string>
 </resources>
