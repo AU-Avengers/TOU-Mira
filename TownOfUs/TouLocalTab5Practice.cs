@@ -41,10 +41,6 @@ public class TouLocalTabPractice(ConfigFile config) : LocalSettingsTab(config)
         config.Bind("Lobby", "ShowWelcomeMessage", true);
 
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowRulesOnLobbyJoinToggle { get; private set; } =
-        config.Bind("Lobby", "ShowRulesOnLobbyJoin", true);
-
-    [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowSummaryMessageToggle { get; private set; } =
         config.Bind("Lobby", "ShowSummaryMessage", true);
 

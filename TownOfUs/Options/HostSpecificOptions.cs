@@ -24,6 +24,8 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
 
     public ModdedToggleOption LobbyFunMode { get; set; } = new("Allow Lobby-Only No-Clip", true, false);
 
+    public ModdedToggleOption ShowRulesOnLobbyJoin { get; set; } = new("Show Rules to Players on Lobby Join", true, false);
+
     /*public ModdedToggleOption AllowAprilFools { get; set; } = new("Allow April Fools Visuals", true, false)
     {
         ChangedEvent = x =>

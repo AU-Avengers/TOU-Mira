@@ -26,9 +26,6 @@ public class TownOfUsLocalMiscSettings(ConfigFile config) : LocalSettingsTab(con
     public ConfigEntry<bool> ShowWelcomeMessageToggle =>
         LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ShowWelcomeMessageToggle;
 
-    public ConfigEntry<bool> ShowRulesOnLobbyJoinToggle =>
-        LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ShowRulesOnLobbyJoinToggle;
-
     public ConfigEntry<bool> ShowSummaryMessageToggle =>
         LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ShowSummaryMessageToggle;
 
