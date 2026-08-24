@@ -5,23 +5,40 @@ namespace TownOfUs.Options;
 
 public sealed class PostmortemOptions : AbstractOptionGroup
 {
-    public override string GroupName => "Postmortem Options";
+    public override string GroupName => TouLocale.Get("TouOptionTitlePostmortem");
     public override uint GroupPriority => 4;
 
-    public ModdedToggleOption TheDeadKnow { get; set; } = new("The Dead Know Players", true);
+    public ModdedToggleOption TheDeadKnow { get; set; } =
+        new("TouOptionTheDeadKnow", true);
 
-    public ModdedToggleOption DeadSeeVotes { get; set; } = new("The Dead See Votes", true);
+    public ModdedToggleOption DeadSeeVotes { get; set; } =
+        new("TouOptionDeadSeeVotes", true);
 
-    public ModdedEnumOption DeadSeePrivateChat { get; set; } = new("The Dead See Private Chat", (int)GhostModeGlobal.DisabledUponDeath, typeof(GhostModeGlobal),
-        ["Disabled", "Disabled Upon Death", "In Meetings", "Always"]);
+    public ModdedEnumOption DeadSeePrivateChat { get; set; } =
+        new("TouOptionDeadSeePrivateChat", (int)GhostModeGlobal.DisabledUponDeath,
+            typeof(GhostModeGlobal),
+            [
+                "TouOptionDeadSeePrivateChatEnumDisabled",
+                "TouOptionDeadSeePrivateChatEnumDisabledUponDeath",
+                "TouOptionDeadSeePrivateChatEnumInMeetings",
+                "TouOptionDeadSeePrivateChatEnumAlways"
+            ]);
 
-    public ModdedEnumOption DeadCanHaunt { get; set; } = new("Haunt (Follow) Mode", (int)GhostModeInGame.DisabledUponDeath, typeof(GhostModeInGame),
-        ["Disabled", "Disabled Upon Death", "Always"]);
+    public ModdedEnumOption DeadCanHaunt { get; set; } =
+        new("TouOptionDeadCanHaunt", (int)GhostModeInGame.DisabledUponDeath,
+            typeof(GhostModeInGame),
+            [
+                "TouOptionDeadCanHauntEnumDisabled",
+                "TouOptionDeadCanHauntEnumDisabledUponDeath",
+                "TouOptionDeadCanHauntEnumAlways"
+            ]);
 
-    public ModdedToggleOption HideChatButton { get; set; } = new("Temporarily Hide Chat Upon Death", true);
-    public ModdedToggleOption ShowTaskDead { get; set; } = new("See Task Trackers When Dead", true);
+    public ModdedToggleOption HideChatButton { get; set; } =
+        new("TouOptionHideChatButton", true);
+
+    public ModdedToggleOption ShowTaskDead { get; set; } =
+        new("TouOptionShowTaskDead", true);
 }
-
 public enum GhostModeInGame
 {
     Disabled,

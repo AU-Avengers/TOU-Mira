@@ -2722,4 +2722,288 @@
   <string name="TouModifierTorchIntroBlurb">See without lights on.</string>
   <string name="TouModifierTorchTabDescription">Your vision won't get reduced\%nl\%when the lights are sabotaged.</string>
   <string name="TouModifierTorchWikiDescription">The lights being off do not affect your vision.</string>
+
+  <!-- Game Settings -->
+    <!-- Vanilla Tweaks -->
+      <string name="TouOptionTitleVanillaTweaks">Vanilla Tweaks</string>
+
+      <string name="TouOptionHideNamesOutOfSight">Hide Names Out Of Sight</string>
+      <string name="TouOptionTickCooldownsInMinigame">Continue Cooldown In Tasks and Panels</string>
+      <string name="TouOptionParallelMedbay">Parallel Medbay Scans</string>
+      <string name="TouOptionMedscanWalk">Walk to Medscan</string>
+
+      <string name="TouOptionSkipButtonDisable">Disable Meeting Skip Button</string>
+      <string name="TouOptionSkipButtonDisableEnumNever">Never</string>
+      <string name="TouOptionSkipButtonDisableEnumEmergency">Emergency</string>
+      <string name="TouOptionSkipButtonDisableEnumAlways">Always</string>
+
+      <string name="TouOptionHideVentAnimationNotInVision">Hide Vent Animations Not In Vision</string>
+
+      <string name="TouOptionShowPetsMode">Pet Visibility</string>
+      <string name="TouOptionShowPetsModeEnumClientSide">Client Side</string>
+      <string name="TouOptionShowPetsModeEnumWhenAlive">When Alive</string>
+      <string name="TouOptionShowPetsModeEnumAlwaysVisible">Always Visible</string>
+
+      <string name="TouOptionHidePetsOnBodyRemove">Pet Removed on Body Clean</string>
+      <string name="TouOptionHidePetsOnBodyRemoveEnumNever">Never</string>
+      <string name="TouOptionHidePetsOnBodyRemoveEnumDuringRound">During Round</string>
+      <string name="TouOptionHidePetsOnBodyRemoveEnumAlways">Always</string>
+
+    <!-- Assassin Options -->
+      <string name="TouOptionTitleAssassin">Assassin Options</string>
+
+      <string name="TouOptionNumberOfImpostorAssassins">Number Of Impostor Assassins</string>
+      <string name="TouOptionImpAssassinChance">Impostor Assassin Chance</string>
+      <string name="TouOptionImpAssassinKills"># Of Impostor Assassin Kills</string>
+      <string name="TouOptionImpAssassinMultiKill">Impostor Assassin Can Kill More Than Once Per Meeting</string>
+
+      <string name="TouOptionNumberOfNeutralAssassins">Number Of Neutral Assassins</string>
+      <string name="TouOptionNeutAssassinChance">Neutral Assassin Chance</string>
+      <string name="TouOptionNeutAssassinKills"># Of Neutral Assassin Kills</string>
+      <string name="TouOptionNeutAssassinMultiKill">Neutral Assassin Can Kill More Than Once Per Meeting</string>
+
+      <string name="TouOptionGuessVanillaRoles">Non-Basic Vanilla Roles Are Guessable</string>
+
+      <string name="TouOptionAssassinCrewmateGuess">Assassin Can Guess "Crewmate"</string>
+      <string name="TouOptionAssassinGuessInvest">Assassin Can Guess Crew Investigative Roles</string>
+      <string name="TouOptionAssassinGuessNeutralBenign">Assassin Can Guess Neutral Benign Roles</string>
+      <string name="TouOptionAssassinGuessNeutralEvil">Assassin Can Guess Neutral Evil Roles</string>
+      <string name="TouOptionAssassinGuessNeutralKilling">Assassin Can Guess Neutral Killing Roles</string>
+      <string name="TouOptionAssassinGuessNeutralOutlier">Assassin Can Guess Neutral Outlier Roles</string>
+      <string name="TouOptionAssassinGuessImpostors">Assassin Can Guess Impostor Roles</string>
+      <string name="TouOptionAssassinGuessCrewModifiers">Assassin Can Guess Crewmate Modifiers</string>
+      <string name="TouOptionAssassinGuessUtilityModifiers">Assassin Can Guess Crew Utility Modifiers</string>
+      <string name="TouOptionAssassinGuessImpostorModifiers">Assassin Can Guess Impostor Modifiers</string>
+      <string name="TouOptionAssassinGuessNonCrewModifiers">Assassin Can Guess Other Faction Modifiers</string>
+      <string name="TouOptionAssassinGuessAlliances">Assassin Can Guess Alliances</string>
+
+      <string name="TouOptionAssassinShots">\%amount\% Shots</string>
+      <string name="TouOptionAssassinOverall">(Overall)</string>
+      <string name="TouOptionAssassinOnePerMeeting">(1 Per Meeting)</string>
+
+    <!-- Game Mechanics -->
+        <string name="TouOptionTitleGameMechanics">Game Mechanics</string>
+
+        <string name="TouOptionHideNamesOutOfSight">Hide Names Out Of Sight</string>
+
+        <string name="TouOptionCrewKillersContinue">Powerful Crew Continue The Game</string>
+        <string name="TouOptionAnonymousShields">All Shields Flash Grey on Trigger</string>
+
+        <string name="TouOptionCleanedBodiesAppearance">Cleaned/Dissolved Bodies Appear as</string>
+        <string name="TouOptionCleanedBodiesAppearanceEnumMissing">Missing (MIS)</string>
+        <string name="TouOptionCleanedBodiesAppearanceEnumDead">Dead (DED)</string>
+        <string name="TouOptionCleanedBodiesAppearanceEnumDisconnected">Disconnected (D/C)</string>
+
+        <string name="TouOptionKillAnimationBackgroundColor">Kill Animation Background Color</string>
+        <string name="TouOptionKillAnimationBackgroundColorEnumRed">Red</string>
+        <string name="TouOptionKillAnimationBackgroundColorEnumFaction">Faction</string>
+        <string name="TouOptionKillAnimationBackgroundColorEnumRoleColor">Role Color</string>
+
+        <string name="TouOptionPlayerCountWhenVentsDisable">Max Players Alive When Vents Disable</string>
+        <string name="TouOptionGhostwalkerFixSabos">Ghostwalkers Can Fix Sabotages</string>
+        <string name="TouOptionTempSaveCdReset">Temp Save Cooldown Reset</string>
+        <string name="TouOptionFullSaveCdMultiplier">Full Save Cooldown Multiplier</string>
+    <!-- Game Timer Options -->
+        <string name="TouOptionTitleGameTimer">End Game Timer</string>
+
+        <string name="TouOptionGameTimerEnabled">Game Timer</string>
+        <string name="TouOptionGameTimerPauseInMeetings">Pause Timer In Meetings</string>
+
+        <string name="TouOptionGameTimerEndOption">On Timer End</string>
+        <string name="TouOptionGameTimerEndEnumImpostorWin">Impostor Win</string>
+        <string name="TouOptionGameTimerEndEnumGameDraw">Game Draw</string>
+
+        <string name="TouOptionGameTimerTimeLimit">Game Time Limit</string>
+
+    <!-- General Options -->
+        <string name="TouOptionTitleGeneral">General</string>
+
+        <string name="TouOptionFFAImpostorMode">Impostors Don't Know Each Other</string>
+        <string name="TouOptionImpsKnowRoles">Impostors Know Each Other's Roles</string>
+        <string name="TouOptionImpostorChat">Impostors Get A Private Meeting Chat</string>
+        <string name="TouOptionVampireChat">Vampires Get A Private Meeting Chat</string>
+        <string name="TouOptionAddedMeetingDeathTimer">Voting Time Added After Meeting Death</string>
+
+    <!-- Host-Specific Options -->
+      <string name="TouOptionTitleHostSpecific">Host-Specific Options</string>
+
+      <string name="TouOptionAntiCheatWarnings">Enable Anti Cheat Warnings</string>
+      <string name="TouOptionKickCheatMods">Kick Players Using Cheat Mods</string>
+      <string name="TouOptionMultiplayerFreeplay">Freeplay Mode</string>
+
+      <string name="TouOptionBetaLoggingLevel">Advanced Logging Mode</string>
+      <string name="TouOptionBetaLoggingLevelEnumNoLogging">No Logging</string>
+      <string name="TouOptionBetaLoggingLevelEnumLogForHost">Log For Host</string>
+      <string name="TouOptionBetaLoggingLevelEnumLogForEveryone">Log For Everyone</string>
+      <string name="TouOptionBetaLoggingLevelEnumLogPostGame">Log Post-Game</string>
+
+      <string name="TouOptionLobbyFunMode">Allow Lobby-Only No-Clip</string>
+      <string name="TouOptionAllowAprilFools">Allow April Fools Visuals</string>
+      <string name="TouOptionEnableSpectators">Allow Spectators</string>
+
+      <string name="TouOptionRequireSubmerged">Require Players to have Submerged Installed</string>
+      <string name="TouOptionRequireCrowded">Require Players to have Crowded Installed</string>
+      <string name="TouOptionRequireAleLudu">Require Players to have AleLuduMod Installed</string>
+
+      <string name="TouOptionNoGameEnd">No Game End</string>
+
+    <!-- Round Start Options -->
+      <string name="TouOptionTitleRoundStart">Round Start Options</string>
+
+      <string name="TouOptionModifierReveal">Modifier Type To Show In Role Intro</string>
+      <string name="TouOptionModifierRevealEnumAlliance">Alliance</string>
+      <string name="TouOptionModifierRevealEnumUniversal">Universal</string>
+      <string name="TouOptionModifierRevealEnumNeither">Neither</string>
+
+      <string name="TouOptionTeamModifierReveal">Show Faction Modifier On Role Reveal</string>
+
+      <string name="TouOptionGameStartCd">Initial Button Cooldowns</string>
+
+      <string name="TouOptionStartCooldownMode">Initial Cooldowns Apply For</string>
+      <string name="TouOptionStartCooldownModeEnumAllButtons">All Buttons</string>
+      <string name="TouOptionStartCooldownModeEnumSpecificCooldowns">Specific Cooldowns</string>
+      <string name="TouOptionStartCooldownModeEnumNoButtons">No Buttons</string>
+
+      <string name="TouOptionStartCooldownMin">Minimum Cooldown To Be Applicable</string>
+      <string name="TouOptionStartCooldownMax">Maximum Cooldown To Be Applicable</string>
+
+      <string name="TouOptionFirstDeathShield">First Death Shield Next Game</string>
+      <string name="TouOptionRoundOneVictims">Indicate Round One Victims</string>
+    
+    <!-- Postmortem Options -->
+      <string name="TouOptionTitlePostmortem">Postmortem Options</string>
+
+      <string name="TouOptionTheDeadKnow">The Dead Know Players</string>
+      <string name="TouOptionDeadSeeVotes">The Dead See Votes</string>
+
+      <string name="TouOptionDeadSeePrivateChat">The Dead See Private Chat</string>
+      <string name="TouOptionDeadSeePrivateChatEnumDisabled">Disabled</string>
+      <string name="TouOptionDeadSeePrivateChatEnumDisabledUponDeath">Disabled Upon Death</string>
+      <string name="TouOptionDeadSeePrivateChatEnumInMeetings">In Meetings</string>
+      <string name="TouOptionDeadSeePrivateChatEnumAlways">Always</string>
+
+      <string name="TouOptionDeadCanHaunt">Haunt (Follow) Mode</string>
+      <string name="TouOptionDeadCanHauntEnumDisabled">Disabled</string>
+      <string name="TouOptionDeadCanHauntEnumDisabledUponDeath">Disabled Upon Death</string>
+      <string name="TouOptionDeadCanHauntEnumAlways">Always</string>
+
+      <string name="TouOptionHideChatButton">Temporarily Hide Chat Upon Death</string>
+      <string name="TouOptionShowTaskDead">See Task Trackers When Dead</string>
+
+    <!-- Roleblock Mechanics -->
+      <string name="TouOptionTitleRoleblockMechanics">Roleblock Mechanics</string>
+
+      <string name="TouOptionRoleblockAffectsConsoles">Roleblock Affects Non-Role Actions</string>
+      <string name="TouOptionRoleblockDuration">Roleblock Duration</string>
+      <string name="TouOptionInvertControlsOfRoleblocked">Invert Controls Of Roleblocked</string>
+      <string name="TouOptionRoleblockHangover">Grant Hangover</string>
+      <string name="TouOptionRoleblockHangoverDuration">Hangover Duration</string>
+
+    <!-- Draft Mode - Crewmate Settings -->
+      <string name="TouOptionTitleRoleDraftCrew">Crewmate Settings</string>
+
+      <string name="TouOptionRoleDraftCrewMaxInvestigative">Max Investigative Roles</string>
+      <string name="TouOptionRoleDraftCrewMaxKilling">Max Killing Roles</string>
+      <string name="TouOptionRoleDraftCrewMaxPower">Max Power Roles</string>
+      <string name="TouOptionRoleDraftCrewMaxProtective">Max Protective Roles</string>
+      <string name="TouOptionRoleDraftCrewMaxSupport">Max Support Roles</string>
+
+    <!-- Draft Mode - Impostor Settings -->
+      <string name="TouOptionTitleRoleDraftImp">Impostor Settings</string>
+
+      <string name="TouOptionRoleDraftImpMaxImpostors">Max Impostors Total</string>
+      <string name="TouOptionRoleDraftImpMaxConcealing">Max Concealing Roles</string>
+      <string name="TouOptionRoleDraftImpMaxKilling">Max Killing Roles</string>
+      <string name="TouOptionRoleDraftImpMaxPower">Max Power Roles</string>
+      <string name="TouOptionRoleDraftImpMaxSupport">Max Support Roles</string>
+
+
+    <!-- Draft Mode - Neutral Settings -->
+      <string name="TouOptionTitleRoleDraftNeut">Neutral Settings</string>
+
+      <string name="TouOptionRoleDraftNeutMaxNeutrals">Max Neutrals Total</string>
+      <string name="TouOptionRoleDraftNeutMaxBenign">Max Benign Roles</string>
+      <string name="TouOptionRoleDraftNeutMaxEvil">Max Evil Roles</string>
+      <string name="TouOptionRoleDraftNeutMaxKilling">Max Killing Roles</string>
+      <string name="TouOptionRoleDraftNeutMaxOutlier">Max Outlier Roles</string>
+
+    <!-- Draft Mode - Role List Settings -->
+      <string name="TouOptionTitleRoleDraftRoleList">Role List Settings</string>
+
+      <!-- Not the best implementation but following the pattern of the Sentinel blindspots -->
+      <string name="TouOptionRoleDraftRoleListSlot1">Slot 1</string>
+      <string name="TouOptionRoleDraftRoleListSlot2">Slot 2</string>
+      <string name="TouOptionRoleDraftRoleListSlot3">Slot 3</string>
+      <string name="TouOptionRoleDraftRoleListSlot4">Slot 4</string>
+      <string name="TouOptionRoleDraftRoleListSlot5">Slot 5</string>
+      <string name="TouOptionRoleDraftRoleListSlot6">Slot 6</string>
+      <string name="TouOptionRoleDraftRoleListSlot7">Slot 7</string>
+      <string name="TouOptionRoleDraftRoleListSlot8">Slot 8</string>
+      <string name="TouOptionRoleDraftRoleListSlot9">Slot 9</string>
+      <string name="TouOptionRoleDraftRoleListSlot10">Slot 10</string>
+      <string name="TouOptionRoleDraftRoleListSlot11">Slot 11</string>
+      <string name="TouOptionRoleDraftRoleListSlot12">Slot 12</string>
+      <string name="TouOptionRoleDraftRoleListSlot13">Slot 13</string>
+      <string name="TouOptionRoleDraftRoleListSlot14">Slot 14</string>
+      <string name="TouOptionRoleDraftRoleListSlot15">Slot 15</string>
+
+
+    <!-- Role Settings -->
+      <string name="TouOptionTitleRoleSettings">Role Settings</string>
+
+      <string name="TouOptionCurrentGameMode">Current Game Mode</string>
+      <string name="TouOptionCurrentGameModeEnumNormal">Normal</string>
+      <string name="TouOptionCurrentGameModeEnumHideAndSeek">Hide And Seek (N/A)</string>
+      <string name="TouOptionCurrentGameModeEnumCultist">Cultist (N/A)</string>
+
+      <string name="TouOptionRoleAssignmentType">Role Assignment Type</string>
+      <string name="TouOptionRoleAssignmentTypeEnumVanilla">Vanilla</string>
+      <string name="TouOptionRoleAssignmentTypeEnumRoleList">Role List</string>
+      <string name="TouOptionRoleAssignmentTypeEnumMinMaxList">Min/Max List</string>
+      <string name="TouOptionRoleAssignmentTypeEnumDraft">Draft</string>
+
+      <string name="TouOptionReduceImpostorStreak">Reduce Impostor Streak</string>
+      <string name="TouOptionImpostorStreakReductionChance">Reduction Chance</string>
+
+      <string name="TouOptionRoleListSlot1">Slot 1</string>
+      <string name="TouOptionRoleListSlot2">Slot 2</string>
+      <string name="TouOptionRoleListSlot3">Slot 3</string>
+      <string name="TouOptionRoleListSlot4">Slot 4</string>
+      <string name="TouOptionRoleListSlot5">Slot 5</string>
+      <string name="TouOptionRoleListSlot6">Slot 6</string>
+      <string name="TouOptionRoleListSlot7">Slot 7</string>
+      <string name="TouOptionRoleListSlot8">Slot 8</string>
+      <string name="TouOptionRoleListSlot9">Slot 9</string>
+      <string name="TouOptionRoleListSlot10">Slot 10</string>
+      <string name="TouOptionRoleListSlot11">Slot 11</string>
+      <string name="TouOptionRoleListSlot12">Slot 12</string>
+      <string name="TouOptionRoleListSlot13">Slot 13</string>
+      <string name="TouOptionRoleListSlot14">Slot 14</string>
+      <string name="TouOptionRoleListSlot15">Slot 15</string>
+
+      <string name="TouOptionMinNeutralBenign">Min Neutral Benign</string>
+      <string name="TouOptionMaxNeutralBenign">Max Neutral Benign</string>
+      <string name="TouOptionMinNeutralEvil">Min Neutral Evil</string>
+      <string name="TouOptionMaxNeutralEvil">Max Neutral Evil</string>
+      <string name="TouOptionMinNeutralKiller">Min Neutral Killer</string>
+      <string name="TouOptionMaxNeutralKiller">Max Neutral Killer</string>
+      <string name="TouOptionMinNeutralOutlier">Min Neutral Outliers</string>
+      <string name="TouOptionMaxNeutralOutlier">Max Neutral Outliers</string>
+
+      <string name="TouOptionDraftRecapDisplays">Draft Recap Displays</string>
+      <string name="TouOptionDraftSidebarDisplays">Draft Sidebar Displays</string>
+
+      <string name="TouOptionDraftDisplayEnumNothing">Nothing</string>
+      <string name="TouOptionDraftDisplayEnumFaction">Faction</string>
+      <string name="TouOptionDraftDisplayEnumAlignment">Alignment</string>
+      <string name="TouOptionDraftDisplayEnumRole">Role</string>
+
+      <string name="TouOptionDraftUseRoleListForPool">Use Role List For Pool</string>
+      <string name="TouOptionDraftOfferedRolesCount">Offered Role Picks Per Turn</string>
+      <string name="TouOptionDraftShowRandomOption">Show Random Role Pick</string>
+      <string name="TouOptionDraftTurnDuration">Turn Duration</string>
+      <string name="TouOptionDraftConcurrentPicks">Concurrent Picks Per Turn</string>
+      <string name="TouOptionDraftShufflesPerPlayer">Shuffles Per Player</string>
+
+      
 </resources>
