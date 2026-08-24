@@ -847,12 +847,12 @@ public static class ChatPatches
             return;
         }
         var rulesText = GetLobbyRulesText();
-        RpcSendLobbyRules(PlayerControl.LocalPlayer, requester, rulesText, false);
+        RpcSendLobbyRules(PlayerControl.LocalPlayer, requester, rulesText);
     }
 
     private static bool _canShowRules = true;
     [MethodRpc((uint)TownOfUsRpc.SendLobbyRules)]
-    internal static void RpcSendLobbyRules(PlayerControl host, PlayerControl target, string rulesText, bool optional)
+    internal static void RpcSendLobbyRules(PlayerControl host, PlayerControl target, string rulesText)
     {
         if (!host.IsHost())
         {
@@ -863,7 +863,7 @@ public static class ChatPatches
         {
             return;
         }
-        if (PlayerControl.LocalPlayer.PlayerId != target.PlayerId || optional && !LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ShowRulesOnLobbyJoinToggle.Value)
+        if (PlayerControl.LocalPlayer.PlayerId != target.PlayerId)
         {
             return;
         }
@@ -899,7 +899,7 @@ public static class ChatPatches
         }
         var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
         var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
-        MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
+        MiscUtils.AddSystemChat(host.Data, title, msg);
         Coroutines.Start(CoWaitForAcCooldown());
     }
 
