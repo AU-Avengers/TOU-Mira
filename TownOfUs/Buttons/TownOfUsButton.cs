@@ -151,7 +151,9 @@ public abstract class TownOfUsButton : CustomActionButton
 
         CreateRoundLockIcon();
 
-        Button.usesRemainingSprite.sprite = this is ILegacyCapable && LegacyAssets.IsLegacy ? TouAssets.BlankSprite.LoadAsset() : TouAssets.AbilityCounterBasicSprite.LoadAsset();
+        Button.usesRemainingSprite.sprite = this is ILegacyCapable && LegacyAssets.IsLegacy || this is ILegacyButton
+            ? TouAssets.BlankSprite.LoadAsset()
+            : TouAssets.AbilityCounterBasicSprite.LoadAsset();
 
         TownOfUsColors.UseBasic = false;
         if (TextOutlineColor != Color.clear)
@@ -426,7 +428,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
 
         CreateRoundLockIcon();
 
-        if (this is ILegacyCapable && LegacyAssets.IsLegacy)
+        if (this is ILegacyCapable && LegacyAssets.IsLegacy || this is ILegacyButton)
         {
             Button.usesRemainingSprite.sprite = TouAssets.BlankSprite.LoadAsset();
         }
@@ -601,6 +603,10 @@ public interface IKillButton
 }
 
 public interface ILegacyCapable
+{
+}
+
+public interface ILegacyButton
 {
 }
 

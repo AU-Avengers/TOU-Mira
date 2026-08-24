@@ -798,7 +798,7 @@ public static class TownOfUsEventHandlers
             return;
         }
 
-        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
         {
             return;
         }

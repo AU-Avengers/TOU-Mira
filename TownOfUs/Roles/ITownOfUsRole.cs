@@ -1,9 +1,7 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
-using TownOfUs.Options;
 
 namespace TownOfUs.Roles;
 
@@ -32,8 +30,6 @@ public interface ITownOfUsRole : ICustomRole
     }
     string ICustomRole.RoleFactionTitle => MiscUtils.GetParsedRoleAlignment(RoleAlignment);
 
-    [HideFromIl2Cpp]
-    Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     string? ICustomRole.GetCustomEjectionMessage(NetworkedPlayerInfo player)
     {
         var prefix = "A";
@@ -229,6 +225,11 @@ public interface ITownOfUsRole : ICustomRole
                 return TouRoleGroups.Other;
             }
 
+            if (RoleAlignment == RoleAlignment.FrenzyKiller)
+            {
+                return TouRoleGroups.FrenzyKiller;
+            }
+
             return Team switch
             {
                 ModdedRoleTeams.Crewmate => TouRoleGroups.CrewSup,
@@ -294,6 +295,9 @@ public enum RoleAlignment
     CrewmateGhost,
     ImpostorGhost,
     NeutralGhost,
+    Crewmate,
+    Impostor,
+    Neutral,
     CrewmateAfterlife,
     ImpostorAfterlife,
     NeutralAfterlife,
@@ -306,4 +310,6 @@ public enum RoleAlignment
     CrewmateBeliever,
     CrewmateObstinate,
     NeutralObstinate,
+    // Killing Frenzy
+    FrenzyKiller
 }

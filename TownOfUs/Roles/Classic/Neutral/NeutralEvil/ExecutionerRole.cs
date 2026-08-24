@@ -66,7 +66,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 
     public void AssignTargets()
     {
-        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        if (!RoleOptions.IsClassicRoleAssignment)
         {
             return;
         }

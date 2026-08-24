@@ -3,6 +3,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using MiraAPI.Events;
+using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -901,7 +902,7 @@ public static class TouRoleManagerPatches
             mod.BeforeModifierSpawns();
         }
 
-        if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla)
+        if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla || !CustomGameModeManager.IsClassic())
         {
             MiraAPI.Patches.Roles.SelectRolesPatch.ApiHandlesRoleSelect = true;
             return true;
@@ -1166,7 +1167,7 @@ public static class TouRoleManagerPatches
     [HarmonyPrefix]
     public static bool GetAdjustedImposters(IGameOptions __instance, ref int __result)
     {
-        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal || !CustomGameModeManager.IsClassic())
         {
             return true;
         }

@@ -27,8 +27,12 @@ public static class MiraApiPatches
             __result = true;
             return false;
         }
-
         if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek && (role.Role is not RoleTypes.Engineer and not RoleTypes.Impostor))
+        {
+            __result = true;
+            return false;
+        }
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
         {
             __result = true;
             return false;

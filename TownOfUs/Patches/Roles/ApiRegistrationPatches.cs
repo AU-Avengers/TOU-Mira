@@ -5,7 +5,6 @@ using MiraAPI.Roles;
 using Reactor.Localization.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Patches.Roles;
 
@@ -30,8 +29,7 @@ public static class ApiRegistrationPatches
         _runOnce = true;
 
         var newList = CustomRoleManager.CustomRoleBehaviours.Where(x =>
-            x.Role is not RoleTypes.CrewmateGhost and not RoleTypes.ImpostorGhost &&
-            x.Role != (RoleTypes)RoleId.Get<NeutralGhostRole>()).ToList();
+            !MiscUtils.IsBasicGhost(x.Role)).ToList();
         MiscUtils.AllRoles = newList;
         var touList = MiscUtils.AllRoles.OfType<ITownOfUsRole>().ToList();
         MiscUtils.AllTouRoles = touList;
@@ -41,8 +39,7 @@ public static class ApiRegistrationPatches
         }
 
         var newList2 = RoleManager.Instance.AllRoles.ToArray().Where(x =>
-            x.Role is not RoleTypes.CrewmateGhost and not RoleTypes.ImpostorGhost &&
-            x.Role != (RoleTypes)RoleId.Get<NeutralGhostRole>()).ToList();
+            !MiscUtils.IsBasicGhost(x.Role)).ToList();
         MiscUtils.AllInGameRoles = newList2;
         var newModifiers = new List<TouBaseGameModifier>();
         var assignableMods = new List<IAssignableTargets>();

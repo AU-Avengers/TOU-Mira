@@ -9,7 +9,6 @@ using MiraAPI.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Options;
-using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
 using UnityEngine;
 
@@ -52,7 +51,7 @@ public static class HauntMenuMinigamePatch
             }
 
             var role = target.Data.Role;
-            if (target.Data.IsDead && (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost || role.Role == (RoleTypes)RoleId.Get<NeutralGhostRole>()))
+            if (target.Data.IsDead && MiscUtils.IsBasicGhost(role))
             {
                 role = target.GetRoleWhenAlive();
             }

@@ -33,8 +33,6 @@ public sealed class GrenadierRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         CanUseVent = OptionGroupSingleton<GrenadierOptions>.Instance.CanVent
     };
 
-
-
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {

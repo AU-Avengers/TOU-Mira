@@ -2,7 +2,6 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
@@ -10,7 +9,6 @@ using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -293,8 +291,7 @@ public static class GameHistory
             RoleWhenAlive.Remove(player.PlayerId);
             RoleWhenAlive.Add(player.PlayerId, role);
         }
-        else if (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost ||
-                 role.Role == (RoleTypes)RoleId.Get<NeutralGhostRole>())
+        else if (MiscUtils.IsBasicGhost(role))
         {
             trackRole = false;
         }

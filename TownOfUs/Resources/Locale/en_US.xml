@@ -227,6 +227,7 @@ Fake Tasks:</string>
   <string name="NeutralOutlierTaskHeader">You must complete your objective to win.
 Fake Tasks:</string>
   <string name="NeutralSpectreTaskHeader">You're dead. Complete your tasks to win!</string>
+  <string name="FrenzyKillerTaskHeader">Eliminate all other teams by any means.</string>
   <!-- Role List -->
   <string name="SetRoleList">Set Role List</string>
   <string name="NeutralFactionList">Neutral Faction List</string>
@@ -265,6 +266,7 @@ Fake Tasks:</string>
   <string name="CrewmateBeliever">Crewmate Believer</string>
   <string name="CrewmateObstinate">Crewmate Obstinate</string>
   <string name="NeutralObstinate">Neutral Obstinate</string>
+  <string name="FrenzyKiller">Frenzy Killer</string>
   <!-- Role Buckets with Role List -->
   <string name="CommonCrew">Common Crew</string>
   <string name="SpecialCrew">Special Crew</string>
@@ -651,11 +653,40 @@ You may disable this message through your option menu.</string>
   <string name="TouOptionBetterSubmergedSpawnEnumLowerDeck">Lower Deck</string>
     <!-- Better LI Options -->
     <string name="TouOptionTitleBetterLevelImpostor">Better Level Impostor</string>
+    <string name="TownOfPolusRoleTabText">Role: \%roleName\% \%nl\%\%description\%</string>
+    <string name="TownOfPolusRoleFakeTaskTabText">Fake Tasks:</string>
+    <string name="TownOfPolusRoleCrewDescription">Finish your tasks.</string>
+    <string name="TownOfPolusRoleCrewDescriptionDead">You're dead, finish your tasks.</string>
+    <string name="TownOfPolusRoleNeutDescription">Complete your objective.</string>
+    <string name="TownOfPolusRoleNeutDescriptionDead">You're dead.</string>
+    <string name="TownOfPolusRoleImpDescription">Sabotage and kill the crewmates.</string>
+    <string name="TownOfPolusRoleImpDescriptionDead">You're dead.</string>
+    <!-- Engineer Wiki / Abilities -->
+    <string name="TownOfPolusRoleEngineer">Engineer</string>
+    <string name="TownOfPolusRoleEngineerIntroBlurb">Maintain the outpost</string>
+    <string name="TownOfPolusRoleEngineerTabDescription">Finish your tasks.\%nl\%You can fix 1 sabotage.</string>
+    <string name="TownOfPolusRoleEngineerWikiDescription">The Engineer is a Crewmate role that can fix one sabotage per game, from anywhere on the map.</string>
+    <!-- Swooper Wiki / Abilities -->
+    <string name="TownOfPolusRoleSwooper">Swooper</string>
+    <string name="TownOfPolusRoleSwooperIntroBlurb">Use the Swoop ability to turn invisible</string>
+    <string name="TownOfPolusRoleSwooperTabDescription">Sabotage and kill the crewmates.\%nl\%Use the Swoop ability to turn invisible.</string>
+    <string name="TownOfPolusRoleSwooperWikiDescription">The Swooper is an Impostor role that can go invisible at any time to either hide or run away from kills. However, they cannot vent.</string>
+    <!-- SerialKiller Wiki / Abilities -->
+    <string name="TownOfPolusRoleSerialKiller">Serial Killer</string>
+    <string name="TownOfPolusRoleSerialKillerIntroBlurb">Kill everyone</string>
+    <string name="TownOfPolusRoleSerialKillerTabDescription">Kill everyone.</string>
+    <string name="TownOfPolusRoleSerialKillerWikiDescription">The Serial Killer is a Neutral role that has the sole goal of killing every player. If they do not kill the minimum amount of players needed, they will lose.</string>
   <!-- Spectator - Game Outlier -->
   <string name="TouRoleSpectator">Spectator</string>
   <string name="TouRoleSpectatorIntroBlurb">Watch the chaos from afar</string>
   <string name="TouRoleSpectatorTabDescription">Never participate, watch as the chaos unfolds in-game!</string>
   <string name="TouRoleSpectatorWikiDescription">You don't participate in-game nor interact with players. All you can do is watch.</string>
+  <!-- Outcast - Frenzy Killer -->
+  <!-- Outcast Wiki / Abilities -->
+  <string name="TouRoleOutcast">Outcast</string>
+  <string name="TouRoleOutcastIntroBlurb">Fight against the supernatural.</string>
+  <string name="TouRoleOutcastTabDescription">Use your vision and venting to your advantage.</string>
+  <string name="TouRoleOutcastWikiDescription">The Outcast is a basic killer, with the ability to vent and being able to see farther than any other killer.</string>
   <!-- Hide and Seek - Hiders -->
   <!-- Chameleon Wiki / Description -->
   <string name="HnsRoleChameleon">Chameleon</string>

@@ -1,5 +1,4 @@
-﻿using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
+﻿using MiraAPI.GameOptions.Attributes;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Crewmate;
 using UnityEngine;
@@ -8,7 +7,7 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 
 public sealed class FrostyOptions : AbstractTouModifierOptionGroup<FrostyModifier>
 {
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierFrosty", "Frosty");
     public override uint GroupPriority => 22;
     public override Color GroupColor => TownOfUsColors.Frosty;
