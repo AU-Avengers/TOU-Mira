@@ -896,6 +896,13 @@ public static class TownOfUsEventHandlers
         Rpc<SetSpectatorListRpc>.Instance.Send(PlayerControl.LocalPlayer, fakeDictionary);
     }
 
+    private static readonly HashSet<int> RulesShownToClientIds = [];
+
+    internal static void ResetRulesShownTracking()
+    {
+        RulesShownToClientIds.Clear();
+    }
+
     internal static IEnumerator CoSendRulesToPlayer(ClientData clientData)
     {
         while (!AmongUsClient.Instance)
@@ -920,6 +927,16 @@ public static class TownOfUsEventHandlers
             yield break;
         }
 
+        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.ShowRulesOnLobbyJoin.Value)
+        {
+            yield break;
+        }
+
+        if (RulesShownToClientIds.Contains(clientData.Id))
+        {
+            yield break;
+        }
+
         var joiningPlayer = clientData.Character;
         if (joiningPlayer == null)
         {
@@ -935,7 +952,8 @@ public static class TownOfUsEventHandlers
             yield break;
         }
 
-        ChatPatches.RpcSendLobbyRules(PlayerControl.LocalPlayer, joiningPlayer, rulesText, true);
+        RulesShownToClientIds.Add(clientData.Id);
+        ChatPatches.RpcSendLobbyRules(PlayerControl.LocalPlayer, joiningPlayer, rulesText);
     }
 
     [RegisterEvent]
@@ -1094,7 +1112,7 @@ public static class TownOfUsEventHandlers
                 continue;
             }
 
-            instance.ClearVote(pva.PlayerId, true);
+            instance.RpcClearVote(pva.PlayerId);
         }
 
         instance.SetDirtyBit(1U);
