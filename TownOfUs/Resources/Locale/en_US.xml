@@ -2724,6 +2724,10 @@
   <string name="TouModifierTorchWikiDescription">The lights being off do not affect your vision.</string>
 
   <!-- Game Settings -->
+    <!-- Option Group Toggle -->
+      <string name="TouOptionGroupClickToOpen">(Click to open)</string>
+      <string name="TouOptionGroupClickToClose">(Click to close)</string>
+
     <!-- Vanilla Tweaks -->
       <string name="TouOptionTitleVanillaTweaks">Vanilla Tweaks</string>
 
@@ -3329,7 +3333,7 @@
     <string name="TouMedicShieldDescription">You are shielded by a Medic!\nYou may not die to other players</string>
 
   <!-- Herbalist Protection (should be the same as Cleric) -->
-    <string name="TouModifierHerbalistProtectionDescription">You are shielded by a Herbalist!\nNo one can interact with you.</string>
+    <string name="TouModifierHerbalistProtectionDescription">You are shielded by a Cleric!\nNo one can interact with you.</string>
 
   <!-- Blackmailed Modifier -->
     <string name="TouModifierBlackmailed">Blackmailed</string>
@@ -3372,6 +3376,8 @@
     <string name="TouFirstDeathShieldDescription">You have protection because you died first last game</string>
 
   <!-- Knighted Modifier (not really sure in this one tbh since atony said they'll abandon the \%votes\% syntax) -->
-    <string name="TouModifierKnightedDescription">You were knighted by the Monarch. You gained \%votes\% extra vote(s).</string>
+
+    <string name="TouModifierKnighted">Knighted</string>
+    <string name="TouModifierKnightedDescription">You were knighted by the Monarch. You gained [votes] extra vote(s).</string>
 
 </resources>

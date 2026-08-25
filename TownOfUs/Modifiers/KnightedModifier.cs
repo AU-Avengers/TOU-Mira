@@ -7,7 +7,7 @@ namespace TownOfUs.Modifiers;
 
 public sealed class KnightedModifier : BaseModifier
 {
-    public override string ModifierName => "Knighted";
+    public override string ModifierName => TouLocale.Get("TouModifierKnighted");
     public override bool HideOnUi => false;
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Monarch;
     public override bool Unique => false;
