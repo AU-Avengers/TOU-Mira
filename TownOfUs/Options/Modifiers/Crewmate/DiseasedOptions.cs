@@ -13,6 +13,6 @@ public sealed class DiseasedOptions : AbstractTouModifierOptionGroup<DiseasedMod
     public override uint GroupPriority => 21;
     public override Color GroupColor => TownOfUsColors.Diseased;
 
-    [ModdedNumberOption("Diseased Kill Multiplier", 1.5f, 5f, 0.5f, MiraNumberSuffixes.Multiplier)]
+    [ModdedNumberOption("TouOptionDiseasedKillMultiplier", 1.5f, 5f, 0.5f, MiraNumberSuffixes.Multiplier)]
     public float CooldownMultiplier { get; set; } = 3f;
 }

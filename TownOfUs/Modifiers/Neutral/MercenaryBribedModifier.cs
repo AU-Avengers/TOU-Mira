@@ -24,21 +24,28 @@ public sealed class MercenaryBribedModifier(PlayerControl mercenary) : BaseModif
         MiraEventManager.InvokeEvent(touAbilityEvent);
     }
 
-    public override void OnMeetingStart()
+public override void OnMeetingStart()
+{
+    if (!Player.AmOwner)
     {
-        if (!Player.AmOwner)
-        {
-            return;
-        }
-
-        if (alerted)
-        {
-            return;
-        }
-
-        var title = $"<color=#{TownOfUsColors.Mercenary.ToHtmlStringRGBA()}>Mercenary Feedback</color>";
-        MiscUtils.AddFakeChat(Player.Data, title, "You have been bribed by a Mercenary!", false, true);
-
-        alerted = true;
+        return;
     }
+
+    if (alerted)
+    {
+        return;
+    }
+
+    var title =
+        $"<color=#{TownOfUsColors.Mercenary.ToHtmlStringRGBA()}>{TouLocale.Get("TouModifierMercenaryBribedFeedbackTitle")}</color>";
+
+    MiscUtils.AddFakeChat(
+        Player.Data,
+        title,
+        TouLocale.Get("TouModifierMercenaryBribedFeedback"),
+        false,
+        true);
+
+    alerted = true;
+}
 }

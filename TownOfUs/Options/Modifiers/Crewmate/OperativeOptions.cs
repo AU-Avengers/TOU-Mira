@@ -15,28 +15,29 @@ public sealed class OperativeOptions : AbstractTouModifierOptionGroup<OperativeM
     public override Color GroupColor => new(0.8f, 0.33f, 0.37f, 1f);
 
     // THESE BREAK THE CAMERA MINIFairyME!!
-/*
-        [ModdedToggleOption("Move While Using Cameras")]
+    /*
+        [ModdedToggleOption("TouOptionOperativeMoveWithCams")]
         public bool MoveWithCams { get; set; } = false;
 
-        [ModdedToggleOption("Move While Using Fungle Binoculars")]
+        [ModdedToggleOption("TouOptionOperativeMoveOnFungle")]
         public bool MoveOnFungle { get; set; } = false;
-     */
-    [ModdedToggleOption("Move While Using Mira Doorlog")]
+    */
+
+    [ModdedToggleOption("TouOptionOperativeMoveOnMira")]
     public bool MoveOnMira { get; set; } = true;
 
-    [ModdedNumberOption("Starting Charge", 0f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionOperativeStartingCharge", 0f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float StartingCharge { get; set; } = 20f;
 
-    [ModdedNumberOption("Battery Charged Each Round", 0f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionOperativeRoundCharge", 0f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float RoundCharge { get; set; } = 10f;
 
-    [ModdedNumberOption("Battery Charged Per Task", 0f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionOperativeTaskCharge", 0f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float TaskCharge { get; set; } = 7.5f;
 
-    [ModdedNumberOption("Security Display Cooldown", 0f, 30f, 5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionOperativeDisplayCooldown", 0f, 30f, 5f, MiraNumberSuffixes.Seconds)]
     public float DisplayCooldown { get; set; } = 15f;
 
-    [ModdedNumberOption("Max Security Display Duration", 0f, 30f, 5f, MiraNumberSuffixes.Seconds, zeroInfinity: true)]
+    [ModdedNumberOption("TouOptionOperativeDisplayDuration", 0f, 30f, 5f, MiraNumberSuffixes.Seconds, zeroInfinity: true)]
     public float DisplayDuration { get; set; } = 15f;
 }
