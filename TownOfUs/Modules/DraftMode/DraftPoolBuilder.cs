@@ -432,7 +432,7 @@ namespace TownOfUs.Modules.DraftMode
                 .ToList();
         }
 
-        private static List<string> GetAllowedManualFallbackNames()
+        internal static List<string> GetAllowedManualFallbackNames()
         {
             var fallbackNames = new List<string>(GetAllowedCrewFallbackNames());
 
