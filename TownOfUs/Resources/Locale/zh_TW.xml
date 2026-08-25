@@ -2456,4 +2456,7 @@
   <string name="TouHexBombCountdown">爆咒師正在釋放詛咒炸彈!
 剩餘 [time] 秒!</string>
   <string name="TouHexBombSpellslingerDead">爆咒師已經死亡!</string>
+  <string name="Revived">已復活</string>
+  <string name="TouOptionTimeLordRewindDuration">回溯持續時間</string>
+  <string name="TouModifierLoverInfoDisconnected">與你相愛的是 [player], 但對方已斷開連接。</string>
 </resources>
