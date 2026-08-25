@@ -708,7 +708,7 @@ pero revelan tu ubicación.</string>
   <!-- Modo Cultista - Impostores -->
     <!-- Nigromante - Cultista Impostor -->
       <string name="CultistRoleNecromancer">Nigromante</string>
-  <string name="CultistRoleNecromancerIntroBlurb">Revive a los muertos para que cumplan tus órdenes</string>
+  <string name="CultistRoleNecromancerIntroBlurb">Revive muertos para gobernarlos</string>
   <string name="CultistRoleNecromancerTabDescription">¡Mata Tripulantes y convierte a los Creyentes
 en Seguidores Impostores equivalentes!</string>
   <string name="CultistRoleNecromancerWikiDescription">El Nigromante es un rol de Cultista Impostor que puede matar jugadores como cualquier Impostor, pero también puede revivir a los Creyentes Tripulantes como Seguidores Impostores.</string>
@@ -783,7 +783,7 @@ lanza Barreras para impedir cualquier interacción</string>
   <!-- Comisionado - Tripulante de Asesinato -->
       <!-- Comisionado - Wiki / Habilidades -->
         <string name="TouRoleDeputy">Comisionado</string>
-  <string name="TouRoleDeputyIntroBlurb">Acampa a los Tripulantes para atrapar a su asesino</string>
+  <string name="TouRoleDeputyIntroBlurb">Acampa Tripulantes para atrapar asesinos</string>
   <string name="TouRoleDeputyTabDescription">Acampa a los Tripulantes y dispara contra su asesino en la reunión.</string>
   <string name="TouRoleDeputyWikiDescription">El Comisionado es un Tripulante Asesino que puede acampar a otros jugadores. Cuando un jugador vigilado muere, el Comisionado es alertado. En la siguiente reunión podrá intentar disparar al asesino del jugador vigilado. Si acierta, el asesino muere; si falla, no ocurre nada.</string>
   <string name="TouRoleDeputyCamp">Acampar</string>
@@ -804,7 +804,7 @@ lanza Barreras para impedir cualquier interacción</string>
   <!-- Forense - Tripulante de Investigación -->
       <!-- Forense - Wiki / Habilidades -->
         <string name="TouRoleForensic">Forense</string>
-  <string name="TouRoleForensicIntroBlurb">Inspecciona escenas del crimen para encontrar al asesino</string>
+  <string name="TouRoleForensicIntroBlurb">Inspecciona escenas del crimen</string>
   <string name="TouRoleForensicTabDescription">Inspecciona escenas del crimen y examina jugadores
 para saber si estuvieron allí.</string>
   <string name="TouRoleForensicWikiDescription">El Forense es un Tripulante Investigador que puede inspeccionar escenas del crimen y examinar jugadores para saber si estuvieron allí, haciendo que brillen en rojo si estuvieron presentes.</string>
@@ -867,7 +867,7 @@ Podría ser el asesino o un testigo.</string>
   <!-- Ingeniero - Tripulante de Apoyo -->
       <!-- Ingeniero - Wiki / Habilidades -->
         <string name="TouRoleEngineer">Ingeniero</string>
-  <string name="TouRoleEngineerIntroBlurb">Mantén los sistemas importantes de la nave</string>
+  <string name="TouRoleEngineerIntroBlurb">Mantén sistemas importantes de la nave</string>
   <string name="TouRoleEngineerTabDescription">Usa ductos y repara sabotajes a distancia</string>
   <string name="TouRoleEngineerWikiDescription">El Ingeniero es un Tripulante de Apoyo que puede usar ductos y reparar sabotajes a distancia.</string>
   <string name="TouRoleEngineerFix">Reparar</string>
@@ -956,7 +956,7 @@ sus roles en las reuniones</string>
   <!-- Investigador - Tripulante de Investigación -->
       <!-- Investigador - Wiki / Descripción -->
         <string name="TouRoleInvestigator">Investigador</string>
-  <string name="TouRoleInvestigatorIntroBlurb">Encuentra a los malos siguiendo sus huellas</string>
+  <string name="TouRoleInvestigatorIntroBlurb">Descubre a los malos siguiendo sus huellas</string>
   <string name="TouRoleInvestigatorTabDescription">Puedes ver las huellas de todos los jugadores.</string>
   <string name="TouRoleInvestigatorWikiDescription">El Investigador puede ver las huellas de los jugadores a lo largo de toda la partida. Las huellas de jugadores invisibles no serán vistas por el Investigador.</string>
   <!-- Opciones del Investigador -->
@@ -1200,7 +1200,7 @@ reuniones y haz que confiesen</string>
   <!-- Plomero - Tripulante de Apoyo -->
       <!-- Plomero - Wiki / Habilidades -->
         <string name="TouRolePlumber">Plomero</string>
-  <string name="TouRolePlumberIntroBlurb">Saca a los que se esconden en los ductos</string>
+  <string name="TouRolePlumberIntroBlurb">Saca a los que se ocultan en ductos</string>
   <string name="TouRolePlumberTabDescription">Purga el sistema de ductos para expulsar
 a los que estén dentro y bloquearlos en la
 siguiente ronda</string>
@@ -1227,7 +1227,7 @@ siguiente ronda</string>
   <!-- Político - Tripulante Superior -->
       <!-- Político - Wiki / Habilidades -->
         <string name="TouRolePolitician">Político</string>
-  <string name="TouRolePoliticianIntroBlurb">¡Haz campaña para convertirte en el Alcalde!</string>
+  <string name="TouRolePoliticianIntroBlurb">¡Haz campaña para volverte Alcalde!</string>
   <string name="TouRolePoliticianTabDescription">Haz campaña entre los Tripulantes
 con la esperanza de convertirte
 en el Alcalde. Al menos la mitad de
@@ -1264,7 +1264,7 @@ para revelarte con éxito.</string>
   <!-- Vidente - Tripulante de Investigación -->
       <!-- Vidente - Wiki / Habilidades -->
         <string name="TouRoleSeer">Vidente</string>
-  <string name="TouRoleSeerIntroBlurb">Revela la alianza de otros jugadores</string>
+  <string name="TouRoleSeerIntroBlurb">Revela las alianzas de otros</string>
   <string name="TouRoleSeerAltIntroBlurb">Compara la alineación de dos jugadores</string>
   <string name="TouRoleSeerTabDescription">Revela las alianzas de otros jugadores para encontrar a los malos.</string>
   <string name="TouRoleSeerAltTabDescription">¡Compara a dos jugadores para comprobar 
@@ -1569,7 +1569,7 @@ vuelvan unos segundos atrás.</string>
   <!-- Transportador - Tripulante de Apoyo -->
       <!-- Transportador - Wiki / Habilidades -->
         <string name="TouRoleTransporter">Transportador</string>
-  <string name="TouRoleTransporterIntroBlurb">Elige a dos jugadores para intercambiar sus posiciones</string>
+  <string name="TouRoleTransporterIntroBlurb">Intercambia el lugar de dos jugadores</string>
   <string name="TouRoleTransporterTabDescription">Elige a dos jugadores para
 intercambiar sus posiciones</string>
   <string name="TouRoleTransporterWikiDescription">El Transportador es un Tripulante de Apoyo que puede transportar a dos jugadores, vivos o muertos, para intercambiar sus ubicaciones.</string>
@@ -1608,7 +1608,7 @@ intercambiar sus posiciones</string>
   <!-- Veterano - Tripulante Asesino -->
       <!-- Veterano - Wiki / Habilidades -->
         <string name="TouRoleVeteran">Veterano</string>
-  <string name="TouRoleVeteranIntroBlurb">Ponte en alerta para atacar a quien interactúe contigo</string>
+  <string name="TouRoleVeteranIntroBlurb">Ponte en alerta y evita toda interacción</string>
   <string name="TouRoleVeteranTabDescription">Ponte en alerta para atacar a cualquiera que interactúe contigo.</string>
   <string name="TouRoleVeteranWikiDescription">El Veterano es un Tripulante Asesino que puede ponerse en alerta y matar a cualquiera que interactúe con él.</string>
   <string name="TouRoleVeteranAlert">Alerta</string>
@@ -1726,7 +1726,7 @@ Si el emboscado muere, arrastrarás su cuerpo contigo.</string>
   <!-- Extorsionador - Impostor de Apoyo -->
       <!-- Extorsionador - Wiki / Habilidades -->
         <string name="TouRoleBlackmailer">Extorsionador</string>
-  <string name="TouRoleBlackmailerIntroBlurb">Silencia a los Tripulantes durante las reuniones</string>
+  <string name="TouRoleBlackmailerIntroBlurb">Silencia Jugadores durante las reuniones</string>
   <string name="TouRoleBlackmailerTabDescription">Silencia a un Tripulante durante la siguiente reunión</string>
   <string name="TouRoleBlackmailerWikiDescription">El Extorsionador es un Impostor de Apoyo que puede impedir que un jugador hable (marcado con [symbol]) durante la siguiente reunión.</string>
   <string name="TouRoleBlackmailerBlackmail">Extorsionar</string>
@@ -1741,7 +1741,7 @@ Si el emboscado muere, arrastrarás su cuerpo contigo.</string>
   <!-- Contrabandista - Impostor de Apoyo -->
       <!-- Contrabandista - Wiki / Habilidades -->
         <string name="TouRoleBootlegger">Contrabandista</string>
-  <string name="TouRoleBootleggerIntroBlurb">Emborracha a los Tripulantes para detenerlos.</string>
+  <string name="TouRoleBootleggerIntroBlurb">Emborracha Tripulantes para detenerlos.</string>
   <string name="TouRoleBootleggerTabDescription">Emborracha a los Tripulantes para
 bloquear sus habilidades durante [blockTime] s.
 Emborracha a alguien varias veces para envenenarlo.</string>
@@ -1962,7 +1962,7 @@ Si no logras matarlo, recibirás una penalización.</string>
   <!-- Conjurador - Impostor Superior -->
       <!-- Conjurador - Wiki / Habilidades -->
         <string name="TouRoleSpellslinger">Conjurador</string>
-  <string name="TouRoleSpellslingerIntroBlurb">Maldice a la tripulación para activar una Bomba Maléfica</string>
+  <string name="TouRoleSpellslingerIntroBlurb">Maldice a todos para conjurar la Bomba</string>
   <string name="TouRoleSpellslingerTabDescription">Lanza maleficios a todos los no Impostores para detonar una Bomba Maléfica</string>
   <string name="TouRoleSpellslingerTabHexCounter">Jugadores por maldecir: [count]</string>
   <string name="TouRoleSpellslingerTabHexFinished">Todos los jugadores están malditos.</string>
@@ -2062,7 +2062,7 @@ Ralentizarás a los jugadores cercanos dentro de un radio determinado, además d
   <!-- Hechicero - Impostor Asesino -->
       <!-- Wiki / Habilidades del Hechicero -->
         <string name="TouRoleWarlock">Hechicero</string>
-  <string name="TouRoleWarlockIntroBlurb">Carga tu ataque para provocar muchas muertes</string>
+  <string name="TouRoleWarlockIntroBlurb">Carga tu botón de ataque y mata a varios</string>
   <string name="TouRoleWarlockTabDescription">Carga tu ataque al 100 % para
 eliminar Tripulantes en pequeñas ráfagas</string>
   <string name="TouRoleWarlockWikiDescription">El Hechicero es un Impostor Asesino que puede cargar sus ataques para acabar rápidamente con la Tripulación.</string>
@@ -2102,7 +2102,7 @@ su rol y convertirte en él.</string>
   <!-- Pirómano - Neutral Asesino -->
     <!-- Pirómano - Wiki / Habilidades -->
       <string name="TouRoleArsonist">Pirómano</string>
-  <string name="TouRoleArsonistIntroBlurb">Rocía a los jugadores con gasolina y préndeles fuego</string>
+  <string name="TouRoleArsonistIntroBlurb">Incéndialos a todos</string>
   <string name="TouRoleArsonistTabDescription">Rocía a los jugadores con gasolina y préndeles fuego para asesinar a todos los objetivos rociados cercanos.</string>
   <string name="TouRoleArsonistTabDescriptionLegacy">Rocía a los jugadores con gasolina y préndele fuego al más cercano para asesinar a todos los objetivos rociados.</string>
   <string name="TouRoleArsonistTabDousedInfo">Jugadores rociados:</string>
@@ -2125,7 +2125,7 @@ su rol y convertirte en él.</string>
   <!-- Conspiranoico -->
     <!-- Conspiranoico - Wiki / Habilidades -->
       <string name="TouRoleDoomsayer">Conspiranoico</string>
-  <string name="TouRoleDoomsayerIntroBlurb">¡Adivina los roles de los jugadores para ganar!</string>
+  <string name="TouRoleDoomsayerIntroBlurb">¡Adivina los roles de los jugadores!</string>
   <string name="TouRoleDoomsayerTabDescription">Gana adivinando los roles de [guessCount] jugadores.</string>
   <string name="TouRoleDoomsayerWikiDescription">El Conspiranoico es un Neutral Malvado que gana al adivinar los roles de [guessCount] jugadores.</string>
   <string name="TouRoleDoomsayerWikiDescriptionIfCanObserve">El Conspiranoico es un Neutral Malvado que gana al adivinar los roles de [guessCount] jugadores. Puede Teorizar sobre los jugadores para obtener una pista sobre cuál podría ser su rol en la siguiente reunión.</string>
@@ -2302,7 +2302,7 @@ te irás [and] anunciarás tu victoria</string>
   <!-- Juggernaut -->
     <!-- Juggernaut - Wiki / Descripción -->
       <string name="TouRoleJuggernaut">Juggernaut</string>
-  <string name="TouRoleJuggernautIntroBlurb">Reduce tu tiempo de recarga con cada asesinato.</string>
+  <string name="TouRoleJuggernautIntroBlurb">Cada asesinato reduce tu tiempo de recarga</string>
   <string name="TouRoleJuggernautTabDescription">Con cada asesinato, tu tiempo de recarga para asesinar disminuye.</string>
   <string name="TouRoleJuggernautTabKillCounter">Asesinatos: [count]</string>
   <string name="TouRoleJuggernautWikiDescription">El Juggernaut es un Neutral Asesino que gana siendo el último asesino con vida. Cada vez que consigue un asesinato, su tiempo de recarga para asesinar se reduce.</string>
@@ -2356,7 +2356,7 @@ con ellos, luego soborna a los ganadores</string>
   <!-- Propagador -->
     <!-- Propagador - Wiki / Habilidades -->
       <string name="TouRolePlaguebearer">Propagador</string>
-  <string name="TouRolePlaguebearerIntroBlurb">Propaga la peste para convertirte en [color=#4D4D4DFF]Pestilencia[/color]</string>
+  <string name="TouRolePlaguebearerIntroBlurb">Propaga la peste para volverte [color=#4D4D4DFF]Pestilencia[/color]</string>
   <string name="TouRolePlaguebearerTabDescription">Infecta a todos para convertirte en [color=#4D4D4DFF]Pestilencia[/color]</string>
   <string name="TouRolePlaguebearerTabInfectCounter">Jugadores por infectar: [count]</string>
   <string name="TouRolePlaguebearerTabInfectedInfo">Jugadores infectados:</string>
@@ -2454,7 +2454,7 @@ aumentar tu visión y usar ductos temporalmente</string>
       <!-- Ególatra - Wiki / Descripción -->
         <string name="TouModifierEgotist">Ególatra</string>
   <string name="TouModifierEgotistShortName">Ego</string>
-  <string name="TouModifierEgotistIntroBlurb">Traiciona a la tripulación para alimentar tu ego</string>
+  <string name="TouModifierEgotistIntroBlurb">Traiciónalos para alimentar tu ego</string>
   <string name="TouModifierEgotistTabDescription">Desafía a la tripulación y gana junto a los asesinos.</string>
   <string name="TouModifierEgotistWikiDescription">El Ególatra es un modificador de Alianza Tripulante (representado por [symbol]). Como Ególatra, solo puedes ganar si los Tripulantes pierden, incluso estando muerto. Si al finalizar una reunión no queda ningún Tripulante, abandonarás la partida con la victoria, pero la partida continuará.</string>
   <string name="TouModifierEgotistIntroMessage">Eres el [modifier]. Solo puedes ganar si los Tripulantes pierden.</string>
@@ -2578,8 +2578,7 @@ que reportas.</string>
     <!-- Dispersor -->
       <!-- Dispersor - Wiki / Habilidades -->
         <string name="TouModifierDisperser">Dispersor</string>
-  <string name="TouModifierDisperserIntroBlurb">Puedes dispersar a los jugadores
-hacia ductos aleatorios del mapa.</string>
+  <string name="TouModifierDisperserIntroBlurb">Puedes dispersar jugadores hacia ductos aleatorios.</string>
   <string name="TouModifierDisperserTabDescription">Separa a la tripulación.</string>
   <string name="TouModifierDisperserWikiDescription">Dispersa a todos los jugadores hacia un ducto aleatorio del mapa, siempre que no sean Inamovibles. No puedes tener ningún otro modificador de botón junto con Dispersor.</string>
   <string name="TouModifierDisperserDisperse">Dispersar</string>
@@ -2587,15 +2586,15 @@ hacia ductos aleatorios del mapa.</string>
   <!-- Saboteador -->
       <!-- Saboteador - Wiki / Descripción -->
         <string name="TouModifierSaboteur">Saboteador</string>
-  <string name="TouModifierSaboteurIntroBlurb">Tus tiempos de recarga de sabotaje se reducen.</string>
+  <string name="TouModifierSaboteurIntroBlurb">Tus recargas de sabotaje se reducen.</string>
   <string name="TouModifierSaboteurTabDescription">Tienes tiempos de recarga
 de sabotaje reducidos.</string>
   <string name="TouModifierSaboteurWikiDescription">Tus tiempos de recarga al sabotear son menores.</string>
   <!-- Telépata -->
       <!-- Telépata - Wiki / Descripción -->
         <string name="TouModifierTelepath">Telépata</string>
-  <string name="TouModifierTelepathIntroBlurbNoDeath">Se te informará cuando un compañero mate o muera.</string>
-  <string name="TouModifierTelepathIntroBlurb">Se te informará cuando un compañero mate.</string>
+  <string name="TouModifierTelepathIntroBlurbNoDeath">Sabrás cuando un compañero mate o muera.</string>
+  <string name="TouModifierTelepathIntroBlurb">Sabrás cuando un compañero mate.</string>
   <string name="TouModifierTelepathDescriptionBasic">Sabrás cuándo tu compañero de equipo mate</string>
   <string name="TouModifierTelepathDescriptionIfKnowWhen">Sabrás cuándo [and] dónde mata tu compañero de equipo</string>
   <string name="TouModifierTelepathDescriptionAddIfKnowDeath">, sabe cuándo mueren</string>
@@ -2614,7 +2613,7 @@ de sabotaje reducidos.</string>
   <!-- Rezagado -->
       <!-- Rezagado - Wiki / Descripción -->
         <string name="TouModifierUnderdog">Rezagado</string>
-  <string name="TouModifierUnderdogIntroBlurb">Tu tiempo de recarga para asesinar es menor cuando eres el único impostor.</string>
+  <string name="TouModifierUnderdogIntroBlurb">Matas más rápido si eres el único impostor.</string>
   <string name="TouModifierUnderdogTabDescription">Cuando eres el único impostor, tu tiempo de recarga para asesinar se reduce.</string>
   <string name="TouModifierUnderdogWikiDescription">Tu tiempo de recarga para matar es menor si estás solo o si tu compañero de equipo ha muerto.</string>
   <!-- Opciones de Rezagado -->
@@ -2790,7 +2789,7 @@ Asesinatos: [amount] / [total]</string>
   <!-- Científico -->
       <!-- Científico - Wiki / Descripción -->
         <string name="TouModifierScientist">Científico</string>
-  <string name="TouModifierScientistIntroBlurb">Usa Signos Vitales desde cualquier lugar.</string>
+  <string name="TouModifierScientistIntroBlurb">Usa Vitales desde cualquier lugar.</string>
   <string name="TouModifierScientistTabDescription">Accede a Signos Vitales en cualquier momento y lugar, siempre que tengas carga.</string>
   <string name="TouModifierScientistWikiDescription">Usa Signos Vitales en cualquier momento con una batería de carga limitada.</string>
   <!-- Opciones de Científico -->
@@ -2803,7 +2802,7 @@ Asesinatos: [amount] / [total]</string>
   <!-- Explorador -->
       <!-- Explorador - Wiki / Descripción -->
         <string name="TouModifierScout">Explorador</string>
-  <string name="TouModifierScoutIntroBlurb">Ves más lejos con las luces encendidas, pero mucho menos en la oscuridad.</string>
+  <string name="TouModifierScoutIntroBlurb">Ves más lejos con luces encendidas, pero mucho menos en la oscuridad.</string>
   <string name="TouModifierScoutTabDescription">Tu visión es mayor cuando las luces están encendidas, pero muy baja cuando están apagadas.</string>
   <string name="TouModifierScoutWikiDescription">Aunque puedes ver el doble que un Tripulante normal, tu visión se reduce cuando las luces están apagadas.</string>
   <!-- Espía -->
@@ -2814,7 +2813,7 @@ Asesinatos: [amount] / [total]</string>
   <!-- Supervisor -->
       <!-- Supervisor - Wiki / Descripción -->
         <string name="TouModifierTaskmaster">Supervisor</string>
-  <string name="TouModifierTaskmasterIntroBlurb">Completa tareas aleatorias automáticamente cada ronda.</string>
+  <string name="TouModifierTaskmasterIntroBlurb">Completas tareas aleatorias cada ronda.</string>
   <string name="TouModifierTaskmasterTabDescription">Se completará automáticamente una tarea aleatoria después de cada reunión.</string>
   <string name="TouModifierTaskmasterWikiDescription">Cada vez que comienza una ronda, completarás automáticamente una tarea.</string>
   <string name="TouModifierTaskmasterTaskNotif">La tarea '[taskName]' ha sido completada por ti.</string>
