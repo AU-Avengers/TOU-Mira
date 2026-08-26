@@ -1399,4 +1399,25 @@ ao custo da tua habilidade.</string>
   <string name="TouOptionTimeLordUndoTasksOnRewind">Desfazer Tarefas Ao Retroceder</string>
   <string name="TouOptionTimeLordUncleanBodiesOnRewind">Desfaz Corpos Limpos Ao Retroceder</string>
   <string name="TouOptionTimeLordNotifyOnRevive">Notifica O Mestre Do Tempo Ao Reviver</string>
+  <string name="TouRoleSonar">Sonar</string>
+  <string name="TouRoleSonarIntroBlurb">Sente os movimentos de todos</string>
+  <string name="TouRoleSonarTabDescription">Rastreia jogadores suspeitos para ver aonde eles vão</string>
+  <string name="TouRoleSonarWikiDescription">O Sonar é uma Função Tripulante Investigador que pode rastrear outros jogadores para ver a sua posição no mapa, recebendo setas coloridas em direção a todos os jogadores rastreadas.</string>
+  <string name="TouRoleSonarTrack">Rastrear</string>
+  <string name="TouRoleSonarTrackWikiDescription">Rastreia um jogador para ver aonde ele vai. Tens uma seta que aponta para a sua localização que vai atualizando periodicamente. A seta vai desaparecer se o jogador morrer, ou dependendo das definições, os rastreadores serão eliminados depois de uma reunião.</string>
+  <string name="TouOptionSonarTrackCooldown">Recarga do Rastrear</string>
+  <string name="TouOptionSonarMaxNumberOfTracks">Número Inicial De Rastreios</string>
+  <string name="TouOptionSonarArrowUpdateInterval">Intervalo Da Atualização Da Seta</string>
+  <string name="TouOptionSonarArrowsMakeSoundOnDeath">Rastreios Fazem São Na Morte</string>
+  <string name="TouOptionSonarArrowsResetAfterEachRound">Rastreios Resetam Depois De Cada Ronda</string>
+  <string name="TouOptionSonarTaskUses">Recebe Mais Usos Por Completar Tarefas</string>
+  <string name="TouRoleTransporter">Transportador</string>
+  <string name="TouRoleTransporterIntroBlurb">Escolhe Dois Jogadores Para Trocar Localizações</string>
+  <string name="TouRoleTransporterTabDescription">Escolhe dois jogadores para trocar localizações com outro jogador</string>
+  <string name="TouRoleTransporterWikiDescription">O Transportador é uma Função Tripulante que pode transportar dois jogadores, mortos ou vivos, para trocar de lcalização.</string>
+  <string name="TouRoleTransporterTransport">Transportar</string>
+  <string name="TouRoleTransporterTransportWikiDescription">Troca de posições de dois jogadores. Jogadores podem ser transportados para fora de ventilações. Um flash vermelho significa que um dos jogadores virou um alvo invalido, como ir para uma escada ou uma tirolesa</string>
+  <string name="TouRoleTransporterTransportNotif">Foste transportado!</string>
+  <string name="TouOptionTransporterTransportCooldown">Recarga do Transportar</string>
+  <string name="TouOptionTransporterMaxUses">Usos Iniciais</string>
 </resources>
