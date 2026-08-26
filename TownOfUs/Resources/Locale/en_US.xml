@@ -2724,10 +2724,6 @@
   <string name="TouModifierTorchWikiDescription">The lights being off do not affect your vision.</string>
 
   <!-- Game Settings -->
-    <!-- Option Group Toggle -->
-      <string name="TouOptionGroupClickToOpen">(Click to open)</string>
-      <string name="TouOptionGroupClickToClose">(Click to close)</string>
-
     <!-- Vanilla Tweaks -->
       <string name="TouOptionTitleVanillaTweaks">Vanilla Tweaks</string>
 
