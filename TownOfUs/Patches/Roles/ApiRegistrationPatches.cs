@@ -2,6 +2,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using MiraAPI.Translation;
 using Reactor.Localization.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Roles;
@@ -61,9 +62,9 @@ public static class ApiRegistrationPatches
         MiscUtils.AssignableTargetModifiers = assignableMods;
 
         RoleManager.Instance.GetRole(RoleTypes.CrewmateGhost).StringName =
-            CustomStringName.CreateAndRegister("Crewmate Ghost");
+            MiraLocaleManager.GetOrCreateLocaleString("Crewmate Ghost");
         RoleManager.Instance.GetRole(RoleTypes.ImpostorGhost).StringName =
-            CustomStringName.CreateAndRegister("Impostor Ghost");
+            MiraLocaleManager.GetOrCreateLocaleString("Impostor Ghost");
 
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Neutral.LoadAsset(), "AmongUs.Role.Custom",
             1.45f);

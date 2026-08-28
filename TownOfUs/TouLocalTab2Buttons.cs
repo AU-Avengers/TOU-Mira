@@ -1,16 +1,11 @@
-using System.Collections;
 using BepInEx.Configuration;
 using InnerNet;
 using MiraAPI;
 using MiraAPI.Hud;
-using MiraAPI.Utilities;
+using MiraAPI.LocalSettings.Attributes;
 using TownOfUs.Buttons;
-using TownOfUs.LocalSettings.Attributes;
-using TownOfUs.LocalSettings.SettingTypes;
-using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Roles;
-using UnityEngine;
 
 namespace TownOfUs;
 
@@ -18,24 +13,6 @@ public class TouLocalTabButtons(ConfigFile config) : LocalSettingsTab(config)
 {
     public override string TabName => "UI / UX";
     protected override bool ShouldCreateLabels => true;
-
-    public override void Open()
-    {
-        base.Open();
-
-        foreach (var entry in TouLocale.LocalizedToggles)
-        {
-            var toggleObject = entry.Key;
-            LocalizedLocalToggleSetting.UpdateToggleText(toggleObject.Text, entry.Value, toggleObject.onState);
-        }
-
-        foreach (var entry in TouLocale.LocalizedSliders)
-        {
-            var sliderObject = entry.Key;
-            sliderObject.SliderObject.Title.text =
-                LocalizedLocalSliderSetting.GetLocalizedValueText(sliderObject, sliderObject.LocaleKey);
-        }
-    }
 
     public override void OnOptionChanged(ConfigEntryBase configEntry)
     {
@@ -76,31 +53,31 @@ public class TouLocalTabButtons(ConfigFile config) : LocalSettingsTab(config)
         HideIconOnHover = false,
     };
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> WikiOnBottomRow { get; private set; } =
         config.Bind("UI / Visuals", "WikiOnBottomRow", true);
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> ZoomOnBottomRow { get; private set; } =
         config.Bind("UI / Visuals", "ZoomOnBottomRow", false);
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> ShowShieldHudToggle { get; private set; } =
         config.Bind("UI / Visuals", "ShowShieldHud", true);
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> ShowBasicAssassinOnHud { get; private set; } =
         config.Bind("UI / Visuals", "ShowBasicAssassinOnHud", true);
 
-    [LocalizedLocalEnumSetting(names: ["ModStampTopLeft", "ModStampTopRight", "ModStampBottomLeft", "ModStampBottomRight"])]
+    [LocalEnumSetting(names: ["ModStampTopLeft", "ModStampTopRight", "ModStampBottomLeft", "ModStampBottomRight"])]
     public ConfigEntry<ModStampLocation> ModStampPlacement { get; private set; } =
         config.Bind("UI / Visuals", "ModStampPlacement", ModStampLocation.TopRight);
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> PreciseCooldownsToggle { get; private set; } =
         config.Bind("Abilities", "PreciseCooldowns", true);
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> OffsetButtonsToggle { get; private set; } =
         config.Bind("Abilities", "OffsetButtons", false);
 }

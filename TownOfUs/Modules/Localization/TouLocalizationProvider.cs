@@ -74,8 +74,8 @@ public class TouLocalizationProvider : LocalizationProvider
         foreach (var stringName in TranslationController.Instance.currentLanguage.AllStrings)
         {
             var value = stringName.Value.Replace("\n", "\\%nl\\%");
-            value = value.Replace("{", "\\%");
-            value = value.Replace("}", "\\%");
+            value = value.Replace("{", "[");
+            value = value.Replace("}", "]");
             Warning($"<string name=\"{stringName.Key}\">{value}</string>");
         }
         Warning($"</resources>");*/

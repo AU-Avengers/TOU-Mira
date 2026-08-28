@@ -711,9 +711,6 @@ public static class HudManagerPatches
             _registeredSoftModifiers = true;
         }
 
-        MiraApiSettings.OldButtonScaleFactor =
-            LocalSettingsTabSingleton<MiraApiSettings>.Instance.ButtonUIFactorSlider.Value;
-
         TownOfUsColors.UseBasic = false;
         BucketTooltipData.AllRoles.Clear();
         foreach (var pair in TooltipAlignments)

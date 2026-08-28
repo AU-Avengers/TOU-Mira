@@ -7,6 +7,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Injection;
 using MiraAPI;
 using MiraAPI.PluginLoading;
+using MiraAPI.Translation;
 using Reactor;
 using Reactor.Localization;
 using Reactor.Networking;
@@ -88,6 +89,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
             "If enabled, assets will appear like they did in TOU Reactivated / Polus.gg / Town of Us.");
         ReactorCredits.Register("Town Of Us: Mira", Version, IsDevBuild, ReactorCredits.AlwaysShow);
         LocalizationManager.Register(new TaskProvider());
+        MiraLocaleManager.Register("auavengers.tou.mira", "TownOfUs");
 
         TouAssets.Initialize();
 
