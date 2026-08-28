@@ -939,4 +939,6 @@ Fake-Aufgaben:</string>
   <string name="TouOptionBetterSubmergedSpawnEnumSelectable">Aussuchbar</string>
   <string name="TouOptionBetterSubmergedSpawnEnumUpperDeck">Oberes Deck</string>
   <string name="TouOptionBetterSubmergedSpawnEnumLowerDeck">Unteres Deck</string>
+  <string name="TouTabOptionModifiersDesc">Alle Spieler können einen Allianz, Universellen und/oder Fraktionsmodifikator erhalten.</string>
+  <string name="HnsModifierGiant">Riese</string>
 </resources>
