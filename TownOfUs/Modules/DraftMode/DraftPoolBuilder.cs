@@ -1,6 +1,6 @@
 using TownOfUs.Options;
+using TownOfUs.Roles;
 using MiraAPI.GameOptions;
-using MiraAPI.Utilities;
 
 namespace TownOfUs.Modules.DraftMode
 {
@@ -20,10 +20,15 @@ namespace TownOfUs.Modules.DraftMode
             var manualPool = BuildPoolFromManualAmounts(rng);
             
             int rolesPerSlot = Math.Max(1, (int)roleOpts.OfferedRolesCount.Value);
-            int targetSize = numPlayers + rolesPerSlot;
+            int concurrency = Math.Max(1, Math.Min(2, (int)roleOpts.ConcurrentPicks.Value));
+            int targetSize = numPlayers + rolesPerSlot * concurrency;
             if (manualPool.Count < targetSize)
             {
-                var fallbackNames = GetAllowedManualFallbackNames();
+                var fallbackNames = GetAllowedCrewFallbackNames();
+                if (fallbackNames.Count == 0)
+                {
+                    fallbackNames = GetAllowedManualFallbackNames();
+                }
                 if (fallbackNames.Count == 0)
                 {
                     fallbackNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any))
@@ -42,7 +47,7 @@ namespace TownOfUs.Modules.DraftMode
             return manualPool;
         }
 
-        public static List<string> GetOfferedRoles(List<string> currentPool, IRng rng = null!, ICollection<string> avoid = null!)
+        public static List<string> GetOfferedRoles(List<string> currentPool, IRng rng = null!, ICollection<string> avoid = null!, bool allowGuaranteed = true)
         {
             rng ??= new UnityRng();
             var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
@@ -59,31 +64,30 @@ namespace TownOfUs.Modules.DraftMode
                 (poolCopy[i], poolCopy[j]) = (poolCopy[j], poolCopy[i]);
             }
 
-            var picked = new List<string>();
-            var seen   = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var eligible = poolCopy
+                .Where(c => !string.IsNullOrWhiteSpace(c))
+                .Where(c =>
+                {
+                    var baseName = BaseRoleName(c);
+                    return avoid == null || (!avoid.Contains(c) && !avoid.Contains(baseName));
+                })
+                .ToList();
 
-            foreach (var candidate in poolCopy)
-            {
-                if (string.IsNullOrEmpty(candidate)) continue;
-                var baseName = BaseRoleName(candidate);
-                if (avoid != null && (avoid.Contains(candidate) || avoid.Contains(baseName))) continue;
+            if (eligible.Count == 0) return new List<string>();
 
-                if (seen.Add(baseName)) picked.Add(candidate);
-            }
+            var picked = SelectWeightedDistinctCandidates(eligible, Math.Min(offered, eligible.Count), rng, allowGuaranteed);
 
             if (picked.Count < offered)
             {
-                for (int i = 0; i < poolCopy.Count && picked.Count < offered; i++)
+                foreach (var candidate in poolCopy)
                 {
-                    var candidate = poolCopy[i];
-                    if (string.IsNullOrEmpty(candidate)) continue;
+                    if (picked.Count >= offered) break;
+                    if (string.IsNullOrWhiteSpace(candidate)) continue;
+                    if (!allowGuaranteed && DraftRolePool.GetChanceForRoleName(candidate) >= 100) continue;
                     var baseName = BaseRoleName(candidate);
                     if (avoid != null && (avoid.Contains(candidate) || avoid.Contains(baseName))) continue;
-
-                    if (seen.Contains(baseName))
-                    {
-                        picked.Add(candidate);
-                    }
+                    if (picked.Any(existing => string.Equals(BaseRoleName(existing), baseName, StringComparison.OrdinalIgnoreCase))) continue;
+                    picked.Add(candidate);
                 }
             }
 
@@ -93,12 +97,7 @@ namespace TownOfUs.Modules.DraftMode
             return picked;
         }
 
-        private static string BaseRoleName(string name)
-        {
-            if (string.IsNullOrEmpty(name)) return string.Empty;
-            int pipeIdx = name.IndexOf('|');
-            return pipeIdx >= 0 ? name.Substring(0, pipeIdx) : name;
-        }
+        private static string BaseRoleName(string name) => DraftRolePool.BaseRoleName(name);
 
         private static string PickWeightedByChance(List<string> candidates, IRng rng)
         {
@@ -123,18 +122,63 @@ namespace TownOfUs.Modules.DraftMode
             return candidates[^1];
         }
 
+        private static List<string> SelectWeightedDistinctCandidates(List<string> candidates, int take, IRng rng, bool allowGuaranteed = true)
+        {
+            if (candidates == null || candidates.Count == 0 || take <= 0) return new List<string>();
+
+            var result = new List<string>();
+            var remaining = new List<string>(candidates);
+            var seenBaseNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            while (result.Count < take && remaining.Count > 0)
+            {
+                var guaranteed = allowGuaranteed
+                    ? remaining
+                        .Where(candidate => !string.IsNullOrWhiteSpace(candidate))
+                        .Where(candidate => !seenBaseNames.Contains(BaseRoleName(candidate)))
+                        .Where(candidate => DraftRolePool.GetChanceForRoleName(candidate) >= 100)
+                        .ToList()
+                    : new List<string>();
+
+                var available = guaranteed.Count > 0
+                    ? guaranteed
+                    : remaining
+                        .Where(candidate => !string.IsNullOrWhiteSpace(candidate))
+                        .Where(candidate => !seenBaseNames.Contains(BaseRoleName(candidate)))
+                        .Where(candidate => allowGuaranteed || DraftRolePool.GetChanceForRoleName(candidate) < 100)
+                        .ToList();
+
+                if (available.Count == 0) break;
+
+                var chosen = PickWeightedByChance(available, rng);
+                result.Add(chosen);
+                seenBaseNames.Add(BaseRoleName(chosen));
+
+                remaining.RemoveAll(candidate =>
+                    string.Equals(BaseRoleName(candidate), BaseRoleName(chosen), StringComparison.OrdinalIgnoreCase));
+            }
+
+            return result;
+        }
+
         private static List<string> TakeWeightedByChance(List<string> names, int take, IRng rng)
         {
-            var remaining = new List<string>(names);
-            var distinctCount = remaining.Distinct().Count();
+            if (names == null || names.Count == 0 || take <= 0) return new List<string>();
+
             var result = new List<string>();
-            take = Math.Min(take, distinctCount);
+            var countsByName = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
             for (int n = 0; n < take; n++)
             {
-                var chosen = PickWeightedByChance(remaining, rng);
+                var candidates = names
+                    .Where(nm => countsByName.GetValueOrDefault(nm) < Math.Max(1, DraftRolePool.GetMaxCountForRoleName(nm)))
+                    .ToList();
+
+                if (candidates.Count == 0) break; 
+
+                var chosen = PickWeightedByChance(candidates, rng);
                 result.Add(chosen);
-                remaining.RemoveAll(x => x == chosen);
+                countsByName[chosen] = countsByName.GetValueOrDefault(chosen) + 1;
             }
 
             return result;
@@ -155,48 +199,44 @@ namespace TownOfUs.Modules.DraftMode
                 rl.Slot13.Value, rl.Slot14.Value, rl.Slot15.Value,
             ];
 
-            var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
-            int rolesPerSlot = roleOpts != null ? Math.Max(1, (int)roleOpts.OfferedRolesCount.Value) : 3;
+            int activeSlots = Math.Max(1, Math.Min(Math.Max(1, numPlayers), slots.Length));
 
-            int limit = Math.Min(numPlayers, slots.Length);
-            for (int i = 0; i < limit; i++)
+            for (var slotIndex = 0; slotIndex < activeSlots; slotIndex++)
             {
-                var roleNames = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(slots[i]));
-                if (roleNames == null || roleNames.Count == 0)
-                {
-                    roleNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any));
-                }
+                var bucket = slots[slotIndex];
+                var slotSuffix = $"|slot{slotIndex + 1}";
 
-                if (roleNames != null && roleNames.Count > 0)
+                var names = DraftRolePool.ResolveBucketToRoleNames(bucket.ToString())
+                    ?.Where(n => !string.IsNullOrWhiteSpace(n))
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToList();
+
+                if (names == null || names.Count == 0)
                 {
-                    var candidates = roleNames
-                        .Where(n => !string.IsNullOrWhiteSpace(n))
+                    if (DraftRolePool.IsNeutralRoleListOption(bucket)) {
+                        continue;
+                    }
+
+                    var fallbackBucket = nameof(RoleListOption.Any);
+                    names = DraftRolePool.ResolveBucketToRoleNames(fallbackBucket)
+                        ?.Where(n => !string.IsNullOrWhiteSpace(n))
                         .Distinct(StringComparer.OrdinalIgnoreCase)
-                        .ToList();
-
-                    if (candidates.Count <= rolesPerSlot)
-                    {
-                        pool.AddRange(candidates);
-                    }
-                    else
-                    {
-                        var chosenNames = TakeWeightedByChance(candidates, rolesPerSlot, rng);
-                        pool.AddRange(chosenNames);
-                    }
+                        .ToList() ?? new List<string>();
                 }
-                else
+
+                foreach (var name in names)
                 {
-                    var anyNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any))
-                        ?.Where(n => !string.IsNullOrWhiteSpace(n)).ToList();
-                    if (anyNames != null && anyNames.Count > 0)
-                    {
-                        var chosen = PickWeightedByChance(anyNames, rng);
-                        pool.Add(chosen);
-                    }
-                    else
-                    {
-                        pool.Add("Crewmate");
-                    }
+                    pool.Add(name + slotSuffix);
+                }
+            }
+
+            if (pool.Count == 0)
+            {
+                var fallbackId = DraftRolePool.GetAnyUsableRoleId();
+                var fallbackName = fallbackId != 0 ? DraftRolePool.GetRoleNameFromId(fallbackId) : null;
+                if (!string.IsNullOrEmpty(fallbackName))
+                {
+                    pool.Add(fallbackName + "|slot1");
                 }
             }
 
@@ -216,20 +256,20 @@ namespace TownOfUs.Modules.DraftMode
             var crewOpts = OptionGroupSingleton<RoleDraftCrewOptions>.Instance;
             if (crewOpts != null)
             {
-                ExpandBucket(pool, RoleListOption.CrewInvest,     (int)crewOpts.MaxCrewInvestigative.Value, rng);
-                ExpandBucket(pool, RoleListOption.CrewKilling,    (int)crewOpts.MaxCrewKilling.Value, rng);
-                ExpandBucket(pool, RoleListOption.CrewPower,      (int)crewOpts.MaxCrewPower.Value, rng);
-                ExpandBucket(pool, RoleListOption.CrewProtective, (int)crewOpts.MaxCrewProtective.Value, rng);
-                ExpandBucket(pool, RoleListOption.CrewSupport,    (int)crewOpts.MaxCrewSupport.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.CrewInvest,     (int)crewOpts.MaxCrewInvestigative.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.CrewKilling,    (int)crewOpts.MaxCrewKilling.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.CrewPower,      (int)crewOpts.MaxCrewPower.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.CrewProtective, (int)crewOpts.MaxCrewProtective.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.CrewSupport,    (int)crewOpts.MaxCrewSupport.Value, rng);
             }
 
             var neutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
             if (neutOpts != null && neutOpts.MaxNeutrals.Value > 0)
             {
-                ExpandBucket(pool, RoleListOption.NeutBenign,  (int)neutOpts.MaxNeutBenign.Value, rng);
-                ExpandBucket(pool, RoleListOption.NeutEvil,    (int)neutOpts.MaxNeutEvil.Value, rng);
-                ExpandBucket(pool, RoleListOption.NeutKilling, (int)neutOpts.MaxNeutKilling.Value, rng);
-                ExpandBucket(pool, RoleListOption.NeutOutlier, (int)neutOpts.MaxNeutOutlier.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.NeutBenign,  (int)neutOpts.MaxNeutBenign.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.NeutEvil,    (int)neutOpts.MaxNeutEvil.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.NeutKilling, (int)neutOpts.MaxNeutKilling.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.NeutOutlier, (int)neutOpts.MaxNeutOutlier.Value, rng);
 
                 var neutralSubBucketCaps = new Dictionary<RoleListOption, int>
                 {
@@ -245,25 +285,29 @@ namespace TownOfUs.Modules.DraftMode
             var impOpts = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
             if (impOpts != null && impOpts.MaxImpostors.Value > 0)
             {
-                ExpandBucket(pool, RoleListOption.ImpConceal, (int)impOpts.MaxImpConcealing.Value, rng);
-                ExpandBucket(pool, RoleListOption.ImpKilling, (int)impOpts.MaxImpKilling.Value, rng);
-                ExpandBucket(pool, RoleListOption.ImpPower,   (int)impOpts.MaxImpPower.Value, rng);
-                ExpandBucket(pool, RoleListOption.ImpSupport, (int)impOpts.MaxImpSupport.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.ImpConceal, (int)impOpts.MaxImpConcealing.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.ImpKilling, (int)impOpts.MaxImpKilling.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.ImpPower,   (int)impOpts.MaxImpPower.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.ImpSupport, (int)impOpts.MaxImpSupport.Value, rng);
             }
 
             return pool;
         }
 
-        private static void ExpandBucket(List<string> pool, RoleListOption bucket, int maxSlots, IRng rng)
+        private static RoleListOption? AlignmentToNeutralSubBucket(RoleAlignment? alignment) => alignment switch
         {
-            ExpandBucketCapped(pool, bucket, maxSlots, rng);
-        }
+            RoleAlignment.NeutralBenign => RoleListOption.NeutBenign,
+            RoleAlignment.NeutralEvil => RoleListOption.NeutEvil,
+            RoleAlignment.NeutralKilling => RoleListOption.NeutKilling,
+            RoleAlignment.NeutralOutlier => RoleListOption.NeutOutlier,
+            _ => null
+        };
 
         private static void TopUpBucketToTarget(List<string> pool, RoleListOption bucket, int targetTotal, IRng rng, Dictionary<RoleListOption, int>? subBucketCaps = null)
         {
             if (targetTotal <= 0) return;
 
-            var names = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(bucket))
+            var names = DraftRolePool.ResolveBucketToRoleNames(bucket.ToString())
                 ?.Where(n => !string.IsNullOrWhiteSpace(n))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();
@@ -282,7 +326,7 @@ namespace TownOfUs.Modules.DraftMode
                 nameToSubBucket = new Dictionary<string, RoleListOption>(StringComparer.OrdinalIgnoreCase);
                 foreach (var subBucket in subBucketCaps.Keys)
                 {
-                    var subNames = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(subBucket))
+                    var subNames = DraftRolePool.ResolveBucketToRoleNames(subBucket.ToString())
                         ?.Where(n => !string.IsNullOrWhiteSpace(n))
                         .Distinct(StringComparer.OrdinalIgnoreCase) ?? Enumerable.Empty<string>();
                     foreach (var n in subNames)
@@ -292,11 +336,15 @@ namespace TownOfUs.Modules.DraftMode
                 }
 
                 subBucketCounts = new Dictionary<RoleListOption, int>();
-                foreach (var kvp in nameToSubBucket)
+                foreach (var entry in pool)
                 {
-                    var count = countsByName.GetValueOrDefault(kvp.Key);
-                    if (count <= 0) continue;
-                    subBucketCounts[kvp.Value] = subBucketCounts.GetValueOrDefault(kvp.Value) + count;
+                    var align = DraftRolePool.GetRoleAlignment(entry);
+                    var sb = AlignmentToNeutralSubBucket(align);
+                    if (!sb.HasValue && nameToSubBucket.TryGetValue(entry, out var lookupSb))
+                        sb = lookupSb;
+
+                    if (sb.HasValue)
+                        subBucketCounts[sb.Value] = subBucketCounts.GetValueOrDefault(sb.Value) + 1;
                 }
             }
 
@@ -304,13 +352,20 @@ namespace TownOfUs.Modules.DraftMode
             {
                 var candidates = names.Where(n => countsByName.GetValueOrDefault(n) < Math.Max(1, DraftRolePool.GetMaxCountForRoleName(n))).ToList();
 
-                if (nameToSubBucket != null && subBucketCounts != null)
+                if (subBucketCaps != null && subBucketCounts != null)
                 {
                     candidates = candidates.Where(n =>
                     {
-                        if (!nameToSubBucket.TryGetValue(n, out var subBucket)) return true;
-                        if (!subBucketCaps!.TryGetValue(subBucket, out var cap)) return true;
-                        return subBucketCounts.GetValueOrDefault(subBucket) < cap;
+                        var align = DraftRolePool.GetRoleAlignment(n);
+                        var sb = AlignmentToNeutralSubBucket(align);
+                        if (!sb.HasValue && nameToSubBucket != null && nameToSubBucket.TryGetValue(n, out var lookupSb))
+                            sb = lookupSb;
+
+                        if (sb.HasValue && subBucketCaps.TryGetValue(sb.Value, out var cap))
+                        {
+                            return subBucketCounts.GetValueOrDefault(sb.Value) < cap;
+                        }
+                        return true;
                     }).ToList();
                 }
 
@@ -321,9 +376,15 @@ namespace TownOfUs.Modules.DraftMode
                 countsByName[chosen] = countsByName.GetValueOrDefault(chosen) + 1;
                 currentTotal++;
 
-                if (nameToSubBucket != null && subBucketCounts != null && nameToSubBucket.TryGetValue(chosen, out var chosenSubBucket))
+                if (subBucketCaps != null && subBucketCounts != null)
                 {
-                    subBucketCounts[chosenSubBucket] = subBucketCounts.GetValueOrDefault(chosenSubBucket) + 1;
+                    var align = DraftRolePool.GetRoleAlignment(chosen);
+                    var sb = AlignmentToNeutralSubBucket(align);
+                    if (!sb.HasValue && nameToSubBucket != null && nameToSubBucket.TryGetValue(chosen, out var lookupSb))
+                        sb = lookupSb;
+
+                    if (sb.HasValue)
+                        subBucketCounts[sb.Value] = subBucketCounts.GetValueOrDefault(sb.Value) + 1;
                 }
             }
 
@@ -338,7 +399,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (maxSlots <= 0) return;
 
-            var names = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(bucket))
+            var names = DraftRolePool.ResolveBucketToRoleNames(bucket.ToString())
                 ?.Where(n => !string.IsNullOrWhiteSpace(n))
                 .ToList();
             if (names == null || names.Count == 0) return;
@@ -346,7 +407,7 @@ namespace TownOfUs.Modules.DraftMode
             pool.AddRange(TakeWeightedByChance(names, maxSlots, rng));
         }
 
-        private static List<string> GetAllowedManualFallbackNames()
+        private static List<string> GetAllowedCrewFallbackNames()
         {
             var fallbackNames = new List<string>();
 
@@ -364,6 +425,16 @@ namespace TownOfUs.Modules.DraftMode
                 if (crewOpts.MaxCrewSupport.Value > 0)
                     fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewSupport)));
             }
+
+            return fallbackNames
+                .Where(name => !string.IsNullOrWhiteSpace(name))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+        }
+
+        internal static List<string> GetAllowedManualFallbackNames()
+        {
+            var fallbackNames = new List<string>(GetAllowedCrewFallbackNames());
 
             var neutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
             if (neutOpts != null && neutOpts.MaxNeutrals.Value > 0)
@@ -395,14 +466,6 @@ namespace TownOfUs.Modules.DraftMode
                 .Where(name => !string.IsNullOrWhiteSpace(name))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();
-        }
-
-        private static string RoleListOptionToString(RoleListOption opt)
-        {
-            var ary = RoleOptions.OptionStrings;
-            int idx = (int)opt;
-            if (ary == null || idx < 0 || idx >= ary.Length) return string.Empty;
-            return ary[idx];
         }
     }
 }

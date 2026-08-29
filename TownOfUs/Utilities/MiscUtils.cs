@@ -31,6 +31,7 @@ using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
@@ -41,10 +42,24 @@ namespace TownOfUs.Utilities;
 
 public static class MiscUtils
 {
-
+    /// <summary>
+    /// Get all living players that aren't neutral benigns.
+    /// </summary>
+    /// <returns>A list of alive players.</returns>
+    public static List<PlayerControl> GetImpactfulLivingPlayers()
+    {
+        return
+        [
+            .. GameData.Instance.AllPlayers.ToArray()
+                .Where(x => !x.IsDead && !x.Disconnected && x.Object && !x.Object.Is(RoleAlignment.NeutralBenign))
+                .Select(x => x.Object)
+        ];
+    }
     public static int GameHaltersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.Data.Role is IContinuesGame gameHalt && gameHalt.ContinuesGame || x.GetModifiers<BaseModifier>()
             .Any(y => y is IContinuesGame gameHaltMod && gameHaltMod.ContinuesGame));
+
+    public static int NonGameEndingNeutralCount => Helpers.GetAlivePlayers().Count(x => x.Is(RoleAlignment.NeutralBenign));
 
     public static int KillersAliveCount => Helpers.GetAlivePlayers().Count(x => x.IsImpostor() ||
         x.Is(RoleAlignment.NeutralKilling) ||
@@ -75,15 +90,59 @@ public static class MiscUtils
         !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
         OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue);
 
-    public static IEnumerable<BaseModifier> AllModifiers => ModifierManager.Modifiers;
+    /// <summary>
+    /// Gets all registered <see cref="BaseModifier"/>s in MiraAPI.
+    /// </summary>
+    /// <returns>A list of <see cref="BaseModifier"/>s.</returns>
+    public static IEnumerable<BaseModifier> AllModifiers { get; internal set; }
+    /// <summary>
+    /// Gets all registered <see cref="BaseModifier"/>s in MiraAPI that have the <see cref="IAssignableTargets"/> interface.
+    /// </summary>
+    /// <returns>A list of <see cref="IAssignableTargets"/>s.</returns>
+    public static IEnumerable<IAssignableTargets> AssignableTargetModifiers { get; internal set; }
+    /// <summary>
+    /// Gets all registered <see cref="BaseModifier"/>s in MiraAPI that have the <see cref="IWikiDiscoverable"/> interface.
+    /// </summary>
+    /// <returns>A list of <see cref="BaseModifier"/>s.</returns>
+    public static IEnumerable<BaseModifier> AllTouWikiModifiers { get; internal set; }
+    /// <summary>
+    /// Gets all registered <see cref="BaseModifier"/>s in MiraAPI that have the <see cref="IWikiDiscoverable"/> interface or are present in <see cref="SoftWikiEntries.RoleEntries"/>.
+    /// </summary>
+    /// <returns>A list of <see cref="BaseModifier"/>s.</returns>
+    public static IEnumerable<BaseModifier> AllOverallWikiModifiers { get; internal set; }
+    /// <summary>
+    /// Gets all registered <see cref="TouBaseGameModifier"/>s in MiraAPI.
+    /// </summary>
+    /// <returns>A list of <see cref="TouBaseGameModifier"/>s.</returns>
+    public static IEnumerable<TouBaseGameModifier> AllBaseGameModifiers { get; internal set; }
+    /// <summary>
+    /// Gets all registered <see cref="RoleBehaviour"/>s added through MiraAPI, excluding <see cref="NeutralGhostRole"/> and possibly any other registered basic roles.
+    /// </summary>
+    /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
+    public static IEnumerable<RoleBehaviour> AllRoles { get; internal set; }
+    /// <summary>
+    /// Gets all registered <see cref="ITownOfUsRole"/>s.
+    /// </summary>
+    /// <returns>A list of <see cref="ITownOfUsRole"/>s.</returns>
+    public static IEnumerable<ITownOfUsRole> AllTouRoles { get; internal set; }
+    /// <summary>
+    /// Gets all registered <see cref="RoleBehaviour"/>s, excluding <see cref="CrewmateGhostRole"/>, <see cref="ImpostorGhostRole"/>, <see cref="NeutralGhostRole"/>, and possibly any other registered basic roles.
+    /// </summary>
+    /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
+    public static IEnumerable<RoleBehaviour> AllInGameRoles { get; internal set; }
 
-    public static IEnumerable<RoleBehaviour> AllRoles => CustomRoleManager.CustomRoleBehaviours;
+    /// <summary>
+    /// Gets all registered <see cref="RoleBehaviour"/>s that aren't blacklisted.
+    /// </summary>
+    /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
+    public static IEnumerable<RoleBehaviour> AllRegisteredRoles => AllInGameRoles.Where(x => !x.IsRoleBlacklisted());
 
-    public static IEnumerable<RoleBehaviour> AllRegisteredRoles =>
-        RoleManager.Instance.AllRoles.ToArray().Excluding(x => x.IsRoleBlacklisted());
-
+    /// <summary>
+    /// Gets all registered <see cref="RoleBehaviour"/>s that aren't blacklisted and spawn on the current mode.
+    /// </summary>
+    /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
     public static IEnumerable<RoleBehaviour> SpawnableRoles =>
-        AllRegisteredRoles.Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
+        AllInGameRoles.Where(x => !x.IsRoleBlacklisted() && CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
     public static ReadOnlyCollection<IModdedOption>? GetModdedOptionsForRole(Type classType)
     {
@@ -854,7 +913,7 @@ public static class MiscUtils
     {
         if (!FakeChatHistory.IsReplaying)
         {
-            FakeChatHistory.Record(nameText, message);
+            FakeChatHistory.Record(basePlayer, nameText, message);
         }
         
         var chat = HudManager.Instance.Chat;
@@ -1920,6 +1979,11 @@ public static class MiscUtils
     public static void SetSizeLimit(this SpriteRenderer sprite, float pixelSize)
     {
         sprite.drawMode = SpriteDrawMode.Sliced;
+        if (!sprite.sprite)
+        {
+            return;
+        }
+
         float spriteWidth = sprite.sprite.rect.width;
         float spriteHeight = sprite.sprite.rect.height;
 
@@ -1950,9 +2014,10 @@ public static class MiscUtils
             return false;
         }
 
-        if (player.TryGetModifier<DeathHandlerModifier>(out var deathHandler) && player.HasDied())
+        if (player.HasDied())
         {
-            return !deathHandler.DiedThisRound;
+            var state = GameHistory.PlayerStats[player.PlayerId];
+            return !state.DiedThisRound;
         }
 
         return false;

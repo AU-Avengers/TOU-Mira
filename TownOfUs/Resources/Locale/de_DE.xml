@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="FoolsMode">April Scherz Modus</string>
+  <string name="FoolsMode">Aprilscherz Modus</string>
   <string name="TertiaryAbility">Tertiäre Fähigkeit (Hack-Fähigkeit)</string>
   <string name="ModifierAbility">Modifikator Fähigkeit</string>
   <string name="ClientOptionsButton">Tou Client Optionen</string>
@@ -85,7 +85,7 @@
   <string name="RandomImp">Zufällige Verräter</string>
   <string name="Any">Irgendwelche</string>
   <string name="Alliance">Allianz</string>
-  <string name="Universal">Universal</string>
+  <string name="Universal">Universell</string>
   <string name="CrewmateAlliance">Besatzungs Allianz</string>
   <string name="CrewmateVisibility">Besatzung Sichtbarkeit</string>
   <string name="CrewmatePassive">Besatzung Passiv</string>
@@ -99,8 +99,8 @@
   <string name="YouWereThe">Du warst der</string>
   <string name="YouWere">Du warst</string>
   <string name="Alive">Am Leben</string>
-  <string name="DiedByStringBasic">Von \%player\%</string>
-  <string name="DiedByString">\%cod\% Von \%player\%</string>
+  <string name="DiedByStringBasic">Von [player]</string>
+  <string name="DiedByString">[cod] Von [player]</string>
   <string name="DiedToEjection">Rausgeworfen</string>
   <string name="DiedToKiller">Getötet</string>
   <string name="DiedToPunishment">Bestraft</string>
@@ -195,7 +195,7 @@
   <string name="TouRoleMayor">Bürgermeister</string>
   <string name="TouRoleMedic">Arzt</string>
   <string name="TouRoleSheriff">Sheriff</string>
-  <string name="TouRoleSheriffIntroBlurb">Erschiße Den \%color=#FF0000FF\%Verräter\%/color\%</string>
+  <string name="TouRoleSheriffIntroBlurb">Erschiße Den [color=#FF0000FF]Verräter[/color]</string>
   <string name="TouRoleSheriffTabDescription">Töte die Verräter aber nicht die Besatzung</string>
   <string name="TouRoleSheriffTabDescriptionEgo">Töte wen auch immer du willst in der Hoffnung das die Besatzung Verliert</string>
   <string name="TouRoleSheriffShoot">Schießen</string>
@@ -212,12 +212,13 @@
   <string name="TouRoleJanitor">Hausmeister</string>
   <string name="TouRoleChef">Koch</string>
   <string name="TouRoleChefIntroBlurb">Frisch und servierbereit</string>
-  <string name="TouRoleChefTabDescription">Füttere die Besatzung mit gekochten Leichen. %nl\%Wenn deine Quote gefütteret ist hast du gewonnen!</string>
-  <string name="TouRoleChefTabCounter">Gefütterte Leichen: \%bodiesFed\% / \%bodiesTotal\%</string>
+  <string name="TouRoleChefTabDescription">Füttere die Besatzung mit gekochten Leichen. 
+Wenn deine Quote gefütteret ist hast du gewonnen!</string>
+  <string name="TouRoleChefTabCounter">Gefütterte Leichen: [bodiesFed] / [bodiesTotal]</string>
   <string name="TouRoleChefWikiDescription">Der Koch ist eine neutrale Außenseiterrolle, die bei jeder anderen Fraktion gewinnt, solange sie der Besatzung genügend Leichen serviert hat.</string>
   <string name="TouRoleChefCustomerMessage">Dir wurde eine Leiche Von dem Koch serviert!</string>
-  <string name="TouRoleChefVictoryMessage">Der %role\%, %player\%, war siegreich, da er genügend Spieler Gefüttert hat!</string>
-  <string name="TouRoleChefVictoryMessageSelf">Du bist Siegreich als %role\%, da du genug Spieler gefüttert hast!</string>
+  <string name="TouRoleChefVictoryMessage">Der [role], [player], war siegreich, da er genügend Spieler Gefüttert hat!</string>
+  <string name="TouRoleChefVictoryMessageSelf">Du bist Siegreich als [role], da du genug Spieler gefüttert hast!</string>
   <string name="TouRoleChefCook">Kochen</string>
   <string name="TouRoleChefCookWikiDescription">Koche eine Leiche und speichere sie für spätere Verwendung.</string>
   <string name="TouRoleChefServe">Servieren</string>
@@ -231,9 +232,9 @@
   <string name="TouRoleMedium">Medium</string>
   <string name="TouRoleMediumIntroBlurb">Schaue Den Spukenden Geistern Zu</string>
   <string name="TouRoleWarden">Wächter</string>
-  <string name="JailorChatTitle">%player\% (Wärter)</string>
-  <string name="JaileeChatTitle">%player\% (Verhaftet)</string>
-  <string name="TouRoleJailorIntroBlurb">Nehme Die %color=#FF0000FF\%Verräter%/color\% Gefangen und Exekutiere sie</string>
+  <string name="JailorChatTitle">[player] (Gefängniswärter)</string>
+  <string name="JaileeChatTitle">[player] (Verhaftet)</string>
+  <string name="TouRoleJailorIntroBlurb">Nehme Die [color=#FF0000FF]Verräter[/color] Gefangen und Exekutiere sie</string>
   <string name="TouRoleSwooper">Unsichtbarer</string>
   <string name="TouRoleSwooperIntroBlurb">Mach Dich Temporär Unsichtbar</string>
   <string name="TouRoleSwooperTabDescription">Mach dich unsichtbar und töte sie von den Schatten</string>
@@ -245,8 +246,8 @@
   <string name="TouRoleMercenary">Söldner</string>
   <string name="TouRoleDoomsayer">Unheilsprophet</string>
   <string name="TouRolePlaguebearer">Seuchenbringer</string>
-  <string name="TouRolePlaguebearerIntroBlurb">Infiziere alle um zur %color=#4D4D4DFF\%Pest%/color\% zu werden</string>
-  <string name="TouRolePlaguebearerTabDescription">Infiziere alle um zur %color=#4D4D4DFF\%Pest%/color\% zu werden</string>
+  <string name="TouRolePlaguebearerIntroBlurb">Infiziere alle um zur [color=#4D4D4DFF]Pest[/color] zu werden</string>
+  <string name="TouRolePlaguebearerTabDescription">Infiziere alle um zur [color=#4D4D4DFF]Pest[/color] zu werden</string>
   <string name="TouRolePlumber">Klempner</string>
   <string name="TouRolePlumberIntroBlurb">Hol die Ratten aus dem Abfluss</string>
   <string name="TouRoleMirrorcaster">Spiegelwerfer</string>
@@ -270,7 +271,7 @@
   <string name="DiedToSpellslingerHexBomb">Zerfallen</string>
   <string name="TouRoleSpellslingerIntroBlurb">Verhexe alle um sie zu bomben</string>
   <string name="TouRoleSpellslingerTabDescription">Verhexe alle nicht Verräter um eine Hex Bombe zu zünden</string>
-  <string name="TouRoleSpellslingerTabHexCounter">Verbleibende Spieler zum Verhexen: %count\%</string>
+  <string name="TouRoleSpellslingerTabHexCounter">Verbleibende Spieler zum Verhexen: [count]</string>
   <string name="TouRoleSpellslingerTabHexFinished">Alle Spieler sind Verhext.</string>
   <string name="TouRoleSpellslingerTabHexedInfo">Verhexte Spieler:</string>
   <string name="TouRoleSpellslingerHex">Verhexen</string>
@@ -302,7 +303,7 @@
   <string name="TouModifierEgotistIntroBlurb">Verrate die Besatzung um dein Ego zu Steigern</string>
   <string name="LoversWin">Verliebte Gewinnen</string>
   <string name="TouModifierLover">Verliebter</string>
-  <string name="TouModifierLoverInfo">Du bist Verliebt in %player\%.</string>
+  <string name="TouModifierLoverInfo">Du bist Verliebt in [player].</string>
   <string name="TouOptionLoverAnotherKiller">Sich in einen anderen Mörder Verlieben Wahrscheinlichkeit</string>
   <string name="TouOptionLoverCanBeNeutral">Neutrale Rollen Können Verliebt sein</string>
   <string name="TouModifierLovers">Verliebte</string>
@@ -385,12 +386,12 @@
   <string name="NonImpPassive">Nicht-Verräter Passiv</string>
   <string name="External">extern</string>
   <string name="Other">Andere</string>
-  <string name="LoverChatTitle">\%player\% (Verliebten Chat)</string>
-  <string name="ImpostorChatTitle">\%player\% (Verräter Chat)</string>
-  <string name="VampireChatTitle">\%player\% (Vampir Chat)</string>
+  <string name="LoverChatTitle">[player] (Verliebten Chat)</string>
+  <string name="ImpostorChatTitle">[player] (Verräter Chat)</string>
+  <string name="VampireChatTitle">[player] (Vampir Chat)</string>
   <string name="SystemChatTitle">System</string>
   <string name="AnticheatChatTitle">Anticheat System</string>
-  <string name="AnticheatMessage">%player\% hat folgende Mods Aktiv:</string>
+  <string name="AnticheatMessage">[player] hat folgende Mods Aktiv:</string>
   <string name="SpectatorLobbyError">Du kannst den Zuschauer Modus nicht außerhalb der Lobby aktivieren!</string>
   <string name="SpectatorToggleOn">Aktiviere den Zuschauer Modus!</string>
   <string name="SpectatorToggleOff">Du bist nicht mehr Zuschauer!</string>
@@ -402,30 +403,32 @@
   <string name="NerfMeToggleOff">Nerf Status aus! Deine Sicht ist wieder normal.</string>
   <string name="SetNameLobbyError">Du kannst deinen Namen nicht Außerhalb der Lobby ändern!</string>
   <string name="SetNameRequirementError">Der Spiele Name muss mindestens ein Zeichen lang sein und kann nicht länger als 12 Zeichen sein!</string>
-  <string name="SetNameSimilarError">Ein anderer Spieler hat einen Namen zu ähnlich zu %name\%! Bitte wähle einen Anderen.</string>
-  <string name="SetNameSuccess">Dein Name wurde für das nächst speil auf :\%name\% geändert.</string>
-  <string name="WelcomeMessageBlurb">Wilkomen bei "Town of Us Mira" v\%modVersion\%!\%nl\% Nutze das Wiki (Das Globus Symbol) um mehr Infos über Rollen und Modifikatoren zu bekommen. Nutze Dafür auch gerne die Suchleiste! Amsonsten kannst du auch /help in den Chat schreiben um eine Liste an Befehlen zu bekommen. \%nl\% Du kannst diese Nachricht auch im Menü "Einstellungen" ändern.</string>
+  <string name="SetNameSimilarError">Ein anderer Spieler hat einen Namen zu ähnlich zu [name]! Bitte wähle einen Anderen.</string>
+  <string name="SetNameSuccess">Dein Name wurde für das nächst speil auf :[name] geändert.</string>
+  <string name="WelcomeMessageBlurb">Wilkomen bei "Town of Us Mira" v[modVersion]!
+ Nutze das Wiki (Das Globus Symbol) um mehr Infos über Rollen und Modifikatoren zu bekommen. Nutze Dafür auch gerne die Suchleiste! Amsonsten kannst du auch /help in den Chat schreiben um eine Liste an Befehlen zu bekommen. 
+ Du kannst diese Nachricht auch im Menü "Einstellungen" ändern.</string>
   <string name="HelpMessageTitle">Chat Befehle:</string>
   <string name="HelpCommandDescription">/help - Zeigt diese Nachricht</string>
   <string name="NerfMeCommandDescription">/nerfme - Halbiert deine Sichtweite</string>
-  <string name="SetNameCommandDescription">/setname - Ändere deinen Namen zu den Text, der dem Befehl folgt (wie /setname \%randomName\%) für die nächste Runde.</string>
+  <string name="SetNameCommandDescription">/setname - Ändere deinen Namen zu den Text, der dem Befehl folgt (wie /setname [randomName]) für die nächste Runde.</string>
   <string name="SpectateCommandDescription">/spec - Erlaubt dir für den Rest des Spieles automatisch zu "Beobachten". (wenn vom host angeschaltet)</string>
   <string name="SummaryCommandDescription">/summary - Zeigt die Zusammenfassung der letzten Runde</string>
   <string name="JailCommandError">Diese Mod nutzt nicht mehr den /jail chat. Nutze dafür stattdessen das rote Chat Symbol.</string>
   <string name="NoCommandFoundError">Ungültiger Befehl. Wenn du Informationen zu den Chat Befehlen brauchst, schreibe /help. Wenn du wissen möchtest, was eine Rolle oder ein Modifikator tut, nutze das ingame Wiki indem du das Globus Symbol in der oberen rechten Ecke drückst.</string>
   <string name="EndGameSummary">Spiel Zusammenfassung</string>
-  <string name="EndResult">Spiel endete in: \%victoryType\%</string>
+  <string name="EndResult">Spiel endete in: [victoryType]</string>
   <string name="CrewmatesWin">Besatzung Gewinnt</string>
   <string name="ImpostorsWin">Verräter Gewinnen</string>
   <string name="CrewmateWin">Besatzung Gewinnt</string>
   <string name="ImpostorWin">Verräter Gewinnen</string>
   <string name="NobodyWins">Unentschieden</string>
-  <string name="SoloWin">%role\% Gewinnt</string>
-  <string name="TeamWin">\%role\% Gewinnen</string>
-  <string name="StatsKillCount">Kills: \%count\%</string>
-  <string name="StatsGoodGuessCount">Erraten: \%count\%</string>
-  <string name="StatsBadGuessCount">Falsch Erraten:\%count\%</string>
-  <string name="RoundOfDeath">R\%count\%</string>
+  <string name="SoloWin">[role] Gewinnt</string>
+  <string name="TeamWin">[role] Gewinnen</string>
+  <string name="StatsKillCount">Kills: [count]</string>
+  <string name="StatsGoodGuessCount">Erraten: [count]</string>
+  <string name="StatsBadGuessCount">Falsch Erraten:[count]</string>
+  <string name="RoundOfDeath">R[count]</string>
   <string name="DiedToDisconnect">Disconnected</string>
   <string name="DiedToInquisitor">Vernichtet</string>
   <string name="DiedToAmbusherAmbush">gemeeuchelt</string>
@@ -435,13 +438,15 @@
   <string name="TouRoleAltruistWikiDescription">Der Altruist ist eine Besatzungs Schutz Rolle, die Tote Spieler wiederbeleben kann. Allerdings können weder der Altruist noch die wiederbelebten Spieler eine Versammlung Einrufen.</string>
   <string name="TouRoleAltruistReviveWikiDescription">Belebe eine Gruppe toter Körper in deiner Nähe wieder.</string>
   <string name="TouRoleAurialTabDescription">Nehme Jede Spieler Fähigkeit war, die in deiner Umgebung benutzt wurde</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bombenleger ⇨ Fallensteller | Hypnotiseur ⇨ Wache | Hausmeister ⇨ Spurensucher\%nl\%Grubenarbeiter ⇨ Ingenieur | Geier ⇨ Spürnase\%nl\%Grabschänder ⇨ Altruist | Hexenmeister ⇨ Veteran</string>
+  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bombenleger ⇨ Fallensteller | Hypnotiseur ⇨ Wache | Hausmeister ⇨ Spurensucher
+Grubenarbeiter ⇨ Ingenieur | Geier ⇨ Spürnase
+Grabschänder ⇨ Altruist | Hexenmeister ⇨ Veteran</string>
   <string name="TouRoleBomberIntroBlurb">Plaziere Bomben um mehrere Besatzungsmitglieder gleichzeitig zu töten</string>
   <string name="TouRoleBomberTabDescription">Plaziere Bomben um mehrere Besatzungsmitglieder bei Sprengung zu töten</string>
-  <string name="TouRoleBomberWikiDescription">Der Bombenleger ist eine Verräter Mord Rolle die eine Bombe legen kann, welche nach %detonateDelay\% Sekund(en) explodiert.</string>
+  <string name="TouRoleBomberWikiDescription">Der Bombenleger ist eine Verräter Mord Rolle die eine Bombe legen kann, welche nach [detonateDelay] Sekund(en) explodiert.</string>
   <string name="TouRoleBomberPlace">Legen</string>
   <string name="TouRoleBomberDetonating">Zünden</string>
-  <string name="TouRoleBomberPlaceWikiDescription">Lege eine Bombe, die dann zeigt in welchem Radius sie töten wird, sie kann maximal %maxKills\% Spieler töten</string>
+  <string name="TouRoleBomberPlaceWikiDescription">Lege eine Bombe, die dann zeigt in welchem Radius sie töten wird, sie kann maximal [maxKills] Spieler töten</string>
   <string name="TouOptionBomberDetonateDelay">Zünd Verzögerung</string>
   <string name="TouOptionBomberDetonateRadius">Zünd Radius</string>
   <string name="TouOptionBomberAllImpostorsSeeBomb">Alle Verräter Sehen Bombe</string>
@@ -454,35 +459,38 @@
   <string name="TouRoleJesterTabDescription">Sei so verdächtig wie möglich, und werde rausgeworfen!</string>
   <string name="TouRoleJesterWikiDescription">Der Narr is eine Neutral Böse Rolle welche gewinnt wenn sie rausgeworfen wurde.</string>
   <string name="TouRoleJesterHaunt">Heimsuchen</string>
-  <string name="TouNotifJesterWinGlobal">Der Narr, %player\%, war siegreich, da er rausgeworfen wurde!</string>
+  <string name="TouNotifJesterWinGlobal">Der Narr, [player], war siegreich, da er rausgeworfen wurde!</string>
   <string name="TouOptionJesterCanButton">Kann Notfall-Knopf Benutzen</string>
   <string name="TouOptionJesterCanVent">Kann sich in Schächten Verstecken</string>
   <string name="TouOptionJesterImpVision">Hat Verräter Sicht</string>
   <string name="TouRoleJuggernautIntroBlurb">Deine Macht Vergrößert sich mit jedem Mord</string>
   <string name="TouRoleJuggernautTabDescription">Mit Jedem Kill wird deine Kill-Wartezeit verkürzt.</string>
-  <string name="TouRoleJuggernautTabKillCounter">Kill Anzahl: %count\%</string>
+  <string name="TouRoleJuggernautTabKillCounter">Kill Anzahl: [count]</string>
   <string name="TouRoleJuggernautWikiDescription">Der Moloch ist eine Neutral Killing Rolle welche als letzter lebendiger Killer gewinnt. Für jeden Kill den er macht, wird seine Kill-Wartezeit gekürzt.</string>
   <string name="TouOptionJuggernautInitialCooldown">Anfangs Kill-Wartezeit</string>
   <string name="TouOptionJuggernautCooldownReduction">Kill-Wartezeit Reduktion</string>
   <string name="TouOptionJuggernautCanVent">Moloch Kann In Schächte</string>
-  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Vergesslicher ⇨ Mystiker | Doom ⇨ Vigi | Exe ⇨ Petze\%nl\%Glitch ⇨ Sheriff | Fairy ⇨ Kleriker | Inquis ⇨ Orakel\%nl\%Narr ⇨ Klempner | Merc ⇨ Wächter\%nl\%Pb/Pest ⇨ Feinfühler | SC ⇨ Medium | WW ⇨ Jäger</string>
+  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Vergesslicher ⇨ Mystiker | Doom ⇨ Vigi | Exe ⇨ Petze
+Glitch ⇨ Sheriff | Fairy ⇨ Kleriker | Inquis ⇨ Orakel
+Narr ⇨ Klempner | Merc ⇨ Wächter
+Pb/Pest ⇨ Feinfühler | SC ⇨ Medium | WW ⇨ Jäger</string>
   <string name="SummaryCommandList">zusammenfassung:Spielzusammenfassung:spzu</string>
   <string name="NerfMeCommandList">nerf:nerfme:kurzsichtig</string>
   <string name="SetNameCommandList">ändername:wechslename:umbennenen:name</string>
   <string name="HelpCommandList">hilfe:support:befehl:befehle</string>
   <string name="GameSummaryModeButton">Spielende:Kurzfassung</string>
-  <string name="StatsBadKillCount">Fehl-Morde: \%count\%</string>
+  <string name="StatsBadKillCount">Fehl-Morde: [count]</string>
   <string name="TouRoleAurialWikiDescription">Der Feinfühler ist eine Besatzungs Ermittlungs Rolle, die dich allarmiert, wenn ein Spieler seine Fähigkeit in deiner Nähe nutzt.</string>
   <string name="TouOptionAurialAuraInnerRadius">Farb Ausstrahl Reichweite</string>
   <string name="TouOptionAurialAuraOuterRadius">Maximale Ausstrahl Reichweite</string>
   <string name="TouOptionAurialSenseDuration">Wahrnehmungs Dauer</string>
   <string name="TouRoleClericTabDescription">Reinige negative Effekte von der Besatzung und kreiere eine Barriere um jegliche Interaktion aufzuhalten</string>
   <string name="TouRoleClericWikiDescription">Der Kleriker ist eine Besatzungs Schutz Rolle, welche die Besatzung schützen kann, indem sie negative Effekte negiert, sowie Barrieren platziert, welche alle Interaktionen aufhalten.</string>
-  <string name="TouRoleClericBarrierWikiDescription">Verhindere, das jemand mit einem Besatzungsmitglied interagiert. Dieses Schild hält für \%BarrierCooldown\% Sekunden.</string>
+  <string name="TouRoleClericBarrierWikiDescription">Verhindere, das jemand mit einem Besatzungsmitglied interagiert. Dieses Schild hält für [BarrierCooldown] Sekunden.</string>
   <string name="TouRoleClericCleanseWikiDescription">Entferne alle negativen Effekte eines Spielers. ( Begossen, Gehacked, Infestiert, Erpresst, Blind, Geblendet und Hypnotisiert)</string>
   <string name="TouRoleClericMessageTitle">Kleriker Rückmeldung</string>
-  <string name="TouRoleClericCleansedEffects">Effekt bereinigt von \%player\%:</string>
-  <string name="TouRoleClericCleansedNoEffects">Keine negativen Effekte wurden an \%player\% gefunden.</string>
+  <string name="TouRoleClericCleansedEffects">Effekt bereinigt von [player]:</string>
+  <string name="TouRoleClericCleansedNoEffects">Keine negativen Effekte wurden an [player] gefunden.</string>
   <string name="TouOptionClericBarrierCooldown">Barriere Abklingzeit</string>
   <string name="TouOptionClericBarrierDuration">Barriere Dauer</string>
   <string name="TouOptionClericCleanseCooldown">Reingigungs Cooldown</string>
@@ -492,25 +500,27 @@
   <string name="TouRoleDeputyWikiDescription">Der Stellvertreter ist eine Besatzung Mord Rolle, welche andere Spiele belagern kann. Sobald ein belagerter Spieler stirbt, wir der Hilfssheriff über dessen Tod benachrichtigt. Im der darauf folgenden Versammlung darf der Hilfssheriff dann versuchen, den Mörder des belagerten Spielers zu erschießen. Nach Erfolg stirbt der Mörder, und bei Fehlschlag passiert nichts.</string>
   <string name="TouRoleDeputyCamp">Belager</string>
   <string name="TouRoleDeputyCampWikiDescription">Belagere einen Spieler, um alarmiert zu werden, sobald dieser stirbt. Nach dessen Tod darfst du versuchen, den Mörder zu erschießen. Wenn dein Schuss erfolgreich war, stirbt der Mörder, wenn nicht, passiert nichts.</string>
-  <string name="TouRoleDeputyCampNotif">Warte auf \%player\% Tod, so dass du deren Mörder in den Versammlungen erschießen kannst.</string>
+  <string name="TouRoleDeputyCampNotif">Warte auf [player] Tod, so dass du deren Mörder in den Versammlungen erschießen kannst.</string>
   <string name="TouRoleDeputyMessageTitle">Hilfssheriff Rückmeldung</string>
   <string name="TouRoleDeputyMissedShot">Du hast verfehlt! Der Spieler ist entweder nicht der Mörder oder unverwundbar.</string>
-  <string name="TouRoleForensicTabDescription">Inspiziere den Tatort, danach untersuche Spieler um\%nl\% herauszufinden, ob sie an diesen Ort waren.</string>
+  <string name="TouRoleForensicTabDescription">Inspiziere den Tatort, danach untersuche Spieler um
+ herauszufinden, ob sie an diesen Ort waren.</string>
   <string name="TouRoleForensicWikiDescription">Der Detektiv kann einen Tatort inspizieren und Spieler untersuchen, um herauszufinden, ob diese am Tatort waren. Sollte das der Fall sein, blinkt der Bildschirm rot.</string>
   <string name="TouRoleForensicInspectWikiDescription">Ein Tatort erscheint um jeden Leiche. Inspiziere den Tatort und untersuche Spieler, um Hinweise zu erhalten. In der nächsten Versammlung erhältst du einen Bericht, welche die Rolle des Mörders dir offenbart.</string>
   <string name="TouRoleForensicExamineWikiDescription">Untersuche Spieler nachdem du einen Tatort inspiziert hast. Du erfährst, ob der Spieler sich an dem Tatort befand.</string>
-  <string name="TouRoleForensicInspectNotif">Du hast den Tatort von \%player\% inspiziert. Der Mörder und jeder andere, der auf den Tatort tritt, wird rot aufleuchten, wenn du diesen untersuchst.</string>
+  <string name="TouRoleForensicInspectNotif">Du hast den Tatort von [player] inspiziert. Der Mörder und jeder andere, der auf den Tatort tritt, wird rot aufleuchten, wenn du diesen untersuchst.</string>
   <string name="TouOptionForensicExamineCooldown">Untersuchen Abklingzeit</string>
   <string name="TouOptionForensicReportOn">Zeige Spurensucher Bericht</string>
   <string name="TouOptionForensicRoleDuration">Zeit, in welcher der Detektiv die Rolle des Spielers bekommt</string>
   <string name="TouOptionForensicFactionDuration">Zeit, in welcher der Spurensucher die Fraktion bekommt</string>
   <string name="TouRoleForensicMessageTitle">Spurensucher Bericht</string>
-  <string name="TouRoleForensicAtScene">\%player\% war am Tatort, wo \%deadPlayer\% ermordet wurde! \%nl\% Er könnte der Mörder oder ein Zeuge sein.</string>
-  <string name="TouRoleForensicNotAtScene">\%player\% war nicht am Tatort.</string>
+  <string name="TouRoleForensicAtScene">[player] war am Tatort, wo [deadPlayer] ermordet wurde! 
+ Er könnte der Mörder oder ein Zeuge sein.</string>
+  <string name="TouRoleForensicNotAtScene">[player] war nicht am Tatort.</string>
   <string name="TouRoleEngineerIntroBlurb">Erhalte die wichtigsten Systeme auf dem Schiff</string>
   <string name="TouRoleEngineerTabDescription">Krieche durch Schächte und repariere Sabotagen aus der Distanz</string>
   <string name="TouRoleEngineerWikiDescription">Der Engineer ist eine Besatzungs Unterstützungs Rolle, welche die Schächte benutzen kann und Sabotagen auch über Distanz reparieren kann.</string>
-  <string name="TouRoleEngineerFixWikiDescription">Egal wo du dich gerade befindest, du kannst den "Reparieren" Knopf drücken um sofort jegliche Sabotage zu reparieren. Du kannst dies \%engiMaxFixes\% mal in jeden Spiel benutzen.</string>
+  <string name="TouRoleEngineerFixWikiDescription">Egal wo du dich gerade befindest, du kannst den "Reparieren" Knopf drücken um sofort jegliche Sabotage zu reparieren. Du kannst dies [engiMaxFixes] mal in jeden Spiel benutzen.</string>
   <string name="TouOptionEngineerMaxVents">Schacht Nutzungen Pro Spiel</string>
   <string name="TouOptionEngineerVentCooldown">Schacht Abklingzeit</string>
   <string name="TouOptionEngineerVentDuration">Schacht Dauer</string>
@@ -522,13 +532,14 @@
   <string name="TouOptionHaunterNumTasksLeftBeforeAlerted">Aufgaben übrige vor Alarm</string>
   <string name="TouOptionHaunterCanBeClickedBy">Kann geklickt werden von</string>
   <string name="TouRoleHaunterImpAlertFeedback">Ein Poltergeist ist aufgetaucht, fang ihn, bevor er euch enttarnt!</string>
-  <string name="TouRoleHunterIntroBlurb">Verfolge die \%color=#FF0000FF\%Verräter\%/color\%</string>
-  <string name="TouRoleHunterTabDescription">Verfolge Spieler um alarmiert zu erden, wenn diese eine Fähigkeit benutzen. \%nl\%Sobald sie dies tun, darfst du diese umbringen.</string>
+  <string name="TouRoleHunterIntroBlurb">Verfolge die [color=#FF0000FF]Verräter[/color]</string>
+  <string name="TouRoleHunterTabDescription">Verfolge Spieler um alarmiert zu erden, wenn diese eine Fähigkeit benutzen. 
+Sobald sie dies tun, darfst du diese umbringen.</string>
   <string name="TouRoleHunterWikiDescription">Der Jäger ist eine Besatzungs Mord Rolle, welche Spieler während den Runden verfolgen kann. Wenn ein verfolgter Spieler eine Fähigkeit nutzt, kann dieser zu jeder Zeit im Spiel von dem Jäger umgebracht werden, darunter auch die Besatzung.</string>
   <string name="TouRoleHunterStalk">Verfolgen</string>
   <string name="TouRoleHunterStalking">Verfolgen</string>
-  <string name="TouRoleHunterStalkWikiDescription">Wähle ein Ziel zum Verfolgen. Du kannst \%hunterMaxStalkUsages\% Spieler verfolgen. Wenn diese eine Fähigkeit nutzen während sie verfolgt werden, werden diese auf deine Hitliste gepackt und du kannst diese ermorden.</string>
-  <string name="TouRoleHunterStalkNotif">Wenn \%player\% eine Fähigkeit benutzt, bist du in der Lage, diesen zu jeder Zeit und in jeder Runde umzubringen.</string>
+  <string name="TouRoleHunterStalkWikiDescription">Wähle ein Ziel zum Verfolgen. Du kannst [hunterMaxStalkUsages] Spieler verfolgen. Wenn diese eine Fähigkeit nutzen während sie verfolgt werden, werden diese auf deine Hitliste gepackt und du kannst diese ermorden.</string>
+  <string name="TouRoleHunterStalkNotif">Wenn [player] eine Fähigkeit benutzt, bist du in der Lage, diesen zu jeder Zeit und in jeder Runde umzubringen.</string>
   <string name="TouOptionHunterKillCooldown">Jäger Kill Abklingzeit</string>
   <string name="TouOptionHunterStalkCooldown">Jäger Verfolgung Abklingzeit</string>
   <string name="TouOptionHunterStalkDuration">Jäger Verfolgung Dauer</string>
@@ -553,8 +564,10 @@
   <string name="TouOptionInvestigatorFootprintDuration">Fußspur Dauer</string>
   <string name="TouOptionInvestigatorShowAnonymousFootprints">Anonyme Fußspuren</string>
   <string name="TouOptionInvestigatorShowFootprintVent">Fußspuren in Schächten Sichtbar</string>
-  <string name="TouRoleJailorTabDescription">Diskutiere mit der Besatzung in einem privaten Treffen und \%nl\%exekutiere diese, wenn sie verdächtigt sind</string>
-  <string name="TouRoleJailorTabDescriptionEvil">Diskutiere mit der Besatzung in Privaten Treffen, und \%nl\%exekutiere diese nach deinem Willen</string>
+  <string name="TouRoleJailorTabDescription">Diskutiere mit der Besatzung in einem privaten Treffen und 
+exekutiere diese, wenn sie verdächtigt sind</string>
+  <string name="TouRoleJailorTabDescriptionEvil">Diskutiere mit der Besatzung in Privaten Treffen, und 
+exekutiere diese nach deinem Willen</string>
   <string name="TouRoleJailorWikiDescription">Der Wärter ist eine Besatzungs Macht Rolle, welche andere Spieler verhaften kann. Während einer Versammlung, darf der Wärter den verhafteten Spieler exekutieren. (Imitatoren können nicht exekutieren)</string>
   <string name="TouRoleJailorJailWikiDescription">Verhafte einen Spieler. Während einer Versammlung kann jeder sehen, wer verhaftet ist. Du kannst privat mit dem verhafteten Spieler sprechen, in dem du den Anweisungen in dem privaten Chat folgst</string>
   <string name="TouRoleJailorExecuteWiki">Exekutier(Versammlung)</string>
@@ -564,16 +577,16 @@
   <string name="TouOptionJailorJailInARow">Verhafte den gleichen Spieler zwei mal in Folge</string>
   <string name="TouOptionJailorJaileePublicChat">Häftling darf den öffentlichen Chat benutzen</string>
   <string name="TouRoleJailorMessageTitle">Wächter Rückmeldung</string>
-  <string name="TouRoleJailorJailorFeedback">Kommuniziere mit deinem Häftling in dem \%b\%ROTEN\%/b\% Chat neben der \%b\%NORMALEN\%/b\% Chat.</string>
-  <string name="TouRoleJailorCannotExecute">%player\% kann nicht Exekutiert werden! Er muss unverwundbar oder gesegnet sein!</string>
-  <string name="TouRoleJailorExecutedCrew">%player\% war Teil der Besatzung! Du kannst nicht mehr verhaften!</string>
-  <string name="TouRoleJailorExecutedEvil">%player\% wurde erfolgreich hingerichtet!</string>
+  <string name="TouRoleJailorJailorFeedback">Kommuniziere mit deinem Häftling in dem [b]ROTEN[/b] Chat neben der [b]NORMALEN[/b] Chat.</string>
+  <string name="TouRoleJailorCannotExecute">[player] kann nicht Exekutiert werden! Er muss unverwundbar oder gesegnet sein!</string>
+  <string name="TouRoleJailorExecutedCrew">[player] war Teil der Besatzung! Du kannst nicht mehr verhaften!</string>
+  <string name="TouRoleJailorExecutedEvil">[player] wurde erfolgreich hingerichtet!</string>
   <string name="TouRoleLookoutIntroBlurb">Halte deine Augen Offen</string>
   <string name="TouRoleLookoutTabDescription">Beobachte andere Besatzungsmitglieder um zu sehen, welche Rollen mit deinen Zielen interagieren</string>
   <string name="TouRoleLookoutWikiDescription">Die Wache ist eine Besatzungs Ermittlung Rolle, welche andere Spieler während der Runde beobachten kann. In Versammlungen erfährt die Wache dann, welche Rollen mit welche beobachten Spieler interagiert haben.</string>
   <string name="TouRoleLookoutWatch">Beobachte</string>
   <string name="TouRoleLookoutWatchWikiDescription">Beobachte einen oder mehrere Spieler, in der nächsten Versammlung lernst du, wer mit deinen Zielen interagiert hat.</string>
-  <string name="TouRoleLookoutWatchNotif">In der nächsten Versammlung lernst du welche Rollen mit \%player\% interagiert haben.</string>
+  <string name="TouRoleLookoutWatchNotif">In der nächsten Versammlung lernst du welche Rollen mit [player] interagiert haben.</string>
   <string name="TouOptionLookoutWatchCooldown">Beobachten Abklingzeit</string>
   <string name="TouOptionLookoutMaxWatches">Maximale Spieler die man Beobachten kann</string>
   <string name="TouOptionLookoutLoResetOnNewRound">Wache Beobachtungen setzen sich nach jeder Runde zurück</string>
@@ -582,12 +595,13 @@
   <string name="TouRoleMedicTabDescription">Schütze ein Besatzungsmitglied mit einem Schild was for Angriffen schützt</string>
   <string name="TouRoleMedicWikiDescription">Der Arzt ist eine Besatzungs Schutz Rolle welche ein Schild zu einem Spieler vergeben kann.</string>
   <string name="TouRoleMedicShield">Schild</string>
-  <string name="TouRoleExecutionerTabDescription">Werfe %target\% raus um zu gewinnen.</string>
+  <string name="TouRoleExecutionerTabDescription">Werfe [target] raus um zu gewinnen.</string>
   <string name="TouRoleExecutionerTorment">Quälen</string>
   <string name="TouRoleSpectreSpook">Spuken</string>
   <string name="DiedToSuicideAltruist">Geopfert</string>
   <string name="DiedToSuicideSheriff">Fehlzündung</string>
-  <string name="TouRoleAltruistTabDescriptionGroupSacrifice">Opfere dein Leben auf, um Tote Besatzung %nl\%in Gruppen wieder zu beleben.</string>
+  <string name="TouRoleAltruistTabDescriptionGroupSacrifice">Opfere dein Leben auf, um Tote Besatzung 
+in Gruppen wieder zu beleben.</string>
   <string name="TouRoleAltruistTabDescriptionSacrifice">Opfere dich auf für ein totes Besatzungsmitglied.</string>
   <string name="TouRoleAltruistReviveGroupSacrificeWikiDescription">Belebe eine Gruppe Toter Körper in deiner Nähe wieder. Sobald die Wiederbelebung beendet ist, wirst du sterben, ohne dabei eine Leiche zu hinterlassen.</string>
   <string name="TouRoleAltruistReviveSacrificeWikiDescription">Belebe den nächsten Toten Körper wieder. Sobald die Wiederbelebung beendet ist, wirst du sterben, ohne dabei eine Leiche zu hinterlassen.</string>
@@ -616,8 +630,8 @@
   <string name="TouRoleWardenFortify">Verschanzen</string>
   <string name="TouRoleWardenFortifyWikiDescription">Verschanze einen Spieler um interaktionen mit disem zu verhindern. Wenn irgendjemand versucht mit dem verschanzten Spieler zu interagieren, wird die fähigkeit nicht funktionieren und der Wächter und der Verschanzte Spieler werden mit einem lilanen flash alarmiert.</string>
   <string name="TouOptionWardenShowFortifyPlayer">Zeige Verschanzten Spieler</string>
-  <string name="TouRoleAmbassadorIntroBlurb">Leite die %color=#FF0000FF\%Verräter%/color\% zun Sieg</string>
-  <string name="TouRoleVigilanteIntroBlurb">Töte %color=#FF0000FF\%Verräter%/color\% wenn du ihre Rollen raten kannst</string>
+  <string name="TouRoleAmbassadorIntroBlurb">Leite die [color=#FF0000FF]Verräter[/color] zun Sieg</string>
+  <string name="TouRoleVigilanteIntroBlurb">Töte [color=#FF0000FF]Verräter[/color] wenn du ihre Rollen raten kannst</string>
   <string name="TouRoleVigilanteTabDescription">Rate die Rollen der Verräter in Treffen um sie zu töten!</string>
   <string name="TouRoleVigilanteWikiDescription">Der Vigilante ist eine Besatzung Mord Rolle welche die Rollen anderer Spieler in Treffen raten kann. If they guess correctly, the other player will die. If not, they will die. </string>
   <string name="TouOptionVigilanteNumberOfGuesses">Rat Anzahl</string>
@@ -636,14 +650,16 @@
   <string name="FreeplaySetRoleButton">Wähle Rolle</string>
   <string name="FreeplayRestartButton">Spiel zurücksetzen</string>
   <string name="FreeplayRestartPopup">Alle toten Spieler wurden wiederbelebt und Aufgaben wurden zurückgesetzt!</string>
-  <string name="TouRoleClericTabProtecting">Barriere Auf: \%player\%</string>
-  <string name="TouRoleMedicTabProtecting">Schild auf: \%player\%</string>
+  <string name="TouRoleClericTabProtecting">Barriere Auf: [player]</string>
+  <string name="TouRoleMedicTabProtecting">Schild auf: [player]</string>
   <string name="TouOptionMediumMediateCooldown">Erhören Abklingzeit</string>
   <string name="TouOptionMediumArrowVisibility">Pfeil Sichtbarkeit</string>
   <string name="TouOptionMediumWhoisRevealed">Wer ist Aufgedeckt</string>
   <string name="TouRoleMirrorcasterIntroBlurb">Reflektiere Angriffe auf Andere</string>
-  <string name="TouRoleMirrorcasterTabDescription">Beschütze einen Spieler mit einem Magischen Spiegel. %nl\% Wenn diese direkt angegriffen werden, %nl\%reflektiere diesen Angriff gegen einen anderen Spieler!</string>
-  <string name="TouRoleMirrorcasterTabProtecting">Beschütze: \%player\%</string>
+  <string name="TouRoleMirrorcasterTabDescription">Beschütze einen Spieler mit einem Magischen Spiegel. 
+ Wenn diese direkt angegriffen werden, 
+reflektiere diesen Angriff gegen einen anderen Spieler!</string>
+  <string name="TouRoleMirrorcasterTabProtecting">Beschütze: [player]</string>
   <string name="TouRoleMirrorcasterWikiDescription">Der Spiegelwerfer ist eine Besatzungs Schutz Rolle, die Magische Spiegel auf einen Spieler zaubern kann, um diese zu beschützen. Wenn direkt angegriffen, kann der Spiegelwerfer diesen Angriff auf einen Spieler reflektieren.</string>
   <string name="TouRoleMirrorcasterMagicMirror">Magischer Spiegel</string>
   <string name="TouRoleMirrorcasterMagicMirrorProtecting">Beschütze</string>
@@ -651,23 +667,24 @@
   <string name="TouRoleMirrorcasterUnleash">Reflektieren</string>
   <string name="TouRoleMirrorcasterUnleashWikiDescription">Nachdem der Magische Spiegel zersplittert erhältst du seine Macht und kannst diese auf einen anderen Spieler reflektieren!</string>
   <string name="TouRoleMirrorcasterAlreadyDiedNotif">Der Spieler, den du beschützen wolltest, ist bereits verstorben!</string>
-  <string name="TouRoleMirrorcasterTargetDiedNotif">\%player\% ist an einem indirekten Angriff gestorben und dein Spiegel konnte diesen nicht beschützen.</string>
-  <string name="TouRoleMirrorcasterTargetDidNotDieNotif">\%player\% wurde nicht angegriffen.</string>
+  <string name="TouRoleMirrorcasterTargetDiedNotif">[player] ist an einem indirekten Angriff gestorben und dein Spiegel konnte diesen nicht beschützen.</string>
+  <string name="TouRoleMirrorcasterTargetDidNotDieNotif">[player] wurde nicht angegriffen.</string>
   <string name="TouOptionMirrorcasterWhoGetsMurderAttemptIndicator">Wer bekommt den Mordversuchs Indikator</string>
   <string name="TouOptionMirrorcasterMagicMirrorCooldown">Magischer Spiegel Abklingzeit</string>
   <string name="TouOptionMirrorcasterMagicMirrorDuration">Magischer Spiegel Dauer</string>
   <string name="TouOptionMirrorcasterUnleashCooldown">Reflektieren Abklingzeit</string>
   <string name="TouOptionMirrorcasterAccumulateMultipleUnleashes">Sammle mehrere Reflektierungs nutzen</string>
   <string name="TouOptionMirrorcasterMaxNumberOfMagicMirrors">Max Anzahl an Magischen Spiegeln</string>
-  <string name="TouRoleMirrorcasterAttackedMessageWithType">\%player\% wurde vom \%attackerRole\%! Du kannst jetzt den Angriff auf jemand anderen reflektieren!</string>
-  <string name="TouRoleMirrorcasterAttackedMessageWithoutType">%player\% wurde angegriffen! Du kannst jetzt den Angriff auf jemand anderen reflektieren!</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithType">[player] wurde vom [attackerRole]! Du kannst jetzt den Angriff auf jemand anderen reflektieren!</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithoutType">[player] wurde angegriffen! Du kannst jetzt den Angriff auf jemand anderen reflektieren!</string>
   <string name="TouRoleMysticIntroBlurb">Lerne, wo und wann Morde passieren</string>
   <string name="TouRoleMysticTabDescription">Verstehe, wo und wann Morde geschehen</string>
   <string name="TouRoleMysticWikiDescription">Der Mystiker ist eine Besatzungs Ermittlung Rolle, die einen Alarm bekommt, wenn jemand stirbt.</string>
   <string name="TouOptionMysticDeadBodyArrowDuration">Toter Körper Pfeil Dauer</string>
   <string name="TouRoleOracleIntroBlurb">Sorge dafür, das die Besatzung ihre Sünden gestehen</string>s
-  <string name="TouRoleOracleTabDescription">Segne die Besatzung um die in Versammlungen zu beschützen, %nl\%und lass sie ihre Sünden beichten</string>
-  <string name="CrewmateHider">Besatzung Verstecken</string>
+  <string name="TouRoleOracleTabDescription">Segne die Besatzung um die in Versammlungen zu beschützen, 
+und lass sie ihre Sünden beichten</string>
+  <string name="CrewmateHider">Besatzung Verstecker</string>
   <string name="TouRoleSonarWikiDescription">Der Sonar ist eine Besatzung Ermittlung Rolle welche</string>
   <string name="TouOptionSpectreWin">Gespenst Gewinnt</string>
   <string name="ImpostorSeeker">Verräter Sucher</string>
@@ -695,5 +712,113 @@
   <string name="HnsOptionMysticDeadBodyArrowDuration">Toter Körper Pfeil Dauer</string>
   <string name="HnsRoleSnitch">Petze</string>
   <string name="HnsRoleSnitchTabHint">Petze Tipp</string>
-  <string name="HnsRoleSnitchTabDescription">Deine Aufgaben verringern den Timer schneller, \%nl\% dafür gibt's du deinen Aufenthaltsort preis.</string>
+  <string name="HnsRoleSnitchTabDescription">Deine Aufgaben verringern den Timer schneller, 
+ dafür gibt's du deinen Aufenthaltsort preis.</string>
+  <string name="ReverseSkeldMapName">dlekS</string>
+  <string name="ReverseSkeldMapTooltip">saD dlekS: das mittelgroße raumschiff, welches du kennst und (villeicht) liebst, aber gedreht!</string>
+  <string name="DiscordServer">Discord Server</string>
+  <string name="TouDraftCancelButton">Draft Abbrechen</string>
+  <string name="TouDraftCancelledNotif">Draft Modus wurde von dem [color=#FFBFCC][b]\Host[/b][/color] abgebrochen!</string>
+  <string name="TouDraftShuffleButton">Mischen</string>
+  <string name="TouDraftShuffledNotif">Deine möglichkeiten wurden geändert!</string>
+  <string name="TouDraftRandomDescription">Sucht eine komplett zufällige Rolle für dich aus.</string>
+  <string name="TouDraftUnknownRoleLabel">Rolle [id]</string>
+  <string name="TouDraftUnknownTeamLabel">Unbekannt</string>
+  <string name="TouDraftRecapHeader">DRAFT RÜCKBLICK</string>
+  <string name="TouDraftRecapModeRole">Rolle</string>
+  <string name="TouDraftRecapModeFaction">Fraktion</string>
+  <string name="TouDraftPlayerLabel">Spieler [slot]</string>
+  <string name="TouDraftPickPrompt">Suche Deine Rolle Aus!</string>
+  <string name="TouDraftTimerRemaining">[secs] Sekunde(n) Verbliebend</string>
+  <string name="TouDraftRolesPickedLabel">ROLLEN AUSGESUCHT</string>
+  <string name="TouDraftPlayerNumberLabel">Spieler #[num]</string>
+  <string name="TouDraftYouLabel">DU</string>
+  <string name="TouDraftIsPickingLabel">ist am Wählen...</string>
+  <string name="TouDraftIsWaitingLabel">ist am warten</string>
+  <string name="TouDraftPickedLabel">hat gewählt</string>
+  <string name="TouDraftUnknownRoleStatus">UNBEKANNT</string>
+  <string name="TouDraftARoleLabel">eine rolle</string>
+  <string name="TouDraftYourNumberLabel">DEINE NUMMER:</string>
+  <string name="TouDraftYouAreLabel">DU BIST</string>
+  <string name="TouDraftSpectatingValue">ZUSCHAUEND</string>
+  <string name="TouDraftNowPickingLabel">JETZT WÄHLEND:</string>
+  <string name="TouDraftYourTurnLabel">DEIN ZUG!</string>
+  <string name="TouDraftNowPickingMultiLabel">JETZT AM WÄHLEN (MEHRERE):</string>
+  <string name="TouDraftMultiLabel">MEHRERE</string>
+  <string name="DraftAudioCue">Wenn die Draft Audio anfängt</string>
+  <string name="DraftAudioStart">Draft Beginn</string>
+  <string name="DraftAudioYourTurn">Dein Zug</string>
+  <string name="DraftAudioBoth">Beide</string>
+  <string name="SelfKillBindToggle">LSHIFT + T + ENTER Aktiviert Selbstmord</string>
+  <string name="AbortGameBindToggle">LSHIFT + L + ENTER Aktiviert Spielende</string>
+  <string name="StartMeetingBindToggle">LSHIFT + K + ENTER Aktiviert Sitzungsbeginn</string>
+  <string name="EndMeetingBindToggle">F6 Aktiviert Sitzungsende</string>
+  <string name="ShowPracticeButtons">Zeige Übungsknöpfe</string>
+  <string name="EndRejoinAlways">Immer</string>
+  <string name="EndRejoinHost">Als Host</string>
+  <string name="EndRejoinClient">Als Client</string>
+  <string name="EndRejoinNever">Nie</string>
+  <string name="ZoomingInLobby">Zoomen in der Lobby</string>
+  <string name="ZoomingInPractice">Zoomen Im Übungsmodus</string>
+  <string name="RoleNameStyle">Rollen Namen Stil</string>
+  <string name="NameStyleTop">Oben</string>
+  <string name="NameStyleTopSmall">Oben (Klein)</string>
+  <string name="NameStyleBottom">Unten</string>
+  <string name="NameStyleBottomSmall">Unten (Klein)</string>
+  <string name="ProgressTrackingNever">Niemand</string>
+  <string name="ProgressTrackingOnSelf">Selbst</string>
+  <string name="ProgressTrackingOnOthers">Andere</string>
+  <string name="ProgressTrackingAlways">Alle</string>
+  <string name="ModStampPlacement">Mod Stempel</string>
+  <string name="ModStampTopLeft">Oben-Links</string>
+  <string name="ModStampTopRight">Oben-Rechts</string>
+  <string name="ModStampBottomLeft">Unten-Links</string>
+  <string name="ModStampBottomRight">Unten-Rechts</string>
+  <string name="WikiOnBottomRow">Wiki Taste Unter Haupt UI</string>
+  <string name="ZoomOnBottomRow">Zooming Taste Unter Haupt UI</string>
+  <string name="SummarySimple">Simple</string>
+  <string name="SummaryNormal">Normal</string>
+  <string name="EndSumLeftSide">Linke Seite</string>
+  <string name="EndSumSplit">Gespalten</string>
+  <string name="EndSumHidden">Nicht Sichtbar</string>
+  <string name="FlashWhite">Weiß</string>
+  <string name="FlashLightGray">Hellgrau</string>
+  <string name="FlashGray">Grau</string>
+  <string name="FlashDarkGray">Dunkelgrau</string>
+  <string name="PiPLocationTopLeft">Oben Links</string>
+  <string name="PiPLocationBottomLeft">Unten Links</string>
+  <string name="PiPLocationTopRight">Oben Rechts</string>
+  <string name="PiPLocationBottomRight">Unten Rechts</string>
+  <string name="PiPLocationDynamic">Dynamisch</string>
+  <string name="ParasitePiPSize">Parasit Bild-In-Bild Grösse</string>
+  <string name="PiPSizeNormal">Normal</string>
+  <string name="PiPSizeSmall">Klein</string>
+  <string name="PiPSizeLarge">Groß</string>
+  <string name="SonarHeartbeats">Herzklopfen</string>
+  <string name="SonarArrows">Pfeile</string>
+  <string name="PlayerColorDarker">Dunkler</string>
+  <string name="PlayerColorLighter">Heller</string>
+  <string name="GameSettings">Spieleinstellungen</string>
+  <string name="TermsPageCount">Abschnitt [so]/[st] | Seite [po]/[pt]</string>
+  <string name="WikiSettingsAssassinSettingsTitle">Assassine Einstellungen</string>
+  <string name="WikiSettingsMapsSabotageSettingsTitle">Karten/Sabotage Einstellungen</string>
+  <string name="WikiSettingsBetterMapsSettingsTitle">Bessere Karten Einstellungen</string>
+  <string name="TermsProtectionSymbolsTitle">Schutz Symbole</string>
+  <string name="TermsStatusEffectSymbolsTitle">Statuseffekt Symbole</string>
+  <string name="NeutralBasicDeadTaskHeader">Du bist tot. Lehn dich zurück und geniesse das Chaos.</string>
+  <string name="StoredDraftTitle">Draft Modus</string>
+  <string name="CrewmateGhost">Besatzung Geist</string>
+  <string name="NeutralGhost">Neutral Geist</string>
+  <string name="ImpostorGhost">Verräter Geist</string>
+  <string name="GhostKeyword">Geist</string>
+  <string name="HiderUtility">Verstecker Beistand</string>
+  <string name="HiderVisibility">Verstecker Sichtbarkeit</string>
+  <string name="HiderPostmortem">Verstecker nach Tod</string>
+  <string name="HiderPassive">Verstecker Passiv</string>
+  <string name="SeekerUtility">Sucher Beistand</string>
+  <string name="SeekerVisibility">Sucher Sichtbarkeit</string>
+  <string name="SeekerPostmortem">Sucher nach Tod</string>
+  <string name="SeekerPassive">Sucher Passiv</string>
+  <string name="AnticheatKickMissingMessage">[player] fehlen folgende mods:</string>
+  <string name="SpectatorDraftError">Du kannst den Zuschauer nicht während des drafts aktivieren!</string>
 </resources>

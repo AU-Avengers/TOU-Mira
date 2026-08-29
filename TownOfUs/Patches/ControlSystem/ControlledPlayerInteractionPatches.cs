@@ -155,11 +155,11 @@ public static class ControlledPlayerInteractionPatches
 
     private static void UpdateUseButtonTarget(UseButton useButton)
     {
-        if (!useButton)
+        var localPlayer = PlayerControl.LocalPlayer;
+        if (!useButton || !localPlayer || !localPlayer.Data || !localPlayer.Data.Role)
         {
             return;
         }
-        var localPlayer = PlayerControl.LocalPlayer;
 
         var isControlling = false;
         PlayerControl? controlledPlayer = null;

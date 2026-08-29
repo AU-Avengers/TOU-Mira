@@ -3,8 +3,8 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using TownOfUs.Modifiers;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -20,6 +20,10 @@ public static class DoomsayerEvents
 
         if (source.Data.Role is DoomsayerRole doom)
         {
+            if (!source.AmOwner)
+            {
+                doom.NumberOfGuesses++;
+            }
             if (GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
             {
                 stats.CorrectAssassinKills++;
@@ -29,8 +33,8 @@ public static class DoomsayerEvents
                 doom.NumberOfGuesses)
             {
                 DoomsayerRole.RpcDoomsayerWin(source);
-                DeathHandlerModifier.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer, "DiedToWinning",
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                GameHistory.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer, "DiedToWinning",
+                    HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
                     lockInfo: DeathHandlerOverride.SetTrue);
             }
         }

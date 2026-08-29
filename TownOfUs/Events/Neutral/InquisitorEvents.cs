@@ -8,9 +8,9 @@ using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -45,7 +45,7 @@ public static class InquisitorEvents
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Inquisitor, alpha: 0.1f));
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}A Heretic has perished!</b></color>", Color.white,
+                    $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{TouLocale.GetParsed("TouRoleInquisitorHereticPerished")}</b></color>", Color.white,
                     new Vector3(0f, 1f, -20f),
                     spr: TouRoleIcons.Inquisitor.LoadAsset());
                 notif1.AdjustNotification();
@@ -54,7 +54,7 @@ public static class InquisitorEvents
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Inquisitor, alpha: 0.4f));
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{victim.Data.PlayerName} was not a heretic!\nYou can no longer vanquish players.</b></color>",
+                    $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{TouLocale.GetParsed("TouRoleInquisitorWrongTarget") .Replace("<player>", victim.Data.PlayerName)}</b></color>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
                 notif1.AdjustNotification();
             }
@@ -62,7 +62,7 @@ public static class InquisitorEvents
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Doomsayer, alpha: 0.4f));
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{victim.Data.PlayerName} was a heretic!</b></color>",
+                    $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{TouLocale.GetParsed("TouRoleInquisitorCorrectTarget") .Replace("<player>", victim.Data.PlayerName)}</b></color>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
                 notif1.AdjustNotification();
             }
@@ -128,9 +128,12 @@ public static class InquisitorEvents
 
                 notif1.AdjustNotification();
             }
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(inquis.Player, TouLocale.Get("DiedToWinning"),
-                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                lockInfo: DeathHandlerOverride.SetTrue);
+            var stats = GameHistory.PlayerStats[inquis.Player.PlayerId];
+            stats.DeathString = TouLocale.Get("DiedToWinning");
+            stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
+            stats.DiedThisRound = false;
+            stats.PlayerState = StoredPlayerState.Dead;
+            stats.LockDeathInfo = true;
 
             inquis.Player.Exiled();
         }
@@ -150,7 +153,7 @@ public static class InquisitorEvents
             if (inquis.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>You have successfully won as the {TownOfUsColors.Inquisitor.ToTextColor()}Inquisitor</color>, as all Heretics have perished!</b>",
+                    $"<b>{TouLocale.GetParsed("TouRoleInquisitorWonSelf") .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -168,7 +171,7 @@ public static class InquisitorEvents
                 }
                 else
                 {
-                    message = $"<b>The {TownOfUsColors.Inquisitor.ToTextColor()}Inquisitor</color>, {inquis.Player.Data.PlayerName}, has successfully won, as all Heretics have perished!</b>";
+                    message = $"<b>{TouLocale.GetParsed("TouRoleInquisitorWonOther") .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>") .Replace("<player>", inquis.Player.Data.PlayerName)}</b>";
                     icon = TouRoleIcons.Inquisitor;
                 }
 
@@ -177,9 +180,12 @@ public static class InquisitorEvents
 
                 notif1.AdjustNotification();
             }
-            DeathHandlerModifier.UpdateDeathHandlerImmediate(inquis.Player, TouLocale.Get("DiedToWinning"),
-                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                lockInfo: DeathHandlerOverride.SetTrue);
+            var stats = GameHistory.PlayerStats[inquis.Player.PlayerId];
+            stats.DeathString = TouLocale.Get("DiedToWinning");
+            stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
+            stats.DiedThisRound = false;
+            stats.PlayerState = StoredPlayerState.Dead;
+            stats.LockDeathInfo = true;
 
             inquis.Player.Exiled();
         }

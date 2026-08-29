@@ -69,7 +69,7 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
         
         foreach (var voteArea in meeting.playerStates)
         {
-            if (Player.PlayerId == voteArea.TargetPlayerId)
+            if (Player.PlayerId == voteArea.PlayerId)
             {
                 GenCell(voteArea);
             }

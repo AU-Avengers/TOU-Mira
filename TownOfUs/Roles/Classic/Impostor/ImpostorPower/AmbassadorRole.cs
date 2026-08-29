@@ -7,7 +7,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
-using TownOfUs.Events;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
@@ -137,7 +136,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             return;
         }
 
-        if (DeathEventHandlers.CurrentRound <
+        if (HudManagerHelper.Instance.CurrentRound <
             (int)OptionGroupSingleton<AmbassadorOptions>.Instance.RoundWhenAvailable)
         {
             return;
@@ -182,18 +181,18 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
     public void Click(PlayerVoteArea voteArea, MeetingHud __)
     {
-        var player = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId);
+        var player = GameData.Instance.GetPlayerById(voteArea.PlayerId);
 
         if (SelectedPlr == player)
         {
             RpcRetrain(PlayerControl.LocalPlayer);
-            meetingMenu.Actives[voteArea.TargetPlayerId] = false;
+            meetingMenu.Actives[voteArea.PlayerId] = false;
             return;
         }
 
         if (SelectedPlr != null)
         {
-            meetingMenu.Actives[voteArea.TargetPlayerId] = false;
+            meetingMenu.Actives[voteArea.PlayerId] = false;
             meetingMenu.Actives[SelectedPlr.PlayerId] = false;
             RpcRetrain(PlayerControl.LocalPlayer);
         }
@@ -263,7 +262,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
         if (!player._object.Is(RoleAlignment.ImpostorKilling) && !player._object.Is(RoleAlignment.ImpostorPower))
         {
             var curRoleList = MiscUtils.GetPotentialRoles()
-                .Where(role => impRoles.Contains(RoleId.Get(role.GetType())))
+                .Where(role => impRoles.Contains((ushort)role.Role))
                 .ToList();
 
             if (TutorialManager.InstanceExists)
@@ -272,7 +271,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                     .Where(x => !excluded.Contains(x.Role))
                     .Select(x => (ushort)x.Role).ToList();
                 curRoleList = MiscUtils.AllRegisteredRoles
-                    .Where(role => impRoles.Contains(RoleId.Get(role.GetType())))
+                    .Where(role => impRoles.Contains((ushort)role.Role))
                     .ToList();
             }
             foreach (var roleBehaviour in curRoleList)
@@ -302,7 +301,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                 {
                     if (role != null)
                     {
-                        meetingMenu.Actives[voteArea.TargetPlayerId] = true;
+                        meetingMenu.Actives[voteArea.PlayerId] = true;
                         RpcRetrain(PlayerControl.LocalPlayer, player.PlayerId, (ushort)role.Role);
                     }
 

@@ -25,6 +25,8 @@ public static class TouAudio
         CustomRoleUtils.GetIntroSound(RoleTypes.Tracker)!;
     public static LoadableAsset<AudioClip> DetectiveIntroSound =>
         CustomRoleUtils.GetIntroSound(RoleTypes.Detective)!;
+    public static LoadableAsset<AudioClip> JudgeIntroSound =>
+        CustomRoleUtils.GetIntroSound(RoleTypes.Judge)!;
     public static LoadableAsset<AudioClip> ViperIntroSound =>
         CustomRoleUtils.GetIntroSound(RoleTypes.Viper)!;
     public static LoadableAsset<AudioClip> HexBombDetonateSound { get; } =

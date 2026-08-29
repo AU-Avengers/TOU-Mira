@@ -1,14 +1,16 @@
 ﻿using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
+using MiraAPI.Events;
+using MiraAPI.Events.Mira;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Localization.Providers;
 using Reactor.Utilities.Attributes;
 using TMPro;
-using TownOfUs.Buttons;
+using TownOfUs.Events;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
@@ -26,13 +28,124 @@ using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace TownOfUs.Modules.Components;
 
 [RegisterInIl2Cpp]
 public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 {
-    #pragma warning disable S2325
+    internal static Dictionary<int, string> PlatformAssociations = new();
+    private static bool HasFetchedIcons;
+
+    public static HudManagerHelper Instance { get; private set; }
+    public float DeathTimer;
+    public int CurrentRound { get; set; } = 1;
+    public static void RefreshPlatformData()
+    {
+        PlatformAssociations.Clear();
+        if (!HasFetchedIcons)
+        {
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.BlankSprite.LoadAsset(),
+                "Platform.Blank", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformEpic.LoadAsset(),
+                "Platform.Epic", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformItch.LoadAsset(),
+                "Platform.Itch", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformStarlight.LoadAsset(),
+                "Platform.Starlight", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformSteam.LoadAsset(),
+                "Platform.Steam", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformWindows.LoadAsset(),
+                "Platform.Windows", 1.45f);
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformUnknown.LoadAsset(),
+                "Platform.Unknown", 1.45f);
+            HasFetchedIcons = true;
+        }
+
+        foreach (var client in AmongUsClient.Instance.allClients)
+        {
+            var platform = client.PlatformData.Platform;
+            var icon = platform switch
+            {
+                Platforms.StandaloneEpicPC => "<sprite name=\"Platform.Epic\">",
+                Platforms.StandaloneItch => "<sprite name=\"Platform.Itch\">",
+                Platforms.Android or (Platforms)112 => "<sprite name=\"Platform.Starlight\">",
+                Platforms.StandaloneSteamPC => "<sprite name=\"Platform.Steam\">",
+                Platforms.StandaloneWin10 or Platforms.Xbox => "<sprite name=\"Platform.Windows\">",
+                _ => "<sprite name=\"Platform.Unknown\">"
+            };
+            PlatformAssociations.Add(client.Id, icon);
+        }
+    }
+
+    public void Awake()
+    {
+        Instance = this;
+    }
+
+    public void Start()
+    {
+        foreach (var button in CustomButtonManager.Buttons)
+        {
+            try
+            {
+                if (button.Button == null)
+                {
+                    continue;
+                }
+                var pb = button.Button.GetComponent<PassiveButton>();
+                pb.OnClick = new Button.ButtonClickedEvent();
+                pb.OnClick.AddListener((UnityAction)(() =>
+                {
+                    // Invoke the generic button click event.
+                    var genericEvent = new ExtendedMiraButtonClickEvent(button);
+                    if (PlayerControl.LocalPlayer.TryGetModifier<IndirectAttackerModifier>(out var indirectMod))
+                    {
+                        genericEvent.IsIndirectInteraction = true;
+                        genericEvent.IgnoreDefense = indirectMod.IgnoreShield;
+                    }
+                    MiraEventManager.InvokeEvent(genericEvent);
+                    if (genericEvent.IsCancelled)
+                    {
+                        MiraEventManager.InvokeEvent(new MiraButtonCancelledEvent(button));
+                    }
+
+                    // Invoke the button click event for specific button.
+                    var eventType = CustomButtonManager.EventTypes[button.GetType()];
+                    var @event = (MiraCancelableEvent)Activator.CreateInstance(eventType, button, genericEvent)!;
+                    var specificInvoked = MiraEventManager.InvokeEvent(@event, eventType);
+                    if (@event.IsCancelled)
+                    {
+                        var cancelEventType = CustomButtonManager.CancelledEventTypes[button.GetType()];
+                        var cancelEvent = (MiraEvent)Activator.CreateInstance(cancelEventType, button)!;
+                        MiraEventManager.InvokeEvent(cancelEvent, cancelEventType);
+                    }
+
+                    if (specificInvoked)
+                    {
+                        if (!@event.IsCancelled)
+                        {
+                            button.ClickHandler();
+                        }
+                    }
+                    else
+                    {
+                        if (!genericEvent.IsCancelled)
+                        {
+                            button.ClickHandler();
+                        }
+                    }
+                }));
+            }
+            catch (System.Exception e)
+            {
+                Error($"Failed to create custom button {button.GetType().Name}: {e}");
+            }
+        }
+    }
+#pragma warning disable S2325
     #pragma warning disable CA1822
     public void FixedUpdate()
     {
@@ -83,6 +196,11 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         if (!HudManager.InstanceExists || !PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
         {
             return;
+        }
+
+        if (DeathTimer > 0)
+        {
+            DeathTimer -= Time.deltaTime;
         }
 
         var instance = HudManager.Instance;
@@ -184,6 +302,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         return mod?.ExtraNameText ?? string.Empty;
     }
 
+    public static bool HasSetMeetingColorText;
     public static void UpdateRoleNameText()
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
@@ -210,13 +329,16 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 {
                     continue;
                 }
-                var player = MiscUtils.PlayerById(playerVA.TargetPlayerId)!;
-                playerVA.ColorBlindName.transform.localPosition = new Vector3(-0.93f, -0.2f, -0.1f);
+                var player = MiscUtils.PlayerById(playerVA.PlayerId)!;
+                if (!HasSetMeetingColorText)
+                {
+                    playerVA.ColorBlindName.transform.localPosition = new Vector3(-0.93f, -0.2f, -0.1f);
+                }
 
                 var curText = playerVA.NameText.text;
                 if (!player || !player.Data || !player.Data.Role)
                 {
-                    var data = EndGamePatches.ContainedMeetingData.PlayerMeetingRecords.FirstOrDefault(x => x.PlayerId == playerVA.TargetPlayerId);
+                    var data = EndGamePatches.ContainedMeetingData.PlayerMeetingRecords.FirstOrDefault(x => x.PlayerId == playerVA.PlayerId);
                     if (data != null)
                     {
                         EndGamePatches.ContainedMeetingData.DisplayRecordData(
@@ -256,11 +378,13 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
                 playerVA.NameText.color = playerColor;
             }
+
+            HasSetMeetingColorText = true;
         }
         else
         {
-            var isVisible = (PlayerControl.LocalPlayer.TryGetModifier<DeathHandlerModifier>(out var deathHandler) &&
-                             !deathHandler.DiedThisRound) || TutorialManager.InstanceExists;
+            HasSetMeetingColorText = false;
+            var isVisible = TutorialManager.InstanceExists || PlayerControl.LocalPlayer.DiedOtherRound();
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (player == null || !player.Data || !player.Data.Role)
@@ -357,7 +481,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
             var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole);
             if (cachedMod is ICachedRole cache && cache.Visible &&
-                player.Data.Role.GetType() != cache.CachedRole.GetType())
+                cache.CanDisplayForRole(role))
             {
                 var cachedName = cache.CachedRoleName == "" ? MiscUtils.GetToggledRoleTmpIcon(cache.CachedRole, HudManagerPatches.IconOnRoleName) + cache.CachedRole.GetRoleName() : cache
                             .CachedRoleName;
@@ -371,10 +495,11 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 topText += "<cod>\n";
             }
             else if (localDead && isVisible &&
-                player.TryGetModifier<DeathHandlerModifier>(out var deathMod))
+                     GameHistory.PlayerStats.TryGetValue(player.PlayerId, out var stats) &&
+                     stats.PlayerState != StoredPlayerState.Alive)
             {
                 topText +=
-                    $"<size={(inMeeting ? 60 : 75)}%>『{Color.yellow.ToTextColor()}{deathMod.CauseOfDeath}</color>』</size>\n";
+                    $"<size={(inMeeting ? 60 : 75)}%>『{Color.yellow.ToTextColor()}{stats.DeathString}</color>』</size>\n";
             }
         }
         else if (removeCod)

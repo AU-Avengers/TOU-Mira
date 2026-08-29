@@ -1,4 +1,6 @@
+using Hazel;
 using Reactor.Networking.Attributes;
+using Reactor.Networking.Rpc;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using MiraAPI.Utilities;
@@ -15,22 +17,20 @@ public static class DraftRpcs
     {
         if (!AmongUsClient.Instance.AmHost) return;
         if (sender == null) return;
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcSubmitPick: player {sender.PlayerId} picked index {index}");
         DraftManager.SubmitPick(sender.PlayerId, (byte)index);
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftStart)]
     public static void RpcStartDraft(PlayerControl sender, int totalSlots)
     {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcStartDraft received (isHost={AmongUsClient.Instance.AmHost})");
         DraftManager.IsDraftActive = true;
         DraftAudio.PlayDraftStart();
+        DraftSidebarManager.Activate();
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftSlotNotify)]
     public static void RpcSlotNotify(PlayerControl sender, byte playerId, int slotNumber)
     {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] Player {playerId} assigned to slot {slotNumber} (isHost={AmongUsClient.Instance.AmHost})");
         var state = DraftManager.GetStateForPlayer(playerId);
         if (state == null)
         {
@@ -42,68 +42,6 @@ public static class DraftRpcs
             state.SlotNumber = slotNumber;
 
             DraftManager.AddSlotState(state);
-        }
-    }
-
-    [MethodRpc((uint)TownOfUsRpc.DraftAnnounceTurn)]
-    public static void RpcAnnounceTurn(PlayerControl sender, int turnNumber, int slot, byte pickerId, byte offeredCount,
-        ushort roleId1, ushort roleId2, ushort roleId3, ushort roleId4, ushort roleId5,
-        ushort roleId6, ushort roleId7, ushort roleId8, ushort roleId9)
-    {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcAnnounceTurn: Turn {turnNumber}, Slot {slot}, PickerId {pickerId} (isHost={AmongUsClient.Instance.AmHost})");
-
-        DraftManager.SetClientTurn(turnNumber, slot);
-        var allIds = new[] { roleId1, roleId2, roleId3, roleId4, roleId5, roleId6, roleId7, roleId8, roleId9 };
-        var count = Math.Clamp((int)offeredCount, 0, allIds.Length);
-        var offeredList = new List<ushort>(count);
-        for (int i = 0; i < count; i++)
-        {
-            offeredList.Add(allIds[i]);
-        }
-
-        var localPlayerId = PlayerControl.LocalPlayer?.PlayerId ?? 255;
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] Checking if it's my turn. Local: {localPlayerId}, Picker: {pickerId}");
-
-        bool isMyTurn = localPlayerId == pickerId;
-        bool isLocalGame = AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay;
-
-        if (!isMyTurn && isLocalGame)
-        {
-            var p = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == pickerId);
-            if (p != null)
-            {
-                var client = AmongUsClient.Instance?.GetClient(p.OwnerId);
-                if (client == null)
-                {
-                    isMyTurn = true;
-                }
-            }
-        }
-
-        if (isMyTurn)
-        {
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] Caching {offeredList.Count} offered roles for my turn");
-            var draftScreenController = Object.FindObjectOfType<DraftScreenController>();
-            draftScreenController?.CacheOfferedRoles(offeredList.ToArray());
-
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] IT'S MY TURN! Showing picker screen with {offeredList.Count} roles");
-            DraftAudio.PlayYourTurn();
-            try
-            {
-                DraftScreenController.TargetPickerId = pickerId;
-                DraftScreenController.Show(offeredList.ToArray());
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftRpc] Picker screen shown successfully!");
-            }
-            catch (Exception e)
-            {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftRpc] Exception showing picker screen: {e}");
-            }
-        }
-        else
-        {
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] Not my turn");
-
-            DraftStatusOverlay.SetState(OverlayState.Waiting);
         }
     }
 
@@ -120,22 +58,7 @@ public static class DraftRpcs
     {
         if (!AmongUsClient.Instance.AmHost) return;
         if (sender == null) return;
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcRequestShuffle: player {sender.PlayerId}");
         DraftEngineBehaviour.Instance?.RequestShuffle(sender.PlayerId);
-    }
-
-    [MethodRpc((uint)TownOfUsRpc.DraftPickConfirmed)]
-    public static void RpcPickConfirmed(PlayerControl sender, int slot, ushort roleId, bool timedOut)
-    {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcPickConfirmed: slot {slot}, roleId {roleId}, timedOut {timedOut}");
-        DraftManager.ConfirmPick(slot, roleId);
-
-        var localSlot = DraftManager.GetSlotForPlayer(PlayerControl.LocalPlayer.PlayerId);
-        if (slot == localSlot)
-        {
-            DraftScreenController.Hide();
-            DraftScreenController.ShowFinalPickNotification((ushort)roleId);
-        }
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftForceRole)]
@@ -149,7 +72,6 @@ public static class DraftRpcs
     [MethodRpc((uint)TownOfUsRpc.DraftCancel)]
     public static void RpcCancelDraft(PlayerControl sender)
     {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftRpc] RpcCancelDraft");
         DraftManager.Reset(cancelledBeforeCompletion: true);
         DraftScreenController.Hide();
         DraftCancelButton.Hide();
@@ -158,7 +80,6 @@ public static class DraftRpcs
     [MethodRpc((uint)TownOfUsRpc.DraftEnd)]
     public static void RpcEndDraft(PlayerControl sender)
     {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftRpc] RpcEndDraft");
         DraftManager.Reset(cancelledBeforeCompletion: true);
         DraftScreenController.Hide();
         DraftCancelButton.Hide();
@@ -176,7 +97,6 @@ public static class DraftRpcs
     [MethodRpc((uint)TownOfUsRpc.DraftBroadcastRecap)]
     public static void RpcBroadcastRecap(PlayerControl sender, string recapData)
     {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftRpc] RpcBroadcastRecap");
 
         var mode = DraftRecapMode.Nothing;
         var entries = new List<(int slot, string label, string colorHex)>();
@@ -199,7 +119,7 @@ public static class DraftRpcs
 
         DraftScreenController.Hide();
         DraftSidebarManager.Deactivate();
-
+        DraftStatusOverlay.DestroyRoleCard();
         bool willShowRecap = mode != DraftRecapMode.Nothing && entries.Count > 0;
 
         if (!willShowRecap)
@@ -227,12 +147,182 @@ public static class DraftRpcs
     }
 }
 
+public sealed class DraftTurnAnnouncement
+{
+    public int TurnNumber;
+    public int Slot;
+    public byte PickerId;
+    public List<ushort> RoleIds { get; } = [];
+    public List<string> RoleNames { get; } = [];
+}
+
+[RegisterCustomRpc((uint)TownOfUsRpc.DraftAnnounceTurn)]
+public sealed class DraftAnnounceTurnRpc(TownOfUsPlugin plugin, uint id)
+    : PlayerCustomRpc<TownOfUsPlugin, DraftTurnAnnouncement>(plugin, id)
+{
+    public override RpcLocalHandling LocalHandling => RpcLocalHandling.Before;
+
+    public override void Write(MessageWriter writer, DraftTurnAnnouncement? data)
+    {
+        if (data == null)
+        {
+            writer.Write(0);
+            writer.Write(0);
+            writer.Write((byte)0);
+            writer.Write((byte)0);
+            return;
+        }
+
+        writer.Write(data.TurnNumber);
+        writer.Write(data.Slot);
+        writer.Write(data.PickerId);
+
+        var count = (byte)Math.Min(data.RoleIds.Count, data.RoleNames.Count);
+        writer.Write(count);
+        for (var i = 0; i < count; i++)
+        {
+            writer.Write((int)data.RoleIds[i]);
+            writer.Write(data.RoleNames[i] ?? string.Empty);
+        }
+    }
+
+    public override DraftTurnAnnouncement Read(MessageReader reader)
+    {
+        var data = new DraftTurnAnnouncement
+        {
+            TurnNumber = reader.ReadInt32(),
+            Slot = reader.ReadInt32(),
+            PickerId = reader.ReadByte()
+        };
+
+        var count = reader.ReadByte();
+        for (var i = 0; i < count; i++)
+        {
+            data.RoleIds.Add((ushort)reader.ReadInt32());
+            data.RoleNames.Add(reader.ReadString());
+        }
+
+        return data;
+    }
+
+    public override void Handle(PlayerControl innerNetObject, DraftTurnAnnouncement? data)
+    {
+        if (data == null) return;
+
+
+        DraftManager.SetClientTurn(data.TurnNumber, data.Slot);
+
+        var offeredList = data.RoleIds;
+        var offeredNames = data.RoleNames;
+
+        var localPlayerId = PlayerControl.LocalPlayer?.PlayerId ?? 255;
+
+        bool isMyTurn = localPlayerId == data.PickerId;
+        bool isLocalGame = AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay;
+
+        if (!isMyTurn && isLocalGame)
+        {
+            var p = MiscUtils.PlayerById(data.PickerId);
+            if (p != null)
+            {
+                var client = AmongUsClient.Instance?.GetClient(p.OwnerId);
+                if (client == null)
+                {
+                    isMyTurn = true;
+                }
+            }
+        }
+
+        if (isMyTurn && offeredList.Count > 0)
+        {
+            var draftScreenController = Object.FindObjectOfType<DraftScreenController>();
+            draftScreenController?.CacheOfferedRoles(offeredList.ToArray(), offeredNames.ToArray());
+
+            DraftAudio.PlayYourTurn();
+            try
+            {
+                DraftScreenController.TargetPickerId = data.PickerId;
+                DraftScreenController.Show(offeredList.ToArray(), offeredNames.ToArray());
+            }
+            catch (Exception e)
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftRpc] Exception showing picker screen: {e}");
+            }
+        }
+        else
+        {
+
+            DraftStatusOverlay.SetState(OverlayState.Waiting);
+        }
+    }
+}
+
+public sealed class DraftPickConfirmedData
+{
+    public int Slot;
+    public ushort RoleId;
+    public bool TimedOut;
+}
+
+[RegisterCustomRpc((uint)TownOfUsRpc.DraftPickConfirmed)]
+public sealed class DraftPickConfirmedRpc(TownOfUsPlugin plugin, uint id)
+    : PlayerCustomRpc<TownOfUsPlugin, DraftPickConfirmedData>(plugin, id)
+{
+    public override RpcLocalHandling LocalHandling => RpcLocalHandling.Before;
+
+    public override void Write(MessageWriter writer, DraftPickConfirmedData? data)
+    {
+        if (data == null)
+        {
+            writer.Write(0);
+            writer.Write(0);
+            writer.Write(false);
+            return;
+        }
+
+        writer.Write(data.Slot);
+        writer.Write((int)data.RoleId);
+        writer.Write(data.TimedOut);
+    }
+
+    public override DraftPickConfirmedData Read(MessageReader reader)
+    {
+        return new DraftPickConfirmedData
+        {
+            Slot = reader.ReadInt32(),
+            RoleId = (ushort)reader.ReadInt32(),
+            TimedOut = reader.ReadBoolean()
+        };
+    }
+
+    public override void Handle(PlayerControl innerNetObject, DraftPickConfirmedData? data)
+    {
+        if (data == null) return;
+
+        DraftManager.ConfirmPick(data.Slot, data.RoleId);
+
+        var localSlot = DraftManager.GetSlotForPlayer(PlayerControl.LocalPlayer.PlayerId);
+        if (data.Slot == localSlot && data.RoleId != 0)
+        {
+            DraftScreenController.Hide();
+            DraftScreenController.ShowFinalPickNotification(data.RoleId);
+        }
+    }
+}
+
 public static class DraftNetworkHelper
 {
+    private static bool TryGetClientId(byte playerId, out int clientId)
+    {
+        var player = MiscUtils.PlayerById(playerId);
+        var client = player != null ? AmongUsClient.Instance.GetClient(player.OwnerId) : null;
+        clientId = client?.Id ?? -1;
+        return client != null;
+    }
+
     public static void SendPickToHost(int index, byte pickerId = 255)
     {
         byte idToSend = pickerId == 255 ? PlayerControl.LocalPlayer.PlayerId : pickerId;
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] SendPickToHost: index {index} for player {idToSend}");
         if (AmongUsClient.Instance.AmHost)
             DraftManager.SubmitPick(idToSend, (byte)index);
         else
@@ -243,69 +333,99 @@ public static class DraftNetworkHelper
     {
         if (pidToSlot == null) return;
 
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] Broadcasting {pidToSlot.Count} slot assignments");
+        DraftManager.IsDraftActive = true;
+        DraftAudio.PlayDraftStart();
+        DraftSidebarManager.Activate();
 
         DraftRpcs.RpcStartDraft(PlayerControl.LocalPlayer, totalSlots);
 
         foreach (var kvp in pidToSlot)
         {
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] Sending slot: Player {kvp.Key} -> Slot {kvp.Value}");
             DraftRpcs.RpcSlotNotify(PlayerControl.LocalPlayer, kvp.Key, kvp.Value);
         }
     }
 
-    public static void SendTurnAnnouncement(int slot, byte playerId, List<ushort> roleIds, int turnNumber)
+    public static void SendTurnAnnouncement(int slot, byte playerId, List<ushort> roleIds, List<string> roleNames, int turnNumber)
     {
         if (roleIds == null) return;
 
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] SendTurnAnnouncement: turn {turnNumber}, slot {slot}, picker {playerId}");
 
         DraftManager.SetClientTurn(turnNumber, slot);
 
-        const int maxOffered = 9;
         var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
-        int configured = Math.Max(1, (int)(roleOpts?.OfferedRolesCount.Value ?? 3));
-        int allowed = Math.Min(maxOffered, configured);
+        int allowed = Math.Max(1, (int)(roleOpts?.OfferedRolesCount.Value ?? 3));
         if (roleIds.Count > allowed)
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, $"[DraftNetworkHelper] {roleIds.Count} roles offered but the RPC only carries {allowed}, truncating");
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, $"[DraftNetworkHelper] {roleIds.Count} roles offered but only {allowed} are configured, truncating");
 
-        var padded = new ushort[maxOffered];
         var count = Math.Min(allowed, roleIds.Count);
+
+        var publicAnnouncement = new DraftTurnAnnouncement
+        {
+            TurnNumber = turnNumber,
+            Slot = slot,
+            PickerId = playerId
+        };
+        Rpc<DraftAnnounceTurnRpc>.Instance.Send(PlayerControl.LocalPlayer, publicAnnouncement);
+
+        var privateAnnouncement = new DraftTurnAnnouncement
+        {
+            TurnNumber = turnNumber,
+            Slot = slot,
+            PickerId = playerId
+        };
         for (int i = 0; i < count; i++)
         {
-            padded[i] = roleIds[i];
+            privateAnnouncement.RoleIds.Add(roleIds[i]);
+            privateAnnouncement.RoleNames.Add(roleNames != null && i < roleNames.Count ? (roleNames[i] ?? string.Empty) : string.Empty);
         }
 
-        DraftRpcs.RpcAnnounceTurn(PlayerControl.LocalPlayer, turnNumber, slot, playerId, (byte)count,
-            padded[0], padded[1], padded[2], padded[3], padded[4], padded[5], padded[6], padded[7], padded[8]);
+        if (TryGetClientId(playerId, out var pickerClientId))
+        {
+            Rpc<DraftAnnounceTurnRpc>.Instance.SendTo(PlayerControl.LocalPlayer, pickerClientId, privateAnnouncement);
+        }
+        else
+        {
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                $"[DraftNetworkHelper] Could not resolve client id for picker {playerId}, falling back to broadcasting offered roles");
+            Rpc<DraftAnnounceTurnRpc>.Instance.Send(PlayerControl.LocalPlayer, privateAnnouncement);
+        }
     }
 
     public static void BroadcastPickConfirmed(int slot, ushort roleId, bool timedOut = false)
     {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] BroadcastPickConfirmed: slot {slot}, roleId {roleId}, timedOut {timedOut}");
-        // Confirm locally first so host UI updates immediately
-        DraftManager.ConfirmPick(slot, roleId);
-        // Send RPC to clients
-        DraftRpcs.RpcPickConfirmed(PlayerControl.LocalPlayer, slot, roleId, timedOut);
 
-        // Ensure local UI and sidebar reflect the confirmed pick in local lobbies
-        try
-        {
-            DraftScreenController.Hide();
-        }
-        catch { }
+        var hideFromOthers = OptionGroupSingleton<RoleOptions>.Instance?.DraftSidebarDisplay.Value == DraftRecapMode.Nothing;
+        var publicRoleId = hideFromOthers ? (ushort)0 : roleId;
 
-        try
+        if (hideFromOthers)
         {
-            DraftSidebarManager.InvalidateCache();
+            var pickerId = DraftManager.GetStateForSlot(slot)?.PlayerId;
+            if (pickerId.HasValue && TryGetClientId(pickerId.Value, out var pickerClientId))
+            {
+                Rpc<DraftPickConfirmedRpc>.Instance.SendTo(PlayerControl.LocalPlayer, pickerClientId,
+                    new DraftPickConfirmedData { Slot = slot, RoleId = roleId, TimedOut = timedOut });
+            }
+            else
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                    $"[DraftNetworkHelper] Could not resolve client id for slot {slot} picker, falling back to broadcasting picked role");
+                publicRoleId = roleId;
+            }
         }
-        catch { }
 
-        try
+        Rpc<DraftPickConfirmedRpc>.Instance.Send(PlayerControl.LocalPlayer,
+            new DraftPickConfirmedData { Slot = slot, RoleId = publicRoleId, TimedOut = timedOut });
+
+        foreach (Action cleanup in new Action[] { DraftScreenController.Hide, DraftSidebarManager.InvalidateCache, DraftStatusOverlay.Refresh })
         {
-            DraftStatusOverlay.Refresh();
+            try
+            {
+                cleanup();
+            }
+            catch
+            {
+            }
         }
-        catch { }
     }
 
     public static void NotifyPickerReady()
@@ -318,7 +438,6 @@ public static class DraftNetworkHelper
 
     public static void RequestShuffle()
     {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftNetworkHelper] RequestShuffle");
         if (AmongUsClient.Instance.AmHost)
             DraftEngineBehaviour.Instance?.RequestShuffle(PlayerControl.LocalPlayer.PlayerId);
         else
@@ -339,6 +458,7 @@ public static class DraftNetworkHelper
         DraftRpcs.RpcCancelDraft(PlayerControl.LocalPlayer);
         DraftManager.Reset(cancelledBeforeCompletion: true);
         DraftCancelButton.Hide();
+        DraftSidebarManager.Deactivate();
     }
 
     public static void BroadcastRecap(List<RecapEntry> entries, DraftRecapMode mode)
@@ -361,6 +481,7 @@ public static class DraftNetworkHelper
         }
 
         DraftRpcs.RpcBroadcastRecap(PlayerControl.LocalPlayer, recapData);
+        DraftSidebarManager.Deactivate();
     }
 
     public static void BroadcastDraftEnd()
@@ -370,4 +491,3 @@ public static class DraftNetworkHelper
         DraftCancelButton.Hide();
     }
 }
-

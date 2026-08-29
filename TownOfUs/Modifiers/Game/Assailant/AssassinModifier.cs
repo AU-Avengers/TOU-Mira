@@ -202,7 +202,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
     public void ClickGuess(PlayerVoteArea voteArea, MeetingHud meetingHud)
     {
-        if (meetingHud.state == MeetingHud.VoteStates.Discussion)
+        if (meetingHud.state == MeetingHud.MeetingStates.Discussion)
         {
             return;
         }
@@ -212,7 +212,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             return;
         }
 
-        var player = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId).Object;
+        var player = GameData.Instance.GetPlayerById(voteArea.PlayerId).Object;
 
         var shapeMenu = GuesserMenu.Create();
         shapeMenu.Begin(IsRoleValid, ClickRoleHandle, IsModifierValid, ClickModifierHandle);
@@ -244,7 +244,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
             if (ClickHandler(victim) && victim == Player)
             {
-                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItemId, LastGuessedIsRole);
+                GameHistory.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItemId, LastGuessedIsRole);
             }
         }
 
@@ -261,7 +261,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
             if (ClickHandler(victim) && victim == Player)
             {
-                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItemId, LastGuessedIsRole);
+                GameHistory.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItemId, LastGuessedIsRole);
             }
         }
 
@@ -329,7 +329,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     public bool IsExempt(PlayerVoteArea voteArea)
     {
         var votePlayer = voteArea.GetPlayer();
-        return voteArea?.TargetPlayerId == Player.PlayerId ||
+        return voteArea?.PlayerId == Player.PlayerId ||
                Player.Data.IsDead ||
                voteArea!.AmDead ||
                (Player.IsImpostorAligned() && votePlayer?.IsImpostorAligned() == true &&

@@ -9,6 +9,13 @@ namespace TownOfUs.Roles;
 
 public interface ITownOfUsRole : ICustomRole
 {
+    /// <summary>
+    /// Runs when all roles are finished up being added. Mostly used to set up icons.
+    /// </summary>
+    public virtual void InitialSetup()
+    {
+        // Does nothing by default
+    }
     RoleAlignment RoleAlignment { get; }
 
     bool HasImpostorVision => false;

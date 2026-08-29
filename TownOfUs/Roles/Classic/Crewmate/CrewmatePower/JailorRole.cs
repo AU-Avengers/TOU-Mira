@@ -1,4 +1,5 @@
 using System.Text;
+using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -9,6 +10,7 @@ using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Integrations;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
@@ -110,6 +112,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
 
         Clear();
+        ModifierUtils.GetActiveModifiers<JailedModifier>().Do(x => x.Player.RemoveModifier(x));
     }
 
     public override void OnMeetingStart()
@@ -135,6 +138,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                 TouLocale.GetParsed("TouRoleJailorJailorFeedback"),
                 false,
                 true);
+            PerfectCommsIntegration.TryCreateJailVoiceButton(this);
         }
 
         var meeting = MeetingHud.Instance;
@@ -150,6 +154,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
         executeButton?.Destroy();
         usesText?.Destroy();
+        PerfectCommsIntegration.ClearJailVoiceButton(Player.PlayerId);
     }
 
     public void Clear()
@@ -182,7 +187,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
         foreach (var voteArea in __instance.playerStates)
         {
-            if (Jailed?.PlayerId == voteArea.TargetPlayerId)
+            if (Jailed?.PlayerId == voteArea.PlayerId)
                 // if (!(jailorRole.Jailed.IsLover() && PlayerControl.LocalPlayer.IsLover()))
             {
                 GenButton(voteArea, __instance);

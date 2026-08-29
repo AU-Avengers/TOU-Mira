@@ -1,8 +1,14 @@
+using System.Reflection;
+using UnityEngine;
+
 namespace TownOfUs.Modules.DraftMode;
 
 public static class DraftManager
 {
     public static bool IsDraftActive;
+    public static int CurrentTurnNumber { get; private set; }
+    public static int CurrentTurnSlot { get; private set; }
+    public static int TotalSlots { get; private set; }
     public static float TurnDuration { get; set; } = 10f;
     public static float TurnTimeLeft { get; set; }
     public static bool ShowRandomOption { get; set; } = true;
@@ -10,6 +16,8 @@ public static class DraftManager
 
     private static readonly List<DraftSlotState> SlotStates = [];
     private static readonly Dictionary<byte, int> PlayerToSlot = [];
+    private static readonly Dictionary<byte, float> DisconnectSuspectSince = [];
+    private const float DisconnectConfirmSeconds = 1.5f;
     private static int _currentTurn;
 
     public static void SetDraftStateFromHost(int totalSlots, List<byte> playerIds, List<int> slotNumbers)
@@ -28,9 +36,10 @@ public static class DraftManager
         }
 
         IsDraftActive = true;
+        TotalSlots = Math.Max(totalSlots, playerIds.Count);
+        CurrentTurnNumber = 0;
+        CurrentTurnSlot = -1;
         DraftSidebarManager.InvalidateCache();
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
-            $"[DraftManager] SetDraftStateFromHost: [{string.Join(", ", playerIds.Zip(slotNumbers, (p, s) => $"{p}->{s}"))}]");
     }
 
     public static void AddSlotState(DraftSlotState state)
@@ -44,8 +53,6 @@ public static class DraftManager
         SlotStates.Add(state);
         PlayerToSlot[state.PlayerId] = state.SlotNumber;
         DraftSidebarManager.InvalidateCache();
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
-            $"[DraftManager] AddSlotState: player {state.PlayerId} -> slot {state.SlotNumber}");
     }
 
     public static void SubmitPick(byte playerId, byte index)
@@ -109,6 +116,8 @@ public static class DraftManager
         if (turnNumber != _currentTurn)
         {
             _currentTurn = turnNumber;
+            CurrentTurnNumber = turnNumber;
+            CurrentTurnSlot = slot;
             foreach (var s in SlotStates)
             {
                 s.IsPickingNow = false;
@@ -120,6 +129,7 @@ public static class DraftManager
         var target = SlotStates.FirstOrDefault(s => s.SlotNumber == slot);
         if (target != null)
         {
+            CurrentTurnSlot = slot;
             target.IsPickingNow = true;
             target.PendingPickIndex = 255;
             target.PendingPickTurnNumber = turnNumber;
@@ -155,20 +165,65 @@ public static class DraftManager
 
         if (player == null) return true;
         if (player.Data == null || player.Data.Disconnected) return true;
+        if (IsBotLikePlayer(player)) return true;
+
+        bool isLocalGame = AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay;
+        if (isLocalGame)
+        {
+            DisconnectSuspectSince.Remove(playerId);
+            return false;
+        }
+
+        bool clientMissing;
+        try
+        {
+            clientMissing = AmongUsClient.Instance.GetClient(player.OwnerId) == null;
+        }
+        catch
+        {
+            clientMissing = false;
+        }
+
+        if (!clientMissing)
+        {
+            DisconnectSuspectSince.Remove(playerId);
+            return false;
+        }
+
+        if (!DisconnectSuspectSince.TryGetValue(playerId, out var suspectSince))
+        {
+            DisconnectSuspectSince[playerId] = Time.time;
+            return false;
+        }
+
+        return Time.time - suspectSince >= DisconnectConfirmSeconds;
+    }
+
+    private static bool IsBotLikePlayer(PlayerControl player)
+    {
+        if (player == null) return false;
 
         try
         {
-            var client = AmongUsClient.Instance.GetClient(player.OwnerId);
-            if (client == null)
+            var data = player.Data;
+            if (data == null) return false;
+
+            foreach (var candidate in new[] { data.GetType(), player.GetType() })
             {
-                if (AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay)
-                    return false;
-                return true;
+                if (candidate == null) continue;
+
+                var prop = candidate.GetProperty("IsBot", BindingFlags.Public | BindingFlags.Instance);
+                if (prop?.GetValue(data) is bool isBot)
+                    return isBot;
+
+                var playerProp = candidate.GetProperty("IsDummy", BindingFlags.Public | BindingFlags.Instance);
+                if (playerProp?.GetValue(data) is bool isDummy)
+                    return isDummy;
             }
         }
         catch
         {
-            //ignored
+            // ignored
         }
 
         return false;
@@ -184,7 +239,11 @@ public static class DraftManager
         IsDraftActive = false;
         SlotStates.Clear();
         PlayerToSlot.Clear();
+        DisconnectSuspectSince.Clear();
         _currentTurn = 0;
+        CurrentTurnNumber = 0;
+        CurrentTurnSlot = -1;
+        TotalSlots = 0;
         TurnTimeLeft = 0f;
 
         DraftStatusOverlay.SetState(OverlayState.Hidden);

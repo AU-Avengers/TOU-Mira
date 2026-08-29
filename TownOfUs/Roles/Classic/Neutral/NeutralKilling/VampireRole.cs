@@ -5,9 +5,9 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
-using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modifiers.Neutral;
@@ -17,7 +17,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IDoubleDraftRole
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
@@ -35,6 +35,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
     public string YouAreText => TouLocale.Get("YouAreA");
     public string YouWereText => TouLocale.Get("YouWereA");
     public string LocaleKey => "Vampire";
+    public bool IsDoubleDraftRole => true;
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
@@ -83,12 +84,12 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
     {
         var vampireCount = CustomRoleUtils.GetActiveRolesOfType<VampireRole>().Count(x => !x.Player.HasDied());
 
-        if (MiscUtils.KillersAliveCount > vampireCount)
+        if (MiscUtils.KillersAliveCount > vampireCount || MiscUtils.KillersAliveCount == 0)
         {
             return false;
         }
 
-        return vampireCount >= Helpers.GetAlivePlayers().Count - vampireCount;
+        return vampireCount >= MiscUtils.GetImpactfulLivingPlayers().Count - vampireCount;
     }
 
     public override void Initialize(PlayerControl player)

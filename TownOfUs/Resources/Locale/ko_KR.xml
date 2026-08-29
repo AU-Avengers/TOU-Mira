@@ -103,7 +103,8 @@
   <string name="TouModifierTorch">촛불</string>
   <string name="TouModifierTorchIntroBlurb">불이 꺼져도 볼 수 있습니다.</string>
   <string name="TouModifierTorchWikiDescription">조명이 당신의 시야에 영향을 주지 않습니다.</string>
-  <string name="TouModifierTorchTabDescription">조명이 꺼져도 시야가 %nl\%만큼 줄어들지 않습니다.</string>
+  <string name="TouModifierTorchTabDescription">조명이 꺼져도 시야가 
+만큼 줄어들지 않습니다.</string>
   <string name="ArrowDarkGlow">어두운 빛</string>
   <string name="ArrowColorGlow">색있는 빛</string>
   <string name="NeutralFactionList">중립 리스트</string>
@@ -140,7 +141,6 @@
   <string name="PiPLocationMiddleRight">오른쪽</string>
   <string name="PiPLocationBottomRight">우측 하단</string>
   <string name="PiPLocationDynamic">다이내믹</string>
-  <string name="TouControlControlledNotif">당신은 &lt;controller&gt;에게 조정당하고 있습니다!</string>
   <string name="PiPSizeNormal">적당하게</string>
   <string name="PiPSizeSmall">작게</string>
   <string name="PiPSizeLarge">크게</string>

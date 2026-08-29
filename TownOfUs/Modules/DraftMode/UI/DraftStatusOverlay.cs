@@ -88,6 +88,8 @@ namespace TownOfUs.Modules.DraftMode
             EnsureExists();
             _instance._currentState = state;
             _instance.UpdateVisibility();
+            if (state == OverlayState.Hidden && !DraftManager.IsDraftActive)
+                DraftSidebarManager.Deactivate();
         }
 
         public static void Refresh()
@@ -99,8 +101,6 @@ namespace TownOfUs.Modules.DraftMode
         public static void NotifyLocalPlayerPicked(ushort roleId)
         {
             EnsureExists();
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
-                $"[DraftStatusOverlay] NotifyLocalPlayerPicked roleId={roleId}");
             if (roleId != _instance._shownRoleId)
             {
                 _instance._shownRoleId = roleId;
@@ -128,7 +128,7 @@ namespace TownOfUs.Modules.DraftMode
             _instance._yourNumberValue = null!;
             _instance._nowPickingLabel = null!;
             _instance._nowPickingValue = null!;
-            _instance.DestroyRoleCard();
+            _instance.DestroyRoleCardCore();
             _instance._cardTooltipRoot = null!;
             _instance._cardTooltipText = null!;
             _instance._pendingRoleId = null;
@@ -401,7 +401,7 @@ namespace TownOfUs.Modules.DraftMode
 
         private void ShowRoleCard(ushort roleId)
         {
-            DestroyRoleCard();
+            DestroyRoleCardCore();
             if (!EnsureRolePrefab() || HudManager.Instance == null) return;
 
             var role = DraftUiManager.ResolveRole(roleId);
@@ -417,14 +417,14 @@ namespace TownOfUs.Modules.DraftMode
 
             if (_roleCardNewRoleObj.transform.childCount == 0)
             {
-                DestroyRoleCard();
+                DestroyRoleCardCore();
                 return;
             }
 
             var actualCard = _roleCardNewRoleObj.transform.GetChild(0);
             if (actualCard.childCount < 3)
             {
-                DestroyRoleCard();
+                DestroyRoleCardCore();
                 return;
             }
 
@@ -593,7 +593,7 @@ namespace TownOfUs.Modules.DraftMode
             return false;
         }
 
-        private void DestroyRoleCard()
+        internal void DestroyRoleCardCore()
         {
             if (_roleCardNewRoleObj != null)
             {
@@ -609,6 +609,11 @@ namespace TownOfUs.Modules.DraftMode
             HideCardTooltip();
             _cardHiddenForMenu = false;
             _cardReady = false;
+        }
+
+        public static void DestroyRoleCard()
+        {
+            _instance?.DestroyRoleCardCore();
         }
 
         private void EnsureCardTooltip()
@@ -705,6 +710,29 @@ namespace TownOfUs.Modules.DraftMode
             return Color.white;
         }
 
+        private static (int pickerSlot, int pickerCount, bool isMyTurn) ComputePickerStatus()
+        {
+            int pickerSlot = -1;
+            int pickerCount = 0;
+            bool isMyTurn = false;
+            bool isLocalGame = AmongUsClient.Instance?.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance?.NetworkMode == NetworkModes.FreePlay;
+
+            foreach (var s in DraftManager.GetActivePickerStatesNonAlloc())
+            {
+                if (s == null || !s.IsPickingNow) continue;
+                pickerCount++;
+                if (pickerSlot < 0) pickerSlot = s.SlotNumber;
+                if (s.PlayerId == PlayerControl.LocalPlayer.PlayerId) isMyTurn = true;
+                else if (isLocalGame)
+                {
+                    var p = MiscUtils.PlayerById(s.PlayerId);
+                    if (p != null && AmongUsClient.Instance?.GetClient(p.OwnerId) == null) isMyTurn = true;
+                }
+            }
+
+            return (pickerSlot, pickerCount, isMyTurn);
+        }
+
         private void Update()
         {
             if (_currentState == OverlayState.Hidden) return;
@@ -750,21 +778,7 @@ namespace TownOfUs.Modules.DraftMode
                         _slotCheckTimer = 0f;
 
                         int mySlot = DraftManager.GetSlotForPlayer(PlayerControl.LocalPlayer.PlayerId);
-                        int pickerSlot = -1;
-                        int pickerCount = 0;
-                        bool isMyTurn = false;
-                        foreach (var s in DraftManager.GetActivePickerStatesNonAlloc())
-                        {
-                            if (s == null || !s.IsPickingNow) continue;
-                            pickerCount++;
-                            if (pickerSlot < 0) pickerSlot = s.SlotNumber;
-                            if (s.PlayerId == PlayerControl.LocalPlayer.PlayerId) isMyTurn = true;
-                            else if (AmongUsClient.Instance?.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance?.NetworkMode == NetworkModes.FreePlay)
-                            {
-                                var p = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == s.PlayerId);
-                                if (p != null && AmongUsClient.Instance?.GetClient(p.OwnerId) == null) isMyTurn = true;
-                            }
-                        }
+                        var (pickerSlot, pickerCount, isMyTurn) = ComputePickerStatus();
 
                         if (mySlot != _cachedMySlot || pickerSlot != _cachedPickerSlot ||
                             pickerCount != _cachedPickerCount || isMyTurn != _cachedIsMyTurn)
@@ -792,21 +806,7 @@ namespace TownOfUs.Modules.DraftMode
             if (_root == null) return;
 
             int mySlot = DraftManager.GetSlotForPlayer(PlayerControl.LocalPlayer.PlayerId);
-            int pickerSlot = -1;
-            int pickerCount = 0;
-            bool isMyTurn = false;
-            foreach (var s in DraftManager.GetActivePickerStatesNonAlloc())
-            {
-                if (s == null || !s.IsPickingNow) continue;
-                pickerCount++;
-                if (pickerSlot < 0) pickerSlot = s.SlotNumber;
-                if (s.PlayerId == PlayerControl.LocalPlayer.PlayerId) isMyTurn = true;
-                else if (AmongUsClient.Instance?.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance?.NetworkMode == NetworkModes.FreePlay)
-                {
-                    var p = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == s.PlayerId);
-                    if (p != null && AmongUsClient.Instance?.GetClient(p.OwnerId) == null) isMyTurn = true;
-                }
-            }
+            var (pickerSlot, pickerCount, isMyTurn) = ComputePickerStatus();
 
             _cachedIsMyTurn = isMyTurn;
 
@@ -838,8 +838,6 @@ namespace TownOfUs.Modules.DraftMode
             if (_nowPickingLabel != null)
                 _nowPickingLabel.text = labelText;
 
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
-                $"[DraftStatusOverlay] UpdateContent: localPlayerId={PlayerControl.LocalPlayer.PlayerId}, mySlot={mySlot}, pickerSlot={pickerSlot}, pickerCount={pickerCount}, isMyTurn={isMyTurn}");
         }
 
         private bool _rebuildPending;
@@ -864,7 +862,7 @@ namespace TownOfUs.Modules.DraftMode
                 _root.SetActive(false);
                 if (_bgOverlay != null) _bgOverlay.SetActive(false);
                 if (_backdropArt != null) _backdropArt.SetActive(false);
-                DestroyRoleCard();
+                DestroyRoleCardCore();
                 _pendingRoleId = null;
                 _shownRoleId = null;
                 _waitAnimTime = 0f;
@@ -1039,4 +1037,3 @@ namespace TownOfUs.Modules.DraftMode
         }
     }
 }
-

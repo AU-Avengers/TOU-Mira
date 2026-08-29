@@ -22,6 +22,7 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
 {
     [HideFromIl2Cpp] public PlayerVoteArea? ProsecuteButton { get; private set; }
+    public static bool HasProsecutedBefore { get; internal set; }
 
     public bool HasProsecuted { get; private set; }
 
@@ -46,7 +47,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             return;
         }
 
-        ProsecuteButton.gameObject.SetActive(!HideProsButton && meeting.state == MeetingHud.VoteStates.NotVoted &&
+        ProsecuteButton.gameObject.SetActive(!HideProsButton && meeting.state == MeetingHud.MeetingStates.NotVoted &&
                                              !SelectingProsecuteVictim);
 
         if (!ProsecuteButton.gameObject.active)
@@ -54,7 +55,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             return;
         }
 
-        if (meeting.state == MeetingHud.VoteStates.Discussion &&
+        if (meeting.state == MeetingHud.MeetingStates.Discussion &&
             meeting.discussionTimer < GameOptionsManager.Instance.currentNormalGameOptions.DiscussionTime)
         {
             ProsecuteButton.SetDisabled();
@@ -64,7 +65,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             ProsecuteButton.SetEnabled();
         }
 
-        ProsecuteButton.voteComplete = meeting.SkipVoteButton.voteComplete;
+        ProsecuteButton.VoteComplete = meeting.SkipVoteButton.VoteComplete;
     }
 
     public DoomableType DoomHintType => DoomableType.Fearmonger;
@@ -109,7 +110,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         MaxRoleCount = 1,
         Icon = TouRoleIcons.Prosecutor,
         OptionsScreenshot = TouBanners.ProsecutorRoleBanner,
-        IntroSound = TouAudio.ProsIntroSound
+        IntroSound = TouAudio.JudgeIntroSound
     };
 
     [HideFromIl2Cpp]
@@ -121,8 +122,10 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             text.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed($"TouRole{LocaleKey}CanProsecuteCrew")}");
         }
 
-        var prosecutes = OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions - ProsecutionsCompleted;
-        text.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed($"TouRole{LocaleKey}ProsecutionsRemaining").Replace("<count>", prosecutes.ToString(TownOfUsPlugin.Culture))}");
+        var total = (int)OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
+        var prosecutes = total - ProsecutionsCompleted;
+        text.AppendLine(TownOfUsPlugin.Culture,
+            $"{TouLocale.GetParsed("TouRoleProsecutorProsecutionsRemaining").Replace("<count>", prosecutes.ToString(TownOfUsPlugin.Culture)).Replace("<total>", total.ToString(TownOfUsPlugin.Culture))}");
         return text;
     }
 
@@ -150,7 +153,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         var skip = meeting.SkipVoteButton;
         ProsecuteButton = Instantiate(skip, skip.transform.parent);
         ProsecuteButton.Parent = meeting;
-        ProsecuteButton.SetTargetPlayerId(251);
+        ProsecuteButton.SetPlayerId(251);
         ProsecuteButton.transform.localPosition = skip.transform.localPosition + new Vector3(0f, -0.17f, 0f);
 
         ProsecuteButton.gameObject.GetComponentInChildren<TextTranslatorTMP>().Destroy();

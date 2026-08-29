@@ -36,7 +36,15 @@ public static class DleksMapOptionPickerPatches
     [HarmonyPrefix]
     public static void GameManagerDleksPatch(GameStartManager __instance)
     {
-        if (__instance.AllMapIcons.ToArray().Any(x => x.Name == MapNames.Dleks))
+        // Seems to throw error on android?
+        try
+        {
+            if (__instance.AllMapIcons.ToArray().Any(x => x.Name == MapNames.Dleks))
+            {
+                return;
+            }
+        }
+        catch
         {
             return;
         }

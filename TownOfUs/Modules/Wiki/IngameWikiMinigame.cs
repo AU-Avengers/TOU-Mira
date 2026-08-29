@@ -43,6 +43,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     public readonly List<OptionWikiInfo> _activeSettings = [];
     public Il2CppReferenceField<Scroller> AbilityScroller;
     public Il2CppReferenceField<Transform> AbilityTemplate;
+    public Il2CppReferenceField<Transform> AbilityTemplateLong;
     public Il2CppReferenceField<PassiveButton> CloseButton;
     public Il2CppReferenceField<TextMeshPro> DetailDescription;
 
@@ -719,9 +720,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
         DetailScreen.Value.gameObject.SetActive(true);
 
-        ToggleAbilitiesBtn.Value.gameObject.SetActive((_selectedItem != null)
-            ? _selectedItem.Abilities.Count != 0
-            : _selectedSoftItem!.Abilities.Count != 0);
+        ToggleAbilitiesBtn.Value.gameObject.SetActive(_selectedItem?.CanShowSecondTab ?? _selectedSoftItem!.Abilities.Count != 0);
         DetailDescription.Value.gameObject.SetActive(true);
         AbilityScroller.Value.transform.parent.gameObject.SetActive(false);
         ToggleAbilitiesBtn.Value.buttonText.text =
@@ -793,12 +792,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         var max = 0f;
         if (_selectedItem != null)
         {
-            foreach (var ability in _selectedItem.Abilities)
-            {
-                LoadAbilityDetails(ability);
-            }
-
-            max = Mathf.Max(0f, _selectedItem.Abilities.Count * 0.875f);
+            max = _selectedItem.ShowAbilitiesTab(AbilityTemplate.Value, AbilityTemplateLong.Value, AbilityScroller.Value.Inner.transform);
         }
         else if (_selectedSoftItem != null)
         {
@@ -846,7 +840,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
         icon.sprite = ability.Icon.LoadAsset();
         icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
-        icon.tileMode = SpriteTileMode.Adaptive;
+        // icon.tileMode = SpriteTileMode.Adaptive;
 
         text.text =
             $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.Name}</font>";
@@ -895,7 +889,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                     activeMods.Random()!.ModifierIcon?.LoadAsset() ?? TouModifierIcons.Bait.LoadAsset();
             }
 
-            var modifiers = MiscUtils.AllModifiers
+            var modifiers = MiscUtils.AllOverallWikiModifiers
                 .OrderBy(x => x, comparer)
                 .ToList();
 

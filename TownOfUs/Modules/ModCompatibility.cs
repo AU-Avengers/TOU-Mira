@@ -10,8 +10,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Patches.Hud;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Events;
-using TownOfUs.Modifiers;
+using TownOfUs.Integrations;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Maps;
 using TownOfUs.Patches;
@@ -49,7 +48,7 @@ public static class ModCompatibility
     private static FieldInfo submergedInstance;
     private static FieldInfo submergedElevators;
 
-    public static FieldInfo lastMapID;
+    // public static FieldInfo lastMapID;
 
     private static PropertyInfo currentMap;
     private static PropertyInfo elements;
@@ -57,7 +56,7 @@ public static class ModCompatibility
     private static PropertyInfo liElementType;
     private static PropertyInfo liElementName;
 
-    public static Type MapObjectData;
+    // public static Type MapObjectData;
 
     public static Version SubVersion { get; private set; }
     public static bool SubLoaded { get; private set; }
@@ -122,6 +121,7 @@ public static class ModCompatibility
     {
         ResourceBundles.Add(assembly, resourcePath);
     }*/
+    public const string PerfectCommsGuid = "com.edgetel.perfectcomms";
     
     public static void Initialize()
     {
@@ -132,6 +132,7 @@ public static class ModCompatibility
         InitAleLudu();
         InitLaunchpad();
         // InitCorsac();
+        InitPerfectComms();
 
         var sBuilder = new StringBuilder();
 
@@ -143,6 +144,16 @@ public static class ModCompatibility
         }
 
         InternalModList = sBuilder.ToString();
+    }
+    
+    private static void InitPerfectComms()
+    {
+        if (!IL2CPPChainloader.Instance.Plugins.ContainsKey(PerfectCommsGuid))
+        {
+            return;
+        }
+
+        PerfectCommsRuntime.Register();
     }
 
 #pragma warning disable S3011
@@ -442,8 +453,8 @@ public static class ModCompatibility
 
     public static void OxygenDeathPostfix(PlayerControl player)
     {
-        DeathHandlerModifier.UpdateDeathHandlerImmediate(player, TouLocale.Get("DiedToSubmergedOxygen"),
-        DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,
+        GameHistory.UpdatePlayerDeathData(player.PlayerId, TouLocale.Get("DiedToSubmergedOxygen"),
+            0f, HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetTrue,
         lockInfo: DeathHandlerOverride.SetTrue);
     }
 
@@ -467,7 +478,7 @@ public static class ModCompatibility
         __state = false;
     }
 
-    public static void SetOxygenDuration(object __instance, float _)
+    public static void SetOxygenDuration(object __instance, float duration)
     {
         var subOpts = OptionGroupSingleton<BetterSubmergedOptions>.Instance;
         if (subOpts.ChangeSaboTimers)
@@ -638,9 +649,9 @@ public static class ModCompatibility
 
         LITypes = AccessTools.GetTypesFromAssembly(LIAssembly);
 
-        var mapLoader = LITypes.First(x => x.Name == "MapLoader");
-        lastMapID = AccessTools.Field(mapLoader, "_lastMapID");
-        currentMap = AccessTools.Property(mapLoader, "CurrentMap");
+        var gameConfig = LITypes.First(x => x.Name == "GameConfiguration");
+        //lastMapID = AccessTools.Field(gameConfig, "_lastMapID"); // Unused? (Also, only accessible through CurrentMap.ID)
+        currentMap = AccessTools.Property(gameConfig, "CurrentMap");
 
         var liMap = LITypes.First(x => x.Name == "LIMap");
         elements = AccessTools.Property(liMap, "elements");
@@ -655,7 +666,7 @@ public static class ModCompatibility
         var console = LITypes.First(x => x.Name == "TriggerConsole");
         var canUseMethod = AccessTools.Method(console, "CanUse");
 
-        MapObjectData = LITypes.First(x => x.Name == "MapObjectData");
+        // MapObjectData = LITypes.First(x => x.Name == "MapObjectData");
 
         var compatType = typeof(ModCompatibility);
         var harmony = new Harmony("tou.levelimposter.patch");

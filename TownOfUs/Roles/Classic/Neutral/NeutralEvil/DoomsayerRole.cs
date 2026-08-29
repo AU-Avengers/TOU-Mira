@@ -126,13 +126,18 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     public bool MetWinCon => AllGuessesCorrect;
 
-
-
     public bool WinConditionMet()
     {
         if (Player.HasDied())
         {
             return false;
+        }
+
+        var opts = OptionGroupSingleton<DoomsayerOptions>.Instance;
+        if (Helpers.GetAlivePlayers().Count == 1 &&
+            ((NumberOfGuesses > 0 && !opts.DoomsayerGuessAllAtOnce) || opts.DoomsayerGuessAllAtOnce))
+        {
+            return true;
         }
 
         if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomWin is not DoomWinOptions.EndsGame)
@@ -312,7 +317,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                     x is not IUnguessable && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).ToList();
 
                 allRoles = MiscUtils.AllRoles.Where(x => x is IDoomable doomRole && doomRole.DoomHintType == hintType &&
-                    x is not IUnguessable && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).Where(x => x is IGuessable && !roles.Contains(x)).ToList();
+                                                               x is not IUnguessable && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).Where(x => x is IGuessable && !roles.Contains(x)).ToList();
                 if (allRoles.Count > 0)
                 {
                     foreach (var addedRole in allRoles)
@@ -371,12 +376,12 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     public override bool DidWin(GameOverReason gameOverReason)
     {
-        return AllGuessesCorrect;
+        return AllGuessesCorrect || WinConditionMet();
     }
 
     public void ClickGuess(PlayerVoteArea voteArea, MeetingHud meetingHud)
     {
-        if (meetingHud.state == MeetingHud.VoteStates.Discussion)
+        if (meetingHud.state == MeetingHud.MeetingStates.Discussion)
         {
             return;
         }
@@ -386,7 +391,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             return;
         }
 
-        var player = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId).Object;
+        var player = GameData.Instance.GetPlayerById(voteArea.PlayerId).Object;
 
         var shapeMenu = GuesserMenu.Create();
         shapeMenu.Begin(IsRoleValid, ClickRoleHandle);
@@ -411,7 +416,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             }
             var victim = pickVictim ? player : Player;
 
-            ClickHandler(victim, voteArea.TargetPlayerId);
+            ClickHandler(victim, voteArea.PlayerId);
         }
 
         void ClickHandler(PlayerControl victim, byte targetId)
@@ -528,10 +533,11 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     public bool IsExempt(PlayerVoteArea voteArea)
     {
-        return voteArea.TargetPlayerId == Player.PlayerId ||
+        return voteArea.PlayerId == Player.PlayerId ||
                Player.Data.IsDead || voteArea.AmDead ||
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true ||
                (voteArea.GetPlayer()?.Data.Role is MayorRole mayor && mayor.Revealed) ||
+               voteArea.GetPlayer()?.IsRevealed() == true ||
                (Player.IsLover() && voteArea.GetPlayer()?.IsLover() == true);
     }
 

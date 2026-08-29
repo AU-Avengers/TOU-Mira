@@ -6,7 +6,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class HerbalistAbilitySwapButton : TownOfUsRoleButton<HerbalistRole>
 {
-    public override string Name => "Change Herb";
+    public override string Name => TouLocale.Get("TouRoleHerbalistChangeHerb");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 0.0001f;

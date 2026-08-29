@@ -129,7 +129,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
     public void ClickGuess(PlayerVoteArea voteArea, MeetingHud meetingHud)
     {
-        if (meetingHud.state == MeetingHud.VoteStates.Discussion)
+        if (meetingHud.state == MeetingHud.MeetingStates.Discussion)
         {
             return;
         }
@@ -139,7 +139,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return;
         }
 
-        var player = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId).Object;
+        var player = GameData.Instance.GetPlayerById(voteArea.PlayerId).Object;
 
         var shapeMenu = GuesserMenu.Create();
         shapeMenu.Begin(IsRoleValid, ClickRoleHandle, IsModifierValid, ClickModifierHandle);
@@ -166,7 +166,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
             if (ClickHandler(victim) && victim == Player)
             {
-                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, (ushort)role.Role, true);
+                GameHistory.RpcSetMisguessSummary(Player, player.PlayerId, (ushort)role.Role, true);
             }
         }
 
@@ -177,7 +177,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
             if (ClickHandler(victim) && victim == Player)
             {
-                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, modifier.TypeId, false);
+                GameHistory.RpcSetMisguessSummary(Player, player.PlayerId, modifier.TypeId, false);
             }
         }
 
@@ -231,9 +231,10 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
     public bool IsExempt(PlayerVoteArea voteArea)
     {
-        return voteArea?.TargetPlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
+        return voteArea?.PlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true ||
                (voteArea.GetPlayer()?.Data.Role is MayorRole mayor && mayor.Revealed) ||
+               voteArea.GetPlayer()?.IsRevealed() == true ||
                voteArea.GetPlayer()?.IsImpostorAligned() == true && Player.IsImpostorAligned() && !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode ||
                (Player.IsLover() && voteArea.GetPlayer()?.IsLover() == true);
     }

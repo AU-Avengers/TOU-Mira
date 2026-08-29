@@ -66,6 +66,7 @@ public sealed class NeutralRoleWinCondition : IWinCondition
 
         if (winner.Player != null)
         {
+            Warning($"Neutral to win: {winner.Player.Data.PlayerName}");
             CustomGameOver.Trigger<NeutralGameOver>([winner.Player.Data]);
         }
     }

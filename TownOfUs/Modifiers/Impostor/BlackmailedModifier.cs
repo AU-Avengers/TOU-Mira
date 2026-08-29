@@ -44,7 +44,7 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
             return;
         }
 
-        VoteArea = meetingInstance.playerStates.FirstOrDefault(x => x.TargetPlayerId == Player.PlayerId)!;
+        VoteArea = meetingInstance.playerStates.FirstOrDefault(x => x.PlayerId == Player.PlayerId)!;
 
         var amOwner = Player.AmOwner;
         var bmOwns = BlackMailerId == PlayerControl.LocalPlayer.PlayerId;
@@ -76,7 +76,7 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
             return;
         }
         
-        if (meetingInstance.state != MeetingHud.VoteStates.Animating && !ShookAlready)
+        if (meetingInstance.state != MeetingHud.MeetingStates.Animating && !ShookAlready)
         {
             ShookAlready = true;
             meetingInstance.StartCoroutine(Effects.SwayX(BmOverlay.transform));
@@ -86,7 +86,7 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
         {
             return;
         }
-        if (!IsVoteReady && !VoteArea.DidVote && meetingInstance.state == MeetingHud.VoteStates.NotVoted &&
+        if (!IsVoteReady && !VoteArea.DidVote && meetingInstance.state == MeetingHud.MeetingStates.NotVoted &&
             (Helpers.GetAlivePlayers().Count > MaxAlivesNeeded))
         {
             Info($"Prepping vote, as {Helpers.GetAlivePlayers().Count} players is more than the requirement of {MaxAlivesNeeded} players");

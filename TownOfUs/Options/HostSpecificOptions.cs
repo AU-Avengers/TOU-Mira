@@ -34,6 +34,8 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
     public ModdedToggleOption LobbyFunMode { get; set; } =
         new("TouOptionLobbyFunMode", true, false);
 
+    public ModdedToggleOption ShowRulesOnLobbyJoin { get; set; } = new("TouOptionShowRulesOnLobbyJoin", true, false);
+
     /*public ModdedToggleOption AllowAprilFools { get; set; } =
         new("TouOptionAllowAprilFools", true, false)
     {

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -44,7 +45,8 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             else
             {
                 TriggerKillAnimation(HudManager.Instance.KillOverlay, source.Data, target.Data, targetVoteArea);
-                source.AddModifier<DeputyRevealedModifier>();
+                source.AddModifier<DeputyRevealedModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<DeputyRole>()));
+                MeetingMenu.Instances.Do(x => x.HideSingle(source.PlayerId));
             }
             Coroutines.Start(CoStopShot());
         }
@@ -284,7 +286,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public void ClickGuess(PlayerVoteArea voteArea, MeetingHud __)
     {
-        var target = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId).Object;
+        var target = GameData.Instance.GetPlayerById(voteArea.PlayerId).Object;
         var role = Player.GetRole<DeputyRole>()!;
 
         if (role.Killer == target && !target.HasModifier<InvulnerabilityModifier>())
@@ -315,7 +317,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public bool IsExempt(PlayerVoteArea voteArea)
     {
-        return voteArea?.TargetPlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
+        return voteArea?.PlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true;
     }
 }

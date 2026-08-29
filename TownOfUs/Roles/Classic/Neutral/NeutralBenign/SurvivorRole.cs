@@ -4,6 +4,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Options.Roles.Neutral;
@@ -83,7 +84,7 @@ public sealed class SurvivorRole(IntPtr cppPtr)
 
         if (Player.AmOwner && OptionGroupSingleton<SurvivorOptions>.Instance.ScatterOn)
         {
-            Player.AddModifier<ScatterModifier>(OptionGroupSingleton<SurvivorOptions>.Instance.ScatterTimer);
+            Player.AddModifier<ScatterModifier>(OptionGroupSingleton<SurvivorOptions>.Instance.ScatterTimer.Value);
         }
     }
 
@@ -101,5 +102,23 @@ public sealed class SurvivorRole(IntPtr cppPtr)
     public override bool DidWin(GameOverReason gameOverReason)
     {
         return !Player.HasDied();
+    }
+
+    public bool WinConditionMet()
+    {
+        var hasLivingHalters = MiscUtils.NKillersAliveCount > 0 ||
+                               (MiscUtils.ImpAliveCount > 0 && MiscUtils.CrewKillersAliveCount > 0) ||
+                               (MiscUtils.GameHaltersAliveCount > 0 && Helpers.GetAlivePlayers().Count > 1)
+                               || Helpers.GetAlivePlayers().All(x =>
+                                   (x.IsCrewmate() || x.Is(RoleAlignment.NeutralBenign)) && !x.IsImpostorAligned());
+        var survCount = CustomRoleUtils.GetActiveRolesOfType<SurvivorRole>().Count(x => !x.Player.HasDied());
+
+        if (survCount == 0 || MiscUtils.NonGameEndingNeutralCount == 0 || Helpers.GetAlivePlayers().Count > 3 ||
+            hasLivingHalters)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

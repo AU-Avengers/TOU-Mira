@@ -5,7 +5,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
-using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Options.Roles.Neutral;
 using UnityEngine;
@@ -74,12 +73,12 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     {
         var juggCount = CustomRoleUtils.GetActiveRolesOfType<JuggernautRole>().Count(x => !x.Player.HasDied());
 
-        if (MiscUtils.KillersAliveCount > juggCount)
+        if (MiscUtils.KillersAliveCount > juggCount || MiscUtils.KillersAliveCount == 0)
         {
             return false;
         }
 
-        return juggCount >= Helpers.GetAlivePlayers().Count - juggCount;
+        return juggCount >= MiscUtils.GetImpactfulLivingPlayers().Count - juggCount;
     }
 
     public override void Initialize(PlayerControl player)

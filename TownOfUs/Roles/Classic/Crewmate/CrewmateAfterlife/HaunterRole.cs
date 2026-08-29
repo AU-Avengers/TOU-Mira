@@ -9,6 +9,7 @@ using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Neutral;
@@ -143,6 +144,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         }
 
         Player.RemoveModifier<HaunterArrowModifier>();
+        GameHistory.PlayerStats[Player.PlayerId].DiedThisRound = false;
     }
 
     public string LocaleKey => "Haunter";
@@ -402,7 +404,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                     new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
                 notif1.AdjustNotification();
             }
-            else if (IsTargetOfHaunter(PlayerControl.LocalPlayer) && !silent)
+            else if (IsTargetOfHaunter(PlayerControl.LocalPlayer) && !PlayerControl.LocalPlayer.HasDied() && !silent)
             {
                 Coroutines.Start(MiscUtils.CoFlash(RoleColor));
                 var notif1 = Helpers.CreateAndShowNotification(
@@ -441,7 +443,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                     new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
                 notif1.AdjustNotification();
             }
-            else if (IsTargetOfHaunter(PlayerControl.LocalPlayer) && !silent)
+            else if (IsTargetOfHaunter(PlayerControl.LocalPlayer) && !PlayerControl.LocalPlayer.HasDied() && !silent)
             {
                 Coroutines.Start(MiscUtils.CoFlash(Color.white));
                 var notif1 = Helpers.CreateAndShowNotification(

@@ -2,7 +2,7 @@
 using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
-using TownOfUs.Modifiers;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Neutral;
@@ -29,17 +29,17 @@ public static class PhantomEvents
             if (phantom.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>You have successfully won as the {TownOfUsColors.Spectre.ToTextColor()}Spectre</color>, as you finished your tasks postmortem!</b>",
+                    $"<b>{TouLocale.GetParsed("TouRoleSpectreWonSelf") .Replace("<role>", $"{TownOfUsColors.Spectre.ToTextColor()}{phantom.RoleName}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
 
                 notif1.AdjustNotification();
                 HudManagerPatches.ZoomButton.SetActive(true);
                 if (OptionGroupSingleton<SpectreOptions>.Instance.SpectreWin is SpectreWinOptions.Spooks)
                 {
-                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", -1,
+                    GameHistory.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", -1,
                         DeathHandlerOverride.SetTrue, lockInfo: DeathHandlerOverride.SetTrue);
                     var notif2 = Helpers.CreateAndShowNotification(
-                        $"<b>You have one round to spook a player of your choice to death, choose wisely.</b>",
+                        $"<b>{TouLocale.GetParsed("TouRoleSpectreSpookMessage")}</b>",
                         Color.white, new Vector3(0f, 0.85f, -20f));
                     notif2.AdjustNotification();
                 }
@@ -47,7 +47,7 @@ public static class PhantomEvents
             else
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>The {TownOfUsColors.Spectre.ToTextColor()}Spectre</color>, {phantom.Player.Data.PlayerName}, has successfully won, as they completed their tasks postmortem!</b>",
+                    $"<b>{TouLocale.GetParsed("TouRoleSpectreWonOther") .Replace("<role>", $"{TownOfUsColors.Spectre.ToTextColor()}{phantom.RoleName}</color>") .Replace("<player>", phantom.Player.Data.PlayerName)}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
 
                 notif1.AdjustNotification();

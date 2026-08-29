@@ -1,4 +1,3 @@
-using HarmonyLib;
 using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Patches.Roles;

@@ -1,8 +1,9 @@
 ﻿using HarmonyLib;
-using MiraAPI.Modifiers;
-using TownOfUs.Modifiers;
+using TownOfUs.Events;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
+using TownOfUs.Modules.DraftMode;
 using TownOfUs.Networking;
 using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
@@ -33,6 +34,8 @@ public static class LobbyBehaviourPatches
 
         TeamChatPatches.CleanUpChats();
         GameHistory.ClearAll();
+        FakeChatHistory.ClearAll();
+        TownOfUsEventHandlers.ResetRulesShownTracking();
         ScreenFlash.Clear();
         MeetingMenu.ClearAll();
         EgotistModifier.CooldownReduction = 0f;
@@ -46,14 +49,20 @@ public static class LobbyBehaviourPatches
         StonedPlayer.ClearAll(true);
         if (TutorialManager.InstanceExists)
         {
-            foreach (var mod in ModifierManager.Modifiers)
+            foreach (var mod in MiscUtils.AllBaseGameModifiers)
             {
-                if (mod is not TouBaseGameModifier touMod)
-                {
-                    continue;
-                }
-                touMod.BeforeModifierSpawns();
+                mod.BeforeModifierSpawns();
             }
         }
+        else
+        {
+            HudManagerHelper.RefreshPlatformData();
+        }
+        if (!DraftManager.IsDraftActive) return;
+        DraftManager.Reset(cancelledBeforeCompletion: true);
+        DraftCancelButton.Hide();
+        DraftShuffleButton.HideAndReset();
+        DraftSidebarManager.Deactivate();
+        DraftSidebarManager.ClearBannerRef();
     }
 }
