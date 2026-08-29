@@ -28,7 +28,7 @@ public static class EgotistEvents
             if (ego != null && ego.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouModifierEgotistIntroMessage").Replace("<modifier>", $"{TownOfUsColors.Egotist.ToTextColor()}{ego.ModifierName}</color>"),
+                    MiraLocaleManager.Get("TouModifierEgotistIntroMessage").Replace("<modifier>", $"{TownOfUsColors.Egotist.ToTextColor()}{ego.ModifierName}</color>"),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -46,7 +46,7 @@ public static class EgotistEvents
             if (ego.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouModifierEgotistVictoryMessageSelf").Replace("<modifier>", $"{TownOfUsColors.Egotist.ToTextColor()}{ego.ModifierName}</color>"),
+                    MiraLocaleManager.Get("TouModifierEgotistVictoryMessageSelf").Replace("<modifier>", $"{TownOfUsColors.Egotist.ToTextColor()}{ego.ModifierName}</color>"),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -54,7 +54,7 @@ public static class EgotistEvents
             else
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouModifierEgotistVictoryMessage").Replace("<player>", ego.Player.Data.PlayerName).Replace("<modifier>", $"{TownOfUsColors.Egotist.ToTextColor()}{ego.ModifierName}</color>"),
+                    MiraLocaleManager.Get("TouModifierEgotistVictoryMessage").Replace("<player>", ego.Player.Data.PlayerName).Replace("<modifier>", $"{TownOfUsColors.Egotist.ToTextColor()}{ego.ModifierName}</color>"),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -65,7 +65,7 @@ public static class EgotistEvents
         {
             ego.LeaveMessageSent = true;
             var notif1 = Helpers.CreateAndShowNotification(
-                TouLocale.GetParsed("TouModifierEgotistDeadMessage").Replace("<modifier>",
+                MiraLocaleManager.Get("TouModifierEgotistDeadMessage").Replace("<modifier>",
                     $"{TownOfUsColors.Egotist.ToTextColor()}{ego.ModifierName}</color>"),
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist.LoadAsset());
 
@@ -84,7 +84,7 @@ public static class EgotistEvents
                 EgotistModifier.CooldownReduction += egoOpts.CooldowmOffset.Value;
                 EgotistModifier.SpeedMultiplier += egoOpts.SpeedMultiplier.Value;
 
-                var text = TouLocale.GetParsed("TouModifierEgotistCooldownSpeedChangeMessage").Replace("<modifier>",
+                var text = MiraLocaleManager.Get("TouModifierEgotistCooldownSpeedChangeMessage").Replace("<modifier>",
                     $"{TownOfUsColors.Egotist.ToTextColor()}{ego.ModifierName}</color>");
                 text = text.Replace("<newOffset>", $"{Math.Round(EgotistModifier.CooldownReduction, 2)}");
 
@@ -98,7 +98,7 @@ public static class EgotistEvents
             {
                 EgotistModifier.CooldownReduction += egoOpts.CooldowmOffset.Value;
 
-                var text = TouLocale.GetParsed("TouModifierEgotistCooldownChangeMessage").Replace("<modifier>",
+                var text = MiraLocaleManager.Get("TouModifierEgotistCooldownChangeMessage").Replace("<modifier>",
                     $"{TownOfUsColors.Egotist.ToTextColor()}{ego.ModifierName}</color>");
                 text = text.Replace("<newOffset>", $"{Math.Round(EgotistModifier.CooldownReduction, 3)}");
 
@@ -112,7 +112,7 @@ public static class EgotistEvents
             {
                 EgotistModifier.SpeedMultiplier += egoOpts.SpeedMultiplier.Value;
 
-                var text = TouLocale.GetParsed("TouModifierEgotistSpeedChangeMessage").Replace("<modifier>",
+                var text = MiraLocaleManager.Get("TouModifierEgotistSpeedChangeMessage").Replace("<modifier>",
                     $"{TownOfUsColors.Egotist.ToTextColor()}{ego.ModifierName}</color>");
                 text = text.Replace("<newSpeed>", $"{Math.Round(EgotistModifier.SpeedMultiplier, 3)}");
 

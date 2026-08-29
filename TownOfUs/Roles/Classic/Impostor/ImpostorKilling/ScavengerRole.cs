@@ -97,15 +97,15 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<InvestigatorRole>());
     public DoomableType DoomHintType => DoomableType.Hunter;
-    public string LocaleKey => "Scavenger";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Scavenger";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -144,13 +144,13 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         Clear();
     }
 
-    public static string TimerString = TouLocale.GetParsed("TouRoleScavengerTabTimer");
-    public static string TargetString = TouLocale.GetParsed("TouRoleScavengerTabTarget");
+    public static string TimerString = MiraLocaleManager.Get("TouRoleScavengerTabTimer");
+    public static string TargetString = MiraLocaleManager.Get("TouRoleScavengerTabTarget");
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        TimerString = TouLocale.GetParsed("TouRoleScavengerTabTimer");
-        TargetString = TouLocale.GetParsed("TouRoleScavengerTabTarget");
+        TimerString = MiraLocaleManager.Get("TouRoleScavengerTabTimer");
+        TargetString = MiraLocaleManager.Get("TouRoleScavengerTabTarget");
         if (TutorialManager.InstanceExists && Target == null && Player.AmOwner)
         {
             Coroutines.Start(SetTutorialTarget(this, Player));

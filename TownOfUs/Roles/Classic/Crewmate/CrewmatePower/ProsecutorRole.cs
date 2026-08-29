@@ -69,15 +69,15 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     }
 
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string LocaleKey => "Prosecutor";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Prosecutor";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -88,8 +88,8 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}ProsecuteWiki", "Prosecute"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}ProsecuteWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}ProsecuteWiki", "Prosecute"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}ProsecuteWikiDescription"),
                     TouRoleIcons.Prosecutor)
             ];
         }
@@ -119,13 +119,13 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         var text = ITownOfUsRole.SetNewTabText(this);
         if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
         {
-            text.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed($"TouRole{LocaleKey}CanProsecuteCrew")}");
+            text.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get($"TouRole{IdPart}CanProsecuteCrew")}");
         }
 
         var total = (int)OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
         var prosecutes = total - ProsecutionsCompleted;
         text.AppendLine(TownOfUsPlugin.Culture,
-            $"{TouLocale.GetParsed("TouRoleProsecutorProsecutionsRemaining").Replace("<count>", prosecutes.ToString(TownOfUsPlugin.Culture)).Replace("<total>", total.ToString(TownOfUsPlugin.Culture))}");
+            $"{MiraLocaleManager.Get("TouRoleProsecutorProsecutionsRemaining").Replace("<count>", prosecutes.ToString(TownOfUsPlugin.Culture)).Replace("<total>", total.ToString(TownOfUsPlugin.Culture))}");
         return text;
     }
 
@@ -158,7 +158,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
         ProsecuteButton.gameObject.GetComponentInChildren<TextTranslatorTMP>().Destroy();
         ProsecuteButton.gameObject.GetComponentInChildren<TextMeshPro>().text =
-            TouLocale.GetParsed($"TouRole{LocaleKey}Prosecute").ToUpperInvariant();
+            MiraLocaleManager.Get($"TouRole{IdPart}Prosecute").ToUpperInvariant();
         ProsecuteButton.gameObject.name = "button_prosecuteButton";
 
         foreach (var plr in meeting.playerStates.AddItem(skip))

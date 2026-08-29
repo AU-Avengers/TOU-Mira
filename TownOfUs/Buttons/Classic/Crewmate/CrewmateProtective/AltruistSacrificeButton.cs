@@ -15,7 +15,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, DeadBody>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleAltruistRevive", "Revive");
+    public override string Name => MiraLocaleManager.Get("TouRoleAltruistRevive", "Revive");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Altruist;
     public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);
@@ -149,13 +149,13 @@ public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, D
             Coroutines.Start(AltruistReviveButton.CoKillOnStart(PlayerControl.LocalPlayer));
         }
 
-        OverrideName(TouLocale.Get("TouRoleAltruistReviving", "Reviving"));
+        OverrideName(MiraLocaleManager.Get("TouRoleAltruistReviving", "Reviving"));
     }
 
     public override void OnEffectEnd()
     {
         RevivedInRound = true;
-        OverrideName(TouLocale.Get("TouRoleAltruistRevive", "Revive"));
+        OverrideName(MiraLocaleManager.Get("TouRoleAltruistRevive", "Revive"));
         Coroutines.Start(CoSacrifite(PlayerControl.LocalPlayer));
     }
 

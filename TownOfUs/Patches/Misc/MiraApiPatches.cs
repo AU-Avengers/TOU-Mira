@@ -43,21 +43,21 @@ public static class MiraApiPatches
     [HarmonyPrefix]
     public static bool NeutralTeamPrefix(ref string __result)
     {
-        __result = TouLocale.Get("NeutralKeyword").ToUpperInvariant();
+        __result = MiraLocaleManager.Get("NeutralKeyword").ToUpperInvariant();
         return false;
     }
     [HarmonyPatch(typeof(TaskAdderPatches), nameof(TaskAdderPatches.NeutralName), MethodType.Getter)]
     [HarmonyPrefix]
     public static bool NeutralNamePrefix(ref string __result)
     {
-        __result = TouLocale.Get("NeutralKeyword");
+        __result = MiraLocaleManager.Get("NeutralKeyword");
         return false;
     }
     [HarmonyPatch(typeof(TaskAdderPatches), nameof(TaskAdderPatches.ModifiersName), MethodType.Getter)]
     [HarmonyPrefix]
     public static bool ModifierNamePrefix(ref string __result)
     {
-        __result = TouLocale.Get("Modifiers");
+        __result = MiraLocaleManager.Get("Modifiers");
         return false;
     }
 

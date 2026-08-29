@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class PlaguebearerInfectButton : TownOfUsRoleButton<PlaguebearerRole, PlayerControl>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRolePlaguebearerInfect", "Infect");
+    public override string Name => MiraLocaleManager.Get("TouRolePlaguebearerInfect", "Infect");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Plaguebearer;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<PlaguebearerOptions>.Instance.InfectCooldown + MapCooldown, 5f, 120f);

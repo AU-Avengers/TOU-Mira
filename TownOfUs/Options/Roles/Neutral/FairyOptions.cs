@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class FairyOptions : AbstractRoleOptionGroup<FairyRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleFairy", "Fairy");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleFairy", "Fairy");
 
     [ModdedNumberOption("TouOptionFairyCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ProtectCooldown { get; set; } = 25f;

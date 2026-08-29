@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class EscapistRecallButton : TownOfUsRoleButton<EscapistRole>, IAftermathableButton, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleEscapistRecall", "Recall");
+    public override string Name => MiraLocaleManager.Get("TouRoleEscapistRecall", "Recall");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<EscapistOptions>.Instance.RecallCooldown + MapCooldown, 5f, 120f);

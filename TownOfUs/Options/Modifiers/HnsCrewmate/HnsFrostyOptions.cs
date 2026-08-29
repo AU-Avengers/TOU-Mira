@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Modifiers.HnsCrewmate;
 public sealed class HnsFrostyOptions : AbstractTouModifierOptionGroup<HnsFrostyModifier>
 {
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.HideAndSeek;
-    public override string GroupName => TouLocale.Get("HnsModifierFrosty", "Frosty");
+    public override string GroupName => MiraLocaleManager.Get("HnsModifierFrosty", "Frosty");
     public override uint GroupPriority => 5;
     public override Color GroupColor => TownOfUsColors.Frosty;
 

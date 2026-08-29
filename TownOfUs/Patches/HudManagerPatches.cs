@@ -4,12 +4,10 @@ using HarmonyLib;
 using MiraAPI;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
-using MiraAPI.Modifiers.ModifierDisplay;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Modules.Components;
@@ -656,19 +654,19 @@ public static class HudManagerPatches
         IconOnRoleName = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.ShowRoleIcons.Value;
         StoredHostLocale = TranslationController.Instance.GetString(StringNames.HostNounEmpty);
         StoredTasksText = TranslationController.Instance.GetString(StringNames.Tasks);
-        StoredSpectatingLocale = TouLocale.Get("TouRoleSpectator");
-        StoredRoleList = TouLocale.Get("SetRoleList");
-        StoredFactionList = TouLocale.Get("NeutralFactionList");
-        StoredDraftTitle = TouLocale.Get("StoredDraftTitle");
+        StoredSpectatingLocale = MiraLocaleManager.Get("TouRoleSpectator");
+        StoredRoleList = MiraLocaleManager.Get("SetRoleList");
+        StoredFactionList = MiraLocaleManager.Get("NeutralFactionList");
+        StoredDraftTitle = MiraLocaleManager.Get("StoredDraftTitle");
         List<string> lists =
         [
-            TouLocale.Get("NeutralBenigns"),
-            TouLocale.Get("NeutralEvils"),
-            TouLocale.Get("NeutralOutliers"),
-            TouLocale.Get("NeutralKillers")
+            MiraLocaleManager.Get("NeutralBenigns"),
+            MiraLocaleManager.Get("NeutralEvils"),
+            MiraLocaleManager.Get("NeutralOutliers"),
+            MiraLocaleManager.Get("NeutralKillers")
         ];
         List<string> listsNew = [];
-        var neutKeyword = TouLocale.Get("NeutralKeyword");
+        var neutKeyword = MiraLocaleManager.Get("NeutralKeyword");
         foreach (var alignment in lists)
         {
             var text = alignment;
@@ -688,8 +686,8 @@ public static class HudManagerPatches
         NeutralEvils = listsNew[1];
         NeutralOutliers = listsNew[2];
         NeutralKillers = listsNew[3];
-        StoredMinimum = TouLocale.Get("MinimumShort");
-        StoredMaximum = TouLocale.Get("MaximumShort");
+        StoredMinimum = MiraLocaleManager.Get("MinimumShort");
+        StoredMaximum = MiraLocaleManager.Get("MaximumShort");
         List<string> localizedRoleList = [];
         foreach (var bucket in StoredRoleBuckets)
         {

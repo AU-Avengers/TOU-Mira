@@ -16,19 +16,19 @@ public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
         TownOfUsColors.Rotting,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Rotting.LoadAsset(),
             "TouMira.Modifier.Crewmate.Rotting", 1.45f));
-    public override string LocaleKey => "Rotting";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+    public override string IdPart => "Rotting";
+    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription").Replace("<rotDelay>",
+        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription").Replace("<rotDelay>",
             $"{OptionGroupSingleton<RottingOptions>.Instance.RotDelay}");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription").Replace("<rotDelay>",
+        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription").Replace("<rotDelay>",
             $"{OptionGroupSingleton<RottingOptions>.Instance.RotDelay}");
     }
 

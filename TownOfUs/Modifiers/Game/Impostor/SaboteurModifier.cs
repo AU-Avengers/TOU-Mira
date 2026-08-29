@@ -11,8 +11,8 @@ public sealed class SaboteurModifier : TouGameModifier, IWikiDiscoverable
         TownOfUsColors.Impostor,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Saboteur.LoadAsset(),
             "TouMira.Modifier.Impostor.Saboteur", 1.45f));
-    public override string LocaleKey => "Saboteur";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IdPart => "Saboteur";
+    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
     public override string IntroInfo => "You also have reduced sabotage cooldowns.";
     public override Color FreeplayFileColor => new Color32(255, 25, 25, 255);
 
@@ -23,12 +23,12 @@ public sealed class SaboteurModifier : TouGameModifier, IWikiDiscoverable
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];

@@ -331,7 +331,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         _cosmeticsLayer.nameText.color = _cosmeticsLayer.nameText.color.SetAlpha(1f);
 
         _colorBindTextObj.SetActive(false);
-        _nameTextMaster.text = TouLocale.Get("DiedToMedusa");
+        _nameTextMaster.text = MiraLocaleManager.Get("DiedToMedusa");
         _nameTextMaster.color = Color.grey;
     }
 

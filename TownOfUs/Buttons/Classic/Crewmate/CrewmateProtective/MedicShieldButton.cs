@@ -8,7 +8,7 @@ namespace TownOfUs.Buttons.Crewmate;
 public sealed class MedicShieldButton : TownOfUsRoleButton<MedicRole, PlayerControl>, ILegacyCapable
 {
     public bool CanChangeTarget = true;
-    public override string Name => TouLocale.GetParsed("TouRoleMedicShield", "Shield");
+    public override string Name => MiraLocaleManager.Get("TouRoleMedicShield", "Shield");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Medic;
 

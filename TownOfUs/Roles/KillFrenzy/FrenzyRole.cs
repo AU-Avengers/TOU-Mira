@@ -14,7 +14,7 @@ public abstract class FrenzyRole(IntPtr cppPtr) : RoleBehaviour(cppPtr)
 
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text =
-            $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("FrenzyKillerTaskHeader")}</color>";
+            $"{TownOfUsColors.Neutral.ToTextColor()}{MiraLocaleManager.Get("FrenzyKillerTaskHeader")}</color>";
         orCreateTask.name = "NeutralRoleText";
     }
 

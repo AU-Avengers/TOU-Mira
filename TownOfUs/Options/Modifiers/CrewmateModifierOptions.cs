@@ -324,7 +324,7 @@ public sealed class CrewmateModifierOptions : AbstractOptionGroup
     {
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
-            TouLocale.Get(title),
+            MiraLocaleManager.Get(title),
             count,
             opt.Data.GetValueString(opt.Value));
     }
@@ -332,7 +332,7 @@ public sealed class CrewmateModifierOptions : AbstractOptionGroup
     {
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
-            TouLocale.Get(title),
+            MiraLocaleManager.Get(title),
             optAmount.Data.GetValueString(optAmount.Value),
             opt.Data.GetValueString(opt.Value));
     }

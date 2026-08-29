@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Maps;
 public sealed class GlobalBetterMapOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
-    public override string GroupName => TouLocale.GetParsed("TouOptionTitleGlobalBetterMaps");
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleGlobalBetterMaps");
     public override uint GroupPriority => 0;
     public static MapTweakMode GetMapTweakMode(ModdedEnumOption option) => (MapTweakMode)option.Value;
 

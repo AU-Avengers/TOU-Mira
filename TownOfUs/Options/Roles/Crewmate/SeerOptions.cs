@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class SeerOptions : AbstractRoleOptionGroup<SeerRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleSeer", "Seer");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleSeer", "Seer");
 
     public ModdedToggleOption SalemSeer { get; set; } = new("TouOptionSeerSalemMode", true);
     

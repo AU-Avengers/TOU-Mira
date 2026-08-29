@@ -1,4 +1,3 @@
-using MiraAPI.Translation;
 using Reactor.Localization;
 
 namespace TownOfUs.Modules.Localization;

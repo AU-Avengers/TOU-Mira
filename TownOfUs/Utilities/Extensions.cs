@@ -417,7 +417,7 @@ public static class Extensions
 
         var teamName = MiscUtils.GetParsedModifierFaction(faction, true);
         var finalString =
-            $"<size=88%>{modifier.ModifierName}<color=white> ({TouLocale.Get("Modifier")})</size>\n<size=70%>{teamName}</color></size>";
+            $"<size=88%>{modifier.ModifierName}<color=white> ({MiraLocaleManager.Get("Modifier")})</size>\n<size=70%>{teamName}</color></size>";
         var color = MiscUtils.GetModifierColour(modifier);
 
         panel.LevelNumberText.transform.parent.gameObject.SetActive(false);

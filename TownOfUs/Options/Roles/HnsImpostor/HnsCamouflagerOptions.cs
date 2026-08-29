@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.HnsImpostor;
 
 public sealed class HnsCamouflagerOptions : AbstractRoleOptionGroup<HnsCamouflagerRole>
 {
-    public override string GroupName => TouLocale.Get("HnsRoleCamouflager", "Camouflager");
+    public override string GroupName => MiraLocaleManager.Get("HnsRoleCamouflager", "Camouflager");
 
     [ModdedNumberOption("HnsOptionCamouflagerCamoUses", 1f, 10f, 1f, MiraNumberSuffixes.None, "0", true)]
     public float MaxCamoUses { get; set; } = 3f;

@@ -30,15 +30,15 @@ public sealed class MayorRole(IntPtr cppPtr)
     private MeetingMenu meetingMenu;
     public bool Revealed { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
-    public string LocaleKey => "Mayor";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Mayor";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -78,11 +78,11 @@ public sealed class MayorRole(IntPtr cppPtr)
     [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
 
-    public static string UnrevealedString = TouLocale.GetParsed("TouRoleMayorUnrevealedTabText");
+    public static string UnrevealedString = MiraLocaleManager.Get("TouRoleMayorUnrevealedTabText");
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        UnrevealedString = TouLocale.GetParsed("TouRoleMayorUnrevealedTabText");
+        UnrevealedString = MiraLocaleManager.Get("TouRoleMayorUnrevealedTabText");
         if (!Player.HasModifier<MayorRevealModifier>())
         {
             Player.AddModifier<MayorRevealModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MayorRole>()));
@@ -100,7 +100,7 @@ public sealed class MayorRole(IntPtr cppPtr)
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
-                classic ? string.Empty : TouLocale.GetParsed("TouRolePoliticianReveal"),
+                classic ? string.Empty : MiraLocaleManager.Get("TouRolePoliticianReveal"),
                 MeetingAbilityType.Click,
                 classic ? LegacyAssets.RevealButtonSprite : TouAssets.RevealCleanSprite,
                 null!,

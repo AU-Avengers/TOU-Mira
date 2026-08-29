@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class ImitatorOptions : AbstractRoleOptionGroup<ImitatorRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleImitator", "Imitator");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleImitator", "Imitator");
 
     public ModdedToggleOption ImitateNeutrals { get; set; } = new("TouOptionImitatorImitateNeutrals", true);
 

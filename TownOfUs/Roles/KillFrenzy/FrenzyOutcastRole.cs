@@ -37,15 +37,15 @@ public sealed class FrenzyOutcastRole(IntPtr cppPtr) : FrenzyRole(cppPtr), ITown
     }
     public override bool IsAffectedByComms => false;
 
-    public string LocaleKey => "Outcast";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Outcast";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 

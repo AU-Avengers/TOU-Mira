@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class OfficerOptions : AbstractRoleOptionGroup<OfficerRole>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => TouLocale.Get("TouRoleOfficer", "Officer");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleOfficer", "Officer");
 
     public ModdedNumberOption ShootCooldown { get; set; } = new("TouOptionOfficerShootCooldown", 5f, 2.5f, 30f, 2.5f,
         MiraNumberSuffixes.Seconds);
@@ -55,10 +55,10 @@ public sealed class OfficerOptions : AbstractRoleOptionGroup<OfficerRole>, IWiki
 
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
-        var bullets = TouLocale.GetParsed("TouOptionOfficerBulletsSummary");
+        var bullets = MiraLocaleManager.Get("TouOptionOfficerBulletsSummary");
         var maxBullets = (int)MaxBulletsTotal.Value;
         var activeBullets = (int)MaxBulletsAtOnce.Value;
-        var cooldowns = TouLocale.GetParsed("TouOptionOfficerCooldownSummary");
+        var cooldowns = MiraLocaleManager.Get("TouOptionOfficerCooldownSummary");
         var shootCd = ShootCooldown.Value;
         var loadCd = LoadCooldown.Value;
 

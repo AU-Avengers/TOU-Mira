@@ -19,18 +19,18 @@ public sealed class SpyModifier : TouGameModifier, IWikiDiscoverable, IColoredMo
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spy.LoadAsset(),
             "TouMira.Role.Crewmate.Spy", 1.45f));
     public Color ModifierColor => new(0.8f, 0.64f, 0.8f, 1f);
-    public override string LocaleKey => "Spy";
-    public override string ModifierName => TouLocale.Get($"TouRole{LocaleKey}");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+    public override string IdPart => "Spy";
+    public override string ModifierName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription")
                + MiscUtils.AppendOptionsText(CustomRoleSingleton<SpyRole>.Instance.GetType());
     }
 

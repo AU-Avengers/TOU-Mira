@@ -11,19 +11,19 @@ namespace TownOfUs.Modifiers.HnsGame;
 [MiraIgnore]
 public abstract class HnsGameModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => TouLocale.Get($"HnsModifier{LocaleKey}");
-    public override string IntroInfo => TouLocale.GetParsed($"HnsModifier{LocaleKey}IntroBlurb");
+    public override string ModifierName => MiraLocaleManager.Get($"HnsModifier{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"HnsModifier{IdPart}IntroBlurb");
 
     public override bool HideFromGuessing => true;
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"HnsModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"HnsModifier{IdPart}TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"HnsModifier{LocaleKey}WikiDescription")
+        return MiraLocaleManager.Get($"HnsModifier{IdPart}WikiDescription")
                + MiscUtils.AppendOptionsText(GetType());
     }
     public List<CustomButtonWikiDescription> Abilities { get; } = [];

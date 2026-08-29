@@ -2,8 +2,6 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
-using MiraAPI.Translation;
-using Reactor.Localization.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Roles;
 

@@ -14,16 +14,16 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Hunter;
-    public string LocaleKey => "Lookout";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string IdPart => "Lookout";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
     public static string ReworkString => (LookoutView)OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Players ? "Alt" : string.Empty;
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}TabDescription");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}{ReworkString}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -48,8 +48,8 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Watch", "Watch"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}WatchWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Watch", "Watch"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}WatchWikiDescription"),
                     TouCrewAssets.WatchSprite)
             ];
         }

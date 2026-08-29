@@ -253,7 +253,7 @@ internal static class PerfectCommsIntegration
         renderer.sprite = TouAssets.JailUnmute.LoadAsset();
         renderer.color = Color.white;
 
-        label.text = TouLocale.Get("TouRoleJailorAllowVoice", "Allow Voice");
+        label.text = MiraLocaleManager.Get("TouRoleJailorAllowVoice", "Allow Voice");
 
         var passive = buttonObject.GetComponent<PassiveButton>();
         ConfigureJailVoiceButtonHitbox(buttonObject, passive, renderer);

@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class ParasiteOptions : AbstractRoleOptionGroup<ParasiteRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleParasite", "Parasite");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleParasite", "Parasite");
     public override Color GroupColor => Palette.ImpostorRoleRed;
 
     [ModdedNumberOption("TouOptionParasiteOvertakeCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]

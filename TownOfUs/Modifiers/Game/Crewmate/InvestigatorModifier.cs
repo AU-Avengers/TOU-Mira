@@ -15,18 +15,18 @@ public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable
         new Color32(0, 179, 179, 255),
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Investigator.LoadAsset(),
             "TouMira.Role.Crewmate.Investigator", 1.45f));
-    public override string LocaleKey => "Investigator";
-    public override string ModifierName => TouLocale.Get($"TouRole{LocaleKey}");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+    public override string IdPart => "Investigator";
+    public override string ModifierName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription")
                + MiscUtils.AppendOptionsText(CustomRoleSingleton<InvestigatorRole>.Instance.GetType());
     }
 

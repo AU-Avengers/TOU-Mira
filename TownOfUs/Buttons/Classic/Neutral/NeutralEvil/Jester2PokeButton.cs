@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Classic.Neutral.NeutralEvil;
 
 public sealed class JesterPokeButton : TownOfUsRoleButton<JesterRole, PlayerControl>
 {
-    public override string Name => TouLocale.GetParsed("TouRoleJesterPoke", "Poke");
+    public override string Name => MiraLocaleManager.Get("TouRoleJesterPoke", "Poke");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Jester;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<JesterOptions>.Instance.PokeCooldown.Value + MapCooldown, 5f, 120f);
@@ -41,7 +41,7 @@ public sealed class JesterPokeButton : TownOfUsRoleButton<JesterRole, PlayerCont
         }
 
         var notif1 = Helpers.CreateAndShowNotification(
-            TouLocale.GetParsed("TouNotifJesterPoke").Replace("<player>", $"{TownOfUsColors.Jester.ToTextColor()}{Target.Data.PlayerName}</color>"),
+            MiraLocaleManager.Get("TouNotifJesterPoke").Replace("<player>", $"{TownOfUsColors.Jester.ToTextColor()}{Target.Data.PlayerName}</color>"),
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Jester.LoadAsset());
 
         notif1.AdjustNotification();

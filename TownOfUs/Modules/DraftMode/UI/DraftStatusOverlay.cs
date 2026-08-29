@@ -206,13 +206,13 @@ namespace TownOfUs.Modules.DraftMode
             _root.transform.localPosition = new Vector3(0f, 0.6f, -20f);
 
             _yourNumberLabel = MakeText(_root, "YourNumberLabel", font, fontMat,
-                TouLocale.GetParsed("TouDraftYourNumberLabel", "YOUR NUMBER:"), 2.2f, new Color(0.6f, 0.9f, 1f),
+                MiraLocaleManager.Get("TouDraftYourNumberLabel", "YOUR NUMBER:"), 2.2f, new Color(0.6f, 0.9f, 1f),
                 new Vector3(0f, 0.55f, 0f), bold: false);
             _yourNumberValue = MakeText(_root, "YourNumberValue", font, fontMat,
                 "?", 5.5f, Color.white,
                 new Vector3(0f, 0.05f, 0f), bold: true);
             _nowPickingLabel = MakeText(_root, "NowPickingLabel", font, fontMat,
-                TouLocale.GetParsed("TouDraftNowPickingLabel", "NOW PICKING:"), 1.6f, new Color(1f, 0.85f, 0.1f),
+                MiraLocaleManager.Get("TouDraftNowPickingLabel", "NOW PICKING:"), 1.6f, new Color(1f, 0.85f, 0.1f),
                 new Vector3(0f, -0.55f, 0f), bold: false);
             _nowPickingValue = MakeText(_root, "NowPickingValue", font, fontMat,
                 "?", 3.0f, new Color(1f, 0.85f, 0.1f),
@@ -818,21 +818,21 @@ namespace TownOfUs.Modules.DraftMode
             _cachedIsMyTurn = isMyTurn;
 
             string mySlotText = mySlot > 0 ? mySlot.ToString(CultureInfo.InvariantCulture) : "?";
-            string mySlotLabelText = TouLocale.GetParsed("TouDraftYourNumberLabel", "YOUR NUMBER:");
+            string mySlotLabelText = MiraLocaleManager.Get("TouDraftYourNumberLabel", "YOUR NUMBER:");
             bool isSpectating = SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.Data.PlayerName);
             if (isSpectating)
             {
-                mySlotLabelText = TouLocale.GetParsed("TouDraftYouAreLabel", "YOU ARE");
-                mySlotText = TouLocale.GetParsed("TouDraftSpectatingValue", "SPECTATING");
+                mySlotLabelText = MiraLocaleManager.Get("TouDraftYouAreLabel", "YOU ARE");
+                mySlotText = MiraLocaleManager.Get("TouDraftSpectatingValue", "SPECTATING");
             }
 
             string pickerText = "?";
-            if (pickerCount > 1) pickerText = TouLocale.GetParsed("TouDraftMultiLabel", "MULTI");
+            if (pickerCount > 1) pickerText = MiraLocaleManager.Get("TouDraftMultiLabel", "MULTI");
             else if (pickerSlot > 0) pickerText = pickerSlot.ToString(CultureInfo.InvariantCulture);
 
-            string labelText = TouLocale.GetParsed("TouDraftNowPickingLabel", "NOW PICKING:");
-            if (isMyTurn) labelText = TouLocale.GetParsed("TouDraftYourTurnLabel", "YOUR TURN!");
-            else if (pickerCount > 1) labelText = TouLocale.GetParsed("TouDraftNowPickingMultiLabel", "NOW PICKING (MULTI):");
+            string labelText = MiraLocaleManager.Get("TouDraftNowPickingLabel", "NOW PICKING:");
+            if (isMyTurn) labelText = MiraLocaleManager.Get("TouDraftYourTurnLabel", "YOUR TURN!");
+            else if (pickerCount > 1) labelText = MiraLocaleManager.Get("TouDraftNowPickingMultiLabel", "NOW PICKING (MULTI):");
 
             if (_yourNumberLabel != null)
                 _yourNumberLabel.text = mySlotLabelText;

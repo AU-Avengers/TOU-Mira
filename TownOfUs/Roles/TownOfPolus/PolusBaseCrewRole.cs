@@ -12,11 +12,11 @@ namespace TownOfUs.Roles.TownOfPolus;
 public abstract class PolusBaseCrewRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole
 {
     RoleOptionsGroup ICustomRole.RoleOptionsGroup => TouRoleGroups.TownOfPolusCrewmate;
-    public virtual string LocaleKey => "Crewmate";
-    public virtual string RoleName => TouLocale.Get("CrewmateKeyword");
-    public virtual string RoleDescription => TouLocale.GetParsed("TownOfPolusRoleCrewDescription");
-    public virtual string RoleDescriptionDead => TouLocale.GetParsed("TownOfPolusRoleCrewDescriptionDead");
-    public virtual string RoleLongDescription => TouLocale.GetParsed("TownOfPolusRoleCrewDescription");
+    public virtual string IdPart => "Crewmate";
+    public virtual string RoleName => MiraLocaleManager.Get("CrewmateKeyword");
+    public virtual string RoleDescription => MiraLocaleManager.Get("TownOfPolusRoleCrewDescription");
+    public virtual string RoleDescriptionDead => MiraLocaleManager.Get("TownOfPolusRoleCrewDescriptionDead");
+    public virtual string RoleLongDescription => MiraLocaleManager.Get("TownOfPolusRoleCrewDescription");
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (playerControl != PlayerControl.LocalPlayer)
@@ -26,7 +26,7 @@ public abstract class PolusBaseCrewRole(IntPtr cppPtr) : CrewmateRole(cppPtr), I
 
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text =
-            $"{RoleColor.ToTextColor()}{TouLocale.GetParsed("TownOfPolusRoleTabText").Replace("<roleName>", RoleName).Replace("<description>", RoleLongDescription)}</color>";
+            $"{RoleColor.ToTextColor()}{MiraLocaleManager.Get("TownOfPolusRoleTabText").Replace("<roleName>", RoleName).Replace("<description>", RoleLongDescription)}</color>";
         orCreateTask.name = "TownOfPolusRoleText";
     }
 

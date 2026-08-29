@@ -172,9 +172,9 @@ public static class Bindings
         CreateNotif("HostEndMeetingNotif", TouRoleIcons.Prosecutor.LoadAsset());
     }
 
-    public static void CreateNotif(string localeKey, Sprite icon)
+    public static void CreateNotif(string IdPart, Sprite icon)
     {
-        var notif1 = Helpers.CreateAndShowNotification(TouLocale.GetParsed(localeKey),
+        var notif1 = Helpers.CreateAndShowNotification(MiraLocaleManager.Get(IdPart),
             Color.white, new Vector3(0f, 1f, -20f), spr: icon);
         notif1.AdjustNotification();
     }
@@ -252,7 +252,7 @@ public static class Bindings
                     {
                         var randomRole = impostorRoles[Random.Range(0, impostorRoles.Count)];
                         var roleIdentifier = randomRole is ITownOfUsRole touRole
-                            ? touRole.LocaleKey
+                            ? touRole.IdPart
                             : randomRole.GetRoleName();
                         var playerName = PlayerControl.LocalPlayer.Data.PlayerName;
                         UpCommandRequests.SetRequest(playerName, roleIdentifier);
@@ -275,7 +275,7 @@ public static class Bindings
                     {
                         var randomRole = neutralKillerRoles[Random.Range(0, neutralKillerRoles.Count)];
                         var roleIdentifier = randomRole is ITownOfUsRole touRole
-                            ? touRole.LocaleKey
+                            ? touRole.IdPart
                             : randomRole.GetRoleName();
                         var playerName = PlayerControl.LocalPlayer.Data.PlayerName;
                         UpCommandRequests.SetRequest(playerName, roleIdentifier);

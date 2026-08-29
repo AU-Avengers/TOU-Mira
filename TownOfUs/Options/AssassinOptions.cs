@@ -145,20 +145,20 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
 
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
-        var all = TouLocale.Get("TouOptionAssassinAll");
-        var none = TouLocale.Get("TouOptionAssassinNone");
+        var all = MiraLocaleManager.Get("TouOptionAssassinAll");
+        var none = MiraLocaleManager.Get("TouOptionAssassinNone");
         var cult = TownOfUsPlugin.Culture;
         var impCount = (int)NumberOfImpostorAssassins.Value;
         var impChance = (int)ImpAssassinChance.Value;
-        var impText = TouLocale.GetParsed("TouOptionAssassinImpTitleNone");
+        var impText = MiraLocaleManager.Get("TouOptionAssassinImpTitleNone");
         if (impCount == 1 && impChance > 0)
         {
-            impText = TouLocale.GetParsed("TouOptionAssassinImpTitleSingle").Replace("<chance>",
+            impText = MiraLocaleManager.Get("TouOptionAssassinImpTitleSingle").Replace("<chance>",
                 impChance.ToString(TownOfUsPlugin.Culture));
         }
         else if (impCount > 0 && impChance > 0)
         {
-            impText = TouLocale.GetParsed("TouOptionAssassinImpTitleFull").Replace("<amount>",
+            impText = MiraLocaleManager.Get("TouOptionAssassinImpTitleFull").Replace("<amount>",
                 impCount.ToString(TownOfUsPlugin.Culture)).Replace("<chance>",
                 impChance.ToString(TownOfUsPlugin.Culture));
         }
@@ -173,15 +173,15 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
         }
         var neutCount = (int)NumberOfNeutralAssassins.Value;
         var neutChance = (int)NeutAssassinChance.Value;
-        var neutText = TouLocale.GetParsed("TouOptionAssassinNeutTitleNone");
+        var neutText = MiraLocaleManager.Get("TouOptionAssassinNeutTitleNone");
         if (neutCount == 1 && neutChance > 0)
         {
-            neutText = TouLocale.GetParsed("TouOptionAssassinNeutTitleSingle").Replace("<chance>",
+            neutText = MiraLocaleManager.Get("TouOptionAssassinNeutTitleSingle").Replace("<chance>",
                 neutChance.ToString(TownOfUsPlugin.Culture));
         }
         else if (neutCount > 0 && neutChance > 0)
         {
-            neutText = TouLocale.GetParsed("TouOptionAssassinNeutTitleFull").Replace("<amount>",
+            neutText = MiraLocaleManager.Get("TouOptionAssassinNeutTitleFull").Replace("<amount>",
                 neutCount.ToString(TownOfUsPlugin.Culture)).Replace("<chance>",
                 neutChance.ToString(TownOfUsPlugin.Culture));
         }
@@ -202,15 +202,15 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
 
         if (!AssassinGuessInvest.Value && !AssassinCrewmateGuess.Value)
         {
-            crewRoles = TouLocale.Get("TouOptionAssassinBasicCrew") + ", " + TouLocale.Get("TouOptionAssassinInvestCrew");
+            crewRoles = MiraLocaleManager.Get("TouOptionAssassinBasicCrew") + ", " + MiraLocaleManager.Get("TouOptionAssassinInvestCrew");
         }
         else if (!AssassinCrewmateGuess.Value)
         {
-            crewRoles = TouLocale.Get("TouOptionAssassinBasicCrew");
+            crewRoles = MiraLocaleManager.Get("TouOptionAssassinBasicCrew");
         }
         else if (!AssassinGuessInvest.Value)
         {
-            crewRoles = TouLocale.Get("TouOptionAssassinInvestCrew");
+            crewRoles = MiraLocaleManager.Get("TouOptionAssassinInvestCrew");
         }
 
         if (AssassinGuessNeutralBenign.Value || AssassinGuessNeutralEvil.Value || AssassinGuessNeutralKilling.Value || AssassinGuessNeutralOutlier.Value)
@@ -226,22 +226,22 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
 
                 if (!AssassinGuessNeutralBenign.Value)
                 {
-                    neutArray = neutArray.AddToArray(TouLocale.Get("TouOptionAssassinNeutBenign"));
+                    neutArray = neutArray.AddToArray(MiraLocaleManager.Get("TouOptionAssassinNeutBenign"));
                 }
 
                 if (!AssassinGuessNeutralEvil.Value)
                 {
-                    neutArray = neutArray.AddToArray(TouLocale.Get("TouOptionAssassinNeutEvil"));
+                    neutArray = neutArray.AddToArray(MiraLocaleManager.Get("TouOptionAssassinNeutEvil"));
                 }
 
                 if (!AssassinGuessNeutralKilling.Value)
                 {
-                    neutArray = neutArray.AddToArray(TouLocale.Get("TouOptionAssassinNeutKilling"));
+                    neutArray = neutArray.AddToArray(MiraLocaleManager.Get("TouOptionAssassinNeutKilling"));
                 }
 
                 if (!AssassinGuessNeutralOutlier.Value)
                 {
-                    neutArray = neutArray.AddToArray(TouLocale.Get("TouOptionAssassinNeutOutlier"));
+                    neutArray = neutArray.AddToArray(MiraLocaleManager.Get("TouOptionAssassinNeutOutlier"));
                 }
 
                 neutRoles = string.Join(", ", neutArray);
@@ -253,36 +253,36 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
             if (AssassinGuessCrewModifiers.Value && AssassinGuessUtilityModifiers.Value &&
                 AssassinGuessNonCrewModifiers.Value && AssassinGuessAlliances.Value && AssassinGuessImpostorModifiers.Value)
             {
-                modifiers = TouLocale.Get("TouOptionAssassinUniversalMods");
+                modifiers = MiraLocaleManager.Get("TouOptionAssassinUniversalMods");
             }
             else
             {
                 var modArray = new[]
                 {
-                    TouLocale.Get("TouOptionAssassinUniversalMods")
+                    MiraLocaleManager.Get("TouOptionAssassinUniversalMods")
                 };
                 if (!AssassinGuessCrewModifiers.Value)
                 {
-                    modArray = modArray.AddToArray(TouLocale.Get("TouOptionAssassinCrewMods"));
+                    modArray = modArray.AddToArray(MiraLocaleManager.Get("TouOptionAssassinCrewMods"));
                 }
                 else if (!AssassinGuessUtilityModifiers.Value)
                 {
-                    modArray = modArray.AddToArray(TouLocale.Get("TouOptionAssassinUtilityCrewMods"));
+                    modArray = modArray.AddToArray(MiraLocaleManager.Get("TouOptionAssassinUtilityCrewMods"));
                 }
 
                 if (!AssassinGuessImpostorModifiers.Value)
                 {
-                    modArray = modArray.AddToArray(TouLocale.Get("TouOptionAssassinImpMods"));
+                    modArray = modArray.AddToArray(MiraLocaleManager.Get("TouOptionAssassinImpMods"));
                 }
 
                 if (!AssassinGuessNonCrewModifiers.Value)
                 {
-                    modArray = modArray.AddToArray(TouLocale.Get("TouOptionAssassinNonCrewMods"));
+                    modArray = modArray.AddToArray(MiraLocaleManager.Get("TouOptionAssassinNonCrewMods"));
                 }
 
                 if (!AssassinGuessAlliances.Value)
                 {
-                    modArray = modArray.AddToArray(TouLocale.Get("TouOptionAssassinAllianceMods"));
+                    modArray = modArray.AddToArray(MiraLocaleManager.Get("TouOptionAssassinAllianceMods"));
                 }
 
                 modifiers = string.Join(", ", modArray);
@@ -292,10 +292,10 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
         {
             impText,
             neutText,
-            TouLocale.Get("TouOptionAssassinGuessableCrewRolesTitle") + crewRoles,
-            TouLocale.Get("TouOptionAssassinGuessableNeutRolesTitle") + neutRoles,
-            TouLocale.Get("TouOptionAssassinGuessableImpRolesTitle") + impRoles,
-            TouLocale.Get("TouOptionAssassinGuessableModifiersTitle") + modifiers,
+            MiraLocaleManager.Get("TouOptionAssassinGuessableCrewRolesTitle") + crewRoles,
+            MiraLocaleManager.Get("TouOptionAssassinGuessableNeutRolesTitle") + neutRoles,
+            MiraLocaleManager.Get("TouOptionAssassinGuessableImpRolesTitle") + impRoles,
+            MiraLocaleManager.Get("TouOptionAssassinGuessableModifiersTitle") + modifiers,
         };
         return newArray;
     }
@@ -305,7 +305,7 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
         var opt = OptionGroupSingleton<AssassinOptions>.Instance.ImpAssassinChance;
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
-            TouLocale.Get("TouModifierAssassin"),
+            MiraLocaleManager.Get("TouModifierAssassin"),
             optAmount.Data.GetValueString(optAmount.Value),
             opt.Data.GetValueString(opt.Value));
     };
@@ -315,7 +315,7 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
         var opt = OptionGroupSingleton<AssassinOptions>.Instance.NeutAssassinChance;
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
-            TouLocale.Get("TouModifierAssassin"),
+            MiraLocaleManager.Get("TouModifierAssassin"),
             optAmount.Data.GetValueString(optAmount.Value),
             opt.Data.GetValueString(opt.Value));
     };

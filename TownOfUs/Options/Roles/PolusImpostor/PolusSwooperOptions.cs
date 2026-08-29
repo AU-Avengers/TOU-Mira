@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.PolusImpostor;
 
 public sealed class PolusSwooperOptions : AbstractRoleOptionGroup<PolusSwooperRole>
 {
-    public override string GroupName => TouLocale.Get("TownOfPolusRoleSwooper", "Swooper");
+    public override string GroupName => MiraLocaleManager.Get("TownOfPolusRoleSwooper", "Swooper");
 
     [ModdedNumberOption("Swoop Cooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float SwoopCooldown { get; set; } = 10f;

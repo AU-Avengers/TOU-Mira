@@ -9,16 +9,16 @@ namespace TownOfUs.Roles.TownOfPolus.Impostor;
 
 public class PolusSwooperRole(IntPtr cppPtr) : PolusBaseImpRole(cppPtr), IWikiDiscoverable
 {
-    public override string LocaleKey => "Swooper";
-    public override string RoleName => TouLocale.Get($"TownOfPolusRole{LocaleKey}");
-    public override string RoleDescription => TouLocale.GetParsed($"TownOfPolusRole{LocaleKey}IntroBlurb");
-    public override string RoleLongDescription => TouLocale.GetParsed($"TownOfPolusRole{LocaleKey}TabDescription");
+    public override string IdPart => "Swooper";
+    public override string RoleName => MiraLocaleManager.Get($"TownOfPolusRole{IdPart}");
+    public override string RoleDescription => MiraLocaleManager.Get($"TownOfPolusRole{IdPart}IntroBlurb");
+    public override string RoleLongDescription => MiraLocaleManager.Get($"TownOfPolusRole{IdPart}TabDescription");
     [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.TownOfPolus;
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TownOfPolusRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfPolusRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 

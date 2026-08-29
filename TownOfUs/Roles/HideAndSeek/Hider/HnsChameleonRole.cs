@@ -11,16 +11,16 @@ namespace TownOfUs.Roles.HideAndSeek.Hider;
 
 public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable
 {
-    public string LocaleKey => "Chameleon";
-    public string RoleName => TouLocale.Get($"HnsRole{LocaleKey}");
+    public string IdPart => "Chameleon";
+    public string RoleName => MiraLocaleManager.Get($"HnsRole{IdPart}");
     public string RoleDescription => "...";
-    public string RoleLongDescription => TouLocale.GetParsed($"HnsRole{LocaleKey}TabDescription");
-    public string RoleHintText => TouLocale.GetParsed($"HnsRole{LocaleKey}TabHint");
+    public string RoleLongDescription => MiraLocaleManager.Get($"HnsRole{IdPart}TabDescription");
+    public string RoleHintText => MiraLocaleManager.Get($"HnsRole{IdPart}TabHint");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"HnsRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"HnsRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -31,11 +31,11 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
         {
             return
             [
-                new(TouLocale.GetParsed($"HnsRole{LocaleKey}Swoop", "Swoop"),
-                    TouLocale.GetParsed($"HnsRole{LocaleKey}SwoopWikiDescription"),
+                new(MiraLocaleManager.Get($"HnsRole{IdPart}Swoop", "Swoop"),
+                    MiraLocaleManager.Get($"HnsRole{IdPart}SwoopWikiDescription"),
                     TouCrewAssets.CrewSwoopSprite),
-                new(TouLocale.GetParsed($"HnsRole{LocaleKey}Unswoop", "Unswoop"),
-                    TouLocale.GetParsed($"HnsRole{LocaleKey}UnswoopWikiDescription"),
+                new(MiraLocaleManager.Get($"HnsRole{IdPart}Unswoop", "Unswoop"),
+                    MiraLocaleManager.Get($"HnsRole{IdPart}UnswoopWikiDescription"),
                     TouCrewAssets.CrewUnswoopSprite)
             ];
         }

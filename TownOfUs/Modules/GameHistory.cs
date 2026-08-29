@@ -29,7 +29,7 @@ public sealed record PlayerStats(string Name, byte PlayerId, NetworkedPlayerInfo
     public List<BaseModifier> LastKnownModifiers { get; internal set; } = [];
     public StoredPlayerState PlayerState { get; set; } = State;
     public bool LockDeathInfo { get; set; }
-    public string DeathString { get; set; } = TouLocale.Get("Alive");
+    public string DeathString { get; set; } = MiraLocaleManager.Get("Alive");
     public int RoundOfDeath { get; set; } = -1;
     public bool DiedThisRound { get; set; }
     public string KilledBy { get; set; } = string.Empty;
@@ -62,25 +62,25 @@ public sealed record BodyReport
     {
         var reportColorDuration = OptionGroupSingleton<MedicOptions>.Instance.MedicReportColorDuration;
         var reportNameDuration = OptionGroupSingleton<MedicOptions>.Instance.MedicReportNameDuration;
-        var text = TouLocale.GetParsed("TouRoleMedicBodyError");
+        var text = MiraLocaleManager.Get("TouRoleMedicBodyError");
         if (br.Killer != null)
         {
             if (br.KillAge > reportColorDuration * 1000 && reportColorDuration > 0)
             {
-                text = TouLocale.GetParsed("TouRoleMedicBodyOld");
+                text = MiraLocaleManager.Get("TouRoleMedicBodyOld");
             }
             else if (br.Killer.PlayerId == br.Body?.PlayerId)
             {
-                text = TouLocale.GetParsed("TouRoleMedicBodySuicide");
+                text = MiraLocaleManager.Get("TouRoleMedicBodySuicide");
             }
             else if (br.KillAge < reportNameDuration * 1000)
             {
-                text = TouLocale.GetParsed("TouRoleMedicBodyKillerName").Replace("<player>", br.Killer.Data.PlayerName);
+                text = MiraLocaleManager.Get("TouRoleMedicBodyKillerName").Replace("<player>", br.Killer.Data.PlayerName);
             }
             else
             {
                 var typeOfColor = MedicRole.GetColorTypeForPlayer(br.Killer.Data.DefaultOutfit.ColorId);
-                text = TouLocale.GetParsed((typeOfColor == "lighter") ? "TouRoleMedicBodyKillerLightColor" : "TouRoleMedicBodyKillerDarkColor");
+                text = MiraLocaleManager.Get((typeOfColor == "lighter") ? "TouRoleMedicBodyKillerLightColor" : "TouRoleMedicBodyKillerDarkColor");
             }
         }
 
@@ -91,17 +91,17 @@ public sealed record BodyReport
 
     public static string ParseForensicReport(BodyReport br)
     {
-        var text = TouLocale.GetParsed("TouRoleForensicBodyError");
+        var text = MiraLocaleManager.Get("TouRoleForensicBodyError");
         if (br.Killer != null)
         {
             if (br.KillAge > OptionGroupSingleton<ForensicOptions>.Instance.ForensicFactionDuration * 1000 &&
                 OptionGroupSingleton<ForensicOptions>.Instance.ForensicFactionDuration > 0)
             {
-                text = TouLocale.GetParsed("TouRoleForensicBodyOld");
+                text = MiraLocaleManager.Get("TouRoleForensicBodyOld");
             }
             else if (br.Killer!.PlayerId == br.Body!.PlayerId)
             {
-                text = TouLocale.GetParsed("TouRoleForensicBodySuicide");
+                text = MiraLocaleManager.Get("TouRoleForensicBodySuicide");
             }
             else if (br.KillAge < OptionGroupSingleton<ForensicOptions>.Instance.ForensicRoleDuration * 1000)
             {
@@ -112,22 +112,22 @@ public sealed record BodyReport
                     role = cacheMod.CachedRole;
                 }
 
-                text = TouLocale.GetParsed("TouRoleForensicBodyKillerRole").Replace("<role>",
+                text = MiraLocaleManager.Get("TouRoleForensicBodyKillerRole").Replace("<role>",
                     $"#{role.GetRoleName().ToLowerInvariant().Replace(" ", "-")})");
             }
 
             else if (br.Killer.IsNeutral())
             {
-                text = TouLocale.GetParsed("TouRoleForensicBodyKillerNeutral");
+                text = MiraLocaleManager.Get("TouRoleForensicBodyKillerNeutral");
             }
 
             else if (br.Killer.IsCrewmate())
             {
-                text = TouLocale.GetParsed("TouRoleForensicBodyKillerCrewmate");
+                text = MiraLocaleManager.Get("TouRoleForensicBodyKillerCrewmate");
             }
             else
             {
-                text = TouLocale.GetParsed("TouRoleForensicBodyKillerImpostor");
+                text = MiraLocaleManager.Get("TouRoleForensicBodyKillerImpostor");
             }
 
         }
@@ -169,10 +169,10 @@ public static class GameHistory
         DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedByString = "null",
         DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore)
     {
-        var localizedCod = TouLocale.Get(causeOfDeath).Contains("STRMISS") ? "null" : TouLocale.Get(causeOfDeath);
-        var localizedKilledBy = (TouLocale.GetParsed(killedByString).Contains("STRMISS") || killedBy == player)
+        var localizedCod = MiraLocaleManager.Get(causeOfDeath).Contains("STRMISS") ? "null" : MiraLocaleManager.Get(causeOfDeath);
+        var localizedKilledBy = (MiraLocaleManager.Get(killedByString).Contains("STRMISS") || killedBy == player)
             ? "null"
-            : TouLocale.GetParsed(killedByString).Replace("<player>", killedBy.Data.PlayerName);
+            : MiraLocaleManager.Get(killedByString).Replace("<player>", killedBy.Data.PlayerName);
         UpdatePlayerDeathData(player.PlayerId, localizedCod, 0, roundOfDeath, diedThisRound, localizedKilledBy, lockInfo: lockInfo);
     }
 
@@ -193,7 +193,7 @@ public static class GameHistory
         }
 
         var name = GameData.Instance?.GetPlayerById(victimId)?.Object?.Data?.PlayerName ?? "?";
-        var summary = TouLocale.GetParsed("MisguessSummary")
+        var summary = MiraLocaleManager.Get("MisguessSummary")
             .Replace("<player>", name)
             .Replace("<role>", text);
 

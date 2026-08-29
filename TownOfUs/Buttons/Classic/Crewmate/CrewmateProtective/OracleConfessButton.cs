@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class OracleConfessButton : TownOfUsRoleButton<OracleRole, PlayerControl>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleOracleConfess", "Confess");
+    public override string Name => MiraLocaleManager.Get("TouRoleOracleConfess", "Confess");
     public override Color TextOutlineColor => TownOfUsColors.Oracle;
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<OracleOptions>.Instance.ConfessCooldown + MapCooldown, 5f, 120f);

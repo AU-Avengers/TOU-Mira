@@ -13,9 +13,9 @@ public class DoubleShotModifier : TouGameModifier, IWikiDiscoverable
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.DoubleShot.LoadAsset(),
             "TouMira.Modifier.Assailant.DoubleShot", 1.45f));
     public override Color FreeplayFileColor => TownOfUsColors.Overclocker;
-    public override string LocaleKey => "DoubleShot";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+    public override string IdPart => "DoubleShot";
+    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.DoubleShot;
     public override ModifierFaction FactionType => ModifierFaction.AssailantUtility;
@@ -24,12 +24,12 @@ public class DoubleShotModifier : TouGameModifier, IWikiDiscoverable
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription");
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];

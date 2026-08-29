@@ -83,7 +83,7 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
 
     private void SetAbility(string name, Sprite sprite)
     {
-        OverrideName(TouLocale.Get($"TouRoleVenerer{name}", name));
+        OverrideName(MiraLocaleManager.Get($"TouRoleVenerer{name}", name));
         OverrideSprite(sprite);
     }
 
@@ -99,7 +99,7 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
 
         if (name.Length > 0)
         {
-            OverrideName(TouLocale.Get($"TouRoleVenerer{name}", name));
+            OverrideName(MiraLocaleManager.Get($"TouRoleVenerer{name}", name));
         }
     }
 

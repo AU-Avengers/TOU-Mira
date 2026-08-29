@@ -14,7 +14,6 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Integrations;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Maps;
-using TownOfUs.Patches;
 using TownOfUs.Roles;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -454,7 +453,7 @@ public static class ModCompatibility
 
     public static void OxygenDeathPostfix(PlayerControl player)
     {
-        GameHistory.UpdatePlayerDeathData(player.PlayerId, TouLocale.Get("DiedToSubmergedOxygen"),
+        GameHistory.UpdatePlayerDeathData(player.PlayerId, MiraLocaleManager.Get("DiedToSubmergedOxygen"),
             0f, HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetTrue,
         lockInfo: DeathHandlerOverride.SetTrue);
     }

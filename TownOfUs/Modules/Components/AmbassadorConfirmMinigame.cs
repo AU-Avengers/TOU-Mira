@@ -46,12 +46,12 @@ public sealed class AmbassadorConfirmMinigame(IntPtr cppPtr) : Minigame(cppPtr)
 
         TitleText.font = HudManager.Instance.TaskPanel.taskText.font;
         TitleText.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
-        TitleText.text = TouLocale.Get("TouRoleAmbassadorRetrainTitle");
+        TitleText.text = MiraLocaleManager.Get("TouRoleAmbassadorRetrainTitle");
 
         RetrainText.font = HudManager.Instance.TaskPanel.taskText.font;
         RetrainText.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
         RetrainText.text =
-        TouLocale.GetParsed("TouRoleAmbassadorRetrainConfirm").Replace("<role>", NewRole.GetRoleName());
+        MiraLocaleManager.Get("TouRoleAmbassadorRetrainConfirm").Replace("<role>", NewRole.GetRoleName());
         RoleIcon.sprite = NewRole.RoleIconWhite ?? TouRoleIcons.Impostor.LoadAsset();
         RoleIcon.SetSizeLimit(2.8f);
 

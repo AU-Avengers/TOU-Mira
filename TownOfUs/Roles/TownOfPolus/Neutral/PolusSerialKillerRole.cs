@@ -10,17 +10,17 @@ namespace TownOfUs.Roles.TownOfPolus.Neutral;
 
 public class PolusSerialKillerRole(IntPtr cppPtr) : PolusBaseNeutRole(cppPtr), IWikiDiscoverable
 {
-    public override string LocaleKey => "SerialKiller";
-    public override string RoleName => TouLocale.Get($"TownOfPolusRole{LocaleKey}");
-    public override string RoleDescription => TouLocale.GetParsed($"TownOfPolusRole{LocaleKey}IntroBlurb");
-    public override string RoleLongDescription => TouLocale.GetParsed($"TownOfPolusRole{LocaleKey}TabDescription");
+    public override string IdPart => "SerialKiller";
+    public override string RoleName => MiraLocaleManager.Get($"TownOfPolusRole{IdPart}");
+    public override string RoleDescription => MiraLocaleManager.Get($"TownOfPolusRole{IdPart}IntroBlurb");
+    public override string RoleLongDescription => MiraLocaleManager.Get($"TownOfPolusRole{IdPart}TabDescription");
     [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.TownOfPolus;
     public int KillCount;
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TownOfPolusRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfPolusRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 

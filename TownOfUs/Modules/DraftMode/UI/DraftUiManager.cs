@@ -45,8 +45,8 @@ namespace TownOfUs.Modules.DraftMode
                 }
                 else
                 {
-                    displayName = TouLocale.GetParsed("TouDraftUnknownRoleLabel", "Role <id>").Replace("<id>", id.ToString(System.Globalization.CultureInfo.InvariantCulture));
-                    team = TouLocale.GetParsed("TouDraftUnknownTeamLabel", "Unknown");
+                    displayName = MiraLocaleManager.Get("TouDraftUnknownRoleLabel", "Role <id>").Replace("<id>", id.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                    team = MiraLocaleManager.Get("TouDraftUnknownTeamLabel", "Unknown");
                     icon = TouRoleIcons.RandomAny.LoadAsset();
                     color = Color.white;
                     faction = DraftFaction.Other;
@@ -59,20 +59,20 @@ namespace TownOfUs.Modules.DraftMode
             var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
             if (roleOpts.ShowRandomOption)
                 cards.Add(new DraftRoleCard(
-                    TouLocale.Get("Random"), TouLocale.Get("Random"),
+                    MiraLocaleManager.Get("Random"), MiraLocaleManager.Get("Random"),
                     TouRoleIcons.RandomAny.LoadAsset(),
                     Color.white,
                     roleIds.Count,
                     DraftFaction.Other,
-                    TouLocale.GetParsed("TouDraftRandomDescription", "Locks in a completely random role for you.")));
+                    MiraLocaleManager.Get("TouDraftRandomDescription", "Locks in a completely random role for you.")));
             return cards;
         }
 
         private static string GetTeamLabelForRoleName(string roleName)
         {
-            if (DraftRolePool.IsImpostorRoleName(roleName)) return TouLocale.Get("ImpostorKeyword");
-            if (DraftRolePool.IsNeutralRoleName(roleName)) return TouLocale.Get("NeutralKeyword");
-            return TouLocale.Get("CrewmateKeyword");
+            if (DraftRolePool.IsImpostorRoleName(roleName)) return MiraLocaleManager.Get("ImpostorKeyword");
+            if (DraftRolePool.IsNeutralRoleName(roleName)) return MiraLocaleManager.Get("NeutralKeyword");
+            return MiraLocaleManager.Get("CrewmateKeyword");
         }
 
         private static Color GetColorForRoleName(string roleName)
@@ -138,16 +138,16 @@ namespace TownOfUs.Modules.DraftMode
 
         public static string GetTeamLabel(RoleBehaviour role)
         {
-            var faction = TouLocale.Get("CrewmateKeyword");
+            var faction = MiraLocaleManager.Get("CrewmateKeyword");
             if (role)
             {
                 if (role!.IsNeutral())
                 {
-                    faction = TouLocale.Get("NeutralKeyword");
+                    faction = MiraLocaleManager.Get("NeutralKeyword");
                 }
                 else if (role!.IsImpostor())
                 {
-                    faction = TouLocale.Get("ImpostorKeyword");
+                    faction = MiraLocaleManager.Get("ImpostorKeyword");
                 }
             }
 

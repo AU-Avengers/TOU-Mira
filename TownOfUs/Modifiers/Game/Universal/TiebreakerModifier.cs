@@ -36,8 +36,8 @@ public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverabl
         TownOfUsColors.Tiebreaker,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Tiebreaker.LoadAsset(),
             "TouMira.Modifier.Universal.Tiebreaker", 1.45f));
-    public override string LocaleKey => "Tiebreaker";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IdPart => "Tiebreaker";
+    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Tiebreaker;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalPassive;
@@ -45,12 +45,12 @@ public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverabl
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];

@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 public sealed class OperativeOptions : AbstractTouModifierOptionGroup<OperativeModifier>
 {
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
-    public override string GroupName => TouLocale.Get("TouModifierOperative", "Operative");
+    public override string GroupName => MiraLocaleManager.Get("TouModifierOperative", "Operative");
     public override uint GroupPriority => 24;
 
     public override Color GroupColor => new(0.8f, 0.33f, 0.37f, 1f);

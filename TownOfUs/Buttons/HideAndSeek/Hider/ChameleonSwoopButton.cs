@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.HideAndSeek.Hider;
 public sealed class ChameleonSwoopButton : TownOfUsRoleButton<HnsChameleonRole>
 {
     public override Color TextOutlineColor => TownOfUsColors.Chameleon;
-    public override string Name => TouLocale.GetParsed("HnsRoleChameleonSwoop", "Swoop");
+    public override string Name => MiraLocaleManager.Get("HnsRoleChameleonSwoop", "Swoop");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<HnsChameleonOptions>.Instance.SwoopCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<HnsChameleonOptions>.Instance.SwoopDuration;

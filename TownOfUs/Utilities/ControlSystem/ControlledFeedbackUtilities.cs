@@ -21,7 +21,7 @@ public static class ControlledFeedbackUtilities
             "TouRolePuppeteerControlNotifBasic", "TouRolePuppeteerControlNotif1", "TouRolePuppeteerControlNotif2",
             "TouRolePuppeteerControlNotif3"
         ];
-        var controlledText = TouLocale.GetParsed(
+        var controlledText = MiraLocaleManager.Get(
             possibles.RandomSnapshot()).Replace("<role>", controllerName);
 
         var colored = controllerColor.ToTextColor();

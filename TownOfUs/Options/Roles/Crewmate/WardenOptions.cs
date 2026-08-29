@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class WardenOptions : AbstractRoleOptionGroup<WardenRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleWarden", "Warden");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleWarden", "Warden");
 
     [ModdedEnumOption("TouOptionWardenShowFortifyPlayer", typeof(FortifyOptions),
         ["TouOptionWardenFortEnumSelf", "TouOptionWardenFortEnumWarden", "TouOptionWardenFortEnumSelfAndWarden", "TouOptionWardenFortEnumEveryone"])]

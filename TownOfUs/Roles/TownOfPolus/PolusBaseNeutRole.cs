@@ -12,11 +12,11 @@ namespace TownOfUs.Roles.TownOfPolus;
 public abstract class PolusBaseNeutRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsRole
 {
     RoleOptionsGroup ICustomRole.RoleOptionsGroup => TouRoleGroups.TownOfPolusNeutral;
-    public virtual string LocaleKey => "Neutral";
-    public virtual string RoleName => TouLocale.Get("NeutralKeyword");
-    public virtual string RoleDescription => TouLocale.GetParsed("TownOfPolusRoleNeutDescription");
-    public virtual string RoleDescriptionDead => TouLocale.GetParsed("TownOfPolusRoleNeutDescriptionDead");
-    public virtual string RoleLongDescription => TouLocale.GetParsed("TownOfPolusRoleNeutDescription");
+    public virtual string IdPart => "Neutral";
+    public virtual string RoleName => MiraLocaleManager.Get("NeutralKeyword");
+    public virtual string RoleDescription => MiraLocaleManager.Get("TownOfPolusRoleNeutDescription");
+    public virtual string RoleDescriptionDead => MiraLocaleManager.Get("TownOfPolusRoleNeutDescriptionDead");
+    public virtual string RoleLongDescription => MiraLocaleManager.Get("TownOfPolusRoleNeutDescription");
 
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
@@ -27,8 +27,8 @@ public abstract class PolusBaseNeutRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), 
 
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         var text =
-            $"{RoleColor.ToTextColor()}{TouLocale.GetParsed("TownOfPolusRoleTabText").Replace("<roleName>", RoleName).Replace("<description>", RoleLongDescription)}</color>" +
-            "\n<color=#FFFFFF>" + TouLocale.GetParsed("TownOfPolusRoleFakeTaskTabText") + "</color>";
+            $"{RoleColor.ToTextColor()}{MiraLocaleManager.Get("TownOfPolusRoleTabText").Replace("<roleName>", RoleName).Replace("<description>", RoleLongDescription)}</color>" +
+            "\n<color=#FFFFFF>" + MiraLocaleManager.Get("TownOfPolusRoleFakeTaskTabText") + "</color>";
         orCreateTask.Text = text;
         orCreateTask.name = "TownOfPolusRoleText";
     }

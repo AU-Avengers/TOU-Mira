@@ -37,15 +37,15 @@ public sealed class UndertakerRole(IntPtr cppPtr)
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<AltruistRole>());
     public DoomableType DoomHintType => DoomableType.Death;
-    public string LocaleKey => "Undertaker";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Undertaker";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -71,11 +71,11 @@ public sealed class UndertakerRole(IntPtr cppPtr)
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Drag", "Drag"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}DragWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Drag", "Drag"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}DragWikiDescription"),
                     TouImpAssets.DragSprite),
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Drop", "Drop"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}DropWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Drop", "Drop"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}DropWikiDescription"),
                     TouImpAssets.DropSprite)
             ];
         }

@@ -36,15 +36,15 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     }
 
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string LocaleKey => "Warden";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Warden";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -55,8 +55,8 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Fortify", "Fortify"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}FortifyWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Fortify", "Fortify"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}FortifyWikiDescription"),
                     TouCrewAssets.FortifySprite)
             ];
         }
@@ -74,12 +74,12 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         Icon = TouRoleIcons.Warden
     };
 
-    public static string ProtectionString = TouLocale.GetParsed("TouRoleWardenTabProtecting");
+    public static string ProtectionString = MiraLocaleManager.Get("TouRoleWardenTabProtecting");
 
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        ProtectionString = TouLocale.GetParsed("TouRoleWardenTabProtecting");
+        ProtectionString = MiraLocaleManager.Get("TouRoleWardenTabProtecting");
     }
 
     [HideFromIl2Cpp]

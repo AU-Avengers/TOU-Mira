@@ -22,7 +22,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Death;
-    public string LocaleKey => "Altruist";
+    public string IdPart => "Altruist";
     public static bool IsReviveInProgress { get; private set; }
     public static string ReviveString()
     {
@@ -33,14 +33,14 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             _ => string.Empty,
         };
     }
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription{ReviveString()}");
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription{ReviveString()}");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -51,8 +51,8 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Revive", "Revive"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}Revive{ReviveString()}WikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Revive", "Revive"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}Revive{ReviveString()}WikiDescription"),
                     TouCrewAssets.ReviveSprite)
             ];
         }
@@ -170,8 +170,8 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
         if (!MeetingHud.Instance && (!Player.HasDied() || killOnStart))
         {
-            var revivedText = TouLocale.GetParsed("TouRoleAltruistRevivedNotif");
-            var successText = TouLocale.GetParsed("TouRoleAltruistReviveSuccessNotif")
+            var revivedText = MiraLocaleManager.Get("TouRoleAltruistRevivedNotif");
+            var successText = MiraLocaleManager.Get("TouRoleAltruistReviveSuccessNotif")
                 .Replace("<player>", dead.Data.PlayerName);
 
             ReviveUtilities.RevivePlayer(

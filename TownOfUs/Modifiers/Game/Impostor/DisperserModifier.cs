@@ -20,9 +20,9 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
         TownOfUsColors.Impostor,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Disperser.LoadAsset(),
             "TouMira.Modifier.Impostor.Disperser", 1.45f));
-    public override string LocaleKey => "Disperser";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+    public override string IdPart => "Disperser";
+    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Disperser;
     public override ModifierFaction FactionType => ModifierFaction.ImpostorUtility;
@@ -30,12 +30,12 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     [HideFromIl2Cpp]
@@ -45,8 +45,8 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
         {
             return
             [
-                new(TouLocale.Get($"TouModifier{LocaleKey}Disperse"),
-                    TouLocale.GetParsed($"TouModifier{LocaleKey}DisperseWikiDescription"),
+                new(MiraLocaleManager.Get($"TouModifier{IdPart}Disperse"),
+                    MiraLocaleManager.Get($"TouModifier{IdPart}DisperseWikiDescription"),
                     TouAssets.DisperseSprite)
             ];
         }

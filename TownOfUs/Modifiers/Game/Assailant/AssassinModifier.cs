@@ -26,10 +26,10 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     public int maxKills;
     public int defaultKills;
     private MeetingMenu meetingMenu;
-    public override string LocaleKey => "Assassin";
+    public override string IdPart => "Assassin";
     public static bool HasDoubleShot => PlayerControl.LocalPlayer.HasModifier<DoubleShotModifier>();
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
     public override bool PreventsOtherModifiers => false;
     public override bool AppearsInSummary => false;
     public override bool AppearsInIntro => !PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().Any(x => x != this && x.AppearsInIntro);
@@ -38,12 +38,12 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];

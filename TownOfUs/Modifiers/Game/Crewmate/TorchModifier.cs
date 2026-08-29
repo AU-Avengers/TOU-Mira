@@ -10,18 +10,18 @@ public sealed class TorchModifier : TouGameModifier, IWikiDiscoverable
         TownOfUsColors.Torch,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Torch.LoadAsset(),
             "TouMira.Modifier.Crewmate.Torch", 1.45f));
-    public override string LocaleKey => "Torch";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+    public override string IdPart => "Torch";
+    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription");
     }
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Torch;

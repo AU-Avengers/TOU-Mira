@@ -48,7 +48,7 @@ public sealed class AllianceModifierOptions : AbstractOptionGroup
     {
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
-            TouLocale.Get(title),
+            MiraLocaleManager.Get(title),
             count,
             opt.Data.GetValueString(opt.Value));
     }

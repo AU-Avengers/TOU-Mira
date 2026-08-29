@@ -1,6 +1,4 @@
 using HarmonyLib;
-using MiraAPI.Translation;
-using Reactor.Localization.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using UnityEngine;

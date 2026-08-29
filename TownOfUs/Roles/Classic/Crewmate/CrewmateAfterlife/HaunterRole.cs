@@ -147,15 +147,15 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         GameHistory.PlayerStats[Player.PlayerId].DiedThisRound = false;
     }
 
-    public string LocaleKey => "Haunter";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Haunter";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -375,7 +375,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             if (Player.AmOwner && !silent)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}{TouLocale.GetParsed("TouRoleHaunterClickableFeedback")}</b></color>",
+                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}{MiraLocaleManager.Get("TouRoleHaunterClickableFeedback")}</b></color>",
                     Color.white,
                     new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
                 notif1.AdjustNotification();
@@ -400,7 +400,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             {
                 Coroutines.Start(MiscUtils.CoFlash(RoleColor));
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}{TouLocale.GetParsed("TouRoleHaunterSelfAlertFeedback")}</b></color>", Color.white,
+                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}{MiraLocaleManager.Get("TouRoleHaunterSelfAlertFeedback")}</b></color>", Color.white,
                     new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
                 notif1.AdjustNotification();
             }
@@ -408,7 +408,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             {
                 Coroutines.Start(MiscUtils.CoFlash(RoleColor));
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}{TouLocale.GetParsed("TouRoleHaunterImpAlertFeedback")}</b></color>",
+                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}{MiraLocaleManager.Get("TouRoleHaunterImpAlertFeedback")}</b></color>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
                 notif1.AdjustNotification();
             }
@@ -439,7 +439,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             {
                 Coroutines.Start(MiscUtils.CoFlash(Color.white));
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}{TouLocale.GetParsed("TouRoleHaunterSelfRevealFeedback")}</b></color>", Color.white,
+                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}{MiraLocaleManager.Get("TouRoleHaunterSelfRevealFeedback")}</b></color>", Color.white,
                     new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
                 notif1.AdjustNotification();
             }
@@ -447,7 +447,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             {
                 Coroutines.Start(MiscUtils.CoFlash(Color.white));
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}{TouLocale.GetParsed("TouRoleHaunterImpRevealFeedback")}</b></color>",
+                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}{MiraLocaleManager.Get("TouRoleHaunterImpRevealFeedback")}</b></color>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
                 notif1.AdjustNotification();
             }

@@ -10,16 +10,16 @@ namespace TownOfUs.Roles.HideAndSeek.Hider;
 
 public sealed class HnsSnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable
 {
-    public string LocaleKey => "Snitch";
-    public string RoleName => TouLocale.Get($"HnsRole{LocaleKey}");
+    public string IdPart => "Snitch";
+    public string RoleName => MiraLocaleManager.Get($"HnsRole{IdPart}");
     public string RoleDescription => "...";
-    public string RoleLongDescription => TouLocale.GetParsed($"HnsRole{LocaleKey}TabDescription");
-    public string RoleHintText => TouLocale.GetParsed($"HnsRole{LocaleKey}TabHint");
+    public string RoleLongDescription => MiraLocaleManager.Get($"HnsRole{IdPart}TabDescription");
+    public string RoleHintText => MiraLocaleManager.Get($"HnsRole{IdPart}TabHint");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"HnsRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"HnsRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 

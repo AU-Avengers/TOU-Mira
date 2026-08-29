@@ -24,21 +24,21 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public bool IgnoredByRecording => false;
     public DoomableType DoomHintType => DoomableType.Perception;
 
-    public string LocaleKey => "TimeLord";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}", "Time Lord");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "TimeLord";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}", "Time Lord");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities =>
     [
-        new(TouLocale.GetParsed($"TouRole{LocaleKey}Rewind", "Rewind"),
-            TouLocale.GetParsed($"TouRole{LocaleKey}RewindWikiDescription"),
+        new(MiraLocaleManager.Get($"TouRole{IdPart}Rewind", "Rewind"),
+            MiraLocaleManager.Get($"TouRole{IdPart}RewindWikiDescription"),
             TouCrewAssets.RewindSprite)
     ];
 
@@ -82,7 +82,7 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             try
             {
                 var notif = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.TimeLord.ToTextColor()}{TouLocale.GetParsed("TouRoleTimeLordRewindNotif", "Time is being rewound!")}</color></b>",
+                    $"<b>{TownOfUsColors.TimeLord.ToTextColor()}{MiraLocaleManager.Get("TouRoleTimeLordRewindNotif", "Time is being rewound!")}</color></b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.TimeLord.LoadAsset());
                 notif.AdjustNotification();
                 notif.alphaTimer = duration + 1f;

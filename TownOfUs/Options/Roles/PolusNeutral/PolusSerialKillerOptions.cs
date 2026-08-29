@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.PolusNeutral;
 
 public sealed class PolusSerialKillerOptions : AbstractRoleOptionGroup<PolusSerialKillerRole>
 {
-    public override string GroupName => TouLocale.Get("TownOfPolusRoleSerialKiller", "Serial Killer");
+    public override string GroupName => MiraLocaleManager.Get("TownOfPolusRoleSerialKiller", "Serial Killer");
 
     [ModdedNumberOption("Kill Cooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float KillCooldown { get; set; } = 25f;

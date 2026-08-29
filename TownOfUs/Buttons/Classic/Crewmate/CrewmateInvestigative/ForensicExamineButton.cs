@@ -7,7 +7,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class ForensicExamineButton : TownOfUsRoleButton<ForensicRole, PlayerControl>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleForensicExamine", "Examine");
+    public override string Name => MiraLocaleManager.Get("TouRoleForensicExamine", "Examine");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Forensic;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<ForensicOptions>.Instance.ExamineCooldown + MapCooldown, 5f, 120f);

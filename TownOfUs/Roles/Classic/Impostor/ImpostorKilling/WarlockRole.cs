@@ -13,10 +13,10 @@ public sealed class WarlockRole(IntPtr cppPtr)
 {
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VeteranRole>());
     public DoomableType DoomHintType => DoomableType.Relentless;
-    public string LocaleKey => "Warlock";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Warlock";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     [HideFromIl2Cpp]
     public bool IsModifierApplicable(BaseModifier modifier)
@@ -27,7 +27,7 @@ public sealed class WarlockRole(IntPtr cppPtr)
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -51,8 +51,8 @@ public sealed class WarlockRole(IntPtr cppPtr)
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}BurstKill", "Burst Kill"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}KillWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}BurstKill", "Burst Kill"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}KillWikiDescription"),
                     TouAssets.KillSprite)
             ];
         }

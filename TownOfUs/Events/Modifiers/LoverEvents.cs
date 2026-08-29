@@ -37,7 +37,7 @@ public static class LoverEvents
         switch (@event.DeathReason)
         {
             case DeathReason.Exile:
-                GameHistory.UpdatePlayerDeathData(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"), 0, HudManagerHelper.Instance.CurrentRound,
+                GameHistory.UpdatePlayerDeathData(loveMod.OtherLover, MiraLocaleManager.Get("DiedToHeartbreak"), 0, HudManagerHelper.Instance.CurrentRound,
                     DeathHandlerOverride.SetTrue,
                     lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
                 loveMod.OtherLover.Exiled();
@@ -53,7 +53,7 @@ public static class LoverEvents
                     var showAnim = !ExileController.Instance;
                     var murderResultFlags2 = MurderResultFlags.DecisionByHost | MurderResultFlags.Succeeded;
 
-                    GameHistory.UpdatePlayerDeathData(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"), 0, HudManagerHelper.Instance.CurrentRound,
+                    GameHistory.UpdatePlayerDeathData(loveMod.OtherLover, MiraLocaleManager.Get("DiedToHeartbreak"), 0, HudManagerHelper.Instance.CurrentRound,
                         showAnim
                             ? DeathHandlerOverride.SetTrue
                             : DeathHandlerOverride.SetFalse,
@@ -79,7 +79,7 @@ public static class LoverEvents
             lover.OtherLover != null)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                TouLocale.GetParsed("TouModifierLoverIntroMessage")
+                MiraLocaleManager.Get("TouModifierLoverIntroMessage")
                     .Replace("<modifier>", $"{TownOfUsColors.Lover.ToTextColor()}{lover.ModifierName}</color>")
                     .Replace("<player>", $"{TownOfUsColors.Lover.ToTextColor()}{lover.OtherLover.Data.PlayerName}</color>"),
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Lover.LoadAsset());

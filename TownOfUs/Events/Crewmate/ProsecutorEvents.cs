@@ -15,8 +15,6 @@ using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using UnityEngine;
-using Object = System.Object;
 
 namespace TownOfUs.Events.Crewmate;
 
@@ -163,9 +161,9 @@ public static class ProsecutorEvents
             if (hasProsecuted)
             {
                 ProsecutorRole.HasProsecutedBefore = true;
-                GameHistory.UpdatePlayerDeathData(player.PlayerId, TouLocale.Get("DiedToProsecutor"), 0,
+                GameHistory.UpdatePlayerDeathData(player.PlayerId, MiraLocaleManager.Get("DiedToProsecutor"), 0,
                     HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
-                    TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", pros.Player.Data.PlayerName),
+                    MiraLocaleManager.Get("DiedByStringBasic").Replace("<player>", pros.Player.Data.PlayerName),
                     lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
 
                 if (pros.Player.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
@@ -186,7 +184,7 @@ public static class ProsecutorEvents
                         {
                             celeb.Announced = true;
                         }
-                        GameHistory.UpdatePlayerDeathData(pros.Player.PlayerId, TouLocale.Get("DiedToPunishment"), 0,
+                        GameHistory.UpdatePlayerDeathData(pros.Player.PlayerId, MiraLocaleManager.Get("DiedToPunishment"), 0,
                             HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
                             lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
 

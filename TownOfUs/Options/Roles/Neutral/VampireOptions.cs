@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class VampireOptions : AbstractRoleOptionGroup<VampireRole>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => TouLocale.Get("TouRoleVampire", "Vampire");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleVampire", "Vampire");
 
     [ModdedNumberOption("TouOptionVampireBiteCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float BiteCooldown { get; set; } = 25f;
@@ -43,7 +43,7 @@ public sealed class VampireOptions : AbstractRoleOptionGroup<VampireRole>, IWiki
 
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
-        var title = TouLocale.GetParsed("TouOptionVampireValidNeutralConversions");
+        var title = MiraLocaleManager.Get("TouOptionVampireValidNeutralConversions");
         var nbValid = ConvertNeutralBenign.Value;
         var neValid = ConvertNeutralEvil.Value;
         var noValid = ConvertNeutralOutlier.Value;
@@ -51,14 +51,14 @@ public sealed class VampireOptions : AbstractRoleOptionGroup<VampireRole>, IWiki
         if (!nbValid && !neValid && !noValid)
         {
             var newArray = new []
-                { $"{title}: {TouLocale.GetParsed("TouOptionVampireNeutConvertNone")}" };
+                { $"{title}: {MiraLocaleManager.Get("TouOptionVampireNeutConvertNone")}" };
             return newArray;
         }
 
         var selected = new List<string>();
-        if (nbValid) selected.Add(TouLocale.GetParsed("TouOptionVampireNeutConvertBenign"));
-        if (neValid) selected.Add(TouLocale.GetParsed("TouOptionVampireNeutConvertEvil"));
-        if (noValid) selected.Add(TouLocale.GetParsed("TouOptionVampireNeutConvertOutlier"));
+        if (nbValid) selected.Add(MiraLocaleManager.Get("TouOptionVampireNeutConvertBenign"));
+        if (neValid) selected.Add(MiraLocaleManager.Get("TouOptionVampireNeutConvertEvil"));
+        if (noValid) selected.Add(MiraLocaleManager.Get("TouOptionVampireNeutConvertOutlier"));
 
         var names = selected
             .Distinct()

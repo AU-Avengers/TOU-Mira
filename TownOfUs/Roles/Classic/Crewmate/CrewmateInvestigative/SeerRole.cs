@@ -19,17 +19,17 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string LocaleKey => "Seer";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string IdPart => "Seer";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
     public static string ReworkString => OptionGroupSingleton<SeerOptions>.Instance.SalemSeer.Value ? "Alt" : string.Empty;
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}TabDescription");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}{ReworkString}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}{ReworkString}TabDescription");
     public List<string> ComparisonList = [];
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}{ReworkString}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -39,12 +39,12 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         get
         {
             var sprite = TouCrewAssets.SeerSprite;
-            var abilityName = TouLocale.GetParsed($"TouRole{LocaleKey}Reveal", "Reveal");
-            var abilityDesc = TouLocale.GetParsed($"TouRole{LocaleKey}RevealWikiDescription");
+            var abilityName = MiraLocaleManager.Get($"TouRole{IdPart}Reveal", "Reveal");
+            var abilityDesc = MiraLocaleManager.Get($"TouRole{IdPart}RevealWikiDescription");
             if (OptionGroupSingleton<SeerOptions>.Instance.SalemSeer.Value)
             {
-                abilityName = TouLocale.GetParsed($"TouRole{LocaleKey}Compare", "Compare");
-                abilityDesc = TouLocale.GetParsed($"TouRole{LocaleKey}CompareWikiDescription");
+                abilityName = MiraLocaleManager.Get($"TouRole{IdPart}Compare", "Compare");
+                abilityDesc = MiraLocaleManager.Get($"TouRole{IdPart}CompareWikiDescription");
                 sprite = TouCrewAssets.SeerButtonSprites.AsEnumerable().Random()!;
             }
             return
@@ -70,7 +70,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
     [HideFromIl2Cpp] public List<PlayerControl> ComparedPlayers { get; } = [];
     public bool UsedThisRound { get; set; }
 
-    public static string TabHeaderString = TouLocale.GetParsed("TouRoleSeerTabHeader");
+    public static string TabHeaderString = MiraLocaleManager.Get("TouRoleSeerTabHeader");
     public override void Initialize(PlayerControl player)
     {
         GazeTarget = null;
@@ -78,7 +78,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         RoleBehaviourStubs.Initialize(this, player);
         ComparisonList = [];
         ComparedPlayers.Clear();
-        TabHeaderString = TouLocale.GetParsed("TouRoleSeerTabHeader");
+        TabHeaderString = MiraLocaleManager.Get("TouRoleSeerTabHeader");
     }
 
     [HideFromIl2Cpp]
@@ -118,14 +118,14 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         if (GazeTarget == null || IntuitTarget == null)
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.red));
-            ShowNotification($"<b>{TouLocale.GetParsed("TouRoleSeerCompareErrorAmountNotif")}</b>");
+            ShowNotification($"<b>{MiraLocaleManager.Get("TouRoleSeerCompareErrorAmountNotif")}</b>");
             return;
         }
 
         if (GazeTarget == seer || IntuitTarget == seer)
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.red));
-            ShowNotification($"<b>{TouLocale.GetParsed("TouRoleSeerCompareErrorSelfNotif")}</b>");
+            ShowNotification($"<b>{MiraLocaleManager.Get("TouRoleSeerCompareErrorSelfNotif")}</b>");
             return;
         }
         var gazeButton = CustomButtonSingleton<SeerGazeButton>.Instance;
@@ -175,17 +175,17 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         if (enemies)
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.ImpSoft));
-            var text = TouLocale.GetParsed("TouRoleSeerCompareEnemiesNotif").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
+            var text = MiraLocaleManager.Get("TouRoleSeerCompareEnemiesNotif").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
             ShowNotification($"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{text}</color></b>");
-            var compareResult = TouLocale.GetParsed("TouRoleSeerTabComparison").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
+            var compareResult = MiraLocaleManager.Get("TouRoleSeerTabComparison").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
             ComparisonList.Add($"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{compareResult.Replace("<num>", HudManagerHelper.Instance.CurrentRound.ToString(TownOfUsPlugin.Culture))}</color></b>");
         }
         else
         {
             Coroutines.Start(MiscUtils.CoFlash(Palette.CrewmateBlue));
-            var text = TouLocale.GetParsed("TouRoleSeerCompareFriendsNotif").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
+            var text = MiraLocaleManager.Get("TouRoleSeerCompareFriendsNotif").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
             ShowNotification($"<b>{Palette.CrewmateBlue.ToTextColor()}{text}</color></b>");
-            var compareResult = TouLocale.GetParsed("TouRoleSeerTabComparison").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
+            var compareResult = MiraLocaleManager.Get("TouRoleSeerTabComparison").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
             ComparisonList.Add($"<b>{Palette.CrewmateBlue.ToTextColor()}{compareResult.Replace("<num>", HudManagerHelper.Instance.CurrentRound.ToString(TownOfUsPlugin.Culture))}</color></b>");
         }
 

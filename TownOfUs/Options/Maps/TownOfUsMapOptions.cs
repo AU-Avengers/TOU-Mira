@@ -11,7 +11,7 @@ namespace TownOfUs.Options.Maps;
 public sealed class TownOfUsMapOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
-    public override string GroupName => TouLocale.Get("TouOptionTitleRandomMapChoice");
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleRandomMapChoice");
     public override uint GroupPriority => 0;
 
     [ModdedToggleOption("TouOptionRandomMapsToggle")]

@@ -43,15 +43,15 @@ public sealed class FrenzyWerewolfRole(IntPtr cppPtr)
     }
 
     public bool Rampaging { get; set; }
-    public string LocaleKey => "Werewolf";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Werewolf";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -62,8 +62,8 @@ public sealed class FrenzyWerewolfRole(IntPtr cppPtr)
         {
             return new List<CustomButtonWikiDescription>
             {
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Rampage", "Rampage"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}RampageWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Rampage", "Rampage"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}RampageWikiDescription"),
                     TouNeutAssets.RampageSprite)
             };
         }

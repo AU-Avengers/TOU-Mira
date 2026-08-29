@@ -30,7 +30,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
     private MeetingMenu? _meetingMenu;
     private NetworkedPlayerInfo? _selectedPlr;
     public override string ModifierName => "Imitator";
-    public string CachedRoleName => TouLocale.Get($"TouRoleImitatorShortName");
+    public string CachedRoleName => MiraLocaleManager.Get($"TouRoleImitatorShortName");
     public override bool HideOnUi => true;
     public bool ShowCurrentRoleFirst => true;
 

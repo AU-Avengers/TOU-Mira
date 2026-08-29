@@ -147,7 +147,7 @@ public sealed class DrinkSpillComponent(nint cppPtr) : MonoBehaviour(cppPtr)
         }
         PlayerControl.LocalPlayer.RpcAddModifier<BarkeeperSpillEffectModifier>(isBuff);
         var notif = Helpers.CreateAndShowNotification(
-            $"<b>{TouLocale.GetParsed(msg)}</b>",
+            $"<b>{MiraLocaleManager.Get(msg)}</b>",
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper.LoadAsset());
         notif.Text.SetOutlineThickness(0.35f);
     }

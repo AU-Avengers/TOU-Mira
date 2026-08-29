@@ -19,7 +19,7 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
             var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.ButtonBarryChance;
             opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
                 opt.StringName,
-                TouLocale.Get("TouModifierButtonBarry"),
+                MiraLocaleManager.Get("TouModifierButtonBarry"),
                 opt.Value > 0 ? "1" : "0",
                 opt.Data.GetValueString(opt.Value));
         }
@@ -34,7 +34,7 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
             var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.TiebreakerChance;
             opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
                 opt.StringName,
-                TouLocale.Get("TouModifierTiebreaker"),
+                MiraLocaleManager.Get("TouModifierTiebreaker"),
                 opt.Value > 0 ? "1" : "0",
                 opt.Data.GetValueString(opt.Value));
         }
@@ -196,7 +196,7 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.DrunkChance;
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
-            TouLocale.Get("TouModifierDrunk"),
+            MiraLocaleManager.Get("TouModifierDrunk"),
             optAmount.Data.GetValueString(optAmount.Value),
             opt.Data.GetValueString(opt.Value));
     };
@@ -268,7 +268,7 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
     {
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
-            TouLocale.Get(title),
+            MiraLocaleManager.Get(title),
             optAmount.Data.GetValueString(optAmount.Value),
             opt.Data.GetValueString(opt.Value));
     }

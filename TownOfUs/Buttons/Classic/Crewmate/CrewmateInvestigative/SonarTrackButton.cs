@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class SonarTrackButton : TownOfUsRoleButton<SonarRole, PlayerControl>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleSonarTrack", "Track");
+    public override string Name => MiraLocaleManager.Get("TouRoleSonarTrack", "Track");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Sonar;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SonarOptions>.Instance.TrackCooldown + MapCooldown, 5f, 120f);

@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Impostor;
 public sealed class JanitorCleanButton : TownOfUsKillRoleButton<JanitorRole, DeadBody>, IAftermathableBodyButton,
     IDiseaseableButton, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleJanitorClean", "Clean");
+    public override string Name => MiraLocaleManager.Get("TouRoleJanitorClean", "Clean");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<JanitorOptions>.Instance.CleanCooldown + MapCooldown, 5f, 120f);
@@ -49,7 +49,7 @@ public sealed class JanitorCleanButton : TownOfUsKillRoleButton<JanitorRole, Dea
         }
 
         CleaningBody = Target;
-        OverrideName(TouLocale.Get("TouRoleJanitorCleaning", "Cleaning"));
+        OverrideName(MiraLocaleManager.Get("TouRoleJanitorCleaning", "Cleaning"));
     }
 
     public void CheckReset(bool resetSelf)
@@ -70,7 +70,7 @@ public sealed class JanitorCleanButton : TownOfUsKillRoleButton<JanitorRole, Dea
 
     public override void OnEffectEnd()
     {
-        OverrideName(TouLocale.Get("TouRoleJanitorClean", "Clean"));
+        OverrideName(MiraLocaleManager.Get("TouRoleJanitorClean", "Clean"));
         if (CleaningBody == Target && CleaningBody != null)
         {
             JanitorRole.RpcCleanBody(PlayerControl.LocalPlayer, CleaningBody.ParentId);

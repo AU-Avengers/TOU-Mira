@@ -15,6 +15,6 @@ public sealed class DeputyRevealedModifier(RoleBehaviour role)
     public override void OnActivate()
     {
         base.OnActivate();
-        SetNewInfo(true, roleTxt: TouLocale.Get("TouRoleDeputyRevealedText"));
+        SetNewInfo(true, roleTxt: MiraLocaleManager.Get("TouRoleDeputyRevealedText"));
     }
 }

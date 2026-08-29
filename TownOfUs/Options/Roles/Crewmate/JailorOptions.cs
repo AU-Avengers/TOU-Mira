@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class JailorOptions : AbstractRoleOptionGroup<JailorRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleJailor", "Jailor");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleJailor", "Jailor");
 
     [ModdedNumberOption("TouOptionJailorJailCooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
     public float JailCooldown { get; set; } = 20f;

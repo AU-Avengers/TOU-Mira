@@ -7,7 +7,6 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Injection;
 using MiraAPI;
 using MiraAPI.PluginLoading;
-using MiraAPI.Translation;
 using Reactor;
 using Reactor.Localization;
 using Reactor.Networking;
@@ -63,9 +62,9 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     public string OptionsTitleText => "TOU Mira";
 
     /// <inheritdoc />
-    public string CustomOptionMenuNameOne => TouLocale.Get("TouTabOptionBetterMaps");
-    public string CustomOptionMenuOneDescription => TouLocale.Get("TouTabOptionBetterMapsDesc");
-    public string ModifierMenuDescription => TouLocale.Get("TouTabOptionModifiersDesc");
+    public string CustomOptionMenuNameOne => MiraLocaleManager.Get("TouTabOptionBetterMaps");
+    public string CustomOptionMenuOneDescription => MiraLocaleManager.Get("TouTabOptionBetterMapsDesc");
+    public string ModifierMenuDescription => MiraLocaleManager.Get("TouTabOptionModifiersDesc");
 
     public static ConfigEntry<LegacyVisuals> LegacyMode { get; private set; }
 
@@ -77,7 +76,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
 
     public TownOfUsPlugin()
     {
-        TouLocale.Initialize();
+        LocalizationManager.Register(new TouLocalizationProvider());
     }
 
     /// <summary>

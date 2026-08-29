@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Impostor;
 public sealed class SaboteurOptions : AbstractTouModifierOptionGroup<SaboteurModifier>
 {
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
-    public override string GroupName => TouLocale.Get("TouModifierSaboteur", "Saboteur");
+    public override string GroupName => MiraLocaleManager.Get("TouModifierSaboteur", "Saboteur");
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
     public override uint GroupPriority => 41;
 

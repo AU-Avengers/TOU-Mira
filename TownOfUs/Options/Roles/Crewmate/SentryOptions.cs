@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class SentryOptions : AbstractRoleOptionGroup<SentryRole>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => TouLocale.Get("TouRoleSentry", "Sentry");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleSentry", "Sentry");
 
     [ModdedNumberOption("TouOptionSentryPlacementCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float PlacementCooldown { get; set; } = 30f;
@@ -54,68 +54,68 @@ public sealed class SentryOptions : AbstractRoleOptionGroup<SentryRole>, IWikiOp
     public float PortableCamsBattery { get; set; } = 90f;
 
 
-    private static readonly string[] SystemTypeLocaleKeys =
+    private static readonly string[] SystemTypeIdParts =
         Enum.GetNames<SystemTypes>().Select(n => $"TouSystemType_{n}").ToArray();
 
     public ModdedNumberOption BlindspotsCount { get; } =
         new("TouOptionSentryBlindspots", 0f, 0f, 10f, 1f, "Off", "#", MiraNumberSuffixes.None, "0");
 
     public ModdedEnumOption Blindspot1Room { get; } =
-        new("TouOptionSentryBlindspot1Room", (int)SystemTypes.Hallway, typeof(SystemTypes), SystemTypeLocaleKeys)
+        new("TouOptionSentryBlindspot1Room", (int)SystemTypes.Hallway, typeof(SystemTypes), SystemTypeIdParts)
         {
             Visible = () => OptionGroupSingleton<SentryOptions>.Instance.BlindspotsCount.Value >= 1f
         };
 
     public ModdedEnumOption Blindspot2Room { get; } =
-        new("TouOptionSentryBlindspot2Room", (int)SystemTypes.Outside, typeof(SystemTypes), SystemTypeLocaleKeys)
+        new("TouOptionSentryBlindspot2Room", (int)SystemTypes.Outside, typeof(SystemTypes), SystemTypeIdParts)
         {
             Visible = () => OptionGroupSingleton<SentryOptions>.Instance.BlindspotsCount.Value >= 2f
         };
 
     public ModdedEnumOption Blindspot3Room { get; } =
-        new("TouOptionSentryBlindspot3Room", (int)SystemTypes.Cafeteria, typeof(SystemTypes), SystemTypeLocaleKeys)
+        new("TouOptionSentryBlindspot3Room", (int)SystemTypes.Cafeteria, typeof(SystemTypes), SystemTypeIdParts)
         {
             Visible = () => OptionGroupSingleton<SentryOptions>.Instance.BlindspotsCount.Value >= 3f
         };
 
     public ModdedEnumOption Blindspot4Room { get; } =
-        new("TouOptionSentryBlindspot4Room", (int)SystemTypes.Storage, typeof(SystemTypes), SystemTypeLocaleKeys)
+        new("TouOptionSentryBlindspot4Room", (int)SystemTypes.Storage, typeof(SystemTypes), SystemTypeIdParts)
         {
             Visible = () => OptionGroupSingleton<SentryOptions>.Instance.BlindspotsCount.Value >= 4f
         };
 
     public ModdedEnumOption Blindspot5Room { get; } =
-        new("TouOptionSentryBlindspot5Room", (int)SystemTypes.Admin, typeof(SystemTypes), SystemTypeLocaleKeys)
+        new("TouOptionSentryBlindspot5Room", (int)SystemTypes.Admin, typeof(SystemTypes), SystemTypeIdParts)
         {
             Visible = () => OptionGroupSingleton<SentryOptions>.Instance.BlindspotsCount.Value >= 5f
         };
 
     public ModdedEnumOption Blindspot6Room { get; } =
-        new("TouOptionSentryBlindspot6Room", (int)SystemTypes.Electrical, typeof(SystemTypes), SystemTypeLocaleKeys)
+        new("TouOptionSentryBlindspot6Room", (int)SystemTypes.Electrical, typeof(SystemTypes), SystemTypeIdParts)
         {
             Visible = () => OptionGroupSingleton<SentryOptions>.Instance.BlindspotsCount.Value >= 6f
         };
 
     public ModdedEnumOption Blindspot7Room { get; } =
-        new("TouOptionSentryBlindspot7Room", (int)SystemTypes.Security, typeof(SystemTypes), SystemTypeLocaleKeys)
+        new("TouOptionSentryBlindspot7Room", (int)SystemTypes.Security, typeof(SystemTypes), SystemTypeIdParts)
         {
             Visible = () => OptionGroupSingleton<SentryOptions>.Instance.BlindspotsCount.Value >= 7f
         };
 
     public ModdedEnumOption Blindspot8Room { get; } =
-        new("TouOptionSentryBlindspot8Room", (int)SystemTypes.MedBay, typeof(SystemTypes), SystemTypeLocaleKeys)
+        new("TouOptionSentryBlindspot8Room", (int)SystemTypes.MedBay, typeof(SystemTypes), SystemTypeIdParts)
         {
             Visible = () => OptionGroupSingleton<SentryOptions>.Instance.BlindspotsCount.Value >= 8f
         };
 
     public ModdedEnumOption Blindspot9Room { get; } =
-        new("TouOptionSentryBlindspot9Room", (int)SystemTypes.Weapons, typeof(SystemTypes), SystemTypeLocaleKeys)
+        new("TouOptionSentryBlindspot9Room", (int)SystemTypes.Weapons, typeof(SystemTypes), SystemTypeIdParts)
         {
             Visible = () => OptionGroupSingleton<SentryOptions>.Instance.BlindspotsCount.Value >= 9f
         };
 
     public ModdedEnumOption Blindspot10Room { get; } =
-        new("TouOptionSentryBlindspot10Room", (int)SystemTypes.Comms, typeof(SystemTypes), SystemTypeLocaleKeys)
+        new("TouOptionSentryBlindspot10Room", (int)SystemTypes.Comms, typeof(SystemTypes), SystemTypeIdParts)
         {
             Visible = () => OptionGroupSingleton<SentryOptions>.Instance.BlindspotsCount.Value >= 10f
         };
@@ -163,7 +163,7 @@ public sealed class SentryOptions : AbstractRoleOptionGroup<SentryRole>, IWikiOp
         if (count >= 10) selected.Add((SystemTypes)Blindspot10Room.Value);
 
         var names = selected
-            .Select(s => TouLocale.GetParsed($"TouSystemType_{s}", $"{s}"))
+            .Select(s => MiraLocaleManager.Get($"TouSystemType_{s}", $"{s}"))
             .Distinct()
             .ToList();
 

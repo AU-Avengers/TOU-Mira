@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Maps;
 public sealed class BetterFungleOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
-    public override string GroupName => TouLocale.Get("TouOptionTitleBetterFungle");
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleBetterFungle");
     public override uint GroupPriority => 7;
     public override Color GroupColor => new Color32(239, 98, 162, 255);
     public override OptionNotifConfiguration Configuration => new(

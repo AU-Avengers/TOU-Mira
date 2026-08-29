@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Maps;
 public sealed class AdvancedUtilityOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
-    public override string GroupName => TouLocale.Get("TouOptionTitleAdvancedUtility");
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleAdvancedUtility");
     public override uint GroupPriority => 2;
     public override Color GroupColor => new Color32(173, 180, 179, 255);
 

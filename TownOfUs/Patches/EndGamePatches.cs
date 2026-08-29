@@ -55,13 +55,13 @@ public static class EndGamePatches
             {
                 EndGameData.PlayerRecords.Add(new EndGameData.PlayerRecord
                 {
-                    ChatSummaryTitle = $"{playerStats.PlayerName} - {MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>())}{TouLocale.Get("TouRoleSpectator")}",
+                    ChatSummaryTitle = $"{playerStats.PlayerName} - {MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>())}{MiraLocaleManager.Get("TouRoleSpectator")}",
                     ChatSummaryRoleInfo = string.Empty,
                     ChatSummaryStats = string.Empty,
                     ChatSummaryCod = string.Empty,
                     PlayerName = playerStats.PlayerName,
-                    RoleString = MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>()) + TouLocale.Get("TouRoleSpectator"),
-                    RoleStringShort = MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>()) + TouLocale.Get("TouRoleSpectator"),
+                    RoleString = MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>()) + MiraLocaleManager.Get("TouRoleSpectator"),
+                    RoleStringShort = MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>()) + MiraLocaleManager.Get("TouRoleSpectator"),
                     Winner = false,
                     LastRole = (RoleTypes)RoleId.Get<SpectatorRole>(),
                     Team = ModdedRoleTeams.Custom,
@@ -189,7 +189,7 @@ public static class EndGamePatches
                     var taskInfo = playerControl.TaskInfo();
                     playerRoleString.Append(TownOfUsPlugin.Culture,
                         $" {taskInfo}");
-                    summaryStats.Append(TownOfUsPlugin.Culture, $" | {TouLocale.GetParsed("StatsTaskCount").Replace("<count>", taskInfo.Replace("(", "").Replace(")", ""))}");
+                    summaryStats.Append(TownOfUsPlugin.Culture, $" | {MiraLocaleManager.Get("StatsTaskCount").Replace("<count>", taskInfo.Replace("(", "").Replace(")", ""))}");
                 }
             }
 
@@ -202,46 +202,46 @@ public static class EndGamePatches
                 if (stats.CorrectKills > 0)
                 {
                     summaryStats.Append(TownOfUsPlugin.Culture,
-                        $" | {Color.green.ToTextColor()}{TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{stats.CorrectKills}")}</color>");
+                        $" | {Color.green.ToTextColor()}{MiraLocaleManager.Get("StatsKillCount").Replace("<count>", $"{stats.CorrectKills}")}</color>");
                     playerRoleString.Append(TownOfUsPlugin.Culture,
-                        $" | {Color.green.ToTextColor()}{TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{stats.CorrectKills}")}</color>");
+                        $" | {Color.green.ToTextColor()}{MiraLocaleManager.Get("StatsKillCount").Replace("<count>", $"{stats.CorrectKills}")}</color>");
                 }
                 else if (basicKillCount > 0 && !playerStats.DisplayedRole.IsCrewmate())
                 {
                     summaryStats.Append(TownOfUsPlugin.Culture,
-                        $" | {TownOfUsColors.Impostor.ToTextColor()}{TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{basicKillCount}")}</color>");
+                        $" | {TownOfUsColors.Impostor.ToTextColor()}{MiraLocaleManager.Get("StatsKillCount").Replace("<count>", $"{basicKillCount}")}</color>");
                     playerRoleString.Append(TownOfUsPlugin.Culture,
-                        $" | {TownOfUsColors.Impostor.ToTextColor()}{TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{basicKillCount}")}</color>");
+                        $" | {TownOfUsColors.Impostor.ToTextColor()}{MiraLocaleManager.Get("StatsKillCount").Replace("<count>", $"{basicKillCount}")}</color>");
                 }
 
                 if (stats.IncorrectKills > 0)
                 {
                     summaryStats.Append(TownOfUsPlugin.Culture,
-                        $" | {TownOfUsColors.Impostor.ToTextColor()}{TouLocale.GetParsed("StatsBadKillCount").Replace("<count>", $"{stats.IncorrectKills}")}</color>");
+                        $" | {TownOfUsColors.Impostor.ToTextColor()}{MiraLocaleManager.Get("StatsBadKillCount").Replace("<count>", $"{stats.IncorrectKills}")}</color>");
                     playerRoleString.Append(TownOfUsPlugin.Culture,
-                        $" | {TownOfUsColors.Impostor.ToTextColor()}{TouLocale.GetParsed("StatsBadKillCount").Replace("<count>", $"{stats.IncorrectKills}")}</color>");
+                        $" | {TownOfUsColors.Impostor.ToTextColor()}{MiraLocaleManager.Get("StatsBadKillCount").Replace("<count>", $"{stats.IncorrectKills}")}</color>");
                 }
 
                 if (stats.CorrectAssassinKills > 0)
                 {
                     summaryStats.Append(TownOfUsPlugin.Culture,
-                        $" | {Color.green.ToTextColor()}{TouLocale.GetParsed("StatsGoodGuessCount").Replace("<count>", $"{stats.CorrectAssassinKills}")}</color>");
+                        $" | {Color.green.ToTextColor()}{MiraLocaleManager.Get("StatsGoodGuessCount").Replace("<count>", $"{stats.CorrectAssassinKills}")}</color>");
                     playerRoleString.Append(TownOfUsPlugin.Culture,
-                        $" | {Color.green.ToTextColor()}{TouLocale.GetParsed("StatsGoodGuessCount").Replace("<count>", $"{stats.CorrectAssassinKills}")}</color>");
+                        $" | {Color.green.ToTextColor()}{MiraLocaleManager.Get("StatsGoodGuessCount").Replace("<count>", $"{stats.CorrectAssassinKills}")}</color>");
                 }
 
                 /*if (stats.IncorrectAssassinKills > 0)
                 {
                     playerRoleString.Append(TownOfUsPlugin.Culture,
-                        $" | {TownOfUsColors.Impostor.ToTextColor()}{TouLocale.GetParsed("StatsBadGuessCount").Replace("<count>", $"{stats.IncorrectAssassinKills}")}</color>");
+                        $" | {TownOfUsColors.Impostor.ToTextColor()}{MiraLocaleManager.Get("StatsBadGuessCount").Replace("<count>", $"{stats.IncorrectAssassinKills}")}</color>");
                 }*/
             }
             else if (killedPlayers > 0 && !playerStats.DisplayedRole.IsCrewmate() && playerStats.DisplayedRole.GetRoleAlignment() != RoleAlignment.NeutralEvil)
             {
                 summaryStats.Append(TownOfUsPlugin.Culture,
-                    $" | {TownOfUsColors.Impostor.ToTextColor()}{TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{killedPlayers}")}</color>");
+                    $" | {TownOfUsColors.Impostor.ToTextColor()}{MiraLocaleManager.Get("StatsKillCount").Replace("<count>", $"{killedPlayers}")}</color>");
                 playerRoleString.Append(TownOfUsPlugin.Culture,
-                    $" | {TownOfUsColors.Impostor.ToTextColor()}{TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{killedPlayers}")}</color>");
+                    $" | {TownOfUsColors.Impostor.ToTextColor()}{MiraLocaleManager.Get("StatsKillCount").Replace("<count>", $"{killedPlayers}")}</color>");
             }
 
             playerRoleStringShort.Append(playerRoleString);
@@ -268,13 +268,13 @@ public static class EndGamePatches
                 if (playerStats.RoundOfDeath != -1)
                 {
                     playerRoleString.Append(TownOfUsPlugin.Culture,
-                        $" ({TouLocale.GetParsed("RoundOfDeath").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
+                        $" ({MiraLocaleManager.Get("RoundOfDeath").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
 
                     playerRoleStringShort.Append(TownOfUsPlugin.Culture,
-                        $" ({TouLocale.GetParsed("RoundOfDeath").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
+                        $" ({MiraLocaleManager.Get("RoundOfDeath").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
 
                     summaryCod.Append(TownOfUsPlugin.Culture,
-                        $" ({TouLocale.GetParsed("RoundOfDeathLong").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
+                        $" ({MiraLocaleManager.Get("RoundOfDeathLong").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
                 }
 
             var playerName = new StringBuilder();
@@ -351,7 +351,7 @@ public static class EndGamePatches
         var segmentedSummary = new StringBuilder();
         var basicSummary = new StringBuilder();
         var normalSummary = new StringBuilder();
-        var summaryTxt = TouLocale.Get("EndGameSummary") + ":";
+        var summaryTxt = MiraLocaleManager.Get("EndGameSummary") + ":";
         roleSummaryText1.AppendLine(summaryTxt);
         roleSummaryTextFull.AppendLine(summaryTxt);
         var count = 0;
@@ -436,7 +436,7 @@ public static class EndGamePatches
         GameSummaryButton.transform.position += Vector3.up * 1.65f;
         if (GameSummaryButton.transform.GetChild(1).TryGetComponent<TextTranslatorTMP>(out var tmp2))
         {
-            var text = TouLocale.GetParsed("GameSummaryModeButton").Split(":");
+            var text = MiraLocaleManager.Get("GameSummaryModeButton").Split(":");
             if (text.Length == 1 || text.Any(x => x == string.Empty))
             {
                 tmp2.defaultStr = text[0];
@@ -599,12 +599,12 @@ public static class EndGamePatches
         switch (EndGameEvents.winType)
         {
             case 1:
-                text.text = $"<size=4>{TouLocale.Get("CrewmatesWin")}!</size>";
+                text.text = $"<size=4>{MiraLocaleManager.Get("CrewmatesWin")}!</size>";
                 text.color = Palette.CrewmateBlue;
                 instance.BackgroundBar.material.SetColor(ShaderID.Color, Palette.CrewmateBlue);
                 break;
             case 2:
-                text.text = $"<size=4>{TouLocale.Get("ImpostorsWin")}!</size>";
+                text.text = $"<size=4>{MiraLocaleManager.Get("ImpostorsWin")}!</size>";
                 text.color = Palette.ImpostorRed;
                 instance.BackgroundBar.material.SetColor(ShaderID.Color, Palette.ImpostorRed);
                 break;
@@ -711,9 +711,9 @@ public static class EndGamePatches
 
             Warning($"Added Meeting Record for {player.Data.PlayerName}");
 
-            var causeOfDeath = GetCauseOfDeathString(TouLocale.GetParsed("DisconnectedData"));
+            var causeOfDeath = GetCauseOfDeathString(MiraLocaleManager.Get("DisconnectedData"));
             var causeOfDeathFull =
-                GetCauseOfDeathString(TouLocale.GetParsed("DisconnectedDataFull")
+                GetCauseOfDeathString(MiraLocaleManager.Get("DisconnectedDataFull")
                     .Replace("<cod>", state.DeathString));
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
             var taskOpt = OptionGroupSingleton<PostmortemOptions>.Instance;

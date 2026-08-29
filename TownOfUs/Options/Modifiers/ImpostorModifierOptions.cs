@@ -142,7 +142,7 @@ public sealed class ImpostorModifierOptions : AbstractOptionGroup
     {
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
-            TouLocale.Get(title),
+            MiraLocaleManager.Get(title),
             optAmount.Data.GetValueString(optAmount.Value),
             opt.Data.GetValueString(opt.Value));
     }

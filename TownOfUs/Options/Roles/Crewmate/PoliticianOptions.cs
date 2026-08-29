@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class PoliticianOptions : AbstractRoleOptionGroup<PoliticianRole>
 {
-    public override string GroupName => TouLocale.Get("TouRolePolitician", "Politician");
+    public override string GroupName => MiraLocaleManager.Get("TouRolePolitician", "Politician");
 
     [ModdedNumberOption("TouOptionPoliticianCampaignCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float CampaignCooldown { get; set; } = 25f;

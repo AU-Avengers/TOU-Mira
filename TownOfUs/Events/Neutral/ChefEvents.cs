@@ -63,7 +63,7 @@ public static class ChefEvents
             if (chef.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouRoleChefVictoryMessageSelf").Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.RoleName}</color>"),
+                    MiraLocaleManager.Get("TouRoleChefVictoryMessageSelf").Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.RoleName}</color>"),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -75,12 +75,12 @@ public static class ChefEvents
 
                 if (OptionGroupSingleton<ChefOptions>.Instance.ChefAnonymizeWin)
                 {
-                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
+                    message = MiraLocaleManager.Get("TouNeutAnonymousVictoryMessage");
                     icon = TouRoleIcons.Neutral;
                 }
                 else
                 {
-                    message = TouLocale.GetParsed("TouRoleChefVictoryMessage")
+                    message = MiraLocaleManager.Get("TouRoleChefVictoryMessage")
                         .Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.RoleName}</color>");
                     icon = TouRoleIcons.Chef;
                 }
@@ -92,7 +92,7 @@ public static class ChefEvents
                 notif1.AdjustNotification();
             }
             var stats = GameHistory.PlayerStats[chef.Player.PlayerId];
-            stats.DeathString = TouLocale.Get("DiedToWinning");
+            stats.DeathString = MiraLocaleManager.Get("DiedToWinning");
             stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
             stats.DiedThisRound = false;
             stats.PlayerState = StoredPlayerState.Dead;
@@ -121,7 +121,7 @@ public static class ChefEvents
             if (chef.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouRoleChefVictoryMessageSelf"),
+                    MiraLocaleManager.Get("TouRoleChefVictoryMessageSelf"),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -133,12 +133,12 @@ public static class ChefEvents
                 
                 if (OptionGroupSingleton<ChefOptions>.Instance.ChefAnonymizeWin)
                 {
-                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
+                    message = MiraLocaleManager.Get("TouNeutAnonymousVictoryMessage");
                     icon = TouRoleIcons.Neutral;
                 }
                 else
                 {
-                    message = TouLocale.GetParsed("TouRoleChefVictoryMessage");
+                    message = MiraLocaleManager.Get("TouRoleChefVictoryMessage");
                     icon = TouRoleIcons.Chef;
                 }
 
@@ -149,7 +149,7 @@ public static class ChefEvents
                 notif1.AdjustNotification();
             }
             var stats = GameHistory.PlayerStats[chef.Player.PlayerId];
-            stats.DeathString = TouLocale.Get("DiedToWinning");
+            stats.DeathString = MiraLocaleManager.Get("DiedToWinning");
             stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
             stats.DiedThisRound = false;
             stats.PlayerState = StoredPlayerState.Dead;
