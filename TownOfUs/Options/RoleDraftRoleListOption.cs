@@ -17,7 +17,7 @@ public sealed class RoleDraftRoleListOptions : AbstractOptionGroup
             "TouMira.Gamemode.DraftMode",
             1.45f));
 
-    public override string GroupName => TouLocale.Get("TouOptionTitleRoleDraftRoleList");
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleRoleDraftRoleList");
     public override uint GroupPriority => 3;
     public override Color GroupColor => TownOfUsColors.Jester;
 

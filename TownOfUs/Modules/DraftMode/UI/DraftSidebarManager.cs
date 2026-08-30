@@ -190,7 +190,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (roleId == 0)
             {
-                return (TouLocale.GetParsed("TouDraftARoleLabel", "a role"), "#f7f7f7");
+                return (MiraLocaleManager.Get("TouDraftARoleLabel", "a role"), "#f7f7f7");
             }
 
             var role = MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)roleId);

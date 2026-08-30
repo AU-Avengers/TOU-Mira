@@ -46,7 +46,7 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
         MiscUtils.GetParsedRoleBucket("Any")
     ];
 
-    public override string GroupName => TouLocale.Get("TouOptionTitleRoleSettings");
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleRoleSettings");
     public override uint GroupPriority => 2;
 
     public RoleDistribution CurrentRoleDistribution()

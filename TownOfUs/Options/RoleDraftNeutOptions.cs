@@ -21,7 +21,7 @@ public sealed class RoleDraftNeutOptions : AbstractOptionGroup
             "TouMira.Gamemode.DraftMode",
             1.45f));
 
-    public override string GroupName => TouLocale.Get("TouOptionTitleRoleDraftNeut");
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleRoleDraftNeut");
     public override uint GroupPriority => 3;
 
     public ModdedNumberOption MaxNeutrals { get; set; } =

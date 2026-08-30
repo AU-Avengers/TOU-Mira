@@ -12,7 +12,7 @@ public sealed class HerbalistProtectionModifier(PlayerControl herbalist) : BaseS
 {
     public override string ModifierName => "Barrier";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Cleric;
- public override string ShieldDescription => TouLocale.Get("TouModifierHerbalistProtectionDescription");
+ public override string ShieldDescription => MiraLocaleManager.Get("TouModifierHerbalistProtectionDescription");
     public override float Duration => OptionGroupSingleton<HerbalistOptions>.Instance.ProtectDuration;
     public override bool AutoStart => true;
     public bool ShowBarrier { get; set; }

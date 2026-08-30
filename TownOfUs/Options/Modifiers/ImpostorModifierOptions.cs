@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Modifiers;
 public sealed class ImpostorModifierOptions : AbstractOptionGroup
 {
     public override string GroupName => MiraLocaleManager.Get("TouOptionTitleImpostorModifiers");
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
     public override MenuCategory ParentMenu => MenuCategory.Modifiers;
     public override uint GroupPriority => 3;

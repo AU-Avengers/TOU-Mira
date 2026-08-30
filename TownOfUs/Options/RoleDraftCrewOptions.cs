@@ -19,7 +19,7 @@ public sealed class RoleDraftCrewOptions : AbstractOptionGroup
             "TouMira.Gamemode.DraftMode",
             1.45f));
 
-    public override string GroupName => TouLocale.Get("TouOptionTitleRoleDraftCrew");
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleRoleDraftCrew");
     public override uint GroupPriority => 3;
 
     public ModdedNumberOption MaxCrewInvestigative { get; set; } =

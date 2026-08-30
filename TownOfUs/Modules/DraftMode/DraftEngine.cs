@@ -889,7 +889,7 @@ namespace TownOfUs.Modules.DraftMode
         private const bool SoftImpostorNudge = true;
         private const double ImpostorSpreadPower = 1.0;
 
-        private double PositionTilt(int slot, int totalSlots)
+        private static double PositionTilt(int slot, int totalSlots)
         {
             if (PositionEdge <= 0 || totalSlots <= 1) return 1.0;
 
@@ -899,7 +899,7 @@ namespace TownOfUs.Modules.DraftMode
             return Math.Max(0.35, Math.Min(1.65, tilt));
         }
 
-        private DraftFaction GetRoleFaction(string roleName)
+        private static DraftFaction GetRoleFaction(string roleName)
         {
             var baseName = BaseRoleName(roleName);
             if (DraftRolePool.IsImpostorRoleName(baseName))
@@ -916,7 +916,7 @@ namespace TownOfUs.Modules.DraftMode
                    DraftRolePool.IsNeutralRoleName(baseName);
         }
 
-        private string GetDiversityKey(string roleName)
+        private static string GetDiversityKey(string roleName)
         {
             var baseName = BaseRoleName(roleName);
             var alignment = DraftRolePool.GetRoleAlignment(baseName);
@@ -1058,7 +1058,7 @@ namespace TownOfUs.Modules.DraftMode
             return result;
         }
 
-        private DraftFaction? GetHardFloorFaction(DraftSlotContext context)
+        private static DraftFaction? GetHardFloorFaction(DraftSlotContext context)
         {
             int neededImps = Math.Max(0, context.MaxImps - context.PickedImps);
             int neededNeuts = Math.Max(0, context.MaxNeuts - context.PickedNeuts);
@@ -1327,7 +1327,7 @@ namespace TownOfUs.Modules.DraftMode
                     var remaining = deadlines[slot] - Time.time;
                     if (remaining <= 0f)
                     {
-                        var reason = isBotOrDc[slot] ? "bot/disconnected" : "timeout";
+                        // var reason = isBotOrDc[slot] ? "bot/disconnected" : "timeout";
                         var offers = _currentOffersBySlot.TryGetValue(slot, out var o) ? o : new List<string>();
                         var autoIndex = (byte)_rng.NextInt(Math.Max(1, offers.Count));
                         ApplyPick(slot, autoIndex, timedOut: true);

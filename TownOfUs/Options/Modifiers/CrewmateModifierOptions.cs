@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Modifiers;
 public sealed class CrewmateModifierOptions : AbstractOptionGroup
 {
     public override string GroupName => MiraLocaleManager.Get("TouOptionTitleCrewmateModifiers");
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override Color GroupColor => Palette.CrewmateRoleHeaderBlue;
     public override MenuCategory ParentMenu => MenuCategory.Modifiers;
     public override uint GroupPriority => 2;

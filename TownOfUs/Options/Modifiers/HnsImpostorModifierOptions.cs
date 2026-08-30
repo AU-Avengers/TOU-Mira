@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Modifiers;
 
 public sealed class HnsImpostorModifierOptions : AbstractOptionGroup
 {
-    public override string GroupName => TouLocale.Get("HnsOptionTitleSeekerModifiers");
+    public override string GroupName => MiraLocaleManager.Get("HnsOptionTitleSeekerModifiers");
     // public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.HideAndSeek;
     public override Func<bool> GroupVisible => () => false;
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;

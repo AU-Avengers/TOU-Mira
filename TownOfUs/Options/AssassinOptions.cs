@@ -9,7 +9,7 @@ namespace TownOfUs.Options;
 
 public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinModifier>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => TouLocale.Get("TouOptionTitleAssassin");
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleAssassin");
     public override uint GroupPriority => 7;
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
 
@@ -174,14 +174,14 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
         if (impCount > 0 && impChance > 0)
         {
             var impKills = (int)ImpAssassinKills.Value;
-            impText += " " + TouLocale.GetParsed("TouOptionAssassinShots")
+            impText += " " + MiraLocaleManager.Get("TouOptionAssassinShots")
                 .Replace("<amount>", impKills.ToString(cult));
 
             if (impKills > 1)
             {
                 impText += ImpAssassinMultiKill.Value
-                    ? " " + TouLocale.Get("TouOptionAssassinOverall")
-                    : " " + TouLocale.Get("TouOptionAssassinOnePerMeeting");
+                    ? " " + MiraLocaleManager.Get("TouOptionAssassinOverall")
+                    : " " + MiraLocaleManager.Get("TouOptionAssassinOnePerMeeting");
             }
         }
 
@@ -203,14 +203,14 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
         if (neutCount > 0 && neutChance > 0)
         {
             var neutKills = (int)NeutAssassinKills.Value;
-            neutText += " " + TouLocale.GetParsed("TouOptionAssassinShots")
+            neutText += " " + MiraLocaleManager.Get("TouOptionAssassinShots")
                 .Replace("<amount>", neutKills.ToString(cult));
 
             if (neutKills > 1)
             {
                 neutText += NeutAssassinMultiKill.Value
-                    ? " " + TouLocale.Get("TouOptionAssassinOverall")
-                    : " " + TouLocale.Get("TouOptionAssassinOnePerMeeting");
+                    ? " " + MiraLocaleManager.Get("TouOptionAssassinOverall")
+                    : " " + MiraLocaleManager.Get("TouOptionAssassinOnePerMeeting");
             }
         }
 

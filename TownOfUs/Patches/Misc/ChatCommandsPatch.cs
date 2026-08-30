@@ -825,8 +825,8 @@ public static class ChatPatches
         {
             return;
         }
-        var title = $"<color=#8BFDFD>{MiraLocaleManager.GetParsed("RulesMessageTitle")}</color>";
-        var msg = string.IsNullOrWhiteSpace(rulesText) ? MiraLocaleManager.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
+        var title = $"<color=#8BFDFD>{MiraLocaleManager.Get("RulesMessageTitle")}</color>";
+        var msg = string.IsNullOrWhiteSpace(rulesText) ? MiraLocaleManager.Get("RulesMissingError") : $"<size=75%>{rulesText}</size>";
         MiscUtils.AddSystemChat(host.Data, title, msg);
         Coroutines.Start(CoWaitForAcCooldown());
     }
@@ -855,8 +855,8 @@ public static class ChatPatches
         {
             return;
         }
-        var title = $"<color=#8BFDFD>{MiraLocaleManager.GetParsed("RulesMessageTitle")}</color>";
-        var msg = string.IsNullOrWhiteSpace(rulesText) ? MiraLocaleManager.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
+        var title = $"<color=#8BFDFD>{MiraLocaleManager.Get("RulesMessageTitle")}</color>";
+        var msg = string.IsNullOrWhiteSpace(rulesText) ? MiraLocaleManager.Get("RulesMissingError") : $"<size=75%>{rulesText}</size>";
         MiscUtils.AddSystemChat(host.Data, title, msg);
         Coroutines.Start(CoWaitForAcCooldown());
     }

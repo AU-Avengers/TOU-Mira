@@ -7,7 +7,7 @@ namespace TownOfUs.Options;
 
 public sealed class InitialRoundOptions : AbstractOptionGroup
 {
-    public override string GroupName => TouLocale.Get("TouOptionTitleRoundStart");
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleRoundStart");
     public override uint GroupPriority => 1;
 
     [ModdedEnumOption("TouOptionModifierReveal", typeof(ModReveal),

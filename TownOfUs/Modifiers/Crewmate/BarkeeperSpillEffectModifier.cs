@@ -6,7 +6,7 @@ namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class BarkeeperSpillEffectModifier(bool speedUp) : TimedModifier
 {
-    public override string ModifierName => TouLocale.Get("TouModifierBarkeeperSpillEffect");
+    public override string ModifierName => MiraLocaleManager.Get("TouModifierBarkeeperSpillEffect");
     public override bool AutoStart => true;
     public override bool HideOnUi => true;
     public override float Duration => OptionGroupSingleton<BarkeeperOptions>.Instance.SpillEffectDuration.Value;

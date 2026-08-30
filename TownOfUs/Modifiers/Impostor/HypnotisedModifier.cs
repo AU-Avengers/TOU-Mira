@@ -99,7 +99,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
         if (Player.AmOwner)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{TouLocale.Get("TouModifierMassHysteriaNotification")}</color></b>",
+                $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{MiraLocaleManager.Get("TouModifierMassHysteriaNotification")}</color></b>",
                 Color.white,
                 new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hypnotist.LoadAsset());
 

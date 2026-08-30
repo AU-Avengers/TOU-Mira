@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Modifiers;
 public sealed class UniversalModifierOptions : AbstractOptionGroup
 {
     public override string GroupName => MiraLocaleManager.Get("TouOptionTitleUniversalModifiers");
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override MenuCategory ParentMenu => MenuCategory.Modifiers;
     public override uint GroupPriority => 1;
 

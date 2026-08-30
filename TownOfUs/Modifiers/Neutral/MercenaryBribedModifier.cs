@@ -37,12 +37,12 @@ public override void OnMeetingStart()
     }
 
     var title =
-        $"<color=#{TownOfUsColors.Mercenary.ToHtmlStringRGBA()}>{TouLocale.Get("TouModifierMercenaryBribedFeedbackTitle")}</color>";
+        $"<color=#{TownOfUsColors.Mercenary.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TouModifierMercenaryBribedFeedbackTitle")}</color>";
 
     MiscUtils.AddFakeChat(
         Player.Data,
         title,
-        TouLocale.Get("TouModifierMercenaryBribedFeedback"),
+        MiraLocaleManager.Get("TouModifierMercenaryBribedFeedback"),
         false,
         true);
 

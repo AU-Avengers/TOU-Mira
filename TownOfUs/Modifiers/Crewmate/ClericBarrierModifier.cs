@@ -12,9 +12,9 @@ namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModifier
 {
-    public override string ModifierName => TouLocale.Get("TouModifierClericBarrier");
+    public override string ModifierName => MiraLocaleManager.Get("TouModifierClericBarrier");
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Cleric;
-    public override string ShieldDescription => TouLocale.Get("TouModifierClericBarrierDescription");
+    public override string ShieldDescription => MiraLocaleManager.Get("TouModifierClericBarrierDescription");
     public override float Duration => OptionGroupSingleton<ClericOptions>.Instance.BarrierDuration;
     public override bool AutoStart => true;
     public bool ShowBarrier { get; set; }

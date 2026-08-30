@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Modifiers.Impostor;
 
 public sealed class CircumventOptions : AbstractTouModifierOptionGroup<CircumventModifier>
 {
-    public override string GroupName => TouLocale.Get("TouModifierCircumvent", "Circumvent");
+    public override string GroupName => MiraLocaleManager.Get("TouModifierCircumvent", "Circumvent");
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
     public override uint GroupPriority => 40;
 

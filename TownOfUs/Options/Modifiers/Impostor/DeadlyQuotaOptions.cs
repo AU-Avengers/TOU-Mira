@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Modifiers.Impostor;
 
 public sealed class DeadlyQuotaOptions : AbstractTouModifierOptionGroup<DeadlyQuotaModifier>
 {
-    public override string GroupName => TouLocale.Get("TouModifierDeadlyQuota", "Deadly Quota");
+    public override string GroupName => MiraLocaleManager.Get("TouModifierDeadlyQuota", "Deadly Quota");
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
     public override uint GroupPriority => 40;
 

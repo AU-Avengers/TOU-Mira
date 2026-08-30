@@ -6,7 +6,7 @@ namespace TownOfUs.Options;
 
 public sealed class RoleblockOptions : AbstractOptionGroup
 {
-    public override string GroupName => TouLocale.Get("TouOptionTitleRoleblockMechanics");
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleRoleblockMechanics");
     public override uint GroupPriority => 1;
 
     public ModdedToggleOption RoleblockAffectsConsoles { get; set; } =

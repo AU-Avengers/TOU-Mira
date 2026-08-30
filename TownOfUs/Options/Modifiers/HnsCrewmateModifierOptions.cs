@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Modifiers;
 
 public sealed class HnsCrewmateModifierOptions : AbstractOptionGroup
 {
-    public override string GroupName => TouLocale.Get("HnsOptionTitleHiderModifiers");
+    public override string GroupName => MiraLocaleManager.Get("HnsOptionTitleHiderModifiers");
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.HideAndSeek;
     public override Color GroupColor => Palette.CrewmateRoleHeaderBlue;
     public override MenuCategory ParentMenu => MenuCategory.Modifiers;
