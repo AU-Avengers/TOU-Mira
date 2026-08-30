@@ -37,7 +37,7 @@ namespace TownOfUs.Modules.DraftMode
                 {
                     result = ResolveDelegate(bucket) ?? new List<string>();
                 }
-                catch (Exception e)
+                catch
                 {
                     result = new List<string>();
                 }

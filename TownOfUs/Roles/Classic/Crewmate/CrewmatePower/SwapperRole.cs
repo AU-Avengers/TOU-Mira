@@ -25,9 +25,6 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     [HideFromIl2Cpp] public PlayerVoteArea Swap2 { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string IdPart => "Swapper";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {

@@ -18,17 +18,17 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Celebrity.LoadAsset(),
             "TouMira.Modifier.Crewmate.Celebrity", 1.45f));
     public override string IdPart => "Celebrity";
-    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
-    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}.IntroBlurb");
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription");
     }
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Celebrity;
@@ -73,7 +73,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
         var celeb = player.GetModifier<CelebrityModifier>()!;
         celeb.StoredRoom = room;
         celeb.DeathTime = DateTime.UtcNow;
-        var splitCelebrityString = MiraLocaleManager.Get("TouModifierCelebrityPopup").Split(":");
+        var splitCelebrityString = MiraLocaleManager.Get("TownOfUsMira.Modifier.CelebrityPopup").Split(":");
 
         var announceText = splitCelebrityString[0];
         if (splitCelebrityString.Length > 1)
@@ -90,11 +90,11 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
             celeb.Announced = true;
         }
 
-        var celebHyperlink = $"&{MiraLocaleManager.Get("TouModifierCelebrity")}";
+        var celebHyperlink = $"&{MiraLocaleManager.Get("TownOfUsMira.Modifier.Celebrity")}";
 
         if (source == player)
         {
-            celeb.DeathMessage = MiraLocaleManager.Get("TouModifierCelebrityDetailsSelf");
+            celeb.DeathMessage = MiraLocaleManager.Get("TownOfUsMira.Modifier.CelebrityDetailsSelf");
         }
         else
         {
@@ -115,7 +115,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
             }
 
             var text = MiraLocaleManager.Get($"DiedTo{cod}").ToLowerInvariant();
-            celeb.DeathMessage = MiraLocaleManager.Get("TouModifierCelebrityDetailsKilled").Replace("<killed>", text);
+            celeb.DeathMessage = MiraLocaleManager.Get("TownOfUsMira.Modifier.CelebrityDetailsKilled").Replace("<killed>", text);
             celeb.DeathMessage =
                 celeb.DeathMessage.Replace("<role>", $"#{role.GetRoleName().ToLowerInvariant().Replace(" ", "-")}");
         }

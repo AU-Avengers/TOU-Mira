@@ -94,7 +94,6 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
 
     public DoomableType DoomHintType => DoomableType.Protective;
     public string IdPart => "Fairy";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
     public string RoleDescription => TargetString(true);
     public string RoleLongDescription => TargetString();
 

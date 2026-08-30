@@ -5,7 +5,7 @@ namespace TownOfUs.Options.Modifiers;
 
 public sealed class UniversalModifierOptions : AbstractOptionGroup
 {
-    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleUniversalModifiers");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.UniversalModifiers");
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override MenuCategory ParentMenu => MenuCategory.Modifiers;
     public override uint GroupPriority => 1;
@@ -19,7 +19,7 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
             var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.ButtonBarryChance;
             opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
                 opt.StringName,
-                MiraLocaleManager.Get("TouModifierButtonBarry"),
+                MiraLocaleManager.Get("TownOfUsMira.Modifier.ButtonBarry"),
                 opt.Value > 0 ? "1" : "0",
                 opt.Data.GetValueString(opt.Value));
         }
@@ -34,7 +34,7 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
             var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.TiebreakerChance;
             opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
                 opt.StringName,
-                MiraLocaleManager.Get("TouModifierTiebreaker"),
+                MiraLocaleManager.Get("TownOfUsMira.Modifier.Tiebreaker"),
                 opt.Value > 0 ? "1" : "0",
                 opt.Data.GetValueString(opt.Value));
         }
@@ -196,7 +196,7 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.DrunkChance;
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
-            MiraLocaleManager.Get("TouModifierDrunk"),
+            MiraLocaleManager.Get("TownOfUsMira.Modifier.Drunk"),
             optAmount.Data.GetValueString(optAmount.Value),
             opt.Data.GetValueString(opt.Value));
     };
@@ -205,63 +205,63 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.FlashAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.FlashChance;
-        RunNotif(opt, optAmount, "TouModifierFlash");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Flash");
     };
 
     private static Action<float> _giantNotif = x =>
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.GiantAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.GiantChance;
-        RunNotif(opt, optAmount, "TouModifierGiant");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Giant");
     };
 
     private static Action<float> _immovableNotif = x =>
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.ImmovableAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.ImmovableChance;
-        RunNotif(opt, optAmount, "TouModifierImmovable");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Immovable");
     };
 
     private static Action<float> _miniNotif = x =>
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.MiniAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.MiniChance;
-        RunNotif(opt, optAmount, "TouModifierMini");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Mini");
     };
 
     private static Action<float> _radarNotif = x =>
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.RadarAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.RadarChance;
-        RunNotif(opt, optAmount, "TouModifierRadar");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Radar");
     };
 
     private static Action<float> _satelliteNotif = x =>
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.SatelliteAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.SatelliteChance;
-        RunNotif(opt, optAmount, "TouModifierSatellite");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Satellite");
     };
 
     private static Action<float> _shyNotif = x =>
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.ShyAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.ShyChance;
-        RunNotif(opt, optAmount, "TouModifierShy");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Shy");
     };
 
     private static Action<float> _sixthSenseNotif = x =>
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.SixthSenseAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.SixthSenseChance;
-        RunNotif(opt, optAmount, "TouModifierSixthSense");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.SixthSense");
     };
 
     private static Action<float> _sleuthNotif = x =>
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.SleuthAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.SleuthChance;
-        RunNotif(opt, optAmount, "TouModifierSleuth");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Sleuth");
     };
 
     private static void RunNotif(AmountChanceOption opt, AmountChanceOption optAmount, string title)

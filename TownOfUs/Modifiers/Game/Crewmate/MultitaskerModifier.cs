@@ -13,17 +13,17 @@ public sealed class MultitaskerModifier : TouGameModifier, IWikiDiscoverable
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Multitasker.LoadAsset(),
             "TouMira.Modifier.Crewmate.Multitasker", 1.45f));
     public override string IdPart => "Multitasker";
-    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
-    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}.IntroBlurb");
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription");
     }
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Multitasker;

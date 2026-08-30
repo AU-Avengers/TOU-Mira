@@ -97,7 +97,7 @@ public static class ExecutionerEvents
             if (exe.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerWonSelf").Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.RoleName}</color>")}</b>",
+                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerWonSelf").Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.GetRoleName()}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Executioner.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -135,7 +135,7 @@ public static class ExecutionerEvents
                 else
                 {
                     message = $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerWonOther")
-                        .Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.RoleName}</color>")}</b>";
+                        .Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.GetRoleName()}</color>")}</b>";
                     icon = TouRoleIcons.Executioner;
                 }
 

@@ -15,8 +15,6 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string IdPart => "Lookout";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
     public static string ReworkString => (LookoutView)OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Players ? "Alt" : string.Empty;
     public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}{ReworkString}.TabDescription");
 

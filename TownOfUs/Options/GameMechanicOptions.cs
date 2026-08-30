@@ -7,7 +7,7 @@ namespace TownOfUs.Options;
 
 public sealed class GameMechanicOptions : AbstractOptionGroup
 {
- public override string GroupName => MiraLocaleManager.Get("TouOptionTitleGameMechanics");
+ public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.GameMechanics");
     public override uint GroupPriority => 1;
 
     /*[ModdedToggleOption("TouOptionHideNamesOutOfSight")]

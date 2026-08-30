@@ -20,7 +20,6 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Seer";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
     public static string ReworkString => OptionGroupSingleton<SeerOptions>.Instance.SalemSeer.Value ? "Alt" : string.Empty;
     public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}{ReworkString}.IntroBlurb");
     public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}{ReworkString}.TabDescription");

@@ -39,9 +39,6 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     public string YouAreText => MiraLocaleManager.Get("YouAre");
     public string YouWereText => MiraLocaleManager.Get("YouWere");
     public string IdPart => "Pestilence";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
@@ -86,11 +83,11 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     {
         var stringB = new StringBuilder();
         stringB.AppendLine(TownOfUsPlugin.Culture,
-            $"{RoleColor.ToTextColor()}{YouAreText}<b> {RoleName},‎ ‎ ‎ \n<size=80%>{RoleDescription}</size></b></color>");
+            $"{RoleColor.ToTextColor()}{YouAreText}<b> {this.GetRoleName()},‎ ‎ ‎ \n<size=80%>{this.GetRoleIntroBlurb()}</size></b></color>");
         stringB.AppendLine(TownOfUsPlugin.Culture,
             $"<size=60%>{MiraLocaleManager.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(RoleAlignment, true)}</b></size>");
         stringB.Append("<size=70%>");
-        stringB.AppendLine(TownOfUsPlugin.Culture, $"{RoleLongDescription}");
+        stringB.AppendLine(TownOfUsPlugin.Culture, $"{this.GetRoleLongDescription()}");
 
         return stringB;
     }
@@ -167,7 +164,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         var msg = MiraLocaleManager.Get("TownOfUsMira.Role.PestilenceAnnounceMessage");
 
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{msg.Replace("<role>", $"{TownOfUsColors.Pestilence.ToTextColor()}{RoleName}</color>")}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Pestilence.LoadAsset());
+            $"<b>{msg.Replace("<role>", $"{TownOfUsColors.Pestilence.ToTextColor()}{this.GetRoleName()}</color>")}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Pestilence.LoadAsset());
 
         notif1.AdjustNotification();
 

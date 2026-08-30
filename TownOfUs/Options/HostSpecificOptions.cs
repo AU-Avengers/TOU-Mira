@@ -7,7 +7,7 @@ namespace TownOfUs.Options;
 
 public sealed class HostSpecificOptions : AbstractOptionGroup
 {
-    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleHostSpecific");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.HostSpecific");
     public override uint GroupPriority => 0;
 
     public ModdedToggleOption AntiCheatWarnings { get; set; } =

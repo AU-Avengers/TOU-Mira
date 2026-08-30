@@ -79,7 +79,7 @@ public static class LoverEvents
             lover.OtherLover != null)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                MiraLocaleManager.Get("TouModifierLoverIntroMessage")
+                MiraLocaleManager.Get("TownOfUsMira.Modifier.LoverIntroMessage")
                     .Replace("<modifier>", $"{TownOfUsColors.Lover.ToTextColor()}{lover.ModifierName}</color>")
                     .Replace("<player>", $"{TownOfUsColors.Lover.ToTextColor()}{lover.OtherLover.Data.PlayerName}</color>"),
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Lover.LoadAsset());

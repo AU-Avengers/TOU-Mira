@@ -22,7 +22,7 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
     private readonly List<SpriteRenderer> CastedIcons = [];
     private readonly List<PlayerControl> CastedPlayers = [];
     public override string IdPart => "Satellite";
-    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Satellite;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalUtility;
@@ -31,12 +31,12 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription").Replace("<maxUses>",
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription").Replace("<maxUses>",
                    $"{Math.Round(OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast, 0)}") +
                MiscUtils.AppendOptionsText(GetType());
     }
@@ -48,8 +48,8 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouModifier{IdPart}Broadcast"),
-                    MiraLocaleManager.Get($"TouModifier{IdPart}Broadcast.WikiDescription").Replace("<maxUses>",
+                new(MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}Broadcast"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}Broadcast.WikiDescription").Replace("<maxUses>",
                         $"{Math.Round(OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast, 0)}"),
                     TouAssets.BroadcastSprite)
             ];

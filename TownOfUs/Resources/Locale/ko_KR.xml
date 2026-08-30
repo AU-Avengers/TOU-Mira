@@ -100,10 +100,10 @@
   <string name="MinimumShort">최소</string>
   <string name="MaximumShort">최대</string>
   <string name="ModifierAbility">애드온 (능력)</string>
-  <string name="TouModifierTorch">촛불</string>
-  <string name="TouModifierTorch.IntroBlurb">불이 꺼져도 볼 수 있습니다.</string>
-  <string name="TouModifierTorch..WikiDescription">조명이 당신의 시야에 영향을 주지 않습니다.</string>
-  <string name="TouModifierTorch.TabDescription">조명이 꺼져도 시야가 
+  <string name="TownOfUsMira.Modifier.Torch">촛불</string>
+  <string name="TownOfUsMira.Modifier.Torch.IntroBlurb">불이 꺼져도 볼 수 있습니다.</string>
+  <string name="TownOfUsMira.Modifier.Torch..WikiDescription">조명이 당신의 시야에 영향을 주지 않습니다.</string>
+  <string name="TownOfUsMira.Modifier.Torch.TabDescription">조명이 꺼져도 시야가 
 만큼 줄어들지 않습니다.</string>
   <string name="ArrowDarkGlow">어두운 빛</string>
   <string name="ArrowColorGlow">색있는 빛</string>
@@ -118,10 +118,10 @@
   <string name="NeutralBenign">선 (중립)</string>
   <string name="GameOutlier">국외자</string>
   <string name="CrewmateKilling">살인자 (크루원)</string>
-  <string name="TouModifierTaskmaster.WikiDescription">라운드마다 임무를 자동으로 완성해줍니다.</string>
-  <string name="TouModifierTaskmaster.TabDescription">무작위 임무가 라운드마다 수행됩니다.</string>
-  <string name="TouModifierTaskmaster.IntroBlurb">라운드마다 무작위 임무를 수행합니다.</string>
-  <string name="TouModifierTaskmaster">십장</string>
+  <string name="TownOfUsMira.Modifier.Taskmaster.WikiDescription">라운드마다 임무를 자동으로 완성해줍니다.</string>
+  <string name="TownOfUsMira.Modifier.Taskmaster.TabDescription">무작위 임무가 라운드마다 수행됩니다.</string>
+  <string name="TownOfUsMira.Modifier.Taskmaster.IntroBlurb">라운드마다 무작위 임무를 수행합니다.</string>
+  <string name="TownOfUsMira.Modifier.Taskmaster">십장</string>
   <string name="DiscordServer">디스코드</string>
   <string name="SourceCode">소스 코드</string>
   <string name="ShowVanillaWikiEntries">위키 보기</string>

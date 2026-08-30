@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Universal;
 public sealed class GiantOptions : AbstractTouModifierOptionGroup<GiantModifier>
 {
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
-    public override string GroupName => MiraLocaleManager.Get("TouModifierGiant", "Giant");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Giant", "Giant");
     public override uint GroupPriority => 32;
     public override Color GroupColor => TownOfUsColors.Giant;
 

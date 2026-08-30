@@ -33,8 +33,6 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             _ => string.Empty,
         };
     }
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
     public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}TabDescription{ReviveString()}");
 
     public string GetAdvancedDescription()

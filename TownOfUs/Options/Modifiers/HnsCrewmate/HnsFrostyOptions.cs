@@ -13,9 +13,9 @@ public sealed class HnsFrostyOptions : AbstractTouModifierOptionGroup<HnsFrostyM
     public override uint GroupPriority => 5;
     public override Color GroupColor => TownOfUsColors.Frosty;
 
-    [ModdedNumberOption("HnsOptionFrostyChillDuration", 0f, 15f, suffixType: MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TownOfUsMira.HideAndSeek.Modifier.Option.FrostyChillDuration", 0f, 15f, suffixType: MiraNumberSuffixes.Seconds)]
     public float ChillDuration { get; set; } = 10f;
 
-    [ModdedNumberOption("HnsOptionFrostyChillStartSpeed", 0.25f, 0.95f, 0.05f, MiraNumberSuffixes.Multiplier)]
+    [ModdedNumberOption("TownOfUsMira.HideAndSeek.Modifier.Option.FrostyChillStartSpeed", 0.25f, 0.95f, 0.05f, MiraNumberSuffixes.Multiplier)]
     public float ChillStartSpeed { get; set; } = 0.75f;
 }

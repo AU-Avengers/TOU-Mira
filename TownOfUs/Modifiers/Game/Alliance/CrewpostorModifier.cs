@@ -27,18 +27,18 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Crewpostor.LoadAsset(),
             "TouMira.Modifier.Alliance.Crewpostor", 1.45f));
     public override string IdPart => "Crewpostor";
-    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
-    public string ShortName => MiraLocaleManager.Get($"TouModifier{IdPart}ShortName");
-    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}.IntroBlurb");
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
+    public string ShortName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}ShortName");
+    public override string IntroInfo => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public override string Symbol => "*";

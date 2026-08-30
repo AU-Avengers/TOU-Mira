@@ -3,7 +3,7 @@
 public sealed class DeputyRevealedModifier(RoleBehaviour role)
     : BaseRevealModifier
 {
-    public override string ModifierName => MiraLocaleManager.Get("TouModifierDeputyRevealed");
+    public override string ModifierName => MiraLocaleManager.Get("TownOfUsMira.Modifier.DeputyRevealed");
 
 
     public override ChangeRoleResult ChangeRoleResult { get; set; } = ChangeRoleResult.Nothing;

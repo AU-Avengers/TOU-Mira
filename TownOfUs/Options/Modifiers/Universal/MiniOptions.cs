@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Universal;
 public sealed class MiniOptions : AbstractTouModifierOptionGroup<MiniModifier>
 {
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
-    public override string GroupName => MiraLocaleManager.Get("TouModifierMini", "Mini");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Mini", "Mini");
     public override uint GroupPriority => 33;
     public override Color GroupColor => TownOfUsColors.Mini;
 

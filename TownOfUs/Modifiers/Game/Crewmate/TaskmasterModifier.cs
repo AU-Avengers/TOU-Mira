@@ -15,17 +15,17 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Taskmaster.LoadAsset(),
             "TouMira.Modifier.Crewmate.Taskmaster", 1.45f));
     public override string IdPart => "Taskmaster";
-    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
-    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}.IntroBlurb");
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription")
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription")
                + MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -77,7 +77,7 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
                 taskText = taskText.Replace(Environment.NewLine, "");
 
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Taskmaster.ToTextColor()}{MiraLocaleManager.Get("TouModifierTaskmasterTaskNotif").Replace("<taskName>", taskText)}</b></color>",
+                    $"<b>{TownOfUsColors.Taskmaster.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Modifier.TaskmasterTaskNotif").Replace("<taskName>", taskText)}</b></color>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Taskmaster.LoadAsset());
                 notif1.AdjustNotification();
             }

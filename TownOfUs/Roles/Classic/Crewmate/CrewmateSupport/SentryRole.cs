@@ -13,9 +13,6 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public string IdPart => "Sentry";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
     public DoomableType DoomHintType => DoomableType.Insight;
 
     public string GetAdvancedDescription()

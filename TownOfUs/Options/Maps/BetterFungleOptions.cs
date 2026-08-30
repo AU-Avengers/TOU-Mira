@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Maps;
 public sealed class BetterFungleOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
-    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleBetterFungle");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.BetterFungle");
     public override uint GroupPriority => 7;
     public override Color GroupColor => new Color32(239, 98, 162, 255);
     public override OptionNotifConfiguration Configuration => new(
@@ -20,7 +20,7 @@ public sealed class BetterFungleOptions : AbstractOptionGroup
             1.45f));
 
     public ModdedToggleOption CamoComms { get; set; } =
-        new("TouOptionAdvancedSaboCamouflageComms", false)
+        new("TownOfUsMira.AdvancedSabo.Option.CamouflageComms", false)
         {
             Visible = () =>
                 GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapCamoCommsConfig) ==
@@ -28,7 +28,7 @@ public sealed class BetterFungleOptions : AbstractOptionGroup
         };
 
     public ModdedNumberOption SpeedMultiplier { get; set; } =
-        new("TouOptionBetterMapsSpeedMultiplier", 1f, 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")
+        new("TownOfUsMira.BetterMaps.Option.MapsSpeedMultiplier", 1f, 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")
         {
             Visible = () =>
                 GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapSpeedConfig) ==
@@ -36,7 +36,7 @@ public sealed class BetterFungleOptions : AbstractOptionGroup
         };
 
     public ModdedNumberOption CrewVisionMultiplier { get; set; } =
-        new("TouOptionBetterMapsCrewVisionMultiplier", 1f, 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")
+        new("TownOfUsMira.BetterMaps.Option.MapsCrewVisionMultiplier", 1f, 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")
         {
             Visible = () =>
                 GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapCrewVisionConfig) ==
@@ -44,7 +44,7 @@ public sealed class BetterFungleOptions : AbstractOptionGroup
         };
 
     public ModdedNumberOption ImpVisionMultiplier { get; set; } =
-        new("TouOptionBetterMapsImpVisionMultiplier", 1f, 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")
+        new("TownOfUsMira.BetterMaps.Option.MapsImpVisionMultiplier", 1f, 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")
         {
             Visible = () =>
                 GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapImpVisionConfig) ==
@@ -52,7 +52,7 @@ public sealed class BetterFungleOptions : AbstractOptionGroup
         };
 
     public ModdedNumberOption CooldownOffset { get; set; } =
-        new("TouOptionBetterMapsCooldownOffset", 0f, -15f, 15f, 2.5f, MiraNumberSuffixes.Seconds)
+        new("TownOfUsMira.BetterMaps.Option.MapsCooldownOffset", 0f, -15f, 15f, 2.5f, MiraNumberSuffixes.Seconds)
         {
             Visible = () =>
                 GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapCooldownConfig) ==
@@ -60,7 +60,7 @@ public sealed class BetterFungleOptions : AbstractOptionGroup
         };
 
     public ModdedNumberOption OffsetShortTasks { get; set; } =
-        new("TouOptionBetterMapsOffsetShortTasks", 0f, -5f, 5f, 1f, MiraNumberSuffixes.None)
+        new("TownOfUsMira.BetterMaps.Option.MapsOffsetShortTasks", 0f, -5f, 5f, 1f, MiraNumberSuffixes.None)
         {
             Visible = () =>
                 GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapShortTaskConfig) ==
@@ -68,7 +68,7 @@ public sealed class BetterFungleOptions : AbstractOptionGroup
         };
 
     public ModdedNumberOption OffsetLongTasks { get; set; } =
-        new("TouOptionBetterMapsOffsetLongTasks", 0f, -3f, 3f, 1f, MiraNumberSuffixes.None)
+        new("TownOfUsMira.BetterMaps.Option.MapsOffsetLongTasks", 0f, -3f, 3f, 1f, MiraNumberSuffixes.None)
         {
             Visible = () =>
                 GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapLongTaskConfig) ==
@@ -76,34 +76,34 @@ public sealed class BetterFungleOptions : AbstractOptionGroup
         };
 
 
-    public ModdedEnumOption FungleDoorType { get; set; } = new("TouOptionBetterFungleDoorType", (int)MapDoorType.Fungle, typeof(MapDoorType),
+    public ModdedEnumOption FungleDoorType { get; set; } = new("TownOfUsMira.BetterMaps.Option.FungleDoorType", (int)MapDoorType.Fungle, typeof(MapDoorType),
     [
-        "TouOptionBetterDoorsEnumSkeld", "TouOptionBetterDoorsEnumPolus", "TouOptionBetterDoorsEnumAirship",
-        "TouOptionBetterDoorsEnumFungle", "TouOptionBetterDoorsEnumSubmerged", "TouOptionBetterDoorsEnumNoDoors",
-        "TouOptionBetterDoorsEnumRandom"
+        "TownOfUsMira.BetterMaps.Option.DoorsEnumSkeld", "TownOfUsMira.BetterMaps.Option.DoorsEnumPolus", "TownOfUsMira.BetterMaps.Option.DoorsEnumAirship",
+        "TownOfUsMira.BetterMaps.Option.DoorsEnumFungle", "TownOfUsMira.BetterMaps.Option.DoorsEnumSubmerged", "TownOfUsMira.BetterMaps.Option.DoorsEnumNoDoors",
+        "TownOfUsMira.BetterMaps.Option.DoorsEnumRandom"
     ]);
 
-    [ModdedToggleOption("TouOptionBetterMapsNoLadderCooldown")]
+    [ModdedToggleOption("TownOfUsMira.BetterMaps.Option.MapsNoLadderCooldown")]
     public bool NoLadderCooldown { get; set; } = true;
 
-    /*public ModdedEnumOption MapTheme { get; set; } = new("TouOptionBetterMapsTheme",
+    /*public ModdedEnumOption MapTheme { get; set; } = new("TownOfUsMira.BetterMaps.Option.MapsTheme",
         (int)PolusTheme.Auto, typeof(PolusTheme),
         [
-            "TouOptionBetterMapsThemeEnumAuto", "TouOptionBetterMapsThemeEnumBasic",
-            "TouOptionBetterMapsThemeEnumHalloween"
+            "TownOfUsMira.BetterMaps.Option.MapsThemeEnumAuto", "TownOfUsMira.BetterMaps.Option.MapsThemeEnumBasic",
+            "TownOfUsMira.BetterMaps.Option.MapsThemeEnumHalloween"
         ]);*/
 
-    [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
+    [ModdedToggleOption("TownOfUsMira.BetterMaps.Option.MapsChangeSaboTimers")]
     public bool ChangeSaboTimers { get; set; } = true;
 
-    public ModdedNumberOption SaboCountdownReactor { get; set; } = new("TouOptionBetterMapsSaboCountdownReactor", 60f, 15f, 90f,
+    public ModdedNumberOption SaboCountdownReactor { get; set; } = new("TownOfUsMira.BetterMaps.Option.MapsSaboCountdownReactor", 60f, 15f, 90f,
         5f, MiraNumberSuffixes.Seconds, "0.#")
     {
         Visible = () =>
             OptionGroupSingleton<BetterFungleOptions>.Instance.ChangeSaboTimers
     };
 
-    public ModdedNumberOption SaboCountdownMixUp { get; set; } = new("TouOptionBetterMapsSaboDurationMixUp", 10f, 5f, 60f,
+    public ModdedNumberOption SaboCountdownMixUp { get; set; } = new("TownOfUsMira.BetterMaps.Option.MapsSaboDurationMixUp", 10f, 5f, 60f,
         5f, MiraNumberSuffixes.Seconds, "0.#")
     {
         Visible = () =>

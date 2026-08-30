@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Modifiers.Alliance;
 public sealed class EgotistOptions : AbstractTouModifierOptionGroup<EgotistModifier>
 {
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
-    public override string GroupName => MiraLocaleManager.Get("TouModifierEgotist", "Egotist");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Egotist", "Egotist");
     public override uint GroupPriority => 11;
     public override Color GroupColor => TownOfUsColors.Egotist;
 

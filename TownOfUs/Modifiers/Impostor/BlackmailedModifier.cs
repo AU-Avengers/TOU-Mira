@@ -107,7 +107,7 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
 
         var time = (float)Random.RandomRangeInt(10, logicOptionsNormal.GetVotingTime() - 5);
         var notif1 = Helpers.CreateAndShowNotification(
-            MiraLocaleManager.Get("TouModifierBlackmailedVoteNotification")
+            MiraLocaleManager.Get("TownOfUsMira.Modifier.BlackmailedVoteNotification")
                 .Replace("<time>", time.ToString(TownOfUsPlugin.Culture)),
             Color.white,
             new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Blackmailer.LoadAsset());

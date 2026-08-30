@@ -790,28 +790,17 @@ public static class MiscUtils
         return ModifierUtils.GetPlayersWithModifier<T>().FirstOrDefault();
     }
 
-    public static string GetIdPart(ITownOfUsRole role)
+    public static string GetIdPart(ICustomRole role)
     {
         return role.IdPart;
     }
 
-    public static string GetIdPart(ICustomRole role)
-    {
-        var name = role.RoleName;
-        if (role is ITownOfUsRole touRole)
-        {
-            name = touRole.IdPart;
-        }
-
-        return name;
-    }
-
     public static string GetIdPart(RoleBehaviour role)
     {
-        var name = role.GetRoleName();
-        if (role is ITownOfUsRole touRole)
+        var name = role.Role.ToString();
+        if (role is ICustomRole customRole)
         {
-            name = touRole.IdPart;
+            name = customRole.IdPart;
         }
 
         return name;

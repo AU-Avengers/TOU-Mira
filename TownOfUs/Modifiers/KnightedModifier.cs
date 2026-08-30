@@ -7,7 +7,7 @@ namespace TownOfUs.Modifiers;
 
 public sealed class KnightedModifier : BaseModifier
 {
-    public override string ModifierName => MiraLocaleManager.Get("TouModifierKnighted");
+    public override string ModifierName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Knighted");
     public override bool HideOnUi => OptionGroupSingleton<MonarchOptions>.Instance.RevealAtMeeting && !Announced;
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Monarch;
     public override bool Unique => false;
@@ -16,7 +16,7 @@ public sealed class KnightedModifier : BaseModifier
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get("TouModifierKnightedDescription")
+        return MiraLocaleManager.Get("TownOfUsMira.Modifier.KnightedDescription")
             .Replace(
                 "<votes>",
                 ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight)

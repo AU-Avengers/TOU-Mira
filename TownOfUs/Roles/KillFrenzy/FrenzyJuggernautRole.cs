@@ -41,9 +41,6 @@ public sealed class FrenzyJuggernautRole(IntPtr cppPtr) : FrenzyRole(cppPtr), IT
 
     public int KillCount { get; set; }
     public string IdPart => "Juggernaut";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {

@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Universal;
 public sealed class ShyOptions : AbstractTouModifierOptionGroup<ShyModifier>
 {
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
-    public override string GroupName => MiraLocaleManager.Get("TouModifierShy", "Shy");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Shy", "Shy");
     public override uint GroupPriority => 35;
     public override Color GroupColor => TownOfUsColors.Shy;
 

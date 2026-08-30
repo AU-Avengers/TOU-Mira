@@ -29,9 +29,6 @@ public sealed class TraitorRole(IntPtr cppPtr)
     public bool NoSpawn => true;
     public bool IsDraftable => false;
     public string IdPart => "Traitor";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {

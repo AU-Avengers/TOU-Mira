@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 public sealed class FrostyOptions : AbstractTouModifierOptionGroup<FrostyModifier>
 {
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
-    public override string GroupName => MiraLocaleManager.Get("TouModifierFrosty", "Frosty");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Frosty", "Frosty");
     public override uint GroupPriority => 22;
     public override Color GroupColor => TownOfUsColors.Frosty;
 

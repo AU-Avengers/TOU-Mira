@@ -68,7 +68,7 @@ public static class DoomsayerEvents
             {
                 PlayerControl.LocalPlayer.DelayExile();
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerWonSelf").Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.RoleName}</color>")}</b>",
+                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerWonSelf").Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.GetRoleName()}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -86,7 +86,7 @@ public static class DoomsayerEvents
                 else
                 {
                     message = $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerWonOther")
-                        .Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.RoleName}</color>")}</b>";
+                        .Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.GetRoleName()}</color>")}</b>";
                     icon = TouRoleIcons.Doomsayer;
                 }
 

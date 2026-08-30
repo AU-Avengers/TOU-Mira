@@ -50,9 +50,6 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public DoomableType DoomHintType => DoomableType.Insight;
     public string IdPart => "Snitch";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
@@ -78,7 +75,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         var stringB = new StringBuilder();
         stringB.AppendLine(TownOfUsPlugin.Culture,
-            $"{RoleColor.ToTextColor()}{MiraLocaleManager.Get("YouAreA")}<b> {RoleName}.</b></color>");
+            $"{RoleColor.ToTextColor()}{MiraLocaleManager.Get("YouAreA")}<b> {this.GetRoleName()}.</b></color>");
         stringB.AppendLine(TownOfUsPlugin.Culture,
             $"<size=60%>{MiraLocaleManager.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(RoleAlignment, true)}</b></size>");
         stringB.Append("<size=70%>");
@@ -89,7 +86,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             desc += "Ego";
         }
 
-        var text = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}TabDescription{desc}");
+        var text = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription{desc}");
 
         stringB.AppendLine(TownOfUsPlugin.Culture, $"{text}");
 

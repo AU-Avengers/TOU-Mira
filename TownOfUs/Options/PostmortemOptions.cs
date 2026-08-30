@@ -5,7 +5,7 @@ namespace TownOfUs.Options;
 
 public sealed class PostmortemOptions : AbstractOptionGroup
 {
-    public override string GroupName => MiraLocaleManager.Get("TouOptionTitlePostmortem");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.Postmortem");
     public override uint GroupPriority => 4;
 
     public ModdedToggleOption TheDeadKnow { get; set; } =

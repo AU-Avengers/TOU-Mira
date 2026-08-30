@@ -7,7 +7,7 @@ namespace TownOfUs.Modifiers.Other;
 
 public sealed class HangoverModifier(float duration, bool startTimer) : TimedModifier
 {
-    public override string ModifierName => MiraLocaleManager.Get("TouModifierHangover");
+    public override string ModifierName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Hangover");
     public override bool HideOnUi => false;
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Barkeeper;
     public override bool Unique => false;
@@ -16,7 +16,7 @@ public sealed class HangoverModifier(float duration, bool startTimer) : TimedMod
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get("TouModifierHangoverDescription");
+        return MiraLocaleManager.Get("TownOfUsMira.Modifier.HangoverDescription");
     }
 
     public override void OnActivate()
@@ -24,7 +24,7 @@ public sealed class HangoverModifier(float duration, bool startTimer) : TimedMod
         if (Player.AmOwner && AutoStart)
         {
             var notif = Helpers.CreateAndShowNotification(
-                    $"<b>{MiraLocaleManager.Get("TouModifierHangoverStartNotification")}</color></b>", Color.white,
+                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.HangoverStartNotification")}</color></b>", Color.white,
                     spr: TouRoleIcons.Barkeeper.LoadAsset());
 
             notif.Text.SetOutlineThickness(0.35f);
@@ -37,7 +37,7 @@ public sealed class HangoverModifier(float duration, bool startTimer) : TimedMod
         if (Player.AmOwner && !Player.HasDied())
         {
             var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{MiraLocaleManager.Get("TouModifierHangoverEndNotification")}</color></b>", Color.white,
+            $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.HangoverEndNotification")}</color></b>", Color.white,
             spr: TouRoleIcons.Barkeeper.LoadAsset());
 
             notif1.Text.SetOutlineThickness(0.35f);

@@ -8,9 +8,6 @@ public sealed class EclipsalRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 {
     public DoomableType DoomHintType => DoomableType.Perception;
     public string IdPart => "Eclipsal";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {

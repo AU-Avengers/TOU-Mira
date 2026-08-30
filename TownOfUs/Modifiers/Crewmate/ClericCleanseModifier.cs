@@ -23,7 +23,7 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
         Hex
     }
 
- public override string ModifierName => MiraLocaleManager.Get("TouModifierClericCleanse");
+ public override string ModifierName => MiraLocaleManager.Get("TownOfUsMira.Modifier.ClericCleanse");
 public override bool HideOnUi => true;
 public PlayerControl Cleric { get; } = cleric;
 
@@ -52,7 +52,7 @@ public override void OnMeetingStart()
     if (Cleric.AmOwner)
     {
         var text = new StringBuilder(
-            MiraLocaleManager.Get("TouModifierClericCleanseEffectsFound")
+            MiraLocaleManager.Get("TownOfUsMira.Modifier.ClericCleanseEffectsFound")
                 .Replace("<player>", Player.Data.PlayerName));
 
         foreach (var effect in Effects)
@@ -65,12 +65,12 @@ public override void OnMeetingStart()
         if (Effects.Count == 0)
         {
             text = new StringBuilder(
-                MiraLocaleManager.Get("TouModifierClericCleanseNoEffects")
+                MiraLocaleManager.Get("TownOfUsMira.Modifier.ClericCleanseNoEffects")
                     .Replace("<player>", Player.Data.PlayerName));
         }
 
         var title =
-            $"<color=#{TownOfUsColors.Cleric.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TouModifierClericCleanseFeedbackTitle")}</color>";
+            $"<color=#{TownOfUsColors.Cleric.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Modifier.ClericCleanseFeedbackTitle")}</color>";
 
         MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, text.ToString(), false, true);
     }

@@ -44,7 +44,7 @@ public static class TraitorEvents
             {
                 var traitorRole = RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TraitorRole>());
                 var notif1 = Helpers.CreateAndShowNotification(
-                    MiraLocaleManager.Get("TouModifierCrewpostorIntroMessage")
+                    MiraLocaleManager.Get("TownOfUsMira.Modifier.CrewpostorIntroMessage")
                         .Replace("<modifier>",
                             $"{TownOfUsColors.Impostor.ToTextColor()}{crewpostor.ModifierName}</color>")
                         .Replace("<role>",

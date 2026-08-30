@@ -37,9 +37,6 @@ public sealed class FrenzyGrenadierRole(IntPtr cppPtr) : FrenzyRole(cppPtr), ITo
         return WinConditionMet();
     }
     public string IdPart => "Grenadier";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {

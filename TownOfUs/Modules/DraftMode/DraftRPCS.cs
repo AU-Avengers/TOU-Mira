@@ -424,6 +424,7 @@ public static class DraftNetworkHelper
             }
             catch
             {
+                // ignored
             }
         }
     }

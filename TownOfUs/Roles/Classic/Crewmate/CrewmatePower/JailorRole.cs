@@ -41,8 +41,6 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public DoomableType DoomHintType => DoomableType.Relentless;
     public string IdPart => "Jailor";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
     public string RoleMedDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}WikiBlurb");
     public string RoleLongDescription => PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished ? MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}TabDescriptionEvil") : MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 

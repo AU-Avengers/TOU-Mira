@@ -21,7 +21,7 @@ public sealed class RoleDraftImpOptions : AbstractOptionGroup
             "TouMira.Gamemode.DraftMode",
             1.45f));
 
-    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleRoleDraftImp");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleDraftImp");
     public override uint GroupPriority => 3;
 
     public ModdedNumberOption MaxImpostors { get; set; } =

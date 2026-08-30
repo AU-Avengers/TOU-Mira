@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Modifiers;
 
 public sealed class OverclockButton : TownOfUsButton
 {
-    public override string Name => MiraLocaleManager.Get("TouModifierOverclockerOverclock", "Overclock");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Modifier.OverclockerOverclock", "Overclock");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.Overclocker;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<OverclockerOptions>.Instance.OverclockCooldown.Value + MapCooldown, 2.5f, 120f);
@@ -46,10 +46,10 @@ public sealed class OverclockButton : TownOfUsButton
         }
 
         modifier.CurrentState = ChargeState.Overclocked;
-        OverrideName(MiraLocaleManager.Get("TouModifierOverclockerOverclocked", "Overclocked"));
+        OverrideName(MiraLocaleManager.Get("TownOfUsMira.Modifier.OverclockerOverclocked", "Overclocked"));
 
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{MiraLocaleManager.Get("TouModifierOverclockerOverclockNotif").Replace("<multi>", OptionGroupSingleton<OverclockerOptions>.Instance.OverclockMultiplier.Value.ToString(TownOfUsPlugin.Culture))}</b>", Color.white,
+            $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.OverclockerOverclockNotif").Replace("<multi>", OptionGroupSingleton<OverclockerOptions>.Instance.OverclockMultiplier.Value.ToString(TownOfUsPlugin.Culture))}</b>", Color.white,
             new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Overclocker.LoadAsset());
         notif1.AdjustNotification();
     }
@@ -62,7 +62,7 @@ public sealed class OverclockButton : TownOfUsButton
             return;
         }
         modifier.CurrentState = ChargeState.UnderclockedBegin;
-        OverrideName(MiraLocaleManager.Get("TouModifierOverclockerUnderclocked", "Underclocked"));
+        OverrideName(MiraLocaleManager.Get("TownOfUsMira.Modifier.OverclockerUnderclocked", "Underclocked"));
         OverrideSprite(TouAssets.UnderclockSprite.LoadAsset());
         if (MeetingHud.Instance || ExileController.Instance)
         {
@@ -71,7 +71,7 @@ public sealed class OverclockButton : TownOfUsButton
 
         ShowedFeedback = true;
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{MiraLocaleManager.Get("TouModifierOverclockerUnderclockNotif").Replace("<multi>", OptionGroupSingleton<OverclockerOptions>.Instance.UnderclockMultiplier.Value.ToString(TownOfUsPlugin.Culture))}</b>", Color.white,
+            $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.OverclockerUnderclockNotif").Replace("<multi>", OptionGroupSingleton<OverclockerOptions>.Instance.UnderclockMultiplier.Value.ToString(TownOfUsPlugin.Culture))}</b>", Color.white,
             new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Overclocker.LoadAsset());
         notif1.AdjustNotification();
     }

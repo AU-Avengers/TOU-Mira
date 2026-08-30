@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Modifiers;
 
 public sealed class AllianceModifierOptions : AbstractOptionGroup
 {
-    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleAllianceModifiers");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.AllianceModifiers");
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override Color GroupColor => Color.white;
     public override MenuCategory ParentMenu => MenuCategory.Modifiers;
@@ -19,7 +19,7 @@ public sealed class AllianceModifierOptions : AbstractOptionGroup
         ChangedEvent = x =>
         {
             var opt = OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance;
-            RunNotif(opt, x > 0f ? "1" : "0", "TouModifierCrewpostor");
+            RunNotif(opt, x > 0f ? "1" : "0", "TownOfUsMira.Modifier.Crewpostor");
         }
     };
 
@@ -30,7 +30,7 @@ public sealed class AllianceModifierOptions : AbstractOptionGroup
         ChangedEvent = x =>
         {
             var opt = OptionGroupSingleton<AllianceModifierOptions>.Instance.EgotistChance;
-            RunNotif(opt, x > 0f ? "1" : "0", "TouModifierEgotist");
+            RunNotif(opt, x > 0f ? "1" : "0", "TownOfUsMira.Modifier.Egotist");
         }
     };
 
@@ -41,7 +41,7 @@ public sealed class AllianceModifierOptions : AbstractOptionGroup
         ChangedEvent = x =>
         {
             var opt = OptionGroupSingleton<AllianceModifierOptions>.Instance.LoversChance;
-            RunNotif(opt, x > 0f ? "2" : "0", "TouModifierLover");
+            RunNotif(opt, x > 0f ? "2" : "0", "TownOfUsMira.Modifier.Lover");
         }
     };
     private static void RunNotif(AmountChanceOption opt, string count, string title)

@@ -457,7 +457,7 @@ barricadeer ventilatieschachten om deze de volgende ronde te blokkeren</string>
   <string name="TownOfUsMira.Role.Politician.TabDescription">Voer een campagne in de hoop dat jij de Burgemeester wordt! Minstens de helft van 
  de onschuldige spelers in de campagne zit om succesvol te onthullen</string>
   <string name="TownOfUsMira.Role.Politician.WikiDescription">The Politicus is een Bemanningslid Kracht die zichzelf kan onthullen als de Burgemeester, mits de helft van de Bemanning  (campagned)   is.</string>
-  <string name="TouModifierTorch.WikiDescription">Als de lichten uitgaan, zie jij nog prima.</string>
+  <string name="TownOfUsMira.Modifier.Torch.WikiDescription">Als de lichten uitgaan, zie jij nog prima.</string>
   <string name="TownOfUsMira.Role.PoliticianCampaign.WikiDescription">Geef een speler een folder, wat alleen nuttig is als ze Bemanning zijn.</string>
   <string name="TownOfUsMira.Role.PoliticianReveal">Onthullen</string>
   <string name="TownOfUsMira.Role.PoliticianRevealWiki">Onthullen (Bijeenkomst)</string>

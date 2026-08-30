@@ -104,7 +104,6 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SnitchRole>());
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string IdPart => "Executioner";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
     public string RoleDescription => TargetString(true);
     public string RoleLongDescription => TargetString();
 

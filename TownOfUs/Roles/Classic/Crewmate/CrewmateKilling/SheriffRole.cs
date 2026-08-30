@@ -4,6 +4,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
@@ -19,9 +20,6 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     public bool HasMisfired { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
     public string IdPart => "Sheriff";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
@@ -62,7 +60,7 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     {
         var stringB = new StringBuilder();
         stringB.AppendLine(TownOfUsPlugin.Culture,
-            $"{RoleColor.ToTextColor()}{MiraLocaleManager.Get("YouAreA")}<b> {RoleName}.</b></color>");
+            $"{RoleColor.ToTextColor()}{MiraLocaleManager.Get("YouAreA")}<b> {this.GetRoleName()}.</b></color>");
         stringB.AppendLine(TownOfUsPlugin.Culture,
             $"<size=60%>{MiraLocaleManager.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(RoleAlignment, true)}</b></size>");
         stringB.Append("<size=70%>");
@@ -72,7 +70,7 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         }
         else
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"{RoleLongDescription}");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{this.GetRoleLongDescription()}");
             var addedText = "d";
             if (!CustomButtonSingleton<SheriffShootButton>.Instance.FailedShot)
             {

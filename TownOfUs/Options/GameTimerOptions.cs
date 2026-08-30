@@ -8,7 +8,7 @@ namespace TownOfUs.Options;
 
 public sealed class GameTimerOptions : AbstractOptionGroup<ClassicMode>
 {
- public override string GroupName => MiraLocaleManager.Get("TouOptionTitleGameTimer");
+ public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.GameTimer");
     public override uint GroupPriority => 5;
 
     [ModdedToggleOption("TouOptionGameTimerEnabled")] 

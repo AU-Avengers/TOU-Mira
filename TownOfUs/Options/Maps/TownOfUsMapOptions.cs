@@ -11,34 +11,34 @@ namespace TownOfUs.Options.Maps;
 public sealed class TownOfUsMapOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
-    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleRandomMapChoice");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RandomMapChoice");
     public override uint GroupPriority => 0;
 
-    [ModdedToggleOption("TouOptionRandomMapsToggle")]
+    [ModdedToggleOption("TownOfUsMira.RandomMaps.Option.Toggle")]
     public bool RandomMaps { get; set; } = false;
 
-    public ExtendedNumberOption SkeldChance { get; } = new("TouOptionRandomMapsSkeldChance", 0, 0, 100f, 10f, "#", "#",
+    public ExtendedNumberOption SkeldChance { get; } = new("TownOfUsMira.RandomMaps.Option.SkeldChance", 0, 0, 100f, 10f, "#", "#",
         MiraNumberSuffixes.Percent, color: new Color32(188, 206, 200, 255), asset: TouAssets.IconSkeld,
         assetName: "AmongUs.Map.Skeld", assetScale: 1.45f)
     {
         Visible = () => OptionGroupSingleton<TownOfUsMapOptions>.Instance.RandomMaps
     };
 
-    public ExtendedNumberOption BackwardsSkeldChance { get; } = new("TouOptionRandomMapsBackwardsSkeldChance", 0, 0,
+    public ExtendedNumberOption BackwardsSkeldChance { get; } = new("TownOfUsMira.RandomMaps.Option.BackwardsSkeldChance", 0, 0,
         100f, 10f, "#", "#", MiraNumberSuffixes.Percent, color: new Color32(188, 206, 200, 255),
         asset: TouAssets.IconDleks, assetName: "AmongUs.Map.dlekS", assetScale: 1.45f)
     {
         Visible = () => OptionGroupSingleton<TownOfUsMapOptions>.Instance.RandomMaps
     };
 
-    public ExtendedNumberOption MiraChance { get; } = new("TouOptionRandomMapsMiraChance", 0, 0, 100f, 10f, "#", "#",
+    public ExtendedNumberOption MiraChance { get; } = new("TownOfUsMira.RandomMaps.Option.MiraChance", 0, 0, 100f, 10f, "#", "#",
         MiraNumberSuffixes.Percent, color: new Color32(255, 128, 100, 255), asset: TouAssets.IconMira,
         assetName: "AmongUs.Map.Mira", assetScale: 1.45f)
     {
         Visible = () => OptionGroupSingleton<TownOfUsMapOptions>.Instance.RandomMaps
     };
 
-    public ExtendedNumberOption PolusChance { get; } = new("TouOptionRandomMapsPolusChance", 0, 0, 100f, 10f, "#", "#",
+    public ExtendedNumberOption PolusChance { get; } = new("TownOfUsMira.RandomMaps.Option.PolusChance", 0, 0, 100f, 10f, "#", "#",
         MiraNumberSuffixes.Percent, color: new Color32(157, 146, 198, 255), asset: TouAssets.IconPolus,
         assetName: "AmongUs.Map.Polus", assetScale: 1.45f)
     {
@@ -46,14 +46,14 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
     };
 
     public ExtendedNumberOption AirshipChance { get; } =
-        new("TouOptionRandomMapsAirshipChance", 0, 0, 100f, 10f, "#", "#", MiraNumberSuffixes.Percent,
+        new("TownOfUsMira.RandomMaps.Option.AirshipChance", 0, 0, 100f, 10f, "#", "#", MiraNumberSuffixes.Percent,
             color: new Color32(255, 76, 73, 255), asset: TouAssets.IconAirship, assetName: "AmongUs.Map.Airship",
             assetScale: 1.45f)
         {
             Visible = () => OptionGroupSingleton<TownOfUsMapOptions>.Instance.RandomMaps
         };
 
-    public ExtendedNumberOption FungleChance { get; } = new("TouOptionRandomMapsFungleChance", 0, 0, 100f, 10f, "#",
+    public ExtendedNumberOption FungleChance { get; } = new("TownOfUsMira.RandomMaps.Option.FungleChance", 0, 0, 100f, 10f, "#",
         "#", MiraNumberSuffixes.Percent, color: new Color32(239, 98, 162, 255), asset: TouAssets.IconFungle,
         assetName: "AmongUs.Map.Fungle", assetScale: 1.45f)
     {
@@ -61,7 +61,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
     };
 
     public ExtendedNumberOption SubmergedChance { get; } =
-        new("TouOptionRandomMapsSubmergedChance", 0, 0f, 100f, 10f, "#", "#", MiraNumberSuffixes.Percent,
+        new("TownOfUsMira.RandomMaps.Option.SubmergedChance", 0, 0f, 100f, 10f, "#", "#", MiraNumberSuffixes.Percent,
             color: new Color32(10, 150, 255, 255), asset: TouAssets.IconSubmerged, assetName: "AmongUs.Map.Submerged",
             assetScale: 1.45f)
         {
@@ -69,7 +69,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
         };
 
     public ExtendedNumberOption LevelImpostorChance { get; } =
-        new("TouOptionRandomMapsLevelImpostorChance", 0, 0f, 100f, 10f, "#", "#", MiraNumberSuffixes.Percent,
+        new("TownOfUsMira.RandomMaps.Option.LevelImpostorChance", 0, 0f, 100f, 10f, "#", "#", MiraNumberSuffixes.Percent,
             color: new Color32(16, 131, 176, 255), asset: TouAssets.IconLevelImposter, assetName: "AmongUs.Map.LevelImposter",
             assetScale: 1.45f)
         {

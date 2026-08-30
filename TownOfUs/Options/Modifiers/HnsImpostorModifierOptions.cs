@@ -15,8 +15,8 @@ public sealed class HnsImpostorModifierOptions : AbstractOptionGroup
     public override uint GroupPriority => 1;
 
     public ModdedNumberOption AdministratorChance { get; } =
-        new("HnsOptionAdministratorChanceNA", 10f, 0, 100f, 10f, MiraNumberSuffixes.Percent);
+        new("TownOfUsMira.HideAndSeek.Role.Option.AdministratorChanceNA", 10f, 0, 100f, 10f, MiraNumberSuffixes.Percent);
 
     public ModdedNumberOption DisperserChance { get; } =
-        new("HnsOptionDisperserChanceNA", 10f, 0, 100f, 10f, MiraNumberSuffixes.Percent);
+        new("TownOfUsMira.HideAndSeek.Modifier.Option.DisperserChanceNA", 10f, 0, 100f, 10f, MiraNumberSuffixes.Percent);
 }

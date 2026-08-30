@@ -909,7 +909,7 @@ namespace TownOfUs.Modules.DraftMode
             return DraftFaction.Crewmate;
         }
 
-        private bool IsEvilRole(string roleName)
+        private static bool IsEvilRole(string roleName)
         {
             var baseName = BaseRoleName(roleName);
             return DraftRolePool.IsImpostorRoleName(baseName) ||

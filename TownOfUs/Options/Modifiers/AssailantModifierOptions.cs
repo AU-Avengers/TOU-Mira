@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Modifiers;
 
 public sealed class AssailantModifierOptions : AbstractOptionGroup
 {
-    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleAssailantModifiers");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.AssailantModifiers");
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override Color GroupColor => TownOfUsColors.Overclocker;
     public override MenuCategory ParentMenu => MenuCategory.Modifiers;
@@ -48,14 +48,14 @@ public sealed class AssailantModifierOptions : AbstractOptionGroup
     {
         var optAmount = OptionGroupSingleton<AssailantModifierOptions>.Instance.ImpDoubleShotAmount;
         var opt = OptionGroupSingleton<AssailantModifierOptions>.Instance.ImpDoubleShotChance;
-        RunNotif(opt, optAmount, "TouModifierDoubleShot");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.DoubleShot");
     };
 
     private static Action<float> _dsNeutNotif = x =>
     {
         var optAmount = OptionGroupSingleton<AssailantModifierOptions>.Instance.NeutDoubleShotAmount;
         var opt = OptionGroupSingleton<AssailantModifierOptions>.Instance.NeutDoubleShotChance;
-        RunNotif(opt, optAmount, "TouModifierDoubleShot");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.DoubleShot");
     };
 
     public AmountChanceOption ImpOverclockerAmount { get; } = new("<sprite name=\"AmongUs.Role.Impostor\"> " + MiraLocaleManager.Get("TouOptionOverclockerAmount"), 0, 0, 5, 1,
@@ -94,14 +94,14 @@ public sealed class AssailantModifierOptions : AbstractOptionGroup
     {
         var optAmount = OptionGroupSingleton<AssailantModifierOptions>.Instance.ImpOverclockerAmount;
         var opt = OptionGroupSingleton<AssailantModifierOptions>.Instance.ImpOverclockerChance;
-        RunNotif(opt, optAmount, "TouModifierOverclocker");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Overclocker");
     };
 
     private static Action<float> _ocNeutNotif = x =>
     {
         var optAmount = OptionGroupSingleton<AssailantModifierOptions>.Instance.NeutOverclockerAmount;
         var opt = OptionGroupSingleton<AssailantModifierOptions>.Instance.NeutOverclockerChance;
-        RunNotif(opt, optAmount, "TouModifierOverclocker");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Overclocker");
     };
 
     private static void RunNotif(AmountChanceOption opt, AmountChanceOption optAmount, string title)

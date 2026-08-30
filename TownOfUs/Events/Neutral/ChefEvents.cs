@@ -63,7 +63,7 @@ public static class ChefEvents
             if (chef.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    MiraLocaleManager.Get("TownOfUsMira.Role.ChefVictoryMessageSelf").Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.RoleName}</color>"),
+                    MiraLocaleManager.Get("TownOfUsMira.Role.ChefVictoryMessageSelf").Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.GetRoleName()}</color>"),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -81,7 +81,7 @@ public static class ChefEvents
                 else
                 {
                     message = MiraLocaleManager.Get("TownOfUsMira.Role.ChefVictoryMessage")
-                        .Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.RoleName}</color>");
+                        .Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.GetRoleName()}</color>");
                     icon = TouRoleIcons.Chef;
                 }
 

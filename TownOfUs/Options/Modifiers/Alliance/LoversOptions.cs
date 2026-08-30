@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Alliance;
 public sealed class LoversOptions : AbstractTouModifierOptionGroup<LoverModifier>
 {
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
-    public override string GroupName => MiraLocaleManager.Get("TouModifierLovers", "Lovers");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Lovers", "Lovers");
     public override uint GroupPriority => 12;
     public override Color GroupColor => TownOfUsColors.Lover;
 

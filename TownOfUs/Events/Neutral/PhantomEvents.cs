@@ -29,7 +29,7 @@ public static class PhantomEvents
             if (phantom.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.SpectreWonSelf") .Replace("<role>", $"{TownOfUsColors.Spectre.ToTextColor()}{phantom.RoleName}</color>")}</b>",
+                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.SpectreWonSelf") .Replace("<role>", $"{TownOfUsColors.Spectre.ToTextColor()}{phantom.GetRoleName()}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -47,7 +47,7 @@ public static class PhantomEvents
             else
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.SpectreWonOther") .Replace("<role>", $"{TownOfUsColors.Spectre.ToTextColor()}{phantom.RoleName}</color>") .Replace("<player>", phantom.Player.Data.PlayerName)}</b>",
+                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.SpectreWonOther") .Replace("<role>", $"{TownOfUsColors.Spectre.ToTextColor()}{phantom.GetRoleName()}</color>") .Replace("<player>", phantom.Player.Data.PlayerName)}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
 
                 notif1.AdjustNotification();

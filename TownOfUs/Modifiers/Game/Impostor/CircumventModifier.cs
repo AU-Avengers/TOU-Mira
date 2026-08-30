@@ -16,25 +16,25 @@ public sealed class CircumventModifier : TouGameModifier, IWikiDiscoverable
     public int VentsAvailable { get; set; }
     public override string IdPart => "Circumvent";
     public bool NoVents => VentsAvailable <= 0;
-    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
     public bool InVent { get; set; }
 
     public override string IntroInfo => NoVents
-        ? MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurbNone")
-        : MiraLocaleManager.Get($"TouModifier{IdPart}.IntroBlurb");
+        ? MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}IntroBlurbNone")
+        : MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
 
     public override string GetDescription()
     {
         return NoVents
-            ? MiraLocaleManager.Get($"TouModifier{IdPart}TabDescriptionNone")
-            : MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription")
+            ? MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}TabDescriptionNone")
+            : MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription")
                 .Replace("<amount>", VentsAvailable.ToString(TownOfUsPlugin.Culture));
     }
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 

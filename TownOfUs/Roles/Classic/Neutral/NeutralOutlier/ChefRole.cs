@@ -129,9 +129,6 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     public DoomableType DoomHintType => DoomableType.Death;
     [HideFromIl2Cpp] public List<KeyValuePair<int, PlatterType>> StoredBodies { get; set; } = [];
     public string IdPart => "Chef";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
     private static string _tabCounter = MiraLocaleManager.Get("TownOfUsMira.Role.ChefTabCounter");
     public bool TargetsServed { get; set; }
     public int BodiesServed { get; set; }

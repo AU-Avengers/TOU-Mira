@@ -26,8 +26,6 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public string IdPart => "TimeLord";
     public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}", "Time Lord");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {

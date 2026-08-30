@@ -19,17 +19,17 @@ public sealed class ScientistModifier : TouGameModifier, IWikiDiscoverable, IBut
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Scientist.LoadAsset(),
             "AmongUs.Role.Scientist", 1.45f));
     public override string IdPart => "Scientist";
-    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
-    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}.IntroBlurb");
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription")
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription")
                + MiscUtils.AppendOptionsText(GetType());
     }
 

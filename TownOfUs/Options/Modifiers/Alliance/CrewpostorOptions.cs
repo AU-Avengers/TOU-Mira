@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Modifiers.Alliance;
 public sealed class CrewpostorOptions : AbstractTouModifierOptionGroup<CrewpostorModifier>
 {
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
-    public override string GroupName => MiraLocaleManager.Get("TouModifierCrewpostor", "Crewpostor");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Crewpostor", "Crewpostor");
     public override uint GroupPriority => 10;
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
 

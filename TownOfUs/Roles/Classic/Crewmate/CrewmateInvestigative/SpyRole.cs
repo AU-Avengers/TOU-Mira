@@ -13,9 +13,6 @@ public sealed class SpyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole
     public bool CanSpawnOnCurrentMode() => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek && MiscUtils.GetCurrentMap != ExpandedMapNames.Fungle;
     public DoomableType DoomHintType => DoomableType.Perception;
     public string IdPart => "Spy";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {

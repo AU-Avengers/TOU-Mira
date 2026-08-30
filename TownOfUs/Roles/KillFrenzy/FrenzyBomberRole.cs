@@ -47,9 +47,6 @@ public sealed class FrenzyBomberRole(IntPtr cppPtr)
     [HideFromIl2Cpp] public Bomb? Bomb { get; set; }
 
     public string IdPart => "Bomber";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {

@@ -9,7 +9,7 @@ namespace TownOfUs.Options;
 
 public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinModifier>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleAssassin");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.Assassin");
     public override uint GroupPriority => 7;
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
 
@@ -331,7 +331,7 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
         var opt = OptionGroupSingleton<AssassinOptions>.Instance.ImpAssassinChance;
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
-            MiraLocaleManager.Get("TouModifierAssassin"),
+            MiraLocaleManager.Get("TownOfUsMira.Modifier.Assassin"),
             optAmount.Data.GetValueString(optAmount.Value),
             opt.Data.GetValueString(opt.Value));
     };
@@ -342,7 +342,7 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
         var opt = OptionGroupSingleton<AssassinOptions>.Instance.NeutAssassinChance;
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
-            MiraLocaleManager.Get("TouModifierAssassin"),
+            MiraLocaleManager.Get("TownOfUsMira.Modifier.Assassin"),
             optAmount.Data.GetValueString(optAmount.Value),
             opt.Data.GetValueString(opt.Value));
     };

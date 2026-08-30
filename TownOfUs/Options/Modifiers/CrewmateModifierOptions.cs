@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Modifiers;
 
 public sealed class CrewmateModifierOptions : AbstractOptionGroup
 {
-    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleCrewmateModifiers");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.CrewmateModifiers");
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override Color GroupColor => Palette.CrewmateRoleHeaderBlue;
     public override MenuCategory ParentMenu => MenuCategory.Modifiers;
@@ -19,7 +19,7 @@ public sealed class CrewmateModifierOptions : AbstractOptionGroup
         ChangedEvent = x =>
         {
             var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.BaitChance;
-            RunNotif(opt, x > 0f ? "1" : "0", "TouModifierBait");
+            RunNotif(opt, x > 0f ? "1" : "0", "TownOfUsMira.Modifier.Bait");
         }
     };
 
@@ -30,7 +30,7 @@ public sealed class CrewmateModifierOptions : AbstractOptionGroup
         ChangedEvent = x =>
         {
             var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.CelebrityChance;
-            RunNotif(opt, x > 0f ? "1" : "0", "TouModifierCelebrity");
+            RunNotif(opt, x > 0f ? "1" : "0", "TownOfUsMira.Modifier.Celebrity");
         }
     };
 
@@ -233,21 +233,21 @@ public sealed class CrewmateModifierOptions : AbstractOptionGroup
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.AftermathAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.AftermathChance;
-        RunNotif(opt, optAmount, "TouModifierAftermath");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Aftermath");
     };
     
     private static Action<float> _diseasedNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.DiseasedAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.DiseasedChance;
-        RunNotif(opt, optAmount, "TouModifierDiseased");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Diseased");
     };
     
     private static Action<float> _frostyNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.FrostyAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.FrostyChance;
-        RunNotif(opt, optAmount, "TouModifierFrosty");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Frosty");
     };
     
     private static Action<float> _investigatorNotif = x =>
@@ -261,42 +261,42 @@ public sealed class CrewmateModifierOptions : AbstractOptionGroup
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.MultitaskerAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.MultitaskerChance;
-        RunNotif(opt, optAmount, "TouModifierMultitasker");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Multitasker");
     };
     
     private static Action<float> _noisemakerNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.NoisemakerAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.NoisemakerChance;
-        RunNotif(opt, optAmount, "TouModifierNoisemaker");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Noisemaker");
     };
     
     private static Action<float> _operativeNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.OperativeAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.OperativeChance;
-        RunNotif(opt, optAmount, "TouModifierOperative");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Operative");
     };
     
     private static Action<float> _rottingNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.RottingAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.RottingChance;
-        RunNotif(opt, optAmount, "TouModifierRotting");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Rotting");
     };
     
     private static Action<float> _scientistNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistChance;
-        RunNotif(opt, optAmount, "TouModifierScientist");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Scientist");
     };
     
     private static Action<float> _scoutNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScoutAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScoutChance;
-        RunNotif(opt, optAmount, "TouModifierScout");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Scout");
     };
     
     private static Action<float> _spyNotif = x =>
@@ -310,14 +310,14 @@ public sealed class CrewmateModifierOptions : AbstractOptionGroup
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.TaskmasterAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.TaskmasterChance;
-        RunNotif(opt, optAmount, "TouModifierTaskmaster");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Taskmaster");
     };
     
     private static Action<float> _torchNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.TorchAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.TorchChance;
-        RunNotif(opt, optAmount, "TouModifierTorch");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Torch");
     };
 
     private static void RunNotif(AmountChanceOption opt, string count, string title)

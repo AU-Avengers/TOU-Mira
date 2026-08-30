@@ -32,8 +32,6 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ClericRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Arsonist";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
     public static void SetDouseUses()
     {
         var button = CustomButtonSingleton<ArsonistDouseButton>.Instance;

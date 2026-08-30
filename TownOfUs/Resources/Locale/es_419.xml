@@ -510,117 +510,117 @@ Puedes desactivar este mensaje desde el menú de opciones.</string>
   <string name="FreeplayRestartPopup">¡Todos los jugadores muertos revivido y las tareas se han reiniciado!</string>
   <string name="TouFirstRoundDeathIndicator">Indicador de Muerte 1ra Ronda</string>
   <!-- Opciones avanzadas de utilidades -->
-  <string name="TouOptionAdvancedUtilTasksToUseAdmin">Tareas necesarias para usar Admin</string>
-  <string name="TouOptionAdvancedUtilTasksToUseCams">Tareas necesarias para usar Cámaras</string>
-  <string name="TouOptionAdvancedUtilTasksToUseDoorlog">Tareas necesarias para usar el Registro</string>
-  <string name="TouOptionAdvancedUtilTasksToUseVitals">Tareas necesarias para usar Signos Vitales</string>
-  <string name="TouOptionAdvancedUtilTasksRequiredOnPortableUtils">Comprobar tareas en utilidades portátiles</string>
+  <string name="TownOfUsMira.AdvancedUtils.Option.TasksToUseAdmin">Tareas necesarias para usar Admin</string>
+  <string name="TownOfUsMira.AdvancedUtils.Option.TasksToUseCams">Tareas necesarias para usar Cámaras</string>
+  <string name="TownOfUsMira.AdvancedUtils.Option.TasksToUseDoorlog">Tareas necesarias para usar el Registro</string>
+  <string name="TownOfUsMira.AdvancedUtils.Option.TasksToUseVitals">Tareas necesarias para usar Signos Vitales</string>
+  <string name="TownOfUsMira.AdvancedUtils.Option.TasksRequiredOnPortableUtils">Comprobar tareas en utilidades portátiles</string>
   <string name="TouUnavailableUtilityNotif">¡Necesitas completar [amount] tareas más para usar esto!</string>
   <string name="TouUnavailableUtilityNotifSingle">¡Necesitas completar [amount] tarea más para usar esto!</string>
   <!-- Opciones avanzadas de sabotaje -->
-  <string name="TouOptionAdvancedSaboCamouflageComms">Camuflaje en Comunicaciones</string>
-  <string name="TouOptionAdvancedSaboGlobalCamouflageComms">Activar Camuflaje en Comunicaciones</string>
-  <string name="TouOptionAdvancedSaboKillDuringCamoComms">Matar a cualquiera durante el Camuflaje</string>
-  <string name="TouOptionAdvancedSaboCamoKillScreens">Camuflar Pantallas de asesinato durante Comunicaciones</string>
-  <string name="TouOptionAdvancedSaboHidePlayerSizeInCamo">El Camuflaje oculta el tamaño de los jugadores</string>
-  <string name="TouOptionAdvancedSaboHidePlayerSpeedInCamo">El Camuflaje oculta la velocidad de los jugadores</string>
+  <string name="TownOfUsMira.AdvancedSabo.Option.CamouflageComms">Camuflaje en Comunicaciones</string>
+  <string name="TownOfUsMira.AdvancedSabo.Option.GlobalCamouflageComms">Activar Camuflaje en Comunicaciones</string>
+  <string name="TownOfUsMira.AdvancedSabo.Option.KillDuringCamoComms">Matar a cualquiera durante el Camuflaje</string>
+  <string name="TownOfUsMira.AdvancedSabo.Option.CamoKillScreens">Camuflar Pantallas de asesinato durante Comunicaciones</string>
+  <string name="TownOfUsMira.AdvancedSabo.Option.HidePlayerSizeInCamo">El Camuflaje oculta el tamaño de los jugadores</string>
+  <string name="TownOfUsMira.AdvancedSabo.Option.HidePlayerSpeedInCamo">El Camuflaje oculta la velocidad de los jugadores</string>
   <!-- Opciones de mapas aleatorios -->
-  <string name="TouOptionRandomMapsToggle">Activar mapas aleatorios</string>
-  <string name="TouOptionRandomMapsSkeldChance">Probabilidad de Skeld</string>
-  <string name="TouOptionRandomMapsBackwardsSkeldChance">dlekS dadilibaborP</string>
-  <string name="TouOptionRandomMapsMiraChance">Probabilidad de Mira</string>
-  <string name="TouOptionRandomMapsPolusChance">Probabilidad de Polus</string>
-  <string name="TouOptionRandomMapsAirshipChance">Probabilidad de Airship</string>
-  <string name="TouOptionRandomMapsFungleChance">Probabilidad de Fungle</string>
-  <string name="TouOptionRandomMapsSubmergedChance">Probabilidad de Submerged</string>
-  <string name="TouOptionRandomMapsLevelImpostorChance">Probabilidad de Level Impostor</string>
+  <string name="TownOfUsMira.RandomMaps.Option.Toggle">Activar mapas aleatorios</string>
+  <string name="TownOfUsMira.RandomMaps.Option.SkeldChance">Probabilidad de Skeld</string>
+  <string name="TownOfUsMira.RandomMaps.Option.BackwardsSkeldChance">dlekS dadilibaborP</string>
+  <string name="TownOfUsMira.RandomMaps.Option.MiraChance">Probabilidad de Mira</string>
+  <string name="TownOfUsMira.RandomMaps.Option.PolusChance">Probabilidad de Polus</string>
+  <string name="TownOfUsMira.RandomMaps.Option.AirshipChance">Probabilidad de Airship</string>
+  <string name="TownOfUsMira.RandomMaps.Option.FungleChance">Probabilidad de Fungle</string>
+  <string name="TownOfUsMira.RandomMaps.Option.SubmergedChance">Probabilidad de Submerged</string>
+  <string name="TownOfUsMira.RandomMaps.Option.LevelImpostorChance">Probabilidad de Level Impostor</string>
   <!-- Opciones de BetterDoors -->
-  <string name="TouOptionBetterDoorsEnumSkeld">Skeld</string>
-  <string name="TouOptionBetterDoorsEnumPolus">Polus</string>
-  <string name="TouOptionBetterDoorsEnumAirship">Airship</string>
-  <string name="TouOptionBetterDoorsEnumFungle">Fungle</string>
-  <string name="TouOptionBetterDoorsEnumSubmerged">Submerged</string>
-  <string name="TouOptionBetterDoorsEnumNoDoors">Sin Puertas</string>
-  <string name="TouOptionBetterDoorsEnumRandom">Aleatorio</string>
-  <string name="TouOptionBetterDoorsNoneChance">Probabilidad de Sin Puertas</string>
-  <string name="TouOptionBetterDoorsSkeldChance">Probabilidad de Puertas de Skeld</string>
-  <string name="TouOptionBetterDoorsPolusChance">Probabilidad de Puertas de Polus</string>
-  <string name="TouOptionBetterDoorsAirshipChance">Probabilidad de Puertas de Airship</string>
-  <string name="TouOptionBetterDoorsFungleChance">Probabilidad de Puertas de Fungle</string>
-  <string name="TouOptionBetterDoorsSubmergedChance">Probabilidad de Puertas de Submerged</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumSkeld">Skeld</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumPolus">Polus</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumAirship">Airship</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumFungle">Fungle</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumSubmerged">Submerged</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumNoDoors">Sin Puertas</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumRandom">Aleatorio</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsNoneChance">Probabilidad de Sin Puertas</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsSkeldChance">Probabilidad de Puertas de Skeld</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsPolusChance">Probabilidad de Puertas de Polus</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsAirshipChance">Probabilidad de Puertas de Airship</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsFungleChance">Probabilidad de Puertas de Fungle</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsSubmergedChance">Probabilidad de Puertas de Submerged</string>
   <!-- Opciones globales de BetterMaps -->
-  <string name="TouOptionGlobalBetterMapCamouflageComms">Usar Camuflaje en Comunicaciones</string>
-  <string name="TouOptionGlobalBetterMapChangeEnumOff">Desactivado globalmente</string>
-  <string name="TouOptionGlobalBetterMapChangeEnumOn">Activado globalmente</string>
-  <string name="TouOptionGlobalBetterMapChangeEnumPerMap">Cambiar según el mapa</string>
-  <string name="TouOptionGlobalBetterMapSpeedMultiplier">Cambiar multiplicador de velocidad</string>
-  <string name="TouOptionGlobalBetterMapCrewVisionMultiplier">Cambiar multiplicador de visión de Tripulantes</string>
-  <string name="TouOptionGlobalBetterMapImpVisionMultiplier">Cambiar multiplicador de visión de Impostores</string>
-  <string name="TouOptionGlobalBetterMapCooldownOffset">Ajustar tiempo de recarga</string>
-  <string name="TouOptionGlobalBetterMapOffsetShortTasks">Ajustar tareas cortas</string>
-  <string name="TouOptionGlobalBetterMapOffsetLongTasks">Ajustar tareas largas</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.CamouflageComms">Usar Camuflaje en Comunicaciones</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.ChangeEnumOff">Desactivado globalmente</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.ChangeEnumOn">Activado globalmente</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.ChangeEnumPerMap">Cambiar según el mapa</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.SpeedMultiplier">Cambiar multiplicador de velocidad</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.CrewVisionMultiplier">Cambiar multiplicador de visión de Tripulantes</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.ImpVisionMultiplier">Cambiar multiplicador de visión de Impostores</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.CooldownOffset">Ajustar tiempo de recarga</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.OffsetShortTasks">Ajustar tareas cortas</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.OffsetLongTasks">Ajustar tareas largas</string>
   <!-- Opciones de mapas mejorados -->
-  <string name="TouOptionBetterMapsSpeedMultiplier">Multiplicador de velocidad</string>
-  <string name="TouOptionBetterMapsCrewVisionMultiplier">Multiplicador de visión de Tripulantes</string>
-  <string name="TouOptionBetterMapsImpVisionMultiplier">Multiplicador de visión de Impostores</string>
-  <string name="TouOptionBetterMapsNoLadderCooldown">Sin tiempo de recarga en escaleras</string>
-  <string name="TouOptionBetterMapsCooldownOffset">Ajuste del tiempo de recarga</string>
-  <string name="TouOptionBetterMapsOffsetShortTasks">Ajuste de tareas cortas</string>
-  <string name="TouOptionBetterMapsOffsetLongTasks">Ajuste de tareas largas</string>
-  <string name="TouOptionBetterMapsChangeSaboTimers">Cambiar temporizadores de sabotaje</string>
-  <string name="TouOptionBetterMapsChangeOxygenSaboTimer">Cambiar temporizador del sabotaje de oxígeno</string>
-  <string name="TouOptionBetterMapsChangeReactorSaboTimer">Cambiar temporizador del sabotaje del reactor</string>
-  <string name="TouOptionBetterMapsChangeMixUpSaboTimer">Cambiar duración del sabotaje de Confusión</string>
-  <string name="TouOptionBetterMapsSaboCountdownOxygen">Cuenta regresiva del sabotaje de oxígeno</string>
-  <string name="TouOptionBetterMapsSaboCountdownReactor">Cuenta regresiva del sabotaje del reactor</string>
-  <string name="TouOptionBetterMapsSaboCountdownSeismicStabilizer">Cuenta regresiva del sabotaje del Estabilizador Sísmico</string>
-  <string name="TouOptionBetterMapsSaboCountdownCrashCourse">Cuenta regresiva del sabotaje Colisión Inminente</string>
-  <string name="TouOptionBetterMapsSaboCountdownWaterLevelStabilizer">Cuenta regresiva del sabotaje del Estabilizador del Nivel del Agua</string>
-  <string name="TouOptionBetterMapsSaboCountdownOxygenMask">Cuenta regresiva del sabotaje de la Máscara de Oxígeno</string>
-  <string name="TouOptionBetterMapsSaboDurationMixUp">Duración del sabotaje Confusión</string>
-  <string name="TouOptionBetterMapsTheme">Decoración del mapa </string>
-  <string name="TouOptionBetterMapsThemeEnumBasic">Sin decorar </string>
-  <string name="TouOptionBetterMapsThemeEnumHalloween">Halloween</string>
-  <string name="TouOptionBetterMapsThemeEnumBirthday">Cumpleaños</string>
-  <string name="TouOptionBetterMapsThemeEnumAuto">Automático</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsSpeedMultiplier">Multiplicador de velocidad</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsCrewVisionMultiplier">Multiplicador de visión de Tripulantes</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsImpVisionMultiplier">Multiplicador de visión de Impostores</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsNoLadderCooldown">Sin tiempo de recarga en escaleras</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsCooldownOffset">Ajuste del tiempo de recarga</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsOffsetShortTasks">Ajuste de tareas cortas</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsOffsetLongTasks">Ajuste de tareas largas</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsChangeSaboTimers">Cambiar temporizadores de sabotaje</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsChangeOxygenSaboTimer">Cambiar temporizador del sabotaje de oxígeno</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsChangeReactorSaboTimer">Cambiar temporizador del sabotaje del reactor</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsChangeMixUpSaboTimer">Cambiar duración del sabotaje de Confusión</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsSaboCountdownOxygen">Cuenta regresiva del sabotaje de oxígeno</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsSaboCountdownReactor">Cuenta regresiva del sabotaje del reactor</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsSaboCountdownSeismicStabilizer">Cuenta regresiva del sabotaje del Estabilizador Sísmico</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsSaboCountdownCrashCourse">Cuenta regresiva del sabotaje Colisión Inminente</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsSaboCountdownWaterLevelStabilizer">Cuenta regresiva del sabotaje del Estabilizador del Nivel del Agua</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsSaboCountdownOxygenMask">Cuenta regresiva del sabotaje de la Máscara de Oxígeno</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsSaboDurationMixUp">Duración del sabotaje Confusión</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsTheme">Decoración del mapa </string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsThemeEnumBasic">Sin decorar </string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsThemeEnumHalloween">Halloween</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsThemeEnumBirthday">Cumpleaños</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsThemeEnumAuto">Automático</string>
   <!-- Opciones de Better Skeld -->
-  <string name="TouOptionBetterSkeldDoorType">Tipo de Puertas</string>
-  <string name="TouOptionBetterSkeldVentNetwork">Red de Ductos</string>
-  <string name="TouOptionBetterSkeldVentModeEnumNormal">Sin Cambios</string>
-  <string name="TouOptionBetterSkeldVentModeEnumFourGroups">Cuatro Grupos</string>
+  <string name="TownOfUsMira.BetterMaps.Option.SkeldDoorType">Tipo de Puertas</string>
+  <string name="TownOfUsMira.BetterMaps.Option.SkeldVentNetwork">Red de Ductos</string>
+  <string name="TownOfUsMira.BetterMaps.Option.SkeldVentModeEnumNormal">Sin Cambios</string>
+  <string name="TownOfUsMira.BetterMaps.Option.SkeldVentModeEnumFourGroups">Cuatro Grupos</string>
   <!-- Opciones de Better Mira HQ -->
-  <string name="TouOptionBetterMiraHqVentNetwork">Red de Ductos</string>
-  <string name="TouOptionBetterMiraHqVentModeEnumNormal">Interconectados</string>
-  <string name="TouOptionBetterMiraHqVentModeEnumThreeGroups">Tres Grupos</string>
-  <string name="TouOptionBetterMiraHqVentModeEnumFourGroups">Cuatro Grupos</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MiraHqVentNetwork">Red de Ductos</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MiraHqVentModeEnumNormal">Interconectados</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MiraHqVentModeEnumThreeGroups">Tres Grupos</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MiraHqVentModeEnumFourGroups">Cuatro Grupos</string>
   <!-- Opciones de Better Polus -->
-  <string name="TouOptionBetterPolusDoorType">Tipo de Puertas</string>
-  <string name="TouOptionBetterPolusVentNetwork">Ajustar Red de Ductos</string>
-  <string name="TouOptionBetterPolusVitalsInLab">Mover Vitales al Laboratorio</string>
-  <string name="TouOptionBetterPolusTempInDeathValley">Mover Temperatura Fría al Valle de la Muerte</string>
-  <string name="TouOptionBetterPolusSwapWikiAndChart">Intercambiar Reiniciar Wifi y Trazar Curso</string>
-  <string name="TouOptionBetterPolusMoveToiletVent">Mover Ducto del Baño Fuera de los Cubículos</string>
+  <string name="TownOfUsMira.BetterMaps.Option.PolusDoorType">Tipo de Puertas</string>
+  <string name="TownOfUsMira.BetterMaps.Option.PolusVentNetwork">Ajustar Red de Ductos</string>
+  <string name="TownOfUsMira.BetterMaps.Option.PolusVitalsInLab">Mover Vitales al Laboratorio</string>
+  <string name="TownOfUsMira.BetterMaps.Option.PolusTempInDeathValley">Mover Temperatura Fría al Valle de la Muerte</string>
+  <string name="TownOfUsMira.BetterMaps.Option.PolusSwapWikiAndChart">Intercambiar Reiniciar Wifi y Trazar Curso</string>
+  <string name="TownOfUsMira.BetterMaps.Option.PolusMoveToiletVent">Mover Ducto del Baño Fuera de los Cubículos</string>
   <!-- Opciones de Better Airship -->
-  <string name="TouOptionBetterAirshipDoorType">Tipo de Puertas</string>
-  <string name="TouOptionBetterAirshipSpawnMode">Modo de Aparición</string>
-  <string name="TouOptionBetterAirshipSpawnEnumNormal">Normal</string>
-  <string name="TouOptionBetterAirshipSpawnEnumSameSpawns">Todos Aparecen en el Mismo Lugar</string>
-  <string name="TouOptionBetterAirshipSpawnEnumHostChoosesOne">Ubicación de Aparición Forzada</string>
-  <string name="TouOptionBetterAirshipSingleLocation">Aparecer en</string>
-  <string name="TouOptionBetterAirshipSpawnLocationEnumMainHall">Pasillo Principal</string>
-  <string name="TouOptionBetterAirshipSpawnLocationEnumKitchen">Cocina</string>
-  <string name="TouOptionBetterAirshipSpawnLocationEnumCargoBay">Bodega de Carga</string>
-  <string name="TouOptionBetterAirshipSpawnLocationEnumEngineRoom">Sala de Máquinas</string>
-  <string name="TouOptionBetterAirshipSpawnLocationEnumBrig">Celdas</string>
-  <string name="TouOptionBetterAirshipSpawnLocationEnumRecords">Archivos</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipDoorType">Tipo de Puertas</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnMode">Modo de Aparición</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnEnumNormal">Normal</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnEnumSameSpawns">Todos Aparecen en el Mismo Lugar</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnEnumHostChoosesOne">Ubicación de Aparición Forzada</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSingleLocation">Aparecer en</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnLocationEnumMainHall">Pasillo Principal</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnLocationEnumKitchen">Cocina</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnLocationEnumCargoBay">Bodega de Carga</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnLocationEnumEngineRoom">Sala de Máquinas</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnLocationEnumBrig">Celdas</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnLocationEnumRecords">Archivos</string>
   <!-- Opciones de Better Fungle Options -->
-  <string name="TouOptionBetterFungleDoorType">Tipo de Puertas</string>
+  <string name="TownOfUsMira.BetterMaps.Option.FungleDoorType">Tipo de Puertas</string>
   <!-- Opciones de Better Submerged -->
-  <string name="TouOptionBetterSubmergedDoorType">Tipo de Puertas</string>
-  <string name="TouOptionBetterSubmergedSpawnMode">Ubicación de Aparición</string>
-  <string name="TouOptionBetterSubmergedSpawnEnumSelectable">Seleccionable</string>
-  <string name="TouOptionBetterSubmergedSpawnEnumUpperDeck">Cubierta Superior</string>
-  <string name="TouOptionBetterSubmergedSpawnEnumLowerDeck">Cubierta Inferior</string>
+  <string name="TownOfUsMira.BetterMaps.Option.SubmergedDoorType">Tipo de Puertas</string>
+  <string name="TownOfUsMira.BetterMaps.Option.SubmergedSpawnMode">Ubicación de Aparición</string>
+  <string name="TownOfUsMira.BetterMaps.Option.SubmergedSpawnEnumSelectable">Seleccionable</string>
+  <string name="TownOfUsMira.BetterMaps.Option.SubmergedSpawnEnumUpperDeck">Cubierta Superior</string>
+  <string name="TownOfUsMira.BetterMaps.Option.SubmergedSpawnEnumLowerDeck">Cubierta Inferior</string>
   <!-- Espectador - Atípico -->
   <string name="TownOfUsMira.Role.Spectator">Espectador</string>
   <string name="TownOfUsMira.Role.Spectator.IntroBlurb">Observa el caos desde lejos</string>
@@ -629,7 +629,7 @@ Puedes desactivar este mensaje desde el menú de opciones.</string>
   <!-- Escondidas - Escondidos -->
   <!-- Camaleón - Wiki / Descripción -->
     <string name="TownOfUsMira.HideAndSeek.Role.Chameleon">Camaleón</string>
-  <string name="TownOfUsMira.HideAndSeek.Role.ChameleonTabHint">Pista del Camaleón</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Chameleon.TabHint">Pista del Camaleón</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Chameleon.TabDescription">Escóndete temporalmente del Buscador.</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Chameleon.WikiDescription">El Camaleón es un Tripulante que puede volverse invisible temporalmente para esconderse del Buscador.</string>
   <string name="TownOfUsMira.HideAndSeek.Role.ChameleonSwoop">Esfumarse</string>
@@ -637,31 +637,31 @@ Puedes desactivar este mensaje desde el menú de opciones.</string>
   <string name="TownOfUsMira.HideAndSeek.Role.ChameleonUnswoop">Quitar</string>
   <string name="TownOfUsMira.HideAndSeek.Role.ChameleonUnswoop.WikiDescription">Cancela tu invisibilidad antes de tiempo o deja que termine para volver a ser visible.</string>
   <!-- Opciones del Camaleón -->
-    <string name="HnsOptionChameleonSwoopUsesPerRound">Usos totales de Esfumarse</string>
-  <string name="HnsOptionChameleonSwoopCooldown">Tiempo de recarga de Esfumarse</string>
-  <string name="HnsOptionChameleonSwoopDuration">Duración de Esfumarse</string>
-  <string name="HnsOptionChameleonCanVent">Puede usar ductos</string>
+    <string name="TownOfUsMira.HideAndSeek.Role.Option.ChameleonSwoopUsesPerRound">Usos totales de Esfumarse</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Option.ChameleonSwoopCooldown">Tiempo de recarga de Esfumarse</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Option.ChameleonSwoopDuration">Duración de Esfumarse</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Option.ChameleonCanVent">Puede usar ductos</string>
   <!-- Místico - Wiki / Descripción -->
     <string name="TownOfUsMira.HideAndSeek.Role.Mystic">Místico</string>
-  <string name="TownOfUsMira.HideAndSeek.Role.MysticTabHint">Pista del Místico</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Mystic.TabHint">Pista del Místico</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Mystic.TabDescription">Descubre dónde ocurren los asesinatos.</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Mystic.WikiDescription">El Místico es un Tripulante que recibe una flecha apuntando a cada asesinato.</string>
   <!-- Opciones del Místico -->
-    <string name="HnsOptionMysticDeadBodyArrowDuration">Duración de la flecha</string>
+    <string name="TownOfUsMira.HideAndSeek.Modifier.Option.MysticDeadBodyArrowDuration">Duración de la flecha</string>
   <!-- Soplón - Wiki / Descripción -->
     <string name="TownOfUsMira.HideAndSeek.Role.Snitch">Soplón</string>
-  <string name="TownOfUsMira.HideAndSeek.Role.SnitchTabHint">Pista del Soplón</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Snitch.TabHint">Pista del Soplón</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Snitch.TabDescription">Tus tareas reducen el temporizador más rápido,
 pero revelan tu ubicación.</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Snitch.WikiDescription">El Soplón es un Tripulante que reduce el tiempo restante más rápido que otros jugadores al completar tareas, pero a cambio revela su ubicación al Buscador.</string>
   <!-- Opciones del Soplón -->
-    <string name="HnsOptionSnitchCommonTaskMultiplier">Multiplicador de tareas comunes</string>
-  <string name="HnsOptionSnitchShortTaskMultiplier">Multiplicador de tareas cortas</string>
-  <string name="HnsOptionSnitchLongTaskMultiplier">Multiplicador de tareas largas</string>
-  <string name="HnsOptionSnitchNotifyDuration">Duración de la notificación al Buscador</string>
+    <string name="TownOfUsMira.HideAndSeek.Role.Option.SnitchCommonTaskMultiplier">Multiplicador de tareas comunes</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Option.SnitchShortTaskMultiplier">Multiplicador de tareas cortas</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Option.SnitchLongTaskMultiplier">Multiplicador de tareas largas</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Option.SnitchNotifyDuration">Duración de la notificación al Buscador</string>
   <!-- Bullicioso - Wiki / Descripción -->
     <string name="TownOfUsMira.HideAndSeek.Role.Noisemaker">Alertador</string>
-  <string name="TownOfUsMira.HideAndSeek.Role.NoisemakerTabHint">Pista del Alertador</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Noisemaker.TabHint">Pista del Alertador</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Noisemaker.TabDescription">Al morir, alerta a todos los tripulantes de tu ubicación.</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Noisemaker.WikiDescription">El Alertador es un Tripulante que alerta a todos los jugadores del mapa al morir, mostrando un indicador rojo sobre su cuerpo.</string>
   <!-- Modificador Gélido - Wiki / Descripción -->
@@ -670,8 +670,8 @@ pero revelan tu ubicación.</string>
   <string name="TownOfUsMira.HideAndSeek.Modifier.Frosty.WikiDescription">¡Después de morir, tu asesino se moverá más lento!</string>
   <string name="TownOfUsMira.HideAndSeek.Modifier.FrostyTriggeredNotif">[player] era [modifier], haciendo que te muevas más lento durante [time] segundos.</string>
   <!-- Opciones de Gélido -->
-    <string name="HnsOptionFrostyChillDuration">Duración del enfriamiento</string>
-  <string name="HnsOptionFrostyChillStartSpeed">Velocidad inicial del enfriamiento</string>
+    <string name="TownOfUsMira.HideAndSeek.Modifier.Option.FrostyChillDuration">Duración del enfriamiento</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.FrostyChillStartSpeed">Velocidad inicial del enfriamiento</string>
   <!-- Modificador Despistado - Wiki / Descripción -->
     <string name="TownOfUsMira.HideAndSeek.Modifier.Oblivious">Despistado</string>
   <string name="TownOfUsMira.HideAndSeek.Modifier.Oblivious.TabDescription">No percibes la cercanía del Buscador.</string>
@@ -695,16 +695,16 @@ pero revelan tu ubicación.</string>
   <!-- Escondidas - Buscadores -->
   <!-- Camuflador - Wiki / Descripción -->
     <string name="TownOfUsMira.HideAndSeek.Role.Camouflager">Camuflador</string>
-  <string name="TownOfUsMira.HideAndSeek.Role.CamouflagerTabHint">Pista del Camuflador</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Camouflager.TabHint">Pista del Camuflador</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Camouflager.TabDescription">Confunde a los Escondidos camuflándote entre ellos.</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Camouflager.WikiDescription">El Camuflador es un Impostor que puede hacer temporalmente que todos los jugadores adopten su misma apariencia.</string>
   <string name="TownOfUsMira.HideAndSeek.Role.CamouflagerCamo">Camuflar</string>
   <string name="TownOfUsMira.HideAndSeek.Role.CamouflagerCamo.WikiDescription">Activa un camuflaje global para mezclarte con los demás.</string>
   <!-- Opciones del Camuflador -->
-    <string name="HnsOptionCamouflagerCamoUses">Usos totales de Camuflaje</string>
-  <string name="HnsOptionCamouflagerCamoCooldown">Tiempo de recarga de Camuflaje</string>
-  <string name="HnsOptionCamouflagerCamoDuration">Duración de Camuflaje</string>
-  <string name="HnsOptionCamouflagerCamoDisablesProxBar">El Camuflaje desactiva la barra de proximidad</string>
+    <string name="TownOfUsMira.HideAndSeek.Role.Option.CamouflagerCamoUses">Usos totales de Camuflaje</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Option.CamouflagerCamoCooldown">Tiempo de recarga de Camuflaje</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Option.CamouflagerCamoDuration">Duración de Camuflaje</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Option.CamouflagerCamoDisablesProxBar">El Camuflaje desactiva la barra de proximidad</string>
   <!-- Modo Cultista - Impostores -->
     <!-- Nigromante - Cultista Impostor -->
       <string name="TownOfUsMira.Cultist.Role.Necromancer">Nigromante</string>
@@ -2444,48 +2444,48 @@ aumentar tu visión y usar ductos temporalmente</string>
   <!-- Modificadores de Alianzas -->
     <!-- Tripostor - Alianza Tripulante -->
       <!-- Tripostor - Wiki / Descripción -->
-        <string name="TouModifierCrewpostor">Tripostor</string>
-  <string name="TouModifierCrewpostorShortName">Imp</string>
-  <string name="TouModifierCrewpostor.IntroBlurb">Ayuda a los [color=#FF0000FF]Impostores[/color]</string>
-  <string name="TouModifierCrewpostor.TabDescription">Traiciona a los Tripulantes como un Impostor.</string>
-  <string name="TouModifierCrewpostor.WikiDescription">El Tripostor es un modificador de Alianza Tripulante que obliga a un Tripulante a trabajar para el bando de los Impostores. Si todos los Impostores mueren, te conviertes en un Traidor.</string>
-  <string name="TouModifierCrewpostorIntroMessage">Eres [modifier]. Solo puedes ganar junto a los Impostores y te convertirás en [role] cuando todos ellos mueran.</string>
+        <string name="TownOfUsMira.Modifier.Crewpostor">Tripostor</string>
+  <string name="TownOfUsMira.Modifier.CrewpostorShortName">Imp</string>
+  <string name="TownOfUsMira.Modifier.Crewpostor.IntroBlurb">Ayuda a los [color=#FF0000FF]Impostores[/color]</string>
+  <string name="TownOfUsMira.Modifier.Crewpostor.TabDescription">Traiciona a los Tripulantes como un Impostor.</string>
+  <string name="TownOfUsMira.Modifier.Crewpostor.WikiDescription">El Tripostor es un modificador de Alianza Tripulante que obliga a un Tripulante a trabajar para el bando de los Impostores. Si todos los Impostores mueren, te conviertes en un Traidor.</string>
+  <string name="TownOfUsMira.Modifier.CrewpostorIntroMessage">Eres [modifier]. Solo puedes ganar junto a los Impostores y te convertirás en [role] cuando todos ellos mueran.</string>
   <!-- Ególatra - Alianza Tripulante -->
       <!-- Ególatra - Wiki / Descripción -->
-        <string name="TouModifierEgotist">Ególatra</string>
-  <string name="TouModifierEgotistShortName">Ego</string>
-  <string name="TouModifierEgotist.IntroBlurb">Traiciónalos para alimentar tu ego</string>
-  <string name="TouModifierEgotist.TabDescription">Desafía a la tripulación y gana junto a los asesinos.</string>
-  <string name="TouModifierEgotist.WikiDescription">El Ególatra es un modificador de Alianza Tripulante (representado por [symbol]). Como Ególatra, solo puedes ganar si los Tripulantes pierden, incluso estando muerto. Si al finalizar una reunión no queda ningún Tripulante, abandonarás la partida con la victoria, pero la partida continuará.</string>
-  <string name="TouModifierEgotistIntroMessage">Eres el [modifier]. Solo puedes ganar si los Tripulantes pierden.</string>
-  <string name="TouModifierEgotistVictoryMessage">¡El [modifier], [player], ha ganado exitosamente porque ya no quedan Tripulantes!</string>
-  <string name="TouModifierEgotistVictoryMessageSelf">¡Has ganado exitosamente como [modifier], porque ya no quedan Tripulantes!</string>
-  <string name="TouModifierEgotistSpeedChangeMessage">¡La adrenalina del [modifier] aumenta! ¡Los jugadores ahora son [newSpeed] veces más rápidos!</string>
-  <string name="TouModifierEgotistCooldownChangeMessage">¡La adrenalina del [modifier] aumenta! ¡Los tiempos de recarga ahora son [newOffset] segundos más cortos!</string>
-  <string name="TouModifierEgotistCooldownSpeedChangeMessage">¡La adrenalina del [modifier] aumenta! ¡Los tiempos de recarga ahora son [newOffset] segundos más cortos y los jugadores son [newSpeed] veces más rápidos!</string>
-  <string name="TouModifierEgotistDeadMessage">¡El [modifier] ha muerto y su adrenalina se ha disipado!</string>
+        <string name="TownOfUsMira.Modifier.Egotist">Ególatra</string>
+  <string name="TownOfUsMira.Modifier.EgotistShortName">Ego</string>
+  <string name="TownOfUsMira.Modifier.Egotist.IntroBlurb">Traiciónalos para alimentar tu ego</string>
+  <string name="TownOfUsMira.Modifier.Egotist.TabDescription">Desafía a la tripulación y gana junto a los asesinos.</string>
+  <string name="TownOfUsMira.Modifier.Egotist.WikiDescription">El Ególatra es un modificador de Alianza Tripulante (representado por [symbol]). Como Ególatra, solo puedes ganar si los Tripulantes pierden, incluso estando muerto. Si al finalizar una reunión no queda ningún Tripulante, abandonarás la partida con la victoria, pero la partida continuará.</string>
+  <string name="TownOfUsMira.Modifier.EgotistIntroMessage">Eres el [modifier]. Solo puedes ganar si los Tripulantes pierden.</string>
+  <string name="TownOfUsMira.Modifier.EgotistVictoryMessage">¡El [modifier], [player], ha ganado exitosamente porque ya no quedan Tripulantes!</string>
+  <string name="TownOfUsMira.Modifier.EgotistVictoryMessageSelf">¡Has ganado exitosamente como [modifier], porque ya no quedan Tripulantes!</string>
+  <string name="TownOfUsMira.Modifier.EgotistSpeedChangeMessage">¡La adrenalina del [modifier] aumenta! ¡Los jugadores ahora son [newSpeed] veces más rápidos!</string>
+  <string name="TownOfUsMira.Modifier.EgotistCooldownChangeMessage">¡La adrenalina del [modifier] aumenta! ¡Los tiempos de recarga ahora son [newOffset] segundos más cortos!</string>
+  <string name="TownOfUsMira.Modifier.EgotistCooldownSpeedChangeMessage">¡La adrenalina del [modifier] aumenta! ¡Los tiempos de recarga ahora son [newOffset] segundos más cortos y los jugadores son [newSpeed] veces más rápidos!</string>
+  <string name="TownOfUsMira.Modifier.EgotistDeadMessage">¡El [modifier] ha muerto y su adrenalina se ha disipado!</string>
   <!-- Enamorado - Alianza Universal -->
       <!-- Enamorado - Wiki / Descripción -->
-        <string name="TouModifierLover">Enamorado</string>
-  <string name="TouModifierLoverInfo">Estás enamorado de [player].</string>
-  <string name="TouModifierLover.WikiDescription">Como Enamorado, puedes chatear con tu otro Enamorado (representado por [symbol]) durante la ronda, y ambos pueden ganar juntos si forman parte de los últimos tres jugadores con vida.</string>
-  <string name="TouModifierLoverIntroMessage">Estás [modifier] junto a [player]. Chatea con esa persona y ganen juntos si ambos forman parte de los últimos tres jugadores con vida.</string>
+        <string name="TownOfUsMira.Modifier.Lover">Enamorado</string>
+  <string name="TownOfUsMira.Modifier.LoverInfo">Estás enamorado de [player].</string>
+  <string name="TownOfUsMira.Modifier.Lover.WikiDescription">Como Enamorado, puedes chatear con tu otro Enamorado (representado por [symbol]) durante la ronda, y ambos pueden ganar juntos si forman parte de los últimos tres jugadores con vida.</string>
+  <string name="TownOfUsMira.Modifier.LoverIntroMessage">Estás [modifier] junto a [player]. Chatea con esa persona y ganen juntos si ambos forman parte de los últimos tres jugadores con vida.</string>
   <!-- Opciones de los Enamorados -->
         <string name="TouOptionLoverDieAndRevive">Ambos Enamorados mueren y reviven juntos</string>
   <string name="TouOptionLoverAnotherKiller">Probabilidad de enamorarse de otro asesino</string>
   <string name="TouOptionLoverCanBeNeutral">Los Neutrales pueden ser Enamorados</string>
   <string name="TouOptionLoverKillFactionTeammates">Puede asesinar a compañeros de bando</string>
   <string name="TouOptionLoverKillOneAnother">Pueden asesinarse entre sí</string>
-  <string name="TouModifierLovers">Enamorados</string>
+  <string name="TownOfUsMira.Modifier.Lovers">Enamorados</string>
   <!-- Modificadores Universales -->
     <!-- Botón Remoto -->
       <!-- Botón Remoto - Wiki / Habilidades -->
-      <string name="TouModifierButtonBarry">Botón Remoto</string>
-  <string name="TouModifierButtonBarry.TabDescription">Puedes convocar una reunión
+      <string name="TownOfUsMira.Modifier.ButtonBarry">Botón Remoto</string>
+  <string name="TownOfUsMira.Modifier.ButtonBarry.TabDescription">Puedes convocar una reunión
 desde cualquier parte del mapa.</string>
-  <string name="TouModifierButtonBarry.WikiDescription">Puedes convocar una reunión de emergencia desde cualquier parte del mapa.</string>
-  <string name="TouModifierButtonBarryButton">Reunión</string>
-  <string name="TouModifierButtonBarryButton.WikiDescription">Puedes convocar una reunión de emergencia desde cualquier parte del mapa [barryUses] vez(veces) por partida.</string>
+  <string name="TownOfUsMira.Modifier.ButtonBarry.WikiDescription">Puedes convocar una reunión de emergencia desde cualquier parte del mapa.</string>
+  <string name="TownOfUsMira.Modifier.ButtonBarryButton">Reunión</string>
+  <string name="TownOfUsMira.Modifier.ButtonBarryButton.WikiDescription">Puedes convocar una reunión de emergencia desde cualquier parte del mapa [barryUses] vez(veces) por partida.</string>
   <!-- Opciones de Barry Botón -->
       <string name="TouOptionButtonBarryButtonCooldown">Recarga de Convocar reunión</string>
   <string name="TouOptionButtonBarryMaxUses">Usos máximos</string>
@@ -2493,55 +2493,55 @@ desde cualquier parte del mapa.</string>
   <string name="TouOptionButtonBarryAllowFirstRound">Permitir en la primera ronda</string>
   <!-- Borracho -->
       <!-- Borracho - Wiki / Descripción -->
-        <string name="TouModifierDrunk">Borracho</string>
-  <string name="TouModifierDrunk.TabDescription">Estás ebrio, con los controles invertidos.</string>
-  <string name="TouModifierDrunk.WikiDescription">Tus controles están invertidos permanentemente. Además, eres inmune a los bloqueos de habilidades normales.</string>
+        <string name="TownOfUsMira.Modifier.Drunk">Borracho</string>
+  <string name="TownOfUsMira.Modifier.Drunk.TabDescription">Estás ebrio, con los controles invertidos.</string>
+  <string name="TownOfUsMira.Modifier.Drunk.WikiDescription">Tus controles están invertidos permanentemente. Además, eres inmune a los bloqueos de habilidades normales.</string>
   <!-- Flash -->
       <!-- Flash - Wiki / Descripción -->
-        <string name="TouModifierFlash">Flash</string>
-  <string name="TouModifierFlash.TabDescription">Te mueves [flashSpeed] veces más rápido.</string>
-  <string name="TouModifierFlash.WikiDescription">Te mueves [flashSpeed] veces más rápido que los jugadores normales.</string>
+        <string name="TownOfUsMira.Modifier.Flash">Flash</string>
+  <string name="TownOfUsMira.Modifier.Flash.TabDescription">Te mueves [flashSpeed] veces más rápido.</string>
+  <string name="TownOfUsMira.Modifier.Flash.WikiDescription">Te mueves [flashSpeed] veces más rápido que los jugadores normales.</string>
   <!-- Opciones de Flash -->
       <string name="TouOptionFlashSpeed">Velocidad</string>
   <!-- Gigante -->
       <!-- Gigante - Wiki / Descripción -->
-        <string name="TouModifierGiant">Gigante</string>
-  <string name="TouModifierGiant.TabDescription">Eres más grande que un jugador normal y
+        <string name="TownOfUsMira.Modifier.Giant">Gigante</string>
+  <string name="TownOfUsMira.Modifier.Giant.TabDescription">Eres más grande que un jugador normal y
 te mueves [giantSpeed] veces más lento.</string>
-  <string name="TouModifierGiant.WikiDescription">Eres más grande que los jugadores normales y además te mueves [giantSpeed] veces más lento que ellos.</string>
+  <string name="TownOfUsMira.Modifier.Giant.WikiDescription">Eres más grande que los jugadores normales y además te mueves [giantSpeed] veces más lento que ellos.</string>
   <!-- Opciones de Gigante -->
         <string name="TouOptionGiantSpeed">Velocidad</string>
   <!-- Inamovible -->
       <!-- Wiki / Descripción de Inamovible -->
-        <string name="TouModifierImmovable">Inamovible</string>
-  <string name="TouModifierImmovable.TabDescription">No puedes ser movido a reuniones,
+        <string name="TownOfUsMira.Modifier.Immovable">Inamovible</string>
+  <string name="TownOfUsMira.Modifier.Immovable.TabDescription">No puedes ser movido a reuniones,
 dispersado ni transportado.</string>
-  <string name="TouModifierImmovable.WikiDescription">No te pueden mover mediante habilidades ni reuniones.</string>
+  <string name="TownOfUsMira.Modifier.Immovable.WikiDescription">No te pueden mover mediante habilidades ni reuniones.</string>
   <!-- Mini -->
       <!-- Mini - Wiki / Descripción -->
-        <string name="TouModifierMini">Mini</string>
-  <string name="TouModifierMini.TabDescription">Eres más pequeño que los jugadores normales
+        <string name="TownOfUsMira.Modifier.Mini">Mini</string>
+  <string name="TownOfUsMira.Modifier.Mini.TabDescription">Eres más pequeño que los jugadores normales
 y además te mueves [miniSpeed] veces más rápido que ellos.</string>
-  <string name="TouModifierMini.WikiDescription">Eres más pequeño que un jugador normal y te mueves [miniSpeed] veces más rápido.</string>
+  <string name="TownOfUsMira.Modifier.Mini.WikiDescription">Eres más pequeño que un jugador normal y te mueves [miniSpeed] veces más rápido.</string>
   <!-- Opciones de Mini -->
         <string name="TouOptionMiniSpeed">Velocidad</string>
   <!-- Radar -->
       <!-- Radar - Wiki / Descripción -->
-        <string name="TouModifierRadar">Radar</string>
-  <string name="TouModifierRadar.TabDescription">Obtén una flecha que apunta
+        <string name="TownOfUsMira.Modifier.Radar">Radar</string>
+  <string name="TownOfUsMira.Modifier.Radar.TabDescription">Obtén una flecha que apunta
 al jugador más cercano.</string>
-  <string name="TouModifierRadar.WikiDescription">Tienes una flecha que apunta al jugador más cercano.</string>
+  <string name="TownOfUsMira.Modifier.Radar.WikiDescription">Tienes una flecha que apunta al jugador más cercano.</string>
   <!-- Satélite -->
       <!-- Satélite - Wiki / Habilidades -->
-        <string name="TouModifierSatellite">Satélite</string>
-  <string name="TouModifierSatellite.TabDescription">Puedes emitir una señal para
+        <string name="TownOfUsMira.Modifier.Satellite">Satélite</string>
+  <string name="TownOfUsMira.Modifier.Satellite.TabDescription">Puedes emitir una señal para
 saber dónde hay cadáveres.</string>
-  <string name="TouModifierSatellite.WikiDescription">Puedes buscar cadáveres en el mapa [maxUses] vez(veces) por partida.</string>
-  <string name="TouModifierSatelliteBroadcast">Emitir</string>
-  <string name="TouModifierSatelliteBroadcast.WikiDescription">Puedes buscar cadáveres en el mapa [maxUses] vez(veces) por partida.</string>
-  <string name="TouModifierSatelliteFailedNotif">No se encontraron cadáveres en el mapa.</string>
-  <string name="TouModifierSatelliteSingleNotif">Se encontró un cadáver en el mapa.</string>
-  <string name="TouModifierSatellitePluralNotif">Se encontraron [count] cadáveres en el mapa.</string>
+  <string name="TownOfUsMira.Modifier.Satellite.WikiDescription">Puedes buscar cadáveres en el mapa [maxUses] vez(veces) por partida.</string>
+  <string name="TownOfUsMira.Modifier.SatelliteBroadcast">Emitir</string>
+  <string name="TownOfUsMira.Modifier.SatelliteBroadcast.WikiDescription">Puedes buscar cadáveres en el mapa [maxUses] vez(veces) por partida.</string>
+  <string name="TownOfUsMira.Modifier.SatelliteFailedNotif">No se encontraron cadáveres en el mapa.</string>
+  <string name="TownOfUsMira.Modifier.SatelliteSingleNotif">Se encontró un cadáver en el mapa.</string>
+  <string name="TownOfUsMira.Modifier.SatellitePluralNotif">Se encontraron [count] cadáveres en el mapa.</string>
   <!-- Opciones de Satélite -->
         <string name="TouOptionSatelliteCooldown">Recarga de Emitir</string>
   <string name="TouOptionSatelliteMaxUses">Usos máximos</string>
@@ -2549,60 +2549,60 @@ saber dónde hay cadáveres.</string>
   <string name="TouOptionSatelliteAllowFirst">Permitir en la primera ronda</string>
   <!-- Tímido -->
       <!-- Tímido - Wiki / Descripción -->
-        <string name="TouModifierShy">Tímido</string>
-  <string name="TouModifierShy.TabDescription">Te vuelves transparente cuando
+        <string name="TownOfUsMira.Modifier.Shy">Tímido</string>
+  <string name="TownOfUsMira.Modifier.Shy.TabDescription">Te vuelves transparente cuando
 permaneces quieto durante un breve tiempo.</string>
-  <string name="TouModifierShy.WikiDescription">Te camuflas con el entorno y te vuelves transparente al permanecer quieto.</string>
+  <string name="TownOfUsMira.Modifier.Shy.WikiDescription">Te camuflas con el entorno y te vuelves transparente al permanecer quieto.</string>
   <!-- Opciones de Tímido -->
         <string name="TouOptionShyDelay">Retraso de la transparencia</string>
   <string name="TouOptionShyDuration">Duración de la transparencia</string>
   <string name="TouOptionFinalOpacity">Opacidad final</string>
   <!-- Sexto Sentido -->
       <!-- Sexto Sentido - Wiki / Descripción -->
-        <string name="TouModifierSixthSense">Sexto Sentido</string>
-  <string name="TouModifierSixthSense.TabDescription">Sabes cuándo alguien
+        <string name="TownOfUsMira.Modifier.SixthSense">Sexto Sentido</string>
+  <string name="TownOfUsMira.Modifier.SixthSense.TabDescription">Sabes cuándo alguien
 interactúa contigo.</string>
-  <string name="TouModifierSixthSense.WikiDescription">Sabrás cuándo alguien usa su habilidad sobre ti.</string>
+  <string name="TownOfUsMira.Modifier.SixthSense.WikiDescription">Sabrás cuándo alguien usa su habilidad sobre ti.</string>
   <!-- Sabueso -->
       <!-- Sabueso - Wiki / Descripción -->
-        <string name="TouModifierSleuth">Sabueso</string>
-  <string name="TouModifierSleuth.TabDescription">Conoce el rol de los cadáveres
+        <string name="TownOfUsMira.Modifier.Sleuth">Sabueso</string>
+  <string name="TownOfUsMira.Modifier.Sleuth.TabDescription">Conoce el rol de los cadáveres
 que reportas.</string>
-  <string name="TouModifierSleuth.WikiDescription">Verás el rol de los cadáveres que reportes.</string>
+  <string name="TownOfUsMira.Modifier.Sleuth.WikiDescription">Verás el rol de los cadáveres que reportes.</string>
   <!-- Desempate -->
       <!-- Desempate - Wiki / Descripción -->
-        <string name="TouModifierTiebreaker">Desempate</string>
-  <string name="TouModifierTiebreaker.TabDescription">Tu voto rompe los empates.</string>
-  <string name="TouModifierTiebreaker.WikiDescription">Tu voto te permite romper los empates.</string>
+        <string name="TownOfUsMira.Modifier.Tiebreaker">Desempate</string>
+  <string name="TownOfUsMira.Modifier.Tiebreaker.TabDescription">Tu voto rompe los empates.</string>
+  <string name="TownOfUsMira.Modifier.Tiebreaker.WikiDescription">Tu voto te permite romper los empates.</string>
   <!-- Modificadores de Impostor -->
     <!-- Dispersor -->
       <!-- Dispersor - Wiki / Habilidades -->
-        <string name="TouModifierDisperser">Dispersor</string>
-  <string name="TouModifierDisperser.IntroBlurb">Puedes dispersar jugadores hacia ductos aleatorios.</string>
-  <string name="TouModifierDisperser.TabDescription">Separa a la tripulación.</string>
-  <string name="TouModifierDisperser.WikiDescription">Dispersa a todos los jugadores hacia un ducto aleatorio del mapa, siempre que no sean Inamovibles. No puedes tener ningún otro modificador de botón junto con Dispersor.</string>
-  <string name="TouModifierDisperserDisperse">Dispersar</string>
-  <string name="TouModifierDisperserDisperse.WikiDescription">Puedes dispersar a los jugadores del mapa hacia ductos aleatorios una vez por partida.</string>
+        <string name="TownOfUsMira.Modifier.Disperser">Dispersor</string>
+  <string name="TownOfUsMira.Modifier.Disperser.IntroBlurb">Puedes dispersar jugadores hacia ductos aleatorios.</string>
+  <string name="TownOfUsMira.Modifier.Disperser.TabDescription">Separa a la tripulación.</string>
+  <string name="TownOfUsMira.Modifier.Disperser.WikiDescription">Dispersa a todos los jugadores hacia un ducto aleatorio del mapa, siempre que no sean Inamovibles. No puedes tener ningún otro modificador de botón junto con Dispersor.</string>
+  <string name="TownOfUsMira.Modifier.DisperserDisperse">Dispersar</string>
+  <string name="TownOfUsMira.Modifier.DisperserDisperse.WikiDescription">Puedes dispersar a los jugadores del mapa hacia ductos aleatorios una vez por partida.</string>
   <!-- Saboteador -->
       <!-- Saboteador - Wiki / Descripción -->
-        <string name="TouModifierSaboteur">Saboteador</string>
-  <string name="TouModifierSaboteur.IntroBlurb">Tus recargas de sabotaje se reducen.</string>
-  <string name="TouModifierSaboteur.TabDescription">Tienes tiempos de recarga
+        <string name="TownOfUsMira.Modifier.Saboteur">Saboteador</string>
+  <string name="TownOfUsMira.Modifier.Saboteur.IntroBlurb">Tus recargas de sabotaje se reducen.</string>
+  <string name="TownOfUsMira.Modifier.Saboteur.TabDescription">Tienes tiempos de recarga
 de sabotaje reducidos.</string>
-  <string name="TouModifierSaboteur.WikiDescription">Tus tiempos de recarga al sabotear son menores.</string>
+  <string name="TownOfUsMira.Modifier.Saboteur.WikiDescription">Tus tiempos de recarga al sabotear son menores.</string>
   <!-- Telépata -->
       <!-- Telépata - Wiki / Descripción -->
-        <string name="TouModifierTelepath">Telépata</string>
-  <string name="TouModifierTelepathIntroBlurbNoDeath">Sabrás cuando un compañero mate o muera.</string>
-  <string name="TouModifierTelepath.IntroBlurb">Sabrás cuando un compañero mate.</string>
-  <string name="TouModifierTelepathDescriptionBasic">Sabrás cuándo tu compañero de equipo mate</string>
-  <string name="TouModifierTelepathDescriptionIfKnowWhen">Sabrás cuándo [and] dónde mata tu compañero de equipo</string>
-  <string name="TouModifierTelepathDescriptionAddIfKnowDeath">, sabe cuándo mueren</string>
-  <string name="TouModifierTelepathDescriptionAddIfKnowDeathLoc">, sabe cuándo [and] dónde mueren.</string>
-  <string name="TouModifierTelepathKillNotif">Tu compañero de equipo, [player], ha matado.</string>
-  <string name="TouModifierTelepathDeathNotif">¡Tu compañero de equipo, [player], ha muerto!</string>
-  <string name="TouModifierTelepathGuessNotif">¡Tu compañero de equipo, [player], identificó correctamente a [victim] como [role]!</string>
-  <string name="TouModifierTelepathMisguessNotif">¡Tu compañero de equipo, [player], intentó identificar a [victim] como [role], pero falló!</string>
+        <string name="TownOfUsMira.Modifier.Telepath">Telépata</string>
+  <string name="TownOfUsMira.Modifier.TelepathIntroBlurbNoDeath">Sabrás cuando un compañero mate o muera.</string>
+  <string name="TownOfUsMira.Modifier.Telepath.IntroBlurb">Sabrás cuando un compañero mate.</string>
+  <string name="TownOfUsMira.Modifier.TelepathDescriptionBasic">Sabrás cuándo tu compañero de equipo mate</string>
+  <string name="TownOfUsMira.Modifier.TelepathDescriptionIfKnowWhen">Sabrás cuándo [and] dónde mata tu compañero de equipo</string>
+  <string name="TownOfUsMira.Modifier.TelepathDescriptionAddIfKnowDeath">, sabe cuándo mueren</string>
+  <string name="TownOfUsMira.Modifier.TelepathDescriptionAddIfKnowDeathLoc">, sabe cuándo [and] dónde mueren.</string>
+  <string name="TownOfUsMira.Modifier.TelepathKillNotif">Tu compañero de equipo, [player], ha matado.</string>
+  <string name="TownOfUsMira.Modifier.TelepathDeathNotif">¡Tu compañero de equipo, [player], ha muerto!</string>
+  <string name="TownOfUsMira.Modifier.TelepathGuessNotif">¡Tu compañero de equipo, [player], identificó correctamente a [victim] como [role]!</string>
+  <string name="TownOfUsMira.Modifier.TelepathMisguessNotif">¡Tu compañero de equipo, [player], intentó identificar a [victim] como [role], pero falló!</string>
   <!-- Opciones de Telépata -->
         <string name="TouOptionTelepathKnowKill">Saber dónde mata tu compañero</string>
   <string name="TouOptionTelepathKnowDeath">Saber cuándo muere tu compañero</string>
@@ -2612,20 +2612,20 @@ de sabotaje reducidos.</string>
   <string name="TouOptionTelepathKnowBadGuess">Saber cuándo tu compañero falla una identificación</string>
   <!-- Rezagado -->
       <!-- Rezagado - Wiki / Descripción -->
-        <string name="TouModifierUnderdog">Rezagado</string>
-  <string name="TouModifierUnderdog.IntroBlurb">Matas más rápido si eres el único impostor.</string>
-  <string name="TouModifierUnderdog.TabDescription">Cuando eres el único impostor, tu tiempo de recarga para asesinar se reduce.</string>
-  <string name="TouModifierUnderdog.WikiDescription">Tu tiempo de recarga para matar es menor si estás solo o si tu compañero de equipo ha muerto.</string>
+        <string name="TownOfUsMira.Modifier.Underdog">Rezagado</string>
+  <string name="TownOfUsMira.Modifier.Underdog.IntroBlurb">Matas más rápido si eres el único impostor.</string>
+  <string name="TownOfUsMira.Modifier.Underdog.TabDescription">Cuando eres el único impostor, tu tiempo de recarga para asesinar se reduce.</string>
+  <string name="TownOfUsMira.Modifier.Underdog.WikiDescription">Tu tiempo de recarga para matar es menor si estás solo o si tu compañero de equipo ha muerto.</string>
   <!-- Opciones de Rezagado -->
         <string name="TouOptionUnderdogBonus">Bonificación al tiempo de recarga para asesinar</string>
   <string name="TouOptionIncreasedWhen2">Aumento del tiempo de recarga para asesinar con 2 o más Impostores</string>
   <!-- Modificadores de Atacantes (Neutrales Asesinos/Impostores) -->
     <!-- Asesino -->
       <!-- Asesino - Wiki / Descripción -->
-        <string name="TouModifierAssassin">Asesino</string>
-  <string name="TouModifierAssassin.IntroBlurb">Adivina jugadores durante reuniones.</string>
-  <string name="TouModifierAssassin.WikiDescription">Tienes la capacidad de adivinar el rol de un jugador durante una reunión.</string>
-  <string name="TouModifierAssassin.TabDescription">Adivina jugadores durante la reunión.</string>
+        <string name="TownOfUsMira.Modifier.Assassin">Asesino</string>
+  <string name="TownOfUsMira.Modifier.Assassin.IntroBlurb">Adivina jugadores durante reuniones.</string>
+  <string name="TownOfUsMira.Modifier.Assassin.WikiDescription">Tienes la capacidad de adivinar el rol de un jugador durante una reunión.</string>
+  <string name="TownOfUsMira.Modifier.Assassin.TabDescription">Adivina jugadores durante la reunión.</string>
   <string name="MisguessSummary">Adivinó erróneamente a [player] como [role]</string>
   <!-- Opciones de Asesino -->
 
@@ -2656,109 +2656,109 @@ de sabotaje reducidos.</string>
   <string name="TouOptionAssassinUniversalMods">Universal</string>
   <!-- Doble Tiro -->
       <!-- Doble Tiro - Wiki / Descripción -->
-        <string name="TouModifierDoubleShot">Doble Tiro</string>
-  <string name="TouModifierDoubleShot.IntroBlurb">Obtienes una segunda oportunidad al adivinar.</string>
-  <string name="TouModifierDoubleShot.WikiDescription">Obtienes una segunda oportunidad si fallas al adivinar el rol de un jugador durante una reunión.</string>
-  <string name="TouModifierDoubleShot.TabDescription">Tienes una oportunidad adicional al asesinar.</string>
+        <string name="TownOfUsMira.Modifier.DoubleShot">Doble Tiro</string>
+  <string name="TownOfUsMira.Modifier.DoubleShot.IntroBlurb">Obtienes una segunda oportunidad al adivinar.</string>
+  <string name="TownOfUsMira.Modifier.DoubleShot.WikiDescription">Obtienes una segunda oportunidad si fallas al adivinar el rol de un jugador durante una reunión.</string>
+  <string name="TownOfUsMira.Modifier.DoubleShot.TabDescription">Tienes una oportunidad adicional al asesinar.</string>
   <!-- Acelerador -->
       <!-- Acelerador - Wiki / Descripción -->
-        <string name="TouModifierOverclocker">Acelerador</string>
-  <string name="TouModifierOverclocker.IntroBlurb">Reduce temporalmente tus tiempos de recarga.</string>
-  <string name="TouModifierOverclocker.WikiDescription">Puedes reducir tus tiempos de recarga a costa de que sean más largos una vez que termine el Overclock. Después de una ronda adicional, volverán a la normalidad.</string>
-  <string name="TouModifierOverclocker.TabDescription">Reduce temporalmente tus tiempos de recarga, a un costo.</string>
-  <string name="TouModifierOverclockerOverclock">Acelerar</string>
-  <string name="TouModifierOverclockerOverclocked">Acelerado</string>
-  <string name="TouModifierOverclockerUnderclocked">Agotado</string>
-  <string name="TouModifierOverclockerOverclockNotif">¡Tus tiempos de recarga ahora son [multi] veces más rápidos!</string>
-  <string name="TouModifierOverclockerUnderclockNotif">Tus tiempos de recarga ahora son [multi] veces más lentos.</string>
-  <string name="TouModifierOverclockerUnderclockMeetingNotif">Después de esta reunión, tus tiempos de recarga serán [multi] veces más lentos.</string>
+        <string name="TownOfUsMira.Modifier.Overclocker">Acelerador</string>
+  <string name="TownOfUsMira.Modifier.Overclocker.IntroBlurb">Reduce temporalmente tus tiempos de recarga.</string>
+  <string name="TownOfUsMira.Modifier.Overclocker.WikiDescription">Puedes reducir tus tiempos de recarga a costa de que sean más largos una vez que termine el Overclock. Después de una ronda adicional, volverán a la normalidad.</string>
+  <string name="TownOfUsMira.Modifier.Overclocker.TabDescription">Reduce temporalmente tus tiempos de recarga, a un costo.</string>
+  <string name="TownOfUsMira.Modifier.OverclockerOverclock">Acelerar</string>
+  <string name="TownOfUsMira.Modifier.OverclockerOverclocked">Acelerado</string>
+  <string name="TownOfUsMira.Modifier.OverclockerUnderclocked">Agotado</string>
+  <string name="TownOfUsMira.Modifier.OverclockerOverclockNotif">¡Tus tiempos de recarga ahora son [multi] veces más rápidos!</string>
+  <string name="TownOfUsMira.Modifier.OverclockerUnderclockNotif">Tus tiempos de recarga ahora son [multi] veces más lentos.</string>
+  <string name="TownOfUsMira.Modifier.OverclockerUnderclockMeetingNotif">Después de esta reunión, tus tiempos de recarga serán [multi] veces más lentos.</string>
   <!-- Modificadores de Tripulante -->
     <!-- Consecuencias -->
       <!-- Consecuencias - Wiki / Descripción -->
-        <string name="TouModifierAftermath">Consecuencias</string>
-  <string name="TouModifierAftermath.IntroBlurb">Al morir, activas las habilidades de quien te asesinó.</string>
-  <string name="TouModifierAftermath.TabDescription">¡Quien te asesinó se verá obligado a usar sus habilidades!</string>
-  <string name="TouModifierAftermath.WikiDescription">Después de morir, quien te asesinó se verá obligado a usar sus habilidades sobre tu cuerpo o sobre sí mismo.</string>
-  <string name="TouModifierAftermathTriggeredNotif">[player] era [modifier], obligándote a usar tu habilidad.</string>
+        <string name="TownOfUsMira.Modifier.Aftermath">Consecuencias</string>
+  <string name="TownOfUsMira.Modifier.Aftermath.IntroBlurb">Al morir, activas las habilidades de quien te asesinó.</string>
+  <string name="TownOfUsMira.Modifier.Aftermath.TabDescription">¡Quien te asesinó se verá obligado a usar sus habilidades!</string>
+  <string name="TownOfUsMira.Modifier.Aftermath.WikiDescription">Después de morir, quien te asesinó se verá obligado a usar sus habilidades sobre tu cuerpo o sobre sí mismo.</string>
+  <string name="TownOfUsMira.Modifier.AftermathTriggeredNotif">[player] era [modifier], obligándote a usar tu habilidad.</string>
   <!-- Cebo -->
       <!-- Cebo - Wiki / Descripción -->
-        <string name="TouModifierBait">Cebo</string>
-  <string name="TouModifierBait.IntroBlurb">Obligas a quien te asesinó a reportar tu cuerpo.</string>
-  <string name="TouModifierBait.TabDescription">Obliga a quien te asesinó a auto-reportarse.</string>
-  <string name="TouModifierBait.WikiDescription">Después de morir, quien te asesinó se auto-reportará, reportando tu cuerpo.</string>
-  <string name="TouModifierBaitTriggeredNotif">[player] era [modifier], obligándote a auto-reportar.</string>
+        <string name="TownOfUsMira.Modifier.Bait">Cebo</string>
+  <string name="TownOfUsMira.Modifier.Bait.IntroBlurb">Obligas a quien te asesinó a reportar tu cuerpo.</string>
+  <string name="TownOfUsMira.Modifier.Bait.TabDescription">Obliga a quien te asesinó a auto-reportarse.</string>
+  <string name="TownOfUsMira.Modifier.Bait.WikiDescription">Después de morir, quien te asesinó se auto-reportará, reportando tu cuerpo.</string>
+  <string name="TownOfUsMira.Modifier.BaitTriggeredNotif">[player] era [modifier], obligándote a auto-reportar.</string>
   <!-- Opciones de Cebo -->
         <string name="TouOptionBaitMinDelay">Retraso mín del auto-reporte</string>
   <string name="TouOptionBaitMaxDelay">Retraso máx del auto-reporte</string>
   <!-- Celebridad -->
       <!-- Celebridad - Wiki / Descripción -->
-        <string name="TouModifierCelebrity">Celebridad</string>
-  <string name="TouModifierCelebrity.IntroBlurb">Revelas información sobre tu muerte durante la reunión.</string>
-  <string name="TouModifierCelebrity.TabDescription">Anuncia cómo moriste al fallecer.</string>
-  <string name="TouModifierCelebrity.WikiDescription">Después de morir, durante la reunión se revelarán detalles sobre tu muerte, como el lugar donde fuiste asesinado y el rol que te asesinó.</string>
-  <string name="TouModifierCelebrityPopup">¡La Celebridad, [player], ha muerto! (Chisme en el chat)</string>
+        <string name="TownOfUsMira.Modifier.Celebrity">Celebridad</string>
+  <string name="TownOfUsMira.Modifier.Celebrity.IntroBlurb">Revelas información sobre tu muerte durante la reunión.</string>
+  <string name="TownOfUsMira.Modifier.Celebrity.TabDescription">Anuncia cómo moriste al fallecer.</string>
+  <string name="TownOfUsMira.Modifier.Celebrity.WikiDescription">Después de morir, durante la reunión se revelarán detalles sobre tu muerte, como el lugar donde fuiste asesinado y el rol que te asesinó.</string>
+  <string name="TownOfUsMira.Modifier.CelebrityPopup">¡La Celebridad, [player], ha muerto! (Chisme en el chat)</string>
   <string name="TownOfUsMira.Role.CelebrityMessageTitle">Informe de la Celebridad</string>
-  <string name="TouModifierCelebrityDetailsSelf">¡La [modifier], [player], ha muerto!
+  <string name="TownOfUsMira.Modifier.CelebrityDetailsSelf">¡La [modifier], [player], ha muerto!
 Ubicación: [room]
 Muerte: Suicidio
 Hace: [timeAgo] segundos.</string>
-  <string name="TouModifierCelebrityDetailsKilled">¡La [modifier], [player], fue [killed]!
+  <string name="TownOfUsMira.Modifier.CelebrityDetailsKilled">¡La [modifier], [player], fue [killed]!
 Ubicación: [room]
 Muerte: A manos del [role]
 Hace: [timeAgo] segundos.</string>
   <!-- Limitado -->
       <!-- Limitado - Wiki / Descripción -->
-        <string name="TouModifierCircumvent">Limitado</string>
-  <string name="TouModifierCircumvent.IntroBlurb">Tu capacidad para usar ductos es limitada.</string>
-  <string name="TouModifierCircumventIntroBlurbNone">No tienes la capacidad de usar ductos.</string>
-  <string name="TouModifierCircumventTabDescriptionNone">No puedes usar ductos.</string>
-  <string name="TouModifierCircumvent.TabDescription">Ductos restantes: [amount]</string>
-  <string name="TouModifierCircumvent.WikiDescription">Tu capacidad para usar ductos por el mapa está muy limitada o incluso puede estar completamente deshabilitada.</string>
+        <string name="TownOfUsMira.Modifier.Circumvent">Limitado</string>
+  <string name="TownOfUsMira.Modifier.Circumvent.IntroBlurb">Tu capacidad para usar ductos es limitada.</string>
+  <string name="TownOfUsMira.Modifier.CircumventIntroBlurbNone">No tienes la capacidad de usar ductos.</string>
+  <string name="TownOfUsMira.Modifier.CircumventTabDescriptionNone">No puedes usar ductos.</string>
+  <string name="TownOfUsMira.Modifier.Circumvent.TabDescription">Ductos restantes: [amount]</string>
+  <string name="TownOfUsMira.Modifier.Circumvent.WikiDescription">Tu capacidad para usar ductos por el mapa está muy limitada o incluso puede estar completamente deshabilitada.</string>
   <!-- Cuota Mortal -->
       <!-- Cuota Mortal - Wiki / Descripción -->
-        <string name="TouModifierDeadlyQuota">Cuota Mortal</string>
-  <string name="TouModifierDeadlyQuota.IntroBlurb">Debes asesinar al menos a una persona.</string>
-  <string name="TouModifierDeadlyQuotaIntroBlurbPlural">Debes asesinar al menos a [amount] personas.</string>
-  <string name="TouModifierDeadlyQuota.TabDescription">¡Cumple tu cuota o perderás!
+        <string name="TownOfUsMira.Modifier.DeadlyQuota">Cuota Mortal</string>
+  <string name="TownOfUsMira.Modifier.DeadlyQuota.IntroBlurb">Debes asesinar al menos a una persona.</string>
+  <string name="TownOfUsMira.Modifier.DeadlyQuotaIntroBlurbPlural">Debes asesinar al menos a [amount] personas.</string>
+  <string name="TownOfUsMira.Modifier.DeadlyQuota.TabDescription">¡Cumple tu cuota o perderás!
 Asesinatos: [amount] / [total]</string>
-  <string name="TouModifierDeadlyQuota.WikiDescription">Perderás si no cumples tu cuota. Para hacerlo, debes asesinar a una cantidad determinada de personas, elegida al inicio de la partida.</string>
-  <string name="TouModifierDeadlyQuotaWarningNotif">Aún no has comenzado a cumplir tu cuota. PERDERÁS si los Impostores ganan y no alcanzas tu cuota de [amount] antes de que termine la partida.</string>
+  <string name="TownOfUsMira.Modifier.DeadlyQuota.WikiDescription">Perderás si no cumples tu cuota. Para hacerlo, debes asesinar a una cantidad determinada de personas, elegida al inicio de la partida.</string>
+  <string name="TownOfUsMira.Modifier.DeadlyQuotaWarningNotif">Aún no has comenzado a cumplir tu cuota. PERDERÁS si los Impostores ganan y no alcanzas tu cuota de [amount] antes de que termine la partida.</string>
   <!-- Enfermo -->
       <!-- Enfermo - Wiki / Descripción -->
-        <string name="TouModifierDiseased">Enfermo</string>
-  <string name="TouModifierDiseased.IntroBlurb">Al morir, aumentas el tiempo de recarga de quien te mató.</string>
-  <string name="TouModifierDiseased.TabDescription">Aumenta el tiempo de recarga de quien te mató.</string>
-  <string name="TouModifierDiseased.WikiDescription">El tiempo de recarga de quien te mató se multiplica por [cooldownMultiplier].</string>
-  <string name="TouModifierDiseasedTriggeredNotif">[player] era [modifier], por lo que tu tiempo de recarga para matar se multiplicó por [cooldownMultiplier].</string>
+        <string name="TownOfUsMira.Modifier.Diseased">Enfermo</string>
+  <string name="TownOfUsMira.Modifier.Diseased.IntroBlurb">Al morir, aumentas el tiempo de recarga de quien te mató.</string>
+  <string name="TownOfUsMira.Modifier.Diseased.TabDescription">Aumenta el tiempo de recarga de quien te mató.</string>
+  <string name="TownOfUsMira.Modifier.Diseased.WikiDescription">El tiempo de recarga de quien te mató se multiplica por [cooldownMultiplier].</string>
+  <string name="TownOfUsMira.Modifier.DiseasedTriggeredNotif">[player] era [modifier], por lo que tu tiempo de recarga para matar se multiplicó por [cooldownMultiplier].</string>
   <!-- Opciones de Enfermo -->
         <string name="TouOptionDiseasedCooldownModifier">Multiplicador de recarga de Enfermo</string>
   <!-- Gélido -->
       <!-- Gélido - Wiki / Descripción -->
-        <string name="TouModifierFrosty">Gélido</string>
-  <string name="TouModifierFrosty.IntroBlurb">Haz más lento a tu asesino cuando mueras.</string>
-  <string name="TouModifierFrosty.TabDescription">Ralentiza temporalmente a quien te mató.</string>
-  <string name="TouModifierFrosty.WikiDescription">¡Después de morir, quien te mató se moverá más lento!</string>
-  <string name="TouModifierFrostyTriggeredNotif">[player] era [modifier], por lo que te moverás más lento durante [time] segundos.</string>
+        <string name="TownOfUsMira.Modifier.Frosty">Gélido</string>
+  <string name="TownOfUsMira.Modifier.Frosty.IntroBlurb">Haz más lento a tu asesino cuando mueras.</string>
+  <string name="TownOfUsMira.Modifier.Frosty.TabDescription">Ralentiza temporalmente a quien te mató.</string>
+  <string name="TownOfUsMira.Modifier.Frosty.WikiDescription">¡Después de morir, quien te mató se moverá más lento!</string>
+  <string name="TownOfUsMira.Modifier.FrostyTriggeredNotif">[player] era [modifier], por lo que te moverás más lento durante [time] segundos.</string>
   <!-- Opciones de Gélido -->
         <string name="TouOptionFrostyChillDuration">Duración</string>
   <string name="TouOptionFrostyChillStartSpeed">Ralentización inicial</string>
   <!-- Investigador -->
       <!-- Investigador - Wiki / Descripción -->
-          <string name="TouModifierInvestigator.IntroBlurb">Puedes ver las huellas de los demás.</string>
-  <string name="TouModifierInvestigator.TabDescription">Ve las huellas de todos.</string>
-  <string name="TouModifierInvestigator.WikiDescription">El Investigador puede ver las huellas de los jugadores durante toda la partida. Las huellas de los jugadores Esfumados no serán visibles para el Investigador.</string>
+          <string name="TownOfUsMira.Modifier.Investigator.IntroBlurb">Puedes ver las huellas de los demás.</string>
+  <string name="TownOfUsMira.Modifier.Investigator.TabDescription">Ve las huellas de todos.</string>
+  <string name="TownOfUsMira.Modifier.Investigator.WikiDescription">El Investigador puede ver las huellas de los jugadores durante toda la partida. Las huellas de los jugadores Esfumados no serán visibles para el Investigador.</string>
   <!-- Multitarea -->
       <!-- Multitarea - Wiki / Descripción -->
-        <string name="TouModifierMultitasker">Multitarea</string>
-  <string name="TouModifierMultitasker.IntroBlurb">Puedes ver a través de las tareas.</string>
-  <string name="TouModifierMultitasker.TabDescription">Tus tareas son transparentes.</string>
-  <string name="TouModifierMultitasker.WikiDescription">Todos tus menús son transparentes, lo que te permite ver lo que hay detrás de ellos.</string>
+        <string name="TownOfUsMira.Modifier.Multitasker">Multitarea</string>
+  <string name="TownOfUsMira.Modifier.Multitasker.IntroBlurb">Puedes ver a través de las tareas.</string>
+  <string name="TownOfUsMira.Modifier.Multitasker.TabDescription">Tus tareas son transparentes.</string>
+  <string name="TownOfUsMira.Modifier.Multitasker.WikiDescription">Todos tus menús son transparentes, lo que te permite ver lo que hay detrás de ellos.</string>
   <!-- Bullicioso -->
       <!-- Bullicioso - Wiki / Descripción -->
-        <string name="TouModifierNoisemaker">Alertador</string>
-  <string name="TouModifierNoisemaker.IntroBlurb">Al morir, alertas a todos los jugadores.</string>
-  <string name="TouModifierNoisemaker.TabDescription">Cuando mueras, enviarás una alerta a todos los jugadores del mapa durante [noiseTime] segundo(s).</string>
-  <string name="TouModifierNoisemaker.WikiDescription">Después de morir, todos los jugadores del mapa verán un indicador rojo sobre tu cadáver.</string>
+        <string name="TownOfUsMira.Modifier.Noisemaker">Alertador</string>
+  <string name="TownOfUsMira.Modifier.Noisemaker.IntroBlurb">Al morir, alertas a todos los jugadores.</string>
+  <string name="TownOfUsMira.Modifier.Noisemaker.TabDescription">Cuando mueras, enviarás una alerta a todos los jugadores del mapa durante [noiseTime] segundo(s).</string>
+  <string name="TownOfUsMira.Modifier.Noisemaker.WikiDescription">Después de morir, todos los jugadores del mapa verán un indicador rojo sobre tu cadáver.</string>
   <!-- Opciones de Bullicioso -->
         <string name="TouOptionNoisemakerImpAlert">Los Impostores reciben la alerta</string>
   <string name="TouOptionNoisemakerNeutAlert">Los Neutrales reciben la alerta</string>
@@ -2767,10 +2767,10 @@ Asesinatos: [amount] / [total]</string>
   <string name="TouOptionNoisemakerAlertDuration">Duración de la alerta</string>
   <!-- Guardia -->
       <!-- Guardia - Wiki / Descripción -->
-        <string name="TouModifierOperative">Guardia</string>
-  <string name="TouModifierOperative.IntroBlurb">Usa los sistemas de seguridad desde cualquier lugar.</string>
-  <string name="TouModifierOperative.TabDescription">Utiliza las cámaras desde cualquier lugar.</string>
-  <string name="TouModifierOperative.WikiDescription">Usa las cámaras en cualquier momento con una batería de carga limitada.</string>
+        <string name="TownOfUsMira.Modifier.Operative">Guardia</string>
+  <string name="TownOfUsMira.Modifier.Operative.IntroBlurb">Usa los sistemas de seguridad desde cualquier lugar.</string>
+  <string name="TownOfUsMira.Modifier.Operative.TabDescription">Utiliza las cámaras desde cualquier lugar.</string>
+  <string name="TownOfUsMira.Modifier.Operative.WikiDescription">Usa las cámaras en cualquier momento con una batería de carga limitada.</string>
   <!-- Opciones de Guardia -->
         <string name="TouOptionOperativeMiraDoorlog">Moverse mientras usa el registro de puertas</string>
   <string name="TouOptionOperativeStartingCharge">Carga inicial</string>
@@ -2780,18 +2780,18 @@ Asesinatos: [amount] / [total]</string>
   <string name="TouOptionOperativeMaxDisplayDuration">Duración máx de la pantalla de seguridad</string>
   <!-- Podrido -->
       <!-- Podrido - Wiki / Descripción -->
-        <string name="TouModifierRotting">Podrido</string>
-  <string name="TouModifierRotting.IntroBlurb">Tu cuerpo se pudrirá al morir.</string>
-  <string name="TouModifierRotting.TabDescription">Tu cuerpo se pudrirá después de [rotDelay] segundo(s).</string>
-  <string name="TouModifierRotting.WikiDescription">Después de [rotDelay] segundo(s), tu cuerpo se pudrirá, impidiendo que pueda ser reportado.</string>
+        <string name="TownOfUsMira.Modifier.Rotting">Podrido</string>
+  <string name="TownOfUsMira.Modifier.Rotting.IntroBlurb">Tu cuerpo se pudrirá al morir.</string>
+  <string name="TownOfUsMira.Modifier.Rotting.TabDescription">Tu cuerpo se pudrirá después de [rotDelay] segundo(s).</string>
+  <string name="TownOfUsMira.Modifier.Rotting.WikiDescription">Después de [rotDelay] segundo(s), tu cuerpo se pudrirá, impidiendo que pueda ser reportado.</string>
   <!-- Opciones de Podrido -->
         <string name="TouOptionRottingDelay">Tiempo antes de podrirse</string>
   <!-- Científico -->
       <!-- Científico - Wiki / Descripción -->
-        <string name="TouModifierScientist">Científico</string>
-  <string name="TouModifierScientist.IntroBlurb">Usa Vitales desde cualquier lugar.</string>
-  <string name="TouModifierScientist.TabDescription">Accede a Signos Vitales en cualquier momento y lugar, siempre que tengas carga.</string>
-  <string name="TouModifierScientist.WikiDescription">Usa Signos Vitales en cualquier momento con una batería de carga limitada.</string>
+        <string name="TownOfUsMira.Modifier.Scientist">Científico</string>
+  <string name="TownOfUsMira.Modifier.Scientist.IntroBlurb">Usa Vitales desde cualquier lugar.</string>
+  <string name="TownOfUsMira.Modifier.Scientist.TabDescription">Accede a Signos Vitales en cualquier momento y lugar, siempre que tengas carga.</string>
+  <string name="TownOfUsMira.Modifier.Scientist.WikiDescription">Usa Signos Vitales en cualquier momento con una batería de carga limitada.</string>
   <!-- Opciones de Científico -->
         <string name="TouOptionScientistMoveVitals">Moverse mientras usa Vitales</string>
   <string name="TouOptionScientistStartingCharge">Carga inicial</string>
@@ -2801,29 +2801,29 @@ Asesinatos: [amount] / [total]</string>
   <string name="TouOptionScientistMaxDisplayDuration">Duración máx de Vitales</string>
   <!-- Explorador -->
       <!-- Explorador - Wiki / Descripción -->
-        <string name="TouModifierScout">Explorador</string>
-  <string name="TouModifierScout.IntroBlurb">Ves más lejos con luces encendidas, pero mucho menos en la oscuridad.</string>
-  <string name="TouModifierScout.TabDescription">Tu visión es mayor cuando las luces están encendidas, pero muy baja cuando están apagadas.</string>
-  <string name="TouModifierScout.WikiDescription">Aunque puedes ver el doble que un Tripulante normal, tu visión se reduce cuando las luces están apagadas.</string>
+        <string name="TownOfUsMira.Modifier.Scout">Explorador</string>
+  <string name="TownOfUsMira.Modifier.Scout.IntroBlurb">Ves más lejos con luces encendidas, pero mucho menos en la oscuridad.</string>
+  <string name="TownOfUsMira.Modifier.Scout.TabDescription">Tu visión es mayor cuando las luces están encendidas, pero muy baja cuando están apagadas.</string>
+  <string name="TownOfUsMira.Modifier.Scout.WikiDescription">Aunque puedes ver el doble que un Tripulante normal, tu visión se reduce cuando las luces están apagadas.</string>
   <!-- Espía -->
       <!-- Espía - Wiki / Descripción -->
-        <string name="TouModifierSpy.IntroBlurb">Obtén información adicional en la mesa de Admin.</string>
-  <string name="TouModifierSpy.TabDescription">Obtén información adicional en la mesa de Admin.</string>
-  <string name="TouModifierSpy.WikiDescription">El Espía obtiene información adicional en la mesa de Admin. Ahora no solo ve cuántas personas hay en una sala, sino también quiénes se encuentran en cada una.</string>
+        <string name="TownOfUsMira.Modifier.Spy.IntroBlurb">Obtén información adicional en la mesa de Admin.</string>
+  <string name="TownOfUsMira.Modifier.Spy.TabDescription">Obtén información adicional en la mesa de Admin.</string>
+  <string name="TownOfUsMira.Modifier.Spy.WikiDescription">El Espía obtiene información adicional en la mesa de Admin. Ahora no solo ve cuántas personas hay en una sala, sino también quiénes se encuentran en cada una.</string>
   <!-- Supervisor -->
       <!-- Supervisor - Wiki / Descripción -->
-        <string name="TouModifierTaskmaster">Supervisor</string>
-  <string name="TouModifierTaskmaster.IntroBlurb">Completas tareas aleatorias cada ronda.</string>
-  <string name="TouModifierTaskmaster.TabDescription">Se completará automáticamente una tarea aleatoria después de cada reunión.</string>
-  <string name="TouModifierTaskmaster.WikiDescription">Cada vez que comienza una ronda, completarás automáticamente una tarea.</string>
-  <string name="TouModifierTaskmasterTaskNotif">La tarea '[taskName]' ha sido completada por ti.</string>
+        <string name="TownOfUsMira.Modifier.Taskmaster">Supervisor</string>
+  <string name="TownOfUsMira.Modifier.Taskmaster.IntroBlurb">Completas tareas aleatorias cada ronda.</string>
+  <string name="TownOfUsMira.Modifier.Taskmaster.TabDescription">Se completará automáticamente una tarea aleatoria después de cada reunión.</string>
+  <string name="TownOfUsMira.Modifier.Taskmaster.WikiDescription">Cada vez que comienza una ronda, completarás automáticamente una tarea.</string>
+  <string name="TownOfUsMira.Modifier.TaskmasterTaskNotif">La tarea '[taskName]' ha sido completada por ti.</string>
   <!-- Antorcha -->
       <!-- Antorcha - Wiki / Descripción -->
-        <string name="TouModifierTorch">Antorcha</string>
-  <string name="TouModifierTorch.IntroBlurb">Ve incluso con las luces apagadas.</string>
-  <string name="TouModifierTorch.TabDescription">Tu visión no se reducirá
+        <string name="TownOfUsMira.Modifier.Torch">Antorcha</string>
+  <string name="TownOfUsMira.Modifier.Torch.IntroBlurb">Ve incluso con las luces apagadas.</string>
+  <string name="TownOfUsMira.Modifier.Torch.TabDescription">Tu visión no se reducirá
 cuando las luces sean saboteadas.</string>
-  <string name="TouModifierTorch.WikiDescription">Las luces apagadas no afectan tu visión.</string>
+  <string name="TownOfUsMira.Modifier.Torch.WikiDescription">Las luces apagadas no afectan tu visión.</string>
   <!-- Últimos Textos Añadidos -->
 <string name="DraftAudioBoth">Ambos</string>
   <string name="RoleIconOnReveal">Mostrar ícono de rol en Intro</string>
@@ -2832,25 +2832,25 @@ cuando las luces sean saboteadas.</string>
   <string name="PlayerCommandList">players:plr:plrlist:playerlist</string>
   <string name="PlayerCommandDetails">[player] juega en: [platform]</string>
   <string name="PlayerCommandDescription">/players - Muestra información sobre jugadores en la sala.</string>
-  <string name="TouOptionTitleAdvancedUtility">Utilidades Avanzadas</string>
-  <string name="TouOptionTitleAdvancedSabotages">Sabotajes Avanzados</string>
-  <string name="TouOptionTitleRandomMapChoice">Elección Aleatoria de Mapa</string>
-  <string name="TouOptionTitleRandomDoorMode">Modo de Puertas Aleatorias</string>
-  <string name="TouOptionTitleBetterSkeld">Skeld Mejorado</string>
-  <string name="TouOptionTitleGlobalBetterMaps">Opciones Globales de Mapas Mejorados</string>
-  <string name="TouOptionTitleBetterMira">Mira HQ mejorado</string>
-  <string name="TouOptionTitleBetterPolus">Polus mejorado</string>
-  <string name="TouOptionTitleBetterAirship">Airship mejorado</string>
-  <string name="TouOptionTitleBetterFungle">Fungle mejorado</string>
-  <string name="TouOptionTitleBetterSubmerged">Submerged mejorado</string>
-  <string name="TouOptionTitleBetterLevelImpostor">Level Impostor mejorado</string>
+  <string name="TownOfUsMira.Options.Groups.AdvancedUtility">Utilidades Avanzadas</string>
+  <string name="TownOfUsMira.Options.Groups.AdvancedSabotages">Sabotajes Avanzados</string>
+  <string name="TownOfUsMira.Options.Groups.RandomMapChoice">Elección Aleatoria de Mapa</string>
+  <string name="TownOfUsMira.Options.Groups.RandomDoorMode">Modo de Puertas Aleatorias</string>
+  <string name="TownOfUsMira.Options.Groups.BetterSkeld">Skeld Mejorado</string>
+  <string name="TownOfUsMira.Options.Groups.GlobalBetterMaps">Opciones Globales de Mapas Mejorados</string>
+  <string name="TownOfUsMira.Options.Groups.BetterMira">Mira HQ mejorado</string>
+  <string name="TownOfUsMira.Options.Groups.BetterPolus">Polus mejorado</string>
+  <string name="TownOfUsMira.Options.Groups.BetterAirship">Airship mejorado</string>
+  <string name="TownOfUsMira.Options.Groups.BetterFungle">Fungle mejorado</string>
+  <string name="TownOfUsMira.Options.Groups.BetterSubmerged">Submerged mejorado</string>
+  <string name="TownOfUsMira.Options.Groups.BetterLevelImpostor">Level Impostor mejorado</string>
   <string name="TownOfUsMira.Role.AnonymousVictoryKillNotif">¡[source] mató a [victim] tras su victoria!</string>
   <string name="TownOfUsMira.Role.ExecutionerTormentNotif">¡El Verdugo torturó a [victim] hasta la muerte!</string>
   <string name="TownOfUsMira.Role.JesterHauntNotif">¡El Bufón decidió atormentar a [victim] desde el más allá!</string>
   <string name="TouOptionJesterVentCooldown">Tiempo de recarga de Ductos</string>
   <string name="TouOptionJesterVentDuration">Duración de Ductos</string>
   <string name="TownOfUsMira.Role.SpectreSpookNotif">¡La Aparición espantó a [victim] hasta la muerte!</string>
-  <string name="TouOptionBetterMapsThemeEnumTvShow">La Serie</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsThemeEnumTvShow">La Serie</string>
   <!-- Textos Sueltos -->
 <string name="TownOfUsMira.Role.DeputyShootKiller">¡Dispara a un jugador con éxito si es el asesino!</string>
   <string name="TownOfUsMira.Role.PoliticianRevealRequirement">¡Revélate si has convencido al menos a la mitad de los Tripulantes!</string>
@@ -2876,11 +2876,11 @@ No podrás vencer más jugadores.</string>
   <string name="TownOfUsMira.Role.SpectreSpookMessage">Tienes una ronda para asustar hasta la muerte a un jugador de tu elección; elige sabiamente.</string>
   <string name="TownOfUsMira.Role.SpectreWonOther">[role], [player], ha ganado, ¡ya que completó sus tareas tras morir!</string>
   <string name="TownOfUsMira.Role.SpectreClickableFeedback">¡Ahora los jugadores pueden clickearte!</string>
-  <string name="TouModifierDeadlyQuotaCompleted">¡Has completado tu cuota!</string>
-  <string name="TouModifierDeadlyQuotaCompletedShield">¡Has completado tu cuota! Has perdido tu escudo temporal.</string>
-  <string name="TouModifierDeadlyQuotaRemaining">¡Necesitas [amount] [kills] más para completar tu cuota!</string>
-  <string name="TouModifierDeadlyQuotaKill">muerte</string>
-  <string name="TouModifierDeadlyQuotaKills">muertes</string>
+  <string name="TownOfUsMira.Modifier.DeadlyQuotaCompleted">¡Has completado tu cuota!</string>
+  <string name="TownOfUsMira.Modifier.DeadlyQuotaCompletedShield">¡Has completado tu cuota! Has perdido tu escudo temporal.</string>
+  <string name="TownOfUsMira.Modifier.DeadlyQuotaRemaining">¡Necesitas [amount] [kills] más para completar tu cuota!</string>
+  <string name="TownOfUsMira.Modifier.DeadlyQuotaKill">muerte</string>
+  <string name="TownOfUsMira.Modifier.DeadlyQuotaKills">muertes</string>
   <string name="TownOfUsMira.Role.BootleggerRoleblockChosen">Has elegido embriagar a [player].</string>
   <string name="TownOfUsMira.Role.BarkeeperRoleblockChosen">Has elegido embriagar a [player].</string>
   <string name="TownOfUsMira.Role.BarkeeperRoleblocked">¡Embriagaste a [player]!</string>
@@ -2891,10 +2891,10 @@ No podrás vencer más jugadores.</string>
   <string name="TownOfUsMira.Role.BarkeeperRoleblockedTarget">Alguien te acaba de embriagar.</string>
   <string name="TownOfUsMira.Role.BootleggerImpendingDoom">Sientes una tragedia inminente.</string>
   <string name="TownOfUsMira.Role.BarkeeperSpillNotification">¡Tu bebida derramada tardará [time]s en hacer efecto sobre los demás!</string>
-  <string name="TouModifierTelepathFailedGuess">Tu compañero, [player], intentó adivinar a [target] como [guess], ¡pero falló!</string>
-  <string name="TouModifierTelepathCorrectGuess">Tu compañero, [player], ¡adivinó a [target] como [role]!</string>
-  <string name="TouModifierTelepathKill">Tu compañero, [player], ha matado.</string>
-  <string name="TouModifierTelepathDeath">Tu compañero, [player], ¡ha sido asesinado!</string>
+  <string name="TownOfUsMira.Modifier.TelepathFailedGuess">Tu compañero, [player], intentó adivinar a [target] como [guess], ¡pero falló!</string>
+  <string name="TownOfUsMira.Modifier.TelepathCorrectGuess">Tu compañero, [player], ¡adivinó a [target] como [role]!</string>
+  <string name="TownOfUsMira.Modifier.TelepathKill">Tu compañero, [player], ha matado.</string>
+  <string name="TownOfUsMira.Modifier.TelepathDeath">Tu compañero, [player], ¡ha sido asesinado!</string>
   <string name="TownOfUsMira.Role.AmbassadorRetrainTitle">Reentrenamiento del Embajador</string>
   <string name="TownOfUsMira.Role.AmbassadorRetrainConfirm">¿Seguro de cambiar tu rol a [role]?
 Éste cambio es permanente.</string>
@@ -2918,5 +2918,5 @@ No podrás vencer más jugadores.</string>
   <string name="TownOfUsMira.Role.SoulCollector">Medusa</string>
   <string name="Revived">Resucitado</string>
   <string name="TouOptionTimeLordRewindDuration">Duración de Retroceso</string>
-  <string name="TouModifierLoverInfoDisconnected">Estabas enamorado de [player], y se desconectó.</string>
+  <string name="TownOfUsMira.Modifier.LoverInfoDisconnected">Estabas enamorado de [player], y se desconectó.</string>
 </resources>

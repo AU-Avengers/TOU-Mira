@@ -12,7 +12,7 @@ public sealed class ImmovableModifier : UniversalGameModifier, IWikiDiscoverable
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Immovable.LoadAsset(),
             "TouMira.Modifier.Universal.Immovable", 1.45f));
     public override string IdPart => "Immovable";
-    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Immovable;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalPassive;
@@ -22,12 +22,12 @@ public sealed class ImmovableModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];

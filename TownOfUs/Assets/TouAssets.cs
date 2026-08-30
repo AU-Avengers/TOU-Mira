@@ -315,6 +315,9 @@ public static class TouAssets
     public static LoadableAsset<Sprite> ShootMeetingSprite { get; } =
         new LoadableBundleSubAsset("Shoot", MeetingAbilityHolder);
 
+    public static LoadableAsset<Sprite> ProsecuteMeetingSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.ProsecuteSprite.png");
+
     public static LoadableAsset<Sprite> BlackmailLetterSprite { get; } =
         new LoadableBundleAsset<Sprite>("BlackmailLetter", MainBundle);
 

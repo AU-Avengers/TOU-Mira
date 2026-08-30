@@ -15,7 +15,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
     public override float Duration => OptionGroupSingleton<FairyOptions>.Instance.ProtectDuration;
     public override string ModifierName => "Protected";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Fairy;
-  public override string ShieldDescription => MiraLocaleManager.Get("TouModifierGuardianAngelProtectedDescription");
+  public override string ShieldDescription => MiraLocaleManager.Get("TownOfUsMira.Modifier.GuardianAngelProtectedDescription");
     public override bool AutoStart => true;
     public PlayerControl Guardian => guardianAngel;
 

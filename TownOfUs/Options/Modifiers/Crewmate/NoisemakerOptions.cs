@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 public sealed class NoisemakerOptions : AbstractTouModifierOptionGroup<NoisemakerModifier>
 {
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
-    public override string GroupName => MiraLocaleManager.Get("TouModifierNoisemaker", "Noisemaker");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Noisemaker", "Noisemaker");
     public override uint GroupPriority => 23;
     public override Color GroupColor => TownOfUsColors.Noisemaker;
 

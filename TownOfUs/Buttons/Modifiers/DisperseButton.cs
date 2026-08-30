@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Modifiers;
 
 public sealed class DisperseButton : TownOfUsButton, ILegacyCapable
 {
-    public override string Name => MiraLocaleManager.Get("TouModifierDisperserDisperse", "Disperse");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Modifier.DisperserDisperse", "Disperse");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);

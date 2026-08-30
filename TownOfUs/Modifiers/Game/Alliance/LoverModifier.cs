@@ -29,7 +29,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Lover.LoadAsset(),
             "TouMira.Modifier.Alliance.Lover", 1.45f));
     public override string IdPart => "Lover";
-    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
     public override string IntroInfo => LoverString();
     public bool LoverDisconnected { get; internal set; }
     public string LoverDcString { get; internal set; } = string.Empty;
@@ -41,13 +41,13 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription")
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription")
             .Replace("<symbol>", "<color=#FF66CCFF>♥</color>") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public string LoverString()
     {
-        return LoverDisconnected || OtherLover == null ? LoverDcString : MiraLocaleManager.Get($"TouModifier{IdPart}Info")
+        return LoverDisconnected || OtherLover == null ? LoverDcString : MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}Info")
             .Replace("<player>", OtherLover.Data.PlayerName);
     }
 
@@ -244,10 +244,10 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         var sourceModifier = randomTarget.AddModifier<LoverModifier>();
         yield return new WaitForSeconds(0.01f);
         sourceModifier!.OtherLover = localPlr;
-        sourceModifier.LoverDcString = MiraLocaleManager.Get("TouModifierLoverInfoDisconnected")
+        sourceModifier.LoverDcString = MiraLocaleManager.Get("TownOfUsMira.Modifier.LoverInfoDisconnected")
             .Replace("<player>", localPlr.Data.PlayerName);
         loverMod!.OtherLover = randomTarget;
-        loverMod.LoverDcString = MiraLocaleManager.Get("TouModifierLoverInfoDisconnected")
+        loverMod.LoverDcString = MiraLocaleManager.Get("TownOfUsMira.Modifier.LoverInfoDisconnected")
             .Replace("<player>", randomTarget.Data.PlayerName);
     }
 
@@ -380,10 +380,10 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         var targetModifier = target.AddModifier<LoverModifier>();
         var sourceModifier = player.AddModifier<LoverModifier>();
         targetModifier!.OtherLover = player;
-        targetModifier.LoverDcString = MiraLocaleManager.Get("TouModifierLoverInfoDisconnected")
+        targetModifier.LoverDcString = MiraLocaleManager.Get("TownOfUsMira.Modifier.LoverInfoDisconnected")
             .Replace("<player>", player.Data.PlayerName);
         sourceModifier!.OtherLover = target;
-        sourceModifier.LoverDcString = MiraLocaleManager.Get("TouModifierLoverInfoDisconnected")
+        sourceModifier.LoverDcString = MiraLocaleManager.Get("TownOfUsMira.Modifier.LoverInfoDisconnected")
             .Replace("<player>", target.Data.PlayerName);
         if (!player.IsCrewmate() || !target.IsCrewmate())
         {

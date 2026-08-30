@@ -16,7 +16,7 @@ public sealed class RadarModifier : UniversalGameModifier, IWikiDiscoverable
             "TouMira.Modifier.Universal.Radar", 1.45f));
     private ArrowBehaviour _arrow;
     public override string IdPart => "Radar";
-    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Radar;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalUtility;
@@ -24,12 +24,12 @@ public sealed class RadarModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];

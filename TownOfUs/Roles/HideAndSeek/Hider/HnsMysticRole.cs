@@ -15,7 +15,7 @@ public sealed class HnsMysticRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}");
     public string RoleDescription => "...";
     public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}.TabDescription");
-    public string RoleHintText => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}TabHint");
+    public string RoleHintText => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}.TabHint");
 
     public string GetAdvancedDescription()
     {

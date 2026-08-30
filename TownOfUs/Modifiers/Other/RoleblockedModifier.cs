@@ -8,7 +8,7 @@ namespace TownOfUs.Modifiers.Other;
 
 public sealed class RoleblockedModifier(PlayerControl roleblocker, bool invertControls, bool hangover, float blockDuration, float hangoverDuration) : DisabledModifier
 {
-    public override string ModifierName => MiraLocaleManager.Get("TouModifierRoleblocked");
+    public override string ModifierName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Roleblocked");
     public override bool HideOnUi => false;
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Barkeeper;
     public override bool Unique => false;
@@ -25,7 +25,7 @@ public sealed class RoleblockedModifier(PlayerControl roleblocker, bool invertCo
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get("TouModifierRoleblockedDescription");
+        return MiraLocaleManager.Get("TownOfUsMira.Modifier.RoleblockedDescription");
     }
 
     public override void OnDeactivate()
@@ -35,7 +35,7 @@ public sealed class RoleblockedModifier(PlayerControl roleblocker, bool invertCo
             if (Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{MiraLocaleManager.Get("TouModifierRoleblockedEndNotification")}</b>", Color.white,
+                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.RoleblockedEndNotification")}</b>", Color.white,
                     spr: TouRoleIcons.Barkeeper.LoadAsset());
 
                 notif1.Text.SetOutlineThickness(0.35f);

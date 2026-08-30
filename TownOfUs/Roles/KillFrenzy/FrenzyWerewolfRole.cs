@@ -44,9 +44,6 @@ public sealed class FrenzyWerewolfRole(IntPtr cppPtr)
 
     public bool Rampaging { get; set; }
     public string IdPart => "Werewolf";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {

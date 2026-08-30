@@ -22,18 +22,18 @@ public sealed class DeadlyQuotaModifier : TouGameModifier, IWikiDiscoverable
     public bool IgnoreQuota =>
         OptionGroupSingleton<DeadlyQuotaOptions>.Instance.RemoveQuotaUponDeath && Player.HasDied();
     public override string IdPart => "DeadlyQuota";
-    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
-    public override string IntroInfo => KillQuota == 1 ? MiraLocaleManager.Get($"TouModifier{IdPart}.IntroBlurb") : MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurbPlural").Replace("<amount>", KillQuota.ToString(TownOfUsPlugin.Culture));
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
+    public override string IntroInfo => KillQuota == 1 ? MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb") : MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}IntroBlurbPlural").Replace("<amount>", KillQuota.ToString(TownOfUsPlugin.Culture));
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription").Replace("<amount>", KillCount.ToString(TownOfUsPlugin.Culture)).Replace("<total>", KillQuota.ToString(TownOfUsPlugin.Culture));
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription").Replace("<amount>", KillCount.ToString(TownOfUsPlugin.Culture)).Replace("<total>", KillQuota.ToString(TownOfUsPlugin.Culture));
     }
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
     public override Color FreeplayFileColor => new Color32(255, 25, 25, 255);
@@ -86,7 +86,7 @@ public sealed class DeadlyQuotaModifier : TouGameModifier, IWikiDiscoverable
         if (!Player.HasDied() && Player.AmOwner && KillCount == 0)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{MiraLocaleManager.Get("TouModifierDeadlyQuotaWarningNotif").Replace("<amount>", KillQuota.ToString(TownOfUsPlugin.Culture))}</b>",
+                $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.DeadlyQuotaWarningNotif").Replace("<amount>", KillQuota.ToString(TownOfUsPlugin.Culture))}</b>",
                 Color.white,
                 new Vector3(0f, 1f, -20f),
                 spr: TouModifierIcons.DeadlyQuota.LoadAsset());

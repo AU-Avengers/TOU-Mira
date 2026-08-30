@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Modifiers;
 
 public sealed class ImpostorModifierOptions : AbstractOptionGroup
 {
-    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleImpostorModifiers");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.ImpostorModifiers");
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
     public override MenuCategory ParentMenu => MenuCategory.Modifiers;
@@ -106,42 +106,42 @@ public sealed class ImpostorModifierOptions : AbstractOptionGroup
     {
         var optAmount = OptionGroupSingleton<ImpostorModifierOptions>.Instance.CircumventAmount;
         var opt = OptionGroupSingleton<ImpostorModifierOptions>.Instance.CircumventChance;
-        RunNotif(opt, optAmount, "TouModifierCircumvent");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Circumvent");
     };
 
     private static Action<float> _dqNotif = x =>
     {
         var optAmount = OptionGroupSingleton<ImpostorModifierOptions>.Instance.DeadlyQuotaAmount;
         var opt = OptionGroupSingleton<ImpostorModifierOptions>.Instance.DeadlyQuotaChance;
-        RunNotif(opt, optAmount, "TouModifierDeadlyQuota");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.DeadlyQuota");
     };
 
     private static Action<float> _disperserNotif = x =>
     {
         var optAmount = OptionGroupSingleton<ImpostorModifierOptions>.Instance.DisperserAmount;
         var opt = OptionGroupSingleton<ImpostorModifierOptions>.Instance.DisperserChance;
-        RunNotif(opt, optAmount, "TouModifierDisperser");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Disperser");
     };
 
     private static Action<float> _saboteurNotif = x =>
     {
         var optAmount = OptionGroupSingleton<ImpostorModifierOptions>.Instance.SaboteurAmount;
         var opt = OptionGroupSingleton<ImpostorModifierOptions>.Instance.SaboteurChance;
-        RunNotif(opt, optAmount, "TouModifierSaboteur");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Saboteur");
     };
 
     private static Action<float> _telepathNotif = x =>
     {
         var optAmount = OptionGroupSingleton<ImpostorModifierOptions>.Instance.TelepathAmount;
         var opt = OptionGroupSingleton<ImpostorModifierOptions>.Instance.TelepathChance;
-        RunNotif(opt, optAmount, "TouModifierTelepath");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Telepath");
     };
 
     private static Action<float> _underdogNotif = x =>
     {
         var optAmount = OptionGroupSingleton<ImpostorModifierOptions>.Instance.UnderdogAmount;
         var opt = OptionGroupSingleton<ImpostorModifierOptions>.Instance.UnderdogChance;
-        RunNotif(opt, optAmount, "TouModifierUnderdog");
+        RunNotif(opt, optAmount, "TownOfUsMira.Modifier.Underdog");
     };
 
     private static void RunNotif(AmountChanceOption opt, AmountChanceOption optAmount, string title)

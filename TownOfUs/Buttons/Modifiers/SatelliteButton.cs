@@ -13,7 +13,7 @@ namespace TownOfUs.Buttons.Modifiers;
 
 public sealed class SatelliteButton : TownOfUsButton, ILegacyCapable
 {
-    public override string Name => MiraLocaleManager.Get("TouModifierSatelliteBroadcast", "Broadcast");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Modifier.SatelliteBroadcast", "Broadcast");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.Satellite;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SatelliteOptions>.Instance.Cooldown + MapCooldown, 5f, 120f);
@@ -48,14 +48,14 @@ public sealed class SatelliteButton : TownOfUsButton, ILegacyCapable
         var deadBodies = Object.FindObjectsOfType<DeadBody>().ToList();
 
         deadBodies.Do(x => PlayerControl.LocalPlayer.AddModifier<SatelliteArrowModifier>(x, Color.white));
-        var text = MiraLocaleManager.Get("TouModifierSatelliteFailedNotif");
+        var text = MiraLocaleManager.Get("TownOfUsMira.Modifier.SatelliteFailedNotif");
         if (deadBodies.Count == 1)
         {
-            text = MiraLocaleManager.Get("TouModifierSatelliteSingleNotif");
+            text = MiraLocaleManager.Get("TownOfUsMira.Modifier.SatelliteSingleNotif");
         }
         else if (deadBodies.Count > 1)
         {
-            text = MiraLocaleManager.Get("TouModifierSatellitePluralNotif").Replace("<count>", deadBodies.Count.ToString(TownOfUsPlugin.Culture));
+            text = MiraLocaleManager.Get("TownOfUsMira.Modifier.SatellitePluralNotif").Replace("<count>", deadBodies.Count.ToString(TownOfUsPlugin.Culture));
         }
         var notif1 = Helpers.CreateAndShowNotification($"<b>{text}</b>", Color.white,
             new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Satellite.LoadAsset());

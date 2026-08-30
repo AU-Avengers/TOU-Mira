@@ -7,6 +7,7 @@ using UnityEngine;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Impostor;
 using MiraAPI.Patches.Stubs;
+using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
@@ -20,9 +21,6 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ClericRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Spellslinger";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
     public static bool SabotageTriggered { get; internal set; }
 
     public string GetAdvancedDescription()
@@ -94,7 +92,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
             return;
         }
 
-        var text = MiraLocaleManager.Get("TownOfUsMira.Role.SpellslingerGlobalWarning").Replace("<role>", $"#{RoleName.ToLowerInvariant().Replace(" ", "-")}");
+        var text = MiraLocaleManager.Get("TownOfUsMira.Role.SpellslingerGlobalWarning").Replace("<role>", $"#{this.GetRoleName().ToLowerInvariant().Replace(" ", "-")}");
 
         reportBuilder.Append(TownOfUsPlugin.Culture,
             $"{text.Replace("<time>", $"{(int)sabotage.TimeRemaining + 1}")}");

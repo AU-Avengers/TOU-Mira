@@ -17,9 +17,6 @@ public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     [HideFromIl2Cpp] public PlayerControl? Sampled { get; set; }
     public DoomableType DoomHintType => DoomableType.Perception;
     public string IdPart => "Morphling";
-    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
     public static string MorphedString = MiraLocaleManager.Get("TownOfUsMira.Role.MorphlingTabMorphed");
 
     public string GetAdvancedDescription()

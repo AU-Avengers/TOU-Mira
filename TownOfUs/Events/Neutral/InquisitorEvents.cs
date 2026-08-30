@@ -100,7 +100,7 @@ public static class InquisitorEvents
             if (inquis.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorVictoryMessageSelf").Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>"),
+                    MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorVictoryMessageSelf").Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.GetRoleName()}</color>"),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -118,7 +118,7 @@ public static class InquisitorEvents
                 else
                 {
                     message = MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorVictoryMessage")
-                        .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>");
+                        .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.GetRoleName()}</color>");
                     icon = TouRoleIcons.Inquisitor;
                 }
 
@@ -153,7 +153,7 @@ public static class InquisitorEvents
             if (inquis.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorWonSelf") .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>")}</b>",
+                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorWonSelf") .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.GetRoleName()}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -171,7 +171,7 @@ public static class InquisitorEvents
                 }
                 else
                 {
-                    message = $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorWonOther") .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>") .Replace("<player>", inquis.Player.Data.PlayerName)}</b>";
+                    message = $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorWonOther") .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.GetRoleName()}</color>") .Replace("<player>", inquis.Player.Data.PlayerName)}</b>";
                     icon = TouRoleIcons.Inquisitor;
                 }
 
