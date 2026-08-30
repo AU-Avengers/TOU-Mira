@@ -2532,7 +2532,6 @@ vision, and vent away temporarily</string>
   <string name="TouModifierSatellitePluralNotif">[count] bodies were found on the map.</string>
   <!-- Satellite Options -->
   <string name="TouOptionSatelliteCooldown">Button Cooldown</string>
-  <string name="TouOptionSatelliteMaxUses">Max Uses</string>
   <string name="TouOptionSatelliteOnePerRound">One Usage Per Round</string>
   <string name="TouOptionSatelliteAllowFirst">Allow Usage in First Round</string>
   <!-- Shy -->
@@ -2724,9 +2723,6 @@ Kills: [amount] / [total]</string>
   <string name="TouModifierFrostyTabDescription">Slow your killer for a short duration.</string>
   <string name="TouModifierFrostyWikiDescription">After you die, your killer will be slowed down!</string>
   <string name="TouModifierFrostyTriggeredNotif">[player] was [modifier], causing you to be slower for [time] seconds.</string>
-  <!-- Frosty Options -->
-  <string name="TouOptionFrostyChillDuration">Chill Duration</string>
-  <string name="TouOptionFrostyChillStartSpeed">Chill Start Speed</string>
   <!-- Investigator -->
   <!-- Investigator Wiki / Description -->
   <string name="TouModifierInvestigatorIntroBlurb">You see others' footsteps.</string>
@@ -2749,7 +2745,6 @@ Kills: [amount] / [total]</string>
   <string name="TouOptionNoisemakerNeutAlert">Neutrals Get Alert</string>
   <string name="TouOptionNoisemakerCommsPreventsAlert">Comms Sabotage Prevents Alert</string>
   <string name="TouOptionNoisemakerOnlyWithBody">Only Triggers If a Body Exists</string>
-  <string name="TouOptionNoisemakerAlertDuration">Alert Duration</string>
   <!-- Operative -->
   <!-- Operative Wiki / Description -->
   <string name="TouModifierOperative">Operative</string>
@@ -2758,10 +2753,8 @@ Kills: [amount] / [total]</string>
   <string name="TouModifierOperativeWikiDescription">Use cameras at anytime with a limited battery charge.</string>
   <!-- Operative Options -->
   <string name="TouOptionOperativeMiraDoorlog">Move While Using Mira Doorlog</string>
-  <string name="TouOptionOperativeStartingCharge">Starting Charge</string>
   <string name="TouOptionOperativeChargedEachRound">Battery Charged Each Round</string>
   <string name="TouOptionOperativeChargedPerTask">Battery Charged Per Task</string>
-  <string name="TouOptionOperativeDisplayCooldown">Security Display Cooldown</string>
   <string name="TouOptionOperativeMaxDisplayDuration">Max Security Display Duration</string>
   <!-- Rotting -->
   <!-- Rotting Wiki / Description -->
@@ -2779,10 +2772,8 @@ Kills: [amount] / [total]</string>
   <string name="TouModifierScientistWikiDescription">Access Vitals at anytime with a limited battery charge.</string>
   <!-- Scientist Options -->
   <string name="TouOptionScientistMoveVitals">Move While Using Vitals</string>
-  <string name="TouOptionScientistStartingCharge">Starting Charge</string>
   <string name="TouOptionScientistChargedEachRound">Battery Charged Each Round</string>
   <string name="TouOptionScientistChargedPerTask">Battery Charged Per Task</string>
-  <string name="TouOptionScientistDisplayCooldown">Vitals Display Cooldown</string>
   <string name="TouOptionScientistMaxDisplayDuration">Max Vitals Display Duration</string>
   <!-- Scout -->
   <!-- Scout Wiki / Description -->
@@ -2870,8 +2861,6 @@ when the lights are sabotaged.</string>
 
     <!-- Game Mechanics -->
         <string name="TouOptionTitleGameMechanics">Game Mechanics</string>
-
-        <string name="TouOptionHideNamesOutOfSight">Hide Names Out Of Sight</string>
 
         <string name="TouOptionCrewKillersContinue">Powerful Crew Continue The Game</string>
         <string name="TouOptionAnonymousShields">All Shields Flash Grey on Trigger</string>
@@ -3159,20 +3148,14 @@ when the lights are sabotaged.</string>
         <string name="TouOptionScientistTaskCharge">Battery Charged Per Task</string>
         <string name="TouOptionScientistDisplayCooldown">Vitals Display Cooldown</string>
         <string name="TouOptionScientistDisplayDuration">Max Vitals Display Duration</string>
-    <!-- HnS Crewmate Modifier Options -->
-      <!-- HnS Frosty Options -->
-        <string name="HnsOptionFrostyChillDuration">Chill Duration</string>
-        <string name="HnsOptionFrostyChillStartSpeed">Chill Start Speed</string>
 
     <!-- Impostor Modifier Options -->
       <!-- Circumvent Options -->
-        <string name="TouModifierCircumvent">Circumvent</string>
 
         <string name="TouOptionCircumventMinimumVents">Minimum Vents Allowed</string>
         <string name="TouOptionCircumventMaximumVents">Maximum Vents Allowed</string>
 
       <!-- Deadly Quota Options -->
-        <string name="TouModifierDeadlyQuota">Deadly Quota</string>
 
         <string name="TouOptionDeadlyQuotaMinimumKillQuota">Minimum Kill Quota</string>
         <string name="TouOptionDeadlyQuotaMaximumKillQuota">Maximum Kill Quota</string>
@@ -3185,30 +3168,14 @@ when the lights are sabotaged.</string>
 
       <!-- Telepath Options -->
         <string name="TouOptionTelepathKnowKillLocation">Know Where Teammate Kills</string>
-        <string name="TouOptionTelepathKnowDeath">Know When Teammate Dies</string>
         <string name="TouOptionTelepathKnowDeathLocation">Know Where Teammate Dies</string>
-        <string name="TouOptionTelepathArrowDuration">Dead Body Arrow Duration</string>
         <string name="TouOptionTelepathKnowCorrectGuess">Know When Teammate Guesses Successfully</string>
         <string name="TouOptionTelepathKnowFailedGuess">Know When Teammate Fails To Guess</string>
 
       <!-- Underdog Options -->
         <string name="TouOptionUnderdogKillCooldownBonus">Kill Cooldown Bonus</string>
         <string name="TouOptionUnderdogExtraImpsKillCooldown">Increased Kill Cooldown When 2+ Imps</string>
-    <!-- Universal Modifier Options -->
-      <!-- Button Barry Options -->
-        <string name="TouOptionButtonBarryButtonCooldown">Button Cooldown</string>
-        <string name="TouOptionButtonBarryMaxUses">Max Uses</string>
-        <string name="TouOptionButtonBarryIgnoreSabotage">Ignore Sabotages</string>
-        <string name="TouOptionButtonBarryAllowFirstRound">Allow Usage in First Round</string>
-
-      <!-- Flash Options -->
-        <string name="TouOptionFlashSpeed">Flash Speed</string>
-
-      <!-- Giant Options -->
-        <string name="TouOptionGiantSpeed">Giant Speed</string>
-
-      <!-- Mini Options -->
-        <string name="TouOptionMiniSpeed">Mini Speed</string>      
+    <!-- Universal Modifier Options --> 
 
       <!-- Satellite Options -->
         <string name="TouOptionSatelliteButtonCooldown">Button Cooldown</string>
@@ -3413,7 +3380,6 @@ when the lights are sabotaged.</string>
     <string name="TouModifierMagicMirrorDescription">You are protected by the Mirrorcaster!\nYou may not die to other players</string>
 
   <!-- Medic Shield -->
-    <string name="TouMedicShield">Medic</string>
     <string name="TouMedicShieldDescription">You are shielded by a Medic!\nYou may not die to other players</string>
 
   <!-- Herbalist Protection (should be the same as Cleric) -->
