@@ -695,7 +695,7 @@ public static class MiscUtils
 
     public static IEnumerable<RoleBehaviour> GetRegisteredRoles(RoleAlignment alignment)
     {
-        var roles = AllRoles.Where(x => x.GetRoleAlignment() == alignment);
+        var roles = AllInGameRoles.Where(x => x.GetRoleAlignment() == alignment);
 
         var registeredRoles = roles.ToList();
 
