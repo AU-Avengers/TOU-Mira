@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole, DeadBody>, IAftermathableBodyButton, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleUndertakerDrag", "Drag");
+    public override string Name => MiraLocaleManager.Get("TouRoleUndertakerDrag", "Drag");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
 
@@ -126,13 +126,13 @@ public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole
     public void SetDrag()
     {
         OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.DragSprite.LoadAsset() : TouImpAssets.DragSprite.LoadAsset());
-        OverrideName(TouLocale.Get("TouRoleUndertakerDrag", "Drag"));
+        OverrideName(MiraLocaleManager.Get("TouRoleUndertakerDrag", "Drag"));
     }
 
     public void SetDrop()
     {
         OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.DropSprite.LoadAsset() : TouImpAssets.DropSprite.LoadAsset());
-        OverrideName(TouLocale.Get("TouRoleUndertakerDrop", "Drop"));
+        OverrideName(MiraLocaleManager.Get("TouRoleUndertakerDrop", "Drop"));
     }
 
     public override bool IsTargetValid(DeadBody? target)

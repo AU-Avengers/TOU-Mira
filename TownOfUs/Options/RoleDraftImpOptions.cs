@@ -21,29 +21,33 @@ public sealed class RoleDraftImpOptions : AbstractOptionGroup
             "TouMira.Gamemode.DraftMode",
             1.45f));
 
-    public override string GroupName => "Impostor Settings";
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleRoleDraftImp");
     public override uint GroupPriority => 3;
 
     public ModdedNumberOption MaxImpostors { get; set; } =
-        new("Max Impostors Total", 2f, 1f, 5f, 1f, MiraNumberSuffixes.None, "0");
+        new("TouOptionRoleDraftImpMaxImpostors", 2f, 1f, 5f, 1f, MiraNumberSuffixes.None, "0");
 
-    public ModdedNumberOption MaxImpConcealing { get; set; } = new("Max Concealing Roles", 2f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => HasImps
-    };
+    public ModdedNumberOption MaxImpConcealing { get; set; } =
+        new("TouOptionRoleDraftImpMaxConcealing", 2f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => HasImps
+        };
 
-    public ModdedNumberOption MaxImpKilling { get; set; } = new("Max Killing Roles", 2f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => HasImps
-    };
+    public ModdedNumberOption MaxImpKilling { get; set; } =
+        new("TouOptionRoleDraftImpMaxKilling", 2f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => HasImps
+        };
 
-    public ModdedNumberOption MaxImpPower { get; set; } = new("Max Power Roles", 2f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => HasImps
-    };
+    public ModdedNumberOption MaxImpPower { get; set; } =
+        new("TouOptionRoleDraftImpMaxPower", 2f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => HasImps
+        };
 
-    public ModdedNumberOption MaxImpSupport { get; set; } = new("Max Support Roles", 2f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => HasImps
-    };
+    public ModdedNumberOption MaxImpSupport { get; set; } =
+        new("TouOptionRoleDraftImpMaxSupport", 2f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => HasImps
+        };
 }

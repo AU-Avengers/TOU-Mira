@@ -12,8 +12,8 @@ public sealed class MiniModifier : UniversalGameModifier, IWikiDiscoverable, IVi
         TownOfUsColors.Mini,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Mini.LoadAsset(),
             "TouMira.Modifier.Universal.Mini", 1.45f));
-    public override string LocaleKey => "Mini";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IdPart => "Mini";
+    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Mini;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalVisibility;
@@ -29,13 +29,13 @@ public sealed class MiniModifier : UniversalGameModifier, IWikiDiscoverable, IVi
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription").Replace("<miniSpeed>",
+        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription").Replace("<miniSpeed>",
             $"{Math.Round(OptionGroupSingleton<MiniOptions>.Instance.MiniSpeed, 2)}");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription").Replace("<miniSpeed>",
+        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription").Replace("<miniSpeed>",
             $"{Math.Round(OptionGroupSingleton<MiniOptions>.Instance.MiniSpeed, 2)}");
     }
 

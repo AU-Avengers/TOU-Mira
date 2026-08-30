@@ -1,6 +1,7 @@
 using MiraAPI.GameEnd;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using TownOfUs.GameOver;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game.Alliance;
@@ -59,6 +60,7 @@ public sealed class NeutralRoleWinCondition : IWinCondition
 
             if (loverWinners.Length >= 2)
             {
+                Error($"Game ended from Lovers win caused by a Neutral Evil!");
                 CustomGameOver.Trigger<LoverGameOver>(loverWinners);
                 return;
             }
@@ -66,7 +68,7 @@ public sealed class NeutralRoleWinCondition : IWinCondition
 
         if (winner.Player != null)
         {
-            Warning($"Neutral to win: {winner.Player.Data.PlayerName}");
+            Error($"Game ended from {winner.GetRoleName()} win! ({winner.Player.Data.PlayerName})");
             CustomGameOver.Trigger<NeutralGameOver>([winner.Player.Data]);
         }
     }

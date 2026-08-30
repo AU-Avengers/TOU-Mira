@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class PlumberBlockButton : TownOfUsVentRoleButton<PlumberRole>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRolePlumberBlock", "Block");
+    public override string Name => MiraLocaleManager.Get("TouRolePlumberBlock", "Block");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Plumber;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<PlumberOptions>.Instance.BlockCooldown + MapCooldown, 5f, 120f);
@@ -31,7 +31,7 @@ public sealed class PlumberBlockButton : TownOfUsVentRoleButton<PlumberRole>, IL
         }
 
         var notif1 = Helpers.CreateAndShowNotification(
-            TouLocale.Get("TouRolePlumberBlockNotif"),
+            MiraLocaleManager.Get("TouRolePlumberBlockNotif"),
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Plumber.LoadAsset());
         notif1.AdjustNotification();
 

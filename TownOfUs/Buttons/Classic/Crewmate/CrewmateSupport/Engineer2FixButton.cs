@@ -8,7 +8,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class EngineerFixButton : TownOfUsRoleButton<EngineerTouRole>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleEngineerFix", "Fix");
+    public override string Name => MiraLocaleManager.Get("TouRoleEngineerFix", "Fix");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Engineer;
     public override float Cooldown => Math.Clamp(MapCooldown, 0.01f, 120f);
@@ -52,7 +52,7 @@ public sealed class EngineerFixButton : TownOfUsRoleButton<EngineerTouRole>, ILe
 
     protected override void OnClick()
     {
-        OverrideName(TouLocale.Get("TouRoleEngineerFixing", "Fixing"));
+        OverrideName(MiraLocaleManager.Get("TouRoleEngineerFixing", "Fixing"));
         var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
 
         if (system is not { AnyActive: true })
@@ -63,7 +63,7 @@ public sealed class EngineerFixButton : TownOfUsRoleButton<EngineerTouRole>, ILe
 
     public override void OnEffectEnd()
     {
-        OverrideName(TouLocale.Get("TouRoleEngineerFix", "Fix"));
+        OverrideName(MiraLocaleManager.Get("TouRoleEngineerFix", "Fix"));
         var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
 
         if (system is { AnyActive: true })

@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterRole>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleTransporterTransport", "Transport");
+    public override string Name => MiraLocaleManager.Get("TouRoleTransporterTransport", "Transport");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Transporter;
 

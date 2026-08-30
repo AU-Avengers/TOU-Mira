@@ -31,7 +31,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
 
     public void AssignTargets()
     {
-        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment || !PlayerControl.LocalPlayer.IsHost())
+        if (!RoleOptions.IsClassicRoleAssignment || !PlayerControl.LocalPlayer.IsHost())
         {
             return;
         }

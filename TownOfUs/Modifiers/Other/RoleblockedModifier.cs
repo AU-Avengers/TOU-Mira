@@ -8,7 +8,7 @@ namespace TownOfUs.Modifiers.Other;
 
 public sealed class RoleblockedModifier(PlayerControl roleblocker, bool invertControls, bool hangover, float blockDuration, float hangoverDuration) : DisabledModifier
 {
-    public override string ModifierName => "Roleblocked";
+    public override string ModifierName => MiraLocaleManager.Get("TouModifierRoleblocked");
     public override bool HideOnUi => false;
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Barkeeper;
     public override bool Unique => false;
@@ -25,8 +25,9 @@ public sealed class RoleblockedModifier(PlayerControl roleblocker, bool invertCo
 
     public override string GetDescription()
     {
-        return $"Someone gave you a drink, you are roleblocked!";
+        return MiraLocaleManager.Get("TouModifierRoleblockedDescription");
     }
+
     public override void OnDeactivate()
     {
         if (!Player.HasDied())
@@ -34,12 +35,13 @@ public sealed class RoleblockedModifier(PlayerControl roleblocker, bool invertCo
             if (Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>You are no longer roleblocked.</color></b>", Color.white,
+                    $"<b>{MiraLocaleManager.Get("TouModifierRoleblockedEndNotification")}</b>", Color.white,
                     spr: TouRoleIcons.Barkeeper.LoadAsset());
 
                 notif1.Text.SetOutlineThickness(0.35f);
                 notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
             }
+
             if (Hangover)
             {
                 var autoStart = MeetingHud.Instance == null && ExileController.Instance == null;

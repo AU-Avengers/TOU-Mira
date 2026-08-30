@@ -25,15 +25,15 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text =
-            $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
+            $"{TownOfUsColors.Neutral.ToTextColor()}{MiraLocaleManager.Get("NeutralKillingTaskHeader")}</color>";
         orCreateTask.name = "NeutralRoleText";
     }
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ClericRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string LocaleKey => "Arsonist";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string IdPart => "Arsonist";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
     public static void SetDouseUses()
     {
         var button = CustomButtonSingleton<ArsonistDouseButton>.Instance;
@@ -46,16 +46,16 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     }
 
     public string RoleLongDescription => OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
-        ? TouLocale.GetParsed($"TouRole{LocaleKey}TabDescriptionLegacy")
-        : TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+        ? MiraLocaleManager.Get($"TouRole{IdPart}TabDescriptionLegacy")
+        : MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
-            TouLocale.GetParsed(OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
-                ? $"TouRole{LocaleKey}WikiAdditionLegacy"
-                : $"TouRole{LocaleKey}WikiAddition") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get(OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
+                ? $"TouRole{IdPart}WikiAdditionLegacy"
+                : $"TouRole{IdPart}WikiAddition") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -66,13 +66,13 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Douse", "Douse"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}DouseWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Douse", "Douse"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}DouseWikiDescription"),
                     TouNeutAssets.DouseButtonSprite),
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Ignite", "Ignite"),
-                    TouLocale.GetParsed(OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
-                        ? $"TouRole{LocaleKey}IgniteWikiDescriptionLegacy"
-                        : $"TouRole{LocaleKey}IgniteWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Ignite", "Ignite"),
+                    MiraLocaleManager.Get(OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
+                        ? $"TouRole{IdPart}IgniteWikiDescriptionLegacy"
+                        : $"TouRole{IdPart}IgniteWikiDescription"),
                     TouNeutAssets.IgniteButtonSprite)
             ];
         }
@@ -105,7 +105,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
 
         if (allDoused.HasAny())
         {
-            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleArsonistTabDousedInfo")}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TouRoleArsonistTabDousedInfo")}</b>");
             foreach (var plr in allDoused)
             {
                 stringB.Append(TownOfUsPlugin.Culture,

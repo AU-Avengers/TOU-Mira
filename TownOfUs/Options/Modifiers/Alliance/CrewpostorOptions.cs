@@ -1,5 +1,4 @@
-﻿using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.OptionTypes;
+﻿using MiraAPI.GameOptions.OptionTypes;
 using TownOfUs.Modifiers.Game.Alliance;
 using UnityEngine;
 
@@ -7,16 +6,20 @@ namespace TownOfUs.Options.Modifiers.Alliance;
 
 public sealed class CrewpostorOptions : AbstractTouModifierOptionGroup<CrewpostorModifier>
 {
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
-    public override string GroupName => TouLocale.Get("TouModifierCrewpostor", "Crewpostor");
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
+    public override string GroupName => MiraLocaleManager.Get("TouModifierCrewpostor", "Crewpostor");
     public override uint GroupPriority => 10;
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
 
-    public ModdedToggleOption CrewpostorReplacesImpostor { get; set; } = new("Crewpostor Replaces A Real Impostor", true);
+    public ModdedToggleOption CrewpostorReplacesImpostor { get; set; } =
+        new("TouOptionCrewpostorReplacesImpostor", true);
 
-    public ModdedToggleOption CanAlwaysSabotage { get; set; } = new("Crewpostor Can Always Sabotage", false);
+    public ModdedToggleOption CanAlwaysSabotage { get; set; } =
+        new("TouOptionCrewpostorCanAlwaysSabotage", false);
 
-    public ModdedToggleOption CrewpostorVision { get; set; } = new("Crewpostor Gets Impostor Vision", true);
+    public ModdedToggleOption CrewpostorVision { get; set; } =
+        new("TouOptionCrewpostorVision", true);
 
-    public ModdedToggleOption ShowsAsImpostor { get; set; } = new("Crewpostor Appears Like A Traitor", false);
+    public ModdedToggleOption ShowsAsImpostor { get; set; } =
+        new("TouOptionCrewpostorShowsAsImpostor", false);
 }

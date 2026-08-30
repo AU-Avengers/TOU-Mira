@@ -94,6 +94,8 @@ public static class TouRoleUtils
             RoleTypes.Noisemaker => TouRoleIcons.Noisemaker.LoadAsset(),
             RoleTypes.Phantom => TouRoleIcons.Phantom.LoadAsset(),
             RoleTypes.Shapeshifter => TouRoleIcons.Shapeshifter.LoadAsset(),
+            RoleTypes.Engineer => TouRoleIcons.Engineer.LoadAsset(),
+            RoleTypes.Judge => TouRoleIcons.Prosecutor.LoadAsset(),
             RoleTypes.Viper => TouRoleIcons.Viper.LoadAsset(),
             _ => null
         };
@@ -125,11 +127,11 @@ public static class TouRoleUtils
         return !(AreTeammates(PlayerControl.LocalPlayer, player) && canBetray && !player.IsLover());
     }
 
-    public static string GetRoleLocaleKey(this RoleBehaviour role)
+    public static string GetRoleIdPart(this RoleBehaviour role)
     {
-        if (role is ITownOfUsRole touRole && touRole.LocaleKey != "KEY_MISS")
+        if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
         {
-            return touRole.LocaleKey;
+            return touRole.IdPart;
         }
 
         if (!role.IsCustomRole())
@@ -158,7 +160,7 @@ public static class TouRoleUtils
         stringB.AppendLine(TownOfUsPlugin.Culture,
             $"{role.RoleColor.ToTextColor()}{youAre}<b> {role.RoleName}.‎ ‎ ‎ </b></color>");
         stringB.AppendLine(TownOfUsPlugin.Culture,
-            $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(alignment, true)}</b></size>");
+            $"<size=60%>{MiraLocaleManager.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(alignment, true)}</b></size>");
         stringB.Append("<size=70%>");
         stringB.AppendLine(TownOfUsPlugin.Culture, $"{role.RoleLongDescription}");
 
@@ -179,7 +181,7 @@ public static class TouRoleUtils
         stringB.AppendLine(TownOfUsPlugin.Culture,
             $"{role.RoleColor.ToTextColor()}{youAre}<b> {role.RoleName}.‎ ‎ ‎ </b></color>");
         stringB.AppendLine(TownOfUsPlugin.Culture,
-            $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(alignment, true)}</b></size>");
+            $"<size=60%>{MiraLocaleManager.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(alignment, true)}</b></size>");
         stringB.Append("<size=70%>");
         stringB.AppendLine(TownOfUsPlugin.Culture, $"{role.RoleLongDescription}");
 

@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<MirrorcasterRole>, IAftermathableButton
 {
-    public override string Name => TouLocale.GetParsed("TouRoleMirrorcasterMagicMirror", "Magic Mirror");
+    public override string Name => MiraLocaleManager.Get("TouRoleMirrorcasterMagicMirror", "Magic Mirror");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Mirrorcaster;
 
@@ -53,7 +53,7 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
         MirrorcasterRole.RpcMagicMirror(PlayerControl.LocalPlayer, player);
         EffectActive = true;
         Timer = EffectDuration;
-        OverrideName(TouLocale.Get("TouRoleMirrorcasterMagicMirrorProtecting", "Protecting"));
+        OverrideName(MiraLocaleManager.Get("TouRoleMirrorcasterMagicMirrorProtecting", "Protecting"));
         TargetWasValid = true;
     }
 
@@ -84,7 +84,7 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
 
                     EffectActive = true;
                     Timer = EffectDuration;
-                    OverrideName(TouLocale.Get("TouRoleMirrorcasterMagicMirrorProtecting", "Protecting"));
+                    OverrideName(MiraLocaleManager.Get("TouRoleMirrorcasterMagicMirrorProtecting", "Protecting"));
                     TargetWasValid = !plr.HasDied();
                 }
                 else
@@ -112,7 +112,7 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
         }
         else
         {
-            text = TouLocale.GetParsed("TouRoleMirrorcasterAlreadyDiedNotif");
+            text = MiraLocaleManager.Get("TouRoleMirrorcasterAlreadyDiedNotif");
         }
 
         // Incase the player changed roles
@@ -120,11 +120,11 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
         {
             if (Role.Protected != null && Role.Protected.HasDied())
             {
-                text = TouLocale.GetParsed("TouRoleMirrorcasterTargetDiedNotif");
+                text = MiraLocaleManager.Get("TouRoleMirrorcasterTargetDiedNotif");
             }
             else if (Role.Protected != null && !Role.Protected.HasDied())
             {
-                text = TouLocale.GetParsed("TouRoleMirrorcasterTargetDidNotDieNotif");
+                text = MiraLocaleManager.Get("TouRoleMirrorcasterTargetDidNotDieNotif");
             }
 
             if (text.Contains("<player>") && Role.Protected != null)
@@ -142,6 +142,6 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
         }
 
         TargetWasValid = false;
-        OverrideName(TouLocale.Get("TouRoleMirrorcasterMagicMirror", "Magic Mirror"));
+        OverrideName(MiraLocaleManager.Get("TouRoleMirrorcasterMagicMirror", "Magic Mirror"));
     }
 }

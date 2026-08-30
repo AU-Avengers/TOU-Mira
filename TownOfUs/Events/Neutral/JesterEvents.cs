@@ -40,10 +40,10 @@ public static class JesterEvents
             }
 
             jester.SentWinMsg = true;
-            var jestRoleName = TouLocale.Get("TouRoleJester");
+            var jestRoleName = MiraLocaleManager.Get("TouRoleJester");
             if (jester.Player.AmOwner)
             {
-                var text = TouLocale.GetParsed("TouNotifJesterWinOwner");
+                var text = MiraLocaleManager.Get("TouNotifJesterWinOwner");
                 if (text.Contains(jestRoleName))
                 {
                     text = text.Replace(jestRoleName, $"{TownOfUsColors.Jester.ToTextColor()}{jestRoleName}</color>");
@@ -58,7 +58,7 @@ public static class JesterEvents
                     CustomButtonSingleton<JesterHauntButton>.Instance.SetActive(true, jester);
                     GameHistory.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", HudManagerHelper.Instance.CurrentRound,
                         DeathHandlerOverride.SetTrue, lockInfo: DeathHandlerOverride.SetTrue);
-                    var notif2 = Helpers.CreateAndShowNotification(TouLocale.GetParsed("TouNotifJesterHauntOwner"),
+                    var notif2 = Helpers.CreateAndShowNotification(MiraLocaleManager.Get("TouNotifJesterHauntOwner"),
                         Color.white, new Vector3(0f, 0.85f, -20f));
                     notif2.AdjustNotification();
                 }
@@ -70,7 +70,7 @@ public static class JesterEvents
             }
             else if (OptionGroupSingleton<JesterOptions>.Instance.JestAnnounceWin)
             {
-                var text = TouLocale.GetParsed("TouNotifJesterWinGlobal");
+                var text = MiraLocaleManager.Get("TouNotifJesterWinGlobal");
                 if (text.Contains(jestRoleName))
                 {
                     text = text.Replace(jestRoleName, $"{TownOfUsColors.Jester.ToTextColor()}{jestRoleName}</color>");

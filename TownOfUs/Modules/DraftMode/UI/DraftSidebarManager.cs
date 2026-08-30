@@ -25,7 +25,6 @@ namespace TownOfUs.Modules.DraftMode
         {
             _active = true;
             InvalidateCache();
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftSidebar] Activated.");
         }
 
         public static void Deactivate()
@@ -49,7 +48,6 @@ namespace TownOfUs.Modules.DraftMode
 
             HudManagerPatches.IsHoveringRoleList = false;
 
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftSidebar] Deactivated.");
         }
         public static void ClearBannerRef()
         {
@@ -84,7 +82,7 @@ namespace TownOfUs.Modules.DraftMode
                 _cachedDraftActive   = draftActive;
                 _cachedPickedCount   = -1;
                 _cachedDisconnectedCount = -1;
-                _cachedStaticContent = $"\n\n<color=#7A8089><i>{TouLocale.GetParsed("TouDraftWaitingToStart", "Waiting to start...")}</i></color>";
+                _cachedStaticContent = $"\n\n<color=#7A8089><i>{MiraLocaleManager.Get("TouDraftWaitingToStart", "Waiting to start...")}</i></color>";
                 return _cachedStaticContent;
             }
 
@@ -112,7 +110,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             var sb = new System.Text.StringBuilder();
             sb.AppendLine();
-            sb.Append(System.Globalization.CultureInfo.InvariantCulture, $"<size=64%><color=#6B7178>{picked} / {total}  {TouLocale.GetParsed("TouDraftRolesPickedLabel", "ROLES PICKED")}</color></size>\n");
+            sb.Append(System.Globalization.CultureInfo.InvariantCulture, $"<size=64%><color=#6B7178>{picked} / {total}  {MiraLocaleManager.Get("TouDraftRolesPickedLabel", "ROLES PICKED")}</color></size>\n");
             sb.AppendLine();
 
             foreach (int slot in DraftManager.TurnOrder)
@@ -130,9 +128,9 @@ namespace TownOfUs.Modules.DraftMode
         {
             float t = Time.time;
             var sb = new StringBuilder();
-            var draftWord = TouLocale.GetParsed("TouDraftShimmerDraft", "DRAFT").ToUpperInvariant();
+            var draftWord = MiraLocaleManager.Get("TouDraftShimmerDraft", "DRAFT").ToUpperInvariant();
             TmpSpriteUtils.CreateSpriteAsset(TouAssets.IconDraftMode.LoadAsset(),"TouMira.Gamemode.DraftMode",1.45f);
-            var modeWord = TouLocale.GetParsed("TouDraftShimmerMode", "MODE").ToUpperInvariant();
+            var modeWord = MiraLocaleManager.Get("TouDraftShimmerMode", "MODE").ToUpperInvariant();
             sb.Append("<size=105%><b>");
             sb.Append(Shimmer(draftWord, new Color(1f, 0.31f, 0.31f), t, 0));
             sb.Append(' ');
@@ -158,18 +156,18 @@ namespace TownOfUs.Modules.DraftMode
 
         private static string BuildRow(int slot, DraftSlotState state, bool isMe)
         {
-            string playerNumLabel = TouLocale.GetParsed("TouDraftPlayerNumberLabel", "Player #<num>").Replace("<num>", slot.ToString("D2", System.Globalization.CultureInfo.InvariantCulture));
-            string you    = isMe ? $"  <color=#8BD5F9><b>({TouLocale.GetParsed("TouDraftYouLabel", "YOU")})</b></color>" : string.Empty;
+            string playerNumLabel = MiraLocaleManager.Get("TouDraftPlayerNumberLabel", "Player #<num>").Replace("<num>", slot.ToString("D2", System.Globalization.CultureInfo.InvariantCulture));
+            string you    = isMe ? $"  <color=#8BD5F9><b>({MiraLocaleManager.Get("TouDraftYouLabel", "YOU")})</b></color>" : string.Empty;
             string numCol = isMe ? "#8BD5F9" : "#ffee00";
 
             if (DraftManager.IsPlayerDisconnected(state.PlayerId))
             {
-                return $"<color={numCol}><b>{playerNumLabel}</b></color> <color=#FF5050>{TouLocale.GetParsed("TouDraftDisconnectedLabel", "DISCONNECTED")}</color>{you}";
+                return $"<color={numCol}><b>{playerNumLabel}</b></color> <color=#FF5050>{MiraLocaleManager.Get("TouDraftDisconnectedLabel", "DISCONNECTED")}</color>{you}";
             }
 
             if (state.IsPickingNow && !state.HasPicked)
             {
-                return $"<color={numCol}><b>{playerNumLabel}</b></color> <b><color=#FFFFFF> {TouLocale.GetParsed("TouDraftIsPickingLabel", "is picking...")}</color></b>{you}";
+                return $"<color={numCol}><b>{playerNumLabel}</b></color> <b><color=#FFFFFF> {MiraLocaleManager.Get("TouDraftIsPickingLabel", "is picking...")}</color></b>{you}";
             }
 
             string statusCol, statusTxt;
@@ -179,10 +177,10 @@ namespace TownOfUs.Modules.DraftMode
             }
             else
             {
-                return $"<color={numCol}><b>{playerNumLabel}</b></color> <color=#ffffff>{TouLocale.GetParsed("TouDraftIsWaitingLabel", "is waiting")}</color>";
+                return $"<color={numCol}><b>{playerNumLabel}</b></color> <color=#ffffff>{MiraLocaleManager.Get("TouDraftIsWaitingLabel", "is waiting")}</color>";
             }
 
-            string row = $"<color={numCol}><b>{playerNumLabel}</b></color> {TouLocale.GetParsed("TouDraftPickedLabel", "picked")} <b><color={statusCol}>{statusTxt}</color></b>{you}";
+            string row = $"<color={numCol}><b>{playerNumLabel}</b></color> {MiraLocaleManager.Get("TouDraftPickedLabel", "picked")} <b><color={statusCol}>{statusTxt}</color></b>{you}";
             if (isMe)
                 return $"<mark=#8BD5F910>{row}</mark>";
             return row;
@@ -190,15 +188,18 @@ namespace TownOfUs.Modules.DraftMode
 
         private static (string text, string colorHex) GetStatusLabelForRole(ushort roleId)
         {
-            RoleBehaviour role = roleId != 0
-                ? MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)roleId)!
-                : null!;
+            if (roleId == 0)
+            {
+                return (MiraLocaleManager.Get("TouDraftARoleLabel", "a role"), "#f7f7f7");
+            }
+
+            var role = MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)roleId);
 
             if (role == null)
             {
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
                     $"[DraftSidebar] Could not resolve role for id {roleId}; falling back.");
-                return (TouLocale.GetParsed("TouDraftUnknownRoleStatus", "UNKNOWN"), "#f7f7f7");
+                return (MiraLocaleManager.Get("TouDraftUnknownRoleStatus", "UNKNOWN"), "#f7f7f7");
             }
 
             var faction = DraftUiManager.GetTeamLabel(role);
@@ -210,7 +211,7 @@ namespace TownOfUs.Modules.DraftMode
                 DraftRecapMode.Alignment => $"{MiscUtils.GetParsedRoleAlignment(role).ToUpperInvariant()} <sprite name=\"AmongUs.Role.{actualFaction}\">",
                 DraftRecapMode.Role      => $"{role.GetRoleName().ToUpperInvariant()} {MiscUtils.GetRoleTmpIcon(role)}",
                 DraftRecapMode.Faction   => $"{faction.ToUpperInvariant()} <sprite name=\"AmongUs.Role.{actualFaction}\">",
-                _   => TouLocale.GetParsed("TouDraftARoleLabel", "a role"),
+                _   => MiraLocaleManager.Get("TouDraftARoleLabel", "a role"),
             };
             if(displayMode == DraftRecapMode.Nothing)
             {

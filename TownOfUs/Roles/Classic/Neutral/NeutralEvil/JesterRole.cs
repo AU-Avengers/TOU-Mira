@@ -22,8 +22,8 @@ public sealed class JesterRole(IntPtr cppPtr)
     public void AnnounceKill(PlayerControl source, PlayerControl victim)
     {
         var text = !OptionGroupSingleton<JesterOptions>.Instance.JestAnnounceWin.Value
-            ? TouLocale.GetParsed("TouRoleAnonymousVictoryKillNotif").Replace("<source>", source.Data.PlayerName)
-            : TouLocale.GetParsed("TouRoleJesterHauntNotif");
+            ? MiraLocaleManager.Get("TouRoleAnonymousVictoryKillNotif").Replace("<source>", source.Data.PlayerName)
+            : MiraLocaleManager.Get("TouRoleJesterHauntNotif");
         var notif = Helpers.CreateAndShowNotification(
             $"<b>{text.Replace("<victim>", victim.Data.PlayerName)}</b>",
             Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Jester.LoadAsset());
@@ -42,7 +42,7 @@ public sealed class JesterRole(IntPtr cppPtr)
             return;
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralEvilTaskHeader")}</color>";
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{MiraLocaleManager.Get("NeutralEvilTaskHeader")}</color>";
         orCreateTask.name = "NeutralRoleText";
     }
 
@@ -64,15 +64,15 @@ public sealed class JesterRole(IntPtr cppPtr)
             OptionGroupSingleton<ExecutionerOptions>.Instance.OnTargetDeath is BecomeOptions.Jester);
 
     public DoomableType DoomHintType => DoomableType.Trickster;
-    public string LocaleKey => "Jester";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Jester";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 

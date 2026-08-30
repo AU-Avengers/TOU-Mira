@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class EclipsalBlindButton : TownOfUsRoleButton<EclipsalRole>, IAftermathableButton, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleEclipsalBlind", "Blind");
+    public override string Name => MiraLocaleManager.Get("TouRoleEclipsalBlind", "Blind");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<EclipsalOptions>.Instance.BlindCooldown + MapCooldown, 5f, 120f);
@@ -26,7 +26,7 @@ public sealed class EclipsalBlindButton : TownOfUsRoleButton<EclipsalRole>, IAft
 
     protected override void OnClick()
     {
-        OverrideName(TouLocale.Get("TouRoleEclipsalUnblinding", "Unblinding"));
+        OverrideName(MiraLocaleManager.Get("TouRoleEclipsalUnblinding", "Unblinding"));
         var blindRadius = OptionGroupSingleton<EclipsalOptions>.Instance.BlindRadius;
         var blindedPlayers =
             Helpers.GetClosestPlayers(PlayerControl.LocalPlayer, blindRadius * ShipStatus.Instance.MaxLightRadius);
@@ -40,6 +40,6 @@ public sealed class EclipsalBlindButton : TownOfUsRoleButton<EclipsalRole>, IAft
 
     public override void OnEffectEnd()
     {
-        OverrideName(TouLocale.Get("TouRoleEclipsalBlind", "Blind"));
+        OverrideName(MiraLocaleManager.Get("TouRoleEclipsalBlind", "Blind"));
     }
 }

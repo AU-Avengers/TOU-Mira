@@ -39,7 +39,6 @@ namespace TownOfUs.Modules.DraftMode
                 }
                 catch (Exception e)
                 {
-                    MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"DraftRolePool.ResolveDelegate threw: {e}");
                     result = new List<string>();
                 }
             }
@@ -66,13 +65,18 @@ namespace TownOfUs.Modules.DraftMode
             return new List<string>(result);
         }
 
+        public static string BaseRoleName(string name)
+        {
+            if (string.IsNullOrEmpty(name)) return string.Empty;
+            int pipeIdx = name.IndexOf('|');
+            return pipeIdx >= 0 ? name.Substring(0, pipeIdx) : name;
+        }
+
         public static ushort ResolveRoleIdFromName(string roleName)
         {
             if (string.IsNullOrWhiteSpace(roleName)) return 0;
 
-            var baseName = roleName;
-            int pipeIdx = baseName.IndexOf('|');
-            if (pipeIdx >= 0) baseName = baseName.Substring(0, pipeIdx);
+            var baseName = BaseRoleName(roleName);
 
             if (RoleNameToIdCache.TryGetValue(baseName, out var cachedId) && cachedId != 0)
                 return cachedId;
@@ -309,8 +313,7 @@ public static bool IsImpostorRoleId(ushort id)
         private static RoleBehaviour FindRoleByName(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) return null!;
-            int pipeIdx = name.IndexOf('|');
-            if (pipeIdx >= 0) name = name.Substring(0, pipeIdx);
+            name = BaseRoleName(name);
 
             if (ushort.TryParse(name, out var id))
             {

@@ -10,11 +10,11 @@ namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShieldModifier
 {
-    public override string ModifierName => $"Magic Mirror";
+    public override string ModifierName => MiraLocaleManager.Get("TouModifierMagicMirror");
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Mirrorcaster;
 
     public override string ShieldDescription =>
-        $"You are protected by the Mirrorcaster!\nYou may not die to other players";
+        MiraLocaleManager.Get("TouModifierMagicMirrorDescription");
 
     public PlayerControl Mirrorcaster { get; } = mirrorcaster;
     public GameObject MedicShield { get; set; }

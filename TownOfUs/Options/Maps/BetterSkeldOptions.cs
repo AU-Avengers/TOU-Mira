@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Maps;
 public sealed class BetterSkeldOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
-    public override string GroupName => TouLocale.Get("TouOptionTitleBetterSkeld");
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleBetterSkeld");
     public override uint GroupPriority => 3;
     public override Color GroupColor => new Color32(188, 206, 200, 255);
     public override OptionNotifConfiguration Configuration => new(

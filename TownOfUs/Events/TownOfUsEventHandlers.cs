@@ -127,7 +127,7 @@ public static class TownOfUsEventHandlers
         else if (uniModifier != null && option is ModReveal.Universal)
         {
             ModifierText.text =
-                $"<size={uniModifier.IntroSize}><color=#FFFFFF>{TouLocale.Get("Modifier")}: </color>{uniModifier.ModifierName}</size>";
+                $"<size={uniModifier.IntroSize}><color=#FFFFFF>{MiraLocaleManager.Get("Modifier")}: </color>{uniModifier.ModifierName}</size>";
 
             ModifierText.color = MiscUtils.GetModifierColour(uniModifier);
         }
@@ -798,7 +798,7 @@ public static class TownOfUsEventHandlers
             return;
         }
 
-        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
         {
             return;
         }
@@ -896,6 +896,13 @@ public static class TownOfUsEventHandlers
         Rpc<SetSpectatorListRpc>.Instance.Send(PlayerControl.LocalPlayer, fakeDictionary);
     }
 
+    private static readonly HashSet<int> RulesShownToClientIds = [];
+
+    internal static void ResetRulesShownTracking()
+    {
+        RulesShownToClientIds.Clear();
+    }
+
     internal static IEnumerator CoSendRulesToPlayer(ClientData clientData)
     {
         while (!AmongUsClient.Instance)
@@ -920,6 +927,16 @@ public static class TownOfUsEventHandlers
             yield break;
         }
 
+        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.ShowRulesOnLobbyJoin.Value)
+        {
+            yield break;
+        }
+
+        if (RulesShownToClientIds.Contains(clientData.Id))
+        {
+            yield break;
+        }
+
         var joiningPlayer = clientData.Character;
         if (joiningPlayer == null)
         {
@@ -935,7 +952,8 @@ public static class TownOfUsEventHandlers
             yield break;
         }
 
-        ChatPatches.RpcSendLobbyRules(PlayerControl.LocalPlayer, joiningPlayer, rulesText, true);
+        RulesShownToClientIds.Add(clientData.Id);
+        ChatPatches.RpcSendLobbyRules(PlayerControl.LocalPlayer, joiningPlayer, rulesText);
     }
 
     [RegisterEvent]
@@ -953,7 +971,7 @@ public static class TownOfUsEventHandlers
             return;
         }
 
-        var pva = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == player.PlayerId);
+        var pva = MeetingHud.Instance.playerStates.First(x => x.PlayerId == player.PlayerId);
 
         if (!pva)
         {
@@ -984,7 +1002,7 @@ public static class TownOfUsEventHandlers
 
     private static void HandleMeetingMurder(MeetingHud instance, PlayerControl source, PlayerControl target)
     {
-        if (MeetingHud.Instance.CurrentState == MeetingHud.VoteStates.Animating)
+        if (MeetingHud.Instance.CurrentState == MeetingHud.MeetingStates.Animating)
         {
             if (target.AmOwner)
             {
@@ -997,7 +1015,7 @@ public static class TownOfUsEventHandlers
                 MeetingMenu.Instances.Do(x => x.HideSingle(target.PlayerId));
             }
 
-            var targetVoteAreaEarly = instance.playerStates.First(x => x.TargetPlayerId == target.PlayerId);
+            var targetVoteAreaEarly = instance.playerStates.First(x => x.PlayerId == target.PlayerId);
 
             if (!targetVoteAreaEarly)
             {
@@ -1021,7 +1039,7 @@ public static class TownOfUsEventHandlers
         }
 
         // To handle murders during a meeting
-        var targetVoteArea = instance.playerStates.First(x => x.TargetPlayerId == target.PlayerId);
+        var targetVoteArea = instance.playerStates.First(x => x.PlayerId == target.PlayerId);
 
         if (!targetVoteArea)
         {
@@ -1071,14 +1089,14 @@ public static class TownOfUsEventHandlers
 
         foreach (var pva in instance.playerStates)
         {
-            if (pva.VotedFor != target.PlayerId || pva.AmDead)
+            if (pva.VotedForId != target.PlayerId || pva.AmDead)
             {
                 continue;
             }
 
             pva.UnsetVote();
 
-            var voteAreaPlayer = MiscUtils.PlayerById(pva.TargetPlayerId);
+            var voteAreaPlayer = MiscUtils.PlayerById(pva.PlayerId);
 
             if (voteAreaPlayer == null)
             {
@@ -1094,7 +1112,7 @@ public static class TownOfUsEventHandlers
                 continue;
             }
 
-            instance.ClearVote();
+            instance.RpcClearVote(pva.PlayerId);
         }
 
         instance.SetDirtyBit(1U);

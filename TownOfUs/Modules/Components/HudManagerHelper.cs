@@ -85,8 +85,11 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         Instance = this;
     }
 
+#pragma warning disable S2325
+#pragma warning disable CA1822
     public void Start()
     {
+        HudManagerPatches.HasAdjustedSubButton = false;
         foreach (var button in CustomButtonManager.Buttons)
         {
             try
@@ -145,8 +148,6 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
             }
         }
     }
-#pragma warning disable S2325
-    #pragma warning disable CA1822
     public void FixedUpdate()
     {
         if (!HudManager.InstanceExists || !PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
@@ -156,12 +157,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
         var instance = HudManager.Instance;
 
-        HudManagerPatches.CreateUiRow(instance);
-        HudManagerPatches.CreateNewUiRow(instance);
-
         HudManagerPatches.CreateWikiButton(instance);
         HudManagerPatches.CreateZoomButton(instance);
-        HudManagerPatches.AdjustModifierTab();
 
         HudManagerPatches.UpdateRoleList(instance);
         HudManagerPatches.UpdateTeamChat();
@@ -329,7 +326,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 {
                     continue;
                 }
-                var player = MiscUtils.PlayerById(playerVA.TargetPlayerId)!;
+                var player = MiscUtils.PlayerById(playerVA.PlayerId)!;
                 if (!HasSetMeetingColorText)
                 {
                     playerVA.ColorBlindName.transform.localPosition = new Vector3(-0.93f, -0.2f, -0.1f);
@@ -338,7 +335,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 var curText = playerVA.NameText.text;
                 if (!player || !player.Data || !player.Data.Role)
                 {
-                    var data = EndGamePatches.ContainedMeetingData.PlayerMeetingRecords.FirstOrDefault(x => x.PlayerId == playerVA.TargetPlayerId);
+                    var data = EndGamePatches.ContainedMeetingData.PlayerMeetingRecords.FirstOrDefault(x => x.PlayerId == playerVA.PlayerId);
                     if (data != null)
                     {
                         EndGamePatches.ContainedMeetingData.DisplayRecordData(
@@ -490,13 +487,13 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     : $"<size={roleNameSize}>{cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{role.GetRoleName()}</color>)</size>";
             }
 
-            var stats = GameHistory.PlayerStats[player.PlayerId];
             if (removeCod)
             {
                 topText += "<cod>\n";
             }
             else if (localDead && isVisible &&
-                stats.PlayerState != StoredPlayerState.Alive)
+                     GameHistory.PlayerStats.TryGetValue(player.PlayerId, out var stats) &&
+                     stats.PlayerState != StoredPlayerState.Alive)
             {
                 topText +=
                     $"<size={(inMeeting ? 60 : 75)}%>『{Color.yellow.ToTextColor()}{stats.DeathString}</color>』</size>\n";

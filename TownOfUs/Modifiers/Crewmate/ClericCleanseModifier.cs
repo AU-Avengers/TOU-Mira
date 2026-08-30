@@ -23,53 +23,58 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
         Hex
     }
 
-    public override string ModifierName => "Cleric Cleanse";
-    public override bool HideOnUi => true;
-    public PlayerControl Cleric { get; } = cleric;
+ public override string ModifierName => MiraLocaleManager.Get("TouModifierClericCleanse");
+public override bool HideOnUi => true;
+public PlayerControl Cleric { get; } = cleric;
 
-    public List<EffectType> Effects { get; set; } = [];
-    public bool Cleansed { get; set; }
+public List<EffectType> Effects { get; set; } = [];
+public bool Cleansed { get; set; }
 
-    public override void OnActivate()
+public override void OnActivate()
+{
+    base.OnActivate();
+    var touAbilityEvent = new TouAbilityEvent(AbilityType.ClericCleanse, Cleric, Player);
+    MiraEventManager.InvokeEvent(touAbilityEvent);
+
+    Effects = FindNegativeEffects(Player);
+
+    // Error($"ClericCleanseModifier.OnActivate");
+}
+
+public override void OnDeath(DeathReason reason)
+{
+    ModifierComponent?.RemoveModifier(this);
+}
+
+public override void OnMeetingStart()
+{
+    // Error($"ClericCleanseModifier.OnMeetingStart");
+    if (Cleric.AmOwner)
     {
-        base.OnActivate();
-        var touAbilityEvent = new TouAbilityEvent(AbilityType.ClericCleanse, Cleric, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        var text = new StringBuilder(
+            MiraLocaleManager.Get("TouModifierClericCleanseEffectsFound")
+                .Replace("<player>", Player.Data.PlayerName));
 
-        Effects = FindNegativeEffects(Player);
-
-        // Error($"ClericCleanseModifier.OnActivate");
-    }
-
-    public override void OnDeath(DeathReason reason)
-    {
-        ModifierComponent?.RemoveModifier(this);
-    }
-
-    public override void OnMeetingStart()
-    {
-        // Error($"ClericCleanseModifier.OnMeetingStart");
-        if (Cleric.AmOwner)
+        foreach (var effect in Effects)
         {
-            var text = new StringBuilder($"Cleansed effects on {Player.Data.PlayerName}:");
-
-            foreach (var effect in Effects)
-            {
-                text.Append(TownOfUsPlugin.Culture, $" {effect.ToString()},");
-            }
-
-            text = text.Remove(text.Length - 1, 1);
-
-            if (Effects.Count == 0)
-            {
-                text = new StringBuilder($"No negative effects were found on {Player.Data.PlayerName}.");
-            }
-
-            var title = $"<color=#{TownOfUsColors.Cleric.ToHtmlStringRGBA()}>Cleric Feedback</color>";
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, text.ToString(), false, true);
+            text.Append(TownOfUsPlugin.Culture, $" {effect.ToString()},");
         }
-    }
 
+        text = text.Remove(text.Length - 1, 1);
+
+        if (Effects.Count == 0)
+        {
+            text = new StringBuilder(
+                MiraLocaleManager.Get("TouModifierClericCleanseNoEffects")
+                    .Replace("<player>", Player.Data.PlayerName));
+        }
+
+        var title =
+            $"<color=#{TownOfUsColors.Cleric.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TouModifierClericCleanseFeedbackTitle")}</color>";
+
+        MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, text.ToString(), false, true);
+    }
+}
     public override void FixedUpdate()
     {
         base.FixedUpdate();

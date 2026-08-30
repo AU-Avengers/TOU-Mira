@@ -2,10 +2,8 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
-using Reactor.Localization.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Patches.Roles;
 
@@ -30,8 +28,7 @@ public static class ApiRegistrationPatches
         _runOnce = true;
 
         var newList = CustomRoleManager.CustomRoleBehaviours.Where(x =>
-            x.Role is not RoleTypes.CrewmateGhost and not RoleTypes.ImpostorGhost &&
-            x.Role != (RoleTypes)RoleId.Get<NeutralGhostRole>()).ToList();
+            !MiscUtils.IsBasicGhost(x.Role)).ToList();
         MiscUtils.AllRoles = newList;
         var touList = MiscUtils.AllRoles.OfType<ITownOfUsRole>().ToList();
         MiscUtils.AllTouRoles = touList;
@@ -41,8 +38,7 @@ public static class ApiRegistrationPatches
         }
 
         var newList2 = RoleManager.Instance.AllRoles.ToArray().Where(x =>
-            x.Role is not RoleTypes.CrewmateGhost and not RoleTypes.ImpostorGhost &&
-            x.Role != (RoleTypes)RoleId.Get<NeutralGhostRole>()).ToList();
+            !MiscUtils.IsBasicGhost(x.Role)).ToList();
         MiscUtils.AllInGameRoles = newList2;
         var newModifiers = new List<TouBaseGameModifier>();
         var assignableMods = new List<IAssignableTargets>();
@@ -64,9 +60,9 @@ public static class ApiRegistrationPatches
         MiscUtils.AssignableTargetModifiers = assignableMods;
 
         RoleManager.Instance.GetRole(RoleTypes.CrewmateGhost).StringName =
-            CustomStringName.CreateAndRegister("Crewmate Ghost");
+            MiraLocaleManager.GetOrCreateLocaleString("Crewmate Ghost");
         RoleManager.Instance.GetRole(RoleTypes.ImpostorGhost).StringName =
-            CustomStringName.CreateAndRegister("Impostor Ghost");
+            MiraLocaleManager.GetOrCreateLocaleString("Impostor Ghost");
 
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Neutral.LoadAsset(), "AmongUs.Role.Custom",
             1.45f);
@@ -97,6 +93,8 @@ public static class ApiRegistrationPatches
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Detective.LoadAsset(), "AmongUs.Role.Detective",
             1.45f);
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Viper.LoadAsset(), "AmongUs.Role.Viper",
+            1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Prosecutor.LoadAsset(), "AmongUs.Role.Judge",
             1.45f);
     }
 }

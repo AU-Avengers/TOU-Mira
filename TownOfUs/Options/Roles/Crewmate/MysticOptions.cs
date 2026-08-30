@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class MysticOptions : AbstractRoleOptionGroup<MysticRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleMystic", "Mystic");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleMystic", "Mystic");
 
     [ModdedNumberOption("TouOptionMysticDeadBodyArrowDuration", 0f, 1f, 0.05f, MiraNumberSuffixes.Seconds, "0.00")]
     public float MysticArrowDuration { get; set; } = 0.1f;

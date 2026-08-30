@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class MonarchOptions : AbstractRoleOptionGroup<MonarchRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleMonarch", "Monarch");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleMonarch", "Monarch");
 
     [ModdedNumberOption("Knight Cooldown", 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float KnightCooldown { get; set; } = 20f;

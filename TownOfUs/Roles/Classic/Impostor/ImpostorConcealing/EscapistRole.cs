@@ -44,15 +44,15 @@ public sealed class EscapistRole(IntPtr cppPtr)
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TransporterRole>());
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string LocaleKey => "Escapist";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Escapist";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -78,11 +78,11 @@ public sealed class EscapistRole(IntPtr cppPtr)
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Mark", "Mark"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}MarkWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Mark", "Mark"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}MarkWikiDescription"),
                     TouImpAssets.MarkSprite),
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Recall", "Recall"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}RecallWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Recall", "Recall"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}RecallWikiDescription"),
                     TouImpAssets.RecallSprite)
             ];
         }

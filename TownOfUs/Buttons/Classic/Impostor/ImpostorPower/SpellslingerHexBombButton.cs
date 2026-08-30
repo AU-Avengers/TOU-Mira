@@ -6,7 +6,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class SpellslingerHexBombButton : TownOfUsRoleButton<SpellslingerRole>
 {
-    public override string Name => TouLocale.GetParsed("TouRoleSpellslingerHexBomb", "Hex Bomb");
+    public override string Name => MiraLocaleManager.Get("TouRoleSpellslingerHexBomb", "Hex Bomb");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 0.001f;

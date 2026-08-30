@@ -302,9 +302,9 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.LocaleKey != "KEY_MISS")
+        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
         {
-            cod = touRole.LocaleKey;
+            cod = touRole.IdPart;
         }
 
         var murderResultFlagsGood = MurderResultFlags.DecisionByHost | MurderResultFlags.Succeeded;
@@ -313,11 +313,11 @@ public static class CustomTouMurderRpcs
         var allVictims = PlayerControl.AllPlayerControls.ToArray().Where(x => victims.ContainsKey(x.PlayerId)).ToList();
         foreach (var target in allVictims)
         {
-            GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 0,
+            GameHistory.UpdatePlayerDeathData(target.PlayerId, MiraLocaleManager.Get($"DiedTo{cod}"), 0,
                 HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
-                TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
+                MiraLocaleManager.Get("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
                 lockInfo: DeathHandlerOverride.SetTrue,
                 playerState: StoredPlayerState.Dead);
 
@@ -393,9 +393,9 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.LocaleKey != "KEY_MISS")
+        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
         {
-            cod = touRole.LocaleKey;
+            cod = touRole.IdPart;
         }
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
@@ -406,11 +406,11 @@ public static class CustomTouMurderRpcs
             if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
                 murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
             {
-                GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 0,
+                GameHistory.UpdatePlayerDeathData(target.PlayerId, MiraLocaleManager.Get($"DiedTo{cod}"), 0,
                     HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                         ? DeathHandlerOverride.SetTrue
                         : DeathHandlerOverride.SetFalse,
-                    TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
+                    MiraLocaleManager.Get("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
                     lockInfo: DeathHandlerOverride.SetTrue,
                     playerState: StoredPlayerState.Dead);
             }
@@ -570,9 +570,9 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.LocaleKey != "KEY_MISS")
+        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
         {
-            cod = touRole.LocaleKey;
+            cod = touRole.IdPart;
         }
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
@@ -580,11 +580,11 @@ public static class CustomTouMurderRpcs
         if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
             murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
         {
-            GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 0,
+            GameHistory.UpdatePlayerDeathData(target.PlayerId, MiraLocaleManager.Get($"DiedTo{cod}"), 0,
                 HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
-                TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
+                MiraLocaleManager.Get("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
                 lockInfo: DeathHandlerOverride.SetTrue,
                 playerState: StoredPlayerState.Dead);
         }
@@ -750,9 +750,9 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.LocaleKey != "KEY_MISS")
+        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
         {
-            cod = touRole.LocaleKey;
+            cod = touRole.IdPart;
         }
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
@@ -760,11 +760,11 @@ public static class CustomTouMurderRpcs
         if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
             murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
         {
-            GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 0,
+            GameHistory.UpdatePlayerDeathData(target.PlayerId, MiraLocaleManager.Get($"DiedTo{cod}"), 0,
                 HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
-                framed != target ? TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", framed.Data.PlayerName) : "",
+                framed != target ? MiraLocaleManager.Get("DiedByStringBasic").Replace("<player>", framed.Data.PlayerName) : "",
                 lockInfo: DeathHandlerOverride.SetTrue,
                 playerState: StoredPlayerState.Dead);
         }
@@ -957,9 +957,9 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.LocaleKey != "KEY_MISS")
+        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
         {
-            cod = touRole.LocaleKey;
+            cod = touRole.IdPart;
         }
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
@@ -967,11 +967,11 @@ public static class CustomTouMurderRpcs
         if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
             murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
         {
-            GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 0,
+            GameHistory.UpdatePlayerDeathData(target.PlayerId, MiraLocaleManager.Get($"DiedTo{cod}"), 0,
                 HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
-                TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
+                MiraLocaleManager.Get("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
                 lockInfo: DeathHandlerOverride.SetTrue,
                 playerState: StoredPlayerState.Dead);
         }
@@ -1049,14 +1049,14 @@ public static class CustomTouMurderRpcs
         }
 
         var cod = "Killer";
-        if (touRole.LocaleKey != "KEY_MISS")
+        if (touRole.IdPart != "KEY_MISS")
         {
-            cod = touRole.LocaleKey;
+            cod = touRole.IdPart;
         }
 
-        GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 0,
+        GameHistory.UpdatePlayerDeathData(target.PlayerId, MiraLocaleManager.Get($"DiedTo{cod}"), 0,
             HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetTrue,
-            TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
+            MiraLocaleManager.Get("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
             lockInfo: DeathHandlerOverride.SetTrue,
             playerState: StoredPlayerState.Dead);
         GameHistory.UpdatePlayerDeathData(source.PlayerId, "null", 0,
@@ -1179,9 +1179,9 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.LocaleKey != "KEY_MISS")
+        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
         {
-            cod = touRole.LocaleKey;
+            cod = touRole.IdPart;
         }
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
@@ -1189,11 +1189,11 @@ public static class CustomTouMurderRpcs
         if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
             murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
         {
-            GameHistory.UpdatePlayerDeathData(target.PlayerId, TouLocale.Get($"DiedTo{cod}"), 0,
+            GameHistory.UpdatePlayerDeathData(target.PlayerId, MiraLocaleManager.Get($"DiedTo{cod}"), 0,
                 HudManagerHelper.Instance.CurrentRound, (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
-                TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
+                MiraLocaleManager.Get("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
                 lockInfo: DeathHandlerOverride.SetTrue,
                 playerState: StoredPlayerState.Dead);
         }
@@ -1245,7 +1245,7 @@ public static class CustomTouMurderRpcs
         target.gameObject.layer = LayerMask.NameToLayer("Ghost");
 
         var properAnim = (ExtendedKillAnimType)associatedAnimation;
-        var targetVoteArea = MeetingHud.Instance?.playerStates.First(x => x.TargetPlayerId == target.PlayerId);
+        var targetVoteArea = MeetingHud.Instance?.playerStates.First(x => x.PlayerId == target.PlayerId);
         switch (animationType)
         {
             case MeetingAnimation.FullscreenKill:

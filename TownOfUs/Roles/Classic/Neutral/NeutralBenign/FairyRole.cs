@@ -34,7 +34,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
             return;
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralBenignTaskHeader")}</color>";
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{MiraLocaleManager.Get("NeutralBenignTaskHeader")}</color>";
         orCreateTask.name = "NeutralRoleText";
     }
 
@@ -44,7 +44,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
 
     public void AssignTargets()
     {
-        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        if (!RoleOptions.IsClassicRoleAssignment)
         {
             return;
         }
@@ -93,21 +93,21 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
     }
 
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string LocaleKey => "Fairy";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string IdPart => "Fairy";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
     public string RoleDescription => TargetString(true);
     public string RoleLongDescription => TargetString();
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription")
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription")
                 .Replace("<symbol>", "<color=#B3FFFFFF>★</color>") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    private static string _missingTargetDesc = TouLocale.GetParsed("TouRoleFairyIfNoTarget");
-    private static string _targetDesc = TouLocale.GetParsed("TouRoleFairyTabDescription");
+    private static string _missingTargetDesc = MiraLocaleManager.Get("TouRoleFairyIfNoTarget");
+    private static string _targetDesc = MiraLocaleManager.Get("TouRoleFairyTabDescription");
 
     private string TargetString(bool capitalize = false)
     {
@@ -164,8 +164,8 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Protect", "Protect"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}ProtectWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Protect", "Protect"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}ProtectWikiDescription"),
                     TouNeutAssets.ProtectSprite)
             ];
         }
@@ -174,8 +174,8 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        _missingTargetDesc = TouLocale.GetParsed("TouRoleFairyIfNoTarget");
-        _targetDesc = TouLocale.GetParsed("TouRoleFairyTabDescription");
+        _missingTargetDesc = MiraLocaleManager.Get("TouRoleFairyIfNoTarget");
+        _targetDesc = MiraLocaleManager.Get("TouRoleFairyTabDescription");
 
         if (TutorialManager.InstanceExists && Target == null && PlayerControl.LocalPlayer.IsHost() &&
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)

@@ -7,7 +7,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class EscapistMarkButton : TownOfUsRoleButton<EscapistRole>, IAftermathableButton, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleEscapistMark", "Mark");
+    public override string Name => MiraLocaleManager.Get("TouRoleEscapistMark", "Mark");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 0.001f;

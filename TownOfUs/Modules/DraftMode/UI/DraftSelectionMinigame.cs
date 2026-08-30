@@ -30,7 +30,7 @@ namespace TownOfUs.Modules.DraftMode
         private TextMeshPro _timerText;
         private GameObject _tooltipRoot;
         private TextMeshPro _tooltipText;
-        private static string PickPrompt => $"<color=#FFFFFF><size=200%><b>{TouLocale.GetParsed("TouDraftPickPrompt", "Pick Your Role!")}</b></size></color>";
+        private static string PickPrompt => $"<color=#FFFFFF><size=200%><b>{MiraLocaleManager.Get("TouDraftPickPrompt", "Pick Your Role!")}</b></size></color>";
         private GameObject _timerRoot;
         private GameObject _timerTrack;
         private GameObject _timerFill;
@@ -845,7 +845,7 @@ namespace TownOfUs.Modules.DraftMode
                     string color = urgent ? "#FF5555" : "#FFD700";
                     float timerPulse = urgent ? 1f + Mathf.Sin(Time.time * 10f) * 0.08f : 1f;
                     _timerText.transform.localScale = Vector3.one * timerPulse;
-                    string timerLabel = TouLocale.GetParsed("TouDraftTimerRemaining", "<secs> Second(s) Remaining")
+                    string timerLabel = MiraLocaleManager.Get("TouDraftTimerRemaining", "<secs> Second(s) Remaining")
                         .Replace("<secs>", secs.ToString(System.Globalization.CultureInfo.InvariantCulture));
                     _timerText.text = $"<color={color}><b>{timerLabel}</b></color>";
 
@@ -872,7 +872,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             var roleName = DraftRolePool.GetRoleNameFromId(roleId);
             if (string.IsNullOrEmpty(roleName))
-                roleName = TouLocale.GetParsed("TouDraftUnknownRoleLabel", "Unknown Role");
+                roleName = MiraLocaleManager.Get("TouDraftUnknownRoleLabel", "Unknown Role");
 
             var roleBehaviour = roleId != 0
                 ? MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)roleId)

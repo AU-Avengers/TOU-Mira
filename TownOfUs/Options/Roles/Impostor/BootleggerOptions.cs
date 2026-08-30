@@ -39,7 +39,7 @@ public sealed class BootleggerOptions : AbstractRoleOptionGroup<BootleggerRole>,
     {
         string[] array =
         [
-            TouLocale.GetParsed("TouOptionBarkeeperRoleblockDelaySummarized").Replace("<min>", RoleblockDelayMin.Value.ToString(TownOfUsPlugin.Culture)).Replace("<max>", RoleblockDelayMax.Value.ToString(TownOfUsPlugin.Culture))
+            MiraLocaleManager.Get("TouOptionBarkeeperRoleblockDelaySummarized").Replace("<min>", RoleblockDelayMin.Value.ToString(TownOfUsPlugin.Culture)).Replace("<max>", RoleblockDelayMax.Value.ToString(TownOfUsPlugin.Culture))
         ];
         return array;
     }

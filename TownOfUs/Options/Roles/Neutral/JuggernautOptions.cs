@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class JuggernautOptions : AbstractRoleOptionGroup<JuggernautRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleJuggernaut", "Juggernaut");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleJuggernaut", "Juggernaut");
 
     [ModdedNumberOption("TouOptionJuggernautInitialCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float KillCooldown { get; set; } = 25f;

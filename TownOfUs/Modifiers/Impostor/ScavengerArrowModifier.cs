@@ -15,7 +15,7 @@ public sealed class ScavengerArrowModifier(PlayerControl owner, Color color) : A
         item.Show(Player, 0);
         if (item.text.transform.TryGetComponent<TextTranslatorTMP>(out var tmp))
         {
-            tmp.defaultStr = TouLocale.Get("TouRoleScavengerYourNextTarget");
+            tmp.defaultStr = MiraLocaleManager.Get("TouRoleScavengerYourNextTarget");
             tmp.TargetText = StringNames.None;
             tmp.ResetText();
         }

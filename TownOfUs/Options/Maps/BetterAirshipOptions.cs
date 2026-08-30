@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Maps;
 public sealed class BetterAirshipOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
-    public override string GroupName => TouLocale.Get("TouOptionTitleBetterAirship");
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleBetterAirship");
     public override uint GroupPriority => 6;
     public override Color GroupColor => new Color32(255, 76, 73, 255);
 

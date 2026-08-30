@@ -6,20 +6,20 @@ namespace TownOfUs.Options.Modifiers;
 
 public sealed class AssailantModifierOptions : AbstractOptionGroup
 {
-    public override string GroupName => "Assailant Modifiers";
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleAssailantModifiers");
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override Color GroupColor => TownOfUsColors.Overclocker;
     public override MenuCategory ParentMenu => MenuCategory.Modifiers;
     public override uint GroupPriority => 3;
 
-    public AmountChanceOption ImpDoubleShotAmount { get; } = new("<sprite name=\"AmongUs.Role.Impostor\"> Double Shot Amount", 0, 0, 5, 1,
+    public AmountChanceOption ImpDoubleShotAmount { get; } = new("<sprite name=\"AmongUs.Role.Impostor\"> " + MiraLocaleManager.Get("TouOptionDoubleShotAmount"), 0, 0, 5, 1,
         color: TownOfUsColors.Impostor, asset: TouModifierIcons.DoubleShot,
         assetName: "TouMira.Modifier.Assailant.DoubleShot", assetScale: 1.45f)
     {
         ChangedEvent = _dsImpNotif
     };
 
-    public AmountChanceOption ImpDoubleShotChance { get; } = new("<sprite name=\"AmongUs.Role.Impostor\"> Double Shot Chance", 50f, 0, 100f, 10f, "#",
+    public AmountChanceOption ImpDoubleShotChance { get; } = new("<sprite name=\"AmongUs.Role.Impostor\"> " + MiraLocaleManager.Get("TouOptionDoubleShotChance"), 50f, 0, 100f, 10f, "#",
         "#",
         MiraNumberSuffixes.Percent, color: TownOfUsColors.Impostor, asset: TouModifierIcons.DoubleShot,
         assetName: "TouMira.Modifier.Assailant.DoubleShot", assetScale: 1.45f)
@@ -28,14 +28,14 @@ public sealed class AssailantModifierOptions : AbstractOptionGroup
         Visible = () => OptionGroupSingleton<AssailantModifierOptions>.Instance.ImpDoubleShotAmount > 0
     };
 
-    public AmountChanceOption NeutDoubleShotAmount { get; } = new("<sprite name=\"AmongUs.Role.Neutral\"> Double Shot Amount", 0, 0, 5, 1,
+    public AmountChanceOption NeutDoubleShotAmount { get; } = new("<sprite name=\"AmongUs.Role.Neutral\"> " + MiraLocaleManager.Get("TouOptionDoubleShotAmount"), 0, 0, 5, 1,
         color: TownOfUsColors.Neutral, asset: TouModifierIcons.DoubleShot,
         assetName: "TouMira.Modifier.Assailant.DoubleShot", assetScale: 1.45f)
     {
         ChangedEvent = _dsNeutNotif
     };
 
-    public AmountChanceOption NeutDoubleShotChance { get; } = new("<sprite name=\"AmongUs.Role.Neutral\"> Double Shot Chance", 50f, 0, 100f, 10f, "#",
+    public AmountChanceOption NeutDoubleShotChance { get; } = new("<sprite name=\"AmongUs.Role.Neutral\"> " + MiraLocaleManager.Get("TouOptionDoubleShotChance"), 50f, 0, 100f, 10f, "#",
         "#",
         MiraNumberSuffixes.Percent, color: TownOfUsColors.Neutral, asset: TouModifierIcons.DoubleShot,
         assetName: "TouMira.Modifier.Assailant.DoubleShot", assetScale: 1.45f)
@@ -58,14 +58,14 @@ public sealed class AssailantModifierOptions : AbstractOptionGroup
         RunNotif(opt, optAmount, "TouModifierDoubleShot");
     };
 
-    public AmountChanceOption ImpOverclockerAmount { get; } = new("<sprite name=\"AmongUs.Role.Impostor\"> Overclocker Amount", 0, 0, 5, 1,
+    public AmountChanceOption ImpOverclockerAmount { get; } = new("<sprite name=\"AmongUs.Role.Impostor\"> " + MiraLocaleManager.Get("TouOptionOverclockerAmount"), 0, 0, 5, 1,
         color: TownOfUsColors.Impostor, asset: TouModifierIcons.Overclocker,
         assetName: "TouMira.Modifier.Assailant.Overclocker", assetScale: 1.45f)
     {
         ChangedEvent = _ocImpNotif
     };
 
-    public AmountChanceOption ImpOverclockerChance { get; } = new("<sprite name=\"AmongUs.Role.Impostor\"> Overclocker Chance", 50f, 0, 100f, 10f, "#",
+    public AmountChanceOption ImpOverclockerChance { get; } = new("<sprite name=\"AmongUs.Role.Impostor\"> " + MiraLocaleManager.Get("TouOptionOverclockerChance"), 50f, 0, 100f, 10f, "#",
         "#",
         MiraNumberSuffixes.Percent, color: TownOfUsColors.Impostor, asset: TouModifierIcons.Overclocker,
         assetName: "TouMira.Modifier.Assailant.Overclocker", assetScale: 1.45f)
@@ -74,14 +74,14 @@ public sealed class AssailantModifierOptions : AbstractOptionGroup
         Visible = () => OptionGroupSingleton<AssailantModifierOptions>.Instance.ImpOverclockerAmount > 0
     };
 
-    public AmountChanceOption NeutOverclockerAmount { get; } = new("<sprite name=\"AmongUs.Role.Neutral\"> Overclocker Amount", 0, 0, 5, 1,
+    public AmountChanceOption NeutOverclockerAmount { get; } = new("<sprite name=\"AmongUs.Role.Neutral\"> " + MiraLocaleManager.Get("TouOptionOverclockerAmount"), 0, 0, 5, 1,
         color: TownOfUsColors.Neutral, asset: TouModifierIcons.Overclocker,
         assetName: "TouMira.Modifier.Assailant.Overclocker", assetScale: 1.45f)
     {
         ChangedEvent = _ocNeutNotif
     };
 
-    public AmountChanceOption NeutOverclockerChance { get; } = new("<sprite name=\"AmongUs.Role.Neutral\"> Overclocker Chance", 50f, 0, 100f, 10f, "#",
+    public AmountChanceOption NeutOverclockerChance { get; } = new("<sprite name=\"AmongUs.Role.Neutral\"> " + MiraLocaleManager.Get("TouOptionOverclockerChance"), 50f, 0, 100f, 10f, "#",
         "#",
         MiraNumberSuffixes.Percent, color: TownOfUsColors.Neutral, asset: TouModifierIcons.Overclocker,
         assetName: "TouMira.Modifier.Assailant.Overclocker", assetScale: 1.45f)
@@ -108,7 +108,7 @@ public sealed class AssailantModifierOptions : AbstractOptionGroup
     {
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
-            TouLocale.Get(title),
+            MiraLocaleManager.Get(title),
             optAmount.Data.GetValueString(optAmount.Value),
             opt.Data.GetValueString(opt.Value));
     }

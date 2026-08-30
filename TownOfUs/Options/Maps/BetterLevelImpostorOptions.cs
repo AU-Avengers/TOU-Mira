@@ -10,7 +10,7 @@ namespace TownOfUs.Options.Maps;
 public sealed class BetterLevelImpostorOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
-    public override string GroupName => TouLocale.Get("TouOptionTitleBetterLevelImpostor");
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleBetterLevelImpostor");
     public override uint GroupPriority => 9;
     public override Func<bool> GroupVisible => () => ModCompatibility.LILoaded;
     public override Color GroupColor => new Color32(16, 131, 176, 255);

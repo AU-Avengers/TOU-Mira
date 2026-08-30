@@ -18,21 +18,21 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
             "TouMira.Modifier.Assailant.Overclocker", 1.45f));
     public override Color FreeplayFileColor => TownOfUsColors.Overclocker;
 
-    public override string LocaleKey => "Overclocker";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+    public override string IdPart => "Overclocker";
+    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Overclocker;
     public override ModifierFaction FactionType => ModifierFaction.AssailantUtility;
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
@@ -157,7 +157,7 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
         if (!button.ShowedFeedback && CurrentState is not ChargeState.Normal)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TouLocale.GetParsed("TouModifierOverclockerUnderclockMeetingNotif").Replace("<multi>", OptionGroupSingleton<OverclockerOptions>.Instance.UnderclockMultiplier.Value.ToString(TownOfUsPlugin.Culture))}</b>", Color.white,
+                $"<b>{MiraLocaleManager.Get("TouModifierOverclockerUnderclockMeetingNotif").Replace("<multi>", OptionGroupSingleton<OverclockerOptions>.Instance.UnderclockMultiplier.Value.ToString(TownOfUsPlugin.Culture))}</b>", Color.white,
                 new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Overclocker.LoadAsset());
             notif1.AdjustNotification();
         }
@@ -168,12 +168,12 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
             case ChargeState.Overclocked or ChargeState.UnderclockedBegin:
                 CurrentState = ChargeState.Underclocked;
                 button.OverrideName(
-                    TouLocale.GetParsed("TouModifierOverclockerUnderclocked", "Underclocked"));
+                    MiraLocaleManager.Get("TouModifierOverclockerUnderclocked", "Underclocked"));
                 break;
             case ChargeState.Underclocked:
                 CurrentState = ChargeState.Normal;
                 button.OverrideName(
-                    TouLocale.GetParsed("TouModifierOverclockerOverclock", "Overclock"));
+                    MiraLocaleManager.Get("TouModifierOverclockerOverclock", "Overclock"));
                 button.OverrideSprite(TouAssets.OverclockSprite.LoadAsset());
                 break;
         }

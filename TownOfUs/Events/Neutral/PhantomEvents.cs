@@ -29,7 +29,7 @@ public static class PhantomEvents
             if (phantom.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TouLocale.GetParsed("TouRoleSpectreWonSelf") .Replace("<role>", $"{TownOfUsColors.Spectre.ToTextColor()}{phantom.RoleName}</color>")}</b>",
+                    $"<b>{MiraLocaleManager.Get("TouRoleSpectreWonSelf") .Replace("<role>", $"{TownOfUsColors.Spectre.ToTextColor()}{phantom.RoleName}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -39,7 +39,7 @@ public static class PhantomEvents
                     GameHistory.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", -1,
                         DeathHandlerOverride.SetTrue, lockInfo: DeathHandlerOverride.SetTrue);
                     var notif2 = Helpers.CreateAndShowNotification(
-                        $"<b>{TouLocale.GetParsed("TouRoleSpectreSpookMessage")}</b>",
+                        $"<b>{MiraLocaleManager.Get("TouRoleSpectreSpookMessage")}</b>",
                         Color.white, new Vector3(0f, 0.85f, -20f));
                     notif2.AdjustNotification();
                 }
@@ -47,7 +47,7 @@ public static class PhantomEvents
             else
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TouLocale.GetParsed("TouRoleSpectreWonOther") .Replace("<role>", $"{TownOfUsColors.Spectre.ToTextColor()}{phantom.RoleName}</color>") .Replace("<player>", phantom.Player.Data.PlayerName)}</b>",
+                    $"<b>{MiraLocaleManager.Get("TouRoleSpectreWonOther") .Replace("<role>", $"{TownOfUsColors.Spectre.ToTextColor()}{phantom.RoleName}</color>") .Replace("<player>", phantom.Player.Data.PlayerName)}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
 
                 notif1.AdjustNotification();

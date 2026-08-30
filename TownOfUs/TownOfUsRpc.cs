@@ -126,8 +126,6 @@ public enum TownOfUsRpc : uint
     RequestLobbyRules,
     SendLobbyRules,
     SendLobbyRulesGlobal,
-    SyncDeathState,
-    RequestDeathStateValidation,
     MultiplayerFreeplayRequest,
     TriggerGlitchHack,
     Roleblock,
@@ -141,6 +139,13 @@ public enum TownOfUsRpc : uint
     OfficerSyncBullets,
     SetUpCrewpostor,
     MisguessSummary,
+    // Frenzy Killers
+    FrenzyRecall,
+    FrenzyMarkLocation,
+    FrenzyPlantBomb,
+
+    // Town of Polus
+    TopEngineerFix,
 
     // Draft Mode
     DraftSubmitPick,

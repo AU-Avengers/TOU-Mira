@@ -48,50 +48,9 @@ public static class ChatPatches
             return;
         }
 
-        var systemName = $"<color=#8BFDFD>{TouLocale.GetParsed("SystemChatTitle")}</color>";
+        var systemName = $"<color=#8BFDFD>{MiraLocaleManager.Get("SystemChatTitle")}</color>";
         MiscUtils.AddSystemChat(host.Data, systemName,
-            TouLocale.GetParsed("UpCommandSuccessGlobal").Replace("<player>", player.Data.PlayerName));
-    }
-
-    [HarmonyPrefix]
-    [HarmonyPriority(Priority.First)]
-    [HarmonyPatch(typeof(FriendsListManager), nameof(FriendsListManager.SetFriendButtonColor))]
-    public static bool SetFriendButtonColor(FriendsListManager __instance, bool isGrayedOut)
-    {
-        __instance.FriendsListButton?.SetGlyphColor(isGrayedOut);
-        return false;
-    }
-
-    [HarmonyPrefix]
-    [HarmonyPriority(Priority.First)]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.Toggle))]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.Close))]
-    public static void TogglePrefix(ChatController __instance)
-	{
-        if (!HudManagerPatches.ClonedChatButton)
-        {
-            return;
-        }
-        __instance.chatButton.transform.localPosition = HudManagerPatches.ClonedChatButton.transform.localPosition + new Vector3(-0.3f, 0);
-    }
-
-    [HarmonyPostfix]
-    [HarmonyPriority(Priority.First)]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.Toggle))]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.Close))]
-    public static void TogglePostfix(ChatController __instance)
-    {
-        HudManagerPatches.UiGrid.ArrangeChilds();
-    }
-
-    [HarmonyPrefix]
-    [HarmonyPriority(Priority.First)]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatNote))]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatWarning))]
-    public static void ChatBubbleUpdatePrefix(ChatController __instance)
-    {
-        __instance.chatNotifyDot.transform.localPosition = new Vector3(-0.34f, 0.373f, -1f);
+            MiraLocaleManager.Get("UpCommandSuccessGlobal").Replace("<player>", player.Data.PlayerName));
     }
 
     [HarmonyPrefix]
@@ -108,31 +67,30 @@ public static class ChatPatches
             return true;
         }
 
-        var systemName = $"<color=#8BFDFD>{TouLocale.GetParsed("SystemChatTitle")}</color>";
-        var specCommandList = TouLocale.GetParsed("SpectatorCommandList").Split(":");
-        var summaryCommandList = TouLocale.GetParsed("SummaryCommandList").Split(":");
-        var rolesCommandList = TouLocale.GetParsed("RolesCommandList").Split(":");
-        var nerfCommandList = TouLocale.GetParsed("NerfMeCommandList").Split(":");
-        var playerCommandList = TouLocale.GetParsed("PlayerCommandList").Split(":");
-        var nameCommandList = TouLocale.GetParsed("SetNameCommandList").Split(":");
-        var helpCommandList = TouLocale.GetParsed("HelpCommandList").Split(":");
-        var upCommandList = TouLocale.GetParsed("UpCommandList").Split(":");
-        var rulesCommandList = TouLocale.GetParsed("RulesCommandList").Split(":");
-        var infoCommandList = TouLocale.GetParsed("InfoCommandList").Split(":");
+        var systemName = $"<color=#8BFDFD>{MiraLocaleManager.Get("SystemChatTitle")}</color>";
+        var specCommandList = MiraLocaleManager.Get("SpectatorCommandList").Split(":");
+        var summaryCommandList = MiraLocaleManager.Get("SummaryCommandList").Split(":");
+        var rolesCommandList = MiraLocaleManager.Get("RolesCommandList").Split(":");
+        var nerfCommandList = MiraLocaleManager.Get("NerfMeCommandList").Split(":");
+        var playerCommandList = MiraLocaleManager.Get("PlayerCommandList").Split(":");
+        var nameCommandList = MiraLocaleManager.Get("SetNameCommandList").Split(":");
+        var helpCommandList = MiraLocaleManager.Get("HelpCommandList").Split(":");
+        var upCommandList = MiraLocaleManager.Get("UpCommandList").Split(":");
+        var rulesCommandList = MiraLocaleManager.Get("RulesCommandList").Split(":");
+        var infoCommandList = MiraLocaleManager.Get("InfoCommandList").Split(":");
 
-        if (TranslationController.InstanceExists &&
-            TranslationController.Instance.currentLanguage.languageID is not SupportedLangs.English)
+        if (MiraLocaleManager.CurrentLanguage is not MiraLanguage.English)
         {
-            specCommandList = specCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "SpectatorCommandList").Split(":"));
-            summaryCommandList = summaryCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "SummaryCommandList").Split(":"));
-            rolesCommandList = rolesCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "RolesCommandList").Split(":"));
-            nerfCommandList = nerfCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "NerfMeCommandList").Split(":"));
-            playerCommandList = playerCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "PlayerCommandList").Split(":"));
-            nameCommandList = nameCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "SetNameCommandList").Split(":"));
-            helpCommandList = helpCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "HelpCommandList").Split(":"));
-            upCommandList = upCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "UpCommandList").Split(":"));
-            rulesCommandList = rulesCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "RulesCommandList").Split(":"));
-            infoCommandList = infoCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "InfoCommandList").Split(":"));
+            specCommandList = specCommandList.AddRangeToArray(MiraLocaleManager.Get(MiraLanguage.English, "SpectatorCommandList").Split(":"));
+            summaryCommandList = summaryCommandList.AddRangeToArray(MiraLocaleManager.Get(MiraLanguage.English, "SummaryCommandList").Split(":"));
+            rolesCommandList = rolesCommandList.AddRangeToArray(MiraLocaleManager.Get(MiraLanguage.English, "RolesCommandList").Split(":"));
+            nerfCommandList = nerfCommandList.AddRangeToArray(MiraLocaleManager.Get(MiraLanguage.English, "NerfMeCommandList").Split(":"));
+            playerCommandList = playerCommandList.AddRangeToArray(MiraLocaleManager.Get(MiraLanguage.English, "PlayerCommandList").Split(":"));
+            nameCommandList = nameCommandList.AddRangeToArray(MiraLocaleManager.Get(MiraLanguage.English, "SetNameCommandList").Split(":"));
+            helpCommandList = helpCommandList.AddRangeToArray(MiraLocaleManager.Get(MiraLanguage.English, "HelpCommandList").Split(":"));
+            upCommandList = upCommandList.AddRangeToArray(MiraLocaleManager.Get(MiraLanguage.English, "UpCommandList").Split(":"));
+            rulesCommandList = rulesCommandList.AddRangeToArray(MiraLocaleManager.Get(MiraLanguage.English, "RulesCommandList").Split(":"));
+            infoCommandList = infoCommandList.AddRangeToArray(MiraLocaleManager.Get(MiraLanguage.English, "InfoCommandList").Split(":"));
         }
 
         var spaceLess = text.Replace(" ", string.Empty);
@@ -141,7 +99,7 @@ public static class ChatPatches
             if (!LobbyBehaviour.Instance)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                    TouLocale.GetParsed("SpectatorLobbyError"));
+                    MiraLocaleManager.Get("SpectatorLobbyError"));
             }
             else
             {
@@ -149,28 +107,28 @@ public static class ChatPatches
                     GameStartManager.Instance.startState is GameStartManager.StartingStates.Countdown)
                 {
                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                        TouLocale.GetParsed("SpectatorStartError"));
+                        MiraLocaleManager.Get("SpectatorStartError"));
                 }
                 else if (DraftManager.IsDraftActive)
                 {
                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                        TouLocale.GetParsed("SpectatorDraftError"));
+                        MiraLocaleManager.Get("SpectatorDraftError"));
                 }
                 else if (SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.Data.PlayerName))
                 {
                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                        TouLocale.GetParsed("SpectatorToggleOff"));
+                        MiraLocaleManager.Get("SpectatorToggleOff"));
                     RpcRemoveSpectator(PlayerControl.LocalPlayer);
                 }
                 else if (!OptionGroupSingleton<HostSpecificOptions>.Instance.EnableSpectators)
                 {
                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                        TouLocale.GetParsed("SpectatorHostError"));
+                        MiraLocaleManager.Get("SpectatorHostError"));
                 }
                 else
                 {
                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                        TouLocale.GetParsed("SpectatorToggleOn"));
+                        MiraLocaleManager.Get("SpectatorToggleOn"));
                     RpcSelectSpectator(PlayerControl.LocalPlayer);
                 }
             }
@@ -281,9 +239,9 @@ public static class ChatPatches
         if (spaceLess.StartsWith("/", StringComparison.OrdinalIgnoreCase)
             && summaryCommandList.Any(x => spaceLess.Contains(x, StringComparison.OrdinalIgnoreCase)))
         {
-            systemName = $"<color=#8BFDFD>{TouLocale.Get("EndGameSummary")}</color>";
+            systemName = $"<color=#8BFDFD>{MiraLocaleManager.Get("EndGameSummary")}</color>";
             var title = systemName;
-            var msg = TouLocale.GetParsed("SummaryMissingError");
+            var msg = MiraLocaleManager.Get("SummaryMissingError");
             var summary = GameHistory.EndGameSummary;
             switch (LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.SummaryMessageAppearance.Value)
             {
@@ -300,7 +258,7 @@ public static class ChatPatches
                 if (GameHistory.WinningFaction != string.Empty)
                 {
                     factionText =
-                        $"<size=80%>{TouLocale.GetParsed("EndResult").Replace("<victoryType>", GameHistory.WinningFaction)}</size>\n";
+                        $"<size=80%>{MiraLocaleManager.Get("EndResult").Replace("<victoryType>", GameHistory.WinningFaction)}</size>\n";
                 }
 
                 title = $"{systemName}\n<size=62%>{factionText}{summary}</size>";
@@ -348,8 +306,8 @@ public static class ChatPatches
                 else
                 {
                     var rulesText = GetLobbyRulesText();
-                    var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
-                    var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
+                    var title = $"<color=#8BFDFD>{MiraLocaleManager.Get("RulesMessageTitle")}</color>";
+                    var msg = string.IsNullOrWhiteSpace(rulesText) ? MiraLocaleManager.Get("RulesMissingError") : $"<size=75%>{rulesText}</size>";
                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
                 }
             }
@@ -378,7 +336,7 @@ public static class ChatPatches
                 if (remainingText.Trim().Equals("show", StringComparison.OrdinalIgnoreCase))
                 {
                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                        TouLocale.GetParsed("RulesShowHostError"));
+                        MiraLocaleManager.Get("RulesShowHostError"));
                 }
                 else
                 {
@@ -394,11 +352,11 @@ public static class ChatPatches
 
         if (nerfCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
         {
-            var msg = TouLocale.GetParsed("NerfMeLobbyError");
+            var msg = MiraLocaleManager.Get("NerfMeLobbyError");
             if (LobbyBehaviour.Instance)
             {
                 VisionPatch.NerfMe = !VisionPatch.NerfMe;
-                msg = TouLocale.GetParsed($"NerfMeToggle" + (VisionPatch.NerfMe ? "On" : "Off"));
+                msg = MiraLocaleManager.Get($"NerfMeToggle" + (VisionPatch.NerfMe ? "On" : "Off"));
             }
 
             MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName, msg);
@@ -417,12 +375,12 @@ public static class ChatPatches
             {
                 if (HudManagerHelper.PlatformAssociations.TryGetValue(AmongUsClient.Instance.GetClientFromCharacter(player).Id, out var icon))
                 {
-                    sBuilder.AppendLine(TouLocale.GetParsed("PlayerCommandDetails")
+                    sBuilder.AppendLine(MiraLocaleManager.Get("PlayerCommandDetails")
                         .Replace("<player>", player.CachedPlayerData.PlayerName).Replace("<platform>", icon));
                 }
                 else
                 {
-                    sBuilder.AppendLine(TouLocale.GetParsed("PlayerCommandDetails")
+                    sBuilder.AppendLine(MiraLocaleManager.Get("PlayerCommandDetails")
                         .Replace("<player>", player.CachedPlayerData.PlayerName).Replace("<platform>", "<sprite name=\"Platform.Blank\">"));
                 }
             }
@@ -461,24 +419,24 @@ public static class ChatPatches
                 textRegular = textRegular[charCount..];
             }
 
-            var msg = TouLocale.GetParsed("SetNameLobbyError");
+            var msg = MiraLocaleManager.Get("SetNameLobbyError");
             if (LobbyBehaviour.Instance)
             {
                 if (textRegular.Length < 1 || textRegular.Length > 12)
                 {
-                    msg = TouLocale.GetParsed("SetNameRequirementError");
+                    msg = MiraLocaleManager.Get("SetNameRequirementError");
                 }
                 else if (PlayerControl.AllPlayerControls.ToArray().Any(x =>
                              x.Data.PlayerName.ToLower(TownOfUsPlugin.Culture).Trim() ==
                              textRegular.ToLower(TownOfUsPlugin.Culture).Trim() &&
                              !x.AmOwner))
                 {
-                    msg = TouLocale.GetParsed("SetNameSimilarError").Replace("<name>", textRegular);
+                    msg = MiraLocaleManager.Get("SetNameSimilarError").Replace("<name>", textRegular);
                 }
                 else
                 {
                     PlayerControl.LocalPlayer.CmdCheckName(textRegular);
-                    msg = TouLocale.GetParsed("SetNameSuccess").Replace("<name>", textRegular);
+                    msg = MiraLocaleManager.Get("SetNameSuccess").Replace("<name>", textRegular);
                 }
             }
 
@@ -496,17 +454,17 @@ public static class ChatPatches
             if (AmongUsClient.Instance && !AmongUsClient.Instance.AmHost)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                    TouLocale.GetParsed("UpCommandHostError"));
+                    MiraLocaleManager.Get("UpCommandHostError"));
             }
             else if (!TownOfUsPlugin.IsDevBuild || TownOfUsPlugin.IsBetaBuild)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                    TouLocale.GetParsed("UpCommandDevBuildError"));
+                    MiraLocaleManager.Get("UpCommandDevBuildError"));
             }
             else if (!LobbyBehaviour.Instance)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                    TouLocale.GetParsed("UpCommandLobbyError"));
+                    MiraLocaleManager.Get("UpCommandLobbyError"));
             }
             else
             {
@@ -515,7 +473,7 @@ public static class ChatPatches
                 if (commandMatch == null)
                 {
                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                        TouLocale.GetParsed("UpCommandInvalidError"));
+                        MiraLocaleManager.Get("UpCommandInvalidError"));
                 }
                 else
                 {
@@ -529,7 +487,7 @@ public static class ChatPatches
                     if (string.IsNullOrWhiteSpace(remainingText))
                     {
                         MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                            TouLocale.GetParsed("UpCommandNoRoleError"));
+                            MiraLocaleManager.Get("UpCommandNoRoleError"));
                     }
                     else
                     {
@@ -547,16 +505,16 @@ public static class ChatPatches
                             allRoles.FirstOrDefault(role =>
                                 role.GetRoleName().Equals(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
                                 role.GetRoleName().Replace(" ", "").Equals(roleNameInput.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
-                                (role is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleNameInput, StringComparison.OrdinalIgnoreCase)))
+                                (role is ITownOfUsRole touRole && touRole.IdPart.Equals(roleNameInput, StringComparison.OrdinalIgnoreCase)))
                             ?? allRoles.FirstOrDefault(role =>
                                 role.GetRoleName().Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
                                 roleNameInput.Contains(role.GetRoleName(), StringComparison.OrdinalIgnoreCase) ||
-                                (role is ITownOfUsRole touRole2 && (touRole2.LocaleKey.Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
-                                                                    roleNameInput.Contains(touRole2.LocaleKey, StringComparison.OrdinalIgnoreCase))));
+                                (role is ITownOfUsRole touRole2 && (touRole2.IdPart.Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
+                                                                    roleNameInput.Contains(touRole2.IdPart, StringComparison.OrdinalIgnoreCase))));
                         if (matchingRole == null)
                         {
                             MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                                TouLocale.GetParsed("UpCommandRoleNotFoundError").Replace("<role>", roleNameInput));
+                                MiraLocaleManager.Get("UpCommandRoleNotFoundError").Replace("<role>", roleNameInput));
                         }
                         else
                         {
@@ -570,27 +528,27 @@ public static class ChatPatches
                                 if (targetPlayer == null)
                                 {
                                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                                        TouLocale.GetParsed("UpCommandPlayerNotFoundError").Replace("<player>", targetPlayerName));
+                                        MiraLocaleManager.Get("UpCommandPlayerNotFoundError").Replace("<player>", targetPlayerName));
                                 }
                                 else
                                 {
                                     targetName = targetPlayer.Data.PlayerName;
-                                    var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.LocaleKey : matchingRole.GetRoleName();
+                                    var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.IdPart : matchingRole.GetRoleName();
                                     RpcForcePlayerRole(PlayerControl.LocalPlayer, targetPlayer);
                                     UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                                        TouLocale.GetParsed("UpCommandSuccessOther").Replace("<player>", targetName).Replace("<role>", MiscUtils.GetHyperlinkText(matchingRole)));
+                                        MiraLocaleManager.Get("UpCommandSuccessOther").Replace("<player>", targetName).Replace("<role>", MiscUtils.GetHyperlinkText(matchingRole)));
                                 }
                             }
                             else
                             {
                                 // Request for self
                                 targetName = PlayerControl.LocalPlayer.Data.PlayerName;
-                                var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.LocaleKey : matchingRole.GetRoleName();
+                                var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.IdPart : matchingRole.GetRoleName();
                                 RpcForcePlayerRole(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer);
                                 UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                                    TouLocale.GetParsed("UpCommandSuccess").Replace("<role>", MiscUtils.GetHyperlinkText(matchingRole)));
+                                    MiraLocaleManager.Get("UpCommandSuccess").Replace("<role>", MiscUtils.GetHyperlinkText(matchingRole)));
                             }
                         }
                     }
@@ -651,11 +609,11 @@ public static class ChatPatches
 
             var msgParts = new List<string>();
 
-            var rolesHeader = TouLocale.GetParsed("RolesHeader");
-            var crewWord = TouLocale.GetParsed("CrewmateKeyword");
-            var impWord = TouLocale.GetParsed("ImpostorKeyword");
-            var neutWord = TouLocale.GetParsed("NeutralKeyword");
-            var ghostWord = TouLocale.GetParsed("GhostKeyword");
+            var rolesHeader = MiraLocaleManager.Get("RolesHeader");
+            var crewWord = MiraLocaleManager.Get("CrewmateKeyword");
+            var impWord = MiraLocaleManager.Get("ImpostorKeyword");
+            var neutWord = MiraLocaleManager.Get("NeutralKeyword");
+            var ghostWord = MiraLocaleManager.Get("GhostKeyword");
             if (crewmateRoles.Count > 0)
             {
                 msgParts.Add($"{rolesHeader.Replace("<type>", crewWord)} ({crewmateRoles.Count}):\n{string.Join(", ", crewmateRoles.Select(roleNameToLink))}");
@@ -697,21 +655,21 @@ public static class ChatPatches
                 "Himi", "Riki", "Leafly", "miniduikboot"
             ];
 
-            var msg = $"<size=75%>{TouLocale.GetParsed("HelpMessageTitle")}\n" +
-                      $"{TouLocale.GetParsed("HelpCommandDescription")}\n" +
-                      $"{TouLocale.GetParsed("NerfMeCommandDescription")}\n" +
-                      $"{TouLocale.GetParsed("PlayerCommandDescription")}\n" +
-                      $"{TouLocale.GetParsed("SetNameCommandDescription").Replace("<randomName>", randomNames.Random())}\n" +
-                      $"{TouLocale.GetParsed("SpectateCommandDescription")}\n" +
-                      $"{TouLocale.GetParsed("RolesCommandDescription")}\n" +
-                      $"{TouLocale.GetParsed("SummaryCommandDescription")}\n" +
-                      $"{TouLocale.GetParsed("RulesCommandDescription")}\n" +
-                      $"{TouLocale.GetParsed("InfoCommandDescription")}\n";
+            var msg = $"<size=75%>{MiraLocaleManager.Get("HelpMessageTitle")}\n" +
+                      $"{MiraLocaleManager.Get("HelpCommandDescription")}\n" +
+                      $"{MiraLocaleManager.Get("NerfMeCommandDescription")}\n" +
+                      $"{MiraLocaleManager.Get("PlayerCommandDescription")}\n" +
+                      $"{MiraLocaleManager.Get("SetNameCommandDescription").Replace("<randomName>", randomNames.Random())}\n" +
+                      $"{MiraLocaleManager.Get("SpectateCommandDescription")}\n" +
+                      $"{MiraLocaleManager.Get("RolesCommandDescription")}\n" +
+                      $"{MiraLocaleManager.Get("SummaryCommandDescription")}\n" +
+                      $"{MiraLocaleManager.Get("RulesCommandDescription")}\n" +
+                      $"{MiraLocaleManager.Get("InfoCommandDescription")}\n";
 
             // Only show /up command in help if host + dev build (not beta)
             if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost && TownOfUsPlugin.IsDevBuild && !TownOfUsPlugin.IsBetaBuild)
             {
-                msg += $"{TouLocale.GetParsed("UpCommandDescription")}\n";
+                msg += $"{MiraLocaleManager.Get("UpCommandDescription")}\n";
             }
 
             msg += "</size>";
@@ -729,15 +687,27 @@ public static class ChatPatches
             return false;
         }
 
-        // /info — replays all FakeChat messages received this meeting
         if (infoCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
         {
-            if (FakeChatHistory.HasInfo)
+            var infoStringToCheck = infoCommandList.FirstOrDefault(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase))!;
+            var infoArg = textRegular;
+            if (infoArg.StartsWith($"/{infoStringToCheck} ", StringComparison.OrdinalIgnoreCase))
+            {
+                infoArg = infoArg[$"/{infoStringToCheck} ".Length..];
+            }
+            else if (infoArg.StartsWith($"/{infoStringToCheck}", StringComparison.OrdinalIgnoreCase))
+            {
+                infoArg = infoArg[$"/{infoStringToCheck}".Length..];
+            }
+
+            int? infoRound = int.TryParse(infoArg.Trim(), out var parsedRound) ? parsedRound : null;
+
+            if (FakeChatHistory.HasInfo(infoRound))
             {
                 FakeChatHistory.IsReplaying = true;
-                foreach (var (infoTitle, infoMsg) in FakeChatHistory.GetEntries())
+                foreach (var (infoPlayer, infoTitle, infoMsg) in FakeChatHistory.GetEntries(infoRound))
                 {
-                    MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, infoTitle, infoMsg, false, true);
+                    MiscUtils.AddSystemChat(infoPlayer ? infoPlayer : PlayerControl.LocalPlayer.Data, infoTitle, infoMsg, false, true);
                 }
                 FakeChatHistory.IsReplaying = false;
             }
@@ -746,7 +716,7 @@ public static class ChatPatches
                 MiscUtils.AddSystemChat(
                     PlayerControl.LocalPlayer.Data,
                     systemName,
-                    TouLocale.GetParsed("InfoCommandNoInfo"));
+                    MiraLocaleManager.Get("InfoCommandNoInfo"));
             }
 
             __instance.freeChatField.Clear();
@@ -758,7 +728,7 @@ public static class ChatPatches
 
         if (spaceLess.StartsWith("/jail", StringComparison.OrdinalIgnoreCase))
         {
-            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName, TouLocale.GetParsed("JailCommandError"));
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName, MiraLocaleManager.Get("JailCommandError"));
 
             __instance.freeChatField.Clear();
             __instance.quickChatMenu.Clear();
@@ -809,13 +779,13 @@ public static class ChatPatches
             return true;
         }
 
-        var systemName = $"<color=#8BFDFD>{TouLocale.GetParsed("SystemChatTitle")}</color>";
+        var systemName = $"<color=#8BFDFD>{MiraLocaleManager.Get("SystemChatTitle")}</color>";
         var spaceLess = text.Replace(" ", string.Empty);
 
         if (spaceLess.StartsWith("/", StringComparison.OrdinalIgnoreCase))
         {
             MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                TouLocale.GetParsed("NoCommandFoundError"));
+                MiraLocaleManager.Get("NoCommandFoundError"));
 
             __instance.freeChatField.Clear();
             __instance.quickChatMenu.Clear();
@@ -835,12 +805,12 @@ public static class ChatPatches
             return;
         }
         var rulesText = GetLobbyRulesText();
-        RpcSendLobbyRules(PlayerControl.LocalPlayer, requester, rulesText, false);
+        RpcSendLobbyRules(PlayerControl.LocalPlayer, requester, rulesText);
     }
 
     private static bool _canShowRules = true;
     [MethodRpc((uint)TownOfUsRpc.SendLobbyRules)]
-    internal static void RpcSendLobbyRules(PlayerControl host, PlayerControl target, string rulesText, bool optional)
+    internal static void RpcSendLobbyRules(PlayerControl host, PlayerControl target, string rulesText)
     {
         if (!host.IsHost())
         {
@@ -851,13 +821,13 @@ public static class ChatPatches
         {
             return;
         }
-        if (PlayerControl.LocalPlayer.PlayerId != target.PlayerId || optional && !LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ShowRulesOnLobbyJoinToggle.Value)
+        if (PlayerControl.LocalPlayer.PlayerId != target.PlayerId)
         {
             return;
         }
-        var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
-        var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
-        MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
+        var title = $"<color=#8BFDFD>{MiraLocaleManager.Get("RulesMessageTitle")}</color>";
+        var msg = string.IsNullOrWhiteSpace(rulesText) ? MiraLocaleManager.Get("RulesMissingError") : $"<size=75%>{rulesText}</size>";
+        MiscUtils.AddSystemChat(host.Data, title, msg);
         Coroutines.Start(CoWaitForAcCooldown());
     }
 
@@ -885,9 +855,9 @@ public static class ChatPatches
         {
             return;
         }
-        var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
-        var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
-        MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
+        var title = $"<color=#8BFDFD>{MiraLocaleManager.Get("RulesMessageTitle")}</color>";
+        var msg = string.IsNullOrWhiteSpace(rulesText) ? MiraLocaleManager.Get("RulesMissingError") : $"<size=75%>{rulesText}</size>";
+        MiscUtils.AddSystemChat(host.Data, title, msg);
         Coroutines.Start(CoWaitForAcCooldown());
     }
 

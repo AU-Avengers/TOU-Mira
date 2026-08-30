@@ -26,15 +26,15 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [HideFromIl2Cpp] public List<MediatedModifier> MediatedPlayers { get; } = [];
 
     public DoomableType DoomHintType => DoomableType.Death;
-    public string LocaleKey => "Medium";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Medium";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -45,8 +45,8 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Mediate", "Mediate"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}MediateWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Mediate", "Mediate"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}MediateWikiDescription"),
                     TouCrewAssets.MediateSprite)
             ];
         }

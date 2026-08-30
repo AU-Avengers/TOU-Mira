@@ -15,7 +15,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, IDiseaseableButton
 {
-    public override string Name => TouLocale.GetParsed("TouRolePuppeteerControl", "Control");
+    public override string Name => MiraLocaleManager.Get("TouRolePuppeteerControl", "Control");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown =>

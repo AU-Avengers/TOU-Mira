@@ -1,5 +1,5 @@
-﻿using AmongUs.GameOptions;
-using HarmonyLib;
+﻿using HarmonyLib;
+using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
 using Reactor.Utilities.Extensions;
 using TMPro;
@@ -58,8 +58,8 @@ public static class GameTimerPatch
             GameTimerObj.SetActive(false);
         }
 
-        if (!timeOpt.GameTimerEnabled || GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
-                or GameModes.SeekFools)
+        if (!timeOpt.GameTimerEnabled || !CustomGameModeManager.IsClassic() || GameOptionsManager.Instance.CurrentGameOptions.GameMode is AmongUs.GameOptions.GameModes.HideNSeek
+                or AmongUs.GameOptions.GameModes.SeekFools)
         {
             return;
         }

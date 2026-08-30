@@ -9,7 +9,7 @@ public interface IWikiDiscoverable
 {
     [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities => [];
 
-    public string SecondTabName => TouLocale.Get("WikiAbilitiesTab", "Abilities");
+    public string SecondTabName => MiraLocaleManager.Get("WikiAbilitiesTab", "Abilities");
     [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.Normal;
 
     public uint FakeTypeId => ModifierManager.GetModifierTypeId(GetType()) ??

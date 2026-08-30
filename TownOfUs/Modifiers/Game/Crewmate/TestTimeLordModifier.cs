@@ -6,7 +6,7 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class TestTimeLordModifier : TouGameModifier, IWikiDiscoverable, IButtonModifier
 {
-    public override string LocaleKey => "TestTimeLord";
+    public override string IdPart => "TestTimeLord";
     public override string ModifierName => "Test Time Lord";
     public override string IntroInfo => "Test modifier for Time Lord rewind ability";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.TimeLord; // Use Time Lord role icon

@@ -29,15 +29,15 @@ public sealed class BootleggerPoisonModifier(PlayerControl bootlegger) : TimedMo
         if (Poison == PoisonProgress.Sick && !HasReceivedSickMsg)
         {
             HasReceivedSickMsg = true;
-            var title = $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{TouLocale.GetParsed("TouRoleBootleggerMessageTitle")}</color>";
+            var title = $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TouRoleBootleggerMessageTitle")}</color>";
             if (Player.AmOwner)
             {
-                var msg = TouLocale.GetParsed("TouRoleBootleggerSickenFeedbackAffected");
+                var msg = MiraLocaleManager.Get("TouRoleBootleggerSickenFeedbackAffected");
                 MiscUtils.AddFakeChat(Player.Data, title, msg, false, true);
             }
             else if (Bootlegger && Bootlegger.AmOwner)
             {
-                var msg = TouLocale.GetParsed("TouRoleBootleggerSickenFeedbackBootlegger").Replace("<player>", Player.Data.PlayerName);
+                var msg = MiraLocaleManager.Get("TouRoleBootleggerSickenFeedbackBootlegger").Replace("<player>", Player.Data.PlayerName);
                 MiscUtils.AddFakeChat(Player.Data, title, msg, false, true);
             }
         }

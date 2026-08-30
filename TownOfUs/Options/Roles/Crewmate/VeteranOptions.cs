@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class VeteranOptions : AbstractRoleOptionGroup<VeteranRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleVeteran", "Veteran");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleVeteran", "Veteran");
 
     [ModdedNumberOption("TouOptionVeteranAlertCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float AlertCooldown { get; set; } = 25f;

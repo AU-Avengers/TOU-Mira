@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class OracleOptions : AbstractRoleOptionGroup<OracleRole>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => TouLocale.Get("TouRoleOracle", "Oracle");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleOracle", "Oracle");
 
     [ModdedNumberOption("TouOptionOracleConfessCooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
     public float ConfessCooldown { get; set; } = 20f;
@@ -39,7 +39,7 @@ public sealed class OracleOptions : AbstractRoleOptionGroup<OracleRole>, IWikiOp
 
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
-        var title = TouLocale.GetParsed("TouOptionOracleNeutralsThatShowEvil");
+        var title = MiraLocaleManager.Get("TouOptionOracleNeutralsThatShowEvil");
         var nbValid = ShowNeutralBenignAsEvil.Value;
         var neValid = ShowNeutralEvilAsEvil.Value;
         var nkValid = ShowNeutralKillingAsEvil.Value;
@@ -48,15 +48,15 @@ public sealed class OracleOptions : AbstractRoleOptionGroup<OracleRole>, IWikiOp
         if (!nbValid && !neValid && !nkValid && !noValid)
         {
             var newArray = new []
-                { $"{title}: {TouLocale.GetParsed("TouOptionOracleNeutBadNone")}" };
+                { $"{title}: {MiraLocaleManager.Get("TouOptionOracleNeutBadNone")}" };
             return newArray;
         }
 
         var selected = new List<string>();
-        if (nbValid) selected.Add(TouLocale.GetParsed("TouOptionOracleNeutBadBenign"));
-        if (neValid) selected.Add(TouLocale.GetParsed("TouOptionOracleNeutBadEvil"));
-        if (nkValid) selected.Add(TouLocale.GetParsed("TouOptionOracleNeutBadKilling"));
-        if (noValid) selected.Add(TouLocale.GetParsed("TouOptionOracleNeutBadOutlier"));
+        if (nbValid) selected.Add(MiraLocaleManager.Get("TouOptionOracleNeutBadBenign"));
+        if (neValid) selected.Add(MiraLocaleManager.Get("TouOptionOracleNeutBadEvil"));
+        if (nkValid) selected.Add(MiraLocaleManager.Get("TouOptionOracleNeutBadKilling"));
+        if (noValid) selected.Add(MiraLocaleManager.Get("TouOptionOracleNeutBadOutlier"));
 
         var names = selected
             .Distinct()

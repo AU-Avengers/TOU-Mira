@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Maps;
 public sealed class AdvancedSabotageOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
-    public override string GroupName => TouLocale.Get("TouOptionTitleAdvancedSabotages");
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleAdvancedSabotages");
     public override uint GroupPriority => 2;
     public override Color GroupColor => new Color32(173, 180, 179, 255);
     public ModdedToggleOption KillDuringCamoComms { get; set; } = new("TouOptionAdvancedSaboKillDuringCamoComms", true);

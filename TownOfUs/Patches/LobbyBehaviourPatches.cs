@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using TownOfUs.Events;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
@@ -33,6 +34,8 @@ public static class LobbyBehaviourPatches
 
         TeamChatPatches.CleanUpChats();
         GameHistory.ClearAll();
+        FakeChatHistory.ClearAll();
+        TownOfUsEventHandlers.ResetRulesShownTracking();
         ScreenFlash.Clear();
         MeetingMenu.ClearAll();
         EgotistModifier.CooldownReduction = 0f;

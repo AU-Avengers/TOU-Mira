@@ -19,7 +19,7 @@ public static class TargetDisconnectPatch
         var otherLover = ModifierUtils.GetActiveModifiers<LoverModifier>().FirstOrDefault(x => x.OtherLover == player);
         if (otherLover != null)
         {
-            otherLover.LoverDcString = TouLocale.GetParsed("TouModifierLoverInfoDisconnected")
+            otherLover.LoverDcString = MiraLocaleManager.Get("TouModifierLoverInfoDisconnected")
                 .Replace("<player>", player.Data.PlayerName);
             otherLover.LoverDisconnected = true;
             otherLover.OtherLover = null;

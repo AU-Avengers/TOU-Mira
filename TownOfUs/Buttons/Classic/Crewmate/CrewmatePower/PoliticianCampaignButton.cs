@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class PoliticianCampaignButton : TownOfUsRoleButton<PoliticianRole, PlayerControl>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRolePoliticianCampaign", "Campaign");
+    public override string Name => MiraLocaleManager.Get("TouRolePoliticianCampaign", "Campaign");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<PoliticianOptions>.Instance.CampaignCooldown + MapCooldown, 5f, 120f);
     public override Color TextOutlineColor => TownOfUsColors.Politician;

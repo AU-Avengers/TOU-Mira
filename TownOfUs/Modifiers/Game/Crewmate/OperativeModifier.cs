@@ -16,18 +16,18 @@ public sealed class OperativeModifier : TouGameModifier, IWikiDiscoverable, IBut
         TownOfUsColors.Operative,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Operative.LoadAsset(),
             "TouMira.Modifier.Crewmate.Operative", 1.45f));
-    public override string LocaleKey => "Operative";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+    public override string IdPart => "Operative";
+    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription")
                + MiscUtils.AppendOptionsText(GetType());
     }
 

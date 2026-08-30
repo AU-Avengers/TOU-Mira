@@ -17,7 +17,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, PlayerControl>, IKillButton, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleSheriffShoot", "Shoot");
+    public override string Name => MiraLocaleManager.Get("TouRoleSheriffShoot", "Shoot");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Sheriff;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SheriffOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
@@ -57,7 +57,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
 
         FailedShot = true;
 
-        var notif1 = Helpers.CreateAndShowNotification($"<b>{TouLocale.GetParsed("TouRoleSheriffMisfireFeedback")}</b>",
+        var notif1 = Helpers.CreateAndShowNotification($"<b>{MiraLocaleManager.Get("TouRoleSheriffMisfireFeedback")}</b>",
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Sheriff.LoadAsset());
 
         notif1.AdjustNotification();

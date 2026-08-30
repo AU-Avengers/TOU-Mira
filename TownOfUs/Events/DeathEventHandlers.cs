@@ -53,7 +53,7 @@ public static class DeathEventHandlers
                     break;
             }
 
-            stats.DeathString = TouLocale.Get($"DiedTo{cod}");
+            stats.DeathString = MiraLocaleManager.Get($"DiedTo{cod}");
             stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
             stats.PlayerState = StoredPlayerState.Dead;
             HudManagerHelper.Instance.DeathTimer = Math.Max(HudManagerHelper.Instance.DeathTimer + 1, 0);
@@ -68,7 +68,7 @@ public static class DeathEventHandlers
         {
             return;
         }
-        GameHistory.UpdatePlayerDeathData(exiled, TouLocale.Get("DiedToEjection"), 0, HudManagerHelper.Instance.CurrentRound,
+        GameHistory.UpdatePlayerDeathData(exiled, MiraLocaleManager.Get("DiedToEjection"), 0, HudManagerHelper.Instance.CurrentRound,
             DeathHandlerOverride.SetFalse, playerState: StoredPlayerState.Dead);
     }
 
@@ -78,7 +78,7 @@ public static class DeathEventHandlers
         var stats = GameHistory.PlayerStats[reviveEvent.Player.PlayerId];
 
         stats.PlayerState = StoredPlayerState.Revived;
-        stats.DeathString = TouLocale.Get("Revived");
+        stats.DeathString = MiraLocaleManager.Get("Revived");
         stats.KilledBy = "";
 
         // Sync physics body position to match transform position after revive
@@ -108,12 +108,12 @@ public static class DeathEventHandlers
             if (target == source)
             {
                 var role = target.GetRoleWhenAlive();
-                var text = TouLocale.Get("DiedToSuicide");
+                var text = MiraLocaleManager.Get("DiedToSuicide");
 
-                if (role is ITownOfUsRole touRole && touRole.LocaleKey != "KEY_MISS" &&
-                    !TouLocale.Get($"DiedToSuicide{touRole.LocaleKey}").Contains("STRMISS"))
+                if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS" &&
+                    !MiraLocaleManager.Get($"DiedToSuicide{touRole.IdPart}").Contains("STRMISS"))
                 {
-                    text = TouLocale.Get($"DiedToSuicide{touRole.LocaleKey}");
+                    text = MiraLocaleManager.Get($"DiedToSuicide{touRole.IdPart}");
                 }
 
                 stats.DeathString = text;
@@ -127,21 +127,21 @@ public static class DeathEventHandlers
                 var cod = "Killer";
             
                 var roleToCheck = role is MirrorcasterRole mirror ? mirror.ContainedRole ?? mirror : role;
-                var localeKey = roleToCheck.GetRoleLocaleKey();
-                if (localeKey != "KEY_MISS" &&
-                    !TouLocale.Get($"DiedTo{localeKey}").Contains("STRMISS"))
+                var IdPart = roleToCheck.GetRoleIdPart();
+                if (IdPart != "KEY_MISS" &&
+                    !MiraLocaleManager.Get($"DiedTo{IdPart}").Contains("STRMISS"))
                 {
-                    cod = localeKey;
+                    cod = IdPart;
                 }
 
                 if (source.Data.Role is IGhostRole && source.Data.Role is ITownOfUsRole touRole)
                 {
-                    cod = touRole.LocaleKey;
+                    cod = touRole.IdPart;
                 }
 
-                stats.DeathString = TouLocale.Get($"DiedTo{cod}");
+                stats.DeathString = MiraLocaleManager.Get($"DiedTo{cod}");
                 stats.KilledBy =
-                    TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName);
+                    MiraLocaleManager.Get("DiedByStringBasic").Replace("<player>", source.Data.PlayerName);
                 stats.DiedThisRound = !MeetingHud.Instance && !ExileController.Instance;
                 stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
             }
@@ -162,7 +162,7 @@ public static class DeathEventHandlers
             return;
         }
 
-        var pva = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == player.PlayerId);
+        var pva = MeetingHud.Instance.playerStates.First(x => x.PlayerId == player.PlayerId);
 
         if (!pva)
         {

@@ -26,19 +26,19 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
         TownOfUsColors.Impostor,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Crewpostor.LoadAsset(),
             "TouMira.Modifier.Alliance.Crewpostor", 1.45f));
-    public override string LocaleKey => "Crewpostor";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public string ShortName => TouLocale.Get($"TouModifier{LocaleKey}ShortName");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+    public override string IdPart => "Crewpostor";
+    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
+    public string ShortName => MiraLocaleManager.Get($"TouModifier{IdPart}ShortName");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public override string Symbol => "*";
@@ -58,7 +58,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
 
     public void AssignTargets()
     {
-        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        if (!RoleOptions.IsClassicRoleAssignment)
         {
             return;
         }

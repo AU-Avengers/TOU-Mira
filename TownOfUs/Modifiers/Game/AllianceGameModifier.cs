@@ -10,7 +10,7 @@ namespace TownOfUs.Modifiers.Game;
 [MiraIgnore]
 public abstract class AllianceGameModifier : TouBaseGameModifier
 {
-    public override string IntroInfo => $"{TouLocale.Get("Alliance")}: {ModifierName}";
+    public override string IntroInfo => $"{MiraLocaleManager.Get("Alliance")}: {ModifierName}";
     public virtual string Symbol => "?";
     public virtual bool DoesTasks => true;
     public virtual bool GetsPunished => true;

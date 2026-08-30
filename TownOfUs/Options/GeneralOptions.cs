@@ -7,7 +7,7 @@ namespace TownOfUs.Options;
 
 public sealed class GeneralOptions : AbstractOptionGroup
 {
-    public override string GroupName => "General";
+    public override string GroupName => MiraLocaleManager.Get("TouOptionTitleGeneral");
     public override uint GroupPriority => 1;
 
     // Legacy Compatibility, this allows mods like ChaosTokens to still use this value as normal.
@@ -22,22 +22,25 @@ public sealed class GeneralOptions : AbstractOptionGroup
     
 #pragma warning restore S2325 // Make a static property.
 
-    [ModdedToggleOption("Impostors Don't Know Each Other")]
+    [ModdedToggleOption("TouOptionFFAImpostorMode")]
     public bool FFAImpostorMode { get; set; } = false;
 
-    public ModdedToggleOption ImpsKnowRoles { get; set; } = new("Impostors Know Each Other's Roles", true)
-    {
-        Visible = () => !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode
-    };
+    public ModdedToggleOption ImpsKnowRoles { get; set; } =
+        new("TouOptionImpsKnowRoles", true)
+        {
+            Visible = () => !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode
+        };
 
-    public ModdedToggleOption ImpostorChat { get; set; } = new("Impostors Get A Private Meeting Chat", true)
-    {
-        Visible = () => !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode
-    };
+    public ModdedToggleOption ImpostorChat { get; set; } =
+        new("TouOptionImpostorChat", true)
+        {
+            Visible = () => !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode
+        };
 
-    [ModdedToggleOption("Vampires Get A Private Meeting Chat")]
+    [ModdedToggleOption("TouOptionVampireChat")]
     public bool VampireChat { get; set; } = true;
 
-    [ModdedNumberOption("Voting Time Added After Meeting Death", 0f, 15f, 1f, MiraNumberSuffixes.Seconds, "0.#")]
+    [ModdedNumberOption("TouOptionAddedMeetingDeathTimer", 0f, 15f, 1f,
+        MiraNumberSuffixes.Seconds, "0.#")]
     public float AddedMeetingDeathTimer { get; set; } = 5f;
 }

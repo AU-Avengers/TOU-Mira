@@ -73,15 +73,15 @@ public static class Bindings
             var areas = hud.playerStates;
             foreach (var area in areas)
             {
-                if (area.VotedFor != byte.MaxValue && area.VotedFor != area.TargetPlayerId)
+                if (area.VotedForId != byte.MaxValue && area.VotedForId != area.PlayerId)
                 {
-                    var voter = MiscUtils.PlayerById(area.TargetPlayerId);
+                    var voter = MiscUtils.PlayerById(area.PlayerId);
                     if (voter != null && !voter.HasDied())
                     {
                         var voteData = voter.GetVoteData();
-                        if (!voteData.Votes.Any(v => v.Voter == area.TargetPlayerId && v.Suspect == area.VotedFor))
+                        if (!voteData.Votes.Any(v => v.Voter == area.PlayerId && v.Suspect == area.VotedForId))
                         {
-                            voteData.VoteForPlayer(area.VotedFor);
+                            voteData.VoteForPlayer(area.VotedForId);
                         }
                     }
                 }
@@ -166,15 +166,15 @@ public static class Bindings
                 exiled = VotingUtils.GetExiled(processEvent.Votes, out tie);
             }
 
-            hud.RpcVotingComplete(voterStates, exiled, tie);
+            hud.RpcVotingComplete(voterStates, exiled, tie, processEvent.OverruledVote, processEvent.OverruledNonce);
         }
 
         CreateNotif("HostEndMeetingNotif", TouRoleIcons.Prosecutor.LoadAsset());
     }
 
-    public static void CreateNotif(string localeKey, Sprite icon)
+    public static void CreateNotif(string IdPart, Sprite icon)
     {
-        var notif1 = Helpers.CreateAndShowNotification(TouLocale.GetParsed(localeKey),
+        var notif1 = Helpers.CreateAndShowNotification(MiraLocaleManager.Get(IdPart),
             Color.white, new Vector3(0f, 1f, -20f), spr: icon);
         notif1.AdjustNotification();
     }
@@ -252,7 +252,7 @@ public static class Bindings
                     {
                         var randomRole = impostorRoles[Random.Range(0, impostorRoles.Count)];
                         var roleIdentifier = randomRole is ITownOfUsRole touRole
-                            ? touRole.LocaleKey
+                            ? touRole.IdPart
                             : randomRole.GetRoleName();
                         var playerName = PlayerControl.LocalPlayer.Data.PlayerName;
                         UpCommandRequests.SetRequest(playerName, roleIdentifier);
@@ -275,7 +275,7 @@ public static class Bindings
                     {
                         var randomRole = neutralKillerRoles[Random.Range(0, neutralKillerRoles.Count)];
                         var roleIdentifier = randomRole is ITownOfUsRole touRole
-                            ? touRole.LocaleKey
+                            ? touRole.IdPart
                             : randomRole.GetRoleName();
                         var playerName = PlayerControl.LocalPlayer.Data.PlayerName;
                         UpCommandRequests.SetRequest(playerName, roleIdentifier);

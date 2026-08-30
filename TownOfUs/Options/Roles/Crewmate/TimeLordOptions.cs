@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class TimeLordOptions : AbstractRoleOptionGroup<TimeLordRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleTimeLord", "Time Lord");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleTimeLord", "Time Lord");
 
     [ModdedNumberOption("TouOptionTimeLordRewindCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float RewindCooldown { get; set; } = 30f;

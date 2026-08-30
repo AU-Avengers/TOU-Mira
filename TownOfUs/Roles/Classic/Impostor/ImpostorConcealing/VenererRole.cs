@@ -13,15 +13,15 @@ public sealed class VenererRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
 {
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<HunterRole>());
     public DoomableType DoomHintType => DoomableType.Trickster;
-    public string LocaleKey => "Venerer";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Venerer";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -45,14 +45,14 @@ public sealed class VenererRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Camouflage", "Camouflage"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}CamouflageWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Camouflage", "Camouflage"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}CamouflageWikiDescription"),
                     TouImpAssets.CamouflageSprite),
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Sprint", "Sprint"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}SprintWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Sprint", "Sprint"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}SprintWikiDescription"),
                     TouImpAssets.SprintSprite),
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Freeze", "Freeze"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}FreezeWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Freeze", "Freeze"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}FreezeWikiDescription"),
                     TouImpAssets.FreezeSprite)
             ];
         }

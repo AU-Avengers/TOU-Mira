@@ -2616,11 +2616,11 @@ return true;*/
         
         var timeLord = SourceTimeLordId != byte.MaxValue ? MiscUtils.PlayerById(SourceTimeLordId) : null;
         var isTemp = (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value is RewindRevive.UntilNextRound;
-        var revivedText = TouLocale.GetParsed("TouRoleTimeLordRevivedNotif", "You were revived thanks to the Time Lord!");
+        var revivedText = MiraLocaleManager.Get("TouRoleTimeLordRevivedNotif", "You were revived thanks to the Time Lord!");
         var successText = string.Empty;
         if (timeLord != null && revived.Data != null && OptionGroupSingleton<TimeLordOptions>.Instance.NotifyOnRevive)
         {
-            successText = TouLocale.GetParsed("TouRoleAltruistReviveSuccessNotif").Replace("<player>", revived.Data.PlayerName);
+            successText = MiraLocaleManager.Get("TouRoleAltruistReviveSuccessNotif").Replace("<player>", revived.Data.PlayerName);
             if (isTemp)
             {
                 successText += "\n<color=#D64042>They will perish next round.</color>";

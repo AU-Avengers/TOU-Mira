@@ -8,7 +8,7 @@ namespace TownOfUs.Modifiers;
 public abstract class BaseShieldModifier : TimedModifier, IAnimated
 {
     public override string ModifierName => "Shield Modifier";
-    public virtual string ShieldDescription => "You are protected!";
+    public virtual string ShieldDescription => MiraLocaleManager.Get("TouModifierShieldDescription");
     public override float Duration => 0.001f;
     public override bool AutoStart => false;
 

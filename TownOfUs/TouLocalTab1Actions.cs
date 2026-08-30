@@ -3,9 +3,7 @@ using MiraAPI.GameEnd;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using TownOfUs.GameOver;
-using TownOfUs.LocalSettings.SettingTypes;
 using MiraAPI.LocalSettings.Attributes;
-using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.Patches;
 
 namespace TownOfUs;
@@ -14,24 +12,6 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
 {
     public override string TabName => "Actions";
     protected override bool ShouldCreateLabels => true;
-
-    public override void Open()
-    {
-        base.Open();
-
-        foreach (var entry in TouLocale.LocalizedToggles)
-        {
-            var toggleObject = entry.Key;
-            LocalizedLocalToggleSetting.UpdateToggleText(toggleObject.Text, entry.Value, toggleObject.onState);
-        }
-
-        foreach (var entry in TouLocale.LocalizedSliders)
-        {
-            var sliderObject = entry.Key;
-            sliderObject.SliderObject.Title.text =
-                LocalizedLocalSliderSetting.GetLocalizedValueText(sliderObject, sliderObject.LocaleKey);
-        }
-    }
 
     public override LocalSettingTabAppearance TabAppearance => new()
     {
@@ -67,19 +47,19 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
         DoActionType(BindActionType.EndMeeting);
     }
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> SelfKillBindToggle { get; private set; } =
         config.Bind("Keybind Toggles", "SelfKillBindToggle", false);
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> AbortGameBindToggle { get; private set; } =
         config.Bind("Keybind Toggles", "AbortGameBindToggle", true);
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> StartMeetingBindToggle { get; private set; } =
         config.Bind("Keybind Toggles", "StartMeetingBindToggle", true);
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> EndMeetingBindToggle { get; private set; } =
         config.Bind("Keybind Toggles", "EndMeetingBindToggle", true);
 

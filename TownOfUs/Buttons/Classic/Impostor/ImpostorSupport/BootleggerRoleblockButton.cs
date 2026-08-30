@@ -11,14 +11,14 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRole, PlayerControl>
 {
-    private static string _normalRb => TouLocale.Get("TouRoleBarkeeperRoleblock");
-    private static string _normalRbStart => TouLocale.GetParsed("TouRoleBarkeeperRoleblocking");
+    private static string _normalRb => MiraLocaleManager.Get("TouRoleBarkeeperRoleblock");
+    private static string _normalRbStart => MiraLocaleManager.Get("TouRoleBarkeeperRoleblocking");
     private static Sprite _normalRbSprite => TouImpAssets.DrinkRoleblockSprite.LoadAsset();
-    private static string _sickRb => TouLocale.Get("TouRoleBootleggerSicken");
-    private static string _sickRbStart => TouLocale.Get("TouRoleBootleggerSickening");
+    private static string _sickRb => MiraLocaleManager.Get("TouRoleBootleggerSicken");
+    private static string _sickRbStart => MiraLocaleManager.Get("TouRoleBootleggerSickening");
     private static Sprite _sickRbSprite => TouImpAssets.DrinkSickenSprite.LoadAsset();
-    private static string _poisRb => TouLocale.Get("TouRoleBootleggerPoison");
-    private static string _poisRbStart => TouLocale.Get("TouRoleBootleggerPoisoning");
+    private static string _poisRb => MiraLocaleManager.Get("TouRoleBootleggerPoison");
+    private static string _poisRbStart => MiraLocaleManager.Get("TouRoleBootleggerPoisoning");
     private static Sprite _poisRbSprite => TouImpAssets.DrinkPoisonSprite.LoadAsset();
 
     private static void GetRb(PlayerControl? player, out Sprite sprite, out string text)
@@ -104,7 +104,7 @@ public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRol
 
         _roleblockedTarget = Target;
 
-        NotifMessage = Helpers.CreateAndShowNotification($"<b>{TouLocale.GetParsed("TouRoleBootleggerRoleblockChosen") .Replace("<player>", _roleblockedTarget.CachedPlayerData.PlayerName)}</b>",
+        NotifMessage = Helpers.CreateAndShowNotification($"<b>{MiraLocaleManager.Get("TouRoleBootleggerRoleblockChosen") .Replace("<player>", _roleblockedTarget.CachedPlayerData.PlayerName)}</b>",
         Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Bootlegger.LoadAsset());
         NotifMessage.Text.SetOutlineThickness(0.35f);
     }

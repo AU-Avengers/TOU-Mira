@@ -17,7 +17,7 @@ public static class KickOnJoinWhileLockedPatch
         if (!DraftManager.IsDraftActive) return;
         if (!AmongUsClient.Instance.AmHost) return;
 
-        var reason = TouLocale.GetParsed("TouDraftKickReason", "You were kicked because you tried to join mid-draft. Please try again when lobby is open");
+        var reason = MiraLocaleManager.Get("TouDraftKickReason", "You were kicked because you tried to join mid-draft. Please try again when lobby is open");
 
         Error($"Client {client.Id} ({client.PlayerName}) was kicked due to joining mid-draft.");
 

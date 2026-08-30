@@ -19,9 +19,9 @@ public sealed class HostGameOver : CustomGameOver
         endGameManager.BackgroundBar.material.SetColor(ShaderID.Color, TownOfUsColors.Neutral);
 
         var text = Object.Instantiate(endGameManager.WinText);
-        text.text = $"{TouLocale.Get("HostWin")}!";
+        text.text = $"{MiraLocaleManager.Get("HostWin")}!";
         text.color = TownOfUsColors.Neutral;
-        GameHistory.WinningFaction = $"<color=#{TownOfUsColors.Neutral.ToHtmlStringRGBA()}>{TouLocale.Get("HostWin")}</color>";
+        GameHistory.WinningFaction = $"<color=#{TownOfUsColors.Neutral.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("HostWin")}</color>";
 
         var pos = endGameManager.WinText.transform.localPosition;
         pos.y = 1.5f;

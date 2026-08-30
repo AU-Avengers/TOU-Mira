@@ -9,15 +9,15 @@ namespace TownOfUs.Roles.Impostor;
 public sealed class SwooperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public DoomableType DoomHintType => DoomableType.Hunter;
-    public string LocaleKey => "Swooper";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Swooper";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -43,11 +43,11 @@ public sealed class SwooperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Swoop", "Swoop"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}SwoopWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Swoop", "Swoop"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}SwoopWikiDescription"),
                     TouImpAssets.SwoopSprite),
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Unswoop", "Unswoop"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}UnswoopWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Unswoop", "Unswoop"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}UnswoopWikiDescription"),
                     TouImpAssets.UnswoopSprite)
             ];
         }

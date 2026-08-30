@@ -7,15 +7,15 @@ namespace TownOfUs.Roles.Impostor;
 public sealed class EclipsalRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public DoomableType DoomHintType => DoomableType.Perception;
-    public string LocaleKey => "Eclipsal";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Eclipsal";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -39,8 +39,8 @@ public sealed class EclipsalRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Blind", "Blind"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}BlindWikiDescription"),
+                new(MiraLocaleManager.Get($"TouRole{IdPart}Blind", "Blind"),
+                    MiraLocaleManager.Get($"TouRole{IdPart}BlindWikiDescription"),
                     TouImpAssets.BlindSprite)
             ];
         }

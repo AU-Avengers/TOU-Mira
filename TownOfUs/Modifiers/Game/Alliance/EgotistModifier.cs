@@ -21,19 +21,19 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
     public bool HasSurvived { get; set; } = true;
     public static float CooldownReduction { get; set; }
     public static float SpeedMultiplier { get; set; } = 1f;
-    public override string LocaleKey => "Egotist";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public string ShortName => TouLocale.Get($"TouModifier{LocaleKey}ShortName");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+    public override string IdPart => "Egotist";
+    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
+    public string ShortName => MiraLocaleManager.Get($"TouModifier{IdPart}ShortName");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription")
             .Replace("<symbol>", "<color=#669966>#</color>") + MiscUtils.AppendOptionsText(GetType());
     }
 

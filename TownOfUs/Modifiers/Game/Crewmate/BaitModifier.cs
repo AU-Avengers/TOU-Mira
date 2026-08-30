@@ -14,18 +14,18 @@ public sealed class BaitModifier : TouGameModifier, IWikiDiscoverable
         TownOfUsColors.Bait,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Bait.LoadAsset(),
             "TouMira.Modifier.Crewmate.Bait", 1.45f));
-    public override string LocaleKey => "Bait";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+    public override string IdPart => "Bait";
+    public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Bait;
@@ -71,10 +71,10 @@ public sealed class BaitModifier : TouGameModifier, IWikiDiscoverable
         {
             killer.CmdReportDeadBody(target.Data);
 
-            var text = TouLocale.GetParsed("TouModifierBaitTriggeredNotif").Replace("<player>", target.Data.PlayerName);
+            var text = MiraLocaleManager.Get("TouModifierBaitTriggeredNotif").Replace("<player>", target.Data.PlayerName);
 
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{text.Replace("<modifier>", $"{TownOfUsColors.Bait.ToTextColor()}{TouLocale.Get("TouModifierBait")}</color>")}</b>",
+                $"<b>{text.Replace("<modifier>", $"{TownOfUsColors.Bait.ToTextColor()}{MiraLocaleManager.Get("TouModifierBait")}</color>")}</b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Bait.LoadAsset());
 
             notif1.AdjustNotification();

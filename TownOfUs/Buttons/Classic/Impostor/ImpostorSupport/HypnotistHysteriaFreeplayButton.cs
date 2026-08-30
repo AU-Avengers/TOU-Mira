@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class HypnotistHysteriaFreeplayButton : TownOfUsRoleButton<HypnotistRole>
 {
-    public override string Name => TouLocale.GetParsed("TouRoleHypnotistMassHysteria", "Hysteria");
+    public override string Name => MiraLocaleManager.Get("TouRoleHypnotistMassHysteria", "Hysteria");
     public override BaseKeybind Keybind => Keybinds.TertiaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 3f;

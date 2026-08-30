@@ -30,15 +30,15 @@ public sealed class MayorRole(IntPtr cppPtr)
     private MeetingMenu meetingMenu;
     public bool Revealed { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
-    public string LocaleKey => "Mayor";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Mayor";
+    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -78,11 +78,11 @@ public sealed class MayorRole(IntPtr cppPtr)
     [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
 
-    public static string UnrevealedString = TouLocale.GetParsed("TouRoleMayorUnrevealedTabText");
+    public static string UnrevealedString = MiraLocaleManager.Get("TouRoleMayorUnrevealedTabText");
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        UnrevealedString = TouLocale.GetParsed("TouRoleMayorUnrevealedTabText");
+        UnrevealedString = MiraLocaleManager.Get("TouRoleMayorUnrevealedTabText");
         if (!Player.HasModifier<MayorRevealModifier>())
         {
             Player.AddModifier<MayorRevealModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MayorRole>()));
@@ -90,7 +90,7 @@ public sealed class MayorRole(IntPtr cppPtr)
 
         if (MeetingHud.Instance && !DisabledAnimation)
         {
-            var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == player.PlayerId);
+            var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.PlayerId == player.PlayerId);
             Coroutines.Start(CoAnimateReveal(targetVoteArea));
         }
 
@@ -100,7 +100,7 @@ public sealed class MayorRole(IntPtr cppPtr)
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
-                classic ? string.Empty : TouLocale.GetParsed("TouRolePoliticianReveal"),
+                classic ? string.Empty : MiraLocaleManager.Get("TouRolePoliticianReveal"),
                 MeetingAbilityType.Click,
                 classic ? LegacyAssets.RevealButtonSprite : TouAssets.RevealCleanSprite,
                 null!,
@@ -121,7 +121,7 @@ public sealed class MayorRole(IntPtr cppPtr)
             return;
         }
 
-        var targetVoteArea = meeting.playerStates.First(x => x.TargetPlayerId == Player.PlayerId);
+        var targetVoteArea = meeting.playerStates.First(x => x.PlayerId == Player.PlayerId);
         if (Revealed && !DisabledAnimation)
         {
             Coroutines.Start(CoAnimatePostReveal(targetVoteArea));
@@ -185,14 +185,14 @@ public sealed class MayorRole(IntPtr cppPtr)
             return;
         }
 
-        var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == plr.PlayerId);
+        var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.PlayerId == plr.PlayerId);
         Coroutines.Start(CoAnimateReveal(targetVoteArea));
     }
 
 
     public bool IsExempt(PlayerVoteArea voteArea)
     {
-        return voteArea?.TargetPlayerId != Player.PlayerId;
+        return voteArea?.PlayerId != Player.PlayerId;
     }
 
     private static IEnumerator CoAnimateReveal(PlayerVoteArea voteArea)
@@ -204,9 +204,9 @@ public sealed class MayorRole(IntPtr cppPtr)
         }
 
         // hide meeting menu buttons (such as for guessers) for everyone but the mayor
-        if (voteArea.TargetPlayerId != PlayerControl.LocalPlayer.PlayerId)
+        if (voteArea.PlayerId != PlayerControl.LocalPlayer.PlayerId)
         {
-            MeetingMenu.Instances.Do(x => x.HideSingle(voteArea.TargetPlayerId));
+            MeetingMenu.Instances.Do(x => x.HideSingle(voteArea.PlayerId));
         }
 
         MayorPlayer = Instantiate(TouAssets.MayorRevealPrefab.LoadAsset(), voteArea.transform);
@@ -248,7 +248,7 @@ public sealed class MayorRole(IntPtr cppPtr)
         handAnim.SetSpeed(1.02f);
         TouAudio.PlaySound(TouAudio.MayorRevealSound);
         yield return new WaitForSeconds(0.1f);
-        var player = MiscUtils.PlayerById(voteArea.TargetPlayerId);
+        var player = MiscUtils.PlayerById(voteArea.PlayerId);
         if (player!.Data.Role is MayorRole mayor)
         {
             mayor.Revealed = true;

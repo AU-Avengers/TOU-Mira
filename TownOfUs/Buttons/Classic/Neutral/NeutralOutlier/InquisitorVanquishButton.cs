@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Neutral;
 public sealed class InquisitorVanquishButton : TownOfUsKillRoleButton<InquisitorRole, PlayerControl>, IDiseaseableButton,
     IKillButton, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleInquisitorVanquish", "Vanquish");
+    public override string Name => MiraLocaleManager.Get("TouRoleInquisitorVanquish", "Vanquish");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Inquisitor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<InquisitorOptions>.Instance.VanquishCooldown + MapCooldown, 5f, 120f);

@@ -21,20 +21,18 @@ public static class MiraApiPatches
     public static bool IsRoleBlacklisted(RoleBehaviour role, ref bool __result)
     {
         // Since TOU Engineer is just vanilla engineer with the fix mechanic, no need to have two engis around!
-        if (role.Role is RoleTypes.Engineer)
+        // Also Judge being a near carbon copy of Prosecutor is lame.
+        if (role.Role is RoleTypes.Engineer or RoleTypes.Judge)
         {
             __result = true;
             return false;
         }
-
-        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek && (role.Role is RoleTypes.Detective ||
-                                                                       role.Role is RoleTypes.GuardianAngel ||
-                                                                       role.Role is RoleTypes.Noisemaker ||
-                                                                       role.Role is RoleTypes.Phantom ||
-                                                                       role.Role is RoleTypes.Scientist ||
-                                                                       role.Role is RoleTypes.Shapeshifter ||
-                                                                       role.Role is RoleTypes.Tracker ||
-                                                                       role.Role is RoleTypes.Viper))
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek && (role.Role is not RoleTypes.Engineer and not RoleTypes.Impostor))
+        {
+            __result = true;
+            return false;
+        }
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
         {
             __result = true;
             return false;
@@ -45,21 +43,21 @@ public static class MiraApiPatches
     [HarmonyPrefix]
     public static bool NeutralTeamPrefix(ref string __result)
     {
-        __result = TouLocale.Get("NeutralKeyword").ToUpperInvariant();
+        __result = MiraLocaleManager.Get("NeutralKeyword").ToUpperInvariant();
         return false;
     }
     [HarmonyPatch(typeof(TaskAdderPatches), nameof(TaskAdderPatches.NeutralName), MethodType.Getter)]
     [HarmonyPrefix]
     public static bool NeutralNamePrefix(ref string __result)
     {
-        __result = TouLocale.Get("NeutralKeyword");
+        __result = MiraLocaleManager.Get("NeutralKeyword");
         return false;
     }
     [HarmonyPatch(typeof(TaskAdderPatches), nameof(TaskAdderPatches.ModifiersName), MethodType.Getter)]
     [HarmonyPrefix]
     public static bool ModifierNamePrefix(ref string __result)
     {
-        __result = TouLocale.Get("Modifiers");
+        __result = MiraLocaleManager.Get("Modifiers");
         return false;
     }
 

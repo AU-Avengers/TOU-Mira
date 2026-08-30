@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class TraitorOptions : AbstractRoleOptionGroup<TraitorRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleTraitor", "Traitor");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleTraitor", "Traitor");
 
     [ModdedNumberOption("Minimum People Alive When Traitor Can Spawn", 3f, 15f, 1f, MiraNumberSuffixes.None, "0")]
     public float LatestSpawn { get; set; } = 5f;
