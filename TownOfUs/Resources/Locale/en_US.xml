@@ -1253,9 +1253,13 @@ the innocent players must be campaigned to reveal successfully</string>
   <string name="TouRolePoliticianRevealWiki">Reveal (Meeting)</string>
   <string name="TouRolePoliticianRevealWikiDescription">If you reveal, and you have more than half of the crewmates campaigned (or no other crewmates remain), you will become the Mayor! Otherwise, your ability will fail.</string>
   <string name="TouRolePoliticianRevealWikiDescriptionPunished">If you reveal, and you have more than half of the crewmates campaigned (or no other crewmates remain), you will become the Mayor! Otherwise, your ability will fail and you cannot campaign the following round.</string>
+  <string name="TouRolePoliticianRevealWikiDescriptionRequired">If you reveal, and you have more than half of the crewmates campaigned, you will become the Mayor! Otherwise, your ability will fail.</string>
+  <string name="TouRolePoliticianRevealWikiDescriptionPunishedRequired">If you reveal, and you have more than half of the crewmates campaigned, you will become the Mayor! Otherwise, your ability will fail and you cannot campaign the following round.</string>
   <!-- Politician Options -->
   <string name="TouOptionPoliticianCampaignCooldown">Campaign Cooldown</string>
+  <string name="TouOptionPoliticianMaxCampaignsPerRound">Campaign Uses Per Round</string>
   <string name="TouOptionPoliticianPreventCampaignOnFailedReveal">Prevent Campaigning on Failed Reveal</string>
+  <string name="TouOptionPoliticianRequireCampaignedCrewmate">Require a Campaigned Crewmate to Reveal</string>
   <!-- Politician Feedback -->
   <string name="TouRolePoliticianFailedRevealCanCampaign">You need to campaign more Crewmates! You may not reveal again in this meeting.</string>
   <string name="TouRolePoliticianFailedRevealCannotCampaign">You need to campaign more Crewmates! However, you may not campaign next round.</string>
