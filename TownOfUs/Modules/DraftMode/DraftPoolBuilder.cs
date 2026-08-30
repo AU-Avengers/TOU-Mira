@@ -20,8 +20,8 @@ namespace TownOfUs.Modules.DraftMode
             var manualPool = BuildPoolFromManualAmounts(rng);
             
             int rolesPerSlot = Math.Max(1, (int)roleOpts.OfferedRolesCount.Value);
-            // int concurrency = Math.Max(1, Math.Min(2, (int)roleOpts.ConcurrentPicks.Value));
-            int targetSize = numPlayers * rolesPerSlot;
+            int concurrency = Math.Max(1, Math.Min(2, (int)roleOpts.ConcurrentPicks.Value));
+            int targetSize = numPlayers + rolesPerSlot * concurrency;
             if (manualPool.Count < targetSize)
             {
                 var fallbackNames = GetAllowedCrewFallbackNames();
@@ -97,12 +97,7 @@ namespace TownOfUs.Modules.DraftMode
             return picked;
         }
 
-        private static string BaseRoleName(string name)
-        {
-            if (string.IsNullOrEmpty(name)) return string.Empty;
-            int pipeIdx = name.IndexOf('|');
-            return pipeIdx >= 0 ? name.Substring(0, pipeIdx) : name;
-        }
+        private static string BaseRoleName(string name) => DraftRolePool.BaseRoleName(name);
 
         private static string PickWeightedByChance(List<string> candidates, IRng rng)
         {
@@ -254,28 +249,6 @@ namespace TownOfUs.Modules.DraftMode
             return pool;
         }
 
-        private static List<string> SelectRoleListCandidates(List<string> candidates, int takeCount, IRng rng)
-        {
-            var result = new List<string>();
-            if (candidates == null || candidates.Count == 0 || takeCount <= 0) return result;
-
-            var remaining = new List<string>(candidates);
-            while (result.Count < takeCount && remaining.Count > 0)
-            {
-                var available = remaining
-                    .Where(candidate => !string.IsNullOrWhiteSpace(candidate))
-                    .ToList();
-
-                if (available.Count == 0) break;
-
-                var chosen = PickWeightedByChance(available, rng);
-                result.Add(chosen);
-                remaining.RemoveAll(candidate => string.Equals(BaseRoleName(candidate), BaseRoleName(chosen), StringComparison.OrdinalIgnoreCase));
-            }
-
-            return result;
-        }
-
         private static List<string> BuildPoolFromManualAmounts(IRng rng)
         {
             var pool = new List<string>();
@@ -283,20 +256,20 @@ namespace TownOfUs.Modules.DraftMode
             var crewOpts = OptionGroupSingleton<RoleDraftCrewOptions>.Instance;
             if (crewOpts != null)
             {
-                ExpandBucket(pool, RoleListOption.CrewInvest,     (int)crewOpts.MaxCrewInvestigative.Value, rng);
-                ExpandBucket(pool, RoleListOption.CrewKilling,    (int)crewOpts.MaxCrewKilling.Value, rng);
-                ExpandBucket(pool, RoleListOption.CrewPower,      (int)crewOpts.MaxCrewPower.Value, rng);
-                ExpandBucket(pool, RoleListOption.CrewProtective, (int)crewOpts.MaxCrewProtective.Value, rng);
-                ExpandBucket(pool, RoleListOption.CrewSupport,    (int)crewOpts.MaxCrewSupport.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.CrewInvest,     (int)crewOpts.MaxCrewInvestigative.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.CrewKilling,    (int)crewOpts.MaxCrewKilling.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.CrewPower,      (int)crewOpts.MaxCrewPower.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.CrewProtective, (int)crewOpts.MaxCrewProtective.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.CrewSupport,    (int)crewOpts.MaxCrewSupport.Value, rng);
             }
 
             var neutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
             if (neutOpts != null && neutOpts.MaxNeutrals.Value > 0)
             {
-                ExpandBucket(pool, RoleListOption.NeutBenign,  (int)neutOpts.MaxNeutBenign.Value, rng);
-                ExpandBucket(pool, RoleListOption.NeutEvil,    (int)neutOpts.MaxNeutEvil.Value, rng);
-                ExpandBucket(pool, RoleListOption.NeutKilling, (int)neutOpts.MaxNeutKilling.Value, rng);
-                ExpandBucket(pool, RoleListOption.NeutOutlier, (int)neutOpts.MaxNeutOutlier.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.NeutBenign,  (int)neutOpts.MaxNeutBenign.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.NeutEvil,    (int)neutOpts.MaxNeutEvil.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.NeutKilling, (int)neutOpts.MaxNeutKilling.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.NeutOutlier, (int)neutOpts.MaxNeutOutlier.Value, rng);
 
                 var neutralSubBucketCaps = new Dictionary<RoleListOption, int>
                 {
@@ -312,18 +285,13 @@ namespace TownOfUs.Modules.DraftMode
             var impOpts = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
             if (impOpts != null && impOpts.MaxImpostors.Value > 0)
             {
-                ExpandBucket(pool, RoleListOption.ImpConceal, (int)impOpts.MaxImpConcealing.Value, rng);
-                ExpandBucket(pool, RoleListOption.ImpKilling, (int)impOpts.MaxImpKilling.Value, rng);
-                ExpandBucket(pool, RoleListOption.ImpPower,   (int)impOpts.MaxImpPower.Value, rng);
-                ExpandBucket(pool, RoleListOption.ImpSupport, (int)impOpts.MaxImpSupport.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.ImpConceal, (int)impOpts.MaxImpConcealing.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.ImpKilling, (int)impOpts.MaxImpKilling.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.ImpPower,   (int)impOpts.MaxImpPower.Value, rng);
+                ExpandBucketCapped(pool, RoleListOption.ImpSupport, (int)impOpts.MaxImpSupport.Value, rng);
             }
 
             return pool;
-        }
-
-        private static void ExpandBucket(List<string> pool, RoleListOption bucket, int maxSlots, IRng rng)
-        {
-            ExpandBucketCapped(pool, bucket, maxSlots, rng);
         }
 
         private static RoleListOption? AlignmentToNeutralSubBucket(RoleAlignment? alignment) => alignment switch
@@ -464,24 +432,9 @@ namespace TownOfUs.Modules.DraftMode
                 .ToList();
         }
 
-        private static List<string> GetAllowedManualFallbackNames()
+        internal static List<string> GetAllowedManualFallbackNames()
         {
-            var fallbackNames = new List<string>();
-
-            var crewOpts = OptionGroupSingleton<RoleDraftCrewOptions>.Instance;
-            if (crewOpts != null)
-            {
-                if (crewOpts.MaxCrewInvestigative.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewInvest)));
-                if (crewOpts.MaxCrewKilling.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewKilling)));
-                if (crewOpts.MaxCrewPower.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewPower)));
-                if (crewOpts.MaxCrewProtective.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewProtective)));
-                if (crewOpts.MaxCrewSupport.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewSupport)));
-            }
+            var fallbackNames = new List<string>(GetAllowedCrewFallbackNames());
 
             var neutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
             if (neutOpts != null && neutOpts.MaxNeutrals.Value > 0)
@@ -513,14 +466,6 @@ namespace TownOfUs.Modules.DraftMode
                 .Where(name => !string.IsNullOrWhiteSpace(name))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();
-        }
-
-        internal static string RoleListOptionToString(RoleListOption opt)
-        {
-            var ary = RoleOptions.OptionStrings;
-            int idx = (int)opt;
-            if (ary == null || idx < 0 || idx >= ary.Length) return string.Empty;
-            return ary[idx];
         }
     }
 }

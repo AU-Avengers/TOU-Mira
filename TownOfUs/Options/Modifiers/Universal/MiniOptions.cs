@@ -12,6 +12,6 @@ public sealed class MiniOptions : AbstractTouModifierOptionGroup<MiniModifier>
     public override uint GroupPriority => 33;
     public override Color GroupColor => TownOfUsColors.Mini;
 
-    [ModdedNumberOption("Mini Speed", 1.05f, 2.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
+    [ModdedNumberOption("TouOptionMiniSpeed", 1.05f, 2.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
     public float MiniSpeed { get; set; } = 1.35f;
 }

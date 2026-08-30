@@ -46,7 +46,7 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
         MiscUtils.GetParsedRoleBucket("Any")
     ];
 
-    public override string GroupName => "Role Settings";
+    public override string GroupName => TouLocale.Get("TouOptionTitleRoleSettings");
     public override uint GroupPriority => 2;
 
     public RoleDistribution CurrentRoleDistribution()
@@ -88,19 +88,25 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
     }
 
     public ModdedEnumOption RoleAssignmentType { get; } =
-        new("Role Assignment Type", (int)RoleSelectionMode.RoleList, typeof(RoleSelectionMode), ["Vanilla", "Role List", "Min/Max List", "Draft"])
+        new("TouOptionRoleAssignmentType", (int)RoleSelectionMode.RoleList, typeof(RoleSelectionMode),
+            [
+                "TouOptionRoleAssignmentTypeEnumVanilla",
+                "TouOptionRoleAssignmentTypeEnumRoleList",
+                "TouOptionRoleAssignmentTypeEnumMinMaxList",
+                "TouOptionRoleAssignmentTypeEnumDraft"
+            ])
         {
             Visible = () => IsClassicRoleAssignment
         };
 
     public ModdedToggleOption LastImpostorBias { get; } =
-        new("Reduce Impostor Streak", true)
+        new("TouOptionReduceImpostorStreak", true)
         {
             Visible = () => IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla and not RoleDistribution.Draft
         };
 
     public ModdedNumberOption ImpostorBiasPercent { get; } =
-        new("Reduction Chance", 15f, 0f, 100f, 5f, MiraNumberSuffixes.Percent)
+        new("TouOptionImpostorStreakReductionChance", 15f, 0f, 100f, 5f, MiraNumberSuffixes.Percent)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.LastImpostorBias && IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla and not RoleDistribution.Draft
         };
@@ -109,49 +115,88 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
     private static bool IsDraft =>
         OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.Draft;
 
+    public bool RoleListEnabled => RoleAssignmentType.Value is (int)RoleSelectionMode.RoleList;
+
+    /*public ModdedEnumOption GuaranteedKiller { get; } =
+        new("TouOptionGuaranteedKiller", (int)RequiredKiller.ImpostorOrNeutralKiller,
+            typeof(RequiredKiller),
+            [
+                "TouOptionGuaranteedKillerEnumImpostor",
+                "TouOptionGuaranteedKillerEnumNeutralKiller",
+                "TouOptionGuaranteedKillerEnumImpostorOrNeutralKiller"
+            ])
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution()
+                is RoleDistribution.RoleList
+        };*/
+
+    /*public ModdedStringOption SlotCustom { get; } =
+        new("TouOptionCustomSlot", HudManagerPatches.StoredRoleBuckets[0],
+            HudManagerPatches.StoredRoleBuckets.ToArray())
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution()
+                is RoleDistribution.RoleList
+        };*/
+
     public ModdedEnumOption<DraftRecapMode> DraftRecap { get; } =
-        new("Draft Recap Displays", DraftRecapMode.Faction)
+        new("TouOptionDraftRecapDisplays", DraftRecapMode.Faction,
+            [
+                "TouOptionDraftDisplayEnumNothing",
+                "TouOptionDraftDisplayEnumFaction",
+                "TouOptionDraftDisplayEnumAlignment",
+                "TouOptionDraftDisplayEnumRole"
+            ])
         {
             Visible = () => IsDraft
         };
 
     public ModdedEnumOption<DraftRecapMode> DraftSidebarDisplay { get; } =
-        new("Draft Sidebar Displays", DraftRecapMode.Faction)
+        new("TouOptionDraftSidebarDisplays", DraftRecapMode.Faction,
+            [
+                "TouOptionDraftDisplayEnumNothing",
+                "TouOptionDraftDisplayEnumFaction",
+                "TouOptionDraftDisplayEnumAlignment",
+                "TouOptionDraftDisplayEnumRole"
+            ])
         {
             Visible = () => IsDraft
         };
 
-    public ModdedToggleOption UseRoleListForPool { get; set; } = new("Use Role List For Pool", false)
-    {
-        Visible = () => IsDraft
-    };
+    public ModdedToggleOption UseRoleListForPool { get; set; } =
+        new("TouOptionDraftUseRoleListForPool", false)
+        {
+            Visible = () => IsDraft
+        };
 
-    public ModdedNumberOption OfferedRolesCount { get; set; } = new("Offered Role Picks Per Turn", 3f, 1f, 9f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => IsDraft
-    };
+    public ModdedNumberOption OfferedRolesCount { get; set; } =
+        new("TouOptionDraftOfferedRolesCount", 3f, 1f, 9f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => IsDraft
+        };
 
-    public ModdedToggleOption ShowRandomOption { get; set; } = new("Show Random Role Pick", true)
-    {
-        Visible = () => IsDraft
-    };
+    public ModdedToggleOption ShowRandomOption { get; set; } =
+        new("TouOptionDraftShowRandomOption", true)
+        {
+            Visible = () => IsDraft
+        };
 
-    public ModdedNumberOption TurnDurationSeconds { get; set; } = new("Turn Duration", 10f, 5f, 60f, 1f, MiraNumberSuffixes.Seconds, "0")
-    {
-        Visible = () => IsDraft
-    };
+    public ModdedNumberOption TurnDurationSeconds { get; set; } =
+        new("TouOptionDraftTurnDuration", 10f, 5f, 60f, 1f, MiraNumberSuffixes.Seconds, "0")
+        {
+            Visible = () => IsDraft
+        };
 
-    public ModdedNumberOption ConcurrentPicks { get; set; } = new("Concurrent Picks Per Turn", 1f, 1f, 2f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => IsDraft
-    };
+    public ModdedNumberOption ConcurrentPicks { get; set; } =
+        new("TouOptionDraftConcurrentPicks", 1f, 1f, 2f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => IsDraft
+        };
 
-    public ModdedNumberOption ShufflesPerPlayer { get; set; } = new("Shuffles Per Player", 1f, 0f, 3f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => IsDraft
-    };
-
-    public bool RoleListEnabled => RoleAssignmentType.Value is (int)RoleSelectionMode.RoleList;
+    public ModdedNumberOption ShufflesPerPlayer { get; set; } =
+        new("TouOptionDraftShufflesPerPlayer", 1f, 0f, 3f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => IsDraft
+        };
 
     // --- Min/Max Neutral Options ---
     public ModdedNumberOption MinNeutralBenign { get; } =
@@ -204,91 +249,91 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
 
     // --- Slot Definitions (Declared LAST to keep summary output cleanly at the end) ---
     public ModdedEnumOption<RoleListOption> Slot1 { get; } =
-        new("Slot 1", RoleListOption.CrewCommon, OptionStrings)
+        new("TouOptionRoleListSlot1", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
     public ModdedEnumOption<RoleListOption> Slot2 { get; } =
-        new("Slot 2", RoleListOption.CrewCommon, OptionStrings)
+        new("TouOptionRoleListSlot2", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
     public ModdedEnumOption<RoleListOption> Slot3 { get; } =
-        new("Slot 3", RoleListOption.CrewCommon, OptionStrings)
+        new("TouOptionRoleListSlot3", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
     public ModdedEnumOption<RoleListOption> Slot4 { get; } =
-        new("Slot 4", RoleListOption.ImpCommon, OptionStrings)
+        new("TouOptionRoleListSlot4", RoleListOption.ImpCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
     public ModdedEnumOption<RoleListOption> Slot5 { get; } =
-        new("Slot 5", RoleListOption.CrewCommon, OptionStrings)
+        new("TouOptionRoleListSlot5", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
     public ModdedEnumOption<RoleListOption> Slot6 { get; } =
-        new("Slot 6", RoleListOption.CrewCommon, OptionStrings)
+        new("TouOptionRoleListSlot6", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
     public ModdedEnumOption<RoleListOption> Slot7 { get; } =
-        new("Slot 7", RoleListOption.CrewCommon, OptionStrings)
+        new("TouOptionRoleListSlot7", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
     public ModdedEnumOption<RoleListOption> Slot8 { get; } =
-        new("Slot 8", RoleListOption.CrewCommon, OptionStrings)
+        new("TouOptionRoleListSlot8", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
     public ModdedEnumOption<RoleListOption> Slot9 { get; } =
-        new("Slot 9", RoleListOption.ImpCommon, OptionStrings)
+        new("TouOptionRoleListSlot9", RoleListOption.ImpCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
     public ModdedEnumOption<RoleListOption> Slot10 { get; } =
-        new("Slot 10", RoleListOption.CrewCommon, OptionStrings)
+        new("TouOptionRoleListSlot10", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
     public ModdedEnumOption<RoleListOption> Slot11 { get; } =
-        new("Slot 11", RoleListOption.CrewCommon, OptionStrings)
+        new("TouOptionRoleListSlot11", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
     public ModdedEnumOption<RoleListOption> Slot12 { get; } =
-        new("Slot 12", RoleListOption.CrewCommon, OptionStrings)
+        new("TouOptionRoleListSlot12", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
     public ModdedEnumOption<RoleListOption> Slot13 { get; } =
-        new("Slot 13", RoleListOption.CrewCommon, OptionStrings)
+        new("TouOptionRoleListSlot13", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
     public ModdedEnumOption<RoleListOption> Slot14 { get; } =
-        new("Slot 14", RoleListOption.ImpCommon, OptionStrings)
+        new("TouOptionRoleListSlot14", RoleListOption.ImpCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
     public ModdedEnumOption<RoleListOption> Slot15 { get; } =
-        new("Slot 15", RoleListOption.CrewCommon, OptionStrings)
+        new("TouOptionRoleListSlot15", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };

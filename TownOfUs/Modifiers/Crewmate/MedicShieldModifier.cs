@@ -15,8 +15,7 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Medic;
 
     public override string ShieldDescription =>
-        $"You are shielded by a {MiraLocaleManager.Get("TouRoleMedic", "Medic")} !\nYou may not die to other players";
-
+        MiraLocaleManager.Get("TouMedicShieldDescription");
     public PlayerControl Medic { get; private set; } = medic;
     public List<PlayerControl> AllMedics { get; } = [];
     public GameObject MedicShield { get; set; }

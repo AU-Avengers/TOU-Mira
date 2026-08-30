@@ -7,7 +7,7 @@ namespace TownOfUs.Modifiers.Other;
 
 public sealed class HangoverModifier(float duration, bool startTimer) : TimedModifier
 {
-    public override string ModifierName => "Hangover";
+    public override string ModifierName => TouLocale.Get("TouModifierHangover");
     public override bool HideOnUi => false;
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Barkeeper;
     public override bool Unique => false;
@@ -16,7 +16,7 @@ public sealed class HangoverModifier(float duration, bool startTimer) : TimedMod
 
     public override string GetDescription()
     {
-        return $"You are having a hangover, you are temporarily immune to being roleblocked.";
+        return TouLocale.Get("TouModifierHangoverDescription");
     }
 
     public override void OnActivate()
@@ -24,7 +24,7 @@ public sealed class HangoverModifier(float duration, bool startTimer) : TimedMod
         if (Player.AmOwner && AutoStart)
         {
             var notif = Helpers.CreateAndShowNotification(
-                    $"<b>You are now hungover!</color></b>", Color.white,
+                    $"<b>{TouLocale.Get("TouModifierHangoverStartNotification")}</color></b>", Color.white,
                     spr: TouRoleIcons.Barkeeper.LoadAsset());
 
             notif.Text.SetOutlineThickness(0.35f);
@@ -37,7 +37,7 @@ public sealed class HangoverModifier(float duration, bool startTimer) : TimedMod
         if (Player.AmOwner && !Player.HasDied())
         {
             var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>You are no longer hungover.</color></b>", Color.white,
+            $"<b>{TouLocale.Get("TouModifierHangoverEndNotification")}</color></b>", Color.white,
             spr: TouRoleIcons.Barkeeper.LoadAsset());
 
             notif1.Text.SetOutlineThickness(0.35f);
@@ -49,6 +49,7 @@ public sealed class HangoverModifier(float duration, bool startTimer) : TimedMod
     {
         Player.RemoveModifier(this);
     }
+
     public override void OnDeath(DeathReason reason)
     {
         base.OnDeath(reason);

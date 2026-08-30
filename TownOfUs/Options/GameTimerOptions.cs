@@ -8,26 +8,30 @@ namespace TownOfUs.Options;
 
 public sealed class GameTimerOptions : AbstractOptionGroup<ClassicMode>
 {
-    public override string GroupName => "End Game Timer";
+ public override string GroupName => MiraLocaleManager.Get("TouOptionTitleGameTimer");
     public override uint GroupPriority => 5;
 
-    [ModdedToggleOption("Game Timer")] 
+    [ModdedToggleOption("TouOptionGameTimerEnabled")] 
     public bool GameTimerEnabled { get; set; } = false;
 
     public ModdedNumberOption PauseInMeetings { get; } =
-        new("Pause Timer In Meetings", 5f, 1f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        new("TouOptionGameTimerPauseInMeetings", 5f, 1f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled
         };
 
     public ModdedEnumOption TimerEndOption { get; } =
-        new("On Timer End", 1, typeof(GameTimerType), ["Impostor Win", "Game Draw"])
+        new("TouOptionGameTimerEndOption", 1, typeof(GameTimerType),
+            [
+                "TouOptionGameTimerEndEnumImpostorWin",
+                "TouOptionGameTimerEndEnumGameDraw"
+            ])
         {
             Visible = () => OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled
         };
 
     public ModdedNumberOption GameTimeLimit { get; } =
-        new("Game Time Limit", 15f, 1f, 30f, 0.5f, MiraNumberSuffixes.None, "0.0m")
+        new("TouOptionGameTimerTimeLimit", 15f, 1f, 30f, 0.5f, MiraNumberSuffixes.None, "0.0m")
         {
             Visible = () => OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled
         };

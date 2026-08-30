@@ -6,23 +6,23 @@ namespace TownOfUs.Options.Modifiers.Impostor;
 
 public sealed class DeadlyQuotaOptions : AbstractTouModifierOptionGroup<DeadlyQuotaModifier>
 {
-    public override string GroupName => "Deadly Quota";
+    public override string GroupName => TouLocale.Get("TouModifierDeadlyQuota", "Deadly Quota");
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
     public override uint GroupPriority => 40;
 
-    [ModdedNumberOption("Minimum Kill Quota", 1f, 5f, 1f)]
+    [ModdedNumberOption("TouOptionDeadlyQuotaMinimumKillQuota", 1f, 5f, 1f)]
     public float KillQuotaMin { get; set; } = 2f;
 
-    [ModdedNumberOption("Maximum Kill Quota", 1f, 5f, 1f)]
+    [ModdedNumberOption("TouOptionDeadlyQuotaMaximumKillQuota", 1f, 5f, 1f)]
     public float KillQuotaMax { get; set; } = 4f;
 
-    [ModdedToggleOption("Meeting Kills Count Towards Quota")]
+    [ModdedToggleOption("TouOptionDeadlyQuotaMeetingKillsCount")]
     public bool MeetingKillsCountTowardsQuota { get; set; } = true;
 
-    [ModdedToggleOption("Temporary Shield Until Quota Is Met")]
+    [ModdedToggleOption("TouOptionDeadlyQuotaTemporaryShield")]
     public bool QuotaShield { get; set; } = false;
 
-    [ModdedToggleOption("Remove Quota Upon Death")]
+    [ModdedToggleOption("TouOptionDeadlyQuotaRemoveUponDeath")]
     public bool RemoveQuotaUponDeath { get; set; } = true;
 
     /// <summary>

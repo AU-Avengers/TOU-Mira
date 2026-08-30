@@ -687,15 +687,27 @@ public static class ChatPatches
             return false;
         }
 
-        // /info — replays all FakeChat messages received this meeting
         if (infoCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
         {
-            if (FakeChatHistory.HasInfo)
+            var infoStringToCheck = infoCommandList.FirstOrDefault(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase))!;
+            var infoArg = textRegular;
+            if (infoArg.StartsWith($"/{infoStringToCheck} ", StringComparison.OrdinalIgnoreCase))
+            {
+                infoArg = infoArg[$"/{infoStringToCheck} ".Length..];
+            }
+            else if (infoArg.StartsWith($"/{infoStringToCheck}", StringComparison.OrdinalIgnoreCase))
+            {
+                infoArg = infoArg[$"/{infoStringToCheck}".Length..];
+            }
+
+            int? infoRound = int.TryParse(infoArg.Trim(), out var parsedRound) ? parsedRound : null;
+
+            if (FakeChatHistory.HasInfo(infoRound))
             {
                 FakeChatHistory.IsReplaying = true;
-                foreach (var (infoTitle, infoMsg) in FakeChatHistory.GetEntries())
+                foreach (var (infoPlayer, infoTitle, infoMsg) in FakeChatHistory.GetEntries(infoRound))
                 {
-                    MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, infoTitle, infoMsg, false, true);
+                    MiscUtils.AddSystemChat(infoPlayer ? infoPlayer : PlayerControl.LocalPlayer.Data, infoTitle, infoMsg, false, true);
                 }
                 FakeChatHistory.IsReplaying = false;
             }
@@ -793,12 +805,12 @@ public static class ChatPatches
             return;
         }
         var rulesText = GetLobbyRulesText();
-        RpcSendLobbyRules(PlayerControl.LocalPlayer, requester, rulesText, false);
+        RpcSendLobbyRules(PlayerControl.LocalPlayer, requester, rulesText);
     }
 
     private static bool _canShowRules = true;
     [MethodRpc((uint)TownOfUsRpc.SendLobbyRules)]
-    internal static void RpcSendLobbyRules(PlayerControl host, PlayerControl target, string rulesText, bool optional)
+    internal static void RpcSendLobbyRules(PlayerControl host, PlayerControl target, string rulesText)
     {
         if (!host.IsHost())
         {
@@ -809,13 +821,13 @@ public static class ChatPatches
         {
             return;
         }
-        if (PlayerControl.LocalPlayer.PlayerId != target.PlayerId || optional && !LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ShowRulesOnLobbyJoinToggle.Value)
+        if (PlayerControl.LocalPlayer.PlayerId != target.PlayerId)
         {
             return;
         }
-        var title = $"<color=#8BFDFD>{MiraLocaleManager.Get("RulesMessageTitle")}</color>";
-        var msg = string.IsNullOrWhiteSpace(rulesText) ? MiraLocaleManager.Get("RulesMissingError") : $"<size=75%>{rulesText}</size>";
-        MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
+        var title = $"<color=#8BFDFD>{MiraLocaleManager.GetParsed("RulesMessageTitle")}</color>";
+        var msg = string.IsNullOrWhiteSpace(rulesText) ? MiraLocaleManager.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
+        MiscUtils.AddSystemChat(host.Data, title, msg);
         Coroutines.Start(CoWaitForAcCooldown());
     }
 
@@ -843,9 +855,9 @@ public static class ChatPatches
         {
             return;
         }
-        var title = $"<color=#8BFDFD>{MiraLocaleManager.Get("RulesMessageTitle")}</color>";
-        var msg = string.IsNullOrWhiteSpace(rulesText) ? MiraLocaleManager.Get("RulesMissingError") : $"<size=75%>{rulesText}</size>";
-        MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
+        var title = $"<color=#8BFDFD>{MiraLocaleManager.GetParsed("RulesMessageTitle")}</color>";
+        var msg = string.IsNullOrWhiteSpace(rulesText) ? MiraLocaleManager.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
+        MiscUtils.AddSystemChat(host.Data, title, msg);
         Coroutines.Start(CoWaitForAcCooldown());
     }
 

@@ -2565,7 +2565,6 @@ vision, and vent away temporarily</string>
   <string name="TouModifierSatellitePluralNotif">[count] bodies were found on the map.</string>
   <!-- Satellite Options -->
   <string name="TouOptionSatelliteCooldown">Button Cooldown</string>
-  <string name="TouOptionSatelliteMaxUses">Max Uses</string>
   <string name="TouOptionSatelliteOnePerRound">One Usage Per Round</string>
   <string name="TouOptionSatelliteAllowFirst">Allow Usage in First Round</string>
   <!-- Shy -->
@@ -2757,9 +2756,6 @@ Kills: [amount] / [total]</string>
   <string name="TouModifierFrostyTabDescription">Slow your killer for a short duration.</string>
   <string name="TouModifierFrostyWikiDescription">After you die, your killer will be slowed down!</string>
   <string name="TouModifierFrostyTriggeredNotif">[player] was [modifier], causing you to be slower for [time] seconds.</string>
-  <!-- Frosty Options -->
-  <string name="TouOptionFrostyChillDuration">Chill Duration</string>
-  <string name="TouOptionFrostyChillStartSpeed">Chill Start Speed</string>
   <!-- Investigator -->
   <!-- Investigator Wiki / Description -->
   <string name="TouModifierInvestigatorIntroBlurb">You see others' footsteps.</string>
@@ -2782,7 +2778,6 @@ Kills: [amount] / [total]</string>
   <string name="TouOptionNoisemakerNeutAlert">Neutrals Get Alert</string>
   <string name="TouOptionNoisemakerCommsPreventsAlert">Comms Sabotage Prevents Alert</string>
   <string name="TouOptionNoisemakerOnlyWithBody">Only Triggers If a Body Exists</string>
-  <string name="TouOptionNoisemakerAlertDuration">Alert Duration</string>
   <!-- Operative -->
   <!-- Operative Wiki / Description -->
   <string name="TouModifierOperative">Operative</string>
@@ -2791,10 +2786,8 @@ Kills: [amount] / [total]</string>
   <string name="TouModifierOperativeWikiDescription">Use cameras at anytime with a limited battery charge.</string>
   <!-- Operative Options -->
   <string name="TouOptionOperativeMiraDoorlog">Move While Using Mira Doorlog</string>
-  <string name="TouOptionOperativeStartingCharge">Starting Charge</string>
   <string name="TouOptionOperativeChargedEachRound">Battery Charged Each Round</string>
   <string name="TouOptionOperativeChargedPerTask">Battery Charged Per Task</string>
-  <string name="TouOptionOperativeDisplayCooldown">Security Display Cooldown</string>
   <string name="TouOptionOperativeMaxDisplayDuration">Max Security Display Duration</string>
   <!-- Rotting -->
   <!-- Rotting Wiki / Description -->
@@ -2812,10 +2805,8 @@ Kills: [amount] / [total]</string>
   <string name="TouModifierScientistWikiDescription">Access Vitals at anytime with a limited battery charge.</string>
   <!-- Scientist Options -->
   <string name="TouOptionScientistMoveVitals">Move While Using Vitals</string>
-  <string name="TouOptionScientistStartingCharge">Starting Charge</string>
   <string name="TouOptionScientistChargedEachRound">Battery Charged Each Round</string>
   <string name="TouOptionScientistChargedPerTask">Battery Charged Per Task</string>
-  <string name="TouOptionScientistDisplayCooldown">Vitals Display Cooldown</string>
   <string name="TouOptionScientistMaxDisplayDuration">Max Vitals Display Duration</string>
   <!-- Scout -->
   <!-- Scout Wiki / Description -->
@@ -2842,6 +2833,635 @@ Kills: [amount] / [total]</string>
   <string name="TouModifierTorchTabDescription">Your vision won't get reduced
 when the lights are sabotaged.</string>
   <string name="TouModifierTorchWikiDescription">The lights being off do not affect your vision.</string>
+
+  <!-- Game Settings -->
+    <!-- Vanilla Tweaks -->
+      <string name="TouOptionTitleVanillaTweaks">Vanilla Tweaks</string>
+
+      <string name="TouOptionHideNamesOutOfSight">Hide Names Out Of Sight</string>
+      <string name="TouOptionTickCooldownsInMinigame">Continue Cooldown In Tasks and Panels</string>
+      <string name="TouOptionParallelMedbay">Parallel Medbay Scans</string>
+      <string name="TouOptionMedscanWalk">Walk to Medscan</string>
+
+      <string name="TouOptionSkipButtonDisable">Disable Meeting Skip Button</string>
+      <string name="TouOptionSkipButtonDisableEnumNever">Never</string>
+      <string name="TouOptionSkipButtonDisableEnumEmergency">Emergency</string>
+      <string name="TouOptionSkipButtonDisableEnumAlways">Always</string>
+
+      <string name="TouOptionHideVentAnimationNotInVision">Hide Vent Animations Not In Vision</string>
+
+      <string name="TouOptionShowPetsMode">Pet Visibility</string>
+      <string name="TouOptionShowPetsModeEnumClientSide">Client Side</string>
+      <string name="TouOptionShowPetsModeEnumWhenAlive">When Alive</string>
+      <string name="TouOptionShowPetsModeEnumAlwaysVisible">Always Visible</string>
+
+      <string name="TouOptionHidePetsOnBodyRemove">Pet Removed on Body Clean</string>
+      <string name="TouOptionHidePetsOnBodyRemoveEnumNever">Never</string>
+      <string name="TouOptionHidePetsOnBodyRemoveEnumDuringRound">During Round</string>
+      <string name="TouOptionHidePetsOnBodyRemoveEnumAlways">Always</string>
+
+    <!-- Assassin Options -->
+      <string name="TouOptionTitleAssassin">Assassin Options</string>
+
+      <string name="TouOptionNumberOfImpostorAssassins">Number Of Impostor Assassins</string>
+      <string name="TouOptionImpAssassinChance">Impostor Assassin Chance</string>
+      <string name="TouOptionImpAssassinKills"># Of Impostor Assassin Kills</string>
+      <string name="TouOptionImpAssassinMultiKill">Impostor Assassin Can Kill More Than Once Per Meeting</string>
+
+      <string name="TouOptionNumberOfNeutralAssassins">Number Of Neutral Assassins</string>
+      <string name="TouOptionNeutAssassinChance">Neutral Assassin Chance</string>
+      <string name="TouOptionNeutAssassinKills"># Of Neutral Assassin Kills</string>
+      <string name="TouOptionNeutAssassinMultiKill">Neutral Assassin Can Kill More Than Once Per Meeting</string>
+
+      <string name="TouOptionGuessVanillaRoles">Non-Basic Vanilla Roles Are Guessable</string>
+
+      <string name="TouOptionAssassinCrewmateGuess">Assassin Can Guess "Crewmate"</string>
+      <string name="TouOptionAssassinGuessInvest">Assassin Can Guess Crew Investigative Roles</string>
+      <string name="TouOptionAssassinGuessNeutralBenign">Assassin Can Guess Neutral Benign Roles</string>
+      <string name="TouOptionAssassinGuessNeutralEvil">Assassin Can Guess Neutral Evil Roles</string>
+      <string name="TouOptionAssassinGuessNeutralKilling">Assassin Can Guess Neutral Killing Roles</string>
+      <string name="TouOptionAssassinGuessNeutralOutlier">Assassin Can Guess Neutral Outlier Roles</string>
+      <string name="TouOptionAssassinGuessImpostors">Assassin Can Guess Impostor Roles</string>
+      <string name="TouOptionAssassinGuessCrewModifiers">Assassin Can Guess Crewmate Modifiers</string>
+      <string name="TouOptionAssassinGuessUtilityModifiers">Assassin Can Guess Crew Utility Modifiers</string>
+      <string name="TouOptionAssassinGuessImpostorModifiers">Assassin Can Guess Impostor Modifiers</string>
+      <string name="TouOptionAssassinGuessNonCrewModifiers">Assassin Can Guess Other Faction Modifiers</string>
+      <string name="TouOptionAssassinGuessAlliances">Assassin Can Guess Alliances</string>
+
+      <string name="TouOptionAssassinShots">\%amount\% Shots</string>
+      <string name="TouOptionAssassinOverall">(Overall)</string>
+      <string name="TouOptionAssassinOnePerMeeting">(1 Per Meeting)</string>
+
+    <!-- Game Mechanics -->
+        <string name="TouOptionTitleGameMechanics">Game Mechanics</string>
+
+        <string name="TouOptionCrewKillersContinue">Powerful Crew Continue The Game</string>
+        <string name="TouOptionAnonymousShields">All Shields Flash Grey on Trigger</string>
+
+        <string name="TouOptionCleanedBodiesAppearance">Cleaned/Dissolved Bodies Appear as</string>
+        <string name="TouOptionCleanedBodiesAppearanceEnumMissing">Missing (MIS)</string>
+        <string name="TouOptionCleanedBodiesAppearanceEnumDead">Dead (DED)</string>
+        <string name="TouOptionCleanedBodiesAppearanceEnumDisconnected">Disconnected (D/C)</string>
+
+        <string name="TouOptionKillAnimationBackgroundColor">Kill Animation Background Color</string>
+        <string name="TouOptionKillAnimationBackgroundColorEnumRed">Red</string>
+        <string name="TouOptionKillAnimationBackgroundColorEnumFaction">Faction</string>
+        <string name="TouOptionKillAnimationBackgroundColorEnumRoleColor">Role Color</string>
+
+        <string name="TouOptionPlayerCountWhenVentsDisable">Max Players Alive When Vents Disable</string>
+        <string name="TouOptionGhostwalkerFixSabos">Ghostwalkers Can Fix Sabotages</string>
+        <string name="TouOptionTempSaveCdReset">Temp Save Cooldown Reset</string>
+        <string name="TouOptionFullSaveCdMultiplier">Full Save Cooldown Multiplier</string>
+    <!-- Game Timer Options -->
+        <string name="TouOptionTitleGameTimer">End Game Timer</string>
+
+        <string name="TouOptionGameTimerEnabled">Game Timer</string>
+        <string name="TouOptionGameTimerPauseInMeetings">Pause Timer In Meetings</string>
+
+        <string name="TouOptionGameTimerEndOption">On Timer End</string>
+        <string name="TouOptionGameTimerEndEnumImpostorWin">Impostor Win</string>
+        <string name="TouOptionGameTimerEndEnumGameDraw">Game Draw</string>
+
+        <string name="TouOptionGameTimerTimeLimit">Game Time Limit</string>
+
+    <!-- General Options -->
+        <string name="TouOptionTitleGeneral">General</string>
+
+        <string name="TouOptionFFAImpostorMode">Impostors Don't Know Each Other</string>
+        <string name="TouOptionImpsKnowRoles">Impostors Know Each Other's Roles</string>
+        <string name="TouOptionImpostorChat">Impostors Get A Private Meeting Chat</string>
+        <string name="TouOptionVampireChat">Vampires Get A Private Meeting Chat</string>
+        <string name="TouOptionAddedMeetingDeathTimer">Voting Time Added After Meeting Death</string>
+
+    <!-- Host-Specific Options -->
+      <string name="TouOptionTitleHostSpecific">Host-Specific Options</string>
+
+      <string name="TouOptionAntiCheatWarnings">Enable Anti Cheat Warnings</string>
+      <string name="TouOptionKickCheatMods">Kick Players Using Cheat Mods</string>
+      <string name="TouOptionMultiplayerFreeplay">Freeplay Mode</string>
+
+      <string name="TouOptionBetaLoggingLevel">Advanced Logging Mode</string>
+      <string name="TouOptionBetaLoggingLevelEnumNoLogging">No Logging</string>
+      <string name="TouOptionBetaLoggingLevelEnumLogForHost">Log For Host</string>
+      <string name="TouOptionBetaLoggingLevelEnumLogForEveryone">Log For Everyone</string>
+      <string name="TouOptionBetaLoggingLevelEnumLogPostGame">Log Post-Game</string>
+
+      <string name="TouOptionLobbyFunMode">Allow Lobby-Only No-Clip</string>
+    <string name="TouOptionShowRulesOnLobbyJoin">Show Rules to Players on Lobby Join</string>
+      <string name="TouOptionAllowAprilFools">Allow April Fools Visuals</string>
+      <string name="TouOptionEnableSpectators">Allow Spectators</string>
+
+      <string name="TouOptionRequireSubmerged">Require Players to have Submerged Installed</string>
+      <string name="TouOptionRequireCrowded">Require Players to have Crowded Installed</string>
+      <string name="TouOptionRequireAleLudu">Require Players to have AleLuduMod Installed</string>
+
+      <string name="TouOptionNoGameEnd">No Game End</string>
+
+    <!-- Round Start Options -->
+      <string name="TouOptionTitleRoundStart">Round Start Options</string>
+
+      <string name="TouOptionModifierReveal">Modifier Type To Show In Role Intro</string>
+      <string name="TouOptionModifierRevealEnumAlliance">Alliance</string>
+      <string name="TouOptionModifierRevealEnumUniversal">Universal</string>
+      <string name="TouOptionModifierRevealEnumNeither">Neither</string>
+
+      <string name="TouOptionTeamModifierReveal">Show Faction Modifier On Role Reveal</string>
+
+      <string name="TouOptionGameStartCd">Initial Button Cooldowns</string>
+
+      <string name="TouOptionStartCooldownMode">Initial Cooldowns Apply For</string>
+      <string name="TouOptionStartCooldownModeEnumAllButtons">All Buttons</string>
+      <string name="TouOptionStartCooldownModeEnumSpecificCooldowns">Specific Cooldowns</string>
+      <string name="TouOptionStartCooldownModeEnumNoButtons">No Buttons</string>
+
+      <string name="TouOptionStartCooldownMin">Minimum Cooldown To Be Applicable</string>
+      <string name="TouOptionStartCooldownMax">Maximum Cooldown To Be Applicable</string>
+
+      <string name="TouOptionFirstDeathShield">First Death Shield Next Game</string>
+      <string name="TouOptionRoundOneVictims">Indicate Round One Victims</string>
+    
+    <!-- Postmortem Options -->
+      <string name="TouOptionTitlePostmortem">Postmortem Options</string>
+
+      <string name="TouOptionTheDeadKnow">The Dead Know Players</string>
+      <string name="TouOptionDeadSeeVotes">The Dead See Votes</string>
+
+      <string name="TouOptionDeadSeePrivateChat">The Dead See Private Chat</string>
+      <string name="TouOptionDeadSeePrivateChatEnumDisabled">Disabled</string>
+      <string name="TouOptionDeadSeePrivateChatEnumDisabledUponDeath">Disabled Upon Death</string>
+      <string name="TouOptionDeadSeePrivateChatEnumInMeetings">In Meetings</string>
+      <string name="TouOptionDeadSeePrivateChatEnumAlways">Always</string>
+
+      <string name="TouOptionDeadCanHaunt">Haunt (Follow) Mode</string>
+      <string name="TouOptionDeadCanHauntEnumDisabled">Disabled</string>
+      <string name="TouOptionDeadCanHauntEnumDisabledUponDeath">Disabled Upon Death</string>
+      <string name="TouOptionDeadCanHauntEnumAlways">Always</string>
+
+      <string name="TouOptionHideChatButton">Temporarily Hide Chat Upon Death</string>
+      <string name="TouOptionShowTaskDead">See Task Trackers When Dead</string>
+
+    <!-- Roleblock Mechanics -->
+      <string name="TouOptionTitleRoleblockMechanics">Roleblock Mechanics</string>
+
+      <string name="TouOptionRoleblockAffectsConsoles">Roleblock Affects Non-Role Actions</string>
+      <string name="TouOptionRoleblockDuration">Roleblock Duration</string>
+      <string name="TouOptionInvertControlsOfRoleblocked">Invert Controls Of Roleblocked</string>
+      <string name="TouOptionRoleblockHangover">Grant Hangover</string>
+      <string name="TouOptionRoleblockHangoverDuration">Hangover Duration</string>
+
+    <!-- Draft Mode - Crewmate Settings -->
+      <string name="TouOptionTitleRoleDraftCrew">Crewmate Settings</string>
+
+      <string name="TouOptionRoleDraftCrewMaxInvestigative">Max Investigative Roles</string>
+      <string name="TouOptionRoleDraftCrewMaxKilling">Max Killing Roles</string>
+      <string name="TouOptionRoleDraftCrewMaxPower">Max Power Roles</string>
+      <string name="TouOptionRoleDraftCrewMaxProtective">Max Protective Roles</string>
+      <string name="TouOptionRoleDraftCrewMaxSupport">Max Support Roles</string>
+
+    <!-- Draft Mode - Impostor Settings -->
+      <string name="TouOptionTitleRoleDraftImp">Impostor Settings</string>
+
+      <string name="TouOptionRoleDraftImpMaxImpostors">Max Impostors Total</string>
+      <string name="TouOptionRoleDraftImpMaxConcealing">Max Concealing Roles</string>
+      <string name="TouOptionRoleDraftImpMaxKilling">Max Killing Roles</string>
+      <string name="TouOptionRoleDraftImpMaxPower">Max Power Roles</string>
+      <string name="TouOptionRoleDraftImpMaxSupport">Max Support Roles</string>
+
+
+    <!-- Draft Mode - Neutral Settings -->
+      <string name="TouOptionTitleRoleDraftNeut">Neutral Settings</string>
+
+      <string name="TouOptionRoleDraftNeutMaxNeutrals">Max Neutrals Total</string>
+      <string name="TouOptionRoleDraftNeutMaxBenign">Max Benign Roles</string>
+      <string name="TouOptionRoleDraftNeutMaxEvil">Max Evil Roles</string>
+      <string name="TouOptionRoleDraftNeutMaxKilling">Max Killing Roles</string>
+      <string name="TouOptionRoleDraftNeutMaxOutlier">Max Outlier Roles</string>
+
+    <!-- Draft Mode - Role List Settings -->
+      <string name="TouOptionTitleRoleDraftRoleList">Role List Settings</string>
+
+      <!-- Not the best implementation but following the pattern of the Sentinel blindspots -->
+      <string name="TouOptionRoleDraftRoleListSlot1">Slot 1</string>
+      <string name="TouOptionRoleDraftRoleListSlot2">Slot 2</string>
+      <string name="TouOptionRoleDraftRoleListSlot3">Slot 3</string>
+      <string name="TouOptionRoleDraftRoleListSlot4">Slot 4</string>
+      <string name="TouOptionRoleDraftRoleListSlot5">Slot 5</string>
+      <string name="TouOptionRoleDraftRoleListSlot6">Slot 6</string>
+      <string name="TouOptionRoleDraftRoleListSlot7">Slot 7</string>
+      <string name="TouOptionRoleDraftRoleListSlot8">Slot 8</string>
+      <string name="TouOptionRoleDraftRoleListSlot9">Slot 9</string>
+      <string name="TouOptionRoleDraftRoleListSlot10">Slot 10</string>
+      <string name="TouOptionRoleDraftRoleListSlot11">Slot 11</string>
+      <string name="TouOptionRoleDraftRoleListSlot12">Slot 12</string>
+      <string name="TouOptionRoleDraftRoleListSlot13">Slot 13</string>
+      <string name="TouOptionRoleDraftRoleListSlot14">Slot 14</string>
+      <string name="TouOptionRoleDraftRoleListSlot15">Slot 15</string>
+
+
+    <!-- Role Settings -->
+      <string name="TouOptionTitleRoleSettings">Role Settings</string>
+
+      <string name="TouOptionCurrentGameMode">Current Game Mode</string>
+      <string name="TouOptionCurrentGameModeEnumNormal">Normal</string>
+      <string name="TouOptionCurrentGameModeEnumHideAndSeek">Hide And Seek (N/A)</string>
+      <string name="TouOptionCurrentGameModeEnumCultist">Cultist (N/A)</string>
+
+      <string name="TouOptionRoleAssignmentType">Role Assignment Type</string>
+      <string name="TouOptionRoleAssignmentTypeEnumVanilla">Vanilla</string>
+      <string name="TouOptionRoleAssignmentTypeEnumRoleList">Role List</string>
+      <string name="TouOptionRoleAssignmentTypeEnumMinMaxList">Min/Max List</string>
+      <string name="TouOptionRoleAssignmentTypeEnumDraft">Draft</string>
+
+      <string name="TouOptionReduceImpostorStreak">Reduce Impostor Streak</string>
+      <string name="TouOptionImpostorStreakReductionChance">Reduction Chance</string>
+
+      <string name="TouOptionRoleListSlot1">Slot 1</string>
+      <string name="TouOptionRoleListSlot2">Slot 2</string>
+      <string name="TouOptionRoleListSlot3">Slot 3</string>
+      <string name="TouOptionRoleListSlot4">Slot 4</string>
+      <string name="TouOptionRoleListSlot5">Slot 5</string>
+      <string name="TouOptionRoleListSlot6">Slot 6</string>
+      <string name="TouOptionRoleListSlot7">Slot 7</string>
+      <string name="TouOptionRoleListSlot8">Slot 8</string>
+      <string name="TouOptionRoleListSlot9">Slot 9</string>
+      <string name="TouOptionRoleListSlot10">Slot 10</string>
+      <string name="TouOptionRoleListSlot11">Slot 11</string>
+      <string name="TouOptionRoleListSlot12">Slot 12</string>
+      <string name="TouOptionRoleListSlot13">Slot 13</string>
+      <string name="TouOptionRoleListSlot14">Slot 14</string>
+      <string name="TouOptionRoleListSlot15">Slot 15</string>
+
+      <string name="TouOptionMinNeutralBenign">Min Neutral Benign</string>
+      <string name="TouOptionMaxNeutralBenign">Max Neutral Benign</string>
+      <string name="TouOptionMinNeutralEvil">Min Neutral Evil</string>
+      <string name="TouOptionMaxNeutralEvil">Max Neutral Evil</string>
+      <string name="TouOptionMinNeutralKiller">Min Neutral Killer</string>
+      <string name="TouOptionMaxNeutralKiller">Max Neutral Killer</string>
+      <string name="TouOptionMinNeutralOutlier">Min Neutral Outliers</string>
+      <string name="TouOptionMaxNeutralOutlier">Max Neutral Outliers</string>
+
+      <string name="TouOptionDraftRecapDisplays">Draft Recap Displays</string>
+      <string name="TouOptionDraftSidebarDisplays">Draft Sidebar Displays</string>
+
+      <string name="TouOptionDraftDisplayEnumNothing">Nothing</string>
+      <string name="TouOptionDraftDisplayEnumFaction">Faction</string>
+      <string name="TouOptionDraftDisplayEnumAlignment">Alignment</string>
+      <string name="TouOptionDraftDisplayEnumRole">Role</string>
+
+      <string name="TouOptionDraftUseRoleListForPool">Use Role List For Pool</string>
+      <string name="TouOptionDraftOfferedRolesCount">Offered Role Picks Per Turn</string>
+      <string name="TouOptionDraftShowRandomOption">Show Random Role Pick</string>
+      <string name="TouOptionDraftTurnDuration">Turn Duration</string>
+      <string name="TouOptionDraftConcurrentPicks">Concurrent Picks Per Turn</string>
+      <string name="TouOptionDraftShufflesPerPlayer">Shuffles Per Player</string>
+
+  <!-- Modifier Options -->
+    <!-- Alliance Modifier Options -->
+      <!-- Crewpostor Options -->
+        <string name="TouOptionCrewpostorReplacesImpostor">Crewpostor Replaces A Real Impostor</string>
+        <string name="TouOptionCrewpostorCanAlwaysSabotage">Crewpostor Can Always Sabotage</string>
+        <string name="TouOptionCrewpostorVision">Crewpostor Gets Impostor Vision</string>
+        <string name="TouOptionCrewpostorShowsAsImpostor">Crewpostor Appears Like A Traitor</string>
+
+      <!-- Egotist Options -->
+        <string name="TouOptionEgotistMustSurvive">Egotist Must Stay Alive To Win</string>
+        <string name="TouOptionEgotistSpeedsUp">Egotist Speeds Up The Game</string>
+        <string name="TouOptionEgotistRoundsToApplyEffects">Rounds Required For Speed/Cooldown Changes</string>
+        <string name="TouOptionEgotistSpeedMultiplier">Speed Addition</string>
+        <string name="TouOptionEgotistCooldownOffset">Cooldown Reduction</string>
+
+      <!-- Lovers Options -->
+        <string name="TouOptionLoversDieAndReviveTogether">Both Lovers Die And Revive Together</string>
+        <string name="TouOptionLoversKillerProbability">Loving Another Killer Probability</string>
+        <string name="TouOptionLoversNeutralRoles">Neutral Roles Can Be Lovers</string>
+        <string name="TouOptionLoversKillFactionTeammates">Lover Can Kill Faction Teammates</string>
+        <string name="TouOptionLoversKillEachOther">Lovers Can Kill One Another</string>
+    <!-- Assailant Modifier Options -->
+      <!-- Overclocker Options -->
+        <string name="TouOptionOverclockerCooldown">Overclock Cooldown</string>
+        <string name="TouOptionOverclockerDuration">Overclock Duration</string>
+        <string name="TouOptionOverclockerRoundOne">Allow Overclock in First Round</string>
+        <string name="TouOptionOverclockerUses">Overclock Uses</string>
+        <string name="TouOptionOverclockerMultiplier">Overclock Cooldown Multiplier</string>
+        <string name="TouOptionOverclockerUnderclockMultiplier">Underclock Cooldown Multiplier</string>
+    <!-- Crewmate Modifier Options -->
+      <!-- Bait Options -->
+        <string name="TouOptionBaitMinReportDelay">Min Bait Report Delay</string>
+        <string name="TouOptionBaitMaxReportDelay">Max Bait Report Delay</string>
+
+      <!-- Diseased Options -->
+        <string name="TouOptionDiseasedKillMultiplier">Diseased Kill Multiplier</string>
+
+      <!-- Frosty Options -->
+        <string name="TouOptionFrostyChillDuration">Chill Duration</string>
+        <string name="TouOptionFrostyChillStartSpeed">Chill Start Speed</string>
+
+      <!-- Noisemaker Options -->
+        <string name="TouOptionNoisemakerImpostorsAlerted">Impostors Get Alert</string>
+        <string name="TouOptionNoisemakerNeutsAlerted">Neutral Killers Get Alert</string>
+        <string name="TouOptionNoisemakerCommsAffected">Comms Sabotage Prevents Alert</string>
+        <string name="TouOptionNoisemakerBodyCheck">Only Triggers If A Body Exists</string>
+        <string name="TouOptionNoisemakerAlertDuration">Alert Duration</string>
+
+      <!-- Operative Options -->
+        <string name="TouOptionOperativeMoveOnMira">Move While Using Mira Doorlog</string>
+        <string name="TouOptionOperativeStartingCharge">Starting Charge</string>
+        <string name="TouOptionOperativeRoundCharge">Battery Charged Each Round</string>
+        <string name="TouOptionOperativeTaskCharge">Battery Charged Per Task</string>
+        <string name="TouOptionOperativeDisplayCooldown">Security Display Cooldown</string>
+        <string name="TouOptionOperativeDisplayDuration">Max Security Display Duration</string>
+
+      <!-- Rotting Options -->
+        <string name="TouOptionRottingTimeBeforeBodyRots">Time Before Body Rots Away</string>
+
+      <!-- Scientist Options -->
+        <string name="TouOptionScientistMoveWithVitals">Move While Using Vitals</string>
+        <string name="TouOptionScientistStartingCharge">Starting Charge</string>
+        <string name="TouOptionScientistRoundCharge">Battery Charged Each Round</string>
+        <string name="TouOptionScientistTaskCharge">Battery Charged Per Task</string>
+        <string name="TouOptionScientistDisplayCooldown">Vitals Display Cooldown</string>
+        <string name="TouOptionScientistDisplayDuration">Max Vitals Display Duration</string>
+
+    <!-- Impostor Modifier Options -->
+      <!-- Circumvent Options -->
+
+        <string name="TouOptionCircumventMinimumVents">Minimum Vents Allowed</string>
+        <string name="TouOptionCircumventMaximumVents">Maximum Vents Allowed</string>
+
+      <!-- Deadly Quota Options -->
+
+        <string name="TouOptionDeadlyQuotaMinimumKillQuota">Minimum Kill Quota</string>
+        <string name="TouOptionDeadlyQuotaMaximumKillQuota">Maximum Kill Quota</string>
+        <string name="TouOptionDeadlyQuotaMeetingKillsCount">Meeting Kills Count Towards Quota</string>
+        <string name="TouOptionDeadlyQuotaTemporaryShield">Temporary Shield Until Quota Is Met</string>
+        <string name="TouOptionDeadlyQuotaRemoveUponDeath">Remove Quota Upon Death</string>
+
+      <!-- Saboteur Options -->
+        <string name="TouOptionSaboteurReducedSabotageBonus">Reduced Sabotage Bonus</string>
+
+      <!-- Telepath Options -->
+        <string name="TouOptionTelepathKnowKillLocation">Know Where Teammate Kills</string>
+        <string name="TouOptionTelepathKnowDeathLocation">Know Where Teammate Dies</string>
+        <string name="TouOptionTelepathKnowCorrectGuess">Know When Teammate Guesses Successfully</string>
+        <string name="TouOptionTelepathKnowFailedGuess">Know When Teammate Fails To Guess</string>
+
+      <!-- Underdog Options -->
+        <string name="TouOptionUnderdogKillCooldownBonus">Kill Cooldown Bonus</string>
+        <string name="TouOptionUnderdogExtraImpsKillCooldown">Increased Kill Cooldown When 2+ Imps</string>
+    <!-- Universal Modifier Options --> 
+
+      <!-- Satellite Options -->
+        <string name="TouOptionSatelliteButtonCooldown">Button Cooldown</string>
+        <string name="TouOptionSatelliteMaxUses">Max Uses</string>
+        <string name="TouOptionSatelliteOneUsagePerRound">One Usage Per Round</string>
+        <string name="TouOptionSatelliteAllowFirstRound">Allow Usage in First Round</string>
+
+      <!-- Shy Options -->
+        <string name="TouOptionShyTransparencyDelay">Transparency Delay</string>
+        <string name="TouOptionShyTurnTransparentDuration">Turn Transparent Duration</string>
+        <string name="TouOptionShyFinalOpacity">Final Opacity</string>
+
+  <!-- Other Modifier Options -->
+    <!-- Alliance Modifier Options -->
+      <string name="TouOptionTitleAllianceModifiers">Alliance Modifiers</string>
+
+      <string name="TouOptionCrewpostorChance">Crewpostor Chance</string>
+      <string name="TouOptionEgotistChance">Egotist Chance</string>
+      <string name="TouOptionLoversChance">Lovers Chance</string>
+
+    <!-- Assailant Modifier Options -->
+      <string name="TouOptionTitleAssailantModifiers">Assailant Modifiers</string>
+
+      <string name="TouOptionDoubleShotAmount">Double Shot Amount</string>
+      <string name="TouOptionDoubleShotChance">Double Shot Chance</string>
+
+      <string name="TouOptionOverclockerAmount">Overclocker Amount</string>
+      <string name="TouOptionOverclockerChance">Overclocker Chance</string>
+
+    <!-- Crewmate Modifier Options -->
+      <string name="TouOptionTitleCrewmateModifiers">Crewmate Modifiers</string>
+
+      <string name="TouOptionBaitChance">Bait Chance</string>
+      <string name="TouOptionCelebrityChance">Celebrity Chance</string>
+
+      <string name="TouOptionAftermathAmount">Aftermath Amount</string>
+      <string name="TouOptionAftermathChance">Aftermath Chance</string>
+
+      <string name="TouOptionDiseasedAmount">Diseased Amount</string>
+      <string name="TouOptionDiseasedChance">Diseased Chance</string>
+
+      <string name="TouOptionFrostyAmount">Frosty Amount</string>
+      <string name="TouOptionFrostyChance">Frosty Chance</string>
+
+      <string name="TouOptionInvestigatorAmount">Investigator Amount</string>
+      <string name="TouOptionInvestigatorChance">Investigator Chance</string>
+
+      <string name="TouOptionMultitaskerAmount">Multitasker Amount</string>
+      <string name="TouOptionMultitaskerChance">Multitasker Chance</string>
+
+      <string name="TouOptionNoisemakerAmount">Noisemaker Amount</string>
+      <string name="TouOptionNoisemakerChance">Noisemaker Chance</string>
+
+      <string name="TouOptionOperativeAmount">Operative Amount</string>
+      <string name="TouOptionOperativeChance">Operative Chance</string>
+
+      <string name="TouOptionRottingAmount">Rotting Amount</string>
+      <string name="TouOptionRottingChance">Rotting Chance</string>
+
+      <string name="TouOptionScientistAmount">Scientist Amount</string>
+      <string name="TouOptionScientistChance">Scientist Chance</string>
+
+      <string name="TouOptionScoutAmount">Scout Amount</string>
+      <string name="TouOptionScoutChance">Scout Chance</string>
+
+      <string name="TouOptionSpyAmount">Spy Amount</string>
+      <string name="TouOptionSpyChance">Spy Chance</string>
+
+      <string name="TouOptionTaskmasterAmount">Taskmaster Amount</string>
+      <string name="TouOptionTaskmasterChance">Taskmaster Chance</string>
+
+      <string name="TouOptionTorchAmount">Torch Amount</string>
+      <string name="TouOptionTorchChance">Torch Chance</string>
+
+    <!-- HnS Hider Modifier Options -->
+      <string name="HnsOptionTitleHiderModifiers">Hider Modifiers</string>
+
+      <string name="HnsOptionFrostyAmount">Frosty Amount</string>
+      <string name="HnsOptionFrostyChance">Frosty Chance</string>
+
+      <string name="HnsOptionGiantAmount">Giant Amount</string>
+      <string name="HnsOptionGiantChance">Giant Chance</string>
+
+      <string name="HnsOptionMiniAmount">Mini Amount</string>
+      <string name="HnsOptionMiniChance">Mini Chance</string>
+
+      <string name="HnsOptionMultitaskerAmount">Multitasker Amount</string>
+      <string name="HnsOptionMultitaskerChance">Multitasker Chance</string>
+
+      <string name="HnsOptionObliviousAmount">Oblivious Amount</string>
+      <string name="HnsOptionObliviousChance">Oblivious Chance</string>
+
+      <string name="HnsOptionTransporterAmount">Transporter Amount</string>
+      <string name="HnsOptionTransporterChance">Transporter Chance</string>
+
+      <string name="HnsOptionWaryAmount">Wary Amount</string>
+      <string name="HnsOptionWaryChance">Wary Chance</string>
+
+    <!-- HnS Seeker Modifier Options -->
+      <string name="HnsOptionTitleSeekerModifiers">Seeker Modifiers</string>
+
+      <string name="HnsOptionAdministratorChanceNA">Administrator Chance (N/A)</string>
+      <string name="HnsOptionDisperserChanceNA">Disperser Chance (N/A)</string>
+
+
+    <!-- Impostor Modifier Options -->
+      <string name="TouOptionTitleImpostorModifiers">Impostor Modifiers</string>
+
+      <string name="TouOptionCircumventAmount">Circumvent Amount</string>
+      <string name="TouOptionCircumventChance">Circumvent Chance</string>
+
+      <string name="TouOptionDeadlyQuotaAmount">Deadly Quota Amount</string>
+      <string name="TouOptionDeadlyQuotaChance">Deadly Quota Chance</string>
+
+      <string name="TouOptionDisperserAmount">Disperser Amount</string>
+      <string name="TouOptionDisperserChance">Disperser Chance</string>
+
+      <string name="TouOptionSaboteurAmount">Saboteur Amount</string>
+      <string name="TouOptionSaboteurChance">Saboteur Chance</string>
+
+      <string name="TouOptionTelepathAmount">Telepath Amount</string>
+      <string name="TouOptionTelepathChance">Telepath Chance</string>
+
+      <string name="TouOptionUnderdogAmount">Underdog Amount</string>
+      <string name="TouOptionUnderdogChance">Underdog Chance</string>
+
+    <!-- Neutral Modifier Options -->
+      <!-- The whole file is commented, but made a comment here so the section exists -->
+      <!-- Neutral Modifier Options -->
+      <string name="TouOptionTitleNeutralModifiers">Neutral Modifiers</string>
+
+    <!-- Universal Modifier Options -->
+      <string name="TouOptionTitleUniversalModifiers">Universal Modifiers</string>
+
+      <string name="TouOptionButtonBarryChance">Button Barry Chance</string>
+      <string name="TouOptionTiebreakerChance">Tiebreaker Chance</string>
+
+      <string name="TouOptionDrunkAmount">Drunk Amount</string>
+      <string name="TouOptionDrunkChance">Drunk Chance</string>
+
+      <string name="TouOptionFlashAmount">Flash Amount</string>
+      <string name="TouOptionFlashChance">Flash Chance</string>
+
+      <string name="TouOptionGiantAmount">Giant Amount</string>
+      <string name="TouOptionGiantChance">Giant Chance</string>
+
+      <string name="TouOptionImmovableAmount">Immovable Amount</string>
+      <string name="TouOptionImmovableChance">Immovable Chance</string>
+
+      <string name="TouOptionMiniAmount">Mini Amount</string>
+      <string name="TouOptionMiniChance">Mini Chance</string>
+
+      <string name="TouOptionRadarAmount">Radar Amount</string>
+      <string name="TouOptionRadarChance">Radar Chance</string>
+
+      <string name="TouOptionSatelliteAmount">Satellite Amount</string>
+      <string name="TouOptionSatelliteChance">Satellite Chance</string>
+
+      <string name="TouOptionShyAmount">Shy Amount</string>
+      <string name="TouOptionShyChance">Shy Chance</string>
+
+      <string name="TouOptionSixthSenseAmount">Sixth Sense Amount</string>
+      <string name="TouOptionSixthSenseChance">Sixth Sense Chance</string>
+
+      <string name="TouOptionSleuthAmount">Sleuth Amount</string>
+      <string name="TouOptionSleuthChance">Sleuth Chance</string>
+
+
+<!-- Modifier Previously hardcoded strings -->
+      <!-- 
+      Some of these don't even need localizing but as some of them can be seen when doing FreePlay, I translated anyway 
+      -->
+
+  <!-- Altruist Arrow -->
+    <string name="TouModifierAltruistArrow">Altruist Arrow</string>
+
+  <!-- Barkeeper Spill Effect -->
+    <string name="TouModifierBarkeeperSpillEffect">Spill Effect</string>
+
+  <!-- Cleric Barrier -->
+    <string name="TouModifierClericBarrier">Barrier</string>
+    <string name="TouModifierClericBarrierDescription">You are shielded by a Cleric!\nNo one can interact with you.</string>
+
+  <!-- Cleric Cleanse -->
+    <string name="TouModifierClericCleanse">Cleric Cleanse</string>
+    <string name="TouModifierClericCleanseEffectsFound">Cleansed effects on \%player\%:</string>
+    <string name="TouModifierClericCleanseNoEffects">No negative effects were found on \%player\%.</string>
+    <string name="TouModifierClericCleanseFeedbackTitle">Cleric Feedback:</string>
+
+  <!-- Deputy Revealed Modifier -->
+    <string name="TouModifierDeputyRevealed">Revealed</string>
+
+  <!-- After this I stopped making strings for everything that has "HideOnUi" -->
+  <!-- Jailed Modifier -->
+    <string name="TouModifierJailed">Jailed</string>
+    <string name="TouModifierJailedFeedbackTitle">Jailee Feedback</string>
+    <string name="TouModifierJailedNonCrewFeedback">You are jailed, convince the Jailor that you are Crew to avoid being executed in the chatbox above the user report button.</string>
+    <string name="TouModifierJailedCrewFeedback">You are jailed, provide relevant information to the Jailor to prove you are Crew in the chatbox above the user report button.</string>
+
+  <!-- Magic Mirror -->
+    <string name="TouModifierMagicMirror">Magic Mirror</string>
+    <string name="TouModifierMagicMirrorDescription">You are protected by the Mirrorcaster!\nYou may not die to other players</string>
+
+  <!-- Medic Shield -->
+    <string name="TouMedicShieldDescription">You are shielded by a Medic!\nYou may not die to other players</string>
+
+  <!-- Herbalist Protection (should be the same as Cleric) -->
+    <string name="TouModifierHerbalistProtectionDescription">You are shielded by a Cleric!\nNo one can interact with you.</string>
+
+  <!-- Blackmailed Modifier -->
+    <string name="TouModifierBlackmailed">Blackmailed</string>
+    <string name="TouModifierBlackmailedVoteNotification">You are unable to vote this meeting! You will auto-skip after \%time\% seconds.</string>
+  <!-- Eclipsal Blind -->
+    <string name="TouModifierEclipsalBlindedNotification">You were blinded by an Eclipsal!</string>
+
+  <!-- Grenadier Flash -->
+    <string name="TouModifierGrenadierFlashedNotification">You were flashed by a Grenadier!</string>
+
+  <!-- Mass Hysteria -->
+    <string name="TouModifierMassHysteriaNotification">You are under a Mass Hysteria!</string>
+
+  <!-- Guardian Angel Protection -->
+    <string name="TouModifierGuardianAngelProtected">Protected</string>
+    <string name="TouModifierGuardianAngelProtectedDescription">You are protected by your Fairy!\nYou cannot be killed.</string>
+
+  <!-- Mercenary Bribe Feedback -->
+    <string name="TouModifierMercenaryBribedFeedbackTitle">Mercenary Feedback</string>
+    <string name="TouModifierMercenaryBribedFeedback">You have been bribed by a Mercenary!</string>
+
+  <!-- Hangover Modifier -->
+    <string name="TouModifierHangover">Hangover</string>
+    <string name="TouModifierHangoverDescription">You are having a hangover, you are temporarily immune to being roleblocked.</string>
+    <string name="TouModifierHangoverStartNotification">You are now hungover!</string>
+    <string name="TouModifierHangoverEndNotification">You are no longer hungover.</string>
+
+  <!-- Roleblocked Modifier -->
+    <string name="TouModifierRoleblocked">Roleblocked</string>
+    <string name="TouModifierRoleblockedDescription">Someone gave you a drink, you are roleblocked!</string>
+    <string name="TouModifierRoleblockedEndNotification">You are no longer roleblocked.</string>
+
+  <!-- Basic Shield Modifier -->
+    <string name="TouModifierShieldDescription">You are protected!</string>
+
+  <!-- Base Disabled Modifier (I have no idea if this is shown to the player) -->
+    <string name="TouModifierDisabledDescription">You are disabled!</string>
+
+  <!-- First Death Shield -->
+    <string name="TouFirstDeathShieldDescription">You have protection because you died first last game</string>
+
+  <!-- Knighted Modifier (not really sure in this one tbh since atony said they'll abandon the \%votes\% syntax) -->
+
+    <string name="TouModifierKnighted">Knighted</string>
+    <string name="TouModifierKnightedDescription">You were knighted by the Monarch. You gained [votes] extra vote(s).</string>
 
   <!-- Extra Texts -->
 <string name="TouRoleDeputyShootKiller">Shoot a player successfully if they were the killer!</string>

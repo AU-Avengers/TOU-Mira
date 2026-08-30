@@ -926,7 +926,7 @@ public static class MiscUtils
     {
         if (!FakeChatHistory.IsReplaying)
         {
-            FakeChatHistory.Record(nameText, message);
+            FakeChatHistory.Record(basePlayer, nameText, message);
         }
         
         var chat = HudManager.Instance.Chat;

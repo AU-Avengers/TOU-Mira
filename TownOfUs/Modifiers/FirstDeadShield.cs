@@ -75,7 +75,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
 
     public override string GetDescription()
     {
-        return !HideOnUi ? "You have protection because you died first last game" : string.Empty;
+            return !HideOnUi ? TouLocale.Get("TouFirstDeathShieldDescription") : string.Empty;
     }
 
     public override void OnActivate()

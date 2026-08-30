@@ -14,28 +14,30 @@ public sealed class TelepathOptions : AbstractTouModifierOptionGroup<TelepathMod
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
     public override uint GroupPriority => 42;
 
-    [ModdedToggleOption("Know Where Teammate Kills")]
+    [ModdedToggleOption("TouOptionTelepathKnowKillLocation")]
     public bool KnowKillLocation { get; set; } = true;
 
-    [ModdedToggleOption("Know When Teammate Dies")]
+    [ModdedToggleOption("TouOptionTelepathKnowDeath")]
     public bool KnowDeath { get; set; } = true;
 
-    public ModdedToggleOption KnowDeathLocation { get; } = new("Know Where Teammate Dies", true)
-    {
-        Visible = () => OptionGroupSingleton<TelepathOptions>.Instance.KnowDeath
-    };
+    public ModdedToggleOption KnowDeathLocation { get; } =
+        new("TouOptionTelepathKnowDeathLocation", true)
+        {
+            Visible = () => OptionGroupSingleton<TelepathOptions>.Instance.KnowDeath
+        };
 
-    public ModdedNumberOption TelepathArrowDuration { get; } = new("Dead Body Arrow Duration", 2.5f, 0f, 5f, 0.5f,
-        MiraNumberSuffixes.Seconds, "0.00")
-    {
-        Visible = () => OptionGroupSingleton<TelepathOptions>.Instance.KnowKillLocation ||
-                        (OptionGroupSingleton<TelepathOptions>.Instance.KnowDeath &&
-                         OptionGroupSingleton<TelepathOptions>.Instance.KnowDeathLocation)
-    };
+    public ModdedNumberOption TelepathArrowDuration { get; } =
+        new("TouOptionTelepathArrowDuration", 2.5f, 0f, 5f, 0.5f,
+            MiraNumberSuffixes.Seconds, "0.00")
+        {
+            Visible = () => OptionGroupSingleton<TelepathOptions>.Instance.KnowKillLocation ||
+                            (OptionGroupSingleton<TelepathOptions>.Instance.KnowDeath &&
+                             OptionGroupSingleton<TelepathOptions>.Instance.KnowDeathLocation)
+        };
 
-    [ModdedToggleOption("Know When Teammate Guesses Successfully")]
+    [ModdedToggleOption("TouOptionTelepathKnowCorrectGuess")]
     public bool KnowCorrectGuess { get; set; } = true;
 
-    [ModdedToggleOption("Know When Teammate Fails To Guess")]
+    [ModdedToggleOption("TouOptionTelepathKnowFailedGuess")]
     public bool KnowFailedGuess { get; set; } = true;
 }

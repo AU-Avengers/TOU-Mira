@@ -25,7 +25,6 @@ namespace TownOfUs.Modules.DraftMode
         {
             _active = true;
             InvalidateCache();
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftSidebar] Activated.");
         }
 
         public static void Deactivate()
@@ -49,7 +48,6 @@ namespace TownOfUs.Modules.DraftMode
 
             HudManagerPatches.IsHoveringRoleList = false;
 
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftSidebar] Deactivated.");
         }
         public static void ClearBannerRef()
         {
@@ -190,9 +188,12 @@ namespace TownOfUs.Modules.DraftMode
 
         private static (string text, string colorHex) GetStatusLabelForRole(ushort roleId)
         {
-            RoleBehaviour role = roleId != 0
-                ? MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)roleId)!
-                : null!;
+            if (roleId == 0)
+            {
+                return (TouLocale.GetParsed("TouDraftARoleLabel", "a role"), "#f7f7f7");
+            }
+
+            var role = MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)roleId);
 
             if (role == null)
             {

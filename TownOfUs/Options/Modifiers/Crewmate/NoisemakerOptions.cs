@@ -12,18 +12,18 @@ public sealed class NoisemakerOptions : AbstractTouModifierOptionGroup<Noisemake
     public override uint GroupPriority => 23;
     public override Color GroupColor => TownOfUsColors.Noisemaker;
 
-    [ModdedToggleOption("Impostors Get Alert")]
+    [ModdedToggleOption("TouOptionNoisemakerImpostorsAlerted")]
     public bool ImpostorsAlerted { get; set; } = true;
 
-    [ModdedToggleOption("Neutral Killers Get Alert")]
+    [ModdedToggleOption("TouOptionNoisemakerNeutsAlerted")]
     public bool NeutsAlerted { get; set; } = true;
 
-    [ModdedToggleOption("Comms Sabotage Prevents Alert")]
+    [ModdedToggleOption("TouOptionNoisemakerCommsAffected")]
     public bool CommsAffected { get; set; } = false;
 
-    [ModdedToggleOption("Only Triggers If A Body Exists")]
+    [ModdedToggleOption("TouOptionNoisemakerBodyCheck")]
     public bool BodyCheck { get; set; } = true;
 
-    [ModdedNumberOption("Alert Duration", 1f, 20f, 1f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionNoisemakerAlertDuration", 1f, 20f, 1f, MiraNumberSuffixes.Seconds)]
     public float AlertDuration { get; set; } = 5f;
 }
