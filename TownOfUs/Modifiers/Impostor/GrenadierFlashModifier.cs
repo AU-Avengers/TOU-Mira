@@ -70,7 +70,8 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
             if (!Grenadier.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You were flashed by a Grenadier!</color></b>", Color.white,
+                    $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{TouLocale.Get("TouModifierGrenadierFlashedNotification")}</color></b>",
+                    Color.white,
                     spr: TouRoleIcons.Grenadier.LoadAsset());
 
                 notif1.AdjustNotification();

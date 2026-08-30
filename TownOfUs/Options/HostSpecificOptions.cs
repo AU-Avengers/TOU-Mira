@@ -7,26 +7,37 @@ namespace TownOfUs.Options;
 
 public sealed class HostSpecificOptions : AbstractOptionGroup
 {
-    public override string GroupName => "Host-Specific Options";
+    public override string GroupName => TouLocale.Get("TouOptionTitleHostSpecific");
     public override uint GroupPriority => 0;
 
-    public ModdedToggleOption AntiCheatWarnings { get; set; } = new("Enable Anti Cheat Warnings", true, false);
+    public ModdedToggleOption AntiCheatWarnings { get; set; } =
+        new("TouOptionAntiCheatWarnings", true, false);
 
-    public ModdedToggleOption KickCheatMods { get; set; } = new("Kick Players Using Cheat Mods", true, false);
+    public ModdedToggleOption KickCheatMods { get; set; } =
+        new("TouOptionKickCheatMods", true, false);
 
-    public ModdedToggleOption MultiplayerFreeplay { get; set; } = new("Freeplay Mode", false, false);
+    public ModdedToggleOption MultiplayerFreeplay { get; set; } =
+        new("TouOptionMultiplayerFreeplay", false, false);
 
-    public ModdedEnumOption BetaLoggingLevel { get; set; } = new("Advanced Logging Mode", (int)LoggingLevel.LogForEveryonePostGame, typeof(LoggingLevel),
-        ["No Logging", "Log For Host", "Log For Everyone", "Log Post-Game"], false)
-    {
-        Visible = () => TownOfUsPlugin.IsDevBuild
-    };
+    public ModdedEnumOption BetaLoggingLevel { get; set; } =
+        new("TouOptionBetaLoggingLevel", (int)LoggingLevel.LogForEveryonePostGame, typeof(LoggingLevel),
+            [
+                "TouOptionBetaLoggingLevelEnumNoLogging",
+                "TouOptionBetaLoggingLevelEnumLogForHost",
+                "TouOptionBetaLoggingLevelEnumLogForEveryone",
+                "TouOptionBetaLoggingLevelEnumLogPostGame"
+            ], false)
+        {
+            Visible = () => TownOfUsPlugin.IsDevBuild
+        };
 
-    public ModdedToggleOption LobbyFunMode { get; set; } = new("Allow Lobby-Only No-Clip", true, false);
+    public ModdedToggleOption LobbyFunMode { get; set; } =
+        new("TouOptionLobbyFunMode", true, false);
 
-    public ModdedToggleOption ShowRulesOnLobbyJoin { get; set; } = new("Show Rules to Players on Lobby Join", true, false);
+    public ModdedToggleOption ShowRulesOnLobbyJoin { get; set; } = new("TouOptionShowRulesOnLobbyJoin", true, false);
 
-    /*public ModdedToggleOption AllowAprilFools { get; set; } = new("Allow April Fools Visuals", true, false)
+    /*public ModdedToggleOption AllowAprilFools { get; set; } =
+        new("TouOptionAllowAprilFools", true, false)
     {
         ChangedEvent = x =>
         {
@@ -34,38 +45,45 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
             Coroutines.Start(CoSetAprilFools());
         }
     };*/
-    public ModdedToggleOption EnableSpectators { get; set; } = new("Allow Spectators", true, false)
-    {
-        ChangedEvent = x =>
+
+    public ModdedToggleOption EnableSpectators { get; set; } =
+        new("TouOptionEnableSpectators", true, false)
         {
-            var list = SpectatorRole.TrackedSpectators;
-            foreach (var name in list)
+            ChangedEvent = x =>
             {
-                SpectatorRole.TrackedSpectators.Remove(name);
-            }
-            Debug("Removed all spectators.");
-        },
-    };
+                var list = SpectatorRole.TrackedSpectators;
+                foreach (var name in list)
+                {
+                    SpectatorRole.TrackedSpectators.Remove(name);
+                }
 
-    public ModdedToggleOption RequireSubmerged { get; set; } = new("Require Players to have Submerged Installed", true, false)
-    {
-        Visible = () => ModCompatibility.SubLoaded
-    };
+                Debug("Removed all spectators.");
+            },
+        };
 
-    public ModdedToggleOption RequireCrowded { get; set; } = new("Require Players to have Crowded Installed", true, false)
-    {
-        Visible = () => ModCompatibility.CrowdedLoaded
-    };
+    public ModdedToggleOption RequireSubmerged { get; set; } =
+        new("TouOptionRequireSubmerged", true, false)
+        {
+            Visible = () => ModCompatibility.SubLoaded
+        };
 
-    public ModdedToggleOption RequireAleLudu { get; set; } = new("Require Players to have AleLuduMod Installed", true, false)
-    {
-        Visible = () => ModCompatibility.AleLuduLoaded
-    };
+    public ModdedToggleOption RequireCrowded { get; set; } =
+        new("TouOptionRequireCrowded", true, false)
+        {
+            Visible = () => ModCompatibility.CrowdedLoaded
+        };
 
-    public ModdedToggleOption NoGameEnd { get; set; } = new("No Game End", false, false)
-    {
-        Visible = () => TownOfUsPlugin.IsDevBuild
-    };
+    public ModdedToggleOption RequireAleLudu { get; set; } =
+        new("TouOptionRequireAleLudu", true, false)
+        {
+            Visible = () => ModCompatibility.AleLuduLoaded
+        };
+
+    public ModdedToggleOption NoGameEnd { get; set; } =
+        new("TouOptionNoGameEnd", false, false)
+        {
+            Visible = () => TownOfUsPlugin.IsDevBuild
+        };
 
     /*private static IEnumerator CoSetAprilFools()
     {

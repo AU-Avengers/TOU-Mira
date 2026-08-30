@@ -14,7 +14,7 @@ namespace TownOfUs.Modifiers.Crewmate;
 public sealed class JailedModifier(byte jailorId) : BaseModifier
 {
     private GameObject jailCell;
-    public override string ModifierName => "Jailed";
+    public override string ModifierName => TouLocale.Get("TouModifierJailed");
     public override bool HideOnUi => true;
     public byte JailorId { get; } = jailorId;
 
@@ -48,13 +48,14 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
 
         if (Player.AmOwner)
         {
-            var title = $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>Jailee Feedback</color>";
-            var text =
-                "You are jailed, convince the Jailor that you are Crew to avoid being executed in the chatbox above the user report button.";
+            var title =
+                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.Get("TouModifierJailedFeedbackTitle")}</color>";
+
+            var text = TouLocale.Get("TouModifierJailedNonCrewFeedback");
+
             if (PlayerControl.LocalPlayer.Is(ModdedRoleTeams.Crewmate))
             {
-                text =
-                    "You are jailed, provide relevant information to the Jailor to prove you are Crew in the chatbox above the user report button.";
+                text = TouLocale.Get("TouModifierJailedCrewFeedback");
             }
 
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, text, false, true);
@@ -65,7 +66,7 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
 
             notif1.AdjustNotification();
         }
-
+        
         foreach (var voteArea in meeting.playerStates)
         {
             if (Player.PlayerId == voteArea.PlayerId)

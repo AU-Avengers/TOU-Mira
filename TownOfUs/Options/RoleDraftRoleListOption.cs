@@ -17,52 +17,52 @@ public sealed class RoleDraftRoleListOptions : AbstractOptionGroup
             "TouMira.Gamemode.DraftMode",
             1.45f));
 
-    public override string GroupName => "Role List Settings";
+    public override string GroupName => TouLocale.Get("TouOptionTitleRoleDraftRoleList");
     public override uint GroupPriority => 3;
     public override Color GroupColor => TownOfUsColors.Jester;
 
     public ModdedEnumOption<RoleListOption> Slot1 { get; } =
-        new("Slot 1", RoleListOption.CrewRandom, RoleOptions.OptionStrings);
+        new("TouOptionRoleDraftRoleListSlot1", RoleListOption.CrewCommon, RoleOptions.OptionStrings);
 
     public ModdedEnumOption<RoleListOption> Slot2 { get; } =
-        new("Slot 2", RoleListOption.CrewRandom, RoleOptions.OptionStrings);
+        new("TouOptionRoleDraftRoleListSlot2", RoleListOption.CrewCommon, RoleOptions.OptionStrings);
 
     public ModdedEnumOption<RoleListOption> Slot3 { get; } =
-        new("Slot 3", RoleListOption.CrewRandom, RoleOptions.OptionStrings);
+        new("TouOptionRoleDraftRoleListSlot3", RoleListOption.CrewCommon, RoleOptions.OptionStrings);
 
     public ModdedEnumOption<RoleListOption> Slot4 { get; } =
-        new("Slot 4", RoleListOption.ImpRandom, RoleOptions.OptionStrings);
+        new("TouOptionRoleDraftRoleListSlot4", RoleListOption.ImpCommon, RoleOptions.OptionStrings);
 
     public ModdedEnumOption<RoleListOption> Slot5 { get; } =
-        new("Slot 5", RoleListOption.CrewRandom, RoleOptions.OptionStrings);
+        new("TouOptionRoleDraftRoleListSlot5", RoleListOption.CrewCommon, RoleOptions.OptionStrings);
 
     public ModdedEnumOption<RoleListOption> Slot6 { get; } =
-        new("Slot 6", RoleListOption.CrewRandom, RoleOptions.OptionStrings);
+        new("TouOptionRoleDraftRoleListSlot6", RoleListOption.CrewCommon, RoleOptions.OptionStrings);
 
     public ModdedEnumOption<RoleListOption> Slot7 { get; } =
-        new("Slot 7", RoleListOption.CrewRandom, RoleOptions.OptionStrings);        
+        new("TouOptionRoleDraftRoleListSlot7", RoleListOption.CrewCommon, RoleOptions.OptionStrings);
 
     public ModdedEnumOption<RoleListOption> Slot8 { get; } =
-        new("Slot 8", RoleListOption.CrewRandom, RoleOptions.OptionStrings);
+        new("TouOptionRoleDraftRoleListSlot8", RoleListOption.CrewCommon, RoleOptions.OptionStrings);
 
     public ModdedEnumOption<RoleListOption> Slot9 { get; } =
-        new("Slot 9", RoleListOption.ImpRandom, RoleOptions.OptionStrings);
+        new("TouOptionRoleDraftRoleListSlot9", RoleListOption.ImpCommon, RoleOptions.OptionStrings);
 
     public ModdedEnumOption<RoleListOption> Slot10 { get; } =
-        new("Slot 10", RoleListOption.CrewRandom, RoleOptions.OptionStrings);
+        new("TouOptionRoleDraftRoleListSlot10", RoleListOption.CrewCommon, RoleOptions.OptionStrings);
 
     public ModdedEnumOption<RoleListOption> Slot11 { get; } =
-        new("Slot 11", RoleListOption.CrewRandom, RoleOptions.OptionStrings);       
+        new("TouOptionRoleDraftRoleListSlot11", RoleListOption.CrewCommon, RoleOptions.OptionStrings);
 
     public ModdedEnumOption<RoleListOption> Slot12 { get; } =
-        new("Slot 12", RoleListOption.CrewRandom, RoleOptions.OptionStrings);
+        new("TouOptionRoleDraftRoleListSlot12", RoleListOption.CrewCommon, RoleOptions.OptionStrings);
 
     public ModdedEnumOption<RoleListOption> Slot13 { get; } =
-        new("Slot 13", RoleListOption.CrewRandom, RoleOptions.OptionStrings);   
+        new("TouOptionRoleDraftRoleListSlot13", RoleListOption.CrewCommon, RoleOptions.OptionStrings);
 
     public ModdedEnumOption<RoleListOption> Slot14 { get; } =
-        new("Slot 14", RoleListOption.ImpRandom, RoleOptions.OptionStrings);
+        new("TouOptionRoleDraftRoleListSlot14", RoleListOption.ImpCommon, RoleOptions.OptionStrings);
 
     public ModdedEnumOption<RoleListOption> Slot15 { get; } =
-        new("Slot 15", RoleListOption.CrewRandom, RoleOptions.OptionStrings);
+        new("TouOptionRoleDraftRoleListSlot15", RoleListOption.CrewCommon, RoleOptions.OptionStrings);
 }
