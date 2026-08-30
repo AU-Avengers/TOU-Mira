@@ -30,8 +30,8 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     public void AnnounceKill(PlayerControl source, PlayerControl victim)
     {
         var text = OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnonymizeWin.Value
-            ? MiraLocaleManager.Get("TouRoleAnonymousVictoryKillNotif").Replace("<source>", source.Data.PlayerName)
-            : MiraLocaleManager.Get("TouRoleExecutionerTormentNotif");
+            ? MiraLocaleManager.Get("TownOfUsMira.Role.AnonymousVictoryKillNotif").Replace("<source>", source.Data.PlayerName)
+            : MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerTormentNotif");
         var notif = Helpers.CreateAndShowNotification(
             $"<b>{text.Replace("<victim>", victim.Data.PlayerName)}</b>",
             Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Jester.LoadAsset());
@@ -104,20 +104,20 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SnitchRole>());
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string IdPart => "Executioner";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
     public string RoleDescription => TargetString(true);
     public string RoleLongDescription => TargetString();
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription")
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription")
                 .Replace("<symbol>", "<color=#643B1FFF>X</color>") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    private static string _missingTargetDesc = MiraLocaleManager.Get("TouRoleExecutionerMissingTargetDescription");
-    private static string _targetDesc = MiraLocaleManager.Get("TouRoleExecutionerTabDescription");
+    private static string _missingTargetDesc = MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerMissingTargetDescription");
+    private static string _targetDesc = MiraLocaleManager.Get("TownOfUsMira.Role.Executioner.TabDescription");
 
     private string TargetString(bool capitalize = false)
     {
@@ -183,8 +183,8 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     {
         RoleBehaviourStubs.Initialize(this, player);
 
-        _missingTargetDesc = MiraLocaleManager.Get("TouRoleExecutionerMissingTargetDescription");
-        _targetDesc = MiraLocaleManager.Get("TouRoleExecutionerTabDescription");
+        _missingTargetDesc = MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerMissingTargetDescription");
+        _targetDesc = MiraLocaleManager.Get("TownOfUsMira.Role.Executioner.TabDescription");
 
         if (!OptionGroupSingleton<ExecutionerOptions>.Instance.CanButton)
         {

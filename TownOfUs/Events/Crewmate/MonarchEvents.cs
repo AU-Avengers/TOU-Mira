@@ -36,7 +36,7 @@ public static class MonarchEvents
             return;
 
         var notif = Helpers.CreateAndShowNotification(
-            $"<b>{MiraLocaleManager.Get("TouRoleMonarchKnightFallenFeedback").Replace("<player>", deadPlayer.Data.PlayerName)}</b>",
+            $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.MonarchKnightFallenFeedback").Replace("<player>", deadPlayer.Data.PlayerName)}</b>",
             Color.white,
             new Vector3(0f, 1f, -20f),
             spr: TouRoleIcons.Monarch.LoadAsset());

@@ -32,15 +32,15 @@ public static class KnightedEvents
             return;
         }
 
-        var title = $"<color=#{TownOfUsColors.Monarch.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TouRoleMonarchMessageTitle")}</color>";
-        var role = $"{TownOfUsColors.Monarch.ToTextColor()}{MiraLocaleManager.Get("TouRoleMonarch", "Monarch")}</color>";
+        var title = $"<color=#{TownOfUsColors.Monarch.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.MonarchMessageTitle")}</color>";
+        var role = $"{TownOfUsColors.Monarch.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.Monarch", "Monarch")}</color>";
         var votes = ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture);
 
         foreach (var knight in knights)
         {
             knight.Announced = true;
 
-            var message = MiraLocaleManager.Get("TouRoleMonarchKnightedFeedback").Replace("<role>", role).Replace("<votes>", votes);
+            var message = MiraLocaleManager.Get("TownOfUsMira.Role.MonarchKnightedFeedback").Replace("<role>", role).Replace("<votes>", votes);
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, message, false, true);
         }
 

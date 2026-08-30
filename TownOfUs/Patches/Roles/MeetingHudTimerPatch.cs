@@ -46,37 +46,37 @@ public static class MeetingHudTimerPatch
                 var total = (int)OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
                 var prosecutes = total - pros.ProsecutionsCompleted;
                 newText =
-                    $"\n{MiraLocaleManager.Get("TouRoleProsecutorProsecutionsRemaining").Replace("<count>", prosecutes.ToString(TownOfUsPlugin.Culture)).Replace("<total>", total.ToString(TownOfUsPlugin.Culture))}";
+                    $"\n{MiraLocaleManager.Get("TownOfUsMira.Role.ProsecutorProsecutionsRemaining").Replace("<count>", prosecutes.ToString(TownOfUsPlugin.Culture)).Replace("<total>", total.ToString(TownOfUsPlugin.Culture))}";
                 break;
             case DeputyRole dep:
                 if (dep.Killer)
                 {
-                    newText = $"\n{MiraLocaleManager.Get("TouRoleDeputyShootKiller")}";
+                    newText = $"\n{MiraLocaleManager.Get("TownOfUsMira.Role.DeputyShootKiller")}";
                 }
 
                 break;
             case PoliticianRole:
-                newText = $"\n{MiraLocaleManager.Get("TouRolePoliticianRevealRequirement")}";
+                newText = $"\n{MiraLocaleManager.Get("TownOfUsMira.Role.PoliticianRevealRequirement")}";
                 break;
             case MayorRole mayor:
-                newText = mayor.Revealed ? $"\n{MiraLocaleManager.Get("TouRoleMayorRevealedVotes")}" : $"\n{MiraLocaleManager.Get("TouRoleMayorRevealVotes")}";
+                newText = mayor.Revealed ? $"\n{MiraLocaleManager.Get("TownOfUsMira.Role.MayorRevealedVotes")}" : $"\n{MiraLocaleManager.Get("TownOfUsMira.Role.MayorRevealVotes")}";
                 break;
             case DoomsayerRole doom:
                 var doomOpt = OptionGroupSingleton<DoomsayerOptions>.Instance;
                 newText = "\n" + (doomOpt.DoomsayerGuessAllAtOnce
-                    ? MiraLocaleManager.Get("TouRoleDoomsayerGuessAllAtOnce").Replace("<amount>",
+                    ? MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerGuessAllAtOnce").Replace("<amount>",
                         ((int)doomOpt.DoomsayerGuessesToWin).ToString(TownOfUsPlugin.Culture))
-                    : MiraLocaleManager.Get("TouRoleDoomsayerSuccessfulGuesses")
+                    : MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerSuccessfulGuesses")
                         .Replace("<current>", doom.NumberOfGuesses.ToString(TownOfUsPlugin.Culture)).Replace("<total>",
                             ((int)doomOpt.DoomsayerGuessesToWin).ToString(TownOfUsPlugin.Culture)));
                 break;
             case VigilanteRole vigi:
                 newText =
-                    $"\n{vigi.MaxKills} / {(int)OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteKills} {MiraLocaleManager.Get("TouRoleVigilanteGuessesRemaining")}";
+                    $"\n{vigi.MaxKills} / {(int)OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteKills} {MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteGuessesRemaining")}";
                 if ((int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots > 0)
                 {
                     newText +=
-                        $" | {vigi.SafeShotsLeft} / {(int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots} {MiraLocaleManager.Get("TouRoleVigilanteSafeShots")}";
+                        $" | {vigi.SafeShotsLeft} / {(int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots} {MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteSafeShots")}";
                 }
 
                 break;
@@ -85,10 +85,10 @@ public static class MeetingHudTimerPatch
         if (PlayerControl.LocalPlayer.TryGetModifier<AssassinModifier>(out var assassinMod))
         {
             newText +=
-                $"\n{assassinMod.maxKills} / {assassinMod.defaultKills} {MiraLocaleManager.Get("TouRoleAssassinGuessesRemaining")}";
+                $"\n{assassinMod.maxKills} / {assassinMod.defaultKills} {MiraLocaleManager.Get("TownOfUsMira.Role.AssassinGuessesRemaining")}";
             if ((PlayerControl.LocalPlayer.TryGetModifier<DoubleShotModifier>(out var doubleShotMod)))
             {
-                newText += (doubleShotMod.Used) ? $" | {MiraLocaleManager.Get("TouRoleAssassinDoubleShotUsed")}" : $" | {MiraLocaleManager.Get("TouRoleAssassinDoubleShotAvailable")}";
+                newText += (doubleShotMod.Used) ? $" | {MiraLocaleManager.Get("TownOfUsMira.Role.AssassinDoubleShotUsed")}" : $" | {MiraLocaleManager.Get("TownOfUsMira.Role.AssassinDoubleShotAvailable")}";
             }
         }
 

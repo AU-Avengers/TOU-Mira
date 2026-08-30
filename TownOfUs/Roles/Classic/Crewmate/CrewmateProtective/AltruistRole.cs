@@ -33,14 +33,14 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             _ => string.Empty,
         };
     }
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription{ReviveString()}");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}TabDescription{ReviveString()}");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -51,8 +51,8 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Revive", "Revive"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}Revive{ReviveString()}WikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Revive", "Revive"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Revive{ReviveString()}.WikiDescription"),
                     TouCrewAssets.ReviveSprite)
             ];
         }
@@ -170,8 +170,8 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
         if (!MeetingHud.Instance && (!Player.HasDied() || killOnStart))
         {
-            var revivedText = MiraLocaleManager.Get("TouRoleAltruistRevivedNotif");
-            var successText = MiraLocaleManager.Get("TouRoleAltruistReviveSuccessNotif")
+            var revivedText = MiraLocaleManager.Get("TownOfUsMira.Role.AltruistRevivedNotif");
+            var successText = MiraLocaleManager.Get("TownOfUsMira.Role.AltruistReviveSuccessNotif")
                 .Replace("<player>", dead.Data.PlayerName);
 
             ReviveUtilities.RevivePlayer(

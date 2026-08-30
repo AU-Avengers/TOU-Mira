@@ -164,14 +164,14 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     [HideFromIl2Cpp] public PlayerControl? Killer { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
     public string IdPart => "Deputy";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -182,8 +182,8 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Camp", "Camp"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}CampWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Camp", "Camp"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Camp.WikiDescription"),
                     TouCrewAssets.CampButtonSprite)
             ];
         }
@@ -298,8 +298,8 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         else
         {
             var title =
-                $"<color=#{TownOfUsColors.Deputy.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TouRoleDeputyMessageTitle")}</color>";
-            var msg = MiraLocaleManager.Get("TouRoleDeputyMissedShot");
+                $"<color=#{TownOfUsColors.Deputy.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.DeputyMessageTitle")}</color>";
+            var msg = MiraLocaleManager.Get("TownOfUsMira.Role.DeputyMissedShot");
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg, false, true);
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Deputy.ToTextColor()}{msg}</b></color>",

@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class OfficerLoadButton : TownOfUsRoleButton<OfficerRole>
 {
-    public override string Name => MiraLocaleManager.Get("TouRoleOfficerLoad", "Load");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.OfficerLoad", "Load");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Officer;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<OfficerOptions>.Instance.LoadCooldown.Value + MapCooldown, 5f, 120f);

@@ -38,14 +38,14 @@ public sealed class HypnotistRole(IntPtr cppPtr)
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<LookoutRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Hypnotist";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription").Replace("<symbol>", "<color=#D53F42>@</color>") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription").Replace("<symbol>", "<color=#D53F42>@</color>") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -70,11 +70,11 @@ public sealed class HypnotistRole(IntPtr cppPtr)
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Hypnotize", "Hypnotize"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}HypnotizeWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hypnotize", "Hypnotize"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hypnotize.WikiDescription"),
                     TouImpAssets.HypnotiseButtonSprite),
-                new(MiraLocaleManager.Get($"TouRole{IdPart}MassHysteriaWiki", "Mass Hysteria (Meeting)"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}MassHysteriaWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteriaWiki", "Mass Hysteria (Meeting)"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteria.WikiDescription"),
                     TouAssets.HysteriaCleanSprite)
             ];
         }
@@ -90,7 +90,7 @@ public sealed class HypnotistRole(IntPtr cppPtr)
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
-                classic ? string.Empty : MiraLocaleManager.Get("TouRoleHypnotistMassHysteria"),
+                classic ? string.Empty : MiraLocaleManager.Get("TownOfUsMira.Role.HypnotistMassHysteria"),
                 MeetingAbilityType.Click,
                 classic ? LegacyAssets.HysteriaSprite : TouAssets.HysteriaCleanSprite,
                 null!,

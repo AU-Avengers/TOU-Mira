@@ -55,13 +55,13 @@ public static class EndGamePatches
             {
                 EndGameData.PlayerRecords.Add(new EndGameData.PlayerRecord
                 {
-                    ChatSummaryTitle = $"{playerStats.PlayerName} - {MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>())}{MiraLocaleManager.Get("TouRoleSpectator")}",
+                    ChatSummaryTitle = $"{playerStats.PlayerName} - {MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>())}{MiraLocaleManager.Get("TownOfUsMira.Role.Spectator")}",
                     ChatSummaryRoleInfo = string.Empty,
                     ChatSummaryStats = string.Empty,
                     ChatSummaryCod = string.Empty,
                     PlayerName = playerStats.PlayerName,
-                    RoleString = MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>()) + MiraLocaleManager.Get("TouRoleSpectator"),
-                    RoleStringShort = MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>()) + MiraLocaleManager.Get("TouRoleSpectator"),
+                    RoleString = MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>()) + MiraLocaleManager.Get("TownOfUsMira.Role.Spectator"),
+                    RoleStringShort = MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>()) + MiraLocaleManager.Get("TownOfUsMira.Role.Spectator"),
                     Winner = false,
                     LastRole = (RoleTypes)RoleId.Get<SpectatorRole>(),
                     Team = ModdedRoleTeams.Custom,

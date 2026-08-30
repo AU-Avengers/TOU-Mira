@@ -23,14 +23,14 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VigilanteRole>());
     public DoomableType DoomHintType => DoomableType.Insight;
     public string IdPart => "Ambassador";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -41,8 +41,8 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}RetrainWiki", "Retrain (Meeting)"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}RetrainWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}RetrainWiki", "Retrain (Meeting)"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Retrain.WikiDescription"),
                     TouAssets.RetrainCleanSprite)
             ];
         }
@@ -82,9 +82,9 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
         return stringB;
     }
 
-    public static string AvailableRetrainsString = MiraLocaleManager.Get("TouRoleAmbassadorRetrainsAvailable");
-    public static string RetrainWaitString = MiraLocaleManager.Get("TouRoleAmbassadorRetrainWaiting");
-    public static string RetrainCooldownString = MiraLocaleManager.Get("TouRoleAmbassadorRetrainCooldown");
+    public static string AvailableRetrainsString = MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorRetrainsAvailable");
+    public static string RetrainWaitString = MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorRetrainWaiting");
+    public static string RetrainCooldownString = MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorRetrainCooldown");
 
     public string RetrainsString()
     {
@@ -101,9 +101,9 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        AvailableRetrainsString = MiraLocaleManager.Get("TouRoleAmbassadorRetrainsAvailable");
-        RetrainWaitString = MiraLocaleManager.Get("TouRoleAmbassadorRetrainWaiting");
-        RetrainCooldownString = MiraLocaleManager.Get("TouRoleAmbassadorRetrainCooldown");
+        AvailableRetrainsString = MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorRetrainsAvailable");
+        RetrainWaitString = MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorRetrainWaiting");
+        RetrainCooldownString = MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorRetrainCooldown");
 
         RetrainsAvailable = (int)OptionGroupSingleton<AmbassadorOptions>.Instance.MaxRetrains;
 
@@ -115,7 +115,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
-                MiraLocaleManager.Get("TouRoleAmbassadorRetrain"),
+                MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorRetrain"),
                 MeetingAbilityType.Toggle,
                 TouAssets.RetrainCleanSprite,
                 TouAssets.RetrainCleanSprite,
@@ -209,7 +209,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             if (killedAmbassPlayers < (int)opt.KillsNeeded && killedPlayerPlayers < (int)opt.KillsNeeded)
             {
                 var text =
-                    MiraLocaleManager.Get("TouRoleAmbassadorNeedKills")
+                    MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorNeedKills")
                         .Replace("<requiredKills>", $"{(int)opt.KillsNeeded}");
                 var notif1 =
                     Helpers.CreateAndShowNotification(text, Color.white, new Vector3(0f, 1f, -20f),
@@ -375,14 +375,14 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                  player.AmOwner))
             {
                 var text =
-                    MiraLocaleManager.Get("TouRoleAmbassadorPlayerHasBeenRetrained")
+                    MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorPlayerHasBeenRetrained")
                         .Replace("<player>", player.Data.PlayerName);
 
                 if (player.AmOwner)
                 {
                     player.SetKillTimer(currentTime);
                     text =
-                        MiraLocaleManager.Get("TouRoleAmbassadorYouHaveAccepted");
+                        MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorYouHaveAccepted");
                 }
 
                 text = text.Replace("<newRole>", newRole.GetRoleName());
@@ -396,12 +396,12 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                  (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || ambassador.AmOwner))
         {
             var text =
-                MiraLocaleManager.Get("TouRoleAmbassadorPlayerHasDenied").Replace("<player>", player.Data.PlayerName);
+                MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorPlayerHasDenied").Replace("<player>", player.Data.PlayerName);
 
             if (player.AmOwner)
             {
                 text =
-                    MiraLocaleManager.Get("TouRoleAmbassadorYouDeniedRetrain");
+                    MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorYouDeniedRetrain");
             }
 
             text = text.Replace("<newRole>", newRole.GetRoleName());
@@ -428,7 +428,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                 (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || player.AmOwner))
             {
                 var text =
-                    MiraLocaleManager.Get("TouRoleAmbassadorRetrainCancelled")
+                    MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorRetrainCancelled")
                         .Replace("<player>", ambassador.SelectedPlr.PlayerName);
                 var notif1 =
                     Helpers.CreateAndShowNotification(text, Color.white, new Vector3(0f, 1f, -20f),
@@ -452,22 +452,22 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || player.AmOwner))
         {
             var text =
-                MiraLocaleManager.Get("TouRoleAmbassadorDecidedToRetrain")
+                MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorDecidedToRetrain")
                     .Replace("<player>", ambassador.SelectedPlr.PlayerName);
             if (ambassador.SelectedPlr.Object.AmOwner && player.AmOwner)
             {
                 text =
-                    MiraLocaleManager.Get("TouRoleAmbassadorDecidedToRetrainYourself");
+                    MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorDecidedToRetrainYourself");
             }
             else if (ambassador.SelectedPlr.Object == player)
             {
                 text =
-                    MiraLocaleManager.Get("TouRoleAmbassadorDecidedToRetrainSelf");
+                    MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorDecidedToRetrainSelf");
             }
             else if (ambassador.SelectedPlr.Object.AmOwner)
             {
                 text =
-                    MiraLocaleManager.Get("TouRoleAmbassadorDecidedToRetrainYou");
+                    MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorDecidedToRetrainYou");
             }
 
             text = text.Replace("<newRole>",

@@ -13,7 +13,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class ArsonistDouseButton : TownOfUsRoleButton<ArsonistRole, PlayerControl>, ILegacyCapable
 {
-    public override string Name => MiraLocaleManager.Get("TouRoleArsonistDouse", "Douse");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.ArsonistDouse", "Douse");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Arsonist;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<ArsonistOptions>.Instance.DouseCooldown + MapCooldown, 5f, 120f);

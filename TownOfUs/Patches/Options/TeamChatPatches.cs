@@ -849,7 +849,7 @@ public static class TeamChatPatches
         if (PlayerControl.LocalPlayer.IsJailed())
         {
             MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
-                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TouRoleJailor")}</color>",
+                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.Jailor")}</color>",
                 text, bubbleType: BubbleType.Jailor, onLeft: !player.AmOwner);
             shouldMarkUnread = true;
         }

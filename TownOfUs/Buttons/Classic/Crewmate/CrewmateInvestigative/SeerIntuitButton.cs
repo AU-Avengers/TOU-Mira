@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class SeerIntuitButton : TownOfUsRoleButton<SeerRole, PlayerControl>
 {
-    public override string Name => MiraLocaleManager.Get("TouRoleSeerIntuit", "Intuit");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.SeerIntuit", "Intuit");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Seer;
     public override int MaxUses => (int)OptionGroupSingleton<SeerOptions>.Instance.MaxCompares;
@@ -64,7 +64,7 @@ public sealed class SeerIntuitButton : TownOfUsRoleButton<SeerRole, PlayerContro
         }
         else
         {
-            var text = MiraLocaleManager.Get("TouRoleSeerIntuitNotif").Replace("<player>", Target.Data.PlayerName);
+            var text = MiraLocaleManager.Get("TownOfUsMira.Role.SeerIntuitNotif").Replace("<player>", Target.Data.PlayerName);
             var notif = Helpers.CreateAndShowNotification($"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f),
                 spr: TouRoleIcons.Seer.LoadAsset());
             notif.AdjustNotification();

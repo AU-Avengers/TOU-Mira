@@ -36,7 +36,7 @@ public sealed class PuppeteerKillButton : TownOfUsKillRoleButton<PuppeteerRole, 
     {
         base.CreateButton(parent);
         _killName = TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
-        _ctrlKillName = MiraLocaleManager.Get("TouRolePuppeteerKIll", "Control Kill");
+        _ctrlKillName = MiraLocaleManager.Get("TownOfUsMira.Role.PuppeteerKIll", "Control Kill");
     }
 
     public void SetDiseasedTimer(float multiplier)

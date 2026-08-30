@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class GuardianAngelProtectButton : TownOfUsRoleButton<FairyRole>, ILegacyCapable
 {
-    public override string Name => MiraLocaleManager.Get("TouRoleFairyProtect", "Protect");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.FairyProtect", "Protect");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Fairy;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<FairyOptions>.Instance.ProtectCooldown + MapCooldown, 5f, 120f);

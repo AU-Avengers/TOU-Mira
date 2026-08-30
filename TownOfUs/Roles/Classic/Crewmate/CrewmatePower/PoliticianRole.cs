@@ -27,14 +27,14 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     public bool CanCampaign { get; set; } = true;
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string IdPart => "Politician";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -45,13 +45,13 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Campaign", "Campaign"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}CampaignWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Campaign", "Campaign"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Campaign.WikiDescription"),
                     TouCrewAssets.CampaignButtonSprite),
-                new(MiraLocaleManager.Get($"TouRole{IdPart}RevealWiki", "Reveal"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}RevealWiki", "Reveal"),
                     MiraLocaleManager.Get(OptionGroupSingleton<PoliticianOptions>.Instance.PreventCampaign
-                        ? $"TouRole{IdPart}RevealWikiDescriptionPunished"
-                        : $"TouRole{IdPart}RevealWikiDescription"),
+                        ? $"TownOfUsMira.Role.{IdPart}RevealWikiDescriptionPunished"
+                        : $"TownOfUsMira.Role.{IdPart}Reveal.WikiDescription"),
                     TouAssets.RevealCleanSprite)
             ];
         }
@@ -78,7 +78,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         if (PlayerControl.LocalPlayer.HasModifier<EgotistModifier>())
         {
             stringB.AppendLine(TownOfUsPlugin.Culture,
-                $"<b>{MiraLocaleManager.Get("TouRolePoliticianEgotistTabInfo")}</b>");
+                $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.PoliticianEgotistTabInfo")}</b>");
         }
 
         return stringB;
@@ -94,7 +94,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
-                classic ? string.Empty : MiraLocaleManager.Get("TouRolePoliticianReveal"),
+                classic ? string.Empty : MiraLocaleManager.Get("TownOfUsMira.Role.PoliticianReveal"),
                 MeetingAbilityType.Click,
                 classic ? LegacyAssets.RevealButtonSprite : TouAssets.RevealCleanSprite,
                 null!,
@@ -168,14 +168,14 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         }
         else
         {
-            var text = MiraLocaleManager.Get("TouRolePoliticianFailedRevealCanCampaign");
+            var text = MiraLocaleManager.Get("TownOfUsMira.Role.PoliticianFailedRevealCanCampaign");
             if (OptionGroupSingleton<PoliticianOptions>.Instance.PreventCampaign)
             {
                 CanCampaign = false;
-                text = MiraLocaleManager.Get("TouRolePoliticianFailedRevealCannotCampaign");
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.PoliticianFailedRevealCannotCampaign");
             }
 
-            var title = $"<color=#{TownOfUsColors.Mayor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TouRolePoliticianFeedbackText")}</color>";
+            var title = $"<color=#{TownOfUsColors.Mayor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.PoliticianFeedbackText")}</color>";
             MiscUtils.AddFakeChat(Player.Data, title, text, false, true);
         }
     }

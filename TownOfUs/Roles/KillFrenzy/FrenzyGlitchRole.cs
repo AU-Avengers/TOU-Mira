@@ -44,14 +44,14 @@ public sealed class FrenzyGlitchRole(IntPtr cppPtr)
     }
 
     public string IdPart => "Glitch";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -62,11 +62,11 @@ public sealed class FrenzyGlitchRole(IntPtr cppPtr)
         {
             return new List<CustomButtonWikiDescription>
             {
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Mimic", "Mimic"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}MimicWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mimic", "Mimic"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mimic.WikiDescription"),
                     TouNeutAssets.MimicSprite),
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Hack", "Hack"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}HackWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hack", "Hack"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hack.WikiDescription"),
                     TouNeutAssets.HackSprite)
             };
         }

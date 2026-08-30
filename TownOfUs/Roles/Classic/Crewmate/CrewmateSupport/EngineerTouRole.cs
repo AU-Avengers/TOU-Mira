@@ -18,14 +18,14 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Protective;
     public string IdPart => "Engineer";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -36,8 +36,8 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Fix", "Fix"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}FixWikiDescription").Replace("<engiMaxFixes>",
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fix", "Fix"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fix.WikiDescription").Replace("<engiMaxFixes>",
                         $"{(int)OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes}"),
                     TouCrewAssets.FixButtonSprite)
             ];

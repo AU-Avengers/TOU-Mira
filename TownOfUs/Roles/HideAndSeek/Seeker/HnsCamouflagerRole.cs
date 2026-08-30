@@ -14,15 +14,16 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
     public static PlayerBodyTypes HiderBodyType = PlayerBodyTypes.Normal;
     public static PlayerBodyTypes SeekerBodyType = PlayerBodyTypes.Seeker;
     public string IdPart => "Camouflager";
-    public string RoleName => MiraLocaleManager.Get($"HnsRole{IdPart}");
+    public string IdPrefix => "TownOfUsMira.HideAndSeek.Role";
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}");
     public string RoleDescription => "...";
-    public string RoleLongDescription => MiraLocaleManager.Get($"HnsRole{IdPart}TabDescription");
-    public string RoleHintText => MiraLocaleManager.Get($"HnsRole{IdPart}TabHint");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}.TabDescription");
+    public string RoleHintText => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}TabHint");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"HnsRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -33,8 +34,8 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
         {
             return
             [
-                new(MiraLocaleManager.Get($"HnsRole{IdPart}Camo", "Camo"),
-                    MiraLocaleManager.Get($"HnsRole{IdPart}CamoWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}Camo", "Camo"),
+                    MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}Camo.WikiDescription"),
                     TouImpAssets.HypnotiseButtonSprite)
             ];
         }

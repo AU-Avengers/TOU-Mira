@@ -18,23 +18,23 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Protective;
     public string IdPart => "Cleric";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    public static string ProtectionString = MiraLocaleManager.Get("TouRoleClericTabProtecting");
+    public static string ProtectionString = MiraLocaleManager.Get("TownOfUsMira.Role.ClericTabProtecting");
 
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        ProtectionString = MiraLocaleManager.Get("TouRoleClericTabProtecting");
+        ProtectionString = MiraLocaleManager.Get("TownOfUsMira.Role.ClericTabProtecting");
     }
 
     [HideFromIl2Cpp]
@@ -58,12 +58,12 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Barrier", "Barrier"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}BarrierWikiDescription").Replace("<BarrierCooldown>",
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Barrier", "Barrier"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Barrier.WikiDescription").Replace("<BarrierCooldown>",
                         $"{OptionGroupSingleton<ClericOptions>.Instance.BarrierCooldown}"),
                     TouCrewAssets.BarrierSprite),
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Cleanse", "Cleanse"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}CleanseWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Cleanse", "Cleanse"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Cleanse.WikiDescription"),
                     TouCrewAssets.CleanseSprite)
             ];
         }

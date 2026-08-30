@@ -17,15 +17,15 @@ public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     [HideFromIl2Cpp] public PlayerControl? Sampled { get; set; }
     public DoomableType DoomHintType => DoomableType.Perception;
     public string IdPart => "Morphling";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
-    public static string MorphedString = MiraLocaleManager.Get("TouRoleMorphlingTabMorphed");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
+    public static string MorphedString = MiraLocaleManager.Get("TownOfUsMira.Role.MorphlingTabMorphed");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -68,11 +68,11 @@ public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Sample", "Sample"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}SampleWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Sample", "Sample"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Sample.WikiDescription"),
                     TouImpAssets.SampleSprite),
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Morph", "Morph"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}MorphWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Morph", "Morph"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Morph.WikiDescription"),
                     TouImpAssets.MorphSprite)
             ];
         }
@@ -88,7 +88,7 @@ public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        MorphedString = MiraLocaleManager.Get("TouRoleMorphlingTabMorphed");
+        MorphedString = MiraLocaleManager.Get("TownOfUsMira.Role.MorphlingTabMorphed");
         CustomButtonSingleton<MorphlingMorphButton>.Instance.SetActive(false, this);
     }
 

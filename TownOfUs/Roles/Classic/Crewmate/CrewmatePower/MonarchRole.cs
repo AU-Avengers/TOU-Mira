@@ -18,32 +18,32 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Monarch";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
     public Color RoleColor => TownOfUsColors.Monarch;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmatePower;
 
-    public static string VoteInfoString = MiraLocaleManager.Get("TouRoleMonarchTabVoteInfo");
-    public static string DefenseEgoString = MiraLocaleManager.Get("TouRoleMonarchTabDefenseInfoEgo");
-    public static string DefenseString = MiraLocaleManager.Get("TouRoleMonarchTabDefenseInfo");
-    public static string DeathInfoString = MiraLocaleManager.Get("TouRoleMonarchTabDeathInfo");
+    public static string VoteInfoString = MiraLocaleManager.Get("TownOfUsMira.Role.MonarchTabVoteInfo");
+    public static string DefenseEgoString = MiraLocaleManager.Get("TownOfUsMira.Role.MonarchTabDefenseInfoEgo");
+    public static string DefenseString = MiraLocaleManager.Get("TownOfUsMira.Role.MonarchTabDefenseInfo");
+    public static string DeathInfoString = MiraLocaleManager.Get("TownOfUsMira.Role.MonarchTabDeathInfo");
 
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        VoteInfoString = MiraLocaleManager.Get("TouRoleMonarchTabVoteInfo");
-        DefenseEgoString = MiraLocaleManager.Get("TouRoleMonarchTabDefenseInfoEgo");
-        DefenseString = MiraLocaleManager.Get("TouRoleMonarchTabDefenseInfo");
-        DeathInfoString = MiraLocaleManager.Get("TouRoleMonarchTabDeathInfo");
+        VoteInfoString = MiraLocaleManager.Get("TownOfUsMira.Role.MonarchTabVoteInfo");
+        DefenseEgoString = MiraLocaleManager.Get("TownOfUsMira.Role.MonarchTabDefenseInfoEgo");
+        DefenseString = MiraLocaleManager.Get("TownOfUsMira.Role.MonarchTabDefenseInfo");
+        DeathInfoString = MiraLocaleManager.Get("TownOfUsMira.Role.MonarchTabDeathInfo");
     }
 
     public CustomRoleConfiguration Configuration => new(this)
@@ -89,8 +89,8 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Knight", "Knight"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}KnightDescription").Replace("<amount>",
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Knight", "Knight"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}KnightDescription").Replace("<amount>",
                         ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)),
                     TouCrewAssets.KnightSprite)
             ];
@@ -117,7 +117,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         {
             if (player.AmOwner)
             {
-                ShowNotification(MiraLocaleManager.Get("TouRoleMonarchKnightTargetDied").Replace("<player>", targetName));
+                ShowNotification(MiraLocaleManager.Get("TownOfUsMira.Role.MonarchKnightTargetDied").Replace("<player>", targetName));
             }
             return;
         }
@@ -126,12 +126,12 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
         if (player.AmOwner)
         {
-            ShowNotification(MiraLocaleManager.Get("TouRoleMonarchKnightSuccess").Replace("<player>", targetName));
+            ShowNotification(MiraLocaleManager.Get("TownOfUsMira.Role.MonarchKnightSuccess").Replace("<player>", targetName));
         }
 
         if (target.AmOwner && !OptionGroupSingleton<MonarchOptions>.Instance.RevealAtMeeting)
         {
-            ShowNotification(MiraLocaleManager.Get("TouRoleMonarchKnightedFeedback").Replace("<role>", $"{TownOfUsColors.Monarch.ToTextColor()}{monarch.RoleName}</color>").Replace("<votes>", ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)));
+            ShowNotification(MiraLocaleManager.Get("TownOfUsMira.Role.MonarchKnightedFeedback").Replace("<role>", $"{TownOfUsColors.Monarch.ToTextColor()}{monarch.RoleName}</color>").Replace("<votes>", ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)));
         }
 
 

@@ -18,7 +18,7 @@ public sealed class TelepathModifier : TouGameModifier, IWikiDiscoverable
 
     public override string IntroInfo => OptionGroupSingleton<TelepathOptions>.Instance.KnowDeath
         ? MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurbNoDeath")
-        : MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
+        : MiraLocaleManager.Get($"TouModifier{IdPart}.IntroBlurb");
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Telepath;
     public override ModifierFaction FactionType => ModifierFaction.ImpostorPostmortem;

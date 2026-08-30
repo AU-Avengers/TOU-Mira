@@ -41,15 +41,15 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public DoomableType DoomHintType => DoomableType.Relentless;
     public string IdPart => "Jailor";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleMedDescription => MiraLocaleManager.Get($"TouRole{IdPart}WikiBlurb");
-    public string RoleLongDescription => PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished ? MiraLocaleManager.Get($"TouRole{IdPart}TabDescriptionEvil") : MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleMedDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}WikiBlurb");
+    public string RoleLongDescription => PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished ? MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}TabDescriptionEvil") : MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -60,11 +60,11 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Jail", "Jail"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}JailWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Jail", "Jail"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Jail.WikiDescription"),
                     TouCrewAssets.JailSprite),
-                new(MiraLocaleManager.Get($"TouRole{IdPart}ExecuteWiki", "Execute"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}ExecuteWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ExecuteWiki", "Execute"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Execute.WikiDescription"),
                     TouAssets.ExecuteCleanSprite)
             ];
         }
@@ -95,7 +95,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get("TouRoleJailorEvilTabInfo")}");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get("TownOfUsMira.Role.JailorEvilTabInfo")}");
         }
 
         return stringB;
@@ -134,9 +134,9 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                 return;
             }
 
-            var title = $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TouRoleJailorMessageTitle")}</color>";
+            var title = $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.JailorMessageTitle")}</color>";
             MiscUtils.AddFakeChat(Jailed.Data, title,
-                MiraLocaleManager.Get("TouRoleJailorJailorFeedback"),
+                MiraLocaleManager.Get("TownOfUsMira.Role.JailorJailorFeedback"),
                 false,
                 true);
             PerfectCommsIntegration.TryCreateJailVoiceButton(this);
@@ -215,7 +215,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         var tmpText = buttonText.GetComponent<TextMeshPro>();
         tmpText.color = Color.white;
         var classic = LegacyAssets.IsLegacy;
-        tmpText.text = classic ? string.Empty : MiraLocaleManager.Get("TouRoleJailorExecute");
+        tmpText.text = classic ? string.Empty : MiraLocaleManager.Get("TownOfUsMira.Role.JailorExecute");
         //tmpText.ForceMeshUpdate();
         tmpText.fontSize = 2.5f;
         tmpText.fontSizeMax = 2.5f;
@@ -251,7 +251,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
             Clear();
 
-            var text = MiraLocaleManager.Get("TouRoleJailorCannotExecute");
+            var text = MiraLocaleManager.Get("TownOfUsMira.Role.JailorCannotExecute");
             var color = TownOfUsColors.Jailor;
             if (!Jailed.HasModifier<InvulnerabilityModifier>())
             {
@@ -264,12 +264,12 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
                     color = TownOfUsColors.ImpSoft;
                     CustomButtonSingleton<JailorJailButton>.Instance.ExecutedACrew = true;
-                    text = MiraLocaleManager.Get("TouRoleJailorExecutedCrew");
+                    text = MiraLocaleManager.Get("TownOfUsMira.Role.JailorExecutedCrew");
                 }
                 else
                 {
                     color = Color.green;
-                    text = MiraLocaleManager.Get("TouRoleJailorExecutedEvil");
+                    text = MiraLocaleManager.Get("TownOfUsMira.Role.JailorExecutedEvil");
                 }
 
                 Player.RpcMeetingMurder(Jailed, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),

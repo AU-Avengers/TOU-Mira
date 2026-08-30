@@ -104,11 +104,11 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VigilanteRole>());
     public DoomableType DoomHintType => DoomableType.Insight;
     public string IdPart => "Doomsayer";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
 
     public string RoleLongDescription =>
-        MiraLocaleManager.Get($"TouRole{IdPart}TabDescription").Replace("<guessCount>",
+        MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription").Replace("<guessCount>",
             $"{(int)OptionGroupSingleton<DoomsayerOptions>.Instance.DoomsayerGuessesToWin}");
 
     public Color RoleColor => TownOfUsColors.Doomsayer;
@@ -152,8 +152,8 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     {
         var opts = OptionGroupSingleton<DoomsayerOptions>.Instance;
         var shownDesc = MiraLocaleManager.Get(opts.CantObserve
-            ? "TouRoleDoomsayerWikiDescription"
-            : "TouRoleDoomsayerWikiDescriptionIfCanObserve");
+            ? "TownOfUsMira.Role.Doomsayer.WikiDescription"
+            : "TownOfUsMira.Role.DoomsayerWikiDescriptionIfCanObserve");
         return
             shownDesc.Replace("<guessCount>", $"{(int)opts.DoomsayerGuessesToWin}") +
             MiscUtils.AppendOptionsText(GetType());
@@ -166,8 +166,8 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Observe", "Observe"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}ObserveWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Observe", "Observe"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Observe.WikiDescription"),
                     TouNeutAssets.Observe)
             ];
         }
@@ -279,8 +279,8 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 hintType = doomableRole.DoomHintType;
             }
 
-            var fallback = MiraLocaleManager.Get("TouRoleDoomsayerRoleHintDefault");
-            var hint = MiraLocaleManager.Get($"TouRoleDoomsayerRoleHint{hintType}");
+            var fallback = MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerRoleHintDefault");
+            var hint = MiraLocaleManager.Get($"TownOfUsMira.Role.DoomsayerRoleHint{hintType}");
 
             if (hint.Contains("STRMISS"))
             {
@@ -358,7 +358,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         if (HudManager.Instance && report.Length > 0)
         {
             var title =
-                $"<color=#{TownOfUsColors.Doomsayer.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TouRoleDoomsayerMessageTitle")}</color>";
+                $"<color=#{TownOfUsColors.Doomsayer.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerMessageTitle")}</color>";
             MiscUtils.AddFakeChat(Player.Data, title, report, false, true);
         }
     }
@@ -465,8 +465,8 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             if (IncorrectGuesses > 0 && opts.DoomsayerGuessAllAtOnce)
             {
                 var text = NumberOfGuesses - AllVictims.Count == 1
-                    ? $"<b>{MiraLocaleManager.Get("TouRoleDoomsayerMisguessOne")}</b>"
-                    : $"<b>{MiraLocaleManager.Get("TouRoleDoomsayerMisguessMultiple").Replace("<misguessCount>", $"{NumberOfGuesses - AllVictims.Count}")}</b>";
+                    ? $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerMisguessOne")}</b>"
+                    : $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerMisguessMultiple").Replace("<misguessCount>", $"{NumberOfGuesses - AllVictims.Count}")}</b>";
                 var notif1 = Helpers.CreateAndShowNotification(
                     text, Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());
 

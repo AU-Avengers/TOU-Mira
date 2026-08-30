@@ -12,7 +12,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IAftermathableButton, ILegacyCapable
 {
-    public override string Name => MiraLocaleManager.Get("TouRoleSentryPlaceCamera", "Deploy");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.SentryPlaceCamera", "Deploy");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Sentry;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SentryOptions>.Instance.PlacementCooldown + MapCooldown, 5f, 120f);
@@ -94,7 +94,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
                 var max = (int)options.MaxCamerasPlaced;
                 var count = SentryRole.Cameras.Count;
                 var text = MiraLocaleManager
-                    .Get("TouRoleSentryMaxCamerasReached", "Max cameras placed (<count>/<max>).")
+                    .Get("TownOfUsMira.Role.SentryMaxCamerasReached", "Max cameras placed (<count>/<max>).")
                     .Replace("<count>", $"{count}")
                     .Replace("<max>", $"{max}");
 

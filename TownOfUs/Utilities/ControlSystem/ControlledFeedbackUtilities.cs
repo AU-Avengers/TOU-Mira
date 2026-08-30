@@ -18,8 +18,8 @@ public static class ControlledFeedbackUtilities
 
         string[] possibles =
         [
-            "TouRolePuppeteerControlNotifBasic", "TouRolePuppeteerControlNotif1", "TouRolePuppeteerControlNotif2",
-            "TouRolePuppeteerControlNotif3"
+            "TownOfUsMira.Role.PuppeteerControlNotifBasic", "TownOfUsMira.Role.PuppeteerControlNotif1", "TownOfUsMira.Role.PuppeteerControlNotif2",
+            "TownOfUsMira.Role.PuppeteerControlNotif3"
         ];
         var controlledText = MiraLocaleManager.Get(
             possibles.RandomSnapshot()).Replace("<role>", controllerName);

@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class MirrorcasterOptions : AbstractRoleOptionGroup<MirrorcasterRole>
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleMirrorcaster", "Mirrorcaster");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Mirrorcaster", "Mirrorcaster");
 
     [ModdedEnumOption("TouOptionMirrorcasterWhoGetsMurderAttemptIndicator", typeof(MirrorOption),
         ["TouOptionMirrorcasterNotifEnumMirrorcaster", "TouOptionMirrorcasterNotifEnumMirrorcasterAndKiller"])]

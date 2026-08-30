@@ -14,14 +14,14 @@ public sealed class VenererRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<HunterRole>());
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string IdPart => "Venerer";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -45,14 +45,14 @@ public sealed class VenererRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Camouflage", "Camouflage"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}CamouflageWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Camouflage", "Camouflage"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Camouflage.WikiDescription"),
                     TouImpAssets.CamouflageSprite),
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Sprint", "Sprint"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}SprintWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Sprint", "Sprint"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Sprint.WikiDescription"),
                     TouImpAssets.SprintSprite),
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Freeze", "Freeze"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}FreezeWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Freeze", "Freeze"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Freeze.WikiDescription"),
                     TouImpAssets.FreezeSprite)
             ];
         }

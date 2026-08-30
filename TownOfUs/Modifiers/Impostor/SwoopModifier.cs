@@ -66,7 +66,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
 
             var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
             button.OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.SwoopSprite.LoadAsset() : TouImpAssets.UnswoopSprite.LoadAsset());
-            button.OverrideName(MiraLocaleManager.Get("TouRoleSwooperUnswoop", "Unswoop"));
+            button.OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.SwooperUnswoop", "Unswoop"));
         }
 
         Player.RawSetAppearance(this);
@@ -96,7 +96,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
         {
             var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
             button.OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.SwoopSprite.LoadAsset() : TouImpAssets.SwoopSprite.LoadAsset());
-            button.OverrideName(MiraLocaleManager.Get("TouRoleSwooperSwoop", "Swoop"));
+            button.OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.SwooperSwoop", "Swoop"));
             if (!MeetingHud.Instance)
             {
                 TouAudio.PlaySound(TouAudio.SwooperDeactivateSound);

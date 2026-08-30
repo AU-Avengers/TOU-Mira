@@ -29,13 +29,13 @@ public sealed class GiantModifier : UniversalGameModifier, IWikiDiscoverable, IV
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription").Replace("<giantSpeed>",
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription").Replace("<giantSpeed>",
             $"{Math.Round(OptionGroupSingleton<GiantOptions>.Instance.GiantSpeed, 2)}");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription").Replace("<giantSpeed>",
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription").Replace("<giantSpeed>",
                    $"{Math.Round(OptionGroupSingleton<GiantOptions>.Instance.GiantSpeed, 2)}") +
                MiscUtils.AppendOptionsText(GetType());
     }

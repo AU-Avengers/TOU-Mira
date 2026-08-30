@@ -5,7 +5,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class WardenFortifyButton : TownOfUsRoleButton<WardenRole, PlayerControl>, ILegacyCapable
 {
-    public override string Name => MiraLocaleManager.Get("TouRoleWardenFortify", "Fortify");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.WardenFortify", "Fortify");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Warden;
     public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);

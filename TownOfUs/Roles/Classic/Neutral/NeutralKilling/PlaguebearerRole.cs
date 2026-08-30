@@ -56,14 +56,14 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<AurialRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Plaguebearer";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -74,8 +74,8 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Infect", "Infect"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}InfectWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Infect", "Infect"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Infect.WikiDescription"),
                     TouNeutAssets.InfectSprite)
             ];
         }
@@ -106,7 +106,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
         if (allInfected.HasAny())
         {
-            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TouRolePlaguebearerTabInfectedInfo")}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.PlaguebearerTabInfectedInfo")}</b>");
             foreach (var plr in allInfected)
             {
                 stringB.Append(TownOfUsPlugin.Culture, $"\n{Color.white.ToTextColor()}{plr.Data.PlayerName}</color>");
@@ -116,7 +116,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         var notInfected = PlayerControl.AllPlayerControls.ToArray().Where(x =>
             !x.HasDied() && x != Player && !x.HasModifier<PlaguebearerInfectedModifier>());
 
-        stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>{MiraLocaleManager.Get("TouRolePlaguebearerTabInfectCounter").Replace("<count>", $"{notInfected.Count()}")}</b>");
+        stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.PlaguebearerTabInfectCounter").Replace("<count>", $"{notInfected.Count()}")}</b>");
 
         return stringB;
     }

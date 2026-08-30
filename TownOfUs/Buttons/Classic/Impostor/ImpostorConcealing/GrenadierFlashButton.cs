@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class GrenadierFlashButton : TownOfUsRoleButton<GrenadierRole>, IAftermathableButton, ILegacyCapable
 {
-    public override string Name => MiraLocaleManager.Get("TouRoleGrenadierFlash", "Flash");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.GrenadierFlash", "Flash");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<GrenadierOptions>.Instance.GrenadeCooldown + MapCooldown, 5f, 120f);
@@ -50,7 +50,7 @@ public sealed class GrenadierFlashButton : TownOfUsRoleButton<GrenadierRole>, IA
         PlayerControl.LocalPlayer.RpcAddModifier<GrenadierFlashModifier>(PlayerControl.LocalPlayer);
         HudManager.Instance.StartCoroutine(HudManager.Instance.PlayerCam.CoShakeScreen(0.2f, 2f));
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{MiraLocaleManager.Get("TouRoleGrenadierFlashNotif")}</color></b>",
+            $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.GrenadierFlashNotif")}</color></b>",
             Color.white, new Vector3(0f, 1f, -150f),
             spr: TouRoleIcons.Grenadier.LoadAsset());
         notif1.AdjustNotification();

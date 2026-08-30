@@ -41,14 +41,14 @@ public sealed class JanitorRole(IntPtr cppPtr)
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ForensicRole>());
     public DoomableType DoomHintType => DoomableType.Death;
     public string IdPart => "Janitor";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -74,8 +74,8 @@ public sealed class JanitorRole(IntPtr cppPtr)
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Clean", "Clean"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}CleanWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Clean", "Clean"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Clean.WikiDescription"),
                     TouImpAssets.CleanButtonSprite)
             ];
         }

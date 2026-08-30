@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Modifiers;
 
 public sealed class TestTimeLordRewindButton : TownOfUsButton
 {
-    public override string Name => MiraLocaleManager.Get("TouRoleTimeLordRewind", "Rewind");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.TimeLordRewind", "Rewind");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.TimeLord;
 
@@ -28,12 +28,12 @@ public sealed class TestTimeLordRewindButton : TownOfUsButton
     {
         // Use the same RPC as Time Lord role, but check for modifier instead
         TimeLordRole.RpcStartRewind(PlayerControl.LocalPlayer, EffectDuration);
-        OverrideName(MiraLocaleManager.Get("TouRoleTimeLordRewinding", "Rewinding"));
+        OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.TimeLordRewinding", "Rewinding"));
     }
 
     public override void OnEffectEnd()
     {
-        OverrideName(MiraLocaleManager.Get("TouRoleTimeLordRewind", "Rewind"));
+        OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.TimeLordRewind", "Rewind"));
     }
 
     public override bool Enabled(RoleBehaviour? role)

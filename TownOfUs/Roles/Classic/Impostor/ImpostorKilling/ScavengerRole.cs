@@ -98,14 +98,14 @@ public sealed class ScavengerRole(IntPtr cppPtr)
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<InvestigatorRole>());
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string IdPart => "Scavenger";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -144,13 +144,13 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         Clear();
     }
 
-    public static string TimerString = MiraLocaleManager.Get("TouRoleScavengerTabTimer");
-    public static string TargetString = MiraLocaleManager.Get("TouRoleScavengerTabTarget");
+    public static string TimerString = MiraLocaleManager.Get("TownOfUsMira.Role.ScavengerTabTimer");
+    public static string TargetString = MiraLocaleManager.Get("TownOfUsMira.Role.ScavengerTabTarget");
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        TimerString = MiraLocaleManager.Get("TouRoleScavengerTabTimer");
-        TargetString = MiraLocaleManager.Get("TouRoleScavengerTabTarget");
+        TimerString = MiraLocaleManager.Get("TownOfUsMira.Role.ScavengerTabTimer");
+        TargetString = MiraLocaleManager.Get("TownOfUsMira.Role.ScavengerTabTarget");
         if (TutorialManager.InstanceExists && Target == null && Player.AmOwner)
         {
             Coroutines.Start(SetTutorialTarget(this, Player));

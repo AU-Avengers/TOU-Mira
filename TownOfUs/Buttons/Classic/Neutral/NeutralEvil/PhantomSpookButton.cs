@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class PhantomSpookButton : TownOfUsButton
 {
-    public override string Name => MiraLocaleManager.Get("TouRoleSpectreSpook", "Spook");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.SpectreSpook", "Spook");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Spectre;
     public override float Cooldown => 0.01f;

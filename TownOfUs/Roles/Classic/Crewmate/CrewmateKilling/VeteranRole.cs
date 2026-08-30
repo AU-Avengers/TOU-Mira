@@ -18,14 +18,14 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     public bool AttackedRecently { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string IdPart => "Veteran";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -36,8 +36,8 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Alert", "Alert"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}AlertWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Alert", "Alert"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Alert.WikiDescription"),
                     TouCrewAssets.AlertSprite)
             ];
         }
@@ -69,8 +69,8 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         {
             return;
         }
-        var title = $"<color=#{TownOfUsColors.Veteran.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TouRoleVeteranMessageTitle")}</color>";
-        var msg = MiraLocaleManager.Get("TouRoleVeteranAttackMessage");
+        var title = $"<color=#{TownOfUsColors.Veteran.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.VeteranMessageTitle")}</color>";
+        var msg = MiraLocaleManager.Get("TownOfUsMira.Role.VeteranAttackMessage");
 
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{msg}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Veteran.LoadAsset());

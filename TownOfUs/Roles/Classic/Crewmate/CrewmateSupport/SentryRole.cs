@@ -13,15 +13,15 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public string IdPart => "Sentry";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
     public DoomableType DoomHintType => DoomableType.Insight;
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -32,11 +32,11 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         {
             var abilities = new List<CustomButtonWikiDescription>
             {
-                new(MiraLocaleManager.Get($"TouRole{IdPart}PlaceCamera", "Deploy"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}PlaceCameraWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}PlaceCamera", "Deploy"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}PlaceCamera.WikiDescription"),
                     TouCrewAssets.DeployCamSprite),
-                new(MiraLocaleManager.Get($"TouRole{IdPart}PortableCamera", "View"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}PortableCameraWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}PortableCamera", "View"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}PortableCamera.WikiDescription"),
                     TouAssets.CameraSprite)
             };
 
@@ -92,8 +92,8 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         var portableImmediate = opts.PortableCamerasMode is SentryPortableCamerasMode.Immediately ||
                                 (opts.PortableCamerasMode is SentryPortableCamerasMode.OnMapsWithoutCameras && mapWithoutCameras);
         var portableLine = portableImmediate
-            ? MiraLocaleManager.Get("TouRoleSentryPortableAvailableImmediately", "Portable Cameras are available immediately.")
-            : MiraLocaleManager.Get("TouRoleSentryPortableAvailableAfterTasks", "Portable Cameras are available after tasks.");
+            ? MiraLocaleManager.Get("TownOfUsMira.Role.SentryPortableAvailableImmediately", "Portable Cameras are available immediately.")
+            : MiraLocaleManager.Get("TownOfUsMira.Role.SentryPortableAvailableAfterTasks", "Portable Cameras are available after tasks.");
         stringB.AppendLine(TownOfUsPlugin.Culture, $"<size=60%><color=#BFBFBF>{portableLine}</color></size>");
 
         var deployedVis = OptionGroupSingleton<SentryOptions>.Instance.DeployedCamerasVisibility;
@@ -112,8 +112,8 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             var maxCameras = (int)options.MaxCamerasPlaced;
             var currentCount = Cameras.Count;
             var camerasHeader = maxCameras > 0
-                ? MiraLocaleManager.Get("TouRoleSentryCamerasHeader", "Cameras") + $" ({currentCount}/{maxCameras})"
-                : MiraLocaleManager.Get("TouRoleSentryCamerasHeader", "Cameras");
+                ? MiraLocaleManager.Get("TownOfUsMira.Role.SentryCamerasHeader", "Cameras") + $" ({currentCount}/{maxCameras})"
+                : MiraLocaleManager.Get("TownOfUsMira.Role.SentryCamerasHeader", "Cameras");
             stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{camerasHeader}</b>");
 
             if (Cameras.Count > 0)
@@ -142,7 +142,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                     }
 
                     var status = isPending
-                        ? $" <size=60%><color=#BFBFBF>{MiraLocaleManager.Get("TouRoleSentrySentryOnly", "(Sentry-only)")}</color></size>"
+                        ? $" <size=60%><color=#BFBFBF>{MiraLocaleManager.Get("TownOfUsMira.Role.SentrySentryOnly", "(Sentry-only)")}</color></size>"
                         : string.Empty;
                     stringB.AppendLine(TownOfUsPlugin.Culture, 
                         $"• <b>Cam {idx}</b>: {roomName}{remainingText}{status}");
@@ -159,7 +159,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                     {
                         room = $"({pos.x:0.0}, {pos.y:0.0})";
                     }
-                    var placingText = MiraLocaleManager.Get("TouRoleSentryPlacing", "(Placing...)");
+                    var placingText = MiraLocaleManager.Get("TownOfUsMira.Role.SentryPlacing", "(Placing...)");
                     stringB.AppendLine(TownOfUsPlugin.Culture, 
                         $"• <color=#BFBFBF>{room} <size=60%>{placingText}</size></color>");
                 }
@@ -168,7 +168,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         if (CompletedAllTasks)
         {
-            var unlockedText = MiraLocaleManager.Get("TouRoleSentryPortableCameraUnlocked", "Portable Cameras Unlocked!");
+            var unlockedText = MiraLocaleManager.Get("TownOfUsMira.Role.SentryPortableCameraUnlocked", "Portable Cameras Unlocked!");
             stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b><color=#00FF00>{unlockedText}</color></b>");
         }
 

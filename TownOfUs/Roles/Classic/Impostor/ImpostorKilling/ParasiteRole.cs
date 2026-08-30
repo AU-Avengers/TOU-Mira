@@ -45,13 +45,13 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     public DoomableType DoomHintType => DoomableType.Perception;
     public string IdPart => "Parasite";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public Color RoleColor => TownOfUsColors.Impostor;
@@ -71,11 +71,11 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities =>
     [
-        new(MiraLocaleManager.Get($"TouRole{IdPart}Overtake", "Overtake"),
-            MiraLocaleManager.Get($"TouRole{IdPart}OvertakeWikiDescription"),
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Overtake", "Overtake"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Overtake.WikiDescription"),
             TouImpAssets.OvertakeSprite),
-        new(MiraLocaleManager.Get($"TouRole{IdPart}Decay", "Kill"),
-            MiraLocaleManager.Get($"TouRole{IdPart}DecayWikiDescription"),
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Decay", "Kill"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Decay.WikiDescription"),
             TouAssets.KillSprite)
     ];
 
@@ -661,7 +661,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         if (controllerNotification == null)
         {
-            var controllerText = MiraLocaleManager.Get("TouRoleParasiteOvertakeNotifSelf");
+            var controllerText = MiraLocaleManager.Get("TownOfUsMira.Role.ParasiteOvertakeNotifSelf");
             controllerNotification = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Impostor.ToTextColor()}{controllerText.Replace("<player>", Controlled.Data.PlayerName)}</color></b>",
                 Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Parasite.LoadAsset());

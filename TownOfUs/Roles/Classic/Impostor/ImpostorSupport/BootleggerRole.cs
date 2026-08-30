@@ -14,16 +14,16 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Bootlegger";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
 
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription").Replace("<blockTime>",
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription").Replace("<blockTime>",
         OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value.ToString(TownOfUsPlugin.Culture));
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
     public Color RoleColor => TownOfUsColors.Impostor;
@@ -41,12 +41,12 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities { get; } =
     [
-        new(MiraLocaleManager.Get("TouRoleBarkeeperRoleblock"),
+        new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock"),
             (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value
-                ? MiraLocaleManager.Get("TouRoleBarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
+                ? MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
                     OptionGroupSingleton<RoleblockOptions>.Instance.HangoverDuration.Value.ToString(TownOfUsPlugin
                         .Culture))
-                : MiraLocaleManager.Get("TouRoleBarkeeperRoleblockWikiDescription")).Replace("<blockTime>",
+                : MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock.WikiDescription")).Replace("<blockTime>",
                 OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value
                     .ToString(TownOfUsPlugin.Culture)),
             TouImpAssets.DrinkPoisonSprite)

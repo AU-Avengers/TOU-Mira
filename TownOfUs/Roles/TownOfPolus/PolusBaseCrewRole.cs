@@ -12,11 +12,12 @@ namespace TownOfUs.Roles.TownOfPolus;
 public abstract class PolusBaseCrewRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole
 {
     RoleOptionsGroup ICustomRole.RoleOptionsGroup => TouRoleGroups.TownOfPolusCrewmate;
+    public string IdPrefix => "TownOfUsMira.TownOfPolus.Role";
     public virtual string IdPart => "Crewmate";
     public virtual string RoleName => MiraLocaleManager.Get("CrewmateKeyword");
-    public virtual string RoleDescription => MiraLocaleManager.Get("TownOfPolusRoleCrewDescription");
-    public virtual string RoleDescriptionDead => MiraLocaleManager.Get("TownOfPolusRoleCrewDescriptionDead");
-    public virtual string RoleLongDescription => MiraLocaleManager.Get("TownOfPolusRoleCrewDescription");
+    public virtual string RoleDescription => MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.CrewDescription");
+    public virtual string RoleDescriptionDead => MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.CrewDescriptionDead");
+    public virtual string RoleLongDescription => MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.CrewDescription");
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (playerControl != PlayerControl.LocalPlayer)
@@ -26,8 +27,8 @@ public abstract class PolusBaseCrewRole(IntPtr cppPtr) : CrewmateRole(cppPtr), I
 
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text =
-            $"{RoleColor.ToTextColor()}{MiraLocaleManager.Get("TownOfPolusRoleTabText").Replace("<roleName>", RoleName).Replace("<description>", RoleLongDescription)}</color>";
-        orCreateTask.name = "TownOfPolusRoleText";
+            $"{RoleColor.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.TabText").Replace("<roleName>", RoleName).Replace("<description>", RoleLongDescription)}</color>";
+        orCreateTask.name = "TownOfUsMira.TownOfPolus.Role.Text";
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)

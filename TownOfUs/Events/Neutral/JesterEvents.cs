@@ -40,7 +40,7 @@ public static class JesterEvents
             }
 
             jester.SentWinMsg = true;
-            var jestRoleName = MiraLocaleManager.Get("TouRoleJester");
+            var jestRoleName = MiraLocaleManager.Get("TownOfUsMira.Role.Jester");
             if (jester.Player.AmOwner)
             {
                 var text = MiraLocaleManager.Get("TouNotifJesterWinOwner");

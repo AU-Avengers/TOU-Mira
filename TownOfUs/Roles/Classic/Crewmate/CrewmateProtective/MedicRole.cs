@@ -41,14 +41,14 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public DoomableType DoomHintType => DoomableType.Protective;
     public string IdPart => "Medic";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -59,8 +59,8 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Shield", "Shield"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}ShieldWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Shield", "Shield"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Shield.WikiDescription"),
                     TouCrewAssets.MedicSprite)
             ];
         }
@@ -91,12 +91,12 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         return stringB;
     }
 
-    public static string ProtectionString = MiraLocaleManager.Get("TouRoleMedicTabProtecting");
+    public static string ProtectionString = MiraLocaleManager.Get("TownOfUsMira.Role.MedicTabProtecting");
 
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        ProtectionString = MiraLocaleManager.Get("TouRoleMedicTabProtecting");
+        ProtectionString = MiraLocaleManager.Get("TownOfUsMira.Role.MedicTabProtecting");
 
         if (Player.AmOwner)
         {
@@ -269,7 +269,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
             return;
         }
 
-        var title = $"<color=#{TownOfUsColors.Medic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TouRoleMedicMessageTitle")}</color>";
+        var title = $"<color=#{TownOfUsColors.Medic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.MedicMessageTitle")}</color>";
         var reported = Player;
         if (br.Body != null)
         {

@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class AltruistOptions : AbstractRoleOptionGroup<AltruistRole>
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleAltruist", "Altruist");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Altruist", "Altruist");
 
     public ModdedEnumOption ReviveMode { get; } =
         new("TouOptionAltruistReviveType", (int)ReviveType.GroupSacrifice, typeof(ReviveType),

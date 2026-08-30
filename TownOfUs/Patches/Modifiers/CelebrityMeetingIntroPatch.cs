@@ -46,7 +46,7 @@ public static class CelebrityMeetingIntroPatch
 
         if (HudManager.InstanceExists)
         {
-            var title = $"<color=#{TownOfUsColors.Celebrity.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TouRoleCelebrityMessageTitle")}</color>";
+            var title = $"<color=#{TownOfUsColors.Celebrity.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.CelebrityMessageTitle")}</color>";
             MiscUtils.AddFakeChat(celebrity.Player.Data, title, message, false, true);
         }
     }

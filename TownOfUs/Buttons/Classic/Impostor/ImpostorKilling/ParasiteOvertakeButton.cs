@@ -61,8 +61,8 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
     public override void CreateButton(Transform parent)
     {
         base.CreateButton(parent);
-        _infectName = MiraLocaleManager.Get("TouRoleParasiteOvertake", "Overtake");
-        _killName = MiraLocaleManager.Get("TouRoleParasiteDecay", "Kill");
+        _infectName = MiraLocaleManager.Get("TownOfUsMira.Role.ParasiteOvertake", "Overtake");
+        _killName = MiraLocaleManager.Get("TownOfUsMira.Role.ParasiteDecay", "Kill");
         OverrideName(_infectName);
 
         _hasCapturedButtonPos = false;

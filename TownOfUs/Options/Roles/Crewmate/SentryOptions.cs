@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class SentryOptions : AbstractRoleOptionGroup<SentryRole>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleSentry", "Sentry");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Sentry", "Sentry");
 
     [ModdedNumberOption("TouOptionSentryPlacementCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float PlacementCooldown { get; set; } = 30f;

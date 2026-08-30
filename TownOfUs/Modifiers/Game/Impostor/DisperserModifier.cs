@@ -22,7 +22,7 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
             "TouMira.Modifier.Impostor.Disperser", 1.45f));
     public override string IdPart => "Disperser";
     public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
-    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}.IntroBlurb");
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Disperser;
     public override ModifierFaction FactionType => ModifierFaction.ImpostorUtility;
@@ -30,12 +30,12 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     [HideFromIl2Cpp]
@@ -46,7 +46,7 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
             return
             [
                 new(MiraLocaleManager.Get($"TouModifier{IdPart}Disperse"),
-                    MiraLocaleManager.Get($"TouModifier{IdPart}DisperseWikiDescription"),
+                    MiraLocaleManager.Get($"TouModifier{IdPart}Disperse.WikiDescription"),
                     TouAssets.DisperseSprite)
             ];
         }

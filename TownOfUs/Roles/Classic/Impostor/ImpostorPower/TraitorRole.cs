@@ -29,14 +29,14 @@ public sealed class TraitorRole(IntPtr cppPtr)
     public bool NoSpawn => true;
     public bool IsDraftable => false;
     public string IdPart => "Traitor";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -69,8 +69,8 @@ public sealed class TraitorRole(IntPtr cppPtr)
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}ChangeRole", "Change Role"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}ChangeRoleWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ChangeRole", "Change Role"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ChangeRole.WikiDescription"),
                     TouImpAssets.TraitorSelect)
             ];
         }

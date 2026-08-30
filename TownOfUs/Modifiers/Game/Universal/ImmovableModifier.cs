@@ -22,12 +22,12 @@ public sealed class ImmovableModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];

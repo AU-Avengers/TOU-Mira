@@ -43,7 +43,7 @@ public sealed class TraitorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr)
 
         StatusText.font = HudManager.Instance.TaskPanel.taskText.font;
         StatusText.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
-        StatusText.text = MiraLocaleManager.Get("TouRoleTraitorRoleSelectTitle");
+        StatusText.text = MiraLocaleManager.Get("TownOfUsMira.Role.TraitorRoleSelectTitle");
         StatusText.gameObject.SetActive(false);
     }
 
@@ -116,7 +116,7 @@ public sealed class TraitorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr)
             z++;
         }
 
-        var randomCard = CreateCard(MiraLocaleManager.Get("Random"), MiraLocaleManager.Get("TouRoleTraitorRandomImpostorCard"), TouRoleIcons.RandomImp.LoadAsset(), z,
+        var randomCard = CreateCard(MiraLocaleManager.Get("Random"), MiraLocaleManager.Get("TownOfUsMira.Role.TraitorRandomImpostorCard"), TouRoleIcons.RandomImp.LoadAsset(), z,
             TownOfUsColors.Impostor);
         randomCard.OnClick.RemoveAllListeners();
         randomCard.OnClick.AddListener((UnityAction)(() =>

@@ -41,7 +41,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription")
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription")
             .Replace("<symbol>", "<color=#FF66CCFF>♥</color>") + MiscUtils.AppendOptionsText(GetType());
     }
 

@@ -62,25 +62,25 @@ public sealed record BodyReport
     {
         var reportColorDuration = OptionGroupSingleton<MedicOptions>.Instance.MedicReportColorDuration;
         var reportNameDuration = OptionGroupSingleton<MedicOptions>.Instance.MedicReportNameDuration;
-        var text = MiraLocaleManager.Get("TouRoleMedicBodyError");
+        var text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodyError");
         if (br.Killer != null)
         {
             if (br.KillAge > reportColorDuration * 1000 && reportColorDuration > 0)
             {
-                text = MiraLocaleManager.Get("TouRoleMedicBodyOld");
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodyOld");
             }
             else if (br.Killer.PlayerId == br.Body?.PlayerId)
             {
-                text = MiraLocaleManager.Get("TouRoleMedicBodySuicide");
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodySuicide");
             }
             else if (br.KillAge < reportNameDuration * 1000)
             {
-                text = MiraLocaleManager.Get("TouRoleMedicBodyKillerName").Replace("<player>", br.Killer.Data.PlayerName);
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodyKillerName").Replace("<player>", br.Killer.Data.PlayerName);
             }
             else
             {
                 var typeOfColor = MedicRole.GetColorTypeForPlayer(br.Killer.Data.DefaultOutfit.ColorId);
-                text = MiraLocaleManager.Get((typeOfColor == "lighter") ? "TouRoleMedicBodyKillerLightColor" : "TouRoleMedicBodyKillerDarkColor");
+                text = MiraLocaleManager.Get((typeOfColor == "lighter") ? "TownOfUsMira.Role.MedicBodyKillerLightColor" : "TownOfUsMira.Role.MedicBodyKillerDarkColor");
             }
         }
 
@@ -91,17 +91,17 @@ public sealed record BodyReport
 
     public static string ParseForensicReport(BodyReport br)
     {
-        var text = MiraLocaleManager.Get("TouRoleForensicBodyError");
+        var text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyError");
         if (br.Killer != null)
         {
             if (br.KillAge > OptionGroupSingleton<ForensicOptions>.Instance.ForensicFactionDuration * 1000 &&
                 OptionGroupSingleton<ForensicOptions>.Instance.ForensicFactionDuration > 0)
             {
-                text = MiraLocaleManager.Get("TouRoleForensicBodyOld");
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyOld");
             }
             else if (br.Killer!.PlayerId == br.Body!.PlayerId)
             {
-                text = MiraLocaleManager.Get("TouRoleForensicBodySuicide");
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodySuicide");
             }
             else if (br.KillAge < OptionGroupSingleton<ForensicOptions>.Instance.ForensicRoleDuration * 1000)
             {
@@ -112,22 +112,22 @@ public sealed record BodyReport
                     role = cacheMod.CachedRole;
                 }
 
-                text = MiraLocaleManager.Get("TouRoleForensicBodyKillerRole").Replace("<role>",
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerRole").Replace("<role>",
                     $"#{role.GetRoleName().ToLowerInvariant().Replace(" ", "-")})");
             }
 
             else if (br.Killer.IsNeutral())
             {
-                text = MiraLocaleManager.Get("TouRoleForensicBodyKillerNeutral");
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerNeutral");
             }
 
             else if (br.Killer.IsCrewmate())
             {
-                text = MiraLocaleManager.Get("TouRoleForensicBodyKillerCrewmate");
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerCrewmate");
             }
             else
             {
-                text = MiraLocaleManager.Get("TouRoleForensicBodyKillerImpostor");
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerImpostor");
             }
 
         }

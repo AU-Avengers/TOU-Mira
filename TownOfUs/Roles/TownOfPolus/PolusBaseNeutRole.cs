@@ -12,11 +12,12 @@ namespace TownOfUs.Roles.TownOfPolus;
 public abstract class PolusBaseNeutRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsRole
 {
     RoleOptionsGroup ICustomRole.RoleOptionsGroup => TouRoleGroups.TownOfPolusNeutral;
+    public string IdPrefix => "TownOfUsMira.TownOfPolus.Role";
     public virtual string IdPart => "Neutral";
     public virtual string RoleName => MiraLocaleManager.Get("NeutralKeyword");
-    public virtual string RoleDescription => MiraLocaleManager.Get("TownOfPolusRoleNeutDescription");
-    public virtual string RoleDescriptionDead => MiraLocaleManager.Get("TownOfPolusRoleNeutDescriptionDead");
-    public virtual string RoleLongDescription => MiraLocaleManager.Get("TownOfPolusRoleNeutDescription");
+    public virtual string RoleDescription => MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.NeutDescription");
+    public virtual string RoleDescriptionDead => MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.NeutDescriptionDead");
+    public virtual string RoleLongDescription => MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.NeutDescription");
 
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
@@ -27,10 +28,10 @@ public abstract class PolusBaseNeutRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), 
 
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         var text =
-            $"{RoleColor.ToTextColor()}{MiraLocaleManager.Get("TownOfPolusRoleTabText").Replace("<roleName>", RoleName).Replace("<description>", RoleLongDescription)}</color>" +
-            "\n<color=#FFFFFF>" + MiraLocaleManager.Get("TownOfPolusRoleFakeTaskTabText") + "</color>";
+            $"{RoleColor.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.TabText").Replace("<roleName>", RoleName).Replace("<description>", RoleLongDescription)}</color>" +
+            "\n<color=#FFFFFF>" + MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.FakeTaskTabText") + "</color>";
         orCreateTask.Text = text;
-        orCreateTask.name = "TownOfPolusRoleText";
+        orCreateTask.name = "TownOfUsMira.TownOfPolus.Role.Text";
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)

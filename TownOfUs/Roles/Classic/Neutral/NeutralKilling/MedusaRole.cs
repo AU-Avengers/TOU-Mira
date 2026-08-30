@@ -27,14 +27,14 @@ public sealed class MedusaRole(IntPtr cppPtr)
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MediumRole>());
     public DoomableType DoomHintType => DoomableType.Death;
     public string IdPart => "Medusa";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -45,14 +45,14 @@ public sealed class MedusaRole(IntPtr cppPtr)
         {
             List<CustomButtonWikiDescription> list =
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Petrify", "Petrify"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}PetrifyWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Petrify", "Petrify"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Petrify.WikiDescription"),
                     TouNeutAssets.PetrifySprite)
             ];
             if (OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable.Value)
             {
-                list.Add(new(MiraLocaleManager.Get($"TouRole{IdPart}StoneGaze", "Stone Gaze"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}StoneGazeWikiDescription"),
+                list.Add(new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}StoneGaze", "Stone Gaze"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}StoneGaze.WikiDescription"),
                     TouNeutAssets.StoneGazeSprite));
             }
             return list;

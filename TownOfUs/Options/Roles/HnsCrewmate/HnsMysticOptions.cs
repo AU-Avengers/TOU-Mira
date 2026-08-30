@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.HnsCrewmate;
 
 public sealed class HnsMysticOptions : AbstractRoleOptionGroup<HnsMysticRole>
 {
-    public override string GroupName => MiraLocaleManager.Get("HnsRoleMystic", "Mystic");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.HideAndSeek.Role.Mystic", "Mystic");
 
     [ModdedNumberOption("HnsOptionMysticDeadBodyArrowDuration", 0.1f, 5f, 0.1f, MiraNumberSuffixes.Seconds, "0.00")]
     public float MysticArrowDuration { get; set; } = 1.5f;

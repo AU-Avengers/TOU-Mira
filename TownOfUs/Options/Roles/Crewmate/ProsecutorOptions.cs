@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class ProsecutorOptions : AbstractRoleOptionGroup<ProsecutorRole>
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleProsecutor", "Prosecutor");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Prosecutor", "Prosecutor");
 
     [ModdedToggleOption("TouOptionProsecutorDiesWhenCrewmateExiled")]
     public bool ExileOnCrewmate { get; set; } = true;

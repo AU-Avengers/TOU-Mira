@@ -32,8 +32,8 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ClericRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Arsonist";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
     public static void SetDouseUses()
     {
         var button = CustomButtonSingleton<ArsonistDouseButton>.Instance;
@@ -46,16 +46,16 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     }
 
     public string RoleLongDescription => OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
-        ? MiraLocaleManager.Get($"TouRole{IdPart}TabDescriptionLegacy")
-        : MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+        ? MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}TabDescriptionLegacy")
+        : MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiraLocaleManager.Get(OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
-                ? $"TouRole{IdPart}WikiAdditionLegacy"
-                : $"TouRole{IdPart}WikiAddition") +
+                ? $"TownOfUsMira.Role.{IdPart}WikiAdditionLegacy"
+                : $"TownOfUsMira.Role.{IdPart}WikiAddition") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -66,13 +66,13 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Douse", "Douse"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}DouseWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Douse", "Douse"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Douse.WikiDescription"),
                     TouNeutAssets.DouseButtonSprite),
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Ignite", "Ignite"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Ignite", "Ignite"),
                     MiraLocaleManager.Get(OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
-                        ? $"TouRole{IdPart}IgniteWikiDescriptionLegacy"
-                        : $"TouRole{IdPart}IgniteWikiDescription"),
+                        ? $"TownOfUsMira.Role.{IdPart}IgniteWikiDescriptionLegacy"
+                        : $"TownOfUsMira.Role.{IdPart}Ignite.WikiDescription"),
                     TouNeutAssets.IgniteButtonSprite)
             ];
         }
@@ -105,7 +105,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
 
         if (allDoused.HasAny())
         {
-            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TouRoleArsonistTabDousedInfo")}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.ArsonistTabDousedInfo")}</b>");
             foreach (var plr in allDoused)
             {
                 stringB.Append(TownOfUsPlugin.Culture,

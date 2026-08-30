@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class SurvivorOptions : AbstractRoleOptionGroup<SurvivorRole>
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleSurvivor", "Survivor");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Survivor", "Survivor");
 
     [ModdedNumberOption("TouOptionSurvivorVestCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float VestCooldown { get; set; } = 25f;

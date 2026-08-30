@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class WarlockOptions : AbstractRoleOptionGroup<WarlockRole>
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleWarlock", "Warlock");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Warlock", "Warlock");
 
     [ModdedNumberOption("Time It Takes To Fully Charge", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ChargeTimeDuration { get; set; } = 25f;

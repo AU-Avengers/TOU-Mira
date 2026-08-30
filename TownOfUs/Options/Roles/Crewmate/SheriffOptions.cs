@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class SheriffOptions : AbstractRoleOptionGroup<SheriffRole>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleSheriff", "Sheriff");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Sheriff", "Sheriff");
 
     [ModdedNumberOption("TouOptionSheriffKillCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float KillCooldown { get; set; } = 25f;

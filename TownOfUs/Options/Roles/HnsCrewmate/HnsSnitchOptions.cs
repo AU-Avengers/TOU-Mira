@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.HnsCrewmate;
 
 public sealed class HnsSnitchOptions : AbstractRoleOptionGroup<HnsSnitchRole>
 {
-    public override string GroupName => MiraLocaleManager.Get("HnsRoleSnitch", "Snitch");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.HideAndSeek.Role.Snitch", "Snitch");
 
     public ModdedNumberOption CommonTaskMultiplier { get; set; } = new("HnsOptionSnitchCommonTaskMultiplier", 1.75f, 1f, 3f, 0.1f,
         MiraNumberSuffixes.Multiplier, "0.00");

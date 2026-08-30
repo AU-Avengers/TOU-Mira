@@ -24,16 +24,16 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
     public override string IdPart => "Egotist";
     public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
     public string ShortName => MiraLocaleManager.Get($"TouModifier{IdPart}ShortName");
-    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}.IntroBlurb");
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription")
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription")
             .Replace("<symbol>", "<color=#669966>#</color>") + MiscUtils.AppendOptionsText(GetType());
     }
 

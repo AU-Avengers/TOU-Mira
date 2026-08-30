@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class MercenaryGuardButton : TownOfUsRoleButton<MercenaryRole, PlayerControl>, ILegacyCapable
 {
-    public override string Name => MiraLocaleManager.Get("TouRoleMercenaryGuard", "Guard");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.MercenaryGuard", "Guard");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Mercenary;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<MercenaryOptions>.Instance.GuardCooldown + MapCooldown, 5f, 120f);
@@ -32,7 +32,7 @@ public sealed class MercenaryGuardButton : TownOfUsRoleButton<MercenaryRole, Pla
 
         Target.RpcAddModifier<MercenaryGuardModifier>(PlayerControl.LocalPlayer);
         var notif1 = Helpers.CreateAndShowNotification(
-            MiraLocaleManager.Get("TouRoleMercenaryGuardNotif").Replace("<player>", $"{TownOfUsColors.Mercenary.ToTextColor()}{Target.Data.PlayerName}</color>"), Color.white,
+            MiraLocaleManager.Get("TownOfUsMira.Role.MercenaryGuardNotif").Replace("<player>", $"{TownOfUsColors.Mercenary.ToTextColor()}{Target.Data.PlayerName}</color>"), Color.white,
             new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Mercenary.LoadAsset());
         notif1.AdjustNotification();
     }

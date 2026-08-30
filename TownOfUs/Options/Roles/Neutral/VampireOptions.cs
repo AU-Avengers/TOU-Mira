@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class VampireOptions : AbstractRoleOptionGroup<VampireRole>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleVampire", "Vampire");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Vampire", "Vampire");
 
     [ModdedNumberOption("TouOptionVampireBiteCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float BiteCooldown { get; set; } = 25f;

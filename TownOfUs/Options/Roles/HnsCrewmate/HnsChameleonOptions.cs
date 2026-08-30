@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.HnsCrewmate;
 
 public sealed class HnsChameleonOptions : AbstractRoleOptionGroup<HnsChameleonRole>
 {
-    public override string GroupName => MiraLocaleManager.Get("HnsRoleChameleon", "Chameleon");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.HideAndSeek.Role.Chameleon", "Chameleon");
 
     [ModdedNumberOption("HnsOptionChameleonSwoopUsesPerRound", 1f, 10f, 1f, MiraNumberSuffixes.None, "0", true)]
     public float MaxSwoops { get; set; } = 5f;

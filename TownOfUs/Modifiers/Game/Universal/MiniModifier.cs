@@ -29,13 +29,13 @@ public sealed class MiniModifier : UniversalGameModifier, IWikiDiscoverable, IVi
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription").Replace("<miniSpeed>",
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription").Replace("<miniSpeed>",
             $"{Math.Round(OptionGroupSingleton<MiniOptions>.Instance.MiniSpeed, 2)}");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription").Replace("<miniSpeed>",
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription").Replace("<miniSpeed>",
             $"{Math.Round(OptionGroupSingleton<MiniOptions>.Instance.MiniSpeed, 2)}");
     }
 

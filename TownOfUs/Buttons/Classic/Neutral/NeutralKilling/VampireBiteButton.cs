@@ -35,7 +35,7 @@ public sealed class VampireBiteButton : TownOfUsKillRoleButton<VampireRole, Play
         KeybindIcon?.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
 
         _killName = TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
-        _biteName = MiraLocaleManager.Get("TouRoleVampireBite", "Bite");
+        _biteName = MiraLocaleManager.Get("TownOfUsMira.Role.VampireBite", "Bite");
         OverrideName(_killName);
         Coroutines.Start(MiscUtils.CoMoveButtonIndex(this, false));
     }

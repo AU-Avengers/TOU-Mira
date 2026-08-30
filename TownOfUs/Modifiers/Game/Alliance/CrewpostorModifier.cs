@@ -29,16 +29,16 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
     public override string IdPart => "Crewpostor";
     public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
     public string ShortName => MiraLocaleManager.Get($"TouModifier{IdPart}ShortName");
-    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}.IntroBlurb");
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public override string Symbol => "*";

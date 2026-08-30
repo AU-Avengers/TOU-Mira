@@ -654,7 +654,7 @@ public static class HudManagerPatches
         IconOnRoleName = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.ShowRoleIcons.Value;
         StoredHostLocale = TranslationController.Instance.GetString(StringNames.HostNounEmpty);
         StoredTasksText = TranslationController.Instance.GetString(StringNames.Tasks);
-        StoredSpectatingLocale = MiraLocaleManager.Get("TouRoleSpectator");
+        StoredSpectatingLocale = MiraLocaleManager.Get("TownOfUsMira.Role.Spectator");
         StoredRoleList = MiraLocaleManager.Get("SetRoleList");
         StoredFactionList = MiraLocaleManager.Get("NeutralFactionList");
         StoredDraftTitle = MiraLocaleManager.Get("StoredDraftTitle");

@@ -26,14 +26,14 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string IdPart => "Hunter";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -44,8 +44,8 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Stalk", "Stalk"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}StalkWikiDescription")
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Stalk", "Stalk"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Stalk.WikiDescription")
                         .Replace("<hunterMaxStalkUsages>",
                             $"{(int)OptionGroupSingleton<HunterOptions>.Instance.StalkUses}"),
                     TouCrewAssets.StalkButtonSprite)
@@ -76,12 +76,12 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             .FirstOrDefault();
         if (stalkedPlayer != null && !stalkedPlayer.HasDied() && !CaughtPlayers.Contains(stalkedPlayer))
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get("TouRoleHunterStalking")}: <b>{stalkedPlayer.Data.PlayerName}</b>");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get("TownOfUsMira.Role.HunterStalking")}: <b>{stalkedPlayer.Data.PlayerName}</b>");
         }
         if (CaughtPlayers.Count != 0)
         {
             stringB.AppendLine(TownOfUsPlugin.Culture,
-                $"<b>{MiraLocaleManager.Get("TouRoleHunterCaughtPlayersText")}</b>");
+                $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.HunterCaughtPlayersText")}</b>");
         }
 
         foreach (var player in CaughtPlayers)
@@ -117,8 +117,8 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
                 CustomButtonSingleton<HunterStalkButton>.Instance.ResetCooldownAndOrEffect();
                 var text = playerInteraction && OptionGroupSingleton<HunterOptions>.Instance.SeesTypeOfInteraction.Value
-                    ? MiraLocaleManager.Get("TouRoleHunterCaughtInteractionNotif")
-                    : MiraLocaleManager.Get("TouRoleHunterCaughtAbilityNotif");
+                    ? MiraLocaleManager.Get("TownOfUsMira.Role.HunterCaughtInteractionNotif")
+                    : MiraLocaleManager.Get("TownOfUsMira.Role.HunterCaughtAbilityNotif");
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{text.Replace("<player>", source.Data.PlayerName)}</b>",

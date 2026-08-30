@@ -31,12 +31,12 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription").Replace("<maxUses>",
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription").Replace("<maxUses>",
                    $"{Math.Round(OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast, 0)}") +
                MiscUtils.AppendOptionsText(GetType());
     }
@@ -49,7 +49,7 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
             return
             [
                 new(MiraLocaleManager.Get($"TouModifier{IdPart}Broadcast"),
-                    MiraLocaleManager.Get($"TouModifier{IdPart}BroadcastWikiDescription").Replace("<maxUses>",
+                    MiraLocaleManager.Get($"TouModifier{IdPart}Broadcast.WikiDescription").Replace("<maxUses>",
                         $"{Math.Round(OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast, 0)}"),
                     TouAssets.BroadcastSprite)
             ];

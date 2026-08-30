@@ -8,7 +8,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class PlumberFlushButton : TownOfUsVentRoleButton<PlumberRole>, ILegacyCapable
 {
-    public override string Name => MiraLocaleManager.Get("TouRolePlumberFlush", "Flush");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.PlumberFlush", "Flush");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Plumber;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<PlumberOptions>.Instance.FlushCooldown + MapCooldown, 5f, 120f);

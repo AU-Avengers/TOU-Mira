@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Impostor;
 public sealed class HypnotistHypnotizeButton : TownOfUsRoleButton<HypnotistRole, PlayerControl>,
     IAftermathablePlayerButton, ILegacyCapable
 {
-    public override string Name => MiraLocaleManager.Get("TouRoleHypnotistHypnotize", "Hypnotize");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.HypnotistHypnotize", "Hypnotize");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<HypnotistOptions>.Instance.HypnotiseCooldown + MapCooldown, 5f, 120f);

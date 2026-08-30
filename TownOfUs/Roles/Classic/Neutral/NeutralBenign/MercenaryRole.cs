@@ -44,14 +44,14 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<WardenRole>());
     public DoomableType DoomHintType => DoomableType.Insight;
     public string IdPart => "Mercenary";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -62,11 +62,11 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Guard", "Guard"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}GuardWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Guard", "Guard"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Guard.WikiDescription"),
                     TouNeutAssets.GuardSprite),
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Bribe", "Bribe"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}BribeWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bribe", "Bribe"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bribe.WikiDescription"),
                     TouNeutAssets.BribeSprite)
             ];
         }
@@ -101,12 +101,12 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         var stringB = ITownOfUsRole.SetNewTabText(this);
         var players = ModifierUtils.GetPlayersWithModifier<MercenaryBribedModifier>();
         
-        stringB.Append(TownOfUsPlugin.Culture, $"\n<b><sprite name=\"TouMira.Role.Neutral.Mercenary.Ui.Bribe\">{MiraLocaleManager.Get("TouRoleMercenaryTabGoldCounter").Replace("<count>", $"{Gold}")}</b>");
+        stringB.Append(TownOfUsPlugin.Culture, $"\n<b><sprite name=\"TouMira.Role.Neutral.Mercenary.Ui.Bribe\">{MiraLocaleManager.Get("TownOfUsMira.Role.MercenaryTabGoldCounter").Replace("<count>", $"{Gold}")}</b>");
 
         var playerControls = players as PlayerControl[] ?? [.. players];
         if (playerControls.Length != 0)
         {
-            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TouRoleMercenaryTabBribedInfo")}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.MercenaryTabBribedInfo")}</b>");
 
             foreach (var player in playerControls)
             {

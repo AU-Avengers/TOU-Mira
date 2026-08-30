@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class SwooperOptions : AbstractRoleOptionGroup<SwooperRole>
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleSwooper", "Swooper");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Swooper", "Swooper");
 
     [ModdedNumberOption("Swoop Uses Per Round", 0f, 10f, 1f, MiraNumberSuffixes.None, "0", true)]
     public float MaxSwoops { get; set; } = 0f;

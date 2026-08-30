@@ -13,14 +13,14 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string IdPart => "Sonar";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -31,8 +31,8 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Track", "Track"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}TrackWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Track", "Track"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Track.WikiDescription"),
                     TouCrewAssets.TrackSprite)
             ];
         }
@@ -69,7 +69,7 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
             return stringB;
         }
 
-        stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TouRoleTrackerTrackedPlayers")}</b>");
+        stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.TrackerTrackedPlayers")}</b>");
         foreach (var plr in playerControls)
         {
             stringB.Append(TownOfUsPlugin.Culture, $"\n{plr.Data.PlayerName}");

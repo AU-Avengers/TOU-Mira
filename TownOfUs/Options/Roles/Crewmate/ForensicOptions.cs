@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class ForensicOptions : AbstractRoleOptionGroup<ForensicRole>
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleForensic", "Forensic");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Forensic", "Forensic");
 
     [ModdedNumberOption("TouOptionForensicExamineCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ExamineCooldown { get; set; } = 25f;

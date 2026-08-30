@@ -22,14 +22,14 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public DoomableType DoomHintType => DoomableType.Insight;
     public string IdPart => "Forensic";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -40,11 +40,11 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Inspect", "Inspect"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}InspectWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Inspect", "Inspect"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Inspect.WikiDescription"),
                     TouCrewAssets.InspectSprite),
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Examine", "Examine"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}ExamineWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Examine", "Examine"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Examine.WikiDescription"),
                     TouCrewAssets.ExamineSprite)
             ];
         }
@@ -100,7 +100,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public void ExaminePlayer(PlayerControl player)
     {
-        var text = MiraLocaleManager.Get("TouRoleForensicAtScene").Replace("<player>", $"{TownOfUsColors.Forensic.ToTextColor()}{player.Data.PlayerName}</color>");
+        var text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicAtScene").Replace("<player>", $"{TownOfUsColors.Forensic.ToTextColor()}{player.Data.PlayerName}</color>");
         if (InvestigatedPlayers.Contains(player.PlayerId) && InvestigatingScene != null && InvestigatingScene.DeadPlayer != null)
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.red));
@@ -111,7 +111,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         else
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.green));
-            text = MiraLocaleManager.Get("TouRoleForensicNotAtScene").Replace("<player>", $"{TownOfUsColors.Forensic.ToTextColor()}{player.Data.PlayerName}</color>");
+            text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicNotAtScene").Replace("<player>", $"{TownOfUsColors.Forensic.ToTextColor()}{player.Data.PlayerName}</color>");
         }
         var notif1 = Helpers.CreateAndShowNotification(text,
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Forensic.LoadAsset());
@@ -157,7 +157,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         }
 
         // Send the message through chat only visible to the forensic
-        var title = $"<color=#{TownOfUsColors.Forensic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TouRoleForensicMessageTitle")}</color>";
+        var title = $"<color=#{TownOfUsColors.Forensic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.ForensicMessageTitle")}</color>";
         var reported = Player;
         if (br.Body != null)
         {

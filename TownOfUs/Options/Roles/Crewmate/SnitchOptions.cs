@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class SnitchOptions : AbstractRoleOptionGroup<SnitchRole>
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleSnitch", "Snitch");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Snitch", "Snitch");
 
     [ModdedToggleOption("TouOptionSnitchRevealsNeutralKillers")]
     public bool SnitchNeutralRoles { get; set; } = false;

@@ -254,7 +254,7 @@ public sealed class CrewmateModifierOptions : AbstractOptionGroup
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.InvestigatorAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.InvestigatorChance;
-        RunNotif(opt, optAmount, "TouRoleInvestigator");
+        RunNotif(opt, optAmount, "TownOfUsMira.Role.Investigator");
     };
     
     private static Action<float> _multitaskerNotif = x =>
@@ -303,7 +303,7 @@ public sealed class CrewmateModifierOptions : AbstractOptionGroup
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.SpyAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.SpyChance;
-        RunNotif(opt, optAmount, "TouRoleSpy");
+        RunNotif(opt, optAmount, "TownOfUsMira.Role.Spy");
     };
     
     private static Action<float> _taskmasterNotif = x =>

@@ -20,7 +20,7 @@ public interface ITownOfUsRole : ICustomRole
     public virtual bool MetWinCon => false;
     public bool IsDraftable => true;
     public static Dictionary<string, string> LocaleList => [];
-    string IdPrefix => MiraLocaleManager.BuildTranslationId(GetType().Namespace!, "Role", Team.ToString());
+    string ICustomRole.IdPrefix => "TownOfUsMira.Role";
 
     [HideFromIl2Cpp]
     public virtual bool CanModifierContinueGame(BaseModifier modifier)

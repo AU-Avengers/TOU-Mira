@@ -106,8 +106,8 @@ public sealed class ChefServedModifier(PlayerControl chef, int servingType, int 
             return;
         }
 
-        var title = $"<color=#{TownOfUsColors.Chef.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TouRoleChefMessageTitle")}</color>";
+        var title = $"<color=#{TownOfUsColors.Chef.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.ChefMessageTitle")}</color>";
 
-        MiscUtils.AddFakeChat(Player.Data, title, MiraLocaleManager.Get("TouRoleChefCustomerMessage"), false, true);
+        MiscUtils.AddFakeChat(Player.Data, title, MiraLocaleManager.Get("TownOfUsMira.Role.ChefCustomerMessage"), false, true);
     }
 }

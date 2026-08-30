@@ -19,17 +19,17 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
             "AmongUs.Role.Noisemaker", 1.45f));
     public override string IdPart => "Noisemaker";
     public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
-    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}.IntroBlurb");
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription").Replace("<noiseTime>",
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription").Replace("<noiseTime>",
             $"{OptionGroupSingleton<NoisemakerOptions>.Instance.AlertDuration}");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription")
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription")
                + MiscUtils.AppendOptionsText(GetType());
     }
 

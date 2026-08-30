@@ -45,14 +45,14 @@ public sealed class EscapistRole(IntPtr cppPtr)
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TransporterRole>());
     public DoomableType DoomHintType => DoomableType.Protective;
     public string IdPart => "Escapist";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -78,11 +78,11 @@ public sealed class EscapistRole(IntPtr cppPtr)
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Mark", "Mark"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}MarkWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mark", "Mark"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mark.WikiDescription"),
                     TouImpAssets.MarkSprite),
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Recall", "Recall"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}RecallWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Recall", "Recall"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Recall.WikiDescription"),
                     TouImpAssets.RecallSprite)
             ];
         }

@@ -27,14 +27,14 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
     public int SafeShotsLeft { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
     public string IdPart => "Vigilante";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -57,14 +57,14 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get("TouRoleVigilanteEvilTabInfo")}");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteEvilTabInfo")}");
         }
 
         if ((int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots > 0)
         {
             var newText = SafeShotsLeft == 0
-                ? MiraLocaleManager.Get("TouRoleVigilanteNoSafeShots")
-                : MiraLocaleManager.Get("TouRoleVigilanteSafeShotsLeft").Replace("<count>", SafeShotsLeft.ToString(TownOfUsPlugin.Culture));
+                ? MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteNoSafeShots")
+                : MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteSafeShotsLeft").Replace("<count>", SafeShotsLeft.ToString(TownOfUsPlugin.Culture));
             stringB.AppendLine(TownOfUsPlugin.Culture, $"{newText}");
         }
 
@@ -206,7 +206,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Impostor));
 
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Vigilante.ToTextColor()}{MiraLocaleManager.Get("TouRoleVigilanteMultiShotFeedback").Replace("<count>", SafeShotsLeft.ToString(TownOfUsPlugin.Culture))}</color></b>",
+                    $"<b>{TownOfUsColors.Vigilante.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteMultiShotFeedback").Replace("<count>", SafeShotsLeft.ToString(TownOfUsPlugin.Culture))}</color></b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Vigilante.LoadAsset());
 
                 notif1.AdjustNotification();

@@ -38,14 +38,14 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MysticRole>());
     public DoomableType DoomHintType => DoomableType.Death;
     public string IdPart => "Amnesiac";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -56,8 +56,8 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Remember", "Remember"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}RememberWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Remember", "Remember"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Remember.WikiDescription"),
                     TouNeutAssets.RememberButtonSprite)
             ];
         }
@@ -125,7 +125,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         {
             if (player.AmOwner)
             {
-                var text = MiraLocaleManager.Get("TouRoleAmnesiacRememberFailNotif").Replace("<player>", target.Data.PlayerName);
+                var text = MiraLocaleManager.Get("TownOfUsMira.Role.AmnesiacRememberFailNotif").Replace("<player>", target.Data.PlayerName);
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{text.Replace("<role>", $"{roleWhenAlive.TeamColor.ToTextColor()}{roleWhenAlive.GetRoleName()}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
@@ -139,7 +139,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         {
             if (player.AmOwner)
             {
-                var text = MiraLocaleManager.Get("TouRoleAmnesiacRememberFailTargetNotif").Replace("<player>", target.Data.PlayerName);
+                var text = MiraLocaleManager.Get("TownOfUsMira.Role.AmnesiacRememberFailTargetNotif").Replace("<player>", target.Data.PlayerName);
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
                 notif1.AdjustNotification();
@@ -215,7 +215,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
 
         if (player.AmOwner)
         {
-            var text = MiraLocaleManager.Get("TouRoleAmnesiacRememberNotif").Replace("<player>", target.Data.PlayerName);
+            var text = MiraLocaleManager.Get("TownOfUsMira.Role.AmnesiacRememberNotif").Replace("<player>", target.Data.PlayerName);
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{text.Replace("<role>", $"{player.Data.Role.TeamColor.ToTextColor()}{player.Data.Role.GetRoleName()}</color>")}</b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());

@@ -8,7 +8,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class TrapperTrapButton : TownOfUsRoleButton<TrapperRole>, ILegacyCapable
 {
-    public override string Name => MiraLocaleManager.Get("TouRoleTrapperTrap", "Trap");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.TrapperTrap", "Trap");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Trapper;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<TrapperOptions>.Instance.TrapCooldown + MapCooldown, 5f, 120f);

@@ -7,7 +7,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class TimeLordRewindButton : TownOfUsRoleButton<TimeLordRole>, ILegacyCapable
 {
-    public override string Name => MiraLocaleManager.Get("TouRoleTimeLordRewind", "Rewind");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.TimeLordRewind", "Rewind");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.TimeLord;
 
@@ -23,12 +23,12 @@ public sealed class TimeLordRewindButton : TownOfUsRoleButton<TimeLordRole>, ILe
     protected override void OnClick()
     {
         TimeLordRole.RpcStartRewind(PlayerControl.LocalPlayer, EffectDuration);
-        OverrideName(MiraLocaleManager.Get("TouRoleTimeLordRewinding", "Rewinding"));
+        OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.TimeLordRewinding", "Rewinding"));
     }
 
     public override void OnEffectEnd()
     {
-        OverrideName(MiraLocaleManager.Get("TouRoleTimeLordRewind", "Rewind"));
+        OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.TimeLordRewind", "Rewind"));
     }
 
     protected override void FixedUpdate(PlayerControl playerControl)

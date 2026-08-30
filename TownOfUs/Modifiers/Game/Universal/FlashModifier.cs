@@ -28,13 +28,13 @@ public sealed class FlashModifier : UniversalGameModifier, IWikiDiscoverable, IV
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription").Replace("<flashSpeed>",
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription").Replace("<flashSpeed>",
             $"{Math.Round(OptionGroupSingleton<FlashOptions>.Instance.FlashSpeed, 2)}");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription").Replace("<flashSpeed>",
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription").Replace("<flashSpeed>",
                    $"{Math.Round(OptionGroupSingleton<FlashOptions>.Instance.FlashSpeed, 2)}") +
                MiscUtils.AppendOptionsText(GetType());
     }

@@ -12,15 +12,16 @@ namespace TownOfUs.Roles.HideAndSeek.Hider;
 public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable
 {
     public string IdPart => "Chameleon";
-    public string RoleName => MiraLocaleManager.Get($"HnsRole{IdPart}");
+    public string IdPrefix => "TownOfUsMira.HideAndSeek.Role";
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}");
     public string RoleDescription => "...";
-    public string RoleLongDescription => MiraLocaleManager.Get($"HnsRole{IdPart}TabDescription");
-    public string RoleHintText => MiraLocaleManager.Get($"HnsRole{IdPart}TabHint");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}.TabDescription");
+    public string RoleHintText => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}TabHint");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"HnsRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -31,11 +32,11 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
         {
             return
             [
-                new(MiraLocaleManager.Get($"HnsRole{IdPart}Swoop", "Swoop"),
-                    MiraLocaleManager.Get($"HnsRole{IdPart}SwoopWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}Swoop", "Swoop"),
+                    MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}Swoop.WikiDescription"),
                     TouCrewAssets.CrewSwoopSprite),
-                new(MiraLocaleManager.Get($"HnsRole{IdPart}Unswoop", "Unswoop"),
-                    MiraLocaleManager.Get($"HnsRole{IdPart}UnswoopWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}Unswoop", "Unswoop"),
+                    MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}Unswoop.WikiDescription"),
                     TouCrewAssets.CrewUnswoopSprite)
             ];
         }

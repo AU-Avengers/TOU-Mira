@@ -13,16 +13,16 @@ public sealed class DiseasedModifier : TouGameModifier, IWikiDiscoverable
             "TouMira.Modifier.Crewmate.Diseased", 1.45f));
     public override string IdPart => "Diseased";
     public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
-    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}.IntroBlurb");
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription").Replace("<cooldownMultiplier>",
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription").Replace("<cooldownMultiplier>",
             $"{OptionGroupSingleton<DiseasedOptions>.Instance.CooldownMultiplier}");
     }
 

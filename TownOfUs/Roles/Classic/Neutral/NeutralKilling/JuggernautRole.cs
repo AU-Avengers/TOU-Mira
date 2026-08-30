@@ -33,14 +33,14 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     public int KillCount { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
     public string IdPart => "Juggernaut";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -64,7 +64,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TouRoleJuggernautTabKillCounter").Replace("<count>", $"{KillCount}")}</b>");
+        stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.JuggernautTabKillCounter").Replace("<count>", $"{KillCount}")}</b>");
 
         return stringB;
     }

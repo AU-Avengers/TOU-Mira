@@ -19,14 +19,14 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     public bool HasMisfired { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
     public string IdPart => "Sheriff";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -37,8 +37,8 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Shoot", "Shoot"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}ShootWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Shoot", "Shoot"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Shoot.WikiDescription"),
                     TouCrewAssets.SheriffShootSprite)
             ];
         }
@@ -68,7 +68,7 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         stringB.Append("<size=70%>");
         if (PlayerControl.LocalPlayer.HasModifier<EgotistModifier>())
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get($"TouRole{IdPart}TabDescriptionEgo")}");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}TabDescriptionEgo")}");
         }
         else
         {
@@ -79,7 +79,7 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
                 var missType = OptionGroupSingleton<SheriffOptions>.Instance.MisfireType;
                 addedText = $"Kills{missType}";
             }
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{MiraLocaleManager.Get($"TouRole{IdPart}TabMisfire{addedText}")}</b>");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}TabMisfire{addedText}")}</b>");
         }
 
         return stringB;

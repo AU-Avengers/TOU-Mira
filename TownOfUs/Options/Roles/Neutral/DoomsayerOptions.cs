@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class DoomsayerOptions : AbstractRoleOptionGroup<DoomsayerRole>
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleDoomsayer", "Doomsayer");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Doomsayer", "Doomsayer");
 
     [ModdedNumberOption("TouOptionDoomsayerCooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
     public float ObserveCooldown { get; set; } = 20f;

@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Classic.Neutral.NeutralEvil;
 
 public sealed class JesterPokeButton : TownOfUsRoleButton<JesterRole, PlayerControl>
 {
-    public override string Name => MiraLocaleManager.Get("TouRoleJesterPoke", "Poke");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.JesterPoke", "Poke");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Jester;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<JesterOptions>.Instance.PokeCooldown.Value + MapCooldown, 5f, 120f);

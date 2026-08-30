@@ -12,9 +12,10 @@ namespace TownOfUs.Roles.TownOfPolus;
 public class PolusGhostCrewRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITownOfUsRole
 {
     RoleOptionsGroup ICustomRole.RoleOptionsGroup => TouRoleGroups.TownOfPolusCrewmate;
+    public string IdPrefix => "TownOfUsMira.TownOfPolus.Role";
     public virtual string IdPart => "Crewmate";
     public virtual string RoleName => Player != null ? Player.GetRoleWhenAlive().GetRoleName() : MiraLocaleManager.Get("CrewmateKeyword");
-    public virtual string RoleDescription => Player != null ? Player.GetRoleWhenAlive().Blurb : MiraLocaleManager.Get("TownOfPolusRoleCrewDescriptionDead");
+    public virtual string RoleDescription => Player != null ? Player.GetRoleWhenAlive().Blurb : MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.CrewDescriptionDead");
 
     public virtual string RoleLongDescription
     {
@@ -22,7 +23,7 @@ public class PolusGhostCrewRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         {
             if (Player == null)
             {
-                return MiraLocaleManager.Get("TownOfPolusRoleCrewDescriptionDead");
+                return MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.CrewDescriptionDead");
             }
 
             var role = Player.GetRoleWhenAlive();
@@ -38,8 +39,8 @@ public class PolusGhostCrewRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text =
-            $"{RoleColor.ToTextColor()}{MiraLocaleManager.Get("TownOfPolusRoleTabText").Replace("<roleName>", RoleName).Replace("<description>", "<color=#FF0000>" + RoleLongDescription + "</color>")}</color>";
-        orCreateTask.name = "TownOfPolusRoleText";
+            $"{RoleColor.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.TabText").Replace("<roleName>", RoleName).Replace("<description>", "<color=#FF0000>" + RoleLongDescription + "</color>")}</color>";
+        orCreateTask.name = "TownOfUsMira.TownOfPolus.Role.Text";
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)

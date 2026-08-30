@@ -129,17 +129,17 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     public DoomableType DoomHintType => DoomableType.Death;
     [HideFromIl2Cpp] public List<KeyValuePair<int, PlatterType>> StoredBodies { get; set; } = [];
     public string IdPart => "Chef";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
-    private static string _tabCounter = MiraLocaleManager.Get("TouRoleChefTabCounter");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
+    private static string _tabCounter = MiraLocaleManager.Get("TownOfUsMira.Role.ChefTabCounter");
     public bool TargetsServed { get; set; }
     public int BodiesServed { get; set; }
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -150,11 +150,11 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Cook", "Cook"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}CookWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Cook", "Cook"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Cook.WikiDescription"),
                     TouNeutAssets.ChefCookSprite),
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Serve", "Serve"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}ServeWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Serve", "Serve"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Serve.WikiDescription"),
                     TouNeutAssets.ChefServeSprites.AsEnumerable().Random()!),
             ];
         }
@@ -193,7 +193,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        _tabCounter = MiraLocaleManager.Get("TouRoleChefTabCounter").Replace("<bodiesTotal>",
+        _tabCounter = MiraLocaleManager.Get("TownOfUsMira.Role.ChefTabCounter").Replace("<bodiesTotal>",
             $"{(int)OptionGroupSingleton<ChefOptions>.Instance.ServingsNeeded}");
 
         var serveMods = ModifierUtils.GetActiveModifiers<ChefServedModifier>().ToList();

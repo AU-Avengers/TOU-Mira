@@ -54,7 +54,7 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
 
         StatusText.font = HudManager.Instance.TaskPanel.taskText.font;
         StatusText.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
-        StatusText.text = MiraLocaleManager.Get("TouRoleAmbassadorChooseRole");
+        StatusText.text = MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorChooseRole");
         StatusText.gameObject.SetActive(false);
 
         RoleName.font = HudManager.Instance.TaskPanel.taskText.font;
@@ -64,7 +64,7 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
 
         RoleTeam.font = HudManager.Instance.TaskPanel.taskText.font;
         RoleTeam.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
-        RoleTeam.text = MiraLocaleManager.Get("TouRoleAmbassadorRandomImpostorOption");
+        RoleTeam.text = MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorRandomImpostorOption");
         RoleTeam.gameObject.SetActive(false);
 
         RoleIcon.sprite = TouRoleIcons.RandomImp.LoadAsset();
@@ -149,7 +149,7 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
             card.OnClick.AddListener((UnityAction)(() => { clickHandler.Invoke(role); }));
         }
 
-        var randomCard = CreateCard(MiraLocaleManager.Get("Random"), MiraLocaleManager.Get("TouRoleAmbassadorRandomImpostorOption"), TouRoleIcons.RandomImp.LoadAsset(),
+        var randomCard = CreateCard(MiraLocaleManager.Get("Random"), MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorRandomImpostorOption"), TouRoleIcons.RandomImp.LoadAsset(),
             TownOfUsColors.Impostor);
         randomCard.OnClick.RemoveAllListeners();
         randomCard.OnClick.AddListener((UnityAction)(() =>

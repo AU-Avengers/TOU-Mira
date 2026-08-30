@@ -25,20 +25,20 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public DoomableType DoomHintType => DoomableType.Perception;
 
     public string IdPart => "TimeLord";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}", "Time Lord");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}", "Time Lord");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities =>
     [
-        new(MiraLocaleManager.Get($"TouRole{IdPart}Rewind", "Rewind"),
-            MiraLocaleManager.Get($"TouRole{IdPart}RewindWikiDescription"),
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Rewind", "Rewind"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Rewind.WikiDescription"),
             TouCrewAssets.RewindSprite)
     ];
 
@@ -82,7 +82,7 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             try
             {
                 var notif = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.TimeLord.ToTextColor()}{MiraLocaleManager.Get("TouRoleTimeLordRewindNotif", "Time is being rewound!")}</color></b>",
+                    $"<b>{TownOfUsColors.TimeLord.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.TimeLordRewindNotif", "Time is being rewound!")}</color></b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.TimeLord.LoadAsset());
                 notif.AdjustNotification();
                 notif.alphaTimer = duration + 1f;

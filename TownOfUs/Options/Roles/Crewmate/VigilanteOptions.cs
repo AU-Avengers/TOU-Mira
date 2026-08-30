@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class VigilanteOptions : AbstractRoleOptionGroup<VigilanteRole>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleVigilante", "Vigilante");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Vigilante", "Vigilante");
 
     [ModdedNumberOption("TouOptionVigilanteNumberOfGuesses", 1f, 15f)]
     public float VigilanteKills { get; set; } = 5f;

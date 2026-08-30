@@ -29,12 +29,12 @@ public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverab
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     [HideFromIl2Cpp]
@@ -45,7 +45,7 @@ public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverab
             return
             [
                 new(MiraLocaleManager.Get($"TouModifier{IdPart}Button"),
-                    MiraLocaleManager.Get($"TouModifier{IdPart}ButtonWikiDescription").Replace("<barryUses>",
+                    MiraLocaleManager.Get($"TouModifier{IdPart}Button.WikiDescription").Replace("<barryUses>",
                         $"{Math.Round(OptionGroupSingleton<ButtonBarryOptions>.Instance.MaxNumButtons, 0)}"),
                     TouAssets.BarryButtonSprite)
             ];

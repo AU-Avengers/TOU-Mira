@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class OfficerOptions : AbstractRoleOptionGroup<OfficerRole>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleOfficer", "Officer");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Officer", "Officer");
 
     public ModdedNumberOption ShootCooldown { get; set; } = new("TouOptionOfficerShootCooldown", 5f, 2.5f, 30f, 2.5f,
         MiraNumberSuffixes.Seconds);

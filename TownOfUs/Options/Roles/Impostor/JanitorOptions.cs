@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class JanitorOptions : AbstractRoleOptionGroup<JanitorRole>
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleJanitor", "Janitor");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Janitor", "Janitor");
 
     [ModdedNumberOption("Clean Uses Per Game", 0f, 15f, 5f, MiraNumberSuffixes.None, "0", true)]
     public float MaxClean { get; set; } = 0f;

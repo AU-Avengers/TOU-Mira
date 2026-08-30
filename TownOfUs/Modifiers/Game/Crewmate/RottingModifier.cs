@@ -18,17 +18,17 @@ public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
             "TouMira.Modifier.Crewmate.Rotting", 1.45f));
     public override string IdPart => "Rotting";
     public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
-    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}.IntroBlurb");
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription").Replace("<rotDelay>",
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription").Replace("<rotDelay>",
             $"{OptionGroupSingleton<RottingOptions>.Instance.RotDelay}");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription").Replace("<rotDelay>",
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription").Replace("<rotDelay>",
             $"{OptionGroupSingleton<RottingOptions>.Instance.RotDelay}");
     }
 

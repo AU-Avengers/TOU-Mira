@@ -17,7 +17,7 @@ namespace TownOfUs.Buttons.Neutral;
 public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>, ILegacyCapable
 {
     public PlayerControl? ClosestTarget;
-    public override string Name => MiraLocaleManager.Get("TouRoleArsonistIgnite", "Ignite");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.ArsonistIgnite", "Ignite");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Arsonist;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<ArsonistOptions>.Instance.DouseCooldown + MapCooldown, 5f, 120f);

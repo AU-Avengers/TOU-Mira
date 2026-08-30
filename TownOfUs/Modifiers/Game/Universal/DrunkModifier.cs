@@ -18,12 +18,12 @@ public sealed class DrunkModifier : UniversalGameModifier, IWikiDiscoverable
     public override Color FreeplayFileColor => new Color32(180, 180, 180, 255);
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription");
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];

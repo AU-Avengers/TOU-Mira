@@ -50,14 +50,14 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public DoomableType DoomHintType => DoomableType.Insight;
     public string IdPart => "Snitch";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -89,7 +89,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             desc += "Ego";
         }
 
-        var text = MiraLocaleManager.Get($"TouRole{IdPart}TabDescription{desc}");
+        var text = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}TabDescription{desc}");
 
         stringB.AppendLine(TownOfUsPlugin.Culture, $"{text}");
 
@@ -185,8 +185,8 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 {
                     Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
                     var text = Player.HasModifier<EgotistModifier>()
-                        ? MiraLocaleManager.Get("TouRoleSnitchSelfRevealedEgoFeedback")
-                        : MiraLocaleManager.Get("TouRoleSnitchSelfRevealedFeedback");
+                        ? MiraLocaleManager.Get("TownOfUsMira.Role.SnitchSelfRevealedEgoFeedback")
+                        : MiraLocaleManager.Get("TownOfUsMira.Role.SnitchSelfRevealedFeedback");
 
                     var notif1 = Helpers.CreateAndShowNotification(
                         $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
@@ -202,8 +202,8 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 {
                     Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
                     var text = Player.HasModifier<EgotistModifier>()
-                        ? MiraLocaleManager.Get("TouRoleSnitchImpRevealedEgoFeedback")
-                        : MiraLocaleManager.Get("TouRoleSnitchImpRevealedFeedback");
+                        ? MiraLocaleManager.Get("TownOfUsMira.Role.SnitchImpRevealedEgoFeedback")
+                        : MiraLocaleManager.Get("TownOfUsMira.Role.SnitchImpRevealedFeedback");
 
                     var notif1 = Helpers.CreateAndShowNotification(
                         $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
@@ -221,8 +221,8 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 if (!silent)
                 {
                     var text = Player.HasModifier<EgotistModifier>()
-                        ? MiraLocaleManager.Get("TouRoleSnitchSelfCompletedEgoFeedback")
-                        : MiraLocaleManager.Get("TouRoleSnitchSelfCompletedFeedback");
+                        ? MiraLocaleManager.Get("TownOfUsMira.Role.SnitchSelfCompletedEgoFeedback")
+                        : MiraLocaleManager.Get("TownOfUsMira.Role.SnitchSelfCompletedFeedback");
 
                     var notif1 = Helpers.CreateAndShowNotification(
                         $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
@@ -235,8 +235,8 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
                 var text = Player.HasModifier<EgotistModifier>()
-                    ? MiraLocaleManager.Get("TouRoleSnitchImpCompletedEgoFeedback")
-                    : MiraLocaleManager.Get("TouRoleSnitchImpCompletedFeedback");
+                    ? MiraLocaleManager.Get("TownOfUsMira.Role.SnitchImpCompletedEgoFeedback")
+                    : MiraLocaleManager.Get("TownOfUsMira.Role.SnitchImpCompletedFeedback");
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,

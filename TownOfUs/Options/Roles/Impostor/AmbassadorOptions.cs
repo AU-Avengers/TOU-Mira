@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class AmbassadorOptions : AbstractRoleOptionGroup<AmbassadorRole>
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleAmbassador", "Ambassador");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Ambassador", "Ambassador");
 
     [ModdedNumberOption("TouOptionAmbassadorMaxRetrainsAvailable", 1, 3)]
     public float MaxRetrains { get; set; } = 2f;

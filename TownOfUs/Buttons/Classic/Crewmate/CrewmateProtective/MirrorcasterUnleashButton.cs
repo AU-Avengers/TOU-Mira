@@ -12,7 +12,7 @@ namespace TownOfUs.Buttons.Crewmate;
 public sealed class MirrorcasterUnleashButton : TownOfUsKillRoleButton<MirrorcasterRole, PlayerControl>, IDiseaseableButton,
     IKillButton, ILegacyCapable
 {
-    public override string Name => MiraLocaleManager.Get("TouRoleMirrorcasterUnleash", "Unleash");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.MirrorcasterUnleash", "Unleash");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Mirrorcaster;
 

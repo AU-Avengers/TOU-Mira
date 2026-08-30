@@ -138,12 +138,12 @@ public sealed class DrinkSpillComponent(nint cppPtr) : MonoBehaviour(cppPtr)
             yield return MiscUtils.FadeIn(Renderer);
         }
 
-        var msg = "TouRoleBarkeeperSpillSpeedDebuffNotif";
+        var msg = "TownOfUsMira.Role.BarkeeperSpillSpeedDebuffNotif";
         var isBuff = false;
         if (SpillType is SpillType.Buff)
         {
             isBuff = true;
-            msg = "TouRoleBarkeeperSpillSpeedBuffNotif";
+            msg = "TownOfUsMira.Role.BarkeeperSpillSpeedBuffNotif";
         }
         PlayerControl.LocalPlayer.RpcAddModifier<BarkeeperSpillEffectModifier>(isBuff);
         var notif = Helpers.CreateAndShowNotification(

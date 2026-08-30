@@ -16,16 +16,16 @@ public sealed class BaitModifier : TouGameModifier, IWikiDiscoverable
             "TouMira.Modifier.Crewmate.Bait", 1.45f));
     public override string IdPart => "Bait";
     public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
-    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}.IntroBlurb");
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Bait;

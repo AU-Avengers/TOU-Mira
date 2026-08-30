@@ -47,14 +47,14 @@ public sealed class FrenzyBomberRole(IntPtr cppPtr)
     [HideFromIl2Cpp] public Bomb? Bomb { get; set; }
 
     public string IdPart => "Bomber";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription").Replace("<detonateDelay>",
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription").Replace("<detonateDelay>",
                 $"{OptionGroupSingleton<BomberOptions>.Instance.DetonateDelay}") +
             MiscUtils.AppendOptionsText(GetType());
     }
@@ -79,8 +79,8 @@ public sealed class FrenzyBomberRole(IntPtr cppPtr)
         {
             return new List<CustomButtonWikiDescription>
             {
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Place", "Place"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}PlaceWikiDescription").Replace("<maxKills>",
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Place", "Place"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Place.WikiDescription").Replace("<maxKills>",
                         $"{(int)OptionGroupSingleton<BomberOptions>.Instance.MaxKillsInDetonation}"),
                     TouImpAssets.PlaceSprite)
             };

@@ -22,8 +22,8 @@ public sealed class JesterRole(IntPtr cppPtr)
     public void AnnounceKill(PlayerControl source, PlayerControl victim)
     {
         var text = !OptionGroupSingleton<JesterOptions>.Instance.JestAnnounceWin.Value
-            ? MiraLocaleManager.Get("TouRoleAnonymousVictoryKillNotif").Replace("<source>", source.Data.PlayerName)
-            : MiraLocaleManager.Get("TouRoleJesterHauntNotif");
+            ? MiraLocaleManager.Get("TownOfUsMira.Role.AnonymousVictoryKillNotif").Replace("<source>", source.Data.PlayerName)
+            : MiraLocaleManager.Get("TownOfUsMira.Role.JesterHauntNotif");
         var notif = Helpers.CreateAndShowNotification(
             $"<b>{text.Replace("<victim>", victim.Data.PlayerName)}</b>",
             Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Jester.LoadAsset());
@@ -65,14 +65,14 @@ public sealed class JesterRole(IntPtr cppPtr)
 
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string IdPart => "Jester";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 

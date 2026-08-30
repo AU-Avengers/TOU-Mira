@@ -97,7 +97,7 @@ public static class ExecutionerEvents
             if (exe.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{MiraLocaleManager.Get("TouRoleExecutionerWonSelf").Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.RoleName}</color>")}</b>",
+                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerWonSelf").Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.RoleName}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Executioner.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -111,7 +111,7 @@ public static class ExecutionerEvents
                         "DiedToWinning", HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetTrue,
                         lockInfo: DeathHandlerOverride.SetTrue);
                     var notif2 = Helpers.CreateAndShowNotification(
-                        $"<b>{MiraLocaleManager.Get("TouRoleExecutionerTormentFeedback")}</b>",
+                        $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerTormentFeedback")}</b>",
                         Color.white, new Vector3(0f, 0.85f, -20f));
                     notif2.AdjustNotification();
                 }
@@ -134,7 +134,7 @@ public static class ExecutionerEvents
                 }
                 else
                 {
-                    message = $"<b>{MiraLocaleManager.Get("TouRoleExecutionerWonOther")
+                    message = $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerWonOther")
                         .Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.RoleName}</color>")}</b>";
                     icon = TouRoleIcons.Executioner;
                 }

@@ -63,7 +63,7 @@ public sealed class HnsTransporterModifier : HnsGameModifier
         if (seeker.AmOwner || randomVictim.AmOwner)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.Transporter.ToTextColor()}{MiraLocaleManager.Get("TouRoleTransporterTransportNotif")}</color></b>", Color.white,
+                $"<b>{TownOfUsColors.Transporter.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.TransporterTransportNotif")}</color></b>", Color.white,
                 new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Transporter.LoadAsset());
 
             notif1.AdjustNotification();

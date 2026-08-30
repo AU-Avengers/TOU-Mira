@@ -25,14 +25,14 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     [HideFromIl2Cpp] public PlayerVoteArea Swap2 { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string IdPart => "Swapper";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -43,8 +43,8 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}SwapWiki", "Swap (Meeting)"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}SwapWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}SwapWiki", "Swap (Meeting)"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Swap.WikiDescription"),
                     TouAssets.SwapActive)
             ];
         }

@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class GlitchHackButton : TownOfUsRoleButton<GlitchRole, PlayerControl>, IAftermathablePlayerButton, ILegacyCapable
 {
-    public override string Name => MiraLocaleManager.Get("TouRoleGlitchHack", "Hack");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.GlitchHack", "Hack");
     public override BaseKeybind Keybind => Keybinds.TertiaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Glitch;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<GlitchOptions>.Instance.HackCooldown + MapCooldown, 5f, 120f);
@@ -38,7 +38,7 @@ public sealed class GlitchHackButton : TownOfUsRoleButton<GlitchRole, PlayerCont
         }
 
         var notif1 = Helpers.CreateAndShowNotification(
-            MiraLocaleManager.Get("TouRoleGlitchHackNotif").Replace("<player>", $"{TownOfUsColors.Glitch.ToTextColor()}{Target.Data.PlayerName}</color>"),
+            MiraLocaleManager.Get("TownOfUsMira.Role.GlitchHackNotif").Replace("<player>", $"{TownOfUsColors.Glitch.ToTextColor()}{Target.Data.PlayerName}</color>"),
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Glitch.LoadAsset());
         notif1.AdjustNotification();
 

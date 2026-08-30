@@ -38,14 +38,14 @@ public sealed class UndertakerRole(IntPtr cppPtr)
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<AltruistRole>());
     public DoomableType DoomHintType => DoomableType.Death;
     public string IdPart => "Undertaker";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -71,11 +71,11 @@ public sealed class UndertakerRole(IntPtr cppPtr)
         {
             return
             [
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Drag", "Drag"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}DragWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Drag", "Drag"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Drag.WikiDescription"),
                     TouImpAssets.DragSprite),
-                new(MiraLocaleManager.Get($"TouRole{IdPart}Drop", "Drop"),
-                    MiraLocaleManager.Get($"TouRole{IdPart}DropWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Drop", "Drop"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Drop.WikiDescription"),
                     TouImpAssets.DropSprite)
             ];
         }

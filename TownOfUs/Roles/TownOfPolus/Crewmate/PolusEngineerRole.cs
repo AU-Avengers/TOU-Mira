@@ -14,15 +14,15 @@ public sealed class PolusEngineerRole(IntPtr cppPtr) : PolusBaseCrewRole(cppPtr)
 {
     public override bool IsAffectedByComms => false;
     public override string IdPart => "Engineer";
-    public override string RoleName => MiraLocaleManager.Get($"TownOfPolusRole{IdPart}");
-    public override string RoleDescription => MiraLocaleManager.Get($"TownOfPolusRole{IdPart}IntroBlurb");
-    public override string RoleLongDescription => MiraLocaleManager.Get($"TownOfPolusRole{IdPart}TabDescription");
+    public override string RoleName => MiraLocaleManager.Get($"TownOfUsMira.TownOfPolus.Role.{IdPart}");
+    public override string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.TownOfPolus.Role.{IdPart}.IntroBlurb");
+    public override string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.TownOfPolus.Role.{IdPart}.TabDescription");
     [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.TownOfPolus;
 
     public string GetAdvancedDescription()
     {
         return
-            MiraLocaleManager.Get($"TownOfPolusRole{IdPart}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.TownOfPolus.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 

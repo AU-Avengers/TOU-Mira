@@ -12,16 +12,16 @@ public sealed class AftermathModifier : TouGameModifier, IWikiDiscoverable
             "TouMira.Modifier.Crewmate.Aftermath", 1.45f));
     public override string IdPart => "Aftermath";
     public override string ModifierName => MiraLocaleManager.Get($"TouModifier{IdPart}");
-    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}IntroBlurb");
+    public override string IntroInfo => MiraLocaleManager.Get($"TouModifier{IdPart}.IntroBlurb");
 
     public override string GetDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}TabDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouModifier{IdPart}WikiDescription");
+        return MiraLocaleManager.Get($"TouModifier{IdPart}.WikiDescription");
     }
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Aftermath;

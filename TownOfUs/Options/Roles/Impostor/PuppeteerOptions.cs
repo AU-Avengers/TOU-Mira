@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class PuppeteerOptions : AbstractRoleOptionGroup<PuppeteerRole>
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRolePuppeteer", "Puppeteer");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Puppeteer", "Puppeteer");
     public override Color GroupColor => Palette.ImpostorRoleRed;
 
     public ModdedNumberOption ControlUses { get; } =

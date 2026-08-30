@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class OracleOptions : AbstractRoleOptionGroup<OracleRole>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => MiraLocaleManager.Get("TouRoleOracle", "Oracle");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Oracle", "Oracle");
 
     [ModdedNumberOption("TouOptionOracleConfessCooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
     public float ConfessCooldown { get; set; } = 20f;

@@ -30,13 +30,13 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string IdPart => "Puppeteer";
-    public string RoleName => MiraLocaleManager.Get($"TouRole{IdPart}");
-    public string RoleDescription => MiraLocaleManager.Get($"TouRole{IdPart}IntroBlurb");
-    public string RoleLongDescription => MiraLocaleManager.Get($"TouRole{IdPart}TabDescription");
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
-        return MiraLocaleManager.Get($"TouRole{IdPart}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public Color RoleColor => TownOfUsColors.Impostor;
@@ -56,8 +56,8 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities =>
     [
-        new(MiraLocaleManager.Get($"TouRole{IdPart}Control", "Control"),
-            MiraLocaleManager.Get($"TouRole{IdPart}ControlWikiDescription"),
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Control", "Control"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Control.WikiDescription"),
             TouImpAssets.ControlSprite),
     ];
 
@@ -149,7 +149,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         if (controllerNotification == null)
         {
-            var controllerText = MiraLocaleManager.Get("TouRolePuppeteerControlNotifSelf");
+            var controllerText = MiraLocaleManager.Get("TownOfUsMira.Role.PuppeteerControlNotifSelf");
             controllerNotification = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Impostor.ToTextColor()}{controllerText.Replace("<player>", Controlled.Data.PlayerName)}</color></b>",
                 Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Puppeteer.LoadAsset());
