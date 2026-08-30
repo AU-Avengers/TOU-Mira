@@ -1193,7 +1193,7 @@ eles são amigos ou inimigos!</string>
   <string name="TouRoleSentrySentryOnly">(Máquina-apenas)</string>
   <string name="TouRoleSentryPlacing">(Colocando...)</string>
   <string name="TouRoleSentryMaxCamerasReached">Número Máximo de Câmaras colocado ([count]/[max]).</string>
-  <string name="TouOptionSentryPlacementCooldown">Recarga do Colocamento</string>
+  <string name="TouOptionSentryPlacementCooldown">Recarga do Colocar</string>
   <string name="TouOptionSentryDeployedCamerasVisibility">Visibilidade Das Câmaras Colocadas</string>
   <string name="TouOptionSentryCamerasVisibleAfter">Câmaras Visíveis Depois</string>
   <string name="TouOptionSentryCanMoveWhilePlacingCameras">Pode Mover Enquanto Coloca Câmaras</string>
@@ -1584,4 +1584,42 @@ Bloqueia alguém múltiplas vezes para o envenenares.</string>
   <string name="TouOptionBomberCanVent">Bombista Pode Usar Ventilação</string>
   <string name="TouRoleEclipsal">Eclipsador</string>
   <string name="TouRoleEclipsalIntroBlurb">Bloqueia a luz</string>
+  <string name="TouRoleEclipsalTabDescription">Cega jogadores para os prever de ver outros</string>
+  <string name="TouRoleEclipsalWikiDescription">O Eclipsador é uma Função Impostor Encobridor que pode impedir a visão de todos os tripulantes e neutros parecidos, dado que eles estejam perto do Eclipsador.</string>
+  <string name="TouRoleEclipsalBlind">Eclispse</string>
+  <string name="TouRoleEclipsalUnblinding">Eclipsando</string>
+  <string name="TouRoleEclipsalBlindWikiDescription">Cegar um jogador causa a sua visão ultrapassar o seu ecrã, deixando apenas eles ver o mapa e prever reportagens. Depois de algum tempo, eles vão ganhar de volta a sua visão e ter uma visão normal.</string>
+  <string name="TouOptionEclipsalBlindCooldown">Recarga do Eclipse</string>
+  <string name="TouOptionEclipsalBlindDuration">Duração do Eclipse</string>
+  <string name="TouOptionEclipsalBlindRadius">Área do Eclipse</string>
+  <string name="TouRoleEscapist">Fugitivo</string>
+  <string name="TouRoleEscapistIntroBlurb">Foge de mortes com facilidade</string>
+  <string name="TouRoleEscapistTabDescription">Marca uma localização, depois volta a
+qualquer tempo para fugir da cena do crime</string>
+  <string name="TouRoleEscapistWikiDescription">O Fugitivo é uma Função Impostor Encobridor que pode marcar uma localização e pode voltar para essa localização quando quiser.</string>
+  <string name="TouRoleEscapistMark">Marcar</string>
+  <string name="TouRoleEscapistMarkWikiDescription">Marca uma localização para usar mais tarde.</string>
+  <string name="TouRoleEscapistRecall">Voltar</string>
+  <string name="TouRoleEscapistRecallWikiDescription">Volta para a localização marcada.</string>
+  <string name="TouOptionEscapistRecallUsesPerGame">Usos Do Voltar Por Jogo</string>
+  <string name="TouOptionEscapistRecallCooldown">Recarga Do Voltar</string>
+  <string name="TouOptionEscapistEscapistCanVent">Fugitivo Pode Usar A Ventilação</string>
+  <string name="TouRoleGrenadier">Granadeiro</string>
+  <string name="TouRoleGrenadierIntroBlurb">Impede os Tripulantes de verem</string>
+  <string name="TouRoleGrenadierTabDescription">Causa um clarão para conseguires mortes sorrateiras</string>
+  <string name="TouRoleGrenadierWikiDescription">O Granadeiro é uma Função Impostor Encobridor que pode atirar granadas de atordoamento para cegar outros jogadores</string>
+  <string name="TouRoleGrenadierFlash">Granada</string>
+  <string name="TouRoleGrenadierFlashWikiDescription">Atira uma granada, cegando todos os jogadores na sua área.</string>
+  <string name="TouRoleGrenadierFlashNotif">Todos os jogadores perto de ti foram cegados pela tua granada!</string>
+  <string name="TouOptionGrenadierFlashUsesPerGame">Usos Da Granada Por Jogo</string>
+  <string name="TouOptionGrenadierFlashGrenadeCooldown">Recarga Da Granada De Atordoamento</string>
+  <string name="TouOptionGrenadierFlashGrenadeDuration">Duração Da Granada De Atordoamento</string>
+  <string name="TouOptionGrenadierFlashRadius">Área Da Granada De Atordoamento</string>
+  <string name="TouOptionGrenadierGrenadierCanVent">Granadeiro Pode Utilizar A Ventilação</string>
+  <string name="TouRoleHerbalist">Herborista</string>
+  <string name="TouRoleHerbalistIntroBlurb">Deixa as tuas plantas e ervas guiarem o caminho</string>
+  <string name="TouRoleHerbalistTabDescription">Usa o teu vasto conhecimento da natureza em outros.
+A tua recarga de matar não está ligada com outras habilidades.</string>
+  <string name="TouRoleHerbalistWikiDescription">O Herborista é uma Função Impostor Poderoso que tem várias habilidades ligadas numa única recarga (menos a habilidade de matar), ou para ajudar Impostores ou para afetar o que os outro vêm.</string>
+  <string name="TouRoleHerbalistExpose">Expor</string>
 </resources>
