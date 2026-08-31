@@ -217,8 +217,8 @@ public static class HudManagerPatches
     public static string GetRoleForSlot(RoleListOption slotValue)
     {
         var newVal = (int)slotValue;
-        var roleListText = RoleOptions.OptionStrings;
-        if (newVal >= 0 && newVal < roleListText.Length)
+        var roleListText = StoredRoleBuckets;
+        if (newVal >= 0 && newVal < roleListText.Count)
         {
             return roleListText[newVal];
         }
@@ -228,8 +228,8 @@ public static class HudManagerPatches
 
     public static string GetRoleForSlot(int slotValue)
     {
-        var roleListText = RoleOptions.OptionStrings;
-        if (slotValue >= 0 && slotValue < roleListText.Length)
+        var roleListText = StoredRoleBuckets;
+        if (slotValue >= 0 && slotValue < roleListText.Count)
         {
             return roleListText[slotValue];
         }
@@ -608,7 +608,7 @@ public static class HudManagerPatches
     public static string StoredMinimum { get; private set; } = "Min";
     public static string StoredMaximum { get; private set; } = "Max";
     public static string StoredDraftTitle { get; private set; } = "Draft Mode";
-    internal static List<string> StoredRoleBuckets =
+    public static List<string> StoredRoleBuckets =
     [
         "CrewInvestigative",
         "CrewKilling",
@@ -688,13 +688,11 @@ public static class HudManagerPatches
         NeutralKillers = listsNew[3];
         StoredMinimum = MiraLocaleManager.Get("MinimumShort");
         StoredMaximum = MiraLocaleManager.Get("MaximumShort");
-        List<string> localizedRoleList = [];
-        foreach (var bucket in StoredRoleBuckets)
+        StoredRoleBuckets.Clear();
+        foreach (var bucket in RoleOptions.OptionStrings)
         {
-            localizedRoleList.Add(MiscUtils.GetParsedRoleBucket(bucket));
+            StoredRoleBuckets.Add(MiraLocaleManager.Get(bucket));
         }
-
-        RoleOptions.OptionStrings = localizedRoleList.ToArray();
         if (!_registeredSoftModifiers)
         {
             var modifiers = MiscUtils.AllModifiers.Where(x =>

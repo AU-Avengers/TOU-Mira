@@ -287,6 +287,31 @@ Fake Tasks:</string>
   <string name="ImpKilling">Imp Killing</string>
   <string name="ImpPower">Imp Power</string>
   <string name="ImpSupport">Imp Support</string>
+
+    <string name="NeutralBenign.Colored">[color=#999999FF]Neutral[/color] Benign</string>
+    <string name="NeutralEvil.Colored">[color=#999999FF]Neutral[/color] Evil</string>
+    <string name="NeutralOutlier.Colored">[color=#999999FF]Neutral[/color] Outlier</string>
+    <string name="NeutralKilling.Colored">[color=#999999FF]Neutral[/color] Killing</string>
+    <string name="CommonCrew.Colored">Common [color=#66FFFFFF]Crew[/color]</string>
+    <string name="SpecialCrew.Colored">Special [color=#66FFFFFF]Crew[/color]</string>
+    <string name="RandomCrew.Colored">Random [color=#66FFFFFF]Crew[/color]</string>
+    <string name="CommonNeutral.Colored">Common [color=#999999FF]Neutral[/color]</string>
+    <string name="SpecialNeutral.Colored">Special [color=#999999FF]Neutral[/color]</string>
+    <string name="WildcardNeutral.Colored">Wildcard [color=#999999FF]Neutral[/color]</string>
+    <string name="RandomNeutral.Colored">Random [color=#999999FF]Neutral[/color]</string>
+    <string name="NonImp.Colored">Non-[color=#FF0000FF]Imp[/color]</string>
+    <string name="CommonImp.Colored">Common [color=#FF0000FF]Imp[/color]</string>
+    <string name="SpecialImp.Colored">Special [color=#FF0000FF]Imp[/color]</string>
+    <string name="RandomImp.Colored">Random [color=#FF0000FF]Imp[/color]</string>
+    <string name="CrewInvestigative.Colored">[color=#66FFFFFF]Crew[/color] Investigative</string>
+    <string name="CrewKilling.Colored">[color=#66FFFFFF]Crew[/color] Killing</string>
+    <string name="CrewPower.Colored">[color=#66FFFFFF]Crew[/color] Power</string>
+    <string name="CrewProtective.Colored">[color=#66FFFFFF]Crew[/color] Protective</string>
+    <string name="CrewSupport.Colored">[color=#66FFFFFF]Crew[/color] Support</string>
+    <string name="ImpConcealing.Colored">[color=#FF0000FF]Imp[/color] Concealing</string>
+    <string name="ImpKilling.Colored">[color=#FF0000FF]Imp[/color] Killing</string>
+    <string name="ImpPower.Colored">[color=#FF0000FF]Imp[/color] Power</string>
+    <string name="ImpSupport.Colored">[color=#FF0000FF]Imp[/color] Support</string>
   <!-- Keywords for use in ui to mark certain text into a certain color -->
   <string name="RolesHeader">[type] Roles</string>
   <string name="GameKeyword">Game</string>

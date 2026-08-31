@@ -13,37 +13,37 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
     public override Func<bool> GroupVisible => () => IsClassicRoleAssignment;
     internal static string[] OptionStrings =
     [
-        MiscUtils.GetParsedRoleBucket("CrewInvestigative"),
-        MiscUtils.GetParsedRoleBucket("CrewKilling"),
-        MiscUtils.GetParsedRoleBucket("CrewProtective"),
-        MiscUtils.GetParsedRoleBucket("CrewPower"),
-        MiscUtils.GetParsedRoleBucket("CrewSupport"),
+        "CrewInvestigative.Colored",
+        "CrewKilling.Colored",
+        "CrewProtective.Colored",
+        "CrewPower.Colored",
+        "CrewSupport.Colored",
 
-        MiscUtils.GetParsedRoleBucket("CommonCrew"),
-        MiscUtils.GetParsedRoleBucket("SpecialCrew"),
-        MiscUtils.GetParsedRoleBucket("RandomCrew"),
+        "CommonCrew.Colored",
+        "SpecialCrew.Colored",
+        "RandomCrew.Colored",
 
-        MiscUtils.GetParsedRoleBucket("NeutralBenign"),
-        MiscUtils.GetParsedRoleBucket("NeutralEvil"),
-        MiscUtils.GetParsedRoleBucket("NeutralKilling"),
-        MiscUtils.GetParsedRoleBucket("NeutralOutlier"),
+        "NeutralBenign.Colored",
+        "NeutralEvil.Colored",
+        "NeutralKilling.Colored",
+        "NeutralOutlier.Colored",
 
-        MiscUtils.GetParsedRoleBucket("CommonNeutral"),
-        MiscUtils.GetParsedRoleBucket("SpecialNeutral"),
-        MiscUtils.GetParsedRoleBucket("WildcardNeutral"),
-        MiscUtils.GetParsedRoleBucket("RandomNeutral"),
+        "CommonNeutral.Colored",
+        "SpecialNeutral.Colored",
+        "WildcardNeutral.Colored",
+        "RandomNeutral.Colored",
 
-        MiscUtils.GetParsedRoleBucket("ImpConcealing"),
-        MiscUtils.GetParsedRoleBucket("ImpKilling"),
-        MiscUtils.GetParsedRoleBucket("ImpPower"),
-        MiscUtils.GetParsedRoleBucket("ImpSupport"),
+        "ImpConcealing.Colored",
+        "ImpKilling.Colored",
+        "ImpPower.Colored",
+        "ImpSupport.Colored",
 
-        MiscUtils.GetParsedRoleBucket("CommonImp"),
-        MiscUtils.GetParsedRoleBucket("SpecialImp"),
-        MiscUtils.GetParsedRoleBucket("RandomImp"),
+        "CommonImp.Colored",
+        "SpecialImp.Colored",
+        "RandomImp.Colored",
 
-        MiscUtils.GetParsedRoleBucket("NonImp"),
-        MiscUtils.GetParsedRoleBucket("Any")
+        "NonImp.Colored",
+        "Any"
     ];
 
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleSettings");
