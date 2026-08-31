@@ -8,7 +8,6 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
@@ -20,8 +19,6 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     public bool CanBeCrewpostor => false;
     public bool CanBeEgotist => true;
     public bool CanBeOtherEvil => true;
-
-    private MeetingMenu meetingMenu;
     public override bool IsAffectedByComms => false;
 
     public bool CanCampaign { get; set; } = true;
@@ -81,71 +78,19 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         return stringB;
     }
 
-    public override void Initialize(PlayerControl player)
-    {
-        RoleBehaviourStubs.Initialize(this, player);
-
-        if (Player.AmOwner)
-        {
-            var classic = LegacyAssets.IsLegacy;
-            meetingMenu = new MeetingMenu(
-                this,
-                Click,
-                classic ? string.Empty : MiraLocaleManager.Get("TownOfUsMira.Role.PoliticianReveal"),
-                MeetingAbilityType.Click,
-                classic ? LegacyAssets.RevealButtonSprite : TouAssets.RevealCleanSprite,
-                null!,
-                IsExempt)
-            {
-                Position = new Vector3(-0.35f, 0f, -3f)
-            };
-        }
-    }
-
     public override void OnMeetingStart()
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
         CanCampaign = true;
-
-        var meeting = MeetingHud.Instance;
-        if (Player.AmOwner && meeting != null)
-            // Message($"PoliticianRole.OnMeetingStart '{Player.Data.PlayerName}' {Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>()}");
-        {
-            meetingMenu.GenButtons(meeting,
-                Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
-        }
     }
 
-    public override void OnVotingComplete()
-    {
-        RoleBehaviourStubs.OnVotingComplete(this);
-
-        if (Player.AmOwner)
-        {
-            meetingMenu.HideButtons();
-        }
-    }
-
-    public override void Deinitialize(PlayerControl targetPlayer)
-    {
-        RoleBehaviourStubs.Deinitialize(this, targetPlayer);
-
-        if (Player.AmOwner)
-        {
-            meetingMenu?.Dispose();
-            meetingMenu = null!;
-        }
-    }
-
-    public void Click(PlayerVoteArea voteArea, MeetingHud __)
+    public void AttemptReveal()
     {
         if (!Player.AmOwner)
         {
             return;
         }
-
-        meetingMenu.HideButtons();
 
         // All living crewmates excluding the Politician
         var aliveCrew = PlayerControl.AllPlayerControls.ToArray()
@@ -175,10 +120,5 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             var title = $"<color=#{TownOfUsColors.Mayor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.PoliticianFeedbackText")}</color>";
             MiscUtils.AddFakeChat(Player.Data, title, text, false, true);
         }
-    }
-
-    public bool IsExempt(PlayerVoteArea voteArea)
-    {
-        return voteArea?.PlayerId != Player.PlayerId;
     }
 }

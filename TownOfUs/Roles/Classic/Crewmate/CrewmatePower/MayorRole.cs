@@ -26,8 +26,6 @@ public sealed class MayorRole(IntPtr cppPtr)
     public bool CanBeOtherEvil => true;
     public bool IsDraftable => false;
     public static GameObject MayorPlayer;
-
-    private MeetingMenu meetingMenu;
     public bool Revealed { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string IdPart => "Mayor";
@@ -90,22 +88,6 @@ public sealed class MayorRole(IntPtr cppPtr)
             var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.PlayerId == player.PlayerId);
             Coroutines.Start(CoAnimateReveal(targetVoteArea));
         }
-
-        if (Player.AmOwner)
-        {
-            var classic = LegacyAssets.IsLegacy;
-            meetingMenu = new MeetingMenu(
-                this,
-                Click,
-                classic ? string.Empty : MiraLocaleManager.Get("TownOfUsMira.Role.PoliticianReveal"),
-                MeetingAbilityType.Click,
-                classic ? LegacyAssets.RevealButtonSprite : TouAssets.RevealCleanSprite,
-                null!,
-                IsExempt)
-            {
-                Position = new Vector3(-0.35f, 0f, -3f)
-            };
-        }
     }
 
     public override void OnMeetingStart()
@@ -123,45 +105,6 @@ public sealed class MayorRole(IntPtr cppPtr)
         {
             Coroutines.Start(CoAnimatePostReveal(targetVoteArea));
         }
-
-        if (Player.AmOwner && !Revealed)
-            // Message($"PoliticianRole.OnMeetingStart '{Player.Data.PlayerName}' {Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>()}");
-        {
-            meetingMenu.GenButtons(meeting,
-                Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
-        }
-    }
-
-    public override void OnVotingComplete()
-    {
-        RoleBehaviourStubs.OnVotingComplete(this);
-
-        if (Player.AmOwner)
-        {
-            meetingMenu.HideButtons();
-        }
-    }
-
-    public override void Deinitialize(PlayerControl targetPlayer)
-    {
-        RoleBehaviourStubs.Deinitialize(this, targetPlayer);
-
-        if (Player.AmOwner)
-        {
-            meetingMenu?.Dispose();
-            meetingMenu = null!;
-        }
-    }
-
-    public void Click(PlayerVoteArea voteArea, MeetingHud __)
-    {
-        if (!Player.AmOwner)
-        {
-            return;
-        }
-
-        meetingMenu.HideButtons();
-        RpcAnimateNewReveal(Player);
     }
 
     [MethodRpc((uint)TownOfUsRpc.AnimateNewReveal)]
@@ -184,12 +127,6 @@ public sealed class MayorRole(IntPtr cppPtr)
 
         var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.PlayerId == plr.PlayerId);
         Coroutines.Start(CoAnimateReveal(targetVoteArea));
-    }
-
-
-    public bool IsExempt(PlayerVoteArea voteArea)
-    {
-        return voteArea?.PlayerId != Player.PlayerId;
     }
 
     private static IEnumerator CoAnimateReveal(PlayerVoteArea voteArea)

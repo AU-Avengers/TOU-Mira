@@ -20,50 +20,6 @@ namespace TownOfUs.Events.Crewmate;
 
 public static class ProsecutorEvents
 {
-    [RegisterEvent(1000)]
-    public static void BeforeLocalVoteEvent(BeforeVoteEvent @event)
-    {
-        // Players who are dead can no longer vote, and dead player can't be voted either. Blackmailed players can't vote as well.
-        var voteArea = @event.VoteArea;
-        var votedPlayer = voteArea.GetPlayer();
-        if (PlayerControl.LocalPlayer.HasDied() || (votedPlayer != null && votedPlayer.HasDied()) ||
-            PlayerControl.LocalPlayer.TryGetModifier<BlackmailedModifier>(out var bm) && bm.IsVoteReady && !bm.AboutToVote)
-        {
-            @event.Cancel();
-            return;
-        }
-
-        if (PlayerControl.LocalPlayer.Data.Role is not ProsecutorRole prosecutor)
-        {
-            return;
-        }
-
-        if (voteArea.Parent.state is MeetingHud.MeetingStates.Proceeding or MeetingHud.MeetingStates.Results)
-        {
-            @event.Cancel();
-            return;
-        }
-
-        if (voteArea == prosecutor.ProsecuteButton && !prosecutor.SelectingProsecuteVictim)
-        {
-            prosecutor.SelectingProsecuteVictim = true;
-            @event.Cancel();
-            return;
-        }
-
-        if (voteArea != prosecutor.ProsecuteButton && voteArea != MeetingHud.Instance.SkipVoteButton &&
-            prosecutor.SelectingProsecuteVictim)
-        {
-            ProsecutorRole.RpcProsecute(PlayerControl.LocalPlayer, voteArea.PlayerId);
-        }
-
-        if (voteArea == MeetingHud.Instance.SkipVoteButton && prosecutor.SelectingProsecuteVictim)
-        {
-            prosecutor.SelectingProsecuteVictim = false;
-            prosecutor.ProsecuteVictim = byte.MaxValue;
-        }
-    }
-
     [RegisterEvent]
     public static void VoteEvent(CheckForEndVotingEvent @event)
     {
@@ -137,7 +93,6 @@ public static class ProsecutorEvents
             // if someone dies after the Prosecutor selected them, it will not be a valid prosecute
             if (pros.ProsecuteVictim == target.PlayerId)
             {
-                pros.SelectingProsecuteVictim = false;
                 pros.ProsecuteVictim = byte.MaxValue;
             }
         }

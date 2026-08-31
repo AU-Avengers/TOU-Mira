@@ -5,8 +5,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -16,8 +14,6 @@ namespace TownOfUs.Roles.Impostor;
 public sealed class HypnotistRole(IntPtr cppPtr)
     : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
-    private MeetingMenu meetingMenu;
-
     public bool HysteriaActive { get; set; }
 
     public void FixedUpdate()
@@ -77,76 +73,12 @@ public sealed class HypnotistRole(IntPtr cppPtr)
         }
     }
 
-    public override void Initialize(PlayerControl player)
-    {
-        RoleBehaviourStubs.Initialize(this, player);
-
-        if (Player.AmOwner)
-        {
-            var classic = LegacyAssets.IsLegacy;
-            meetingMenu = new MeetingMenu(
-                this,
-                Click,
-                classic ? string.Empty : MiraLocaleManager.Get("TownOfUsMira.Role.HypnotistMassHysteria"),
-                MeetingAbilityType.Click,
-                classic ? LegacyAssets.HysteriaSprite : TouAssets.HysteriaCleanSprite,
-                null!,
-                IsExempt)
-            {
-                Position = new Vector3(-0.40f, 0f, -3f)
-            };
-        }
-    }
-
-    public override void OnMeetingStart()
-    {
-        RoleBehaviourStubs.OnMeetingStart(this);
-
-        var meeting = MeetingHud.Instance;
-        if (Player.AmOwner && meeting != null)
-        {
-            meetingMenu.GenButtons(meeting,
-                Player.AmOwner && !Player.HasDied() && !HysteriaActive && !Player.HasModifier<JailedModifier>());
-        }
-    }
-
-    public override void OnVotingComplete()
-    {
-        RoleBehaviourStubs.OnVotingComplete(this);
-
-        if (Player.AmOwner)
-        {
-            meetingMenu.HideButtons();
-        }
-    }
-
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         TouRoleUtils.ClearTaskHeader(Player);
 
         HysteriaActive = false;
-
-        if (Player.AmOwner)
-        {
-            meetingMenu?.Dispose();
-            meetingMenu = null!;
-        }
-    }
-
-    public void Click(PlayerVoteArea voteArea, MeetingHud __)
-    {
-        RpcHysteria(Player);
-
-        if (Player.AmOwner)
-        {
-            meetingMenu.HideButtons();
-        }
-    }
-
-    public bool IsExempt(PlayerVoteArea voteArea)
-    {
-        return voteArea?.PlayerId != Player.PlayerId;
     }
 
     [MethodRpc((uint)TownOfUsRpc.Hysteria)]

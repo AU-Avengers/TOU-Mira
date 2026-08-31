@@ -7,6 +7,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using MiraAPI.Voting;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
@@ -21,52 +22,15 @@ namespace TownOfUs.Roles.Crewmate;
 
 public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
 {
-    [HideFromIl2Cpp] public PlayerVoteArea? ProsecuteButton { get; private set; }
     public static bool HasProsecutedBefore { get; internal set; }
 
     public bool HasProsecuted { get; private set; }
 
     public byte ProsecuteVictim { get; set; } = byte.MaxValue;
 
-    public bool SelectingProsecuteVictim { get; set; }
     public bool HideProsButton { get; set; }
 
     public int ProsecutionsCompleted { get; set; }
-
-    public void FixedUpdate()
-    {
-        if (!Player || Player.Data.Role is not ProsecutorRole)
-        {
-            return;
-        }
-
-        var meeting = MeetingHud.Instance;
-
-        if (!Player.AmOwner || meeting == null || ProsecuteButton == null)
-        {
-            return;
-        }
-
-        ProsecuteButton.gameObject.SetActive(!HideProsButton && meeting.state == MeetingHud.MeetingStates.NotVoted &&
-                                             !SelectingProsecuteVictim);
-
-        if (!ProsecuteButton.gameObject.active)
-        {
-            return;
-        }
-
-        if (meeting.state == MeetingHud.MeetingStates.Discussion &&
-            meeting.discussionTimer < GameOptionsManager.Instance.currentNormalGameOptions.DiscussionTime)
-        {
-            ProsecuteButton.SetDisabled();
-        }
-        else
-        {
-            ProsecuteButton.SetEnabled();
-        }
-
-        ProsecuteButton.VoteComplete = meeting.SkipVoteButton.VoteComplete;
-    }
 
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Prosecutor";
@@ -136,42 +100,9 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         }
     }
 
-    public override void OnMeetingStart()
-    {
-        RoleBehaviourStubs.OnMeetingStart(this);
-
-        var meeting = MeetingHud.Instance;
-        if (!Player.AmOwner || meeting == null ||
-            ProsecutionsCompleted >= OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions)
-        {
-            return;
-        }
-
-        var skip = meeting.SkipVoteButton;
-        ProsecuteButton = Instantiate(skip, skip.transform.parent);
-        ProsecuteButton.Parent = meeting;
-        ProsecuteButton.SetPlayerId(251);
-        ProsecuteButton.transform.localPosition = skip.transform.localPosition + new Vector3(0f, -0.17f, 0f);
-
-        ProsecuteButton.gameObject.GetComponentInChildren<TextTranslatorTMP>().Destroy();
-        ProsecuteButton.gameObject.GetComponentInChildren<TextMeshPro>().text =
-            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Prosecute").ToUpperInvariant();
-        ProsecuteButton.gameObject.name = "button_prosecuteButton";
-
-        foreach (var plr in meeting.playerStates.AddItem(skip))
-        {
-            plr.gameObject.GetComponentInChildren<PassiveButton>().OnClick
-                .AddListener((UnityAction)(() => ProsecuteButton.ClearButtons()));
-        }
-
-        skip.transform.localPosition += new Vector3(0f, 0.20f, 0f);
-    }
-
     public void Cleanup()
     {
         HideProsButton = false;
-        ProsecuteButton = null;
-        SelectingProsecuteVictim = false;
         ProsecuteVictim = byte.MaxValue;
 
         if (HasProsecuted)
@@ -203,6 +134,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
         prosecutorRole.HasProsecuted = true;
         prosecutorRole.ProsecuteVictim = Victim;
+        VotingUtils.CustomCastVote(plr.PlayerId, Victim);
     }
 
     [MethodRpc((uint)TownOfUsRpc.ShowProsAnimation)]
