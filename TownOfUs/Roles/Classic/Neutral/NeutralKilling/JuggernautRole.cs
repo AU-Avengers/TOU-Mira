@@ -33,6 +33,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     public int KillCount { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
     public string IdPart => "Juggernaut";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
 
     public string GetAdvancedDescription()
     {

@@ -28,6 +28,7 @@ public sealed class SurvivorRole(IntPtr cppPtr)
 
     public DoomableType DoomHintType => DoomableType.Protective;
     public string IdPart => "Survivor";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
 
     public string GetAdvancedDescription()
     {

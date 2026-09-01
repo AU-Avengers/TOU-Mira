@@ -65,6 +65,7 @@ public sealed class JesterRole(IntPtr cppPtr)
 
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string IdPart => "Jester";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
 
     public string GetAdvancedDescription()
     {

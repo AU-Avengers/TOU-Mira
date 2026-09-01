@@ -34,6 +34,7 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
 
     public DoomableType DoomHintType => DoomableType.Insight;
     public string IdPart => "Blackmailer";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.IntroBlurb";
 
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;

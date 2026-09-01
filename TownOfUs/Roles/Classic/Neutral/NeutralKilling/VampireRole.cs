@@ -35,6 +35,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
     public string YouAreText => MiraLocaleManager.Get("YouAreA");
     public string YouWereText => MiraLocaleManager.Get("YouWereA");
     public string IdPart => "Vampire";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
     public bool IsDoubleDraftRole => true;
 
     public string GetAdvancedDescription()

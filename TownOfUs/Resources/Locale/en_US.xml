@@ -668,7 +668,7 @@ You may disable this message through your option menu.</string>
     <string name="TownOfUsMira.BetterMaps.Option.SubmergedSpawnEnumLowerDeck">Lower Deck</string>
     <!-- Better LI Options -->
     <string name="TownOfUsMira.Options.Groups.BetterLevelImpostor">Better Level Impostor</string>
-    <string name="TownOfUsMira.TownOfPolus.Role.TabText">Role: \%roleName\% \%nl\%\%description\%</string>
+    <string name="TownOfUsMira.TownOfPolus.Role.TabText">Role: [roleName] [nl][description]</string>
     <string name="TownOfUsMira.TownOfPolus.Role.FakeTaskTabText">Fake Tasks:</string>
     <string name="TownOfUsMira.TownOfPolus.Role.CrewDescription">Finish your tasks.</string>
     <string name="TownOfUsMira.TownOfPolus.Role.CrewDescriptionDead">You're dead, finish your tasks.</string>
@@ -679,34 +679,40 @@ You may disable this message through your option menu.</string>
     <!-- Engineer Wiki / Abilities -->
     <string name="TownOfUsMira.TownOfPolus.Role.Engineer">Engineer</string>
     <string name="TownOfUsMira.TownOfPolus.Role.Engineer.IntroBlurb">Maintain the outpost</string>
-    <string name="TownOfUsMira.TownOfPolus.Role.Engineer.TabDescription">Finish your tasks.\%nl\%You can fix 1 sabotage.</string>
+    <string name="TownOfUsMira.TownOfPolus.Role.Engineer.TabDescription">Finish your tasks.[nl]You can fix 1 sabotage.</string>
+    <string name="TownOfUsMira.TownOfPolus.Role.Engineer.MedDescription">Repair a single sabotage remotely.</string>
     <string name="TownOfUsMira.TownOfPolus.Role.Engineer.WikiDescription">The Engineer is a Crewmate role that can fix one sabotage per game, from anywhere on the map.</string>
     <!-- Swooper Wiki / Abilities -->
     <string name="TownOfUsMira.TownOfPolus.Role.Swooper">Swooper</string>
     <string name="TownOfUsMira.TownOfPolus.Role.Swooper.IntroBlurb">Use the Swoop ability to turn invisible</string>
-    <string name="TownOfUsMira.TownOfPolus.Role.Swooper.TabDescription">Sabotage and kill the crewmates.\%nl\%Use the Swoop ability to turn invisible.</string>
+    <string name="TownOfUsMira.TownOfPolus.Role.Swooper.TabDescription">Sabotage and kill the crewmates.[nl]Use the Swoop ability to turn invisible.</string>
+    <string name="TownOfUsMira.TownOfPolus.Role.Swooper.MedDescription">Turn invisible at any time to run or hide.</string>
     <string name="TownOfUsMira.TownOfPolus.Role.Swooper.WikiDescription">The Swooper is an Impostor role that can go invisible at any time to either hide or run away from kills. However, they cannot vent.</string>
     <!-- SerialKiller Wiki / Abilities -->
     <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller">Serial Killer</string>
     <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.IntroBlurb">Kill everyone</string>
     <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.TabDescription">Kill everyone.</string>
+    <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.MedDescription">Kill everyone in your way.</string>
     <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.WikiDescription">The Serial Killer is a Neutral role that has the sole goal of killing every player. If they do not kill the minimum amount of players needed, they will lose.</string>
     <!-- Spectator - Game Outlier -->
     <string name="TownOfUsMira.Role.Spectator">Spectator</string>
     <string name="TownOfUsMira.Role.Spectator.IntroBlurb">Watch the chaos from afar</string>
     <string name="TownOfUsMira.Role.Spectator.TabDescription">Never participate, watch as the chaos unfolds in-game!</string>
+    <string name="TownOfUsMira.Role.Spectator.MedDescription">Spectate as the game goes on.</string>
     <string name="TownOfUsMira.Role.Spectator.WikiDescription">You don't participate in-game nor interact with players. All you can do is watch.</string>
     <!-- Outcast - Frenzy Killer -->
     <!-- Outcast Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Outcast">Outcast</string>
     <string name="TownOfUsMira.Role.Outcast.IntroBlurb">Fight against the supernatural.</string>
     <string name="TownOfUsMira.Role.Outcast.TabDescription">Use your vision and venting to your advantage.</string>
+    <string name="TownOfUsMira.Role.Outcast.MedDescription">Vent and use your extended vision to eliminate the competition.</string>
     <string name="TownOfUsMira.Role.Outcast.WikiDescription">The Outcast is a basic killer, with the ability to vent and being able to see farther than any other killer.</string>
     <!-- Hide and Seek - Hiders -->
     <!-- Chameleon Wiki / Description -->
     <string name="TownOfUsMira.HideAndSeek.Role.Chameleon">Chameleon</string>
     <string name="TownOfUsMira.HideAndSeek.Role.Chameleon.TabHint">Chameleon Hint</string>
     <string name="TownOfUsMira.HideAndSeek.Role.Chameleon.TabDescription">Hide away from the seeker temporarily.</string>
+    <string name="TownOfUsMira.HideAndSeek.Role.Chameleon.MedDescription">Go invisible from the seeker to defend yourself.</string>
     <string name="TownOfUsMira.HideAndSeek.Role.Chameleon.WikiDescription">The Chameleon is a Crewmate that can temporarily go invisible to hide from the seeker.</string>
     <string name="TownOfUsMira.HideAndSeek.Role.ChameleonSwoop">Swoop</string>
     <string name="TownOfUsMira.HideAndSeek.Role.ChameleonSwoop.WikiDescription">Turn invisible to the seeker.</string>
@@ -721,12 +727,14 @@ You may disable this message through your option menu.</string>
     <string name="TownOfUsMira.HideAndSeek.Role.Mystic">Mystic</string>
     <string name="TownOfUsMira.HideAndSeek.Role.Mystic.TabHint">Mystic Hint</string>
     <string name="TownOfUsMira.HideAndSeek.Role.Mystic.TabDescription">Understand where kills happen.</string>
+    <string name="TownOfUsMira.HideAndSeek.Role.Mystic.MedDescription">Get immediate feedback on where crewmates die.</string>
     <string name="TownOfUsMira.HideAndSeek.Role.Mystic.WikiDescription">The Mystic is a Crewmate that gets an arrow pointing to every kill.</string>
     <!-- Mystic Options -->
     <string name="TownOfUsMira.HideAndSeek.Modifier.Option.MysticDeadBodyArrowDuration">Dead Body Arrow Duration</string>
     <!-- Snitch Wiki / Description -->
     <string name="TownOfUsMira.HideAndSeek.Role.Snitch">Snitch</string>
     <string name="TownOfUsMira.HideAndSeek.Role.Snitch.TabHint">Snitch Hint</string>
+    <string name="TownOfUsMira.HideAndSeek.Role.Snitch.MedDescription">Decrease the timer quicker with tasks, but risk your location in the process.</string>
     <string name="TownOfUsMira.HideAndSeek.Role.Snitch.TabDescription">Your tasks decrease the timer quicker,
 at the cost of outing your location.</string>
     <string name="TownOfUsMira.HideAndSeek.Role.Snitch.WikiDescription">The Snitch is a Crewmate that decreases the time remaining quicker than other players with tasks, but at the cost of outing themselves to the seeker.</string>
@@ -738,6 +746,7 @@ at the cost of outing your location.</string>
     <!-- Noisemaker Wiki / Description -->
     <string name="TownOfUsMira.HideAndSeek.Role.Noisemaker">Noisemaker</string>
     <string name="TownOfUsMira.HideAndSeek.Role.Noisemaker.TabHint">Noisemaker Hint</string>
+    <string name="TownOfUsMira.HideAndSeek.Role.Noisemaker.MedDescription">Alert the crewmates upon your death.</string>
     <string name="TownOfUsMira.HideAndSeek.Role.Noisemaker.TabDescription">Alert all crewmates of your location when killed.</string>
     <string name="TownOfUsMira.HideAndSeek.Role.Noisemaker.WikiDescription">The Noisemaker is a Crewmate that alerts all players on the map once they are killed, showing a red body indicator.</string>
     <!-- Frosty Modifier Wiki / Description -->
@@ -772,6 +781,8 @@ at the cost of outing your location.</string>
     <!-- Camouflager Wiki / Description -->
     <string name="TownOfUsMira.HideAndSeek.Role.Camouflager">Camouflager</string>
     <string name="TownOfUsMira.HideAndSeek.Role.Camouflager.TabHint">Camouflager Hint</string>
+    <string name="TownOfUsMira.HideAndSeek.Role.Camouflager.MedDescription">Blend in among the hiders.
+Make them believe what isn't.</string>
     <string name="TownOfUsMira.HideAndSeek.Role.Camouflager.TabDescription">Confuse the hiders by blending in.</string>
     <string name="TownOfUsMira.HideAndSeek.Role.Camouflager.WikiDescription">The Camouflager is an Impostor that can temporarily make all players appear the same as themselves.</string>
     <string name="TownOfUsMira.HideAndSeek.Role.CamouflagerCamo">Camo</string>
@@ -785,6 +796,7 @@ at the cost of outing your location.</string>
     <!-- Necromancer - Impostor Cultist -->
     <string name="TownOfUsMira.Cultist.Role.Necromancer">Necromancer</string>
     <string name="TownOfUsMira.Cultist.Role.Necromancer.IntroBlurb">Revive the dead to do your bidding</string>
+    <string name="TownOfUsMira.Cultist.Role.Necromancer.MedDescription">Revive the willing dead to become a part of the cult.</string>
     <string name="TownOfUsMira.Cultist.Role.Necromancer.TabDescription">Kill crewmates and convert believers
 into equivalent impostor roles!</string>
     <string name="TownOfUsMira.Cultist.Role.Necromancer.WikiDescription">The Necromancer is an Impostor Cultist role that can kill players like normal, but can also revive Crewmate Believers into Impostor Followers.</string>
@@ -795,6 +807,7 @@ into equivalent impostor roles!</string>
     <!-- Altruist - Crewmate Protective -->
     <string name="TownOfUsMira.Role.Altruist">Altruist</string>
     <string name="TownOfUsMira.Role.Altruist.IntroBlurb">Revive dead crewmates</string>
+    <string name="TownOfUsMira.Role.Altruist.MedDescription">Revive dead crewmates.</string>
     <string name="TownOfUsMira.Role.Altruist.TabDescription">Revive dead crewmates in groups.</string>
     <string name="TownOfUsMira.Role.Altruist.TabDescription.GroupSacrifice">Sacrifice yourself for dead crewmates in groups
 at the cost of your own life.</string>
@@ -828,6 +841,8 @@ at the cost of your own life.</string>
     <!-- Aurial - Crewmate Investigative -->
     <string name="TownOfUsMira.Role.Aurial">Aurial</string>
     <string name="TownOfUsMira.Role.Aurial.IntroBlurb">Sense disturbances in your aura.</string>
+    <string name="TownOfUsMira.Role.Aurial.MedDescription">Feel where exactly abilities are used in your area.
+If done very close, you can see the source's color.</string>
     <string name="TownOfUsMira.Role.Aurial.TabDescription">Any player abilities used within your aura you will sense</string>
     <!-- Aurial Wiki -->
     <string name="TownOfUsMira.Role.Aurial.WikiDescription">The Aurial is a Crewmate Investigative role that will be alerted whenever a player near them uses one of their abilities.</string>
@@ -838,6 +853,8 @@ at the cost of your own life.</string>
     <!-- Cleric - Crewmate Protective -->
     <string name="TownOfUsMira.Role.Cleric">Cleric</string>
     <string name="TownOfUsMira.Role.Cleric.IntroBlurb">Save the crewmates</string>
+    <string name="TownOfUsMira.Role.Cleric.MedDescription">Barrier crewmates to prevent interactions.
+Cleanse them to eliminate negative effects.</string>
     <string name="TownOfUsMira.Role.Cleric.TabDescription">Cleanse negative effects off of crewmates and
 cast Barriers to stop any interactions altogether</string>
     <string name="TownOfUsMira.Role.ClericTabProtecting">Barrier On: [player]</string>
@@ -861,6 +878,7 @@ cast Barriers to stop any interactions altogether</string>
     <!-- Deputy Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Deputy">Deputy</string>
     <string name="TownOfUsMira.Role.Deputy.IntroBlurb">Camp crewmates to catch their killer</string>
+    <string name="TownOfUsMira.Role.Deputy.MedDescription">Camp crewmates. After their death, attempt to blast their killer.</string>
     <string name="TownOfUsMira.Role.Deputy.TabDescription">Camp crewmates, then shoot their killer in the meeting!</string>
     <string name="TownOfUsMira.Role.Deputy.WikiDescription">The Deputy is a Crewmate Killing role that can camp other players. Once a camped player dies, the Deputy is alerted to their death. The following meeting, the Deputy may then attempt to shoot the killer of the camped player. If successful the killer dies and if not nothing happens.</string>
     <string name="TownOfUsMira.Role.DeputyCamp">Camp</string>
@@ -882,6 +900,7 @@ cast Barriers to stop any interactions altogether</string>
     <!-- Forensic Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Forensic">Forensic</string>
     <string name="TownOfUsMira.Role.Forensic.IntroBlurb">Inspect crime scenes to find the killer</string>
+    <string name="TownOfUsMira.Role.Forensic.MedDescription">Inspect crime scenes to find suspects at the scene of murders.</string>
     <string name="TownOfUsMira.Role.Forensic.TabDescription">Inspect crime scenes, then examine players to
 see if they were at the scene.</string>
     <string name="TownOfUsMira.Role.Forensic.WikiDescription">The Forensic is a Crewmate Investigative role that can inspect crime scenes and examine players to see if they were at the crime scene, flashing red if they were there.</string>
@@ -918,6 +937,7 @@ They might be the killer or a witness.</string>
     <!-- Barkeeper Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Barkeeper">Barkeeper</string>
     <string name="TownOfUsMira.Role.Barkeeper.IntroBlurb">Roleblock Evildoers to slow them down</string>
+    <string name="TownOfUsMira.Role.Barkeeper.MedDescription">Drink with Evildoers to disable their abilities temporarily.</string>
     <string name="TownOfUsMira.Role.Barkeeper.TabDescription">Roleblock Evildoers to disable their abilities for [blockTime]s.</string>
     <string name="TownOfUsMira.Role.Barkeeper.WikiDescription">The Barkeeper is a Crewmate Support role that can drink with others to roleblock them. They may also spill a drink to speed or slow down players.</string>
     <string name="TownOfUsMira.Role.BarkeeperRoleblock">Roleblock</string>
@@ -945,6 +965,7 @@ They might be the killer or a witness.</string>
     <!-- Engineer Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Engineer">Engineer</string>
     <string name="TownOfUsMira.Role.Engineer.IntroBlurb">Maintain important systems on the ship</string>
+    <string name="TownOfUsMira.Role.Engineer.MedDescription">Repair sabotages remotely, and vent around if needed.</string>
     <string name="TownOfUsMira.Role.Engineer.TabDescription">Vent around and fix sabotages remotely</string>
     <string name="TownOfUsMira.Role.Engineer.WikiDescription">The Engineer is a Crewmate Support role that can vent and fix sabotages remotely.</string>
     <string name="TownOfUsMira.Role.EngineerFix">Fix</string>
@@ -962,6 +983,7 @@ They might be the killer or a witness.</string>
     <!-- Haunter Wiki / Description -->
     <string name="TownOfUsMira.Role.Haunter">Haunter</string>
     <string name="TownOfUsMira.Role.Haunter.IntroBlurb">Reveal the impostors postmortem!</string>
+    <string name="TownOfUsMira.Role.Haunter.MedDescription">Reveal the Impostors long after your death.</string>
     <!-- You cannot start the game as this role, so an intro blurb is unnecessary -->
     <string name="TownOfUsMira.Role.Haunter.TabDescription">Complete all your tasks without getting caught to reveal impostors!</string>
     <string name="TownOfUsMira.Role.Haunter.WikiDescription">The Haunter is a Crewmate Ghost who can do tasks. They will appear as a transparent player. If they finish all their tasks, all living players will see who the Impostors are. However, if an Impostor clicks them first, they will become a normal ghost. Impostors get a warning shortly before and when the Haunter finishes their tasks.</string>
@@ -982,7 +1004,8 @@ They might be the killer or a witness.</string>
     <!-- Hunter - Crewmate Killing -->
     <!-- Hunter Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Hunter">Hunter</string>
-    <string name="TownOfUsMira.Role.Hunter.IntroBlurb">Stalk the [color=#FF0000FF]Impostors[/color]</string>
+    <string name="TownOfUsMira.Role.Hunter.IntroBlurb">Stalk the [color=#FF0000FF]Evildoers[/color]</string>
+    <string name="TownOfUsMira.Role.Hunter.MedDescription">Stalk others to be able to kill them if they use an ability in the timeframe.</string>
     <string name="TownOfUsMira.Role.Hunter.TabDescription">Stalk players to get alerted when they use an ability.
 Once they use an ability, you may kill them.</string>
     <string name="TownOfUsMira.Role.HunterCaughtPlayersText">Caught Players:</string>
@@ -1010,6 +1033,7 @@ Once they use an ability, you may kill them.</string>
     <string name="TownOfUsMira.Role.Imitator">Imitator</string>
     <string name="TownOfUsMira.Role.ImitatorShortName">Imi</string>
     <string name="TownOfUsMira.Role.Imitator.IntroBlurb">Use the dead to benefit the Crew</string>
+    <string name="TownOfUsMira.Role.Imitator.MedDescription">Imitate the dead as what they once were.</string>
     <string name="TownOfUsMira.Role.Imitator.TabDescription">Use dead players to benefit the crew via imitation in meetings</string>
     <string name="TownOfUsMira.Role.Imitator.WikiDescription">The Imitator is a Crewmate Support role that can select a dead crewmate to imitate their role until they change targets. Certain roles are inaccessible if there are multiple living imitators.</string>
     <string name="TownOfUsMira.Role.ImitatorCrewmateImitation">Crewmate Imitation</string>
@@ -1028,6 +1052,7 @@ Once they use an ability, you may kill them.</string>
     <!-- Investigator Wiki / Description -->
     <string name="TownOfUsMira.Role.Investigator">Investigator</string>
     <string name="TownOfUsMira.Role.Investigator.IntroBlurb">Find evildoers by tracing footsteps</string>
+    <string name="TownOfUsMira.Role.Investigator.MedDescription">Watch where others are going by following footsteps.</string>
     <string name="TownOfUsMira.Role.Investigator.TabDescription">You can see everyone's footprints.</string>
     <string name="TownOfUsMira.Role.Investigator.WikiDescription">The Investigator is a Crewmate Investigative role can see player's footprints throughout the game. Swooped players' footprints will not be visible to the Investigator.</string>
     <!-- Investigator Options -->
@@ -1069,6 +1094,7 @@ execute them if you so desire</string>
     <!-- Lookout Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Lookout">Lookout</string>
     <string name="TownOfUsMira.Role.Lookout.IntroBlurb">Keep your eyes wide open</string>
+    <string name="TownOfUsMira.Role.Lookout.MedDescription">Watch other crewmates to see who or what interacts with them.</string>
     <string name="TownOfUsMira.Role.Lookout.TabDescription">Watch other crewmates to see what roles interact with them</string>
     <string name="TownOfUsMira.Role.Lookout.AltTabDescription">Watch other crewmates to see who interacts with them</string>
     <string name="TownOfUsMira.Role.Lookout.WikiDescription">The Lookout is a Crewmate Investigative role that can watch other players during rounds. During meetings, they will see all roles or players who interact with each watched player.</string>
@@ -1091,6 +1117,7 @@ execute them if you so desire</string>
     <!-- Mayor Wiki / Description -->
     <string name="TownOfUsMira.Role.Mayor">Mayor</string>
     <string name="TownOfUsMira.Role.Mayor.IntroBlurb">Reveal yourself to save the Crew</string>
+    <string name="TownOfUsMira.Role.Mayor.MedDescription">Reveal yourself at the opportune moment to take hold of meetings for the Crewmates.</string>
     <string name="TownOfUsMira.Role.Mayor.TabDescription">Lead the crew to victory!</string>
     <string name="TownOfUsMira.Role.Mayor.TabDescriptionEgo">Lead the evils to victory!</string>
     <string name="TownOfUsMira.Role.MayorUnrevealedTabText">Reveal yourself whenever you wish.</string>
@@ -1099,6 +1126,7 @@ execute them if you so desire</string>
     <!-- Medic Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Medic">Medic</string>
     <string name="TownOfUsMira.Role.Medic.IntroBlurb">Create a shield to protect a Crewmate</string>
+    <string name="TownOfUsMira.Role.Medic.MedDescription">Create a shield to protect the Crewmates from attacks.</string>
     <string name="TownOfUsMira.Role.Medic.TabDescription">Protect a crewmate with a shield to defend them from attacks</string>
     <string name="TownOfUsMira.Role.MedicTabProtecting">Shielded: [player]</string>
     <string name="TownOfUsMira.Role.Medic.WikiDescription">The Medic is a Crewmate Protective role that can give a Shield to a player.</string>
@@ -1136,6 +1164,7 @@ Killed [time]s ago.</string>
     <!-- Medium Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Medium">Medium</string>
     <string name="TownOfUsMira.Role.Medium.IntroBlurb">Become one with the ghosts</string>
+    <string name="TownOfUsMira.Role.Medium.MedDescription">Leave your body temporarily to astral project yourself.</string>
     <string name="TownOfUsMira.Role.Medium.TabDescription">Mediate to leave your mortal body behind for some time.
 Your body is still vulnerable in this state.</string>
     <string name="TownOfUsMira.Role.Medium.WikiDescription">The Medium is a Crewmate Investigative role that can temporarily release their spirit. They can pass through walls and see ghosts, but leave their body unprotected.</string>
@@ -1167,6 +1196,8 @@ Your body is still vulnerable in this state.</string>
     <!-- Mirrorcaster Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Mirrorcaster">Mirrorcaster</string>
     <string name="TownOfUsMira.Role.Mirrorcaster.IntroBlurb">Reflect attacks onto others</string>
+    <string name="TownOfUsMira.Role.Mirrorcaster.MedDescription">Reflect attacks done on Magic Mirrors.
+Then, unleash them towards evils!</string>
     <string name="TownOfUsMira.Role.Mirrorcaster.TabDescription">Protect a player with a Magic Mirror.
 If they are directly attacked, then
 unleash the attack onto another player!</string>
@@ -1203,6 +1234,7 @@ unleash the attack onto another player!</string>
     <!-- Monarch Wiki / Description -->
     <string name="TownOfUsMira.Role.Monarch">Monarch</string>
     <string name="TownOfUsMira.Role.Monarch.IntroBlurb">Knight Crewmates to give extra votes</string>
+    <string name="TownOfUsMira.Role.Monarch.MedDescription">Knight Crewmates to give them extra votes in the meeting. Choose your knights carefully.</string>
     <string name="TownOfUsMira.Role.Monarch.TabDescription">Knight crewmates to aid in meetings, but
 avoid knighting Evildoers.</string>
     <string name="TownOfUsMira.Role.MonarchTabDescriptionEgo">Knight evildoers to aid them in meetings.</string>
@@ -1222,6 +1254,8 @@ avoid knighting Evildoers.</string>
     <!-- Mystic Wiki / Description -->
     <string name="TownOfUsMira.Role.Mystic">Mystic</string>
     <string name="TownOfUsMira.Role.Mystic.IntroBlurb">Know when and where kills happen</string>
+    <string name="TownOfUsMira.Role.Mystic.MedDescription">Get notified when crewmates die.
+You get an arrow towards their direction as well.</string>
     <string name="TownOfUsMira.Role.Mystic.TabDescription">Understand when and where kills happen</string>
     <string name="TownOfUsMira.Role.Mystic.WikiDescription">The Mystic is a Crewmate Investigative role that gets an alert when someone dies.</string>
     <!-- Mystic Options -->
@@ -1230,7 +1264,8 @@ avoid knighting Evildoers.</string>
     <!-- Oracle - Crewmate Protective -->
     <!-- Oracle Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Oracle">Oracle</string>
-    <string name="TownOfUsMira.Role.Oracle.IntroBlurb">Get Crewmates to confess their sins</string>s
+    <string name="TownOfUsMira.Role.Oracle.IntroBlurb">Get Crewmates to confess their sins</string>
+    <string name="TownOfUsMira.Role.Oracle.MedDescription">Bless the crewmates to save them in meetings. Make the evils confess their sins.</string>
     <string name="TownOfUsMira.Role.Oracle.TabDescription">Bless crewmates to protect them in meetings, and
 make them confess in the meeting</string>
     <string name="TownOfUsMira.Role.Oracle.WikiDescription">The Oracle is a Crewmate Protective role that can get another player to confess (revealing their faction with [revealAccuracy]% accuracy if the Oracle dies) or can protect a player from meeting abilities.</string>
@@ -1264,6 +1299,7 @@ make them confess in the meeting</string>
     <!-- Plumber Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Plumber">Plumber</string>
     <string name="TownOfUsMira.Role.Plumber.IntroBlurb">Kick out the pesky venters onboard</string>
+    <string name="TownOfUsMira.Role.Plumber.MedDescription">Block off the vent system from others.</string>
     <string name="TownOfUsMira.Role.Plumber.TabDescription">Flush the vent system to kick venters out, and
 barricade vents to block them the next round</string>
     <string name="TownOfUsMira.Role.PlumberExtraTabText">Barricades Stay For [roundCount] Round(s)</string>
@@ -1290,6 +1326,7 @@ barricade vents to block them the next round</string>
     <!-- Politician Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Politician">Politician</string>
     <string name="TownOfUsMira.Role.Politician.IntroBlurb">Campaign to become the Mayor!</string>
+    <string name="TownOfUsMira.Role.Politician.MedDescription">Campaign half of the crewmates to reveal yourself as Mayor!</string>
     <string name="TownOfUsMira.Role.Politician.TabDescription">Campaign crewmates in hopes to become the Mayor! At least half of
 the innocent players must be campaigned to reveal successfully</string>
     <string name="TownOfUsMira.Role.PoliticianEgotistTabInfo">Evildoers will know your true motives when revealed.</string>
@@ -1311,6 +1348,7 @@ the innocent players must be campaigned to reveal successfully</string>
     <!-- Prosecutor Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Prosecutor">Prosecutor</string>
     <string name="TownOfUsMira.Role.Prosecutor.IntroBlurb">Exile players of your choosing</string>
+    <string name="TownOfUsMira.Role.Prosecutor.MedDescription">Exlie those who defy you by force in meetings.</string>
     <string name="TownOfUsMira.Role.Prosecutor.TabDescription">Choose to exile anyone of your choosing</string>
     <string name="TownOfUsMira.Role.ProsecutorCanProsecuteCrew">[b]You may prosecute crew.[/b]</string>
     <string name="TownOfUsMira.Role.ProsecutorProsecutionsRemaining">[count]/[total] Prosecutions</string>
@@ -1325,6 +1363,7 @@ the innocent players must be campaigned to reveal successfully</string>
     <!-- Seer Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Seer">Seer</string>
     <string name="TownOfUsMira.Role.Seer.IntroBlurb">Reveal the alliance of others</string>
+    <string name="TownOfUsMira.Role.Seer.MedDescription">Reveal what crewmates are truly aligned to.</string>
     <string name="TownOfUsMira.Role.Seer.AltIntroBlurb">Compare the alignment of two players</string>
     <string name="TownOfUsMira.Role.Seer.TabDescription">Reveal alliances of other players to find evildoers.</string>
     <string name="TownOfUsMira.Role.Seer.AltTabDescription">Compare two players to check if
@@ -1364,6 +1403,7 @@ they are friends or enemies!</string>
     <!-- Sentry Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Sentry">Sentry</string>
     <string name="TownOfUsMira.Role.Sentry.IntroBlurb">Deploy cameras to monitor the map</string>
+    <string name="TownOfUsMira.Role.Sentry.MedDescription">Deploy extra cameras to keep the Crewmates in check.</string>
     <string name="TownOfUsMira.Role.Sentry.TabDescription">Place cameras that appear in Security.</string>
     <string name="TownOfUsMira.Role.Sentry.WikiDescription">The Sentry is a Crewmate Support role that can deploy cameras around the map that function like Security cameras.</string>
     <string name="TownOfUsMira.Role.SentryPlaceCamera">Deploy</string>
@@ -1465,6 +1505,8 @@ they are friends or enemies!</string>
     <!-- Officer Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Officer">Officer</string>
     <string name="TownOfUsMira.Role.Officer.IntroBlurb">Reload and shoot the [color=#FF0000FF]Killers[/color]</string>
+    <string name="TownOfUsMira.Role.Officer.MedDescription">Reload your gun's chamber.
+Shoot those who threaten the Crewmates.</string>
     <string name="TownOfUsMira.Role.OfficerTabAdditionCount">Rounds left to shoot again: [count]</string>
     <string name="TownOfUsMira.Role.OfficerTabAdditionNext">Next round, you may shoot again.</string>
     <string name="TownOfUsMira.Role.OfficerTabAdditionMajorityInno">Only shoot Impostors and Neutral Killers.</string>
@@ -1497,6 +1539,7 @@ Loaded bullets older than 10s are reset next round.</string>
     <!-- Sheriff Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Sheriff">Sheriff</string>
     <string name="TownOfUsMira.Role.Sheriff.IntroBlurb">Shoot the [color=#FF0000FF]Evildoers[/color]</string>
+    <string name="TownOfUsMira.Role.Sheriff.MedDescription">Shoot Evvildoers, or suffer the consequences when shooting a Crewmate.</string>
     <string name="TownOfUsMira.Role.Sheriff.TabDescription">Kill off the impostors but don't kill crewmates</string>
     <string name="TownOfUsMira.Role.Sheriff.TabDescriptionEgo">Kill off whoever you wish in hopes of crew losing</string>
     <string name="TownOfUsMira.Role.Sheriff.WikiDescription">The Sheriff is a Crewmate Killing role that can shoot a player to attempt to kill them. If Sheriff doesn't die to misfire, they will lose the ability to shoot.</string>
@@ -1534,6 +1577,7 @@ at the cost of your ability.</string>
     <!-- Snitch Wiki / Description -->
     <string name="TownOfUsMira.Role.Snitch">Snitch</string>
     <string name="TownOfUsMira.Role.Snitch.IntroBlurb">Find the [color=#FF0000FF]Impostors[/color]!</string>
+    <string name="TownOfUsMira.Role.Snitch.MedDescription">Rat out the Impostors upon completion of your tasks.</string>
     <string name="TownOfUsMira.Role.Snitch.TabDescription">Complete all your tasks to discover the Impostors.</string>
     <string name="TownOfUsMira.Role.Snitch.TabDescriptionCompletedTasks">Find the Impostors!</string>
     <string name="TownOfUsMira.Role.Snitch.TabDescriptionEgo">Complete all your tasks to discover [and] help the Impostors.</string>
@@ -1556,6 +1600,7 @@ at the cost of your ability.</string>
     <!-- Spy Wiki / Description -->
     <string name="TownOfUsMira.Role.Spy">Spy</string>
     <string name="TownOfUsMira.Role.Spy.IntroBlurb">Snoop around and find out</string>
+    <string name="TownOfUsMira.Role.Spy.MedDescription">Get detailed colors on the Admin Table</string>
     <string name="TownOfUsMira.Role.Spy.TabDescription">Gain extra information on the Admin Table</string>
     <string name="TownOfUsMira.Role.Spy.WikiDescription">The Spy is a Crewmate Investigative role that gains extra information on the admin table. They not only see how many people are in a room, but see who is in every room.</string>
     <!-- Spy Options -->
@@ -1579,6 +1624,7 @@ at the cost of your ability.</string>
     <!-- Swapper Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Swapper">Swapper</string>
     <string name="TownOfUsMira.Role.Swapper.IntroBlurb">Swap votes to save the Crew!</string>
+    <string name="TownOfUsMira.Role.Swapper.MedDescription">Swap votes for two targets in the meeting as you see fit.</string>
     <string name="TownOfUsMira.Role.Swapper.TabDescription">Swap votes from one player to another during a meeting</string>
     <string name="TownOfUsMira.Role.Swapper.WikiDescription">The Swapper is a Crewmate Power that can swap the votes of two players in a meeting. Their meeting vote areas will be swapped visually, and the votes will be swapped. If player 1 received the most votes, and you swap them with player 2, player 2 will now be ejected instead. </string>
     <string name="TownOfUsMira.Role.SwapperSwap">Swap</string>
@@ -1590,6 +1636,7 @@ at the cost of your ability.</string>
     <!-- Time Lord Wiki / Abilities -->
     <string name="TownOfUsMira.Role.TimeLord">Time Lord</string>
     <string name="TownOfUsMira.Role.TimeLord.IntroBlurb">Rewind time</string>
+    <string name="TownOfUsMira.Role.TimeLord.MedDescription">Rewind time to undo actions done recently.</string>
     <string name="TownOfUsMira.Role.TimeLord.TabDescription">Use Rewind to pull everyone back a few seconds.</string>
     <string name="TownOfUsMira.Role.TimeLord.WikiDescription">The Time Lord is a Crewmate Power role that can rewind time, forcing every player to retrace their steps for a short duration.</string>
     <string name="TownOfUsMira.Role.TimeLordRewind">Rewind</string>
@@ -1612,6 +1659,7 @@ at the cost of your ability.</string>
     <!-- Sonar Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Sonar">Sonar</string>
     <string name="TownOfUsMira.Role.Sonar.IntroBlurb">Sense everyone's movement</string>
+    <string name="TownOfUsMira.Role.Sonar.MedDescription">Sense multiple crewmates to pinpoint their general direction.</string>
     <string name="TownOfUsMira.Role.Sonar.TabDescription">Track suspicious players to see where they go</string>
     <string name="TownOfUsMira.Role.Sonar.WikiDescription">The Sonar is a Crewmate Investigative role that can track other players to see their general position across the map, getting colored arrows towards all tracked players.</string>
     <string name="TownOfUsMira.Role.SonarTrack">Track</string>
@@ -1627,6 +1675,7 @@ at the cost of your ability.</string>
     <!-- Transporter Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Transporter">Transporter</string>
     <string name="TownOfUsMira.Role.Transporter.IntroBlurb">Choose Two Players To Swap Locations</string>
+    <string name="TownOfUsMira.Role.Transporter.MedDescription">Transport two crewmates with one another.</string>
     <string name="TownOfUsMira.Role.Transporter.TabDescription">Choose two players to swap locations with one another</string>
     <string name="TownOfUsMira.Role.Transporter.WikiDescription">The Transporter is a Crewmate Support role that can transport two players, dead or alive, to swap their locations.</string>
     <string name="TownOfUsMira.Role.TransporterTransport">Transport</string>
@@ -1644,6 +1693,7 @@ at the cost of your ability.</string>
     <!-- Trapper Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Trapper">Trapper</string>
     <string name="TownOfUsMira.Role.Trapper.IntroBlurb">Identify what roles are in play</string>
+    <string name="TownOfUsMira.Role.Trapper.MedDescription">Place traps to find out what roles are in play.</string>
     <string name="TownOfUsMira.Role.Trapper.TabDescription">Place traps around the map, revealing roles within them</string>
     <string name="TownOfUsMira.Role.Trapper.WikiDescription">The Trapper is a Crewmate Investigative role that can place traps around the map. If someone stays in it for enough time and enough players go through, they will get a list of their roles in the next meeting in random order.</string>
     <string name="TownOfUsMira.Role.TrapperTrap">Trap</string>
@@ -1665,6 +1715,7 @@ at the cost of your ability.</string>
     <!-- Veteran Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Veteran">Veteran</string>
     <string name="TownOfUsMira.Role.Veteran.IntroBlurb">Alert to attack upon interactions</string>
+    <string name="TownOfUsMira.Role.Veteran.MedDescription">Alert to attack anyone who attempts to interact with you.</string>
     <string name="TownOfUsMira.Role.Veteran.TabDescription">Alert to attack whoever interacts with you.</string>
     <string name="TownOfUsMira.Role.Veteran.WikiDescription">The Veteran is a Crewmate Killing role that can go on alert and kill anyone who interacts with them.</string>
     <string name="TownOfUsMira.Role.VeteranAlert">Alert</string>
@@ -1684,6 +1735,7 @@ at the cost of your ability.</string>
     <!-- Vigilante Wiki / Description -->
     <string name="TownOfUsMira.Role.Vigilante">Vigilante</string>
     <string name="TownOfUsMira.Role.Vigilante.IntroBlurb">Kill [color=#FF0000FF]Evildoers[/color] by guessing them!</string>
+    <string name="TownOfUsMira.Role.Vigilante.MedDescription">Guess what evildoers are in the meeting.</string>
     <string name="TownOfUsMira.Role.Vigilante.TabDescription">Guess the roles of impostors mid-meeting to kill them!</string>
     <string name="TownOfUsMira.Role.VigilanteEvilTabInfo">You can also guess Crewmates.</string>
     <string name="TownOfUsMira.Role.VigilanteNoSafeShots">You have no more safe shots left.</string>
@@ -1710,6 +1762,7 @@ at the cost of your ability.</string>
     <!-- Warden Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Warden">Warden</string>
     <string name="TownOfUsMira.Role.Warden.IntroBlurb">Fortify Crewmates</string>
+    <string name="TownOfUsMira.Role.Warden.MedDescription">Fortify Crewmates to prevent any interactions with them outside of meetings.</string>
     <string name="TownOfUsMira.Role.Warden.TabDescription">Fortify crewmates to prevent interactions with them</string>
     <string name="TownOfUsMira.Role.WardenTabProtecting">Fortifying: [player]</string>
     <string name="TownOfUsMira.Role.Warden.WikiDescription">The Warden is a Crewmate Protective role that can fortify players to prevent them from being interacted with. </string>
@@ -1725,6 +1778,7 @@ at the cost of your ability.</string>
     <!-- Ambassador Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Ambassador">Ambassador</string>
     <string name="TownOfUsMira.Role.Ambassador.IntroBlurb">Lead the [color=#FF0000FF]Impostors[/color] to victory</string>
+    <string name="TownOfUsMira.Role.Ambassador.MedDescription">Retrain impostors to change their roles for the rest of the match.</string>
     <string name="TownOfUsMira.Role.Ambassador.TabDescription">Retrain yourself or fellow impostors into another role
 [b]Imp Killing cannot be a Power role[/b]
 [b]Imp Concealing/Support cannot be a Killing/Power role[/b]</string>
@@ -1763,6 +1817,7 @@ This change is permanent.</string>
     <!-- Ambusher Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Ambusher">Ambusher</string>
     <string name="TownOfUsMira.Role.Ambusher.IntroBlurb">Kidnap Crewmates into the shadows</string>
+    <string name="TownOfUsMira.Role.Ambusher.MedDescription">Pursue Crewmates to then Ambush someone close to them.</string>
     <string name="TownOfUsMira.Role.Ambusher.TabDescription">Pursue a player, then ambush the closest player to them.
 If the player you ambush dies, then take their body with you.</string>
     <string name="TownOfUsMira.Role.AmbusherTabPursuingPlayer">Pursuing: [player]</string>
@@ -1795,6 +1850,7 @@ If the player you ambush dies, then take their body with you.</string>
     <!-- Bootlegger Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Bootlegger">Bootlegger</string>
     <string name="TownOfUsMira.Role.Bootlegger.IntroBlurb">Roleblock Crewmates to stop them.</string>
+    <string name="TownOfUsMira.Role.Bootlegger.MedDescription">Drink with Crewmates to disable their abilities temporarily.</string>
     <string name="TownOfUsMira.Role.Bootlegger.TabDescription">Roleblock the crew to disable their abilities for [blockTime]s.
 Roleblock someone multiple times to poison them.</string>
     <string name="TownOfUsMira.Role.Bootlegger.WikiDescription">The Bootlegger is an Impostor Support role that can drink with others to roleblock them. Once a player is roleblocked three times, they will die of poison.</string>
@@ -1812,6 +1868,7 @@ Roleblock someone multiple times to poison them.</string>
     <!-- Bomber Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Bomber">Bomber</string>
     <string name="TownOfUsMira.Role.Bomber.IntroBlurb">Drop bombs to multi-kill Crewmates.</string>
+    <string name="TownOfUsMira.Role.Bomber.MedDescription">Place bombs to kill multiple Crewmates in a radius at once.</string>
     <string name="TownOfUsMira.Role.Bomber.TabDescription">Place bombs to kill several crewmates upon detonation at once</string>
     <string name="TownOfUsMira.Role.Bomber.WikiDescription">The Bomber is an Impostor Killing role that can drop a bomb on the map, which detonates after [detonateDelay] second(s).</string>
     <string name="TownOfUsMira.Role.BomberPlace">Place</string>
@@ -1840,6 +1897,7 @@ Roleblock someone multiple times to poison them.</string>
     <!-- Escapist Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Escapist">Escapist</string>
     <string name="TownOfUsMira.Role.Escapist.IntroBlurb">Get away from kills with ease</string>
+    <string name="TownOfUsMira.Role.Escapist.MedDescription">Mark a location, then recall there at any time necessary.</string>
     <string name="TownOfUsMira.Role.Escapist.TabDescription">Mark a location, then recall to the location at
 any time to flee the scene of the crime</string>
     <string name="TownOfUsMira.Role.Escapist.WikiDescription">The Escapist is an Impostor Concealing role that can mark a location and then recall (teleport) to that location.</string>
@@ -1868,6 +1926,7 @@ any time to flee the scene of the crime</string>
 
   <string name="TownOfUsMira.Role.Herbalist">Herbalist</string>
     <string name="TownOfUsMira.Role.Herbalist.IntroBlurb">Let your plants and herbs guide the way</string>
+    <string name="TownOfUsMira.Role.Herbalist.MedDescription">Expose roles, Confuse crewmates, and Protect others if needed.</string>
     <string name="TownOfUsMira.Role.Herbalist.TabDescription">Use your deep knowledge of nature on others.
 Your kill cooldown is unlinked from other abilities.</string>
     <string name="TownOfUsMira.Role.Herbalist.WikiDescription">The Herbalist is an Impostor Power role that has many abilities tied to one cooldown, either to help Impostors or to affect what others see.</string>
@@ -1883,6 +1942,7 @@ Your kill cooldown is unlinked from other abilities.</string>
   <!-- Hypnotist Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Hypnotist">Hypnotist</string>
     <string name="TownOfUsMira.Role.Hypnotist.IntroBlurb">Hypnotize Crewmates</string>
+    <string name="TownOfUsMira.Role.Hypnotist.MedDescription">Hypnotize Crewmates, then trigger Mass Hysteria to alter what they see.</string>
     <string name="TownOfUsMira.Role.Hypnotist.TabDescription">Hypnotize crewmates to prevent them from
 distinguishing players under a mass hysteria</string>
     <string name="TownOfUsMira.Role.Hypnotist.WikiDescription">The Hypnotist is an Impostor Support role that can hypnotize players. During a meeting they can release Mass Hysteria, which makes all hypnotized players (marked with [symbol]) have different visuals applied to players the following round.</string>
@@ -1911,6 +1971,7 @@ distinguishing players under a mass hysteria</string>
     <!-- Miner Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Miner">Miner</string>
     <string name="TownOfUsMira.Role.Miner.IntroBlurb">From the top, Make it drop, That's a vent</string>
+    <string name="TownOfUsMira.Role.Miner.MedDescription">Create an interconnected vent system to go around the map effectively.</string>
     <string name="TownOfUsMira.Role.Miner.TabDescription">Place interconnected vents around the map</string>
     <string name="TownOfUsMira.Role.Miner.WikiDescription">The Miner is an Impostor Support role that can create vents.</string>
     <string name="TownOfUsMira.Role.MinerMine">Mine</string>
@@ -1926,6 +1987,7 @@ distinguishing players under a mass hysteria</string>
     <!-- Morphling Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Morphling">Morphling</string>
     <string name="TownOfUsMira.Role.Morphling.IntroBlurb">Transform into Crewmates</string>
+    <string name="TownOfUsMira.Role.Morphling.MedDescription">Sample Crewmate and moprh into them to frame them.</string>
     <string name="TownOfUsMira.Role.Morphling.TabDescription">Sample players and morph into them to disguise yourself.
 Your sample clears at the beginning of every round.</string>
     <string name="TownOfUsMira.Role.MorphlingTabMorphed">Morphed As: [player]</string>
@@ -1945,6 +2007,7 @@ Your sample clears at the beginning of every round.</string>
     <!-- Parasite Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Parasite">Parasite</string>
     <string name="TownOfUsMira.Role.Parasite.IntroBlurb">Overtake and control players</string>
+    <string name="TownOfUsMira.Role.Parasite.MedDescription">Overtake a victim to control them, then let them die away from sight.</string>
     <string name="TownOfUsMira.Role.Parasite.TabDescription">Overtake a victim to control their movement.
 Press the same button again to kill them, or wait for the timer.</string>
     <string name="TownOfUsMira.Role.Parasite.WikiDescription">The Parasite can Overtake nearby non-impostors to take control of their movement. By default, while overtaken, the victim looks like the Parasite and cannot use abilities. You can watch them with a PiP camera and kill them at any time, or wait for the control timer to kill them.</string>
@@ -1965,6 +2028,7 @@ Press the same button again to kill them, or wait for the timer.</string>
     <!-- Scavenger Wiki / Description -->
     <string name="TownOfUsMira.Role.Scavenger">Scavenger</string>
     <string name="TownOfUsMira.Role.Scavenger.IntroBlurb">Hunt down your prey</string>
+    <string name="TownOfUsMira.Role.Scavenger.MedDescription">Kill off your targets to kill quicker, or suffer with a slow cooldown.</string>
     <string name="TownOfUsMira.Role.Scavenger.TabDescription">Kill your given targets for a reduced cooldown.
 If you fail to kill them, you will get penalized.</string>
     <string name="TownOfUsMira.Role.Scavenger.WikiDescription">The Scavenger is an Impostor Killing role that gets new targets after every kill and when the round starts. If they kill their target, they get a reduced kill cooldown, but if they don't, their cooldown is increased significantly.</string>
@@ -1979,6 +2043,7 @@ If you fail to kill them, you will get penalized.</string>
     <!-- Puppeteer Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Puppeteer">Puppeteer</string>
     <string name="TownOfUsMira.Role.Puppeteer.IntroBlurb">Control the hands of others</string>
+    <string name="TownOfUsMira.Role.Puppeteer.MedDescription">Control other Crewmates to kill unwillingly.</string>
     <string name="TownOfUsMira.Role.Puppeteer.TabDescription">Control crewmates to do your bidding!</string>
     <string name="TownOfUsMira.Role.Puppeteer.WikiDescription">The Puppeteer is an Impostor Power role that controls other players to kill for them. When a player is controlled, they must watch as they are forced to kill their fellow crewmates.</string>
     <string name="TownOfUsMira.Role.PuppeteerControl">Control</string>
@@ -2000,6 +2065,8 @@ If you fail to kill them, you will get penalized.</string>
     <!-- Spellslinger Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Spellslinger">Spellslinger</string>
     <string name="TownOfUsMira.Role.Spellslinger.IntroBlurb">Hex the crew to trigger a Hex Bomb</string>
+    <string name="TownOfUsMira.Role.Spellslinger.MedDescription">Hex the Crewmates to let the Hex Bomb go.
+If successful, everyone is obliterated.</string>
     <string name="TownOfUsMira.Role.Spellslinger.TabDescription">Hex all non-Impostors to set off a Hex Bomb</string>
     <string name="TownOfUsMira.Role.SpellslingerTabHexCounter">Players Left To Hex: [count]</string>
     <string name="TownOfUsMira.Role.SpellslingerTabHexFinished">All players are Hexed.</string>
@@ -2067,6 +2134,8 @@ Impostor</string>
     <!-- Venerer Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Venerer">Venerer</string>
     <string name="TownOfUsMira.Role.Venerer.IntroBlurb">Enhance your abilities with every kill</string>
+    <string name="TownOfUsMira.Role.Venerer.MedDescription">Kill crewmates to upgrade your ability.
+Camouflage, Sprint, and then Freeze others around you!</string>
     <string name="TownOfUsMira.Role.Venerer.TabDescription">Kill players to unlock ability perks. Your perks allow you
 to camouflage, sprint, and slow others down in your path.</string>
     <string name="TownOfUsMira.Role.Venerer.WikiDescription">The Venerer is an Impostor Concealing role that can kill players to gain new abilities, preventing others from catching them! However, the ability will be used immediately as they receive it, which will stack up.</string>
@@ -2131,6 +2200,7 @@ You will slow down players around you in a radius, as well as being fast and hid
     <!-- Arsonist Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Arsonist">Arsonist</string>
     <string name="TownOfUsMira.Role.Arsonist.IntroBlurb">Douse players and ignite the light</string>
+    <string name="TownOfUsMira.Role.Arsonist.MedDescription">Douse crewmates and ignite any of them to see them burn.</string>
     <string name="TownOfUsMira.Role.Arsonist.TabDescription">Douse players and ignite to kill all nearby doused targets.</string>
     <string name="TownOfUsMira.Role.Arsonist.TabDescriptionLegacy">Douse players and ignite the closest one to kill all doused targets.</string>
     <string name="TownOfUsMira.Role.ArsonistTabDousedInfo">Players Doused:</string>
@@ -2154,6 +2224,7 @@ You will slow down players around you in a radius, as well as being fast and hid
     <!-- Doomsayer Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Doomsayer">Doomsayer</string>
     <string name="TownOfUsMira.Role.Doomsayer.IntroBlurb">Guess players' roles to win!</string>
+    <string name="TownOfUsMira.Role.Doomsayer.MedDescription">Guess the roles of multiple players to doom them and win.</string>
     <string name="TownOfUsMira.Role.Doomsayer.TabDescription">Win by guessing the roles of [guessCount] players.</string>
     <string name="TownOfUsMira.Role.Doomsayer.WikiDescription">The Doomsayer is a Neutral Evil role that wins by guessing [guessCount] players' roles.</string>
     <string name="TownOfUsMira.Role.DoomsayerWikiDescriptionIfCanObserve">The Doomsayer is a Neutral Evil role that wins by guessing [guessCount] players' roles. They may observe players to get a hint of what their roles are the following meeting.</string>
@@ -2191,6 +2262,7 @@ You will slow down players around you in a radius, as well as being fast and hid
     <!-- Executioner -->
     <!-- Executioner Wiki / Description -->
     <string name="TownOfUsMira.Role.Executioner">Executioner</string>
+    <string name="TownOfUsMira.Role.Executioner.MedDescription">Get your target voted out by all means necessary.</string>
     <string name="TownOfUsMira.Role.Executioner.TabDescription">Get [target] voted out to win.</string>
     <string name="TownOfUsMira.Role.ExecutionerMissingTargetDescription">Get your target voted out to win.</string>
     <string name="TownOfUsMira.Role.Executioner.WikiDescription">The Executioner is a Neutral Evil role that wins by getting their target (signified by [symbol]) ejected in a meeting.</string>
@@ -2210,6 +2282,8 @@ You will slow down players around you in a radius, as well as being fast and hid
     <!-- Glitch Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Glitch">Glitch</string>
     <string name="TownOfUsMira.Role.Glitch.IntroBlurb">Murder, Mimic, Hack... Data Lost</string>
+    <string name="TownOfUsMira.Role.Glitch.MedDescription">Hack Crewmates to hijack their abilities.
+Mimic into others to frame them.</string>
     <string name="TownOfUsMira.Role.Glitch.TabDescription">Hack players to stop their abilities momentarily,
 mimic into others to frame them.</string>
     <string name="TownOfUsMira.Role.Glitch.WikiDescription">The Glitch is a Neutral Killing role that wins by being the last killer alive. They can Mimic into another player, or they can hack a player.</string>
@@ -2231,6 +2305,7 @@ mimic into others to frame them.</string>
     <!-- Fairy -->
     <!-- Fairy Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Fairy">Fairy</string>
+    <string name="TownOfUsMira.Role.Fairy.MedDescription">Protect your target with your life by all means necessary.</string>
     <string name="TownOfUsMira.Role.Fairy.TabDescription">Protect [target] with your life!</string>
     <string name="TownOfUsMira.Role.FairyIfNoTarget">Protect your target with your life!</string>
     <string name="TownOfUsMira.Role.Fairy.WikiDescription">The Fairy is a Neutral Benign that needs to protect their target (signified by [symbol]) from getting killed/ejected.</string>
@@ -2252,6 +2327,8 @@ mimic into others to frame them.</string>
     <!-- Inquisitor Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Inquisitor">Inquisitor</string>
     <string name="TownOfUsMira.Role.Inquisitor.IntroBlurb">Vanquish the Heretics!</string>
+    <string name="TownOfUsMira.Role.Inquisitor.MedDescription">Find who holds the roles of your targets.
+Vanquish them if necessary to win.</string>
     <string name="TownOfUsMira.Role.Inquisitor.TabDescription">Vanquish your Heretics or get them killed.
 You will win after every heretic dies.
 If they're all dead after a meeting ends,
@@ -2281,6 +2358,8 @@ you'll leave [and] announce your victory</string>
     <!-- Chef Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Chef">Chef</string>
     <string name="TownOfUsMira.Role.Chef.IntroBlurb">Fresh and ready to serve</string>
+    <string name="TownOfUsMira.Role.Chef.MedDescription">Cook the fresh corpses of other Crewmates.
+Meet your feeding quota and win.</string>
     <string name="TownOfUsMira.Role.Chef.TabDescription">Feed the crewmates with cooked corpses.
 Once your quota is fed, leave in victory!</string>
     <string name="TownOfUsMira.Role.ChefTabCounter">Bodies Fed: [bodiesFed] / [bodiesTotal]</string>
@@ -2377,6 +2456,7 @@ then bribe the winners!</string>
     <!-- Spectre Wiki / Description -->
     <string name="TownOfUsMira.Role.Spectre">Spectre</string>
     <string name="TownOfUsMira.Role.Spectre.IntroBlurb">Use your second chance to win</string>
+    <string name="TownOfUsMira.Role.Spectre.MedDescription">Use your second chance at redemption to complete your tasks and win after your death.</string>
     <string name="TownOfUsMira.Role.Spectre.TabDescription">Complete all your tasks without being caught!</string>
     <string name="TownOfUsMira.Role.Spectre.WikiDescription">The Spectre is a Neutral Ghost role that wins the game by finishing their tasks before a living player has clicked on them.</string>
     <string name="TownOfUsMira.Role.SpectreSpook">Spook</string>
@@ -2391,6 +2471,7 @@ then bribe the winners!</string>
     <!-- Plaguebearer Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Plaguebearer">Plaguebearer</string>
     <string name="TownOfUsMira.Role.Plaguebearer.IntroBlurb">Spread plague to become [color=#4D4D4DFF]Pestilence[/color]</string>
+    <string name="TownOfUsMira.Role.Plaguebearer.MedDescription">Spread the plague to all Crewmates to transform into the deadly Pestilence.</string>
     <string name="TownOfUsMira.Role.Plaguebearer.TabDescription">Infect everyone to become [color=#4D4D4DFF]Pestilence[/color]</string>
     <string name="TownOfUsMira.Role.PlaguebearerTabInfectCounter">Players Left To Infect: [count]</string>
     <string name="TownOfUsMira.Role.PlaguebearerTabInfectedInfo">Players Infected:</string>
@@ -2426,7 +2507,7 @@ then bribe the winners!</string>
     <!-- Survivor Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Survivor">Survivor</string>
     <string name="TownOfUsMira.Role.Survivor.IntroBlurb">Do whatever it takes to live.</string>
-    <string name="TownOfUsMira.Role.Survivor.TabDescription">Stay alive to win with any faction remaining</string>
+    <string name="TownOfUsMira.Role.Survivor.TabDescription">Stay alive to win with any faction remaining.</string>
     <string name="TownOfUsMira.Role.Survivor.WikiDescription">The Survivor is a Neutral Benign role that just needs to survive until the end of the game.</string>
     <!-- till to until for clarity -->
 
@@ -2902,7 +2983,7 @@ when the lights are sabotaged.</string>
       <string name="TouOptionAssassinGuessNonCrewModifiers">Assassin Can Guess Other Faction Modifiers</string>
       <string name="TouOptionAssassinGuessAlliances">Assassin Can Guess Alliances</string>
 
-      <string name="TouOptionAssassinShots">\%amount\% Shots</string>
+      <string name="TouOptionAssassinShots">[amount] Shots</string>
       <string name="TouOptionAssassinOverall">(Overall)</string>
       <string name="TouOptionAssassinOnePerMeeting">(1 Per Meeting)</string>
 
@@ -3408,8 +3489,8 @@ when the lights are sabotaged.</string>
 
   <!-- Cleric Cleanse -->
     <string name="TownOfUsMira.Modifier.ClericCleanse">Cleric Cleanse</string>
-    <string name="TownOfUsMira.Modifier.ClericCleanseEffectsFound">Cleansed effects on \%player\%:</string>
-    <string name="TownOfUsMira.Modifier.ClericCleanseNoEffects">No negative effects were found on \%player\%.</string>
+    <string name="TownOfUsMira.Modifier.ClericCleanseEffectsFound">Cleansed effects on [player]:</string>
+    <string name="TownOfUsMira.Modifier.ClericCleanseNoEffects">No negative effects were found on [player].</string>
     <string name="TownOfUsMira.Modifier.ClericCleanseFeedbackTitle">Cleric Feedback:</string>
 
   <!-- Deputy Revealed Modifier -->
@@ -3434,7 +3515,7 @@ when the lights are sabotaged.</string>
 
   <!-- Blackmailed Modifier -->
     <string name="TownOfUsMira.Modifier.Blackmailed">Blackmailed</string>
-    <string name="TownOfUsMira.Modifier.BlackmailedVoteNotification">You are unable to vote this meeting! You will auto-skip after \%time\% seconds.</string>
+    <string name="TownOfUsMira.Modifier.BlackmailedVoteNotification">You are unable to vote this meeting! You will auto-skip after [time] seconds.</string>
     <!-- Eclipsal Blind -->
     <string name="TownOfUsMira.Modifier.EclipsalBlindedNotification">You were blinded by an Eclipsal!</string>
 
@@ -3472,61 +3553,59 @@ when the lights are sabotaged.</string>
   <!-- First Death Shield -->
     <string name="TouFirstDeathShieldDescription">You have protection because you died first last game</string>
 
-  <!-- Knighted Modifier (not really sure in this one tbh since atony said they'll abandon the \%votes\% syntax) -->
-
     <string name="TownOfUsMira.Modifier.Knighted">Knighted</string>
     <string name="TownOfUsMira.Modifier.KnightedDescription">You were knighted by the Monarch. You gained [votes] extra vote(s).</string>
 
   <!-- Extra Texts -->
-<string name="TownOfUsMira.Role.DeputyShootKiller">Shoot a player successfully if they were the killer!</string>
-<string name="TownOfUsMira.Role.PoliticianRevealRequirement">Reveal successfully if half the crewmates are campaigned!</string>
-<string name="TownOfUsMira.Role.MayorRevealedVotes">You unleash 3 votes at once!</string>
-<string name="TownOfUsMira.Role.MayorRevealVotes">Reveal yourself to get 3 total votes!</string>
-<string name="TownOfUsMira.Role.DoomsayerGuessAllAtOnce">Guess the roles of [amount] players at once to win!</string>
-<string name="TownOfUsMira.Role.DoomsayerSuccessfulGuesses">[current] / [total] Successful Role Guesses to win!</string>
-<string name="TownOfUsMira.Role.VigilanteGuessesRemaining">Guesses Remaining</string>
-<string name="TownOfUsMira.Role.VigilanteSafeShots">Safe Shots</string>
-<string name="TownOfUsMira.Role.AssassinGuessesRemaining">Guesses Remaining</string>
-<string name="TownOfUsMira.Role.AssassinDoubleShotUsed">Double Shot Used</string>
-<string name="TownOfUsMira.Role.AssassinDoubleShotAvailable">Double Shot Available</string>
-<string name="TownOfUsMira.Role.TrackerTrackedPlayers">Tracked Players:</string>
-<string name="TownOfUsMira.Role.MonarchKnightCancelled">Knighting has been cancelled.</string>
-<string name="TownOfUsMira.Role.MonarchKnightChosen">You chose to knight [player]. They will be knighted in [seconds] second(s)!</string>
-<string name="TownOfUsMira.Role.MonarchKnighting">Knighting</string>
-<string name="TownOfUsMira.Role.InquisitorHereticPerished">A Heretic has perished!</string>
-<string name="TownOfUsMira.Role.InquisitorWrongTarget">[player] was not a heretic! 
+    <string name="TownOfUsMira.Role.DeputyShootKiller">Shoot a player successfully if they were the killer!</string>
+    <string name="TownOfUsMira.Role.PoliticianRevealRequirement">Reveal successfully if half the crewmates are campaigned!</string>
+    <string name="TownOfUsMira.Role.MayorRevealedVotes">You unleash 3 votes at once!</string>
+    <string name="TownOfUsMira.Role.MayorRevealVotes">Reveal yourself to get 3 total votes!</string>
+    <string name="TownOfUsMira.Role.DoomsayerGuessAllAtOnce">Guess the roles of [amount] players at once to win!</string>
+    <string name="TownOfUsMira.Role.DoomsayerSuccessfulGuesses">[current] / [total] Successful Role Guesses to win!</string>
+    <string name="TownOfUsMira.Role.VigilanteGuessesRemaining">Guesses Remaining</string>
+    <string name="TownOfUsMira.Role.VigilanteSafeShots">Safe Shots</string>
+    <string name="TownOfUsMira.Role.AssassinGuessesRemaining">Guesses Remaining</string>
+    <string name="TownOfUsMira.Role.AssassinDoubleShotUsed">Double Shot Used</string>
+    <string name="TownOfUsMira.Role.AssassinDoubleShotAvailable">Double Shot Available</string>
+    <string name="TownOfUsMira.Role.TrackerTrackedPlayers">Tracked Players:</string>
+    <string name="TownOfUsMira.Role.MonarchKnightCancelled">Knighting has been cancelled.</string>
+    <string name="TownOfUsMira.Role.MonarchKnightChosen">You chose to knight [player]. They will be knighted in [seconds] second(s)!</string>
+    <string name="TownOfUsMira.Role.MonarchKnighting">Knighting</string>
+    <string name="TownOfUsMira.Role.InquisitorHereticPerished">A Heretic has perished!</string>
+    <string name="TownOfUsMira.Role.InquisitorWrongTarget">[player] was not a heretic! 
 You can no longer vanquish players.</string>
-<string name="TownOfUsMira.Role.InquisitorCorrectTarget">[player] was a heretic!</string>
-<string name="TownOfUsMira.Role.InquisitorWonSelf">You have successfully won as the [role], as all Heretics have perished!</string>
-<string name="TownOfUsMira.Role.InquisitorWonOther">The [role], [player], has successfully won, as all Heretics have perished!</string>
-<string name="TownOfUsMira.Role.SpectreWonSelf">You have successfully won as the [role], as you finished your tasks postmortem!</string>
-<string name="TownOfUsMira.Role.SpectreSpookMessage">You have one round to spook a player of your choice to death, choose wisely.</string>
-<string name="TownOfUsMira.Role.SpectreWonOther">[role], [player], has successfully won, as they completed their tasks postmortem!</string>
-<string name="TownOfUsMira.Role.SpectreClickableFeedback">You are now clickable by players!</string>
-<string name="TownOfUsMira.Modifier.DeadlyQuotaCompleted">You have completed your quota!</string>
-<string name="TownOfUsMira.Modifier.DeadlyQuotaCompletedShield">You have completed your quota! You have lost your temporarily shield.</string>
-<string name="TownOfUsMira.Modifier.DeadlyQuotaRemaining">You need [amount] more [kills] to complete your quota!</string>
-<string name="TownOfUsMira.Modifier.DeadlyQuotaKill">kill</string>
-<string name="TownOfUsMira.Modifier.DeadlyQuotaKills">kills</string>
-<string name="TownOfUsMira.Role.BootleggerRoleblockChosen">You chose to roleblock [player].</string>
-<string name="TownOfUsMira.Role.BarkeeperRoleblockChosen">You chose to roleblock [player].</string>
-<string name="TownOfUsMira.Role.BarkeeperRoleblocked">[player] was roleblocked!</string>
-<string name="TownOfUsMira.Role.BootleggerPoisonStage1">Next time, they will become sick.</string>
-<string name="TownOfUsMira.Role.BootleggerPoisonStage2">Next time, they will be poisoned.</string>
-<string name="TownOfUsMira.Role.BootleggerPoisonStage3">Wait for the poison to kick in.</string>
-<string name="TownOfUsMira.Role.BarkeeperHungover">Someone gave you a drink, but you are too hungover!</string>
-<string name="TownOfUsMira.Role.BarkeeperRoleblockedTarget">Someone gave you a drink, you were roleblocked!</string>
-<string name="TownOfUsMira.Role.BootleggerImpendingDoom">You feel a sense of impending doom.</string>
-<string name="TownOfUsMira.Role.BarkeeperSpillNotification">Your spilled drink will take [time]s to take effect for others!</string>
-<string name="TownOfUsMira.Modifier.TelepathFailedGuess">Your teammate, [player], attempted to shoot [target] as [guess], but failed!</string>
-<string name="TownOfUsMira.Modifier.TelepathCorrectGuess">Your teammate, [player], shot [target] as [role]!</string>
-<string name="TownOfUsMira.Modifier.TelepathKill">Your teammate, [player], has killed.</string>
-<string name="TownOfUsMira.Modifier.TelepathDeath">Your teammate, [player], has been murdered!</string>
-<string name="TownOfUsMira.Role.AmbassadorRetrainTitle">Ambassador Retrain</string>
-<string name="TownOfUsMira.Role.AmbassadorRetrainConfirm">Are you sure you want to be retrained into [role]?
+    <string name="TownOfUsMira.Role.InquisitorCorrectTarget">[player] was a heretic!</string>
+    <string name="TownOfUsMira.Role.InquisitorWonSelf">You have successfully won as the [role], as all Heretics have perished!</string>
+    <string name="TownOfUsMira.Role.InquisitorWonOther">The [role], [player], has successfully won, as all Heretics have perished!</string>
+    <string name="TownOfUsMira.Role.SpectreWonSelf">You have successfully won as the [role], as you finished your tasks postmortem!</string>
+    <string name="TownOfUsMira.Role.SpectreSpookMessage">You have one round to spook a player of your choice to death, choose wisely.</string>
+    <string name="TownOfUsMira.Role.SpectreWonOther">[role], [player], has successfully won, as they completed their tasks postmortem!</string>
+    <string name="TownOfUsMira.Role.SpectreClickableFeedback">You are now clickable by players!</string>
+    <string name="TownOfUsMira.Modifier.DeadlyQuotaCompleted">You have completed your quota!</string>
+    <string name="TownOfUsMira.Modifier.DeadlyQuotaCompletedShield">You have completed your quota! You have lost your temporarily shield.</string>
+    <string name="TownOfUsMira.Modifier.DeadlyQuotaRemaining">You need [amount] more [kills] to complete your quota!</string>
+    <string name="TownOfUsMira.Modifier.DeadlyQuotaKill">kill</string>
+    <string name="TownOfUsMira.Modifier.DeadlyQuotaKills">kills</string>
+    <string name="TownOfUsMira.Role.BootleggerRoleblockChosen">You chose to roleblock [player].</string>
+    <string name="TownOfUsMira.Role.BarkeeperRoleblockChosen">You chose to roleblock [player].</string>
+    <string name="TownOfUsMira.Role.BarkeeperRoleblocked">[player] was roleblocked!</string>
+    <string name="TownOfUsMira.Role.BootleggerPoisonStage1">Next time, they will become sick.</string>
+    <string name="TownOfUsMira.Role.BootleggerPoisonStage2">Next time, they will be poisoned.</string>
+    <string name="TownOfUsMira.Role.BootleggerPoisonStage3">Wait for the poison to kick in.</string>
+    <string name="TownOfUsMira.Role.BarkeeperHungover">Someone gave you a drink, but you are too hungover!</string>
+    <string name="TownOfUsMira.Role.BarkeeperRoleblockedTarget">Someone gave you a drink, you were roleblocked!</string>
+    <string name="TownOfUsMira.Role.BootleggerImpendingDoom">You feel a sense of impending doom.</string>
+    <string name="TownOfUsMira.Role.BarkeeperSpillNotification">Your spilled drink will take [time]s to take effect for others!</string>
+    <string name="TownOfUsMira.Modifier.TelepathFailedGuess">Your teammate, [player], attempted to shoot [target] as [guess], but failed!</string>
+    <string name="TownOfUsMira.Modifier.TelepathCorrectGuess">Your teammate, [player], shot [target] as [role]!</string>
+    <string name="TownOfUsMira.Modifier.TelepathKill">Your teammate, [player], has killed.</string>
+    <string name="TownOfUsMira.Modifier.TelepathDeath">Your teammate, [player], has been murdered!</string>
+    <string name="TownOfUsMira.Role.AmbassadorRetrainTitle">Ambassador Retrain</string>
+    <string name="TownOfUsMira.Role.AmbassadorRetrainConfirm">Are you sure you want to be retrained into [role]?
 This change is permanent.</string>
-<string name="TouHexBombTriggered">The Hex Bomb has been triggered!</string>
-<string name="TouHexBombCountdown">The Spellslinger is unleashing a Hex Bomb!
+    <string name="TouHexBombTriggered">The Hex Bomb has been triggered!</string>
+    <string name="TouHexBombCountdown">The Spellslinger is unleashing a Hex Bomb!
 [time] seconds left!</string>
-<string name="TouHexBombSpellslingerDead">The Spellslinger has perished!</string>
+    <string name="TouHexBombSpellslingerDead">The Spellslinger has perished!</string>
 </resources>

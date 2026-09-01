@@ -10,6 +10,7 @@ public sealed class SwooperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
 {
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string IdPart => "Swooper";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
 
     public string GetAdvancedDescription()
     {

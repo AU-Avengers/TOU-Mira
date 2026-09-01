@@ -29,6 +29,7 @@ public sealed class TraitorRole(IntPtr cppPtr)
     public bool NoSpawn => true;
     public bool IsDraftable => false;
     public string IdPart => "Traitor";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
 
     public string GetAdvancedDescription()
     {

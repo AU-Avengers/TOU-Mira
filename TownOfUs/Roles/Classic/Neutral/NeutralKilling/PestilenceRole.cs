@@ -39,6 +39,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     public string YouAreText => MiraLocaleManager.Get("YouAre");
     public string YouWereText => MiraLocaleManager.Get("YouWere");
     public string IdPart => "Pestilence";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
 
     public string GetAdvancedDescription()
     {

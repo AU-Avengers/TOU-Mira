@@ -8,6 +8,7 @@ public sealed class EclipsalRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 {
     public DoomableType DoomHintType => DoomableType.Perception;
     public string IdPart => "Eclipsal";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
 
     public string GetAdvancedDescription()
     {

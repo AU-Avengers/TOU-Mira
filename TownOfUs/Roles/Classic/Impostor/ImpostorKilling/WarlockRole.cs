@@ -14,6 +14,7 @@ public sealed class WarlockRole(IntPtr cppPtr)
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VeteranRole>());
     public DoomableType DoomHintType => DoomableType.Relentless;
     public string IdPart => "Warlock";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
 
     [HideFromIl2Cpp]
     public bool IsModifierApplicable(BaseModifier modifier)
