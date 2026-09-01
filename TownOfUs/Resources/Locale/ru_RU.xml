@@ -33,8 +33,6 @@
   <string name="WikiAbilitiesTab">Способности</string>
   <string name="WikiRoleGuideTab">Сборник ролей</string>
   <string name="SearchboxHeadsUp">Искать</string>
-  <string name="Roles">Роли</string>
-  <string name="Modifiers">Атрибуты</string>
   <string name="Amount">Кол-во</string>
   <string name="Chance">Шанс</string>
   <string name="Options">Настройки</string>
@@ -61,11 +59,6 @@
   <string name="ImpPower">Сильный Пред</string>
   <string name="ImpSupport">Поддерживающий Пред</string>
   <string name="GameKeyword">Игра</string>
-  <string name="MiraApi.RoleTeam.Crewmate">Член Экипажа</string>
-  <string name="MiraApi.RoleTeam.Crewmate.Short">Экипаж</string>
-  <string name="MiraApi.RoleTeam.Neutral">Нейтрал</string>
-  <string name="MiraApi.RoleTeam.Impostor">Предатель</string>
-  <string name="MiraApi.RoleTeam.Impostor.Short">Пред</string>
   <string name="Alliance">Командный</string>
   <string name="CrewmateVisibility">Экипаж-Видимость</string>
   <string name="CrewmatePostmortem">Экипаж-Посмертный</string>
@@ -97,7 +90,6 @@
   <string name="Ash">Пепельный</string>
   <string name="Crimson">Багровый</string>
   <string name="BackButtonText">Назад</string>
-  <string name="Modifier">Атрибут</string>
   <string name="SetRoleList">Список ролей</string>
   <string name="NeutralFactionList">Список Нейтралов</string>
   <string name="NeutralBenigns">Добрые Нейтралы</string>
@@ -186,7 +178,6 @@
   <string name="CommonCrew">Обычный Член Экипажа</string>
   <string name="SpecialCrew">Особый Экипаж</string>
   <string name="RandomCrew">Случайный Член Экипажа</string>
-  <string name="MiraApi.RoleTeam.Neutral.Short">Нейт</string>
   <string name="CrewmateAlliance">Командные Члены Экипажа</string>
   <string name="Mint">Мятный</string>
   <string name="Mandarin">Мандарин</string>
@@ -1465,7 +1456,6 @@ Data Lost</string>
   <string name="TownOfUsMira.Role.Jailor.TabDescriptionEvil">Ведите приватные обсуждения с игроками, при необходимости
 казните их</string>
   <string name="TownOfUsMira.Role.JailorMessageTitle">Отзыв на Тюремщика</string>
-  <string name="TownOfUsMira.Role.Mayor.TabDescriptionPostor">Приведите Предателей к победе!</string>
   <string name="TownOfUsMira.Role.MedicTabProtecting">Защищён: [player]</string>
   <string name="TouOptionMedicShieldEnumMedic">Медик</string>
   <string name="TouOptionMedicShieldEnumShielded">Защищённый</string>

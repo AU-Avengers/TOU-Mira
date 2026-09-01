@@ -30,8 +30,6 @@
   <string name="WikiDescriptionTab">Descrizione</string>
   <string name="WikiAbilitiesTab">Abilità</string>
   <string name="SearchboxHeadsUp">Cerca Qui</string>
-  <string name="Roles">Ruoli</string>
-  <string name="Modifiers">Modificatori</string>
   <string name="Amount">Quantità</string>
   <string name="Options">Opzioni</string>
   <string name="ModifierAbility">Abilità Modificatore</string>
@@ -92,15 +90,9 @@
   <string name="ImpPower">Impostore Governatore</string>
   <string name="ImpSupport">Impostore Supporto</string>
   <string name="GameKeyword">Partita</string>
-  <string name="MiraApi.RoleTeam.Crewmate">Astronauta</string>
-  <string name="MiraApi.RoleTeam.Crewmate.Short">Astronauta</string>
-  <string name="MiraApi.RoleTeam.Neutral">Neutrale</string>
   <string name="TertiaryAbility">Abilità Terziaria (Abilità Hackera)</string>
   <string name="SortGuessingByAlignment">Sorteggia Indovino Dall'Allineatore</string>
   <string name="ArrowDarkGlow">Bagliore Scuro</string>
-  <string name="MiraApi.RoleTeam.Neutral.Short">Neutro</string>
-  <string name="MiraApi.RoleTeam.Impostor">Impostore</string>
-  <string name="MiraApi.RoleTeam.Impostor.Short">Impo</string>
   <string name="Alliance">Alleanza</string>
   <string name="Universal">Universale</string>
   <string name="CrewmateAlliance">Alleanza Astronauta</string>
@@ -132,7 +124,6 @@
   <string name="NonCrewPassive">No Passive Astronauta</string>
   <string name="UseCrewmateTeamColor">Usa Colori Astronauta Base</string>
   <string name="ShowShieldHud">Mostra Scudi Sull'Interfaccia</string>
-  <string name="Modifier">Modificatore</string>
   <string name="SetRoleList">Imposta Lista Ruoli</string>
   <string name="NeutralFactionList">Lista Fazione Neutrali</string>
   <string name="NeutralBenigns">Neutrali Benigni</string>

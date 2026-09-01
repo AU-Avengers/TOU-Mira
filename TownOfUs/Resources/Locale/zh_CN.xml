@@ -45,8 +45,6 @@
   <string name="WikiAbilitiesTab">技能</string>
   <string name="WikiRoleGuideTab">职业指南</string>
   <string name="SearchboxHeadsUp">点击这里搜索</string>
-  <string name="Roles">职业</string>
-  <string name="Modifiers">附加属性</string>
   <string name="Amount">数量</string>
   <string name="Chance">概率</string>
   <string name="Options">设置</string>
@@ -84,12 +82,6 @@
   <string name="ImpPower">伪装者强力型</string>
   <string name="ImpSupport">伪装者辅助型</string>
   <string name="GameKeyword">游戏</string>
-  <string name="MiraApi.RoleTeam.Crewmate">船员</string>
-  <string name="MiraApi.RoleTeam.Crewmate.Short">船员</string>
-  <string name="MiraApi.RoleTeam.Neutral">中立</string>
-  <string name="MiraApi.RoleTeam.Neutral.Short">中立</string>
-  <string name="MiraApi.RoleTeam.Impostor">伪装者</string>
-  <string name="MiraApi.RoleTeam.Impostor.Short">伪装者</string>
   <string name="Alliance">同盟</string>
   <string name="Universal">通用</string>
   <string name="CrewmateAlliance">船员同盟型</string>
@@ -271,7 +263,6 @@
   <string name="TownOfUsMira.Role.Haunter.IntroBlurb">揭晓后期的伪装者！</string>
   <string name="TownOfUsMira.Role.Haunter.TabDescription">在不被抓到的情况下完成所有任务即可揭示伪装者！</string>
   <string name="TownOfUsMira.Role.Haunter.WikiDescription">冤魂是一名船员鬼魂型且可以做任务的职业，会以半透明玩家的形象出现。如果完成所有任务，所有存活玩家都能看到伪装者。但如果伪装者先点击你，你会变成普通幽灵。伪装者在冤魂快完成任务和完成任务时收到警告。</string>
-  <string name="Modifier">附加属性</string>
   <string name="SetRoleList">设置职业列表</string>
   <string name="NeutralFactionList">中立职业类型列表</string>
   <string name="NeutralBenigns">中立善良型</string>
@@ -1342,7 +1333,6 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TownOfUsMira.Role.Jailor.TabDescriptionEvil">监禁船员以与他们进行私下对话，以及
 如果你愿意，就处决他们</string>
   <string name="TownOfUsMira.Role.JailorMessageTitle">典狱长反馈</string>
-  <string name="TownOfUsMira.Role.Mayor.TabDescriptionPostor">带领伪装者走向胜利！</string>
   <string name="TownOfUsMira.Role.TransporterTransportNotif">你被传送了！</string>
   <string name="TownOfUsMira.Role.GrenadierFlashNotif">你周围的所有玩家都被闪光弹致盲了！</string>
   <string name="TownOfUsMira.Role.MorphlingSampleNotif">你采样了[player]。采样每轮会重置。</string>

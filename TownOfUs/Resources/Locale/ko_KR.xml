@@ -58,13 +58,8 @@
   <string name="CrewmateVisibility">크루원 시야</string>
   <string name="ImpSupport">임포스터 지원</string>
   <string name="GameKeyword">게임</string>
-  <string name="MiraApi.RoleTeam.Crewmate">크루원</string>
-  <string name="MiraApi.RoleTeam.Crewmate.Short">크루</string>
-  <string name="MiraApi.RoleTeam.Neutral">중립</string>
   <string name="Random">랜덤</string>
   <string name="Any">아무나</string>
-  <string name="MiraApi.RoleTeam.Impostor">임포스터</string>
-  <string name="MiraApi.RoleTeam.Impostor.Short">임포스터</string>
   <string name="Alliance">동맹</string>
   <string name="Universal">보편적</string>
   <string name="CrewmateAlliance">크루원 동맹</string>
@@ -90,9 +85,6 @@
   <string name="WikiAbilitiesTab">능력들</string>
   <string name="WikiRoleGuideTab">역할 가이드</string>
   <string name="SearchboxHeadsUp">검색</string>
-  <string name="Roles">역할</string>
-  <string name="Modifier">애드온</string>
-  <string name="Modifiers">애드온들</string>
   <string name="Chance">확률</string>
   <string name="Options">옵션</string>
   <string name="PlayerHasNoModifiers">애드온이 없습니다</string>
@@ -102,7 +94,6 @@
   <string name="ModifierAbility">애드온 (능력)</string>
   <string name="TownOfUsMira.Modifier.Torch">촛불</string>
   <string name="TownOfUsMira.Modifier.Torch.IntroBlurb">불이 꺼져도 볼 수 있습니다.</string>
-  <string name="TownOfUsMira.Modifier.Torch..WikiDescription">조명이 당신의 시야에 영향을 주지 않습니다.</string>
   <string name="TownOfUsMira.Modifier.Torch.TabDescription">조명이 꺼져도 시야가 
 만큼 줄어들지 않습니다.</string>
   <string name="ArrowDarkGlow">어두운 빛</string>

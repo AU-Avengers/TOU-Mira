@@ -73,9 +73,6 @@
   <string name="WikiAbilitiesTab">技能</string>
   <string name="WikiRoleGuideTab">職業指南</string>
   <string name="SearchboxHeadsUp">點擊這裏搜索</string>
-  <string name="Roles">職業</string>
-  <string name="Modifier">附加屬性</string>
-  <string name="Modifiers">附加屬性</string>
   <string name="Amount">數量</string>
   <string name="Chance">概率</string>
   <string name="Options">設置</string>
@@ -133,12 +130,6 @@
   <string name="ImpSupport">偽裝者輔助型</string>
   <string name="RolesHeader">[type]職業</string>
   <string name="GameKeyword">遊戲</string>
-  <string name="MiraApi.RoleTeam.Crewmate">船員</string>
-  <string name="MiraApi.RoleTeam.Crewmate.Short">船員</string>
-  <string name="MiraApi.RoleTeam.Neutral">中立</string>
-  <string name="MiraApi.RoleTeam.Neutral.Short">中立</string>
-  <string name="MiraApi.RoleTeam.Impostor">偽裝者</string>
-  <string name="MiraApi.RoleTeam.Impostor.Short">偽裝者</string>
   <string name="GhostKeyword">幽靈</string>
   <string name="Alliance">同盟</string>
   <string name="Universal">通用</string>
@@ -685,7 +676,6 @@
   <string name="TownOfUsMira.Role.Mayor.IntroBlurb">現身拯救船員</string>
   <string name="TownOfUsMira.Role.Mayor.TabDescription">帶領船員走向勝利!</string>
   <string name="TownOfUsMira.Role.Mayor.TabDescriptionEgo">帶領邪惡走向勝利!</string>
-  <string name="TownOfUsMira.Role.Mayor.TabDescriptionPostor">帶領偽裝者走向勝利!</string>
   <string name="TownOfUsMira.Role.MayorUnrevealedTabText">你可以隨時現身。</string>
   <string name="TownOfUsMira.Role.Mayor.WikiDescription">市長是一名船員強力型職業,擁有三票並會向所有玩家公開身份,且在會議中的外觀會發生變化。</string>
   <string name="TownOfUsMira.Role.Medic">法醫</string>

@@ -177,9 +177,6 @@
   <string name="WikiAbilitiesTab">Habilidades</string>
   <string name="WikiRoleGuideTab">Guia de Funções</string>
   <string name="SearchboxHeadsUp">Pesquisar Agora</string>
-  <string name="Roles">Funções</string>
-  <string name="Modifier">Modificador</string>
-  <string name="Modifiers">Modificadores</string>
   <string name="Terminology">Terminologia</string>
   <string name="GameSettings">Definições do Jogo</string>
   <string name="TermsPageCount">Secção [so]/[st] Página [po]/[pt]</string>
@@ -280,12 +277,6 @@ Tarefas Falsas:</string>
   <string name="ImpSupport">Impostor Suporte</string>
   <string name="RolesHeader">[type]Funções</string>
   <string name="GameKeyword">Jogo</string>
-  <string name="MiraApi.RoleTeam.Crewmate">Tripulante</string>
-  <string name="MiraApi.RoleTeam.Crewmate.Short">Tripulante</string>
-  <string name="MiraApi.RoleTeam.Neutral">Neutro</string>
-  <string name="MiraApi.RoleTeam.Neutral.Short">Neutro</string>
-  <string name="MiraApi.RoleTeam.Impostor">Impostor</string>
-  <string name="MiraApi.RoleTeam.Impostor.Short">Impostor</string>
   <string name="GhostKeyword">Fantasma</string>
   <string name="Alliance">Aliança</string>
   <string name="Universal">Universal</string>
@@ -943,7 +934,6 @@ executa-os se desejares</string>
   <string name="TownOfUsMira.Role.Mayor.IntroBlurb">Revela-te para salvar a Tripulação</string>
   <string name="TownOfUsMira.Role.Mayor.TabDescription">Lidera a Tripulação para a vitória!</string>
   <string name="TownOfUsMira.Role.Mayor.TabDescriptionEgo">Lidera os maus para a vitória!</string>
-  <string name="TownOfUsMira.Role.Mayor.TabDescriptionPostor">Lidera os Impostores para a vitória!</string>
   <string name="TownOfUsMira.Role.MayorUnrevealedTabText">Revela-te quando desejares.</string>
   <string name="TownOfUsMira.Role.Mayor.WikiDescription">O Presidente é uma Função Tripulante Poderoso que ganha três votos e é revelado para todos os jogadores. Ele também muda de visual nas reuniões.</string>
   <string name="TownOfUsMira.Role.Medic">Médico</string>

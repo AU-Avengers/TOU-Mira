@@ -60,9 +60,6 @@
   <string name="WikiAbilitiesTab">Fähigkeiten</string>
   <string name="WikiRoleGuideTab">Rollenhandbuch</string>
   <string name="SearchboxHeadsUp">Suche Hier</string>
-  <string name="Roles">Rollen</string>
-  <string name="Modifier">Modifikator</string>
-  <string name="Modifiers">Modifikatoren</string>
   <string name="Amount">Menge</string>
   <string name="Chance">Wahrscheinlichkeit</string>
   <string name="Options">Optionen</string>
@@ -154,13 +151,7 @@
   <string name="CrewmateKilling">Besatzung Mord</string>
   <string name="ImpostorKilling">Verräter Killer</string>
   <string name="NonImp">Nicht-Verräter</string>
-  <string name="MiraApi.RoleTeam.Crewmate.Short">Besatzung</string>
-  <string name="MiraApi.RoleTeam.Neutral">Neutral</string>
-  <string name="MiraApi.RoleTeam.Neutral.Short">Neutral</string>
-  <string name="MiraApi.RoleTeam.Impostor">Verräter</string>
-  <string name="MiraApi.RoleTeam.Impostor.Short">Verräter</string>
   <string name="CrewmateInvestigative">Besatzung Ermittlung</string>
-  <string name="MiraApi.RoleTeam.Crewmate">Besatzung</string>
   <string name="DiedToSoulCollector">Geernted</string>
   <string name="DiedToJester">Heimgesucht</string>
   <string name="DiedToExecutioner">Gequält</string>
@@ -601,7 +592,6 @@ in Gruppen wieder zu beleben.</string>
   <string name="TouOptionAltruistFreezeDuringRevive">Friere Altruist ein während der Wiederbelebung</string>
   <string name="TownOfUsMira.Role.Mayor.IntroBlurb">Offenbare dich, um die Besatzung zu retten</string>
   <string name="TownOfUsMira.Role.Mayor.TabDescription">Führe die Besatzung zum Sieg!</string>
-  <string name="TownOfUsMira.Role.Mayor.TabDescriptionPostor">Führe die Verräter zum Sieg!</string>
   <string name="TownOfUsMira.Role.MayorUnrevealedTabText">Offenbare dich, wann immer du möchtest.</string>
   <string name="TownOfUsMira.Role.Mayor.WikiDescription">Der Bürgermeister ist eine Besatzungs Macht Rolle, die drei Stimmen bekommt und allen Spielern offenbart wird. Außerdem ändert sich ihr Aussehen in den Versammlungen.</string>
   <string name="TownOfUsMira.Role.MedicShield.WikiDescription">Gebe ein Schild zu einen Spieler, welches diese davor schützt, umgebracht zu werden</string>

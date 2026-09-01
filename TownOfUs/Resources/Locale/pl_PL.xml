@@ -108,9 +108,6 @@ Fałszywe Zadania:</string>
   <string name="WikiAbilitiesTab">Umiejętności</string>
   <string name="WikiRoleGuideTab">Poradnik Do Ról</string>
   <string name="SearchboxHeadsUp">Wyszukaj Tutaj</string>
-  <string name="Roles">Role</string>
-  <string name="Modifier">Modyfikator</string>
-  <string name="Modifiers">Modyfikatory</string>
   <string name="Terminology">Terminologia</string>
   <string name="GameSettings">Ustawienia Gry</string>
   <string name="TermsPageCount">Sekcja [so]/[st] | Strona[po]/[pt]</string>
@@ -186,12 +183,6 @@ Fałszywe Zadania:</string>
   <string name="WikiOnBottomRow">Przycisk Wiki Poniżej Głównego UI</string>
   <string name="ZoomOnBottomRow">Przycisk Przybliżenia Poniżej Głównego UI</string>
   <string name="TermsNeutRoleAlignmentsTitle">Przynależności [color=#8A8A8A]Neutralnych[/color]</string>
-  <string name="MiraApi.RoleTeam.Crewmate">Załogant</string>
-  <string name="MiraApi.RoleTeam.Crewmate.Short">Zał</string>
-  <string name="MiraApi.RoleTeam.Neutral">Neutralny</string>
-  <string name="MiraApi.RoleTeam.Neutral.Short">Neut</string>
-  <string name="MiraApi.RoleTeam.Impostor">Intruz</string>
-  <string name="MiraApi.RoleTeam.Impostor.Short">Int</string>
   <string name="GhostKeyword">Duch</string>
   <string name="Alliance">Sojusz</string>
   <string name="Universal">Uniwersalny</string>
@@ -1176,7 +1167,6 @@ i skaż ich na śmierć jeśli będziesz chciał</string>
   <string name="TownOfUsMira.Role.Mayor.IntroBlurb">Ujawnij się, aby wesprzeć Załogę</string>
   <string name="TownOfUsMira.Role.Mayor.TabDescription">Poprowadź załogę do wygranej!</string>
   <string name="TownOfUsMira.Role.Mayor.TabDescriptionEgo">Poprowadź złoczyńców do wygranej!</string>
-  <string name="TownOfUsMira.Role.Mayor.TabDescriptionPostor">Poprowadź intruzów do wygranej!</string>
   <string name="TownOfUsMira.Role.MayorUnrevealedTabText">Ujawnij się kiedy tylko zechcesz.</string>
   <string name="TownOfUsMira.Role.Mayor.WikiDescription">Burmistrz to Załogant Wpływowy który dostaje trzy dodatkowe głosy i jest ujawniony dla wszystkich innych graczy. Zmienia on także swój wygląd na spotkaniu.</string>
   <string name="TownOfUsMira.Role.Medic">Medyk</string>

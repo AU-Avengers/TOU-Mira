@@ -168,9 +168,6 @@
   <string name="WikiAbilitiesTab">Habilidades</string>
   <string name="WikiRoleGuideTab">Guía de Rol</string>
   <string name="SearchboxHeadsUp">Buscar aquí</string>
-  <string name="Roles">Roles</string>
-  <string name="Modifier">Modificador</string>
-  <string name="Modifiers">Modificadores</string>
   <string name="Terminology">Terminología</string>
   <string name="GameSettings">Configuración de la partida</string>
   <string name="TermsPageCount">Sección [so]/[st] | Página [po]/[pt]</string>
@@ -277,12 +274,6 @@ Tareas falsas:</string>
   <!-- Palabras clave utilizadas en la interfaz para resaltar texto con un color específico -->
   <string name="RolesHeader">[type] Roles</string>
   <string name="GameKeyword">Juego</string>
-  <string name="MiraApi.RoleTeam.Crewmate">Tripulante</string>
-  <string name="MiraApi.RoleTeam.Crewmate.Short">Trip</string>
-  <string name="MiraApi.RoleTeam.Neutral">Neutral</string>
-  <string name="MiraApi.RoleTeam.Neutral.Short">Neut</string>
-  <string name="MiraApi.RoleTeam.Impostor">Impostor</string>
-  <string name="MiraApi.RoleTeam.Impostor.Short">Imp</string>
   <string name="GhostKeyword">Fantasma</string>
   <!-- Todos los modificadores posibles -->
   <string name="Alliance">Alianza</string>
@@ -1023,7 +1014,6 @@ ver quién interactúa con ellos</string>
   <string name="TownOfUsMira.Role.Mayor.IntroBlurb">Revélate para salvar a la Tripulación</string>
   <string name="TownOfUsMira.Role.Mayor.TabDescription">¡Guía a la Tripulación hacia la victoria!</string>
   <string name="TownOfUsMira.Role.Mayor.TabDescriptionEgo">¡Guía a los malos hacia la victoria!</string>
-  <string name="TownOfUsMira.Role.Mayor.TabDescriptionPostor">¡Guía a los Impostores hacia la victoria!</string>
   <string name="TownOfUsMira.Role.MayorUnrevealedTabText">Revélate cuando lo desees.</string>
   <string name="TownOfUsMira.Role.Mayor.WikiDescription">El Alcalde es un Tripulante Superior que obtiene tres votos y se revela ante todos los jugadores, cambiando también su apariencia durante las reuniones.</string>
   <!-- Médico - Tripulante de Protección -->

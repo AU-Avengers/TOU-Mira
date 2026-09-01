@@ -60,8 +60,6 @@
   <string name="WikiAbilitiesTab">Abilidades</string>
   <string name="WikiRoleGuideTab">Guía de Roles</string>
   <string name="SearchboxHeadsUp">Busca Aquí</string>
-  <string name="Roles">Roles</string>
-  <string name="Modifiers">Modificadores</string>
   <string name="Amount">Cantidad</string>
   <string name="Chance">Probabilidad</string>
   <string name="Options">Opciones</string>
@@ -98,13 +96,7 @@
   <string name="ImpPower">Impostor de Poder</string>
   <string name="ImpSupport">Impsotor de Apoyo</string>
   <string name="GameKeyword">Juego</string>
-  <string name="MiraApi.RoleTeam.Crewmate">Tripulante</string>
-  <string name="MiraApi.RoleTeam.Crewmate.Short">Tripulante</string>
-  <string name="MiraApi.RoleTeam.Neutral">Neutro</string>
-  <string name="MiraApi.RoleTeam.Impostor">Impostor</string>
-  <string name="MiraApi.RoleTeam.Impostor.Short">Impostor</string>
   <string name="TownOfUsMira.Role.Grenadier">Granadero</string>
-  <string name="Modifier">Modificador</string>
   <string name="SetRoleList">Poner Lista de Roles</string>
   <string name="NeutralFactionList">Lista de facciones neutrales</string>
   <string name="NeutralBenigns">Neutrales Pasivos</string>
@@ -114,7 +106,6 @@
   <string name="MinimumShort">Mínimo</string>
   <string name="MaximumShort">Máximo</string>
   <string name="GameOutlier">Outlier del juego</string>
-  <string name="MiraApi.RoleTeam.Neutral.Short">Neutral</string>
   <string name="Alliance">Alianza</string>
   <string name="Universal">Universal</string>
   <string name="CrewmateAlliance">Tripulante de Alianza</string>
