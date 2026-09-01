@@ -14,7 +14,7 @@ public abstract class PolusBaseNeutRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), 
     RoleOptionsGroup ICustomRole.RoleOptionsGroup => TouRoleGroups.TownOfPolusNeutral;
     public string IdPrefix => "TownOfUsMira.TownOfPolus.Role";
     public virtual string IdPart => "Neutral";
-    public virtual string RoleName => MiraLocaleManager.Get("NeutralKeyword");
+    public virtual string RoleName => MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral");
     public virtual string RoleDescription => MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.NeutDescription");
     public virtual string RoleDescriptionDead => MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.NeutDescriptionDead");
     public virtual string RoleLongDescription => MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.NeutDescription");

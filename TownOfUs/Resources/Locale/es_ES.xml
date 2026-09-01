@@ -98,11 +98,11 @@
   <string name="ImpPower">Impostor de Poder</string>
   <string name="ImpSupport">Impsotor de Apoyo</string>
   <string name="GameKeyword">Juego</string>
-  <string name="CrewmateKeyword">Tripulante</string>
-  <string name="CrewKeyword">Tripulante</string>
-  <string name="NeutralKeyword">Neutro</string>
-  <string name="ImpostorKeyword">Impostor</string>
-  <string name="ImpKeyword">Impostor</string>
+  <string name="MiraApi.RoleTeam.Crewmate">Tripulante</string>
+  <string name="MiraApi.RoleTeam.Crewmate.Short">Tripulante</string>
+  <string name="MiraApi.RoleTeam.Neutral">Neutro</string>
+  <string name="MiraApi.RoleTeam.Impostor">Impostor</string>
+  <string name="MiraApi.RoleTeam.Impostor.Short">Impostor</string>
   <string name="TownOfUsMira.Role.Grenadier">Granadero</string>
   <string name="Modifier">Modificador</string>
   <string name="SetRoleList">Poner Lista de Roles</string>
@@ -114,7 +114,7 @@
   <string name="MinimumShort">Mínimo</string>
   <string name="MaximumShort">Máximo</string>
   <string name="GameOutlier">Outlier del juego</string>
-  <string name="NeutKeyword">Neutral</string>
+  <string name="MiraApi.RoleTeam.Neutral.Short">Neutral</string>
   <string name="Alliance">Alianza</string>
   <string name="Universal">Universal</string>
   <string name="CrewmateAlliance">Tripulante de Alianza</string>

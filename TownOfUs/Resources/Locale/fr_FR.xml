@@ -29,10 +29,10 @@
   <string name="CommonCrew">Coéquipier Standard</string>
   <string name="CommonNeutral">Neutre Standard</string>
   <string name="CommonImp">Impo Standard</string>
-  <string name="NeutralKeyword">Neutre</string>
-  <string name="CrewmateKeyword">Coéquipier</string>
-  <string name="ImpostorKeyword">Imposteur</string>
-  <string name="ImpKeyword">Impo</string>
+  <string name="MiraApi.RoleTeam.Neutral">Neutre</string>
+  <string name="MiraApi.RoleTeam.Crewmate">Coéquipier</string>
+  <string name="MiraApi.RoleTeam.Impostor">Imposteur</string>
+  <string name="MiraApi.RoleTeam.Impostor.Short">Impo</string>
   <string name="Universal">Universel</string>
   <string name="ImpostorUtility">Imposteur Utilitaire</string>
   <string name="TownOfUsMira.Modifier.Scientist.TabDescription">Accédez à tout moment aux signes vitaux, tant qu'il vous reste de la batterie.</string>
@@ -404,8 +404,8 @@ Fausses tâches :</string>
   <string name="ImpSupport">Imposteur Support</string>
   <string name="RolesHeader">[type] Rôles</string>
   <string name="GameKeyword">Jeu</string>
-  <string name="CrewKeyword">Équipage</string>
-  <string name="NeutKeyword">Neutre</string>
+  <string name="MiraApi.RoleTeam.Crewmate.Short">Équipage</string>
+  <string name="MiraApi.RoleTeam.Neutral.Short">Neutre</string>
   <string name="GhostKeyword">Fantôme</string>
   <string name="Alliance">Alliance</string>
   <string name="CrewmateAlliance">Coéquipier Alliance</string>

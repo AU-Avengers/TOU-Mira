@@ -70,9 +70,9 @@ namespace TownOfUs.Modules.DraftMode
 
         private static string GetTeamLabelForRoleName(string roleName)
         {
-            if (DraftRolePool.IsImpostorRoleName(roleName)) return MiraLocaleManager.Get("ImpostorKeyword");
-            if (DraftRolePool.IsNeutralRoleName(roleName)) return MiraLocaleManager.Get("NeutralKeyword");
-            return MiraLocaleManager.Get("CrewmateKeyword");
+            if (DraftRolePool.IsImpostorRoleName(roleName)) return MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor");
+            if (DraftRolePool.IsNeutralRoleName(roleName)) return MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral");
+            return MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate");
         }
 
         private static Color GetColorForRoleName(string roleName)
@@ -138,16 +138,16 @@ namespace TownOfUs.Modules.DraftMode
 
         public static string GetTeamLabel(RoleBehaviour role)
         {
-            var faction = MiraLocaleManager.Get("CrewmateKeyword");
+            var faction = MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate");
             if (role)
             {
                 if (role!.IsNeutral())
                 {
-                    faction = MiraLocaleManager.Get("NeutralKeyword");
+                    faction = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral");
                 }
                 else if (role!.IsImpostor())
                 {
-                    faction = MiraLocaleManager.Get("ImpostorKeyword");
+                    faction = MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor");
                 }
             }
 

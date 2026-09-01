@@ -64,7 +64,7 @@ public static class HauntMenuMinigamePatch
             {
                 if (role.IsNeutral())
                 {
-                    name = MiraLocaleManager.Get("NeutralKeyword");
+                    name = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral");
                     rColor = Color.gray;
                 }
                 else if (role.IsCrewmate())
@@ -148,7 +148,7 @@ public static class HauntMenuMinigamePatch
             {
                 if (role.IsNeutral())
                 {
-                    name = MiraLocaleManager.Get("NeutralKeyword");
+                    name = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral");
                     rColor = Color.gray;
                 }
                 else if (role.IsCrewmate())

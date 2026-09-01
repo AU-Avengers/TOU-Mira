@@ -280,12 +280,12 @@ Tarefas Falsas:</string>
   <string name="ImpSupport">Impostor Suporte</string>
   <string name="RolesHeader">[type]Funções</string>
   <string name="GameKeyword">Jogo</string>
-  <string name="CrewmateKeyword">Tripulante</string>
-  <string name="CrewKeyword">Tripulante</string>
-  <string name="NeutralKeyword">Neutro</string>
-  <string name="NeutKeyword">Neutro</string>
-  <string name="ImpostorKeyword">Impostor</string>
-  <string name="ImpKeyword">Impostor</string>
+  <string name="MiraApi.RoleTeam.Crewmate">Tripulante</string>
+  <string name="MiraApi.RoleTeam.Crewmate.Short">Tripulante</string>
+  <string name="MiraApi.RoleTeam.Neutral">Neutro</string>
+  <string name="MiraApi.RoleTeam.Neutral.Short">Neutro</string>
+  <string name="MiraApi.RoleTeam.Impostor">Impostor</string>
+  <string name="MiraApi.RoleTeam.Impostor.Short">Impostor</string>
   <string name="GhostKeyword">Fantasma</string>
   <string name="Alliance">Aliança</string>
   <string name="Universal">Universal</string>
@@ -695,9 +695,9 @@ no equivalente a funções de impostor!</string>
   <string name="TownOfUsMira.Role.Altruist">Altruísta</string>
   <string name="TownOfUsMira.Role.Altruist.IntroBlurb">Revive tripulantes mortos</string>
   <string name="TownOfUsMira.Role.Altruist.TabDescription">Revive tripulantes mortos em grupos.</string>
-  <string name="TownOfUsMira.Role.AltruistTabDescriptionGroupSacrifice">Sacrifica-te por tripulantes mortos em grupos
+  <string name="TownOfUsMira.Role.Altruist.TabDescription.GroupSacrifice">Sacrifica-te por tripulantes mortos em grupos
 com o custo da tua própria vida.</string>
-  <string name="TownOfUsMira.Role.AltruistTabDescriptionSacrifice">Sacrifica-te por um tripulante morto.</string>
+  <string name="TownOfUsMira.Role.Altruist.TabDescription.Sacrifice">Sacrifica-te por um tripulante morto.</string>
   <string name="TownOfUsMira.Role.Altruist.WikiDescription">O Altruísta é uma Função Tripulante Protetor que pode reviver tripulantes mortos, mas previne reuniões de serem chamadas por eles mesmos ou por tripulantes que eles revivem.</string>
   <string name="TownOfUsMira.Role.AltruistRevive">Reviver</string>
   <string name="TownOfUsMira.Role.AltruistReviving">Revivendo</string>
@@ -903,7 +903,7 @@ Quando usarem uma habilidade, podes matar-los.</string>
   <string name="TownOfUsMira.Role.Jailor.IntroBlurb">Prende e executa [color=#FF0000FF]malfeitores[/color]</string>
   <string name="TownOfUsMira.Role.Jailor.TabDescription">Prende tripulantes para falares com eles em privado, e
 executa-os se eles forem malfeitores</string>
-  <string name="TownOfUsMira.Role.JailorTabDescriptionEvil">Prende tripulantes para falares com eles em priado, e
+  <string name="TownOfUsMira.Role.Jailor.TabDescriptionEvil">Prende tripulantes para falares com eles em priado, e
 executa-os se desejares</string>
   <string name="TownOfUsMira.Role.Jailor.WikiDescription">O Carcereiro é uma Função Tripulante Poderoso que pode prender outros jogadores. Durante a reunião, o Carcereiro pode escolher executar o jogador. (A não ser que o Carcereiro é um Imitador)</string>
   <string name="TownOfUsMira.Role.JailorJail">Prender</string>
@@ -924,7 +924,7 @@ executa-os se desejares</string>
   <string name="TownOfUsMira.Role.Lookout">Observador</string>
   <string name="TownOfUsMira.Role.Lookout.IntroBlurb">Mantém os teus olhos abertos</string>
   <string name="TownOfUsMira.Role.Lookout.TabDescription">Observa outros tripulantes para ver que funções interagiram com eles</string>
-  <string name="TownOfUsMira.Role.LookoutAlt.TabDescription">Observa outros tripulantes para ver quem interage com quem</string>
+  <string name="TownOfUsMira.Role.Lookout.AltTabDescription">Observa outros tripulantes para ver quem interage com quem</string>
   <string name="TownOfUsMira.Role.Lookout.WikiDescription">O Observador é uma Função Tripulante Investigador que pode observar outros jogadores durante o jogo. Nas reuniões, ele pode ver todas as funções ou jogadores que interagiram com o jogador observado.</string>
   <string name="TownOfUsMira.Role.LookoutWatch">Observar</string>
   <string name="TownOfUsMira.Role.LookoutWatch.WikiDescription">Observa um jogador ou múltiplos, na próxima reunião vais saber quais jogadores interagiram com os observados.</string>
@@ -942,8 +942,8 @@ executa-os se desejares</string>
   <string name="TownOfUsMira.Role.Mayor">Presidente</string>
   <string name="TownOfUsMira.Role.Mayor.IntroBlurb">Revela-te para salvar a Tripulação</string>
   <string name="TownOfUsMira.Role.Mayor.TabDescription">Lidera a Tripulação para a vitória!</string>
-  <string name="TownOfUsMira.Role.MayorTabDescriptionEgo">Lidera os maus para a vitória!</string>
-  <string name="TownOfUsMira.Role.MayorTabDescriptionPostor">Lidera os Impostores para a vitória!</string>
+  <string name="TownOfUsMira.Role.Mayor.TabDescriptionEgo">Lidera os maus para a vitória!</string>
+  <string name="TownOfUsMira.Role.Mayor.TabDescriptionPostor">Lidera os Impostores para a vitória!</string>
   <string name="TownOfUsMira.Role.MayorUnrevealedTabText">Revela-te quando desejares.</string>
   <string name="TownOfUsMira.Role.Mayor.WikiDescription">O Presidente é uma Função Tripulante Poderoso que ganha três votos e é revelado para todos os jogadores. Ele também muda de visual nas reuniões.</string>
   <string name="TownOfUsMira.Role.Medic">Médico</string>
@@ -1144,12 +1144,12 @@ pelo menos metade dos jogadores inocentes para te revelares com sucesso</string>
   <string name="TouOptionProsecutorMaxProsecutions">Max Processos</string>
   <string name="TownOfUsMira.Role.Seer">Vidente</string>
   <string name="TownOfUsMira.Role.Seer.IntroBlurb">Revela as alianças de outros</string>
-  <string name="TownOfUsMira.Role.SeerAlt.IntroBlurb">Compara os alinhamentos de dois jogadores</string>
+  <string name="TownOfUsMira.Role.Seer.AltIntroBlurb">Compara os alinhamentos de dois jogadores</string>
   <string name="TownOfUsMira.Role.Seer.TabDescription">Revela alianças de outros jogadores para encontrar malfeitores.</string>
-  <string name="TownOfUsMira.Role.SeerAlt.TabDescription">Compara dois jogadores para verificar se
+  <string name="TownOfUsMira.Role.Seer.AltTabDescription">Compara dois jogadores para verificar se
 eles são amigos ou inimigos!</string>
   <string name="TownOfUsMira.Role.Seer.WikiDescription">O Vidente é uma Função Tripulante Investigador que pode revelar as alianças de outros jogadores.</string>
-  <string name="TownOfUsMira.Role.SeerAlt.WikiDescription">O Vidente é uma Função Tripulante Investigador que pode comparar dois jogadores para ver se eles têm os mesmos alinhamentos.</string>
+  <string name="TownOfUsMira.Role.Seer.AltWikiDescription">O Vidente é uma Função Tripulante Investigador que pode comparar dois jogadores para ver se eles têm os mesmos alinhamentos.</string>
   <string name="TownOfUsMira.Role.SeerReveal">Revelar</string>
   <string name="TownOfUsMira.Role.SeerReveal.WikiDescription">Revela a fação de um jogador</string>
   <string name="TownOfUsMira.Role.SeerIntuit">Intuir</string>
@@ -1304,7 +1304,7 @@ Munições carregadas há mais de 10s são eliminadas na próxima ronda.</string
   <string name="TownOfUsMira.Role.Sheriff">Xerife</string>
   <string name="TownOfUsMira.Role.Sheriff.IntroBlurb">Dispara nos [color=#FF0000FF]Malfeitores[/color]</string>
   <string name="TownOfUsMira.Role.Sheriff.TabDescription">Mata os Impostores mas não mates os tripulantes</string>
-  <string name="TownOfUsMira.Role.SheriffTabDescriptionEgo">Mata quem tu quiseres na esperança da tripulação perder</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabDescriptionEgo">Mata quem tu quiseres na esperança da tripulação perder</string>
   <string name="TownOfUsMira.Role.Sheriff.WikiDescription">O Xerife é uma Função Tripulante Assassino que pode atirar num jogador para tentar o matar. Se o Xerife não morrer de tiro falhado, ele vai perder a habilidade de disparar.</string>
   <string name="TownOfUsMira.Role.SheriffShoot">Atirar</string>
   <string name="TownOfUsMira.Role.SheriffShoot.WikiDescription">Dispara num jogador para o matar, falhando o tiro se ele não for um Impostor ou outra fação que pode ser disparada</string>
@@ -1336,9 +1336,9 @@ ao custo da tua habilidade.</string>
   <string name="TownOfUsMira.Role.Snitch">Chibo</string>
   <string name="TownOfUsMira.Role.Snitch.IntroBlurb">Encontra os [color=#FF0000FF]Impostores[/color]!</string>
   <string name="TownOfUsMira.Role.Snitch.TabDescription">Completa todas as tuas tarefas para descobrir os Impostores.</string>
-  <string name="TownOfUsMira.Role.SnitchTabDescriptionCompletedTasks">Encontra os Impostores!</string>
-  <string name="TownOfUsMira.Role.SnitchTabDescriptionEgo">Completa todas as tuas tarefas para descobrir [and] ajudar os Impostores.</string>
-  <string name="TownOfUsMira.Role.SnitchTabDescriptionCompletedTasksEgo">Ajuda os Impostores!</string>
+  <string name="TownOfUsMira.Role.Snitch.TabDescriptionCompletedTasks">Encontra os Impostores!</string>
+  <string name="TownOfUsMira.Role.Snitch.TabDescriptionEgo">Completa todas as tuas tarefas para descobrir [and] ajudar os Impostores.</string>
+  <string name="TownOfUsMira.Role.Snitch.TabDescriptionCompletedTasksEgo">Ajuda os Impostores!</string>
   <string name="TownOfUsMira.Role.Snitch.WikiDescription">O Chibo é uma Função Tripulante Investigador que pode revelar os Impostores finalizando todas as suas tarefas. Quando as tarefas são completadas, os Impostores vão ser revelados ao Chibo com uma seta e o seu nome vermelho.</string>
   <string name="TownOfUsMira.Role.SnitchSelfRevealedEgoFeedback">Os impostores sabem da tua localização, e sabem que és o Egotista!</string>
   <string name="TownOfUsMira.Role.SnitchSelfRevealedFeedback">Os impostores sabem da tua localização!</string>

@@ -154,13 +154,13 @@
   <string name="CrewmateKilling">Besatzung Mord</string>
   <string name="ImpostorKilling">Verräter Killer</string>
   <string name="NonImp">Nicht-Verräter</string>
-  <string name="CrewKeyword">Besatzung</string>
-  <string name="NeutralKeyword">Neutral</string>
-  <string name="NeutKeyword">Neutral</string>
-  <string name="ImpostorKeyword">Verräter</string>
-  <string name="ImpKeyword">Verräter</string>
+  <string name="MiraApi.RoleTeam.Crewmate.Short">Besatzung</string>
+  <string name="MiraApi.RoleTeam.Neutral">Neutral</string>
+  <string name="MiraApi.RoleTeam.Neutral.Short">Neutral</string>
+  <string name="MiraApi.RoleTeam.Impostor">Verräter</string>
+  <string name="MiraApi.RoleTeam.Impostor.Short">Verräter</string>
   <string name="CrewmateInvestigative">Besatzung Ermittlung</string>
-  <string name="CrewmateKeyword">Besatzung</string>
+  <string name="MiraApi.RoleTeam.Crewmate">Besatzung</string>
   <string name="DiedToSoulCollector">Geernted</string>
   <string name="DiedToJester">Heimgesucht</string>
   <string name="DiedToExecutioner">Gequält</string>
@@ -197,7 +197,7 @@
   <string name="TownOfUsMira.Role.Sheriff">Sheriff</string>
   <string name="TownOfUsMira.Role.Sheriff.IntroBlurb">Erschiße Den [color=#FF0000FF]Verräter[/color]</string>
   <string name="TownOfUsMira.Role.Sheriff.TabDescription">Töte die Verräter aber nicht die Besatzung</string>
-  <string name="TownOfUsMira.Role.SheriffTabDescriptionEgo">Töte wen auch immer du willst in der Hoffnung das die Besatzung Verliert</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabDescriptionEgo">Töte wen auch immer du willst in der Hoffnung das die Besatzung Verliert</string>
   <string name="TownOfUsMira.Role.SheriffShoot">Schießen</string>
   <string name="TownOfUsMira.Role.SheriffTabMisfired">Du kannst nicht mehr schießen.</string>
   <string name="TownOfUsMira.Role.SheriffTabMisfireKillsBoth">Eine Fehlzündung Tötet dich und dein Ziel.</string>
@@ -298,7 +298,7 @@ Wenn deine Quote gefütteret ist hast du gewonnen!</string>
   <string name="TownOfUsMira.Role.Undertaker">Grabschänder</string>
   <string name="TownOfUsMira.Role.Undertaker.IntroBlurb">Ziehe Leichen Weg Und Verstecke Sie</string>
   <string name="TownOfUsMira.Role.Trapper">Fallensteller</string>
-  <string name="TownOfUsMira.Role.MayorTabDescriptionEgo">Führe Die Bösen zum Sieg!</string>
+  <string name="TownOfUsMira.Role.Mayor.TabDescriptionEgo">Führe Die Bösen zum Sieg!</string>
   <string name="TownOfUsMira.Modifier.Egotist">Egoist</string>
   <string name="TownOfUsMira.Modifier.Egotist.IntroBlurb">Verrate die Besatzung um dein Ego zu Steigern</string>
   <string name="LoversWin">Verliebte Gewinnen</string>
@@ -559,7 +559,7 @@ Sobald sie dies tun, darfst du diese umbringen.</string>
   <string name="TouOptionInvestigatorShowFootprintVent">Fußspuren in Schächten Sichtbar</string>
   <string name="TownOfUsMira.Role.Jailor.TabDescription">Diskutiere mit der Besatzung in einem privaten Treffen und 
 exekutiere diese, wenn sie verdächtigt sind</string>
-  <string name="TownOfUsMira.Role.JailorTabDescriptionEvil">Diskutiere mit der Besatzung in Privaten Treffen, und 
+  <string name="TownOfUsMira.Role.Jailor.TabDescriptionEvil">Diskutiere mit der Besatzung in Privaten Treffen, und 
 exekutiere diese nach deinem Willen</string>
   <string name="TownOfUsMira.Role.Jailor.WikiDescription">Der Wärter ist eine Besatzungs Macht Rolle, welche andere Spieler verhaften kann. Während einer Versammlung, darf der Wärter den verhafteten Spieler exekutieren. (Imitatoren können nicht exekutieren)</string>
   <string name="TownOfUsMira.Role.JailorJail.WikiDescription">Verhafte einen Spieler. Während einer Versammlung kann jeder sehen, wer verhaftet ist. Du kannst privat mit dem verhafteten Spieler sprechen, in dem du den Anweisungen in dem privaten Chat folgst</string>
@@ -593,15 +593,15 @@ exekutiere diese nach deinem Willen</string>
   <string name="TownOfUsMira.Role.SpectreSpook">Spuken</string>
   <string name="DiedToSuicideAltruist">Geopfert</string>
   <string name="DiedToSuicideSheriff">Fehlzündung</string>
-  <string name="TownOfUsMira.Role.AltruistTabDescriptionGroupSacrifice">Opfere dein Leben auf, um Tote Besatzung 
+  <string name="TownOfUsMira.Role.Altruist.TabDescription.GroupSacrifice">Opfere dein Leben auf, um Tote Besatzung 
 in Gruppen wieder zu beleben.</string>
-  <string name="TownOfUsMira.Role.AltruistTabDescriptionSacrifice">Opfere dich auf für ein totes Besatzungsmitglied.</string>
+  <string name="TownOfUsMira.Role.Altruist.TabDescription.Sacrifice">Opfere dich auf für ein totes Besatzungsmitglied.</string>
   <string name="TownOfUsMira.Role.AltruistReviveGroupSacrifice.WikiDescription">Belebe eine Gruppe Toter Körper in deiner Nähe wieder. Sobald die Wiederbelebung beendet ist, wirst du sterben, ohne dabei eine Leiche zu hinterlassen.</string>
   <string name="TownOfUsMira.Role.AltruistReviveSacrifice.WikiDescription">Belebe den nächsten Toten Körper wieder. Sobald die Wiederbelebung beendet ist, wirst du sterben, ohne dabei eine Leiche zu hinterlassen.</string>
   <string name="TouOptionAltruistFreezeDuringRevive">Friere Altruist ein während der Wiederbelebung</string>
   <string name="TownOfUsMira.Role.Mayor.IntroBlurb">Offenbare dich, um die Besatzung zu retten</string>
   <string name="TownOfUsMira.Role.Mayor.TabDescription">Führe die Besatzung zum Sieg!</string>
-  <string name="TownOfUsMira.Role.MayorTabDescriptionPostor">Führe die Verräter zum Sieg!</string>
+  <string name="TownOfUsMira.Role.Mayor.TabDescriptionPostor">Führe die Verräter zum Sieg!</string>
   <string name="TownOfUsMira.Role.MayorUnrevealedTabText">Offenbare dich, wann immer du möchtest.</string>
   <string name="TownOfUsMira.Role.Mayor.WikiDescription">Der Bürgermeister ist eine Besatzungs Macht Rolle, die drei Stimmen bekommt und allen Spielern offenbart wird. Außerdem ändert sich ihr Aussehen in den Versammlungen.</string>
   <string name="TownOfUsMira.Role.MedicShield.WikiDescription">Gebe ein Schild zu einen Spieler, welches diese davor schützt, umgebracht zu werden</string>

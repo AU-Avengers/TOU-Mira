@@ -14,7 +14,7 @@ public class PolusGhostCrewRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
     RoleOptionsGroup ICustomRole.RoleOptionsGroup => TouRoleGroups.TownOfPolusCrewmate;
     public string IdPrefix => "TownOfUsMira.TownOfPolus.Role";
     public virtual string IdPart => "Crewmate";
-    public virtual string RoleName => Player != null ? Player.GetRoleWhenAlive().GetRoleName() : MiraLocaleManager.Get("CrewmateKeyword");
+    public virtual string RoleName => Player != null ? Player.GetRoleWhenAlive().GetRoleName() : MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate");
     public virtual string RoleDescription => Player != null ? Player.GetRoleWhenAlive().Blurb : MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.CrewDescriptionDead");
 
     public virtual string RoleLongDescription

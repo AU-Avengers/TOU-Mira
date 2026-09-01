@@ -610,9 +610,9 @@ public static class ChatPatches
             var msgParts = new List<string>();
 
             var rolesHeader = MiraLocaleManager.Get("RolesHeader");
-            var crewWord = MiraLocaleManager.Get("CrewmateKeyword");
-            var impWord = MiraLocaleManager.Get("ImpostorKeyword");
-            var neutWord = MiraLocaleManager.Get("NeutralKeyword");
+            var crewWord = MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate");
+            var impWord = MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor");
+            var neutWord = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral");
             var ghostWord = MiraLocaleManager.Get("GhostKeyword");
             if (crewmateRoles.Count > 0)
             {

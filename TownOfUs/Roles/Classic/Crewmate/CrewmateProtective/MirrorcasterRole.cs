@@ -284,14 +284,14 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
                     }
                     break;
                 case MirrorAttackInfo.Faction:
-                    var faction = MiraLocaleManager.Get("CrewmateKeyword");
+                    var faction = MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate");
                     if (source.IsNeutral())
                     {
-                        faction = MiraLocaleManager.Get("NeutralKeyword");
+                        faction = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral");
                     }
                     else if (source.IsImpostor())
                     {
-                        faction = MiraLocaleManager.Get("ImpKeyword");
+                        faction = MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor.Short");
                     }
                     text = MiraLocaleManager.Get("TownOfUsMira.Role.MirrorcasterAttackedMessageWithFaction")
                         .Replace("<player>", protectedPlayer.Data.PlayerName)

@@ -66,7 +66,7 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         stringB.Append("<size=70%>");
         if (PlayerControl.LocalPlayer.HasModifier<EgotistModifier>())
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}TabDescriptionEgo")}");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescriptionEgo")}");
         }
         else
         {
@@ -77,7 +77,7 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
                 var missType = OptionGroupSingleton<SheriffOptions>.Instance.MisfireType;
                 addedText = $"Kills{missType}";
             }
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}TabMisfire{addedText}")}</b>");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabMisfire{addedText}")}</b>");
         }
 
         return stringB;

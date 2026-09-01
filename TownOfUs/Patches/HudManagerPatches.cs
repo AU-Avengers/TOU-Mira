@@ -666,7 +666,7 @@ public static class HudManagerPatches
             MiraLocaleManager.Get("NeutralKillers")
         ];
         List<string> listsNew = [];
-        var neutKeyword = MiraLocaleManager.Get("NeutralKeyword");
+        var neutKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral");
         foreach (var alignment in lists)
         {
             var text = alignment;

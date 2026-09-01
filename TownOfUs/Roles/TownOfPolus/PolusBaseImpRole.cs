@@ -14,7 +14,7 @@ public abstract class PolusBaseImpRole(IntPtr cppPtr) : ImpostorRole(cppPtr), IT
     RoleOptionsGroup ICustomRole.RoleOptionsGroup => TouRoleGroups.TownOfPolusImpostor;
     public string IdPrefix => "TownOfUsMira.TownOfPolus.Role";
     public virtual string IdPart => "Impostor";
-    public virtual string RoleName => MiraLocaleManager.Get("ImpostorKeyword");
+    public virtual string RoleName => MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor");
     public virtual string RoleDescription => MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.ImpDescription");
     public virtual string RoleDescriptionDead => MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.ImpDescriptionDead");
     public virtual string RoleLongDescription => MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.ImpDescription");

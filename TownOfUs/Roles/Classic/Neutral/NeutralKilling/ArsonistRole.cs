@@ -44,7 +44,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     }
 
     public string RoleLongDescription => OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
-        ? MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}TabDescriptionLegacy")
+        ? MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescriptionLegacy")
         : MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
@@ -69,7 +69,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
                     TouNeutAssets.DouseButtonSprite),
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Ignite", "Ignite"),
                     MiraLocaleManager.Get(OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
-                        ? $"TownOfUsMira.Role.{IdPart}IgniteWikiDescriptionLegacy"
+                        ? $"TownOfUsMira.Role.{IdPart}Ignite.WikiDescriptionLegacy"
                         : $"TownOfUsMira.Role.{IdPart}Ignite.WikiDescription"),
                     TouNeutAssets.IgniteButtonSprite)
             ];

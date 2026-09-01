@@ -186,12 +186,12 @@ Fałszywe Zadania:</string>
   <string name="WikiOnBottomRow">Przycisk Wiki Poniżej Głównego UI</string>
   <string name="ZoomOnBottomRow">Przycisk Przybliżenia Poniżej Głównego UI</string>
   <string name="TermsNeutRoleAlignmentsTitle">Przynależności [color=#8A8A8A]Neutralnych[/color]</string>
-  <string name="CrewmateKeyword">Załogant</string>
-  <string name="CrewKeyword">Zał</string>
-  <string name="NeutralKeyword">Neutralny</string>
-  <string name="NeutKeyword">Neut</string>
-  <string name="ImpostorKeyword">Intruz</string>
-  <string name="ImpKeyword">Int</string>
+  <string name="MiraApi.RoleTeam.Crewmate">Załogant</string>
+  <string name="MiraApi.RoleTeam.Crewmate.Short">Zał</string>
+  <string name="MiraApi.RoleTeam.Neutral">Neutralny</string>
+  <string name="MiraApi.RoleTeam.Neutral.Short">Neut</string>
+  <string name="MiraApi.RoleTeam.Impostor">Intruz</string>
+  <string name="MiraApi.RoleTeam.Impostor.Short">Int</string>
   <string name="GhostKeyword">Duch</string>
   <string name="Alliance">Sojusz</string>
   <string name="Universal">Uniwersalny</string>
@@ -340,9 +340,9 @@ Możesz wyłączyć tą wiadomość w ustawieniach klienta.</string>
   <string name="TownOfUsMira.Role.Altruist">Altruista</string>
   <string name="TownOfUsMira.Role.Altruist.IntroBlurb">Wskrześ martwych załogantów</string>
   <string name="TownOfUsMira.Role.Altruist.TabDescription">Wskrześ grupę martwych załogantów.</string>
-  <string name="TownOfUsMira.Role.AltruistTabDescriptionGroupSacrifice">Poświęć się dla grupy martwej załogi
+  <string name="TownOfUsMira.Role.Altruist.TabDescription.GroupSacrifice">Poświęć się dla grupy martwej załogi
 za cenę własnego życia.</string>
-  <string name="TownOfUsMira.Role.AltruistTabDescriptionSacrifice">Poświęć się dla martwego załoganta.</string>
+  <string name="TownOfUsMira.Role.Altruist.TabDescription.Sacrifice">Poświęć się dla martwego załoganta.</string>
   <string name="TownOfUsMira.Role.Altruist.WikiDescription">Altruista to Załogant Ochronny który może wskrzesić martwych załogantów, lecz uniemożliwia wezwania spotkania przez nich samych lub załogantów których wskrzesił.</string>
   <string name="TownOfUsMira.Role.AltruistRevive">Wskrześ</string>
   <string name="TownOfUsMira.Role.AltruistReviving">Wskrzeszanie</string>
@@ -544,7 +544,7 @@ Po śmierci osaczonego gracza zabierzesz jego ciało.</string>
   <string name="TownOfUsMira.Role.MirrorcasterMagicMirror.WikiDescription">Nałóż na gracza lustro. Jeśli gracz zostanie bezpośrednio zaatakowany, dostaniesz powiadomienie i będziesz mógł odbić atak na kimś innym. Role które ignorują Magiczne Lustro to Piroman, Weteran, Choróbsko, Terrorysta (o ile gracz zostanie wysadzony) oraz kilka innych.</string>
   <string name="TownOfUsMira.Role.Arsonist.IntroBlurb">Oblej graczy i rozpal ogień</string>
   <string name="TownOfUsMira.Role.Arsonist.TabDescription">Oblej graczy i podpal aby zabić wszystkie oblane cele.</string>
-  <string name="TownOfUsMira.Role.ArsonistTabDescriptionLegacy">Oblej graczy i podpal najbliższego aby zabić wszystkie oblane cele.</string>
+  <string name="TownOfUsMira.Role.Arsonist.TabDescriptionLegacy">Oblej graczy i podpal najbliższego aby zabić wszystkie oblane cele.</string>
   <string name="TownOfUsMira.Role.ArsonistTabDousedInfo">Oblani Gracze:</string>
   <string name="TownOfUsMira.Role.Arsonist.WikiDescription">Piroman jest Neutralną Zabijającą rolą wygrywającą jako ostatni żywy zabójca.</string>
   <string name="TownOfUsMira.Role.ArsonistWikiAddition">Może oblać graczy i podpalić ich gdy są blisko.</string>
@@ -553,7 +553,7 @@ Po śmierci osaczonego gracza zabierzesz jego ciało.</string>
   <string name="TownOfUsMira.Role.ArsonistDouse.WikiDescription">Oblej gracza benzyną.</string>
   <string name="TownOfUsMira.Role.ArsonistIgnite">Podpal</string>
   <string name="TownOfUsMira.Role.ArsonistIgnite.WikiDescription">Zabij kilku oblanych graczy blisko ciebie, o ile są w twoim zasięgu.</string>
-  <string name="TownOfUsMira.Role.ArsonistIgniteWikiDescriptionLegacy">Zabij wszystkich oblanych graczy na mapie o ile podpalisz jednego blisko ciebie.</string>
+  <string name="TownOfUsMira.Role.ArsonistIgnite.WikiDescriptionLegacy">Zabij wszystkich oblanych graczy na mapie o ile podpalisz jednego blisko ciebie.</string>
   <string name="TouOptionArsonistDouseCooldown">Cooldown Oblania</string>
   <string name="TouOptionArsonistDouseUses">Liczba Możliwych Oblań</string>
   <string name="TouOptionArsonistDouseInteractions">Oblej Poprzez Interakcje</string>
@@ -1154,7 +1154,7 @@ Gdy takowej użyją, możesz go zabić.</string>
   <string name="TownOfUsMira.Role.Jailor.IntroBlurb">Uwięź i skaż na śmierć [color=#FF0000FF]złoczyńców[/color]</string>
   <string name="TownOfUsMira.Role.Jailor.TabDescription">Uwięź graczy, aby porozmawiać z nimi prywatnie
 i skaż ich na śmierć jeśli są złoczyńcami</string>
-  <string name="TownOfUsMira.Role.JailorTabDescriptionEvil">Uwięź graczy, aby porozmawiać z nimi prywatnie
+  <string name="TownOfUsMira.Role.Jailor.TabDescriptionEvil">Uwięź graczy, aby porozmawiać z nimi prywatnie
 i skaż ich na śmierć jeśli będziesz chciał</string>
   <string name="TownOfUsMira.Role.Jailor.WikiDescription">Klawisz to Załogant Wpływowy który może uwięzić innych graczy. Podczas spotkania, Klawisz może zdecydować, aby skazać na śmierć uwięzionego gracza. (Chyba, że Klawisz to Naśladowca)</string>
   <string name="TownOfUsMira.Role.JailorJail">Uwięź</string>
@@ -1175,8 +1175,8 @@ i skaż ich na śmierć jeśli będziesz chciał</string>
   <string name="TownOfUsMira.Role.Mayor">Burmistrz</string>
   <string name="TownOfUsMira.Role.Mayor.IntroBlurb">Ujawnij się, aby wesprzeć Załogę</string>
   <string name="TownOfUsMira.Role.Mayor.TabDescription">Poprowadź załogę do wygranej!</string>
-  <string name="TownOfUsMira.Role.MayorTabDescriptionEgo">Poprowadź złoczyńców do wygranej!</string>
-  <string name="TownOfUsMira.Role.MayorTabDescriptionPostor">Poprowadź intruzów do wygranej!</string>
+  <string name="TownOfUsMira.Role.Mayor.TabDescriptionEgo">Poprowadź złoczyńców do wygranej!</string>
+  <string name="TownOfUsMira.Role.Mayor.TabDescriptionPostor">Poprowadź intruzów do wygranej!</string>
   <string name="TownOfUsMira.Role.MayorUnrevealedTabText">Ujawnij się kiedy tylko zechcesz.</string>
   <string name="TownOfUsMira.Role.Mayor.WikiDescription">Burmistrz to Załogant Wpływowy który dostaje trzy dodatkowe głosy i jest ujawniony dla wszystkich innych graczy. Zmienia on także swój wygląd na spotkaniu.</string>
   <string name="TownOfUsMira.Role.Medic">Medyk</string>
@@ -1215,7 +1215,7 @@ Zabił [time]s temu.</string>
   <string name="TownOfUsMira.Role.Lookout">Obserwator</string>
   <string name="TownOfUsMira.Role.Lookout.IntroBlurb">Miej oczy szeroko otwarte</string>
   <string name="TownOfUsMira.Role.Lookout.TabDescription">Obserwuj załogę, aby dowiedzieć się jakie role z nimi interaktują</string>
-  <string name="TownOfUsMira.Role.LookoutAlt.TabDescription">Obserwuj załogę, aby dowiedzieć się jacy gracze z nimi interaktują</string>
+  <string name="TownOfUsMira.Role.Lookout.AltTabDescription">Obserwuj załogę, aby dowiedzieć się jacy gracze z nimi interaktują</string>
   <string name="TownOfUsMira.Role.Lookout.WikiDescription">Obserwator to Załogant Śledczy który może obserwować innych graczy podczas rundy. Na spotkaniu, będzie on mógł zobaczyć jakie role, bądź jacy gracze interaktowali z każdym obserwowanym graczem.</string>
   <string name="TownOfUsMira.Role.LookoutWatch">Obserwuj</string>
   <string name="TownOfUsMira.Role.Glitch">Glicz</string>

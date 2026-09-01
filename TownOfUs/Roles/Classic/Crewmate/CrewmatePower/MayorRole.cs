@@ -6,11 +6,13 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using PowerTools;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Modules.RainbowMod;
 using UnityEngine;
@@ -58,7 +60,20 @@ public sealed class MayorRole(IntPtr cppPtr)
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
-        var stringB = ITownOfUsRole.SetNewTabText(this);
+        var stringB = new StringBuilder();
+        stringB.AppendLine(TownOfUsPlugin.Culture,
+            $"{RoleColor.ToTextColor()}{MiraLocaleManager.Get("YouAreA")}<b> {this.GetRoleName()}.</b></color>");
+        stringB.AppendLine(TownOfUsPlugin.Culture,
+            $"<size=60%>{MiraLocaleManager.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(RoleAlignment, true)}</b></size>");
+        stringB.Append("<size=70%>");
+        if (PlayerControl.LocalPlayer.HasModifier<EgotistModifier>())
+        {
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescriptionEgo")}");
+        }
+        else
+        {
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{this.GetRoleLongDescription()}");
+        }
         if (!Revealed)
         {
             stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{UnrevealedString}</b>");

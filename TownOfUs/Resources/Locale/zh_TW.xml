@@ -133,12 +133,12 @@
   <string name="ImpSupport">偽裝者輔助型</string>
   <string name="RolesHeader">[type]職業</string>
   <string name="GameKeyword">遊戲</string>
-  <string name="CrewmateKeyword">船員</string>
-  <string name="CrewKeyword">船員</string>
-  <string name="NeutralKeyword">中立</string>
-  <string name="NeutKeyword">中立</string>
-  <string name="ImpostorKeyword">偽裝者</string>
-  <string name="ImpKeyword">偽裝者</string>
+  <string name="MiraApi.RoleTeam.Crewmate">船員</string>
+  <string name="MiraApi.RoleTeam.Crewmate.Short">船員</string>
+  <string name="MiraApi.RoleTeam.Neutral">中立</string>
+  <string name="MiraApi.RoleTeam.Neutral.Short">中立</string>
+  <string name="MiraApi.RoleTeam.Impostor">偽裝者</string>
+  <string name="MiraApi.RoleTeam.Impostor.Short">偽裝者</string>
   <string name="GhostKeyword">幽靈</string>
   <string name="Alliance">同盟</string>
   <string name="Universal">通用</string>
@@ -464,9 +464,9 @@
   <string name="TownOfUsMira.Role.Altruist">殉道者</string>
   <string name="TownOfUsMira.Role.Altruist.IntroBlurb">復活死去的船員</string>
   <string name="TownOfUsMira.Role.Altruist.TabDescription">成組復活死去的船員。</string>
-  <string name="TownOfUsMira.Role.AltruistTabDescriptionGroupSacrifice">為已死亡的船員群體犧牲自己,
+  <string name="TownOfUsMira.Role.Altruist.TabDescription.GroupSacrifice">為已死亡的船員群體犧牲自己,
 以自身性命為代價。</string>
-  <string name="TownOfUsMira.Role.AltruistTabDescriptionSacrifice">為一名已死亡的船員犧牲自己。</string>
+  <string name="TownOfUsMira.Role.Altruist.TabDescription.Sacrifice">為一名已死亡的船員犧牲自己。</string>
   <string name="TownOfUsMira.Role.Altruist.WikiDescription">殉道者是一個可以復活玩家的船員保護型職業。然而,自己和被復活的船員無法召集會議。</string>
   <string name="TownOfUsMira.Role.AltruistRevive">復活</string>
   <string name="TownOfUsMira.Role.AltruistReviving">復活中</string>
@@ -653,7 +653,7 @@
   <string name="TownOfUsMira.Role.Jailor.IntroBlurb">關押並處決[color=#FF0000FF]壞人[/color]</string>
   <string name="TownOfUsMira.Role.Jailor.TabDescription">監禁船員以與他們進行私人對話,以及
 如果他們是邪惡的,就處決他們</string>
-  <string name="TownOfUsMira.Role.JailorTabDescriptionEvil">監禁船員以與他們進行私人對話,以及
+  <string name="TownOfUsMira.Role.Jailor.TabDescriptionEvil">監禁船員以與他們進行私人對話,以及
 如果你願意,就處決他們</string>
   <string name="TownOfUsMira.Role.Jailor.WikiDescription">典獄長是一名船員強力型職業，可以關押其他玩家。在會議期間，典獄長可以選擇處決被關押的玩家。（如果是效顰者變身的典獄長則無法處決）</string>
   <string name="TownOfUsMira.Role.JailorJail">關押</string>
@@ -684,8 +684,8 @@
   <string name="TownOfUsMira.Role.Mayor">市長</string>
   <string name="TownOfUsMira.Role.Mayor.IntroBlurb">現身拯救船員</string>
   <string name="TownOfUsMira.Role.Mayor.TabDescription">帶領船員走向勝利!</string>
-  <string name="TownOfUsMira.Role.MayorTabDescriptionEgo">帶領邪惡走向勝利!</string>
-  <string name="TownOfUsMira.Role.MayorTabDescriptionPostor">帶領偽裝者走向勝利!</string>
+  <string name="TownOfUsMira.Role.Mayor.TabDescriptionEgo">帶領邪惡走向勝利!</string>
+  <string name="TownOfUsMira.Role.Mayor.TabDescriptionPostor">帶領偽裝者走向勝利!</string>
   <string name="TownOfUsMira.Role.MayorUnrevealedTabText">你可以隨時現身。</string>
   <string name="TownOfUsMira.Role.Mayor.WikiDescription">市長是一名船員強力型職業,擁有三票並會向所有玩家公開身份,且在會議中的外觀會發生變化。</string>
   <string name="TownOfUsMira.Role.Medic">法醫</string>
@@ -863,12 +863,12 @@
   <string name="TouOptionProsecutorMaxProsecutions">最大檢舉次數</string>
   <string name="TownOfUsMira.Role.Seer">預言家</string>
   <string name="TownOfUsMira.Role.Seer.IntroBlurb">揭示其他玩家的陣營</string>
-  <string name="TownOfUsMira.Role.SeerAlt.IntroBlurb">比較兩名玩家的陣營</string>
+  <string name="TownOfUsMira.Role.Seer.AltIntroBlurb">比較兩名玩家的陣營</string>
   <string name="TownOfUsMira.Role.Seer.TabDescription">揭露其他玩家的陣營以找出壞人。</string>
-  <string name="TownOfUsMira.Role.SeerAlt.TabDescription">比較兩名玩家,
+  <string name="TownOfUsMira.Role.Seer.AltTabDescription">比較兩名玩家,
 確認他們是敵是友!</string>
   <string name="TownOfUsMira.Role.Seer.WikiDescription">預言家是一名船員調查型職業,可以揭示其他玩家的陣營。</string>
-  <string name="TownOfUsMira.Role.SeerAlt.WikiDescription">預言家是一名船員調查型職業,能夠比較兩名玩家,判斷他們的陣營是匹配的還是衝突的。</string>
+  <string name="TownOfUsMira.Role.Seer.AltWikiDescription">預言家是一名船員調查型職業,能夠比較兩名玩家,判斷他們的陣營是匹配的還是衝突的。</string>
   <string name="TownOfUsMira.Role.SeerReveal">揭示</string>
   <string name="TownOfUsMira.Role.SeerReveal.WikiDescription">揭示一名玩家的陣營</string>
   <string name="TownOfUsMira.Role.SeerIntuit">覺察</string>
@@ -988,7 +988,7 @@
   <string name="TownOfUsMira.Role.Sheriff">警長</string>
   <string name="TownOfUsMira.Role.Sheriff.IntroBlurb">射殺[color=#FF0000FF]壞人[/color]</string>
   <string name="TownOfUsMira.Role.Sheriff.TabDescription">擊殺偽裝者,但不要誤殺船員</string>
-  <string name="TownOfUsMira.Role.SheriffTabDescriptionEgo">殺死你想要的任何人同時,希望船員會失去勝利</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabDescriptionEgo">殺死你想要的任何人同時,希望船員會失去勝利</string>
   <string name="TownOfUsMira.Role.Sheriff.WikiDescription">警長是一名船員擊殺型職業,可以射擊玩家且嘗試擊殺他們。如果警長因誤傷而未死亡,將失去開槍能力。</string>
   <string name="TownOfUsMira.Role.SheriffShoot">射擊</string>
   <string name="TownOfUsMira.Role.SheriffShoot.WikiDescription">射擊一名玩家以進行擊殺,如果目標不是偽裝者或其他可射擊陣營則會誤傷</string>
@@ -1020,9 +1020,9 @@
   <string name="TownOfUsMira.Role.Snitch">告密者</string>
   <string name="TownOfUsMira.Role.Snitch.IntroBlurb">找出[color=#FF0000FF]偽裝者[/color]!</string>
   <string name="TownOfUsMira.Role.Snitch.TabDescription">完成所有任務以發現偽裝者。</string>
-  <string name="TownOfUsMira.Role.SnitchTabDescriptionCompletedTasks">找出偽裝者!</string>
-  <string name="TownOfUsMira.Role.SnitchTabDescriptionEgo">完成所有任務以發現[and]幫助偽裝者。</string>
-  <string name="TownOfUsMira.Role.SnitchTabDescriptionCompletedTasksEgo">幫助偽裝者!</string>
+  <string name="TownOfUsMira.Role.Snitch.TabDescriptionCompletedTasks">找出偽裝者!</string>
+  <string name="TownOfUsMira.Role.Snitch.TabDescriptionEgo">完成所有任務以發現[and]幫助偽裝者。</string>
+  <string name="TownOfUsMira.Role.Snitch.TabDescriptionCompletedTasksEgo">幫助偽裝者!</string>
   <string name="TownOfUsMira.Role.Snitch.WikiDescription">告密者是一名船員調查型職業,通過完成所有任務可以發現偽裝者。完成所有任務後,偽裝者會被箭頭和紅名標記。</string>
   <string name="TouOptionSnitchRevealsNeutralKillers">告密者揭示中立殺手</string>
   <string name="TouOptionSnitchSeesTraitor">告密者可以見到背叛者</string>
@@ -1472,7 +1472,7 @@
   <string name="TownOfUsMira.Role.Arsonist">縱火狂</string>
   <string name="TownOfUsMira.Role.Arsonist.IntroBlurb">澆油點火,焚盡一切</string>
   <string name="TownOfUsMira.Role.Arsonist.TabDescription">給玩家澆油並點燃,焚燒周圍所有被澆油的玩家。</string>
-  <string name="TownOfUsMira.Role.ArsonistTabDescriptionLegacy">給玩家澆油並點燃最近的目標,以焚燒所有被澆油的玩家。</string>
+  <string name="TownOfUsMira.Role.Arsonist.TabDescriptionLegacy">給玩家澆油並點燃最近的目標,以焚燒所有被澆油的玩家。</string>
   <string name="TownOfUsMira.Role.ArsonistTabDousedInfo">已澆油玩家:</string>
   <string name="TownOfUsMira.Role.Arsonist.WikiDescription">縱火狂是一名中立擊殺型職業,通過成為場上最後一名殺手獲勝。</string>
   <string name="TownOfUsMira.Role.ArsonistWikiAddition">可以給玩家澆油並在靠近時點燃,焚燒範圍內所有被澆油的玩家。</string>
@@ -1481,7 +1481,7 @@
   <string name="TownOfUsMira.Role.ArsonistDouse.WikiDescription">給一名玩家澆汽油。</string>
   <string name="TownOfUsMira.Role.ArsonistIgnite">點燃</string>
   <string name="TownOfUsMira.Role.ArsonistIgnite.WikiDescription">點燃你範圍內所有被澆油的玩家。</string>
-  <string name="TownOfUsMira.Role.ArsonistIgniteWikiDescriptionLegacy">只要點燃附近一名玩家,即可焚燒全圖所有被澆油的玩家。</string>
+  <string name="TownOfUsMira.Role.ArsonistIgnite.WikiDescriptionLegacy">只要點燃附近一名玩家,即可焚燒全圖所有被澆油的玩家。</string>
   <string name="TouOptionArsonistDouseCooldown">澆油冷卻</string>
   <string name="TouOptionArsonistDouseInteractions">可通過被動及互動澆油</string>
   <string name="TouOptionArsonistLegacyMode">經典縱火狂 (無半徑範圍點燃)</string>
@@ -2239,7 +2239,7 @@
   <string name="TouOptionDeputyEnumNoReveal">禁用</string>
   <string name="TouOptionDeputyEnumAnnounceRole">公佈職業</string>
   <string name="TouOptionDeputyEnumRevealPlayer">公佈副手身份</string>
-  <string name="TownOfUsMira.Role.LookoutAlt.TabDescription">觀察其他船員,查看有哪些玩家與他們互動</string>
+  <string name="TownOfUsMira.Role.Lookout.AltTabDescription">觀察其他船員,查看有哪些玩家與他們互動</string>
   <string name="TownOfUsMira.Role.LookoutWatchAltNotif">下一次會議時,你將得知有哪些玩家與[player]發生過互動。</string>
   <string name="TownOfUsMira.Role.LookoutAltInteractionFeedback">與[player]發生過互動的玩家</string>
   <string name="TouNeutAnonymousVictoryMessage">[player]已成功獲勝並離開了遊戲!</string>

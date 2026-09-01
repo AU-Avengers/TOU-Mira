@@ -84,12 +84,12 @@
   <string name="ImpPower">伪装者强力型</string>
   <string name="ImpSupport">伪装者辅助型</string>
   <string name="GameKeyword">游戏</string>
-  <string name="CrewmateKeyword">船员</string>
-  <string name="CrewKeyword">船员</string>
-  <string name="NeutralKeyword">中立</string>
-  <string name="NeutKeyword">中立</string>
-  <string name="ImpostorKeyword">伪装者</string>
-  <string name="ImpKeyword">伪装者</string>
+  <string name="MiraApi.RoleTeam.Crewmate">船员</string>
+  <string name="MiraApi.RoleTeam.Crewmate.Short">船员</string>
+  <string name="MiraApi.RoleTeam.Neutral">中立</string>
+  <string name="MiraApi.RoleTeam.Neutral.Short">中立</string>
+  <string name="MiraApi.RoleTeam.Impostor">伪装者</string>
+  <string name="MiraApi.RoleTeam.Impostor.Short">伪装者</string>
   <string name="Alliance">同盟</string>
   <string name="Universal">通用</string>
   <string name="CrewmateAlliance">船员同盟型</string>
@@ -464,7 +464,7 @@
   <string name="TownOfUsMira.Role.AmbassadorNeedKills">你或伪装者要想覆写必须至少有[requiredKills]次击杀。</string>
   <string name="TownOfUsMira.Role.MirrorcasterMagicMirror">魔法镜</string>
   <string name="TownOfUsMira.Role.MirrorcasterMagicMirror.WikiDescription">为一名玩家放置魔法镜。如果该玩家被直接攻击，你会收到通知，并可以将攻击反射到另一名玩家。无视魔法镜的职业有纵火狂、老兵、万疫之神、爆破手（被炸弹炸时）等。</string>
-  <string name="TownOfUsMira.Role.MayorTabDescriptionEgo">带领邪恶走向胜利！</string>
+  <string name="TownOfUsMira.Role.Mayor.TabDescriptionEgo">带领邪恶走向胜利！</string>
   <string name="TownOfUsMira.Role.MayorUnrevealedTabText">你可以随时现身。</string>
   <string name="TownOfUsMira.Role.Medic.IntroBlurb">为船员加护盾进行保护</string>
   <string name="TownOfUsMira.Role.Medic.TabDescription">用护盾保护一名船员</string>
@@ -790,7 +790,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionWarlockTimeItTakesToUseFullCharge">满能后击杀键最长可持续使用时间</string>
   <string name="TownOfUsMira.Role.Arsonist.IntroBlurb">浇油点火，焚尽一切</string>
   <string name="TownOfUsMira.Role.Arsonist.TabDescription">给玩家浇油并点燃，焚烧周围所有被浇油的玩家。</string>
-  <string name="TownOfUsMira.Role.ArsonistTabDescriptionLegacy">给玩家浇油并点燃最近的目标，来焚烧所有被浇油的玩家。</string>
+  <string name="TownOfUsMira.Role.Arsonist.TabDescriptionLegacy">给玩家浇油并点燃最近的目标，来焚烧所有被浇油的玩家。</string>
   <string name="TownOfUsMira.Role.Arsonist.WikiDescription">纵火狂是一名中立击杀型职业，通过成为场上最后一名杀手获胜。</string>
   <string name="TownOfUsMira.Role.ArsonistWikiAddition">可以给玩家浇油并在靠近时点燃，焚烧范围内所有被浇油的玩家。</string>
   <string name="TownOfUsMira.Role.ArsonistWikiAdditionLegacy">可以给玩家浇油并点燃其中一人，点燃后地图上所有被浇油的玩家都会被焚烧。</string>
@@ -798,7 +798,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TownOfUsMira.Role.ArsonistDouse.WikiDescription">给一名玩家浇汽油。</string>
   <string name="TownOfUsMira.Role.ArsonistIgnite">点燃</string>
   <string name="TownOfUsMira.Role.ArsonistIgnite.WikiDescription">点燃你范围内所有被浇油的玩家。</string>
-  <string name="TownOfUsMira.Role.ArsonistIgniteWikiDescriptionLegacy">只要点燃附近一名玩家，即可焚烧全图所有被浇油的玩家。</string>
+  <string name="TownOfUsMira.Role.ArsonistIgnite.WikiDescriptionLegacy">只要点燃附近一名玩家，即可焚烧全图所有被浇油的玩家。</string>
   <string name="TouOptionArsonistDouseCooldown">浇油冷却</string>
   <string name="TouOptionArsonistDouseInteractions">可通过被动及互动浇油</string>
   <string name="TouOptionArsonistLegacyMode">经典纵火狂（无半径范围点燃）</string>
@@ -1052,7 +1052,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionVigilanteSafeShotsAvailable">侠客可安全猜测次数</string>
   <string name="TownOfUsMira.Role.Sheriff.IntroBlurb">射杀[color=#FF0000FF]坏人[/color]</string>
   <string name="TownOfUsMira.Role.Sheriff.TabDescription">击杀伪装者，但不要误杀船员</string>
-  <string name="TownOfUsMira.Role.SheriffTabDescriptionEgo">杀死你想要的任何人同时，希望船员会失去胜利</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabDescriptionEgo">杀死你想要的任何人同时，希望船员会失去胜利</string>
   <string name="TownOfUsMira.Role.Sheriff.WikiDescription">警长是一名船员击杀型职业，可以射击玩家且尝试击杀他们。如果警长因误伤而未死亡，将失去开枪能力。</string>
   <string name="TownOfUsMira.Role.SheriffShoot">射击</string>
   <string name="TownOfUsMira.Role.SheriffShoot.WikiDescription">射击一名玩家以进行击杀，如果目标不是伪装者或其他可射击阵营则会误伤</string>
@@ -1071,9 +1071,9 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionSheriffMisfireKills">警长误杀后死亡者为</string>
   <string name="TownOfUsMira.Role.Snitch.IntroBlurb">找出[color=#FF0000FF]伪装者[/color]！</string>
   <string name="TownOfUsMira.Role.Snitch.TabDescription">完成所有任务以发现伪装者。</string>
-  <string name="TownOfUsMira.Role.SnitchTabDescriptionCompletedTasks">找出伪装者！</string>
-  <string name="TownOfUsMira.Role.SnitchTabDescriptionEgo">完成所有任务以发现[and]帮助伪装者。</string>
-  <string name="TownOfUsMira.Role.SnitchTabDescriptionCompletedTasksEgo">帮助伪装者！</string>
+  <string name="TownOfUsMira.Role.Snitch.TabDescriptionCompletedTasks">找出伪装者！</string>
+  <string name="TownOfUsMira.Role.Snitch.TabDescriptionEgo">完成所有任务以发现[and]帮助伪装者。</string>
+  <string name="TownOfUsMira.Role.Snitch.TabDescriptionCompletedTasksEgo">帮助伪装者！</string>
   <string name="TownOfUsMira.Role.Snitch.WikiDescription">告密者是一名船员调查型职业，通过完成所有任务可以发现伪装者。完成所有任务后，伪装者会被箭头和红名标记。</string>
   <string name="TouOptionSnitchRevealsNeutralKillers">告密者揭示中立杀手</string>
   <string name="TouOptionSnitchSeesTraitor">告密者可见背叛者</string>
@@ -1276,10 +1276,10 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionChefCookCooldown">烹饪冷却</string>
   <string name="TouOptionChefLinkedCooldowns">烹饪[and] 喂食冷却同步重置</string>
   <string name="TouOptionChefServingAmount">所需喂食数量</string>
-  <string name="TownOfUsMira.Role.SeerAlt.IntroBlurb">比较两名玩家的阵营</string>
-  <string name="TownOfUsMira.Role.SeerAlt.TabDescription">比较两名玩家，
+  <string name="TownOfUsMira.Role.Seer.AltIntroBlurb">比较两名玩家的阵营</string>
+  <string name="TownOfUsMira.Role.Seer.AltTabDescription">比较两名玩家，
 确认他们是敌是友！</string>
-  <string name="TownOfUsMira.Role.SeerAlt.WikiDescription">预言家是一名船员调查型职业，能够比较两名玩家，判断他们的阵营是匹配的还是冲突的。</string>
+  <string name="TownOfUsMira.Role.Seer.AltWikiDescription">预言家是一名船员调查型职业，能够比较两名玩家，判断他们的阵营是匹配的还是冲突的。</string>
   <string name="TownOfUsMira.Role.SeerCompare">觉察[and]凝视 </string>
   <string name="TownOfUsMira.Role.SeerCompare.WikiDescription">通过对两名不同玩家分别使用“觉察”和“凝视”能力来比较他们的阵营。如果他们的阵营相互敌对，你将会收到提示。</string>
   <string name="TownOfUsMira.Modifier.Crewpostor">伪船员</string>
@@ -1339,10 +1339,10 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="NoCommandFoundError">无效指令。如果你需要查看聊天指令的信息，请输入 /help。如果你想了解某个职业或附加属性的作用，请点击屏幕右上角的地球图标查看游戏内维基百科。</string>
   <string name="GameSummaryModeButton">游戏结算:总结</string>
   <string name="TownOfUsMira.Role.ForensicMessageTitle">侧写报告</string>
-  <string name="TownOfUsMira.Role.JailorTabDescriptionEvil">监禁船员以与他们进行私下对话，以及
+  <string name="TownOfUsMira.Role.Jailor.TabDescriptionEvil">监禁船员以与他们进行私下对话，以及
 如果你愿意，就处决他们</string>
   <string name="TownOfUsMira.Role.JailorMessageTitle">典狱长反馈</string>
-  <string name="TownOfUsMira.Role.MayorTabDescriptionPostor">带领伪装者走向胜利！</string>
+  <string name="TownOfUsMira.Role.Mayor.TabDescriptionPostor">带领伪装者走向胜利！</string>
   <string name="TownOfUsMira.Role.TransporterTransportNotif">你被传送了！</string>
   <string name="TownOfUsMira.Role.GrenadierFlashNotif">你周围的所有玩家都被闪光弹致盲了！</string>
   <string name="TownOfUsMira.Role.MorphlingSampleNotif">你采样了[player]。采样每轮会重置。</string>
@@ -1354,9 +1354,9 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TownOfUsMira.Role.MercenaryGuardNotif">当[player]被互动时，你将获得一枚金币。</string>
   <string name="DiedToSuicideAltruist">牺牲</string>
   <string name="DiedToSuicideSheriff">走火</string>
-  <string name="TownOfUsMira.Role.AltruistTabDescriptionGroupSacrifice">为已死亡的船员集体牺牲自己，
+  <string name="TownOfUsMira.Role.Altruist.TabDescription.GroupSacrifice">为已死亡的船员集体牺牲自己，
 以自身性命为代价。</string>
-  <string name="TownOfUsMira.Role.AltruistTabDescriptionSacrifice">为一名已死亡的船员牺牲自己。</string>
+  <string name="TownOfUsMira.Role.Altruist.TabDescription.Sacrifice">为一名已死亡的船员牺牲自己。</string>
   <string name="TownOfUsMira.Role.AltruistReviveGroupSacrifice.WikiDescription">复活你附近的一群尸体。若复活完成，你会死亡，且不会留下尸体。</string>
   <string name="TownOfUsMira.Role.AltruistReviveSacrifice.WikiDescription">复活离你最近的一具尸体。若复活完成，你会死亡，且不会留下尸体。</string>
   <string name="TouOptionAltruistFreezeDuringRevive">复活期间冻结殉道者</string>
@@ -2240,7 +2240,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionDeputyEnumNoReveal">禁用</string>
   <string name="TouOptionDeputyEnumAnnounceRole">公布职业</string>
   <string name="TouOptionDeputyEnumRevealPlayer">公布副手身份</string>
-  <string name="TownOfUsMira.Role.LookoutAlt.TabDescription">观察其他船员，查看有哪些玩家与他们互动</string>
+  <string name="TownOfUsMira.Role.Lookout.AltTabDescription">观察其他船员，查看有哪些玩家与他们互动</string>
   <string name="TownOfUsMira.Role.LookoutWatchAltNotif">下一次会议时，你将得知有哪些玩家与 [player] 发生过互动。</string>
   <string name="TownOfUsMira.Role.LookoutAltInteractionFeedback">与 [player] 发生过互动的玩家</string>
   <string name="TouNeutAnonymousVictoryMessage">[player] 已成功获胜并离开了游戏！</string>

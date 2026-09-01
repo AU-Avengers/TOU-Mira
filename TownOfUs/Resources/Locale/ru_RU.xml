@@ -61,11 +61,11 @@
   <string name="ImpPower">Сильный Пред</string>
   <string name="ImpSupport">Поддерживающий Пред</string>
   <string name="GameKeyword">Игра</string>
-  <string name="CrewmateKeyword">Член Экипажа</string>
-  <string name="CrewKeyword">Экипаж</string>
-  <string name="NeutralKeyword">Нейтрал</string>
-  <string name="ImpostorKeyword">Предатель</string>
-  <string name="ImpKeyword">Пред</string>
+  <string name="MiraApi.RoleTeam.Crewmate">Член Экипажа</string>
+  <string name="MiraApi.RoleTeam.Crewmate.Short">Экипаж</string>
+  <string name="MiraApi.RoleTeam.Neutral">Нейтрал</string>
+  <string name="MiraApi.RoleTeam.Impostor">Предатель</string>
+  <string name="MiraApi.RoleTeam.Impostor.Short">Пред</string>
   <string name="Alliance">Командный</string>
   <string name="CrewmateVisibility">Экипаж-Видимость</string>
   <string name="CrewmatePostmortem">Экипаж-Посмертный</string>
@@ -186,7 +186,7 @@
   <string name="CommonCrew">Обычный Член Экипажа</string>
   <string name="SpecialCrew">Особый Экипаж</string>
   <string name="RandomCrew">Случайный Член Экипажа</string>
-  <string name="NeutKeyword">Нейт</string>
+  <string name="MiraApi.RoleTeam.Neutral.Short">Нейт</string>
   <string name="CrewmateAlliance">Командные Члены Экипажа</string>
   <string name="Mint">Мятный</string>
   <string name="Mandarin">Мандарин</string>
@@ -330,7 +330,7 @@
   <string name="TownOfUsMira.Role.Mayor">Мэр</string>
   <string name="TownOfUsMira.Role.Mayor.IntroBlurb">Раскройте себя чтобы спасти Членов Экипажа</string>
   <string name="TownOfUsMira.Role.Mayor.TabDescription">Приведите Членов Экипажа к победе!</string>
-  <string name="TownOfUsMira.Role.MayorTabDescriptionEgo">Помогите злым игрокам к победить!</string>
+  <string name="TownOfUsMira.Role.Mayor.TabDescriptionEgo">Помогите злым игрокам к победить!</string>
   <string name="TownOfUsMira.Role.MayorUnrevealedTabText">Раскройте себя в любое время.</string>
   <string name="TownOfUsMira.Role.Mayor.WikiDescription">Мэр - Сильный Член Экипажа, который получает три дополнительных голоса и раскрывает свою роль перед всеми игроками, меняя свой внешний вид на собраниях.</string>
   <string name="TownOfUsMira.Role.Medic">Медик</string>
@@ -501,7 +501,7 @@
   <string name="TownOfUsMira.Role.Sheriff">Шериф</string>
   <string name="TownOfUsMira.Role.Sheriff.IntroBlurb">Застрелите [color=#FF0000FF]Предателя[/color]</string>
   <string name="TownOfUsMira.Role.Sheriff.TabDescription">Убивайте Предателей, но не трогайте мирных</string>
-  <string name="TownOfUsMira.Role.SheriffTabDescriptionEgo">Убивайте кого угодно, чтобы проиграл Экипаж</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabDescriptionEgo">Убивайте кого угодно, чтобы проиграл Экипаж</string>
   <string name="TownOfUsMira.Role.Sheriff.WikiDescription">Шериф - Убивающий Член Экипажа, который может выстрелить в игрока, в надежде убить его. Если Шериф не умирает от промаха, он теряет способность стрелять.</string>
   <string name="TownOfUsMira.Role.SheriffShoot">Выстрелить</string>
   <string name="TownOfUsMira.Role.SheriffShoot.WikiDescription">Выстрелите в игрока, чтобы убить его, промахиваясь, если он не Предатель, или другая подходящая под выстрел фракция</string>
@@ -521,9 +521,9 @@
   <string name="TownOfUsMira.Role.Snitch">Стукач</string>
   <string name="TownOfUsMira.Role.Snitch.IntroBlurb">Сделайте задания и найдите [color=#FF0000FF]убийц[/color]!</string>
   <string name="TownOfUsMira.Role.Snitch.TabDescription">Выполните все задания, чтобы найти убийц.</string>
-  <string name="TownOfUsMira.Role.SnitchTabDescriptionCompletedTasks">Найдите убийц!</string>
-  <string name="TownOfUsMira.Role.SnitchTabDescriptionEgo">Сделайте все задания, чтобы найти[and] помочь Предателям.</string>
-  <string name="TownOfUsMira.Role.SnitchTabDescriptionCompletedTasksEgo">Помогите Предателям!</string>
+  <string name="TownOfUsMira.Role.Snitch.TabDescriptionCompletedTasks">Найдите убийц!</string>
+  <string name="TownOfUsMira.Role.Snitch.TabDescriptionEgo">Сделайте все задания, чтобы найти[and] помочь Предателям.</string>
+  <string name="TownOfUsMira.Role.Snitch.TabDescriptionCompletedTasksEgo">Помогите Предателям!</string>
   <string name="TownOfUsMira.Role.Snitch.WikiDescription">Стукач - Расследующий Член Экипажа, который может раскрыть для себя всех убийц, выполнив все задания. После выполнения всех заданий, Стукач будет видеть убийц и стрелки на них.</string>
   <string name="TouOptionSnitchRevealsNeutralKillers">Раскрывает Нейтральных Убийц</string>
   <string name="TouOptionSnitchSeesTraitor">Раскрывает Отступника</string>
@@ -862,7 +862,7 @@
   <string name="TownOfUsMira.Role.Arsonist">Поджигатель</string>
   <string name="TownOfUsMira.Role.Arsonist.IntroBlurb">Обливайте игроков и поджигайте их</string>
   <string name="TownOfUsMira.Role.Arsonist.TabDescription">Облейте игроков и подожгите их, чтобы убить все облитые цели.</string>
-  <string name="TownOfUsMira.Role.ArsonistTabDescriptionLegacy">Облейте игроков и подожгите ближайшего к себе,
+  <string name="TownOfUsMira.Role.Arsonist.TabDescriptionLegacy">Облейте игроков и подожгите ближайшего к себе,
  чтобы убить всех облитых целей.</string>
   <string name="TownOfUsMira.Role.Arsonist.WikiDescription">Поджигатель - Нейтральный Убийца, который побеждает, будучи последним выжившим убийцей.</string>
   <string name="TownOfUsMira.Role.ArsonistWikiAddition">Может обливать игроков и поджигать их, когда вблизи.</string>
@@ -871,7 +871,7 @@
   <string name="TownOfUsMira.Role.ArsonistDouse.WikiDescription">Облейте игрока бензином.</string>
   <string name="TownOfUsMira.Role.ArsonistIgnite">Поджечь</string>
   <string name="TownOfUsMira.Role.ArsonistIgnite.WikiDescription">Убейте всех облитых игроков вокруг вас.</string>
-  <string name="TownOfUsMira.Role.ArsonistIgniteWikiDescriptionLegacy">Убейте всех облитых игроков, поджигая ближайшего к вам.</string>
+  <string name="TownOfUsMira.Role.ArsonistIgnite.WikiDescriptionLegacy">Убейте всех облитых игроков, поджигая ближайшего к вам.</string>
   <string name="TouOptionArsonistDouseCooldown">Откат Обливания</string>
   <string name="TouOptionArsonistDouseInteractions">Обливать от взаимодействий</string>
   <string name="TouOptionArsonistLegacyMode">Без радиуса действия (Устаревший режим)</string>
@@ -1436,8 +1436,8 @@ Data Lost</string>
   <string name="TownOfUsMira.Cultist.Role.NecromancerRevive">Возродить</string>
   <string name="TownOfUsMira.Cultist.Role.NecromancerReviving">Возрождается</string>
   <string name="TownOfUsMira.Cultist.Role.NecromancerRevive.WikiDescription">Возродите ближайшее возрождаемое тело, превращая его в предателя.</string>
-  <string name="TownOfUsMira.Role.AltruistTabDescriptionGroupSacrifice">Пожертвуйте собой, ради мёртвого экипажа.</string>
-  <string name="TownOfUsMira.Role.AltruistTabDescriptionSacrifice">Пожертвуйте собой ради мёртвого игрока.</string>
+  <string name="TownOfUsMira.Role.Altruist.TabDescription.GroupSacrifice">Пожертвуйте собой, ради мёртвого экипажа.</string>
+  <string name="TownOfUsMira.Role.Altruist.TabDescription.Sacrifice">Пожертвуйте собой ради мёртвого игрока.</string>
   <string name="TownOfUsMira.Role.AltruistReviveGroupSacrifice.WikiDescription">Возрождайте группы мёртвых тел рядом с собой. Как только возрождение завершится, вы умрёте, не оставляя тела.</string>
   <string name="TownOfUsMira.Role.AltruistReviveSacrifice.WikiDescription">Возродите ближайшее мёртвое тело. Как только возрождение завершается, вы умрёте, не оставляя тела.</string>
   <string name="TouOptionAltruistReviveType">Тип Возрождения</string>
@@ -1462,10 +1462,10 @@ Data Lost</string>
   <string name="TouOptionImitatorGuessEnumCached">Имитатор</string>
   <string name="TouOptionImitatorGuessEnumActive">Имитируемая Роль</string>
   <string name="TouOptionImitatorGuessEnumActiveOrCached">Имитатор или Имитируемая Роль</string>
-  <string name="TownOfUsMira.Role.JailorTabDescriptionEvil">Ведите приватные обсуждения с игроками, при необходимости
+  <string name="TownOfUsMira.Role.Jailor.TabDescriptionEvil">Ведите приватные обсуждения с игроками, при необходимости
 казните их</string>
   <string name="TownOfUsMira.Role.JailorMessageTitle">Отзыв на Тюремщика</string>
-  <string name="TownOfUsMira.Role.MayorTabDescriptionPostor">Приведите Предателей к победе!</string>
+  <string name="TownOfUsMira.Role.Mayor.TabDescriptionPostor">Приведите Предателей к победе!</string>
   <string name="TownOfUsMira.Role.MedicTabProtecting">Защищён: [player]</string>
   <string name="TouOptionMedicShieldEnumMedic">Медик</string>
   <string name="TouOptionMedicShieldEnumShielded">Защищённый</string>
@@ -1492,10 +1492,10 @@ Data Lost</string>
   <string name="TouOptionOracleNeutralEvilShowEvil">Нейтральные Злодеи показываются как Злодеи</string>
   <string name="TouOptionOracleNeutralKillingShowEvil">Нейтральные Убийцы показываются как Злодеи</string>
   <string name="TouOptionOracleNeutralOutlierShowEvil">Нейтральные Останцы показываются как Злодеи</string>
-  <string name="TownOfUsMira.Role.SeerAlt.IntroBlurb">Сравнивать фракции двух игроков</string>
-  <string name="TownOfUsMira.Role.SeerAlt.TabDescription">Сравните двух игроков, чтобы понять,
+  <string name="TownOfUsMira.Role.Seer.AltIntroBlurb">Сравнивать фракции двух игроков</string>
+  <string name="TownOfUsMira.Role.Seer.AltTabDescription">Сравните двух игроков, чтобы понять,
 друзья они, или враги!</string>
-  <string name="TownOfUsMira.Role.SeerAlt.WikiDescription">Провидец = Расследующий Экипаж, который может сравнить двух игроков, чтобы выяснить, совпадают их фракции или нет.</string>
+  <string name="TownOfUsMira.Role.Seer.AltWikiDescription">Провидец = Расследующий Экипаж, который может сравнить двух игроков, чтобы выяснить, совпадают их фракции или нет.</string>
   <string name="TownOfUsMira.Role.SeerIntuit">Интуиция</string>
   <string name="TownOfUsMira.Role.SeerGaze">Взор</string>
   <string name="TownOfUsMira.Role.SeerCompare">Интуиция[and] Взор </string>

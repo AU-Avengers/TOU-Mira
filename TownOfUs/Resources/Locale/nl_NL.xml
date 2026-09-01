@@ -6,11 +6,11 @@
   <string name="ShowWelcomeMessage">Laat Welkomstbericht zien</string>
   <string name="ShowSummaryMessage">Laat Samenvattingsbericht zien</string>
   <string name="TownOfUsMira.Role.ClericCleansedNoEffects">Geen negatieve effecten gevonden op [player].</string>
-  <string name="CrewmateKeyword">Bemanningslid</string>
-  <string name="CrewKeyword">Bemanning</string>
-  <string name="NeutralKeyword">Neutraal</string>
+  <string name="MiraApi.RoleTeam.Crewmate">Bemanningslid</string>
+  <string name="MiraApi.RoleTeam.Crewmate.Short">Bemanning</string>
+  <string name="MiraApi.RoleTeam.Neutral">Neutraal</string>
   <string name="Alliance">Alliantie</string>
-  <string name="ImpostorKeyword">Bedrieger</string>
+  <string name="MiraApi.RoleTeam.Impostor">Bedrieger</string>
   <string name="TertiaryAbility">Derde Vaardigheid (Hack-Vaardigheid)</string>
   <string name="ModifierAbility">Modificatie Vaardigheid</string>
   <string name="ClientOptionsButton">Tou Client Opties</string>
@@ -105,8 +105,8 @@
   <string name="ImpPower">Bedrieger Kracht</string>
   <string name="ImpSupport">Bedrieger Ondersteuning</string>
   <string name="GameKeyword">Spel</string>
-  <string name="NeutKeyword">Neut</string>
-  <string name="ImpKeyword">Bedrieger</string>
+  <string name="MiraApi.RoleTeam.Neutral.Short">Neut</string>
+  <string name="MiraApi.RoleTeam.Impostor.Short">Bedrieger</string>
   <string name="Universal">Universeel</string>
   <string name="CrewmateAlliance">Bemanningslid Alliantie</string>
   <string name="CrewmateUtility">Bemanningslid Nutsvoorziening</string>
@@ -423,7 +423,7 @@ barricadeer ventilatieschachten om deze de volgende ronde te blokkeren</string>
   <string name="Alive">Levend</string>
   <string name="TargetingNobody">Niemand</string>
   <string name="TownOfUsMira.Role.HunterCaughtPlayersText">Betrapte spelers:</string>
-  <string name="TownOfUsMira.Role.MayorTabDescriptionEgo">Leid het kwaad naar de overwinning!</string>
+  <string name="TownOfUsMira.Role.Mayor.TabDescriptionEgo">Leid het kwaad naar de overwinning!</string>
   <string name="TownOfUsMira.Role.MayorUnrevealedTabText">Onthul jezelf wanneer jij dat wilt.</string>
   <string name="TownOfUsMira.Role.PlumberExtraTabText">Let op: Barricades blijven voor [roundCount] ronde(s)</string>
   <string name="TownOfUsMira.Role.PlumberVentListTabText">Ventilatieschachten lijst</string>

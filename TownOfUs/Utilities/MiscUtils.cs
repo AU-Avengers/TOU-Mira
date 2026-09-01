@@ -491,11 +491,11 @@ public static class MiscUtils
 
         if (coloredText)
         {
-            if (localizedName.Contains("Crewmate") || localizedName.Contains(MiraLocaleManager.Get("CrewmateKeyword")))
+            if (localizedName.Contains("Crewmate") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate")))
             {
                 localizedName = $"<color=#68ACF4>{localizedName}";
             }
-            else if (localizedName.Contains("Impostor") || localizedName.Contains(MiraLocaleManager.Get("ImpostorKeyword")))
+            else if (localizedName.Contains("Impostor") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor")))
             {
                 localizedName = $"<color=#D63F42>{localizedName}";
             }
@@ -520,11 +520,11 @@ public static class MiscUtils
 
     public static string GetColoredFactionString(string text)
     {
-        if (text.Contains("Crewmate") || text.Contains(MiraLocaleManager.Get("CrewmateKeyword")))
+        if (text.Contains("Crewmate") || text.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate")))
         {
             text = $"<color=#68ACF4>{text}";
         }
-        else if (text.Contains("Impostor") || text.Contains(MiraLocaleManager.Get("ImpostorKeyword")))
+        else if (text.Contains("Impostor") || text.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor")))
         {
             text = $"<color=#D63F42>{text}";
         }
@@ -553,11 +553,11 @@ public static class MiscUtils
 
         if (coloredText)
         {
-            if (localizedName.Contains("Crewmate") || localizedName.Contains(MiraLocaleManager.Get("CrewmateKeyword")))
+            if (localizedName.Contains("Crewmate") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate")))
             {
                 localizedName = $"<color=#68ACF4>{localizedName}";
             }
-            else if (localizedName.Contains("Impostor") || localizedName.Contains(MiraLocaleManager.Get("ImpostorKeyword")))
+            else if (localizedName.Contains("Impostor") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor")))
             {
                 localizedName = $"<color=#D63F42>{localizedName}";
             }
@@ -592,11 +592,11 @@ public static class MiscUtils
 
         if (coloredText)
         {
-            if (localizedName.Contains("Crewmate") || localizedName.Contains(MiraLocaleManager.Get("CrewmateKeyword")))
+            if (localizedName.Contains("Crewmate") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate")))
             {
                 localizedName = $"<color=#68ACF4>{localizedName}";
             }
-            else if (localizedName.Contains("Impostor") || localizedName.Contains(MiraLocaleManager.Get("ImpostorKeyword")))
+            else if (localizedName.Contains("Impostor") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor")))
             {
                 localizedName = $"<color=#D63F42>{localizedName}";
             }
@@ -631,11 +631,11 @@ public static class MiscUtils
 
         if (coloredText)
         {
-            if (localizedName.Contains("Crewmate") || localizedName.Contains(MiraLocaleManager.Get("CrewmateKeyword")))
+            if (localizedName.Contains("Crewmate") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate")))
             {
                 localizedName = $"<color=#68ACF4>{localizedName}";
             }
-            else if (localizedName.Contains("Impostor") || localizedName.Contains(MiraLocaleManager.Get("ImpostorKeyword")))
+            else if (localizedName.Contains("Impostor") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor")))
             {
                 localizedName = $"<color=#D63F42>{localizedName}";
             }
@@ -681,11 +681,11 @@ public static class MiscUtils
         var localeName = $"{roleAlignment}";
         var localizedName = MiraLocaleManager.Get(localeName);
 
-        if (localizedName.Contains("Crewmate") || localizedName.Contains(MiraLocaleManager.Get("CrewmateKeyword")))
+        if (localizedName.Contains("Crewmate") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate")))
         {
             return useAltColors ? TownOfUsColors.Crewmate : Palette.CrewmateBlue;
         }
-        else if (localizedName.Contains("Impostor") || localizedName.Contains(MiraLocaleManager.Get("ImpostorKeyword")))
+        else if (localizedName.Contains("Impostor") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor")))
         {
             return useAltColors ? TownOfUsColors.ImpSoft : TownOfUsColors.Impostor;
         }
@@ -2060,12 +2060,12 @@ public static class MiscUtils
     public static string GetParsedRoleBucket(string bucket)
     {
         var text = MiraLocaleManager.Get(bucket);
-        var crewmateKeyword = MiraLocaleManager.Get("CrewmateKeyword");
-        var crewKeyword = MiraLocaleManager.Get("CrewKeyword");
-        var impostorKeyword = MiraLocaleManager.Get("ImpostorKeyword");
-        var impKeyword = MiraLocaleManager.Get("ImpKeyword");
+        var crewmateKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate");
+        var crewKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate.Short");
+        var impostorKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor");
+        var impKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor.Short");
         var neutralKeyword = MiraLocaleManager.Get("NeutralKeyword");
-        var neutKeyword = MiraLocaleManager.Get("NeutKeyword");
+        var neutKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral.Short");
 
         if (text.Contains(impostorKeyword))
         {
