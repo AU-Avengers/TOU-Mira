@@ -1326,6 +1326,9 @@ they are friends or enemies!</string>
   <string name="TownOfUsMira.Role.SeerCompareErrorSelfNotif">You can't use yourself to compare!</string>
   <string name="TownOfUsMira.Role.SeerCompareEnemiesNotif">[gazed] and [intuited] appear to be enemies!</string>
   <string name="TownOfUsMira.Role.SeerCompareFriendsNotif">[gazed] and [intuited] appear to be friendly!</string>
+  <string name="TownOfUsMira.Role.SeerCompareDelayedNotif">You compared [gazed] and [intuited].</string>
+  <string name="TownOfUsMira.Role.SeerMessageTitle">Seer Feedback</string>
+  <string name="TownOfUsMira.Role.SeerDelayedCompareAvailable">Compare results are available after a target dies.</string>
   <string name="TownOfUsMira.Role.SeerTabHeader">Previous Comparisons:</string>
   <string name="TownOfUsMira.Role.SeerTabComparison">[gazed] vs [intuited] (Round [num])</string>
   <!-- Seer Options -->
@@ -1334,6 +1337,7 @@ they are friends or enemies!</string>
   <string name="TouOptionSeerUses">Max Uses of Reveal/Compare</string>
   <string name="TouOptionSeerMultiplePerRound">Can Reveal/Compare More Than Once Per Round</string>
   <string name="TouOptionSeerCompareEachPlayerOnce">Can Only Compare Each Player Once</string>
+  <string name="TouOptionSeerDelayedCompare">Delay Results Until A Target Dies</string>
   <string name="TouOptionSeerNeutralBenignFriendly">Neutral Benign Show Friends To All</string>
   <string name="TouOptionSeerNeutralEvilFriendly">Neutral Evils Show Friends To All</string>
   <string name="TouOptionSeerNeutralOutlierFriendly">Neutral Outliers Show Friends To All</string>
