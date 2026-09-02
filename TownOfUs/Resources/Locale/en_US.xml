@@ -1354,6 +1354,7 @@ the innocent players must be campaigned to reveal successfully</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecutionsRemaining">[count]/[total] Prosecutions</string>
   <string name="TownOfUsMira.Role.Prosecutor.WikiDescription">The Prosecutor is a Crewmate Power role that can Exile a player, applying five votes to a player of their choosing. They can also see who voted for whom, even if they're anonymous.</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecute">Prosecute</string>
+    <string name="TownOfUsMira.Role.ProsecutorProsecuteToggle">Toggle Prosecutions</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecuteWiki">Prosecute (Meeting)</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecute.WikiDescription">Exile any player of your choosing, throwing five votes on them and ignoring all other votes.</string>
   <!-- Prosecutor Options -->

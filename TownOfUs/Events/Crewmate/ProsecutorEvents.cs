@@ -10,7 +10,6 @@ using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Crewmate;
-using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
