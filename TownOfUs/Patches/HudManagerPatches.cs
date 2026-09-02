@@ -37,6 +37,7 @@ public static class HudManagerPatches
     public static bool IconOnRoleName;
     public static GameObject ZoomButton;
     public static GameObject WikiButton;
+    public static GameObject OldVanillaWikiButton;
     public static GameObject RoleList;
     public static string RoleListPrefixText = string.Empty;
     public static TextMeshPro RoleListTextComp;
@@ -544,7 +545,7 @@ public static class HudManagerPatches
 
     public static void CreateWikiButton(HudManager instance)
     {
-        if (!WikiButton && MiraHudHelper.UiTopRight && MiraHudHelper.ExtraUiTopRight)
+        if (!WikiButton && MiraHudHelper.UiTopRight && MiraHudHelper.ExtraUiTopRight && MiraHudHelper.VanillaMatchInfoButton)
         {
             WikiButton = Object.Instantiate(instance.MapButton.gameObject, MiraHudHelper.ExtraUiTopRight.transform);
             WikiButton.name = "WikiButton";
@@ -569,6 +570,8 @@ public static class HudManagerPatches
             active.localPosition = new Vector3(0, 0.021f, -0.1f);
 
             WikiButton.GetComponentInChildren<AspectPosition>().Destroy();
+            OldVanillaWikiButton = MiraHudHelper.VanillaMatchInfoButton;
+            MiraHudHelper.VanillaMatchInfoButton = null!;
             MiraApiSettings.SetUpButtonPositions();
         }
 
@@ -576,6 +579,11 @@ public static class HudManagerPatches
         {
             WikiButton.SetActive(!GameSettingMenu.Instance &&
                                  (!Minigame.Instance || Minigame.Instance is IngameWikiMinigame));
+        }
+
+        if (OldVanillaWikiButton)
+        {
+            OldVanillaWikiButton.SetActive(false);
         }
     }
 

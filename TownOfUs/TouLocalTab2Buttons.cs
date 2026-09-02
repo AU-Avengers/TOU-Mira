@@ -37,7 +37,7 @@ public class TouLocalTabButtons(ConfigFile config) : LocalSettingsTab(config)
 
             touRole.OffsetButtons();
         }
-        else if (configEntry == WikiOnBottomRow || configEntry == ZoomOnBottomRow)
+        else if (configEntry == ZoomOnBottomRow)
         {
             MiraApiSettings.SetUpButtonPositions();
         }
@@ -52,10 +52,6 @@ public class TouLocalTabButtons(ConfigFile config) : LocalSettingsTab(config)
         TabIcon = TouAssets.LocalButtons,
         HideIconOnHover = false,
     };
-
-    [LocalToggleSetting]
-    public ConfigEntry<bool> WikiOnBottomRow { get; private set; } =
-        config.Bind("UI / Visuals", "WikiOnBottomRow", true);
 
     [LocalToggleSetting]
     public ConfigEntry<bool> ZoomOnBottomRow { get; private set; } =
