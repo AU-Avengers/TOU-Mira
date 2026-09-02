@@ -667,4 +667,139 @@ temporairement dans les conduits</string>
   <string name="FreeplaySetRoleButton">Choisissez les rôles</string>
   <string name="FreeplaySetModifiersButton">Choississez les modificateurs</string>
   <string name="FreeplayRestartButton">Réinitialiser la partie</string>
+  <string name="FrenzyKillerTaskHeader">Éliminez toutes les autres équipes par tous les moyens.</string>
+  <string name="FrenzyKiller">Tueur frénétique</string>
+  <string name="NeutralBenign.Colored">[color=#999999FF]Neutre[/color] Bénin</string>
+  <string name="NeutralEvil.Colored">[color=#999999FF]Neutre[/color] Méchant</string>
+  <string name="NeutralOutlier.Colored">[color=#999999FF]Neutre[/color] Marginal</string>
+  <string name="NeutralKilling.Colored">[color=#999999FF]Neutre[/color] Tueur</string>
+  <string name="CommonCrew.Colored">[color=#66FFFFFF]Équipage[/color] Commun</string>
+  <string name="SpecialCrew.Colored">[color=#66FFFFFF]Équipage[/color] Spécial</string>
+  <string name="RandomCrew.Colored">[color=#66FFFFFF]Équipage[/color] Aléatoire</string>
+  <string name="CommonNeutral.Colored">[color=#999999FF]Neutre[/color] Commun</string>
+  <string name="SpecialNeutral.Colored">[color=#999999FF]Neutre[/color] Spécial</string>
+  <string name="WildcardNeutral.Colored">[color=#999999FF]Neutre[/color] Wildcard</string>
+  <string name="RandomNeutral.Colored">[color=#999999FF]Neutre[/color] Aléatoire</string>
+  <string name="NonImp.Colored">Non-[color=#FF0000FF]Imposteur[/color]</string>
+  <string name="CommonImp.Colored">[color=#FF0000FF]Imposteur[/color] Commun</string>
+  <string name="SpecialImp.Colored">[color=#FF0000FF]Imposteur[/color] Spécial</string>
+  <string name="RandomImp.Colored">[color=#FF0000FF]Imposteur[/color] Aléatoire</string>
+  <string name="CrewInvestigative.Colored">[color=#66FFFFFF]Équipage[/color] Investigatif</string>
+  <string name="CrewKilling.Colored">[color=#66FFFFFF]Équipage[/color] Tueur</string>
+  <string name="CrewPower.Colored">[color=#66FFFFFF]Équipage[/color] Puissant</string>
+  <string name="CrewProtective.Colored">[color=#66FFFFFF]Équipage[/color] Protecteur</string>
+  <string name="CrewSupport.Colored">[color=#66FFFFFF]Équipage[/color] Support</string>
+  <string name="ImpConcealing.Colored">[color=#FF0000FF]Imposteur[/color] Dissimulation</string>
+  <string name="ImpKilling.Colored">[color=#FF0000FF]Imposteur[/color] Tueur</string>
+  <string name="ImpPower.Colored">[color=#FF0000FF]Imposteur[/color] Puissant</string>
+  <string name="ImpSupport.Colored">[color=#FF0000FF]Imposteur[/color] Support</string>
+  <string name="Revived">Ressuscité</string>
+  <string name="FreeplayRestartPopup">Tous les joueurs morts ont été ressuscités et les tâches ont été réinitialisées !</string>
+  <string name="TouFirstRoundDeathIndicator">Indicateur de mort au premier tour</string>
+  <string name="TownOfUsMira.Options.Groups.AdvancedUtility">Utilitaires avancés</string>
+  <string name="TownOfUsMira.AdvancedUtils.Option.TasksToUseAdmin">Tâches requises pour utiliser la table d'administration</string>
+  <string name="TownOfUsMira.AdvancedUtils.Option.TasksToUseCams">Tâches requises pour utiliser les caméras</string>
+  <string name="TownOfUsMira.AdvancedUtils.Option.TasksToUseDoorlog">Tâches requises pour utiliser le log des portes</string>
+  <string name="TownOfUsMira.AdvancedUtils.Option.TasksToUseVitals">Tâches requises pour utiliser les vitals</string>
+  <string name="TownOfUsMira.AdvancedUtils.Option.TasksRequiredOnPortableUtils">Vérification des tâches sur les outils portables</string>
+  <string name="TouUnavailableUtilityNotif">Vous devez accomplir [amount] tâches supplémentaires pour utiliser ceci !</string>
+  <string name="TouUnavailableUtilityNotifSingle">Vous devez accomplir [amount] tâche supplémentaire pour utiliser ceci !</string>
+  <string name="TownOfUsMira.Options.Groups.AdvancedSabotages">Sabotages avancés</string>
+  <string name="TownOfUsMira.AdvancedSabo.Option.CamouflageComms">Camouflage pendant les communications</string>
+  <string name="TownOfUsMira.AdvancedSabo.Option.GlobalCamouflageComms">Activer/Désactiver le camouflage pendant les communications</string>
+  <string name="TownOfUsMira.AdvancedSabo.Option.KillDuringCamoComms">Tuer n'importe qui pendant le camouflage</string>
+  <string name="TownOfUsMira.AdvancedSabo.Option.CamoKillScreens">Tueur camouflé sur l'animation de mort pendant les communications</string>
+  <string name="TownOfUsMira.AdvancedSabo.Option.HidePlayerSizeInCamo">Le camouflage masque la taille des joueurs</string>
+  <string name="TownOfUsMira.AdvancedSabo.Option.HidePlayerSpeedInCamo">Le camouflage masque la vitesse des joueurs</string>
+  <string name="TownOfUsMira.Options.Groups.RandomMapChoice">Choix de carte aléatoire</string>
+  <string name="TownOfUsMira.RandomMaps.Option.Toggle">Activer les cartes aléatoires</string>
+  <string name="TownOfUsMira.RandomMaps.Option.SkeldChance">Chance pour Skeld</string>
+  <string name="TownOfUsMira.RandomMaps.Option.BackwardsSkeldChance">ecnahC ruop dlekS</string>
+  <string name="TownOfUsMira.RandomMaps.Option.MiraChance">Chance pour Mira</string>
+  <string name="TownOfUsMira.RandomMaps.Option.PolusChance">Chance pour Polus</string>
+  <string name="TownOfUsMira.RandomMaps.Option.AirshipChance">Chance pour Airship</string>
+  <string name="TownOfUsMira.RandomMaps.Option.FungleChance">Chance pour Fungle</string>
+  <string name="TownOfUsMira.RandomMaps.Option.SubmergedChance">Chance pour Submerged</string>
+  <string name="TownOfUsMira.RandomMaps.Option.LevelImpostorChance">Chance pour Level Impostor</string>
+  <string name="TownOfUsMira.Options.Groups.RandomDoorMode">Mode de portes aléatoires</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumSkeld">Skeld</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumPolus">Polus</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumAirship">Airship</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumFungle">Fungle</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumSubmerged">Submerged</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumNoDoors">Sans portes</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumRandom">Aléatoire</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsNoneChance">Chance pour « Sans portes »</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsSkeldChance">Chance pour les portes de Skeld</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsPolusChance">Chance pour les portes de Polus</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsAirshipChance">Chance pour les portes de Airship</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsFungleChance">Chance pour les portes de Fungle</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsSubmergedChance">Chance pour les portes de Submerged</string>
+  <string name="TownOfUsMira.Options.Groups.GlobalBetterMaps">Cartes globales améliorées</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.CamouflageComms">Utiliser le camouflage pendant les communications</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.ChangeEnumOff">Désactivé globalement</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.ChangeEnumOn">Activé globalement</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.ChangeEnumPerMap">Modification par carte</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.SpeedMultiplier">Ajuster la vitesse</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.CrewVisionMultiplier">Ajuster la vision des coéquipiers</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.ImpVisionMultiplier">Ajuster la vision des imposteurs</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.CooldownOffset">Ajuster le cooldown</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.OffsetShortTasks">Ajuster les tâches courtes</string>
+  <string name="TownOfUsMira.GlobalBetterMap.Option.OffsetLongTasks">Ajuster les tâches longues</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsSpeedMultiplier">Multiplicateur de vitesse</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsCrewVisionMultiplier">Multiplicateur de vision coéquipier</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsImpVisionMultiplier">Multiplicateur de vision imposteur</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsNoLadderCooldown">Aucun cooldown pour les échelles</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsSaboDurationMixUp">Mélange de durée des sabotages</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsTheme">Décoration de carte thématique </string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsThemeEnumBasic">Pas de décoration </string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsThemeEnumHalloween">Halloween</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsThemeEnumBirthday">Anniversaire</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsThemeEnumTvShow">TV Show</string>
+  <string name="TownOfUsMira.BetterMaps.Option.MapsThemeEnumAuto">Automatique</string>
+  <string name="TownOfUsMira.Options.Groups.BetterSkeld">Meilleur Skeld</string>
+  <string name="TownOfUsMira.BetterMaps.Option.SkeldDoorType">Type de porte sur Skeld</string>
+  <string name="TownOfUsMira.BetterMaps.Option.SkeldVentModeEnumFourGroups">Quad-Groupe</string>
+  <string name="TownOfUsMira.Options.Groups.BetterMira">Meilleur Mira HQ</string>
+  <string name="TownOfUsMira.Options.Groups.BetterPolus">Meilleur Polus</string>
+  <string name="TownOfUsMira.BetterMaps.Option.PolusDoorType">Type de porte sur Polus</string>
+  <string name="TownOfUsMira.BetterMaps.Option.PolusVitalsInLab">Vitals déplacés au laboratoire</string>
+  <string name="TownOfUsMira.BetterMaps.Option.PolusTempInDeathValley">Température froide déplacée dans vallée de la mort</string>
+  <string name="TownOfUsMira.BetterMaps.Option.PolusSwapWikiAndChart">Emplacements de Relancer Wi-Fi et Tracer trajectoire inversés</string>
+  <string name="TownOfUsMira.Options.Groups.BetterAirship">Meilleur Airship</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipDoorType">Type de porte sur Airship</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnMode">Mode de Spawn</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnEnumNormal">Normal</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnEnumSameSpawns">Tout le monde a le même Spawn</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnEnumHostChoosesOne">Emplacement de Spawn forcé</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSingleLocation">Spawn à</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnLocationEnumMainHall">Couloir central</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnLocationEnumKitchen">Cuisine</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnLocationEnumCargoBay">Soute</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnLocationEnumEngineRoom">Moteurs</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnLocationEnumBrig">Cellules</string>
+  <string name="TownOfUsMira.BetterMaps.Option.AirshipSpawnLocationEnumRecords">Archives</string>
+  <string name="TownOfUsMira.Options.Groups.BetterFungle">Meilleur Fungle</string>
+  <string name="TownOfUsMira.BetterMaps.Option.FungleDoorType">Type de porte sur Fungle</string>
+  <string name="TownOfUsMira.Options.Groups.BetterSubmerged">Meilleur Submerged</string>
+  <string name="TownOfUsMira.BetterMaps.Option.SubmergedDoorType">Type de porte sur Submerged</string>
+  <string name="TownOfUsMira.BetterMaps.Option.SubmergedSpawnMode">Emplacement de Spawn</string>
+  <string name="TownOfUsMira.BetterMaps.Option.SubmergedSpawnEnumSelectable">Sélectionnable</string>
+  <string name="TownOfUsMira.BetterMaps.Option.SubmergedSpawnEnumUpperDeck">Pont supérieur</string>
+  <string name="TownOfUsMira.BetterMaps.Option.SubmergedSpawnEnumLowerDeck">Pont inférieur</string>
+  <string name="TownOfUsMira.Options.Groups.BetterLevelImpostor">Meilleur Level Impostor</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.TabText">Rôle : [roleName] [nl][description]</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.FakeTaskTabText">Fausses tâches :</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.CrewDescription">Finissez vos tâches.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.CrewDescriptionDead">Vous êtes mort, finissez vos tâches.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.NeutDescription">Complétez vos objectifs.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.NeutDescriptionDead">Vous êtes mort.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.ImpDescription">Sabotez et tuez des coéquipiers.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.ImpDescriptionDead">Vous êtes morts.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer">Ingénieur</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.IntroBlurb">Maintenir l'avant-poste</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.TabDescription">Finissez vos tâches.[nl]Vous pouvez réparer 1 sabotage.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.MedDescription">Réparer un seul sabotage à distance.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.WikiDescription">L'Ingénieur est un rôle de Coéquipier qui peut réparer un sabotage par partie, depuis n'importe quel endroit de la carte.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper">Fantômas</string>
 </resources>

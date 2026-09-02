@@ -1646,7 +1646,7 @@ intercambiar sus posiciones</string>
   <string name="TownOfUsMira.Role.Warden.TabDescription">Fortifica a los Tripulantes para evitar
 que interactúen con ellos.</string>
   <string name="TownOfUsMira.Role.WardenTabProtecting">Fortificando a: [player]</string>
-  <string name="TownOfUsMira.Role.Warden.WikiDescription">El Guardián es un Tripulante de Protección que puede fortificar a otros jugadores para evitar que interactúen con ellos.</string>
+  <string name="TownOfUsMira.Role.Warden.WikiDescription">El Guardián es un Tripulante de Protección que puede fortificar a otros jugadores para evitar que interactúen con ellos. </string>
   <string name="TownOfUsMira.Role.WardenFortify">Fortificar</string>
   <string name="TownOfUsMira.Role.WardenFortify.WikiDescription">Fortifica a un jugador para evitar que interactúen con él. Si alguien intenta interactuar con un jugador fortificado, la habilidad no funcionará y tanto el Guardián como el jugador fortificado serán alertados con un destello morado.</string>
   <!-- Opciones del Guardián -->
@@ -1731,22 +1731,22 @@ Si el emboscado muere, arrastrarás su cuerpo contigo.</string>
   <!-- Contrabandista - Impostor de Apoyo -->
       <!-- Contrabandista - Wiki / Habilidades -->
         <string name="TownOfUsMira.Role.Bootlegger">Contrabandista</string>
-  <string name="TownOfUsMira.Role.Bootlegger.IntroBlurb">Emborracha Tripulantes para detenerlos.</string>
-  <string name="TownOfUsMira.Role.Bootlegger.TabDescription">Emborracha a los Tripulantes para
+  <string name="TownOfUsMira.Role.Bootlegger.IntroBlurb">Embriaga Tripulantes para detenerlos.</string>
+  <string name="TownOfUsMira.Role.Bootlegger.TabDescription">Embriaga a los Tripulantes para
 bloquear sus habilidades durante [blockTime] s.
-Emborracha a alguien varias veces para envenenarlo.</string>
-  <string name="TownOfUsMira.Role.Bootlegger.WikiDescription">El Contrabandista es un Impostor de Apoyo que puede beber con otros jugadores para emborracharlos. Una vez que un jugador haya sido emborrachado tres veces, morirá envenenado.</string>
+Embriaga a alguien varias veces para envenenarlo.</string>
+  <string name="TownOfUsMira.Role.Bootlegger.WikiDescription">El Contrabandista es un Impostor de Apoyo que puede beber con otros jugadores para embriagarlos. Una vez que un jugador haya sido embriagado tres veces, morirá envenenado.</string>
   <string name="TownOfUsMira.Role.BootleggerSicken">Intoxicar</string>
   <string name="TownOfUsMira.Role.BootleggerSickening">Intoxicando...</string>
   <string name="TownOfUsMira.Role.BootleggerPoison">Envenenar</string>
   <string name="TownOfUsMira.Role.BootleggerPoisoning">Envenenando...</string>
   <string name="TownOfUsMira.Role.BootleggerMessageTitle">Información del Contrabandista</string>
   <string name="TownOfUsMira.Role.BootleggerSickenFeedbackAffected">¡De repente sientes que una bebida te ha caído mal! La próxima vez que el Contrabandista te dé una bebida, morirás envenenado.</string>
-  <string name="TownOfUsMira.Role.BootleggerSickenFeedbackBootlegger">¡Tu víctima, [player], ha comenzado a notar los efectos de tu bebida! La próxima vez que la emborraches, morirá envenenada.</string>
+  <string name="TownOfUsMira.Role.BootleggerSickenFeedbackBootlegger">¡Tu víctima, [player], ha comenzado a notar los efectos de tu bebida! La próxima vez que la embriagues, morirá envenenado.</string>
   <!-- Opciones del Contrabandista -->
-        <string name="TouOptionBootleggerRoleblockCooldown">Tiempo de recarga de Emborrachar</string>
-  <string name="TouOptionBootleggerRoleblockDelayMin">Retraso mín de Emborrachar</string>
-  <string name="TouOptionBootleggerRoleblockDelayMax">Retraso máx de Emborrachar</string>
+        <string name="TouOptionBootleggerRoleblockCooldown">Tiempo de recarga de Embriagar</string>
+  <string name="TouOptionBootleggerRoleblockDelayMin">Retraso mín de Embriagar</string>
+  <string name="TouOptionBootleggerRoleblockDelayMax">Retraso máx de Embriagar</string>
   <!-- Bombardero - Impostor Asesino -->
       <!-- Bombardero - Wiki / Habilidades -->
           <string name="TownOfUsMira.Role.Bomber">Bombardero</string>
@@ -2730,8 +2730,8 @@ Asesinatos: [amount] / [total]</string>
   <string name="TownOfUsMira.Modifier.Frosty.WikiDescription">¡Después de morir, quien te mató se moverá más lento!</string>
   <string name="TownOfUsMira.Modifier.FrostyTriggeredNotif">[player] era [modifier], por lo que te moverás más lento durante [time] segundos.</string>
   <!-- Opciones de Gélido -->
-        <string name="TouOptionFrostyChillDuration">Duración</string>
-  <string name="TouOptionFrostyChillStartSpeed">Ralentización inicial</string>
+        <string name="TouOptionFrostyChillDuration">Duración del Frío</string>
+  <string name="TouOptionFrostyChillStartSpeed">Velocidad inicial del Frío</string>
   <!-- Investigador -->
       <!-- Investigador - Wiki / Descripción -->
           <string name="TownOfUsMira.Modifier.Investigator.IntroBlurb">Puedes ver las huellas de los demás.</string>
@@ -2766,7 +2766,7 @@ Asesinatos: [amount] / [total]</string>
   <string name="TouOptionOperativeStartingCharge">Carga inicial</string>
   <string name="TouOptionOperativeChargedEachRound">Carga de batería por ronda</string>
   <string name="TouOptionOperativeChargedPerTask">Carga de batería por tarea</string>
-  <string name="TouOptionOperativeDisplayCooldown">Tiempo de recarga de la pantalla de seguridad</string>
+  <string name="TouOptionOperativeDisplayCooldown">Recarga de Seguridad</string>
   <string name="TouOptionOperativeMaxDisplayDuration">Duración máx de la pantalla de seguridad</string>
   <!-- Podrido -->
       <!-- Podrido - Wiki / Descripción -->
@@ -2787,7 +2787,7 @@ Asesinatos: [amount] / [total]</string>
   <string name="TouOptionScientistStartingCharge">Carga inicial</string>
   <string name="TouOptionScientistChargedEachRound">Carga de batería por ronda</string>
   <string name="TouOptionScientistChargedPerTask">Carga de batería por tarea</string>
-  <string name="TouOptionScientistDisplayCooldown">Tiempo de recarga de Vitales</string>
+  <string name="TouOptionScientistDisplayCooldown">Recarga de Vitales</string>
   <string name="TouOptionScientistMaxDisplayDuration">Duración máx de Vitales</string>
   <!-- Explorador -->
       <!-- Explorador - Wiki / Descripción -->
@@ -2909,4 +2909,533 @@ No podrás vencer más jugadores.</string>
   <string name="Revived">Resucitado</string>
   <string name="TouOptionTimeLordRewindDuration">Duración de Retroceso</string>
   <string name="TownOfUsMira.Modifier.LoverInfoDisconnected">Estabas enamorado de [player], y se desconectó.</string>
+  <string name="FrenzyKillerTaskHeader">Elimina a los demás equipos a toda costa.</string>
+  <string name="FrenzyKiller">Asesino Frenético</string>
+  <string name="NeutralBenign.Colored">[color=#999999FF]Neutral[/color] Benigno</string>
+  <string name="NeutralEvil.Colored">[color=#999999FF]Neutral[/color] Malvado</string>
+  <string name="NeutralOutlier.Colored">[color=#999999FF]Neutral[/color] Atípico</string>
+  <string name="NeutralKilling.Colored">[color=#999999FF]Neutral[/color] Asesino</string>
+  <string name="CommonCrew.Colored">[color=#66FFFFFF]Tripulante[/color] Común</string>
+  <string name="SpecialCrew.Colored">[color=#66FFFFFF]Tripulante[/color] Especial</string>
+  <string name="RandomCrew.Colored">[color=#66FFFFFF]Tripulante[/color] Aleatorio</string>
+  <string name="CommonNeutral.Colored">[color=#999999FF]Neutral[/color] Común</string>
+  <string name="SpecialNeutral.Colored">[color=#999999FF]Neutral[/color] Especial</string>
+  <string name="WildcardNeutral.Colored">[color=#999999FF]Neutral[/color] Comodín</string>
+  <string name="RandomNeutral.Colored">[color=#999999FF]Neutral[/color] Aleatorio</string>
+  <string name="NonImp.Colored">No-[color=#FF0000FF]Imp[/color]</string>
+  <string name="CommonImp.Colored">[color=#FF0000FF]Imp[/color] Común</string>
+  <string name="SpecialImp.Colored">[color=#FF0000FF]Imp[/color] Especial</string>
+  <string name="RandomImp.Colored">[color=#FF0000FF]Imp[/color] Aleatorio</string>
+  <string name="CrewInvestigative.Colored">[color=#66FFFFFF]Tripulante[/color] Investigador</string>
+  <string name="CrewKilling.Colored">[color=#66FFFFFF]Tripulante[/color] Asesino</string>
+  <string name="CrewPower.Colored">[color=#66FFFFFF]Tripulante[/color] Superior</string>
+  <string name="CrewProtective.Colored">[color=#66FFFFFF]Tripulante[/color] Protector</string>
+  <string name="CrewSupport.Colored">[color=#66FFFFFF]Tripulante[/color] de Apoyo</string>
+  <string name="ImpConcealing.Colored">[color=#FF0000FF]Imp[/color] Ocultación</string>
+  <string name="ImpKilling.Colored">[color=#FF0000FF]Imp[/color] Asesino</string>
+  <string name="ImpPower.Colored">[color=#FF0000FF]Imp[/color] Superior</string>
+  <string name="ImpSupport.Colored">[color=#FF0000FF]Imp[/color] Apoyo</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.TabText">Rol: [roleName] [nl][description]</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.FakeTaskTabText">Tareas Falsas:</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.CrewDescription">Termina tus tareas.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.CrewDescriptionDead">Moriste, termina tus tareas.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.NeutDescription">Completa tu objetivo.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.NeutDescriptionDead">Estás muerto.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.ImpDescription">Sabotea y asesina a la tripulación.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.ImpDescriptionDead">Estás muerto.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer">Ingeniero</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.IntroBlurb">Haz mantenimiento en la base</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.TabDescription">Termina tus tareas.[nl]Puedes arreglar 1 sabotaje.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.MedDescription">Repara un sabotaje de forma remota.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.WikiDescription">El Ingeniero es un Tripulante que puede reparar un sabotaje por partida desde cualquier parte del mapa.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper">Esfumador</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.IntroBlurb">Esfúmate para hacerte invisible</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.TabDescription">Sabotea y mata a los tripulantes.[nl]Usa tu habilidad para hacerte invisible.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.MedDescription">Hazte invisible en cualquier momento para escapar o esconderte.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.WikiDescription">El Esfumador es un Impostor que puede hacerse invisible en cualquier momento para ocultarse o escapar de los asesinatos. Sin embargo, no puede usar los ductos.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller">Asesino Serial</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.IntroBlurb">Mátalos a todos</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.TabDescription">Mátalos a todos.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.MedDescription">Mata a todos en tu camino.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.WikiDescription">El Asesino Serial es un Neutral cuyo único objetivo es matar a todos los jugadores. Si no mata la cantidad mínima de jugadores necesaria, perderá.</string>
+  <string name="TownOfUsMira.Role.Spectator.MedDescription">Observa la partida mientras avanza.</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Chameleon.MedDescription">Escóndete del buscador para defenderte.</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Mystic.MedDescription">Recibe información inmediata del lugar donde ocurren muertes.</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Snitch.MedDescription">Reduce el temporizador más rápido con tareas, pero arriesga tu ubicación en el proceso.</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Noisemaker.MedDescription">Alerta a la tripulación sobre tu muerte.</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Camouflager.MedDescription">Camúflate entre los escondidos
+Hazles creer lo que no es.</string>
+  <string name="TownOfUsMira.Cultist.Role.Necromancer.MedDescription">Revive a los muertos para hacerlos parte del culto.</string>
+  <string name="TownOfUsMira.Role.Altruist.MedDescription">Revive tripulantes fallecidos.</string>
+  <string name="TownOfUsMira.Role.Aurial.MedDescription">Siente exactamente donde se usaron habilidades cerca.
+Si es muy cerca, podrás ver el color del usuario.</string>
+  <string name="TownOfUsMira.Role.Cleric.MedDescription">Protege tripulantes de las interacciones.
+Purifícalos para eliminar efectos negativos.</string>
+  <string name="TownOfUsMira.Role.Deputy.MedDescription">Acampa tripulantes. Cuando mueran, intenta atacar a su asesino.</string>
+  <string name="TownOfUsMira.Role.Forensic.MedDescription">Analiza escenas del crimen para encontrar sospechosos.</string>
+  <string name="TownOfUsMira.Role.Barkeeper.MedDescription">Bebe con los malos para desactivar sus habilidades.</string>
+  <string name="TownOfUsMira.Role.Engineer.MedDescription">Repara sabotajes remotamente, y usa ductos si lo necesitas.</string>
+  <string name="TownOfUsMira.Role.Haunter.MedDescription">Revela a los impostores tras tu muerte.</string>
+  <string name="TownOfUsMira.Role.Hunter.MedDescription">Acosa a otros para poder matarlos si usan una habilidad en ese tiempo.</string>
+  <string name="TownOfUsMira.Role.Imitator.MedDescription">Imita a los muertos como eran en vida.</string>
+  <string name="TownOfUsMira.Role.Investigator.MedDescription">Averigua donde van los demás siguiendo sus pasos.</string>
+  <string name="TownOfUsMira.Role.Jailor.MedDescription">Encarcela jugadores y ejecútalos de ser necesario.
+Habla con ellos en privado antes de juzgar.</string>
+  <string name="TownOfUsMira.Role.Lookout.MedDescription">Vigila a otros tripulantes para ver quién o qué interactúa con ellos.</string>
+  <string name="TownOfUsMira.Role.Mayor.MedDescription">Revélate en el momento justo y controla las reuniones.</string>
+  <string name="TownOfUsMira.Role.Medic.MedDescription">Crea un escudo que protege al tripulante de cualquier ataque.</string>
+  <string name="TownOfUsMira.Role.Medium.MedDescription">Proyéctate astralmente dejando tu cuerpo atrás.</string>
+  <string name="TownOfUsMira.Role.Mirrorcaster.MedDescription">Refleja ataques con tus Espejos Mágicos.
+Luego, ¡desátalos sobre los malos!</string>
+  <string name="TownOfUsMira.Role.Monarch.MedDescription">Inviste Tripulantes para darles votos extra. Elige tus caballeros con cuidado.</string>
+  <string name="TownOfUsMira.Role.Mystic.MedDescription">Descubre cuándo mueren tripulantes.
+Una flecha te indicará su dirección.</string>
+  <string name="TownOfUsMira.Role.Oracle.MedDescription">Bendice a los tripulantes para salvarlos en reuniones. Haz que los malos confiesen sus pecados.</string>
+  <string name="TownOfUsMira.Role.Plumber.MedDescription">Bloquea el sistema de ductos para los demás.</string>
+  <string name="TownOfUsMira.Role.Politician.MedDescription">¡Convence a la mitad de los tripulantes para revelarte como Alcalde!</string>
+  <string name="TownOfUsMira.Role.Prosecutor.MedDescription">Exilia por la fuerza a los que te desafían en reuniones.</string>
+  <string name="TownOfUsMira.Role.Seer.MedDescription">Revela la alineación de los tripulantes.</string>
+  <string name="TownOfUsMira.Role.Sentry.MedDescription">Despliega cámaras extra para mantener vigilada a la Tripulación.</string>
+  <string name="TownOfUsMira.Role.Officer.MedDescription">Recarga tu arma.
+Dispárale a los que amenazan a la Tripulación.</string>
+  <string name="TownOfUsMira.Role.Sheriff.MedDescription">Dispárale a los malos, o sufre las consecuencias de dispararle a un tripulante.</string>
+  <string name="TownOfUsMira.Role.Snitch.MedDescription">Delata a los Impostores al completar tus tareas.</string>
+  <string name="TownOfUsMira.Role.Spy.MedDescription">Verás los colores en la mesa de Admin</string>
+  <string name="TownOfUsMira.Role.Swapper.MedDescription">Intercambia los votos de dos personas en una reunión.</string>
+  <string name="TownOfUsMira.Role.TimeLord.MedDescription">Regresa el tiempo para deshacer acciones recientes.</string>
+  <string name="TownOfUsMira.Role.Sonar.MedDescription">Detecta Tripulantes para saber su dirección.</string>
+  <string name="TownOfUsMira.Role.Transporter.MedDescription">Transporta dos jugadores entre sí.</string>
+  <string name="TownOfUsMira.Role.Trapper.MedDescription">Pon trampas para conocer los roles.</string>
+  <string name="TownOfUsMira.Role.Veteran.MedDescription">Ataca a quien intente interactuar contigo.</string>
+  <string name="TownOfUsMira.Role.Vigilante.MedDescription">Adivina lo que son los malos en la reunión.</string>
+  <string name="TownOfUsMira.Role.Warden.MedDescription">Fortifica Tripulantes para impedir interacciones fuera de las reuniones.</string>
+  <string name="TownOfUsMira.Role.Ambassador.MedDescription">Reentrena a los Impostores para cambiar sus roles.</string>
+  <string name="TownOfUsMira.Role.Ambusher.MedDescription">Persigue Tripulantes para emboscar a alguien cercano.</string>
+  <string name="TownOfUsMira.Role.Bootlegger.MedDescription">Bebe con Tripulantes para desactivar sus habilidades temporalmente.</string>
+  <string name="TownOfUsMira.Role.Bomber.MedDescription">Coloca bombas para matar a varios Tripulantes a la vez.</string>
+  <string name="TownOfUsMira.Role.Escapist.MedDescription">Marca un lugar y regresa a él cuando quieras.</string>
+  <string name="TownOfUsMira.Role.Herbalist.MedDescription">Revela roles, confunde Tripulantes y protege a otros de ser necesario.</string>
+  <string name="TownOfUsMira.Role.Hypnotist.MedDescription">Hipnotiza Tripulantes y provoca histeria para alterar lo que ven.</string>
+  <string name="TownOfUsMira.Role.Miner.MedDescription">Crea una red de conductos para moverte por el mapa.</string>
+  <string name="TownOfUsMira.Role.Morphling.MedDescription">Muestrea a un Tripulante y transfórmate para incriminarlo.</string>
+  <string name="TownOfUsMira.Role.Parasite.MedDescription">Controla a una víctima y hazla morir lejos de la vista.</string>
+  <string name="TownOfUsMira.Role.Scavenger.MedDescription">Mata a tus objetivos para matar más rápido o sufre un enfriamiento lento.</string>
+  <string name="TownOfUsMira.Role.Puppeteer.MedDescription">Controla Tripulantes para que maten contra su voluntad.</string>
+  <string name="TownOfUsMira.Role.Spellslinger.MedDescription">Maldice Tripulantes para detonar la Bomba Maléfica.
+Si tienes éxito, todos serán destruidos.</string>
+  <string name="TownOfUsMira.Role.Venerer.MedDescription">Mata Tripulantes para mejorar tu habilidad.
+¡Camúflate, corre y congela a los demás a tu alrededor!</string>
+  <string name="TownOfUsMira.Role.Arsonist.MedDescription">Rocía a los Tripulantes y enciende a cualquiera para verlos arder.</string>
+  <string name="TownOfUsMira.Role.Doomsayer.MedDescription">Adivina roles de varios para condenarlos y ganar.</string>
+  <string name="TownOfUsMira.Role.Executioner.MedDescription">Haz que expulsen a tu objetivo a toda costa.</string>
+  <string name="TownOfUsMira.Role.Glitch.MedDescription">Hackea Tripulantes para impedir sus habilidades.
+¡Imita a otros para incriminarlos!</string>
+  <string name="TownOfUsMira.Role.Fairy.MedDescription">Protege a tu objetivo a toda costa, incluso con tu vida.</string>
+  <string name="TownOfUsMira.Role.Inquisitor.MedDescription">Averigua los roles de tus objetivos.
+Aniquílalos de ser necesario para ganar.</string>
+  <string name="TownOfUsMira.Role.Chef.MedDescription">Cocina cuerpos frescos de otros Tripulantes.
+Sirve los necesarios paras ganar.</string>
+  <string name="TownOfUsMira.Role.Spectre.MedDescription">Usa tu segunda oportunidad para completar tus tareas y ganar tras morir.</string>
+  <string name="TownOfUsMira.Role.Plaguebearer.MedDescription">Propaga la Peste para convertirte en la Pestilencia.</string>
+  <string name="TownOfUsMira.Options.Groups.VanillaTweaks">Ajustes de Vanilla</string>
+  <string name="TouOptionHideNamesOutOfSight">Ocultar nombres fuera de vista</string>
+  <string name="TouOptionTickCooldownsInMinigame">Recargas activas en tareas y paneles</string>
+  <string name="TouOptionParallelMedbay">Escaneos simultáneos en Enfermería</string>
+  <string name="TouOptionMedscanWalk">Caminar al escáner</string>
+  <string name="TouOptionSkipButtonDisable">Desactivar botón Omitir</string>
+  <string name="TouOptionSkipButtonDisableEnumNever">Nunca</string>
+  <string name="TouOptionSkipButtonDisableEnumEmergency">Emergencias</string>
+  <string name="TouOptionSkipButtonDisableEnumAlways">Siempre</string>
+  <string name="TouOptionHideVentAnimationNotInVision">Ocultar animaciones de ductos fuera de vista</string>
+  <string name="TouOptionShowPetsMode">Visibilidad de mascotas</string>
+  <string name="TouOptionShowPetsModeEnumClientSide">Solo para ti</string>
+  <string name="TouOptionShowPetsModeEnumWhenAlive">Mientras estés vivo</string>
+  <string name="TouOptionShowPetsModeEnumAlwaysVisible">Siempre</string>
+  <string name="TouOptionHidePetsOnBodyRemove">Eliminar mascota al limpiar cadáver</string>
+  <string name="TouOptionHidePetsOnBodyRemoveEnumNever">Nunca</string>
+  <string name="TouOptionHidePetsOnBodyRemoveEnumDuringRound">Durante la ronda</string>
+  <string name="TouOptionHidePetsOnBodyRemoveEnumAlways">Siempre</string>
+  <string name="TownOfUsMira.Options.Groups.Assassin">Opciones de Adivinador</string>
+  <string name="TouOptionNumberOfImpostorAssassins">Impostores Adivinadores</string>
+  <string name="TouOptionImpAssassinChance">Probabilidad de Impostor Adivinador</string>
+  <string name="TouOptionImpAssassinKills"># de Disparos de Impostor</string>
+  <string name="TouOptionImpAssassinMultiKill">Múltiples disparos por reunión</string>
+  <string name="TouOptionNumberOfNeutralAssassins">Neutrales Adivinadores</string>
+  <string name="TouOptionNeutAssassinChance">Probabilidad de Neutral Adivinador</string>
+  <string name="TouOptionNeutAssassinKills"># de Disparos de Neutrales</string>
+  <string name="TouOptionNeutAssassinMultiKill">Múltiples disparos por reunión</string>
+  <string name="TouOptionGuessVanillaRoles">Adivinar roles de Vanilla no básicos</string>
+  <string name="TouOptionAssassinCrewmateGuess">Adivinar "Tripulante"</string>
+  <string name="TouOptionAssassinGuessInvest">Adivinar Tripulantes Investigativos</string>
+  <string name="TouOptionAssassinGuessNeutralBenign">Adivinar Neutrales Benignos</string>
+  <string name="TouOptionAssassinGuessNeutralEvil">Adivinar Neutrales Malignos</string>
+  <string name="TouOptionAssassinGuessNeutralKilling">Adivinar Neutrales Asesinos</string>
+  <string name="TouOptionAssassinGuessNeutralOutlier">Adivinar Neutrales Atípicos</string>
+  <string name="TouOptionAssassinGuessImpostors">Adivinar roles de Impostor</string>
+  <string name="TouOptionAssassinGuessCrewModifiers">Adivinar modificadores de Tripulante</string>
+  <string name="TouOptionAssassinGuessUtilityModifiers">Adivinar modificadores de Utilidad</string>
+  <string name="TouOptionAssassinGuessImpostorModifiers">Adivinar modificadores de Impostor</string>
+  <string name="TouOptionAssassinGuessNonCrewModifiers">Adivinar modificadores de otras facciones</string>
+  <string name="TouOptionAssassinGuessAlliances">Adivinar Alianzas</string>
+  <string name="TouOptionAssassinShots">[amount] disparos</string>
+  <string name="TouOptionAssassinOverall">(Total)</string>
+  <string name="TouOptionAssassinOnePerMeeting">(1 por reunión)</string>
+  <string name="TownOfUsMira.Options.Groups.GameMechanics">Mecánicas de partida</string>
+  <string name="TouOptionCrewKillersContinue">Tripulantes superiores continúan la partida</string>
+  <string name="TouOptionAnonymousShields">Todos los escudos parpadean en gris</string>
+  <string name="TouOptionCleanedBodiesAppearance">Cuerpos limpiados/disueltos aparecen como</string>
+  <string name="TouOptionCleanedBodiesAppearanceEnumMissing">Desaparecido (MIS)</string>
+  <string name="TouOptionCleanedBodiesAppearanceEnumDead">Muerto (DED)</string>
+  <string name="TouOptionCleanedBodiesAppearanceEnumDisconnected">Desconectado (D/C)</string>
+  <string name="TouOptionKillAnimationBackgroundColor">Fondo de animación de asesinato</string>
+  <string name="TouOptionKillAnimationBackgroundColorEnumRed">Rojo</string>
+  <string name="TouOptionKillAnimationBackgroundColorEnumFaction">Facción</string>
+  <string name="TouOptionKillAnimationBackgroundColorEnumRoleColor">Color del rol</string>
+  <string name="TouOptionPlayerCountWhenVentsDisable">Jugadores vivos para desactivar ductos</string>
+  <string name="TouOptionGhostwalkerFixSabos">Caminantes Fantasma reparan sabotajes</string>
+  <string name="TouOptionTempSaveCdReset">Recarga al golpear Protección temporal</string>
+  <string name="TouOptionFullSaveCdMultiplier">Multiplicador de recarga en Protección Total</string>
+  <string name="TownOfUsMira.Options.Groups.GameTimer">Temporizador de partida</string>
+  <string name="TouOptionGameTimerEnabled">Temporizador Activado</string>
+  <string name="TouOptionGameTimerPauseInMeetings">Pausar durante reuniones</string>
+  <string name="TouOptionGameTimerEndOption">Al terminar el tiempo</string>
+  <string name="TouOptionGameTimerEndEnumImpostorWin">Ganan Impostores</string>
+  <string name="TouOptionGameTimerEndEnumGameDraw">Empate</string>
+  <string name="TouOptionGameTimerTimeLimit">Límite de tiempo</string>
+  <string name="TownOfUsMira.Options.Groups.General">General</string>
+  <string name="TouOptionFFAImpostorMode">Impostores no se conocen</string>
+  <string name="TouOptionImpsKnowRoles">Impostores conocen sus roles</string>
+  <string name="TouOptionImpostorChat">Chat privado de Impostores</string>
+  <string name="TouOptionVampireChat">Chat privado de Vampiros</string>
+  <string name="TouOptionAddedMeetingDeathTimer">Tiempo añadido tras muerte en reunión</string>
+  <string name="TownOfUsMira.Options.Groups.HostSpecific">Opciones del anfitrión</string>
+  <string name="TouOptionAntiCheatWarnings">Advertencias del antitrampas</string>
+  <string name="TouOptionKickCheatMods">Expulsar usuarios de mods de trampas</string>
+  <string name="TouOptionMultiplayerFreeplay">Modo Práctica</string>
+  <string name="TouOptionBetaLoggingLevel">Registro avanzado</string>
+  <string name="TouOptionBetaLoggingLevelEnumNoLogging">Sin registro</string>
+  <string name="TouOptionBetaLoggingLevelEnumLogForHost">Solo anfitrión</string>
+  <string name="TouOptionBetaLoggingLevelEnumLogForEveryone">Todos</string>
+  <string name="TouOptionBetaLoggingLevelEnumLogPostGame">Después de la partida</string>
+  <string name="TouOptionLobbyFunMode">Atravesar paredes en sala</string>
+  <string name="TouOptionShowRulesOnLobbyJoin">Mostrar Reglas al Unirse a la sala</string>
+  <string name="TouOptionAllowAprilFools">Permitir efectos de April Fools</string>
+  <string name="TouOptionEnableSpectators">Permitir espectadores</string>
+  <string name="TouOptionRequireSubmerged">Requerir Submerged</string>
+  <string name="TouOptionRequireCrowded">Requerir Crowded</string>
+  <string name="TouOptionRequireAleLudu">Requerir AleLuduMod</string>
+  <string name="TouOptionNoGameEnd">Sin fin de partida</string>
+  <string name="TownOfUsMira.Options.Groups.RoundStart">Inicio de ronda</string>
+  <string name="TouOptionModifierReveal">Modificador mostrado al revelar rol</string>
+  <string name="TouOptionModifierRevealEnumAlliance">Alianza</string>
+  <string name="TouOptionModifierRevealEnumUniversal">Universal</string>
+  <string name="TouOptionModifierRevealEnumNeither">Ninguno</string>
+  <string name="TouOptionTeamModifierReveal">Mostrar modificador de facción</string>
+  <string name="TouOptionGameStartCd">Recargas iniciales</string>
+  <string name="TouOptionStartCooldownMode">Aplicar recargas iniciales a</string>
+  <string name="TouOptionStartCooldownModeEnumAllButtons">Todos los botones</string>
+  <string name="TouOptionStartCooldownModeEnumSpecificCooldowns">Recargas específicas</string>
+  <string name="TouOptionStartCooldownModeEnumNoButtons">Ningún botón</string>
+  <string name="TouOptionStartCooldownMin">Recarga mínima aplicable</string>
+  <string name="TouOptionStartCooldownMax">Recarga máxima aplicable</string>
+  <string name="TouOptionFirstDeathShield">Escudo al primero en morir</string>
+  <string name="TouOptionRoundOneVictims">Indicar víctimas de la primera ronda</string>
+  <string name="TownOfUsMira.Options.Groups.Postmortem">Opciones post mortem</string>
+  <string name="TouOptionTheDeadKnow">Muertos conocen a los jugadores</string>
+  <string name="TouOptionDeadSeeVotes">Muertos ven los votos</string>
+  <string name="TouOptionDeadSeePrivateChat">Muertos ven chats privados</string>
+  <string name="TouOptionDeadSeePrivateChatEnumDisabled">Desactivado</string>
+  <string name="TouOptionDeadSeePrivateChatEnumDisabledUponDeath">Desactivado al morir</string>
+  <string name="TouOptionDeadSeePrivateChatEnumInMeetings">En reuniones</string>
+  <string name="TouOptionDeadSeePrivateChatEnumAlways">Siempre</string>
+  <string name="TouOptionDeadCanHaunt">Modo Acechar (Seguir)</string>
+  <string name="TouOptionDeadCanHauntEnumDisabled">Desactivado</string>
+  <string name="TouOptionDeadCanHauntEnumDisabledUponDeath">Desactivado al morir</string>
+  <string name="TouOptionDeadCanHauntEnumAlways">Siempre</string>
+  <string name="TouOptionHideChatButton">Ocultar chat temporalmente al morir</string>
+  <string name="TouOptionShowTaskDead">Ver rastreadores de tareas al morir</string>
+  <string name="TownOfUsMira.Options.Groups.RoleblockMechanics">Mecánicas de Ebriedad</string>
+  <string name="TouOptionRoleblockAffectsConsoles">Embriagar afecta otras acciones</string>
+  <string name="TouOptionRoleblockDuration">Duración de Ebriedad</string>
+  <string name="TouOptionInvertControlsOfRoleblocked">Invertir controles al embriagar</string>
+  <string name="TouOptionRoleblockHangover">Causar resaca</string>
+  <string name="TouOptionRoleblockHangoverDuration">Duración de la resaca</string>
+  <string name="TownOfUsMira.Options.Groups.RoleDraftCrew">Configuración de Tripulantes</string>
+  <string name="TouOptionRoleDraftCrewMaxInvestigative">Máx. de Investigativos</string>
+  <string name="TouOptionRoleDraftCrewMaxKilling">Máx. de Asesinos</string>
+  <string name="TouOptionRoleDraftCrewMaxPower">Máx. de Superiores</string>
+  <string name="TouOptionRoleDraftCrewMaxProtective">Máx. de Protectores</string>
+  <string name="TouOptionRoleDraftCrewMaxSupport">Máx. de Apoyo</string>
+  <string name="TownOfUsMira.Options.Groups.RoleDraftImp">Configuración de Impostores</string>
+  <string name="TouOptionRoleDraftImpMaxImpostors">Máx. de Impostores</string>
+  <string name="TouOptionRoleDraftImpMaxConcealing">Máx. de Ocultación</string>
+  <string name="TouOptionRoleDraftImpMaxKilling">Máx. de Asesinos</string>
+  <string name="TouOptionRoleDraftImpMaxPower">Máx. de Superiores</string>
+  <string name="TouOptionRoleDraftImpMaxSupport">Máx. de Apoyo</string>
+  <string name="TownOfUsMira.Options.Groups.RoleDraftNeut">Configuración de Neutrales</string>
+  <string name="TouOptionRoleDraftNeutMaxNeutrals">Máx. de Neutrales</string>
+  <string name="TouOptionRoleDraftNeutMaxBenign">Máx. de Benignos</string>
+  <string name="TouOptionRoleDraftNeutMaxEvil">Máx. de Malvados</string>
+  <string name="TouOptionRoleDraftNeutMaxKilling">Máx. de Asesinos</string>
+  <string name="TouOptionRoleDraftNeutMaxOutlier">Máx. de Atípicos</string>
+  <string name="TownOfUsMira.Options.Groups.RoleDraftRoleList">Lista de roles</string>
+  <string name="TouOptionRoleDraftRoleListSlot1">Espacio 1</string>
+  <string name="TouOptionRoleDraftRoleListSlot2">Espacio 2</string>
+  <string name="TouOptionRoleDraftRoleListSlot3">Espacio 3</string>
+  <string name="TouOptionRoleDraftRoleListSlot4">Espacio 4</string>
+  <string name="TouOptionRoleDraftRoleListSlot5">Espacio 5</string>
+  <string name="TouOptionRoleDraftRoleListSlot6">Espacio 6</string>
+  <string name="TouOptionRoleDraftRoleListSlot7">Espacio 7</string>
+  <string name="TouOptionRoleDraftRoleListSlot8">Espacio 8</string>
+  <string name="TouOptionRoleDraftRoleListSlot9">Espacio 9</string>
+  <string name="TouOptionRoleDraftRoleListSlot10">Espacio 10</string>
+  <string name="TouOptionRoleDraftRoleListSlot11">Espacio 11</string>
+  <string name="TouOptionRoleDraftRoleListSlot12">Espacio 12</string>
+  <string name="TouOptionRoleDraftRoleListSlot13">Espacio 13</string>
+  <string name="TouOptionRoleDraftRoleListSlot14">Espacio 14</string>
+  <string name="TouOptionRoleDraftRoleListSlot15">Espacio 15</string>
+  <string name="TownOfUsMira.Options.Groups.RoleSettings">Configuración de roles</string>
+  <string name="TouOptionCurrentGameMode">Modo de juego</string>
+  <string name="TouOptionCurrentGameModeEnumNormal">Normal</string>
+  <string name="TouOptionCurrentGameModeEnumHideAndSeek">Escondite (N/A)</string>
+  <string name="TouOptionCurrentGameModeEnumCultist">Cultista (N/A)</string>
+  <string name="TouOptionRoleAssignmentType">Asignación de roles</string>
+  <string name="TouOptionRoleAssignmentTypeEnumVanilla">Vanilla</string>
+  <string name="TouOptionRoleAssignmentTypeEnumRoleList">Lista de roles</string>
+  <string name="TouOptionRoleAssignmentTypeEnumMinMaxList">Lista Mín./Máx.</string>
+  <string name="TouOptionRoleAssignmentTypeEnumDraft">Draft</string>
+  <string name="TouOptionReduceImpostorStreak">Reducir racha de Impostor</string>
+  <string name="TouOptionImpostorStreakReductionChance">Probabilidad de reducción</string>
+  <string name="TouOptionRoleListSlot1">Espacio 1</string>
+  <string name="TouOptionRoleListSlot2">Espacio 2</string>
+  <string name="TouOptionRoleListSlot3">Espacio 3</string>
+  <string name="TouOptionRoleListSlot4">Espacio 4</string>
+  <string name="TouOptionRoleListSlot5">Espacio 5</string>
+  <string name="TouOptionRoleListSlot6">Espacio 6</string>
+  <string name="TouOptionRoleListSlot7">Espacio 7</string>
+  <string name="TouOptionRoleListSlot8">Espacio 8</string>
+  <string name="TouOptionRoleListSlot9">Espacio 9</string>
+  <string name="TouOptionRoleListSlot10">Espacio 10</string>
+  <string name="TouOptionRoleListSlot11">Espacio 11</string>
+  <string name="TouOptionRoleListSlot12">Espacio 12</string>
+  <string name="TouOptionRoleListSlot13">Espacio 13</string>
+  <string name="TouOptionRoleListSlot14">Espacio 14</string>
+  <string name="TouOptionRoleListSlot15">Espacio 15</string>
+  <string name="TouOptionMinNeutralBenign">Mín. de Neutrales Benignos</string>
+  <string name="TouOptionMaxNeutralBenign">Máx. de Neutrales Benignos</string>
+  <string name="TouOptionMinNeutralEvil">Mín. de Neutrales Malvados</string>
+  <string name="TouOptionMaxNeutralEvil">Máx. de Neutrales Malvados</string>
+  <string name="TouOptionMinNeutralKiller">Mín. de Neutrales Asesinos</string>
+  <string name="TouOptionMaxNeutralKiller">Máx. de Neutrales Asesinos</string>
+  <string name="TouOptionMinNeutralOutlier">Mín. de Neutrales Atípicos</string>
+  <string name="TouOptionMaxNeutralOutlier">Máx. de Neutrales Atípicos</string>
+  <string name="TouOptionDraftRecapDisplays">Resumen del Draft muestra</string>
+  <string name="TouOptionDraftSidebarDisplays">Barra del Draft muestra</string>
+  <string name="TouOptionDraftDisplayEnumNothing">Nada</string>
+  <string name="TouOptionDraftDisplayEnumFaction">Facción</string>
+  <string name="TouOptionDraftDisplayEnumAlignment">Alineación</string>
+  <string name="TouOptionDraftDisplayEnumRole">Rol</string>
+  <string name="TouOptionDraftUseRoleListForPool">Usar lista de roles</string>
+  <string name="TouOptionDraftOfferedRolesCount">Roles ofrecidos por turno</string>
+  <string name="TouOptionDraftShowRandomOption">Mostrar rol aleatorio</string>
+  <string name="TouOptionDraftTurnDuration">Duración del turno</string>
+  <string name="TouOptionDraftConcurrentPicks">Elecciones simultáneas</string>
+  <string name="TouOptionDraftShufflesPerPlayer">Mezclas por jugador</string>
+  <string name="TouOptionCrewpostorReplacesImpostor">Reemplaza a un Impostor</string>
+  <string name="TouOptionCrewpostorCanAlwaysSabotage">Siempre puede sabotear</string>
+  <string name="TouOptionCrewpostorVision">Tiene visión de Impostor</string>
+  <string name="TouOptionCrewpostorShowsAsImpostor">Aparece como Traidor</string>
+  <string name="TouOptionEgotistMustSurvive">Debe sobrevivir para ganar</string>
+  <string name="TouOptionEgotistSpeedsUp">Acelera la partida</string>
+  <string name="TouOptionEgotistRoundsToApplyEffects">Rondas para cambios de velocidad/recarga</string>
+  <string name="TouOptionEgotistSpeedMultiplier">Aumento de velocidad</string>
+  <string name="TouOptionEgotistCooldownOffset">Reducción de recarga</string>
+  <string name="TouOptionLoversDieAndReviveTogether">Ambos Enamorados mueren y reviven juntos</string>
+  <string name="TouOptionLoversKillerProbability">Probabilidad de enamorar a otro Asesino</string>
+  <string name="TouOptionLoversNeutralRoles">Neutrales pueden ser Enamorados</string>
+  <string name="TouOptionLoversKillFactionTeammates">Enamorado puede matar a su facción</string>
+  <string name="TouOptionLoversKillEachOther">Enamorados pueden matarse entre sí</string>
+  <string name="TouOptionOverclockerCooldown">Recarga de Sobrecarga</string>
+  <string name="TouOptionOverclockerDuration">Duración de Sobrecarga</string>
+  <string name="TouOptionOverclockerRoundOne">Permitir Sobrecarga en primera ronda</string>
+  <string name="TouOptionOverclockerUses">Usos de Sobrecarga</string>
+  <string name="TouOptionOverclockerMultiplier">Multiplicador de Sobrecarga</string>
+  <string name="TouOptionOverclockerUnderclockMultiplier">Multiplicador de desaceleración</string>
+  <string name="TouOptionBaitMinReportDelay">Retraso mín. de reporte del Cebo</string>
+  <string name="TouOptionBaitMaxReportDelay">Retraso máx. de reporte del Cebo</string>
+  <string name="TouOptionDiseasedKillMultiplier">Multiplicador de muerte del Enfermo</string>
+  <string name="TouOptionNoisemakerImpostorsAlerted">Alertar a Impostores</string>
+  <string name="TouOptionNoisemakerNeutsAlerted">Alertar a Neutrales Asesinos</string>
+  <string name="TouOptionNoisemakerCommsAffected">Comunicaciones bloquea la alerta</string>
+  <string name="TouOptionNoisemakerBodyCheck">Solo activar si hay cadáver</string>
+  <string name="TouOptionOperativeMoveOnMira">Moverse usando Registro de Puertas</string>
+  <string name="TouOptionOperativeRoundCharge">Carga por ronda</string>
+  <string name="TouOptionOperativeTaskCharge">Carga por tarea</string>
+  <string name="TouOptionOperativeDisplayDuration">Duración máx. de Seguridad</string>
+  <string name="TouOptionRottingTimeBeforeBodyRots">Tiempo para descomponer cadáver</string>
+  <string name="TouOptionScientistMoveWithVitals">Moverse usando Vitales</string>
+  <string name="TouOptionScientistRoundCharge">Carga por ronda</string>
+  <string name="TouOptionScientistTaskCharge">Carga por tarea</string>
+  <string name="TouOptionScientistDisplayDuration">Duración máx. de Vitales</string>
+  <string name="TouOptionCircumventMinimumVents">Mín. de ductos permitidos</string>
+  <string name="TouOptionCircumventMaximumVents">Máx. de ductos permitidos</string>
+  <string name="TouOptionDeadlyQuotaMinimumKillQuota">Cuota mín. de asesinatos</string>
+  <string name="TouOptionDeadlyQuotaMaximumKillQuota">Cuota máx. de asesinatos</string>
+  <string name="TouOptionDeadlyQuotaMeetingKillsCount">Muertes en reunión cuentan para la cuota</string>
+  <string name="TouOptionDeadlyQuotaTemporaryShield">Escudo temporal hasta cumplir la cuota</string>
+  <string name="TouOptionDeadlyQuotaRemoveUponDeath">Eliminar cuota al morir</string>
+  <string name="TouOptionSaboteurReducedSabotageBonus">Reducción de recarga de sabotajes</string>
+  <string name="TouOptionTelepathKnowKillLocation">Conocer dónde mata tu compañero</string>
+  <string name="TouOptionTelepathKnowDeathLocation">Saber dónde muere tu compañero</string>
+  <string name="TouOptionTelepathKnowCorrectGuess">Saber si tu compañero acierta</string>
+  <string name="TouOptionTelepathKnowFailedGuess">Saber si tu compañero falla</string>
+  <string name="TouOptionUnderdogKillCooldownBonus">Bonificación de recarga de Matar</string>
+  <string name="TouOptionUnderdogExtraImpsKillCooldown">Mayor recarga con 2+ Impostores</string>
+  <string name="TouOptionSatelliteButtonCooldown">Recarga del botón</string>
+  <string name="TouOptionSatelliteOneUsagePerRound">Un uso por ronda</string>
+  <string name="TouOptionSatelliteAllowFirstRound">Permitir en primera ronda</string>
+  <string name="TouOptionShyTransparencyDelay">Retraso de transparencia</string>
+  <string name="TouOptionShyTurnTransparentDuration">Duración de transparencia</string>
+  <string name="TouOptionShyFinalOpacity">Opacidad final</string>
+  <string name="TownOfUsMira.Options.Groups.AllianceModifiers">Modificadores de Alianza</string>
+  <string name="TouOptionCrewpostorChance">Probabilidad de Tripostor</string>
+  <string name="TouOptionEgotistChance">Probabilidad de Ególatra</string>
+  <string name="TouOptionLoversChance">Probabilidad de Enamorados</string>
+  <string name="TownOfUsMira.Options.Groups.AssailantModifiers">Modificadores Agresivos</string>
+  <string name="TouOptionDoubleShotAmount">Cantidad de Doble Tiro</string>
+  <string name="TouOptionDoubleShotChance">Probabilidad de Doble Tiro</string>
+  <string name="TouOptionOverclockerAmount">Cantidad de Acelerador</string>
+  <string name="TouOptionOverclockerChance">Probabilidad de Acelerador</string>
+  <string name="TownOfUsMira.Options.Groups.CrewmateModifiers">Modificadores de Tripulante</string>
+  <string name="TouOptionBaitChance">Probabilidad de Cebo</string>
+  <string name="TouOptionCelebrityChance">Probabilidad de Celebridad</string>
+  <string name="TouOptionAftermathAmount">Cantidad de Secuelas</string>
+  <string name="TouOptionAftermathChance">Probabilidad de Secuela</string>
+  <string name="TouOptionDiseasedAmount">Cantidad de Enfermos</string>
+  <string name="TouOptionDiseasedChance">Probabilidad de Enfermo</string>
+  <string name="TouOptionFrostyAmount">Cantidad de Gélidos</string>
+  <string name="TouOptionFrostyChance">Probabilidad de Gélido</string>
+  <string name="TouOptionInvestigatorAmount">Cantidad de Investigadores</string>
+  <string name="TouOptionInvestigatorChance">Probabilidad de Investigador</string>
+  <string name="TouOptionMultitaskerAmount">Cantidad de Multitareas</string>
+  <string name="TouOptionMultitaskerChance">Probabilidad de Multitarea</string>
+  <string name="TouOptionNoisemakerAmount">Cantidad de Bulliciosos</string>
+  <string name="TouOptionNoisemakerChance">Probabilidad de Bullicioso</string>
+  <string name="TouOptionOperativeAmount">Cantidad de Guardia</string>
+  <string name="TouOptionOperativeChance">Probabilidad de Guardia</string>
+  <string name="TouOptionRottingAmount">Cantidad de Podridos</string>
+  <string name="TouOptionRottingChance">Probabilidad de Podrido</string>
+  <string name="TownOfUsMira.Role.Outcast">Marginado</string>
+  <string name="TownOfUsMira.Role.Outcast.IntroBlurb">Lucha contra lo sobrenatural.</string>
+  <string name="TownOfUsMira.Role.Outcast.TabDescription">Usa tu visión y los ductos a tu favor.</string>
+  <string name="TownOfUsMira.Role.Outcast.MedDescription">Usa ductos y tu visión expandida para eliminar a la competencia.</string>
+  <string name="TownOfUsMira.Role.Outcast.WikiDescription">El Marginado es un asesino básico, que puede usar ductos y ver más allá que cualquier otro asesino.</string>
+  <string name="TouOptionScientistAmount">Cantidad de Científicos</string>
+  <string name="TouOptionScientistChance">Probabilidad de Científico</string>
+  <string name="TouOptionScoutAmount">Cantidad de Exploradores</string>
+  <string name="TouOptionScoutChance">Cantidad de Explorador</string>
+  <string name="TouOptionSpyAmount">Cantidad de Espías</string>
+  <string name="TouOptionSpyChance">Probabilidad de Espía</string>
+  <string name="TouOptionTaskmasterAmount">Cantidad de Supervisores</string>
+  <string name="TouOptionTaskmasterChance">Probabilidad de Supervisores</string>
+  <string name="TouOptionTorchAmount">Cantidad de Antorchas</string>
+  <string name="TouOptionTorchChance">Probabilidad de Antorchas</string>
+  <string name="HnsOptionTitleHiderModifiers">Modificadores de Escondedores</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.FrostyAmount">Cantidad de Gélidos</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.FrostyChance">Probabilidad de Gélido</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.GiantAmount">Cantidad de Gigantes</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.GiantChance">Probabilidad de Gigante</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.MiniAmount">Cantidad de Minis</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.MiniChance">Probabilidad de Mini</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.MultitaskerAmount">Cantidad de Multitareas</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.MultitaskerChance">Probabilidad de Multitarea</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.ObliviousAmount">Cantidad de Despistados</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.ObliviousChance">Probabilidad de Despistado</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.TransporterAmount">Cantidad de Transportadores</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.TransporterChance">Probabilidad de Transportador</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.WaryAmount">Cantidad de Cautelosos</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.WaryChance">Probabilidad de Cautelosos</string>
+  <string name="HnsOptionTitleSeekerModifiers">Modificadores de Buscador</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Option.AdministratorChanceNA">Probabilidad de Administrador (N/A)</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.DisperserChanceNA">Probabilidad de Dispersor (N/A)</string>
+  <string name="TownOfUsMira.Options.Groups.ImpostorModifiers">Modificadores de Impostor</string>
+  <string name="TouOptionCircumventAmount">Cantidad de Limitados</string>
+  <string name="TouOptionCircumventChance">Probabilidad de Limitado</string>
+  <string name="TouOptionDeadlyQuotaAmount">Cantidad de Cuota Mortal</string>
+  <string name="TouOptionDeadlyQuotaChance">Probabilidad de Cuota Mortal</string>
+  <string name="TouOptionDisperserAmount">Cantidad de Dispersores</string>
+  <string name="TouOptionDisperserChance">Probabilidad de Dispersor</string>
+  <string name="TouOptionSaboteurAmount">Cantidad de Saboteadores</string>
+  <string name="TouOptionSaboteurChance">Probabilidad de Saboteador</string>
+  <string name="TouOptionTelepathAmount">Cantidad de Telépatas</string>
+  <string name="TouOptionTelepathChance">Probabilidad de Telépata</string>
+  <string name="TouOptionUnderdogAmount">Cantidad de Rezagados</string>
+  <string name="TouOptionUnderdogChance">Probabilidad de Rezagado</string>
+  <string name="TownOfUsMira.Modifier.ClericBarrierDescription">¡Estás protegido por un Clérigo!
+Nadie puede interactuar contigo.</string>
+  <string name="TownOfUsMira.Modifier.ClericCleanse">Purificación del Clérigo</string>
+  <string name="TownOfUsMira.Modifier.ClericCleanseEffectsFound">Efectos purificados de [player]:</string>
+  <string name="TownOfUsMira.Modifier.ClericCleanseNoEffects">No se encontraron efectos negativos en [player].</string>
+  <string name="TownOfUsMira.Modifier.ClericCleanseFeedbackTitle">Informe del Clérigo:</string>
+  <string name="TownOfUsMira.Modifier.DeputyRevealed">Revelado</string>
+  <string name="TownOfUsMira.Modifier.Jailed">Encarcelado</string>
+  <string name="TownOfUsMira.Modifier.JailedFeedbackTitle">Informe del prisionero</string>
+  <string name="TownOfUsMira.Modifier.JailedNonCrewFeedback">Estás encarcelado. Convence al Carcelero de que eres Tripulante para evitar que te ejecute usando el chat sobre el botón de reportar.</string>
+  <string name="TownOfUsMira.Modifier.JailedCrewFeedback">Estás encarcelado. Dale información relevante al Carcelero para demostrar que eres Tripulante usando el chat sobre el botón de reportar.</string>
+  <string name="TownOfUsMira.Modifier.MagicMirror">Espejo Mágico</string>
+  <string name="TownOfUsMira.Modifier.MagicMirrorDescription">¡Estás protegido por el Reflector!
+No puedes morir a manos de otros jugadores.</string>
+  <string name="TouMedicShieldDescription">¡Estás protegido por un Médico!
+No puedes morir a manos de otros jugadores.</string>
+  <string name="TownOfUsMira.Modifier.HerbalistProtectionDescription">¡Estás protegido por un Clérigo!
+Nadie puede interactuar contigo.</string>
+  <string name="TownOfUsMira.Modifier.Blackmailed">Extorsionado</string>
+  <string name="TownOfUsMira.Modifier.BlackmailedVoteNotification">¡No puedes votar en esta reunión! Omitirás automáticamente en [time] segundos.</string>
+  <string name="TownOfUsMira.Modifier.EclipsalBlindedNotification">¡El Cegador te ha cegado!</string>
+  <string name="TownOfUsMira.Modifier.GrenadierFlashedNotification">¡El Granadero te ha cegado!</string>
+  <string name="TownOfUsMira.Modifier.MassHysteriaNotification">¡Estás bajo los efectos de la Histeria Colectiva!</string>
+  <string name="TownOfUsMira.Modifier.GuardianAngelProtected">Protegido</string>
+  <string name="TownOfUsMira.Modifier.GuardianAngelProtectedDescription">¡Estás protegido por tu Hada!
+No pueden matarte.</string>
+  <string name="TownOfUsMira.Modifier.MercenaryBribedFeedbackTitle">Informe del Mercenario</string>
+  <string name="TownOfUsMira.Modifier.MercenaryBribedFeedback">¡Un Mercenario te ha sobornado!</string>
+  <string name="TownOfUsMira.Modifier.Hangover">Resaca</string>
+  <string name="TownOfUsMira.Modifier.HangoverDescription">Tienes resaca y eres inmune temporalmente a ser embriagado.</string>
+  <string name="TownOfUsMira.Modifier.HangoverStartNotification">¡Ahora tienes resaca!</string>
+  <string name="TownOfUsMira.Options.Groups.NeutralModifiers">Modificadores Neutrales</string>
+  <string name="TownOfUsMira.Options.Groups.UniversalModifiers">Modificadores Universales</string>
+  <string name="TouOptionButtonBarryChance">Probabilidad de Botón Remoto</string>
+  <string name="TouOptionTiebreakerChance">Probabilidad de Desempate</string>
+  <string name="TouOptionDrunkAmount">Cantidad de Borrachos</string>
+  <string name="TouOptionDrunkChance">Probabilidad de Borracho</string>
+  <string name="TouOptionFlashAmount">Cantidad de Flashes</string>
+  <string name="TouOptionFlashChance">Probabilidad de Flash</string>
+  <string name="TouOptionGiantAmount">Cantidad de Gigantes</string>
+  <string name="TouOptionGiantChance">Probabilidad de Gigante</string>
+  <string name="TouOptionImmovableAmount">Cantidad de Inamovibles</string>
+  <string name="TouOptionImmovableChance">Probabilidad de Inamovible</string>
+  <string name="TouOptionMiniAmount">Cantidad de Minis</string>
+  <string name="TouOptionMiniChance">Probabilidad de Mini</string>
+  <string name="TouOptionRadarAmount">Cantidad de Radares</string>
+  <string name="TouOptionRadarChance">Probabilidad de Radar</string>
+  <string name="TouOptionSatelliteAmount">Cantidad de Satélites</string>
+  <string name="TouOptionSatelliteChance">Probabilidad de Satélite</string>
+  <string name="TouOptionShyAmount">Cantidad de Tímidos</string>
+  <string name="TouOptionShyChance">Probabilidad de Tímido</string>
+  <string name="TouOptionSixthSenseAmount">Cantidad de Sexto Sentido</string>
+  <string name="TouOptionSixthSenseChance">Probabilidad de Sexto Sentido</string>
+  <string name="TouOptionSleuthAmount">Cantidad de Sabuesos</string>
+  <string name="TouOptionSleuthChance">Probabilidad de Sabueso</string>
+  <string name="TownOfUsMira.Modifier.AltruistArrow">Flecha del Altruista</string>
+  <string name="TownOfUsMira.Modifier.BarkeeperSpillEffect">Efecto del derrame</string>
+  <string name="TownOfUsMira.Modifier.ClericBarrier">Barrera</string>
+  <string name="TownOfUsMira.Modifier.HangoverEndNotification">Ya no tienes resaca.</string>
+  <string name="TownOfUsMira.Modifier.Roleblocked">Embriagado</string>
+  <string name="TownOfUsMira.Modifier.RoleblockedDescription">¡Alguien te dio una bebida y estás embriagado!</string>
+  <string name="TownOfUsMira.Modifier.RoleblockedEndNotification">Ya no estás embriagado.</string>
+  <string name="TownOfUsMira.Modifier.ShieldDescription">¡Estás protegido!</string>
+  <string name="TownOfUsMira.Modifier.DisabledDescription">¡Estás incapacitado!</string>
+  <string name="TouFirstDeathShieldDescription">Tienes protección por haber muerto primero en la partida anterior.</string>
+  <string name="TownOfUsMira.Modifier.Knighted">Investido</string>
+  <string name="TownOfUsMira.Modifier.KnightedDescription">El Monarca te nombró caballero. Obtienes [votes] voto(s) adicional(es).</string>
 </resources>

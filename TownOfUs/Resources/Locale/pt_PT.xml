@@ -825,7 +825,7 @@ Ele pode ser um assassino ou uma testemunha.</string>
   <string name="TouOptionEngineerMaxFixes">Usos por Jogo do Arranjar</string>
   <string name="TouOptionEngineerFixPerTasks">Tarefas Necessárias Para Usos Adicionais do Arranjar</string>
   <string name="TouOptionEngineerFixDelay">Delay do Arranjar</string>
-  <string name="TownOfUsMira.Role.Haunter">Assombrado</string>
+  <string name="TownOfUsMira.Role.Haunter">Assombrador</string>
   <string name="TownOfUsMira.Role.Haunter.IntroBlurb">Revela os Impostores pós-morte!</string>
   <string name="TownOfUsMira.Role.Haunter.TabDescription">Complete todas as tuas tarefas sem seres capturado para revelar os Impostores!</string>
   <string name="TownOfUsMira.Role.Haunter.WikiDescription">O Assombrado é um Tripulante Fantasma que pode fazer tarefas. A aparência dele é de um jogador transparente. Se ele finalizar todas as suas tarefas, todos os jogadores vivos vão ver quem os Impostores são. No entanto, se um Impostor clicar nele primeiro, ele vira um fantasma normal. Impostores recebem um aviso pouco antes e depois do Assombrado finalizar as suas tarefas.</string>
@@ -1039,7 +1039,7 @@ evita tornar Malfeitores em cavaleiros.</string>
   <string name="TownOfUsMira.Role.MonarchTabDefenseInfo">Cavaleiros Tripulantes vivos dão-te proteção.</string>
   <string name="TownOfUsMira.Role.MonarchTabDeathInfo">És notificado quando um cavaleiro morre.</string>
   <string name="TownOfUsMira.Role.Monarch.WikiDescription">O Monarca é uma Função Tripulante Poderoso que pode dar votos adicionais a outros jogadores.</string>
-  <string name="TownOfUsMira.Role.MonarchKnight">Armar</string>
+  <string name="TownOfUsMira.Role.MonarchKnight">Coroar</string>
   <string name="TownOfUsMira.Role.MonarchKnightDescription">Torna um jogador em Cavaleiro, dando-o mais [amount] voto(s)</string>
   <string name="TownOfUsMira.Role.MonarchKnightTargetDied">[player] morreu antes que tu o pudesses tornar em cavaleiro.</string>
   <string name="TownOfUsMira.Role.MonarchKnightSuccess">[player] tornou-se em cavaleiro!</string>
@@ -1612,4 +1612,136 @@ qualquer tempo para fugir da cena do crime</string>
 A tua recarga de matar não está ligada com outras habilidades.</string>
   <string name="TownOfUsMira.Role.Herbalist.WikiDescription">O Herborista é uma Função Impostor Poderoso que tem várias habilidades ligadas numa única recarga (menos a habilidade de matar), ou para ajudar Impostores ou para afetar o que os outro vêm.</string>
   <string name="TownOfUsMira.Role.HerbalistExpose">Expor</string>
+  <string name="FrenzyKillerTaskHeader">Elimina todas as outras equipas usando qualquer meios.</string>
+  <string name="FrenzyKiller">Assassino Furioso</string>
+  <string name="NeutralBenign.Colored">[color=#999999FF]Neutro[/color] Benigno</string>
+  <string name="NeutralEvil.Colored">[color=#999999FF]Neutro[/color] Malvado</string>
+  <string name="NeutralOutlier.Colored">[color=#999999FF]Neutro[/color] Atípico</string>
+  <string name="NeutralKilling.Colored">[color=#999999FF]Neutro[/color] Assassino</string>
+  <string name="CommonCrew.Colored">[color=#66FFFFFF]Tripulação[/color] Comum</string>
+  <string name="SpecialCrew.Colored">[color=#66FFFFFF]Tripulante[/color] Especial</string>
+  <string name="RandomCrew.Colored">[color=#66FFFFFF]Tripulante[/color] Aleatório</string>
+  <string name="CommonNeutral.Colored">[color=#999999FF]Neutro[/color] Comum</string>
+  <string name="SpecialNeutral.Colored">[color=#999999FF]Neutro[/color] Especial</string>
+  <string name="WildcardNeutral.Colored">[color=#999999FF]Neutro[/color] Imprevisível</string>
+  <string name="RandomNeutral.Colored">[color=#999999FF]Neutro[/color] Aleatório</string>
+  <string name="NonImp.Colored">Não-[color=#FF0000FF]Impostor[/color]</string>
+  <string name="CommonImp.Colored">[color=#FF0000FF]Impostor[/color] Comum</string>
+  <string name="SpecialImp.Colored">[color=#FF0000FF]Impostor[/color] Especial</string>
+  <string name="RandomImp.Colored">[color=#FF0000FF]Impostor[/color] Aleatório</string>
+  <string name="CrewInvestigative.Colored">[color=#66FFFFFF]Tripulante[/color] Investigador</string>
+  <string name="CrewKilling.Colored">[color=#66FFFFFF]Tripulante[/color] Assassino</string>
+  <string name="CrewPower.Colored">[color=#66FFFFFF]Tripulante[/color] Poderoso</string>
+  <string name="CrewProtective.Colored">[color=#66FFFFFF]Tripulante[/color] Protetor</string>
+  <string name="CrewSupport.Colored">[color=#66FFFFFF]Tripulante[/color] Suporte</string>
+  <string name="ImpConcealing.Colored">[color=#FF0000FF]Impostor[/color] Encobridor</string>
+  <string name="ImpKilling.Colored">[color=#FF0000FF]Impostor[/color] Assassino</string>
+  <string name="ImpPower.Colored">[color=#FF0000FF]Impostor[/color] Poderoso</string>
+  <string name="ImpSupport.Colored">[color=#FF0000FF]Impostor[/color] Suporte</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.TabText">Função: [roleName][nl][description]</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.FakeTaskTabText">Tarefas Falsas:</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.CrewDescription">Acaba as tuas tarefas.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.CrewDescriptionDead">Morreste, finaliza as tuas tarefas.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.NeutDescription">Completa os teus objetivos.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.NeutDescriptionDead">Morreste.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.ImpDescription">Sabota e mata os tripulantes.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.ImpDescriptionDead">Morreste.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer">Engenheiro</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.IntroBlurb">Mantem o posto avançado</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.TabDescription">Finaliza as tuas tarefas.[nl]Podes arranjar 1 sabotagem.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.MedDescription">Repara uma única sabotagem remotamente.</string>
+  <string name="TownOfUsMira.Role.Spectator.MedDescription">Vê como o jogo se desenrola.</string>
+  <string name="TownOfUsMira.Role.Outcast">Proscrito</string>
+  <string name="TownOfUsMira.Role.Outcast.IntroBlurb">Luta contra o supernatural.</string>
+  <string name="TownOfUsMira.Role.Outcast.TabDescription">Usa a tua visão e as ventilações para a tua vantagem.</string>
+  <string name="TownOfUsMira.Role.Outcast.MedDescription">Usa a ventilação e a tua visão estendida para eliminar a competição.</string>
+  <string name="TownOfUsMira.Role.Outcast.WikiDescription">O Proscrito é um assassino básico, com a habilidade de usar a ventilação e poder ver mais longe que outros assassinos.</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Chameleon.MedDescription">Fica invisível ao assassino para te defenderes.</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Mystic.MedDescription">Recebe feedback imediato sobre aonde tripulantes morrem.</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Snitch.MedDescription">Reduz o tempo mais rápido com tarefas, mas risca a tua localização no processo.</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Noisemaker.MedDescription">Alerta os tripulantes para a tua morte.</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Camouflager.MedDescription">Mistura-te com os escondedores.
+Faz com que eles acreditem o que não é.</string>
+  <string name="TownOfUsMira.Cultist.Role.Necromancer.MedDescription">Revive os mortes para serem parte do culto.</string>
+  <string name="TownOfUsMira.Role.Altruist.MedDescription">Revive tripulantes mortos.</string>
+  <string name="TownOfUsMira.Role.Aurial.MedDescription">Sente exatamente aonde habilidades são usadas na tua área.
+Se for feito muito perto, consegues sentir a cor da fonte.</string>
+  <string name="TownOfUsMira.Role.Cleric.MedDescription">Cria barreiras nos tripulantes para prever interações.
+Limpa-os para eliminar efeitos negativos.</string>
+  <string name="TownOfUsMira.Role.Deputy.MedDescription">Acampa tripulantes. Depois da sua morte, tenta arrebentar o seu assassino.</string>
+  <string name="TownOfUsMira.Role.Forensic.MedDescription">Inspeciona cenas de crime para encontrar suspeitos presentes na cena.</string>
+  <string name="TownOfUsMira.Role.Barkeeper.MedDescription">Bebe com Malfeitores para desativar as suas habilidades temporariamente.</string>
+  <string name="TownOfUsMira.Role.Engineer.MedDescription">Repara sabotagens remotamente, e usa as ventilações se necessário.</string>
+  <string name="TownOfUsMira.Role.Haunter.MedDescription">Revela os Impostores depois da tua morte.</string>
+  <string name="TownOfUsMira.Role.Hunter.MedDescription">Persegue outros para poderes matá-los se eles usarem uma habilidade no prazo de tempo.</string>
+  <string name="TownOfUsMira.Role.Imitator.MedDescription">Imita os mortos pelo o que eles foram.</string>
+  <string name="TownOfUsMira.Role.Investigator.MedDescription">Vê aonde outros vão seguindo as suas pegadas.</string>
+  <string name="TownOfUsMira.Role.Jailor.MedDescription">Prende jogadores e executa-os se necessário.
+Discute com eles privadamente antes de julgar.</string>
+  <string name="TownOfUsMira.Role.Lookout.MedDescription">Vê outros tripulantes para verificar quem interage com quem.</string>
+  <string name="TownOfUsMira.Role.Mayor.MedDescription">Revela-te num momento oportuno para controlar reuniões para os Tripulantes.</string>
+  <string name="TownOfUsMira.Role.Medic.MedDescription">Cria um escudo para protegeres Tripulantes de ataques.</string>
+  <string name="TownOfUsMira.Role.Medium.MedDescription">Deixa o teu corpo temporariamente para te realizares uma projeção astral.</string>
+  <string name="TownOfUsMira.Role.Mirrorcaster.MedDescription">Reflete ataques feitos em Espelhos Mágicos.
+Depois, liberta-o contra malvados!</string>
+  <string name="TownOfUsMira.Role.Monarch.MedDescription">Coroa Tripulantes para lhes dar votos extra nas reuniões. Escolhe os teus cavaleiros cuidadosamente.</string>
+  <string name="TownOfUsMira.Role.Mystic.MedDescription">És notificado quando tripulantes morrem.
+Recebes também uma seta na sua direção.</string>
+  <string name="TownOfUsMira.Role.Oracle.MedDescription">Abençoa os tripulantes para os salvar nas reuniões. Faz os malvados confessar os seus pecados.</string>
+  <string name="TownOfUsMira.Role.Plumber.MedDescription">Bloqueia os sistemas de ventilações para outros.</string>
+  <string name="TownOfUsMira.Role.Politician.MedDescription">Campanha metade dos tripulantes para te revelares como o Presidente!</string>
+  <string name="TownOfUsMira.Role.Prosecutor.MedDescription">Exila os que te desafiem usando a força em reuniões.</string>
+  <string name="TownOfUsMira.Role.Seer.MedDescription">Revela o que tripulantes são verdadeiramente alinhados a.</string>
+  <string name="TownOfUsMira.Role.Sentry.MedDescription">Coloca câmaras extra para manter os Tripulantes em cheque.</string>
+  <string name="TownOfUsMira.Role.Officer.MedDescription">Carrega a tua arma com munição.
+Dispara em quem ameaçar os Tripulantes.</string>
+  <string name="TownOfUsMira.Role.Sheriff.MedDescription">Atira em Malfeitores, ou sofre consequências se atirares num Tripulante.</string>
+  <string name="TownOfUsMira.Role.Snitch.MedDescription">Chiba nos Impostores quando completares as tuas tarefas.</string>
+  <string name="TownOfUsMira.Role.Spy.MedDescription">Vê cores detalhadas na Mesa de Admin</string>
+  <string name="TownOfUsMira.Role.Swapper.MedDescription">Troca votos de dois alvos na reunião se quiseres.</string>
+  <string name="TownOfUsMira.Role.TimeLord.MedDescription">Volta no tempo para reverteres ações feitas recentemente.</string>
+  <string name="TownOfUsMira.Role.Sonar.MedDescription">Sente múltiplos tripulantes para identificar a sua direção com precisão.</string>
+  <string name="TownOfUsMira.Role.Transporter.MedDescription">Transporta dois tripulantes um com o outro.</string>
+  <string name="TownOfUsMira.Role.Trapper.MedDescription">Coloca armadilhas para descobrir quais funções que estão em jogo.</string>
+  <string name="TownOfUsMira.Role.Veteran.MedDescription">Fica em alerta para atacares quem quiser interagir contigo.</string>
+  <string name="TownOfUsMira.Role.Vigilante.MedDescription">Adivinha o que os malfeitores são na reunião.</string>
+  <string name="TownOfUsMira.Role.Warden.MedDescription">Fortifica Tripulantes para prever quaisquer interações neles fora de reuniões.</string>
+  <string name="TownOfUsMira.Role.Ambassador.MedDescription">Recapacita impostores para mudar as suas funções para o resto do jogo.</string>
+  <string name="TownOfUsMira.Role.Ambusher.MedDescription">Persegue Tripulantes para Emboscar alguém perto dele.</string>
+  <string name="TownOfUsMira.Role.Bootlegger.MedDescription">Bebe com Tripulantes para desativar as suas habilidades temporariamente.</string>
+  <string name="TownOfUsMira.Role.Bomber.MedDescription">Coloca bombas para múltiplos Tripulantes numa área de uma vez.</string>
+  <string name="TownOfUsMira.Role.Escapist.MedDescription">Marca uma localização, depois retorna para lá a qualquer momento em qualquer lugar.</string>
+  <string name="TownOfUsMira.Role.Herbalist.MedDescription">Expõem funções, Confunde tripulantes, e Protege outros se necessário.</string>
+  <string name="TownOfUsMira.Role.HerbalistExpose.WikiDescription">Expõe um jogador a todos os Impostores, revelando a sua função mas prevendo de ser adivinhado.</string>
+  <string name="TownOfUsMira.Role.HerbalistConfuse">Confundir</string>
+  <string name="TownOfUsMira.Role.HerbalistConfuse.WikiDescription">Confunde um jogador com fungos de esporos para o prever de identificar jogadores.</string>
+  <string name="TownOfUsMira.Role.HerbalistProtect">Proteger</string>
+  <string name="TownOfUsMira.Role.HerbalistProtect.WikiDescription">Protege um jogador temporariamente como se fosses um Clérigo, incluindo outros impostores.</string>
+  <string name="TownOfUsMira.Role.HerbalistChangeHerb">Mudar Erva</string>
+  <string name="TownOfUsMira.Role.Hypnotist">Hipnotizador</string>
+  <string name="TownOfUsMira.Role.Hypnotist.IntroBlurb">Hipnotiza Tripulantes</string>
+  <string name="TownOfUsMira.Role.Hypnotist.MedDescription">Hipnotiza Tripulantes, depois ativa Histeria Massiva para alterar o que eles vêm.</string>
+  <string name="TownOfUsMira.Role.Hypnotist.TabDescription">Hipnotiza tripulantes para os prever de
+distinguir jogadores debaixo de histeria massiva</string>
+  <string name="TownOfUsMira.Role.Hypnotist.WikiDescription">O Hipnotizador é uma Função Impostor Suporte que pode hipnotizar jogadores, Durante a reunião ele pode libertar Histeria Massiva, quem faz com que todos os jogadores hipnotizados (marcados com [symbol]) têm diferentes visuais aplicados em jogadores na próxima rodada.</string>
+  <string name="TownOfUsMira.Role.HypnotistHypnotize">Hipnotizar</string>
+  <string name="TownOfUsMira.Role.HypnotistHypnotize.WikiDescription">Hipnotiza um jogador, causando-o ver o jogo diferente que jogadores não-hipnotizados se a histeria massiva estiver ativa.</string>
+  <string name="TownOfUsMira.Role.HypnotistMassHysteria">Histeria</string>
+  <string name="TownOfUsMira.Role.HypnotistMassHysteriaWiki">Histeria Massiva (Reunião)</string>
+  <string name="TownOfUsMira.Role.HypnotistMassHysteria.WikiDescription">Causa todos os jogadores hipnotizados ter visuais diferentes aplicados no seu ecrã na próxima rodada.</string>
+  <string name="TouOptionHypnotistHypnotizeCooldown">Recarga do Hipnotizar</string>
+  <string name="TouOptionHypnotistHypnotistCanKillWithTeammate">Hipnotizador Pode Matar Com Colega De Equipe</string>
+  <string name="TownOfUsMira.Role.Janitor">Zelador</string>
+  <string name="TownOfUsMira.Role.Janitor.IntroBlurb">Higieniza o navio</string>
+  <string name="TownOfUsMira.Role.Janitor.TabDescription">Limpa corpos para esconder mortes e cenas de crime</string>
+  <string name="TownOfUsMira.Role.Janitor.WikiDescription">O Zelador é uma Função Impostor Suporte que pode limpar corpos mortos.</string>
+  <string name="TownOfUsMira.Role.JanitorClean">Limpar</string>
+  <string name="TownOfUsMira.Role.JanitorCleaning">Limpando</string>
+  <string name="TownOfUsMira.Role.JanitorClean.WikiDescription">Limpa um corpo morto, fazendo-o desaparecer, e fazendo-o irreportável.</string>
+  <string name="TouOptionJanitorCleanUsesPerGame">Usos Do Limpar Por Jogo</string>
+  <string name="TouOptionJanitorCleanCooldown">Recarga Do Limpar</string>
+  <string name="TouOptionJanitorCleanDelay">Delay Do Limpar</string>
+  <string name="TouOptionJanitorResetKillAndCleanCooldownsTogether">Reiniciar A Recarga De Matar [and] Limpar Juntos</string>
+  <string name="TouOptionJanitorJanitorCanKillWithTeammate">Zelador Pode Matar Com Colega De Equipe</string>
+  <string name="TownOfUsMira.Role.Miner">Mineiro</string>
 </resources>

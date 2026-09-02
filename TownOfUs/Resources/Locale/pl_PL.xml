@@ -1237,4 +1237,6 @@ Imituj się w innych aby ich wrobić.</string>
   <string name="TouOptionGrenadierFlashGrenadeDuration">Czas Trwania Oślepienia</string>
   <string name="TouOptionGrenadierFlashRadius">Zasięg Oślepienia</string>
   <string name="TouOptionGrenadierGrenadierCanVent">Grenadier Może Wentować</string>
+  <string name="TownOfUsMira.Modifier.GrenadierFlashedNotification">Zostałeś oślepiony przez Grenadiera!</string>
+  <string name="TownOfUsMira.Role.Haunter.MedDescription">Ujawnij Intruzów długo po swojej śmierci.</string>
 </resources>
