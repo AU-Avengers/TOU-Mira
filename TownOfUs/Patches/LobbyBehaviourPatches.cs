@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using TownOfUs.Events;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Modules.DraftMode;
@@ -19,6 +20,7 @@ public static class LobbyBehaviourPatches
     [HarmonyPostfix]
     public static void LobbyStartPatch()
     {
+        NoisemakerModifier.ActiveNoisemakerTriggers.Clear();
         CustomTouMurderRpcs.StoredKillAnimations = [];
         HaunterRole.ResetReveals();
         GameTimerPatch.ResetTimer();

@@ -14,3 +14,10 @@ public sealed class ProsecutorOptions : AbstractRoleOptionGroup<ProsecutorRole>
     [ModdedNumberOption("TouOptionProsecutorMaxProsecutions", 1, 5)]
     public float MaxProsecutions { get; set; } = 2f;
 }
+
+/*public enum BadProsecuteResult
+{
+    EjectPros,
+    LoseUsesAndEjectTarget,
+    EjectProsAndEjectTarget
+}*/
