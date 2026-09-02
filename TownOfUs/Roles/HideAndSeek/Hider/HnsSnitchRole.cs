@@ -1,5 +1,6 @@
 ﻿using AmongUs.Data;
 using AmongUs.GameOptions;
+using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameModes;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
@@ -16,6 +17,7 @@ public sealed class HnsSnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     public string RoleDescription => "...";
     public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}.TabDescription");
     public string RoleHintText => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}.TabHint");
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;
 
     public string GetAdvancedDescription()
     {

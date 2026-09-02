@@ -44,6 +44,7 @@ public sealed class FrenzyWerewolfRole(IntPtr cppPtr)
 
     public bool Rampaging { get; set; }
     public string IdPart => "Werewolf";
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
 
     public string GetAdvancedDescription()
     {

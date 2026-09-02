@@ -1,4 +1,5 @@
 ﻿using AmongUs.GameOptions;
+using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.GameModes;
@@ -38,6 +39,7 @@ public sealed class FrenzyOutcastRole(IntPtr cppPtr) : FrenzyRole(cppPtr), ITown
     public override bool IsAffectedByComms => false;
 
     public string IdPart => "Outcast";
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
 
     public string GetAdvancedDescription()
     {

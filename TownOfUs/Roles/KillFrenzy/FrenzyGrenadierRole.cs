@@ -37,6 +37,7 @@ public sealed class FrenzyGrenadierRole(IntPtr cppPtr) : FrenzyRole(cppPtr), ITo
         return WinConditionMet();
     }
     public string IdPart => "Grenadier";
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
 
     public string GetAdvancedDescription()
     {

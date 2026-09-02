@@ -44,6 +44,7 @@ public sealed class FrenzyGlitchRole(IntPtr cppPtr)
     }
 
     public string IdPart => "Glitch";
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
 
     public string GetAdvancedDescription()
     {

@@ -41,6 +41,7 @@ public sealed class FrenzyJuggernautRole(IntPtr cppPtr) : FrenzyRole(cppPtr), IT
 
     public int KillCount { get; set; }
     public string IdPart => "Juggernaut";
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
 
     public string GetAdvancedDescription()
     {

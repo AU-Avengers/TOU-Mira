@@ -63,6 +63,7 @@ public sealed class FrenzyEscapistRole(IntPtr cppPtr)
     }
 
     public string IdPart => "Escapist";
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
 
     public string GetAdvancedDescription()
     {

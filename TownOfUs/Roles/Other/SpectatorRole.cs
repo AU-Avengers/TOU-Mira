@@ -64,7 +64,7 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
     public Color RoleColor => TownOfUsColors.Spectator;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.GameOutlier;
-    [HideFromIl2Cpp] public bool IsHiddenFromList => true;
+    [HideFromIl2Cpp] public bool IsHiddenFromList => false;
 
     public override bool IsDead => true;
 

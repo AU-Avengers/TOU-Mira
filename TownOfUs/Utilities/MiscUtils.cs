@@ -138,14 +138,14 @@ public static class MiscUtils
     /// Gets all registered <see cref="RoleBehaviour"/>s that aren't blacklisted.
     /// </summary>
     /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
-    public static IEnumerable<RoleBehaviour> AllRegisteredRoles => AllInGameRoles.Where(x => !x.IsRoleBlacklisted());
+    public static IEnumerable<RoleBehaviour> AllRegisteredRoles => AllInGameRoles.Where(x => !Enum.IsDefined(x.Role) || !x.IsRoleBlacklisted());
 
     /// <summary>
     /// Gets all registered <see cref="RoleBehaviour"/>s that aren't blacklisted and spawn on the current mode.
     /// </summary>
     /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
     public static IEnumerable<RoleBehaviour> SpawnableRoles =>
-        AllInGameRoles.Where(x => !x.IsRoleBlacklisted() && CustomRoleUtils.CanSpawnOnCurrentMode(x));
+        AllInGameRoles.Where(x => (!Enum.IsDefined(x.Role) || !x.IsRoleBlacklisted()) && CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
     public static ReadOnlyCollection<IModdedOption>? GetModdedOptionsForRole(Type classType)
     {
@@ -499,7 +499,7 @@ public static class MiscUtils
             {
                 localizedName = $"<color=#D63F42>{localizedName}";
             }
-            else if (localizedName.Contains("Neutral") || localizedName.Contains(MiraLocaleManager.Get("NeutralKeyword")))
+            else if (localizedName.Contains("Neutral") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral")))
             {
                 localizedName = $"<color=#8A8A8A>{localizedName}";
             }
@@ -528,7 +528,7 @@ public static class MiscUtils
         {
             text = $"<color=#D63F42>{text}";
         }
-        else if (text.Contains("Neutral") || text.Contains(MiraLocaleManager.Get("NeutralKeyword")))
+        else if (text.Contains("Neutral") || text.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral")))
         {
             text = $"<color=#8A8A8A>{text}";
         }
@@ -561,7 +561,7 @@ public static class MiscUtils
             {
                 localizedName = $"<color=#D63F42>{localizedName}";
             }
-            else if (localizedName.Contains("Neutral") || localizedName.Contains(MiraLocaleManager.Get("NeutralKeyword")))
+            else if (localizedName.Contains("Neutral") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral")))
             {
                 localizedName = $"<color=#8A8A8A>{localizedName}";
             }
@@ -586,7 +586,7 @@ public static class MiscUtils
         var localeName = $"{roleAlignment}";
         if (roleAlignment is RoleAlignment.Crewmate or RoleAlignment.Impostor or RoleAlignment.Neutral)
         {
-            localeName = $"{roleAlignment}Keyword";
+            localeName = $"MiraApi.RoleTeam.{roleAlignment}";
         }
         var localizedName = MiraLocaleManager.Get(localeName);
 
@@ -600,7 +600,7 @@ public static class MiscUtils
             {
                 localizedName = $"<color=#D63F42>{localizedName}";
             }
-            else if (localizedName.Contains("Neutral") || localizedName.Contains(MiraLocaleManager.Get("NeutralKeyword")))
+            else if (localizedName.Contains("Neutral") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral")))
             {
                 localizedName = $"<color=#8A8A8A>{localizedName}";
             }
@@ -624,7 +624,7 @@ public static class MiscUtils
         var localeName = $"{roleAlignment}";
         if (roleAlignment is RoleAlignment.Crewmate or RoleAlignment.Impostor or RoleAlignment.Neutral)
         {
-            localeName = $"{roleAlignment}Keyword";
+            localeName = $"MiraApi.RoleTeam.{roleAlignment}";
         }
 
         var localizedName = MiraLocaleManager.Get(localeName);
@@ -639,7 +639,7 @@ public static class MiscUtils
             {
                 localizedName = $"<color=#D63F42>{localizedName}";
             }
-            else if (localizedName.Contains("Neutral") || localizedName.Contains(MiraLocaleManager.Get("NeutralKeyword")))
+            else if (localizedName.Contains("Neutral") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral")))
             {
                 localizedName = $"<color=#8A8A8A>{localizedName}";
             }
@@ -2064,7 +2064,7 @@ public static class MiscUtils
         var crewKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate.Short");
         var impostorKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor");
         var impKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor.Short");
-        var neutralKeyword = MiraLocaleManager.Get("NeutralKeyword");
+        var neutralKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral");
         var neutKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral.Short");
 
         if (text.Contains(impostorKeyword))
