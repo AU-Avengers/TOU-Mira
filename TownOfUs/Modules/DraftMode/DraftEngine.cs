@@ -926,6 +926,7 @@ namespace TownOfUs.Modules.DraftMode
             return GetRoleFaction(baseName).ToString();
         }
 
+        [HideFromIl2Cpp]
         private string PickDiverseRole(List<string> candidates, HashSet<string> usedAlignments)
         {
             if (candidates == null || candidates.Count == 0)
@@ -950,6 +951,7 @@ namespace TownOfUs.Modules.DraftMode
             return chosen;
         }
 
+        [HideFromIl2Cpp]
         private string PickWeightedRoleName(List<string> candidates)
         {
             if (candidates == null || candidates.Count == 0)
@@ -977,6 +979,7 @@ namespace TownOfUs.Modules.DraftMode
             return candidates[^1];
         }
 
+        [HideFromIl2Cpp]
         private List<string> BuildDiverseOffer(List<string> candidates, int offered)
         {
             var result = new List<string>();
@@ -1001,6 +1004,7 @@ namespace TownOfUs.Modules.DraftMode
             return result;
         }
 
+        [HideFromIl2Cpp]
         private List<string> TopUpWithRandomCrewFallback(List<string> result, int offered, HashSet<string> avoidNames, int slot, DraftSlotContext context)
         {
             if (result.Count >= offered) return result;
@@ -1029,6 +1033,7 @@ namespace TownOfUs.Modules.DraftMode
             return result;
         }
 
+        [HideFromIl2Cpp]
         private List<string> TopUpWithSameFactionFallback(List<string> result, int offered, HashSet<string> avoidNames, int slot, DraftSlotContext context, DraftFaction lockedFaction)
         {
             if (result.Count >= offered) return result;
@@ -1078,6 +1083,7 @@ namespace TownOfUs.Modules.DraftMode
             return null;
         }
 
+        [HideFromIl2Cpp]
         private DraftFaction? GetSoftFloorFaction(DraftSlotContext context, int slot)
         {
             int neededImps = Math.Max(0, context.MaxImps - context.PickedImps);
