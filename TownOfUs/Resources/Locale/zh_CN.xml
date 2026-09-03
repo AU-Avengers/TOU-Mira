@@ -54,7 +54,7 @@
   <string name="CrewmatePower">船员强力型</string>
   <string name="CrewmateProtective">船员保护型</string>
   <string name="CrewmateSupport">船员辅助型</string>
-  <string name="NeutralBenign">中立善良型</string>
+  <string name="NeutralBenign">中立友善型</string>
   <string name="NeutralEvil">中立邪恶型</string>
   <string name="NeutralOutlier">中立外来者型</string>
   <string name="NeutralKilling">中立击杀型</string>
@@ -265,7 +265,7 @@
   <string name="TownOfUsMira.Role.Haunter.WikiDescription">冤魂是一名船员鬼魂型且可以做任务的职业，会以半透明玩家的形象出现。如果完成所有任务，所有存活玩家都能看到伪装者。但如果伪装者先点击你，你会变成普通幽灵。伪装者在冤魂快完成任务和完成任务时收到警告。</string>
   <string name="SetRoleList">设置职业列表</string>
   <string name="NeutralFactionList">中立职业类型列表</string>
-  <string name="NeutralBenigns">中立善良型</string>
+  <string name="NeutralBenigns">中立友善型</string>
   <string name="NeutralEvils">中立邪恶型</string>
   <string name="NeutralKillers">中立击杀型</string>
   <string name="MinimumShort">最小数量</string>
@@ -548,7 +548,7 @@
   <string name="TownOfUsMira.Role.Mercenary.IntroBlurb">通过行贿与他人共同获胜</string>
   <string name="TownOfUsMira.Role.Mercenary.TabDescription">守护船员，获取金币，
 然后贿赂获胜者！</string>
-  <string name="TownOfUsMira.Role.Mercenary.WikiDescription">雇佣兵是一名中立善良型职业，只能通过贿赂玩家来获胜，可以获得多个胜利条件。</string>
+  <string name="TownOfUsMira.Role.Mercenary.WikiDescription">雇佣兵是一名中立友善型职业，只能通过贿赂玩家来获胜，可以获得多个胜利条件。</string>
   <string name="TownOfUsMira.Role.MercenaryGuard">守护</string>
   <string name="TownOfUsMira.Role.MercenaryGuard.WikiDescription">守护一名玩家可以为雇佣兵吸收对目标使用的能力，并获得金币用于贿赂。如果被贿赂的目标获胜，雇佣兵也会一同获胜。</string>
   <string name="TownOfUsMira.Role.MercenaryBribe">贿赂</string>
@@ -841,7 +841,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TownOfUsMira.Role.Plumber.IntroBlurb">把船上那些烦人的钻管道者踢出去</string>
   <string name="TownOfUsMira.Role.Amnesiac.IntroBlurb">回忆死者的身份</string>
   <string name="TownOfUsMira.Role.Amnesiac.TabDescription">找到一具尸体并回忆其身份，成为该职业。</string>
-  <string name="TownOfUsMira.Role.Amnesiac.WikiDescription">失忆者是一名中立善良型职业，可以通过回忆一具尸体的身份获得新身份。利用你回忆的身份赢得游戏。</string>
+  <string name="TownOfUsMira.Role.Amnesiac.WikiDescription">失忆者是一名中立友善型职业，可以通过回忆一具尸体的身份获得新身份。利用你回忆的身份赢得游戏。</string>
   <string name="TouOptionAmnesiacShowArrows">失忆者获得指向尸体的箭头</string>
   <string name="TouOptionAmnesiacArrowDelay">死亡后箭头出现时间</string>
   <string name="TownOfUsMira.Role.Executioner.TabDescription">投票放逐[target]即可获胜。</string>
@@ -866,7 +866,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionGlitchCanVent">混沌可使用通风口</string>
   <string name="TownOfUsMira.Role.Fairy.TabDescription">保护[target]免于被击杀！</string>
   <string name="TownOfUsMira.Role.FairyIfNoTarget">保护你的目标免于被击杀！</string>
-  <string name="TownOfUsMira.Role.Fairy.WikiDescription">天使是一名中立善良型职业，需要保护带有[symbol]标记的目标不被击杀或放逐。</string>
+  <string name="TownOfUsMira.Role.Fairy.WikiDescription">天使是一名中立友善型职业，需要保护带有[symbol]标记的目标不被击杀或放逐。</string>
   <string name="TownOfUsMira.Role.FairyProtect">守护</string>
   <string name="TownOfUsMira.Role.FairyProtect.WikiDescription">保护你的目标免于被击杀。</string>
   <string name="TouOptionFairyCooldown">守护冷却</string>
@@ -895,7 +895,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionSpectreWin">幻影胜利效果</string>
   <string name="TownOfUsMira.Role.Survivor.IntroBlurb">不择手段活下去。</string>
   <string name="TownOfUsMira.Role.Survivor.TabDescription">活到最后即可与任意阵营一同获胜</string>
-  <string name="TownOfUsMira.Role.Survivor.WikiDescription">幸存者是一名中立善良型职业，只需要活到游戏结束即可获胜。</string>
+  <string name="TownOfUsMira.Role.Survivor.WikiDescription">幸存者是一名中立友善型职业，只需要活到游戏结束即可获胜。</string>
   <string name="TownOfUsMira.Role.SurvivorSafeguard">防弹衣</string>
   <string name="TownOfUsMira.Role.SurvivorSafeguard.WikiDescription">穿上防弹衣保护自己免受攻击。</string>
   <string name="TouOptionSurvivorVestCooldown">防弹衣冷却</string>
@@ -1035,7 +1035,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TownOfUsMira.Role.Vigilante.WikiDescription">侠客是一名船员击杀型职业，可以在会议中猜测玩家身份。被猜测的玩家会在猜测正确时死亡，否则侠客会死亡。 </string>
   <string name="TouOptionVigilanteNumberOfGuesses">侠客可猜测次数</string>
   <string name="TouOptionVigilanteCanGuessMoreThanOncePerMeeting">侠客每次会议可多次击杀</string>
-  <string name="TouOptionVigilanteCanGuessNeutralBenignRoles">侠客可猜中立善良职业</string>
+  <string name="TouOptionVigilanteCanGuessNeutralBenignRoles">侠客可猜中立友善职业</string>
   <string name="TouOptionVigilanteCanGuessNeutralEvilRoles">侠客可猜中立邪恶职业</string>
   <string name="TouOptionVigilanteCanGuessNeutralKillingRoles">侠客可猜中立杀手职业</string>
   <string name="TouOptionVigilanteCanGuessKillerModifiers">侠客可猜杀手附加属性</string>
@@ -1153,7 +1153,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TownOfUsMira.Role.SeerReveal">揭示</string>
   <string name="TownOfUsMira.Role.SeerReveal.WikiDescription">揭示一名玩家的阵营</string>
   <string name="TouOptionSeerCrewmateKillingRolesAreRed">船员击杀职业显示为红色</string>
-  <string name="TouOptionSeerNeutralBenignRolesAreRed">中立善良职业显示为红色</string>
+  <string name="TouOptionSeerNeutralBenignRolesAreRed">中立友善职业显示为红色</string>
   <string name="TouOptionSeerNeutralEvilRolesAreRed">中立邪恶职业显示为红色</string>
   <string name="TouOptionSeerNeutralKillingRolesAreRed">中立杀手职业显示为红色</string>
   <string name="TouOptionSeerTraitorSwapsColors">背叛者转换颜色</string>
@@ -1430,7 +1430,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionMirrorcasterInfoEnumSubalignment">子阵营</string>
   <string name="TouOptionMirrorcasterInfoEnumFaction">阵营</string>
   <string name="TouOptionMirrorcasterInfoEnumNothing">无</string>
-  <string name="TouOptionOracleNeutralBenignShowEvil">中立善良显示为邪恶</string>
+  <string name="TouOptionOracleNeutralBenignShowEvil">中立友善显示为邪恶</string>
   <string name="TouOptionOracleNeutralEvilShowEvil">中立邪恶显示为邪恶</string>
   <string name="TouOptionOracleNeutralKillingShowEvil">中立杀手显示为邪恶</string>
   <string name="TouOptionOracleNeutralOutlierShowEvil">中立外来者显示为邪恶</string>
@@ -1497,7 +1497,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionSpectreWinEnumNothing">继续游戏</string>
   <string name="TouOptionVampireValidNeutralConversions">有效转化对象</string>
   <string name="TouOptionVampireConvertLovers">可以转化恋人</string>
-  <string name="TouOptionSheriffCanShootNeutralBenignRoles">警长可射击中立善良职业</string>
+  <string name="TouOptionSheriffCanShootNeutralBenignRoles">警长可射击中立友善职业</string>
   <string name="TownOfUsMira.Role.SeerIntuit">觉察</string>
   <string name="TownOfUsMira.Role.SeerGaze">凝视</string>
   <string name="TownOfUsMira.Role.SeerGazeNotif">当前正在凝视 [player]。如有需要，你可以更改目标。 </string>
@@ -1764,7 +1764,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TownOfUsMira.Role.MonarchKnightDescription">册封一名玩家，使其获得 [amount] 票</string>
   <string name="TouOptionMysticHnsPopUp">显示死亡弹窗</string>
   <string name="TouOptionOracleNeutralsThatShowEvil">显示为邪恶的中立阵营有</string>
-  <string name="TouOptionOracleNeutBadBenign">善良型</string>
+  <string name="TouOptionOracleNeutBadBenign">友善型</string>
   <string name="TouOptionOracleNeutBadEvil">邪恶型</string>
   <string name="TouOptionOracleNeutBadKilling">杀戮型</string>
   <string name="TouOptionOracleNeutBadOutlier">外来者型</string>
@@ -1860,7 +1860,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouSystemType_MushroomMixupSabotage">蘑菇混乱</string>
   <string name="TouSystemType_HeliSabotage">直升机破坏</string>
   <string name="TouOptionSheriffValidNeutralShots">可被射击的中立阵营</string>
-  <string name="TouOptionSheriffNeutShootBenign">善良型</string>
+  <string name="TouOptionSheriffNeutShootBenign">友善型</string>
   <string name="TouOptionSheriffNeutShootEvil">邪恶型</string>
   <string name="TouOptionSheriffNeutShootKilling">杀戮型</string>
   <string name="TouOptionSheriffNeutShootOutlier">外来者型</string>
@@ -1884,7 +1884,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionTimeLordUncleanBodiesOnRewind">倒转时复原被清理的尸体</string>
   <string name="TouOptionTimeLordNotifyOnRevive">复活时通知时间领主</string>
   <string name="TouOptionVigilanteGuessableNeutrals">可被猜测的中立阵营</string>
-  <string name="TouOptionVigilanteGuessableBenign">善良型</string>
+  <string name="TouOptionVigilanteGuessableBenign">友善型</string>
   <string name="TouOptionVigilanteGuessableEvil">邪恶型</string>
   <string name="TouOptionVigilanteGuessableKilling">杀戮型</string>
   <string name="TouOptionVigilanteGuessableOutlier">外来者型</string>
@@ -1925,11 +1925,11 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionPuppeteerControlDuration">控制持续时间</string>
   <string name="TouOptionPuppeteerCanVent">纵偶师可使用通风口</string>
   <string name="TouOptionArsonistImpVision">纵火狂拥有伪装者视野</string>
-  <string name="TouOptionVampireNeutConvertBenign">善良型</string>
+  <string name="TouOptionVampireNeutConvertBenign">友善型</string>
   <string name="TouOptionVampireNeutConvertEvil">邪恶型</string>
   <string name="TouOptionVampireNeutConvertOutlier">外来者型</string>
   <string name="TouOptionVampireNeutConvertNone">无</string>
-  <string name="TouOptionVampireConvertNeutralBenign">可转化中立善良型职业</string>
+  <string name="TouOptionVampireConvertNeutralBenign">可转化中立友善型职业</string>
   <string name="TouOptionVampireConvertNeutralEvil">可转化中立邪恶型职业</string>
   <string name="TouOptionVampireConvertNeutralOutlier">可转化中立外来者型职业</string>
   <string name="TownOfUsMira.Modifier.Circumvent">禁管者</string>
@@ -2193,7 +2193,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionAssassinGuessableModifiersTitle">不可被猜测的附加属性： </string>
   <string name="TouOptionAssassinNone">无</string>
   <string name="TouOptionAssassinAll">全部</string>
-  <string name="TouOptionAssassinNeutBenign">善良型</string>
+  <string name="TouOptionAssassinNeutBenign">友善型</string>
   <string name="TouOptionAssassinNeutEvil">邪恶型</string>
   <string name="TouOptionAssassinNeutKilling">击杀型</string>
   <string name="TouOptionAssassinNeutOutlier">外来者型</string>

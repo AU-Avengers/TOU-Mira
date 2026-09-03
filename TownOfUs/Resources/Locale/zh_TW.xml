@@ -79,7 +79,7 @@
   <string name="PlayerHasNoModifiers">無附加屬性</string>
   <string name="SetRoleList">設置職業清單</string>
   <string name="NeutralFactionList">中立職業類型清單</string>
-  <string name="NeutralBenigns">中立善良型</string>
+  <string name="NeutralBenigns">中立友善型</string>
   <string name="NeutralEvils">中立邪惡型</string>
   <string name="NeutralOutliers">中立外來者型</string>
   <string name="NeutralKillers">中立擊殺型</string>
@@ -91,7 +91,7 @@
   <string name="CrewmatePower">船員強力型</string>
   <string name="CrewmateProtective">船員保護型</string>
   <string name="CrewmateSupport">船員輔助型</string>
-  <string name="NeutralBenign">中立善良型</string>
+  <string name="NeutralBenign">中立友善型</string>
   <string name="NeutralEvil">中立邪惡型</string>
   <string name="NeutralOutlier">中立外來者型</string>
   <string name="NeutralKilling">中立擊殺型</string>
@@ -789,12 +789,12 @@
   <string name="TouOptionOracleConfessCooldown">坦白冷卻</string>
   <string name="TouOptionOracleBlessCooldown">佑護冷卻</string>
   <string name="TouOptionOracleRevealAccuracy">揭示準確率</string>
-  <string name="TouOptionOracleNeutralBenignShowEvil">中立善良顯示為邪惡</string>
+  <string name="TouOptionOracleNeutralBenignShowEvil">中立友善顯示為邪惡</string>
   <string name="TouOptionOracleNeutralEvilShowEvil">中立邪惡顯示為邪惡</string>
   <string name="TouOptionOracleNeutralKillingShowEvil">中立殺手顯示為邪惡</string>
   <string name="TouOptionOracleNeutralOutlierShowEvil">中立外來者顯示為邪惡</string>
   <string name="TouOptionOracleNeutralsThatShowEvil">顯示為邪惡的中立陣營有</string>
-  <string name="TouOptionOracleNeutBadBenign">善良型</string>
+  <string name="TouOptionOracleNeutBadBenign">友善型</string>
   <string name="TouOptionOracleNeutBadEvil">邪惡型</string>
   <string name="TouOptionOracleNeutBadKilling">殺戮型</string>
   <string name="TouOptionOracleNeutBadOutlier">外來者型</string>
@@ -880,7 +880,7 @@
   <string name="TouOptionSeerNeutralEvilFriendly">中立邪惡型顯示為友方</string>
   <string name="TouOptionSeerNeutralOutlierFriendly">中立外來者型顯示為友方</string>
   <string name="TouOptionSeerCrewmateKillingRolesAreRed">船員擊殺職業顯示為紅色</string>
-  <string name="TouOptionSeerNeutralBenignRolesAreRed">中立善良職業顯示為紅色</string>
+  <string name="TouOptionSeerNeutralBenignRolesAreRed">中立友善職業顯示為紅色</string>
   <string name="TouOptionSeerNeutralEvilRolesAreRed">中立邪惡職業顯示為紅色</string>
   <string name="TouOptionSeerNeutralKillingRolesAreRed">中立殺手職業顯示為紅色</string>
   <string name="TouOptionSeerNeutralOutlierRolesAreRed">中立外來者職業顯示為紅色</string>
@@ -992,12 +992,12 @@
   <string name="TouOptionSheriffKillCooldown">警長擊殺冷卻</string>
   <string name="TouOptionSheriffCanSelfReport">警長可自報屍體</string>
   <string name="TouOptionSheriffAllowShootinginFirstRound">警長首回合可開槍</string>
-  <string name="TouOptionSheriffCanShootNeutralBenignRoles">警長可射擊中立善良職業</string>
+  <string name="TouOptionSheriffCanShootNeutralBenignRoles">警長可射擊中立友善職業</string>
   <string name="TouOptionSheriffCanShootNeutralEvilRoles">警長可射擊中立邪惡職業</string>
   <string name="TouOptionSheriffCanShootNeutralKillingRoles">警長可射擊中立殺手職業</string>
   <string name="TouOptionSheriffCanShootNeutralOutlierRoles">警長可射擊中立外來者職業</string>
   <string name="TouOptionSheriffValidNeutralShots">可被射擊的中立陣營</string>
-  <string name="TouOptionSheriffNeutShootBenign">善良型</string>
+  <string name="TouOptionSheriffNeutShootBenign">友善型</string>
   <string name="TouOptionSheriffNeutShootEvil">邪惡型</string>
   <string name="TouOptionSheriffNeutShootKilling">殺戮型</string>
   <string name="TouOptionSheriffNeutShootOutlier">外來者型</string>
@@ -1124,12 +1124,12 @@
   <string name="TownOfUsMira.Role.Vigilante.WikiDescription">俠客是一名船員擊殺型職業,可以在會議中猜測玩家身份。被猜測的玩家會在猜測正確時死亡,否則俠客會死亡。 </string>
   <string name="TouOptionVigilanteNumberOfGuesses">俠客可猜測次數</string>
   <string name="TouOptionVigilanteCanGuessMoreThanOncePerMeeting">俠客每次會議可多次擊殺</string>
-  <string name="TouOptionVigilanteCanGuessNeutralBenignRoles">俠客可猜中立善良職業</string>
+  <string name="TouOptionVigilanteCanGuessNeutralBenignRoles">俠客可猜中立友善職業</string>
   <string name="TouOptionVigilanteCanGuessNeutralEvilRoles">俠客可猜中立邪惡職業</string>
   <string name="TouOptionVigilanteCanGuessNeutralKillingRoles">俠客可猜中立殺手職業</string>
   <string name="TouOptionVigilanteCanGuessNeutralOutlierRoles">俠客可猜中立外來者職業</string>
   <string name="TouOptionVigilanteGuessableNeutrals">可被猜測的中立陣營</string>
-  <string name="TouOptionVigilanteGuessableBenign">善良型</string>
+  <string name="TouOptionVigilanteGuessableBenign">友善型</string>
   <string name="TouOptionVigilanteGuessableEvil">邪惡型</string>
   <string name="TouOptionVigilanteGuessableKilling">殺戮型</string>
   <string name="TouOptionVigilanteGuessableOutlier">外來者型</string>
@@ -1452,7 +1452,7 @@
   <string name="TownOfUsMira.Role.Amnesiac">失憶者</string>
   <string name="TownOfUsMira.Role.Amnesiac.IntroBlurb">回憶死者的身份</string>
   <string name="TownOfUsMira.Role.Amnesiac.TabDescription">找到一具屍體並回憶其身份,成為該職業。</string>
-  <string name="TownOfUsMira.Role.Amnesiac.WikiDescription">失憶者是一名中立善良型職業,可以通過回憶一具屍體的身份獲得新身份。利用你回憶的身份贏得遊戲。</string>
+  <string name="TownOfUsMira.Role.Amnesiac.WikiDescription">失憶者是一名中立友善型職業,可以通過回憶一具屍體的身份獲得新身份。利用你回憶的身份贏得遊戲。</string>
   <string name="TownOfUsMira.Role.AmnesiacRemember">回憶</string>
   <string name="TownOfUsMira.Role.AmnesiacRemember.WikiDescription">回憶屍體的職業,如果屍體的職業是獨特的職業,你會回憶基礎陣營的職業。</string>
   <string name="TownOfUsMira.Role.AmnesiacRememberNotif">你回憶起來你像是[player],轉變成為[role]</string>
@@ -1586,7 +1586,7 @@
   <string name="TownOfUsMira.Role.Fairy">天使</string>
   <string name="TownOfUsMira.Role.Fairy.TabDescription">保護[target]免於被擊殺!</string>
   <string name="TownOfUsMira.Role.FairyIfNoTarget">保護你的目標免於被擊殺!</string>
-  <string name="TownOfUsMira.Role.Fairy.WikiDescription">天使是一名中立善良型職業,需要保護帶有[symbol]標記的目標不被擊殺或放逐。</string>
+  <string name="TownOfUsMira.Role.Fairy.WikiDescription">天使是一名中立友善型職業,需要保護帶有[symbol]標記的目標不被擊殺或放逐。</string>
   <string name="TownOfUsMira.Role.FairyProtect">守護</string>
   <string name="TownOfUsMira.Role.FairyProtect.WikiDescription">保護你的目標免於被擊殺。</string>
   <string name="TouOptionFairyCooldown">守護冷卻</string>
@@ -1678,7 +1678,7 @@
 然後賄賂獲勝者!</string>
   <string name="TownOfUsMira.Role.MercenaryTabGoldCounter">金幣:[count]</string>
   <string name="TownOfUsMira.Role.MercenaryTabBribedInfo">已賄賂:</string>
-  <string name="TownOfUsMira.Role.Mercenary.WikiDescription">僱傭兵是一名中立善良型職業,只能通過賄賂玩家來獲勝,可以獲得多個勝利條件。</string>
+  <string name="TownOfUsMira.Role.Mercenary.WikiDescription">僱傭兵是一名中立友善型職業,只能通過賄賂玩家來獲勝,可以獲得多個勝利條件。</string>
   <string name="TownOfUsMira.Role.MercenaryGuard">守護</string>
   <string name="TownOfUsMira.Role.MercenaryGuard.WikiDescription">守護一名玩家可以為僱傭兵吸收對目標使用的能力,並獲得金幣用於賄賂。如果被賄賂的目標獲勝,僱傭兵也會一同獲勝。</string>
   <string name="TownOfUsMira.Role.MercenaryBribe">賄賂</string>
@@ -1721,7 +1721,7 @@
   <string name="TownOfUsMira.Role.Survivor">倖存者</string>
   <string name="TownOfUsMira.Role.Survivor.IntroBlurb">不擇手段活下去。</string>
   <string name="TownOfUsMira.Role.Survivor.TabDescription">活到最後即可與任意陣營一同獲勝</string>
-  <string name="TownOfUsMira.Role.Survivor.WikiDescription">倖存者是一名中立善良型職業,只需要活到遊戲結束即可獲勝。</string>
+  <string name="TownOfUsMira.Role.Survivor.WikiDescription">倖存者是一名中立友善型職業,只需要活到遊戲結束即可獲勝。</string>
   <string name="TownOfUsMira.Role.SurvivorSafeguard">防彈衣</string>
   <string name="TownOfUsMira.Role.SurvivorSafeguard.WikiDescription">穿上防彈衣保護自己免受攻擊。</string>
   <string name="TouOptionSurvivorVestCooldown">防彈衣冷卻</string>
@@ -1740,11 +1740,11 @@
   <string name="TouOptionVampireImpostorVision">吸血魔擁有偽裝者視野</string>
   <string name="TouOptionVampireNewVampsAssassinate">新吸血魔可猜測</string>
   <string name="TouOptionVampireValidNeutralConversions">有效轉化對象</string>
-  <string name="TouOptionVampireNeutConvertBenign">善良型</string>
+  <string name="TouOptionVampireNeutConvertBenign">友善型</string>
   <string name="TouOptionVampireNeutConvertEvil">邪惡型</string>
   <string name="TouOptionVampireNeutConvertOutlier">外來者型</string>
   <string name="TouOptionVampireNeutConvertNone">無</string>
-  <string name="TouOptionVampireConvertNeutralBenign">可轉化中立善良型職業</string>
+  <string name="TouOptionVampireConvertNeutralBenign">可轉化中立友善型職業</string>
   <string name="TouOptionVampireConvertNeutralEvil">可轉化中立邪惡型職業</string>
   <string name="TouOptionVampireConvertNeutralOutlier">可轉化中立外來者型職業</string>
   <string name="TouOptionVampireConvertLovers">可以轉化戀人</string>
@@ -2161,8 +2161,8 @@
   <string name="ImpostorAfterlife">偽裝者後生型</string>
   <string name="ReverseSkeldMapName">dlekS船空太</string>
   <string name="ReverseSkeldMapTooltip">ehT dlekS: 那艘你再熟悉不過的飛船,不過這次是倒過來的!</string>
-  <string name="WikiOnBottomRow">維基按鈕顯示在主界面下方</string>
-  <string name="ZoomOnBottomRow">縮放按鈕顯示在主界面下方</string>
+  <string name="WikiOnBottomRow">維基按鈕顯示在主介面下方</string>
+  <string name="ZoomOnBottomRow">縮放按鈕顯示在主介面下方</string>
   <string name="TownOfUsMira.Role.ImitatorShortName">效顰</string>
   <string name="TouOptionInvestigatorFootprintSeperated">足跡生成依據</string>
   <string name="TouOptionPlumberFlushDuration">沖洗持續時間</string>
@@ -2185,7 +2185,7 @@
   <string name="TouOptionAssassinGuessableModifiersTitle">不可被猜測的附加屬性: </string>
   <string name="TouOptionAssassinNone">無</string>
   <string name="TouOptionAssassinAll">全部</string>
-  <string name="TouOptionAssassinNeutBenign">善良型</string>
+  <string name="TouOptionAssassinNeutBenign">友善型</string>
   <string name="TouOptionAssassinNeutEvil">邪惡型</string>
   <string name="TouOptionAssassinNeutKilling">擊殺型</string>
   <string name="TouOptionAssassinNeutOutlier">外來者型</string>
