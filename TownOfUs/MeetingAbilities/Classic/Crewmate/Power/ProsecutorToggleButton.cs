@@ -8,7 +8,7 @@ namespace TownOfUs.MeetingAbilities.Classic.Crewmate.Power;
 
 public class ProsecutorToggleButton : MeetingActionButton
 {
-    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.ProsecutorProsecuteToggle");
+    public override string Name => MiraLocaleManager.Get("Disabled");
 
     public override float Cooldown => 0.0001f;
 
@@ -17,7 +17,7 @@ public class ProsecutorToggleButton : MeetingActionButton
     public override int MaxUses => 0;
 
     public override LoadableAsset<Sprite> Sprite =>
-        TouAssets.RevealCleanSprite;
+        TouAssets.ProsecutorToggleSprite;
 
     public override bool HideUponWrapUp => true;
     public override bool DisableUponVoting => true;
@@ -41,6 +41,7 @@ public class ProsecutorToggleButton : MeetingActionButton
         if (PlayerControl.LocalPlayer.Data.Role is ProsecutorRole pros)
         {
             pros.WantsToPros = !pros.WantsToPros;
+            OverrideName(pros.WantsToPros ? "Enabled" : "Disabled");
         }
     }
 }

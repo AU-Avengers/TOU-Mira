@@ -16,7 +16,7 @@ public sealed class HypnotistHysteriaFreeplayButton : TownOfUsRoleButton<Hypnoti
     public override float Cooldown => 3f;
     public override float InitialCooldown =>3f;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
-    public override LoadableAsset<Sprite> Sprite => TouAssets.HysteriaCleanSprite;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.MassHysteriaSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
 

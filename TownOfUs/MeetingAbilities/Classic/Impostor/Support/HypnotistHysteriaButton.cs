@@ -20,10 +20,11 @@ public class HypnotistHysteriaButton : MeetingActionButton
     public override int MaxUses => 0;
 
     public override LoadableAsset<Sprite> Sprite =>
-        LegacyAssets.IsLegacy ? LegacyAssets.HysteriaSprite : TouAssets.HysteriaCleanSprite;
+        LegacyAssets.IsLegacy ? LegacyAssets.HysteriaSprite : TouAssets.MassHysteriaSprite;
 
     public override bool HideUponWrapUp => true;
     public override bool DisableUponUse => true;
+    public override Color TextOutlineColor => TownOfUsColors.Impostor;
 
     public override bool Enabled(RoleBehaviour? role)
     {

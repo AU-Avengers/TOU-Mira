@@ -19,7 +19,7 @@ public class MayorRevealButton : MeetingActionButton
     public override int MaxUses => 0;
 
     public override LoadableAsset<Sprite> Sprite =>
-        LegacyAssets.IsLegacy ? LegacyAssets.RevealButtonSprite : TouAssets.RevealCleanSprite;
+        LegacyAssets.IsLegacy ? LegacyAssets.RevealButtonSprite : TouAssets.MayorRevealSprite;
 
     public override bool HideUponWrapUp => true;
     public override bool DisableUponUse => true;
