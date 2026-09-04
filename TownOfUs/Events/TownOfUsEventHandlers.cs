@@ -18,6 +18,7 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Collections;
 using System.Text;
+using MiraAPI.Events.Mira;
 using TMPro;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Crewmate;
@@ -299,7 +300,7 @@ public static class TownOfUsEventHandlers
         panel.SetTaskText(role.SetTabText().ToString());
     }
 
-    [RegisterEvent(-1000)]
+    [RegisterEvent(-10000)]
     public static void BeforeMurderEventHandler(BeforeMurderEvent murderEvent)
     {
         if (murderEvent.Source.TryGetModifier<IndirectAttackerModifier>(out var mod))
@@ -311,19 +312,6 @@ public static class TownOfUsEventHandlers
             murderEvent.IsIndirectAttack = true;
         }
     }
-
-    /*[RegisterEvent(-1000)]
-    public static void BeforeMurderEventHandler(ExtendedMiraButtonClickEvent clickEvent)
-    {
-        if (PlayerControl.LocalPlayer.TryGetModifier<IndirectAttackerModifier>(out var mod))
-        {
-            if (mod.IgnoreShield)
-            {
-                clickEvent.IgnoreDefense = true;
-            }
-            clickEvent.IsIndirectInteraction = true;
-        }
-    }*/
 
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent _)
