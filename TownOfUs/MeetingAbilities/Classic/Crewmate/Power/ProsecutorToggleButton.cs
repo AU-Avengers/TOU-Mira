@@ -26,7 +26,7 @@ public class ProsecutorToggleButton : MeetingActionButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return role is ProsecutorRole pros && !pros.HideProsButton && !pros.HasProsecuted && pros.ProsecutionsCompleted <
+        return role is ProsecutorRole pros && !pros.HideProsButton && pros.WantsToPros is not ProsecuteToggleMode.NoToggle && !pros.HasProsecuted && pros.ProsecutionsCompleted <
             OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
     }
 
@@ -40,8 +40,8 @@ public class ProsecutorToggleButton : MeetingActionButton
     {
         if (PlayerControl.LocalPlayer.Data.Role is ProsecutorRole pros)
         {
-            pros.WantsToPros = !pros.WantsToPros;
-            OverrideName(pros.WantsToPros ? "Enabled" : "Disabled");
+            pros.WantsToPros = pros.WantsToPros is ProsecuteToggleMode.ToggledOn ? ProsecuteToggleMode.ToggledOff : ProsecuteToggleMode.ToggledOn;
+            OverrideName(pros.WantsToPros is ProsecuteToggleMode.ToggledOn ? "Enabled" : "Disabled");
         }
     }
 }

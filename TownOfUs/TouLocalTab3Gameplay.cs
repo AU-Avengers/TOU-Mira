@@ -82,6 +82,10 @@ public class TouLocalTabGameplay(ConfigFile config) : LocalSettingsTab(config)
     [LocalEnumSetting(names: ["SonarHeartbeats", "SonarArrows"])]
     public ConfigEntry<SonarTargetStyle> SonarTargetType { get; private set; } =
         config.Bind("Role Visuals", "SonarTargetType", SonarTargetStyle.Heartbeats);
+
+    [LocalToggleSetting]
+    public ConfigEntry<bool> ProsecutorProsToggling { get; private set; } =
+        config.Bind("Role Visuals", "ProsecutorProsToggling", false);
 }
 
 public enum SonarTargetStyle

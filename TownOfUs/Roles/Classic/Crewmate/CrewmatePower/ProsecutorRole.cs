@@ -25,7 +25,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     public byte ProsecuteVictim { get; set; } = byte.MaxValue;
 
     public bool HideProsButton { get; set; }
-    public bool WantsToPros { get; set; }
+    public ProsecuteToggleMode WantsToPros { get; set; }
 
     public int ProsecutionsCompleted { get; set; }
 
@@ -90,7 +90,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        WantsToPros = false;
+        WantsToPros = LocalSettingsTabSingleton<TouLocalTabGameplay>.Instance.ProsecutorProsToggling.Value ? ProsecuteToggleMode.ToggledOff : ProsecuteToggleMode.NoToggle;
 
         if (Player.HasModifier<ImitatorCacheModifier>())
         {
@@ -102,7 +102,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     {
         HideProsButton = false;
         ProsecuteVictim = byte.MaxValue;
-        WantsToPros = false;
+        WantsToPros = LocalSettingsTabSingleton<TouLocalTabGameplay>.Instance.ProsecutorProsToggling.Value ? ProsecuteToggleMode.ToggledOff : ProsecuteToggleMode.NoToggle;
 
         if (HasProsecuted)
         {
@@ -217,4 +217,11 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         
         Destroy(prosAnim);
     }
+}
+
+public enum ProsecuteToggleMode
+{
+    NoToggle,
+    ToggledOn,
+    ToggledOff,
 }
