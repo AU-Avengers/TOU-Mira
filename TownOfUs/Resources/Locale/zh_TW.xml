@@ -94,7 +94,7 @@
   <string name="NeutralBenign">中立友善型</string>
   <string name="NeutralEvil">中立邪惡型</string>
   <string name="NeutralOutlier">中立外來者型</string>
-  <string name="NeutralKilling">中立擊殺型</string>
+  <string name="NeutralKilling">中立殺手型</string>
   <string name="ImpostorConcealing">偽裝者隱匿型</string>
   <string name="ImpostorKilling">偽裝者擊殺型</string>
   <string name="ImpostorPower">偽裝者強力型</string>
@@ -1464,7 +1464,7 @@
   <string name="TownOfUsMira.Role.Arsonist.TabDescription">給玩家澆油並點燃,焚燒周圍所有被澆油的玩家。</string>
   <string name="TownOfUsMira.Role.Arsonist.TabDescriptionLegacy">給玩家澆油並點燃最近的目標,以焚燒所有被澆油的玩家。</string>
   <string name="TownOfUsMira.Role.ArsonistTabDousedInfo">已澆油玩家:</string>
-  <string name="TownOfUsMira.Role.Arsonist.WikiDescription">縱火狂是一名中立擊殺型職業,通過成為場上最後一名殺手獲勝。</string>
+  <string name="TownOfUsMira.Role.Arsonist.WikiDescription">縱火狂是一名中立殺手型職業,通過成為場上最後一名殺手獲勝。</string>
   <string name="TownOfUsMira.Role.ArsonistWikiAddition">可以給玩家澆油並在靠近時點燃,焚燒範圍內所有被澆油的玩家。</string>
   <string name="TownOfUsMira.Role.ArsonistWikiAdditionLegacy">可以給玩家澆油並點燃其中一人,點燃後地圖上所有被澆油的玩家都會被焚燒。</string>
   <string name="TownOfUsMira.Role.ArsonistDouse">澆油</string>
@@ -1569,7 +1569,7 @@
   <string name="TownOfUsMira.Role.Glitch.IntroBlurb">謀殺、模仿、黑入...數據丟失</string>
   <string name="TownOfUsMira.Role.Glitch.TabDescription">黑入玩家,暫時停止他們的能力。
 並模仿他人以陷害他們。</string>
-  <string name="TownOfUsMira.Role.Glitch.WikiDescription">混沌是一名中立擊殺型職業,通過成為場上最後一名殺手獲勝。可以模仿其他玩家的外觀,也可以黑入使其失去能力。</string>
+  <string name="TownOfUsMira.Role.Glitch.WikiDescription">混沌是一名中立殺手型職業,通過成為場上最後一名殺手獲勝。可以模仿其他玩家的外觀,也可以黑入使其失去能力。</string>
   <string name="TownOfUsMira.Role.GlitchMimic">模仿</string>
   <string name="TownOfUsMira.Role.GlitchUnmimic">取消模仿</string>
   <string name="TownOfUsMira.Role.GlitchMimic.WikiDescription">模仿另一名玩家的外觀,完全變成對方的樣子。</string>
@@ -1668,7 +1668,7 @@
   <string name="TownOfUsMira.Role.Juggernaut.IntroBlurb">每次擊殺都會降低你的冷卻時間。</string>
   <string name="TownOfUsMira.Role.Juggernaut.TabDescription">每擊殺一人,你的擊殺冷卻都會減少。</string>
   <string name="TownOfUsMira.Role.JuggernautTabKillCounter">擊殺次數:[count]</string>
-  <string name="TownOfUsMira.Role.Juggernaut.WikiDescription">天啟是一名中立擊殺型職業,通過成為場上最後一名殺手獲勝。每擊殺一人,擊殺冷卻都會減少。</string>
+  <string name="TownOfUsMira.Role.Juggernaut.WikiDescription">天啟是一名中立殺手型職業,通過成為場上最後一名殺手獲勝。每擊殺一人,擊殺冷卻都會減少。</string>
   <string name="TouOptionJuggernautInitialCooldown">初始擊殺冷卻</string>
   <string name="TouOptionJuggernautCooldownReduction">擊殺冷卻縮減</string>
   <string name="TouOptionJuggernautCanVent">天啟可使用通風口</string>
@@ -1693,7 +1693,7 @@
   <string name="TownOfUsMira.Role.Pestilence.IntroBlurb">天啟四騎士之一!</string>
   <string name="TownOfUsMira.Role.Pestilence.TabDescription">擊殺所有與自己互動的玩家!</string>
   <string name="TownOfUsMira.Role.PestilenceYouAreText">你的職業是</string>
-  <string name="TownOfUsMira.Role.Pestilence.WikiDescription">萬疫之神是一名中立擊殺型職業,可以擊殺並且除被放逐或猜錯外無敵。通過成為場上最後一名殺手獲勝。</string>
+  <string name="TownOfUsMira.Role.Pestilence.WikiDescription">萬疫之神是一名中立殺手型職業,可以擊殺並且除被放逐或猜錯外無敵。通過成為場上最後一名殺手獲勝。</string>
   <string name="TownOfUsMira.Role.Spectre">幻影</string>
   <string name="TownOfUsMira.Role.Spectre.IntroBlurb">利用你的第二次機會贏得勝利</string>
   <string name="TownOfUsMira.Role.Spectre.TabDescription">在不被抓到的情況下完成你所有的任務!</string>
@@ -1709,7 +1709,7 @@
   <string name="TownOfUsMira.Role.Plaguebearer.TabDescription">感染所有人以成為[color=#4D4D4DFF]萬疫之神[/color]</string>
   <string name="TownOfUsMira.Role.PlaguebearerTabInfectCounter">剩餘未感染玩家:[count]</string>
   <string name="TownOfUsMira.Role.PlaguebearerTabInfectedInfo">已感染玩家:</string>
-  <string name="TownOfUsMira.Role.Plaguebearer.WikiDescription">瘟疫之源是一名中立擊殺型職業,需要感染所有其他玩家後變為萬疫之神。</string>
+  <string name="TownOfUsMira.Role.Plaguebearer.WikiDescription">瘟疫之源是一名中立殺手型職業,需要感染所有其他玩家後變為萬疫之神。</string>
   <string name="TownOfUsMira.Role.PlaguebearerInfect">感染</string>
   <string name="TownOfUsMira.Role.PlaguebearerInfect.WikiDescription">感染一名玩家,使其被感染。當被感染的玩家或屍體與其他未感染玩家互動時,感染會繼續傳播。</string>
   <string name="TouOptionPlaguebearerInstantPesti">一開始生成萬疫之神概率</string>
@@ -1732,7 +1732,7 @@
   <string name="TownOfUsMira.Role.Vampire">吸血魔</string>
   <string name="TownOfUsMira.Role.Vampire.IntroBlurb">轉化船員並殺死其他人</string>
   <string name="TownOfUsMira.Role.Vampire.TabDescription">咬掉所有其他玩家</string>
-  <string name="TownOfUsMira.Role.Vampire.WikiDescription">吸血魔是一名中立擊殺型職業,通過成為場上最後一名殺手獲勝。吸血魔可以咬人,將其他玩家轉化為吸血魔,或直接擊殺對方。</string>
+  <string name="TownOfUsMira.Role.Vampire.WikiDescription">吸血魔是一名中立殺手型職業,通過成為場上最後一名殺手獲勝。吸血魔可以咬人,將其他玩家轉化為吸血魔,或直接擊殺對方。</string>
   <string name="TownOfUsMira.Role.VampireBite">咬擊</string>
   <string name="TownOfUsMira.Role.VampireBite.WikiDescription">咬擊一名玩家。如果被咬的是船員或有效轉化對象且本局吸血魔數量未達上限,則會將其轉化為吸血魔,否則直接擊殺對方。</string>
   <string name="TouOptionVampireBiteCooldown">咬擊冷卻</string>
@@ -1754,7 +1754,7 @@
   <string name="TownOfUsMira.Role.Werewolf.IntroBlurb">以狂暴殺死所有人</string>
   <string name="TownOfUsMira.Role.Werewolf.TabDescription">快速狂暴殺敵,提升你的視野,
 並暫時可以進入通風口</string>
-  <string name="TownOfUsMira.Role.Werewolf.WikiDescription">月下狼人是一名中立擊殺型職業,通過成為場上最後一名殺手獲勝。可以進入狂暴狀態獲得擊殺能力。</string>
+  <string name="TownOfUsMira.Role.Werewolf.WikiDescription">月下狼人是一名中立殺手型職業,通過成為場上最後一名殺手獲勝。可以進入狂暴狀態獲得擊殺能力。</string>
   <string name="TownOfUsMira.Role.WerewolfRampage">狂暴</string>
   <string name="TownOfUsMira.Role.WerewolfRampage.WikiDescription">進入狂暴狀態,獲得擊殺和偽裝者視野。狂暴期間擊殺冷卻大幅降低。</string>
   <string name="TouOptionWerewolfRampageCooldown">狂暴冷卻</string>
@@ -2151,7 +2151,7 @@
   <string name="TouOptionOfficerCanSelfReport">執法者可自報屍體</string>
   <string name="TouOptionOfficerCanOnlyShootActiveKillers">執法者只能射擊已擊殺過人的玩家</string>
   <string name="TouOptionOfficerCrewKillingAreInnocent">船員擊殺型職業視為無辜</string>
-  <string name="TouOptionOfficerNonKillingNeutralsAreInnocent">非擊殺型中立職業視為無辜</string>
+  <string name="TouOptionOfficerNonKillingNeutralsAreInnocent">非殺手型中立職業視為無辜</string>
   <string name="TouOptionOfficerFirstRound">首回合允許射擊</string>
   <string name="TouOptionOfficerMaxBulletsTotal">最大總子彈數量</string>
   <string name="TouOptionOfficerMaxBulletsAtOnce">同時可裝填的最大子彈數量</string>
@@ -2169,7 +2169,7 @@
   <string name="TouOptionOfficerBulletsSummary">最大裝填數量: [once] | 總子彈數量: [total]</string>
   <string name="TouOptionOfficerRoundPunishment">誤射後需等待的回合數目</string>
   <string name="TouOptionAmnesiacAssassinImpostor">可以成為偽裝者刺客</string>
-  <string name="TouOptionAmnesiacAssassinNeutral">可以成為中立擊殺型刺客</string>
+  <string name="TouOptionAmnesiacAssassinNeutral">可以成為中立殺手型刺客</string>
   <string name="TouOptionAmnesiacAssassinEnumNever">永不</string>
   <string name="TouOptionAmnesiacAssassinEnumDependentNeut">如果中立擊殺型職業為刺客</string>
   <string name="TouOptionAmnesiacAssassinEnumDependentImp">如果偽裝者為刺客</string>
@@ -2372,7 +2372,7 @@
   <string name="TownOfUsMira.Role.Medusa">美杜莎</string>
   <string name="TownOfUsMira.Role.Medusa.IntroBlurb">將船員石化為雕像。</string>
   <string name="TownOfUsMira.Role.Medusa.TabDescription">將玩家石化為永久存在的雕像。</string>
-  <string name="TownOfUsMira.Role.Medusa.WikiDescription">美杜莎是一名中立擊殺型職業, 可以使受害者無法移動並逐漸石化。未被打碎的石化玩家會以雕像形態持續存在於後續回合。</string>
+  <string name="TownOfUsMira.Role.Medusa.WikiDescription">美杜莎是一名中立殺手型職業, 可以使受害者無法移動並逐漸石化。未被打碎的石化玩家會以雕像形態持續存在於後續回合。</string>
   <string name="TownOfUsMira.Role.MedusaPetrify">石化</string>
   <string name="TownOfUsMira.Role.MedusaPetrify.WikiDescription">將一名玩家石化, 使其死亡並留下一座雕像。</string>
   <string name="TownOfUsMira.Role.MedusaPetrifyNotif">[player] 正在逐漸石化!</string>
@@ -2449,4 +2449,5 @@
   <string name="Revived">已復活</string>
   <string name="TouOptionTimeLordRewindDuration">回溯持續時間</string>
   <string name="TownOfUsMira.Modifier.LoverInfoDisconnected">與你相愛的是 [player], 但對方已斷開連接。</string>
+  <string name="NeutralKilling.Colored">[color=#999999FF]中立[/color] 殺手</string>
 </resources>
