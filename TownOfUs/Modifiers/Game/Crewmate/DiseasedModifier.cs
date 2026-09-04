@@ -11,18 +11,18 @@ public sealed class DiseasedModifier : TouGameModifier, IWikiDiscoverable
         TownOfUsColors.Diseased,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Diseased.LoadAsset(),
             "TouMira.Modifier.Crewmate.Diseased", 1.45f));
-    public override string LocaleKey => "Diseased";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+    public override string IdPart => "Diseased";
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription").Replace("<cooldownMultiplier>",
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription").Replace("<cooldownMultiplier>",
             $"{OptionGroupSingleton<DiseasedOptions>.Instance.CooldownMultiplier}");
     }
 

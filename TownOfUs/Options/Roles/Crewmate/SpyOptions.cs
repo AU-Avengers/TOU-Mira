@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class SpyOptions : AbstractRoleOptionGroup<SpyRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleSpy", "Spy");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Spy", "Spy");
 
     [ModdedEnumOption("TouOptionSpyWhoSeesDeadBodiesOnAdmin", typeof(AdminDeadPlayers),
         ["TouOptionSpyDeadEnumNobody", "TouOptionSpyDeadEnumSpy", "TouOptionSpyDeadEnumEveryoneButSpy", "TouOptionSpyDeadEnumEveryone"])]

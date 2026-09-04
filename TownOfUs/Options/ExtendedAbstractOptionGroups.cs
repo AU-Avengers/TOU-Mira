@@ -1,5 +1,4 @@
 using MiraAPI.GameOptions;
-using MiraAPI.Modifiers;
 using MiraAPI.PluginLoading;
 using TownOfUs.Modifiers;
 using UnityEngine;
@@ -24,7 +23,7 @@ public abstract class AbstractTouModifierOptionGroup<T>() : AbstractOptionGroup<
     {
         get
         {
-            var modifier = ModifierManager.Modifiers.FirstOrDefault(x => x.GetType() == OptionableType) as TouBaseGameModifier;
+            var modifier = MiscUtils.AllBaseGameModifiers.FirstOrDefault(x => x.GetType() == OptionableType);
             if (modifier == null)
             {
                 return new(new Color(0.7333f, 0.7333f, 0.7333f, 1));

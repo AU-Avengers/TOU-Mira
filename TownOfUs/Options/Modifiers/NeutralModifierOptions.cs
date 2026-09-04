@@ -6,8 +6,8 @@ namespace TownOfUs.Options.Modifiers;
 
 public sealed class NeutralModifierOptions : AbstractOptionGroup
 {
-    public override string GroupName => "Neutral Modifiers";
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.NeutralModifiers");
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
     public override Color GroupColor => TownOfUsColors.Neutral;
     public override MenuCategory ParentMenu => MenuCategory.Modifiers;
     public override uint GroupPriority => 4;

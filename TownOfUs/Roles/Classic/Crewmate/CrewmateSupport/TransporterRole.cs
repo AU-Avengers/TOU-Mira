@@ -27,15 +27,12 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string LocaleKey => "Transporter";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Transporter";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -46,8 +43,8 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Transport", "Transport"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}TransportWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Transport", "Transport"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Transport.WikiDescription"),
                     TouCrewAssets.Transport)
             ];
         }
@@ -271,7 +268,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         if (play1.AmOwner && t1 is PlayerControl || play2.AmOwner && t2 is PlayerControl)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.Transporter.ToTextColor()}{TouLocale.GetParsed("TouRoleTransporterTransportNotif")}</color></b>", Color.white,
+                $"<b>{TownOfUsColors.Transporter.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.TransporterTransportNotif")}</color></b>", Color.white,
                 new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Transporter.LoadAsset());
 
             notif1.AdjustNotification();

@@ -1,6 +1,7 @@
 using BepInEx.Logging;
 using MiraAPI.GameOptions;
 using Reactor.Utilities;
+using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Options;
 using TownOfUs.Patches.Options;
 using UnityEngine;
@@ -334,6 +335,12 @@ public static class TimeLordBodyManager
         }
 
         var renderer = body.bodyRenderers[^1];
+        if (NoisemakerModifier.ActiveNoisemakerTriggers.TryGetValue(body.ParentId, out var noisemakerTrigger) && noisemakerTrigger.duration > 1)
+        {
+            // this stops the alert from staying forever
+            noisemakerTrigger.StopAllCoroutines();
+            noisemakerTrigger.SetDuration(1);
+        }
         yield return MiscUtils.PerformTimedAction(1f, t => renderer.color = renderer.color.SetAlpha(1 - t));
 
         if (CleanedBodies.TryGetValue(body.ParentId, out var rec) && rec != null)

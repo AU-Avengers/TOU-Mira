@@ -19,8 +19,8 @@ public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverab
         TownOfUsColors.ButtonBarry,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.ButtonBarry.LoadAsset(),
             "TouMira.Modifier.Universal.ButtonBarry", 1.45f));
-    public override string LocaleKey => "ButtonBarry";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IdPart => "ButtonBarry";
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.ButtonBarry;
     public override Color FreeplayFileColor => new Color32(180, 180, 180, 255);
 
@@ -29,12 +29,12 @@ public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverab
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     [HideFromIl2Cpp]
@@ -44,8 +44,8 @@ public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverab
         {
             return
             [
-                new(TouLocale.Get($"TouModifier{LocaleKey}Button"),
-                    TouLocale.GetParsed($"TouModifier{LocaleKey}ButtonWikiDescription").Replace("<barryUses>",
+                new(MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}Button"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}Button.WikiDescription").Replace("<barryUses>",
                         $"{Math.Round(OptionGroupSingleton<ButtonBarryOptions>.Instance.MaxNumButtons, 0)}"),
                     TouAssets.BarryButtonSprite)
             ];

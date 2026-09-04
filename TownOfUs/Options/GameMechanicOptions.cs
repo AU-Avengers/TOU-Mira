@@ -7,34 +7,50 @@ namespace TownOfUs.Options;
 
 public sealed class GameMechanicOptions : AbstractOptionGroup
 {
-    public override string GroupName => "Game Mechanics";
+ public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.GameMechanics");
     public override uint GroupPriority => 1;
 
-    /*[ModdedToggleOption("Hide Names Out Of Sight")]
+    /*[ModdedToggleOption("TouOptionHideNamesOutOfSight")]
     public bool HideNamesOutOfSight { get; set; } = true;*/
 
-    [ModdedToggleOption("Powerful Crew Continue The Game")]
+    [ModdedToggleOption("TouOptionCrewKillersContinue")]
     public bool CrewKillersContinue { get; set; } = true;
 
-    [ModdedToggleOption("All Shields Flash Grey on Trigger")]
+    [ModdedToggleOption("TouOptionAnonymousShields")]
     public bool AnonymousShields { get; set; } = false;
 
-    public ModdedEnumOption CleanedBodiesAppearance { get; set; } = new("Cleaned/Dissolved Bodies Appear as", (int)BodyVitalsMode.Missing,
-        typeof(BodyVitalsMode), ["Missing (MIS)", "Dead (DED)", "Disconnected (D/C)"]);
+    public ModdedEnumOption CleanedBodiesAppearance { get; set; } =
+        new("TouOptionCleanedBodiesAppearance", (int)BodyVitalsMode.Missing,
+            typeof(BodyVitalsMode),
+            [
+                "TouOptionCleanedBodiesAppearanceEnumMissing",
+                "TouOptionCleanedBodiesAppearanceEnumDead",
+                "TouOptionCleanedBodiesAppearanceEnumDisconnected"
+            ]);
 
-    public ModdedEnumOption KillAnimationBackgroundColor { get; set; } = new("Kill Animation Background Color", (int)KillColor.Red,
-        typeof(KillColor), ["Red", "Faction", "Role Color"]);
+    public ModdedEnumOption KillAnimationBackgroundColor { get; set; } =
+        new("TouOptionKillAnimationBackgroundColor", (int)KillColor.Red,
+            typeof(KillColor),
+            [
+                "TouOptionKillAnimationBackgroundColorEnumRed",
+                "TouOptionKillAnimationBackgroundColorEnumFaction",
+                "TouOptionKillAnimationBackgroundColorEnumRoleColor"
+            ]);
 
-    public ModdedNumberOption PlayerCountWhenVentsDisable { get; set; } = new("Max Players Alive When Vents Disable",
-        2f, 1f, 15f, 1f, MiraNumberSuffixes.None, "0.#");
+    public ModdedNumberOption PlayerCountWhenVentsDisable { get; set; } =
+        new("TouOptionPlayerCountWhenVentsDisable",
+            2f, 1f, 15f, 1f, MiraNumberSuffixes.None, "0.#");
 
-    public ModdedToggleOption GhostwalkerFixSabos { get; set; } = new("Ghostwalkers Can Fix Sabotages", false);
+    public ModdedToggleOption GhostwalkerFixSabos { get; set; } =
+        new("TouOptionGhostwalkerFixSabos", false);
 
-    [ModdedNumberOption("Temp Save Cooldown Reset", 0f, 15f, 0.5f, MiraNumberSuffixes.Seconds, "0.#")]
+    [ModdedNumberOption("TouOptionTempSaveCdReset", 0f, 15f, 0.5f,
+        MiraNumberSuffixes.Seconds, "0.#")]
     public float TempSaveCdReset { get; set; } = 5f;
 
-    public ModdedNumberOption FullSaveCdMultiplier { get; set; } = new("Full Save Cooldown Multiplier",
-        0.5f, 0.25f, 1f, 0.05f, MiraNumberSuffixes.Multiplier, "0.#");
+    public ModdedNumberOption FullSaveCdMultiplier { get; set; } =
+        new("TouOptionFullSaveCdMultiplier",
+            0.5f, 0.25f, 1f, 0.05f, MiraNumberSuffixes.Multiplier, "0.#");
 }
 
 public enum BodyVitalsMode

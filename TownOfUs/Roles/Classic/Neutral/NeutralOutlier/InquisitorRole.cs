@@ -87,7 +87,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
             return;
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralOutlierTaskHeader")}</color>";
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{MiraLocaleManager.Get("NeutralOutlierTaskHeader")}</color>";
         orCreateTask.name = "NeutralRoleText";
     }
 
@@ -102,7 +102,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
     public void AssignTargets()
     {
-        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        if (!RoleOptions.IsClassicRoleAssignment)
         {
             return;
         }
@@ -187,15 +187,12 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SheriffRole>());
     public DoomableType DoomHintType => DoomableType.Hunter;
-    public string LocaleKey => "Inquisitor";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Inquisitor";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription").Replace("<symbol>", "<color=#D94291>$</color>") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription").Replace("<symbol>", "<color=#D94291>$</color>") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -206,11 +203,11 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Inquire", "Inquire"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}InquireWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Inquire", "Inquire"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Inquire.WikiDescription"),
                     TouNeutAssets.InquireSprite),
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Vanquish", "Vanquish"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}VanquishWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Vanquish", "Vanquish"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Vanquish.WikiDescription"),
                     TouNeutAssets.InquisKillSprite)
             ];
         }
@@ -266,7 +263,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{TouLocale.Get("TouRoleInquisitorTabAddition")}</b>");
+        stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorTabAddition")}</b>");
         foreach (var target in Targets)
         {
             var newText = target.Key.HasDied()
@@ -368,11 +365,11 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         foreach (var player in GameData.Instance.AllPlayers.ToArray()
                      .Where(x => !x.Object.HasDied() && x.Object.HasModifier<InquisitorInquiredModifier>()))
         {
-            var text = TouLocale.GetParsed("TouRoleInquisitorInquiredNonHeretic")
+            var text = MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorInquiredNonHeretic")
                 .Replace("<player>", player.PlayerName);
             if (player.Object.HasModifier<InquisitorHereticModifier>())
             {
-                text = TouLocale.GetParsed("TouRoleInquisitorInquiredHeretic").Replace("<player>", player.PlayerName);
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorInquiredHeretic").Replace("<player>", player.PlayerName);
                 reportBuilder.AppendLine(TownOfUsPlugin.Culture,
                     $"{text}\n");
                 var roles = Targets.Select(x => x.Value).ToList();
@@ -410,7 +407,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         if (HudManager.Instance && report.Length > 0)
         {
             var title =
-                $"<color=#{TownOfUsColors.Inquisitor.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleInquisitorMessageTitle")}</color>";
+                $"<color=#{TownOfUsColors.Inquisitor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorMessageTitle")}</color>";
             MiscUtils.AddFakeChat(Player.Data, title, report, false, true);
         }
     }

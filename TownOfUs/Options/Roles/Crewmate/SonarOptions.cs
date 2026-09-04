@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class SonarOptions : AbstractRoleOptionGroup<SonarRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleSonar", "Sonar");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Sonar", "Sonar");
 
     [ModdedNumberOption("TouOptionSonarTrackCooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
     public float TrackCooldown { get; set; } = 20f;

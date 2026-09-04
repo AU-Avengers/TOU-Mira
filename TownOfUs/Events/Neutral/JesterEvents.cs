@@ -10,9 +10,9 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Neutral;
@@ -40,10 +40,10 @@ public static class JesterEvents
             }
 
             jester.SentWinMsg = true;
-            var jestRoleName = TouLocale.Get("TouRoleJester");
+            var jestRoleName = MiraLocaleManager.Get("TownOfUsMira.Role.Jester");
             if (jester.Player.AmOwner)
             {
-                var text = TouLocale.GetParsed("TouNotifJesterWinOwner");
+                var text = MiraLocaleManager.Get("TouNotifJesterWinOwner");
                 if (text.Contains(jestRoleName))
                 {
                     text = text.Replace(jestRoleName, $"{TownOfUsColors.Jester.ToTextColor()}{jestRoleName}</color>");
@@ -56,21 +56,21 @@ public static class JesterEvents
                 if (OptionGroupSingleton<JesterOptions>.Instance.JestWin is JestWinOptions.Haunts)
                 {
                     CustomButtonSingleton<JesterHauntButton>.Instance.SetActive(true, jester);
-                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", DeathEventHandlers.CurrentRound,
+                    GameHistory.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", HudManagerHelper.Instance.CurrentRound,
                         DeathHandlerOverride.SetTrue, lockInfo: DeathHandlerOverride.SetTrue);
-                    var notif2 = Helpers.CreateAndShowNotification(TouLocale.GetParsed("TouNotifJesterHauntOwner"),
+                    var notif2 = Helpers.CreateAndShowNotification(MiraLocaleManager.Get("TouNotifJesterHauntOwner"),
                         Color.white, new Vector3(0f, 0.85f, -20f));
                     notif2.AdjustNotification();
                 }
                 else
                 {
-                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", DeathEventHandlers.CurrentRound,
+                    GameHistory.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", HudManagerHelper.Instance.CurrentRound,
                         DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
                 }
             }
             else if (OptionGroupSingleton<JesterOptions>.Instance.JestAnnounceWin)
             {
-                var text = TouLocale.GetParsed("TouNotifJesterWinGlobal");
+                var text = MiraLocaleManager.Get("TouNotifJesterWinGlobal");
                 if (text.Contains(jestRoleName))
                 {
                     text = text.Replace(jestRoleName, $"{TownOfUsColors.Jester.ToTextColor()}{jestRoleName}</color>");

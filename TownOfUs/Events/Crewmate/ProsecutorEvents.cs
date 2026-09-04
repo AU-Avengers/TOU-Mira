@@ -6,10 +6,13 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using TownOfUs.Modifiers;
+using Reactor.Utilities.Extensions;
+using TMPro;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 
@@ -35,29 +38,16 @@ public static class ProsecutorEvents
             return;
         }
 
-        if (voteArea.Parent.state is MeetingHud.VoteStates.Proceeding or MeetingHud.VoteStates.Results)
+        if (voteArea.Parent.state is MeetingHud.MeetingStates.Proceeding or MeetingHud.MeetingStates.Results)
         {
             @event.Cancel();
             return;
         }
 
-        if (voteArea == prosecutor.ProsecuteButton && !prosecutor.SelectingProsecuteVictim)
+        if (voteArea != MeetingHud.Instance.SkipVoteButton && prosecutor.WantsToPros is ProsecuteToggleMode.ToggledOn)
         {
-            prosecutor.SelectingProsecuteVictim = true;
+            ProsecutorRole.RpcProsecute(PlayerControl.LocalPlayer, voteArea.PlayerId);
             @event.Cancel();
-            return;
-        }
-
-        if (voteArea != prosecutor.ProsecuteButton && voteArea != MeetingHud.Instance.SkipVoteButton &&
-            prosecutor.SelectingProsecuteVictim)
-        {
-            ProsecutorRole.RpcProsecute(PlayerControl.LocalPlayer, voteArea.TargetPlayerId);
-        }
-
-        if (voteArea == MeetingHud.Instance.SkipVoteButton && prosecutor.SelectingProsecuteVictim)
-        {
-            prosecutor.SelectingProsecuteVictim = false;
-            prosecutor.ProsecuteVictim = byte.MaxValue;
         }
     }
 
@@ -83,7 +73,10 @@ public static class ProsecutorEvents
             return;
         }
 
-        ProsecutorRole.RpcShowProsAnimation(PlayerControl.LocalPlayer);
+        if (!ProsecutorRole.HasProsecutedBefore)
+        {
+            ProsecutorRole.RpcShowProsAnimation(PlayerControl.LocalPlayer);
+        }
 
         foreach (var plr in PlayerControl.AllPlayerControls.ToArray())
         {
@@ -100,6 +93,29 @@ public static class ProsecutorEvents
     }
 
     [RegisterEvent]
+    public static void VotingCompleteEventHandler(VotingCompleteEvent _)
+    {
+        var prosecutor = CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>()
+            .FirstOrDefault(x => !x.Player.HasDied() && x.HasProsecuted && x.ProsecuteVictim != byte.MaxValue);
+
+        if (prosecutor == null)
+        {
+            return;
+        }
+
+        MeetingHud.Instance.wasOverruled = true;
+        if (ProsecutorRole.HasProsecutedBefore)
+        {
+            var gameObject = UnityEngine.Object.Instantiate(MeetingHud.Instance.judgeGavelPrefab, MeetingHud.Instance.transform);
+            JudgeGavel component = gameObject.GetComponent<JudgeGavel>();
+            var tmp = component.text.transform.GetComponent<TextMeshPro>();
+            component.text.Destroy();
+            component.text = null;
+            tmp.text = "The Prosecutor has spoken.";
+        }
+    }
+
+    [RegisterEvent]
     public static void AfterMurderEvent(AfterMurderEvent @event)
     {
         var target = @event.Target;
@@ -108,7 +124,6 @@ public static class ProsecutorEvents
             // if someone dies after the Prosecutor selected them, it will not be a valid prosecute
             if (pros.ProsecuteVictim == target.PlayerId)
             {
-                pros.SelectingProsecuteVictim = false;
                 pros.ProsecuteVictim = byte.MaxValue;
             }
         }
@@ -131,11 +146,11 @@ public static class ProsecutorEvents
 
             if (hasProsecuted)
             {
-                DeathHandlerModifier.UpdateDeathHandlerImmediate(player, TouLocale.Get("DiedToProsecutor"),
-                    DeathEventHandlers.CurrentRound,
-                    DeathHandlerOverride.SetFalse,
-                    TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", pros.Player.Data.PlayerName),
-                    lockInfo: DeathHandlerOverride.SetTrue);
+                ProsecutorRole.HasProsecutedBefore = true;
+                GameHistory.UpdatePlayerDeathData(player.PlayerId, MiraLocaleManager.Get("DiedToProsecutor"), 0,
+                    HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
+                    MiraLocaleManager.Get("DiedByStringBasic").Replace("<player>", pros.Player.Data.PlayerName),
+                    lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
 
                 if (pros.Player.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
                 {
@@ -155,10 +170,9 @@ public static class ProsecutorEvents
                         {
                             celeb.Announced = true;
                         }
-
-                        DeathHandlerModifier.UpdateDeathHandlerImmediate(pros.Player, TouLocale.Get("DiedToPunishment"),
-                            DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                            lockInfo: DeathHandlerOverride.SetTrue);
+                        GameHistory.UpdatePlayerDeathData(pros.Player.PlayerId, MiraLocaleManager.Get("DiedToPunishment"), 0,
+                            HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
+                            lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
 
                         pros.Player.Exiled();
                     }

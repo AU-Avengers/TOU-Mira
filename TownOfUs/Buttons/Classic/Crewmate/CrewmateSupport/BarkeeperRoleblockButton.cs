@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class BarkeeperRoleblockButton : TownOfUsRoleButton<BarkeeperRole, PlayerControl>
 {
-    public override string Name => TouLocale.GetParsed("TouRoleBarkeeperRoleblock");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Barkeeper;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<BarkeeperOptions>.Instance.RoleblockCooldown.Value + MapCooldown, 5f, 120f);
@@ -42,20 +42,19 @@ public sealed class BarkeeperRoleblockButton : TownOfUsRoleButton<BarkeeperRole,
             return;
         }
 
-        OverrideName(TouLocale.GetParsed("TouRoleBarkeeperRoleblocking"));
+        OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblocking"));
 
         _roleblockedTarget = Target;
 
-        NotifMessage = Helpers.CreateAndShowNotification(
-            $"<b>You chose to roleblock {_roleblockedTarget.CachedPlayerData.PlayerName}.</b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper.LoadAsset());
+        NotifMessage = Helpers.CreateAndShowNotification($"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockChosen") .Replace("<player>", _roleblockedTarget.CachedPlayerData.PlayerName)}</b>",
+        Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper.LoadAsset());
         NotifMessage.Text.SetOutlineThickness(0.35f);
         CustomButtonSingleton<BarkeeperSpillButton>.Instance.ResetCooldownAndOrEffect();
     }
 
     public override void OnEffectEnd()
     {
-        OverrideName(TouLocale.GetParsed("TouRoleBarkeeperRoleblock"));
+        OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock"));
 
         if (_roleblockedTarget == null) return;
 

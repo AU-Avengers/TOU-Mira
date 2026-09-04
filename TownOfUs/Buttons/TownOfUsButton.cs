@@ -6,9 +6,9 @@ using MiraAPI.PluginLoading;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Globalization;
-using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Roles.Other;
@@ -151,7 +151,9 @@ public abstract class TownOfUsButton : CustomActionButton
 
         CreateRoundLockIcon();
 
-        Button.usesRemainingSprite.sprite = this is ILegacyCapable && LegacyAssets.IsLegacy ? TouAssets.BlankSprite.LoadAsset() : TouAssets.AbilityCounterBasicSprite.LoadAsset();
+        Button.usesRemainingSprite.sprite = this is ILegacyCapable && LegacyAssets.IsLegacy || this is ILegacyButton
+            ? TouAssets.BlankSprite.LoadAsset()
+            : TouAssets.AbilityCounterBasicSprite.LoadAsset();
 
         TownOfUsColors.UseBasic = false;
         if (TextOutlineColor != Color.clear)
@@ -197,7 +199,7 @@ public abstract class TownOfUsButton : CustomActionButton
             return false;
         }
 
-        if (!UsableFirstRound && DeathEventHandlers.CurrentRound == 1 && !TutorialManager.InstanceExists)
+        if (!UsableFirstRound && HudManagerHelper.Instance.CurrentRound == 1 && !TutorialManager.InstanceExists)
         {
             return false;
         }
@@ -401,7 +403,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
             return false;
         }
 
-        if (!UsableFirstRound && DeathEventHandlers.CurrentRound == 1 && !TutorialManager.InstanceExists)
+        if (!UsableFirstRound && HudManagerHelper.Instance.CurrentRound == 1 && !TutorialManager.InstanceExists)
         {
             return false;
         }
@@ -426,7 +428,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
 
         CreateRoundLockIcon();
 
-        if (this is ILegacyCapable && LegacyAssets.IsLegacy)
+        if (this is ILegacyCapable && LegacyAssets.IsLegacy || this is ILegacyButton)
         {
             Button.usesRemainingSprite.sprite = TouAssets.BlankSprite.LoadAsset();
         }
@@ -601,6 +603,10 @@ public interface IKillButton
 }
 
 public interface ILegacyCapable
+{
+}
+
+public interface ILegacyButton
 {
 }
 

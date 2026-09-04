@@ -93,7 +93,7 @@ public static class PlayerJoinPatch
         TouRoleManagerPatches.ReplaceRoleManager = false;
         SpectatorRole.TrackedPlayers.Clear();
         SpectatorRole.FixedCam = false;
-        var systemName = $"<color=#8BFDFD>{TouLocale.Get("SystemChatTitle")}</color>";
+        var systemName = $"<color=#8BFDFD>{MiraLocaleManager.Get("SystemChatTitle")}</color>";
 
         var time = 0f;
         var summary = GameHistory.EndGameSummary;
@@ -109,12 +109,12 @@ public static class PlayerJoinPatch
         if (summary != string.Empty && LocalSettingsTabSingleton<TouLocalTabPractice>.Instance
                 .ShowSummaryMessageToggle.Value)
         {
-            systemName = $"<color=#8BFDFD>{TouLocale.Get("EndGameSummary")}</color>";
+            systemName = $"<color=#8BFDFD>{MiraLocaleManager.Get("EndGameSummary")}</color>";
             var factionText = string.Empty;
             var msg = string.Empty;
             if (GameHistory.WinningFaction != string.Empty)
             {
-                factionText = $"<size=80%>{TouLocale.GetParsed("EndResult").Replace("<victoryType>", GameHistory.WinningFaction)}</size>\n";
+                factionText = $"<size=80%>{MiraLocaleManager.Get("EndResult").Replace("<victoryType>", GameHistory.WinningFaction)}</size>\n";
             }
 
             var title =
@@ -124,7 +124,7 @@ public static class PlayerJoinPatch
 
         if (!SentOnce && LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ShowWelcomeMessageToggle.Value)
         {
-            var msg = TouLocale.GetParsed("WelcomeMessageBlurb").Replace("<modVersion>", TownOfUsPlugin.Version);
+            var msg = MiraLocaleManager.Get("WelcomeMessageBlurb").Replace("<modVersion>", TownOfUsPlugin.Version);
             MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName, msg, true);
             time = 5f;
         }

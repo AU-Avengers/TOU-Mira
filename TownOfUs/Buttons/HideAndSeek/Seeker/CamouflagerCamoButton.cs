@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.HideAndSeek.Seeker;
 public sealed class CamouflagerCamoButton : TownOfUsRoleButton<HnsCamouflagerRole>
 {
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override string Name => TouLocale.GetParsed("HnsRoleCamouflagerCamo", "Camo");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.HideAndSeek.Role.CamouflagerCamo", "Camo");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<HnsCamouflagerOptions>.Instance.CamoCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<HnsCamouflagerOptions>.Instance.CamoDuration;

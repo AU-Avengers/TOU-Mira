@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class MorphlingMorphButton : TownOfUsRoleButton<MorphlingRole>, IAftermathableButton, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleMorphlingMorph", "Morph");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.MorphlingMorph", "Morph");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<MorphlingOptions>.Instance.MorphlingCooldown + MapCooldown, 5f, 120f);
@@ -70,7 +70,7 @@ public sealed class MorphlingMorphButton : TownOfUsRoleButton<MorphlingRole>, IA
         if (!EffectActive)
         {
             PlayerControl.LocalPlayer.RpcAddModifier<MorphlingMorphModifier>(Role.Sampled!);
-            OverrideName(TouLocale.Get("TouRoleMorphlingUnmorph", "Unmorph"));
+            OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.MorphlingUnmorph", "Unmorph"));
             UsesLeft--;
             if (LimitedUses)
             {
@@ -80,7 +80,7 @@ public sealed class MorphlingMorphButton : TownOfUsRoleButton<MorphlingRole>, IA
         else
         {
             PlayerControl.LocalPlayer.RpcRemoveModifier<MorphlingMorphModifier>();
-            OverrideName(TouLocale.Get("TouRoleMorphlingMorph", "Morph"));
+            OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.MorphlingMorph", "Morph"));
         }
     }
 
@@ -89,7 +89,7 @@ public sealed class MorphlingMorphButton : TownOfUsRoleButton<MorphlingRole>, IA
         if (!EffectActive)
         {
             PlayerControl.LocalPlayer.RpcAddModifier<MorphlingMorphModifier>(Role.Sampled!);
-            OverrideName(TouLocale.Get("TouRoleMorphlingUnmorph", "Unmorph"));
+            OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.MorphlingUnmorph", "Unmorph"));
             UsesLeft--;
             if (LimitedUses)
             {
@@ -99,7 +99,7 @@ public sealed class MorphlingMorphButton : TownOfUsRoleButton<MorphlingRole>, IA
         else
         {
             PlayerControl.LocalPlayer.RpcRemoveModifier<MorphlingMorphModifier>();
-            OverrideName(TouLocale.Get("TouRoleMorphlingMorph", "Morph"));
+            OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.MorphlingMorph", "Morph"));
         }
     }
 
@@ -108,6 +108,6 @@ public sealed class MorphlingMorphButton : TownOfUsRoleButton<MorphlingRole>, IA
         base.OnEffectEnd();
 
         PlayerControl.LocalPlayer.RpcRemoveModifier<MorphlingMorphModifier>();
-        OverrideName(TouLocale.Get("TouRoleMorphlingMorph", "Morph"));
+        OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.MorphlingMorph", "Morph"));
     }
 }

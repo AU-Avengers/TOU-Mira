@@ -3,6 +3,7 @@ using AmongUs.GameOptions;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
+using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -22,6 +23,46 @@ namespace TownOfUs.Events;
 
 public static class GhostRoleEvents
 {
+    public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
+    {
+        var player = @event.Player;
+        if (player && player.AmOwner && HudManager.InstanceExists)
+        {
+            HudManager.Instance.SetHudActive(false);
+
+            if (!MeetingHud.Instance)
+            {
+                HudManager.Instance.SetHudActive(true);
+                Coroutines.Start(CoRemoveChat());
+            }
+        }
+    }
+
+    public static IEnumerator CoRemoveChat()
+    {
+        var toHide = OptionGroupSingleton<PostmortemOptions>.Instance.HideChatButton.Value &&
+                     OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() <
+                     RoleDistribution.HideAndSeek;
+        
+        if (toHide)
+        {
+            HudManager.Instance.Chat.SetVisible(false);
+            HudManager.Instance.Chat.gameObject.SetActive(false);
+        }
+        yield return new WaitForSeconds(0.1f);
+        if (toHide)
+        {
+            HudManager.Instance.Chat.SetVisible(false);
+            HudManager.Instance.Chat.gameObject.SetActive(false);
+        }
+        yield return new WaitForSeconds(0.1f);
+        
+        if (toHide)
+        {
+            HudManager.Instance.Chat.SetVisible(false);
+            HudManager.Instance.Chat.gameObject.SetActive(false);
+        }
+    }
     public static bool IsConsoleAllowed(this Console? console)
     {
         if (OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerFixSabos.Value || console == null)
@@ -44,7 +85,7 @@ public static class GhostRoleEvents
     [RegisterEvent]
     public static void ChangeRoleHandler(ChangeRoleEvent @event)
     {
-        if (!PlayerControl.LocalPlayer)
+        if (!PlayerControl.LocalPlayer || !@event.NewRole)
         {
             return;
         }

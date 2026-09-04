@@ -26,10 +26,10 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     public int maxKills;
     public int defaultKills;
     private MeetingMenu meetingMenu;
-    public override string LocaleKey => "Assassin";
+    public override string IdPart => "Assassin";
     public static bool HasDoubleShot => PlayerControl.LocalPlayer.HasModifier<DoubleShotModifier>();
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
     public override bool PreventsOtherModifiers => false;
     public override bool AppearsInSummary => false;
     public override bool AppearsInIntro => !PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().Any(x => x != this && x.AppearsInIntro);
@@ -38,12 +38,12 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
@@ -202,7 +202,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
     public void ClickGuess(PlayerVoteArea voteArea, MeetingHud meetingHud)
     {
-        if (meetingHud.state == MeetingHud.VoteStates.Discussion)
+        if (meetingHud.state == MeetingHud.MeetingStates.Discussion)
         {
             return;
         }
@@ -212,7 +212,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             return;
         }
 
-        var player = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId).Object;
+        var player = GameData.Instance.GetPlayerById(voteArea.PlayerId).Object;
 
         var shapeMenu = GuesserMenu.Create();
         shapeMenu.Begin(IsRoleValid, ClickRoleHandle, IsModifierValid, ClickModifierHandle);
@@ -244,7 +244,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
             if (ClickHandler(victim) && victim == Player)
             {
-                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItemId, LastGuessedIsRole);
+                GameHistory.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItemId, LastGuessedIsRole);
             }
         }
 
@@ -261,7 +261,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
             if (ClickHandler(victim) && victim == Player)
             {
-                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItemId, LastGuessedIsRole);
+                GameHistory.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItemId, LastGuessedIsRole);
             }
         }
 
@@ -329,7 +329,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     public bool IsExempt(PlayerVoteArea voteArea)
     {
         var votePlayer = voteArea.GetPlayer();
-        return voteArea?.TargetPlayerId == Player.PlayerId ||
+        return voteArea?.PlayerId == Player.PlayerId ||
                Player.Data.IsDead ||
                voteArea!.AmDead ||
                (Player.IsImpostorAligned() && votePlayer?.IsImpostorAligned() == true &&

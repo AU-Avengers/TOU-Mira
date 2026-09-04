@@ -28,7 +28,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
             return;
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{MiraLocaleManager.Get("NeutralKillingTaskHeader")}</color>";
         orCreateTask.name = "NeutralRoleText";
     }
 
@@ -36,17 +36,15 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     public bool IsDraftable => false;
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VeteranRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string YouAreText => TouLocale.Get("YouAre");
-    public string YouWereText => TouLocale.Get("YouWere");
-    public string LocaleKey => "Pestilence";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string YouAreText => MiraLocaleManager.Get("YouAre");
+    public string YouWereText => MiraLocaleManager.Get("YouWere");
+    public string IdPart => "Pestilence";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -71,12 +69,12 @@ public sealed class PestilenceRole(IntPtr cppPtr)
 
     public bool WinConditionMet()
     {
-        if (Player.HasDied())
+        if (Player.HasDied() || MiscUtils.KillersAliveCount == 0)
         {
             return false;
         }
 
-        var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
+        var result = MiscUtils.GetImpactfulLivingPlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
 
         return result;
     }
@@ -86,11 +84,11 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     {
         var stringB = new StringBuilder();
         stringB.AppendLine(TownOfUsPlugin.Culture,
-            $"{RoleColor.ToTextColor()}{YouAreText}<b> {RoleName},‎ ‎ ‎ \n<size=80%>{RoleDescription}</size></b></color>");
+            $"{RoleColor.ToTextColor()}{YouAreText}<b> {this.GetRoleName()},‎ ‎ ‎ \n<size=80%>{this.GetRoleIntroBlurb()}</size></b></color>");
         stringB.AppendLine(TownOfUsPlugin.Culture,
-            $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(RoleAlignment, true)}</b></size>");
+            $"<size=60%>{MiraLocaleManager.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(RoleAlignment, true)}</b></size>");
         stringB.Append("<size=70%>");
-        stringB.AppendLine(TownOfUsPlugin.Culture, $"{RoleLongDescription}");
+        stringB.AppendLine(TownOfUsPlugin.Culture, $"{this.GetRoleLongDescription()}");
 
         return stringB;
     }
@@ -163,11 +161,11 @@ public sealed class PestilenceRole(IntPtr cppPtr)
             return;
         }
         Announced = true;
-        var title = $"<color=#{TownOfUsColors.Plaguebearer.ToHtmlStringRGBA()}>{TouLocale.Get("TouRolePestilenceMessageTitle")}</color>";
-        var msg = TouLocale.GetParsed("TouRolePestilenceAnnounceMessage");
+        var title = $"<color=#{TownOfUsColors.Plaguebearer.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.PestilenceMessageTitle")}</color>";
+        var msg = MiraLocaleManager.Get("TownOfUsMira.Role.PestilenceAnnounceMessage");
 
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{msg.Replace("<role>", $"{TownOfUsColors.Pestilence.ToTextColor()}{RoleName}</color>")}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Pestilence.LoadAsset());
+            $"<b>{msg.Replace("<role>", $"{TownOfUsColors.Pestilence.ToTextColor()}{this.GetRoleName()}</color>")}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Pestilence.LoadAsset());
 
         notif1.AdjustNotification();
 

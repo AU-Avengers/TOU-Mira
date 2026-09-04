@@ -45,7 +45,7 @@ public static class MedusaEvents
 
     private static void CheckForMedusaGaze(MiraCancelableEvent miraEvent, PlayerControl source, PlayerControl target, bool isAttack)
     {
-        if (MeetingHud.Instance || ExileController.Instance || isAttack || source.HasModifier<IndirectAttackerModifier>())
+        if (MeetingHud.Instance || ExileController.Instance || isAttack || miraEvent is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
         {
             return;
         }
@@ -78,7 +78,7 @@ public static class MedusaEvents
             if (source.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouRoleMedusaPetrifyNotif").Replace("<player>", $"{TownOfUsColors.Medusa.ToTextColor()}{target.Data.PlayerName}</color>"),
+                    MiraLocaleManager.Get("TownOfUsMira.Role.MedusaPetrifyNotif").Replace("<player>", $"{TownOfUsColors.Medusa.ToTextColor()}{target.Data.PlayerName}</color>"),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Medusa.LoadAsset());
 
                 notif1.AdjustNotification();

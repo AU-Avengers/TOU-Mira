@@ -24,21 +24,19 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public bool IgnoredByRecording => false;
     public DoomableType DoomHintType => DoomableType.Perception;
 
-    public string LocaleKey => "TimeLord";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}", "Time Lord");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "TimeLord";
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}", "Time Lord");
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities =>
     [
-        new(TouLocale.GetParsed($"TouRole{LocaleKey}Rewind", "Rewind"),
-            TouLocale.GetParsed($"TouRole{LocaleKey}RewindWikiDescription"),
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Rewind", "Rewind"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Rewind.WikiDescription"),
             TouCrewAssets.RewindSprite)
     ];
 
@@ -56,7 +54,7 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     };
 
     [MethodRpc((uint)TownOfUsRpc.TimeLordRewind)]
-    public static void RpcStartRewind(PlayerControl timeLord)
+    public static void RpcStartRewind(PlayerControl timeLord, float duration)
     {
         if (LobbyBehaviour.Instance)
         {
@@ -82,17 +80,16 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             try
             {
                 var notif = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.TimeLord.ToTextColor()}{TouLocale.GetParsed("TouRoleTimeLordRewindNotif", "Time is being rewound!")}</color></b>",
+                    $"<b>{TownOfUsColors.TimeLord.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.TimeLordRewindNotif", "Time is being rewound!")}</color></b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.TimeLord.LoadAsset());
                 notif.AdjustNotification();
+                notif.alphaTimer = duration + 1f;
             }
             catch
             {
                // ignored
             }
         }
-
-        const float duration = 3.5f;
         var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 1f, 15f);
 
         if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost &&

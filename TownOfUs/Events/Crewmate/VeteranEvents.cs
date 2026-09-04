@@ -99,7 +99,18 @@ public static class VeteranEvents
             return;
         }
 
-        var preventAttack = source.TryGetModifier<IndirectAttackerModifier>(out var indirectMod);
+        var ignoreAlert = false;
+        var indirect = false;
+        if (miraEvent is BeforeMurderEvent murderEvent)
+        {
+            ignoreAlert = murderEvent.IgnoreDefense;
+            indirect = murderEvent.IsIndirectAttack;
+        }
+        else if (miraEvent is ExtendedMiraButtonClickEvent clickEvent)
+        {
+            ignoreAlert = clickEvent.IgnoreDefense;
+            indirect = clickEvent.IsIndirectInteraction;
+        }
 
         if (target.HasModifier<VeteranAlertModifier>() && source != target)
         {
@@ -115,7 +126,7 @@ public static class VeteranEvents
                 }
             }
             if (!OptionGroupSingleton<VeteranOptions>.Instance.KilledOnAlert &&
-                (indirectMod == null || !indirectMod.IgnoreShield))
+                !ignoreAlert)
             {
                 miraEvent.Cancel();
             }
@@ -125,7 +136,7 @@ public static class VeteranEvents
                 return;
             }
 
-            if ((TutorialManager.InstanceExists || source.AmOwner) && !preventAttack)
+            if ((TutorialManager.InstanceExists || source.AmOwner) && !indirect)
             {
                 target.RpcCustomMurder(source, MeetingCheck.OutsideMeeting);
             }

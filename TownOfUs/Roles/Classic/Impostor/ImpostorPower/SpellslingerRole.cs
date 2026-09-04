@@ -7,8 +7,9 @@ using UnityEngine;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Impostor;
 using MiraAPI.Patches.Stubs;
+using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Modifiers;
+using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 using TownOfUs.Roles.Crewmate;
@@ -19,27 +20,24 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
 {
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ClericRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string LocaleKey => "Spellslinger";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Spellslinger";
     public static bool SabotageTriggered { get; internal set; }
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities =>
     [
-        new(TouLocale.GetParsed($"TouRole{LocaleKey}Hex", "Hex"),
-            TouLocale.GetParsed($"TouRole{LocaleKey}HexWikiDescription"),
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hex", "Hex"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hex.WikiDescription"),
             TouImpAssets.HexSprite),
-        new(TouLocale.GetParsed($"TouRole{LocaleKey}HexBomb", "Hex Bomb"),
-            TouLocale.GetParsed($"TouRole{LocaleKey}HexBombWikiDescription"),
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}HexBomb", "Hex Bomb"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}HexBomb.WikiDescription"),
             TouImpAssets.HexBombSprite)
     ];
 
@@ -94,7 +92,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
             return;
         }
 
-        var text = TouLocale.GetParsed("TouRoleSpellslingerGlobalWarning").Replace("<role>", $"#{RoleName.ToLowerInvariant().Replace(" ", "-")}");
+        var text = MiraLocaleManager.Get("TownOfUsMira.Role.SpellslingerGlobalWarning").Replace("<role>", $"#{this.GetRoleName().ToLowerInvariant().Replace(" ", "-")}");
 
         reportBuilder.Append(TownOfUsPlugin.Culture,
             $"{text.Replace("<time>", $"{(int)sabotage.TimeRemaining + 1}")}");
@@ -104,7 +102,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
         if (HudManager.Instance && report.Length > 0)
         {
             var title =
-                $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleSpellslingerMessageTitle")}</color>";
+                $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.SpellslingerMessageTitle")}</color>";
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, report, false, true);
         }
     }
@@ -114,7 +112,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
         var alivePlayers = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => !DeathHandlerModifier.IsFullyDead(x)).ToList();
+            .Where(x => !GameHistory.IsFullyDead(x)).ToList();
 
         var hexed = alivePlayers
             .Where(p => p.HasModifier<SpellslingerHexedModifier>())
@@ -126,13 +124,13 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
 
         if (EveryoneHexed())
         {
-            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleSpellslingerTabHexFinished")}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.SpellslingerTabHexFinished")}</b>");
         }
         else
         {
             if (hexed.Count > 0)
             {
-                stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleSpellslingerTabHexedInfo")}</b>");
+                stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.SpellslingerTabHexedInfo")}</b>");
                 foreach (var player in hexed)
                 {
                     var color = player.IsImpostorAligned() ? "red" : "white";
@@ -140,7 +138,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
                 }
             }
 
-            stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>{TouLocale.GetParsed("TouRoleSpellslingerTabHexCounter").Replace("<count>", $"{unhexedNonImpostors.Count}")}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.SpellslingerTabHexCounter").Replace("<count>", $"{unhexedNonImpostors.Count}")}</b>");
         }
 
         return stringB;

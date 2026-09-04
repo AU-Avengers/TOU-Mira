@@ -1225,6 +1225,58 @@
         "\n\n\r<size=105%>Additions:</size>",
         "\n- Added Role Icon on Role Reveal screen local toggle."
       ]
+    },
+    {
+      "Date": "2026-09-04T12:51:00Z",
+      "Number": "100046",
+      "ShortTitle": "TOU: Mira v1.7.2",
+      "Title": "Judgement Time",
+      "SubTitle": "The Prosecutor takes the stand, not the Judge.",
+      "Text": [
+        "<b>This update fixes a few core issues with the mod and also updates the mod to run on the latest release of the game once again.</b>",
+        "\n\nApologies for the fairly long wait time, many of us are going back to school and we frankly have to prioritize that over updating the mod.",
+        "\n\nWith that said, please enjoy this update and let us know of any new issues that may appear.",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.7.2>TOU Mira v1.7.2 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Haunter: Dead killers no longer get an arrow to revealed Haunter.",
+        "\n- Deputy: No longer guessable after being revealed.",
+        "\n- Prosecutor: Prosecute uses text is no longer broken.",
+        "\n- Time Lord: Final evil being revived no longer ends the game with a crewmate win.",
+        "\n- Swapper: Swapped players properly carry over their colorblind text.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Doomsayer: If doomsayer continues the game and is supposed the game when all guesses are completed, the game will no longer end in a crewmate win.",
+        "\n- Doomsayer: Guess information is properly tracked for other players.",
+        "\n- Plaguebearer: Pestilence transformation is fixed for edge cases.",
+
+        "\n\n\r<size=105%>Modifier Bugfixes:</size>",
+        "\n- Deadly Quota: The last kill of the game is properly counted towards the quota now.",
+        "\n- Overclocker: Overclock no longer grants impostors a 0 second kill cooldown.",
+        "\n- Tiebreaker: Tiebreaker no longer continues the game while dead.",
+        "\n- Noisemaker: Noisemaker no longer stays lingering even when a body is cleaned up.",
+        "\n- Bait: Fixed bait reports occurring even if a body was cleaned up in time.",
+
+        "\n\n\r<size=105%>Draft Mode Bugfixes:</size>",
+        "\n- Amount of choices is no longer affected by the amount of players present.",
+        "\n- Shuffling no longer reduces the amount of options you get.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Concealed changes such as Ambusher, Morphling, and Swooper no longer carry into meetings.",
+        "\n- Added support for latest Level Imposter release.",
+        "\n- Fixed broken Submerged patching.",
+        "\n- Neutral Killers no longer take full priority over win conditions. This now fixes game draws.",
+
+        "\n\n\r<size=105%>Notable Changes:</size>",
+        "\n- Mod now runs on Among Us v18.0.x.",
+        "\n- Prosecutor, Politician, Mayor, and Hypnotist have now switched to new meeting abilities system.",
+        "\n- Win Condition system has been rewritten. Neutral Benigns are treated as majority Crewmates if at least two main factions (Crew, Imps, NKs) exist. Otherwise, they will be ignored from win checks. Survivor can also win solo if only NBs remain.",
+        "\n- Vampire is counted as two Neutral Killing slots under Draft Mode now.",
+
+        "\n\n\r<size=105%>Balance Changes:</size>",
+        "\n- By default, Janitor can clean and kill separately only if they're by themselves.",
+        "\n- Mayor and Deputy will still say their role on their name even if they are converted."
+      ]
     }
   ]
 }

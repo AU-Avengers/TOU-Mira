@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class BarkeeperSpillButton : TownOfUsRoleButton<BarkeeperRole>
 {
-    public override string Name => TouLocale.GetParsed("TouRoleBarkeeperSpill");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperSpill");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Barkeeper;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<BarkeeperOptions>.Instance.RoleblockCooldown.Value + MapCooldown, 5f, 120f);
@@ -19,10 +19,8 @@ public sealed class BarkeeperSpillButton : TownOfUsRoleButton<BarkeeperRole>
     public LobbyNotificationMessage? NotifMessage;
     protected override void OnClick()
     {
-        OverrideName(TouLocale.GetParsed("TouRoleBarkeeperSpilling"));
-        NotifMessage = Helpers.CreateAndShowNotification(
-            $"<b>Your spilled drink will take {EffectDuration}s to take effect for others!</b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper.LoadAsset());
+        var message = MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperSpillNotification") .Replace("<time>", EffectDuration.ToString(TownOfUsPlugin.Culture));
+        NotifMessage = Helpers.CreateAndShowNotification($"<b>{message}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper.LoadAsset());
         NotifMessage.Text.SetOutlineThickness(0.35f);
         CustomButtonSingleton<BarkeeperRoleblockButton>.Instance.ResetCooldownAndOrEffect();
         var pos = PlayerControl.LocalPlayer.transform.position;
@@ -31,7 +29,7 @@ public sealed class BarkeeperSpillButton : TownOfUsRoleButton<BarkeeperRole>
 
     public override void OnEffectEnd()
     {
-        OverrideName(TouLocale.GetParsed("TouRoleBarkeeperSpill"));
+        OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperSpill"));
     }
 
 }

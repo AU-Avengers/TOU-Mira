@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -44,7 +45,8 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             else
             {
                 TriggerKillAnimation(HudManager.Instance.KillOverlay, source.Data, target.Data, targetVoteArea);
-                source.AddModifier<DeputyRevealedModifier>();
+                source.AddModifier<DeputyRevealedModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<DeputyRole>()));
+                MeetingMenu.Instances.Do(x => x.HideSingle(source.PlayerId));
             }
             Coroutines.Start(CoStopShot());
         }
@@ -161,15 +163,12 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     [HideFromIl2Cpp] public PlayerControl? Killer { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
-    public string LocaleKey => "Deputy";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Deputy";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -180,8 +179,8 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Camp", "Camp"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}CampWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Camp", "Camp"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Camp.WikiDescription"),
                     TouCrewAssets.CampButtonSprite)
             ];
         }
@@ -284,7 +283,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public void ClickGuess(PlayerVoteArea voteArea, MeetingHud __)
     {
-        var target = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId).Object;
+        var target = GameData.Instance.GetPlayerById(voteArea.PlayerId).Object;
         var role = Player.GetRole<DeputyRole>()!;
 
         if (role.Killer == target && !target.HasModifier<InvulnerabilityModifier>())
@@ -296,8 +295,8 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         else
         {
             var title =
-                $"<color=#{TownOfUsColors.Deputy.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleDeputyMessageTitle")}</color>";
-            var msg = TouLocale.Get("TouRoleDeputyMissedShot");
+                $"<color=#{TownOfUsColors.Deputy.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.DeputyMessageTitle")}</color>";
+            var msg = MiraLocaleManager.Get("TownOfUsMira.Role.DeputyMissedShot");
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg, false, true);
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Deputy.ToTextColor()}{msg}</b></color>",
@@ -315,7 +314,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public bool IsExempt(PlayerVoteArea voteArea)
     {
-        return voteArea?.TargetPlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
+        return voteArea?.PlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true;
     }
 }

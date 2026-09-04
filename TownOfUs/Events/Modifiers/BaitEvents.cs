@@ -3,7 +3,6 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Modifiers;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Crewmate;
-using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Events.Modifiers;
 
@@ -13,8 +12,7 @@ public static class BaitEvents
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
         if (@event.Target.HasModifier<BaitModifier>() && @event.Target != @event.Source &&
-            !@event.Source.IsRole<MedusaRole>() &&
-            !MeetingHud.Instance)
+            !MeetingHud.Instance && @event.DeadBody != null)
         {
             Coroutines.Start(BaitModifier.CoReportDelay(@event.Source, @event.Target));
         }

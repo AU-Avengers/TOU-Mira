@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Classic.Neutral.NeutralKilling;
 public sealed class MedusaPetrifyButton : TownOfUsKillRoleButton<MedusaRole, PlayerControl>, IDiseaseableButton,
     IKillButton
 {
-    public override string Name => TouLocale.GetParsed("TouRoleMedusaPetrify", "Petrify");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.MedusaPetrify", "Petrify");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Medusa;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<MedusaOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);

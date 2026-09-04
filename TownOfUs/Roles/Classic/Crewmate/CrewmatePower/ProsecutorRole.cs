@@ -1,82 +1,41 @@
 ﻿using System.Collections;
 using System.Text;
-using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using MiraAPI.Voting;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
-using TMPro;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace TownOfUs.Roles.Crewmate;
 
 public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
 {
-    [HideFromIl2Cpp] public PlayerVoteArea? ProsecuteButton { get; private set; }
+    public static bool HasProsecutedBefore { get; internal set; }
 
     public bool HasProsecuted { get; private set; }
 
     public byte ProsecuteVictim { get; set; } = byte.MaxValue;
 
-    public bool SelectingProsecuteVictim { get; set; }
     public bool HideProsButton { get; set; }
+    public ProsecuteToggleMode WantsToPros { get; set; }
 
     public int ProsecutionsCompleted { get; set; }
 
-    public void FixedUpdate()
-    {
-        if (!Player || Player.Data.Role is not ProsecutorRole)
-        {
-            return;
-        }
-
-        var meeting = MeetingHud.Instance;
-
-        if (!Player.AmOwner || meeting == null || ProsecuteButton == null)
-        {
-            return;
-        }
-
-        ProsecuteButton.gameObject.SetActive(!HideProsButton && meeting.state == MeetingHud.VoteStates.NotVoted &&
-                                             !SelectingProsecuteVictim);
-
-        if (!ProsecuteButton.gameObject.active)
-        {
-            return;
-        }
-
-        if (meeting.state == MeetingHud.VoteStates.Discussion &&
-            meeting.discussionTimer < GameOptionsManager.Instance.currentNormalGameOptions.DiscussionTime)
-        {
-            ProsecuteButton.SetDisabled();
-        }
-        else
-        {
-            ProsecuteButton.SetEnabled();
-        }
-
-        ProsecuteButton.voteComplete = meeting.SkipVoteButton.voteComplete;
-    }
-
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string LocaleKey => "Prosecutor";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Prosecutor";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -87,8 +46,8 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}ProsecuteWiki", "Prosecute"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}ProsecuteWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ProsecuteWiki", "Prosecute"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Prosecute.WikiDescription"),
                     TouRoleIcons.Prosecutor)
             ];
         }
@@ -109,7 +68,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         MaxRoleCount = 1,
         Icon = TouRoleIcons.Prosecutor,
         OptionsScreenshot = TouBanners.ProsecutorRoleBanner,
-        IntroSound = TouAudio.ProsIntroSound
+        IntroSound = TouAudio.JudgeIntroSound
     };
 
     [HideFromIl2Cpp]
@@ -118,17 +77,20 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         var text = ITownOfUsRole.SetNewTabText(this);
         if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
         {
-            text.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed($"TouRole{LocaleKey}CanProsecuteCrew")}");
+            text.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}CanProsecuteCrew")}");
         }
 
-        var prosecutes = OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions - ProsecutionsCompleted;
-        text.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed($"TouRole{LocaleKey}ProsecutionsRemaining").Replace("<count>", prosecutes.ToString(TownOfUsPlugin.Culture))}");
+        var total = (int)OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
+        var prosecutes = total - ProsecutionsCompleted;
+        text.AppendLine(TownOfUsPlugin.Culture,
+            $"{MiraLocaleManager.Get("TownOfUsMira.Role.ProsecutorProsecutionsRemaining").Replace("<count>", prosecutes.ToString(TownOfUsPlugin.Culture)).Replace("<total>", total.ToString(TownOfUsPlugin.Culture))}");
         return text;
     }
 
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        WantsToPros = LocalSettingsTabSingleton<TouLocalTabGameplay>.Instance.ProsecutorProsToggling.Value ? ProsecuteToggleMode.ToggledOff : ProsecuteToggleMode.NoToggle;
 
         if (Player.HasModifier<ImitatorCacheModifier>())
         {
@@ -136,43 +98,11 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         }
     }
 
-    public override void OnMeetingStart()
-    {
-        RoleBehaviourStubs.OnMeetingStart(this);
-
-        var meeting = MeetingHud.Instance;
-        if (!Player.AmOwner || meeting == null ||
-            ProsecutionsCompleted >= OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions)
-        {
-            return;
-        }
-
-        var skip = meeting.SkipVoteButton;
-        ProsecuteButton = Instantiate(skip, skip.transform.parent);
-        ProsecuteButton.Parent = meeting;
-        ProsecuteButton.SetTargetPlayerId(251);
-        ProsecuteButton.transform.localPosition = skip.transform.localPosition + new Vector3(0f, -0.17f, 0f);
-
-        ProsecuteButton.gameObject.GetComponentInChildren<TextTranslatorTMP>().Destroy();
-        ProsecuteButton.gameObject.GetComponentInChildren<TextMeshPro>().text =
-            TouLocale.GetParsed($"TouRole{LocaleKey}Prosecute").ToUpperInvariant();
-        ProsecuteButton.gameObject.name = "button_prosecuteButton";
-
-        foreach (var plr in meeting.playerStates.AddItem(skip))
-        {
-            plr.gameObject.GetComponentInChildren<PassiveButton>().OnClick
-                .AddListener((UnityAction)(() => ProsecuteButton.ClearButtons()));
-        }
-
-        skip.transform.localPosition += new Vector3(0f, 0.20f, 0f);
-    }
-
     public void Cleanup()
     {
         HideProsButton = false;
-        ProsecuteButton = null;
-        SelectingProsecuteVictim = false;
         ProsecuteVictim = byte.MaxValue;
+        WantsToPros = LocalSettingsTabSingleton<TouLocalTabGameplay>.Instance.ProsecutorProsToggling.Value ? ProsecuteToggleMode.ToggledOff : ProsecuteToggleMode.NoToggle;
 
         if (HasProsecuted)
         {
@@ -203,6 +133,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
         prosecutorRole.HasProsecuted = true;
         prosecutorRole.ProsecuteVictim = Victim;
+        VotingUtils.CustomCastVote(plr.PlayerId, Victim);
     }
 
     [MethodRpc((uint)TownOfUsRpc.ShowProsAnimation)]
@@ -286,4 +217,11 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         
         Destroy(prosAnim);
     }
+}
+
+public enum ProsecuteToggleMode
+{
+    NoToggle,
+    ToggledOn,
+    ToggledOff,
 }

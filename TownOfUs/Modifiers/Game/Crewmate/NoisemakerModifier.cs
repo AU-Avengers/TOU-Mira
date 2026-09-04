@@ -17,19 +17,19 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
         new Color32(232, 105, 158, 255),
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Noisemaker.LoadAsset(),
             "AmongUs.Role.Noisemaker", 1.45f));
-    public override string LocaleKey => "Noisemaker";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+    public override string IdPart => "Noisemaker";
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription").Replace("<noiseTime>",
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription").Replace("<noiseTime>",
             $"{OptionGroupSingleton<NoisemakerOptions>.Instance.AlertDuration}");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription")
                + MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -50,6 +50,12 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
         return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.NoisemakerAmount;
     }
 
+    public override void OnMeetingStart()
+    {
+        base.OnMeetingStart();
+        ActiveNoisemakerTriggers.Clear();
+    }
+
     private static void SoundDynamics(PlayerControl player, AudioSource source)
     {
         if (!PlayerControl.LocalPlayer)
@@ -62,6 +68,7 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
         var truePosition = PlayerControl.LocalPlayer.GetTruePosition();
         source.volume = SoundManager.GetSoundVolume(player.GetTruePosition(), truePosition, 7f, 50f, 0.5f);
     }
+    public static readonly Dictionary<int, NoisemakerArrow> ActiveNoisemakerTriggers = [];
 
     public static void NotifyOfDeath(PlayerControl player, bool checkRole)
     {
@@ -120,6 +127,7 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
 
             deathArrow.gameObject.SetActive(true);
             deathArrow.target = player.GetTruePosition();
+            ActiveNoisemakerTriggers.Add(player.PlayerId, deathArrow);
         }
         else
         {
@@ -181,6 +189,7 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
 
             deathArrow.gameObject.SetActive(true);
             deathArrow.target = player.GetTruePosition();
+            ActiveNoisemakerTriggers.Add(player.PlayerId, deathArrow);
         }
     }
 

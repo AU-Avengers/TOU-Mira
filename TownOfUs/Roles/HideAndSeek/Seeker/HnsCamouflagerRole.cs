@@ -1,5 +1,6 @@
 using System.Collections;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameModes;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Utilities;
@@ -12,16 +13,18 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
 {
     public static PlayerBodyTypes HiderBodyType = PlayerBodyTypes.Normal;
     public static PlayerBodyTypes SeekerBodyType = PlayerBodyTypes.Seeker;
-    public string LocaleKey => "Camouflager";
-    public string RoleName => TouLocale.Get($"HnsRole{LocaleKey}");
+    public string IdPart => "Camouflager";
+    public string IdPrefix => "TownOfUsMira.HideAndSeek.Role";
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}");
     public string RoleDescription => "...";
-    public string RoleLongDescription => TouLocale.GetParsed($"HnsRole{LocaleKey}TabDescription");
-    public string RoleHintText => TouLocale.GetParsed($"HnsRole{LocaleKey}TabHint");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}.TabDescription");
+    public string RoleHintText => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}.TabHint");
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"HnsRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -32,8 +35,8 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
         {
             return
             [
-                new(TouLocale.GetParsed($"HnsRole{LocaleKey}Camo", "Camo"),
-                    TouLocale.GetParsed($"HnsRole{LocaleKey}CamoWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}Camo", "Camo"),
+                    MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}Camo.WikiDescription"),
                     TouImpAssets.HypnotiseButtonSprite)
             ];
         }
@@ -45,6 +48,7 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        AssociatedGameMode = typeof(HideAndSeekMode),
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Hypnotist.LoadAsset(), "TouMira.Role.Impostor.Hypnotist", 1.45f),
         /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek,*/
         FreeplayFolder = "Hide n Seek",
@@ -61,13 +65,6 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
     {
         // ignore
     }
-
-    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;
-
-    public bool CanSpawnOnCurrentMode() => MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek;
-
-    [HideFromIl2Cpp]
-    Func<bool> ICustomRole.VisibleInSettings => () => MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek;
 
     public override void Initialize(PlayerControl player)
     {

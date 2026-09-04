@@ -19,6 +19,11 @@ namespace TownOfUs.Roles.Crewmate;
 
 public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
 {
+    public void InitialSetup()
+    {
+        TmpSpriteUtils.CreateSpriteAsset(TouCrewAssets.MagicMirrorSprite.LoadAsset(),
+            "TouMira.Role.Crewmate.Mirrorcaster.Ui.MagicMirror", 1.45f);
+    }
     public override bool IsAffectedByComms => false;
 
     [HideFromIl2Cpp] public PlayerControl? Protected { get; set; }
@@ -41,15 +46,12 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     }
 
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string LocaleKey => "Mirrorcaster";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Mirrorcaster";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -60,11 +62,11 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}MagicMirror", "Magic Mirror"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}MagicMirrorWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MagicMirror", "Magic Mirror"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MagicMirror.WikiDescription"),
                     TouCrewAssets.MagicMirrorSprite),
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Unleash", "Unleash"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}UnleashWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Unleash", "Unleash"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Unleash.WikiDescription"),
                     TouCrewAssets.UnleashSprite)
             ];
         }
@@ -87,12 +89,12 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         ModifierUtils.GetActiveModifiers<MagicMirrorModifier>()
             .HasAny(); // Always disable end game checks if there is an Unleash available
 
-    public static string ProtectionString = TouLocale.GetParsed("TouRoleMirrorcasterTabProtecting");
+    public static string ProtectionString = MiraLocaleManager.Get("TownOfUsMira.Role.MirrorcasterTabProtecting");
 
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        ProtectionString = TouLocale.GetParsed("TouRoleMirrorcasterTabProtecting");
+        ProtectionString = MiraLocaleManager.Get("TownOfUsMira.Role.MirrorcasterTabProtecting");
     }
 
     [HideFromIl2Cpp]
@@ -102,7 +104,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 
         if (Protected != null)
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{ProtectionString.Replace("<player>", Protected.Data.PlayerName)}</b>");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b><sprite name=\"TouMira.Role.Crewmate.Mirrorcaster.Ui.MagicMirror\">{ProtectionString.Replace("<player>", Protected.Data.PlayerName)}</b>");
         }
 
         return stringB;
@@ -269,36 +271,36 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
             CustomButtonSingleton<MirrorcasterMagicMirrorButton>.Instance.ResetCooldownAndOrEffect();
             CustomButtonSingleton<MirrorcasterUnleashButton>.Instance.ResetCooldownAndOrEffect();
             DangerAnim(true);
-            var text = TouLocale.GetParsed("TouRoleMirrorcasterAttackedMessageWithoutType")
+            var text = MiraLocaleManager.Get("TownOfUsMira.Role.MirrorcasterAttackedMessageWithoutType")
                 .Replace("<player>", protectedPlayer.Data.PlayerName);
             switch (attackInfo)
             {
                 case MirrorAttackInfo.Role:
                     if (role.ContainedRole != null)
                     {
-                        text = TouLocale.GetParsed("TouRoleMirrorcasterAttackedMessageWithType")
+                        text = MiraLocaleManager.Get("TownOfUsMira.Role.MirrorcasterAttackedMessageWithType")
                             .Replace("<player>", protectedPlayer.Data.PlayerName)
                             .Replace("<attackerRole>", role.ContainedRole.GetRoleName());
                     }
                     break;
                 case MirrorAttackInfo.Faction:
-                    var faction = TouLocale.Get("CrewmateKeyword");
+                    var faction = MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate");
                     if (source.IsNeutral())
                     {
-                        faction = TouLocale.Get("NeutralKeyword");
+                        faction = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral");
                     }
                     else if (source.IsImpostor())
                     {
-                        faction = TouLocale.Get("ImpKeyword");
+                        faction = MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor.Short");
                     }
-                    text = TouLocale.GetParsed("TouRoleMirrorcasterAttackedMessageWithFaction")
+                    text = MiraLocaleManager.Get("TownOfUsMira.Role.MirrorcasterAttackedMessageWithFaction")
                         .Replace("<player>", protectedPlayer.Data.PlayerName)
                         .Replace("<faction>", MiscUtils.GetColoredFactionString(faction));
                     break;
                 case MirrorAttackInfo.Subalignment:
                     if (role.ContainedRole != null)
                     {
-                        text = TouLocale.GetParsed("TouRoleMirrorcasterAttackedMessageWithSubalignment")
+                        text = MiraLocaleManager.Get("TownOfUsMira.Role.MirrorcasterAttackedMessageWithSubalignment")
                             .Replace("<player>", protectedPlayer.Data.PlayerName)
                             .Replace("<subalignment>", MiscUtils.GetParsedRoleAlignment(role.ContainedRole, true));
                     }

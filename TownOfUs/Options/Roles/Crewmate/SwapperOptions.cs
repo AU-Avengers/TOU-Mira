@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class SwapperOptions : AbstractRoleOptionGroup<SwapperRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleSwapper", "Swapper");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Swapper", "Swapper");
 
     [ModdedToggleOption("TouOptionSwapperCanCallButton")]
     public bool CanButton { get; set; } = true;

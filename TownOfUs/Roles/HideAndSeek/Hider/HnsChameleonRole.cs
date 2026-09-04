@@ -2,6 +2,7 @@
 using MiraAPI.Roles;
 using AmongUs.Data;
 using AmongUs.GameOptions;
+using MiraAPI.GameModes;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Utilities;
 using UnityEngine;
@@ -10,16 +11,18 @@ namespace TownOfUs.Roles.HideAndSeek.Hider;
 
 public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable
 {
-    public string LocaleKey => "Chameleon";
-    public string RoleName => TouLocale.Get($"HnsRole{LocaleKey}");
+    public string IdPart => "Chameleon";
+    public string IdPrefix => "TownOfUsMira.HideAndSeek.Role";
+    public string RoleName => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}");
     public string RoleDescription => "...";
-    public string RoleLongDescription => TouLocale.GetParsed($"HnsRole{LocaleKey}TabDescription");
-    public string RoleHintText => TouLocale.GetParsed($"HnsRole{LocaleKey}TabHint");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}.TabDescription");
+    public string RoleHintText => MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}.TabHint");
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"HnsRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -30,11 +33,11 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
         {
             return
             [
-                new(TouLocale.GetParsed($"HnsRole{LocaleKey}Swoop", "Swoop"),
-                    TouLocale.GetParsed($"HnsRole{LocaleKey}SwoopWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}Swoop", "Swoop"),
+                    MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}Swoop.WikiDescription"),
                     TouCrewAssets.CrewSwoopSprite),
-                new(TouLocale.GetParsed($"HnsRole{LocaleKey}Unswoop", "Unswoop"),
-                    TouLocale.GetParsed($"HnsRole{LocaleKey}UnswoopWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}Unswoop", "Unswoop"),
+                    MiraLocaleManager.Get($"TownOfUsMira.HideAndSeek.Role.{IdPart}Unswoop.WikiDescription"),
                     TouCrewAssets.CrewUnswoopSprite)
             ];
         }
@@ -46,6 +49,7 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        AssociatedGameMode = typeof(HideAndSeekMode),
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Chameleon.LoadAsset(), "TouMira.Role.Crewmate.Chameleon", 1.45f),
         /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek,*/
         FreeplayFolder = "Hide n Seek",
@@ -62,13 +66,6 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
     {
         taskStringBuilder.AppendLine($"\n{RoleHintText}\n{RoleLongDescription}");
     }
-
-    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;
-
-    public bool CanSpawnOnCurrentMode() => MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek;
-
-    [HideFromIl2Cpp]
-    Func<bool> ICustomRole.VisibleInSettings => () => MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek;
     public override bool IsAffectedByComms => false;
 
     private Vent currentTarget;

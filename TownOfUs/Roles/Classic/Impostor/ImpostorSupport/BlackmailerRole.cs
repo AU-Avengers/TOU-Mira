@@ -33,10 +33,8 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
     }
 
     public DoomableType DoomHintType => DoomableType.Insight;
-    public string LocaleKey => "Blackmailer";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Blackmailer";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.IntroBlurb";
 
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
@@ -55,7 +53,7 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription").Replace("<symbol>", "<color=#2A1119>M</color>") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription").Replace("<symbol>", "<color=#2A1119>M</color>") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -66,8 +64,8 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Blackmail", "Blackmail"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}BlackmailWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Blackmail", "Blackmail"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Blackmail.WikiDescription"),
                     TouImpAssets.BlackmailSprite)
             ];
         }

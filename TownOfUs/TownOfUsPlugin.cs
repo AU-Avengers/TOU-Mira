@@ -62,9 +62,9 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     public string OptionsTitleText => "TOU Mira";
 
     /// <inheritdoc />
-    public string CustomOptionMenuNameOne => TouLocale.Get("TouTabOptionBetterMaps");
-    public string CustomOptionMenuOneDescription => TouLocale.Get("TouTabOptionBetterMapsDesc");
-    public string ModifierMenuDescription => TouLocale.Get("TouTabOptionModifiersDesc");
+    public string CustomOptionMenuNameOne => MiraLocaleManager.Get("TouTabOptionBetterMaps");
+    public string CustomOptionMenuOneDescription => MiraLocaleManager.Get("TouTabOptionBetterMapsDesc");
+    public string ModifierMenuDescription => MiraLocaleManager.Get("TouTabOptionModifiersDesc");
 
     public static ConfigEntry<LegacyVisuals> LegacyMode { get; private set; }
 
@@ -76,7 +76,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
 
     public TownOfUsPlugin()
     {
-        TouLocale.Initialize();
+        LocalizationManager.Register(new TouLocalizationProvider());
     }
 
     /// <summary>
@@ -88,6 +88,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
             "If enabled, assets will appear like they did in TOU Reactivated / Polus.gg / Town of Us.");
         ReactorCredits.Register("Town Of Us: Mira", Version, IsDevBuild, ReactorCredits.AlwaysShow);
         LocalizationManager.Register(new TaskProvider());
+        MiraLocaleManager.Register("auavengers.tou.mira", "TownOfUs");
 
         TouAssets.Initialize();
 

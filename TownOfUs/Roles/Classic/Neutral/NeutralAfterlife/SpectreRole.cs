@@ -13,6 +13,7 @@ using TownOfUs.Events;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
@@ -27,7 +28,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
 {
     public void AnnounceKill(PlayerControl source, PlayerControl victim)
     {
-        var text = TouLocale.GetParsed("TouRoleSpectreSpookNotif");
+        var text = MiraLocaleManager.Get("TownOfUsMira.Role.SpectreSpookNotif");
         var notif = Helpers.CreateAndShowNotification(
             $"<b>{text.Replace("<victim>", victim.Data.PlayerName)}</b>",
             Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
@@ -51,7 +52,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
     public string ProgressOnSummaryNormal => Player.TaskInfo();
 
     public string ProgressOnSummaryDetailed =>
-        $"{TouLocale.GetParsed("StatsTaskCount").Replace("<count>", Player.TaskInfo().Replace("(", "").Replace(")", ""))}";
+        $"{MiraLocaleManager.Get("StatsTaskCount").Replace("<count>", Player.TaskInfo().Replace("(", "").Replace(")", ""))}";
 
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
@@ -60,7 +61,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
             return;
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text = TouLocale.GetParsed("NeutralSpectreTaskHeader");
+        orCreateTask.Text = MiraLocaleManager.Get("NeutralSpectreTaskHeader");
         orCreateTask.name = "NeutralRoleText";
     }
     public bool CompletedAllTasks => TaskStage is GhostTaskStage.CompletedTasks;
@@ -159,12 +160,13 @@ public sealed class SpectreRole(IntPtr cppPtr)
         {
             HudManager.Instance.AbilityButton.SetEnabled();
         }
+        GameHistory.PlayerStats[Player.PlayerId].DiedThisRound = false;
     }
 
-    public string LocaleKey => "Spectre";
-    public override string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public override string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public override string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Spectre";
+    public override string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
+    public override string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.IntroBlurb");
+    public override string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
 
     [HideFromIl2Cpp]
@@ -176,7 +178,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -370,7 +372,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
             if (Player.AmOwner && !silent)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Spectre.ToTextColor()}{TouLocale.GetParsed("TouRoleSpectreClickableFeedback")}</b></color>",
+                    $"<b>{TownOfUsColors.Spectre.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.SpectreClickableFeedback")}</b></color>",
                     Color.white,
                     new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
                 notif1.AdjustNotification();

@@ -30,8 +30,8 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     public void AnnounceKill(PlayerControl source, PlayerControl victim)
     {
         var text = OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnonymizeWin.Value
-            ? TouLocale.GetParsed("TouRoleAnonymousVictoryKillNotif").Replace("<source>", source.Data.PlayerName)
-            : TouLocale.GetParsed("TouRoleExecutionerTormentNotif");
+            ? MiraLocaleManager.Get("TownOfUsMira.Role.AnonymousVictoryKillNotif").Replace("<source>", source.Data.PlayerName)
+            : MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerTormentNotif");
         var notif = Helpers.CreateAndShowNotification(
             $"<b>{text.Replace("<victim>", victim.Data.PlayerName)}</b>",
             Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Jester.LoadAsset());
@@ -50,7 +50,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
             return;
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralEvilTaskHeader")}</color>";
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{MiraLocaleManager.Get("NeutralEvilTaskHeader")}</color>";
         orCreateTask.name = "NeutralRoleText";
     }
 
@@ -66,7 +66,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 
     public void AssignTargets()
     {
-        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        if (!RoleOptions.IsClassicRoleAssignment)
         {
             return;
         }
@@ -103,21 +103,20 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SnitchRole>());
     public DoomableType DoomHintType => DoomableType.Trickster;
-    public string LocaleKey => "Executioner";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string IdPart => "Executioner";
     public string RoleDescription => TargetString(true);
     public string RoleLongDescription => TargetString();
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription")
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription")
                 .Replace("<symbol>", "<color=#643B1FFF>X</color>") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    private static string _missingTargetDesc = TouLocale.GetParsed("TouRoleExecutionerMissingTargetDescription");
-    private static string _targetDesc = TouLocale.GetParsed("TouRoleExecutionerTabDescription");
+    private static string _missingTargetDesc = MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerMissingTargetDescription");
+    private static string _targetDesc = MiraLocaleManager.Get("TownOfUsMira.Role.Executioner.TabDescription");
 
     private string TargetString(bool capitalize = false)
     {
@@ -183,8 +182,8 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     {
         RoleBehaviourStubs.Initialize(this, player);
 
-        _missingTargetDesc = TouLocale.GetParsed("TouRoleExecutionerMissingTargetDescription");
-        _targetDesc = TouLocale.GetParsed("TouRoleExecutionerTabDescription");
+        _missingTargetDesc = MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerMissingTargetDescription");
+        _targetDesc = MiraLocaleManager.Get("TownOfUsMira.Role.Executioner.TabDescription");
 
         if (!OptionGroupSingleton<ExecutionerOptions>.Instance.CanButton)
         {

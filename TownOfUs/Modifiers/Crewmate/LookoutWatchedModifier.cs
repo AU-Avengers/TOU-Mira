@@ -44,15 +44,15 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
             return;
         }
 
-        var title = $"<color=#{TownOfUsColors.Lookout.ToHtmlStringRGBA()}>{TouLocale.GetParsed("TouRoleLookoutFeedbackTitle")}</color>";
-        var msg = TouLocale.GetParsed("TouRoleLookoutNoInteractionFeedback").Replace("<player>", Player.Data.PlayerName);
+        var title = $"<color=#{TownOfUsColors.Lookout.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.LookoutFeedbackTitle")}</color>";
+        var msg = MiraLocaleManager.Get("TownOfUsMira.Role.LookoutNoInteractionFeedback").Replace("<player>", Player.Data.PlayerName);
 
         var showRoles = (LookoutView)OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Roles;
         if (SeenPlayers.Count != 0)
         {
             var playerList = SeenPlayers.Select(x => x.Key).ToList();
             var roleList = SeenPlayers.Select(x => x.Value).ToList();
-            var message = new StringBuilder($"{TouLocale.GetParsed(showRoles ? "TouRoleLookoutInteractionFeedback" : "TouRoleLookoutAltInteractionFeedback").Replace("<player>", Player.Data.PlayerName)}:\n");
+            var message = new StringBuilder($"{MiraLocaleManager.Get(showRoles ? "TownOfUsMira.Role.LookoutInteractionFeedback" : "TownOfUsMira.Role.LookoutAltInteractionFeedback").Replace("<player>", Player.Data.PlayerName)}:\n");
 
             playerList.Shuffle();
             roleList.Shuffle();

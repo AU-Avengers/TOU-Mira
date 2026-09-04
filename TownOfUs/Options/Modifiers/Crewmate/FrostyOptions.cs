@@ -1,5 +1,4 @@
-﻿using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
+﻿using MiraAPI.GameOptions.Attributes;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Crewmate;
 using UnityEngine;
@@ -8,14 +7,15 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 
 public sealed class FrostyOptions : AbstractTouModifierOptionGroup<FrostyModifier>
 {
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
-    public override string GroupName => TouLocale.Get("TouModifierFrosty", "Frosty");
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Frosty", "Frosty");
     public override uint GroupPriority => 22;
     public override Color GroupColor => TownOfUsColors.Frosty;
 
-    [ModdedNumberOption("Chill Duration", 0f, 15f, suffixType: MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionFrostyChillDuration", 0f, 15f, suffixType: MiraNumberSuffixes.Seconds)]
     public float ChillDuration { get; set; } = 10f;
 
-    [ModdedNumberOption("Chill Start Speed", 0.25f, 0.95f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
+    [ModdedNumberOption("TouOptionFrostyChillStartSpeed", 0.25f, 0.95f, 0.05f,
+        MiraNumberSuffixes.Multiplier, "0.00")]
     public float ChillStartSpeed { get; set; } = 0.75f;
 }

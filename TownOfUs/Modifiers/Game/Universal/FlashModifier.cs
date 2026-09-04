@@ -12,8 +12,8 @@ public sealed class FlashModifier : UniversalGameModifier, IWikiDiscoverable, IV
         TownOfUsColors.Flash,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Flash.LoadAsset(),
             "TouMira.Modifier.Universal.Flash", 1.45f));
-    public override string LocaleKey => "Flash";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IdPart => "Flash";
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Flash;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalVisibility;
@@ -28,13 +28,13 @@ public sealed class FlashModifier : UniversalGameModifier, IWikiDiscoverable, IV
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription").Replace("<flashSpeed>",
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription").Replace("<flashSpeed>",
             $"{Math.Round(OptionGroupSingleton<FlashOptions>.Instance.FlashSpeed, 2)}");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription").Replace("<flashSpeed>",
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription").Replace("<flashSpeed>",
                    $"{Math.Round(OptionGroupSingleton<FlashOptions>.Instance.FlashSpeed, 2)}") +
                MiscUtils.AppendOptionsText(GetType());
     }

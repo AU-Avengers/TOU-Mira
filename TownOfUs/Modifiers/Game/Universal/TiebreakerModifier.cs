@@ -17,8 +17,11 @@ public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverabl
     {
         get
         {
-            if (!Player.IsImpostorAligned() &&
-                (!Player.IsCrewmate() || Helpers.GetAlivePlayers().Count(x => x.IsCrewmate()) == 1) &&
+            if (Player.HasDied() || Player.IsImpostorAligned())
+            {
+                return false;
+            }
+            if ((!Player.IsCrewmate() || Helpers.GetAlivePlayers().Count(x => x.IsCrewmate()) == 1) &&
                 Player.Data.Role is ITownOfUsRole touRole &&
                 touRole.RoleAlignment is not RoleAlignment.NeutralKilling && Helpers.GetAlivePlayers().Count < 4 &&
                 Helpers.GetAlivePlayers().Count > 1)
@@ -33,8 +36,8 @@ public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverabl
         TownOfUsColors.Tiebreaker,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Tiebreaker.LoadAsset(),
             "TouMira.Modifier.Universal.Tiebreaker", 1.45f));
-    public override string LocaleKey => "Tiebreaker";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IdPart => "Tiebreaker";
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Tiebreaker;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalPassive;
@@ -42,12 +45,12 @@ public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverabl
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];

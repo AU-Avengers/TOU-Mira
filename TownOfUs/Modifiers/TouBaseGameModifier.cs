@@ -1,6 +1,7 @@
 ﻿using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using TMPro;
+using TownOfUs.Modules;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers;
@@ -8,11 +9,11 @@ namespace TownOfUs.Modifiers;
 [MiraIgnore]
 public abstract class TouBaseGameModifier : GameModifier
 {
-    public virtual string LocaleKey => "KEY_MISS";
-    public virtual string IntroInfo => $"{TouLocale.Get("Modifier")}: {ModifierName}";
+    public virtual string IdPart => "KEY_MISS";
+    public virtual string IntroInfo => $"{MiraLocaleManager.Get("Modifier")}: {ModifierName}";
     public virtual float IntroSize => 4f;
     public virtual ModifierFaction FactionType => ModifierFaction.Universal;
-    public virtual ModifierUiConfiguration Configuration => new(MiscUtils.GetRoleColour(LocaleKey));
+    public virtual ModifierUiConfiguration Configuration => new(MiscUtils.GetRoleColour(IdPart));
     
     /// <summary>
     /// Method that runs before <see cref="GameModifier.IsModifierValidOn"/> is run by MiraAPI. This is used for Assailant modifiers to determine if they may spawn.
@@ -30,6 +31,30 @@ public abstract class TouBaseGameModifier : GameModifier
     public override int GetAmountPerGame()
     {
         return 1;
+    }
+
+    public override void OnActivate()
+    {
+        base.OnActivate();
+        AddModifierToStats(GameHistory.PlayerStats[Player.PlayerId]);
+    }
+
+    public override void OnDeactivate()
+    {
+        base.OnDeactivate();
+        RemoveModifierFromStats(GameHistory.PlayerStats[Player.PlayerId]);
+    }
+
+    public virtual void AddModifierToStats(PlayerStats stats)
+    {
+        // stats.LastKnownModifiers.Add(this);
+    }
+    public virtual void RemoveModifierFromStats(PlayerStats stats)
+    {
+        if (stats.LastKnownModifiers.Contains(this))
+        {
+            stats.LastKnownModifiers.Remove(this);
+        }
     }
 }
 

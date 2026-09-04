@@ -12,8 +12,8 @@ public sealed class GiantModifier : UniversalGameModifier, IWikiDiscoverable, IV
         TownOfUsColors.Giant,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Giant.LoadAsset(),
             "TouMira.Modifier.Universal.Giant", 1.45f));
-    public override string LocaleKey => "Giant";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IdPart => "Giant";
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Giant;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalVisibility;
@@ -29,13 +29,13 @@ public sealed class GiantModifier : UniversalGameModifier, IWikiDiscoverable, IV
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription").Replace("<giantSpeed>",
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription").Replace("<giantSpeed>",
             $"{Math.Round(OptionGroupSingleton<GiantOptions>.Instance.GiantSpeed, 2)}");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription").Replace("<giantSpeed>",
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription").Replace("<giantSpeed>",
                    $"{Math.Round(OptionGroupSingleton<GiantOptions>.Instance.GiantSpeed, 2)}") +
                MiscUtils.AppendOptionsText(GetType());
     }

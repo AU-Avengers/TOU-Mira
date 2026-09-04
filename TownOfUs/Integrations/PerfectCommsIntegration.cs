@@ -223,7 +223,7 @@ internal static class PerfectCommsIntegration
             return;
         }
 
-        var voteArea = meeting.playerStates.FirstOrDefault(area => area.TargetPlayerId == jailee.PlayerId);
+        var voteArea = meeting.playerStates.FirstOrDefault(area => area.PlayerId == jailee.PlayerId);
         if (voteArea == null)
         {
             return;
@@ -253,7 +253,7 @@ internal static class PerfectCommsIntegration
         renderer.sprite = TouAssets.JailUnmute.LoadAsset();
         renderer.color = Color.white;
 
-        label.text = TouLocale.Get("TouRoleJailorAllowVoice", "Allow Voice");
+        label.text = MiraLocaleManager.Get("TownOfUsMira.Role.JailorAllowVoice", "Allow Voice");
 
         var passive = buttonObject.GetComponent<PassiveButton>();
         ConfigureJailVoiceButtonHitbox(buttonObject, passive, renderer);

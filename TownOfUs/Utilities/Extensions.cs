@@ -15,6 +15,7 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
@@ -178,6 +179,12 @@ public static class Extensions
     public static IEnumerator CoCleanCustom(this DeadBody body, BodyVitalsMode result)
     {
         var renderer = body.bodyRenderers[^1];
+        if (NoisemakerModifier.ActiveNoisemakerTriggers.TryGetValue(body.ParentId, out var noisemakerTrigger) && noisemakerTrigger.duration > 1)
+        {
+            // this stops the alert from staying forever
+            noisemakerTrigger.StopAllCoroutines();
+            noisemakerTrigger.SetDuration(1);
+        }
         yield return MiscUtils.PerformTimedAction(1f, t => renderer.color = renderer.color.SetAlpha(1 - t));
         var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
         var hidePets = tweakOpt.PetVisibilityUponDeath;
@@ -417,7 +424,7 @@ public static class Extensions
 
         var teamName = MiscUtils.GetParsedModifierFaction(faction, true);
         var finalString =
-            $"<size=88%>{modifier.ModifierName}<color=white> ({TouLocale.Get("Modifier")})</size>\n<size=70%>{teamName}</color></size>";
+            $"<size=88%>{modifier.ModifierName}<color=white> ({MiraLocaleManager.Get("Modifier")})</size>\n<size=70%>{teamName}</color></size>";
         var color = MiscUtils.GetModifierColour(modifier);
 
         panel.LevelNumberText.transform.parent.gameObject.SetActive(false);

@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class JailorJailButton : TownOfUsRoleButton<JailorRole, PlayerControl>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleJailorJail", "Jail");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.JailorJail", "Jail");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Jailor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<JailorOptions>.Instance.JailCooldown + MapCooldown, 1f, 120f);

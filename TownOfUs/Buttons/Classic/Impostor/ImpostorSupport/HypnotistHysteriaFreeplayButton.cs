@@ -10,13 +10,13 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class HypnotistHysteriaFreeplayButton : TownOfUsRoleButton<HypnotistRole>
 {
-    public override string Name => TouLocale.GetParsed("TouRoleHypnotistMassHysteria", "Hysteria");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.HypnotistMassHysteria", "Hysteria");
     public override BaseKeybind Keybind => Keybinds.TertiaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 3f;
     public override float InitialCooldown =>3f;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
-    public override LoadableAsset<Sprite> Sprite => TouAssets.HysteriaCleanSprite;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.MassHysteriaSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
 

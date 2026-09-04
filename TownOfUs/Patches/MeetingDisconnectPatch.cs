@@ -14,14 +14,14 @@ public static class MeetingDisconnectPatch
         {
             foreach (var pva in MeetingHud.Instance.playerStates)
             {
-                if (pva.VotedFor != player.PlayerId || pva.AmDead)
+                if (pva.VotedForId != player.PlayerId || pva.AmDead)
                 {
                     continue;
                 }
 
                 pva.UnsetVote();
 
-                var voteAreaPlayer = MiscUtils.PlayerById(pva.TargetPlayerId);
+                var voteAreaPlayer = MiscUtils.PlayerById(pva.PlayerId);
 
                 if (voteAreaPlayer == null)
                 {
@@ -37,7 +37,7 @@ public static class MeetingDisconnectPatch
                     continue;
                 }
 
-                MeetingHud.Instance.ClearVote();
+                MeetingHud.Instance.ClearVote(pva.PlayerId, true);
             }
         }
     }

@@ -21,14 +21,16 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
     {
         return !role.IsDead && role.Role != CachedRole.Role;
     }
+
     public bool ContinuesGame =>
-        !Player.HasDied() && Player.IsCrewmate() && (MiscUtils.NKillersAliveCount > 0 || MiscUtils.ImpAliveCount > 0) && MiscUtils.CrewKillersAliveCount == 0 && PlayerControl.AllPlayerControls.ToArray().Any(x =>
+        !Player.HasDied() && Player.IsCrewmate() && (MiscUtils.NKillersAliveCount > 0 || MiscUtils.ImpAliveCount > 0) &&
+        MiscUtils.CrewKillersAliveCount == 0 && PlayerControl.AllPlayerControls.ToArray().Any(x =>
             x.Data.IsDead && x.GetRoleWhenAlive() is ITouCrewRole crewRole && crewRole.IsPowerCrew) &&
         Helpers.GetAlivePlayers().Count > 1;
     private MeetingMenu? _meetingMenu;
     private NetworkedPlayerInfo? _selectedPlr;
     public override string ModifierName => "Imitator";
-    public string CachedRoleName => TouLocale.Get($"TouRoleImitatorShortName");
+    public string CachedRoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.ImitatorShortName");
     public override bool HideOnUi => true;
     public bool ShowCurrentRoleFirst => true;
 
@@ -109,12 +111,12 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
 
     public void Click(PlayerVoteArea voteArea, MeetingHud __)
     {
-        var player = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId);
+        var player = GameData.Instance.GetPlayerById(voteArea.PlayerId);
 
         if (_selectedPlr == player)
         {
             _selectedPlr = null;
-            _meetingMenu!.Actives[voteArea.TargetPlayerId] = false;
+            _meetingMenu!.Actives[voteArea.PlayerId] = false;
             return;
         }
 
@@ -124,15 +126,15 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             _selectedPlr = null;
         }
 
-        _meetingMenu!.Actives[voteArea.TargetPlayerId] = true;
+        _meetingMenu!.Actives[voteArea.PlayerId] = true;
         _selectedPlr = player;
     }
 
     private bool IsExempt(PlayerVoteArea voteArea)
     {
-        var player = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId);
+        var player = GameData.Instance.GetPlayerById(voteArea.PlayerId);
         var opts = OptionGroupSingleton<ImitatorOptions>.Instance;
-        if (Player.Data.IsDead || player == null || player.Object == null || voteArea.TargetPlayerId == Player.PlayerId || player.Object.Data.Disconnected || !voteArea.AmDead)
+        if (Player.Data.IsDead || player == null || player.Object == null || voteArea.PlayerId == Player.PlayerId || player.Object.Data.Disconnected || !voteArea.AmDead)
         {
             return true;
         }

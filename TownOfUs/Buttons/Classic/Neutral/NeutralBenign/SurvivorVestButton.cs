@@ -14,7 +14,7 @@ namespace TownOfUs.Buttons.Neutral;
 // or make swooper function like this?
 public sealed class SurvivorVestButton : TownOfUsRoleButton<SurvivorRole>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleSurvivorSafeguard", "Safeguard");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.SurvivorSafeguard", "Safeguard");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Survivor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SurvivorOptions>.Instance.VestCooldown + MapCooldown, 5f, 120f);

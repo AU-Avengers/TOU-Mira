@@ -44,7 +44,7 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
             return;
         }
 
-        VoteArea = meetingInstance.playerStates.FirstOrDefault(x => x.TargetPlayerId == Player.PlayerId)!;
+        VoteArea = meetingInstance.playerStates.FirstOrDefault(x => x.PlayerId == Player.PlayerId)!;
 
         var amOwner = Player.AmOwner;
         var bmOwns = BlackMailerId == PlayerControl.LocalPlayer.PlayerId;
@@ -76,7 +76,7 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
             return;
         }
         
-        if (meetingInstance.state != MeetingHud.VoteStates.Animating && !ShookAlready)
+        if (meetingInstance.state != MeetingHud.MeetingStates.Animating && !ShookAlready)
         {
             ShookAlready = true;
             meetingInstance.StartCoroutine(Effects.SwayX(BmOverlay.transform));
@@ -86,7 +86,7 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
         {
             return;
         }
-        if (!IsVoteReady && !VoteArea.DidVote && meetingInstance.state == MeetingHud.VoteStates.NotVoted &&
+        if (!IsVoteReady && !VoteArea.DidVote && meetingInstance.state == MeetingHud.MeetingStates.NotVoted &&
             (Helpers.GetAlivePlayers().Count > MaxAlivesNeeded))
         {
             Info($"Prepping vote, as {Helpers.GetAlivePlayers().Count} players is more than the requirement of {MaxAlivesNeeded} players");
@@ -95,7 +95,7 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
         }
     }
 
-    private IEnumerator CoRandomizeVote()
+        private IEnumerator CoRandomizeVote()
     {
         var meetingInstance = MeetingHud.Instance;
         var logicOptionsNormal = GameManager.Instance.LogicOptions.TryCast<LogicOptionsNormal>();
@@ -107,9 +107,11 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
 
         var time = (float)Random.RandomRangeInt(10, logicOptionsNormal.GetVotingTime() - 5);
         var notif1 = Helpers.CreateAndShowNotification(
-            $"You are unable to vote this meeting! You will auto-skip after {time} seconds.",
+            MiraLocaleManager.Get("TownOfUsMira.Modifier.BlackmailedVoteNotification")
+                .Replace("<time>", time.ToString(TownOfUsPlugin.Culture)),
             Color.white,
             new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Blackmailer.LoadAsset());
+
         notif1.AdjustNotification();
         Info($"vote time is going to be {time}");
         while (time > 5f)

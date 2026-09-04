@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class HerbalistOptions : AbstractRoleOptionGroup<HerbalistRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleHerbalist", "Herbalist");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Herbalist", "Herbalist");
 
     [ModdedNumberOption("Herb Cooldown", 10f, 90f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float HerbCooldown { get; set; } = 30f;

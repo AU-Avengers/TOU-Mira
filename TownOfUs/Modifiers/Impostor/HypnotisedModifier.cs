@@ -99,12 +99,12 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
         if (Player.AmOwner)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You are under a Mass Hysteria!</color></b>", Color.white,
+                $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Modifier.MassHysteriaNotification")}</color></b>",
+                Color.white,
                 new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hypnotist.LoadAsset());
 
             notif1.AdjustNotification();
         }
-
         HysteriaActive = true;
     }
 

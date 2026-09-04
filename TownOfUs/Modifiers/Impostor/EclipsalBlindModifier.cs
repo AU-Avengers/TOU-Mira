@@ -43,7 +43,8 @@ public sealed class EclipsalBlindModifier(PlayerControl player) : DisabledModifi
         if (Player.AmOwner && !Eclipsal.AmOwner)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You were blinded by an Eclipsal!</color></b>", Color.white,
+                $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Modifier.EclipsalBlindedNotification")}</color></b>",
+                Color.white,
                 new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Eclipsal.LoadAsset());
 
             notif1.AdjustNotification();

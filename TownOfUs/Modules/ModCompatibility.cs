@@ -6,16 +6,16 @@ using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
+using MiraAPI;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Patches.Hud;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Events;
 using TownOfUs.Integrations;
-using TownOfUs.Modifiers;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Maps;
-using TownOfUs.Patches;
 using TownOfUs.Roles;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -50,7 +50,7 @@ public static class ModCompatibility
     private static FieldInfo submergedInstance;
     private static FieldInfo submergedElevators;
 
-    public static FieldInfo lastMapID;
+    // public static FieldInfo lastMapID;
 
     private static PropertyInfo currentMap;
     private static PropertyInfo elements;
@@ -58,7 +58,7 @@ public static class ModCompatibility
     private static PropertyInfo liElementType;
     private static PropertyInfo liElementName;
 
-    public static Type MapObjectData;
+    // public static Type MapObjectData;
 
     public static Version SubVersion { get; private set; }
     public static bool SubLoaded { get; private set; }
@@ -124,9 +124,14 @@ public static class ModCompatibility
         ResourceBundles.Add(assembly, resourcePath);
     }*/
     public const string PerfectCommsGuid = "com.edgetel.perfectcomms";
+    public static readonly Dictionary<Type, List<MiraEventWrapper>> ExposedEventWrappers = [];
+    public static BasePlugin ApiPlugin { get; private set; }
+    public static Assembly ApiAssembly { get; private set; }
+    public static Type[] ApiTypes { get; private set; }
     
     public static void Initialize()
     {
+        InitApiExposing();
         InitBetterAmongUs();
         InitSubmerged();
         InitLevelImpostor();
@@ -146,6 +151,37 @@ public static class ModCompatibility
         }
 
         InternalModList = sBuilder.ToString();
+    }
+
+    private static void InitApiExposing()
+    {
+        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(MiraApiPlugin.Id, out var value))
+        {
+            return;
+        }
+
+        ApiPlugin = (value.Instance as BasePlugin)!;
+        ApiAssembly = ApiPlugin.GetType().Assembly;
+        ApiTypes = AccessTools.GetTypesFromAssembly(ApiAssembly);
+        var staticClassType = typeof(MiraEventManager); 
+        var dictField = staticClassType.GetField("EventWrappers", BindingFlags.NonPublic | BindingFlags.Static);
+
+        if (dictField != null)
+        {
+            // 3. Extract the dictionary object from the instance
+            var dictionaryObject = dictField.GetValue(null);
+
+            var dictionary = dictionaryObject as Dictionary<Type, List<MiraEventWrapper>>;
+
+            if (dictionary != null)
+            {
+                Info($"Successfully found api event wrappers");
+                foreach (var pair in dictionary)
+                {
+                    ExposedEventWrappers.Add(pair.Key, pair.Value);
+                }
+            }
+        }
     }
     
     private static void InitPerfectComms()
@@ -333,8 +369,8 @@ public static class ModCompatibility
 
     public static bool FloorStylePrefix(bool isMovingUp)
     {
-        var hoverRend = HudManagerPatches.SubmergedFloorButtonRendererHover;
-        var basicRend = HudManagerPatches.SubmergedFloorButtonRenderer;
+        var hoverRend = MiraHudHelper.SubmergedFloorButtonRendererHover;
+        var basicRend = MiraHudHelper.SubmergedFloorButtonRenderer;
         if (basicRend && hoverRend)
         {
             if (isMovingUp)
@@ -455,8 +491,8 @@ public static class ModCompatibility
 
     public static void OxygenDeathPostfix(PlayerControl player)
     {
-        DeathHandlerModifier.UpdateDeathHandlerImmediate(player, TouLocale.Get("DiedToSubmergedOxygen"),
-        DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,
+        GameHistory.UpdatePlayerDeathData(player.PlayerId, MiraLocaleManager.Get("DiedToSubmergedOxygen"),
+            0f, HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetTrue,
         lockInfo: DeathHandlerOverride.SetTrue);
     }
 
@@ -480,7 +516,7 @@ public static class ModCompatibility
         __state = false;
     }
 
-    public static void SetOxygenDuration(object __instance, float _)
+    public static void SetOxygenDuration(object __instance, float duration)
     {
         var subOpts = OptionGroupSingleton<BetterSubmergedOptions>.Instance;
         if (subOpts.ChangeSaboTimers)
@@ -651,9 +687,9 @@ public static class ModCompatibility
 
         LITypes = AccessTools.GetTypesFromAssembly(LIAssembly);
 
-        var mapLoader = LITypes.First(x => x.Name == "MapLoader");
-        lastMapID = AccessTools.Field(mapLoader, "_lastMapID");
-        currentMap = AccessTools.Property(mapLoader, "CurrentMap");
+        var gameConfig = LITypes.First(x => x.Name == "GameConfiguration");
+        //lastMapID = AccessTools.Field(gameConfig, "_lastMapID"); // Unused? (Also, only accessible through CurrentMap.ID)
+        currentMap = AccessTools.Property(gameConfig, "CurrentMap");
 
         var liMap = LITypes.First(x => x.Name == "LIMap");
         elements = AccessTools.Property(liMap, "elements");
@@ -668,7 +704,7 @@ public static class ModCompatibility
         var console = LITypes.First(x => x.Name == "TriggerConsole");
         var canUseMethod = AccessTools.Method(console, "CanUse");
 
-        MapObjectData = LITypes.First(x => x.Name == "MapObjectData");
+        // MapObjectData = LITypes.First(x => x.Name == "MapObjectData");
 
         var compatType = typeof(ModCompatibility);
         var harmony = new Harmony("tou.levelimposter.patch");

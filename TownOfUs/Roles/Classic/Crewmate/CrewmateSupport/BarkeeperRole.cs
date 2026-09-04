@@ -22,17 +22,15 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string LocaleKey => "Barkeeper";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string IdPart => "Barkeeper";
 
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription").Replace("<blockTime>",
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription").Replace("<blockTime>",
         OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value.ToString(TownOfUsPlugin.Culture));
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
     public Color RoleColor => TownOfUsColors.Barkeeper;
@@ -50,17 +48,17 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities { get; } =
     [
-        new(TouLocale.Get("TouRoleBarkeeperRoleblock"),
+        new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock"),
             (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value
-                ? TouLocale.GetParsed("TouRoleBarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
+                ? MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
                     OptionGroupSingleton<RoleblockOptions>.Instance.HangoverDuration.Value.ToString(TownOfUsPlugin
                         .Culture))
-                : TouLocale.GetParsed("TouRoleBarkeeperRoleblockWikiDescription")).Replace("<blockTime>",
+                : MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock.WikiDescription")).Replace("<blockTime>",
                 OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value
                     .ToString(TownOfUsPlugin.Culture)),
             TouCrewAssets.RoleblockSprite),
-        new(TouLocale.Get("TouRoleBarkeeperSpill"),
-            TouLocale.GetParsed("TouRoleBarkeeperSpillWikiDescription"),
+        new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperSpill"),
+            MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperSpill.WikiDescription"),
             TouCrewAssets.SpillSprite)
     ];
 
@@ -84,7 +82,7 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         var applyHangover = options.Hangover.Value;
         var invertControls = options.InvertControlsOfRoleblocked.Value;
         var targetName = target.CachedPlayerData.PlayerName;
-        var rbText = $"{targetName} was roleblocked!";
+        var rbText = MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblocked").Replace("<player>", targetName);
         var poisonPlayer = false;
         if (player.Data.Role is BootleggerRole)
         {
@@ -114,13 +112,13 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
                 switch (progress)
                 {
                     case PoisonProgress.Begun:
-                        rbText += "\nNext time, they will become sick.";
+                        rbText += "\n" + MiraLocaleManager.Get("TownOfUsMira.Role.BootleggerPoisonStage1");
                         break;
                     case PoisonProgress.Sick:
-                        rbText += "\nNext time, they will be poisoned.";
+                        rbText += "\n" + MiraLocaleManager.Get("TownOfUsMira.Role.BootleggerPoisonStage2");
                         break;
                     case PoisonProgress.Poison:
-                        rbText += "\nWait for the poison to kick in.";
+                        rbText += "\n" + MiraLocaleManager.Get("TownOfUsMira.Role.BootleggerPoisonStage3");
                         break;
                 }
                 var notif = CustomButtonSingleton<BootleggerRoleblockButton>.Instance.NotifMessage;
@@ -163,15 +161,13 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         if (target.AmOwner)
         {
             var iconTarget = TouRoleIcons.Barkeeper.LoadAsset();
-            var msg = immune
-                ? "Someone gave you a drink, but you are too hungover!"
-                : "Someone gave you a drink, you were roleblocked!";
+            var msg = immune ? MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperHungover") : MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockedTarget");
             if (poisonPlayer)
             {
-                msg += "\n<color=#D64042>You feel a sense of impending doom.</color>";
+                msg += "\n<color=#D64042>" + MiraLocaleManager.Get("TownOfUsMira.Role.BootleggerImpendingDoom") + "</color>";
                 iconTarget = TouRoleIcons.Bootlegger.LoadAsset();
             }
-            ShowNotification(msg, iconTarget);
+                ShowNotification(msg, iconTarget);
         }
 
 

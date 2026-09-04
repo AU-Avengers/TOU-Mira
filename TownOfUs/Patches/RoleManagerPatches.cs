@@ -3,6 +3,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using MiraAPI.Events;
+using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -872,14 +873,11 @@ public static class TouRoleManagerPatches
             }
         }
 
-        foreach (var modifier in MiscUtils.AllModifiers.Where(x => x is IAssignableTargets)
-                     .OrderBy(x => (x as IAssignableTargets)!.Priority))
+        foreach (var assignMod in MiscUtils.AssignableTargetModifiers
+                     .OrderBy(x => x.Priority))
         {
-            if (modifier is IAssignableTargets assignMod)
-            {
-                assignMod.AssignTargets();
-                yield return new WaitForSeconds(0.01f);
-            }
+            assignMod.AssignTargets();
+            yield return new WaitForSeconds(0.01f);
         }
 
         GhostRoleSetup();
@@ -898,17 +896,15 @@ public static class TouRoleManagerPatches
         Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager} | Assignment type is set to {assignmentType.ToDisplayString()}!");
         GameManager.Instance.LogicOptions.SyncOptions();
         ModifierManager.MiraAssignsModifiers = false;
-        foreach (var mod in ModifierManager.Modifiers)
+        MiraAPI.Patches.Roles.SelectRolesPatch.ApiHandlesRoleSelect = false;
+        foreach (var mod in MiscUtils.AllBaseGameModifiers)
         {
-            if (mod is not TouBaseGameModifier touMod)
-            {
-                continue;
-            }
-            touMod.BeforeModifierSpawns();
+            mod.BeforeModifierSpawns();
         }
 
-        if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla)
+        if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla || !CustomGameModeManager.IsClassic())
         {
+            MiraAPI.Patches.Roles.SelectRolesPatch.ApiHandlesRoleSelect = true;
             return true;
         }
 
@@ -1171,7 +1167,7 @@ public static class TouRoleManagerPatches
     [HarmonyPrefix]
     public static bool GetAdjustedImposters(IGameOptions __instance, ref int __result)
     {
-        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal || !CustomGameModeManager.IsClassic())
         {
             return true;
         }

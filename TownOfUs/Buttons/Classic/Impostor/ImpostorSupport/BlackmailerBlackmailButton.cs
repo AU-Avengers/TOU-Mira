@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Impostor;
 public sealed class BlackmailerBlackmailButton : TownOfUsRoleButton<BlackmailerRole, PlayerControl>,
     IAftermathablePlayerButton, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleBlackmailerBlackmail", "Blackmail");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.BlackmailerBlackmail", "Blackmail");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<BlackmailerOptions>.Instance.BlackmailCooldown + MapCooldown, 1f, 120f);

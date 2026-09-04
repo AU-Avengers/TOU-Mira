@@ -8,30 +8,36 @@ namespace TownOfUs.Options.Modifiers.Alliance;
 
 public sealed class EgotistOptions : AbstractTouModifierOptionGroup<EgotistModifier>
 {
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
-    public override string GroupName => TouLocale.Get("TouModifierEgotist", "Egotist");
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Egotist", "Egotist");
     public override uint GroupPriority => 11;
     public override Color GroupColor => TownOfUsColors.Egotist;
 
-    public ModdedToggleOption EgotistMustSurvive { get; set; } = new("Egotist Must Stay Alive To Win", false);
+    public ModdedToggleOption EgotistMustSurvive { get; set; } =
+        new("TouOptionEgotistMustSurvive", false);
 
-    public ModdedToggleOption EgotistSpeedsUp { get; set; } = new("Egotist Speeds Up The Game", true);
+    public ModdedToggleOption EgotistSpeedsUp { get; set; } =
+        new("TouOptionEgotistSpeedsUp", true);
 
-    public ModdedNumberOption RoundsToApplyEffects { get; set; } = new("Rounds Required For Speed/Cooldown Changes", 1f, 1f, 5f, 1f,
-        MiraNumberSuffixes.None)
-    {
-        Visible = () => OptionGroupSingleton<EgotistOptions>.Instance.EgotistSpeedsUp
-    };
+    public ModdedNumberOption RoundsToApplyEffects { get; set; } =
+        new("TouOptionEgotistRoundsToApplyEffects", 1f, 1f, 5f, 1f,
+            MiraNumberSuffixes.None)
+        {
+            Visible = () => OptionGroupSingleton<EgotistOptions>.Instance.EgotistSpeedsUp
+        };
 
-    public ModdedNumberOption SpeedMultiplier { get; set; } = new("Speed Addition", 0.1f, 0f, 1.5f, 0.05f,
-        MiraNumberSuffixes.Multiplier, "0.000")
-    {
-        Visible = () => OptionGroupSingleton<EgotistOptions>.Instance.EgotistSpeedsUp
-    };
+    public ModdedNumberOption SpeedMultiplier { get; set; } =
+        new("TouOptionEgotistSpeedMultiplier", 0.1f, 0f, 1.5f, 0.05f,
+            MiraNumberSuffixes.Multiplier, "0.000")
+        {
+            Visible = () => OptionGroupSingleton<EgotistOptions>.Instance.EgotistSpeedsUp
+        };
 
-    public ModdedNumberOption CooldowmOffset { get; set; } = new("Cooldown Reduction", 1.5f, 0f, 5f, 0.1f,
-        MiraNumberSuffixes.Seconds, "0.00")
-    {
-        Visible = () => OptionGroupSingleton<EgotistOptions>.Instance.EgotistSpeedsUp
-    };
+    public ModdedNumberOption CooldowmOffset { get; set; } =
+    // I'm not sure if this is intentionally left as is, but, it says Cooldowm (with an M) -Fault
+        new("TouOptionEgotistCooldownOffset", 1.5f, 0f, 5f, 0.1f,
+            MiraNumberSuffixes.Seconds, "0.00")
+        {
+            Visible = () => OptionGroupSingleton<EgotistOptions>.Instance.EgotistSpeedsUp
+        };
 }

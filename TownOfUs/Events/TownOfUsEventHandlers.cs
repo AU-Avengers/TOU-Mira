@@ -18,12 +18,14 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Collections;
 using System.Text;
+using MiraAPI.Events.Mira;
 using TMPro;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
@@ -38,7 +40,6 @@ using TownOfUs.Modules.DraftMode;
 using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.Options;
@@ -93,6 +94,11 @@ public static class TownOfUsEventHandlers
             newObj.layer = LayerMask.NameToLayer("UI");
             newObj.transform.localPosition = new Vector3(-1.2f, 0.325f, -0.1f);
             RoleIconRenderer = newObj.AddComponent<SpriteRenderer>();
+            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.Data.Role.GetRoleIcon();
+            newObj.transform.localScale = new Vector3(1, 1, 1);
+            RoleIconRenderer.SetSizeLimit(0.4f);
+            var oldScale = newObj.transform.localScale;
+            newObj.transform.localScale = new(3.3333333333f * oldScale.x, 0.7843137255f * oldScale.y, 1);
         }
 
         if (RoleIconRenderer != null)
@@ -102,7 +108,6 @@ public static class TownOfUsEventHandlers
             RoleIconRenderer.SetSizeLimit(0.4f);
             var oldScale = RoleIconRenderer.transform.localScale;
             RoleIconRenderer.transform.localScale = new(3.3333333333f * oldScale.x, 0.7843137255f * oldScale.y, 1);
-            RoleIconRenderer.gameObject.SetActive(true);
         }
 
         return RolePanel;
@@ -123,7 +128,7 @@ public static class TownOfUsEventHandlers
         else if (uniModifier != null && option is ModReveal.Universal)
         {
             ModifierText.text =
-                $"<size={uniModifier.IntroSize}><color=#FFFFFF>{TouLocale.Get("Modifier")}: </color>{uniModifier.ModifierName}</size>";
+                $"<size={uniModifier.IntroSize}><color=#FFFFFF>{MiraLocaleManager.Get("Modifier")}: </color>{uniModifier.ModifierName}</size>";
 
             ModifierText.color = MiscUtils.GetModifierColour(uniModifier);
         }
@@ -293,6 +298,19 @@ public static class TownOfUsEventHandlers
         panel.openPosition = new Vector3(ogPanel.openPosition.x, ogPanel.open ? y : 2f, ogPanel.openPosition.z);
 
         panel.SetTaskText(role.SetTabText().ToString());
+    }
+
+    [RegisterEvent(-10000)]
+    public static void BeforeMurderEventHandler(BeforeMurderEvent murderEvent)
+    {
+        if (murderEvent.Source.TryGetModifier<IndirectAttackerModifier>(out var mod))
+        {
+            if (mod.IgnoreShield)
+            {
+                murderEvent.IgnoreDefense = true;
+            }
+            murderEvent.IsIndirectAttack = true;
+        }
     }
 
     [RegisterEvent]
@@ -682,20 +700,6 @@ public static class TownOfUsEventHandlers
             CustomButtonSingleton<SpellslingerHexButton>.Instance.SetActive(false, PlayerControl.LocalPlayer.Data.Role);
         }
 
-        if (target.AmOwner && HudManager.InstanceExists)
-        {
-            HudManager.Instance.SetHudActive(false);
-
-            if (!MeetingHud.Instance)
-            {
-                HudManager.Instance.SetHudActive(true);
-                if (OptionGroupSingleton<PostmortemOptions>.Instance.HideChatButton && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.HideAndSeek)
-                {
-                    HudManager.Instance.Chat.chatButton.gameObject.SetActive(false);
-                }
-            }
-        }
-
         if (target.Data.Role is IAnimated animated)
         {
             animated.IsVisible = false;
@@ -730,11 +734,8 @@ public static class TownOfUsEventHandlers
                     bombButton.ResetCooldownAndOrEffect();
                     break;
                 case JanitorRole:
-                    if (OptionGroupSingleton<JanitorOptions>.Instance.ResetCooldowns)
-                    {
-                        var cleanButton = CustomButtonSingleton<JanitorCleanButton>.Instance;
-                        cleanButton.ResetCooldownAndOrEffect();
-                    }
+                    var cleanButton = CustomButtonSingleton<JanitorCleanButton>.Instance;
+                    cleanButton.CheckReset(true);
 
                     break;
             }
@@ -785,7 +786,7 @@ public static class TownOfUsEventHandlers
             return;
         }
 
-        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
         {
             return;
         }
@@ -883,6 +884,13 @@ public static class TownOfUsEventHandlers
         Rpc<SetSpectatorListRpc>.Instance.Send(PlayerControl.LocalPlayer, fakeDictionary);
     }
 
+    private static readonly HashSet<int> RulesShownToClientIds = [];
+
+    internal static void ResetRulesShownTracking()
+    {
+        RulesShownToClientIds.Clear();
+    }
+
     internal static IEnumerator CoSendRulesToPlayer(ClientData clientData)
     {
         while (!AmongUsClient.Instance)
@@ -907,6 +915,16 @@ public static class TownOfUsEventHandlers
             yield break;
         }
 
+        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.ShowRulesOnLobbyJoin.Value)
+        {
+            yield break;
+        }
+
+        if (RulesShownToClientIds.Contains(clientData.Id))
+        {
+            yield break;
+        }
+
         var joiningPlayer = clientData.Character;
         if (joiningPlayer == null)
         {
@@ -922,7 +940,8 @@ public static class TownOfUsEventHandlers
             yield break;
         }
 
-        ChatPatches.RpcSendLobbyRules(PlayerControl.LocalPlayer, joiningPlayer, rulesText, true);
+        RulesShownToClientIds.Add(clientData.Id);
+        ChatPatches.RpcSendLobbyRules(PlayerControl.LocalPlayer, joiningPlayer, rulesText);
     }
 
     [RegisterEvent]
@@ -940,7 +959,7 @@ public static class TownOfUsEventHandlers
             return;
         }
 
-        var pva = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == player.PlayerId);
+        var pva = MeetingHud.Instance.playerStates.First(x => x.PlayerId == player.PlayerId);
 
         if (!pva)
         {
@@ -971,7 +990,7 @@ public static class TownOfUsEventHandlers
 
     private static void HandleMeetingMurder(MeetingHud instance, PlayerControl source, PlayerControl target)
     {
-        if (MeetingHud.Instance.CurrentState == MeetingHud.VoteStates.Animating)
+        if (MeetingHud.Instance.CurrentState == MeetingHud.MeetingStates.Animating)
         {
             if (target.AmOwner)
             {
@@ -984,7 +1003,7 @@ public static class TownOfUsEventHandlers
                 MeetingMenu.Instances.Do(x => x.HideSingle(target.PlayerId));
             }
 
-            var targetVoteAreaEarly = instance.playerStates.First(x => x.TargetPlayerId == target.PlayerId);
+            var targetVoteAreaEarly = instance.playerStates.First(x => x.PlayerId == target.PlayerId);
 
             if (!targetVoteAreaEarly)
             {
@@ -1008,7 +1027,7 @@ public static class TownOfUsEventHandlers
         }
 
         // To handle murders during a meeting
-        var targetVoteArea = instance.playerStates.First(x => x.TargetPlayerId == target.PlayerId);
+        var targetVoteArea = instance.playerStates.First(x => x.PlayerId == target.PlayerId);
 
         if (!targetVoteArea)
         {
@@ -1058,14 +1077,14 @@ public static class TownOfUsEventHandlers
 
         foreach (var pva in instance.playerStates)
         {
-            if (pva.VotedFor != target.PlayerId || pva.AmDead)
+            if (pva.VotedForId != target.PlayerId || pva.AmDead)
             {
                 continue;
             }
 
             pva.UnsetVote();
 
-            var voteAreaPlayer = MiscUtils.PlayerById(pva.TargetPlayerId);
+            var voteAreaPlayer = MiscUtils.PlayerById(pva.PlayerId);
 
             if (voteAreaPlayer == null)
             {
@@ -1081,7 +1100,7 @@ public static class TownOfUsEventHandlers
                 continue;
             }
 
-            instance.ClearVote();
+            instance.RpcClearVote(pva.PlayerId);
         }
 
         instance.SetDirtyBit(1U);

@@ -28,9 +28,11 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         TownOfUsColors.Lover,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Lover.LoadAsset(),
             "TouMira.Modifier.Alliance.Lover", 1.45f));
-    public override string LocaleKey => "Lover";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IdPart => "Lover";
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
     public override string IntroInfo => LoverString();
+    public bool LoverDisconnected { get; internal set; }
+    public string LoverDcString { get; internal set; } = string.Empty;
 
     public override string GetDescription()
     {
@@ -39,14 +41,14 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription")
             .Replace("<symbol>", "<color=#FF66CCFF>♥</color>") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public string LoverString()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}Info")
-            .Replace("<player>", OtherLover != null ? OtherLover.Data.PlayerName : "???");
+        return LoverDisconnected || OtherLover == null ? LoverDcString : MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}Info")
+            .Replace("<player>", OtherLover.Data.PlayerName);
     }
 
     public override string Symbol => "♥";
@@ -72,7 +74,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
     public void AssignTargets()
     {
-        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        if (!RoleOptions.IsClassicRoleAssignment)
         {
             return;
         }
@@ -242,7 +244,11 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         var sourceModifier = randomTarget.AddModifier<LoverModifier>();
         yield return new WaitForSeconds(0.01f);
         sourceModifier!.OtherLover = localPlr;
+        sourceModifier.LoverDcString = MiraLocaleManager.Get("TownOfUsMira.Modifier.LoverInfoDisconnected")
+            .Replace("<player>", localPlr.Data.PlayerName);
         loverMod!.OtherLover = randomTarget;
+        loverMod.LoverDcString = MiraLocaleManager.Get("TownOfUsMira.Modifier.LoverInfoDisconnected")
+            .Replace("<player>", randomTarget.Data.PlayerName);
     }
 
     public override void OnDeactivate()
@@ -374,7 +380,11 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         var targetModifier = target.AddModifier<LoverModifier>();
         var sourceModifier = player.AddModifier<LoverModifier>();
         targetModifier!.OtherLover = player;
+        targetModifier.LoverDcString = MiraLocaleManager.Get("TownOfUsMira.Modifier.LoverInfoDisconnected")
+            .Replace("<player>", player.Data.PlayerName);
         sourceModifier!.OtherLover = target;
+        sourceModifier.LoverDcString = MiraLocaleManager.Get("TownOfUsMira.Modifier.LoverInfoDisconnected")
+            .Replace("<player>", target.Data.PlayerName);
         if (!player.IsCrewmate() || !target.IsCrewmate())
         {
             targetModifier.ForceDisableTasks = true;
