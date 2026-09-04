@@ -67,6 +67,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
     [HideFromIl2Cpp] public PlayerControl? GazeTarget { get; set; }
     [HideFromIl2Cpp] public PlayerControl? IntuitTarget { get; set; }
     [HideFromIl2Cpp] public List<PlayerControl> ComparedPlayers { get; } = [];
+    [HideFromIl2Cpp] public List<PendingComparison> PendingComparisons { get; } = [];
     public bool UsedThisRound { get; set; }
 
     public static string TabHeaderString = MiraLocaleManager.Get("TownOfUsMira.Role.SeerTabHeader");
@@ -77,6 +78,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         RoleBehaviourStubs.Initialize(this, player);
         ComparisonList = [];
         ComparedPlayers.Clear();
+        PendingComparisons.Clear();
         TabHeaderString = MiraLocaleManager.Get("TownOfUsMira.Role.SeerTabHeader");
     }
 
@@ -110,6 +112,30 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
                 gazeButton.SetUses(gazeButton.UsesLeft);
                 GazeTarget = null;
             }
+
+            RevealPendingComparisons();
+        }
+    }
+
+    private void RevealPendingComparisons()
+    {
+        if (Player.HasDied() || PendingComparisons.Count == 0)
+        {
+            return;
+        }
+
+        var title = $"<color=#{TownOfUsColors.Seer.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.SeerMessageTitle")}</color>";
+
+        foreach (var pending in PendingComparisons.ToArray())
+        {
+            if (!pending.First.HasDied() && !pending.Second.HasDied())
+            {
+                continue;
+            }
+
+            ComparisonList[pending.Index] = pending.Entry;
+            PendingComparisons.Remove(pending);
+            MiscUtils.AddFakeChat(Player.Data, title, pending.Message, false, true);
         }
     }
     public void SeerCompare(PlayerControl seer)
@@ -171,21 +197,27 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
 
         var players = new [] {playerA, playerB}.OrderBy(x => x.ToLowerInvariant()).ToArray();
 
-        if (enemies)
+        var resultColor = enemies ? TownOfUsColors.ImpSoft : Palette.CrewmateBlue;
+        var resultKey = enemies ? "TownOfUsMira.Role.SeerCompareEnemiesNotif" : "TownOfUsMira.Role.SeerCompareFriendsNotif";
+
+        var text = MiraLocaleManager.Get(resultKey).Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
+        var compareResult = MiraLocaleManager.Get("TownOfUsMira.Role.SeerTabComparison").Replace("<gazed>", players[0]).Replace("<intuited>", players[1])
+            .Replace("<num>", HudManagerHelper.Instance.CurrentRound.ToString(TownOfUsPlugin.Culture));
+        var resultEntry = $"<b>{resultColor.ToTextColor()}{compareResult}</color></b>";
+
+        if (OptionGroupSingleton<SeerOptions>.Instance.DelayedCompare.Value)
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.ImpSoft));
-            var text = MiraLocaleManager.Get("TownOfUsMira.Role.SeerCompareEnemiesNotif").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
-            ShowNotification($"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{text}</color></b>");
-            var compareResult = MiraLocaleManager.Get("TownOfUsMira.Role.SeerTabComparison").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
-            ComparisonList.Add($"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{compareResult.Replace("<num>", HudManagerHelper.Instance.CurrentRound.ToString(TownOfUsPlugin.Culture))}</color></b>");
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Seer));
+            var delayed = MiraLocaleManager.Get("TownOfUsMira.Role.SeerCompareDelayedNotif").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
+            ShowNotification($"<b>{TownOfUsColors.Seer.ToTextColor()}{delayed}</color></b>");
+            ComparisonList.Add($"<color=#BFBFBF>{compareResult}</color>");
+            PendingComparisons.Add(new PendingComparison(GazeTarget, IntuitTarget, resultEntry, text, ComparisonList.Count - 1));
         }
         else
         {
-            Coroutines.Start(MiscUtils.CoFlash(Palette.CrewmateBlue));
-            var text = MiraLocaleManager.Get("TownOfUsMira.Role.SeerCompareFriendsNotif").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
-            ShowNotification($"<b>{Palette.CrewmateBlue.ToTextColor()}{text}</color></b>");
-            var compareResult = MiraLocaleManager.Get("TownOfUsMira.Role.SeerTabComparison").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
-            ComparisonList.Add($"<b>{Palette.CrewmateBlue.ToTextColor()}{compareResult.Replace("<num>", HudManagerHelper.Instance.CurrentRound.ToString(TownOfUsPlugin.Culture))}</color></b>");
+            Coroutines.Start(MiscUtils.CoFlash(resultColor));
+            ShowNotification($"<b>{resultColor.ToTextColor()}{text}</color></b>");
+            ComparisonList.Add(resultEntry);
         }
 
         if (GazeTarget != null)
@@ -207,6 +239,13 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
+        var options = OptionGroupSingleton<SeerOptions>.Instance;
+
+        if (options.SalemSeer.Value && options.DelayedCompare.Value)
+        {
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"<size=60%><color=#BFBFBF>{MiraLocaleManager.Get("TownOfUsMira.Role.SeerDelayedCompareAvailable")}</color></size>");
+        }
+
         if (ComparisonList.Count != 0)
         {
             stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{TabHeaderString}</b>");
@@ -220,3 +259,5 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         return stringB;
     }
 }
+
+public sealed record PendingComparison(PlayerControl First, PlayerControl Second, string Entry, string Message, int Index);
