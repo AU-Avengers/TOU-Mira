@@ -616,7 +616,7 @@ public static class HudManagerPatches
     public static string StoredMinimum { get; private set; } = "Min";
     public static string StoredMaximum { get; private set; } = "Max";
     public static string StoredDraftTitle { get; private set; } = "Draft Mode";
-    public static List<string> StoredRoleBuckets =
+    public static readonly List<string> StoredRoleBuckets =
     [
         "CrewInvestigative",
         "CrewKilling",
