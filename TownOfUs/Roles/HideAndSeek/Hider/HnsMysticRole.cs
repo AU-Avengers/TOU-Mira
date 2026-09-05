@@ -34,7 +34,7 @@ public sealed class HnsMysticRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     {
         AssociatedGameMode = typeof(HideAndSeekMode),
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mystic.LoadAsset(), "TouMira.Role.Crewmate.Mystic", 1.45f),
-        /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek,*/
+        HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek,
         FreeplayFolder = "Hide n Seek",
         Icon = TouRoleIcons.Mystic,
         RoleHintType = RoleHintType.TaskHint

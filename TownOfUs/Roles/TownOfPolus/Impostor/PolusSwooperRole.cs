@@ -29,6 +29,7 @@ public class PolusSwooperRole(IntPtr cppPtr) : PolusBaseImpRole(cppPtr), IWikiDi
     {
         RoleHintType = RoleHintType.None,
         AssociatedGameMode = typeof(TownOfPolusMode),
+        HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.TownOfPolus,
         GhostRole = (RoleTypes)RoleId.Get<PolusGhostImpRole>(),
         FreeplayFolder = "Town of Polus",
         CanUseVent = false,
