@@ -62,7 +62,7 @@ public sealed class MorphlingMorphButton : TownOfUsRoleButton<MorphlingRole>, IA
             return false;
         }
 
-        return ((Timer <= 0 && !EffectActive) || (EffectActive && Timer <= EffectDuration - 2f));
+        return ((Timer <= 0 && !EffectActive && (!LimitedUses || UsesLeft > 0)) || (EffectActive && Timer <= EffectDuration - 2f));
     }
 
     public void AftermathHandler()
