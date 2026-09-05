@@ -1095,12 +1095,7 @@ public static class TownOfUsEventHandlers
             var votes = voteData.Votes.RemoveAll(x => x.Suspect == target.PlayerId);
             voteData.VotesRemaining += votes;
 
-            if (!voteAreaPlayer.AmOwner)
-            {
-                continue;
-            }
-
-            instance.RpcClearVote(pva.PlayerId);
+            instance.ClearVote(pva.PlayerId, voteAreaPlayer.AmOwner);
         }
 
         instance.SetDirtyBit(1U);
