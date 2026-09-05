@@ -34,6 +34,7 @@ namespace TownOfUs.Modules.DraftMode
         private readonly Dictionary<int, HashSet<string>> _seenBaseNamesBySlot = new();
         private readonly HashSet<int> _allowedImpSlots = new();
         private readonly HashSet<int> _allowedNeutSlots = new();
+        private readonly Dictionary<int, DraftFaction> _scheduledFactionBySlot = new();
 
         private void Awake()
         {
@@ -78,18 +79,24 @@ namespace TownOfUs.Modules.DraftMode
 
             _slotOrder.Clear();
             _slotOrder.AddRange(pidToSlot.Values.OrderBy(x => x));
+            for (int i = _slotOrder.Count - 1; i > 0; i--)
+            {
+                int j = _rng.NextInt(i + 1);
+                (_slotOrder[i], _slotOrder[j]) = (_slotOrder[j], _slotOrder[i]);
+            }
             _totalSlots = totalSlots;
 
             _allowedImpSlots.Clear();
             _allowedNeutSlots.Clear();
+            _scheduledFactionBySlot.Clear();
 
-            // Every slot may receive Evil/Neutral. The distribution is now handled
-            // by the position tilt, soft floor spread, and Impostor nudge below.
             for (int slotNum = 1; slotNum <= totalSlots; slotNum++)
             {
                 _allowedImpSlots.Add(slotNum);
                 _allowedNeutSlots.Add(slotNum);
             }
+
+            BuildFactionOfferSchedule();
 
             _currentTurnNumber = 0;
             _running = true;
@@ -338,6 +345,29 @@ namespace TownOfUs.Modules.DraftMode
             return (maxImpsManual, maxNeutsManual);
         }
 
+        private void BuildFactionOfferSchedule()
+        {
+            var (maxImps, maxNeuts) = GetTargetLimits();
+            var factions = new List<DraftFaction>();
+            int maxScheduled = _slotOrder.Count;
+            int impCount = Math.Min(Math.Max(0, maxImps), maxScheduled);
+            int neutCount = Math.Min(Math.Max(0, maxNeuts), maxScheduled - impCount);
+
+            factions.AddRange(Enumerable.Repeat(DraftFaction.Impostor, impCount));
+            factions.AddRange(Enumerable.Repeat(DraftFaction.Neutral, neutCount));
+            while (factions.Count < maxScheduled)
+                factions.Add(DraftFaction.Crewmate);
+
+            for (int i = factions.Count - 1; i > 0; i--)
+            {
+                int j = _rng.NextInt(i + 1);
+                (factions[i], factions[j]) = (factions[j], factions[i]);
+            }
+
+            for (int i = 0; i < _slotOrder.Count; i++)
+                _scheduledFactionBySlot[_slotOrder[i]] = factions[i];
+        }
+
         private static bool UseRoleListMode => OptionGroupSingleton<RoleOptions>.Instance?.UseRoleListForPool ?? false;
         private int CountDistinctPoolSeats()
         {
@@ -438,6 +468,7 @@ namespace TownOfUs.Modules.DraftMode
             public int MaxNeuts;
             public int RemainingUnpicked;
             public int RemainingSeats;
+            public bool PickedDoubleDraftImp;
             public int CurrentImps => PickedImps + OfferedImps;
             public int CurrentNeuts => PickedNeuts + OfferedNeuts;
 
@@ -487,6 +518,8 @@ namespace TownOfUs.Modules.DraftMode
                     if (isImp)
                     {
                         context.PickedImps += pickedWeight;
+                        context.PickedDoubleDraftImp |= DraftRolePool.IsDoubleDraftRoleId(s.ChosenRoleId) ||
+                                                       (!string.IsNullOrEmpty(roleName) && DraftRolePool.IsDoubleDraftRoleName(roleName));
                     }
                     else if (isNeut)
                     {
@@ -563,8 +596,6 @@ namespace TownOfUs.Modules.DraftMode
 
                 if (context.RemainingUnpicked > 0 && context.RemainingUnpicked <= totalNeeded)
                 {
-                    // The current picker can only be locked to one faction. Prefer the
-                    // larger remaining deficit; the next picker will re-evaluate the other.
                     if (neededImps >= neededNeuts && neededImps > 0)
                         context.ForceImp = true;
                     else if (neededNeuts > 0)
@@ -633,10 +664,6 @@ namespace TownOfUs.Modules.DraftMode
             return (context.PickedImps, context.PickedNeuts, context.OfferedImps, context.OfferedNeuts, context.AssignedCountsById, context.AssignedCountsByName);
         }
 
-        // Role offers are fully mixed across every configured bucket rather than
-        // restricted to a single bucket per player - overall category counts are
-        // still enforced via GetTargetLimits() and CountDistinctPoolSeatsForGroup,
-        // so this intentionally always allows a role to be offered for any slot.
         private static bool RoleMatchesSlotBucket(string baseName, int slot) => true;
 
         [HideFromIl2Cpp]
@@ -657,11 +684,10 @@ namespace TownOfUs.Modules.DraftMode
 
             context ??= BuildSlotContext(slot, ignoreConcurrentOffers, ignoreForce);
             if (context.AvoidNames.Contains(candidate) || context.AvoidNames.Contains(baseName)) return false;
+            if (context.PickedDoubleDraftImp && isImp) return false;
             bool isNeut = DraftRolePool.IsNeutralRoleName(baseName);
             int candidateWeight = SeatWeightForRoleName(baseName);
 
-            // Evil/Neutral eligibility is no longer tied to pre-assigned slot buckets.
-            // Position and spread probabilities decide when those roles are offered.
             if (!ignoreSlotBucket && !RoleMatchesSlotBucket(baseName, slot)) return false;
 
             if ((context.ForceImp && context.ForceNeut && !isImp && !isNeut)
@@ -709,14 +735,12 @@ namespace TownOfUs.Modules.DraftMode
             var avoidNames = new HashSet<string>(context.AvoidNames, StringComparer.OrdinalIgnoreCase);
             if (extraAvoid != null) avoidNames.UnionWith(extraAvoid);
 
-            // Hard floor: when the remaining players can no longer satisfy the
-            // configured Evil/Neutral floor, the whole offer is locked to that faction.
             DraftFaction? hardLockedFaction = GetHardFloorFaction(context);
             DraftFaction? lockedFaction = hardLockedFaction;
 
-            // Soft floor spread: before the hard deadline, occasionally lock an offer
-            // to the faction with the largest remaining deficit. This is the important
-            // part that prevents the last few picks from receiving all the Evil roles.
+            if (!lockedFaction.HasValue && _scheduledFactionBySlot.TryGetValue(slot, out var scheduledFaction))
+                lockedFaction = scheduledFaction;
+
             if (!lockedFaction.HasValue)
                 lockedFaction = GetSoftFloorFaction(context, slot);
 
@@ -732,7 +756,6 @@ namespace TownOfUs.Modules.DraftMode
                 .Select(g => g.First())
                 .ToList();
 
-            // If a floor lock was selected, only show roles from that faction.
             if (lockedFaction.HasValue)
             {
                 var lockedCandidates = allowed
@@ -773,20 +796,11 @@ namespace TownOfUs.Modules.DraftMode
             var result = new List<string>();
             var usedAlignments = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-            // Position tilt:
-            // first slot = 1.15x evil chance, middle = 1.0x, last = 0.85x.
-            // The minimum Evil count is deliberately zero, so first/last are never
-            // forced into a faction just because of their position.
-            double positionTilt = PositionTilt(slot, _totalSlots);
-            double evilChance = Math.Min(0.95, EvilOfferChance * positionTilt);
+            double evilChance = EvilOfferChance;
 
             var nonCrew = allowed.Where(IsEvilRole).ToList();
             var crew = allowed.Where(n => !IsEvilRole(n)).ToList();
 
-            // Soft Impostor Nudge:
-            // calculate the chance from Impostors still needed divided by players left.
-            // This makes Impostors progressively more likely as the draft advances
-            // instead of front-loading them onto the first few players.
             bool addImpostor = false;
             if (SoftImpostorNudge &&
                 context.PickedImps < context.MaxImps)
@@ -800,9 +814,6 @@ namespace TownOfUs.Modules.DraftMode
                 boost = Math.Min(4.0, Math.Max(0.4, boost));
                 double nudgeProb = Math.Min(1.0, boost * impDeficit / playersLeft);
 
-                if (nudgeProb < 1.0)
-                    nudgeProb = Math.Min(0.99, nudgeProb * positionTilt);
-
                 var impCandidates = allowed
                     .Where(n => DraftRolePool.IsImpostorRoleName(BaseRoleName(n)))
                     .ToList();
@@ -815,8 +826,6 @@ namespace TownOfUs.Modules.DraftMode
                 }
             }
 
-            // General Evil/Neutral offer chance. It may add one or more Evil cards,
-            // but never forces an Evil card solely because a player picked early.
             int maxEvil = Math.Min(nonCrew.Count, Math.Min(offered, 3));
             for (int i = result.Count; i < maxEvil; i++)
             {
@@ -833,8 +842,6 @@ namespace TownOfUs.Modules.DraftMode
                 result.Add(pick);
             }
 
-            // Fill the rest with Crew first, using alignment diversity. If Crew runs
-            // out, use any remaining legal role.
             while (result.Count < offered && crew.Count > 0)
             {
                 var candidates = crew.Where(n => !result.Contains(n)).ToList();
@@ -855,8 +862,6 @@ namespace TownOfUs.Modules.DraftMode
                 result.Add(PickDiverseRole(remaining, usedAlignments));
             }
 
-            // If diversity was too restrictive because the pool is small, use the
-            // normal builder as a final top-up before the generic fallback.
             if (result.Count < offered)
             {
                 var topUp = DraftPoolBuilder.GetOfferedRoles(
@@ -882,22 +887,10 @@ namespace TownOfUs.Modules.DraftMode
             Neutral
         }
 
-        // Tuned to be a small positional advantage rather than a guarantee.
-        private const double PositionEdge = 0.15;
         private const double EvilOfferChance = 0.45;
         private const double FloorSpreadBias = 0.50;
         private const bool SoftImpostorNudge = true;
         private const double ImpostorSpreadPower = 1.0;
-
-        private static double PositionTilt(int slot, int totalSlots)
-        {
-            if (PositionEdge <= 0 || totalSlots <= 1) return 1.0;
-
-            double pos = (double)(slot - 1) / Math.Max(1, totalSlots - 1);
-            pos = Math.Max(0.0, Math.Min(1.0, pos));
-            double tilt = 1.0 + PositionEdge * (0.5 - pos) * 2.0;
-            return Math.Max(0.35, Math.Min(1.65, tilt));
-        }
 
         private static DraftFaction GetRoleFaction(string roleName)
         {
@@ -999,8 +992,6 @@ namespace TownOfUs.Modules.DraftMode
                     string.Equals(BaseRoleName(n), BaseRoleName(pick), StringComparison.OrdinalIgnoreCase));
             }
 
-            // A locked offer is intentionally faction-pure, but it should still contain
-            // different alignments whenever the faction has them.
             return result;
         }
 
@@ -1333,7 +1324,6 @@ namespace TownOfUs.Modules.DraftMode
                     var remaining = deadlines[slot] - Time.time;
                     if (remaining <= 0f)
                     {
-                        // var reason = isBotOrDc[slot] ? "bot/disconnected" : "timeout";
                         var offers = _currentOffersBySlot.TryGetValue(slot, out var o) ? o : new List<string>();
                         var autoIndex = (byte)_rng.NextInt(Math.Max(1, offers.Count));
                         ApplyPick(slot, autoIndex, timedOut: true);
