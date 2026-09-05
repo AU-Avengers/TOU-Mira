@@ -1526,7 +1526,9 @@ Loaded bullets older than 10s are reset next round.</string>
   <!-- Officer Options -->
     <string name="TouOptionOfficerShootCooldown">Shoot Cooldown</string>
   <string name="TouOptionOfficerLoadCooldown">Load Cooldown</string>
+  <string name="TouOptionOfficerLoadDelay">Load Delay</string>
   <string name="TouOptionOfficerCanSelfReport">Can Self Report</string>
+  <string name="TouOptionOfficerBlockedShotConsumesBullet">Blocked Shot Consumes Bullet</string>
   <string name="TouOptionOfficerCanOnlyShootActiveKillers">Officer Can Only Shoot Players That Have Killed</string>
   <string name="TouOptionOfficerCrewKillingAreInnocent">Crewmate Killing Roles are Innocent</string>
   <string name="TouOptionOfficerNonKillingNeutralsAreInnocent">Non-Killing Neutrals are Innocent</string>
