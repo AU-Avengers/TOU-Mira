@@ -169,8 +169,8 @@ public static class GameHistory
         DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedByString = "null",
         DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore)
     {
-        var localizedCod = MiraLocaleManager.Get(causeOfDeath).Contains("STRMISS") ? "null" : MiraLocaleManager.Get(causeOfDeath);
-        var localizedKilledBy = (MiraLocaleManager.Get(killedByString).Contains("STRMISS") || killedBy == player)
+        var localizedCod = MiraLocaleManager.Get(causeOfDeath) == causeOfDeath ? "null" : MiraLocaleManager.Get(causeOfDeath);
+        var localizedKilledBy = (MiraLocaleManager.Get(killedByString) == killedByString || killedBy == player)
             ? "null"
             : MiraLocaleManager.Get(killedByString).Replace("<player>", killedBy.Data.PlayerName);
         UpdatePlayerDeathData(player.PlayerId, localizedCod, 0, roundOfDeath, diedThisRound, localizedKilledBy, lockInfo: lockInfo);
