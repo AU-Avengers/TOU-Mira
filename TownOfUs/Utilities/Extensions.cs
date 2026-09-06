@@ -8,6 +8,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
+using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Events.TouEvents;
@@ -515,6 +516,52 @@ public static class Extensions
         player.NetTransform.SnapTo(pos);
     }
 
+    [MethodRpc((uint)TownOfUsRpc.ForceEnterVent)]
+    public static void RpcForceEnterVent(this PlayerControl player, Vector2 pos, int id, bool kickOut)
+    {
+        Coroutines.Start(CoEnterVent(player, pos, id, kickOut));
+    }
+
+    public static IEnumerator CoEnterVent(PlayerControl player, Vector2 pos, int id, bool kickOut)
+    {
+        player.transform.position = pos;
+        player.NetTransform.SnapTo(pos);
+        var myPlayer = player.MyPhysics;
+        
+        var vent = ShipStatus.Instance.AllVents.FirstOrDefault(v => v.Id == id);
+        if (vent == null)
+        {
+            yield break;
+        }
+        player.NetTransform.SetPaused(true);
+        if (player.AmOwner)
+        {
+            myPlayer.inputHandler.enabled = true;
+        }
+
+        if (!kickOut)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        player.inVent = true;
+        DebugAnalytics.Instance.Analytics.VentUsed(player.Data);
+        vent.EnterVent(player);
+        player.cosmetics.AnimateSkinEnterVent();
+        player.cosmetics.AnimateSkinIdle();
+        myPlayer.Animations.PlayIdleAnimation();
+        player.Visible = false;
+        player.walkingToVent = false;
+        foreach (var anim in player.currentRoleAnimations)
+        {
+            anim.ToggleRenderer(false);
+        }
+        if (player.AmOwner)
+        {
+            VentilationSystem.Update(VentilationSystem.Operation.Enter, id);
+            myPlayer.inputHandler.enabled = false;
+        }
+    }
+
     public static void GhostFade(this PlayerControl player)
     {
         player.Visible = true;
@@ -592,7 +639,37 @@ public static class Extensions
             ModCompatibility.ChangeFloor(startingVent.transform.position.y > -7f);
         }
 
-        player.RpcSetPos(pos);
+        player.RpcForceEnterVent(pos, startingVent.Id, true);
+    }
+
+    public static void VentAtRandomVent(this PlayerControl player)
+    {
+        List<Vent> vents;
+
+        var cleanVentTasks = player.myTasks.ToArray().Where(x => x.TaskType == TaskTypes.VentCleaning).ToList();
+
+        if (cleanVentTasks != null)
+        {
+            var ids = cleanVentTasks.Where(x => !x.IsComplete)
+                .ToList()
+                .ConvertAll(x => x.FindConsoles().ToArray()[0].ConsoleId);
+
+            vents = ShipStatus.Instance.AllVents.Where(x => !ids.Contains(x.Id)).ToList();
+        }
+        else
+        {
+            vents = ShipStatus.Instance.AllVents.ToList();
+        }
+
+        var startingVent = vents[Random.RandomRangeInt(0, vents.Count)];
+
+        var pos = new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);
+
+        if (ModCompatibility.IsSubmerged())
+        {
+            ModCompatibility.ChangeFloor(startingVent.transform.position.y > -7f);
+        }
+        player.RpcForceEnterVent(pos, startingVent.Id, false);
     }
 
     public static void Shuffle<T>(this List<T> list)

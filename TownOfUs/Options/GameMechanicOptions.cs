@@ -44,6 +44,16 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
     public ModdedToggleOption GhostwalkerFixSabos { get; set; } =
         new("TouOptionGhostwalkerFixSabos", false);
 
+    public ModdedEnumOption GhostwalkerVentSpawn { get; set; } =
+        new("TouOptionGhostwalkerVentSpawn", (int)GhostwalkerVentMode.Crewmates,
+            typeof(GhostwalkerVentMode),
+            [
+                "TouOptionGhostwalkerVentSpawnEnumNone",
+                "TouOptionGhostwalkerVentSpawnEnumCrewmates",
+                "TouOptionGhostwalkerVentSpawnEnumEvils",
+                "TouOptionGhostwalkerVentSpawnEnumAll"
+            ]);
+
     [ModdedNumberOption("TouOptionTempSaveCdReset", 0f, 15f, 0.5f,
         MiraNumberSuffixes.Seconds, "0.#")]
     public float TempSaveCdReset { get; set; } = 5f;
@@ -51,6 +61,13 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
     public ModdedNumberOption FullSaveCdMultiplier { get; set; } =
         new("TouOptionFullSaveCdMultiplier",
             0.5f, 0.25f, 1f, 0.05f, MiraNumberSuffixes.Multiplier, "0.#");
+}
+public enum GhostwalkerVentMode
+{
+    None,
+    Crewmates,
+    Evils,
+    All,
 }
 
 public enum BodyVitalsMode
