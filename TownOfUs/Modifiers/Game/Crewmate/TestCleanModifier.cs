@@ -7,7 +7,7 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 public sealed class TestCleanModifier : TouGameModifier, IWikiDiscoverable, IButtonModifier
 {
     [HideFromIl2Cpp] public bool IsHiddenFromList => true;
-    public override string LocaleKey => "TestClean";
+    public override string IdPart => "TestClean";
     public override string ModifierName => "Test Clean";
     public override string IntroInfo => "Test modifier for janitor clean button";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Rotting; // Reuse rotting icon for now

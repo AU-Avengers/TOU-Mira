@@ -9,27 +9,32 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 
 public sealed class CircumventModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Impostor,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Circumvent.LoadAsset(),
+            "TouMira.Modifier.Impostor.Circumvent", 1.45f));
     public int VentsAvailable { get; set; }
-    public override string LocaleKey => "Circumvent";
+    public override string IdPart => "Circumvent";
     public bool NoVents => VentsAvailable <= 0;
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
+    public bool InVent { get; set; }
 
     public override string IntroInfo => NoVents
-        ? TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurbNone")
-        : TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+        ? MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}IntroBlurbNone")
+        : MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
 
     public override string GetDescription()
     {
         return NoVents
-            ? TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescriptionNone")
-            : TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription")
+            ? MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}TabDescriptionNone")
+            : MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription")
                 .Replace("<amount>", VentsAvailable.ToString(TownOfUsPlugin.Culture));
     }
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -69,7 +74,7 @@ public sealed class CircumventModifier : TouGameModifier, IWikiDiscoverable
 
     public override bool? CanVent()
     {
-        if (VentsAvailable <= 0)
+        if (!InVent && VentsAvailable <= 0)
         {
             return false;
         }

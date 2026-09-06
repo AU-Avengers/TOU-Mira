@@ -1,8 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using MiraAPI.Events;
+using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -862,6 +863,8 @@ public static class TouRoleManagerPatches
 
     public static IEnumerator CoAssignTargets()
     {
+        yield return null;
+
         foreach (var role in MiscUtils.SpawnableRoles.Where(x => x is IAssignableTargets)
                      .OrderBy(x => (x as IAssignableTargets)!.Priority))
         {
@@ -872,14 +875,11 @@ public static class TouRoleManagerPatches
             }
         }
 
-        foreach (var modifier in MiscUtils.AllModifiers.Where(x => x is IAssignableTargets)
-                     .OrderBy(x => (x as IAssignableTargets)!.Priority))
+        foreach (var assignMod in MiscUtils.AssignableTargetModifiers
+                     .OrderBy(x => x.Priority))
         {
-            if (modifier is IAssignableTargets assignMod)
-            {
-                assignMod.AssignTargets();
-                yield return new WaitForSeconds(0.01f);
-            }
+            assignMod.AssignTargets();
+            yield return new WaitForSeconds(0.01f);
         }
 
         GhostRoleSetup();
@@ -892,15 +892,21 @@ public static class TouRoleManagerPatches
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
-    public static bool SelectRolesPatch()
+    public static bool SelectRolesPatch(RoleManager __instance)
     {
         var assignmentType = (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
         Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager} | Assignment type is set to {assignmentType.ToDisplayString()}!");
         GameManager.Instance.LogicOptions.SyncOptions();
         ModifierManager.MiraAssignsModifiers = false;
-
-        if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla)
+        MiraAPI.Patches.Roles.SelectRolesPatch.ApiHandlesRoleSelect = false;
+        foreach (var mod in MiscUtils.AllBaseGameModifiers)
         {
+            mod.BeforeModifierSpawns();
+        }
+
+        if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla || !CustomGameModeManager.IsClassic())
+        {
+            MiraAPI.Patches.Roles.SelectRolesPatch.ApiHandlesRoleSelect = true;
             return true;
         }
 
@@ -998,7 +1004,23 @@ public static class TouRoleManagerPatches
             }
         }
 
-        if (assignmentType is RoleSelectionMode.RoleList)
+        var distrib = OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution();
+        if (distrib is RoleDistribution.Draft && TownOfUs.Modules.DraftMode.DraftApplier.PendingDraftStates.Count > 0)
+        {
+            TownOfUs.Modules.DraftMode.DraftApplier.ApplyDraftResults(TownOfUs.Modules.DraftMode.DraftApplier.PendingDraftStates);
+            TownOfUs.Modules.DraftMode.DraftApplier.PendingDraftStates.Clear();
+            
+            // Safety fallback: any player who somehow didn't get a role gets Crewmate
+            foreach (var p in PlayerControl.AllPlayerControls)
+            {
+                if (p == null || p.Data == null || p.Data.Disconnected) continue;
+                if (p.Data.Role == null || p.Data.Role.Role == 0)
+                {
+                    p.RpcSetRole(RoleTypes.Crewmate);
+                }
+            }
+        }
+        else if (assignmentType is RoleSelectionMode.RoleList)
         {
             AssignRolesFromRoleList(infected);
         }
@@ -1013,7 +1035,7 @@ public static class TouRoleManagerPatches
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     [HarmonyPostfix]
     [HarmonyPriority(Priority.Low)]
-    public static void SetSpectatorsAndModifiers()
+    public static void SetSpectatorsAndModifiers(RoleManager __instance)
     {
         var spectators = GameData.Instance.AllPlayers.ToArray()
             .Where(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName)).ToList();
@@ -1076,7 +1098,7 @@ public static class TouRoleManagerPatches
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.AssignRoleOnDeath))]
     [HarmonyPrefix]
-    public static bool AssignRoleOnDeathPatch(PlayerControl player, bool specialRolesAllowed)
+    public static bool AssignRoleOnDeathPatch(RoleManager __instance, PlayerControl player, bool specialRolesAllowed)
     {
         // Note: I know this is a one-to-one recreation of the AssignRoleOnDeath function, but for some reason,
         // the original won't spawn the Spectre and just spawns Neutral Ghost instead
@@ -1106,7 +1128,7 @@ public static class TouRoleManagerPatches
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.TryAssignSpecialGhostRoles))]
     [HarmonyPrefix]
-    public static bool TryAssignSpecialGhostRolesPatch(PlayerControl player)
+    public static bool TryAssignSpecialGhostRolesPatch(RoleManager __instance, PlayerControl player)
     {
         var text = $"TryAssignSpecialGhostRolesPatch - Player: '{player.Data.PlayerName}'";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, text);
@@ -1145,9 +1167,9 @@ public static class TouRoleManagerPatches
     //}
     [HarmonyPatch(typeof(IGameOptionsExtensions), nameof(IGameOptionsExtensions.GetAdjustedNumImpostors))]
     [HarmonyPrefix]
-    public static bool GetAdjustedImposters(ref int __result)
+    public static bool GetAdjustedImposters(IGameOptions __instance, ref int __result)
     {
-        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal || !CustomGameModeManager.IsClassic())
         {
             return true;
         }

@@ -33,6 +33,8 @@ public static class VanillaRolePatches
                 RoleTypes.Tracker => TownOfUsColors.Tracker,
                 RoleTypes.Scientist => TownOfUsColors.Scientist,
                 RoleTypes.Noisemaker => TownOfUsColors.Noisemaker,
+                RoleTypes.Engineer => TownOfUsColors.Engineer,
+                RoleTypes.Judge => TownOfUsColors.Prosecutor,
                 _ => Palette.CrewmateBlue
             };
             __result = newColor;

@@ -25,14 +25,14 @@ public static class MercenaryEvents
             return;
         }
 
-        button?.ResetCooldownAndOrEffect();
+        button?.ResetButtonCooldown(true);
 
         if (source.Data.Role is WerewolfRole)
         {
             CustomButtonSingleton<WerewolfRampageButton>.Instance.ResetCooldownAndOrEffect();
         }
 
-        source.SetKillTimer(source.GetKillCooldown());
+        source.SetKillTimer(source.GetReducedKillCooldown());
     }
     [RegisterEvent]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
@@ -79,7 +79,8 @@ public static class MercenaryEvents
         var mercOpts = OptionGroupSingleton<MercenaryOptions>.Instance;
 
         var noAttack = (target.PlayerId == source.PlayerId ||
-                        source.HasModifier<IndirectAttackerModifier>() ||
+                        @event is BeforeMurderEvent { IgnoreDefense: true } ||
+                        @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true } ||
                         source.HasModifier<InvulnerabilityModifier>() ||
                         source.HasModifier<VeteranAlertModifier>() ||
                         @event is not BeforeMurderEvent);

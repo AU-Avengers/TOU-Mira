@@ -167,7 +167,7 @@ public static class AprilFoolsPatches
         return true;
     }
 
-    public static PassiveButton CloneMenuItem(this PassiveButton newsButton, string objName, Vector2 pos, Sprite image, string localeKey, string? defaultText)
+    public static PassiveButton CloneMenuItem(this PassiveButton newsButton, string objName, Vector2 pos, Sprite image, string IdPart, string? defaultText)
     {
         var obj = Object.Instantiate(newsButton,
             GameObject.Find("Main Buttons").transform.Find("BottomButtonBounds").transform);
@@ -178,7 +178,7 @@ public static class AprilFoolsPatches
         positioner.updateAlways = true;
 
         obj.transform.GetChild(0).GetChild(0)
-            .AddMiraTranslator(localeKey, false, defaultText);
+            .AddMiraTranslator(IdPart, defaultText);
 
         var highlightObj = obj.transform.GetChild(1).gameObject;
         var baseObj = obj.transform.GetChild(2).gameObject;

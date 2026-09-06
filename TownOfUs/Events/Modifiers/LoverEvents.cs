@@ -9,6 +9,9 @@ using MiraAPI.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
+using TownOfUs.Networking;
 using TownOfUs.Options.Modifiers.Alliance;
 using UnityEngine;
 
@@ -25,7 +28,7 @@ public static class LoverEvents
         }
 
         if (!@event.Player.TryGetModifier<LoverModifier>(out var loveMod)
-            || !OptionGroupSingleton<LoversOptions>.Instance.BothLoversDie || loveMod.OtherLover == null
+            || !OptionGroupSingleton<LoversOptions>.Instance.BothLoversDie || loveMod.LoverDisconnected || loveMod.OtherLover == null
             || loveMod.OtherLover.HasDied() || loveMod.OtherLover.HasModifier<InvulnerabilityModifier>())
         {
             return;
@@ -34,28 +37,36 @@ public static class LoverEvents
         switch (@event.DeathReason)
         {
             case DeathReason.Exile:
-                DeathHandlerModifier.UpdateDeathHandlerImmediate(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    lockInfo: DeathHandlerOverride.SetTrue);
+                GameHistory.UpdatePlayerDeathData(loveMod.OtherLover, MiraLocaleManager.Get("DiedToHeartbreak"), 0, HudManagerHelper.Instance.CurrentRound,
+                    DeathHandlerOverride.SetTrue,
+                    lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
                 loveMod.OtherLover.Exiled();
                 break;
             case DeathReason.Kill:
-                var showAnim = !MeetingHud.Instance && !ExileController.Instance;
-                var murderResultFlags2 = MurderResultFlags.DecisionByHost | MurderResultFlags.Succeeded;
+                if (PlayerControl.LocalPlayer.IsHost() && MeetingHud.Instance)
+                {
+                    loveMod.OtherLover.RpcMeetingMurder(loveMod.OtherLover, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
+                        causeOfDeath: "Heartbreak");
+                }
+                else if (!MeetingHud.Instance)
+                {
+                    var showAnim = !ExileController.Instance;
+                    var murderResultFlags2 = MurderResultFlags.DecisionByHost | MurderResultFlags.Succeeded;
 
-                DeathHandlerModifier.UpdateDeathHandlerImmediate(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
-                    DeathEventHandlers.CurrentRound,
-                    (!MeetingHud.Instance && !ExileController.Instance)
-                        ? DeathHandlerOverride.SetTrue
-                        : DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
-                loveMod.OtherLover.CustomMurder(
-                    loveMod.OtherLover,
-                    murderResultFlags2,
-                    false,
-                    showAnim,
-                    false,
-                    showAnim,
-                    false);
+                    GameHistory.UpdatePlayerDeathData(loveMod.OtherLover, MiraLocaleManager.Get("DiedToHeartbreak"), 0, HudManagerHelper.Instance.CurrentRound,
+                        showAnim
+                            ? DeathHandlerOverride.SetTrue
+                            : DeathHandlerOverride.SetFalse,
+                        lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
+                    loveMod.OtherLover.CustomMurder(
+                        loveMod.OtherLover,
+                        murderResultFlags2,
+                        false,
+                        showAnim,
+                        false,
+                        showAnim,
+                        false);
+                }
                 break;
         }
     }
@@ -68,7 +79,7 @@ public static class LoverEvents
             lover.OtherLover != null)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                TouLocale.GetParsed("TouModifierLoverIntroMessage")
+                MiraLocaleManager.Get("TownOfUsMira.Modifier.LoverIntroMessage")
                     .Replace("<modifier>", $"{TownOfUsColors.Lover.ToTextColor()}{lover.ModifierName}</color>")
                     .Replace("<player>", $"{TownOfUsColors.Lover.ToTextColor()}{lover.OtherLover.Data.PlayerName}</color>"),
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Lover.LoadAsset());

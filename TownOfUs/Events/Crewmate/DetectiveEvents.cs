@@ -69,7 +69,7 @@ public static class DetectiveEvents
     [RegisterEvent]
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
-        if (@event.Source.IsRole<SoulCollectorRole>())
+        if (@event.Source.IsRole<MedusaRole>())
         {
             return;
         }

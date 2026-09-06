@@ -8,12 +8,22 @@ public static class TouAssets
     internal const string ShortPath = "TownOfUs.Resources";
     private const string CounterPath = "TownOfUs.Resources.AbilityCounters";
     private const string SubmergedPath = "TownOfUs.Resources.Submerged";
+    private const string SettingIconPath = "TownOfUs.Resources.SettingIcons";
+    private const string ElementIconPath = "TownOfUs.Resources.ElementIcons";
+    private const string LocalTabsPath = "TownOfUs.Resources.LocalTabs";
     private static string BetaIdentifier => TownOfUsPlugin.IsDevBuild ? "Beta" : string.Empty;
 
     public static readonly AssetBundle MainBundle = AssetBundleManager.Load("tou-assets");
+    public static LoadableBundleSubAssetHolder MeetingAbilityHolder { get; } = new ("MeetingAbilitySprites", MainBundle);
+    public static LoadableBundleSubAssetHolder AbilityHolder { get; } = new ("AbilitySprites", MainBundle);
+    public static LoadableBundleSubAssetHolder RoleBannerHolder { get; } = new ("RoleBannerSprites", MainBundle);
+    public static LoadableBundleSubAssetHolder UiSpriteHolder { get; } = new ("UiSprites", MainBundle);
 
     public static LoadableAsset<Sprite> Banner => TownOfUsPlugin.LegacyMode.Value is LegacyVisuals.Disabled ? new LoadableResourceAsset($"{ShortPath}.Banner{BetaIdentifier}.png") : LegacyAssets.Banner;
     public static LoadableAsset<Sprite> BannerDark { get; } = new LoadableResourceAsset($"{ShortPath}.BannerDark.png");
+
+    public static LoadableAsset<Sprite> BarkeeperDrinkSpill { get; } =
+        new LoadableResourceAsset($"{ShortPath}.BarkeeperDrinkSpill.png", 200f);
 
     public static LoadableAsset<Sprite> TouMiraIcon { get; } =
         new LoadableResourceAsset($"{ShortPath}.TouMiraIcon.png", 600);
@@ -243,70 +253,75 @@ public static class TouAssets
         new LoadableBundleAsset<Sprite>("MenuOptionActive.png", MainBundle);
 
     public static LoadableAsset<Sprite> WikiButton { get; } =
-        new LoadableBundleAsset<Sprite>("WikiButton.png", MainBundle);
+        new LoadableBundleSubAsset("WikiButton", UiSpriteHolder);
 
     public static LoadableAsset<Sprite> WikiButtonActive { get; } =
-        new LoadableBundleAsset<Sprite>("WikiButtonActive.png", MainBundle);
+        new LoadableBundleSubAsset("WikiButtonActive", UiSpriteHolder);
 
-    public static LoadableAsset<Sprite> ZoomPlus { get; } = new LoadableBundleAsset<Sprite>("Plus.png", MainBundle);
-    public static LoadableAsset<Sprite> ZoomMinus { get; } = new LoadableBundleAsset<Sprite>("Minus.png", MainBundle);
+    public static LoadableAsset<Sprite> ZoomPlus { get; } = new LoadableBundleSubAsset("Plus", UiSpriteHolder);
+    public static LoadableAsset<Sprite> ZoomMinus { get; } = new LoadableBundleSubAsset("Minus", UiSpriteHolder);
 
     public static LoadableAsset<Sprite> ZoomPlusActive { get; } =
-        new LoadableBundleAsset<Sprite>("PlusActive", MainBundle);
+        new LoadableBundleSubAsset("PlusActive", UiSpriteHolder);
 
     public static LoadableAsset<Sprite> ZoomMinusActive { get; } =
-        new LoadableBundleAsset<Sprite>("MinusActive", MainBundle);
+        new LoadableBundleSubAsset("MinusActive", UiSpriteHolder);
 
     public static LoadableAsset<Sprite> TeamChatSwitch { get; } =
         new LoadableResourceAsset($"{ShortPath}.TeamChatSwitch.png", 105f);
 
-    public static LoadableAsset<Sprite> TeamChatInactive { get; } =
-        new LoadableBundleAsset<Sprite>("TeamChatInactive", MainBundle);
-
-    public static LoadableAsset<Sprite> TeamChatActive { get; } =
-        new LoadableBundleAsset<Sprite>("TeamChatActive", MainBundle);
-
-    public static LoadableAsset<Sprite> TeamChatSelected { get; } =
-        new LoadableBundleAsset<Sprite>("TeamChatSelected", MainBundle);
-
     public static LoadableAsset<Sprite> BarryButtonSprite { get; } =
-        new LoadableBundleAsset<Sprite>("BarryButton", MainBundle);
+        new LoadableBundleSubAsset("BarryButton", AbilityHolder);
 
     public static LoadableAsset<Sprite> FreeplayRoleSprite { get; } =
-        new LoadableBundleAsset<Sprite>("FreeplayRoleButton", MainBundle);
+        new LoadableBundleSubAsset("FreeplayRoleButton", AbilityHolder);
 
     public static LoadableAsset<Sprite> FreeplayResetSprite { get; } =
-        new LoadableBundleAsset<Sprite>("FreeplayResetButton", MainBundle);
+        new LoadableBundleSubAsset("FreeplayResetButton", AbilityHolder);
 
     public static LoadableAsset<Sprite> FreeplayModifierSprite { get; } =
-        new LoadableBundleAsset<Sprite>("FreeplayModifierButton", MainBundle);
+        new LoadableBundleSubAsset("FreeplayModifierButton", AbilityHolder);
 
     public static LoadableAsset<Sprite> BroadcastSprite { get; } =
-        new LoadableBundleAsset<Sprite>("BroadcastButton", MainBundle);
+        new LoadableBundleSubAsset("BroadcastButton", AbilityHolder);
 
     public static LoadableAsset<Sprite> DisperseSprite { get; } =
-        new LoadableBundleAsset<Sprite>("DisperseButton", MainBundle);
+        new LoadableBundleSubAsset("DisperseButton", AbilityHolder);
 
     public static LoadableAsset<Sprite> VitalsSprite { get; } =
-        new LoadableBundleAsset<Sprite>("VitalsButton", MainBundle);
+        new LoadableBundleSubAsset("VitalsButton", AbilityHolder);
 
     public static LoadableAsset<Sprite> CameraSprite { get; } =
-        new LoadableBundleAsset<Sprite>("CamButton", MainBundle);
+        new LoadableBundleSubAsset("CamButton", AbilityHolder);
 
     public static LoadableAsset<Sprite> AdminSprite { get; } =
-        new LoadableBundleAsset<Sprite>("AdminButton", MainBundle);
+        new LoadableBundleSubAsset("AdminButton", AbilityHolder);
 
-    public static LoadableAsset<Sprite> KillSprite { get; } = new LoadableBundleAsset<Sprite>("KillButton", MainBundle);
-    public static LoadableAsset<Sprite> VentSprite { get; } = new LoadableBundleAsset<Sprite>("VentButton", MainBundle);
+    public static LoadableAsset<Sprite> OverclockSprite { get; } =
+        new LoadableBundleSubAsset("OverclockerOverButton", AbilityHolder);
+
+    public static LoadableAsset<Sprite> UnderclockSprite { get; } =
+        new LoadableBundleSubAsset("OverclockerUnderButton", AbilityHolder);
+
+    public static LoadableAsset<Sprite> KillSprite { get; } = new LoadableBundleSubAsset("KillButton", AbilityHolder);
+    public static LoadableAsset<Sprite> VentSprite { get; } = new LoadableBundleSubAsset("VentButton", AbilityHolder);
 
     public static LoadableAsset<Sprite> HysteriaSprite { get; } =
-        new LoadableBundleAsset<Sprite>("Hysteria.png", MainBundle);
+        new LoadableBundleSubAsset("Hysteria", MeetingAbilityHolder);
 
     public static LoadableAsset<Sprite> HysteriaCleanSprite { get; } =
-        new LoadableBundleAsset<Sprite>("HysteriaClean.png", MainBundle);
+        new LoadableBundleSubAsset("HysteriaClean", MeetingAbilityHolder);
 
     public static LoadableAsset<Sprite> ShootMeetingSprite { get; } =
-        new LoadableBundleAsset<Sprite>("Shoot.png", MainBundle);
+        new LoadableBundleSubAsset("Shoot", MeetingAbilityHolder);
+    public static LoadableAsset<Sprite> MassHysteriaSprite { get; } = new LoadableResourceAsset($"{ShortPath}.MassHysteriaSprite.png");
+    public static LoadableAsset<Sprite> MayorRevealSprite { get; } = new LoadableResourceAsset($"{ShortPath}.MayorRevealSprite.png");
+    public static LoadableAsset<Sprite> ProsecutorToggleSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ProsecutorToggleSprite.png");
+    public static LoadableAsset<Sprite> ToggleDisabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ToggleDisabled.png");
+    public static LoadableAsset<Sprite> ToggleEnabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ToggleEnabled.png");
+
+    public static LoadableAsset<Sprite> ProsecuteMeetingSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.ProsecuteSprite.png");
 
     public static LoadableAsset<Sprite> BlackmailLetterSprite { get; } =
         new LoadableBundleAsset<Sprite>("BlackmailLetter", MainBundle);
@@ -318,47 +333,47 @@ public static class TouAssets
         new LoadableBundleAsset<Sprite>("Footprint", MainBundle);
 
     public static LoadableAsset<Sprite> SwapActive { get; } =
-        new LoadableBundleAsset<Sprite>("SwapActive.png", MainBundle);
+        new LoadableBundleSubAsset("SwapActive", MeetingAbilityHolder);
 
     public static LoadableAsset<Sprite> SwapInactive { get; } =
-        new LoadableBundleAsset<Sprite>("SwapDisabled.png", MainBundle);
+        new LoadableBundleSubAsset("SwapDisabled", MeetingAbilityHolder);
 
     public static LoadableAsset<Sprite> RevealButtonSprite { get; } =
-        new LoadableBundleAsset<Sprite>("Reveal.png", MainBundle);
+        new LoadableBundleSubAsset("Reveal", MeetingAbilityHolder);
 
     public static LoadableAsset<Sprite> RevealCleanSprite { get; } =
-        new LoadableBundleAsset<Sprite>("RevealClean.png", MainBundle);
+        new LoadableBundleSubAsset("RevealClean", MeetingAbilityHolder);
 
-    public static LoadableAsset<Sprite> Guess { get; } = new LoadableBundleAsset<Sprite>("Guess.png", MainBundle);
+    public static LoadableAsset<Sprite> Guess { get; } = new LoadableBundleSubAsset("Guess", MeetingAbilityHolder);
     public static LoadableAsset<Sprite> InJailSprite { get; } = new LoadableBundleAsset<Sprite>("InJail", MainBundle);
 
     public static LoadableAsset<Sprite> JailCellSprite { get; } =
         new LoadableBundleAsset<Sprite>("JailCell", MainBundle);
 
     public static LoadableAsset<Sprite> ImitateSelectSprite { get; } =
-        new LoadableBundleAsset<Sprite>("ImitateSelect.png", MainBundle);
+        new LoadableBundleSubAsset("ImitateSelect", MeetingAbilityHolder);
 
     public static LoadableAsset<Sprite> ImitateDeselectSprite { get; } =
-        new LoadableBundleAsset<Sprite>("ImitateDeselect.png", MainBundle);
+        new LoadableBundleSubAsset("ImitateDeselect", MeetingAbilityHolder);
 
     public static LoadableAsset<Sprite> ExecuteSprite { get; } =
-        new LoadableBundleAsset<Sprite>("Execute.png", MainBundle);
+        new LoadableBundleSubAsset("Execute", MeetingAbilityHolder);
 
     public static LoadableAsset<Sprite> ExecuteCleanSprite { get; } =
-        new LoadableBundleAsset<Sprite>("ExecuteClean.png", MainBundle);
+        new LoadableBundleSubAsset("ExecuteClean", MeetingAbilityHolder);
 
     public static LoadableAsset<Sprite> RetrainSprite { get; } =
-        new LoadableBundleAsset<Sprite>("Retrain.png", MainBundle);
+        new LoadableBundleSubAsset("Retrain", MeetingAbilityHolder);
 
     public static LoadableAsset<Sprite> RetrainCleanSprite { get; } =
-        new LoadableBundleAsset<Sprite>("RetrainClean.png", MainBundle);
+        new LoadableBundleSubAsset("RetrainClean", MeetingAbilityHolder);
     public static LoadableAsset<Sprite> Hacked { get; } = new LoadableBundleAsset<Sprite>("Hacked", MainBundle);
 
     public static LoadableAsset<Sprite> TribunalSprite { get; } =
-        new LoadableBundleAsset<Sprite>("Tribunal.png", MainBundle);
+        new LoadableBundleSubAsset("Tribunal", MeetingAbilityHolder);
     
     public static LoadableAsset<Sprite> TribunalClearSprite { get; } =
-        new LoadableBundleAsset<Sprite>("TribunalClean.png", MainBundle);
+        new LoadableBundleSubAsset("TribunalClean", MeetingAbilityHolder);
   
     public static LoadableAsset<Sprite> BarricadeVentSprite { get; } =
         new LoadableBundleAsset<Sprite>("BarricadeVent1.png", MainBundle);
@@ -380,7 +395,7 @@ public static class TouAssets
         get
         {
             var sprite = ArrowBasicSprite;
-            switch (LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ArrowStyleEnum.Value)
+            switch (LocalSettingsTabSingleton<TouLocalTabGameplay>.Instance.ArrowStyleEnum.Value)
             {
                 case ArrowStyleType.DarkGlow:
                     sprite = ArrowDarkOutSprite;
@@ -417,14 +432,14 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> KillBG { get; } = new LoadableBundleAsset<Sprite>("KillBackground", MainBundle);
 
-    public static LoadableAsset<Sprite> ColorKillBg { get; } =
-        new LoadableResourceAsset($"{ShortPath}.ColorKillBg.png");
+    public static LoadableAsset<Sprite> ColorKillBg { get; } = new LoadableBundleAsset<Sprite>("KillBackgroundColor", MainBundle);
 
-    public static LoadableAsset<Sprite> NeutKillBg { get; } =
-        new LoadableResourceAsset($"{ShortPath}.NeutKillBg.png");
+    public static LoadableAsset<Sprite> NeutKillBg { get; } = new LoadableBundleAsset<Sprite>("KillBackgroundNeut", MainBundle);
 
-    public static LoadableAsset<Sprite> CrewKillBg { get; } =
-        new LoadableResourceAsset($"{ShortPath}.CrewKillBg.png");
+    public static LoadableAsset<Sprite> CrewKillBg { get; } = new LoadableBundleAsset<Sprite>("KillBackgroundCrew", MainBundle);
+
+    public static LoadableAsset<Sprite> GhostwalkerVentSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.GhostwalkerVentSprite.png");
 
     public static LoadableAsset<Sprite> VitalBgMissin { get; } =
         new LoadableResourceAsset($"{ShortPath}.VitalBgMissin.png");
@@ -444,16 +459,19 @@ public static class TouAssets
     public static LoadableAsset<Sprite> WikiBgSprite { get; } = new LoadableBundleAsset<Sprite>("WikiBg", MainBundle);
 
     public static LoadableAsset<Sprite> TimerDrawSprite { get; } =
-        new LoadableBundleAsset<Sprite>("TimerDraw.png", MainBundle);
+        new LoadableBundleAsset<Sprite>("TimerDraw", MainBundle);
 
     public static LoadableAsset<Sprite> TimerImpSprite { get; } =
-        new LoadableBundleAsset<Sprite>("TimerImp.png", MainBundle);
+        new LoadableBundleAsset<Sprite>("TimerImp", MainBundle);
 
     public static LoadableAsset<Sprite> TerminologySprite { get; } =
         new LoadableBundleAsset<Sprite>("Terminology", MainBundle);
 
     public static LoadableAsset<Sprite> ActionSprite { get; } =
         new LoadableBundleAsset<Sprite>("Action", MainBundle);
+
+    public static LoadableAsset<Sprite> JailUnmute { get; } =
+        new LoadableResourceAsset($"{ShortPath}.JailUnmute.png", 900f);
 
     public static LoadableAsset<Sprite> MayorPet { get; } =
         new LoadableResourceAsset($"{ShortPath}.MayorPet.png", 500f);
@@ -476,8 +494,126 @@ public static class TouAssets
     public static readonly LoadableAsset<GameObject> BlackMinipostorPet =
         new LoadableBundleAsset<GameObject>("BlackMinipostorPet", MainBundle);
 
+    public static readonly LoadableAsset<GameObject> FlopsterPet =
+        new LoadableBundleAsset<GameObject>("FlopsterPet", MainBundle);
+
+    public static readonly LoadableAsset<GameObject> ProsecuteAnimation =
+        new LoadableBundleAsset<GameObject>("ProsecuteAnimation", MainBundle);
+
+    public static readonly LoadableAsset<Sprite> DeputyOutfit =
+        new LoadableBundleAsset<Sprite>("DeputyOutfit", MainBundle);
+
+    public static readonly LoadableAsset<Sprite> DeputyRevealBg =
+        new LoadableBundleAsset<Sprite>("DeputyRevealBg", MainBundle);
+
+    public static readonly LoadableAsset<GameObject> MedusaStonedPlayer =
+        new LoadableBundleAsset<GameObject>("StonedPlayer", MainBundle);
+
+    public static LoadableAsset<AnimationClip> MedusaStoneMove { get; } =
+        new LoadableBundleAsset<AnimationClip>("MedusaStoneMoveAnim", MainBundle);
+
+    public static LoadableAsset<AnimationClip> MesudaStoneCrack { get; } =
+        new LoadableBundleAsset<AnimationClip>("MedusaStoneCrackAnim", MainBundle);
+
+    public static LoadableAsset<AnimationClip> MesudaStoneVisor { get; } =
+        new LoadableBundleAsset<AnimationClip>("MedusaStoneVisorAnim", MainBundle);
+
+    public static LoadableAsset<AnimationClip> MesudaStoneShatter { get; } =
+        new LoadableBundleAsset<AnimationClip>("MedusaStoneShatterAnim", MainBundle);
+    
+    public static LoadableAsset<Sprite> IconSkeld { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Skeld.png");
+    
+    public static LoadableAsset<Sprite> IconMira { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Mira.png");
+    
+    public static LoadableAsset<Sprite> IconPolus { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Polus.png");
+    
+    public static LoadableAsset<Sprite> IconDleks { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Dleks.png");
+    
+    public static LoadableAsset<Sprite> IconAirship { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Airship.png");
+    
+    public static LoadableAsset<Sprite> IconFungle { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Fungle.png");
+    
+    public static LoadableAsset<Sprite> IconLevelImposter { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.LevelImposter.png");
+    
+    public static LoadableAsset<Sprite> IconSubmerged { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Submerged.png");
+    
+    public static LoadableAsset<Sprite> IconTownOfPolus { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.TownOfPolus.png", 200f);
+
+    public static LoadableAsset<Sprite> IconDraftMode { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Draft.png", 345f);
+
+    public static LoadableAsset<Sprite> ChefProgressFedRainbow { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.ChefFedRainbow.png");
+    
+    public static LoadableAsset<Sprite> ChefProgressFedUncolored { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.ChefFedUncolored.png");
+    
+    public static LoadableAsset<Sprite> ChefProgressBodyFlash { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.ChefBodyFlash.png");
+    
+    public static LoadableAsset<Sprite> ChefProgressBodyGiant { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.ChefBodyGiant.png");
+    
+    public static LoadableAsset<Sprite> ChefProgressBodyMini { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.ChefBodyMini.png");
+    
+    public static LoadableAsset<Sprite> ChefProgressBodyNormal { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.ChefBodyNormal.png");
+    
+    public static LoadableAsset<Sprite> ChefProgressNone { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.ChefNone.png");
+    
+    public static LoadableAsset<Sprite> PlatformEpic { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformEpic.png");
+    
+    public static LoadableAsset<Sprite> PlatformItch { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformItch.png");
+    
+    public static LoadableAsset<Sprite> PlatformStarlight { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformStarlight.png");
+    
+    public static LoadableAsset<Sprite> PlatformSteam { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformSteam.png");
+    
+    public static LoadableAsset<Sprite> PlatformWindows { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformWindows.png");
+    
+    public static LoadableAsset<Sprite> PlatformUnknown { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformUnknown.png");
+
+    public static LoadableAsset<Sprite> LocalActions { get; } =
+        new LoadableResourceAsset($"{LocalTabsPath}.Actions.png", 175f);
+
+    public static LoadableAsset<Sprite> LocalButtons { get; } =
+        new LoadableResourceAsset($"{LocalTabsPath}.Buttons.png", 175f);
+
+    public static LoadableAsset<Sprite> LocalLobby { get; } =
+        new LoadableResourceAsset($"{LocalTabsPath}.Lobby.png", 175f);
+
+    public static LoadableAsset<Sprite> LocalPlayers { get; } =
+        new LoadableResourceAsset($"{LocalTabsPath}.Players.png", 175f);
+
+    public static LoadableAsset<Sprite> LocalPreferences { get; } =
+        new LoadableResourceAsset($"{LocalTabsPath}.Preferences.png", 175f);
+
+    public static LoadableAsset<Sprite> LocalGameplay { get; } =
+        new LoadableResourceAsset($"{LocalTabsPath}.Gameplay.png", 175f);
+
     public static void Initialize()
     {
+        MeetingAbilityHolder.TryInit();
+        AbilityHolder.TryInit();
+        RoleBannerHolder.TryInit();
+        UiSpriteHolder.TryInit();
         AuAvengersAnims.Initialize();
     }
 }

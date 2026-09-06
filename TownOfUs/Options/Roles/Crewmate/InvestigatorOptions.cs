@@ -6,9 +6,9 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class InvestigatorOptions : AbstractOptionGroup<InvestigatorRole>
+public sealed class InvestigatorOptions : AbstractRoleOptionGroup<InvestigatorRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleInvestigator", "Investigator");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Investigator", "Investigator");
 
     public ModdedEnumOption FootprintMode { get; set; } = new("TouOptionInvestigatorFootprintSeperated", (int)PrintMode.Distance,
         typeof(PrintMode));

@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class SeerIntuitButton : TownOfUsRoleButton<SeerRole, PlayerControl>
 {
-    public override string Name => TouLocale.GetParsed("TouRoleSeerIntuit", "Intuit");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.SeerIntuit", "Intuit");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Seer;
     public override int MaxUses => (int)OptionGroupSingleton<SeerOptions>.Instance.MaxCompares;
@@ -21,6 +21,13 @@ public sealed class SeerIntuitButton : TownOfUsRoleButton<SeerRole, PlayerContro
         return base.Enabled(role) &&
                OptionGroupSingleton<SeerOptions>.Instance.SalemSeer;
     }
+
+    public override bool CanUse()
+    {
+        return base.CanUse() &&
+               (OptionGroupSingleton<SeerOptions>.Instance.CanUseMultiplePerRound || !Role.UsedThisRound);
+    }
+
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SeerOptions>.Instance.SeerCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.IntuitSprite;
 
@@ -32,7 +39,7 @@ public sealed class SeerIntuitButton : TownOfUsRoleButton<SeerRole, PlayerContro
     public override PlayerControl? GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance,
-            predicate: x => Role.GazeTarget != x && Role.IntuitTarget != x && !x.HasModifier<BaseRevealModifier>(y => y.RevealRole && y.Visible));
+            predicate: x => Role.GazeTarget != x && Role.IntuitTarget != x && Role.CanCompare(x) && !x.HasModifier<BaseRevealModifier>(y => y.RevealRole && y.Visible));
     }
 
     protected override void OnClick()
@@ -57,7 +64,7 @@ public sealed class SeerIntuitButton : TownOfUsRoleButton<SeerRole, PlayerContro
         }
         else
         {
-            var text = TouLocale.GetParsed("TouRoleSeerIntuitNotif").Replace("<player>", Target.Data.PlayerName);
+            var text = MiraLocaleManager.Get("TownOfUsMira.Role.SeerIntuitNotif").Replace("<player>", Target.Data.PlayerName);
             var notif = Helpers.CreateAndShowNotification($"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f),
                 spr: TouRoleIcons.Seer.LoadAsset());
             notif.AdjustNotification();

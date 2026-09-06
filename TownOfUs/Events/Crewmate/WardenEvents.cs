@@ -5,9 +5,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -39,8 +37,7 @@ public static class WardenEvents
 
             var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
                 x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-            var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
-                x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
+            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
             mod.ShowFort = showShieldedEveryone || showShieldedSelf || showShieldedWarden ||
                            (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
@@ -94,7 +91,8 @@ public static class WardenEvents
         }
 
         if (!target.HasModifier<WardenFortifiedModifier>() || source == target ||
-            (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield))
+            @event is BeforeMurderEvent { IgnoreDefense: true } ||
+            @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
         {
             return;
         }
@@ -119,7 +117,7 @@ public static class WardenEvents
 
         if (warden != null && (TutorialManager.InstanceExists || source.AmOwner))
         {
-            WardenRole.RpcWardenNotify(warden.Player, source);
+            WardenRole.RpcWardenNotify(warden.Player, source, target);
         }
     }
 }

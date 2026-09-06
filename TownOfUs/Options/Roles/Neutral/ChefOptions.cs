@@ -6,9 +6,9 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class ChefOptions : AbstractOptionGroup<ChefRole>
+public sealed class ChefOptions : AbstractRoleOptionGroup<ChefRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleChef", "Chef");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Chef", "Chef");
 
     [ModdedNumberOption("TouOptionChefCookCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float CookCooldown { get; set; } = 25f;

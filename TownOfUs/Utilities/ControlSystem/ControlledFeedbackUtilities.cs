@@ -16,17 +16,22 @@ public static class ControlledFeedbackUtilities
             return null;
         }
 
-        var controlledText = Modules.Localization.TouLocale.GetParsed(
-            "TouControlControlledNotif",
-            "You are being controlled by a <controller>!",
-            new Dictionary<string, string> { { "<controller>", controllerName } });
+        string[] possibles =
+        [
+            "TownOfUsMira.Role.PuppeteerControlNotifBasic", "TownOfUsMira.Role.PuppeteerControlNotif1", "TownOfUsMira.Role.PuppeteerControlNotif2",
+            "TownOfUsMira.Role.PuppeteerControlNotif3"
+        ];
+        var controlledText = MiraLocaleManager.Get(
+            possibles.RandomSnapshot()).Replace("<role>", controllerName);
 
         var colored = controllerColor.ToTextColor();
-        return Helpers.CreateAndShowNotification(
+        var notif = Helpers.CreateAndShowNotification(
             $"<b>{colored}{controlledText}</color></b>",
             Color.white,
             new Vector3(0f, 2f, -20f),
             spr: icon);
+        notif.AdjustNotification();
+        return notif;
     }
 
     public static void ClearNotification(ref LobbyNotificationMessage? notification)

@@ -13,7 +13,7 @@ namespace TownOfUs.Patches.Misc;
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
 public static class MeetingShhPatches
 {
-    public static void Postfix()
+    public static void Postfix(MeetingHud __instance)
     {
         if (PlayerControl.LocalPlayer && !PlayerControl.LocalPlayer.Data.IsDead &&
             (PlayerControl.LocalPlayer.HasModifier<BlackmailedModifier>() ||

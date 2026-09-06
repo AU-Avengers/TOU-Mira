@@ -9,14 +9,14 @@ namespace TownOfUs.Buttons.Modifiers;
 
 public sealed class TestTimeLordRewindButton : TownOfUsButton
 {
-    public override string Name => TouLocale.GetParsed("TouRoleTimeLordRewind", "Rewind");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.TimeLordRewind", "Rewind");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.TimeLord;
 
     public override float Cooldown =>
         Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindCooldown + MapCooldown, 5f, 120f);
 
-    public override float EffectDuration => 3.5f;
+    public override float EffectDuration => OptionGroupSingleton<TimeLordOptions>.Instance.RewindDuration;
 
     public override int MaxUses => (int)OptionGroupSingleton<TimeLordOptions>.Instance.MaxUses;
 
@@ -27,13 +27,13 @@ public sealed class TestTimeLordRewindButton : TownOfUsButton
     protected override void OnClick()
     {
         // Use the same RPC as Time Lord role, but check for modifier instead
-        TimeLordRole.RpcStartRewind(PlayerControl.LocalPlayer);
-        OverrideName(TouLocale.GetParsed("TouRoleTimeLordRewinding", "Rewinding"));
+        TimeLordRole.RpcStartRewind(PlayerControl.LocalPlayer, EffectDuration);
+        OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.TimeLordRewinding", "Rewinding"));
     }
 
     public override void OnEffectEnd()
     {
-        OverrideName(TouLocale.GetParsed("TouRoleTimeLordRewind", "Rewind"));
+        OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.TimeLordRewind", "Rewind"));
     }
 
     public override bool Enabled(RoleBehaviour? role)

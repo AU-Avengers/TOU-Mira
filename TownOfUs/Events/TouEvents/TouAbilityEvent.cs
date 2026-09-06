@@ -257,5 +257,7 @@ public enum AbilityType
     InquisitorWin,
 
     AssassinGuess,
-    AssassinMisguess
+    AssassinMisguess,
+
+    MedusaGazing,
 }

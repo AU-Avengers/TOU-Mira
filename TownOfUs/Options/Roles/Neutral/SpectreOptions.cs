@@ -4,9 +4,9 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class SpectreOptions : AbstractOptionGroup<SpectreRole>
+public sealed class SpectreOptions : AbstractRoleOptionGroup<SpectreRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleSpectre", "Spectre");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Spectre", "Spectre");
 
     [ModdedNumberOption("TouOptionSpectreTasksLeftClickable", 1, 15)]
     public float NumTasksLeftBeforeClickable { get; set; } = 3f;

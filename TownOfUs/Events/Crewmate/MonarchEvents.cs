@@ -36,7 +36,7 @@ public static class MonarchEvents
             return;
 
         var notif = Helpers.CreateAndShowNotification(
-            $"<b>{TouLocale.GetParsed("TouRoleMonarchKnightFallenFeedback").Replace("<player>", deadPlayer.Data.PlayerName)}</b>",
+            $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.MonarchKnightFallenFeedback").Replace("<player>", deadPlayer.Data.PlayerName)}</b>",
             Color.white,
             new Vector3(0f, 1f, -20f),
             spr: TouRoleIcons.Monarch.LoadAsset());
@@ -53,6 +53,11 @@ public static class MonarchEvents
         if (target == null || button == null || button is not IKillButton || !button.CanClick())
             return;
 
+        if (PlayerControl.LocalPlayer == target || @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
+        {
+            return;
+        }
+
         if (CheckForMonarchImmunity(@event, target))
         {
             ResetButtonTimer(PlayerControl.LocalPlayer, button);
@@ -65,6 +70,10 @@ public static class MonarchEvents
         var source = @event.Source;
         var target = @event.Target;
 
+        if (source == target || @event.IgnoreDefense)
+        {
+            return;
+        }
         if (CheckForMonarchImmunity(@event, target))
         {
             ResetButtonTimer(source);

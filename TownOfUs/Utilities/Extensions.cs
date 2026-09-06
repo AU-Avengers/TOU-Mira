@@ -4,10 +4,12 @@ using AmongUs.GameOptions;
 using LibCpp2IL;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
+using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Events.TouEvents;
@@ -15,6 +17,7 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
@@ -108,8 +111,7 @@ public static class Extensions
             return false;
         }
 
-        return player.Data.Role.IsImpostor() &&
-               (player.HasModifier<TraitorCacheModifier>() || player.Data.Role is TraitorRole) ||
+        return (player.HasModifier<TraitorCacheModifier>() || player.Data.Role is TraitorRole) ||
                (OptionGroupSingleton<CrewpostorOptions>.Instance.ShowsAsImpostor.Value &&
                 player.HasModifier<CrewpostorModifier>());
     }
@@ -196,6 +198,12 @@ public static class Extensions
     public static IEnumerator CoCleanCustom(this DeadBody body, BodyVitalsMode result)
     {
         var renderer = body.bodyRenderers[^1];
+        if (NoisemakerModifier.ActiveNoisemakerTriggers.TryGetValue(body.ParentId, out var noisemakerTrigger) && noisemakerTrigger.duration > 1)
+        {
+            // this stops the alert from staying forever
+            noisemakerTrigger.StopAllCoroutines();
+            noisemakerTrigger.SetDuration(1);
+        }
         yield return MiscUtils.PerformTimedAction(1f, t => renderer.color = renderer.color.SetAlpha(1 - t));
         var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
         var hidePets = tweakOpt.PetVisibilityUponDeath;
@@ -435,7 +443,7 @@ public static class Extensions
 
         var teamName = MiscUtils.GetParsedModifierFaction(faction, true);
         var finalString =
-            $"<size=88%>{modifier.ModifierName}<color=white> ({TouLocale.Get("Modifier")})</size>\n<size=70%>{teamName}</color></size>";
+            $"<size=88%>{modifier.ModifierName}<color=white> ({MiraLocaleManager.Get("Modifier")})</size>\n<size=70%>{teamName}</color></size>";
         var color = MiscUtils.GetModifierColour(modifier);
 
         panel.LevelNumberText.transform.parent.gameObject.SetActive(false);
@@ -443,6 +451,12 @@ public static class Extensions
         panel.NameText.text = finalString;
         panel.NameText.alignment = TextAlignmentOptions.Right;
         panel.NameText.transform.localPosition += Vector3.left * 0.05f;
+    }
+
+    public static ShapeshifterPanel GetVictimPanel(this CustomPlayerMenu playerMenu, NetworkedPlayerInfo player)
+    {
+        return playerMenu.potentialVictims.First(victim =>
+            victim.NameText.text == player.PlayerName || victim.ColorBlindName.text == player.PlayerName);
     }
 
     [MethodRpc((uint)TownOfUsRpc.ChangeRole)]
@@ -518,6 +532,52 @@ public static class Extensions
     {
         player.transform.position = pos;
         player.NetTransform.SnapTo(pos);
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.ForceEnterVent)]
+    public static void RpcForceEnterVent(this PlayerControl player, Vector2 pos, int id, bool kickOut)
+    {
+        Coroutines.Start(CoEnterVent(player, pos, id, kickOut));
+    }
+
+    public static IEnumerator CoEnterVent(PlayerControl player, Vector2 pos, int id, bool kickOut)
+    {
+        player.transform.position = pos;
+        player.NetTransform.SnapTo(pos);
+        var myPlayer = player.MyPhysics;
+        
+        var vent = ShipStatus.Instance.AllVents.FirstOrDefault(v => v.Id == id);
+        if (vent == null)
+        {
+            yield break;
+        }
+        player.NetTransform.SetPaused(true);
+        if (player.AmOwner)
+        {
+            myPlayer.inputHandler.enabled = true;
+        }
+
+        if (!kickOut)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        player.inVent = true;
+        DebugAnalytics.Instance.Analytics.VentUsed(player.Data);
+        vent.EnterVent(player);
+        player.cosmetics.AnimateSkinEnterVent();
+        player.cosmetics.AnimateSkinIdle();
+        myPlayer.Animations.PlayIdleAnimation();
+        player.Visible = false;
+        player.walkingToVent = false;
+        foreach (var anim in player.currentRoleAnimations)
+        {
+            anim.ToggleRenderer(false);
+        }
+        if (player.AmOwner)
+        {
+            VentilationSystem.Update(VentilationSystem.Operation.Enter, id);
+            myPlayer.inputHandler.enabled = false;
+        }
     }
 
     public static void GhostFade(this PlayerControl player)
@@ -597,7 +657,37 @@ public static class Extensions
             ModCompatibility.ChangeFloor(startingVent.transform.position.y > -7f);
         }
 
-        player.RpcSetPos(pos);
+        player.RpcForceEnterVent(pos, startingVent.Id, true);
+    }
+
+    public static void VentAtRandomVent(this PlayerControl player)
+    {
+        List<Vent> vents;
+
+        var cleanVentTasks = player.myTasks.ToArray().Where(x => x.TaskType == TaskTypes.VentCleaning).ToList();
+
+        if (cleanVentTasks != null)
+        {
+            var ids = cleanVentTasks.Where(x => !x.IsComplete)
+                .ToList()
+                .ConvertAll(x => x.FindConsoles().ToArray()[0].ConsoleId);
+
+            vents = ShipStatus.Instance.AllVents.Where(x => !ids.Contains(x.Id)).ToList();
+        }
+        else
+        {
+            vents = ShipStatus.Instance.AllVents.ToList();
+        }
+
+        var startingVent = vents[Random.RandomRangeInt(0, vents.Count)];
+
+        var pos = new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);
+
+        if (ModCompatibility.IsSubmerged())
+        {
+            ModCompatibility.ChangeFloor(startingVent.transform.position.y > -7f);
+        }
+        player.RpcForceEnterVent(pos, startingVent.Id, false);
     }
 
     public static void Shuffle<T>(this List<T> list)
@@ -643,6 +733,11 @@ public static class Extensions
             ghost.Clicked();
             if (player.AmOwner)
             {
+                if (Minigame.Instance)
+                {
+                    Minigame.Instance.Close();
+                    Minigame.Instance.Close();
+                }
                 HudManagerPatches.ZoomButton.SetActive(true);
             }
         }
@@ -659,6 +754,16 @@ public static class Extensions
     {
         return Math.Clamp(UnderdogModifier.GetKillCooldown(player) + TownOfUsMapOptions.GetMapBasedCooldownDifference(),
             5f, 120f);
+    }
+    public static float GetReducedKillCooldown(this PlayerControl player)
+    {
+        return Math.Clamp(UnderdogModifier.GetKillCooldown(player) + TownOfUsMapOptions.GetMapBasedCooldownDifference(),
+            5f, 120f) * OptionGroupSingleton<GameMechanicOptions>.Instance.FullSaveCdMultiplier.Value;
+    }
+    public static void ResetButtonCooldown(this CustomActionButton button, bool applyMultiplier = false)
+    {
+        button.ResetCooldownAndOrEffect();
+        button.SetTimer(button.Timer * (applyMultiplier ? OptionGroupSingleton<GameMechanicOptions>.Instance.FullSaveCdMultiplier.Value : 1f));
     }
 
     /// <summary>

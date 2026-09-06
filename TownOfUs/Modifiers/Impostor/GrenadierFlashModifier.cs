@@ -38,7 +38,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
 
     public static void SetColor()
     {
-        var colorType = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.GrenadierFlashColor.Value;
+        var colorType = LocalSettingsTabSingleton<TouLocalTabGameplay>.Instance.GrenadierFlashColor.Value;
         switch (colorType)
         {
             case GrenadeFlashColor.DarkGray:
@@ -70,7 +70,8 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
             if (!Grenadier.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You were flashed by a Grenadier!</color></b>", Color.white,
+                    $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Modifier.GrenadierFlashedNotification")}</color></b>",
+                    Color.white,
                     spr: TouRoleIcons.Grenadier.LoadAsset());
 
                 notif1.AdjustNotification();

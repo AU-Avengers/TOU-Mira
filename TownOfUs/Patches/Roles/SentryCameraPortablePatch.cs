@@ -1,4 +1,3 @@
-using HarmonyLib;
 using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Patches.Roles;
@@ -38,13 +37,6 @@ public static class SentryCameraPortablePatch
             if (cam == null || cam.gameObject == null) continue;
             cam.SetAnimation(desired);
         }
-    }
-
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-    [HarmonyPostfix]
-    public static void HudManagerUpdatePortableBlinkPostfix()
-    {
-        ApplyPortableBlinkState();
     }
 
     private static bool IsMapWithoutCameras()

@@ -9,15 +9,13 @@ namespace TownOfUs.Roles.Impostor;
 public sealed class SwooperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public DoomableType DoomHintType => DoomableType.Hunter;
-    public string LocaleKey => "Swooper";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Swooper";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -43,11 +41,11 @@ public sealed class SwooperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Swoop", "Swoop"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}SwoopWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Swoop", "Swoop"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Swoop.WikiDescription"),
                     TouImpAssets.SwoopSprite),
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Unswoop", "Unswoop"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}UnswoopWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Unswoop", "Unswoop"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Unswoop.WikiDescription"),
                     TouImpAssets.UnswoopSprite)
             ];
         }

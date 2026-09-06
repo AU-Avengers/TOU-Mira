@@ -7,7 +7,11 @@ namespace TownOfUs.Modifiers.HnsGame.Crewmate;
 
 public sealed class HnsMiniModifier : HnsGameModifier, IVisualAppearance
 {
-    public override string LocaleKey => "Mini";
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Mini,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Mini.LoadAsset(),
+            "TouMira.Modifier.HnS.Hider.Mini", 1.45f));
+    public override string IdPart => "Mini";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Mini;
     public override ModifierFaction FactionType => ModifierFaction.HiderVisibility;
 

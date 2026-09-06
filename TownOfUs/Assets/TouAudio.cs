@@ -25,6 +25,8 @@ public static class TouAudio
         CustomRoleUtils.GetIntroSound(RoleTypes.Tracker)!;
     public static LoadableAsset<AudioClip> DetectiveIntroSound =>
         CustomRoleUtils.GetIntroSound(RoleTypes.Detective)!;
+    public static LoadableAsset<AudioClip> JudgeIntroSound =>
+        CustomRoleUtils.GetIntroSound(RoleTypes.Judge)!;
     public static LoadableAsset<AudioClip> ViperIntroSound =>
         CustomRoleUtils.GetIntroSound(RoleTypes.Viper)!;
     public static LoadableAsset<AudioClip> HexBombDetonateSound { get; } =
@@ -50,6 +52,9 @@ public static class TouAudio
         new LoadableBundleAsset<AudioClip>("ToppatIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> DeputyIntroSound { get; } =
+        new LoadableBundleAsset<AudioClip>("DeputyIntroNew", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> DeputyIntroSoundOld { get; } =
         new LoadableBundleAsset<AudioClip>("DeputyIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> VampIntroSound { get; } =
@@ -57,6 +62,9 @@ public static class TouAudio
 
     public static LoadableAsset<AudioClip> ProsIntroSound { get; } =
         new LoadableBundleAsset<AudioClip>("ProsIntro", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> ProsecuteSound { get; } =
+        new LoadableBundleAsset<AudioClip>("ProsecuteAudio", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> SpyIntroSound { get; } =
         new LoadableBundleAsset<AudioClip>("SpyIntro", TouAssets.MainBundle);
@@ -190,7 +198,10 @@ public static class TouAudio
         new LoadableBundleAsset<AudioClip>("MirrorcasterShatter", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> BombExplode { get; } =
-        new LoadableAudioResourceAsset("TownOfUs.Resources.BombExplode.wav");
+        new LoadableBundleAsset<AudioClip>("BombExplode", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> DeputyReveal { get; } =
+        new LoadableBundleAsset<AudioClip>("DeputyReveal", TouAssets.MainBundle);
 
     public static void PlaySound(LoadableAsset<AudioClip> clip, float vol = 1f)
     {

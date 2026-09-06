@@ -18,6 +18,8 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using System.Runtime.CompilerServices;
 using TownOfUs.Interfaces;
+using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Modules.Components;
 
 namespace TownOfUs.Modules;
 
@@ -100,26 +102,26 @@ public static class TimeLordRewindSystem
 
     private sealed record ButtonCooldownSeries
     {
-        public List<ButtonCooldownSample> Samples { get; } = [with(256)];
+        public List<ButtonCooldownSample> Samples { get; } = new(256);
         public int StartIndex { get; set; }
     }
 
-    private static readonly List<CustomActionButton> CachedKillLikeButtons = [with(16)];
+    private static readonly List<CustomActionButton> CachedKillLikeButtons = new(16);
     private static Type? _cachedKillLikeRoleType;
     private static float _lastKillLikeButtonsRefreshTime;
 
     private static readonly Dictionary<CustomActionButton, ButtonCooldownSeries> KillButtonCooldownHistory =
-        [with(ReferenceEqualityComparer<CustomActionButton>.Instance)];
+        new(ReferenceEqualityComparer<CustomActionButton>.Instance);
 
     private static readonly HashSet<CustomActionButton> KillButtonCooldownMaxClampedThisRewind =
-        [with(ReferenceEqualityComparer<CustomActionButton>.Instance)];
+        new(ReferenceEqualityComparer<CustomActionButton>.Instance);
 
     private static readonly Dictionary<byte, TimeLord.BodyPosBuffer> HostBodyPosHistory = [];
     private static List<ScheduledBodyPos>? _hostBodyPlacements;
 
     private readonly record struct HostTaskCompletion(byte PlayerId, uint TaskId, DateTime TimeUtc, int TaskStep);
 
-    private static readonly List<HostTaskCompletion> HostTaskCompletions = [with(64)];
+    private static readonly List<HostTaskCompletion> HostTaskCompletions = new(64);
     private static List<ScheduledTaskUndo>? _hostTaskUndos;
     private static Dictionary<(byte PlayerId, uint TaskId), int>? _hostTaskStepMap;
 
@@ -470,7 +472,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        _hostTaskUndos = [with(schedule.Count)];
+        _hostTaskUndos = new List<ScheduledTaskUndo>(schedule.Count);
         foreach (var (playerId, taskId, triggerAt) in schedule)
         {
             _hostTaskUndos.Add(new ScheduledTaskUndo(playerId, taskId, triggerAt));
@@ -1058,7 +1060,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        _hostRevives = [with(revives.Count)];
+        _hostRevives = new List<ScheduledRevive>(revives.Count);
         foreach (var (victimId, killAge) in revives)
         {
             _hostRevives.Add(new ScheduledRevive(victimId, killAge));
@@ -1101,6 +1103,8 @@ public static class TimeLordRewindSystem
             RewindDuration = 0f;
             return;
         }
+        // This allows killers to be revived properly
+        HudManagerHelper.Instance.DeathTimer = Math.Max(HudManagerHelper.Instance.DeathTimer + RewindDuration, 0);
 
         if (Minigame.Instance)
         {
@@ -1183,7 +1187,7 @@ public static class TimeLordRewindSystem
     /// If a murder occurs while rewind is active (or is delivered late during rewind),
     /// we must still revive the victim to avoid edge-window misses and neutral-kill inconsistencies.
     /// </summary>
-    public static void NotifyHostMurderDuringRewind(PlayerControl victim)
+    public static void NotifyHostMurderDuringRewind(PlayerControl killer, PlayerControl victim)
     {
         if (victim == null || victim.Data == null)
         {
@@ -1195,7 +1199,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        if (!IsRewinding || !OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        if (!IsRewinding || (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value == RewindRevive.Disabled)
         {
             return;
         }
@@ -1428,7 +1432,7 @@ public static class TimeLordRewindSystem
 
         var elapsed = Time.time - _rewindStartTime;
 
-        if (!OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        if ((RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value == RewindRevive.Disabled)
         {
             _hostRevives = null;
         }
@@ -1805,7 +1809,7 @@ return true;*/
     {
         var wasHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
         byte[] pendingHostRevives = [];
-        if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        if (wasHost && (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
         {
             var ids = new HashSet<byte>(_hostPendingRewindRevives);
             if (_hostRevives != null)
@@ -1947,7 +1951,7 @@ return true;*/
             ModCompatibility.CheckOutOfBoundsElevator(lp);
         }
 
-        if (wasHost && pendingHostRevives.Length > 0 && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        if (wasHost && pendingHostRevives.Length > 0 && (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
         {
             foreach (var victimId in pendingHostRevives)
             {
@@ -2003,7 +2007,7 @@ return true;*/
 
         var wasHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
         byte[] pendingHostRevives = [];
-        if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        if (wasHost && (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
         {
             var ids = new HashSet<byte>(_hostPendingRewindRevives);
             if (_hostRevives != null)
@@ -2089,7 +2093,7 @@ return true;*/
 
         lp.moveable = true;
 
-        if (wasHost && pendingHostRevives.Length > 0 && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        if (wasHost && pendingHostRevives.Length > 0 && (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
         {
             foreach (var victimId in pendingHostRevives)
             {
@@ -2596,6 +2600,13 @@ return true;*/
             FakePlayer.FakePlayers.Remove(fakePlayer);
         }
 
+        var stonedPlayer = StonedPlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == revived.PlayerId);
+        if (stonedPlayer != null)
+        {
+            stonedPlayer.Destroy();
+            StonedPlayer.FakePlayers.Remove(stonedPlayer);
+        }
+
         var body = Object.FindObjectsOfType<DeadBody>().FirstOrDefault(b => b.ParentId == revived.PlayerId);
         var pos = revived.GetTruePosition();
         if (body != null)
@@ -2604,11 +2615,21 @@ return true;*/
         }
         
         var timeLord = SourceTimeLordId != byte.MaxValue ? MiscUtils.PlayerById(SourceTimeLordId) : null;
-        var revivedText = TouLocale.GetParsed("TouRoleTimeLordRevivedNotif", "You were revived thanks to the Time Lord!");
+        var isTemp = (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value is RewindRevive.UntilNextRound;
+        var revivedText = MiraLocaleManager.Get("TownOfUsMira.Role.TimeLordRevivedNotif", "You were revived thanks to the Time Lord!");
         var successText = string.Empty;
         if (timeLord != null && revived.Data != null && OptionGroupSingleton<TimeLordOptions>.Instance.NotifyOnRevive)
         {
-            successText = TouLocale.GetParsed("TouRoleAltruistReviveSuccessNotif").Replace("<player>", revived.Data.PlayerName);
+            successText = MiraLocaleManager.Get("TownOfUsMira.Role.AltruistReviveSuccessNotif").Replace("<player>", revived.Data.PlayerName);
+            if (isTemp)
+            {
+                successText += "\n<color=#D64042>They will perish next round.</color>";
+            }
+        }
+        if (isTemp)
+        {
+            revived.AddModifier<TimeLordTempReviveModifier>(timeLord!);
+            revivedText += "\n<color=#D64042>You will perish next round.</color>";
         }
 
         ReviveUtilities.RevivePlayer(

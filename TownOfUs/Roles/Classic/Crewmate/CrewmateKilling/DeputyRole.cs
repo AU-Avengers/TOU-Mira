@@ -1,36 +1,174 @@
-﻿using Il2CppInterop.Runtime.Attributes;
+﻿using System.Collections;
+using AmongUs.GameOptions;
+using HarmonyLib;
+using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Networking;
+using TownOfUs.Options.Roles.Crewmate;
+using TownOfUs.Patches;
+using TownOfUs.Utilities.Appearances;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
+public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, IMeetingKiller
 {
+    public bool ShotThisMeeting;
+    public void TriggerMeetingAnimation(PlayerControl source, PlayerControl target, PlayerVoteArea targetVoteArea,
+        int associatedAnimKey = -1)
+    {
+        var revealMode = (DeputyReveal)OptionGroupSingleton<DeputyOptions>.Instance.RevealDeputyUponShot.Value;
+        if (revealMode == DeputyReveal.NoReveal)
+        {
+            Coroutines.Start(CustomTouMurderRpcs.CoAnimateDeath(targetVoteArea, associatedAnimKey));
+        }
+        else
+        {
+            ShotThisMeeting = true;
+            if (revealMode is DeputyReveal.AnnounceRole)
+            {
+                TriggerKillAnimation(HudManager.Instance.KillOverlay, target.Data, target.Data, targetVoteArea);
+            }
+            else
+            {
+                TriggerKillAnimation(HudManager.Instance.KillOverlay, source.Data, target.Data, targetVoteArea);
+                source.AddModifier<DeputyRevealedModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<DeputyRole>()));
+                MeetingMenu.Instances.Do(x => x.HideSingle(source.PlayerId));
+            }
+            Coroutines.Start(CoStopShot());
+        }
+    }
+    public static void TriggerKillAnimation(KillOverlay overlay, NetworkedPlayerInfo killer,
+        NetworkedPlayerInfo victim, PlayerVoteArea targetVoteArea)
+    {
+        OverlayKillAnimation killAnimation;
+        if (!CustomTouMurderRpcs.StoredKillAnimations.HasAny())
+        {
+            OverlayKillAnimation[] self = overlay.KillAnims;
+            CustomTouMurderRpcs.StoredKillAnimations = self.AddRangeToArray(overlay.CustomKillAnimations);
+        }
+        killAnimation = overlay.HorseWrangleAnims.Random()!;
+        Coroutines.Start(CoShowAnim(overlay, (killAnimation.TryCast<HorseWrangleOverlay>())!,
+            new KillOverlayInitData(killer, victim), targetVoteArea));
+    }
+
+    private static IEnumerator CoShowAnim(KillOverlay overlay, HorseWrangleOverlay killAnimation, KillOverlayInitData initData, PlayerVoteArea targetVoteArea)
+    {
+        HorseWrangleOverlay overlayKillAnimation = Instantiate(killAnimation, overlay.transform);
+        var outfit = new VisualAppearance(PlayerControl.LocalPlayer.GetDefaultAppearance(),
+            TownOfUsAppearances.Camouflage)
+        {
+            ColorId = PlayerControl.LocalPlayer.Data.DefaultOutfit.ColorId,
+            HatId = "hat_NoHat",
+            SkinId = "skin_None",
+            VisorId = "visor_EmptyVisor",
+            PlayerName = string.Empty,
+            PetId = "pet_EmptyPet",
+            NameVisible = false,
+            PlayerMaterialColor = new Color(0, 0, 0, 0),
+        };
+        initData.victimOutfit = outfit;
+        overlayKillAnimation.Initialize(initData);
+        overlayKillAnimation.victimParts.transform.localScale = new Vector3(0, 0, 0);
+        overlayKillAnimation.victimParts.transform.localPosition = new Vector3(10000, 10000, 0);
+        foreach (var sprite in overlayKillAnimation.victimSprites)
+        {
+            sprite.transform.localScale = new Vector3(0, 0, 0);
+            sprite.transform.localPosition = new Vector3(10000, 10000, 0);
+        }
+        overlayKillAnimation.victimParts.Destroy();
+        var sheriffCloseup = overlayKillAnimation.transform.GetChild(2);
+        foreach (var sprite in sheriffCloseup.GetComponentsInChildren<SpriteRenderer>())
+        {
+            sprite.gameObject.layer = LayerMask.NameToLayer("UI");
+        }
+        overlayKillAnimation.gameObject.SetActive(false);
+        return CoShowOne(overlay, overlayKillAnimation, targetVoteArea);
+    }
+    private static IEnumerator CoShowOne(KillOverlay overlay, HorseWrangleOverlay anim, PlayerVoteArea targetVoteArea)
+    {
+        PlayerMaterial.SetColors(anim.killerParts.ColorId, anim.impostorForeground);
+        PlayerMaterial.SetColors(anim.killerParts.ColorId, anim.impostorHand);
+        TouAudio.PlaySound(TouAudio.DeputyReveal);
+        overlay.background.enabled = true;
+        yield return Effects.Wait(0.083333336f);
+        overlay.background.enabled = false;
+        var flameSprite = overlay.flameParent.transform.FindChild("BackgroundFlame").GetComponent<SpriteRenderer>();
+        flameSprite.sprite = TouAssets.DeputyRevealBg.LoadAsset();
+        flameSprite.transform.localPosition = new Vector3(0, -2f);
+        if (KillOverlayPatch.material == null)
+        {
+            KillOverlayPatch.material = new Material(flameSprite.material);
+        }
+        flameSprite.material = KillOverlayPatch.material;
+        overlay.flameParent.SetActive(true);
+        overlay.flameParent.transform.localScale = new Vector3(1f, 0.3f, 1f);
+        overlay.flameParent.transform.localEulerAngles = new Vector3(0f, 0f, 25f);
+        yield return Effects.Wait(0.083333336f);
+        overlay.flameParent.transform.localScale = new Vector3(1f, 0.5f, 1f);
+        overlay.flameParent.transform.localEulerAngles = new Vector3(0f, 0f, -15f);
+        yield return Effects.Wait(0.083333336f);
+        overlay.flameParent.transform.localScale = new Vector3(1f, 1f, 1f);
+        overlay.flameParent.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
+        anim.gameObject.SetActive(true);
+        var sheriffCloseup = anim.transform.GetChild(2);
+        var outfit = sheriffCloseup.GetChild(1).GetComponent<SpriteRenderer>();
+        outfit.sprite = TouAssets.DeputyOutfit.LoadAsset();
+        
+        var clonedForeground = Instantiate(anim.impostorForeground, anim.impostorForeground.transform.parent);
+        clonedForeground.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+        var clonedHand = Instantiate(anim.impostorHand, anim.impostorHand.transform.parent);
+        clonedHand.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+
+        yield return new WaitForLerp(1.23f, new Action<float>(t =>
+        {
+            var adj = t / 200;
+            sheriffCloseup.localPosition += new Vector3(adj, 0f, 0f);
+        }));
+        anim.gameObject.SetActive(false);
+        yield return new WaitForLerp(0.16666667f, new Action<float>(t =>
+        {
+            overlay.flameParent.transform.localScale = new Vector3(1f, 1f - t, 1f);
+        }));
+        flameSprite.sprite = TouAssets.KillBG.LoadAsset();
+        flameSprite.transform.localPosition = new Vector3(0, 0);
+        overlay.flameParent.SetActive(false);
+        
+        Destroy(anim.gameObject);
+        overlay.showOne = null;
+        yield return CustomTouMurderRpcs.CoAnimateDeath(targetVoteArea, Random.RandomRangeInt(0, 2), true);
+    }
+
+    [HideFromIl2Cpp]
+    private IEnumerator CoStopShot()
+    {
+        yield return new WaitForSeconds(3);
+        ShotThisMeeting = false;
+    }
     private MeetingMenu meetingMenu;
     public override bool IsAffectedByComms => false;
 
     [HideFromIl2Cpp] public PlayerControl? Killer { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
-    public string LocaleKey => "Deputy";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Deputy";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -41,8 +179,8 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Camp", "Camp"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}CampWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Camp", "Camp"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Camp.WikiDescription"),
                     TouCrewAssets.CampButtonSprite)
             ];
         }
@@ -61,10 +199,8 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Deputy.LoadAsset(), "TouMira.Role.Crewmate.Deputy", 1.45f),
         Icon = TouRoleIcons.Deputy,
         OptionsScreenshot = TouBanners.DeputyRoleBanner,
-        IntroSound = TouAudio.ImpostorIntroSound,
+        IntroSound = TouAudio.DeputyIntroSound,
     };
-
-
 
     public static void OnRoundStart()
     {
@@ -94,6 +230,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
+        ShotThisMeeting = false;
         var meeting = MeetingHud.Instance;
         if (Player.AmOwner && meeting != null)
         {
@@ -146,21 +283,20 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public void ClickGuess(PlayerVoteArea voteArea, MeetingHud __)
     {
-        var target = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId).Object;
+        var target = GameData.Instance.GetPlayerById(voteArea.PlayerId).Object;
         var role = Player.GetRole<DeputyRole>()!;
 
         if (role.Killer == target && !target.HasModifier<InvulnerabilityModifier>())
         {
-            Player.RpcSpecialMurder(target, MeetingCheck.ForMeeting, true, createDeadBody: false, teleportMurderer: false,
-                showKillAnim: false,
-                playKillSound: false,
+            // Even though Deputy doesn't use the nameplate normally, it should grab it anyways incase Deputy isn't meant to reveal themselves
+            Player.RpcMeetingMurder(target, MeetingAnimation.RoleSpecific, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
                 causeOfDeath: "Deputy");
         }
         else
         {
             var title =
-                $"<color=#{TownOfUsColors.Deputy.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleDeputyMessageTitle")}</color>";
-            var msg = TouLocale.Get("TouRoleDeputyMissedShot");
+                $"<color=#{TownOfUsColors.Deputy.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.DeputyMessageTitle")}</color>";
+            var msg = MiraLocaleManager.Get("TownOfUsMira.Role.DeputyMissedShot");
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg, false, true);
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Deputy.ToTextColor()}{msg}</b></color>",
@@ -178,7 +314,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public bool IsExempt(PlayerVoteArea voteArea)
     {
-        return voteArea?.TargetPlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
+        return voteArea?.PlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true;
     }
 }

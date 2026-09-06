@@ -1,0 +1,47 @@
+name: Nuget Create
+
+on: ["workflow_dispatch"]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.nuget/packages
+            ~/.cache/bepinex
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Run the Cake script
+        uses: cake-build/cake-action@v3
+        with:
+          verbosity: Diagnostic
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TownOfUsMira.dll
+          path: TownOfUs/bin/Release/TownOfUsMira.dll
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TownOfUsMira.nupkg
+          path: TownOfUs/bin/Release/TownOfUsMira.*.nupkg
+          retention-days: 7
+
+      - name: Push NuGet CI
+        if: github.ref == 'refs/heads/dev'
+        run: |
+          dotnet nuget push TownOfUs/bin/Release/TownOfUsMira.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate

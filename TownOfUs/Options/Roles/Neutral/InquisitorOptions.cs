@@ -6,9 +6,9 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class InquisitorOptions : AbstractOptionGroup<InquisitorRole>
+public sealed class InquisitorOptions : AbstractRoleOptionGroup<InquisitorRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleInquisitor", "Inquisitor");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Inquisitor", "Inquisitor");
 
     [ModdedNumberOption("TouOptionInquisitorVanquishCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float VanquishCooldown { get; set; } = 25f;

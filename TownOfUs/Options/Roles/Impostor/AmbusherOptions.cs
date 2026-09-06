@@ -6,9 +6,9 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class AmbusherOptions : AbstractOptionGroup<AmbusherRole>
+public sealed class AmbusherOptions : AbstractRoleOptionGroup<AmbusherRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleAmbusher", "Ambusher");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Ambusher", "Ambusher");
 
     [ModdedNumberOption("TouOptionAmbusherAmbushUsesPerGame", 0f, 15f, 1f, MiraNumberSuffixes.None, "0", true)]
     public float MaxAmbushes { get; set; } = 0f;

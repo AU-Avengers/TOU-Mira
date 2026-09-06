@@ -6,9 +6,9 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class UndertakerOptions : AbstractOptionGroup<UndertakerRole>
+public sealed class UndertakerOptions : AbstractRoleOptionGroup<UndertakerRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleUndertaker", "Undertaker");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Undertaker", "Undertaker");
 
     [ModdedNumberOption("Drag Cooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float DragCooldown { get; set; } = 25f;

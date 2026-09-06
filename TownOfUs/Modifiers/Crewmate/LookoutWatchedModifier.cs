@@ -1,9 +1,11 @@
 ﻿using System.Text;
 using MiraAPI.Events;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
 
@@ -15,7 +17,7 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
     public override bool HideOnUi => true;
 
     public PlayerControl Lookout { get; set; } = lookout;
-    public List<RoleBehaviour> SeenPlayers { get; set; } = [];
+    public Dictionary<PlayerControl, RoleBehaviour> SeenPlayers { get; set; } = [];
 
     public override void OnActivate()
     {
@@ -42,18 +44,32 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
             return;
         }
 
-        var title = $"<color=#{TownOfUsColors.Lookout.ToHtmlStringRGBA()}>{TouLocale.GetParsed("TouRoleLookoutFeedbackTitle")}</color>";
-        var msg = TouLocale.GetParsed("TouRoleLookoutNoInteractionFeedback").Replace("<player>", Player.Data.PlayerName);
+        var title = $"<color=#{TownOfUsColors.Lookout.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.LookoutFeedbackTitle")}</color>";
+        var msg = MiraLocaleManager.Get("TownOfUsMira.Role.LookoutNoInteractionFeedback").Replace("<player>", Player.Data.PlayerName);
 
+        var showRoles = (LookoutView)OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Roles;
         if (SeenPlayers.Count != 0)
         {
-            var message = new StringBuilder($"{TouLocale.GetParsed("TouRoleLookoutInteractionFeedback").Replace("<player>", Player.Data.PlayerName)}:\n");
+            var playerList = SeenPlayers.Select(x => x.Key).ToList();
+            var roleList = SeenPlayers.Select(x => x.Value).ToList();
+            var message = new StringBuilder($"{MiraLocaleManager.Get(showRoles ? "TownOfUsMira.Role.LookoutInteractionFeedback" : "TownOfUsMira.Role.LookoutAltInteractionFeedback").Replace("<player>", Player.Data.PlayerName)}:\n");
 
-            SeenPlayers.Shuffle();
+            playerList.Shuffle();
+            roleList.Shuffle();
 
-            foreach (var role in SeenPlayers)
+            if (showRoles)
             {
-                message.Append(TownOfUsPlugin.Culture, $"{role.GetRoleName()}, ");
+                foreach (var role in roleList)
+                {
+                    message.Append(TownOfUsPlugin.Culture, $"{role.GetRoleName()}, ");
+                }
+            }
+            else
+            {
+                foreach (var plr in playerList)
+                {
+                    message.Append(TownOfUsPlugin.Culture, $"{plr.CachedPlayerData.PlayerName}, ");
+                }
             }
 
             message = message.Remove(message.Length - 2, 2);

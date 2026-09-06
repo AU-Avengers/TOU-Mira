@@ -3,8 +3,8 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using TownOfUs.Modifiers;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -20,6 +20,10 @@ public static class DoomsayerEvents
 
         if (source.Data.Role is DoomsayerRole doom)
         {
+            if (!source.AmOwner)
+            {
+                doom.NumberOfGuesses++;
+            }
             if (GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
             {
                 stats.CorrectAssassinKills++;
@@ -29,8 +33,8 @@ public static class DoomsayerEvents
                 doom.NumberOfGuesses)
             {
                 DoomsayerRole.RpcDoomsayerWin(source);
-                DeathHandlerModifier.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer, "DiedToWinning",
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                GameHistory.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer, "DiedToWinning",
+                    HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
                     lockInfo: DeathHandlerOverride.SetTrue);
             }
         }
@@ -64,7 +68,7 @@ public static class DoomsayerEvents
             {
                 PlayerControl.LocalPlayer.DelayExile();
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TouLocale.GetParsed("TouRoleDoomsayerWonSelf").Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.RoleName}</color>")}</b>",
+                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerWonSelf").Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.GetRoleName()}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -76,13 +80,13 @@ public static class DoomsayerEvents
 
                 if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomAnonymizeWin.Value)
                 {
-                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
+                    message = MiraLocaleManager.Get("TouNeutAnonymousVictoryMessage");
                     icon = TouRoleIcons.Neutral;
                 }
                 else
                 {
-                    message = $"<b>{TouLocale.GetParsed("TouRoleDoomsayerWonOther")
-                        .Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.RoleName}</color>")}</b>";
+                    message = $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerWonOther")
+                        .Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.GetRoleName()}</color>")}</b>";
                     icon = TouRoleIcons.Doomsayer;
                 }
 

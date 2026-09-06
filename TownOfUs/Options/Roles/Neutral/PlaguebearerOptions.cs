@@ -5,9 +5,9 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class PlaguebearerOptions : AbstractOptionGroup<PlaguebearerRole>
+public sealed class PlaguebearerOptions : AbstractRoleOptionGroup<PlaguebearerRole>
 {
-    public override string GroupName => TouLocale.Get("TouRolePlaguebearer", "Plaguebearer");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Plaguebearer", "Plaguebearer");
 
     [ModdedNumberOption("TouOptionPlaguebearerInstantPesti", 0, 100f, 10f, MiraNumberSuffixes.Percent)]
     public float PestChance { get; set; } = 0f;

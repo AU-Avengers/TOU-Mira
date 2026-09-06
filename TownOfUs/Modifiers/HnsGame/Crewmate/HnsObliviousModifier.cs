@@ -6,7 +6,11 @@ namespace TownOfUs.Modifiers.HnsGame.Crewmate;
 
 public sealed class HnsObliviousModifier : HnsGameModifier
 {
-    public override string LocaleKey => "Oblivious";
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Bait,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Bait.LoadAsset(),
+            "TouMira.Modifier.HnS.Hider.Oblivious", 1.45f));
+    public override string IdPart => "Oblivious";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Bait;
     public override ModifierFaction FactionType => ModifierFaction.HiderPassive;
 

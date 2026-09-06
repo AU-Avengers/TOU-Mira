@@ -101,7 +101,6 @@ public sealed class PuppeteerControlModifier(PlayerControl controller) : Disable
                 controllerName,
                 TownOfUsColors.Impostor,
                 TouRoleIcons.Puppeteer.LoadAsset());
-            _controlledNotification?.AdjustNotification();
         }
     }
 

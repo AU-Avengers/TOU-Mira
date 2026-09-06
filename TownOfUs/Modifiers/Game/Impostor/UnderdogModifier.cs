@@ -9,9 +9,13 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 
 public sealed class UnderdogModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string LocaleKey => "Underdog";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public override string IntroInfo => TouLocale.Get($"TouModifier{LocaleKey}IntroBlurb");
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Impostor,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Underdog.LoadAsset(),
+            "TouMira.Modifier.Impostor.Underdog", 1.45f));
+    public override string IdPart => "Underdog";
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
     public override Color FreeplayFileColor => new Color32(255, 25, 25, 255);
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Underdog;
@@ -22,12 +26,12 @@ public sealed class UnderdogModifier : TouGameModifier, IWikiDiscoverable
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
@@ -54,9 +58,7 @@ public sealed class UnderdogModifier : TouGameModifier, IWikiDiscoverable
 
     public static float GetKillCooldown(PlayerControl player)
     {
-        var mod = player.GetModifier<UnderdogModifier>();
-
-        if (mod == null)
+        if (!player.HasModifier<UnderdogModifier>())
         {
             return GameOptionsManager.Instance.CurrentGameOptions.GetFloat(FloatOptionNames.KillCooldown);
         }

@@ -6,9 +6,9 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class MedicOptions : AbstractOptionGroup<MedicRole>
+public sealed class MedicOptions : AbstractRoleOptionGroup<MedicRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleMedic", "Medic");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Medic", "Medic");
 
     [ModdedEnumOption("TouOptionMedicShowShieldedPlayer", typeof(MedicOption),
         ["TouOptionMedicShieldEnumMedic", "TouOptionMedicShieldEnumShielded", "TouOptionMedicShieldEnumShieldedAndMedic", "TouOptionMedicShieldEnumEveryone", "TouOptionMedicShieldEnumNobody"])]

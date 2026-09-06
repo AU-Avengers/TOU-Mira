@@ -6,9 +6,9 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class BomberOptions : AbstractOptionGroup<BomberRole>
+public sealed class BomberOptions : AbstractRoleOptionGroup<BomberRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleBomber", "Bomber");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Bomber", "Bomber");
 
     [ModdedNumberOption("TouOptionBomberBombUsesPerGame", 0f, 15f, 1f, MiraNumberSuffixes.None, "0", true)]
     public float MaxBombs { get; set; } = 3f;

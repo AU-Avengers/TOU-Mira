@@ -43,6 +43,7 @@ public class CosmeticsLoader
         Info("Loading pets...");
         _petLoader.LoadPetPrefab(TouAssets.TortelliniPet.LoadAsset(), "Tortellini", "Atony");
         _petLoader.LoadPetPrefab(TouAssets.BlackMinipostorPet.LoadAsset(), "Black Minipostor", "Atony");
+        _petLoader.LoadPetPrefab(TouAssets.FlopsterPet.LoadAsset(), "Flopster", "Atony");
 
         Info("Setting up cosmetic group...");
         foreach (var id in _petLoader.CustomPets.Keys)

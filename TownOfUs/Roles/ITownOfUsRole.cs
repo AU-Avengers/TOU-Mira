@@ -1,26 +1,53 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Roles;
-using TownOfUs.Options;
 
 namespace TownOfUs.Roles;
 
 public interface ITownOfUsRole : ICustomRole
 {
+    /// <summary>
+    /// Runs when all roles are finished up being added. Mostly used to set up icons.
+    /// </summary>
+    public virtual void InitialSetup()
+    {
+        // Does nothing by default
+    }
     RoleAlignment RoleAlignment { get; }
 
     bool HasImpostorVision => false;
     public virtual bool MetWinCon => false;
-    public virtual string LocaleKey => "KEY_MISS";
-    public virtual string ShortName => "";
+    public bool IsDraftable => true;
     public static Dictionary<string, string> LocaleList => [];
+    string ICustomRole.IdPrefix => "TownOfUsMira.Role";
 
     [HideFromIl2Cpp]
-    Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public virtual bool CanModifierContinueGame(BaseModifier modifier)
+    {
+        return false;
+    }
+    string ICustomRole.RoleFactionTitle => MiscUtils.GetParsedRoleAlignment(RoleAlignment);
+
     string? ICustomRole.GetCustomEjectionMessage(NetworkedPlayerInfo player)
     {
-        return TouLocale.GetParsed("ExileTextConfirm").Replace("<player>", player.PlayerName).Replace("<role>", RoleName);
+        var prefix = "A";
+        if (RoleName.StartsWithVowel())
+        {
+            prefix = "An";
+        }
+
+        if (Configuration.MaxRoleCount is 0 or 1)
+        {
+            prefix = "The";
+        }
+
+        if (RoleName.StartsWith("the", StringComparison.OrdinalIgnoreCase) ||
+            IdPart.StartsWith("the", StringComparison.OrdinalIgnoreCase))
+        {
+            prefix = "";
+        }
+        return MiraLocaleManager.Get($"ExileTextConfirm{prefix}").Replace("<player>", player.PlayerName).Replace("<role>", RoleName);
     }
 
     public virtual string YouAreText
@@ -39,12 +66,12 @@ public interface ITownOfUsRole : ICustomRole
             }
 
             if (RoleName.StartsWith("the", StringComparison.OrdinalIgnoreCase) ||
-                LocaleKey.StartsWith("the", StringComparison.OrdinalIgnoreCase))
+                IdPart.StartsWith("the", StringComparison.OrdinalIgnoreCase))
             {
                 prefix = "";
             }
 
-            return TouLocale.Get($"YouAre{prefix}");
+            return MiraLocaleManager.Get($"YouAre{prefix}");
         }
     }
 
@@ -64,12 +91,12 @@ public interface ITownOfUsRole : ICustomRole
             }
 
             if (RoleName.StartsWith("the", StringComparison.OrdinalIgnoreCase) ||
-                LocaleKey.StartsWith("the", StringComparison.OrdinalIgnoreCase))
+                IdPart.StartsWith("the", StringComparison.OrdinalIgnoreCase))
             {
                 prefix = "";
             }
 
-            return TouLocale.Get($"YouWere{prefix}");
+            return MiraLocaleManager.Get($"YouWere{prefix}");
         }
     }
 
@@ -197,6 +224,11 @@ public interface ITownOfUsRole : ICustomRole
                 return TouRoleGroups.Other;
             }
 
+            if (RoleAlignment == RoleAlignment.FrenzyKiller)
+            {
+                return TouRoleGroups.FrenzyKiller;
+            }
+
             return Team switch
             {
                 ModdedRoleTeams.Crewmate => TouRoleGroups.CrewSup,
@@ -262,6 +294,9 @@ public enum RoleAlignment
     CrewmateGhost,
     ImpostorGhost,
     NeutralGhost,
+    Crewmate,
+    Impostor,
+    Neutral,
     CrewmateAfterlife,
     ImpostorAfterlife,
     NeutralAfterlife,
@@ -274,4 +309,6 @@ public enum RoleAlignment
     CrewmateBeliever,
     CrewmateObstinate,
     NeutralObstinate,
+    // Killing Frenzy
+    FrenzyKiller
 }

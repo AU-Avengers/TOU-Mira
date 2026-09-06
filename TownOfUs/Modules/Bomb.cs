@@ -55,7 +55,10 @@ public sealed class Bomb : IDisposable
         }
         TouAudio.PlaySound(TouAudio.BombExplode);
         HudManager.Instance.StartCoroutine(HudManager.Instance.PlayerCam.CoShakeScreen(0.4f, 1.5f));
-        var targetList = affected.Where(x => !x.HasDied() && !(x.HasModifier<BaseShieldModifier>() && x.AmOwner) && !(x.HasModifier<FirstDeadShield>() && x.AmOwner)).ToList();
+        var targetList = affected.Where(x =>
+                !x.HasDied() && (!x.AmOwner || x.AmOwner && !x.HasModifier<BaseShieldModifier>() &&
+                    !x.HasModifier<FirstDeadShield>()))
+            .ToList();
         _bomber?.RpcSpecialMultiMurder(targetList, MeetingCheck.OutsideMeeting, true, teleportMurderer: false,
             causeOfDeath: "BomberBomb");
 

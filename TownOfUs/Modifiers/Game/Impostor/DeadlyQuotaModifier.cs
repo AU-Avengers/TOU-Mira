@@ -12,24 +12,28 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 
 public sealed class DeadlyQuotaModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Impostor,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.DeadlyQuota.LoadAsset(),
+            "TouMira.Modifier.Impostor.DeadlyQuota", 1.45f));
     public int KillCount { get; set; }
     public int KillQuota { get; private set; }
 
     public bool IgnoreQuota =>
         OptionGroupSingleton<DeadlyQuotaOptions>.Instance.RemoveQuotaUponDeath && Player.HasDied();
-    public override string LocaleKey => "DeadlyQuota";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public override string IntroInfo => KillQuota == 1 ? TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb") : TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurbPlural").Replace("<amount>", KillQuota.ToString(TownOfUsPlugin.Culture));
+    public override string IdPart => "DeadlyQuota";
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
+    public override string IntroInfo => KillQuota == 1 ? MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb") : MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}IntroBlurbPlural").Replace("<amount>", KillQuota.ToString(TownOfUsPlugin.Culture));
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription").Replace("<amount>", KillCount.ToString(TownOfUsPlugin.Culture)).Replace("<total>", KillQuota.ToString(TownOfUsPlugin.Culture));
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription").Replace("<amount>", KillCount.ToString(TownOfUsPlugin.Culture)).Replace("<total>", KillQuota.ToString(TownOfUsPlugin.Culture));
     }
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
     public override Color FreeplayFileColor => new Color32(255, 25, 25, 255);
@@ -82,7 +86,7 @@ public sealed class DeadlyQuotaModifier : TouGameModifier, IWikiDiscoverable
         if (!Player.HasDied() && Player.AmOwner && KillCount == 0)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TouLocale.GetParsed("TouModifierDeadlyQuotaWarningNotif").Replace("<amount>", KillQuota.ToString(TownOfUsPlugin.Culture))}</b>",
+                $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.DeadlyQuotaWarningNotif").Replace("<amount>", KillQuota.ToString(TownOfUsPlugin.Culture))}</b>",
                 Color.white,
                 new Vector3(0f, 1f, -20f),
                 spr: TouModifierIcons.DeadlyQuota.LoadAsset());

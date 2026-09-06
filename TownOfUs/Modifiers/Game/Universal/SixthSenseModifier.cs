@@ -7,8 +7,12 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class SixthSenseModifier : UniversalGameModifier, IWikiDiscoverable
 {
-    public override string LocaleKey => "SixthSense";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.SixthSense,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.SixthSense.LoadAsset(),
+            "TouMira.Modifier.Universal.SixthSense", 1.45f));
+    public override string IdPart => "SixthSense";
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.SixthSense;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalPassive;
@@ -16,12 +20,12 @@ public sealed class SixthSenseModifier : UniversalGameModifier, IWikiDiscoverabl
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];

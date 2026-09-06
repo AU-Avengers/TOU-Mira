@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options;
 using UnityEngine;
@@ -11,11 +10,11 @@ namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShieldModifier
 {
-    public override string ModifierName => $"Magic Mirror";
+    public override string ModifierName => MiraLocaleManager.Get("TownOfUsMira.Modifier.MagicMirror");
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Mirrorcaster;
 
     public override string ShieldDescription =>
-        $"You are protected by the Mirrorcaster!\nYou may not die to other players";
+        MiraLocaleManager.Get("TownOfUsMira.Modifier.MagicMirrorDescription");
 
     public PlayerControl Mirrorcaster { get; } = mirrorcaster;
     public GameObject MedicShield { get; set; }
@@ -34,8 +33,7 @@ public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShield
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-        var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
-            x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
+            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
         ShowShield = Mirrorcaster.AmOwner ||
                      (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);

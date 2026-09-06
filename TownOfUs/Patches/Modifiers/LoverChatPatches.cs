@@ -32,7 +32,7 @@ public static class LoverChatPatches
                 PlayerControl.LocalPlayer.HasModifier<PuppeteerControlModifier>())
             {
                 MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
-                    $"<color=#{TownOfUsColors.Lover.ToHtmlStringRGBA()}>{TouLocale.GetParsed("LoverChatTitle").Replace("<player>", PlayerControl.LocalPlayer.Data.PlayerName)}</color>",
+                    $"<color=#{TownOfUsColors.Lover.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("LoverChatTitle").Replace("<player>", PlayerControl.LocalPlayer.Data.PlayerName)}</color>",
                     "You are under control! Your message cannot be sent.", blackoutText: false, bubbleType: BubbleType.Lover, onLeft: false);
             }
             else

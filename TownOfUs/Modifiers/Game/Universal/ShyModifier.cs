@@ -15,8 +15,12 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
 {
-    public override string LocaleKey => "Shy";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Shy,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Shy.LoadAsset(),
+            "TouMira.Modifier.Universal.Shy", 1.45f));
+    public override string IdPart => "Shy";
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Shy;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalVisibility;
@@ -33,12 +37,12 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
@@ -56,7 +60,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         var isValid = true;
-        if ((role is JesterRole && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn) ||
+        if ((role is JesterRole && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value) ||
             (role is SurvivorRole && OptionGroupSingleton<SurvivorOptions>.Instance.ScatterOn))
         {
             isValid = false;

@@ -12,8 +12,7 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
-using TownOfUs.Modifiers.Game.Impostor;
-using TownOfUs.Modifiers.Game.Neutral;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
@@ -32,21 +31,19 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
             return;
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralBenignTaskHeader")}</color>";
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{MiraLocaleManager.Get("NeutralBenignTaskHeader")}</color>";
         orCreateTask.name = "NeutralRoleText";
     }
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MysticRole>());
     public DoomableType DoomHintType => DoomableType.Death;
-    public string LocaleKey => "Amnesiac";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Amnesiac";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -57,8 +54,8 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Remember", "Remember"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}RememberWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Remember", "Remember"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Remember.WikiDescription"),
                     TouNeutAssets.RememberButtonSprite)
             ];
         }
@@ -126,7 +123,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         {
             if (player.AmOwner)
             {
-                var text = TouLocale.GetParsed("TouRoleAmnesiacRememberFailNotif").Replace("<player>", target.Data.PlayerName);
+                var text = MiraLocaleManager.Get("TownOfUsMira.Role.AmnesiacRememberFailNotif").Replace("<player>", target.Data.PlayerName);
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{text.Replace("<role>", $"{roleWhenAlive.TeamColor.ToTextColor()}{roleWhenAlive.GetRoleName()}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
@@ -140,7 +137,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         {
             if (player.AmOwner)
             {
-                var text = TouLocale.GetParsed("TouRoleAmnesiacRememberFailTargetNotif").Replace("<player>", target.Data.PlayerName);
+                var text = MiraLocaleManager.Get("TownOfUsMira.Role.AmnesiacRememberFailTargetNotif").Replace("<player>", target.Data.PlayerName);
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
                 notif1.AdjustNotification();
@@ -155,11 +152,14 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         player.ChangeRole((ushort)roleWhenAlive.Role);
         if (player.Data.Role is InquisitorRole inquis)
         {
-            inquis.Targets = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>().Where(x => x != player)
-                .ToList();
-            inquis.TargetRoles = ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>()
-                .Where(x => x.Player != player)
-                .Select([HideFromIl2Cpp](x) => x.TargetRole).OrderBy([HideFromIl2Cpp](x) => x.GetRoleName()).ToList();
+            var newTargets = new Dictionary<PlayerControl, RoleBehaviour>();
+            foreach (var heretic in ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>()
+                         .Where(x => x.Player != player).OrderBy([HideFromIl2Cpp](x) => x.TargetRole.GetRoleName()))
+            {
+                newTargets.Add(heretic.Player, heretic.TargetRole);
+            }
+
+            inquis.Targets = newTargets;
         }
         else if (player.Data.Role is PlaguebearerRole || player.Data.Role is PestilenceRole)
         {
@@ -213,7 +213,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
 
         if (player.AmOwner)
         {
-            var text = TouLocale.GetParsed("TouRoleAmnesiacRememberNotif").Replace("<player>", target.Data.PlayerName);
+            var text = MiraLocaleManager.Get("TownOfUsMira.Role.AmnesiacRememberNotif").Replace("<player>", target.Data.PlayerName);
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{text.Replace("<role>", $"{player.Data.Role.TeamColor.ToTextColor()}{player.Data.Role.GetRoleName()}</color>")}</b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
@@ -268,18 +268,15 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         var assassinModeNeut = (AssassinRemember)opts.AmneTurnNeutAssassin.Value;
         var amneIsAssassin = false;
 
-        if (player.IsImpostor() && (assassinModeImp is AssassinRemember.Always ||
-                                    assassinModeImp is AssassinRemember.IfAssassin && playerIsAssassin))
+        if ((player.IsImpostor() && (assassinModeImp is AssassinRemember.Always ||
+                                     assassinModeImp is AssassinRemember.IfAssassin && playerIsAssassin))
+            ||
+            player.IsNeutral() && player.Is(RoleAlignment.NeutralKilling) &&
+            (assassinModeNeut is AssassinRemember.Always ||
+             assassinModeNeut is AssassinRemember.IfAssassin && playerIsAssassin))
         {
             amneIsAssassin = true;
-            player.AddModifier<ImpostorAssassinModifier>();
-        }
-        else if (player.IsNeutral() && player.Is(RoleAlignment.NeutralKilling) &&
-                 (assassinModeNeut is AssassinRemember.Always ||
-                  assassinModeNeut is AssassinRemember.IfAssassin && playerIsAssassin))
-        {
-            amneIsAssassin = true;
-            player.AddModifier<NeutralKillerAssassinModifier>();
+            player.AddModifier<AssassinModifier>();
         }
 
         // Doesn't give Double Shot if Assassin isn't available

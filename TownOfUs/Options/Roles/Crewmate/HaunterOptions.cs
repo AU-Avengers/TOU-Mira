@@ -4,9 +4,9 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class HaunterOptions : AbstractOptionGroup<HaunterRole>
+public sealed class HaunterOptions : AbstractRoleOptionGroup<HaunterRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleHaunter", "Haunter");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Haunter", "Haunter");
 
     [ModdedNumberOption("TouOptionHaunterNumTasksLeftBeforeClickable", 0f, 5)]
     public float NumTasksLeftBeforeClickable { get; set; } = 3f;

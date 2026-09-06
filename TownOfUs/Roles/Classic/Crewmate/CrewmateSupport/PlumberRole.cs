@@ -33,15 +33,12 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     [HideFromIl2Cpp] public static Dictionary<int, GameObject> Barricades { get; set; } = [];
 
     public DoomableType DoomHintType => DoomableType.Trickster;
-    public string LocaleKey => "Plumber";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Plumber";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -52,11 +49,11 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Flush", "Flush"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}FlushWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Flush", "Flush"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Flush.WikiDescription"),
                     TouCrewAssets.FlushSprite),
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Block", "Block"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}BlockWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Block", "Block"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Block.WikiDescription"),
                     TouCrewAssets.BlockSprite)
             ];
         }
@@ -86,14 +83,14 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         var stringB = ITownOfUsRole.SetNewTabText(this);
         var duration = (int)OptionGroupSingleton<PlumberOptions>.Instance.BarricadeRoundDuration;
         var barrText = duration == 0
-            ? TouLocale.GetParsed("TouRolePlumberExtraTabTextForever")
-            : TouLocale.GetParsed("TouRolePlumberExtraTabText").Replace("<roundCount>", duration.ToString(TownOfUsPlugin.Culture));
+            ? MiraLocaleManager.Get("TownOfUsMira.Role.PlumberExtraTabTextForever")
+            : MiraLocaleManager.Get("TownOfUsMira.Role.PlumberExtraTabText").Replace("<roundCount>", duration.ToString(TownOfUsPlugin.Culture));
         stringB.Append(TownOfUsPlugin.Culture,
             $"\n<b><size=60%>Note: {barrText}</size></b>");
         if (VentsBlocked.Count > 0 || FutureBlocks.Count > 0)
         {
             stringB.Append(TownOfUsPlugin.Culture,
-                $"\n<b>{TouLocale.GetParsed("TouRolePlumberVentListTabText")}:</b>");
+                $"\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.PlumberVentListTabText")}:</b>");
 
             if (VentsBlocked.Count > 0)
             {
@@ -105,8 +102,8 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
                         continue;
                     }
 
-                    var ventLabel = TouLocale.GetParsed("TouRolePlumberVentLabelTabText").Replace("<roomName>", MiscUtils.GetRoomName(vent.transform.position));
-                    var text2 = duration == 0 ? string.Empty : $": {TouLocale.GetParsed("TouRolePlumberVentRoundsTabText").Replace("<roundsRemaining>", rounds.ToString(TownOfUsPlugin.Culture))}";
+                    var ventLabel = MiraLocaleManager.Get("TownOfUsMira.Role.PlumberVentLabelTabText").Replace("<roomName>", MiscUtils.GetRoomName(vent.transform.position));
+                    var text2 = duration == 0 ? string.Empty : $": {MiraLocaleManager.Get("TownOfUsMira.Role.PlumberVentRoundsTabText").Replace("<roundsRemaining>", rounds.ToString(TownOfUsPlugin.Culture))}";
                     stringB.Append(TownOfUsPlugin.Culture,
                         $"\n{ventLabel}{text2}");
                 }
@@ -122,9 +119,9 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
                         continue;
                     }
 
-                    var prepLabel = TouLocale.GetParsed("TouRolePlumberVentLabelTabText").Replace("<roomName>", MiscUtils.GetRoomName(vent.transform.position));
+                    var prepLabel = MiraLocaleManager.Get("TownOfUsMira.Role.PlumberVentLabelTabText").Replace("<roomName>", MiscUtils.GetRoomName(vent.transform.position));
                     stringB.Append(TownOfUsPlugin.Culture,
-                        $"\n<color=#BFBFBF>{prepLabel}: {TouLocale.GetParsed("TouRolePlumberUnbuiltBarricadeTabText")}</color>");
+                        $"\n<color=#BFBFBF>{prepLabel}: {MiraLocaleManager.Get("TownOfUsMira.Role.PlumberUnbuiltBarricadeTabText")}</color>");
                 }
             }
         }

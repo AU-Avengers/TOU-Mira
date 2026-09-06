@@ -29,7 +29,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
             return;
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{MiraLocaleManager.Get("NeutralKillingTaskHeader")}</color>";
         orCreateTask.name = "NeutralRoleText";
     }
 
@@ -55,15 +55,12 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<AurialRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string LocaleKey => "Plaguebearer";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Plaguebearer";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -74,8 +71,8 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Infect", "Infect"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}InfectWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Infect", "Infect"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Infect.WikiDescription"),
                     TouNeutAssets.InfectSprite)
             ];
         }
@@ -106,7 +103,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
         if (allInfected.HasAny())
         {
-            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRolePlaguebearerTabInfectedInfo")}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.PlaguebearerTabInfectedInfo")}</b>");
             foreach (var plr in allInfected)
             {
                 stringB.Append(TownOfUsPlugin.Culture, $"\n{Color.white.ToTextColor()}{plr.Data.PlayerName}</color>");
@@ -116,19 +113,42 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         var notInfected = PlayerControl.AllPlayerControls.ToArray().Where(x =>
             !x.HasDied() && x != Player && !x.HasModifier<PlaguebearerInfectedModifier>());
 
-        stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>{TouLocale.GetParsed("TouRolePlaguebearerTabInfectCounter").Replace("<count>", $"{notInfected.Count()}")}</b>");
+        stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.PlaguebearerTabInfectCounter").Replace("<count>", $"{notInfected.Count()}")}</b>");
 
         return stringB;
     }
 
+    public override void OnMeetingStart()
+    {
+        RoleBehaviourStubs.OnMeetingStart(this);
+
+        ClearNonCurrentInfections();
+    }
+
+    public void ClearNonCurrentInfections()
+    {
+        // If these aren't cleared, then the plaguebearer will be unable to transform properly.
+        var badInfections = ModifierUtils.GetActiveModifiers<PlaguebearerInfectedModifier>().Where(x => x.PlagueBearerId != Player.PlayerId).ToList();
+
+        if (badInfections.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var plague in badInfections)
+        {
+            plague.Player.RemoveModifier(plague);
+        }
+    }
+
     public bool WinConditionMet()
     {
-        if (Player.HasDied())
+        if (Player.HasDied() || MiscUtils.KillersAliveCount == 0)
         {
             return false;
         }
 
-        var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
+        var result = MiscUtils.GetImpactfulLivingPlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
 
         return result;
     }
@@ -137,6 +157,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
     {
         RoleBehaviourStubs.Initialize(this, player);
         Player.AddModifier<PlaguebearerInfectedModifier>(Player.PlayerId);
+        ClearNonCurrentInfections();
         if (Player.AmOwner && (int)OptionGroupSingleton<PlaguebearerOptions>.Instance.PestChance != 0)
         {
             Coroutines.Start(CheckForPestChance(Player));

@@ -15,10 +15,14 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable, IButtonModifier
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Satellite,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Satellite.LoadAsset(),
+            "TouMira.Modifier.Universal.Satellite", 1.45f));
     private readonly List<SpriteRenderer> CastedIcons = [];
     private readonly List<PlayerControl> CastedPlayers = [];
-    public override string LocaleKey => "Satellite";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IdPart => "Satellite";
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Satellite;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalUtility;
@@ -27,12 +31,12 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription").Replace("<maxUses>",
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription").Replace("<maxUses>",
                    $"{Math.Round(OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast, 0)}") +
                MiscUtils.AppendOptionsText(GetType());
     }
@@ -44,8 +48,8 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
         {
             return
             [
-                new(TouLocale.Get($"TouModifier{LocaleKey}Broadcast"),
-                    TouLocale.GetParsed($"TouModifier{LocaleKey}BroadcastWikiDescription").Replace("<maxUses>",
+                new(MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}Broadcast"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}Broadcast.WikiDescription").Replace("<maxUses>",
                         $"{Math.Round(OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast, 0)}"),
                     TouAssets.BroadcastSprite)
             ];

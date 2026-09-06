@@ -1,11 +1,13 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options;
 using UnityEngine;
@@ -17,6 +19,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public override bool IsAffectedByComms => false;
 
     [HideFromIl2Cpp] public PlayerControl? Fortified { get; set; }
+    public bool IsProtecting { get; set; }
 
     public void FixedUpdate()
     {
@@ -25,22 +28,20 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             return;
         }
 
-        if (Fortified != null && Fortified.HasDied())
+        var dced = IsProtecting && Fortified == null;
+        if (Fortified != null && Fortified.HasDied() || dced)
         {
-            Clear();
+            Clear(dced);
         }
     }
 
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string LocaleKey => "Warden";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Warden";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -51,8 +52,8 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Fortify", "Fortify"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}FortifyWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fortify", "Fortify"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fortify.WikiDescription"),
                     TouCrewAssets.FortifySprite)
             ];
         }
@@ -70,12 +71,12 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         Icon = TouRoleIcons.Warden
     };
 
-    public static string ProtectionString = TouLocale.GetParsed("TouRoleWardenTabProtecting");
+    public static string ProtectionString = MiraLocaleManager.Get("TownOfUsMira.Role.WardenTabProtecting");
 
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        ProtectionString = TouLocale.GetParsed("TouRoleWardenTabProtecting");
+        ProtectionString = MiraLocaleManager.Get("TownOfUsMira.Role.WardenTabProtecting");
     }
 
     [HideFromIl2Cpp]
@@ -91,8 +92,18 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         return stringB;
     }
 
-    public void Clear()
+    public void Clear(bool playerLeft = false)
     {
+        if (playerLeft)
+        {
+            IsProtecting = false;
+            Fortified = null;
+            if (Player.AmOwner)
+            {
+                var button = CustomButtonSingleton<WardenFortifyButton>.Instance;
+                button.ResetCooldownAndOrEffect();
+            }
+        }
         SetFortifiedPlayer(null);
     }
 
@@ -112,11 +123,15 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public void SetFortifiedPlayer(PlayerControl? player)
     {
+        IsProtecting = false;
         Fortified?.RemoveModifier<WardenFortifiedModifier>();
 
         Fortified = player;
-
-        Fortified?.AddModifier<WardenFortifiedModifier>(Player);
+        if (Fortified != null)
+        {
+            IsProtecting = true;
+            Fortified.AddModifier<WardenFortifiedModifier>(Player);
+        }
     }
 
     [MethodRpc((uint)TownOfUsRpc.WardenFortify)]
@@ -156,7 +171,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     }
 
     [MethodRpc((uint)TownOfUsRpc.WardenNotify)]
-    public static void RpcWardenNotify(PlayerControl player, PlayerControl source)
+    public static void RpcWardenNotify(PlayerControl player, PlayerControl source, PlayerControl target)
     {
         if (LobbyBehaviour.Instance)
         {

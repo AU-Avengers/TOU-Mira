@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
@@ -12,12 +11,11 @@ namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifier
 {
-    public override string ModifierName => TouLocale.Get("TouMedicShield", "Medic");
+    public override string ModifierName => MiraLocaleManager.Get("TouMedicShield", "Medic");
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Medic;
 
     public override string ShieldDescription =>
-        $"You are shielded by a {TouLocale.Get("TouRoleMedic", "Medic")} !\nYou may not die to other players";
-
+        MiraLocaleManager.Get("TouMedicShieldDescription");
     public PlayerControl Medic { get; private set; } = medic;
     public List<PlayerControl> AllMedics { get; } = [];
     public GameObject MedicShield { get; set; }
@@ -62,7 +60,7 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
         get
         {
             var showShielded = OptionGroupSingleton<MedicOptions>.Instance.ShowShielded;
-            return !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowShieldHudToggle.Value ||
+            return !LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowShieldHudToggle.Value ||
                    (showShielded is MedicOption.Medic or MedicOption.Nobody);
         }
     }
@@ -96,8 +94,7 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-        var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
-            x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
+            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
         ShowShield = showShieldedEveryone || showShieldedSelf || showShieldedMedic ||
                      (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);

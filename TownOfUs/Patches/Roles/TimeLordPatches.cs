@@ -25,16 +25,8 @@ public static class TimeLordPatches
             }
         }
     }
-
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-    [HarmonyPostfix]
-    public static void HudManagerUpdatePostfix()
+    public static void RecordTimeLordSnapshot(HudManager __instance)
     {
-        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
-        {
-            return;
-        }
-
         var inMinigame = Minigame.Instance || SpawnInMinigame.Instance;
         if (!inMinigame)
         {

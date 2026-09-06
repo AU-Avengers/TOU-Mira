@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -16,7 +15,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
     public override float Duration => OptionGroupSingleton<FairyOptions>.Instance.ProtectDuration;
     public override string ModifierName => "Protected";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Fairy;
-    public override string ShieldDescription => "You are protected by your Fairy!\nYou cannot be killed.";
+  public override string ShieldDescription => MiraLocaleManager.Get("TownOfUsMira.Modifier.GuardianAngelProtectedDescription");
     public override bool AutoStart => true;
     public PlayerControl Guardian => guardianAngel;
 
@@ -25,7 +24,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
         get
         {
             var showProtect = OptionGroupSingleton<FairyOptions>.Instance.ShowProtect;
-            return !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowShieldHudToggle.Value ||
+            return !LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowShieldHudToggle.Value ||
                    !OptionGroupSingleton<FairyOptions>.Instance.FairyTargetKnows ||
                    showProtect is ProtectOptions.Fairy;
         }
@@ -49,8 +48,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-        var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
-            x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
+            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
         if (showProtectEveryone || showProtectSelf || showProtectFairy || (PlayerControl.LocalPlayer.HasDied() &&
                                                                         genOpt.TheDeadKnow && !body &&

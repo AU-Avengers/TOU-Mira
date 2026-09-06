@@ -107,31 +107,7 @@ public static class AdvancedMovementUtilities
             x = ConsoleJoystick.player.GetAxis(2);
             y = ConsoleJoystick.player.GetAxis(3);
         }
-        else
-        {
-            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryRight) || IsKeybindHeld(TouKeybinds.ControlRoleSecondaryRight))
-            {
-                x += 1f;
-            }
-
-            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryLeft) || IsKeybindHeld(TouKeybinds.ControlRoleSecondaryLeft))
-            {
-                x -= 1f;
-            }
-
-            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryUp) || IsKeybindHeld(TouKeybinds.ControlRoleSecondaryUp))
-            {
-                y += 1f;
-            }
-
-            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryDown) || IsKeybindHeld(TouKeybinds.ControlRoleSecondaryDown))
-            {
-                y -= 1f;
-            }
-        }
-
-        if (controlType != ActiveInputManager.InputType.Keyboard &&
-            HudManager.InstanceExists && hudManager.joystick != null)
+        else if (HudManager.InstanceExists && hudManager.joystick != null)
         {
             var vJoy = hudManager.joystick.DeltaL;
             return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;

@@ -31,12 +31,11 @@ public static class DeadlyQuotaEvents
             {
                 var remaining = deadlyQuota.KillQuota - deadlyQuota.KillCount;
 
-                var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>You need {remaining} more {(remaining == 1 ? "kill" : "kills")} to complete your quota!</b>",
-                    Color.white,
-                    new Vector3(0f, 1f, -20f),
-                    spr: TouModifierIcons.DeadlyQuota.LoadAsset());
+                var killsWord = remaining == 1 ? MiraLocaleManager.Get("TownOfUsMira.Modifier.DeadlyQuotaKill") : MiraLocaleManager.Get("TownOfUsMira.Modifier.DeadlyQuotaKills");
 
+                var message = MiraLocaleManager.Get("TownOfUsMira.Modifier.DeadlyQuotaRemaining") .Replace("<amount>", remaining.ToString(TownOfUsPlugin.Culture)) .Replace("<kills>", killsWord);
+
+                var notif1 = Helpers.CreateAndShowNotification($"<b>{message}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.DeadlyQuota.LoadAsset());
 
                 notif1.Text.SetOutlineThickness(0.4f);
             }
@@ -46,7 +45,7 @@ public static class DeadlyQuotaEvents
                 if (!OptionGroupSingleton<DeadlyQuotaOptions>.Instance.QuotaShield)
                 {
                     var notif2 = Helpers.CreateAndShowNotification(
-                        $"<b>You have completed your quota!</b>",
+                        $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.DeadlyQuotaCompleted")}</b>",
                         Color.white,
                         new Vector3(0f, 1f, -20f),
                         spr: TouModifierIcons.DeadlyQuota.LoadAsset());
@@ -56,7 +55,7 @@ public static class DeadlyQuotaEvents
                 else
                 {
                     var notif3 = Helpers.CreateAndShowNotification(
-                        $"<b>You have completed your quota! You have lost your temporarily shield.</b>",
+                        $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.DeadlyQuotaCompletedShield")}</b>",
                         Color.white,
                         new Vector3(0f, 1f, -20f),
                         spr: TouModifierIcons.DeadlyQuota.LoadAsset());

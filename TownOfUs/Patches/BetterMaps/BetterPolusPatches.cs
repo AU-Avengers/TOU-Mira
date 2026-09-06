@@ -376,7 +376,7 @@ public static class BetterPolusPatches
 [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
 public static class TaskTextUpdates
 {
-    public static void Prefix()
+    public static void Prefix(HudManager __instance)
     {
         if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
             PlayerControl.LocalPlayer.myTasks == null ||

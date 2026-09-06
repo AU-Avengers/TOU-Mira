@@ -15,6 +15,11 @@ Task("Build")
 
     if (tag != null) 
     {
+        settings = new DotNetBuildSettings
+        {
+            Configuration = "Publish",
+            MSBuildSettings = new DotNetMSBuildSettings()
+        };
         settings.MSBuildSettings.Version = tag;
     }
     else if (buildId != 0)

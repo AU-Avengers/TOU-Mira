@@ -61,8 +61,8 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
     public override void CreateButton(Transform parent)
     {
         base.CreateButton(parent);
-        _infectName = TouLocale.GetParsed("TouRoleParasiteOvertake", "Overtake");
-        _killName = TouLocale.GetParsed("TouRoleParasiteDecay", "Kill");
+        _infectName = MiraLocaleManager.Get("TownOfUsMira.Role.ParasiteOvertake", "Overtake");
+        _killName = MiraLocaleManager.Get("TownOfUsMira.Role.ParasiteDecay", "Kill");
         OverrideName(_infectName);
 
         _hasCapturedButtonPos = false;
@@ -181,7 +181,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             var cleric = barrier?.Cleric?.GetRole<ClericRole>();
             if (cleric != null && (TutorialManager.InstanceExists || local.AmOwner))
             {
-                ClericRole.RpcClericBarrierAttacked(local, cleric.Player);
+                ClericRole.RpcClericBarrierAttacked(local, cleric.Player, target);
             }
             return true;
         }

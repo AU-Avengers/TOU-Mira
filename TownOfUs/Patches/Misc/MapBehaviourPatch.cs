@@ -53,7 +53,7 @@ public static class ShowVentsPatch
             BodyIcons.Clear();
         }
 
-        if (!LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowVentsToggle.Value)
+        if (!LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.ShowVentsToggle.Value)
         {
             foreach (var icon in VentIcons.Values.Where(x => x))
             {

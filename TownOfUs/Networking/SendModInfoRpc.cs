@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Hazel;
@@ -7,7 +6,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
-using Reactor.Utilities.Extensions;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 using ModCompatibility = TownOfUs.Modules.ModCompatibility;
 
@@ -80,11 +79,20 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
         string[] knownModArray = [];
         string[] badModArray = [];
         string[] otherModArray = [];
+        var data = AmongUsClient.Instance.GetClientFromCharacter(client);
+        var platform = data.PlatformData.Platform;
+        HudManagerHelper.RefreshPlatformData();
         var sbuilder = new StringBuilder();
+        Error(
+            $"DEBUGGING DATA for {client.Data.PlayerName}: Among Us {list[0]} ({platform})");
         Error(
             $"{client.Data.PlayerName} is joining with the following plugins:");
         foreach (var mod in list)
         {
+            if (mod.Key < 1)
+            {
+                continue;
+            }
             if (blacklist.Any(x => mod.Value.Contains(x, StringComparison.OrdinalIgnoreCase)))
             {
                 badModArray = badModArray.AddToArray(mod.Value);
@@ -130,23 +138,18 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
         if (!client.AmOwner && PlayerControl.LocalPlayer.IsHost() && HudManager.InstanceExists)
         {
             var mods = IL2CPPChainloader.Instance.Plugins;
-            var modDictionary = new Dictionary<byte, string>
-            {
-                { 0, $"BepInEx " + Paths.BepInExVersion.WithoutBuild() }
-            };
-            byte modByte = 1;
+            var modDictionary = new Dictionary<byte, string>();
+            byte modByte = 0;
             foreach (var mod in mods)
             {
                 modDictionary.Add(modByte, $"{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}");
                 modByte++;
             }
             var newModDictionary = new List<string>();
-            var bepChecked = false;
             foreach (var mod in list)
             {
-                if (mod.Value.Contains("BepInEx") && !bepChecked)
+                if (mod.Key < 1)
                 {
-                    bepChecked = true;
                     continue;
                 }
                 if (modDictionary.ContainsValue(mod.Value) || whitelist.Any(x => mod.Value.Contains(x, StringComparison.OrdinalIgnoreCase)))
@@ -164,12 +167,12 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
             if (cheatMods.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.KickCheatMods.Value)
             {
                 var chatMessageBuilder = new StringBuilder();
-                chatMessageBuilder.Append(TouLocale.GetParsed("AnticheatKickChatMessage").Replace("<player>", client.Data.PlayerName));
+                chatMessageBuilder.Append(MiraLocaleManager.Get("AnticheatKickChatMessage").Replace("<player>", client.Data.PlayerName));
                 foreach (var mod in cheatMods)
                 {
                     chatMessageBuilder.Append(TownOfUsPlugin.Culture, $"\n<color=#FF0000>{mod}</color>");
                 }
-                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, $"<color=#D53F42>{TouLocale.Get("AnticheatChatTitle")}</color>", chatMessageBuilder.ToString(), true, altColors:true);
+                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, $"<color=#D53F42>{MiraLocaleManager.Get("AnticheatChatTitle")}</color>", chatMessageBuilder.ToString(), true, altColors:true);
                 
                 if (playerInfo != null)
                 {
@@ -180,7 +183,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
             else if (throwNewMsg && newModDictionary.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.AntiCheatWarnings.Value)
             {
                 var stringBuilder = new StringBuilder();
-                stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatMessage").Replace("<player>", client.Data.PlayerName)}");
+                stringBuilder.Append(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get("AnticheatMessage").Replace("<player>", client.Data.PlayerName)}");
                 foreach (var mod in newModDictionary)
                 {
                     if (blacklist.Any(x => mod.Contains(x, StringComparison.OrdinalIgnoreCase)))
@@ -190,7 +193,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
                     }
                     stringBuilder.Append(TownOfUsPlugin.Culture, $"\n{mod}");
                 }
-                MiscUtils.AddFakeChat(client.Data, $"<color=#D53F42>{TouLocale.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
+                MiscUtils.AddFakeChat(client.Data, $"<color=#D53F42>{MiraLocaleManager.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
             }
             if (playerInfo != null && !kickPlayer)
             {
@@ -229,7 +232,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
                     return;
                 }
                 var stringBuilder = new StringBuilder();
-                stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatKickMissingMessage").Replace("<player>", client.Data.PlayerName)}");
+                stringBuilder.Append(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get("AnticheatKickMissingMessage").Replace("<player>", client.Data.PlayerName)}");
                 foreach (var mod in requiredMods)
                 {
                     if (!reqModDictionary.Any(x => mod.Contains(x, StringComparison.OrdinalIgnoreCase)))
@@ -239,7 +242,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
                     }
                     stringBuilder.Append(TownOfUsPlugin.Culture, $"\n{mod}");
                 }
-                MiscUtils.AddFakeChat(client.Data, $"<color=#D53F42>{TouLocale.Get("SystemChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
+                MiscUtils.AddFakeChat(client.Data, $"<color=#D53F42>{MiraLocaleManager.Get("SystemChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
                 kickPlayer = true;
                 AmongUsClient.Instance.KickPlayer(playerInfo.ClientId, false);
             }

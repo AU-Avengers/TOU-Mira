@@ -48,11 +48,11 @@ public sealed class NeutralGameOver : CustomGameOver
         endGameManager.BackgroundBar.material.SetColor(ShaderID.Color, _roleColor);
 
         var text = Object.Instantiate(endGameManager.WinText);
-        var winText = _soloWin ? TouLocale.GetParsed("SoloWin") : TouLocale.GetParsed("TeamWin");
+        var winText = _soloWin ? MiraLocaleManager.Get("SoloWin") : MiraLocaleManager.Get("TeamWin");
         winText = winText.Replace("<role>", _role.GetRoleName());
         text.text = $"{winText}!";
         text.color = _roleColor;
-        GameHistory.WinningFaction = $"<color=#{_roleColor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("TeamWin").Replace("<role>", _role.GetRoleName())}</color>";
+        GameHistory.WinningFaction = $"<color=#{_roleColor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TeamWin").Replace("<role>", _role.GetRoleName())}</color>";
 
         var pos = endGameManager.WinText.transform.localPosition;
         pos.y = 1.5f;

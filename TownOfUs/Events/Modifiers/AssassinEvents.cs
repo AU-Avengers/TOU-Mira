@@ -3,7 +3,7 @@ using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
 using MiraAPI.Modifiers;
-using TownOfUs.Modifiers.Game;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modules;
 
 namespace TownOfUs.Events.Modifiers;

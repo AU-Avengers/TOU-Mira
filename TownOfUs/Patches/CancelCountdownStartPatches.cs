@@ -56,8 +56,15 @@ internal static class CancelCountdownStart
 
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
     [HarmonyPostfix]
-    public static void PostfixBeginGame()
+    public static void PostfixBeginGame(GameStartManager __instance)
     {
+        var opts = OptionGroupSingleton<RoleOptions>.Instance;
+        if (opts.CurrentRoleDistribution() is RoleDistribution.Draft)
+        {
+            var warningText = opts.DraftRecap.Value is DraftRecapMode.Nothing ? "<b>No Draft recap will be displayed.</b>" : $"<b>Draft Mode Recap will display {opts.DraftRecap.Value}.</b>";
+            var notif = Helpers.CreateAndShowNotification(warningText, Color.white, new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode.LoadAsset());
+            notif.AdjustNotification();
+        }
         if (AmongUsClient.Instance.AmHost)
         {
             if (OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay.Value)
@@ -104,10 +111,7 @@ internal static class CancelCountdownStart
     [HarmonyPostfix]
     public static void PostfixStart(GameStartManager __instance)
     {
-        if (MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek)
-        {
-            __instance.MinPlayers = 1;
-        }
+        __instance.MinPlayers = 1;
     }
 
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]

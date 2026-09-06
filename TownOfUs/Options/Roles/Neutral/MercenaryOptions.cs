@@ -6,9 +6,9 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class MercenaryOptions : AbstractOptionGroup<MercenaryRole>
+public sealed class MercenaryOptions : AbstractRoleOptionGroup<MercenaryRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleMercenary", "Mercenary");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Mercenary", "Mercenary");
 
     [ModdedNumberOption("TouOptionMercenaryCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float GuardCooldown { get; set; } = 25f;

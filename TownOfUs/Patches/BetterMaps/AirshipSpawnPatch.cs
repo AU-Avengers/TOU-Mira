@@ -33,7 +33,7 @@ public static class AirshipSpawnPatch
                 ];
                 picks.Shuffle();
 
-                RemoveSpawns(picks[0], picks[1], picks[2]);
+                RemoveSpawns(PlayerControl.LocalPlayer, picks[0], picks[1], picks[2]);
             }
 
             __instance.Locations = new([.. __instance.Locations.Where(x => !RemovedSpawns.Contains(x.Name))]);
@@ -55,7 +55,8 @@ public static class AirshipSpawnPatch
     }
 
     [MethodRpc((uint)TownOfUsRpc.RemoveSpawns)]
-    public static void RemoveSpawns(StringNames location, StringNames location2, StringNames location3)
+    public static void RemoveSpawns(PlayerControl player, StringNames location, StringNames location2,
+        StringNames location3)
     {
         RemovedSpawns = [location, location2, location3];
     }

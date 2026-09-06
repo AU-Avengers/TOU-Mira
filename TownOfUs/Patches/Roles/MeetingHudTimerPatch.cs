@@ -1,9 +1,8 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using TownOfUs.Events;
-using TownOfUs.Modifiers.Game;
-using TownOfUs.Options;
+using TownOfUs.Modifiers.Game.Assailant;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Options.Roles.Neutral;
@@ -32,7 +31,7 @@ public static class MeetingHudTimerPatch
             case AmbassadorRole ambass:
                 var ambassOpt = OptionGroupSingleton<AmbassadorOptions>.Instance;
                 newText = $"\n{ambass.RetrainsString()}";
-                if (DeathEventHandlers.CurrentRound < (int)ambassOpt.RoundWhenAvailable)
+                if (HudManagerHelper.Instance.CurrentRound < (int)ambassOpt.RoundWhenAvailable)
                 {
                     newText =
                         $"{newText} | {AmbassadorRole.RetrainWaitString.Replace("<roundToWait>", $"{(int)ambassOpt.RoundWhenAvailable}")}";
@@ -44,37 +43,40 @@ public static class MeetingHudTimerPatch
 
                 break;
             case ProsecutorRole pros:
-                var prosecutes = OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions -
-                                 pros.ProsecutionsCompleted;
+                var total = (int)OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
+                var prosecutes = total - pros.ProsecutionsCompleted;
                 newText =
-                    $"\n{prosecutes} / {OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions} Prosecutions Remaining";
+                    $"\n{MiraLocaleManager.Get("TownOfUsMira.Role.ProsecutorProsecutionsRemaining").Replace("<count>", prosecutes.ToString(TownOfUsPlugin.Culture)).Replace("<total>", total.ToString(TownOfUsPlugin.Culture))}";
                 break;
             case DeputyRole dep:
                 if (dep.Killer)
                 {
-                    newText = "\nShoot a player successfully if they were the killer!";
+                    newText = $"\n{MiraLocaleManager.Get("TownOfUsMira.Role.DeputyShootKiller")}";
                 }
 
                 break;
             case PoliticianRole:
-                newText = "\nReveal successfully if half the crewmates are campaigned!";
+                newText = $"\n{MiraLocaleManager.Get("TownOfUsMira.Role.PoliticianRevealRequirement")}";
                 break;
             case MayorRole mayor:
-                newText = mayor.Revealed ? "\nYou unleash 3 votes at once!" : "\nReveal yourself to get 3 total votes!";
+                newText = mayor.Revealed ? $"\n{MiraLocaleManager.Get("TownOfUsMira.Role.MayorRevealedVotes")}" : $"\n{MiraLocaleManager.Get("TownOfUsMira.Role.MayorRevealVotes")}";
                 break;
             case DoomsayerRole doom:
                 var doomOpt = OptionGroupSingleton<DoomsayerOptions>.Instance;
-                newText = doomOpt.DoomsayerGuessAllAtOnce
-                    ? $"\nGuess the roles of {(int)doomOpt.DoomsayerGuessesToWin} players at once to win!"
-                    : $"\n{doom.NumberOfGuesses} / {(int)doomOpt.DoomsayerGuessesToWin} Successful Role Guesses to win!";
+                newText = "\n" + (doomOpt.DoomsayerGuessAllAtOnce
+                    ? MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerGuessAllAtOnce").Replace("<amount>",
+                        ((int)doomOpt.DoomsayerGuessesToWin).ToString(TownOfUsPlugin.Culture))
+                    : MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerSuccessfulGuesses")
+                        .Replace("<current>", doom.NumberOfGuesses.ToString(TownOfUsPlugin.Culture)).Replace("<total>",
+                            ((int)doomOpt.DoomsayerGuessesToWin).ToString(TownOfUsPlugin.Culture)));
                 break;
             case VigilanteRole vigi:
                 newText =
-                    $"\n{vigi.MaxKills} / {(int)OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteKills} Guesses Remaining";
+                    $"\n{vigi.MaxKills} / {(int)OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteKills} {MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteGuessesRemaining")}";
                 if ((int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots > 0)
                 {
                     newText +=
-                        $" | {vigi.SafeShotsLeft} / {(int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots} Safe Shots";
+                        $" | {vigi.SafeShotsLeft} / {(int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots} {MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteSafeShots")}";
                 }
 
                 break;
@@ -83,10 +85,10 @@ public static class MeetingHudTimerPatch
         if (PlayerControl.LocalPlayer.TryGetModifier<AssassinModifier>(out var assassinMod))
         {
             newText +=
-                $"\n{assassinMod.maxKills} / {(int)OptionGroupSingleton<AssassinOptions>.Instance.AssassinKills} Guesses Remaining";
+                $"\n{assassinMod.maxKills} / {assassinMod.defaultKills} {MiraLocaleManager.Get("TownOfUsMira.Role.AssassinGuessesRemaining")}";
             if ((PlayerControl.LocalPlayer.TryGetModifier<DoubleShotModifier>(out var doubleShotMod)))
             {
-                newText += (doubleShotMod.Used) ? " | Double Shot Used" : " | Double Shot Available";
+                newText += (doubleShotMod.Used) ? $" | {MiraLocaleManager.Get("TownOfUsMira.Role.AssassinDoubleShotUsed")}" : $" | {MiraLocaleManager.Get("TownOfUsMira.Role.AssassinDoubleShotAvailable")}";
             }
         }
 

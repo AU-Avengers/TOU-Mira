@@ -23,7 +23,7 @@ public abstract class DisabledModifier : TimedModifier
 
     public override string GetDescription()
     {
-        return "You are disabled!";
+        return MiraLocaleManager.Get("TownOfUsMira.Modifier.DisabledDescription");
     }
 
     public override void OnDeath(DeathReason reason)

@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAftermathableButton, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleMinerMine", "Mine");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.MinerMine", "Mine");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<MinerOptions>.Instance.MineCooldown + MapCooldown, 5f, 120f);

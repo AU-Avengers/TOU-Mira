@@ -1,7 +1,7 @@
-﻿using AmongUs.GameOptions;
-using HarmonyLib;
-using InnerNet;
+﻿using HarmonyLib;
+using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
+using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Options;
 using UnityEngine;
@@ -24,6 +24,7 @@ public static class GameTimerPatch
     {
         var pingTracker = Object.FindObjectOfType<PingTracker>(true);
         GameTimerObj = Object.Instantiate(pingTracker.gameObject, instance.transform);
+        GameTimerObj.GetComponent<PingTracker>().Destroy();
         GameTimerObj.name = "GameTimerText";
 
         TimerAspectPos = GameTimerObj.GetComponent<AspectPosition>();
@@ -52,20 +53,23 @@ public static class GameTimerPatch
     public static void UpdateGameTimer(HudManager instance)
     {
         var timeOpt = OptionGroupSingleton<GameTimerOptions>.Instance;
-        GameTimerObj?.SetActive(false);
+        if (GameTimerObj)
+        {
+            GameTimerObj.SetActive(false);
+        }
 
-        if (!timeOpt.GameTimerEnabled || GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
-                or GameModes.SeekFools)
+        if (!timeOpt.GameTimerEnabled || !CustomGameModeManager.IsClassic() || GameOptionsManager.Instance.CurrentGameOptions.GameMode is AmongUs.GameOptions.GameModes.HideNSeek
+                or AmongUs.GameOptions.GameModes.SeekFools)
         {
             return;
         }
 
-        if (GameTimerObj == null)
+        if (!GameTimerObj)
         {
             CreateGameTimer(instance);
         }
 
-        if (GameTimerObj == null)
+        if (!GameTimerObj)
         {
             return;
         }
@@ -144,22 +148,5 @@ public static class GameTimerPatch
         }
         TriggerEndGame = false;
         Enabled = true;
-    }
-
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-    [HarmonyPostfix]
-    public static void HudManagerUpdatePatch(HudManager __instance)
-    {
-        if (!PlayerControl.LocalPlayer ||
-            !PlayerControl.LocalPlayer.Data ||
-            PlayerControl.LocalPlayer.Data.Role == null ||
-            !ShipStatus.Instance ||
-            TutorialManager.InstanceExists ||
-            AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
-        {
-            return;
-        }
-
-        UpdateGameTimer(__instance);
     }
 }

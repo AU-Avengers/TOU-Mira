@@ -5,6 +5,7 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Neutral;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
@@ -86,7 +87,8 @@ public static class MirrorcasterEvents
         // Magic Mirrors can NOT protect from Arsonist, bombs, veterans, anything of that nature.
         if (!target.HasModifier<MagicMirrorModifier>() ||
             target.PlayerId == source.PlayerId ||
-            source.HasModifier<IndirectAttackerModifier>() ||
+            @event is BeforeMurderEvent { IgnoreDefense: true } ||
+            @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true } ||
             source.HasModifier<InvulnerabilityModifier>() ||
             source.HasModifier<VeteranAlertModifier>())
         {
@@ -113,12 +115,25 @@ public static class MirrorcasterEvents
             return;
         }
 
-        button?.ResetCooldownAndOrEffect();
+        button?.ResetButtonCooldown(true);
 
         if (source.Data.Role is WerewolfRole)
         {
             CustomButtonSingleton<WerewolfRampageButton>.Instance.ResetCooldownAndOrEffect();
         }
-        source.SetKillTimer(source.GetKillCooldown());
+        source.SetKillTimer(source.GetReducedKillCooldown());
+    }
+
+    [RegisterEvent]
+    public static void ChangeRoleEventHandler(ChangeRoleEvent @event)
+    {
+        if (@event.OldRole is MirrorcasterRole)
+        {
+            var ownedShield = ModifierUtils.GetActiveModifiers<MagicMirrorModifier>().FirstOrDefault(x => x.Mirrorcaster == @event.Player);
+            if (ownedShield != null)
+            {
+                ownedShield.Player.RemoveModifier(ownedShield);
+            }
+        }
     }
 }

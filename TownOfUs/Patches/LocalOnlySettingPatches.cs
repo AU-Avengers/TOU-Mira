@@ -1,6 +1,7 @@
 using HarmonyLib;
 using InnerNet;
 using MiraAPI.GameOptions;
+using MiraAPI.Utilities;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -55,7 +56,7 @@ public static class LocalSettings
                     continue;
             }
 
-            var show = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.DeadSeeGhostsToggle.Value;
+            var show = LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.DeadSeeGhostsToggle.Value;
             var bodyForms = player.gameObject.transform.GetChild(1).gameObject;
 
             foreach (var form in bodyForms.GetAllChildren())
@@ -88,14 +89,6 @@ public static class LocalSettings
                 var spriteRenderer = cameraPair.Key.gameObject.GetComponent<SpriteRenderer>();
                 spriteRenderer?.color = Color.white;
             }
-        }
-    }
-
-    public static IEnumerable<GameObject> GetAllChildren(this GameObject go)
-    {
-        for (var i = 0; i < go.transform.childCount; i++)
-        {
-            yield return go.transform.GetChild(i).gameObject;
         }
     }
 }

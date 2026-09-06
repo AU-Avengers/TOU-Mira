@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class SonarTrackButton : TownOfUsRoleButton<SonarRole, PlayerControl>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleSonarTrack", "Track");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.SonarTrack", "Track");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Sonar;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SonarOptions>.Instance.TrackCooldown + MapCooldown, 5f, 120f);
@@ -39,7 +39,7 @@ public sealed class SonarTrackButton : TownOfUsRoleButton<SonarRole, PlayerContr
         Color color = Palette.PlayerColors[Target.GetDefaultAppearance().ColorId];
         var update = OptionGroupSingleton<SonarOptions>.Instance.UpdateInterval;
 
-        if (LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.SonarTargetType.Value is SonarTargetStyle
+        if (LocalSettingsTabSingleton<TouLocalTabGameplay>.Instance.SonarTargetType.Value is SonarTargetStyle
                 .Arrows)
         {
             Target.AddModifier<SonarArrowTargetModifier>(PlayerControl.LocalPlayer, color, update);

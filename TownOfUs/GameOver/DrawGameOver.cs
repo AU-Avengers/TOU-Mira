@@ -19,9 +19,9 @@ public sealed class DrawGameOver : CustomGameOver
         endGameManager.BackgroundBar.material.SetColor(ShaderID.Color, TownOfUsColors.Neutral);
 
         var text = Object.Instantiate(endGameManager.WinText);
-        text.text = $"{TouLocale.Get("NobodyWins")}!";
+        text.text = $"{MiraLocaleManager.Get("NobodyWins")}!";
         text.color = TownOfUsColors.Neutral;
-        GameHistory.WinningFaction = $"<color=#{TownOfUsColors.Neutral.ToHtmlStringRGBA()}>{TouLocale.Get("NobodyWins")}</color>";
+        GameHistory.WinningFaction = $"<color=#{TownOfUsColors.Neutral.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("NobodyWins")}</color>";
 
         var pos = endGameManager.WinText.transform.localPosition;
         pos.y = 1.5f;

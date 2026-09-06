@@ -69,6 +69,9 @@ public sealed class GlitchHackedModifier(byte glitchId) : DisabledModifier
         }
 
         ShouldHideHacked = false;
+        // TimedModifier removes itself locally, so every client that received the trigger
+        // must run the timer. Otherwise observers retain a stale hacked modifier forever.
+        StartTimer();
         var glitch = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == GlitchId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchHackTrigger, glitch!, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
@@ -85,7 +88,6 @@ public sealed class GlitchHackedModifier(byte glitchId) : DisabledModifier
 
             CustomButtonHackedSprites.Do(x => x.SetHackActive(true));
 
-            StartTimer();
         }
     }
 

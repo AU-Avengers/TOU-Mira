@@ -9,7 +9,7 @@ namespace TownOfUs.Patches;
 [HarmonyPatch(typeof(OverlayKillAnimation), nameof(OverlayKillAnimation.CoShow))]
 public static class KillOverlayPatch
 {
-    private static Material material;
+    public static Material material;
     public static void Prefix(OverlayKillAnimation __instance, KillOverlay parent)
     {
         var mode = (KillColor)OptionGroupSingleton<GameMechanicOptions>.Instance.KillAnimationBackgroundColor.Value;

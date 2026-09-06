@@ -7,88 +7,88 @@ public static class TouBanners
     // THIS FILE SHOULD ONLY ROLE BANNERS, EVERYTHING ELSE BELONGS IN TouAssets.cs
 
     public static LoadableAsset<Sprite> PlaceholderRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("WipBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("WipBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> CrewmateRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("CrewmateBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("CrewmateBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> NeutralRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("NeutralBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("NeutralBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> ImpostorRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("ImpostorBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("ImpostorBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> AurialRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("AurialBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("AurialBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> ForensicRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("ForensicBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("ForensicBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> InvestigatorRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("InvestigatorBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("InvestigatorBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> LookoutRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("LookoutBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("LookoutBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> MediumRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("MediumBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("MediumBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> MysticRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("MysticBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("MysticBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> SeerRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("SeerBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("SeerBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> SnitchRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("SnitchBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("SnitchBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> SpyRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("SpyBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("SpyBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> SonarRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("SonarBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("SonarBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> TrapperRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("TrapperBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("TrapperBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> DeputyRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("DeputyBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("DeputyBanner", TouAssets.RoleBannerHolder);
     public static LoadableAsset<Sprite> HunterRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("HunterBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("HunterBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> SheriffRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("SheriffBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("SheriffBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> ProsecutorRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("ProsecutorBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("ProsecutorBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> ClericRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("ClericBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("ClericBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> MedicRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("MedicBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("MedicBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> EngineerRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("EngineerBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("EngineerBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> SentryRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("SentryBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("SentryBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> HaunterRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("HaunterBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("HaunterBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> JesterRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("JesterBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("JesterBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> SpectreRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("SpectreBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("SpectreBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> EscapistRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("EscapistBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("EscapistBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> MinerRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("MinerBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("MinerBanner", TouAssets.RoleBannerHolder);
 
     public static LoadableAsset<Sprite> UndertakerRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("UndertakerBanner", TouAssets.MainBundle);
+        new LoadableBundleSubAsset("UndertakerBanner", TouAssets.RoleBannerHolder);
 }

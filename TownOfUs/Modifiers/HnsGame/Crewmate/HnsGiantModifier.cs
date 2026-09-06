@@ -7,7 +7,11 @@ namespace TownOfUs.Modifiers.HnsGame.Crewmate;
 
 public sealed class HnsGiantModifier : HnsGameModifier, IVisualAppearance
 {
-    public override string LocaleKey => "Giant";
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Giant,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Giant.LoadAsset(),
+            "TouMira.Modifier.HnS.Hider.Giant", 1.45f));
+    public override string IdPart => "Giant";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Giant;
     public override ModifierFaction FactionType => ModifierFaction.HiderVisibility;
 

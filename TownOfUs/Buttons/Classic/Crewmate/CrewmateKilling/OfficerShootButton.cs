@@ -19,7 +19,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, PlayerControl>, IKillButton, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleOfficerShoot", "Shoot");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.OfficerShoot", "Shoot");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Officer;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<OfficerOptions>.Instance.ShootCooldown.Value + MapCooldown, 5f, 120f);
@@ -63,7 +63,7 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
         OfficerRole.RpcOfficerMisfire(PlayerControl.LocalPlayer);
         PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
 
-        var notif1 = Helpers.CreateAndShowNotification($"<b>{TouLocale.GetParsed("TouRoleOfficerBadKillFeedback")}</b>",
+        var notif1 = Helpers.CreateAndShowNotification($"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.OfficerBadKillFeedback")}</b>",
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Officer.LoadAsset());
 
         notif1.AdjustNotification();

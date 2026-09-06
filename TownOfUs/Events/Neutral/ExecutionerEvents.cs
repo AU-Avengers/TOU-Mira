@@ -10,8 +10,9 @@ using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Buttons.Neutral;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Neutral;
@@ -96,7 +97,7 @@ public static class ExecutionerEvents
             if (exe.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TouLocale.GetParsed("TouRoleExecutionerWonSelf").Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.RoleName}</color>")}</b>",
+                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerWonSelf").Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.GetRoleName()}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Executioner.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -106,18 +107,18 @@ public static class ExecutionerEvents
                 if (winOption is ExeWinOptions.Torments)
                 {
                     CustomButtonSingleton<ExeTormentButton>.Instance.SetActive(true, exe);
-                    DeathHandlerModifier.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer,
-                        "DiedToWinning", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,
+                    GameHistory.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer,
+                        "DiedToWinning", HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetTrue,
                         lockInfo: DeathHandlerOverride.SetTrue);
                     var notif2 = Helpers.CreateAndShowNotification(
-                        $"<b>{TouLocale.GetParsed("TouRoleExecutionerTormentFeedback")}</b>",
+                        $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerTormentFeedback")}</b>",
                         Color.white, new Vector3(0f, 0.85f, -20f));
                     notif2.AdjustNotification();
                 }
                 else
                 {
-                    DeathHandlerModifier.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer,
-                        "DiedToWinning", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                    GameHistory.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer,
+                        "DiedToWinning", HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
                         lockInfo: DeathHandlerOverride.SetTrue);
                 }
             }
@@ -128,13 +129,13 @@ public static class ExecutionerEvents
 
                 if (OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnonymizeWin.Value)
                 {
-                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
+                    message = MiraLocaleManager.Get("TouNeutAnonymousVictoryMessage");
                     icon = TouRoleIcons.Neutral;
                 }
                 else
                 {
-                    message = $"<b>{TouLocale.GetParsed("TouRoleExecutionerWonOther")
-                        .Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.RoleName}</color>")}</b>";
+                    message = $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerWonOther")
+                        .Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.GetRoleName()}</color>")}</b>";
                     icon = TouRoleIcons.Executioner;
                 }
 

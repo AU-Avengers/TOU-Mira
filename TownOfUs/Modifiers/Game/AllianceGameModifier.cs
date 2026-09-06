@@ -2,6 +2,7 @@
 using MiraAPI.Modifiers;
 using MiraAPI.PluginLoading;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules;
 using TownOfUs.Roles.Other;
 
 namespace TownOfUs.Modifiers.Game;
@@ -9,7 +10,7 @@ namespace TownOfUs.Modifiers.Game;
 [MiraIgnore]
 public abstract class AllianceGameModifier : TouBaseGameModifier
 {
-    public override string IntroInfo => $"{TouLocale.Get("Alliance")}: {ModifierName}";
+    public override string IntroInfo => $"{MiraLocaleManager.Get("Alliance")}: {ModifierName}";
     public virtual string Symbol => "?";
     public virtual bool DoesTasks => true;
     public virtual bool GetsPunished => true;
@@ -25,6 +26,11 @@ public abstract class AllianceGameModifier : TouBaseGameModifier
     {
         return !role.Player.GetModifierComponent().HasModifier<AllianceGameModifier>(true) &&
                !role.Player.HasModifier<ExecutionerTargetModifier>() && role is not SpectatorRole;
+    }
+
+    public override void AddModifierToStats(PlayerStats stats)
+    {
+        stats.LastKnownModifiers.Add(this);
     }
 }
 

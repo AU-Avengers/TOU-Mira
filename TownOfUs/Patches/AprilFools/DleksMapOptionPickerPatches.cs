@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Reactor.Localization.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using UnityEngine;
@@ -10,8 +9,8 @@ namespace TownOfUs.Patches.AprilFools;
 [HarmonyPatch]
 public static class DleksMapOptionPickerPatches
 {
-    public static StringNames DleksName => CustomStringName.CreateAndRegister("ReverseSkeldMapName");
-    public static StringNames DleksTooltip => CustomStringName.CreateAndRegister("ReverseSkeldMapTooltip");
+    public static StringNames DleksName { get; } = MiraLocaleManager.GetOrCreateLocaleString("ReverseSkeldMapName");
+    public static StringNames DleksTooltip { get; } = MiraLocaleManager.GetOrCreateLocaleString("ReverseSkeldMapTooltip");
     
     [HarmonyPatch(typeof(GameOptionsMapPicker), nameof(GameOptionsMapPicker.SetupMapButtons))]
     [HarmonyPrefix]
@@ -36,7 +35,15 @@ public static class DleksMapOptionPickerPatches
     [HarmonyPrefix]
     public static void GameManagerDleksPatch(GameStartManager __instance)
     {
-        if (__instance.AllMapIcons.ToArray().Any(x => x.Name == MapNames.Dleks))
+        // Seems to throw error on android?
+        try
+        {
+            if (__instance.AllMapIcons.ToArray().Any(x => x.Name == MapNames.Dleks))
+            {
+                return;
+            }
+        }
+        catch
         {
             return;
         }
@@ -91,7 +98,7 @@ public static class DleksMapOptionPickerPatches
 
     [HarmonyPatch(typeof(CreateGameOptions), nameof(CreateGameOptions.MapChanged))]
     [HarmonyPrefix]
-    public static bool MapChangedPrefix(CreateGameOptions __instance)
+    public static bool MapChangedPrefix(CreateGameOptions __instance, OptionBehaviour behaviour)
     {
         if (__instance.mapPicker.GetSelectedID() is (int)MapNames.Dleks)
         {

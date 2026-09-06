@@ -8,13 +8,17 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 
 public sealed class TelepathModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string LocaleKey => "Telepath";
-    public override string ModifierName => TouLocale.Get("TouModifierTelepath", "Telepath");
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Impostor,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Telepath.LoadAsset(),
+            "TouMira.Modifier.Impostor.Telepath", 1.45f));
+    public override string IdPart => "Telepath";
+    public override string ModifierName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Telepath", "Telepath");
     public override Color FreeplayFileColor => new Color32(255, 25, 25, 255);
 
     public override string IntroInfo => OptionGroupSingleton<TelepathOptions>.Instance.KnowDeath
-        ? TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurbNoDeath")
-        : TouLocale.Get($"TouModifier{LocaleKey}IntroBlurb");
+        ? MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}IntroBlurbNoDeath")
+        : MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Telepath;
     public override ModifierFaction FactionType => ModifierFaction.ImpostorPostmortem;
@@ -32,17 +36,17 @@ public sealed class TelepathModifier : TouGameModifier, IWikiDiscoverable
 #pragma warning disable S3358
     public override string GetDescription()
     {
-        var localekeyfull = $"TouModifier{LocaleKey}Description";
+        var IdPartfull = $"TownOfUsMira.Modifier.{IdPart}Description";
         return (OptionGroupSingleton<TelepathOptions>.Instance.KnowKillLocation
-            ? TouLocale.GetParsed($"{localekeyfull}IfKnowWhen")
-            : TouLocale.GetParsed($"{localekeyfull}Basic")
+            ? MiraLocaleManager.Get($"{IdPartfull}IfKnowWhen")
+            : MiraLocaleManager.Get($"{IdPartfull}Basic")
               + (OptionGroupSingleton<TelepathOptions>.Instance.KnowDeath &&
                  !OptionGroupSingleton<TelepathOptions>.Instance.KnowDeathLocation
-                  ? TouLocale.GetParsed($"{localekeyfull}AddIfKnowDeath")
+                  ? MiraLocaleManager.Get($"{IdPartfull}AddIfKnowDeath")
                   : string.Empty)
               + (OptionGroupSingleton<TelepathOptions>.Instance.KnowDeath &&
                  OptionGroupSingleton<TelepathOptions>.Instance.KnowDeathLocation
-                  ? TouLocale.GetParsed($"{localekeyfull}AddIfKnowDeathLoc")
+                  ? MiraLocaleManager.Get($"{IdPartfull}AddIfKnowDeathLoc")
                   : string.Empty));
 #pragma warning restore S3358
     }

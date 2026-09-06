@@ -5,9 +5,9 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class MediumOptions : AbstractOptionGroup<MediumRole>
+public sealed class MediumOptions : AbstractRoleOptionGroup<MediumRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleMedium", "Medium");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Medium", "Medium");
 
     public ModdedNumberOption MediateCooldown { get; set; } =
         new("TouOptionMediumMediateCooldown", 25f, 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds);

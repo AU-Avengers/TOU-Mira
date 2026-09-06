@@ -1,14 +1,25 @@
-[
-  { // Keys are integers from Constants.GetBroadCastVersion()
-    "InternalVersions": { // Keep internal versions in order if multiple
-      "50632950": "2025.6.10"
+[ // The versions are checked by using Semantic Versioning. The bool shows if the mod is preferred to run on the release specified.
+  {
+    "InternalVersions": {
+      "17.3.0": true,
+      "17.3.1": true
     },
-    "ModVersion": "1.0.1"
+    "ModVersion": "1.6.2"
   },
   {
-    "InternalVersions": { 
-      "50632950": "2025.6.10"
+    "InternalVersions": {
+      "17.3.0": true,
+      "17.3.1": true,
+      "17.4.0": false
     },
-    "ModVersion": "1.0.2"
+    "ModVersion": "1.6.3"
+  },
+  {
+    "InternalVersions": {
+      "17.3.0": true,
+      "17.3.1": true,
+      "17.4.0": false
+    },
+    "ModVersion": "1.6.4"
   }
 ]

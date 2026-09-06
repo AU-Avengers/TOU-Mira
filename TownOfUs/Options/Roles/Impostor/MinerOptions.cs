@@ -6,9 +6,9 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class MinerOptions : AbstractOptionGroup<MinerRole>
+public sealed class MinerOptions : AbstractRoleOptionGroup<MinerRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleMiner", "Miner");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Miner", "Miner");
 
     [ModdedNumberOption("Number Of Miner Vents Per Game", 0f, 30f, 5f, MiraNumberSuffixes.None, "0", true)]
     public float MaxMines { get; set; } = 0f;

@@ -22,8 +22,8 @@ public static class FrostyEvents
 
         if (@event.Source.AmOwner)
         {
-            var text = TouLocale.GetParsed("TouModifierFrostyTriggeredNotif").Replace("<player>", @event.Target.Data.PlayerName);
-            text = text.Replace("<modifier>", $"{TownOfUsColors.Frosty.ToTextColor()}{TouLocale.Get("TouModifierFrosty")}</color>");
+            var text = MiraLocaleManager.Get("TownOfUsMira.Modifier.FrostyTriggeredNotif").Replace("<player>", @event.Target.Data.PlayerName);
+            text = text.Replace("<modifier>", $"{TownOfUsColors.Frosty.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Modifier.Frosty")}</color>");
 
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{text.Replace("<time>", Math.Round(OptionGroupSingleton<FrostyOptions>.Instance.ChillDuration, 2).ToString(TownOfUsPlugin.Culture))}</b>",

@@ -3,7 +3,6 @@ using MiraAPI.GameOptions;
 using PowerTools;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
@@ -13,18 +12,17 @@ namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModifier
 {
-    public override string ModifierName => "Barrier";
+    public override string ModifierName => MiraLocaleManager.Get("TownOfUsMira.Modifier.ClericBarrier");
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Cleric;
-    public override string ShieldDescription => "You are shielded by a Cleric!\nNo one can interact with you.";
+    public override string ShieldDescription => MiraLocaleManager.Get("TownOfUsMira.Modifier.ClericBarrierDescription");
     public override float Duration => OptionGroupSingleton<ClericOptions>.Instance.BarrierDuration;
     public override bool AutoStart => true;
     public bool ShowBarrier { get; set; }
-
     public override bool HideOnUi
     {
         get
         {
-            return !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowShieldHudToggle.Value ||
+            return !LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowShieldHudToggle.Value ||
                    !OptionGroupSingleton<ClericOptions>.Instance.ShowBarrier;
         }
     }
@@ -53,8 +51,7 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-        var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
-            x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
+        var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
         ShowBarrier = showBarrierSelf || PlayerControl.LocalPlayer.PlayerId == Cleric.PlayerId ||
                       (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);

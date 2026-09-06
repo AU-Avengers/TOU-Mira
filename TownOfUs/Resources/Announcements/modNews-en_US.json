@@ -764,7 +764,7 @@
       "Number": "100039",
       "ShortTitle": "TOU: Mira v1.5.9 Beta 1",
       "Title": "A new Mira update? This can't be!",
-      "SubTitle": "- Shakespeare, probably.",
+      "SubTitle": "\n- Shakespeare, probably.",
       "Text": [
         "<b>This release changes a LOT. As a result, this has taken longer than expected, and we are fairly confident that most of the mod is now bug free. For the sake of everything though, v1.6.0 will not be released until we clear up most of the bugs that we can find.</b>",
         "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
@@ -1065,6 +1065,260 @@
         "\n- Role Name placement is now configurable in terms of size and position.",
         "\n- Added configurable mod stamp placement.",
         "\n- Added \"TV Show\" style for Skeld visuals."
+      ]
+    },
+    {
+      "Date": "2026-08-02T12:51:00Z",
+      "Number": "100044",
+      "ShortTitle": "TOU: Mira v1.7.0",
+      "Title": "Draft and Drink away",
+      "SubTitle": "With this major update, rolling out today!",
+      "Text": [
+        "<b>Mira has finally gotten its next major update. with 3 new roles, 2 new modifiers, and Draft Mode!</b>",
+        "\n\nWe've been working hard on this update, and have finally gotten the mod into what we consider its most stable state.",
+        "\n\nWe hope you enjoy the new content, reworks, and additions that our community has helped chip in with.",
+        "\n\nFrom the bottom of our hearts, thank you all for being such a great community.",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.7.0>TOU Mira v1.7.0 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Investigator footprints are layered correctly for every map.",
+        "\n- Medium's Spirit displays arrows for everyone properly.",
+        "\n- \"Medium can Identify\" setting properly makes ghosts anonymous.",
+        "\n- Mystic arrows no longer appear if their duration is 0 seconds.",
+        "\n- Swapper and Prosecutor vote changes reflect on Executioner, Jester, and Hunter.",
+        "\n- Disconnected Medics will not leave their shields behind on players anymore.",
+        "\n- Disconnected players that are protected will return uses to Medic, Mirrorcaster, and Warden.",
+        "\n- Noisemaker will properly check for rotting bodies or stoned players.",
+        "\n- Imitator priority is fixed for roles like Forensic.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Executioner and Doomsayer leave notifications appear properly for everyone now.",
+        "\n- Doomsayer killing all victims at once setting is fixed and no longer kills just one player.",
+        "\n- Glitch hack no longer prevents killers from being able to kill for the remainder of the game.",
+        "\n- Inquisitor will win solo in a 1v1 and will not take away wins in a 1v1 with dead heretics. (PR #225)",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Venerer abilities no longer reset from an additional kill.",
+        "\n- Added checks for Ambassador and Traitor to throw warnings when no roles are available.",
+        "\n- Miner explosion no longer appears on invisible vent.",
+
+        "\n\n\r<size=105%>Modifier Bugfixes:</size>",
+        "\n- Crewpostor Vigilante can no longer guess other impostors.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Fixed problems with the End Game Timer breaking and erroring.",
+        "\n- Submerged will no longer break in the role reveal.",
+        "\n- Neutral Wildcard no longer duplicates the amount of each neutral present. (PR #191)",
+        "\n- Wiki hyperlinks will check for gamemode-specific roles properly.",
+        "\n- Full support for Among Us v17.4.",
+
+        "\n\n\r<size=105%>Crewmate Role Changes:</size>",
+        "\n- Lookout by default sees who interacts, rather than what roles interact.",
+        "\n- In the \"See Players\" mode, Lookout will not be able to see Bomber or any other indirect attacks.",
+        "\n- Seer can optionally only use their ability once per round and / or compare each player once per game. (PR #231)",
+        "\n- Deputy by default will warn their camped target's killer about a Deputy existing. (PR #209)",
+        "\n- Deputy will now reveal themselves upon a successful shot.",
+        "\n- Prosecutor now has a full-screen animation for prosecutes.",
+        "\n- Time Lord by default will revive players for a single round, and make them die after the next meeting ends.",
+        "\n- Medic now sees \"Darker / Lighter\" on all players rather than just on living players.",
+        "\n- Transporter now uses a single multi-select menu for transporting players. (PR #212)",
+
+        "\n\n\r<size=105%>Neutral Role Changes:</size>",
+        "\n- Doomsayer shows guessing progress next to their name.",
+        "\n- Doomsayer no longer sees disabled roles in their feedback",
+        "\n- Jester has optional limited duration and cooldown adjustment for venting. (PR #237)",
+        "\n- Jester can now Poke players, triggering roles like Warden, Cleric, Herbalist, Lookout, and more. (PR #205)",
+        "\n- Soul Collector has been permanently replaced by **Medusa**. This rework makes players slowly fade into stone, and allows Transporters to still interact with them to an extend. Non-shattered stones will remain throughout rounds as evidence.",
+        "\n- Chef shows feeding progress on their name.",
+        "\n- Inquisitor marks off any heretic roles that have died in their role tab.",
+        "\n- Inquisitor now has a heretic progress count next to their name.",
+
+        "\n\n\r<size=105%>Impostor Role Changes:</size>",
+        "\n- Swooper can optionally be untrackable while swooping. (PR #201)",
+        "\n- Blackmailed players no longer immediately skip if too many players are alive.",
+
+        "\n\n\r<size=105%>Modifier Changes:</size>",
+        "\n- Tiebreaker now stalls the game as a solo crewmate or as a Jester / Executioner in a 1v1 / 1v2.",
+
+        "\n\n\r<size=105%>Other Changes:</size>",
+        "\n- Unity Rich Text is no longer allowed on players to prevent issues with tag abuse. (PR #206)",
+        "\n- Lobby Rules are now limited to being displayed at 3 second intervals due to malicious players that sell cheat mods to disrupt lobbies.",
+        "\n- Task tracking is mostly up for preference now, with the host simply toggling if other task amounts can be seen by the dead.",
+        "\n- All local game options are moved to 6 different categories.",
+
+        "\n\n\r<size=105%>Improvements:</size>",
+        "\n- Options for roles and modifiers display changes in a similar fashion to vanilla's option notifications.",
+        "\n- Hovering over the role list text in the lobby is now adjusted for the corresponding gamemode selected.",
+        "\n- Player text in meetings will now shrink depending on the amount of text within it.",
+        "\n- Meeting kill animations are synced for every player.",
+        "\n- In-Game Wiki will no longer stutter when reopening the roles search tab.",
+        "\n- Abilities disabled on round one now show that they are, in fact, disabled for that reason.",
+        "\n- More roles have additional visual and audio work.",
+        "\n- Game Modifiers display if they are guessable within their wiki entries.",
+        "\n- Roles now have their icons displayed in text.",
+        "\n- Wiki Hyperlinks in text will now display their corresponding icons.",
+
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Added Perfect Comms (Prox-Chat) role integration on the mod itself (PR #226)",
+        "\n- @idkimneil's Draft Mode is now part of the base mod. This can be toggled in the Role Distribution settings.",
+        "\n- Added Overclocker, an Assailant modifier that speeds up cooldowns for more general killers but then slows cooldowns afterwards.",
+        "\n- Added Drunk, a Universal modifier that also has roleblock immunity.",
+        "\n- Barkeeper joins the Crewmate Support alignment with a standard roleblock ability and also a spill ability, changing player speed for anyone who steps in it.",
+        "\n- Bootlegger joins the Impostor Support alignment with a roleblock ability that slowly turns into poison.",
+        "\n- Added \"Full Save Cooldown Multiplier\" for full protective roles.",
+        "\n- Added the all-important Flopster pet (she's a little silly)"
+      ]
+    },
+    {
+      "Date": "2026-08-06T12:51:00Z",
+      "Number": "100045",
+      "ShortTitle": "TOU: Mira v1.7.1",
+      "Title": "Buggy Stone Fixes",
+      "SubTitle": "Stoning yourself isn't all it's made out to be.",
+      "Text": [
+        "<b>This update fixes (almost) all known sources of bugs and crashes!</b>",
+        "\n\nWe hope that this release stays stable enough to hold over until our next few updates, which will primarily focus on balance tweaks (and gameodes down the line too!)",
+        "\n\nWith that said, please enjoy this update and let us know of any new issues that may appear.",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.7.1>TOU Mira v1.7.1 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Lookout shuffles its watch findings properly again.",
+        "\n- Seer Reveal mode checks its options properly.",
+        "\n- Converted Jailor no longer leaves jailee in a broken state.",
+        "\n- Knighted Mayor no longer gets double votes.",
+        "\n- Imitator no longer shows (Imi) while dead.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Executioner, Fairy, and Inquisitor check for disconnected targets properly.",
+        "\n- Fixed errors thrown by unshattered Medusa stones that broke the whole game.",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Ambassador retrain is consistently functional on teammates now.",
+        "\n- Ambassador retrain no longer sets the trainee's kill cooldown to 0.",
+        "\n- Traitor no longer shows (Traitor) while dead.",
+
+        "\n\n\r<size=105%>Draft Mode Bugfixes:</size>",
+        "\n- Draft no longer softlocks if Host disconnects.",
+        "\n- Draft UI is no longer left behind during role intro or when leaving mid-draft.",
+        "\n- Alignment Mode no longer shows the actual faction instead.",
+
+        "\n\n\r<size=105%>Modifier Bugfixes:</size>",
+        "\n- Celebrity shows death by the Spectre properly.",
+        "\n- Circumvent uses are no longer bypassed with a meeting.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- End Game Summary shows role icons for disconnected players.",
+        "\n- Fixed the biggest source of memory leaking.",
+        "\n- Fixed crashing for Epic Games and Xbox Game Pass users.",
+        "\n- Game Options should no longer desync when initially joining.",
+
+        "\n\n\r<size=105%>Crewmate Role Changes:</size>",
+        "\n- Monarch can now optionally reveal knighting in the meeting",
+        "\n- Prosecutor now stops swaps from happening.",
+
+        "\n\n\r<size=105%>Neutral Role Changes:</size>",
+        "\n- Victims of Executioner Torment, Jester Haunt, and Spectre Spook are publicly announced.",
+
+        "\n\n\r<size=105%>Impostor Role Changes:</size>",
+        "\n- Venerer can now cancel their ability early.",
+
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Added Role Icon on Role Reveal screen local toggle."
+      ]
+    },
+    {
+      "Date": "2026-09-04T12:51:00Z",
+      "Number": "100046",
+      "ShortTitle": "TOU: Mira v1.7.2",
+      "Title": "Judgement Time",
+      "SubTitle": "The Prosecutor takes the stand, not the Judge.",
+      "Text": [
+        "<b>This update fixes a few core issues with the mod and also updates the mod to run on the latest release of the game once again.</b>",
+        "\n\nApologies for the fairly long wait time, many of us are going back to school and we frankly have to prioritize that over updating the mod.",
+        "\n\nWith that said, please enjoy this update and let us know of any new issues that may appear.",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.7.2>TOU Mira v1.7.2 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Haunter: Dead killers no longer get an arrow to revealed Haunter.",
+        "\n- Deputy: No longer guessable after being revealed.",
+        "\n- Prosecutor: Prosecute uses text is no longer broken.",
+        "\n- Time Lord: Final evil being revived no longer ends the game with a crewmate win.",
+        "\n- Swapper: Swapped players properly carry over their colorblind text.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Doomsayer: If doomsayer continues the game and is supposed the game when all guesses are completed, the game will no longer end in a crewmate win.",
+        "\n- Doomsayer: Guess information is properly tracked for other players.",
+        "\n- Plaguebearer: Pestilence transformation is fixed for edge cases.",
+
+        "\n\n\r<size=105%>Modifier Bugfixes:</size>",
+        "\n- Deadly Quota: The last kill of the game is properly counted towards the quota now.",
+        "\n- Overclocker: Overclock no longer grants impostors a 0 second kill cooldown.",
+        "\n- Tiebreaker: Tiebreaker no longer continues the game while dead.",
+        "\n- Noisemaker: Noisemaker no longer stays lingering even when a body is cleaned up.",
+        "\n- Bait: Fixed bait reports occurring even if a body was cleaned up in time.",
+
+        "\n\n\r<size=105%>Draft Mode Bugfixes:</size>",
+        "\n- Amount of choices is no longer affected by the amount of players present.",
+        "\n- Shuffling no longer reduces the amount of options you get.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Concealed changes such as Ambusher, Morphling, and Swooper no longer carry into meetings.",
+        "\n- Added support for latest Level Imposter release.",
+        "\n- Fixed broken Submerged patching.",
+        "\n- Neutral Killers no longer take full priority over win conditions. This now fixes game draws.",
+
+        "\n\n\r<size=105%>Notable Changes:</size>",
+        "\n- Mod now runs on Among Us v18.0.x.",
+        "\n- Prosecutor, Politician, Mayor, and Hypnotist have now switched to new meeting abilities system.",
+        "\n- Win Condition system has been rewritten. Neutral Benigns are treated as majority Crewmates if at least two main factions (Crew, Imps, NKs) exist. Otherwise, they will be ignored from win checks. Survivor can also win solo if only NBs remain.",
+        "\n- Vampire is counted as two Neutral Killing slots under Draft Mode now.",
+
+        "\n\n\r<size=105%>Balance Changes:</size>",
+        "\n- By default, Janitor can clean and kill separately only if they're by themselves.",
+        "\n- Mayor and Deputy will still say their role on their name even if they are converted."
+      ]
+    },
+    {
+      "Date": "2026-09-06T12:51:00Z",
+      "Number": "100047",
+      "ShortTitle": "TOU: Mira v1.7.3",
+      "Title": "Curse of the Judge",
+      "SubTitle": "Anticheat so good, it triggers every time!",
+      "Text": [
+        "<b>This update primarily focuses on fixing issues with anticheat caused by bad code from Innersloth.</b>",
+        "\n\nWith that said, some other fixes have been done and overall the mod should be more stable once again.",
+        "\n\nPlease enjoy this update and let us know of any new issues that may appear.",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.7.3>TOU Mira v1.7.3 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Sheriff: Fixed broken punishment explanation in tab description.",
+        "\n- Altruist: Fixed broken tab description.",
+        "\n- Mirrorcaster: Magic Mirrors no longer stay permanently if the Mirrorcaster is converted.",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Morphling: If configured, the Morph ability uses are no longer able to go less than 0.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Survivor: Survivor no longer takes wins away from Impostors.",
+        "\n- Plaguebearer: Adjusted checks to rule out the possibility of duplicate plague on a player.",
+        "\n- Werewolf: Werewolf's short-burst kill cooldown is no longer affected by cooldown changes.",
+        "\n- Chef: Added safeguards against the possible occurrence of missing dead bodies, breaking the win conditions.",
+
+        "\n\n\r<size=105%>Draft Mode Bugfixes:</size>",
+        "\n- Target-based roles like Fairy and Executioner have targets assigned properly again.",
+        "\n- Concurrent picks no longer removes picks from other player.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Fixed bad AU code causing anti-cheat to kick non-hosts if they voted for someone who died in the meeting.",
+        "\n- Fixed non-classic roles appearing in the settings menu.",
+        "\n- Fixed missing causes of death appearing due to locale system changes.",
+        "\n- Fixed Assailant Modifier Options text.",
+        "\n- Fixed kill cooldown for Impostors not being based on overall cooldown offsets.",
+
+        "\n\n\r<size=105%>Main Changes:</size>",
+        "\n- Added Ghostwalker Auto-Venting setting upon spawning under Game Mechanics.",
+        "\n- Added Judge's punishment as a setting for Prosecutor's punishment (now the default).",
+        "\n- Reshuffling in Draft Mode gives you spare time to pick if necessary."
       ]
     }
   ]

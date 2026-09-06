@@ -104,7 +104,7 @@ public static class SentryEvents
             CustomButtonSingleton<SentryPortableCameraButton>.Instance.SetActive(true, sentryRole);
             CustomButtonSingleton<SentryPortableCameraSecondaryButton>.Instance.SetActive(true, sentryRole);
 
-            var notifText = TouLocale.GetParsed("TouRoleSentryPortableCameraUnlocked", "Portable Cameras Unlocked!");
+            var notifText = MiraLocaleManager.Get("TownOfUsMira.Role.SentryPortableCameraUnlocked", "Portable Cameras Unlocked!");
             var notif = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Sentry.ToTextColor()}{notifText}</color></b>",
                 Color.white,
@@ -151,7 +151,7 @@ public static class SentryEvents
                 CustomButtonSingleton<SentryPortableCameraButton>.Instance.SetActive(true, sentryRole);
                 CustomButtonSingleton<SentryPortableCameraSecondaryButton>.Instance.SetActive(true, sentryRole);
 
-                var notifText = TouLocale.GetParsed("TouRoleSentryPortableCameraUnlocked", "Portable Cameras Unlocked!");
+                var notifText = MiraLocaleManager.Get("TownOfUsMira.Role.SentryPortableCameraUnlocked", "Portable Cameras Unlocked!");
                 var notif = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Sentry.ToTextColor()}{notifText}</color></b>",
                     Color.white,

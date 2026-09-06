@@ -6,20 +6,20 @@ public static class TouChatAssets
 {
     private const string ChatPath = "TownOfUs.Resources.Chat";
 
-    public static LoadableAsset<Sprite> ImpBubble { get; } = new LoadableResourceAsset($"{ChatPath}.ChatImpBubble.png");
-    public static LoadableAsset<Sprite> JailBubble { get; } = new LoadableResourceAsset($"{ChatPath}.ChatJailBubble.png");
-    public static LoadableAsset<Sprite> VampBubble { get; } = new LoadableResourceAsset($"{ChatPath}.ChatVampBubble.png");
-    public static LoadableAsset<Sprite> TeamChatIdle { get; } = new LoadableResourceAsset($"{ChatPath}.TeamChatIdle.png", 101f);
-    public static LoadableAsset<Sprite> TeamChatHover { get; } = new LoadableResourceAsset($"{ChatPath}.TeamChatHover.png", 101f);
-    public static LoadableAsset<Sprite> TeamChatOpen { get; } = new LoadableResourceAsset($"{ChatPath}.TeamChatOpen.png", 101f);
+    public static LoadableAsset<Sprite> ImpBubble { get; } = new LoadableBundleSubAsset("ChatImpBubble", TouAssets.UiSpriteHolder);
+    public static LoadableAsset<Sprite> JailBubble { get; } = new LoadableBundleSubAsset("ChatJailBubble", TouAssets.UiSpriteHolder);
+    public static LoadableAsset<Sprite> VampBubble { get; } = new LoadableBundleSubAsset("ChatVampBubble", TouAssets.UiSpriteHolder);
+    public static LoadableAsset<Sprite> TeamChatIdle { get; } = new LoadableBundleSubAsset("TeamChatIdle", TouAssets.UiSpriteHolder);
+    public static LoadableAsset<Sprite> TeamChatHover { get; } = new LoadableBundleSubAsset("TeamChatHover", TouAssets.UiSpriteHolder);
+    public static LoadableAsset<Sprite> TeamChatOpen { get; } = new LoadableBundleSubAsset("TeamChatOpen", TouAssets.UiSpriteHolder);
 
-    public static LoadableAsset<Sprite> LoveBubble { get; } = new LoadableResourceAsset($"{ChatPath}.ChatLoveBubble.png");
-    public static LoadableAsset<Sprite> LoveChatIdle { get; } = new LoadableResourceAsset($"{ChatPath}.LoveChatIdle.png", 101f);
-    public static LoadableAsset<Sprite> LoveChatHover { get; } = new LoadableResourceAsset($"{ChatPath}.LoveChatHover.png", 101f);
-    public static LoadableAsset<Sprite> LoveChatOpen { get; } = new LoadableResourceAsset($"{ChatPath}.LoveChatOpen.png", 101f);
+    public static LoadableAsset<Sprite> LoveBubble { get; } = new LoadableBundleSubAsset("ChatLoveBubble", TouAssets.UiSpriteHolder);
+    public static LoadableAsset<Sprite> LoveChatIdle { get; } = new LoadableBundleSubAsset("LoveChatIdle", TouAssets.UiSpriteHolder);
+    public static LoadableAsset<Sprite> LoveChatHover { get; } = new LoadableBundleSubAsset("LoveChatHover", TouAssets.UiSpriteHolder);
+    public static LoadableAsset<Sprite> LoveChatOpen { get; } = new LoadableBundleSubAsset("LoveChatOpen", TouAssets.UiSpriteHolder);
     
-    public static LoadableAsset<Sprite> NormalBubble { get; } = new LoadableResourceAsset($"{ChatPath}.ChatBubble.png");
-    public static LoadableAsset<Sprite> NormalChatIdle { get; } = new LoadableResourceAsset($"{ChatPath}.NormalChatIdle.png", 101f);
-    public static LoadableAsset<Sprite> NormalChatHover { get; } = new LoadableResourceAsset($"{ChatPath}.NormalChatHover.png", 101f);
-    public static LoadableAsset<Sprite> NormalChatOpen { get; } = new LoadableResourceAsset($"{ChatPath}.NormalChatOpen.png", 101f);
+    public static LoadableAsset<Sprite> NormalBubble { get; } = new LoadableBundleSubAsset("ChatBubble", TouAssets.UiSpriteHolder);
+    public static LoadableAsset<Sprite> NormalChatIdle { get; } = new LoadableBundleSubAsset("NormalChatIdle", TouAssets.UiSpriteHolder);
+    public static LoadableAsset<Sprite> NormalChatHover { get; } = new LoadableBundleSubAsset("NormalChatHover", TouAssets.UiSpriteHolder);
+    public static LoadableAsset<Sprite> NormalChatOpen { get; } = new LoadableBundleSubAsset("NormalChatOpen", TouAssets.UiSpriteHolder);
 }

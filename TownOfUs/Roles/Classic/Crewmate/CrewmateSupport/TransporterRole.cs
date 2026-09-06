@@ -27,15 +27,12 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string LocaleKey => "Transporter";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Transporter";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -46,8 +43,8 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Transport", "Transport"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}TransportWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Transport", "Transport"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Transport.WikiDescription"),
                     TouCrewAssets.Transport)
             ];
         }
@@ -103,7 +100,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                WardenRole.RpcWardenNotify(warden.Player, transporter);
+                WardenRole.RpcWardenNotify(warden.Player, transporter, play1);
             }
 
             return;
@@ -114,7 +111,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                WardenRole.RpcWardenNotify(warden2.Player, transporter);
+                WardenRole.RpcWardenNotify(warden2.Player, transporter, play2);
             }
 
             return;
@@ -125,7 +122,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                ClericRole.RpcClericBarrierAttacked(transporter, cleric.Player);
+                ClericRole.RpcClericBarrierAttacked(transporter, cleric.Player, play1);
             }
 
             return;
@@ -136,7 +133,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                ClericRole.RpcClericBarrierAttacked(transporter, cleric2.Player);
+                ClericRole.RpcClericBarrierAttacked(transporter, cleric2.Player, play2);
             }
 
             return;
@@ -195,7 +192,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             return;
         }
 
-        if (play1.HasModifier<VeteranAlertModifier>())
+        if (play1.HasModifier<VeteranAlertModifier>() || play1.HasModifier<MedusaGazingModifier>())
         {
             if (transporter.AmOwner)
             {
@@ -205,7 +202,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             return;
         }
 
-        if (play2.HasModifier<VeteranAlertModifier>())
+        if (play2.HasModifier<VeteranAlertModifier>() || play2.HasModifier<MedusaGazingModifier>())
         {
             if (transporter.AmOwner)
             {
@@ -264,14 +261,14 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 button.Button?.usesRemainingSprite.color = button.TextOutlineColor;
             }
 
-            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
+            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance
                 .UseCrewmateTeamColorToggle.Value;
         }
 
         if (play1.AmOwner && t1 is PlayerControl || play2.AmOwner && t2 is PlayerControl)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.Transporter.ToTextColor()}{TouLocale.GetParsed("TouRoleTransporterTransportNotif")}</color></b>", Color.white,
+                $"<b>{TownOfUsColors.Transporter.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.TransporterTransportNotif")}</color></b>", Color.white,
                 new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Transporter.LoadAsset());
 
             notif1.AdjustNotification();
@@ -289,6 +286,12 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             if (!data)
             {
                 return null;
+            }
+
+            var stoned = MiscUtils.GetFreshStonedPlayerById(id);
+            if (stoned != null)
+            {
+                return stoned;
             }
 
             var body = Helpers.GetBodyById(id);
@@ -363,26 +366,34 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         (Vector2, Vector2) GetAdjustedPositions(MonoBehaviour transportable, MonoBehaviour transportable2)
         {
             // assign dummy values so it doesnt error about returning unassigned variables
-            Vector2 TP1Position = new(0, 0);
-            Vector2 TP2Position = new(0, 0);
+            Vector2 TP1Position = transportable.gameObject.transform.position;
+            Vector2 TP2Position = transportable2.gameObject.transform.position;
 
             if (transportable.TryCast<DeadBody>() == null && transportable2.TryCast<DeadBody>() == null)
             {
                 Error($"type: {transportable.GetIl2CppType().Name}");
                 var TP1 = transportable.TryCast<PlayerControl>()!;
-                TP1Position = TP1.GetTruePosition();
-                TP1Position = new Vector2(TP1Position.x, TP1Position.y + 0.3636f);
+                var stoned1 = transportable.TryCast<StonedPlayer>();
+                if (stoned1 == null)
+                {
+                    TP1Position = TP1.GetTruePosition();
+                    TP1Position = new Vector2(TP1Position.x, TP1Position.y + 0.3636f);
+                }
 
                 var TP2 = transportable2.TryCast<PlayerControl>()!;
-                TP2Position = TP2.GetTruePosition();
-                TP2Position = new Vector2(TP2Position.x, TP2Position.y + 0.3636f);
+                var stoned2 = transportable2.TryCast<StonedPlayer>();
+                if (stoned2 == null)
+                {
+                    TP2Position = TP2.GetTruePosition();
+                    TP2Position = new Vector2(TP2Position.x, TP2Position.y + 0.3636f);
+                }
 
-                if (TP1.HasModifier<MiniModifier>())
+                if (TP1 && TP1.HasModifier<MiniModifier>() || stoned1 != null && stoned1.IsMiniPlayer)
                 {
                     TP1Position = new Vector2(TP1Position.x, TP1Position.y + 0.2233912f * 0.75f);
                     TP2Position = new Vector2(TP2Position.x, TP2Position.y - 0.2233912f * 0.75f);
                 }
-                else if (TP2.HasModifier<MiniModifier>())
+                if (TP2 && TP2.HasModifier<MiniModifier>() || stoned2 != null && stoned2.IsMiniPlayer)
                 {
                     TP1Position = new Vector2(TP1Position.x, TP1Position.y - 0.2233912f * 0.75f);
                     TP2Position = new Vector2(TP2Position.x, TP2Position.y + 0.2233912f * 0.75f);
@@ -431,17 +442,28 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     public static void Transport(MonoBehaviour mono, Vector3 position)
     {
+        var stoned = mono.TryCast<StonedPlayer>();
         var deadBody = mono.TryCast<DeadBody>();
         var player = mono.TryCast<PlayerControl>();
-        if (player != null && player.HasModifier<ImmovableModifier>())
+        if (stoned != null)
         {
-            return;
+            if (stoned.ProgressStage > StoneStage.Frozen)
+            {
+                return;
+            }
         }
-
-        if (deadBody != null &&
-            MiscUtils.PlayerById(deadBody.ParentId)?.HasModifier<ImmovableModifier>() == true)
+        else
         {
-            return;
+            if (player != null && player.HasModifier<ImmovableModifier>())
+            {
+                return;
+            }
+
+            if (deadBody != null &&
+                MiscUtils.PlayerById(deadBody.ParentId)?.HasModifier<ImmovableModifier>() == true)
+            {
+                return;
+            }
         }
 
         if (player != null)

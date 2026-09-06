@@ -6,7 +6,11 @@ namespace TownOfUs.Modifiers.HnsGame.Crewmate;
 
 public sealed class HnsFrostyModifier : HnsGameModifier, IWikiDiscoverable
 {
-    public override string LocaleKey => "Frosty";
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Frosty,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Frosty.LoadAsset(),
+            "TouMira.Modifier.HnS.Hider.Frosty", 1.45f));
+    public override string IdPart => "Frosty";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Frosty;
     public override ModifierFaction FactionType => ModifierFaction.HiderPostmortem;
 

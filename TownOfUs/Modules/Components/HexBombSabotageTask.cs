@@ -55,7 +55,7 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
         _ogShakePeriod = HudManager.Instance.PlayerCam.shakePeriod;
         DataManager.Settings.Gameplay.ScreenShake = true;
         
-        var text = TouLocale.GetParsed("TouRoleSpellslingerWarningNotif").Replace("<role>", $"{TownOfUsColors.ImpSoft.ToTextColor()}{TouLocale.Get("TouRoleSpellslinger")}</color>");
+        var text = MiraLocaleManager.Get("TownOfUsMira.Role.SpellslingerWarningNotif").Replace("<role>", $"{TownOfUsColors.ImpSoft.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.Spellslinger")}</color>");
 
         var notif1 = Helpers.CreateAndShowNotification(
             text.Replace("<time>", $"{(int)OptionGroupSingleton<SpellslingerOptions>.Instance.HexBombDuration}"),
@@ -165,18 +165,18 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
             color = _even ? new Color(0.7f, 0.5f, 0f) : Color.red;
         }
 
-        var text = "The Hex Bomb has been triggered!";
+        var text = MiraLocaleManager.Get("TouHexBombTriggered");
         switch (_sabotage.Stage)
         {
             case HexBombStage.Initiate:
-                text = $"The Spellslinger is unleashing a Hex Bomb!\n{(int)_sabotage.TimeRemaining + 1 + (int)_sabotage.duration} seconds left!";
+                text = MiraLocaleManager.Get("TouHexBombCountdown").Replace("<time>", $"{(int)_sabotage.TimeRemaining + 1 + (int)_sabotage.duration}");
                 break;
             case HexBombStage.Countdown:
-                text = $"The Spellslinger is unleashing a Hex Bomb!\n{(int)_sabotage.TimeRemaining + 1} seconds left!";
+                text = MiraLocaleManager.Get("TouHexBombCountdown").Replace("<time>", $"{(int)_sabotage.TimeRemaining + 1}");
                 break;
             case HexBombStage.SpellslingerDead:
                 color = Palette.CrewmateBlue;
-                text = $"The Spellslinger has perished!";
+                text = MiraLocaleManager.Get("TouHexBombSpellslingerDead");
                 break;
         }
 

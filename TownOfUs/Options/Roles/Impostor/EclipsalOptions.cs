@@ -5,9 +5,9 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class EclipsalOptions : AbstractOptionGroup<EclipsalRole>
+public sealed class EclipsalOptions : AbstractRoleOptionGroup<EclipsalRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleEclipsal", "Eclipsal");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Eclipsal", "Eclipsal");
 
     [ModdedNumberOption("TouOptionEclipsalBlindCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float BlindCooldown { get; set; } = 25f;

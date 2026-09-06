@@ -6,17 +6,36 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using TownOfUs.Modifiers;
+using Reactor.Utilities.Extensions;
+using TMPro;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
+using UnityEngine;
 
 namespace TownOfUs.Events.Crewmate;
 
 public static class ProsecutorEvents
 {
+    public static PlayerControl ProsToAnnounceNext;
+    public static bool IsBadJudgement(PlayerControl pros, PlayerControl victim)
+    {
+        if (pros.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        {
+            return false;
+        }
+
+        if (victim.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished)
+        {
+            return false;
+        }
+
+        return victim.IsCrewmate();
+    }
     [RegisterEvent(1000)]
     public static void BeforeLocalVoteEvent(BeforeVoteEvent @event)
     {
@@ -35,29 +54,16 @@ public static class ProsecutorEvents
             return;
         }
 
-        if (voteArea.Parent.state is MeetingHud.VoteStates.Proceeding or MeetingHud.VoteStates.Results)
+        if (voteArea.Parent.state is MeetingHud.MeetingStates.Proceeding or MeetingHud.MeetingStates.Results)
         {
             @event.Cancel();
             return;
         }
 
-        if (voteArea == prosecutor.ProsecuteButton && !prosecutor.SelectingProsecuteVictim)
+        if (voteArea != MeetingHud.Instance.SkipVoteButton && prosecutor.WantsToPros is ProsecuteToggleMode.ToggledOn)
         {
-            prosecutor.SelectingProsecuteVictim = true;
+            ProsecutorRole.RpcProsecute(PlayerControl.LocalPlayer, voteArea.PlayerId);
             @event.Cancel();
-            return;
-        }
-
-        if (voteArea != prosecutor.ProsecuteButton && voteArea != MeetingHud.Instance.SkipVoteButton &&
-            prosecutor.SelectingProsecuteVictim)
-        {
-            ProsecutorRole.RpcProsecute(PlayerControl.LocalPlayer, voteArea.TargetPlayerId);
-        }
-
-        if (voteArea == MeetingHud.Instance.SkipVoteButton && prosecutor.SelectingProsecuteVictim)
-        {
-            prosecutor.SelectingProsecuteVictim = false;
-            prosecutor.ProsecuteVictim = byte.MaxValue;
         }
     }
 
@@ -83,6 +89,11 @@ public static class ProsecutorEvents
             return;
         }
 
+        if (!ProsecutorRole.HasProsecutedBefore)
+        {
+            ProsecutorRole.RpcShowProsAnimation(PlayerControl.LocalPlayer);
+        }
+
         foreach (var plr in PlayerControl.AllPlayerControls.ToArray())
         {
             plr.GetVoteData().Votes.Clear();
@@ -91,9 +102,38 @@ public static class ProsecutorEvents
 
         var prosdata = prosecutor.Player.GetVoteData();
 
+        var toVote = prosecutor.ProsecuteVictim;
+        if ((BadProsecuteResult)OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is
+            BadProsecuteResult.EjectPros && IsBadJudgement(prosecutor.Player, GameData.Instance.GetPlayerById(prosecutor.ProsecuteVictim).Object))
+        {
+            toVote = prosecutor.Player.PlayerId;
+        }
         for (var i = 0; i < 5; i++)
         {
-            prosdata.VoteForPlayer(prosecutor.ProsecuteVictim);
+            prosdata.VoteForPlayer(toVote);
+        }
+    }
+
+    [RegisterEvent]
+    public static void VotingCompleteEventHandler(VotingCompleteEvent _)
+    {
+        var prosecutor = CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>()
+            .FirstOrDefault(x => !x.Player.HasDied() && x.HasProsecuted && x.ProsecuteVictim != byte.MaxValue);
+
+        if (prosecutor == null)
+        {
+            return;
+        }
+
+        MeetingHud.Instance.wasOverruled = true;
+        if (ProsecutorRole.HasProsecutedBefore)
+        {
+            var gameObject = UnityEngine.Object.Instantiate(MeetingHud.Instance.judgeGavelPrefab, MeetingHud.Instance.transform);
+            JudgeGavel component = gameObject.GetComponent<JudgeGavel>();
+            var tmp = component.text.transform.GetComponent<TextMeshPro>();
+            component.text.Destroy();
+            component.text = null;
+            tmp.text = "The Prosecutor has spoken.";
         }
     }
 
@@ -106,7 +146,6 @@ public static class ProsecutorEvents
             // if someone dies after the Prosecutor selected them, it will not be a valid prosecute
             if (pros.ProsecuteVictim == target.PlayerId)
             {
-                pros.SelectingProsecuteVictim = false;
                 pros.ProsecuteVictim = byte.MaxValue;
             }
         }
@@ -129,34 +168,24 @@ public static class ProsecutorEvents
 
             if (hasProsecuted)
             {
-                DeathHandlerModifier.UpdateDeathHandlerImmediate(player, TouLocale.Get("DiedToProsecutor"),
-                    DeathEventHandlers.CurrentRound,
-                    DeathHandlerOverride.SetFalse,
-                    TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", pros.Player.Data.PlayerName),
-                    lockInfo: DeathHandlerOverride.SetTrue);
+                ProsecutorRole.HasProsecutedBefore = true;
+                GameHistory.UpdatePlayerDeathData(player.PlayerId, MiraLocaleManager.Get("DiedToProsecutor"), 0,
+                    HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
+                    MiraLocaleManager.Get("DiedByStringBasic").Replace("<player>", pros.Player.Data.PlayerName),
+                    lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
 
-                if (pros.Player.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+                if (IsBadJudgement(pros.Player, player) && player != pros.Player)
                 {
-                    return;
-                }
-
-                if (player.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished)
-                {
-                    return;
-                }
-
-                if (player.IsCrewmate() && player != pros.Player)
-                {
-                    if (OptionGroupSingleton<ProsecutorOptions>.Instance.ExileOnCrewmate)
+                    ProsToAnnounceNext = pros.Player;
+                    if ((BadProsecuteResult)OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is BadProsecuteResult.EjectProsAndEjectTarget)
                     {
                         if (pros.Player.TryGetModifier<CelebrityModifier>(out var celeb))
                         {
                             celeb.Announced = true;
                         }
-
-                        DeathHandlerModifier.UpdateDeathHandlerImmediate(pros.Player, TouLocale.Get("DiedToPunishment"),
-                            DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                            lockInfo: DeathHandlerOverride.SetTrue);
+                        GameHistory.UpdatePlayerDeathData(pros.Player.PlayerId, MiraLocaleManager.Get("DiedToPunishment"), 0,
+                            HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
+                            lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
 
                         pros.Player.Exiled();
                     }
@@ -168,5 +197,44 @@ public static class ProsecutorEvents
                 }
             }
         }
+    }
+    [RegisterEvent]
+    public static void RoundStartEventHandler(RoundStartEvent @event)
+    {
+        if (@event.TriggeredByIntro || !ProsToAnnounceNext)
+        {
+            ProsToAnnounceNext = null!;
+            return;
+        }
+
+        if ((BadProsecuteResult)OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is
+            BadProsecuteResult.EjectProsAndEjectTarget)
+        {
+            if (ProsToAnnounceNext.AmOwner)
+            {
+                var notif1 = Helpers.CreateAndShowNotification(
+                    MiraLocaleManager.Get("TownOfUsMira.Role.Prosecutor.ShameNotificationSelf"),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor.LoadAsset());
+
+                notif1.AdjustNotification();
+            }
+            else
+            {
+                var notif1 = Helpers.CreateAndShowNotification(
+                    MiraLocaleManager.Get("TownOfUsMira.Role.Prosecutor.ShameNotification").Replace("<player>", ProsToAnnounceNext.Data.PlayerName),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor.LoadAsset());
+
+                notif1.AdjustNotification();
+            }
+        }
+        else if (ProsToAnnounceNext.AmOwner)
+        {
+            var notif1 = Helpers.CreateAndShowNotification(
+                MiraLocaleManager.Get("TownOfUsMira.Role.Prosecutor.ShameNotificationSelfPrivate"),
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor.LoadAsset());
+
+            notif1.AdjustNotification();
+        }
+        ProsToAnnounceNext = null!;
     }
 }

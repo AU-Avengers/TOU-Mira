@@ -36,6 +36,7 @@ public sealed class LoversWinCondition : IWinCondition, IWinConditionWithBlockin
     /// </summary>
     public void TriggerGameOver(LogicGameFlowNormal gameFlow)
     {
+        Error($"Game ended from Lovers win!");
         var winners = ModifierUtils.GetActiveModifiers<LoverModifier>()
             .Where(x => x?.Player?.Data != null)
             .Select(x => x.Player!.Data)

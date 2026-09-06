@@ -3,7 +3,6 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -27,15 +26,12 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
     public int MaxKills { get; set; }
     public int SafeShotsLeft { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
-    public string LocaleKey => "Vigilante";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Vigilante";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -58,14 +54,14 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("TouRoleVigilanteEvilTabInfo")}");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteEvilTabInfo")}");
         }
 
         if ((int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots > 0)
         {
             var newText = SafeShotsLeft == 0
-                ? TouLocale.GetParsed("TouRoleVigilanteNoSafeShots")
-                : TouLocale.GetParsed("TouRoleVigilanteSafeShotsLeft").Replace("<count>", SafeShotsLeft.ToString(TownOfUsPlugin.Culture));
+                ? MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteNoSafeShots")
+                : MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteSafeShotsLeft").Replace("<count>", SafeShotsLeft.ToString(TownOfUsPlugin.Culture));
             stringB.AppendLine(TownOfUsPlugin.Culture, $"{newText}");
         }
 
@@ -130,7 +126,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
     public void ClickGuess(PlayerVoteArea voteArea, MeetingHud meetingHud)
     {
-        if (meetingHud.state == MeetingHud.VoteStates.Discussion)
+        if (meetingHud.state == MeetingHud.MeetingStates.Discussion)
         {
             return;
         }
@@ -140,7 +136,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return;
         }
 
-        var player = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId).Object;
+        var player = GameData.Instance.GetPlayerById(voteArea.PlayerId).Object;
 
         var shapeMenu = GuesserMenu.Create();
         shapeMenu.Begin(IsRoleValid, ClickRoleHandle, IsModifierValid, ClickModifierHandle);
@@ -167,7 +163,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
             if (ClickHandler(victim) && victim == Player)
             {
-                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, (ushort)role.Role, true);
+                GameHistory.RpcSetMisguessSummary(Player, player.PlayerId, (ushort)role.Role, true);
             }
         }
 
@@ -178,7 +174,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
             if (ClickHandler(victim) && victim == Player)
             {
-                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, modifier.TypeId, false);
+                GameHistory.RpcSetMisguessSummary(Player, player.PlayerId, modifier.TypeId, false);
             }
         }
 
@@ -207,7 +203,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Impostor));
 
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Vigilante.ToTextColor()}{TouLocale.GetParsed("TouRoleVigilanteMultiShotFeedback").Replace("<count>", SafeShotsLeft.ToString(TownOfUsPlugin.Culture))}</color></b>",
+                    $"<b>{TownOfUsColors.Vigilante.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteMultiShotFeedback").Replace("<count>", SafeShotsLeft.ToString(TownOfUsPlugin.Culture))}</color></b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Vigilante.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -216,9 +212,8 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
                 return false;
             }
-            Player.RpcSpecialMurder(victim, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
-                showKillAnim: false,
-                playKillSound: false,
+
+            Player.RpcMeetingMurder(victim, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
                 causeOfDeath: victim != Player ? "Guess" : "Misguess");
 
             if (victim != Player)
@@ -233,9 +228,10 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
     public bool IsExempt(PlayerVoteArea voteArea)
     {
-        return voteArea?.TargetPlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
+        return voteArea?.PlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true ||
                (voteArea.GetPlayer()?.Data.Role is MayorRole mayor && mayor.Revealed) ||
+               voteArea.GetPlayer()?.IsRevealed() == true ||
                voteArea.GetPlayer()?.IsImpostorAligned() == true && Player.IsImpostorAligned() && !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode ||
                (Player.IsLover() && voteArea.GetPlayer()?.IsLover() == true);
     }
@@ -305,6 +301,11 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
     private static bool IsModifierValid(BaseModifier baseModifier)
     {
         if (baseModifier is not TouBaseGameModifier modifier)
+        {
+            return false;
+        }
+
+        if (baseModifier is IUnguessableBasic { IsGuessable: false })
         {
             return false;
         }

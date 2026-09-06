@@ -6,7 +6,7 @@ namespace TownOfUs;
 public static class TownOfUsColors
 {
     public static bool UseBasic { get; set; } =
-        LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+        LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.UseCrewmateTeamColorToggle.Value;
 
     public static Color HaunterRevealed => new Color32(150, 50, 50, 255);
     public static Color CrewmateWiki => new Color32(80, 225, 255, 255);
@@ -17,6 +17,10 @@ public static class TownOfUsColors
     public static Color ImpSoft => new Color32(214, 64, 66, 255);
     public static Color Neutral => Color.gray;
     public static Color Other => Color.gray.DarkenColor();
+    // Town of Polus Colors
+    public static Color PolusEngineer => UseBasic ? Palette.CrewmateBlue : new Color32(248, 191, 21, 255);
+    public static Color PolusSwooper => UseBasic ? Palette.ImpostorRed : new Color32(150, 150, 150, 255);
+    public static Color PolusSerialKiller => new Color32(255, 84, 124, 255);
 
     // Crew Colors
     public static Color Aurial => UseBasic ? Palette.CrewmateBlue : new Color32(179, 77, 153, 255);
@@ -84,9 +88,11 @@ public static class TownOfUsColors
     public static Color Jester => new Color32(255, 191, 204, 255);
     public static Color SoulCollector => new Color32(153, 255, 204, 255);
     public static Color Death => new Color32(76, 76, 84, 255);
+    public static Color Ghostwalker => new Color32(43, 86, 155, 255);
 
     public static Color Arsonist => new Color32(255, 77, 0, 255);
     public static Color Glitch => Color.green;
+    public static Color Martian => new Color32(133, 188, 110, 255);
     public static Color Juggernaut => new Color32(140, 0, 77, 255);
     public static Color Plaguebearer => new Color32(230, 255, 179, 255);
     public static Color Pestilence => new Color32(77, 77, 77, 255);
@@ -106,6 +112,12 @@ public static class TownOfUsColors
     // Alliance Modifiers
     public static Color Egotist => new Color32(102, 153, 102, 255);
     public static Color Lover => new Color32(255, 102, 204, 255);
+
+    // Assailant Modifiers
+    public static Color Assassin => new Color32(161, 62, 83, 255);
+    public static Color DoubleShot => new Color32(126, 112, 143, 255);
+    public static Color Ricochet => new Color32(255, 178, 153, 255);
+    public static Color Overclocker => new Color32(252, 145, 46, 255);
 
     // Universal Modifiers
     public static Color ButtonBarry => new Color32(179, 51, 204, 255);

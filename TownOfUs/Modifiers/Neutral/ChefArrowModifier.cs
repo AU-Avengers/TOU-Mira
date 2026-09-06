@@ -21,7 +21,7 @@ public sealed class ChefArrowModifier(DeadBody deadBody, Color color) : TimedMod
     public override void OnActivate()
     {
         base.OnActivate();
-        if (OptionGroupSingleton<ChefOptions>.Instance.ChefArrowDuration.Value > 0f)
+        if (Duration > 0f)
         {
             StartTimer();
         }

@@ -5,9 +5,9 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class TransporterOptions : AbstractOptionGroup<TransporterRole>
+public sealed class TransporterOptions : AbstractRoleOptionGroup<TransporterRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleTransporter", "Transporter");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Transporter", "Transporter");
 
     [ModdedNumberOption("TouOptionTransporterTransportCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float TransporterCooldown { get; set; } = 25f;

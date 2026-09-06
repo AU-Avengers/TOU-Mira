@@ -6,9 +6,9 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class MonarchOptions : AbstractOptionGroup<MonarchRole>
+public sealed class MonarchOptions : AbstractRoleOptionGroup<MonarchRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleMonarch", "Monarch");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Monarch", "Monarch");
 
     [ModdedNumberOption("Knight Cooldown", 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float KnightCooldown { get; set; } = 20f;
@@ -19,6 +19,9 @@ public sealed class MonarchOptions : AbstractOptionGroup<MonarchRole>
     public float VotesPerKnight { get; set; } = 1f;
     [ModdedNumberOption("Knight Delay (Cancellable)", 1f, 10f, 1f, MiraNumberSuffixes.Seconds)]
     public float KnightDelay { get; set; } = 3f;
+
+    [ModdedToggleOption("Reveal Knighting At Meeting")]
+    public bool RevealAtMeeting { get; set; } = false;
 
     [ModdedToggleOption("Show Knighted Votes")]
     public bool ShowKnightedVotes { get; set; } = true;

@@ -26,8 +26,8 @@ public static class DiseasedEvents
 
         var cdMultiplier = OptionGroupSingleton<DiseasedOptions>.Instance.CooldownMultiplier;
 
-        var text = TouLocale.GetParsed("TouModifierDiseasedTriggeredNotif").Replace("<player>", target.Data.PlayerName);
-        text = text.Replace("<modifier>", $"{TownOfUsColors.Diseased.ToTextColor()}{TouLocale.Get("TouModifierDiseased")}</color>");
+        var text = MiraLocaleManager.Get("TownOfUsMira.Modifier.DiseasedTriggeredNotif").Replace("<player>", target.Data.PlayerName);
+        text = text.Replace("<modifier>", $"{TownOfUsColors.Diseased.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Modifier.Diseased")}</color>");
 
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{text.Replace("<cooldownMultiplier>", Math.Round(cdMultiplier, 2).ToString(TownOfUsPlugin.Culture))}</b>",

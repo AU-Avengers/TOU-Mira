@@ -24,10 +24,10 @@ public abstract class RevealModifier(int roleChangeResult, bool revealRole, Role
 
         if (MeetingHud.Instance && RevealRole)
         {
-            var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == Player.PlayerId);
-            if (targetVoteArea.TargetPlayerId != PlayerControl.LocalPlayer.PlayerId)
+            var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.PlayerId == Player.PlayerId);
+            if (targetVoteArea.PlayerId != PlayerControl.LocalPlayer.PlayerId)
             {
-                MeetingMenu.Instances.Do(x => x.HideSingle(targetVoteArea.TargetPlayerId));
+                MeetingMenu.Instances.Do(x => x.HideSingle(targetVoteArea.PlayerId));
             }
         }
     }
@@ -74,10 +74,10 @@ public abstract class BaseRevealModifier : TimedModifier
 
         if (MeetingHud.Instance && RevealRole)
         {
-            var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == Player.PlayerId);
-            if (targetVoteArea.TargetPlayerId != PlayerControl.LocalPlayer.PlayerId)
+            var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.PlayerId == Player.PlayerId);
+            if (targetVoteArea.PlayerId != PlayerControl.LocalPlayer.PlayerId)
             {
-                MeetingMenu.Instances.Do(x => x.HideSingle(targetVoteArea.TargetPlayerId));
+                MeetingMenu.Instances.Do(x => x.HideSingle(targetVoteArea.PlayerId));
             }
         }
     }

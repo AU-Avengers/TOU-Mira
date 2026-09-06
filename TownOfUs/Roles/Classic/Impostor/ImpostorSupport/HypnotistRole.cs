@@ -5,8 +5,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -16,8 +14,6 @@ namespace TownOfUs.Roles.Impostor;
 public sealed class HypnotistRole(IntPtr cppPtr)
     : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
-    private MeetingMenu meetingMenu;
-
     public bool HysteriaActive { get; set; }
 
     public void FixedUpdate()
@@ -37,15 +33,12 @@ public sealed class HypnotistRole(IntPtr cppPtr)
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<LookoutRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string LocaleKey => "Hypnotist";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Hypnotist";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription").Replace("<symbol>", "<color=#D53F42>@</color>") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription").Replace("<symbol>", "<color=#D53F42>@</color>") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -70,56 +63,13 @@ public sealed class HypnotistRole(IntPtr cppPtr)
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Hypnotize", "Hypnotize"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}HypnotizeWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hypnotize", "Hypnotize"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hypnotize.WikiDescription"),
                     TouImpAssets.HypnotiseButtonSprite),
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}MassHysteriaWiki", "Mass Hysteria (Meeting)"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}MassHysteriaWikiDescription"),
-                    TouAssets.HysteriaCleanSprite)
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteriaWiki", "Mass Hysteria (Meeting)"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteria.WikiDescription"),
+                    TouAssets.MassHysteriaSprite)
             ];
-        }
-    }
-
-    public override void Initialize(PlayerControl player)
-    {
-        RoleBehaviourStubs.Initialize(this, player);
-
-        if (Player.AmOwner)
-        {
-            var classic = LegacyAssets.IsLegacy;
-            meetingMenu = new MeetingMenu(
-                this,
-                Click,
-                classic ? string.Empty : TouLocale.GetParsed("TouRoleHypnotistMassHysteria"),
-                MeetingAbilityType.Click,
-                classic ? LegacyAssets.HysteriaSprite : TouAssets.HysteriaCleanSprite,
-                null!,
-                IsExempt)
-            {
-                Position = new Vector3(-0.40f, 0f, -3f)
-            };
-        }
-    }
-
-    public override void OnMeetingStart()
-    {
-        RoleBehaviourStubs.OnMeetingStart(this);
-
-        var meeting = MeetingHud.Instance;
-        if (Player.AmOwner && meeting != null)
-        {
-            meetingMenu.GenButtons(meeting,
-                Player.AmOwner && !Player.HasDied() && !HysteriaActive && !Player.HasModifier<JailedModifier>());
-        }
-    }
-
-    public override void OnVotingComplete()
-    {
-        RoleBehaviourStubs.OnVotingComplete(this);
-
-        if (Player.AmOwner)
-        {
-            meetingMenu.HideButtons();
         }
     }
 
@@ -129,27 +79,6 @@ public sealed class HypnotistRole(IntPtr cppPtr)
         TouRoleUtils.ClearTaskHeader(Player);
 
         HysteriaActive = false;
-
-        if (Player.AmOwner)
-        {
-            meetingMenu?.Dispose();
-            meetingMenu = null!;
-        }
-    }
-
-    public void Click(PlayerVoteArea voteArea, MeetingHud __)
-    {
-        RpcHysteria(Player);
-
-        if (Player.AmOwner)
-        {
-            meetingMenu.HideButtons();
-        }
-    }
-
-    public bool IsExempt(PlayerVoteArea voteArea)
-    {
-        return voteArea?.TargetPlayerId != Player.PlayerId;
     }
 
     [MethodRpc((uint)TownOfUsRpc.Hysteria)]

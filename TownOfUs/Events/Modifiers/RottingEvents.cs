@@ -12,7 +12,7 @@ public static class RottingEvents
     [RegisterEvent]
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
-        if (@event.Target.HasModifier<RottingModifier>() && !@event.Source.IsRole<SoulCollectorRole>() &&
+        if (@event.Target.HasModifier<RottingModifier>() && !@event.Source.IsRole<MedusaRole>() &&
             !MeetingHud.Instance)
         {
             Coroutines.Start(RottingModifier.StartRotting(@event.Target, @event.Source));

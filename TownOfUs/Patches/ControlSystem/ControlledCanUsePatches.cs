@@ -23,6 +23,7 @@ public static class ControlledCanUsePatches
 
     [HarmonyPostfix]
     public static void CanUsePostfixPatch(
+        Object __instance,
         [HarmonyArgument(0)] NetworkedPlayerInfo pc,
         [HarmonyArgument(1)] ref bool canUse,
         [HarmonyArgument(2)] ref bool couldUse)

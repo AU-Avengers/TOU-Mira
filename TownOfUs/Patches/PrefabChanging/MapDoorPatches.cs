@@ -33,7 +33,7 @@ public static class MapDoorPatches
         }
     }
     [MethodRpc((uint)TownOfUsRpc.RerouteSystemByte)]
-    public static void RpcRerouteSystemByte(SystemTypes systemType, byte amount)
+    public static void RpcRerouteSystemByte(PlayerControl player, SystemTypes systemType, byte amount)
     {
         if (AmongUsClient.Instance.AmHost)
         {
@@ -55,7 +55,7 @@ public static class MapDoorPatches
         }
     }
     [MethodRpc((uint)TownOfUsRpc.RerouteSystemMsg)]
-    public static void RpcRerouteSystemMsg(SystemTypes systemType, MessageReader msgReader)
+    public static void RpcRerouteSystemMsg(PlayerControl player, SystemTypes systemType, MessageReader msgReader)
     {
         if (AmongUsClient.Instance.AmHost)
         {
@@ -106,7 +106,7 @@ public static class MapDoorPatches
             return false;
         }
 
-        RpcRerouteSystemByte(newSysType, amount);
+        RpcRerouteSystemByte(PlayerControl.LocalPlayer, newSysType, amount);
         /*MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, 35, (SendOption)1, AmongUsClient.Instance.HostId);
         messageWriter.Write((byte)newSysType);
         messageWriter.WriteNetObject(PlayerControl.LocalPlayer);
@@ -131,7 +131,7 @@ public static class MapDoorPatches
             return false;
         }
 
-        RpcRerouteSystemByte(newSysType, msgReader.ReadByte());
+        RpcRerouteSystemByte(PlayerControl.LocalPlayer, newSysType, msgReader.ReadByte());
         /*MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, 35, (SendOption)1, AmongUsClient.Instance.HostId);
         messageWriter.Write((byte)newSysType);
         messageWriter.WriteNetObject(PlayerControl.LocalPlayer);

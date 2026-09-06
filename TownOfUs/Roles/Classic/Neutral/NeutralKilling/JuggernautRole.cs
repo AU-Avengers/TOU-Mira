@@ -2,9 +2,10 @@
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
-using MiraAPI.Utilities;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Options.Roles.Neutral;
 using UnityEngine;
 
@@ -19,21 +20,25 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
             return;
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{MiraLocaleManager.Get("NeutralKillingTaskHeader")}</color>";
         orCreateTask.name = "NeutralRoleText";
+    }
+
+    [HideFromIl2Cpp]
+    public bool IsModifierApplicable(BaseModifier modifier)
+    {
+        return modifier is not OverclockerModifier;
     }
 
     public int KillCount { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
-    public string LocaleKey => "Juggernaut";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Juggernaut";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -57,7 +62,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.GetParsed("TouRoleJuggernautTabKillCounter").Replace("<count>", $"{KillCount}")}</b>");
+        stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.JuggernautTabKillCounter").Replace("<count>", $"{KillCount}")}</b>");
 
         return stringB;
     }
@@ -66,12 +71,12 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     {
         var juggCount = CustomRoleUtils.GetActiveRolesOfType<JuggernautRole>().Count(x => !x.Player.HasDied());
 
-        if (MiscUtils.KillersAliveCount > juggCount)
+        if (MiscUtils.KillersAliveCount > juggCount || MiscUtils.KillersAliveCount == 0)
         {
             return false;
         }
 
-        return juggCount >= Helpers.GetAlivePlayers().Count - juggCount;
+        return juggCount >= MiscUtils.GetImpactfulLivingPlayers().Count - juggCount;
     }
 
     public override void Initialize(PlayerControl player)

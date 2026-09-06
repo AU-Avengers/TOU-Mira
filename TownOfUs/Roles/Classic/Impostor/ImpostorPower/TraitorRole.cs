@@ -20,22 +20,21 @@ public sealed class TraitorRole(IntPtr cppPtr)
     public bool CanBeGuessed =>
         RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TraitorRole>()) is ICustomRole customRole &&
         (int)customRole.GetCount()! > 0 && (int)customRole.GetChance()! > 0 ||
-        (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance > 0;
+        (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance.Value > 0;
     public bool CanSpawnOnCurrentMode() => false;
     [HideFromIl2Cpp] public List<RoleBehaviour> ChosenRoles { get; } = [];
     [HideFromIl2Cpp] public RoleBehaviour? RandomRole { get; set; }
     [HideFromIl2Cpp] public RoleBehaviour? SelectedRole { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
     public bool NoSpawn => true;
-    public string LocaleKey => "Traitor";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public bool IsDraftable => false;
+    public string IdPart => "Traitor";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -68,8 +67,8 @@ public sealed class TraitorRole(IntPtr cppPtr)
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}ChangeRole", "Change Role"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}ChangeRoleWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ChangeRole", "Change Role"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ChangeRole.WikiDescription"),
                     TouImpAssets.TraitorSelect)
             ];
         }

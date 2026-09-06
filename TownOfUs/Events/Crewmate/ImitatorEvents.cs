@@ -10,7 +10,7 @@ namespace TownOfUs.Events.Crewmate;
 
 public static class ImitatorEvents
 {
-    [RegisterEvent(1001)]
+    [RegisterEvent(-1000)]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
         if (@event.TriggeredByIntro)

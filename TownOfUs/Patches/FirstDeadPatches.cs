@@ -1,6 +1,6 @@
 using HarmonyLib;
-using TownOfUs.Events;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Roles.Other;
 
 namespace TownOfUs.Patches;
@@ -15,7 +15,7 @@ public static class FirstDeadPatch
     {
         if (!SpectatorRole.TrackedSpectators.Contains(__instance.Data.PlayerName))
         {
-            if (!FirstRoundPlayerNames.Contains(__instance.Data.PlayerName) && DeathEventHandlers.CurrentRound == 1)
+            if (!FirstRoundPlayerNames.Contains(__instance.Data.PlayerName) && HudManagerHelper.Instance.CurrentRound == 1)
             {
                 FirstRoundPlayerNames.Add(__instance.Data.PlayerName);
             }

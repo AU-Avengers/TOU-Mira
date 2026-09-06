@@ -6,9 +6,9 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class HunterOptions : AbstractOptionGroup<HunterRole>
+public sealed class HunterOptions : AbstractRoleOptionGroup<HunterRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleHunter", "Hunter");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Hunter", "Hunter");
 
     [ModdedNumberOption("TouOptionHunterKillCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float HunterKillCooldown { get; set; } = 25f;
