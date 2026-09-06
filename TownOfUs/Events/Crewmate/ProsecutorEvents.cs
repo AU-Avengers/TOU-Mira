@@ -15,11 +15,27 @@ using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
+using UnityEngine;
 
 namespace TownOfUs.Events.Crewmate;
 
 public static class ProsecutorEvents
 {
+    public static PlayerControl ProsToAnnounceNext;
+    public static bool IsBadJudgement(PlayerControl pros, PlayerControl victim)
+    {
+        if (pros.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        {
+            return false;
+        }
+
+        if (victim.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished)
+        {
+            return false;
+        }
+
+        return victim.IsCrewmate();
+    }
     [RegisterEvent(1000)]
     public static void BeforeLocalVoteEvent(BeforeVoteEvent @event)
     {
@@ -86,9 +102,15 @@ public static class ProsecutorEvents
 
         var prosdata = prosecutor.Player.GetVoteData();
 
+        var toVote = prosecutor.ProsecuteVictim;
+        if ((BadProsecuteResult)OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is
+            BadProsecuteResult.EjectPros && IsBadJudgement(prosecutor.Player, GameData.Instance.GetPlayerById(prosecutor.ProsecuteVictim).Object))
+        {
+            toVote = prosecutor.Player.PlayerId;
+        }
         for (var i = 0; i < 5; i++)
         {
-            prosdata.VoteForPlayer(prosecutor.ProsecuteVictim);
+            prosdata.VoteForPlayer(toVote);
         }
     }
 
@@ -152,19 +174,10 @@ public static class ProsecutorEvents
                     MiraLocaleManager.Get("DiedByStringBasic").Replace("<player>", pros.Player.Data.PlayerName),
                     lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
 
-                if (pros.Player.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+                if (IsBadJudgement(pros.Player, player) && player != pros.Player)
                 {
-                    return;
-                }
-
-                if (player.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished)
-                {
-                    return;
-                }
-
-                if (player.IsCrewmate() && player != pros.Player)
-                {
-                    if (OptionGroupSingleton<ProsecutorOptions>.Instance.ExileOnCrewmate)
+                    ProsToAnnounceNext = pros.Player;
+                    if ((BadProsecuteResult)OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is BadProsecuteResult.EjectProsAndEjectTarget)
                     {
                         if (pros.Player.TryGetModifier<CelebrityModifier>(out var celeb))
                         {
@@ -184,5 +197,44 @@ public static class ProsecutorEvents
                 }
             }
         }
+    }
+    [RegisterEvent]
+    public static void RoundStartEventHandler(RoundStartEvent @event)
+    {
+        if (@event.TriggeredByIntro || !ProsToAnnounceNext)
+        {
+            ProsToAnnounceNext = null!;
+            return;
+        }
+
+        if ((BadProsecuteResult)OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is
+            BadProsecuteResult.EjectProsAndEjectTarget)
+        {
+            if (ProsToAnnounceNext.AmOwner)
+            {
+                var notif1 = Helpers.CreateAndShowNotification(
+                    MiraLocaleManager.Get("TownOfUsMira.Role.Prosecutor.ShameNotificationSelf"),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor.LoadAsset());
+
+                notif1.AdjustNotification();
+            }
+            else
+            {
+                var notif1 = Helpers.CreateAndShowNotification(
+                    MiraLocaleManager.Get("TownOfUsMira.Role.Prosecutor.ShameNotification").Replace("<player>", ProsToAnnounceNext.Data.PlayerName),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor.LoadAsset());
+
+                notif1.AdjustNotification();
+            }
+        }
+        else if (ProsToAnnounceNext.AmOwner)
+        {
+            var notif1 = Helpers.CreateAndShowNotification(
+                MiraLocaleManager.Get("TownOfUsMira.Role.Prosecutor.ShameNotificationSelfPrivate"),
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor.LoadAsset());
+
+            notif1.AdjustNotification();
+        }
+        ProsToAnnounceNext = null!;
     }
 }
