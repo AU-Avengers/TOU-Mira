@@ -417,9 +417,9 @@ public static class DraftNetworkHelper
             new DraftPickConfirmedData { Slot = slot, RoleId = publicRoleId, TimedOut = timedOut });
 
         var localSlot = DraftManager.GetSlotForPlayer(PlayerControl.LocalPlayer.PlayerId);
-        var cleanupActions = slot == localSlot
-            ? new Action[] { DraftScreenController.Hide, DraftSidebarManager.InvalidateCache, DraftStatusOverlay.Refresh }
-            : new Action[] { DraftSidebarManager.InvalidateCache, DraftStatusOverlay.Refresh };
+        Action[] cleanupActions = slot == localSlot
+            ? [ DraftScreenController.Hide, DraftSidebarManager.InvalidateCache, DraftStatusOverlay.Refresh ]
+            : [ DraftSidebarManager.InvalidateCache, DraftStatusOverlay.Refresh];
 
         foreach (var cleanup in cleanupActions)
         {
