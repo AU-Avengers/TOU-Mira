@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Impostor;
 public sealed class SwooperSwoopButton : TownOfUsRoleButton<SwooperRole>, IAftermathableButton, ILegacyCapable
 {
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override string Name => TouLocale.GetParsed("TouRoleSwooperSwoop", "Swoop");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.SwooperSwoop", "Swoop");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SwooperOptions>.Instance.SwoopCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<SwooperOptions>.Instance.SwoopDuration;

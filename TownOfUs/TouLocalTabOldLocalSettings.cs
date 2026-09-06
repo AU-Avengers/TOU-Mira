@@ -1,4 +1,5 @@
 using BepInEx.Configuration;
+using MiraAPI;
 
 namespace TownOfUs;
 
@@ -16,12 +17,9 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
 
     public ConfigEntry<bool> ShowVentsToggle =>
         LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.ShowVentsToggle;
-    
-    public ConfigEntry<float> ButtonUIFactorSlider =>
-        LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ButtonUIFactorSlider;
 
     public ConfigEntry<bool> WikiOnBottomRow =>
-        LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.WikiOnBottomRow;
+        LocalSettingsTabSingleton<MiraApiSettings>.Instance.WikiOnBottomRow;
 
     public ConfigEntry<bool> ZoomOnBottomRow =>
         LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ZoomOnBottomRow;

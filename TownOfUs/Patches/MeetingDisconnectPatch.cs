@@ -32,12 +32,7 @@ public static class MeetingDisconnectPatch
                 var votes = voteData.Votes.RemoveAll(x => x.Suspect == player.PlayerId);
                 voteData.VotesRemaining += votes;
 
-                if (!voteAreaPlayer.AmOwner)
-                {
-                    continue;
-                }
-
-                MeetingHud.Instance.ClearVote(pva.PlayerId, true);
+                MeetingHud.Instance.ClearVote(pva.PlayerId, voteAreaPlayer.AmOwner);
             }
         }
     }

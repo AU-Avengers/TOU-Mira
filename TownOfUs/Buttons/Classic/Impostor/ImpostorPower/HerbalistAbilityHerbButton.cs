@@ -109,9 +109,9 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
     public static List<string> ProtectionText =>
     [
         TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill"),
-        TouLocale.Get("TouRoleHerbalistExpose"),
-        TouLocale.Get("TouRoleHerbalistConfuse"),
-        TouLocale.Get("TouRoleHerbalistProtect"),
+        MiraLocaleManager.Get("TownOfUsMira.Role.HerbalistExpose"),
+        MiraLocaleManager.Get("TownOfUsMira.Role.HerbalistConfuse"),
+        MiraLocaleManager.Get("TownOfUsMira.Role.HerbalistProtect"),
     ];
 
     public override void CreateButton(Transform parent)

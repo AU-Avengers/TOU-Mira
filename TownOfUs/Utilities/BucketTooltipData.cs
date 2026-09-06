@@ -133,10 +133,14 @@ public static class BucketTooltipData
 
                 entry.DisplayName = role.GetRoleName();
                 entry.Col = role.TeamColor;
-                if (role is ICustomRole customRole && customRole.Configuration.MaxRoleCount != 0 && (int)customRole.GetCount()! > 0 &&
-                    (int)customRole.GetChance()! > 0)
+                if (role is ICustomRole customRole)
                 {
-                    result.Add(entry);
+                    var count = customRole.GetCount() ?? 0;
+                    var chance = customRole.GetChance() ?? 0;
+                    if (customRole.Configuration.MaxRoleCount != 0 && count > 0 && chance > 0)
+                    {
+                        result.Add(entry);
+                    }
                 }
                 else
                 {

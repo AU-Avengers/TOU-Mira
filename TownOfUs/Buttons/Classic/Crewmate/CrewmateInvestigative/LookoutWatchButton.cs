@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class WatchButton : TownOfUsRoleButton<LookoutRole, PlayerControl>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleLookoutWatch", "Watch");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.LookoutWatch", "Watch");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Lookout;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<LookoutOptions>.Instance.WatchCooldown + MapCooldown, 1f, 120f);
@@ -40,7 +40,7 @@ public sealed class WatchButton : TownOfUsRoleButton<LookoutRole, PlayerControl>
 
         var showRoles = (LookoutView)OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Roles;
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{TouLocale.GetParsed(showRoles ? "TouRoleLookoutWatchNotif" : "TouRoleLookoutWatchAltNotif").Replace("<player>", Target.Data.PlayerName)}</b>",
+            $"<b>{MiraLocaleManager.Get(showRoles ? "TownOfUsMira.Role.LookoutWatchNotif" : "TownOfUsMira.Role.LookoutWatchAltNotif").Replace("<player>", Target.Data.PlayerName)}</b>",
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Lookout.LoadAsset());
         notif1.AdjustNotification();
     }

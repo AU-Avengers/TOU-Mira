@@ -52,7 +52,7 @@ public static class InquisitorEvents
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Inquisitor, alpha: 0.1f));
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{TouLocale.GetParsed("TouRoleInquisitorHereticPerished")}</b></color>", Color.white,
+                    $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorHereticPerished")}</b></color>", Color.white,
                     new Vector3(0f, 1f, -20f),
                     spr: TouRoleIcons.Inquisitor.LoadAsset());
                 notif1.AdjustNotification();
@@ -61,7 +61,7 @@ public static class InquisitorEvents
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Inquisitor, alpha: 0.4f));
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{TouLocale.GetParsed("TouRoleInquisitorWrongTarget") .Replace("<player>", victim.Data.PlayerName)}</b></color>",
+                    $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorWrongTarget") .Replace("<player>", victim.Data.PlayerName)}</b></color>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
                 notif1.AdjustNotification();
             }
@@ -69,7 +69,7 @@ public static class InquisitorEvents
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Doomsayer, alpha: 0.4f));
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{TouLocale.GetParsed("TouRoleInquisitorCorrectTarget") .Replace("<player>", victim.Data.PlayerName)}</b></color>",
+                    $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorCorrectTarget") .Replace("<player>", victim.Data.PlayerName)}</b></color>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
                 notif1.AdjustNotification();
             }
@@ -107,7 +107,7 @@ public static class InquisitorEvents
             if (inquis.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouRoleInquisitorVictoryMessageSelf").Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>"),
+                    MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorVictoryMessageSelf").Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.GetRoleName()}</color>"),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -119,13 +119,13 @@ public static class InquisitorEvents
 
                 if (OptionGroupSingleton<InquisitorOptions>.Instance.InquisAnonymizeWin)
                 {
-                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
+                    message = MiraLocaleManager.Get("TouNeutAnonymousVictoryMessage");
                     icon = TouRoleIcons.Neutral;
                 }
                 else
                 {
-                    message = TouLocale.GetParsed("TouRoleInquisitorVictoryMessage")
-                        .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>");
+                    message = MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorVictoryMessage")
+                        .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.GetRoleName()}</color>");
                     icon = TouRoleIcons.Inquisitor;
                 }
 
@@ -136,7 +136,7 @@ public static class InquisitorEvents
                 notif1.AdjustNotification();
             }
             var stats = GameHistory.PlayerStats[inquis.Player.PlayerId];
-            stats.DeathString = TouLocale.Get("DiedToWinning");
+            stats.DeathString = MiraLocaleManager.Get("DiedToWinning");
             stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
             stats.DiedThisRound = false;
             stats.PlayerState = StoredPlayerState.Dead;
@@ -160,7 +160,7 @@ public static class InquisitorEvents
             if (inquis.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TouLocale.GetParsed("TouRoleInquisitorWonSelf") .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>")}</b>",
+                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorWonSelf") .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.GetRoleName()}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -172,13 +172,13 @@ public static class InquisitorEvents
 
                 if (OptionGroupSingleton<InquisitorOptions>.Instance.InquisAnonymizeWin)
                 {
-                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage")
+                    message = MiraLocaleManager.Get("TouNeutAnonymousVictoryMessage")
                         .Replace("<player>", inquis.Player.Data.PlayerName);
                     icon = TouRoleIcons.Neutral;
                 }
                 else
                 {
-                    message = $"<b>{TouLocale.GetParsed("TouRoleInquisitorWonOther") .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>") .Replace("<player>", inquis.Player.Data.PlayerName)}</b>";
+                    message = $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorWonOther") .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.GetRoleName()}</color>") .Replace("<player>", inquis.Player.Data.PlayerName)}</b>";
                     icon = TouRoleIcons.Inquisitor;
                 }
 
@@ -188,7 +188,7 @@ public static class InquisitorEvents
                 notif1.AdjustNotification();
             }
             var stats = GameHistory.PlayerStats[inquis.Player.PlayerId];
-            stats.DeathString = TouLocale.Get("DiedToWinning");
+            stats.DeathString = MiraLocaleManager.Get("DiedToWinning");
             stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
             stats.DiedThisRound = false;
             stats.PlayerState = StoredPlayerState.Dead;

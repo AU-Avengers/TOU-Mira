@@ -14,7 +14,7 @@ public abstract class NeutralRole(IntPtr cppPtr) : RoleBehaviour(cppPtr)
 
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text =
-            $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralBasicTaskHeader")}</color>";
+            $"{TownOfUsColors.Neutral.ToTextColor()}{MiraLocaleManager.Get("NeutralBasicTaskHeader")}</color>";
         orCreateTask.name = "NeutralRoleText";
     }
 

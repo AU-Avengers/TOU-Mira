@@ -6,7 +6,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class AmnesiacRememberButton : TownOfUsRoleButton<AmnesiacRole, DeadBody>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleAmnesiacRemember", "Remember");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.AmnesiacRemember", "Remember");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Amnesiac;
     public override float Cooldown => 0.001f;

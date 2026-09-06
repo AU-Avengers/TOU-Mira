@@ -6,14 +6,14 @@ namespace TownOfUs.Options.Modifiers.Impostor;
 
 public sealed class CircumventOptions : AbstractTouModifierOptionGroup<CircumventModifier>
 {
-    public override string GroupName => "Circumvent";
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Circumvent", "Circumvent");
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
     public override uint GroupPriority => 40;
 
-    [ModdedNumberOption("Minimum Vents Allowed", 0f, 10f, 1f)]
+    [ModdedNumberOption("TouOptionCircumventMinimumVents", 0f, 10f, 1f)]
     public float VentsMin { get; set; } = 3f;
 
-    [ModdedNumberOption("Maximum Vents Allowed", 0f, 10f, 1f)]
+    [ModdedNumberOption("TouOptionCircumventMaximumVents", 0f, 10f, 1f)]
     public float VentsMax { get; set; } = 10f;
 
     /// <summary>

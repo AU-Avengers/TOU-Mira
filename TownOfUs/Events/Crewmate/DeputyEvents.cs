@@ -95,7 +95,7 @@ public static class DeputyEvents
         if (mod.Deputy.AmOwner)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TouLocale.GetParsed("TouRoleDeputyCampedKillNotif").Replace("<player>", $"{TownOfUsColors.Deputy.ToTextColor()}{target.Data.PlayerName}</color>")}</b>",
+                $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DeputyCampedKillNotif").Replace("<player>", $"{TownOfUsColors.Deputy.ToTextColor()}{target.Data.PlayerName}</color>")}</b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy.LoadAsset());
 
             notif1.AdjustNotification();
@@ -104,7 +104,7 @@ public static class DeputyEvents
         if (source.AmOwner && OptionGroupSingleton<DeputyOptions>.Instance.WarnKiller.Value)
         {
             var notif = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.Deputy.ToTextColor()}{TouLocale.GetParsed("TouRoleDeputyKillerWarnNotif")}</color></b>",
+                $"<b>{TownOfUsColors.Deputy.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.DeputyKillerWarnNotif")}</color></b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy.LoadAsset());
             notif.AdjustNotification();
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Deputy));

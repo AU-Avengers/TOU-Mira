@@ -128,7 +128,7 @@ public static class TownOfUsEventHandlers
         else if (uniModifier != null && option is ModReveal.Universal)
         {
             ModifierText.text =
-                $"<size={uniModifier.IntroSize}><color=#FFFFFF>{TouLocale.Get("Modifier")}: </color>{uniModifier.ModifierName}</size>";
+                $"<size={uniModifier.IntroSize}><color=#FFFFFF>{MiraLocaleManager.Get("Modifier")}: </color>{uniModifier.ModifierName}</size>";
 
             ModifierText.color = MiscUtils.GetModifierColour(uniModifier);
         }
@@ -263,9 +263,10 @@ public static class TownOfUsEventHandlers
                 }
             }
 
-            if (PlayerControl.LocalPlayer.IsImpostor())
+            if (HudManager.Instance.KillButton)
             {
                 PlayerControl.LocalPlayer.SetKillTimer(genOpt.GameStartCd);
+                HudManager.Instance.KillButton.SetCoolDown(genOpt.GameStartCd, PlayerControl.LocalPlayer.killTimer);
             }
         }
 
@@ -300,7 +301,7 @@ public static class TownOfUsEventHandlers
         panel.SetTaskText(role.SetTabText().ToString());
     }
 
-    [RegisterEvent(-1000)]
+    [RegisterEvent(-10000)]
     public static void BeforeMurderEventHandler(BeforeMurderEvent murderEvent)
     {
         if (murderEvent.Source.TryGetModifier<IndirectAttackerModifier>(out var mod))
@@ -312,19 +313,6 @@ public static class TownOfUsEventHandlers
             murderEvent.IsIndirectAttack = true;
         }
     }
-
-    /*[RegisterEvent(-1000)]
-    public static void BeforeMurderEventHandler(ExtendedMiraButtonClickEvent clickEvent)
-    {
-        if (PlayerControl.LocalPlayer.TryGetModifier<IndirectAttackerModifier>(out var mod))
-        {
-            if (mod.IgnoreShield)
-            {
-                clickEvent.IgnoreDefense = true;
-            }
-            clickEvent.IsIndirectInteraction = true;
-        }
-    }*/
 
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent _)
@@ -899,6 +887,13 @@ public static class TownOfUsEventHandlers
         Rpc<SetSpectatorListRpc>.Instance.Send(PlayerControl.LocalPlayer, fakeDictionary);
     }
 
+    private static readonly HashSet<int> RulesShownToClientIds = [];
+
+    internal static void ResetRulesShownTracking()
+    {
+        RulesShownToClientIds.Clear();
+    }
+
     internal static IEnumerator CoSendRulesToPlayer(ClientData clientData)
     {
         while (!AmongUsClient.Instance)
@@ -923,6 +918,16 @@ public static class TownOfUsEventHandlers
             yield break;
         }
 
+        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.ShowRulesOnLobbyJoin.Value)
+        {
+            yield break;
+        }
+
+        if (RulesShownToClientIds.Contains(clientData.Id))
+        {
+            yield break;
+        }
+
         var joiningPlayer = clientData.Character;
         if (joiningPlayer == null)
         {
@@ -938,7 +943,8 @@ public static class TownOfUsEventHandlers
             yield break;
         }
 
-        ChatPatches.RpcSendLobbyRules(PlayerControl.LocalPlayer, joiningPlayer, rulesText, true);
+        RulesShownToClientIds.Add(clientData.Id);
+        ChatPatches.RpcSendLobbyRules(PlayerControl.LocalPlayer, joiningPlayer, rulesText);
     }
 
     [RegisterEvent]
@@ -1092,12 +1098,7 @@ public static class TownOfUsEventHandlers
             var votes = voteData.Votes.RemoveAll(x => x.Suspect == target.PlayerId);
             voteData.VotesRemaining += votes;
 
-            if (!voteAreaPlayer.AmOwner)
-            {
-                continue;
-            }
-
-            instance.ClearVote(pva.PlayerId, true);
+            instance.ClearVote(pva.PlayerId, voteAreaPlayer.AmOwner);
         }
 
         instance.SetDirtyBit(1U);

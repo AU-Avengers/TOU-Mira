@@ -15,10 +15,7 @@ namespace TownOfUs.Roles.Impostor;
 public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public DoomableType DoomHintType => DoomableType.Insight;
-    public string LocaleKey => "Herbalist";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Herbalist";
 
     public void FixedUpdate()
     {
@@ -77,7 +74,7 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     }
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public Color RoleColor => TownOfUsColors.Impostor;
@@ -96,17 +93,17 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities =>
     [
-        new(TouLocale.GetParsed($"TouRole{LocaleKey}Expose", "Expose"),
-            TouLocale.GetParsed($"TouRole{LocaleKey}ExposeWikiDescription"),
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Expose", "Expose"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Expose.WikiDescription"),
             TouImpAssets.HerbExposeSprite),
-        new(TouLocale.GetParsed($"TouRole{LocaleKey}Confuse", "Confuse"),
-            TouLocale.GetParsed($"TouRole{LocaleKey}ConfuseWikiDescription"),
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Confuse", "Confuse"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Confuse.WikiDescription"),
             TouImpAssets.HerbConfuseSprite),
-        /*new(TouLocale.GetParsed($"TouRole{LocaleKey}Glamour", "Glamour"),
-            TouLocale.GetParsed($"TouRole{LocaleKey}GlamourWikiDescription"),
+        /*new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Glamour", "Glamour"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Glamour.WikiDescription"),
             TouImpAssets.FlashSprite),*/
-        new(TouLocale.GetParsed($"TouRole{LocaleKey}Protect", "Protect"),
-            TouLocale.GetParsed($"TouRole{LocaleKey}ProtectWikiDescription"),
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Protect", "Protect"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Protect.WikiDescription"),
             TouImpAssets.HerbProtectSprite)
     ];
 

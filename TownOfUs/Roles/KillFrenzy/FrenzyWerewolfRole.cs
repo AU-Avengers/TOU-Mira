@@ -43,15 +43,13 @@ public sealed class FrenzyWerewolfRole(IntPtr cppPtr)
     }
 
     public bool Rampaging { get; set; }
-    public string LocaleKey => "Werewolf";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Werewolf";
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -62,8 +60,8 @@ public sealed class FrenzyWerewolfRole(IntPtr cppPtr)
         {
             return new List<CustomButtonWikiDescription>
             {
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Rampage", "Rampage"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}RampageWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Rampage", "Rampage"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Rampage.WikiDescription"),
                     TouNeutAssets.RampageSprite)
             };
         }
@@ -76,6 +74,7 @@ public sealed class FrenzyWerewolfRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         AssociatedGameMode = typeof(KillFrenzyMode),
+        HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy,
         GhostRole = (RoleTypes)RoleId.Get<FrenzyGhostRole>(),
         FreeplayFolder = "Kill Frenzy",
         CanUseVent = false,

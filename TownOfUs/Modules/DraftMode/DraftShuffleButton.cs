@@ -36,7 +36,7 @@ public sealed class DraftShuffleButton : TownOfUsButton
             (int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
     }
 
-    public override string Name => TouLocale.GetParsed("TouDraftShuffleButton", "Shuffle");
+    public override string Name => MiraLocaleManager.Get("TouDraftShuffleButton", "Shuffle");
     public override float InitialCooldown => 0.001f;
     public override float Cooldown => 0.001f;
     public override int MaxUses => (int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value;
@@ -61,7 +61,7 @@ public sealed class DraftShuffleButton : TownOfUsButton
     protected override void OnClick()
     {
         if (!DraftManager.IsDraftActive) return;
-        Helpers.CreateAndShowNotification(TouLocale.GetParsed("TouDraftShuffledNotif", "Your picks have been Shuffled!"), Color.white,
+        Helpers.CreateAndShowNotification(MiraLocaleManager.Get("TouDraftShuffledNotif", "Your picks have been Shuffled!"), Color.white,
                 new Vector3(0f, 1f, -80f), spr: TouImpAssets.TraitorSelect.LoadAsset());
         DraftNetworkHelper.RequestShuffle();    
         }

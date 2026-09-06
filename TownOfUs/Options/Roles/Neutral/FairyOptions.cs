@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class FairyOptions : AbstractRoleOptionGroup<FairyRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleFairy", "Fairy");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Fairy", "Fairy");
 
     [ModdedNumberOption("TouOptionFairyCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ProtectCooldown { get; set; } = 25f;
@@ -21,7 +21,7 @@ public sealed class FairyOptions : AbstractRoleOptionGroup<FairyRole>
     [ModdedEnumOption("TouOptionFairyShowProtected", typeof(ProtectOptions), ["TouOptionFairyProtectionEnumFairy", "TouOptionFairyProtectionEnumFairyAndTarget", "TouOptionFairyProtectionEnumEveryone"])]
     public ProtectOptions ShowProtect { get; set; } = ProtectOptions.SelfAndFairy;
 
-    [ModdedEnumOption("TouOptionFairyOnDeathFairyBecomes", typeof(BecomeOptions), ["CrewmateKeyword", "TouRoleAmnesiac", "TouRoleSurvivor", "TouRoleMercenary", "TouRoleJester"])]
+    [ModdedEnumOption("TouOptionFairyOnDeathFairyBecomes", typeof(BecomeOptions), ["MiraApi.RoleTeam.Crewmate", "TownOfUsMira.Role.Amnesiac", "TownOfUsMira.Role.Survivor", "TownOfUsMira.Role.Mercenary", "TownOfUsMira.Role.Jester"])]
     public BecomeOptions OnTargetDeath { get; set; } = BecomeOptions.Amnesiac;
 
     [ModdedToggleOption("TouOptionFairyTargetKnowsFairyExists")]

@@ -101,8 +101,6 @@ namespace TownOfUs.Modules.DraftMode
         public static void NotifyLocalPlayerPicked(ushort roleId)
         {
             EnsureExists();
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
-                $"[DraftStatusOverlay] NotifyLocalPlayerPicked roleId={roleId}");
             if (roleId != _instance._shownRoleId)
             {
                 _instance._shownRoleId = roleId;
@@ -206,13 +204,13 @@ namespace TownOfUs.Modules.DraftMode
             _root.transform.localPosition = new Vector3(0f, 0.6f, -20f);
 
             _yourNumberLabel = MakeText(_root, "YourNumberLabel", font, fontMat,
-                TouLocale.GetParsed("TouDraftYourNumberLabel", "YOUR NUMBER:"), 2.2f, new Color(0.6f, 0.9f, 1f),
+                MiraLocaleManager.Get("TouDraftYourNumberLabel", "YOUR NUMBER:"), 2.2f, new Color(0.6f, 0.9f, 1f),
                 new Vector3(0f, 0.55f, 0f), bold: false);
             _yourNumberValue = MakeText(_root, "YourNumberValue", font, fontMat,
                 "?", 5.5f, Color.white,
                 new Vector3(0f, 0.05f, 0f), bold: true);
             _nowPickingLabel = MakeText(_root, "NowPickingLabel", font, fontMat,
-                TouLocale.GetParsed("TouDraftNowPickingLabel", "NOW PICKING:"), 1.6f, new Color(1f, 0.85f, 0.1f),
+                MiraLocaleManager.Get("TouDraftNowPickingLabel", "NOW PICKING:"), 1.6f, new Color(1f, 0.85f, 0.1f),
                 new Vector3(0f, -0.55f, 0f), bold: false);
             _nowPickingValue = MakeText(_root, "NowPickingValue", font, fontMat,
                 "?", 3.0f, new Color(1f, 0.85f, 0.1f),
@@ -712,6 +710,29 @@ namespace TownOfUs.Modules.DraftMode
             return Color.white;
         }
 
+        private static (int pickerSlot, int pickerCount, bool isMyTurn) ComputePickerStatus()
+        {
+            int pickerSlot = -1;
+            int pickerCount = 0;
+            bool isMyTurn = false;
+            bool isLocalGame = AmongUsClient.Instance?.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance?.NetworkMode == NetworkModes.FreePlay;
+
+            foreach (var s in DraftManager.GetActivePickerStatesNonAlloc())
+            {
+                if (s == null || !s.IsPickingNow) continue;
+                pickerCount++;
+                if (pickerSlot < 0) pickerSlot = s.SlotNumber;
+                if (s.PlayerId == PlayerControl.LocalPlayer.PlayerId) isMyTurn = true;
+                else if (isLocalGame)
+                {
+                    var p = MiscUtils.PlayerById(s.PlayerId);
+                    if (p != null && AmongUsClient.Instance?.GetClient(p.OwnerId) == null) isMyTurn = true;
+                }
+            }
+
+            return (pickerSlot, pickerCount, isMyTurn);
+        }
+
         private void Update()
         {
             if (_currentState == OverlayState.Hidden) return;
@@ -757,21 +778,7 @@ namespace TownOfUs.Modules.DraftMode
                         _slotCheckTimer = 0f;
 
                         int mySlot = DraftManager.GetSlotForPlayer(PlayerControl.LocalPlayer.PlayerId);
-                        int pickerSlot = -1;
-                        int pickerCount = 0;
-                        bool isMyTurn = false;
-                        foreach (var s in DraftManager.GetActivePickerStatesNonAlloc())
-                        {
-                            if (s == null || !s.IsPickingNow) continue;
-                            pickerCount++;
-                            if (pickerSlot < 0) pickerSlot = s.SlotNumber;
-                            if (s.PlayerId == PlayerControl.LocalPlayer.PlayerId) isMyTurn = true;
-                            else if (AmongUsClient.Instance?.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance?.NetworkMode == NetworkModes.FreePlay)
-                            {
-                                var p = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == s.PlayerId);
-                                if (p != null && AmongUsClient.Instance?.GetClient(p.OwnerId) == null) isMyTurn = true;
-                            }
-                        }
+                        var (pickerSlot, pickerCount, isMyTurn) = ComputePickerStatus();
 
                         if (mySlot != _cachedMySlot || pickerSlot != _cachedPickerSlot ||
                             pickerCount != _cachedPickerCount || isMyTurn != _cachedIsMyTurn)
@@ -799,40 +806,26 @@ namespace TownOfUs.Modules.DraftMode
             if (_root == null) return;
 
             int mySlot = DraftManager.GetSlotForPlayer(PlayerControl.LocalPlayer.PlayerId);
-            int pickerSlot = -1;
-            int pickerCount = 0;
-            bool isMyTurn = false;
-            foreach (var s in DraftManager.GetActivePickerStatesNonAlloc())
-            {
-                if (s == null || !s.IsPickingNow) continue;
-                pickerCount++;
-                if (pickerSlot < 0) pickerSlot = s.SlotNumber;
-                if (s.PlayerId == PlayerControl.LocalPlayer.PlayerId) isMyTurn = true;
-                else if (AmongUsClient.Instance?.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance?.NetworkMode == NetworkModes.FreePlay)
-                {
-                    var p = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == s.PlayerId);
-                    if (p != null && AmongUsClient.Instance?.GetClient(p.OwnerId) == null) isMyTurn = true;
-                }
-            }
+            var (pickerSlot, pickerCount, isMyTurn) = ComputePickerStatus();
 
             _cachedIsMyTurn = isMyTurn;
 
             string mySlotText = mySlot > 0 ? mySlot.ToString(CultureInfo.InvariantCulture) : "?";
-            string mySlotLabelText = TouLocale.GetParsed("TouDraftYourNumberLabel", "YOUR NUMBER:");
+            string mySlotLabelText = MiraLocaleManager.Get("TouDraftYourNumberLabel", "YOUR NUMBER:");
             bool isSpectating = SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.Data.PlayerName);
             if (isSpectating)
             {
-                mySlotLabelText = TouLocale.GetParsed("TouDraftYouAreLabel", "YOU ARE");
-                mySlotText = TouLocale.GetParsed("TouDraftSpectatingValue", "SPECTATING");
+                mySlotLabelText = MiraLocaleManager.Get("TouDraftYouAreLabel", "YOU ARE");
+                mySlotText = MiraLocaleManager.Get("TouDraftSpectatingValue", "SPECTATING");
             }
 
             string pickerText = "?";
-            if (pickerCount > 1) pickerText = TouLocale.GetParsed("TouDraftMultiLabel", "MULTI");
+            if (pickerCount > 1) pickerText = MiraLocaleManager.Get("TouDraftMultiLabel", "MULTI");
             else if (pickerSlot > 0) pickerText = pickerSlot.ToString(CultureInfo.InvariantCulture);
 
-            string labelText = TouLocale.GetParsed("TouDraftNowPickingLabel", "NOW PICKING:");
-            if (isMyTurn) labelText = TouLocale.GetParsed("TouDraftYourTurnLabel", "YOUR TURN!");
-            else if (pickerCount > 1) labelText = TouLocale.GetParsed("TouDraftNowPickingMultiLabel", "NOW PICKING (MULTI):");
+            string labelText = MiraLocaleManager.Get("TouDraftNowPickingLabel", "NOW PICKING:");
+            if (isMyTurn) labelText = MiraLocaleManager.Get("TouDraftYourTurnLabel", "YOUR TURN!");
+            else if (pickerCount > 1) labelText = MiraLocaleManager.Get("TouDraftNowPickingMultiLabel", "NOW PICKING (MULTI):");
 
             if (_yourNumberLabel != null)
                 _yourNumberLabel.text = mySlotLabelText;
@@ -845,8 +838,6 @@ namespace TownOfUs.Modules.DraftMode
             if (_nowPickingLabel != null)
                 _nowPickingLabel.text = labelText;
 
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
-                $"[DraftStatusOverlay] UpdateContent: localPlayerId={PlayerControl.LocalPlayer.PlayerId}, mySlot={mySlot}, pickerSlot={pickerSlot}, pickerCount={pickerCount}, isMyTurn={isMyTurn}");
         }
 
         private bool _rebuildPending;
@@ -1046,4 +1037,3 @@ namespace TownOfUs.Modules.DraftMode
         }
     }
 }
-

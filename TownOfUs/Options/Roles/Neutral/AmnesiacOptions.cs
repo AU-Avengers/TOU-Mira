@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class AmnesiacOptions : AbstractRoleOptionGroup<AmnesiacRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleAmnesiac", "Amnesiac");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Amnesiac", "Amnesiac");
 
     [ModdedToggleOption("TouOptionAmnesiacInheritFactionModifier")]
     public bool InheritFactionModifier { get; set; } = true;

@@ -40,25 +40,24 @@ public sealed class FrenzyVenererRole(IntPtr cppPtr) : FrenzyRole(cppPtr), ITown
     {
         return WinConditionMet();
     }
-    public string LocaleKey => "Venerer";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Venerer";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.FrenzyKiller;
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
 
     public CustomRoleConfiguration Configuration => new(this)
     {
         AssociatedGameMode = typeof(KillFrenzyMode),
+        HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy,
         GhostRole = (RoleTypes)RoleId.Get<FrenzyGhostRole>(),
         FreeplayFolder = "Kill Frenzy",
         CanUseVent = false,
@@ -74,14 +73,14 @@ public sealed class FrenzyVenererRole(IntPtr cppPtr) : FrenzyRole(cppPtr), ITown
         {
             return new List<CustomButtonWikiDescription>
             {
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Camouflage", "Camouflage"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}CamouflageWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Camouflage", "Camouflage"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Camouflage.WikiDescription"),
                     TouImpAssets.CamouflageSprite),
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Sprint", "Sprint"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}SprintWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Sprint", "Sprint"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Sprint.WikiDescription"),
                     TouImpAssets.SprintSprite),
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Freeze", "Freeze"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}FreezeWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Freeze", "Freeze"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Freeze.WikiDescription"),
                     TouImpAssets.FreezeSprite)
             };
         }

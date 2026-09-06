@@ -14,6 +14,7 @@ using Reactor.Utilities;
 using TownOfUs.Achievements;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Modules.RainbowMod;
 using UnityEngine;
@@ -29,19 +30,14 @@ public sealed class MayorRole(IntPtr cppPtr)
     public bool CanBeOtherEvil => true;
     public bool IsDraftable => false;
     public static GameObject MayorPlayer;
-
-    private MeetingMenu meetingMenu;
     public bool Revealed { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
-    public string LocaleKey => "Mayor";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Mayor";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -66,7 +62,20 @@ public sealed class MayorRole(IntPtr cppPtr)
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
-        var stringB = ITownOfUsRole.SetNewTabText(this);
+        var stringB = new StringBuilder();
+        stringB.AppendLine(TownOfUsPlugin.Culture,
+            $"{RoleColor.ToTextColor()}{MiraLocaleManager.Get("YouAreA")}<b> {this.GetRoleName()}.</b></color>");
+        stringB.AppendLine(TownOfUsPlugin.Culture,
+            $"<size=60%>{MiraLocaleManager.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(RoleAlignment, true)}</b></size>");
+        stringB.Append("<size=70%>");
+        if (PlayerControl.LocalPlayer.HasModifier<EgotistModifier>())
+        {
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescriptionEgo")}");
+        }
+        else
+        {
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{this.GetRoleLongDescription()}");
+        }
         if (!Revealed)
         {
             stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{UnrevealedString}</b>");
@@ -81,11 +90,11 @@ public sealed class MayorRole(IntPtr cppPtr)
     [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
 
-    public static string UnrevealedString = TouLocale.GetParsed("TouRoleMayorUnrevealedTabText");
+    public static string UnrevealedString = MiraLocaleManager.Get("TownOfUsMira.Role.MayorUnrevealedTabText");
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        UnrevealedString = TouLocale.GetParsed("TouRoleMayorUnrevealedTabText");
+        UnrevealedString = MiraLocaleManager.Get("TownOfUsMira.Role.MayorUnrevealedTabText");
         if (!Player.HasModifier<MayorRevealModifier>())
         {
             Player.AddModifier<MayorRevealModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MayorRole>()));
@@ -95,22 +104,6 @@ public sealed class MayorRole(IntPtr cppPtr)
         {
             var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.PlayerId == player.PlayerId);
             Coroutines.Start(CoAnimateReveal(targetVoteArea));
-        }
-
-        if (Player.AmOwner)
-        {
-            var classic = LegacyAssets.IsLegacy;
-            meetingMenu = new MeetingMenu(
-                this,
-                Click,
-                classic ? string.Empty : TouLocale.GetParsed("TouRolePoliticianReveal"),
-                MeetingAbilityType.Click,
-                classic ? LegacyAssets.RevealButtonSprite : TouAssets.RevealCleanSprite,
-                null!,
-                IsExempt)
-            {
-                Position = new Vector3(-0.35f, 0f, -3f)
-            };
         }
     }
 
@@ -129,49 +122,6 @@ public sealed class MayorRole(IntPtr cppPtr)
         {
             Coroutines.Start(CoAnimatePostReveal(targetVoteArea));
         }
-
-        if (Player.AmOwner && !Revealed)
-            // Message($"PoliticianRole.OnMeetingStart '{Player.Data.PlayerName}' {Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>()}");
-        {
-            meetingMenu.GenButtons(meeting,
-                Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
-        }
-    }
-
-    public override void OnVotingComplete()
-    {
-        RoleBehaviourStubs.OnVotingComplete(this);
-
-        if (Player.AmOwner)
-        {
-            meetingMenu.HideButtons();
-        }
-    }
-
-    public override void Deinitialize(PlayerControl targetPlayer)
-    {
-        RoleBehaviourStubs.Deinitialize(this, targetPlayer);
-
-        if (Player.AmOwner)
-        {
-            meetingMenu?.Dispose();
-            meetingMenu = null!;
-        }
-    }
-
-    public void Click(PlayerVoteArea voteArea, MeetingHud __)
-    {
-        if (!Player.AmOwner)
-        {
-            return;
-        }
-
-        if (Helpers.GetAlivePlayers().Count == 2)
-        {
-            AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.DeathByDemocracy.Unlock();
-        }
-        meetingMenu.HideButtons();
-        RpcAnimateNewReveal(Player);
     }
 
     [MethodRpc((uint)TownOfUsRpc.AnimateNewReveal)]
@@ -194,12 +144,6 @@ public sealed class MayorRole(IntPtr cppPtr)
 
         var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.PlayerId == plr.PlayerId);
         Coroutines.Start(CoAnimateReveal(targetVoteArea));
-    }
-
-
-    public bool IsExempt(PlayerVoteArea voteArea)
-    {
-        return voteArea?.PlayerId != Player.PlayerId;
     }
 
     private static IEnumerator CoAnimateReveal(PlayerVoteArea voteArea)

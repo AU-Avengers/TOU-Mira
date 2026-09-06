@@ -291,7 +291,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         if (label != null)
         {
             label.name = "GuesserSearchLabel";
-            label.text = TouLocale.Get("Search", "Search");
+            label.text = MiraLocaleManager.Get("Search", "Search");
             label.alignment = TextAlignmentOptions.Center;
             label.fontSize = label.fontSizeMin = label.fontSizeMax = 2.1f;
             label.color = Color.white;
@@ -308,7 +308,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         if (noResultsText != null)
         {
             noResultsText.name = "GuesserNoResultsText";
-            noResultsText.text = TouLocale.GetParsed("GuesserNoResults", "No results");
+            noResultsText.text = MiraLocaleManager.Get("GuesserNoResults", "No results");
             noResultsText.alignment = TextAlignmentOptions.Center;
             noResultsText.fontSize = noResultsText.fontSizeMin = noResultsText.fontSizeMax = 2.25f;
             noResultsText.color = Color.white;

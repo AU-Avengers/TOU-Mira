@@ -19,7 +19,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
     private static bool _reportedInUse;
     private static int _lastUpdateFrame = -1;
 
-    public override string Name => TouLocale.GetParsed("TouRoleSentryPortableCamera", "View");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.SentryPortableCamera", "View");
     public override ButtonLocation Location => ButtonLocation.BottomRight;
     public override Color TextOutlineColor => TownOfUsColors.Sentry;
     public override float Cooldown => 0.001f;

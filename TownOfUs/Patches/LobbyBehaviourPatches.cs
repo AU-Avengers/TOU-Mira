@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
+using TownOfUs.Events;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Modules.DraftMode;
@@ -18,7 +20,7 @@ public static class LobbyBehaviourPatches
     [HarmonyPostfix]
     public static void LobbyStartPatch()
     {
-        ProsecutorRole.HasProsecutedBefore = false;
+        NoisemakerModifier.ActiveNoisemakerTriggers.Clear();
         CustomTouMurderRpcs.StoredKillAnimations = [];
         HaunterRole.ResetReveals();
         GameTimerPatch.ResetTimer();
@@ -34,6 +36,8 @@ public static class LobbyBehaviourPatches
 
         TeamChatPatches.CleanUpChats();
         GameHistory.ClearAll();
+        FakeChatHistory.ClearAll();
+        TownOfUsEventHandlers.ResetRulesShownTracking();
         ScreenFlash.Clear();
         MeetingMenu.ClearAll();
         EgotistModifier.CooldownReduction = 0f;

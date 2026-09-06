@@ -20,7 +20,7 @@ public class NeutralGhostRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsR
             return;
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text = TouLocale.GetParsed("NeutralBasicDeadTaskHeader");
+        orCreateTask.Text = MiraLocaleManager.Get("NeutralBasicDeadTaskHeader");
         orCreateTask.name = "NeutralRoleText";
     }
     public override void Deinitialize(PlayerControl targetPlayer)

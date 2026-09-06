@@ -12,13 +12,12 @@ namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModifier
 {
-    public override string ModifierName => "Barrier";
+    public override string ModifierName => MiraLocaleManager.Get("TownOfUsMira.Modifier.ClericBarrier");
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Cleric;
-    public override string ShieldDescription => "You are shielded by a Cleric!\nNo one can interact with you.";
+    public override string ShieldDescription => MiraLocaleManager.Get("TownOfUsMira.Modifier.ClericBarrierDescription");
     public override float Duration => OptionGroupSingleton<ClericOptions>.Instance.BarrierDuration;
     public override bool AutoStart => true;
     public bool ShowBarrier { get; set; }
-
     public override bool HideOnUi
     {
         get

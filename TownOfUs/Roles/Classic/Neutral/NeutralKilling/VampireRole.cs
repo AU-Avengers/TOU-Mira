@@ -26,24 +26,22 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
             return;
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{MiraLocaleManager.Get("NeutralKillingTaskHeader")}</color>";
         orCreateTask.name = "NeutralRoleText";
     }
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SeerRole>());
     public DoomableType DoomHintType => DoomableType.Death;
-    public string YouAreText => TouLocale.Get("YouAreA");
-    public string YouWereText => TouLocale.Get("YouWereA");
-    public string LocaleKey => "Vampire";
+    public string YouAreText => MiraLocaleManager.Get("YouAreA");
+    public string YouWereText => MiraLocaleManager.Get("YouWereA");
+    public string IdPart => "Vampire";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
     public bool IsDoubleDraftRole => true;
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -54,8 +52,8 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Bite", "Bite"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}BiteWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bite", "Bite"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bite.WikiDescription"),
                     TouNeutAssets.BiteSprite)
             ];
         }

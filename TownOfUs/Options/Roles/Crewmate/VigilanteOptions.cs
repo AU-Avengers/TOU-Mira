@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class VigilanteOptions : AbstractRoleOptionGroup<VigilanteRole>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => TouLocale.Get("TouRoleVigilante", "Vigilante");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Vigilante", "Vigilante");
 
     [ModdedNumberOption("TouOptionVigilanteNumberOfGuesses", 1f, 15f)]
     public float VigilanteKills { get; set; } = 5f;
@@ -45,7 +45,7 @@ public sealed class VigilanteOptions : AbstractRoleOptionGroup<VigilanteRole>, I
 
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
-        var title = TouLocale.GetParsed("TouOptionVigilanteGuessableNeutrals");
+        var title = MiraLocaleManager.Get("TouOptionVigilanteGuessableNeutrals");
         var nbValid = VigilanteGuessNeutralBenign.Value;
         var neValid = VigilanteGuessNeutralEvil.Value;
         var nkValid = VigilanteGuessNeutralKilling.Value;
@@ -54,15 +54,15 @@ public sealed class VigilanteOptions : AbstractRoleOptionGroup<VigilanteRole>, I
         if (!nbValid && !neValid && !nkValid && !noValid)
         {
             var newArray = new []
-                { $"{title}: {TouLocale.GetParsed("TouOptionVigilanteGuessableNone")}" };
+                { $"{title}: {MiraLocaleManager.Get("TouOptionVigilanteGuessableNone")}" };
             return newArray;
         }
 
         var selected = new List<string>();
-        if (nbValid) selected.Add(TouLocale.GetParsed("TouOptionVigilanteGuessableBenign"));
-        if (neValid) selected.Add(TouLocale.GetParsed("TouOptionVigilanteGuessableEvil"));
-        if (nkValid) selected.Add(TouLocale.GetParsed("TouOptionVigilanteGuessableKilling"));
-        if (noValid) selected.Add(TouLocale.GetParsed("TouOptionVigilanteGuessableOutlier"));
+        if (nbValid) selected.Add(MiraLocaleManager.Get("TouOptionVigilanteGuessableBenign"));
+        if (neValid) selected.Add(MiraLocaleManager.Get("TouOptionVigilanteGuessableEvil"));
+        if (nkValid) selected.Add(MiraLocaleManager.Get("TouOptionVigilanteGuessableKilling"));
+        if (noValid) selected.Add(MiraLocaleManager.Get("TouOptionVigilanteGuessableOutlier"));
 
         var names = selected
             .Distinct()

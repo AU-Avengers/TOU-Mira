@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class ClericBarrierButton : TownOfUsRoleButton<ClericRole, PlayerControl>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleClericBarrier", "Barrier");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.ClericBarrier", "Barrier");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Cleric;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<ClericOptions>.Instance.BarrierCooldown + MapCooldown, 5f, 120f);

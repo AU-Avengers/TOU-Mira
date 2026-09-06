@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class VenererOptions : AbstractRoleOptionGroup<VenererRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleVenerer", "Venerer");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Venerer", "Venerer");
 
     [ModdedNumberOption("Ability Cooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float AbilityCooldown { get; set; } = 25f;

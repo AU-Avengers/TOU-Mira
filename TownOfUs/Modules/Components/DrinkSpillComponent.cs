@@ -138,16 +138,16 @@ public sealed class DrinkSpillComponent(nint cppPtr) : MonoBehaviour(cppPtr)
             yield return MiscUtils.FadeIn(Renderer);
         }
 
-        var msg = "TouRoleBarkeeperSpillSpeedDebuffNotif";
+        var msg = "TownOfUsMira.Role.BarkeeperSpillSpeedDebuffNotif";
         var isBuff = false;
         if (SpillType is SpillType.Buff)
         {
             isBuff = true;
-            msg = "TouRoleBarkeeperSpillSpeedBuffNotif";
+            msg = "TownOfUsMira.Role.BarkeeperSpillSpeedBuffNotif";
         }
         PlayerControl.LocalPlayer.RpcAddModifier<BarkeeperSpillEffectModifier>(isBuff);
         var notif = Helpers.CreateAndShowNotification(
-            $"<b>{TouLocale.GetParsed(msg)}</b>",
+            $"<b>{MiraLocaleManager.Get(msg)}</b>",
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper.LoadAsset());
         notif.Text.SetOutlineThickness(0.35f);
     }

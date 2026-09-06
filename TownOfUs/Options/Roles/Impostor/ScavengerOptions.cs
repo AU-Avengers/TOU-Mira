@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class ScavengerOptions : AbstractRoleOptionGroup<ScavengerRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleScavenger", "Scavenger");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Scavenger", "Scavenger");
 
     [ModdedNumberOption("Scavenge Duration", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ScavengeDuration { get; set; } = 25f;

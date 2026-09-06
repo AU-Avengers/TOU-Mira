@@ -11,8 +11,6 @@ public class TmpMiraTranslator(IntPtr cppPtr) : MonoBehaviour(cppPtr), IMiraTran
 
     public string defaultStr;
 
-    public bool parseStr;
-
     public bool resetWithoutDefault;
 
     public void ResetText()
@@ -23,7 +21,7 @@ public class TmpMiraTranslator(IntPtr cppPtr) : MonoBehaviour(cppPtr), IMiraTran
         }
 
         TextMeshPro component = GetComponent<TextMeshPro>();
-        string text = parseStr ? TouLocale.GetParsed(stringName, defaultStr) : TouLocale.Get(stringName, defaultStr);
+        string text = MiraLocaleManager.Get(stringName, defaultStr);
         if (component != null)
         {
             component.text = text;

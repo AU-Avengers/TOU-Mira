@@ -1,8 +1,8 @@
 using BepInEx.Configuration;
 using MiraAPI.GameOptions;
+using MiraAPI.LocalSettings.Attributes;
+using MiraAPI.LocalSettings.SettingTypes;
 using MiraAPI.Modifiers;
-using TownOfUs.LocalSettings.Attributes;
-using TownOfUs.LocalSettings.SettingTypes;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -15,24 +15,6 @@ public class TouLocalTabGameplay(ConfigFile config) : LocalSettingsTab(config)
 {
     public override string TabName => "<size=80%>Gameplay</size>";
     protected override bool ShouldCreateLabels => true;
-
-    public override void Open()
-    {
-        base.Open();
-
-        foreach (var entry in TouLocale.LocalizedToggles)
-        {
-            var toggleObject = entry.Key;
-            LocalizedLocalToggleSetting.UpdateToggleText(toggleObject.Text, entry.Value, toggleObject.onState);
-        }
-
-        foreach (var entry in TouLocale.LocalizedSliders)
-        {
-            var sliderObject = entry.Key;
-            sliderObject.SliderObject.Title.text =
-                LocalizedLocalSliderSetting.GetLocalizedValueText(sliderObject, sliderObject.LocaleKey);
-        }
-    }
 
     public override void OnOptionChanged(ConfigEntryBase configEntry)
     {
@@ -81,25 +63,29 @@ public class TouLocalTabGameplay(ConfigFile config) : LocalSettingsTab(config)
         HideIconOnHover = false,
     };
 
-    [LocalizedLocalEnumSetting(names: ["ArrowDefault", "ArrowDarkGlow", "ArrowColorGlow", "ArrowLegacy"])]
+    [LocalEnumSetting(names: ["ArrowDefault", "ArrowDarkGlow", "ArrowColorGlow", "ArrowLegacy"])]
     public ConfigEntry<ArrowStyleType> ArrowStyleEnum { get; private set; } =
         config.Bind("Gameplay", "ArrowStyle", ArrowStyleType.Default);
 
-    [LocalizedLocalEnumSetting(names: ["PiPLocationTopLeft", "PiPLocationMiddleLeft", "PiPLocationBottomLeft", "PiPLocationTopRight", "PiPLocationMiddleRight", "PiPLocationBottomRight", "PiPLocationDynamic"])]
+    [LocalEnumSetting(names: ["PiPLocationTopLeft", "PiPLocationMiddleLeft", "PiPLocationBottomLeft", "PiPLocationTopRight", "PiPLocationMiddleRight", "PiPLocationBottomRight", "PiPLocationDynamic"])]
     public ConfigEntry<ParasitePiPLocation> ParasitePiPLocation { get; private set; } =
         config.Bind("Role Visuals", "ParasitePiPLocation", TownOfUs.ParasitePiPLocation.Dynamic);
 
-    [LocalizedLocalEnumSetting(names: ["PiPSizeNormal", "PiPSizeSmall", "PiPSizeLarge"])]
+    [LocalEnumSetting(names: ["PiPSizeNormal", "PiPSizeSmall", "PiPSizeLarge"])]
     public ConfigEntry<ParasitePiPSize> ParasitePiPSize { get; private set; } =
         config.Bind("Role Visuals", "ParasitePiPSize", TownOfUs.ParasitePiPSize.Normal);
 
-    [LocalizedLocalEnumSetting(names: ["FlashWhite", "FlashLightGray", "FlashGray", "FlashDarkGray"])]
+    [LocalEnumSetting(names: ["FlashWhite", "FlashLightGray", "FlashGray", "FlashDarkGray"])]
     public ConfigEntry<GrenadeFlashColor> GrenadierFlashColor { get; private set; } =
         config.Bind("Role Visuals", "GrenadierFlashColor", GrenadeFlashColor.LightGray);
 
-    [LocalizedLocalEnumSetting(names: ["SonarHeartbeats", "SonarArrows"])]
+    [LocalEnumSetting(names: ["SonarHeartbeats", "SonarArrows"])]
     public ConfigEntry<SonarTargetStyle> SonarTargetType { get; private set; } =
         config.Bind("Role Visuals", "SonarTargetType", SonarTargetStyle.Heartbeats);
+
+    [LocalToggleSetting]
+    public ConfigEntry<bool> ProsecutorProsToggling { get; private set; } =
+        config.Bind("Role Visuals", "ProsecutorProsToggling", false);
 }
 
 public enum SonarTargetStyle

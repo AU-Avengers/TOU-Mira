@@ -7,9 +7,9 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class ExecutionerOptions : AbstractRoleOptionGroup<ExecutionerRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleExecutioner", "Executioner");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Executioner", "Executioner");
 
-    [ModdedEnumOption("TouOptionExecutionerBecomesTargetDeath", typeof(BecomeOptions), ["CrewmateKeyword", "TouRoleAmnesiac", "TouRoleSurvivor", "TouRoleMercenary", "TouRoleJester"])]
+    [ModdedEnumOption("TouOptionExecutionerBecomesTargetDeath", typeof(BecomeOptions), ["MiraApi.RoleTeam.Crewmate", "TownOfUsMira.Role.Amnesiac", "TownOfUsMira.Role.Survivor", "TownOfUsMira.Role.Mercenary", "TownOfUsMira.Role.Jester"])]
     public BecomeOptions OnTargetDeath { get; set; } = BecomeOptions.Jester;
 
     [ModdedToggleOption("Executioner Can Button")]

@@ -88,7 +88,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             return;
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralEvilTaskHeader")}</color>";
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{MiraLocaleManager.Get("NeutralEvilTaskHeader")}</color>";
         orCreateTask.name = "NeutralRoleText";
     }
 
@@ -103,12 +103,10 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     public bool ContinuesGame => !Player.HasDied() && OptionGroupSingleton<DoomsayerOptions>.Instance.DoomContinuesGame && Helpers.GetAlivePlayers().Count > 1;
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VigilanteRole>());
     public DoomableType DoomHintType => DoomableType.Insight;
-    public string LocaleKey => "Doomsayer";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string IdPart => "Doomsayer";
 
     public string RoleLongDescription =>
-        TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription").Replace("<guessCount>",
+        MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription").Replace("<guessCount>",
             $"{(int)OptionGroupSingleton<DoomsayerOptions>.Instance.DoomsayerGuessesToWin}");
 
     public Color RoleColor => TownOfUsColors.Doomsayer;
@@ -151,9 +149,9 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     public string GetAdvancedDescription()
     {
         var opts = OptionGroupSingleton<DoomsayerOptions>.Instance;
-        var shownDesc = TouLocale.GetParsed(opts.CantObserve
-            ? "TouRoleDoomsayerWikiDescription"
-            : "TouRoleDoomsayerWikiDescriptionIfCanObserve");
+        var shownDesc = MiraLocaleManager.Get(opts.CantObserve
+            ? "TownOfUsMira.Role.Doomsayer.WikiDescription"
+            : "TownOfUsMira.Role.DoomsayerWikiDescriptionIfCanObserve");
         return
             shownDesc.Replace("<guessCount>", $"{(int)opts.DoomsayerGuessesToWin}") +
             MiscUtils.AppendOptionsText(GetType());
@@ -166,8 +164,8 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Observe", "Observe"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}ObserveWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Observe", "Observe"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Observe.WikiDescription"),
                     TouNeutAssets.Observe)
             ];
         }
@@ -279,8 +277,8 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 hintType = doomableRole.DoomHintType;
             }
 
-            var fallback = TouLocale.GetParsed("TouRoleDoomsayerRoleHintDefault");
-            var hint = TouLocale.GetParsed($"TouRoleDoomsayerRoleHint{hintType}");
+            var fallback = MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerRoleHintDefault");
+            var hint = MiraLocaleManager.Get($"TownOfUsMira.Role.DoomsayerRoleHint{hintType}");
 
             if (hint.Contains("STRMISS"))
             {
@@ -358,7 +356,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         if (HudManager.Instance && report.Length > 0)
         {
             var title =
-                $"<color=#{TownOfUsColors.Doomsayer.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleDoomsayerMessageTitle")}</color>";
+                $"<color=#{TownOfUsColors.Doomsayer.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerMessageTitle")}</color>";
             MiscUtils.AddFakeChat(Player.Data, title, report, false, true);
         }
     }
@@ -465,8 +463,8 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             if (IncorrectGuesses > 0 && opts.DoomsayerGuessAllAtOnce)
             {
                 var text = NumberOfGuesses - AllVictims.Count == 1
-                    ? $"<b>{TouLocale.GetParsed("TouRoleDoomsayerMisguessOne")}</b>"
-                    : $"<b>{TouLocale.GetParsed("TouRoleDoomsayerMisguessMultiple").Replace("<misguessCount>", $"{NumberOfGuesses - AllVictims.Count}")}</b>";
+                    ? $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerMisguessOne")}</b>"
+                    : $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerMisguessMultiple").Replace("<misguessCount>", $"{NumberOfGuesses - AllVictims.Count}")}</b>";
                 var notif1 = Helpers.CreateAndShowNotification(
                     text, Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());
 

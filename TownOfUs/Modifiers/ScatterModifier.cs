@@ -15,7 +15,7 @@ public class ScatterModifier(float time) : TimedModifier
     private TextMeshProUGUI? scatterText;
     private GameObject scatterUI;
     private float soundTimer = 1f;
-    public override string ModifierName => TouLocale.Get("Scatter", "Scatter");
+    public override string ModifierName => MiraLocaleManager.Get("Scatter", "Scatter");
     public override float Duration => time;
     public override bool AutoStart => false;
     public override bool HideOnUi => true;

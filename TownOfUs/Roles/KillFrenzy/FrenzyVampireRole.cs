@@ -1,4 +1,5 @@
 ﻿using AmongUs.GameOptions;
+using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.GameModes;
@@ -37,15 +38,13 @@ public sealed class FrenzyVampireRole(IntPtr cppPtr) : FrenzyRole(cppPtr), ITown
     }
     public override bool IsAffectedByComms => false;
 
-    public string LocaleKey => "Vampire";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Vampire";
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -56,6 +55,7 @@ public sealed class FrenzyVampireRole(IntPtr cppPtr) : FrenzyRole(cppPtr), ITown
     public CustomRoleConfiguration Configuration => new(this)
     {
         AssociatedGameMode = typeof(KillFrenzyMode),
+        HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy,
         GhostRole = (RoleTypes)RoleId.Get<FrenzyGhostRole>(),
         FreeplayFolder = "Kill Frenzy",
         CanUseVent = false,

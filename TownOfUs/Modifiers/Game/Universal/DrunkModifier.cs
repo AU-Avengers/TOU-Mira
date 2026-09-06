@@ -10,20 +10,20 @@ public sealed class DrunkModifier : UniversalGameModifier, IWikiDiscoverable
         TownOfUsColors.Drunk,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Drunk.LoadAsset(),
             "TouMira.Modifier.Universal.Drunk", 1.45f));
-    public override string LocaleKey => "Drunk";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IdPart => "Drunk";
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Drunk;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalPassive;
     public override Color FreeplayFileColor => new Color32(180, 180, 180, 255);
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription");
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];

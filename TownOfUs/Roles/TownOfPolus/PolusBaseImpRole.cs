@@ -12,11 +12,12 @@ namespace TownOfUs.Roles.TownOfPolus;
 public abstract class PolusBaseImpRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole
 {
     RoleOptionsGroup ICustomRole.RoleOptionsGroup => TouRoleGroups.TownOfPolusImpostor;
-    public virtual string LocaleKey => "Impostor";
-    public virtual string RoleName => TouLocale.Get("ImpostorKeyword");
-    public virtual string RoleDescription => TouLocale.GetParsed("TownOfPolusRoleImpDescription");
-    public virtual string RoleDescriptionDead => TouLocale.GetParsed("TownOfPolusRoleImpDescriptionDead");
-    public virtual string RoleLongDescription => TouLocale.GetParsed("TownOfPolusRoleImpDescription");
+    public string IdPrefix => "TownOfUsMira.TownOfPolus.Role";
+    public virtual string IdPart => "Impostor";
+    public virtual string RoleName => MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor");
+    public virtual string RoleDescription => MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.ImpDescription");
+    public virtual string RoleDescriptionDead => MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.ImpDescriptionDead");
+    public virtual string RoleLongDescription => MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.ImpDescription");
 
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
@@ -27,10 +28,10 @@ public abstract class PolusBaseImpRole(IntPtr cppPtr) : ImpostorRole(cppPtr), IT
 
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         var text =
-            $"{RoleColor.ToTextColor()}{TouLocale.GetParsed("TownOfPolusRoleTabText").Replace("<roleName>", RoleName).Replace("<description>", RoleLongDescription)}</color>" +
-            "\n<color=#FFFFFF>" + TouLocale.GetParsed("TownOfPolusRoleFakeTaskTabText") + "</color>";
+            $"{RoleColor.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.TabText").Replace("<roleName>", RoleName).Replace("<description>", RoleLongDescription)}</color>" +
+            "\n<color=#FFFFFF>" + MiraLocaleManager.Get("TownOfUsMira.TownOfPolus.Role.FakeTaskTabText") + "</color>";
         orCreateTask.Text = text;
-        orCreateTask.name = "TownOfPolusRoleText";
+        orCreateTask.name = "TownOfUsMira.TownOfPolus.Role.Text";
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)

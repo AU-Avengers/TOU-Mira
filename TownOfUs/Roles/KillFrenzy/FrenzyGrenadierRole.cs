@@ -36,15 +36,13 @@ public sealed class FrenzyGrenadierRole(IntPtr cppPtr) : FrenzyRole(cppPtr), ITo
     {
         return WinConditionMet();
     }
-    public string LocaleKey => "Grenadier";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Grenadier";
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -55,6 +53,7 @@ public sealed class FrenzyGrenadierRole(IntPtr cppPtr) : FrenzyRole(cppPtr), ITo
     public CustomRoleConfiguration Configuration => new(this)
     {
         AssociatedGameMode = typeof(KillFrenzyMode),
+        HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy,
         GhostRole = (RoleTypes)RoleId.Get<FrenzyGhostRole>(),
         FreeplayFolder = "Kill Frenzy",
         Icon = TouRoleIcons.Grenadier,
@@ -70,8 +69,8 @@ public sealed class FrenzyGrenadierRole(IntPtr cppPtr) : FrenzyRole(cppPtr), ITo
         {
             return new List<CustomButtonWikiDescription>
             {
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Flash", "Flash"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}FlashWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Flash", "Flash"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Flash.WikiDescription"),
                     TouImpAssets.FlashSprite)
             };
         }

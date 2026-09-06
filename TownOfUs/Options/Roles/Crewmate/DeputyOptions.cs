@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class DeputyOptions : AbstractRoleOptionGroup<DeputyRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleDeputy", "Deputy");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Deputy", "Deputy");
 
     public ModdedToggleOption WarnKiller { get; set; } = new("TouOptionDeputyWarnKillerOnCampedKill", true);
 

@@ -89,6 +89,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 #pragma warning disable CA1822
     public void Start()
     {
+        HudManagerPatches.HasAdjustedSubButton = false;
         foreach (var button in CustomButtonManager.Buttons)
         {
             try
@@ -105,10 +106,41 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     var genericEvent = new ExtendedMiraButtonClickEvent(button);
                     if (PlayerControl.LocalPlayer.TryGetModifier<IndirectAttackerModifier>(out var indirectMod))
                     {
+                        Warning($"Has Attacker Modifier!");
                         genericEvent.IsIndirectInteraction = true;
                         genericEvent.IgnoreDefense = indirectMod.IgnoreShield;
                     }
-                    MiraEventManager.InvokeEvent(genericEvent);
+
+                    if (ModCompatibility.ExposedEventWrappers.TryGetValue(typeof(ExtendedMiraButtonClickEvent),
+                            out var handlers) && handlers != null && handlers.Count != 0)
+                    {
+                        foreach (var handler in handlers)
+                        {
+                            try
+                            {
+                                ((Action<ExtendedMiraButtonClickEvent>)handler.EventHandler).Invoke(genericEvent);
+                            }
+                            catch (Exception ex)
+                            {
+                                Error($"Error invoking event handler for {nameof(ExtendedMiraButtonClickEvent)}: {ex.ToString()}");
+                            }
+                        }
+                    }
+                    if (ModCompatibility.ExposedEventWrappers.TryGetValue(typeof(MiraButtonClickEvent),
+                            out var otherHandlers) && otherHandlers != null && otherHandlers.Count != 0)
+                    {
+                        foreach (var handler in otherHandlers)
+                        {
+                            try
+                            {
+                                ((Action<MiraButtonClickEvent>)handler.EventHandler).Invoke(genericEvent);
+                            }
+                            catch (Exception ex)
+                            {
+                                Error($"Error invoking event handler for {nameof(MiraButtonClickEvent)}: {ex.ToString()}");
+                            }
+                        }
+                    }
                     if (genericEvent.IsCancelled)
                     {
                         MiraEventManager.InvokeEvent(new MiraButtonCancelledEvent(button));
@@ -156,12 +188,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
         var instance = HudManager.Instance;
 
-        HudManagerPatches.CreateUiRow(instance);
-        HudManagerPatches.CreateNewUiRow(instance);
-
         HudManagerPatches.CreateWikiButton(instance);
         HudManagerPatches.CreateZoomButton(instance);
-        HudManagerPatches.AdjustModifierTab();
 
         HudManagerPatches.UpdateRoleList(instance);
         HudManagerPatches.UpdateTeamChat();
@@ -227,7 +255,6 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         TimeLordPatches.RecordTimeLordSnapshot(instance);
         if (PlayerControl.LocalPlayer.Data.IsDead && ghostRole != null)
         {
-            GhostRolePatches.HandleGhostRoleVent(instance, ghostRole);
             SubmergedHudPatch.UpdateFloorButton(instance, ghostRole);
         }
     }

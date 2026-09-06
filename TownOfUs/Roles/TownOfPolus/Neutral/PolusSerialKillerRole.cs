@@ -10,17 +10,17 @@ namespace TownOfUs.Roles.TownOfPolus.Neutral;
 
 public class PolusSerialKillerRole(IntPtr cppPtr) : PolusBaseNeutRole(cppPtr), IWikiDiscoverable
 {
-    public override string LocaleKey => "SerialKiller";
-    public override string RoleName => TouLocale.Get($"TownOfPolusRole{LocaleKey}");
-    public override string RoleDescription => TouLocale.GetParsed($"TownOfPolusRole{LocaleKey}IntroBlurb");
-    public override string RoleLongDescription => TouLocale.GetParsed($"TownOfPolusRole{LocaleKey}TabDescription");
+    public override string IdPart => "SerialKiller";
+    public override string RoleName => MiraLocaleManager.Get($"TownOfUsMira.TownOfPolus.Role.{IdPart}");
+    public override string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.TownOfPolus.Role.{IdPart}.IntroBlurb");
+    public override string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.TownOfPolus.Role.{IdPart}.TabDescription");
     [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.TownOfPolus;
     public int KillCount;
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TownOfPolusRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.TownOfPolus.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -31,6 +31,7 @@ public class PolusSerialKillerRole(IntPtr cppPtr) : PolusBaseNeutRole(cppPtr), I
     {
         RoleHintType = RoleHintType.None,
         AssociatedGameMode = typeof(TownOfPolusMode),
+        HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.TownOfPolus,
         GhostRole = (RoleTypes)RoleId.Get<PolusGhostNeutRole>(),
         FreeplayFolder = "Town of Polus",
         CanUseVent = false,

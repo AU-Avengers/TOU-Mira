@@ -1,6 +1,5 @@
 using BepInEx.Configuration;
-using TownOfUs.LocalSettings.SettingTypes;
-using TownOfUs.LocalSettings.Attributes;
+using MiraAPI.LocalSettings.Attributes;
 
 namespace TownOfUs;
 
@@ -11,48 +10,29 @@ public class TouLocalTabPractice(ConfigFile config) : LocalSettingsTab(config)
     public override string TabName => "<size=50%>Lobby / Practice</size>";
     protected override bool ShouldCreateLabels => true;
 
-    public override void Open()
-    {
-        base.Open();
-        CurrentDraftAudioCueMode = DraftAudioCue.Value;
-
-        foreach (var entry in TouLocale.LocalizedToggles)
-        {
-            var toggleObject = entry.Key;
-            LocalizedLocalToggleSetting.UpdateToggleText(toggleObject.Text, entry.Value, toggleObject.onState);
-        }
-
-        foreach (var entry in TouLocale.LocalizedSliders)
-        {
-            var sliderObject = entry.Key;
-            sliderObject.SliderObject.Title.text =
-                LocalizedLocalSliderSetting.GetLocalizedValueText(sliderObject, sliderObject.LocaleKey);
-        }
-    }
-
     public override LocalSettingTabAppearance TabAppearance => new()
     {
         TabIcon = TouAssets.LocalLobby,
         HideIconOnHover = false,
     };
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> ShowWelcomeMessageToggle { get; private set; } =
         config.Bind("Lobby", "ShowWelcomeMessage", true);
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> ShowRulesOnLobbyJoinToggle { get; private set; } =
         config.Bind("Lobby", "ShowRulesOnLobbyJoin", true);
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> ShowSummaryMessageToggle { get; private set; } =
         config.Bind("Lobby", "ShowSummaryMessage", true);
 
-    [LocalizedLocalEnumSetting(names: ["SummarySimple", "SummaryNormal", "SummaryAdvanced"])]
+    [LocalEnumSetting(names: ["SummarySimple", "SummaryNormal", "SummaryAdvanced"])]
     public ConfigEntry<GameSummaryAppearance> SummaryMessageAppearance { get; private set; } =
         config.Bind("Lobby", "SummaryMsgBreakdown", GameSummaryAppearance.Advanced);
 
-    [LocalizedLocalEnumSetting(names: ["DraftAudioStart", "DraftAudioYourTurn", "DraftAudioBoth", "DraftAudioNone"])]
+    [LocalEnumSetting(names: ["DraftAudioStart", "DraftAudioYourTurn", "DraftAudioBoth", "DraftAudioNone"])]
     public ConfigEntry<DraftAudioCueMode> DraftAudioCue { get; private set; } =
         config.Bind("Lobby", "DraftAudioCue", DraftAudioCueMode.None);
 
@@ -65,15 +45,15 @@ public class TouLocalTabPractice(ConfigFile config) : LocalSettingsTab(config)
         }
     }
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> ZoomingInLobby { get; private set; } =
         config.Bind("Lobby", "ZoomingInLobby", true);
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> ZoomingInPractice { get; private set; } =
         config.Bind("Practice Mode", "ZoomingInPractice", true);
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> ShowPracticeButtons { get; private set; } =
         config.Bind("Practice Mode", "ShowPracticeButtons", true);
 }

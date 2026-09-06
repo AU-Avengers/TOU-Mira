@@ -18,16 +18,16 @@ public interface ITownOfUsRole : ICustomRole
 
     bool HasImpostorVision => false;
     public virtual bool MetWinCon => false;
-    public virtual string LocaleKey => "KEY_MISS";
-    public virtual string ShortName => "";
-    public bool IsDraftable => true; 
+    public bool IsDraftable => true;
     public static Dictionary<string, string> LocaleList => [];
+    string ICustomRole.IdPrefix => "TownOfUsMira.Role";
 
     [HideFromIl2Cpp]
     public virtual bool CanModifierContinueGame(BaseModifier modifier)
     {
         return false;
     }
+    string ICustomRole.RoleFactionTitle => MiscUtils.GetParsedRoleAlignment(RoleAlignment);
 
     string? ICustomRole.GetCustomEjectionMessage(NetworkedPlayerInfo player)
     {
@@ -43,11 +43,11 @@ public interface ITownOfUsRole : ICustomRole
         }
 
         if (RoleName.StartsWith("the", StringComparison.OrdinalIgnoreCase) ||
-            LocaleKey.StartsWith("the", StringComparison.OrdinalIgnoreCase))
+            IdPart.StartsWith("the", StringComparison.OrdinalIgnoreCase))
         {
             prefix = "";
         }
-        return TouLocale.GetParsed($"ExileTextConfirm{prefix}").Replace("<player>", player.PlayerName).Replace("<role>", RoleName);
+        return MiraLocaleManager.Get($"ExileTextConfirm{prefix}").Replace("<player>", player.PlayerName).Replace("<role>", RoleName);
     }
 
     public virtual string YouAreText
@@ -66,12 +66,12 @@ public interface ITownOfUsRole : ICustomRole
             }
 
             if (RoleName.StartsWith("the", StringComparison.OrdinalIgnoreCase) ||
-                LocaleKey.StartsWith("the", StringComparison.OrdinalIgnoreCase))
+                IdPart.StartsWith("the", StringComparison.OrdinalIgnoreCase))
             {
                 prefix = "";
             }
 
-            return TouLocale.Get($"YouAre{prefix}");
+            return MiraLocaleManager.Get($"YouAre{prefix}");
         }
     }
 
@@ -91,12 +91,12 @@ public interface ITownOfUsRole : ICustomRole
             }
 
             if (RoleName.StartsWith("the", StringComparison.OrdinalIgnoreCase) ||
-                LocaleKey.StartsWith("the", StringComparison.OrdinalIgnoreCase))
+                IdPart.StartsWith("the", StringComparison.OrdinalIgnoreCase))
             {
                 prefix = "";
             }
 
-            return TouLocale.Get($"YouWere{prefix}");
+            return MiraLocaleManager.Get($"YouWere{prefix}");
         }
     }
 

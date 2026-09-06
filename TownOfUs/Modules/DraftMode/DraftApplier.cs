@@ -49,8 +49,7 @@ namespace TownOfUs.Modules.DraftMode
                 return;
             }
 
-            var player = PlayerControl.AllPlayerControls.ToArray()
-                .FirstOrDefault(p => p != null && p.PlayerId == playerId);
+            var player = MiscUtils.PlayerById(playerId);
 
             if (player == null)
             {
@@ -59,11 +58,8 @@ namespace TownOfUs.Modules.DraftMode
                 return;
             }
 
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
-                $"DraftApplier: assigning role {(!string.IsNullOrEmpty(roleName) ? roleName : $"role#{roleId}")} to player {playerId}");
 
             player.RpcSetRole((RoleTypes)roleId);
         }
     }
 }
-

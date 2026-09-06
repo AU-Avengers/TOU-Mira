@@ -13,16 +13,16 @@ namespace TownOfUs.Roles.TownOfPolus.Crewmate;
 public sealed class PolusEngineerRole(IntPtr cppPtr) : PolusBaseCrewRole(cppPtr), IWikiDiscoverable
 {
     public override bool IsAffectedByComms => false;
-    public override string LocaleKey => "Engineer";
-    public override string RoleName => TouLocale.Get($"TownOfPolusRole{LocaleKey}");
-    public override string RoleDescription => TouLocale.GetParsed($"TownOfPolusRole{LocaleKey}IntroBlurb");
-    public override string RoleLongDescription => TouLocale.GetParsed($"TownOfPolusRole{LocaleKey}TabDescription");
+    public override string IdPart => "Engineer";
+    public override string RoleName => MiraLocaleManager.Get($"TownOfUsMira.TownOfPolus.Role.{IdPart}");
+    public override string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.TownOfPolus.Role.{IdPart}.IntroBlurb");
+    public override string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.TownOfPolus.Role.{IdPart}.TabDescription");
     [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.TownOfPolus;
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TownOfPolusRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.TownOfPolus.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -34,6 +34,7 @@ public sealed class PolusEngineerRole(IntPtr cppPtr) : PolusBaseCrewRole(cppPtr)
     {
         RoleHintType = RoleHintType.None,
         AssociatedGameMode = typeof(TownOfPolusMode),
+        HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.TownOfPolus,
         GhostRole = (RoleTypes)RoleId.Get<PolusGhostCrewRole>(),
         FreeplayFolder = "Town of Polus",
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconEngineer.LoadAsset(), "TownOfPolus.Role.Crewmate.Engineer", 1.45f),

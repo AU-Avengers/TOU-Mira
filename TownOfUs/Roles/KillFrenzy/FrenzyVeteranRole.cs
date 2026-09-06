@@ -38,15 +38,13 @@ public sealed class FrenzyVeteranRole(IntPtr cppPtr) : FrenzyRole(cppPtr), ITown
     }
     public override bool IsAffectedByComms => false;
 
-    public string LocaleKey => "Veteran";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Veteran";
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -57,8 +55,8 @@ public sealed class FrenzyVeteranRole(IntPtr cppPtr) : FrenzyRole(cppPtr), ITown
         {
             return new List<CustomButtonWikiDescription>
             {
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Alert", "Alert"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}AlertWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Alert", "Alert"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Alert.WikiDescription"),
                     TouCrewAssets.AlertSprite)
             };
         }
@@ -71,6 +69,7 @@ public sealed class FrenzyVeteranRole(IntPtr cppPtr) : FrenzyRole(cppPtr), ITown
     public CustomRoleConfiguration Configuration => new(this)
     {
         AssociatedGameMode = typeof(KillFrenzyMode),
+        HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy,
         GhostRole = (RoleTypes)RoleId.Get<FrenzyGhostRole>(),
         FreeplayFolder = "Kill Frenzy",
         CanUseVent = false,
