@@ -10,7 +10,7 @@ public sealed class CatalystRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Trickster;
-    public string LocaleKey => "Catalyst";
+    public string IdPart => "Catalyst";
     public string RoleName => "Catalyst";
     public string RoleDescription => "Overdrive!";
     public string RoleLongDescription => "Overcharge the crewmates by lowering cooldowns.";
