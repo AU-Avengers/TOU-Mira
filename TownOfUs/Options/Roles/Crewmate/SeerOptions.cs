@@ -25,6 +25,11 @@ public sealed class SeerOptions : AbstractRoleOptionGroup<SeerRole>
         Visible = () => OptionGroupSingleton<SeerOptions>.Instance.SalemSeer
     };
 
+    public ModdedToggleOption DelayedCompare { get; set; } = new("TouOptionSeerDelayedCompare", false)
+    {
+        Visible = () => OptionGroupSingleton<SeerOptions>.Instance.SalemSeer
+    };
+
     public ModdedToggleOption BenignShowFriendlyToAll { get; set; } = new("TouOptionSeerNeutralBenignFriendly", false)
     {
         Visible = () => OptionGroupSingleton<SeerOptions>.Instance.SalemSeer
