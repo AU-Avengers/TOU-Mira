@@ -1047,12 +1047,12 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TownOfUsMira.Role.Sheriff.WikiDescription">警长是一名船员击杀型职业，可以射击玩家且尝试击杀他们。如果警长因误伤而未死亡，将失去开枪能力。</string>
   <string name="TownOfUsMira.Role.SheriffShoot">射击</string>
   <string name="TownOfUsMira.Role.SheriffShoot.WikiDescription">射击一名玩家以进行击杀，如果目标不是伪装者或其他可射击阵营则会误伤</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfired">你已无法再开枪。</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsBoth">误伤会导致你和目标同归于尽。</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsSheriff">误伤会导致自杀。</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsTarget">误伤会导致目标死亡，
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfired">你已无法再开枪。</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsBoth">误伤会导致你和目标同归于尽。</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsSheriff">误伤会导致自杀。</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsTarget">误伤会导致目标死亡，
 且你失去开枪能力。</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsNobody">误伤后你将无法再开枪。</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsNobody">误伤后你将无法再开枪。</string>
   <string name="TownOfUsMira.Role.SheriffMisfireFeedback">你已无法再开枪！</string>
   <string name="TouOptionSheriffKillCooldown">警长击杀冷却</string>
   <string name="TouOptionSheriffCanSelfReport">警长可自报尸体</string>

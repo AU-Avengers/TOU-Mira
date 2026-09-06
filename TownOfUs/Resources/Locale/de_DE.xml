@@ -190,9 +190,9 @@
   <string name="TownOfUsMira.Role.Sheriff.TabDescription">Töte die Verräter aber nicht die Besatzung</string>
   <string name="TownOfUsMira.Role.Sheriff.TabDescriptionEgo">Töte wen auch immer du willst in der Hoffnung das die Besatzung Verliert</string>
   <string name="TownOfUsMira.Role.SheriffShoot">Schießen</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfired">Du kannst nicht mehr schießen.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsBoth">Eine Fehlzündung Tötet dich und dein Ziel.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsSheriff">Eine Fehlzündung wird zum Selbstmord führen.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfired">Du kannst nicht mehr schießen.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsBoth">Eine Fehlzündung Tötet dich und dein Ziel.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsSheriff">Eine Fehlzündung wird zum Selbstmord führen.</string>
   <string name="TouOptionSheriffMisfireKills">Fehlzündung tötet</string>
   <string name="TownOfUsMira.Role.Snitch">Petze</string>
   <string name="TownOfUsMira.Role.Politician">Politiker</string>

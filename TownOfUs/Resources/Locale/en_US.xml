@@ -1553,12 +1553,12 @@ Loaded bullets older than 10s are reset next round.</string>
   <string name="TownOfUsMira.Role.SheriffShoot">Shoot</string>
   <string name="TownOfUsMira.Role.SheriffShoot.WikiDescription">Shoot a player to kill them, misfiring if they aren't an Impostor or one of the other selected shootable factions</string>
   <!-- Sheriff Misfire Text -->
-    <string name="TownOfUsMira.Role.SheriffTabMisfired">You can no longer shoot.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsBoth">Misfiring kills you and your target.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsSheriff">Misfiring will lead to suicide.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsTarget">Misfiring will lead to your target's death,
+    <string name="TownOfUsMira.Role.Sheriff.TabMisfired">You can no longer shoot.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsBoth">Misfiring kills you and your target.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsSheriff">Misfiring will lead to suicide.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsTarget">Misfiring will lead to your target's death,
 at the cost of your ability.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsNobody">Misfiring will prevent you from shooting again.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsNobody">Misfiring will prevent you from shooting again.</string>
   <!-- Sheriff Feedback -->
     <string name="TownOfUsMira.Role.SheriffMisfireFeedback">You have lost the ability to shoot!</string>
   <!-- Sheriff Options -->

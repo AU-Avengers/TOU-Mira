@@ -1298,12 +1298,12 @@ Munições carregadas há mais de 10s são eliminadas na próxima ronda.</string
   <string name="TownOfUsMira.Role.Sheriff.WikiDescription">O Xerife é uma Função Tripulante Assassino que pode atirar num jogador para tentar o matar. Se o Xerife não morrer de tiro falhado, ele vai perder a habilidade de disparar.</string>
   <string name="TownOfUsMira.Role.SheriffShoot">Atirar</string>
   <string name="TownOfUsMira.Role.SheriffShoot.WikiDescription">Dispara num jogador para o matar, falhando o tiro se ele não for um Impostor ou outra fação que pode ser disparada</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfired">Não podes atirar mais.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsBoth">Falhar o tiro mata-te a ti e ao teu alvo.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsSheriff">Falhar o tiro levará ao suicídio.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsTarget">Falhar o tiro vai levar à morte do teu alvo, 
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfired">Não podes atirar mais.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsBoth">Falhar o tiro mata-te a ti e ao teu alvo.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsSheriff">Falhar o tiro levará ao suicídio.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsTarget">Falhar o tiro vai levar à morte do teu alvo, 
 ao custo da tua habilidade.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsNobody">Falhar o tiro vai te prever de atirar de novo.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsNobody">Falhar o tiro vai te prever de atirar de novo.</string>
   <string name="TownOfUsMira.Role.SheriffMisfireFeedback">Perdeste a habilidade de atirar!</string>
   <string name="TouOptionSheriffKillCooldown">Recarga do Tiro</string>
   <string name="TouOptionSheriffCanSelfReport">Pode Reportar Corpos que Matou</string>
