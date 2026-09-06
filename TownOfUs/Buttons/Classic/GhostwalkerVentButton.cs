@@ -1,6 +1,4 @@
-﻿using MiraAPI.Events;
-using MiraAPI.Events.Vanilla.Usables;
-using TownOfUs.Roles;
+﻿using TownOfUs.Roles;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Classic;

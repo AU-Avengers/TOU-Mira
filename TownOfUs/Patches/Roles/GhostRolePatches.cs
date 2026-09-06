@@ -1,6 +1,5 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
-using Rewired.Utils;
 using TownOfUs.Roles;
 
 namespace TownOfUs.Patches.Roles;

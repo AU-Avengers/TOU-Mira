@@ -105,7 +105,7 @@ public sealed class SurvivorRole(IntPtr cppPtr)
     public bool WinConditionMet()
     {
         var hasLivingHalters = MiscUtils.NKillersAliveCount > 0 ||
-                               (MiscUtils.ImpAliveCount > 0 && MiscUtils.CrewKillersAliveCount > 0) ||
+                               MiscUtils.ImpAliveCount > 0 || MiscUtils.CrewKillersAliveCount > 0 ||
                                (MiscUtils.GameHaltersAliveCount > 0 && Helpers.GetAlivePlayers().Count > 1)
                                || Helpers.GetAlivePlayers().All(x =>
                                    (x.IsCrewmate() || x.Is(RoleAlignment.NeutralBenign)) && !x.IsImpostorAligned());
