@@ -3177,6 +3177,7 @@ when the lights are sabotaged.</string>
   <string name="TouOptionLoversNeutralRoles">Neutral Roles Can Be Lovers</string>
   <string name="TouOptionLoversKillFactionTeammates">Lover Can Kill Faction Teammates</string>
   <string name="TouOptionLoversKillEachOther">Lovers Can Kill One Another</string>
+  <string name="TouOptionLoversSeeOthersRole">Lovers Know Each Other's Role</string>
   <!-- Assailant Modifier Options -->
       <!-- Overclocker Options -->
         <string name="TouOptionOverclockerCooldown">Overclock Cooldown</string>

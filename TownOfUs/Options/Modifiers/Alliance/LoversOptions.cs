@@ -26,4 +26,7 @@ public sealed class LoversOptions : AbstractTouModifierOptionGroup<LoverModifier
 
     [ModdedToggleOption("TouOptionLoversKillEachOther")]
     public bool LoversKillEachOther { get; set; } = true;
+
+    [ModdedToggleOption("TouOptionLoversSeeOthersRole")]
+    public bool LoverKnowsOthersRole { get; set; } = true;
 }
