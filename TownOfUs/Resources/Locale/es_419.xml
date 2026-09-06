@@ -720,8 +720,8 @@ en Seguidores Impostores equivalentes!</string>
   <string name="TownOfUsMira.Role.AltruistRevivedNotif">¡Un Altruista te ha revivido!</string>
   <string name="TownOfUsMira.Role.AltruistReviveSuccessNotif">¡Has revivido con éxito a [player]!</string>
   <string name="TownOfUsMira.Role.AltruistRevive.WikiDescription">Revive un grupo de cuerpos cercanos.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveGroupSacrifice.WikiDescription">Revive un grupo de cuerpos cercanos. Si la reanimación se completa, morirás sin dejar un cuerpo.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveSacrifice.WikiDescription">Revive el cuerpo más cercano. Si la reanimación se completa, morirás sin dejar un cuerpo.</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.GroupSacrifice.WikiDescription">Revive un grupo de cuerpos cercanos. Si la reanimación se completa, morirás sin dejar un cuerpo.</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.Sacrifice.WikiDescription">Revive el cuerpo más cercano. Si la reanimación se completa, morirás sin dejar un cuerpo.</string>
   <!-- Opciones del Altruista -->
         <string name="TouOptionAltruistReviveType">Tipo de reanimación</string>
   <string name="TouOptionAltruistReviveEnumSacrifice">Sacrificio</string>
@@ -1434,12 +1434,12 @@ Si te equivocas de objetivo, morirás</string>
   <string name="TownOfUsMira.Role.SheriffShoot">Disparar</string>
   <string name="TownOfUsMira.Role.SheriffShoot.WikiDescription">Dispara a un jugador para matarlo. Si no es un Impostor o no pertenece a uno de los bandos configurados como válidos, el disparo fallará</string>
   <!-- Texto de disparo fallido del Sheriff -->
-        <string name="TownOfUsMira.Role.SheriffTabMisfired">Ya no puedes disparar.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsBoth">Un disparo fallido te mata a ti y a tu objetivo.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsSheriff">Un disparo fallido hará que te suicides.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsTarget">Un disparo fallido matará a tu objetivo,
+        <string name="TownOfUsMira.Role.Sheriff.TabMisfired">Ya no puedes disparar.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsBoth">Un disparo fallido te mata a ti y a tu objetivo.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsSheriff">Un disparo fallido hará que te suicides.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsTarget">Un disparo fallido matará a tu objetivo,
 pero perderás tu habilidad.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsNobody">Un disparo fallido evitará que vuelvas a disparar.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsNobody">Un disparo fallido evitará que vuelvas a disparar.</string>
   <!-- Información del Sheriff -->
         <string name="TownOfUsMira.Role.SheriffMisfireFeedback">¡Has perdido la capacidad de disparar!</string>
   <!-- Opciones del Sheriff -->

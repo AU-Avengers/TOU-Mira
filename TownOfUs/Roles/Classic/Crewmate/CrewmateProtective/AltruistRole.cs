@@ -28,12 +28,12 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     {
         return (ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value switch
         {
-            ReviveType.Sacrifice => "Sacrifice",
-            ReviveType.GroupSacrifice => "GroupSacrifice",
+            ReviveType.Sacrifice => ".Sacrifice",
+            ReviveType.GroupSacrifice => ".GroupSacrifice",
             _ => string.Empty,
         };
     }
-    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}TabDescription{ReviveString()}");
+    public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription{ReviveString()}");
 
     public string GetAdvancedDescription()
     {

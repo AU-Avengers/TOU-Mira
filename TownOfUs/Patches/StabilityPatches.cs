@@ -10,7 +10,7 @@ public static class StabilityPatches
     [HarmonyPrefix]
     public static bool PrefixClick(PassiveButton __instance)
     {
-        if (__instance == null || __instance.Pointer == IntPtr.Zero)
+        if (__instance == null || __instance.Pointer == IntPtr.Zero || __instance.WasCollected)
         {
             return false;
         }

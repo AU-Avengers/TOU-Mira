@@ -496,12 +496,12 @@
   <string name="TownOfUsMira.Role.Sheriff.WikiDescription">Шериф - Убивающий Член Экипажа, который может выстрелить в игрока, в надежде убить его. Если Шериф не умирает от промаха, он теряет способность стрелять.</string>
   <string name="TownOfUsMira.Role.SheriffShoot">Выстрелить</string>
   <string name="TownOfUsMira.Role.SheriffShoot.WikiDescription">Выстрелите в игрока, чтобы убить его, промахиваясь, если он не Предатель, или другая подходящая под выстрел фракция</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfired">Вы больше не можете стрелять.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsBoth">Промах убивает и вас и вашу цель.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsSheriff">Промах убьёт только вас.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsTarget">Промах приводит к смерти вашей цели,
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfired">Вы больше не можете стрелять.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsBoth">Промах убивает и вас и вашу цель.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsSheriff">Промах убьёт только вас.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsTarget">Промах приводит к смерти вашей цели,
 однако вы больше не можете стрелять.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsNobody">Промахнувшись вы не сможете выстрелить снова.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsNobody">Промахнувшись вы не сможете выстрелить снова.</string>
   <string name="TownOfUsMira.Role.SheriffMisfireFeedback">Вы больше не можете стрелять!</string>
   <string name="TouOptionSheriffKillCooldown">Откат Выстрела</string>
   <string name="TouOptionSheriffCanSelfReport">Может саморепортить</string>
@@ -1429,8 +1429,8 @@ Data Lost</string>
   <string name="TownOfUsMira.Cultist.Role.NecromancerRevive.WikiDescription">Возродите ближайшее возрождаемое тело, превращая его в предателя.</string>
   <string name="TownOfUsMira.Role.Altruist.TabDescription.GroupSacrifice">Пожертвуйте собой, ради мёртвого экипажа.</string>
   <string name="TownOfUsMira.Role.Altruist.TabDescription.Sacrifice">Пожертвуйте собой ради мёртвого игрока.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveGroupSacrifice.WikiDescription">Возрождайте группы мёртвых тел рядом с собой. Как только возрождение завершится, вы умрёте, не оставляя тела.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveSacrifice.WikiDescription">Возродите ближайшее мёртвое тело. Как только возрождение завершается, вы умрёте, не оставляя тела.</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.GroupSacrifice.WikiDescription">Возрождайте группы мёртвых тел рядом с собой. Как только возрождение завершится, вы умрёте, не оставляя тела.</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.Sacrifice.WikiDescription">Возродите ближайшее мёртвое тело. Как только возрождение завершается, вы умрёте, не оставляя тела.</string>
   <string name="TouOptionAltruistReviveType">Тип Возрождения</string>
   <string name="TouOptionAltruistReviveEnumSacrifice">Жертвовать</string>
   <string name="TouOptionAltruistReviveEnumGroupSacrifice">Групповая Жертва</string>

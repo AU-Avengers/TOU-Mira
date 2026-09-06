@@ -820,8 +820,8 @@ at the cost of your own life.</string>
   <string name="TownOfUsMira.Role.AltruistRevivedNotif">You have been revived by an Altruist!</string>
   <string name="TownOfUsMira.Role.AltruistReviveSuccessNotif">You have successfully revived [player]!</string>
   <string name="TownOfUsMira.Role.AltruistRevive.WikiDescription">Revive a group of dead bodies near you.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveGroupSacrifice.WikiDescription">Revive a group of dead bodies near you. If the revival finishes, you die without leaving a body behind.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveSacrifice.WikiDescription">Revive the closest dead body. If the revival finishes, you die without leaving a body behind.</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.GroupSacrifice.WikiDescription">Revive a group of dead bodies near you. If the revival finishes, you die without leaving a body behind.</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.Sacrifice.WikiDescription">Revive the closest dead body. If the revival finishes, you die without leaving a body behind.</string>
   <!-- Altruist Options -->
     <string name="TouOptionAltruistReviveType">Revive Type</string>
   <string name="TouOptionAltruistReviveEnumSacrifice">Sacrifice</string>
@@ -1353,6 +1353,9 @@ the innocent players must be campaigned to reveal successfully</string>
   <string name="TownOfUsMira.Role.Prosecutor.TabDescription">Choose to exile anyone of your choosing</string>
   <string name="TownOfUsMira.Role.ProsecutorCanProsecuteCrew">[b]You may prosecute crew.[/b]</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecutionsRemaining">[count]/[total] Prosecutions</string>
+    <string name="TownOfUsMira.Role.Prosecutor.ShameNotification">The Prosecutor, [player], has left in shame from their poor judgment.</string>
+    <string name="TownOfUsMira.Role.Prosecutor.ShameNotificationSelf">Your poor judgment has led to your swift punishment.</string>
+    <string name="TownOfUsMira.Role.Prosecutor.ShameNotificationSelfPrivate">You have prosecuted a Crewmate. You may no longer prosecute.</string>
   <string name="TownOfUsMira.Role.Prosecutor.WikiDescription">The Prosecutor is a Crewmate Power role that can Exile a player, applying five votes to a player of their choosing. They can also see who voted for whom, even if they're anonymous.</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecute">Prosecute</string>
     <string name="Enabled">Enabled</string>
@@ -1360,7 +1363,10 @@ the innocent players must be campaigned to reveal successfully</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecuteWiki">Prosecute (Meeting)</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecute.WikiDescription">Exile any player of your choosing, throwing five votes on them and ignoring all other votes.</string>
   <!-- Prosecutor Options -->
-    <string name="TouOptionProsecutorDiesWhenCrewmateExiled">Prosecutor Dies When They Exile A Crewmate</string>
+    <string name="TouOptionProsecutorWrongfulProsecutionResult">On Wrongful Prosecution</string>
+    <string name="TouOptionProsecutorWrongProsEnumPros">Eject Prosecutor</string>
+    <string name="TouOptionProsecutorWrongProsEnumTarget">Eject Victim, Lose Uses</string>
+    <string name="TouOptionProsecutorWrongProsEnumProsTarget">Eject Both</string>
   <string name="TouOptionProsecutorMaxProsecutions">Max Prosecutions</string>
   <!-- Seer - Crewmate Investigative -->
     <!-- Seer Wiki / Abilities -->
@@ -1547,12 +1553,12 @@ Loaded bullets older than 10s are reset next round.</string>
   <string name="TownOfUsMira.Role.SheriffShoot">Shoot</string>
   <string name="TownOfUsMira.Role.SheriffShoot.WikiDescription">Shoot a player to kill them, misfiring if they aren't an Impostor or one of the other selected shootable factions</string>
   <!-- Sheriff Misfire Text -->
-    <string name="TownOfUsMira.Role.SheriffTabMisfired">You can no longer shoot.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsBoth">Misfiring kills you and your target.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsSheriff">Misfiring will lead to suicide.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsTarget">Misfiring will lead to your target's death,
+    <string name="TownOfUsMira.Role.Sheriff.TabMisfired">You can no longer shoot.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsBoth">Misfiring kills you and your target.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsSheriff">Misfiring will lead to suicide.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsTarget">Misfiring will lead to your target's death,
 at the cost of your ability.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsNobody">Misfiring will prevent you from shooting again.</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsNobody">Misfiring will prevent you from shooting again.</string>
   <!-- Sheriff Feedback -->
     <string name="TownOfUsMira.Role.SheriffMisfireFeedback">You have lost the ability to shoot!</string>
   <!-- Sheriff Options -->
@@ -2987,6 +2993,11 @@ when the lights are sabotaged.</string>
   <string name="TouOptionKillAnimationBackgroundColorEnumRoleColor">Role Color</string>
   <string name="TouOptionPlayerCountWhenVentsDisable">Max Players Alive When Vents Disable</string>
   <string name="TouOptionGhostwalkerFixSabos">Ghostwalkers Can Fix Sabotages</string>
+    <string name="TouOptionGhostwalkerVentSpawn">Ghostwalkers That Auto-Vent On Spawn</string>
+    <string name="TouOptionGhostwalkerVentSpawnEnumNone">None</string>
+    <string name="TouOptionGhostwalkerVentSpawnEnumCrewmates">Crewmates</string>
+    <string name="TouOptionGhostwalkerVentSpawnEnumEvils">Evils</string>
+    <string name="TouOptionGhostwalkerVentSpawnEnumAll">All</string>
   <string name="TouOptionTempSaveCdReset">Temp Save Cooldown Reset</string>
   <string name="TouOptionFullSaveCdMultiplier">Full Save Cooldown Multiplier</string>
   <!-- Game Timer Options -->

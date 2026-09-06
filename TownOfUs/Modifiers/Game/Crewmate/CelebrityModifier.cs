@@ -104,7 +104,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
             var roleToCheck = role is MirrorcasterRole mirror ? mirror.ContainedRole ?? mirror : role;
             var IdPart = roleToCheck.GetRoleIdPart();
             if (IdPart != "KEY_MISS" &&
-                !MiraLocaleManager.Get($"DiedTo{IdPart}").Contains("STRMISS"))
+                MiraLocaleManager.Get($"DiedTo{IdPart}") != $"DiedTo{IdPart}")
             {
                 cod = IdPart;
             }

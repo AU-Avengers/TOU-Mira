@@ -438,6 +438,9 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> CrewKillBg { get; } = new LoadableBundleAsset<Sprite>("KillBackgroundCrew", MainBundle);
 
+    public static LoadableAsset<Sprite> GhostwalkerVentSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.GhostwalkerVentSprite.png");
+
     public static LoadableAsset<Sprite> VitalBgMissin { get; } =
         new LoadableResourceAsset($"{ShortPath}.VitalBgMissin.png");
 

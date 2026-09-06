@@ -111,7 +111,7 @@ public static class DeathEventHandlers
                 var text = MiraLocaleManager.Get("DiedToSuicide");
 
                 if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS" &&
-                    !MiraLocaleManager.Get($"DiedToSuicide{touRole.IdPart}").Contains("STRMISS"))
+                    MiraLocaleManager.Get($"DiedToSuicide{touRole.IdPart}") != $"DiedToSuicide{touRole.IdPart}")
                 {
                     text = MiraLocaleManager.Get($"DiedToSuicide{touRole.IdPart}");
                 }
@@ -129,7 +129,7 @@ public static class DeathEventHandlers
                 var roleToCheck = role is MirrorcasterRole mirror ? mirror.ContainedRole ?? mirror : role;
                 var IdPart = roleToCheck.GetRoleIdPart();
                 if (IdPart != "KEY_MISS" &&
-                    !MiraLocaleManager.Get($"DiedTo{IdPart}").Contains("STRMISS"))
+                    MiraLocaleManager.Get($"DiedTo{IdPart}") != $"DiedTo{IdPart}")
                 {
                     cod = IdPart;
                 }

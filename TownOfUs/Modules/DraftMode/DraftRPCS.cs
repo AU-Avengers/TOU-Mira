@@ -416,7 +416,12 @@ public static class DraftNetworkHelper
         Rpc<DraftPickConfirmedRpc>.Instance.Send(PlayerControl.LocalPlayer,
             new DraftPickConfirmedData { Slot = slot, RoleId = publicRoleId, TimedOut = timedOut });
 
-        foreach (Action cleanup in new Action[] { DraftScreenController.Hide, DraftSidebarManager.InvalidateCache, DraftStatusOverlay.Refresh })
+        var localSlot = DraftManager.GetSlotForPlayer(PlayerControl.LocalPlayer.PlayerId);
+        Action[] cleanupActions = slot == localSlot
+            ? [ DraftScreenController.Hide, DraftSidebarManager.InvalidateCache, DraftStatusOverlay.Refresh ]
+            : [ DraftSidebarManager.InvalidateCache, DraftStatusOverlay.Refresh];
+
+        foreach (var cleanup in cleanupActions)
         {
             try
             {

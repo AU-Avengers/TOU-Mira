@@ -462,8 +462,8 @@
   <string name="TownOfUsMira.Role.AltruistRevive">復活</string>
   <string name="TownOfUsMira.Role.AltruistReviving">復活中</string>
   <string name="TownOfUsMira.Role.AltruistRevive.WikiDescription">復活你附近的屍體。</string>
-  <string name="TownOfUsMira.Role.AltruistReviveGroupSacrifice.WikiDescription">復活你附近的一群屍體。若復活完成,你會死亡,且不會留下屍體。</string>
-  <string name="TownOfUsMira.Role.AltruistReviveSacrifice.WikiDescription">復活離你最近的一具屍體。若復活完成,你會死亡,且不會留下屍體。</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.GroupSacrifice.WikiDescription">復活你附近的一群屍體。若復活完成,你會死亡,且不會留下屍體。</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.Sacrifice.WikiDescription">復活離你最近的一具屍體。若復活完成,你會死亡,且不會留下屍體。</string>
   <string name="TouOptionAltruistReviveType">復活類型</string>
   <string name="TouOptionAltruistReviveEnumSacrifice">犧牲</string>
   <string name="TouOptionAltruistReviveEnumGroupSacrifice">群體犧牲</string>
@@ -982,12 +982,12 @@
   <string name="TownOfUsMira.Role.Sheriff.WikiDescription">警長是一名船員擊殺型職業,可以射擊玩家且嘗試擊殺他們。如果警長因誤傷而未死亡,將失去開槍能力。</string>
   <string name="TownOfUsMira.Role.SheriffShoot">射擊</string>
   <string name="TownOfUsMira.Role.SheriffShoot.WikiDescription">射擊一名玩家以進行擊殺,如果目標不是偽裝者或其他可射擊陣營則會誤傷</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfired">你已無法再開槍。</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsBoth">誤傷會導致你和目標同歸於盡。</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsSheriff">誤傷會導致自殺。</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsTarget">誤傷會導致目標死亡,
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfired">你已無法再開槍。</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsBoth">誤傷會導致你和目標同歸於盡。</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsSheriff">誤傷會導致自殺。</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsTarget">誤傷會導致目標死亡,
 且你失去開槍能力。</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsNobody">誤傷後你將無法再開槍。</string>
+  <string name="TownOfUsMira.Role.Sheriff.TabMisfireKillsNobody">誤傷後你將無法再開槍。</string>
   <string name="TownOfUsMira.Role.SheriffMisfireFeedback">你已無法再開槍!</string>
   <string name="TouOptionSheriffKillCooldown">警長擊殺冷卻</string>
   <string name="TouOptionSheriffCanSelfReport">警長可自報屍體</string>

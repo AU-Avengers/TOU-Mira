@@ -18,7 +18,6 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Collections;
 using System.Text;
-using MiraAPI.Events.Mira;
 using TMPro;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Crewmate;
@@ -263,9 +262,10 @@ public static class TownOfUsEventHandlers
                 }
             }
 
-            if (PlayerControl.LocalPlayer.IsImpostor())
+            if (HudManager.Instance.KillButton)
             {
                 PlayerControl.LocalPlayer.SetKillTimer(genOpt.GameStartCd);
+                HudManager.Instance.KillButton.SetCoolDown(genOpt.GameStartCd, PlayerControl.LocalPlayer.killTimer);
             }
         }
 
@@ -1095,12 +1095,7 @@ public static class TownOfUsEventHandlers
             var votes = voteData.Votes.RemoveAll(x => x.Suspect == target.PlayerId);
             voteData.VotesRemaining += votes;
 
-            if (!voteAreaPlayer.AmOwner)
-            {
-                continue;
-            }
-
-            instance.RpcClearVote(pva.PlayerId);
+            instance.ClearVote(pva.PlayerId, voteAreaPlayer.AmOwner);
         }
 
         instance.SetDirtyBit(1U);

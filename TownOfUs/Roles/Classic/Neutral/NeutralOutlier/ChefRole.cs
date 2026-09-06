@@ -248,7 +248,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     }
 
     [MethodRpc((uint)TownOfUsRpc.CookBody)]
-    public static void RpcCookBody(PlayerControl chef, DeadBody body)
+    public static void RpcCookBody(PlayerControl chef, DeadBody body, byte bodyId)
     {
         if (LobbyBehaviour.Instance)
         {
@@ -261,7 +261,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
             return;
         }
 
-        var target = MiscUtils.PlayerById(body.ParentId);
+        var target = MiscUtils.PlayerById(bodyId);
         var platter = PlatterType.Salmon;
         if (target != null)
         {
@@ -278,12 +278,16 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
                 platter = PlatterType.Burger;
             }
         }
-        role.StoredBodies.Add(new KeyValuePair<int, PlatterType>(body.ParentId, platter));
+        role.StoredBodies.Add(new KeyValuePair<int, PlatterType>(bodyId, platter));
 
+        if (body == null)
+        {
+            body = FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == bodyId)!;
+        }
         if (body != null)
         {
             // Record Chef cook event for Time Lord rewind system
-            var player = MiscUtils.PlayerById(body.ParentId);
+            var player = MiscUtils.PlayerById(bodyId);
             if (player != null)
             {
                 TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordChefCook(chef, body, platter);
@@ -292,7 +296,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
 
             if (OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind)
             {
-                var bodyPlayer = MiscUtils.PlayerById(body.ParentId);
+                var bodyPlayer = MiscUtils.PlayerById(bodyId);
                 if (bodyPlayer != null)
                 {
                     TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(chef, body, body.transform.position, 
