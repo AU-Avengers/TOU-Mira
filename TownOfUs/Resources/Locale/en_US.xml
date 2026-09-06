@@ -820,8 +820,8 @@ at the cost of your own life.</string>
   <string name="TownOfUsMira.Role.AltruistRevivedNotif">You have been revived by an Altruist!</string>
   <string name="TownOfUsMira.Role.AltruistReviveSuccessNotif">You have successfully revived [player]!</string>
   <string name="TownOfUsMira.Role.AltruistRevive.WikiDescription">Revive a group of dead bodies near you.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveGroupSacrifice.WikiDescription">Revive a group of dead bodies near you. If the revival finishes, you die without leaving a body behind.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveSacrifice.WikiDescription">Revive the closest dead body. If the revival finishes, you die without leaving a body behind.</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.GroupSacrifice.WikiDescription">Revive a group of dead bodies near you. If the revival finishes, you die without leaving a body behind.</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.Sacrifice.WikiDescription">Revive the closest dead body. If the revival finishes, you die without leaving a body behind.</string>
   <!-- Altruist Options -->
     <string name="TouOptionAltruistReviveType">Revive Type</string>
   <string name="TouOptionAltruistReviveEnumSacrifice">Sacrifice</string>

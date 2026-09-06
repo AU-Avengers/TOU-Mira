@@ -462,8 +462,8 @@
   <string name="TownOfUsMira.Role.AltruistRevive">復活</string>
   <string name="TownOfUsMira.Role.AltruistReviving">復活中</string>
   <string name="TownOfUsMira.Role.AltruistRevive.WikiDescription">復活你附近的屍體。</string>
-  <string name="TownOfUsMira.Role.AltruistReviveGroupSacrifice.WikiDescription">復活你附近的一群屍體。若復活完成,你會死亡,且不會留下屍體。</string>
-  <string name="TownOfUsMira.Role.AltruistReviveSacrifice.WikiDescription">復活離你最近的一具屍體。若復活完成,你會死亡,且不會留下屍體。</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.GroupSacrifice.WikiDescription">復活你附近的一群屍體。若復活完成,你會死亡,且不會留下屍體。</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.Sacrifice.WikiDescription">復活離你最近的一具屍體。若復活完成,你會死亡,且不會留下屍體。</string>
   <string name="TouOptionAltruistReviveType">復活類型</string>
   <string name="TouOptionAltruistReviveEnumSacrifice">犧牲</string>
   <string name="TouOptionAltruistReviveEnumGroupSacrifice">群體犧牲</string>

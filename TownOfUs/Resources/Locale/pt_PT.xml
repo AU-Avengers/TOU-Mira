@@ -695,8 +695,8 @@ com o custo da tua própria vida.</string>
   <string name="TownOfUsMira.Role.AltruistRevivedNotif">Foste revivido por um Altruísta!</string>
   <string name="TownOfUsMira.Role.AltruistReviveSuccessNotif">Reviveste [player] com sucesso!</string>
   <string name="TownOfUsMira.Role.AltruistRevive.WikiDescription">Revive um grupo de corpos perto de ti.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveGroupSacrifice.WikiDescription">Revive um grupo de corpos mortos perto de ti. Se o renascimento finalizar, morres sem deixar corpo por trás.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveSacrifice.WikiDescription">Revive o corpo morto mais perto de ti. Se o renascimento finalizar, morres sem deixar corpo por trás.</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.GroupSacrifice.WikiDescription">Revive um grupo de corpos mortos perto de ti. Se o renascimento finalizar, morres sem deixar corpo por trás.</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.Sacrifice.WikiDescription">Revive o corpo morto mais perto de ti. Se o renascimento finalizar, morres sem deixar corpo por trás.</string>
   <string name="TouOptionAltruistReviveType">Tipo de Reviver</string>
   <string name="TouOptionAltruistReviveEnumSacrifice">Sacrifício</string>
   <string name="TouOptionAltruistReviveEnumGroupSacrifice">Sacrifício de Grupo</string>

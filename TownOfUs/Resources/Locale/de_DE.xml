@@ -587,8 +587,8 @@ exekutiere diese nach deinem Willen</string>
   <string name="TownOfUsMira.Role.Altruist.TabDescription.GroupSacrifice">Opfere dein Leben auf, um Tote Besatzung 
 in Gruppen wieder zu beleben.</string>
   <string name="TownOfUsMira.Role.Altruist.TabDescription.Sacrifice">Opfere dich auf für ein totes Besatzungsmitglied.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveGroupSacrifice.WikiDescription">Belebe eine Gruppe Toter Körper in deiner Nähe wieder. Sobald die Wiederbelebung beendet ist, wirst du sterben, ohne dabei eine Leiche zu hinterlassen.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveSacrifice.WikiDescription">Belebe den nächsten Toten Körper wieder. Sobald die Wiederbelebung beendet ist, wirst du sterben, ohne dabei eine Leiche zu hinterlassen.</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.GroupSacrifice.WikiDescription">Belebe eine Gruppe Toter Körper in deiner Nähe wieder. Sobald die Wiederbelebung beendet ist, wirst du sterben, ohne dabei eine Leiche zu hinterlassen.</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.Sacrifice.WikiDescription">Belebe den nächsten Toten Körper wieder. Sobald die Wiederbelebung beendet ist, wirst du sterben, ohne dabei eine Leiche zu hinterlassen.</string>
   <string name="TouOptionAltruistFreezeDuringRevive">Friere Altruist ein während der Wiederbelebung</string>
   <string name="TownOfUsMira.Role.Mayor.IntroBlurb">Offenbare dich, um die Besatzung zu retten</string>
   <string name="TownOfUsMira.Role.Mayor.TabDescription">Führe die Besatzung zum Sieg!</string>

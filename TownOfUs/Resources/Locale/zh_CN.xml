@@ -1347,8 +1347,8 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TownOfUsMira.Role.Altruist.TabDescription.GroupSacrifice">为已死亡的船员集体牺牲自己，
 以自身性命为代价。</string>
   <string name="TownOfUsMira.Role.Altruist.TabDescription.Sacrifice">为一名已死亡的船员牺牲自己。</string>
-  <string name="TownOfUsMira.Role.AltruistReviveGroupSacrifice.WikiDescription">复活你附近的一群尸体。若复活完成，你会死亡，且不会留下尸体。</string>
-  <string name="TownOfUsMira.Role.AltruistReviveSacrifice.WikiDescription">复活离你最近的一具尸体。若复活完成，你会死亡，且不会留下尸体。</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.GroupSacrifice.WikiDescription">复活你附近的一群尸体。若复活完成，你会死亡，且不会留下尸体。</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.Sacrifice.WikiDescription">复活离你最近的一具尸体。若复活完成，你会死亡，且不会留下尸体。</string>
   <string name="TouOptionAltruistFreezeDuringRevive">复活期间冻结殉道者</string>
   <string name="TownOfUsMira.Modifier.EgotistVictoryMessage">[modifier], [player],已成功获胜，因为没有船员幸存！</string>
   <string name="TownOfUsMira.Modifier.EgotistVictoryMessageSelf">你已以 [modifier]的身份成功获胜，因为没有船员幸存！</string>

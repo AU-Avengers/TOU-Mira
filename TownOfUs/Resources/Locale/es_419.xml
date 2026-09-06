@@ -720,8 +720,8 @@ en Seguidores Impostores equivalentes!</string>
   <string name="TownOfUsMira.Role.AltruistRevivedNotif">¡Un Altruista te ha revivido!</string>
   <string name="TownOfUsMira.Role.AltruistReviveSuccessNotif">¡Has revivido con éxito a [player]!</string>
   <string name="TownOfUsMira.Role.AltruistRevive.WikiDescription">Revive un grupo de cuerpos cercanos.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveGroupSacrifice.WikiDescription">Revive un grupo de cuerpos cercanos. Si la reanimación se completa, morirás sin dejar un cuerpo.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveSacrifice.WikiDescription">Revive el cuerpo más cercano. Si la reanimación se completa, morirás sin dejar un cuerpo.</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.GroupSacrifice.WikiDescription">Revive un grupo de cuerpos cercanos. Si la reanimación se completa, morirás sin dejar un cuerpo.</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.Sacrifice.WikiDescription">Revive el cuerpo más cercano. Si la reanimación se completa, morirás sin dejar un cuerpo.</string>
   <!-- Opciones del Altruista -->
         <string name="TouOptionAltruistReviveType">Tipo de reanimación</string>
   <string name="TouOptionAltruistReviveEnumSacrifice">Sacrificio</string>
