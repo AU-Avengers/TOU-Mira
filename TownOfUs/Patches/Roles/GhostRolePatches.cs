@@ -107,21 +107,6 @@ public static class GhostRolePatches
             value = !__instance.inVent;
         }
     }
-    public static void HandleGhostRoleVent(HudManager __instance, IGhostRole role)
-    {
-        if (__instance.ImpostorVentButton == null ||
-            __instance.ImpostorVentButton.gameObject == null ||
-            __instance.ImpostorVentButton.IsNullOrDestroyed())
-        {
-            return;
-        }
-
-        if (role.GhostActive &&
-            PlayerControl.LocalPlayer.inVent != __instance.ImpostorVentButton.gameObject.active)
-        {
-            __instance.ImpostorVentButton.gameObject.SetActive(PlayerControl.LocalPlayer.inVent);
-        }
-    }
 
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.ResetAnimState))]
     [HarmonyPrefix]

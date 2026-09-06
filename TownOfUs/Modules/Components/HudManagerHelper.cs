@@ -255,7 +255,6 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         TimeLordPatches.RecordTimeLordSnapshot(instance);
         if (PlayerControl.LocalPlayer.Data.IsDead && ghostRole != null)
         {
-            GhostRolePatches.HandleGhostRoleVent(instance, ghostRole);
             SubmergedHudPatch.UpdateFloorButton(instance, ghostRole);
         }
     }
