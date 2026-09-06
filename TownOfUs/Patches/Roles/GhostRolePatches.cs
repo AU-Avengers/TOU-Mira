@@ -27,12 +27,21 @@ public static class GhostRolePatches
             return;
         }
 
-        var nearGhost = !PhysicsHelpers.AnythingBetween(PlayerControl.LocalPlayer.GetTruePosition(),
-            __instance.GetTruePosition(), Constants.ShipAndObjectsMask, false);
-
-        if (__instance.Data.Role is IGhostRole { CanBeClicked: true } ghost && nearGhost && ghost.CanCatch())
+        // apparently this is hella spotty in terms of crashing randomly?
+        try
         {
-            __instance.RpcCatchGhost();
+            var nearGhost = !PhysicsHelpers.AnythingBetween(PlayerControl.LocalPlayer.GetTruePosition(),
+                __instance.GetTruePosition(), Constants.ShipAndObjectsMask, false);
+
+            if (__instance.Data.Role is IGhostRole { CanBeClicked: true } ghost && nearGhost && ghost.CanCatch())
+            {
+                __instance.RpcCatchGhost();
+            }
+        }
+        catch (Exception e)
+        {
+            System.Console.WriteLine(e);
+            throw;
         }
     }
 

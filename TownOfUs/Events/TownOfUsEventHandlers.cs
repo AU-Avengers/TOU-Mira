@@ -18,7 +18,6 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Collections;
 using System.Text;
-using MiraAPI.Events.Mira;
 using TMPro;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Crewmate;

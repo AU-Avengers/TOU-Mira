@@ -181,7 +181,7 @@ public static class GhostRoleEvents
         }
     }
 
-    [RegisterEvent]
+    [RegisterEvent(10000000)]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
         if (@event.TriggeredByIntro)
