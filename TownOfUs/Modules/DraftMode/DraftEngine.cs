@@ -33,6 +33,7 @@ namespace TownOfUs.Modules.DraftMode
         private readonly HashSet<int> _processingPickSlots = new();
         private readonly HashSet<int> _reclaimedSlots = new();
         private readonly Dictionary<int, float> _turnDeadlines = new();
+        private const float MinRerollPickWindowSeconds = 3f;
         private readonly Dictionary<int, HashSet<string>> _seenBaseNamesBySlot = new();
         private readonly HashSet<int> _allowedImpSlots = new();
         private readonly HashSet<int> _allowedNeutSlots = new();
@@ -2016,7 +2017,12 @@ namespace TownOfUs.Modules.DraftMode
 
             state.PendingPickIndex = 255;
             state.PendingPickTurnNumber = -1;
-            _turnDeadlines[currentSlot] = Time.time + DraftManager.TurnDuration;
+
+            var remaining = _turnDeadlines.TryGetValue(currentSlot, out var existingDeadline)
+                ? existingDeadline - Time.time
+                : 0f;
+            if (remaining < MinRerollPickWindowSeconds)
+                _turnDeadlines[currentSlot] = Time.time + MinRerollPickWindowSeconds;
 
             ReleaseReservedSeats(currentSlot);
 
