@@ -1702,10 +1702,13 @@ namespace TownOfUs.Modules.DraftMode
                 }
 
                 int maxAllowed = !string.IsNullOrEmpty(pickedRoleName) ? DraftRolePool.GetMaxCountForRoleName(BaseRoleName(pickedRoleName)) : int.MaxValue;
-                if (currentCountById >= maxAllowed)
+                int currentCountByName = !string.IsNullOrEmpty(pickedRoleName)
+                    ? statsEx.assignedCountsByName.GetValueOrDefault(NormalizeRoleNameKey(pickedRoleName))
+                    : 0;
+                if (currentCountById >= maxAllowed || currentCountByName >= maxAllowed)
                 {
                     MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
-                        $"[DraftEngine] Chosen role id {chosenRoleId} for slot {slot} exceeds max allowed (current={currentCountById}, max={maxAllowed}), falling back");
+                        $"[DraftEngine] Chosen role id {chosenRoleId} for slot {slot} exceeds max allowed (idCount={currentCountById}, nameCount={currentCountByName}, max={maxAllowed}), falling back");
                     chosenRoleId = 0;
                 }
             }
@@ -1717,11 +1720,15 @@ namespace TownOfUs.Modules.DraftMode
 
             if (chosenRoleId == 0 || MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)chosenRoleId) == null)
             {
-                var emergencyId = DraftRolePool.GetAnyUsableRoleId();
-                if (emergencyId == 0 || MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)emergencyId) == null)
-                {
-                    emergencyId = (ushort)AmongUs.GameOptions.RoleTypes.Engineer;
-                }
+                var emergencyContext = BuildSlotContext(slot, ignoreConcurrentOffers: false, ignoreForce: true);
+                var emergencyId = _pool
+                    .Where(n => !string.IsNullOrWhiteSpace(n) && n != "__RANDOM__")
+                    .Where(n => IsRoleAllowedForSlot(n, slot, ignoreConcurrentOffers: false, ignoreForce: true, context: emergencyContext, ignoreSlotBucket: true))
+                    .Select(n => DraftRolePool.ResolveRoleIdFromName(BaseRoleName(n)))
+                    .FirstOrDefault(id => id != 0);
+
+                if (emergencyId == 0)
+                    emergencyId = (ushort)AmongUs.GameOptions.RoleTypes.Crewmate;
 
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
                     $"[DraftEngine] Slot {slot} had no resolvable role (id {chosenRoleId}), force-assigning emergency role id {emergencyId} to avoid an Unknown role");
