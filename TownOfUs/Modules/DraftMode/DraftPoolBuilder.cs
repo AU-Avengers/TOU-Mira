@@ -230,11 +230,28 @@ namespace TownOfUs.Modules.DraftMode
                 }
             }
 
+            int rolesPerSlot = Math.Max(1, (int)OptionGroupSingleton<RoleOptions>.Instance.OfferedRolesCount.Value);
+            int concurrency = Math.Max(1, Math.Min(2, (int)OptionGroupSingleton<RoleOptions>.Instance.ConcurrentPicks.Value));
+            int targetSize = Math.Max(1, numPlayers) + rolesPerSlot * concurrency;
+            var fundedNames = slots.Take(activeSlots)
+                .SelectMany(bucket => DraftRolePool.ResolveBucketToRoleNames(bucket.ToString()) ?? [])
+                .Where(n => !string.IsNullOrWhiteSpace(n))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+            int fundingIndex = 0;
+            while (pool.Count < targetSize && fundedNames.Count > 0)
+            {
+                var name = fundedNames[rng.NextInt(fundedNames.Count)];
+                pool.Add($"{name}|fund{fundingIndex++}");
+            }
+
             if (pool.Count == 0)
             {
-                var fallbackId = DraftRolePool.GetAnyUsableRoleId();
-                var fallbackName = fallbackId != 0 ? DraftRolePool.GetRoleNameFromId(fallbackId) : null;
-                if (!string.IsNullOrEmpty(fallbackName))
+                var fallbackNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewRandom))
+                    ?.Where(n => !string.IsNullOrWhiteSpace(n))
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToList() ?? new List<string>();
+                foreach (var fallbackName in fallbackNames)
                 {
                     pool.Add(fallbackName + "|slot1");
                 }
@@ -407,7 +424,7 @@ namespace TownOfUs.Modules.DraftMode
             pool.AddRange(TakeWeightedByChance(names, maxSlots, rng));
         }
 
-        private static List<string> GetAllowedCrewFallbackNames()
+        internal static List<string> GetAllowedCrewFallbackNames()
         {
             var fallbackNames = new List<string>();
 
