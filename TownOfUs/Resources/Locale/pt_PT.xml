@@ -1867,4 +1867,26 @@ Se tiveres sucesso, todos são obliterados.</string>
   <string name="TownOfUsMira.Role.TraitorRoleSelectTitle">Seleciona uma nova função para vingares os Impostores.</string>
   <string name="TownOfUsMira.Role.TraitorRandomImpostorCard">Aleatório
 Impostor</string>
+  <string name="TouOptionTraitorMinimumPeopleAlive">Mínimo De Pessoas Vivas Quando Traidor Pode Aparecer</string>
+  <string name="TouOptionTraitorTraitorWontSpawnIfNKIsAlive">Traidor Não Vai Aparecer Se NA Estiver Ativo</string>
+  <string name="TouOptionTraitorDisableExistingImpostorRoles">Desativa Funções Impostor Existentes</string>
+  <string name="TouOptionTraitorGuessAs">Traidor Pode Ser Adivinhado Como</string>
+  <string name="TouOptionTraitorGuessEnumCached">Traidor</string>
+  <string name="TouOptionTraitorGuessEnumActive">Nova Função</string>
+  <string name="TouOptionTraitorGuessEnumActiveOrCached">Traidor ou Nova Função</string>
+  <string name="TownOfUsMira.Role.Undertaker">Funerário</string>
+  <string name="TownOfUsMira.Role.Undertaker.IntroBlurb">Arrasta corpos para os esconder</string>
+  <string name="TownOfUsMira.Role.Undertaker.TabDescription">Arrasta corpos para os esconder de serem reportados</string>
+  <string name="TownOfUsMira.Role.Undertaker.WikiDescription">O Funerário é uma Função Impostor Suporte que pode arrastar corpos mortos à volta do mapa.</string>
+  <string name="TownOfUsMira.Role.UndertakerDrag">Arrastar</string>
+  <string name="TownOfUsMira.Role.UndertakerDrag.WikiDescription">Arrasta um corpo morto. Se as definições o deixarem, ele também o pode levar par uma ventilação.</string>
+  <string name="TownOfUsMira.Role.UndertakerDrop">Largar</string>
+  <string name="TownOfUsMira.Role.UndertakerDrop.WikiDescription">Larga o corpo arrastado, parando-o de ser arrastado mais.</string>
+  <string name="TouOptionUndertakerDragCooldown">Tempo para Arrastar de novo</string>
+  <string name="TouOptionUndertakerDragSpeed">Velocidade ao Arrastar</string>
+  <string name="TouOptionUndertakerDraggingSpeedIsAffectedbyBodySize">Velocidade Ao Arrastar É Afetado Pelo Tamanho Do Corpo</string>
+  <string name="TouOptionUndertakerCanVent">Funerário Pode Usar Ventilação</string>
+  <string name="TouOptionUndertakerCanVentWithBody">Pode Usar Ventilação Com Corpo</string>
+  <string name="TouOptionUndertakerUndertakerCanKillWithTeammate">Funerário Pode Matar Com Colega De Equipe</string>
+  <string name="TownOfUsMira.Role.Venerer">Mestre Caçador</string>
 </resources>
