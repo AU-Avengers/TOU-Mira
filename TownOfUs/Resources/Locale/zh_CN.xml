@@ -2662,8 +2662,8 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TownOfUsMira.Modifier.KnightedDescription">你被君主册封为骑士。你获得了额外的 [votes] 票。</string>
   <string name="FrenzyKillerTaskHeader">不惜一切手段消灭其他所有阵营。</string>
   <string name="FrenzyKiller">狂暴杀手</string>
-  <string name="CommonCrew.Colored">普通 [color=#66FFFFFF]Crew[/color]</string>
-  <string name="CrewPower.Colored">[color=#66FFFFFF]船员[/color] 力量</string>
+  <string name="CommonCrew.Colored">普通 [color=#66FFFFFF]船员[/color]</string>
+  <string name="CrewPower.Colored">[color=#66FFFFFF]船员[/color] 强力</string>
   <string name="CrewProtective.Colored">[color=#66FFFFFF]船员[/color] 保护</string>
   <string name="CrewSupport.Colored">[color=#66FFFFFF]船员[/color] 辅助</string>
   <string name="ImpConcealing.Colored">[color=#FF0000FF]伪装者[/color] 隐匿</string>
@@ -2683,7 +2683,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionTickCooldownsInMinigame">在任务与面板中继续计算冷却时间</string>
   <string name="TouOptionParallelMedbay">医务室扫描可同时进行</string>
   <string name="TouOptionMedscanWalk">走向医疗点扫描</string>
-  <string name="TouOptionSkipButtonDisable">禁用会议跳过按钮</string>
+  <string name="TouOptionSkipButtonDisable">禁用会议跳过投票按钮</string>
   <string name="TouOptionSkipButtonDisableEnumNever">从不</string>
   <string name="TouOptionSkipButtonDisableEnumEmergency">紧急会议</string>
   <string name="TouOptionSkipButtonDisableEnumAlways">始终</string>
@@ -2707,7 +2707,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionNeutAssassinMultiKill">中立刺客每次会议可多次击杀</string>
   <string name="TouOptionGuessVanillaRoles">非基础原版职业可以被猜测</string>
   <string name="TouOptionAssassinCrewmateGuess">刺客可猜“船员”身份</string>
-  <string name="TouOptionAssassinGuessInvest">刺客可猜船员侦查职业</string>
+  <string name="TouOptionAssassinGuessInvest">刺客可猜船员调查职业</string>
   <string name="TouOptionAssassinGuessNeutralBenign">刺客可猜中立友善职业</string>
   <string name="TouOptionAssassinGuessNeutralEvil">刺客可猜中立邪恶职业</string>
   <string name="TouOptionAssassinGuessNeutralKilling">刺客可猜中立杀手职业</string>

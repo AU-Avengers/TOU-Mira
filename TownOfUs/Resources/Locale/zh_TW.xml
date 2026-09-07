@@ -74,7 +74,7 @@
   <string name="WikiRoleGuideTab">職業指南</string>
   <string name="SearchboxHeadsUp">點擊這裏搜索</string>
   <string name="Amount">數量</string>
-  <string name="Chance">概率</string>
+  <string name="Chance">機率</string>
   <string name="Options">設置</string>
   <string name="PlayerHasNoModifiers">無附加屬性</string>
   <string name="SetRoleList">設置職業清單</string>
@@ -1599,7 +1599,7 @@
   <string name="TouOptionFairyOnDeathFairyBecomes">目標死亡後,天使變為</string>
   <string name="TouOptionFairyTargetKnowsFairyExists">目標知曉天使存在</string>
   <string name="TouOptionFairyFairyKnowsRole">天使知曉目標職業</string>
-  <string name="TouOptionFairyEvilOdds">目標為邪惡陣營概率</string>
+  <string name="TouOptionFairyEvilOdds">目標為邪惡陣營機率</string>
   <string name="TownOfUsMira.Role.Inquisitor">審判官</string>
   <string name="TownOfUsMira.Role.Inquisitor.IntroBlurb">消滅異端!</string>
   <string name="TownOfUsMira.Role.Inquisitor.TabDescription">消滅你的異端目標或讓他們被殺。
@@ -1712,7 +1712,7 @@
   <string name="TownOfUsMira.Role.Plaguebearer.WikiDescription">瘟疫之源是一名中立殺手型職業,需要感染所有其他玩家後變為萬疫之神。</string>
   <string name="TownOfUsMira.Role.PlaguebearerInfect">感染</string>
   <string name="TownOfUsMira.Role.PlaguebearerInfect.WikiDescription">感染一名玩家,使其被感染。當被感染的玩家或屍體與其他未感染玩家互動時,感染會繼續傳播。</string>
-  <string name="TouOptionPlaguebearerInstantPesti">一開始生成萬疫之神概率</string>
+  <string name="TouOptionPlaguebearerInstantPesti">一開始生成萬疫之神機率</string>
   <string name="TouOptionPlaguebearerInfectCooldown">感染冷卻</string>
   <string name="TouOptionPlaguebearerAnnounceTransformation">告知瘟疫之源成神</string>
   <string name="TouOptionPlaguebearerPestilenceKillCooldown">萬疫之神擊殺冷卻</string>
@@ -1720,7 +1720,7 @@
   <string name="TownOfUsMira.Role.SoulCollector">噬魂獸</string>
   <string name="TownOfUsMira.Role.Survivor">倖存者</string>
   <string name="TownOfUsMira.Role.Survivor.IntroBlurb">不擇手段活下去。</string>
-  <string name="TownOfUsMira.Role.Survivor.TabDescription">活到最後即可與任意陣營一同獲勝</string>
+  <string name="TownOfUsMira.Role.Survivor.TabDescription">活到最後即可與任意陣營一同獲勝。</string>
   <string name="TownOfUsMira.Role.Survivor.WikiDescription">倖存者是一名中立友善型職業,只需要活到遊戲結束即可獲勝。</string>
   <string name="TownOfUsMira.Role.SurvivorSafeguard">防彈衣</string>
   <string name="TownOfUsMira.Role.SurvivorSafeguard.WikiDescription">穿上防彈衣保護自己免受攻擊。</string>
@@ -1778,7 +1778,7 @@
   <string name="TownOfUsMira.Modifier.Lover">戀人</string>
   <string name="TownOfUsMira.Modifier.LoverInfo">你的戀人是[player]。</string>
   <string name="TouOptionLoverDieAndRevive">戀人同生共死</string>
-  <string name="TouOptionLoverAnotherKiller">戀人一方是殺手的概率</string>
+  <string name="TouOptionLoverAnotherKiller">戀人一方是殺手的機率</string>
   <string name="TouOptionLoverCanBeNeutral">中立職業可以成為戀人</string>
   <string name="TouOptionLoverKillFactionTeammates">戀人可以殺死同陣營隊友</string>
   <string name="TouOptionLoverKillOneAnother">戀人可以殺死對方</string>
@@ -2450,4 +2450,66 @@
   <string name="TouOptionTimeLordRewindDuration">回溯持續時間</string>
   <string name="TownOfUsMira.Modifier.LoverInfoDisconnected">與你相愛的是 [player], 但對方已斷開連接。</string>
   <string name="NeutralKilling.Colored">[color=#999999FF]中立[/color] 殺手</string>
+  <string name="FrenzyKillerTaskHeader">不惜一切手段消滅其他所有陣營。</string>
+  <string name="FrenzyKiller">狂暴殺手</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.TabText">職業: [roleName][nl][description]</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.FakeTaskTabText">虛假任務:</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.CrewDescription">完成你的任務。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.CrewDescriptionDead">你已經死亡, 請完成你的任務。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.NeutDescription">完成你的目標。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.NeutDescriptionDead">你已經死亡。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.ImpDescription">破壞設施並殺死船員。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.ImpDescriptionDead">你已經死亡。</string>
+  <string name="NeutralBenign.Colored">[color=#999999FF]中立[/color] 友善</string>
+  <string name="NeutralEvil.Colored">[color=#999999FF]中立[/color] 邪惡</string>
+  <string name="NeutralOutlier.Colored">[color=#999999FF]中立[/color] 外來者</string>
+  <string name="CommonCrew.Colored">普通 [color=#66FFFFFF]船員[/color]</string>
+  <string name="SpecialCrew.Colored">特殊 [color=#66FFFFFF]船員[/color]</string>
+  <string name="RandomCrew.Colored">隨機 [color=#66FFFFFF]船員[/color]</string>
+  <string name="CommonNeutral.Colored">普通 [color=#999999FF]中立[/color]</string>
+  <string name="SpecialNeutral.Colored">特殊 [color=#999999FF]中立[/color]</string>
+  <string name="WildcardNeutral.Colored">非殺手 [color=#999999FF]中立[/color]</string>
+  <string name="RandomNeutral.Colored">隨機 [color=#999999FF]中立[/color]</string>
+  <string name="NonImp.Colored">非 [color=#FF0000FF]偽裝者[/color]</string>
+  <string name="CommonImp.Colored">普通 [color=#FF0000FF]偽裝者[/color]</string>
+  <string name="SpecialImp.Colored">特殊 [color=#FF0000FF]偽裝者[/color]</string>
+  <string name="RandomImp.Colored">隨機 [color=#FF0000FF]偽裝者[/color]</string>
+  <string name="CrewInvestigative.Colored">[color=#66FFFFFF]船員[/color] 調查</string>
+  <string name="CrewKilling.Colored">[color=#66FFFFFF]船員[/color] 擊殺</string>
+  <string name="CrewPower.Colored">[color=#66FFFFFF]船員[/color] 強力</string>
+  <string name="CrewProtective.Colored">[color=#66FFFFFF]船員[/color] 保護</string>
+  <string name="CrewSupport.Colored">[color=#66FFFFFF]船員[/color] 輔助</string>
+  <string name="ImpConcealing.Colored">[color=#FF0000FF]偽裝者[/color] 隱匿</string>
+  <string name="ImpKilling.Colored">[color=#FF0000FF]偽裝者[/color] 擊殺</string>
+  <string name="ImpPower.Colored">[color=#FF0000FF]偽裝者[/color] 力量</string>
+  <string name="ImpSupport.Colored">[color=#FF0000FF]偽裝者[/color] 輔助</string>
+  <string name="TownOfUsMira.Options.Groups.VanillaTweaks">原版調整</string>
+  <string name="TouOptionHideNamesOutOfSight">視野外隱藏名字</string>
+  <string name="TouOptionTickCooldownsInMinigame">在任務與面板中繼續計算冷卻時間</string>
+  <string name="TouOptionParallelMedbay">醫務室掃描可同時進行</string>
+  <string name="TouOptionMedscanWalk">走向醫務點掃描</string>
+  <string name="TouOptionSkipButtonDisable">禁用會議跳過投票按鈕</string>
+  <string name="TouOptionSkipButtonDisableEnumNever">從不</string>
+  <string name="TouOptionSkipButtonDisableEnumEmergency">緊急會議</string>
+  <string name="TouOptionSkipButtonDisableEnumAlways">始終</string>
+  <string name="TouOptionHideVentAnimationNotInVision">隱藏視野外的鑽管動畫</string>
+  <string name="TouOptionShowPetsMode">寵物可見性</string>
+  <string name="TouOptionShowPetsModeEnumClientSide">客戶端可見</string>
+  <string name="TouOptionShowPetsModeEnumWhenAlive">存活時可見</string>
+  <string name="TouOptionShowPetsModeEnumAlwaysVisible">始終可見</string>
+  <string name="TouOptionHidePetsOnBodyRemove">清除屍體時移除寵物</string>
+  <string name="TouOptionHidePetsOnBodyRemoveEnumNever">從不</string>
+  <string name="TouOptionHidePetsOnBodyRemoveEnumDuringRound">回合中</string>
+  <string name="TouOptionHidePetsOnBodyRemoveEnumAlways">始終</string>
+  <string name="TownOfUsMira.Options.Groups.Assassin">刺客選項</string>
+  <string name="TouOptionNumberOfImpostorAssassins">偽裝者刺客數量</string>
+  <string name="TouOptionImpAssassinChance">偽裝者刺客機率</string>
+  <string name="TouOptionImpAssassinKills">偽裝者刺客擊殺次數</string>
+  <string name="TouOptionImpAssassinMultiKill">偽裝者刺客每次會議可多次擊殺</string>
+  <string name="TouOptionNumberOfNeutralAssassins">中立刺客數量</string>
+  <string name="TouOptionNeutAssassinChance">中立刺客機率</string>
+  <string name="TouOptionNeutAssassinKills">中立刺客可用擊殺次數</string>
+  <string name="TouOptionNeutAssassinMultiKill">中立刺客每次會議可多次擊殺</string>
+  <string name="TouOptionGuessVanillaRoles">非基礎原版職業可以被猜測</string>
+  <string name="TouOptionAssassinCrewmateGuess">刺客可猜“船員”身份</string>
 </resources>
