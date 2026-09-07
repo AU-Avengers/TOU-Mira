@@ -1865,4 +1865,6 @@ Se tiveres sucesso, todos são obliterados.</string>
   <string name="TownOfUsMira.Role.TraitorChangeRole">Mudar Função</string>
   <string name="TownOfUsMira.Role.TraitorChangeRole.WikiDescription">O Traidor pode mudar a sua função para outra função dada pelas cartas, ou aposta na opção "Aleatório". Quando ele selecionar uma função, ele fica com essa função até morrer. No entanto, ele tem quer adivinhado como o Traidor.</string>
   <string name="TownOfUsMira.Role.TraitorRoleSelectTitle">Seleciona uma nova função para vingares os Impostores.</string>
+  <string name="TownOfUsMira.Role.TraitorRandomImpostorCard">Aleatório
+Impostor</string>
 </resources>
