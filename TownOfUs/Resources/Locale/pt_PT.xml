@@ -1858,4 +1858,11 @@ Se tiveres sucesso, todos são obliterados.</string>
   <string name="TouOptionSwooperSwoopCooldown">Recarga da Invisibilidade</string>
   <string name="TouOptionSwooperSwoopDuration">Duração da Invisibilidade</string>
   <string name="TouOptionSwooperCanVent">Invisível Pode Usar Ventilação</string>
+  <string name="TownOfUsMira.Role.Traitor">Traidor</string>
+  <string name="TownOfUsMira.Role.Traitor.IntroBlurb">Trai os Tripulantes!</string>
+  <string name="TownOfUsMira.Role.Traitor.TabDescription">Trai os tripulantes com uma nova função de impostor!</string>
+  <string name="TownOfUsMira.Role.Traitor.WikiDescription">O Traidor é uma Função Impostor Poderoso que é criada depois de uma reunião, em que as condições estejam corretas. O Traidor vai ser sempre um tripulante, e pode mudar a sua função para outras funções selecionadas.</string>
+  <string name="TownOfUsMira.Role.TraitorChangeRole">Mudar Função</string>
+  <string name="TownOfUsMira.Role.TraitorChangeRole.WikiDescription">O Traidor pode mudar a sua função para outra função dada pelas cartas, ou aposta na opção "Aleatório". Quando ele selecionar uma função, ele fica com essa função até morrer. No entanto, ele tem quer adivinhado como o Traidor.</string>
+  <string name="TownOfUsMira.Role.TraitorRoleSelectTitle">Seleciona uma nova função para vingares os Impostores.</string>
 </resources>
