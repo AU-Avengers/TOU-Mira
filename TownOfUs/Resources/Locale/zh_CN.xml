@@ -2862,4 +2862,75 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionRoleListSlot13">位置 13</string>
   <string name="TouOptionRoleListSlot14">位置 14</string>
   <string name="TouOptionRoleListSlot15">位置 15</string>
+  <string name="TownOfUsMira.Role.Altruist.MedDescription">复活死亡的船员。</string>
+  <string name="TownOfUsMira.Role.Aurial.MedDescription">感知你所在区域内能力的具体使用位置。
+如果距离非常近，你还可以看到使用者的颜色。</string>
+  <string name="TownOfUsMira.Role.Cleric.MedDescription">为船员施加屏障以阻止互动。
+净化他们以消除负面效果。</string>
+  <string name="TownOfUsMira.Role.Deputy.MedDescription">蹲守船员。船员死亡后，尝试击杀其凶手。</string>
+  <string name="TownOfUsMira.Role.Forensic.MedDescription">调查犯罪现场，找出谋杀案现场的嫌疑人。</string>
+  <string name="TownOfUsMira.Role.Barkeeper.MedDescription">与邪恶阵营一起喝酒，暂时禁用他们的能力。</string>
+  <string name="TownOfUsMira.Role.Engineer.MedDescription">远程修复破坏，并在需要时通过通风管移动。</string>
+  <string name="TownOfUsMira.Role.Haunter.MedDescription">在死亡很久之后揭示伪装者。</string>
+  <string name="TownOfUsMira.Role.Hunter.MedDescription">盯梢其他玩家，如果他们在规定时间内使用能力，你就可以将其击杀。</string>
+  <string name="TownOfUsMira.Role.Imitator.MedDescription">模仿死者生前的身份。</string>
+  <string name="TownOfUsMira.Role.Investigator.MedDescription">通过跟随脚印观察其他玩家的行动路线。</string>
+  <string name="TownOfUsMira.Role.Jailor.MedDescription">关押玩家，并在必要时处决他们。
+在作出判断前与他们私下交谈。</string>
+  <string name="TownOfUsMira.Role.Lookout.MedDescription">观察其他船员，查看谁或什么与他们发生互动。</string>
+  <string name="TownOfUsMira.Role.Mayor.MedDescription">在合适的时机公开身份，掌控会议并带领船员。</string>
+  <string name="TownOfUsMira.Role.Medic.MedDescription">创建护盾，保护船员免受攻击。</string>
+  <string name="TownOfUsMira.Role.Medium.MedDescription">暂时离开肉身，以灵体状态行动。</string>
+  <string name="TownOfUsMira.Role.Mirrorcaster.MedDescription">反射对魔法镜发动的攻击。
+然后将这些攻击释放向邪恶阵营！</string>
+  <string name="TownOfUsMira.Role.Monarch.MedDescription">册封船员为骑士，使其在会议中获得额外票数。谨慎选择你的骑士。</string>
+  <string name="TownOfUsMira.Role.Mystic.MedDescription">船员死亡时收到通知。
+同时会获得指向其所在方向的箭头。</string>
+  <string name="TownOfUsMira.Role.Oracle.MedDescription">佑护船员，使他们在会议中免遭淘汰。让邪恶阵营认罪。</string>
+  <string name="TownOfUsMira.Role.Plumber.MedDescription">封锁通风管系统，阻止其他玩家使用。</string>
+  <string name="TownOfUsMira.Role.Politician.MedDescription">争取一半船员的支持，以公开身份成为市长！</string>
+  <string name="TownOfUsMira.Role.Prosecutor.MedDescription">在会议中强制放逐违抗你的人。</string>
+  <string name="TownOfUsMira.Role.Seer.MedDescription">揭示船员真正的阵营倾向。</string>
+  <string name="TownOfUsMira.Role.Sentry.MedDescription">部署额外的摄像头，监视船员。</string>
+  <string name="TownOfUsMira.Role.Officer.MedDescription">为你的枪械重新装填。
+射击那些威胁船员的人。</string>
+  <string name="TownOfUsMira.Role.Sheriff.MedDescription">射杀邪恶阵营，否则误杀船员将自食其果。</string>
+  <string name="TownOfUsMira.Role.Snitch.MedDescription">完成任务后揭发伪装者。</string>
+  <string name="TownOfUsMira.Role.Spy.MedDescription">在管理员地图上查看详细的颜色信息</string>
+  <string name="TownOfUsMira.Role.Swapper.MedDescription">在会议中按你的意愿交换两名目标的票数。</string>
+  <string name="TownOfUsMira.Role.TimeLord.MedDescription">倒转时间，撤销最近发生的行动。</string>
+  <string name="TownOfUsMira.Role.Sonar.MedDescription">感知多名船员，确定他们的大致方向。</string>
+  <string name="TownOfUsMira.Role.Transporter.MedDescription">交换两名船员的位置。</string>
+  <string name="TownOfUsMira.Role.Trapper.MedDescription">放置陷阱，查明场上有哪些职业。</string>
+  <string name="TownOfUsMira.Role.Veteran.MedDescription">进入警戒状态，攻击任何试图与你互动的人。</string>
+  <string name="TownOfUsMira.Role.Vigilante.MedDescription">在会议中猜测场上的邪恶职业。</string>
+  <string name="TownOfUsMira.Role.Warden.MedDescription">强化船员，防止他们在会议之外与任何人互动。</string>
+  <string name="TownOfUsMira.Role.Ambassador.MedDescription">覆写内鬼，使其在本局剩余时间内改变职业。</string>
+  <string name="TownOfUsMira.Role.Ambusher.MedDescription">追踪船员，然后伏击他们附近的人。</string>
+  <string name="TownOfUsMira.Role.Bootlegger.MedDescription">与船员一起喝酒，暂时禁用他们的能力。</string>
+  <string name="TownOfUsMira.Role.Bomber.MedDescription">放置炸弹，一次性击杀范围内的多名船员。</string>
+  <string name="TownOfUsMira.Role.Escapist.MedDescription">标记一个位置，然后在需要时随时传送回那里。</string>
+  <string name="TownOfUsMira.Role.Herbalist.MedDescription">揭示职业、迷惑船员，并在需要时保护他人。</string>
+  <string name="TownOfUsMira.Role.Hypnotist.MedDescription">催眠船员，然后触发集体癔症来改变他们看到的内容。</string>
+  <string name="TownOfUsMira.Role.Miner.MedDescription">创建互相连通的通风管系统，以便快速穿梭地图。</string>
+  <string name="TownOfUsMira.Role.Morphling.MedDescription">采样船员并变身为他们，以嫁祸于人。</string>
+  <string name="TownOfUsMira.Role.Parasite.MedDescription">控制一名受害者，然后让其在视野之外死亡。</string>
+  <string name="TownOfUsMira.Role.Scavenger.MedDescription">击杀你的目标以加快击杀速度，否则将面临较长的冷却时间。</string>
+  <string name="TownOfUsMira.Role.Puppeteer.MedDescription">控制其他船员，让他们不情愿地进行击杀。</string>
+  <string name="TownOfUsMira.Role.Spellslinger.MedDescription">对船员施加诅咒以释放诅咒炸弹。
+如果成功，所有人都会被消灭。</string>
+  <string name="TownOfUsMira.Role.Venerer.MedDescription">击杀船员以升级你的能力。
+伪装、冲刺，然后冻结你周围的其他人！</string>
+  <string name="TownOfUsMira.Role.Arsonist.MedDescription">给船员施加浇油效果，然后点燃他们，看着他们被烧死。</string>
+  <string name="TownOfUsMira.Role.Doomsayer.MedDescription">猜测多名玩家的职业，使他们陷入末日，并以此获胜。</string>
+  <string name="TownOfUsMira.Role.Executioner.MedDescription">不择手段地让你的目标被投票淘汰。</string>
+  <string name="TownOfUsMira.Role.Glitch.MedDescription">黑入船员，夺取他们的能力。
+伪装成其他玩家，以嫁祸于人。</string>
+  <string name="TownOfUsMira.Role.Fairy.MedDescription">不惜一切代价保护你的目标，甚至为其牺牲生命。</string>
+  <string name="TownOfUsMira.Role.Inquisitor.MedDescription">找出你的目标分别持有什么职业。
+如有必要，消灭他们以获得胜利。</string>
+  <string name="TownOfUsMira.Role.Chef.MedDescription">烹饪其他船员的新鲜尸体。
+完成你的进食配额并获胜。</string>
+  <string name="TownOfUsMira.Role.Spectre.MedDescription">利用死后获得的第二次救赎机会完成任务，并在死亡后取得胜利。</string>
+  <string name="TownOfUsMira.Role.Plaguebearer.MedDescription">将瘟疫传播给所有船员，进化为致命的万疫之神。</string>
 </resources>
