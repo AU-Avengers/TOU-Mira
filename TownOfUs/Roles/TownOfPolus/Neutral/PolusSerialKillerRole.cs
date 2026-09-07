@@ -31,7 +31,6 @@ public class PolusSerialKillerRole(IntPtr cppPtr) : PolusBaseNeutRole(cppPtr), I
     {
         RoleHintType = RoleHintType.None,
         AssociatedGameMode = typeof(TownOfPolusMode),
-        HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.TownOfPolus,
         GhostRole = (RoleTypes)RoleId.Get<PolusGhostNeutRole>(),
         FreeplayFolder = "Town of Polus",
         CanUseVent = false,

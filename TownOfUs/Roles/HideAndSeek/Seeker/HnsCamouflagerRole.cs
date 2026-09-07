@@ -50,7 +50,6 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
     {
         AssociatedGameMode = typeof(HideAndSeekMode),
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Hypnotist.LoadAsset(), "TouMira.Role.Impostor.Hypnotist", 1.45f),
-        HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek,
         FreeplayFolder = "Hide n Seek",
         Icon = TouRoleIcons.Hypnotist,
         RoleHintType = RoleHintType.TaskHint

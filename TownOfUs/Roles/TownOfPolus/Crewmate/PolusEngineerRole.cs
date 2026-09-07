@@ -34,7 +34,6 @@ public sealed class PolusEngineerRole(IntPtr cppPtr) : PolusBaseCrewRole(cppPtr)
     {
         RoleHintType = RoleHintType.None,
         AssociatedGameMode = typeof(TownOfPolusMode),
-        HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.TownOfPolus,
         GhostRole = (RoleTypes)RoleId.Get<PolusGhostCrewRole>(),
         FreeplayFolder = "Town of Polus",
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconEngineer.LoadAsset(), "TownOfPolus.Role.Crewmate.Engineer", 1.45f),
