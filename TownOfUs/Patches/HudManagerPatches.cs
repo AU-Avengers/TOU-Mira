@@ -554,8 +554,12 @@ public static class HudManagerPatches
                 }
             }
             if (SubmergedFloorButton && PlayerControl.LocalPlayer.Data.Role is IGhostRole ghost)
-            {
-                SubmergedFloorButton.SetActive(ghost.Caught);
+            {// Only show the floor change button to dead players who aren't active Ghostwalkers to prevent unintended floor switching.
+                SubmergedFloorButton.SetActive(
+                    PlayerControl.LocalPlayer.Data != null &&
+                    PlayerControl.LocalPlayer.Data.IsDead &&
+                    !ghost.GhostActive
+                );
             }
         }
     }
