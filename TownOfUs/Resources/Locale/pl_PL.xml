@@ -1239,4 +1239,18 @@ Imituj się w innych aby ich wrobić.</string>
   <string name="TouOptionGrenadierGrenadierCanVent">Grenadier Może Wentować</string>
   <string name="TownOfUsMira.Modifier.GrenadierFlashedNotification">Zostałeś oślepiony przez Grenadiera!</string>
   <string name="TownOfUsMira.Role.Haunter.MedDescription">Ujawnij Intruzów długo po swojej śmierci.</string>
+  <string name="TownOfUsMira.Role.Herbalist">Zielarz</string>
+  <string name="TownOfUsMira.Role.Herbalist.IntroBlurb">Niech rośliny i zioła doprowadzą do wygranej</string>
+  <string name="TownOfUsMira.Role.Herbalist.MedDescription">Ujawnij role, Zmyl Załogę i broń pozostałych jeśli potrzeba.</string>
+  <string name="TownOfUsMira.Role.Herbalist.TabDescription">Użyj swoją głęboką wiedzę o naturze na innych.
+Twój cooldown zabicia jest odłączony od innych umiejętności.</string>
+  <string name="TownOfUsMira.Role.Herbalist.WikiDescription">Zielarz jest Intruzem Silnym posiadającym kilka umiejętności połączonych jednym cooldownem. Mogą pomagać Intruzom bądź wpływać na to co widzą inni.</string>
+  <string name="TownOfUsMira.Role.HerbalistExpose">Ujawnij</string>
+  <string name="TownOfUsMira.Role.HerbalistExpose.WikiDescription">Ujawnij rolę gracza wszystkim Intruzom, sprawiając jednak że nie będą mogli być zgadnięci.</string>
+  <string name="TownOfUsMira.Role.HerbalistConfuse">Zmyl</string>
+  <string name="TownOfUsMira.Role.HerbalistConfuse.WikiDescription">Zmyl gracza zarodnikami fungal aby uniemożliwić mu odróżnianie innych.</string>
+  <string name="TownOfUsMira.Role.HerbalistProtect">Ochroń</string>
+  <string name="TownOfUsMira.Role.HerbalistChangeHerb">Zmień Zioło</string>
+  <string name="TownOfUsMira.Modifier.HerbalistProtectionDescription">Jesteś chroniony przez Kleryka!
+Nikt nie może wejść z tobą w interakcję.</string>
 </resources>
