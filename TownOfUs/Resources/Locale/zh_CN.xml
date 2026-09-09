@@ -2714,7 +2714,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionAssassinGuessNeutralOutlier">刺客可猜中立外来职业</string>
   <string name="TouOptionAssassinGuessImpostors">刺客可猜伪装者职业</string>
   <string name="TouOptionAssassinGuessCrewModifiers">刺客可猜船员附加特性</string>
-  <string name="TouOptionAssassinGuessUtilityModifiers">刺客可猜船员实用型附加特性</string>
+  <string name="TouOptionAssassinGuessUtilityModifiers">刺客可猜船员通用型附加特性</string>
   <string name="TouOptionAssassinGuessImpostorModifiers">刺客可猜伪装者附加特性</string>
   <string name="TouOptionAssassinGuessNonCrewModifiers">刺客可猜阵营类附加特性</string>
   <string name="TouOptionAssassinGuessAlliances">刺客可猜联盟关系</string>
@@ -2731,7 +2731,7 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionKillAnimationBackgroundColor">击杀动画背景颜色</string>
   <string name="TouOptionKillAnimationBackgroundColorEnumRed">红色</string>
   <string name="TouOptionKillAnimationBackgroundColorEnumFaction">阵营</string>
-  <string name="TouOptionKillAnimationBackgroundColorEnumRoleColor">角色颜色</string>
+  <string name="TouOptionKillAnimationBackgroundColorEnumRoleColor">职业颜色</string>
   <string name="TouOptionPlayerCountWhenVentsDisable">通风管禁用时的最大存活玩家数</string>
   <string name="TouOptionGhostwalkerFixSabos">冤魂幻影可修复破坏</string>
   <string name="TouOptionTempSaveCdReset">临时救援冷却重置</string>
