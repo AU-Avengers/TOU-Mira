@@ -1889,4 +1889,27 @@ Impostor</string>
   <string name="TouOptionUndertakerCanVentWithBody">Pode Usar Ventilação Com Corpo</string>
   <string name="TouOptionUndertakerUndertakerCanKillWithTeammate">Funerário Pode Matar Com Colega De Equipe</string>
   <string name="TownOfUsMira.Role.Venerer">Mestre Caçador</string>
+  <string name="TownOfUsMira.Role.Venerer.IntroBlurb">Melhora as tuas habilidades com cada morte</string>
+  <string name="TownOfUsMira.Role.Venerer.MedDescription">Mata tripulantes para melhorares a tua habilidade.
+Camufla-te, Fica mais rápido, e depois congela outros perto de ti!</string>
+  <string name="TownOfUsMira.Role.Venerer.TabDescription">Mata um jogador para desbloqueares melhorias para a tua habilidade.
+As tuas melhorias deixam-te camuflar, correr e desacelerar outros.</string>
+  <string name="TownOfUsMira.Role.Venerer.WikiDescription">O Mestre Caçador é uma Função Impostor Encobridor que pode matar jogadores para ganhar novas habilidades, prevendo outros de o capturar! No entanto, a habilidade é usada assim que é ganha, que se vai acumular.</string>
+  <string name="TownOfUsMira.Role.VenererCamouflage">Camuflar</string>
+  <string name="TownOfUsMira.Role.VenererCamouflage.WikiDescription">Fase 1 das tuas habilidades.
+Vais aparecer cinzento para todos os jogadores, permitindo-te fugires de mortes furtivamente.</string>
+  <string name="TownOfUsMira.Role.VenererSprint">Correr</string>
+  <string name="TownOfUsMira.Role.VenererSprint.WikiDescription">Fase 2 das tuas habilidades.
+Vais ganhar a velocidade do Veloz enquanto escondido pela camuflagem.</string>
+  <string name="TownOfUsMira.Role.VenererFreeze">Congelar</string>
+  <string name="TownOfUsMira.Role.VenererFreeze.WikiDescription">Fase Final das tuas habilidades.
+Vais desacelerar jogadores perto de ti numa área, enquanto sendo rápido e escondido pela camuflagem.</string>
+  <string name="TownOfUsMira.Role.VenererUncamouflage">Descamuflar</string>
+  <string name="TownOfUsMira.Role.VenererUnsprint">Para De Correr</string>
+  <string name="TownOfUsMira.Role.VenererUnfreeze">Descongelar</string>
+  <string name="TouOptionVenererAbilityCooldown">Recarga Da Habilidade</string>
+  <string name="TouOptionVenererAbilityDuration">Duração Da Habilidade</string>
+  <string name="TouOptionVenererSprintSpeed">Velocidade Da Corrida</string>
+  <string name="TouOptionVenererMinimumFreezeSpeed">Velocidade Mínima Do Congelamento</string>
+  <string name="TouOptionVenererFreezeRadius">Área Do Congelamento</string>
 </resources>
