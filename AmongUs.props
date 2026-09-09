@@ -1,5 +1,6 @@
 <Project>
     <ItemGroup>
+        <ProjectReference Include="..\GitSubmodules\Achievements-API\AchievementsAPI\AchievementsAPI.csproj" />
         <ProjectReference Include="..\GitSubmodules\MiraAPI\MiraAPI\MiraAPI.csproj" />
         <PackageReference Include="Reactor" Version="2.5.0-ci.371"/>
         <PackageReference Include="PerfectComms.Api" Version="4.1.7.1" PrivateAssets="all" />
