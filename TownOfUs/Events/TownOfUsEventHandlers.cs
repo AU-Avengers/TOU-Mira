@@ -521,7 +521,7 @@ public static class TownOfUsEventHandlers
 
         if (player.Data.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
         {
-            ParasiteRole.RpcParasiteEndControl(player, parasiteRole.Controlled);
+            ParasiteRole.RpcParasiteEndControl(player, parasiteRole.Controlled, parasiteRole.Controlled.transform.position);
         }
 
         if (ParasiteControlState.IsControlled(player.PlayerId, out var controllerId))
@@ -529,7 +529,7 @@ public static class TownOfUsEventHandlers
             var controller = MiscUtils.PlayerById(controllerId);
             if (controller?.Data?.Role is ParasiteRole controllerRole && controllerRole.Controlled == player)
             {
-                ParasiteRole.RpcParasiteEndControl(controller, player);
+                ParasiteRole.RpcParasiteEndControl(controller, player, player.transform.position);
             }
             else
             {

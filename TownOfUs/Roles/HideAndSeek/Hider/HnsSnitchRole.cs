@@ -34,7 +34,6 @@ public sealed class HnsSnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     {
         AssociatedGameMode = typeof(HideAndSeekMode),
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Snitch.LoadAsset(), "TouMira.Role.Crewmate.Snitch", 1.45f),
-        HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek,
         FreeplayFolder = "Hide n Seek",
         Icon = TouRoleIcons.Snitch,
         RoleHintType = RoleHintType.TaskHint

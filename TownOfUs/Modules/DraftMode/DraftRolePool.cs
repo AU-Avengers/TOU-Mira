@@ -246,7 +246,7 @@ public static bool IsImpostorRoleId(ushort id)
         public static bool IsDoubleDraftRoleName(string name)
         {
             var role = FindRoleByName(name);
-            return role is ITownOfUsRole touRole && touRole is IDoubleDraftRole doubleDraftRole && doubleDraftRole.IsDoubleDraftRole;
+            return role is IDoubleDraftRole doubleDraftRole && doubleDraftRole.IsDoubleDraftRole;
         }
 
         public static bool IsDoubleDraftRoleId(ushort id)
@@ -254,7 +254,7 @@ public static bool IsImpostorRoleId(ushort id)
             try
             {
                 var role = MiscUtils.GetRegisteredRole((RoleTypes)id);
-                return role is ITownOfUsRole touRole && touRole is IDoubleDraftRole doubleDraftRole && doubleDraftRole.IsDoubleDraftRole;
+                return role is IDoubleDraftRole doubleDraftRole && doubleDraftRole.IsDoubleDraftRole;
             }
             catch { return false; }
         }
@@ -327,7 +327,7 @@ public static bool IsImpostorRoleId(ushort id)
 
             var normalized = NormalizeName(name);
 
-            return MiscUtils.AllRoles.FirstOrDefault(role =>
+            return MiscUtils.AllInGameRoles.FirstOrDefault(role =>
             {
                 if (role == null) return false;
                 var roleName = role.GetRoleName();
@@ -448,7 +448,7 @@ public static bool IsImpostorRoleId(ushort id)
             var role = MiscUtils.SpawnableRoles.FirstOrDefault(IsUsableRole);
             if (role != null) return (ushort)role.Role;
 
-            role = MiscUtils.AllRoles.FirstOrDefault(r => r != null && IsUsableRole(r));
+            role = MiscUtils.AllInGameRoles.FirstOrDefault(r => r != null && IsUsableRole(r));
             return role != null ? (ushort)role.Role : (ushort)0;
         }
 

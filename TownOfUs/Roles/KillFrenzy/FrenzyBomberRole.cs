@@ -64,7 +64,6 @@ public sealed class FrenzyBomberRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         AssociatedGameMode = typeof(KillFrenzyMode),
-        HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy,
         GhostRole = (RoleTypes)RoleId.Get<FrenzyGhostRole>(),
         FreeplayFolder = "Kill Frenzy",
         Icon = TouRoleIcons.Bomber,

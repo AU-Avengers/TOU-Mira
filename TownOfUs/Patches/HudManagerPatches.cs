@@ -517,7 +517,7 @@ public static class HudManagerPatches
         }
     }
 
-    public static void UpdateSubmergedButtons(HudManager instance)
+    public static void UpdateSubmergedButtons(HudManager instance, IGhostRole ghost)
     {
         if (ModCompatibility.IsSubmerged())
         {
@@ -531,9 +531,9 @@ public static class HudManagerPatches
                 MiraApiSettings.SetUpButtonPositions();
                 HasAdjustedSubButton = true;
             }
-            if (MiraHudHelper.SubmergedFloorButton && PlayerControl.LocalPlayer.Data.Role is IGhostRole ghost)
+            if (MiraHudHelper.SubmergedFloorButton)
             {
-                MiraHudHelper.SubmergedFloorButton.SetActive(ghost.Caught);
+                MiraHudHelper.SubmergedFloorButton.SetActive(!ghost.GhostActive);
             }
         }
     }

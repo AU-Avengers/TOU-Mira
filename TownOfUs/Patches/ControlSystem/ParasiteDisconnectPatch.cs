@@ -23,7 +23,7 @@ public static class ParasiteDisconnectPatch
             var controller = MiscUtils.PlayerById(controllerId);
             if (controller != null)
             {
-                ParasiteRole.RpcParasiteEndControl(controller, player);
+                ParasiteRole.RpcParasiteEndControl(controller, player, player.transform.position);
             }
             else
             {
@@ -38,7 +38,7 @@ public static class ParasiteDisconnectPatch
 
         if (player.Data?.Role is ParasiteRole role && role.Controlled != null)
         {
-            ParasiteRole.RpcParasiteEndControl(player, role.Controlled);
+            ParasiteRole.RpcParasiteEndControl(player, role.Controlled, role.Controlled.transform.position);
         }
 
         if (player.TryGetModifier<ParasiteInfectedModifier>(out var mod2))
