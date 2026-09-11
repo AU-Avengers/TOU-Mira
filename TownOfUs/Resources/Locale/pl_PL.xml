@@ -1253,4 +1253,17 @@ Twój cooldown zabicia jest odłączony od innych umiejętności.</string>
   <string name="TownOfUsMira.Role.HerbalistChangeHerb">Zmień Zioło</string>
   <string name="TownOfUsMira.Modifier.HerbalistProtectionDescription">Jesteś chroniony przez Kleryka!
 Nikt nie może wejść z tobą w interakcję.</string>
+  <string name="TownOfUsMira.Role.Hypnotist">Hipnotyzer</string>
+  <string name="TownOfUsMira.Role.Hypnotist.IntroBlurb">Zahipnotyzuj Załogę</string>
+  <string name="TownOfUsMira.Role.Hypnotist.MedDescription">Zahipnotyzuj Załogę, po czym wywołaj Masową Histerię by zmienić to co widzą.</string>
+  <string name="TownOfUsMira.Role.Hypnotist.TabDescription">Zahipnotyzuj załogantów aby nie mogli odróżniać
+innych graczy podczas masowej histerii</string>
+  <string name="TownOfUsMira.Role.Hypnotist.WikiDescription">Hipnotyzer jest Intruzem Wsparcia który może zahipnotyzować graczy. Podczas spotkania może rozpętać Masową Histerię, która powoduje że każdy zahipnotyzowany gracz (oznaczony symbolem [symbol]) od następnej rundy widzi innych graczy na totalnie inny sposób.</string>
+  <string name="TownOfUsMira.Role.HypnotistHypnotize">Hipnotyzuj</string>
+  <string name="TownOfUsMira.Role.HypnotistHypnotize.WikiDescription">Zahipnotyzuj gracza, sprawiając że będzie widział grę na inny sposób niż nie-zahipnotyzowani gracze o ile masowa histeria jest aktywna.</string>
+  <string name="TownOfUsMira.Role.HypnotistMassHysteria">Histeria</string>
+  <string name="TownOfUsMira.Role.HypnotistMassHysteriaWiki">Masowa Histeria (Spotkanie)</string>
+  <string name="TownOfUsMira.Role.HypnotistMassHysteria.WikiDescription">Spraw aby zahipnotyzowani gracze widzieli wszystkich na unikatowy sposób podczas następnej rundy.</string>
+  <string name="TouOptionHypnotistHypnotizeCooldown">Cooldown Hipnozy</string>
+  <string name="TouOptionHypnotistHypnotistCanKillWithTeammate">Hipnotyzer Może Zabijać Ze Wspólnikami</string>
 </resources>
