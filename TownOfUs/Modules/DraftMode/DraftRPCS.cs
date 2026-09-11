@@ -6,6 +6,7 @@ using Object = UnityEngine.Object;
 using MiraAPI.Utilities;
 using MiraAPI.GameOptions;
 using TownOfUs.Options;
+using TownOfUs.Patches;
 
 
 namespace TownOfUs.Modules.DraftMode;
@@ -23,6 +24,7 @@ public static class DraftRpcs
     [MethodRpc((uint)TownOfUsRpc.DraftStart)]
     public static void RpcStartDraft(PlayerControl sender, int totalSlots)
     {
+        HudManagerPatches.ResetZoom();
         DraftManager.IsDraftActive = true;
         DraftAudio.PlayDraftStart();
         DraftSidebarManager.Activate();
