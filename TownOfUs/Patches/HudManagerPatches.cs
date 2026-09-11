@@ -102,7 +102,7 @@ public static class HudManagerPatches
         AdjustCameraSize(!Zooming ? 12f : 3f);
     }
 
-    public static void ScrollZoom(bool zoomOut = false)
+    public static void ScrollZoom(bool zoomOut = false, float mult = 1.25f)
     {
         if (MeetingHud.Instance || ExileController.Instance)
         {
@@ -111,7 +111,7 @@ public static class HudManagerPatches
         }
 
         var size = Camera.main!.orthographicSize;
-        size = zoomOut ? size * 1.25f : size / 1.25f;
+        size = zoomOut ? size * mult : size / mult;
         size = Mathf.Clamp(size, 3, 15);
         if (Camera.main!.orthographicSize == size)
         {
@@ -132,11 +132,11 @@ public static class HudManagerPatches
         var scrollWheel = Input.GetAxis("Mouse ScrollWheel");
         var axisRaw = ConsoleJoystick.player.GetAxisRaw(55);
 
-        if (scrollWheel == 0 && Input.touchCount < 2 && axisRaw == 0)
+        if (scrollWheel == 0 && Input.touchCount < 3 && axisRaw == 0)
         {
             return;
         }
-        if (Input.touchCount == 2)
+        if (Input.touchCount == 3)
         {
             Touch touch0 = Input.GetTouch(0);
             Touch touch1 = Input.GetTouch(1);
@@ -152,12 +152,12 @@ public static class HudManagerPatches
             {
                 case > 0:
                 {
-                    ScrollZoom();
+                    ScrollZoom(false, 1.05f);
                     break;
                 }
                 case < 0:
                 {
-                    ScrollZoom(true);
+                    ScrollZoom(true, 1.05f);
                     break;
                 }
             }
