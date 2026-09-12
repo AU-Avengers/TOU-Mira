@@ -41,8 +41,8 @@ This approach is preferable to translating individual fragments such as:
 
 because those words may need to appear in different positions depending on the language.
 ### 3. Remaining strings for:
-- Miner, Sentry, Seer, Mercenary, Venerer, Morphling, Ambusher, Puppeteer, Traitor, Ambassador
-- Disperser, Double Shot, 
+- Miner, Sentry, Seer, Mercenary, Venerer, Morphling, Ambusher, Puppeteer, Traitor, Ambassador, Prosecutor, etc
+- Disperser, Double Shot, Warden protected, etc
 
 ### Fixed some stringnames that were wrong and causing the game to use the english fallbacks
 Scatter: `public override string ModifierName => MiraLocaleManager.Get("Scatter", "Scatter");` (The string is `TouScatter` in the XML)

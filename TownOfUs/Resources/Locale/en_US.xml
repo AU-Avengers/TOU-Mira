@@ -3546,10 +3546,19 @@ This change is permanent.</string>
   <string name="TouDraftRecapEnabled">Draft Mode Recap will display [recap].</string>
   <string name="TouMultiplayerFreeplayWarning">Warning: Multiplayer Freeplay is enabled. The game will not end automatically.</string>
   <string name="TouNoGameEndWarning">Warning: No Game End is enabled. The game will not end automatically.</string>
-
-
-
-
+  <string name="TownOfUsMira.Role.ProsecutorHasSpoken">The Prosecutor has spoken.</string>
+  <string name="TownOfUsMira.Modifier.WardenFortifiedDescription">You are fortified by a Warden!
+No one can interact with you.</string>
+<!-- UI Tabs -->
+  <string name="TouLocalTabActions">Actions</string>
+  <string name="TouLocalTabButtons">UI / UX</string>
+  <string name="TouLocalTabPlayers">Players</string>
+  <string name="TouLocalTabPractice">Lobby / Practice</string>
+  <string name="TouLocalTabPreferences">Preferences</string>
+  <string name="TouLocalActionSelfKill">Self Kill</string>
+  <string name="TouLocalActionAbortGame">Abort Game</string>
+  <string name="TouLocalActionStartMeeting">Start Meeting</string>
+  <string name="TouLocalActionEndMeeting">End Meeting</string>
 
 
 
