@@ -237,6 +237,10 @@ public static class DraftManager
     public static void Reset(bool cancelledBeforeCompletion)
     {
         IsDraftActive = false;
+        if (cancelledBeforeCompletion)
+        {
+            DraftApplier.PendingDraftStates.Clear();
+        }
         SlotStates.Clear();
         PlayerToSlot.Clear();
         DisconnectSuspectSince.Clear();
