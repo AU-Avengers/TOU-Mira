@@ -1093,7 +1093,7 @@ Gdy takowej użyją, możesz go zabić.</string>
   <string name="TownOfUsMira.Role.ImitatorImpostorCounterparts">Odpowiedniki Intruzów</string>
   <string name="TouOptionImitatorImitateNeutrals">Może Naśladować Odpowiedniki Neutralne</string>
   <string name="TouOptionImitatorImitateImpostors">Może Naśladować Odpowiedniki Intruzów</string>
-  <string name="TouOptionImitatorImitateBasicCrewmate">Może Naśladować Podstawowego Załoganta</string>
+  <string name="TouOptionImitatorImitateBasicCrewmate">Może Naśladować Zwykłego Załoganta</string>
   <string name="TouOptionImitatorGuessAs">Naśladowca Musi Być Zgadnięty Jako</string>
   <string name="TouOptionImitatorGuessEnumCached">Naśladowca</string>
   <string name="TouOptionImitatorGuessEnumActive">Naśladowana Rola</string>
@@ -1266,4 +1266,5 @@ innych graczy podczas masowej histerii</string>
   <string name="TownOfUsMira.Role.HypnotistMassHysteria.WikiDescription">Spraw aby zahipnotyzowani gracze widzieli wszystkich na unikatowy sposób podczas następnej rundy.</string>
   <string name="TouOptionHypnotistHypnotizeCooldown">Cooldown Hipnozy</string>
   <string name="TouOptionHypnotistHypnotistCanKillWithTeammate">Hipnotyzer Może Zabijać Ze Wspólnikami</string>
+  <string name="TownOfUsMira.Role.Imitator.MedDescription">Naśladuj to czym zmarli raz byli.</string>
 </resources>
