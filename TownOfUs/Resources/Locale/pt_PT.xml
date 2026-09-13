@@ -623,7 +623,7 @@ Podes desativar esta mensagem no menu de definições.</string>
   <string name="TownOfUsMira.HideAndSeek.Role.ChameleonUnswoop">Visibilidade</string>
   <string name="TownOfUsMira.HideAndSeek.Role.ChameleonUnswoop.WikiDescription">Cancela a tua invisibilidade mais cedo, ou deixa ela finalizar para ficares visível de novo.</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Option.ChameleonSwoopUsesPerRound">Usos Totais da Invisibilidade</string>
-  <string name="TownOfUsMira.HideAndSeek.Role.Option.ChameleonSwoopCooldown">Recarga da Invisibilidade</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Option.ChameleonSwoopCooldown">Tempo De Recarga Da Invisibilidade</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Option.ChameleonSwoopDuration">Duração da Invisibilidade</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Option.ChameleonCanVent">Camaleão pode usar ventilação</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Mystic">Místico</string>
@@ -672,7 +672,7 @@ ao custo de revelar a tua localização.</string>
   <string name="TownOfUsMira.HideAndSeek.Role.CamouflagerCamo">Camo</string>
   <string name="TownOfUsMira.HideAndSeek.Role.CamouflagerCamo.WikiDescription">Ativa uma camuflagem global para misturar-se com a tripulação.</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Option.CamouflagerCamoUses">Usos Totais da Camo</string>
-  <string name="TownOfUsMira.HideAndSeek.Role.Option.CamouflagerCamoCooldown">Recarga da Camo</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Option.CamouflagerCamoCooldown">Tempo De Recarga Da Camo</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Option.CamouflagerCamoDuration">Duração da Camo</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Option.CamouflagerCamoDisablesProxBar">Camo Desativa a Barra de Proximidade</string>
   <string name="TownOfUsMira.Cultist.Role.Necromancer">Necromante</string>
@@ -733,9 +733,9 @@ lança Barreiras para parar qualquer interação</string>
   <string name="TownOfUsMira.Role.ClericMessageTitle">Feedback to Clérigo</string>
   <string name="TownOfUsMira.Role.ClericCleansedEffects">Efeitos limpos de [player]:</string>
   <string name="TownOfUsMira.Role.ClericCleansedNoEffects">Nenhum efeito negativo foi encontrado em [player].</string>
-  <string name="TouOptionClericBarrierCooldown">Recarga da Barreira</string>
+  <string name="TouOptionClericBarrierCooldown">Tempo De Recarga Da Barreira</string>
   <string name="TouOptionClericBarrierDuration">Duração da Barreira</string>
-  <string name="TouOptionClericCleanseCooldown">Recarga da Limpeza</string>
+  <string name="TouOptionClericCleanseCooldown">Tempo De Recarga Da Limpeza</string>
   <string name="TouOptionClericProtectedSeesBarrier">Jogador Protegido Vê Barreira</string>
   <string name="TouOptionClericAttackNotif">Clérigo Recebe Uma Notificação de Ataque</string>
   <string name="TownOfUsMira.Role.Deputy">Delegado</string>
@@ -765,7 +765,7 @@ ver se eles estiveram lá.</string>
   <string name="TownOfUsMira.Role.ForensicExamine">Examinar</string>
   <string name="TownOfUsMira.Role.ForensicExamine.WikiDescription">Examina jogadores depois de inspecionares a cena do crime. Vais ser informado se o jogador esteve na cena do crime.</string>
   <string name="TownOfUsMira.Role.ForensicInspectNotif">Inspecionaste a cena do crime de [player]. O assassino ou qualquer um que esteve na cena do crime vão brilhar vermelho quando examinados.</string>
-  <string name="TouOptionForensicExamineCooldown">Recarga da Examinação</string>
+  <string name="TouOptionForensicExamineCooldown">Tempo De Recarga Da Examinação</string>
   <string name="TouOptionForensicReportOn">Mostrar Reportagens do Forense</string>
   <string name="TouOptionForensicRoleDuration">Tempo Até Quando o Forense Sabe a Função</string>
   <string name="TouOptionForensicFactionDuration">Tempo Até Quando o Forense Sabe o Alinhamento</string>
@@ -800,7 +800,7 @@ Ele pode ser um assassino ou uma testemunha.</string>
   <string name="TownOfUsMira.Role.BarkeeperSpill.WikiDescription">Derrama uma das tuas bebidas, acelerando jogadores que passarem por ela se a bebida for recente ou abrandando-os se a bebida for antiga. A habilidade só ativa uma vez por jogador.</string>
   <string name="TownOfUsMira.Role.BarkeeperSpillSpeedBuffNotif">Sentes um derrame escorregadio debaixo de ti. Ganhas-te um aumento de velocidade!</string>
   <string name="TownOfUsMira.Role.BarkeeperSpillSpeedDebuffNotif">Sentes um derrame antigo debaixo de ti. Sentes-te mais lento que usualmente.</string>
-  <string name="TouOptionBarkeeperRoleblockCooldown">Recarga da Bebida</string>
+  <string name="TouOptionBarkeeperRoleblockCooldown">Tempo De Recarga Da Bebida</string>
   <string name="TouOptionBarkeeperRoleblockDelayMin">Delay Mínimo da Bebida</string>
   <string name="TouOptionBarkeeperRoleblockDelayMax">Delay Máximo da Bebida</string>
   <string name="TouOptionBarkeeperRoleblockDelaySummarized">Delay da Bebida: [min]s - [max]s</string>
@@ -820,7 +820,7 @@ Ele pode ser um assassino ou uma testemunha.</string>
   <string name="TownOfUsMira.Role.EngineerFix.WikiDescription">Não importa aonde estás no mapa, podes usar o teu botão de arranjar para arranjar sabotagens ativas. Podes fazer isto [engiMaxFixes] vezes por jogo.</string>
   <string name="TouOptionEngineerMaxVents">Usos de Ventilar Por Jogo</string>
   <string name="TouOptionEngineerVentPerTasks">Tarefas Necessária para Usos Adicionais do Ventilar</string>
-  <string name="TouOptionEngineerVentCooldown">Recarga do Ventilar</string>
+  <string name="TouOptionEngineerVentCooldown">Tempo De Recarga Do Ventilar</string>
   <string name="TouOptionEngineerVentDuration">Duração do Ventilar</string>
   <string name="TouOptionEngineerMaxFixes">Usos por Jogo do Arranjar</string>
   <string name="TouOptionEngineerFixPerTasks">Tarefas Necessárias Para Usos Adicionais do Arranjar</string>
@@ -853,8 +853,8 @@ Quando usarem uma habilidade, podes matar-los.</string>
   <string name="TownOfUsMira.Role.HunterStalkNotif">Se [player] usar uma habilidade, vais ter a possibilidade de o matar em qualquer ponto no jogo.</string>
   <string name="TownOfUsMira.Role.HunterCaughtInteractionNotif">[player] usou uma habilidade noutro jogador!</string>
   <string name="TownOfUsMira.Role.HunterCaughtAbilityNotif">[player] usou uma habilidade regular!</string>
-  <string name="TouOptionHunterKillCooldown">Recarga de Matar do Caçador</string>
-  <string name="TouOptionHunterStalkCooldown">Recarga da Perseguição do Caçador</string>
+  <string name="TouOptionHunterKillCooldown">Tempo De Recarga De Matar Do Caçador</string>
+  <string name="TouOptionHunterStalkCooldown">Tempo De Recarga Da Perseguição Do Caçador</string>
   <string name="TouOptionHunterStalkDuration">Duração do Perseguir do Caçador</string>
   <string name="TouOptionHunterStalkUses">Usos do Perseguir Iniciais</string>
   <string name="TouOptionHunterStalksPerTasks">Tarefas Necessárias Para Usos Adicionais Do Perseguir</string>
@@ -902,7 +902,7 @@ executa-os se desejares</string>
   <string name="TownOfUsMira.Role.JailorExecute">Executar</string>
   <string name="TownOfUsMira.Role.JailorExecuteWiki">Executar (Reunião)</string>
   <string name="TownOfUsMira.Role.JailorExecute.WikiDescription">Executa o jogador preso. Se o jogador é um tripulante, o Carcereiro perde a habilidade de Prender.</string>
-  <string name="TouOptionJailorJailCooldown">Recarga do Prender</string>
+  <string name="TouOptionJailorJailCooldown">Tempo De Recarga Do Prender</string>
   <string name="TouOptionJailorMaxExecutes">Número Max De Usos do Executar</string>
   <string name="TouOptionJailorJailInARow">Pode Prender Alguém Duas Vezes Seguidas</string>
   <string name="TouOptionJailorJaileePublicChat">Preso Pode Usar o Chat Público</string>
@@ -925,7 +925,7 @@ executa-os se desejares</string>
   <string name="TownOfUsMira.Role.LookoutNoInteractionFeedback">Nenhum jogador interagiu com [player]</string>
   <string name="TownOfUsMira.Role.LookoutInteractionFeedback">Funções vistos a interagiram com [player]</string>
   <string name="TownOfUsMira.Role.LookoutAltInteractionFeedback">Jogadores vistos a interagirem com [player]</string>
-  <string name="TouOptionLookoutWatchCooldown">Recarga da Observação</string>
+  <string name="TouOptionLookoutWatchCooldown">Tempo De Recarga Da Observação</string>
   <string name="TouOptionLookoutMaxWatches">Jogadores Iniciais Que Podem Ser Observados</string>
   <string name="TouOptionLookoutSeesIndirectAttacks">Ver Ataques Indiretos</string>
   <string name="TouOptionLookoutLoResetOnNewRound">Observar Reseta Depois de Cada Ronda</string>
@@ -976,7 +976,7 @@ O teu corpo ainda está vulnerável neste estado.</string>
   <string name="TownOfUsMira.Role.Medium.WikiDescription">O Médium é uma Função Tripulante Investigador que pode temporariamente o seu espírito. Ele pode passar pelas paredes e ver fantasmas, mas deixa o seu corpo desprotegido.</string>
   <string name="TownOfUsMira.Role.MediumMediate">Meditar</string>
   <string name="TownOfUsMira.Role.MediumMediate.WikiDescription">Projeta o teu espírito para fora do teu corpo por algum tempo para descobrir pistas. Quando o tempo acabar, retorna ao teu corpo mortal e os fantasmas vão desaparecer.</string>
-  <string name="TouOptionMediumMediateCooldown">Recarga da Meditação</string>
+  <string name="TouOptionMediumMediateCooldown">Tempo De Recarga Da Meditação</string>
   <string name="TouOptionMediumReworkToggle">Meditação Cria um Espírito Temporário</string>
   <string name="TouOptionMediumMediateDuration">Duração do Meditar</string>
   <string name="TouOptionMediumMediateEarlyCancel">Meditar Pode Ser Cancelado Mais Cedo</string>
@@ -1015,9 +1015,9 @@ podes libertar o ataque para outro jogador!</string>
   <string name="TouOptionMirrorcasterWhoGetsMurderAttemptIndicator">Quem Recebe o Indicador De Tentativa de Assassinato</string>
   <string name="TouOptionMirrorcasterNotifEnumMirrorcaster">Espelhador</string>
   <string name="TouOptionMirrorcasterNotifEnumMirrorcasterAndKiller">Espelhador + Assassino</string>
-  <string name="TouOptionMirrorcasterMagicMirrorCooldown">Recarga do Escudo Mágico</string>
+  <string name="TouOptionMirrorcasterMagicMirrorCooldown">Tempo De Recarga do Escudo Mágico</string>
   <string name="TouOptionMirrorcasterMagicMirrorDuration">Duração do Escudo Mágico</string>
-  <string name="TouOptionMirrorcasterUnleashCooldown">Recarga do Libertar</string>
+  <string name="TouOptionMirrorcasterUnleashCooldown">Tempo De Recarga Do Libertar</string>
   <string name="TouOptionMirrorcasterAttackInformationGiven">Informação Recebida Depois do Ataque</string>
   <string name="TouOptionMirrorcasterInfoEnumRole">Função</string>
   <string name="TouOptionMirrorcasterInfoEnumSubalignment">Subalinhamento</string>
@@ -1061,8 +1061,8 @@ faça-os confessar os seus pecados nas reuniões</string>
   <string name="TownOfUsMira.Role.OracleBless.WikiDescription">Abençoar um jogador previne qualquer interação má de ser feita nele numa reunião.</string>
   <string name="TownOfUsMira.Role.OracleConfess">Confissão</string>
   <string name="TownOfUsMira.Role.OracleConfess.WikiDescription">Faz um jogador confessar numa reunião, dando a visão de três possíveis maus (incluindo o confessor), e também revelar a sua fação para todos com [revealAccuracy]% de precisão quando o Oráculo morre.</string>
-  <string name="TouOptionOracleConfessCooldown">Recarga da Confissão</string>
-  <string name="TouOptionOracleBlessCooldown">Recarga do Abençoar</string>
+  <string name="TouOptionOracleConfessCooldown">Tempo De Recarga Da Confissão</string>
+  <string name="TouOptionOracleBlessCooldown">Tempo Da Recarga Do Abençoar</string>
   <string name="TouOptionOracleRevealAccuracy">Precisão da Revelação</string>
   <string name="TouOptionOracleNeutralBenignShowEvil">Neutro Benigno Aparece Como Malvado</string>
   <string name="TouOptionOracleNeutralEvilShowEvil">Neutro Malvado Aparece Como Malvado</string>
@@ -1098,9 +1098,9 @@ barrica ventilações para as bloquear na próxima rodada</string>
   <string name="TownOfUsMira.Role.PlumberBlock">Bloquear</string>
   <string name="TownOfUsMira.Role.PlumberBlock.WikiDescription">Bloqueia uma ventilação colocando uma barricada nela pela próxima ronda, prevenindo jogadores de usá-la.</string>
   <string name="TownOfUsMira.Role.PlumberBlockNotif">Esta ventilação vai ser bloqueado no início da próxima ronda.</string>
-  <string name="TouOptionPlumberFlushCooldown">Recarga do Descarregar</string>
+  <string name="TouOptionPlumberFlushCooldown">Tempo De Recarga Do Descarregar</string>
   <string name="TouOptionPlumberFlushDuration">Duração do Descarregar</string>
-  <string name="TouOptionPlumberBlockCooldown">Recarga do Bloqueio</string>
+  <string name="TouOptionPlumberBlockCooldown">Tempo De Recarga Do Bloqueio</string>
   <string name="TouOptionPlumberMaxNumberOfBarricades">Número Inicial de Barricadas</string>
   <string name="TouOptionPlumberAmountOfRoundsBarricadesLast">Número De Rondas Que As Barricadas Duram</string>
   <string name="TouOptionPlumberGetMoreFromTasks">Receber Mais Barricadas Por Completar Tarefas</string>
@@ -1116,7 +1116,7 @@ pelo menos metade dos jogadores inocentes para te revelares com sucesso</string>
   <string name="TownOfUsMira.Role.PoliticianRevealWiki">Revelar (Reunião)</string>
   <string name="TownOfUsMira.Role.PoliticianReveal.WikiDescription">Se te revelares, e se tiveres feito campanha em mais de metade dos tripulantes (ou nenhum outro tripulante falta), vais virar o Presidente! Se não, a tua habilidade vai falhar.</string>
   <string name="TownOfUsMira.Role.PoliticianRevealWikiDescriptionPunished">Se te revelares, e se tiveres feito campanha em mais de metade dos tripulantes (ou nenhum outro tripulante falta), vais virar o Presidente! Se não, a tua habilidade vai falhar e não vais poder fazer campanha na próxima ronda.</string>
-  <string name="TouOptionPoliticianCampaignCooldown">Recarga da Campanha</string>
+  <string name="TouOptionPoliticianCampaignCooldown">Tempo De Recarga Da Campanha</string>
   <string name="TouOptionPoliticianPreventCampaignOnFailedReveal">Previne Campanha se a Revelação Falhar</string>
   <string name="TownOfUsMira.Role.PoliticianFailedRevealCanCampaign">Tens que fazer campanha em mais Tripulantes! Não podes tentar revelar de novo neste reunião.</string>
   <string name="TownOfUsMira.Role.PoliticianFailedRevealCannotCampaign">Tens que fazer campanha em mais Tripulantes! No entanto, não podes fazer campanha na próxima ronda.</string>
@@ -1155,7 +1155,7 @@ eles são amigos ou inimigos!</string>
   <string name="TownOfUsMira.Role.SeerTabHeader">Comparações Prévias:</string>
   <string name="TownOfUsMira.Role.SeerTabComparison">[gazed] vs [intuited] (Ronda [num])</string>
   <string name="TouOptionSeerSalemMode">Comparar Jogadores Em Vez de Verificar Alinhamentos</string>
-  <string name="TouOptionSeerCooldown">Recarga da Revelação/Comparação</string>
+  <string name="TouOptionSeerCooldown">Tempo De Recarga da Revelação/Comparação</string>
   <string name="TouOptionSeerUses">Usos Máximos do Revelar/Comparar</string>
   <string name="TouOptionSeerMultiplePerRound">Pode Revelar/Comparar Mais Que Uma Vez Por Ronda</string>
   <string name="TouOptionSeerCompareEachPlayerOnce">Apenas Pode Comparar Cada Jogador Uma Vez</string>
@@ -1183,7 +1183,7 @@ eles são amigos ou inimigos!</string>
   <string name="TownOfUsMira.Role.SentrySentryOnly">(Máquina-apenas)</string>
   <string name="TownOfUsMira.Role.SentryPlacing">(Colocando...)</string>
   <string name="TownOfUsMira.Role.SentryMaxCamerasReached">Número Máximo de Câmaras colocado ([count]/[max]).</string>
-  <string name="TouOptionSentryPlacementCooldown">Recarga do Colocar</string>
+  <string name="TouOptionSentryPlacementCooldown">Tempo De Recarga Do Colocar</string>
   <string name="TouOptionSentryDeployedCamerasVisibility">Visibilidade Das Câmaras Colocadas</string>
   <string name="TouOptionSentryCamerasVisibleAfter">Câmaras Visíveis Depois</string>
   <string name="TouOptionSentryCanMoveWhilePlacingCameras">Pode Mover Enquanto Coloca Câmaras</string>
@@ -1279,8 +1279,8 @@ Munições carregadas há mais de 10s são eliminadas na próxima ronda.</string
   <string name="TownOfUsMira.Role.OfficerShoot">Disparar</string>
   <string name="TownOfUsMira.Role.OfficerShoot.WikiDescription">Atira num jogador para o matar. Se o jogador for considerado "inocente", vais ter que guardar a tua arma temporariamente.</string>
   <string name="TownOfUsMira.Role.OfficerBadKillFeedback">Atiraste num jogador inocente! A tua arma foi confiscada por agora.</string>
-  <string name="TouOptionOfficerShootCooldown">Recarga do Disparo</string>
-  <string name="TouOptionOfficerLoadCooldown">Recarga do Carregamento</string>
+  <string name="TouOptionOfficerShootCooldown">Tempo De Recarga Do Disparo</string>
+  <string name="TouOptionOfficerLoadCooldown">Tempo De Recarga Do Carregamento</string>
   <string name="TouOptionOfficerCanSelfReport">Pode Reportar Corpos Que Matou</string>
   <string name="TouOptionOfficerCanOnlyShootActiveKillers">Agente Só Pode Disparar Em Jogadores Que Já Mataram</string>
   <string name="TouOptionOfficerCrewKillingAreInnocent">Funções Tripulante Assassino são Inocentes</string>
@@ -1288,7 +1288,7 @@ Munições carregadas há mais de 10s são eliminadas na próxima ronda.</string
   <string name="TouOptionOfficerFirstRound">Pode Disparar na Primeira Ronda</string>
   <string name="TouOptionOfficerMaxBulletsTotal">Máximo de Balas no Total</string>
   <string name="TouOptionOfficerMaxBulletsAtOnce">Número Máximo de Balas no Momento</string>
-  <string name="TouOptionOfficerCooldownSummary">Recarga do Disparo: [shoot]s | Recarga do Carregamento: [load]s</string>
+  <string name="TouOptionOfficerCooldownSummary">Tempo De Recarga Do Disparo: [shoot]s | Tempo De Recarga Do Carregamento: [load]s</string>
   <string name="TouOptionOfficerBulletsSummary">Balas de Uma Vez: [once] | Total de Balas: [total]</string>
   <string name="TouOptionOfficerRoundPunishment"># de Rondas para Disparar De Novo Depois de Tiro Falhado</string>
   <string name="TownOfUsMira.Role.Sheriff">Xerife</string>
@@ -1305,7 +1305,7 @@ Munições carregadas há mais de 10s são eliminadas na próxima ronda.</string
 ao custo da tua habilidade.</string>
   <string name="TownOfUsMira.Role.SheriffTabMisfireKillsNobody">Falhar o tiro vai te prever de atirar de novo.</string>
   <string name="TownOfUsMira.Role.SheriffMisfireFeedback">Perdeste a habilidade de atirar!</string>
-  <string name="TouOptionSheriffKillCooldown">Recarga do Tiro</string>
+  <string name="TouOptionSheriffKillCooldown">Tempo De Recarga Do Tiro</string>
   <string name="TouOptionSheriffCanSelfReport">Pode Reportar Corpos que Matou</string>
   <string name="TouOptionSheriffAllowShootinginFirstRound">Pode Atirar na Primeira Ronda</string>
   <string name="TouOptionSheriffCanShootNeutralBenignRoles">Pode Atirar Em Neutros Benignos</string>
@@ -1360,7 +1360,7 @@ ao custo da tua habilidade.</string>
   <string name="TouOptionSpyStartingCharge">Bateria No Começo</string>
   <string name="TouOptionSpyBatteryChargedEachRound">Bateria Carregada Em Cada Ronda</string>
   <string name="TouOptionSpyBatteryChargedPerTask">Bateria Carregada Por Tarefa</string>
-  <string name="TouOptionSpyPortableAdminDisplayCooldown">Recarga Do Ecrã Do Admin</string>
+  <string name="TouOptionSpyPortableAdminDisplayCooldown">Tempo De Recarga Do Ecrã Do Admin</string>
   <string name="TouOptionSpyPortableAdminDisplayDuration">Duração Do Ecrã Do Admin Portável</string>
   <string name="TownOfUsMira.Role.Swapper">Trocador</string>
   <string name="TownOfUsMira.Role.Swapper.IntroBlurb">Troca votos para salvar a Tripulação!</string>
@@ -1379,7 +1379,7 @@ ao custo da tua habilidade.</string>
   <string name="TownOfUsMira.Role.TimeLordRewind.WikiDescription">Retrocede no tempo para todos. Jogadores são forçados a refazer os seus paços pela duração da habilidade. Qualquer morte que acontecer durante a janela são revertidos.</string>
   <string name="TownOfUsMira.Role.TimeLordRewindNotif">O tempo está a ser retrocedido!</string>
   <string name="TownOfUsMira.Role.TimeLordRevivedNotif">Foste revivido graças ao Mestre Do Tempo!</string>
-  <string name="TouOptionTimeLordRewindCooldown">Recarga Do Retroceder</string>
+  <string name="TouOptionTimeLordRewindCooldown">Tempo De Recarga Do Retroceder</string>
   <string name="TouOptionTimeLordRewindDuration">Duração Do Retroceder</string>
   <string name="TouOptionTimeLordRewindHistory">História Do Retroceder</string>
   <string name="TouOptionTimeLordMaxUses">Usos Iniciais</string>
@@ -1395,7 +1395,7 @@ ao custo da tua habilidade.</string>
   <string name="TownOfUsMira.Role.Sonar.WikiDescription">O Sonar é uma Função Tripulante Investigador que pode rastrear outros jogadores para ver a sua posição no mapa, recebendo setas coloridas em direção a todos os jogadores rastreadas.</string>
   <string name="TownOfUsMira.Role.SonarTrack">Rastrear</string>
   <string name="TownOfUsMira.Role.SonarTrack.WikiDescription">Rastreia um jogador para ver aonde ele vai. Tens uma seta que aponta para a sua localização que vai atualizando periodicamente. A seta vai desaparecer se o jogador morrer, ou dependendo das definições, os rastreadores serão eliminados depois de uma reunião.</string>
-  <string name="TouOptionSonarTrackCooldown">Recarga do Rastreio</string>
+  <string name="TouOptionSonarTrackCooldown">Tempo De Recarga Do Rastreio</string>
   <string name="TouOptionSonarMaxNumberOfTracks">Número Inicial De Rastreios</string>
   <string name="TouOptionSonarArrowUpdateInterval">Intervalo Da Atualização Da Seta</string>
   <string name="TouOptionSonarArrowsMakeSoundOnDeath">Rastreios Fazem São Na Morte</string>
@@ -1408,7 +1408,7 @@ ao custo da tua habilidade.</string>
   <string name="TownOfUsMira.Role.TransporterTransport">Transportar</string>
   <string name="TownOfUsMira.Role.TransporterTransport.WikiDescription">Troca de posições de dois jogadores. Jogadores podem ser transportados para fora de ventilações. Um flash vermelho significa que um dos jogadores virou um alvo invalido, como ir para uma escada ou uma tirolesa</string>
   <string name="TownOfUsMira.Role.TransporterTransportNotif">Foste transportado!</string>
-  <string name="TouOptionTransporterTransportCooldown">Recarga do Transporte</string>
+  <string name="TouOptionTransporterTransportCooldown">Tempo De Recarga Do Transporte</string>
   <string name="TouOptionTransporterMaxUses">Usos Iniciais</string>
   <string name="TouOptionTransporterMoveWithMenu">Mover Enquanto Usar O Meno De Transporte</string>
   <string name="TouOptionTransporterCanUseVitals">Pode Usar Os Vitais</string>
@@ -1420,7 +1420,7 @@ ao custo da tua habilidade.</string>
   <string name="TownOfUsMira.Role.Trapper.WikiDescription">O Armadilhador é uma Função Tripulante Investigador que pode colocar armadilhas em volta do mapa. Se alguém ficar nelas por tempo suficiente e jogadores suficientes passem nelas, o Armadilhador recebe uma lista das suas funções na próxima reunião em ordem aleatória.</string>
   <string name="TownOfUsMira.Role.TrapperTrap">Armadilhar</string>
   <string name="TownOfUsMira.Role.TrapperTrap.WikiDescription">Coloca uma armadilha. Dependendo nas definições elas podem ficar para o resto do jogo ou desaparecer na próxima reunião.</string>
-  <string name="TouOptionTrapperTrapCooldown">Recarga da Armadilha</string>
+  <string name="TouOptionTrapperTrapCooldown">Tempo De Recarga Da Armadilha</string>
   <string name="TouOptionTrapperMinAmountOfTimeInTrap">Número Mínimo De Tempo Na Armadilha Para Registar</string>
   <string name="TouOptionTrapperMaxNumberOfTraps">Número Inicial De Armadilhas</string>
   <string name="TouOptionTrapperTrapSize">Tamanho Da Armadilha</string>
@@ -1440,7 +1440,7 @@ ao custo da tua habilidade.</string>
   <string name="TownOfUsMira.Role.VeteranAlert.WikiDescription">Quando o Veterano está em alerta, qualquer jogador que interagir com ele vai ser morto instantaneamente, exceto a Peste e jogadores escudados, quem vão ignorar o ataque.</string>
   <string name="TownOfUsMira.Role.VeteranMessageTitle">Alerta Do Veterano</string>
   <string name="TownOfUsMira.Role.VeteranAttackMessage">Foste atacado antes desta reunião enquanto estiveste em alerta!</string>
-  <string name="TouOptionVeteranAlertCooldown">Recarga do Alerta</string>
+  <string name="TouOptionVeteranAlertCooldown">Tempo De Recarga Do Alerta</string>
   <string name="TouOptionVeteranAlertDuration">Duração do Alertar</string>
   <string name="TouOptionVeteranMaxNumberofAlerts">Número Inicial De Alertas</string>
   <string name="TouOptionVeteranCanBeKilledOnAlert">Pode Ser Morto Enquanto Em Alerta</string>
@@ -1492,7 +1492,7 @@ ao custo da tua habilidade.</string>
   <string name="TownOfUsMira.Role.AmbassadorRetrain.WikiDescription">Recapacita-te ou outros impostores numa função da sua fação. Impostores Assassinos podem ser tornados em qualquer função não-Poderosa, e Funções Encobridores/Suportes podem tornar-se funções Encobridoras ou Suportes.</string>
   <string name="TownOfUsMira.Role.AmbassadorRetrainsAvailable">[retrainsLeft]/[retrainsTotal] Recapacitares Restantes</string>
   <string name="TownOfUsMira.Role.AmbassadorRetrainWaiting">Recapacitar na Ronda [roundToWait]</string>
-  <string name="TownOfUsMira.Role.AmbassadorRetrainCooldown">Recarga Da Ronda [roundsLeft]/[roundsTotal]</string>
+  <string name="TownOfUsMira.Role.AmbassadorRetrainCooldown">Tempo De Recarga Da Ronda: [roundsLeft]/[roundsTotal]</string>
   <string name="TownOfUsMira.Role.AmbassadorChooseRole">Escolha uma função para recapacitar em.</string>
   <string name="TownOfUsMira.Role.AmbassadorRandomImpostorOption">Impostor Aleatório</string>
   <string name="TownOfUsMira.Role.AmbassadorConfirmPromptTitle">Recapacitar do Embaixador</string>
@@ -1527,7 +1527,7 @@ Se o jogador que emboscaste morrer, levas o corpo dele contigo.</string>
   <string name="TownOfUsMira.Role.AmbusherAmbush">Emboscar</string>
   <string name="TownOfUsMira.Role.AmbusherAmbush.WikiDescription">Embosca o jogador mais perto do alvo perseguido para o matar.</string>
   <string name="TouOptionAmbusherAmbushUsesPerGame">Usos do Emboscar por jogo</string>
-  <string name="TouOptionAmbusherAmbushCooldown">Recarga da Emboscada</string>
+  <string name="TouOptionAmbusherAmbushCooldown">Tempo De Recarga Da Emboscada</string>
   <string name="TouOptionAmbusherPursueArrowUpdateInterval">Intervalo Da Seta Do Perseguir</string>
   <string name="TouOptionAmbusherStopPursuingPlayerOnAmbush">Parar De Perseguir Jogador Depois De Usar Emboscar</string>
   <string name="TouOptionAmbusherCanVent">Emboscador Pode Utilizar Ventilações</string>
@@ -1538,7 +1538,7 @@ Se o jogador que emboscaste morrer, levas o corpo dele contigo.</string>
   <string name="TownOfUsMira.Role.BlackmailerBlackmail">Chantagear</string>
   <string name="TownOfUsMira.Role.BlackmailerBlackmail.WikiDescription">Silencia um jogador durante a próxima reunião. Ele não vai puder falar. Ele também não vai puder votar a não ser que estejam o mesmo número ou menos vivas que as definições do Chantagista deixem. A chantagem vai ser visível para outros jogadores se essa definição estiver ligada</string>
   <string name="TouOptionBlackmailerNumberOfBlackmailUsesPerGame">Número De Usos Do Chantagear Por Jogo</string>
-  <string name="TouOptionBlackmailerBlackmailCooldown">Recarga da Chantagem</string>
+  <string name="TouOptionBlackmailerBlackmailCooldown">Tempo De Recarga Da Chantagem</string>
   <string name="TouOptionBlackmailerMaxPlayersAliveUntilVoting">Máximo De Jogadores Vivos Para Deixar Votar</string>
   <string name="TouOptionBlackmailerBlackmailSamePersonTwiceInARow">Chantagear A Mesma Pessoa Duas Vezes Seguidas</string>
   <string name="TouOptionBlackmailerOnlyTargetSeesBlackmail">Apenas Alvo Vê Chantagem</string>
@@ -1555,7 +1555,7 @@ Bloqueia alguém múltiplas vezes para o envenenares.</string>
   <string name="TownOfUsMira.Role.BootleggerMessageTitle">Feedback Do Contrabandista</string>
   <string name="TownOfUsMira.Role.BootleggerSickenFeedbackAffected">Tens o sentimento súbito que uma bebida está a te fazer sentir doente! Da próxima vez que o Contrabandista te der uma bebida, vais morrer de veneno!</string>
   <string name="TownOfUsMira.Role.BootleggerSickenFeedbackBootlegger">A tua vítima. [player], notou os efeitos da tua bebida! Da próxima vez que beberes com ele, ele vai morrer de veneno.</string>
-  <string name="TouOptionBootleggerRoleblockCooldown">Recarga da Bebida</string>
+  <string name="TouOptionBootleggerRoleblockCooldown">Tempo De Recarga Da Bebida</string>
   <string name="TouOptionBootleggerRoleblockDelayMin">Delay Mínimo Do Beber</string>
   <string name="TouOptionBootleggerRoleblockDelayMax">Delay Máximo Do Beber</string>
   <string name="TownOfUsMira.Role.Bomber">Bombista</string>
@@ -1579,7 +1579,7 @@ Bloqueia alguém múltiplas vezes para o envenenares.</string>
   <string name="TownOfUsMira.Role.EclipsalBlind">Eclispse</string>
   <string name="TownOfUsMira.Role.EclipsalUnblinding">Eclipsando</string>
   <string name="TownOfUsMira.Role.EclipsalBlind.WikiDescription">Cegar um jogador causa a sua visão ultrapassar o seu ecrã, deixando apenas eles ver o mapa e prever reportagens. Depois de algum tempo, eles vão ganhar de volta a sua visão e ter uma visão normal.</string>
-  <string name="TouOptionEclipsalBlindCooldown">Recarga do Eclipse</string>
+  <string name="TouOptionEclipsalBlindCooldown">Tempo De Recarga Do Eclipse</string>
   <string name="TouOptionEclipsalBlindDuration">Duração do Eclipse</string>
   <string name="TouOptionEclipsalBlindRadius">Área do Eclipse</string>
   <string name="TownOfUsMira.Role.Escapist">Fugitivo</string>
@@ -1592,7 +1592,7 @@ qualquer tempo para fugir da cena do crime</string>
   <string name="TownOfUsMira.Role.EscapistRecall">Voltar</string>
   <string name="TownOfUsMira.Role.EscapistRecall.WikiDescription">Volta para a localização marcada.</string>
   <string name="TouOptionEscapistRecallUsesPerGame">Usos Do Voltar Por Jogo</string>
-  <string name="TouOptionEscapistRecallCooldown">Recarga Do Voltar</string>
+  <string name="TouOptionEscapistRecallCooldown">Tempo De Recarga Do Voltar</string>
   <string name="TouOptionEscapistEscapistCanVent">Fugitivo Pode Usar A Ventilação</string>
   <string name="TownOfUsMira.Role.Grenadier">Granadeiro</string>
   <string name="TownOfUsMira.Role.Grenadier.IntroBlurb">Impede os Tripulantes de verem</string>
@@ -1602,14 +1602,14 @@ qualquer tempo para fugir da cena do crime</string>
   <string name="TownOfUsMira.Role.GrenadierFlash.WikiDescription">Atira uma granada, cegando todos os jogadores na sua área.</string>
   <string name="TownOfUsMira.Role.GrenadierFlashNotif">Todos os jogadores perto de ti foram cegados pela tua granada!</string>
   <string name="TouOptionGrenadierFlashUsesPerGame">Usos Da Granada Por Jogo</string>
-  <string name="TouOptionGrenadierFlashGrenadeCooldown">Recarga Da Granada De Atordoamento</string>
+  <string name="TouOptionGrenadierFlashGrenadeCooldown">Tempo De Recarga Da Granada De Atordoamento</string>
   <string name="TouOptionGrenadierFlashGrenadeDuration">Duração Da Granada De Atordoamento</string>
   <string name="TouOptionGrenadierFlashRadius">Área Da Granada De Atordoamento</string>
   <string name="TouOptionGrenadierGrenadierCanVent">Granadeiro Pode Utilizar A Ventilação</string>
   <string name="TownOfUsMira.Role.Herbalist">Herborista</string>
   <string name="TownOfUsMira.Role.Herbalist.IntroBlurb">Deixa as tuas plantas e ervas guiarem o caminho</string>
   <string name="TownOfUsMira.Role.Herbalist.TabDescription">Usa o teu vasto conhecimento da natureza em outros.
-A tua recarga de matar não está ligada com outras habilidades.</string>
+O teu tempo de recarga de matar não está ligada com outras habilidades.</string>
   <string name="TownOfUsMira.Role.Herbalist.WikiDescription">O Herborista é uma Função Impostor Poderoso que tem várias habilidades ligadas numa única recarga (menos a habilidade de matar), ou para ajudar Impostores ou para afetar o que os outro vêm.</string>
   <string name="TownOfUsMira.Role.HerbalistExpose">Expor</string>
   <string name="FrenzyKillerTaskHeader">Elimina todas as outras equipas usando qualquer meios.</string>
@@ -1912,4 +1912,56 @@ Vais desacelerar jogadores perto de ti numa área, enquanto sendo rápido e esco
   <string name="TouOptionVenererSprintSpeed">Velocidade Da Corrida</string>
   <string name="TouOptionVenererMinimumFreezeSpeed">Velocidade Mínima Do Congelamento</string>
   <string name="TouOptionVenererFreezeRadius">Área Do Congelamento</string>
+  <string name="TownOfUsMira.Role.Warlock">Bruxo</string>
+  <string name="TownOfUsMira.Role.Warlock.IntroBlurb">Carrega o teu botão de matar para realizares mortes múltiplas</string>
+  <string name="TownOfUsMira.Role.Warlock.TabDescription">Carrega o teu ataque em 100% para matares vários tripulantes em uma rajada</string>
+  <string name="TownOfUsMira.Role.Warlock.WikiDescription">O Bruxo é uma Função Impostor Assassino que pode carregar o seu ataque para destruir a tripulação rapidamente.</string>
+  <string name="TownOfUsMira.Role.WarlockBurstKill">Rajada</string>
+  <string name="TownOfUsMira.Role.WarlockBurstActive">Rajada Ativa</string>
+  <string name="TownOfUsMira.Role.WarlockKill.WikiDescription">Substitui o teu botão de matar normal com três fases: Em Recarga, Descarregado, e Carregado. Se matares enquanto estiveres a carregar, a tua rajada vai ser totalmente reiniciada. Quando estiver carregada, podes matar numa rajada para matares vários jogadores em pouco tempo.</string>
+  <string name="TouOptionWarlockTimeItTakesToFullyCharge">Tempo Para Carregar Totalmente</string>
+  <string name="TouOptionWarlockTimeMultiplierAddedPerKillForNextCharge">Multiplicador De Tempo Adicionado Por Morte Para O Próximo Carregamento</string>
+  <string name="TouOptionWarlockTimeItTakesToUseFullCharge">Tempo Para Usar Carregamento Cheio</string>
+  <string name="TouNeutAnonymousVictoryMessage">[player] ganhou com sucesso e saiu!</string>
+  <string name="TouOptionNeutAnonymousVictoryWin">Esconder Função Na Notificação De Vitória</string>
+  <string name="TownOfUsMira.Role.AnonymousVictoryKillNotif">[source] matou [victim] depois da sua vitória!</string>
+  <string name="TownOfUsMira.Role.Amnesiac">Amnésico</string>
+  <string name="TownOfUsMira.Role.Amnesiac.IntroBlurb">Lembra-te da função de uma jogador morto</string>
+  <string name="TownOfUsMira.Role.Amnesiac.TabDescription">Encontra um corpo morto para relembrar e tornar-se a sua função.</string>
+  <string name="TownOfUsMira.Role.Amnesiac.WikiDescription">O Amnésico é uma Função Neutro Benigno que pode ganhar acesso a uma nova função lembrando uma função de um corpo morto. Usa a função que lembraste para ganhares o jogo.</string>
+  <string name="TownOfUsMira.Role.AmnesiacRemember">Lembrar</string>
+  <string name="TownOfUsMira.Role.AmnesiacRemember.WikiDescription">Lembra da função de um corpo morto. Se a função do corpo morto for uma função única, vais em vez lembrar a função base da fação.</string>
+  <string name="TownOfUsMira.Role.AmnesiacRememberNotif">Lembraste-te que eras como [player], tornando-te no [role]</string>
+  <string name="TownOfUsMira.Role.AmnesiacRememberFailNotif">[player] era o [role], que não pode ser lembrada.</string>
+  <string name="TownOfUsMira.Role.AmnesiacRememberFailTargetNotif">[player] tinha uma função em que tu eras o alvo, o que faz com que a sua função não pode ser lembrada.</string>
+  <string name="TouOptionAmnesiacInheritFactionModifier">Herdar Modificadores De Fação</string>
+  <string name="TouOptionAmnesiacShowArrows">Mostrar Setas Apontando Para Corpos Mortos</string>
+  <string name="TouOptionAmnesiacArrowDelay">Tempo Para A Seta Aparecer</string>
+  <string name="TouOptionAmnesiacAssassinImpostor">Pode ser Impostor com modificador de Assassino</string>
+  <string name="TouOptionAmnesiacAssassinNeutral">Pode ser Neutro Assassino com modificador de Assassino</string>
+  <string name="TouOptionAmnesiacAssassinEnumNever">Nunca</string>
+  <string name="TouOptionAmnesiacAssassinEnumDependentNeut">Se NA for Assassino</string>
+  <string name="TouOptionAmnesiacAssassinEnumDependentImp">Se Imp for Assassino</string>
+  <string name="TouOptionAmnesiacAssassinEnumAlways">Sempre</string>
+  <string name="TownOfUsMira.Role.Arsonist">Incendiário</string>
+  <string name="TownOfUsMira.Role.Arsonist.IntroBlurb">Encharca jogadores com gasóleo para os queimares</string>
+  <string name="TownOfUsMira.Role.Arsonist.MedDescription">Encharca tripulantes com gasóleo e incendia-os para os veres queimar.</string>
+  <string name="TownOfUsMira.Role.Arsonist.TabDescription">Encharcar jogadores com gasóleo e incendia para matar todos os alvos encharcados.</string>
+  <string name="TownOfUsMira.Role.Arsonist.TabDescriptionLegacy">Encharca jogadores com gasóleo e incendia o jogador mais próximo para matar todos os alvos encharcados.</string>
+  <string name="TownOfUsMira.Role.ArsonistTabDousedInfo">Jogadores Encharcados:</string>
+  <string name="TownOfUsMira.Role.Arsonist.WikiDescription">O Incendiário é uma Função Neutro Assassino que ganha sendo o último assassino vivo.</string>
+  <string name="TownOfUsMira.Role.ArsonistWikiAddition">Ele pode encharcar jogadores e incendia-os se estiver perto.</string>
+  <string name="TownOfUsMira.Role.ArsonistWikiAdditionLegacy">Ele pode encharcar jogadores com gasóleo e incendiar um deles para incendiar todos os jogadores encharcados no mapa.</string>
+  <string name="TownOfUsMira.Role.ArsonistDouse">Encharcar</string>
+  <string name="TownOfUsMira.Role.ArsonistDouse.WikiDescription">Encharca um jogador com gasolina.</string>
+  <string name="TownOfUsMira.Role.ArsonistIgnite">Incendiar</string>
+  <string name="TownOfUsMira.Role.ArsonistIgnite.WikiDescription">Mata múltiplos jogadores encharcados perto de ti, dado que eles estão na tua área.</string>
+  <string name="TownOfUsMira.Role.ArsonistIgnite.WikiDescriptionLegacy">Mata todos os jogadores encharcados no mapa desde que incendies um jogador perto.</string>
+  <string name="TouOptionArsonistDouseCooldown">Tempo De Recarga Do Encharcar</string>
+  <string name="TouOptionArsonistDouseUses">Encharques Possíveis De Uma Vez</string>
+  <string name="TouOptionArsonistDouseInteractions">Encharcar Por Interações De Outros</string>
+  <string name="TouOptionArsonistLegacyMode">Modo Legacia (Nenhuma Área)</string>
+  <string name="TouOptionArsonistIgniteRadius">Área Do Incêndio</string>
+  <string name="TouOptionArsonistCanVent">Incendiário Pode Usar Ventilação</string>
+  <string name="TouOptionArsonistImpVision">Tem Visão De Impostor</string>
 </resources>
