@@ -5,6 +5,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using MiraAPI.Utilities;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using TownOfUs.Options;
 
 
@@ -26,6 +27,8 @@ public static class DraftRpcs
         DraftManager.IsDraftActive = true;
         DraftAudio.PlayDraftStart();
         DraftSidebarManager.Activate();
+        DraftCancelButton.Show();
+        CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftSlotNotify)]
@@ -464,6 +467,7 @@ public static class DraftNetworkHelper
         DraftRpcs.RpcCancelDraft(PlayerControl.LocalPlayer);
         DraftManager.Reset(cancelledBeforeCompletion: true);
         DraftCancelButton.Hide();
+        CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
         DraftSidebarManager.Deactivate();
     }
 
@@ -488,6 +492,7 @@ public static class DraftNetworkHelper
 
         DraftRpcs.RpcBroadcastRecap(PlayerControl.LocalPlayer, recapData);
         DraftSidebarManager.Deactivate();
+        DraftShuffleButton.HideAndReset();
     }
 
     public static void BroadcastDraftEnd()
@@ -495,5 +500,6 @@ public static class DraftNetworkHelper
         DraftRpcs.RpcEndDraft(PlayerControl.LocalPlayer);
         DraftManager.Reset(cancelledBeforeCompletion: true);
         DraftCancelButton.Hide();
+        CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
     }
 }
