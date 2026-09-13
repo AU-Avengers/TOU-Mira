@@ -1649,12 +1649,18 @@ public static class MiscUtils
             var z = 1f + (Effects.ElasticOut(t, duration) - 1f) * intensity;
             z *= finalSize;
             localScale.x = localScale.y = localScale.z = z;
-            target.localScale = localScale;
+            if (target)
+            {
+                target.localScale = localScale;
+            }
             yield return null;
         }
 
         localScale.z = localScale.y = localScale.x = finalSize;
-        target.localScale = localScale;
+        if (target)
+        {
+            target.localScale = localScale;
+        }
     }
 
     public static void AdjustGhostTasks(PlayerControl player)
