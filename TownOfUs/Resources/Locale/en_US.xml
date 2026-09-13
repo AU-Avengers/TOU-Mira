@@ -3559,7 +3559,44 @@ No one can interact with you.</string>
   <string name="TouLocalActionAbortGame">Abort Game</string>
   <string name="TouLocalActionStartMeeting">Start Meeting</string>
   <string name="TouLocalActionEndMeeting">End Meeting</string>
-
-
+<!-- Role Options -->
+  <string name="TouOptionMedusaStoneDelay">Time For Victim To Become Stoned</string>
+  <string name="TouOptionMedusaStoneCompletion">Time Before Stone Shatters</string>
+  <string name="TouOptionMedusaAllowStoneGazing">Allow Stone Gazing</string>
+  <string name="TouOptionMedusaStoneGazeCooldown">Stone Gaze Cooldown</string>
+  <string name="TouOptionMedusaStoneGazeDuration">Stone Gaze Duration</string>
+  <string name="TouOptionMedusaStoneGazeUses">Stone Gaze Uses</string>
+  <string name="TouOptionGlitchCanVentEnumNever">Never</string>
+  <string name="TouOptionGlitchCanVentEnumUnlessMimicking">Unless Mimicking</string>
+  <string name="TouOptionGlitchCanVentEnumAlways">Always</string>
+  <string name="TouOptionSwooperTrackedWhileInvisible">Can be Tracked while Invisible</string>
+  <string name="TouOptionSwooperTrackingEnumNever">Never</string>
+  <string name="TouOptionSwooperTrackingEnumNotByRadar">Not by Radar</string>
+  <string name="TouOptionSwooperTrackingEnumAlways">Always</string>
+  <string name="TouOptionSwooperVentEnumNever">Never</string>
+  <string name="TouOptionSwooperVentEnumWhileVisible">While Visible</string>
+  <string name="TouOptionSwooperVentEnumAlways">Always</string>
+  <string name="TouOptionJanitorCooldownSyncEnumUnlinked">Unlinked</string>
+  <string name="TouOptionJanitorCooldownSyncEnumWithTeammates">With Teammates</string>
+  <string name="TouOptionJanitorCooldownSyncEnumAlways">Always</string>
+  <string name="TouOptionTraitorBecomesAssassin">Traitor Becomes Assassin</string>
+  <string name="TouOptionBootleggerPoisonTriggersOn">Poison Triggers On</string>
+  <string name="TouOptionBootleggerPoisonTriggerEnumDelayEnd">Delay End</string>
+  <string name="TouOptionBootleggerPoisonTriggerEnumMeetingStart">Meeting Start</string>
+  <string name="TouOptionBootleggerPoisonTriggerEnumMeetingEnd">Meeting End</string>
+  <string name="TouOptionBootleggerPoisonDelay">Poison Delay</string>
+  <string name="TouOptionSentryDeployedVisibilityEnumImmediately">Immediately</string>
+  <string name="TouOptionSentryDeployedVisibilityEnumAfterMeeting">After Meeting</string>
+  <string name="TouOptionSentryPortableModeEnumAlways">Always</string>
+  <string name="TouOptionSentryPortableModeEnumAfterTasks">After Tasks</string>
+  <string name="TouOptionSentryPortableModeEnumCamlessMaps">Only On Cam-less Maps</string>
+  <string name="TouOptionTimeLordReviveEnumDisabled">Disabled</string>
+  <string name="TouOptionTimeLordReviveEnumUntilNextRound">Until Next Round</string>
+  <string name="TouOptionTimeLordReviveEnumFully">Fully</string>
+  <string name="TouOptionLookoutFeedbackReveals">Watched Player Feedback Reveals</string>
+  <string name="TouOptionGrenadierAllowFlashingDuringSabotage">Allow Flashing During Sabotage</string>
+  <string name="TouOptionSpellslingerHexCooldown">Hex Cooldown</string>
+  <string name="TouOptionSpellslingerMaxHexes">Max Hexes</string>
+  <string name="TouOptionSpellslingerHexBombDuration">Hex Bomb Countdown Duration</string>
 
 </resources>
