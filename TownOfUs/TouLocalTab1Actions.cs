@@ -18,23 +18,23 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
         TabIcon = TouAssets.LocalActions,
         HideIconOnHover = false,
     };
-
+    // Not using fallbacks bc if I do it uses the english texts only
     [LocalSettingsButton]
-    public LocalSettingsButton SelfKillButton { get; private set; } = new(MiraLocaleManager.Get("TouLocalActionSelfKill", "Self Kill"), TriggerSelfKill);
+    public LocalSettingsButton SelfKillButton { get; private set; } = new(MiraLocaleManager.Get("TouLocalActionSelfKill"), TriggerSelfKill);
     private static void TriggerSelfKill()
     {
         DoActionType(BindActionType.SelfKill);
     }
 
     [LocalSettingsButton]
-    public LocalSettingsButton AbortGameButton { get; private set; } = new(MiraLocaleManager.Get("TouLocalActionAbortGame", "Abort Game"), TriggerAbortGame);
+    public LocalSettingsButton AbortGameButton { get; private set; } = new(MiraLocaleManager.Get("TouLocalActionAbortGame"), TriggerAbortGame);
     private static void TriggerAbortGame()
     {
         DoActionType(BindActionType.AbortGame);
     }
 
     [LocalSettingsButton]
-    public LocalSettingsButton StartMeetingButton { get; private set; } = new(MiraLocaleManager.Get("TouLocalActionStartMeeting", "Start Meeting"), TriggerStartMeeting);
+    public LocalSettingsButton StartMeetingButton { get; private set; } = new(MiraLocaleManager.Get("TouLocalActionStartMeeting"), TriggerStartMeeting);
 
     private static void TriggerStartMeeting()
     {
@@ -42,7 +42,7 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
     }
 
     [LocalSettingsButton]
-    public LocalSettingsButton EndMeetingButton { get; private set; } = new(MiraLocaleManager.Get("TouLocalActionEndMeeting", "End Meeting"), TriggerEndMeeting);
+    public LocalSettingsButton EndMeetingButton { get; private set; } = new(MiraLocaleManager.Get("TouLocalActionEndMeeting"), TriggerEndMeeting);
     private static void TriggerEndMeeting()
     {
         DoActionType(BindActionType.EndMeeting);

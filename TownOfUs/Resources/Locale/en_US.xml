@@ -3524,6 +3524,11 @@ This change is permanent.</string>
   <string name="TouDraftRoleCardHelp">You can learn about what [role] does by clicking the role card towards the right</string>
   <!-- Draft Sidebar -->
   <string name="DraftNone">None</string>
+  <string name="TouDraftDisconnectedLabel">DISCONNECTED</string>
+  <string name="TouDraftKickReason">You were kicked because you tried to join mid-draft. Please try again when lobby is open</string>
+  <string name="TownOfUsMira.Role.JailorAllowVoice">Allow Voice</string>
+
+  
 <!-- Random uncategorized strings (I gave up with the comments)-->
   <string name="TouGameTimerTime">Time</string>
   <string name="TouAutoRejoinCountdown">Rejoining in [seconds]</string>
@@ -3552,9 +3557,9 @@ No one can interact with you.</string>
 <!-- UI Tabs -->
   <string name="TouLocalTabActions">Actions</string>
   <string name="TouLocalTabButtons">UI / UX</string>
-  <string name="TouLocalTabPlayers">Players</string>
-  <string name="TouLocalTabPractice">Lobby / Practice</string>
-  <string name="TouLocalTabPreferences">Preferences</string>
+  <string name="TouLocalTabPlayers">&lt;size=70%&gt;Players&lt;/size&gt;</string>
+  <string name="TouLocalTabPractice">&lt;size=50%&gt;Lobby / Practice&lt;/size&gt;</string>
+  <string name="TouLocalTabPreferences">&lt;size=65%&gt;Preferences&lt;/size&gt;</string>
   <string name="TouLocalActionSelfKill">Self Kill</string>
   <string name="TouLocalActionAbortGame">Abort Game</string>
   <string name="TouLocalActionStartMeeting">Start Meeting</string>
@@ -3595,8 +3600,92 @@ No one can interact with you.</string>
   <string name="TouOptionTimeLordReviveEnumFully">Fully</string>
   <string name="TouOptionLookoutFeedbackReveals">Watched Player Feedback Reveals</string>
   <string name="TouOptionGrenadierAllowFlashingDuringSabotage">Allow Flashing During Sabotage</string>
-  <string name="TouOptionSpellslingerHexCooldown">Hex Cooldown</string>
-  <string name="TouOptionSpellslingerMaxHexes">Max Hexes</string>
-  <string name="TouOptionSpellslingerHexBombDuration">Hex Bomb Countdown Duration</string>
-
+  <string name="TouOptionHerbalistHerbCooldown">Herb Cooldown</string>
+  <string name="TouOptionHerbalistMaxExposeUses">Max Expose Uses</string>
+  <string name="TouOptionHerbalistMaxConfuseUses">Max Confuse Uses</string>
+  <string name="TouOptionHerbalistMaxProtectUses">Max Protect Uses</string>
+  <string name="TouOptionHerbalistConfuseDelay">Confuse Delay</string>
+  <string name="TouOptionHerbalistConfuseDuration">Confuse Duration</string>
+  <string name="TouOptionHerbalistProtectDuration">Protect Duration</string>
+  <string name="TouOptionHerbalistNotifyUponAttack">Notify Herbalist Upon Attack</string>
+  <string name="TouOptionMonarchKnightCooldown">Knight Cooldown</string>
+  <string name="TouOptionMonarchMaximumKnights">Maximum Knights</string>
+  <string name="TouOptionMonarchVotesPerKnight">Votes Per Knight</string>
+  <string name="TouOptionMonarchKnightDelay">Knight Delay (Cancelable)</string>
+  <string name="TouOptionMonarchRevealKnightingAtMeeting">Reveal Knighting At Meeting</string>
+  <string name="TouOptionMonarchShowKnightedVotes">Show Knighted Votes</string>
+  <string name="TouOptionMonarchAllowRoundOneKnighting">Allow Round One Knighting</string>
+  <string name="TouOptionMonarchInformIfKnightDies">Inform Monarch If Knight Dies</string>
+  <string name="TouOptionMonarchCrewKnightsGrantKillImmunity">Crew Knights Grant Kill Immunity</string>
+<!-- Perfect Comms Integration -->
+  <string name="TouPerfectCommsMuteBlackmailedInMeetings">Mute Blackmailed in Meetings</string>
+  <string name="TouPerfectCommsMuteBlackmailedInMeetingsDescription">Prevents the currently blackmailed player from transmitting voice during meetings.</string>
+  <string name="TouPerfectCommsMuteBlackmailedNextRound">Mute Blackmailed Next Round</string>
+  <string name="TouPerfectCommsMuteBlackmailedNextRoundDescription">Keeps a meeting-blackmailed player voice-muted during the following task round.</string>
+  <string name="TouPerfectCommsMuteControlledVictim">Mute Controlled Victim</string>
+  <string name="TouPerfectCommsMuteParasiteControlledDescription">Prevents a player marked by the Parasite from transmitting their own voice while the effect is active.</string>
+  <string name="TouPerfectCommsAlsoHearControlledVictim">Also Hear Controlled Victim</string>
+  <string name="TouPerfectCommsParasiteHearFromVictimDescription">Lets the Parasite also hear the voices audible around its marked victim while remaining at the Parasite's own position.</string>
+  <string name="TouPerfectCommsMutePuppeteerControlledDescription">Prevents a Puppeteer-controlled player from transmitting their own voice while controlled.</string>
+  <string name="TouPerfectCommsHearFromControlledVictim">Hear From Controlled Victim</string>
+  <string name="TouPerfectCommsPuppeteerHearFromVictimDescription">Lets the Puppeteer hear the voices audible around the player it currently controls.</string>
+  <string name="TouPerfectCommsMuteWhileSwooped">Mute While Swooped</string>
+  <string name="TouPerfectCommsMuteSwooperWhileSwoopedDescription">Prevents an invisible Swooper from transmitting voice until the swoop ends.</string>
+  <string name="TouPerfectCommsMuffleBlindedOrFlashedHearing">Muffle Blinded/Flashed Hearing</string>
+  <string name="TouPerfectCommsMuffleBlindedOrFlashedHearingDescription">Muffles incoming voice during tasks for players currently blinded by Eclipsal or flashed by Grenadier.</string>
+  <string name="TouPerfectCommsMuffleHypnotizedDuringHysteria">Muffle Hypnotized During Hysteria</string>
+  <string name="TouPerfectCommsMuffleHypnotizedDuringHysteriaDescription">Muffles incoming voice during tasks for affected hypnotized players while Mass Hysteria is active.</string>
+  <string name="TouPerfectCommsUseImpostorVoice">Use Impostor Voice</string>
+  <string name="TouPerfectCommsCrewpostorUsesImpostorVoiceDescription">Treats Crewpostor as an impostor for private impostor voice and team-radio routing.</string>
+  <string name="TouPerfectCommsMuteHackedPlayers">Mute Hacked Players</string>
+  <string name="TouPerfectCommsMuteGlitchHackedDescription">Prevents a player affected by the Glitch's Hack ability from transmitting voice until the hack ends.</string>
+  <string name="TouPerfectCommsMuteJaileeInMeetings">Mute Jailee in Meetings</string>
+  <string name="TouPerfectCommsMuteJailedInMeetingsDescription">Prevents the jailed player from transmitting voice during meetings unless the Jailor temporarily unmutes them.</string>
+  <string name="TouPerfectCommsJailPersistsIfJailorDies">Jail Persists If Jailor Dies</string>
+  <string name="TouPerfectCommsJailPersistsAfterJailorDeathDescription">Keeps the meeting voice jail active even if the Jailor is dead.</string>
+  <string name="TouPerfectCommsCanUnmuteJailee">Can Unmute Jailee</string>
+  <string name="TouPerfectCommsJailorCanUnmuteJailedDescription">Lets the Jailor temporarily allow the jailed player to speak during a meeting.</string>
+  <string name="TouPerfectCommsTeamRadio">Team Radio</string>
+  <string name="TouPerfectCommsVampires">Vampires</string>
+  <string name="TouPerfectCommsTeamRadioVampiresDescription">Enables the private Vampire managed Team Radio channel when Team Radio is on.</string>
+  <string name="TouPerfectCommsTeamRadioLoversDescription">Enables the private Lovers managed Team Radio channel when Team Radio is on.</string>
+  <string name="TouPerfectCommsGhostVoice">Ghost Voice</string>
+  <string name="TouPerfectCommsMediumVoiceNone">None</string>
+  <string name="TouPerfectCommsMediumVoiceMediumToGhost">Medium -&gt; Ghost</string>
+  <string name="TouPerfectCommsMediumVoiceGhostToMedium">Ghost -&gt; Medium</string>
+  <string name="TouPerfectCommsMediumVoiceBoth">Both</string>
+  <string name="TouPerfectCommsMediumGhostVoiceDescription">Chooses which voice direction is allowed between a Medium and dead players during tasks.</string>
+<!-- Role Option Groups -->
+  <string name="TouRoleGroupCrewHider">Hiders (Hide and Seek)</string>
+  <string name="TouRoleGroupImpSeeker">Seekers (Hide and Seek)</string>
+  <string name="TouRoleGroupCrewBeliever">Crewmate Believer Roles (Cultist)</string>
+  <string name="TouRoleGroupCrewObstinate">Crewmate Obstinate Roles (Cultist)</string>
+  <string name="TouRoleGroupNeutralObstinate">Neutral Obstinate Roles (Cultist)</string>
+  <string name="TouRoleGroupImpCultist">Impostor Cultists (Cultist)</string>
+  <string name="TouRoleGroupImpFollower">Impostor Followers (Cultist)</string>
+  <string name="TouRoleGroupFrenzyKiller">Kill Frenzy Roles</string>
+  <string name="TouRoleGroupCrewInvestigative">Crewmate Investigative Roles</string>
+  <string name="TouRoleGroupCrewKilling">Crewmate Killing Roles</string>
+  <string name="TouRoleGroupCrewProtective">Crewmate Protective Roles</string>
+  <string name="TouRoleGroupCrewPower">Crewmate Power Roles</string>
+  <string name="TouRoleGroupCrewSupport">Crewmate Support Roles</string>
+  <string name="TouRoleGroupCrewGhost">Crewmate Ghost Roles</string>
+  <string name="TouRoleGroupCrewAfterlife">Crewmate Afterlife Roles</string>
+  <string name="TouRoleGroupNeutralBenign">Neutral Benign Roles</string>
+  <string name="TouRoleGroupNeutralEvil">Neutral Evil Roles</string>
+  <string name="TouRoleGroupNeutralOutlier">Neutral Outlier Roles</string>
+  <string name="TouRoleGroupNeutralKilling">Neutral Killing Roles</string>
+  <string name="TouRoleGroupNeutralGhost">Neutral Ghost Roles</string>
+  <string name="TouRoleGroupNeutralAfterlife">Neutral Afterlife Roles</string>
+  <string name="TouRoleGroupImpConcealing">Impostor Concealing Roles</string>
+  <string name="TouRoleGroupImpKilling">Impostor Killing Roles</string>
+  <string name="TouRoleGroupImpPower">Impostor Power Roles</string>
+  <string name="TouRoleGroupImpSupport">Impostor Support Roles</string>
+  <string name="TouRoleGroupImpGhost">Impostor Ghost Roles</string>
+  <string name="TouRoleGroupImpAfterlife">Impostor Afterlife Roles</string>
+  <string name="TouRoleGroupOther">Other Roles</string>
+  <string name="TouRoleGroupCrewmate">Crewmate Roles</string>
+  <string name="TouRoleGroupNeutral">Neutral Roles</string>
+  <string name="TouRoleGroupImpostor">Impostor Roles</string>
+  
 </resources>

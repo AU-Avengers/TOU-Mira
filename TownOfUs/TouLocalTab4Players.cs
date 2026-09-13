@@ -8,7 +8,7 @@ namespace TownOfUs;
 
 public class TouLocalTabPlayers(ConfigFile config) : LocalSettingsTab(config)
 {
-    public override string TabName => MiraLocaleManager.Get("TouLocalTabPlayers", "Players");
+    public override string TabName => MiraLocaleManager.Get("TouLocalTabPlayers", "<size=70%>Players</size>");
     protected override bool ShouldCreateLabels => true;
 
     public override void OnOptionChanged(ConfigEntryBase configEntry)
