@@ -334,7 +334,7 @@ public static class MiscUtils
         {
             return touRole.RoleAlignment;
         }
-        else if (role is ICustomRole customRole)
+        if (role is ICustomRole customRole)
         {
             var alignments = Enum.GetValues<RoleAlignment>();
             foreach (var alignment in alignments)
@@ -347,6 +347,10 @@ public static class MiscUtils
                     return roleAlignment;
                 }
             }
+        }
+        if (role == null)
+        {
+            return RoleAlignment.GameOutlier;
         }
 
         if (role.IsDead)
