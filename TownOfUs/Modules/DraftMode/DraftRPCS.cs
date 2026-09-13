@@ -85,9 +85,7 @@ public static class DraftRpcs
     [MethodRpc((uint)TownOfUsRpc.DraftEnd)]
     public static void RpcEndDraft(PlayerControl sender)
     {
-        DraftManager.Reset(cancelledBeforeCompletion: true);
-        DraftScreenController.Hide();
-        DraftCancelButton.Hide();
+        RpcCancelDraft(sender);
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftCreateNotif)]
@@ -495,13 +493,5 @@ public static class DraftNetworkHelper
         DraftRpcs.RpcBroadcastRecap(PlayerControl.LocalPlayer, recapData);
         DraftSidebarManager.Deactivate();
         DraftShuffleButton.HideAndReset();
-    }
-
-    public static void BroadcastDraftEnd()
-    {
-        DraftRpcs.RpcEndDraft(PlayerControl.LocalPlayer);
-        DraftManager.Reset(cancelledBeforeCompletion: true);
-        DraftCancelButton.Hide();
-        CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
     }
 }

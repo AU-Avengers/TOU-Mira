@@ -11,7 +11,6 @@ public static class DraftManager
     public static int TotalSlots { get; private set; }
     public static float TurnDuration { get; set; } = 10f;
     public static float TurnTimeLeft { get; set; }
-    public static bool ShowRandomOption { get; set; } = true;
     public static IEnumerable<int> TurnOrder => SlotStates.Select(s => s.SlotNumber).OrderBy(x => x);
 
     private static readonly List<DraftSlotState> SlotStates = [];

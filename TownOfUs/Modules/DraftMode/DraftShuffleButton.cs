@@ -66,4 +66,36 @@ public sealed class DraftShuffleButton : TownOfUsButton
         DraftNetworkHelper.RequestShuffle();    
         }
 
+    [HarmonyPatch(typeof(DraftRpcs), nameof(DraftRpcs.RpcStartDraft))]
+    public static class ShowDraftShuffleButtonOnDraftStart
+    {
+        [HarmonyPostfix]
+        public static void Postfix()
+        {
+            Show();
+            CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
+        }
+    }
+
+
+    [HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastRecap))]
+    public static class HideDraftShuffle
+    {
+        [HarmonyPostfix]
+        public static void Postfix()
+        {
+            DraftShuffleButton.HideAndReset();
+        }
+    }
+
+
+    [HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastCancelDraft))]
+    public static class HideDraftShuffleOnCancelDraft
+    {
+        [HarmonyPostfix]
+        public static void Postfix()
+        {
+            DraftShuffleButton.HideAndReset();
+        }
+    }
 }

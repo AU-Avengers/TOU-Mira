@@ -46,8 +46,37 @@ public sealed class DraftCancelButton : TownOfUsButton
         if (!DraftManager.IsDraftActive) return;
         DraftEngineBehaviour.Instance?.CancelDraft();
         DraftRpcs.RpcCreateNotif(PlayerControl.LocalPlayer, MiraLocaleManager.Get("TouDraftCancelledNotif", "Draft Mode has been cancelled by the <color=#FFBFCC><b>Host</b></color>!"));
-        DraftNetworkHelper.BroadcastDraftEnd();
         Hide();
+    }
+}
+
+[HarmonyPatch(typeof(DraftRpcs), nameof(DraftRpcs.RpcStartDraft))]
+public static class ShowCancelButtonOnDraftStart
+{
+    [HarmonyPostfix]
+    public static void Postfix()
+    {
+        DraftCancelButton.Show();
+    }
+}
+
+[HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastRecap))]
+public static class HideCancelButtonOnRecap
+{
+    [HarmonyPostfix]
+    public static void Postfix()
+    {
+        DraftCancelButton.Hide();
+    }
+}
+
+[HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastCancelDraft))]
+public static class HideCancelButtonOnCancelDraft
+{
+    [HarmonyPostfix]
+    public static void Postfix()
+    {
+        DraftCancelButton.Hide();
     }
 }
 
