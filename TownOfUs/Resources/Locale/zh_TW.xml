@@ -2539,4 +2539,21 @@
   <string name="TouOptionKillAnimationBackgroundColorEnumRoleColor">職業顏色</string>
   <string name="TouOptionPlayerCountWhenVentsDisable">通風管禁用時的最大存活玩家數量</string>
   <string name="TouOptionGhostwalkerFixSabos">冤魂幻影可修復破壞</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer">工程師</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.IntroBlurb">維護前哨站</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.TabDescription">完成你的任務。[nl]你可以修復 1 次破壞。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.MedDescription">遠程修復一次破壞。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.WikiDescription">工程師是船員職業, 每局遊戲可以從地圖上的任意位置修復一次破壞。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper">隱身人</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller">連環殺手</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.IntroBlurb">殺死所有人</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.TabDescription">殺死所有人。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.MedDescription">殺死擋在你路上的所有人。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.WikiDescription">連環殺手是中立職業, 唯一目標是殺死所有玩家。如果沒有達到所需的最低擊殺人數, 就會輸掉遊戲。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.IntroBlurb">使用隱身能力進入隱形狀態</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.TabDescription">破壞設施並殺死船員。[nl]使用隱身能力進入隱形狀態。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.MedDescription">隨時進入隱身狀態, 以逃跑或躲藏。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.WikiDescription">隱身人是偽裝者職業, 可以隨時進入隱身狀態來躲或逃離擊殺現場, 但他們無法使用通風管。</string>
+  <string name="TownOfUsMira.Role.Spectator.MedDescription">觀戰遊戲進程。</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Chameleon.MedDescription">進入隱身狀態, 躲避搜尋者的追捕。</string>
 </resources>

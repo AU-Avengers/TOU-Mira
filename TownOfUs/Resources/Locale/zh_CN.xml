@@ -2939,8 +2939,8 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TownOfUsMira.TownOfPolus.Role.Engineer.MedDescription">远程修复一次破坏。</string>
   <string name="TownOfUsMira.TownOfPolus.Role.Engineer.WikiDescription">工程师是船员职业，每局游戏可以从地图上的任意位置修复一次破坏。</string>
   <string name="TownOfUsMira.TownOfPolus.Role.Swooper">隐身人</string>
-  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.IntroBlurb">使用潜行能力进入隐身状态</string>
-  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.TabDescription">破坏设施并杀死船员。[nl]使用潜行能力进入隐身状态。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.IntroBlurb">使用隐身能力进入隐形状态</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.TabDescription">破坏设施并杀死船员。[nl]使用隐身能力进入隐形状态。</string>
   <string name="TownOfUsMira.TownOfPolus.Role.Swooper.MedDescription">随时进入隐身状态，以逃跑或躲藏。</string>
   <string name="TownOfUsMira.TownOfPolus.Role.Swooper.WikiDescription">隐身人是伪装者职业，可以随时进入隐身状态来躲藏或逃离击杀现场。但他们无法使用通风管。</string>
   <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller">连环杀手</string>
