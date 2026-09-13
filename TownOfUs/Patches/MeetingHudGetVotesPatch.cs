@@ -48,9 +48,9 @@ public static class MeetingHudGetVotesPatch
         {
             PlayerControl.LocalPlayer.SetPlayerMaterialColors(playerMaterialColors);
         }
-        DestroyableSingleton<HudManager>.Instance.Chat.gameObject.SetActive(true);
-        DestroyableSingleton<HudManager>.Instance.StopOxyFlash();
-        DestroyableSingleton<HudManager>.Instance.StopReactorFlash();
+        HudManager.Instance.Chat.gameObject.SetActive(true);
+        HudManager.Instance.StopOxyFlash();
+        HudManager.Instance.StopReactorFlash();
         __instance.SkipVoteButton.SetPlayerId(253);
         __instance.SkipVoteButton.Parent = __instance;
         Camera.main!.GetComponent<FollowerCamera>().Locked = true;
@@ -71,7 +71,7 @@ public static class MeetingHudGetVotesPatch
                 __instance.ControllerSelectable.Add(playerVoteArea.PlayerButton);
             }
         }
-        DestroyableSingleton<AchievementManager>.Instance.OnMeetingCalled();
+        AchievementManager.Instance.OnMeetingCalled();
         Warning($"About to run patches!");
         return false;
     }
