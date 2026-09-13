@@ -357,7 +357,7 @@ namespace TownOfUs.Modules.DraftMode
                 (evilFactions[i], evilFactions[j]) = (evilFactions[j], evilFactions[i]);
             }
 
-            var evilIndices = SelectSpreadFactionIndices(evilCount, maxScheduled);
+            var evilIndices = _rng.NextSpreadIndices(evilCount, maxScheduled);
             var evilIndexSet = new HashSet<int>(evilIndices);
             var evilFactionIndex = 0;
             var neutralAlignments = GetRoleListNeutralAlignments();
@@ -413,45 +413,6 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             return result;
-        }
-
-        private List<int> SelectSpreadFactionIndices(int count, int total)
-        {
-            var selected = new List<int>();
-            if (count <= 0 || total <= 0) return selected;
-            count = Math.Min(count, total);
-
-            var candidates = Enumerable.Range(0, total).ToList();
-            while (selected.Count < count && candidates.Count > 0)
-            {
-                var weights = new List<int>(candidates.Count);
-                foreach (var candidate in candidates)
-                {
-                    int nearest = selected.Count == 0
-                        ? total
-                        : selected.Min(existing => Math.Abs(existing - candidate));
-                    int edgeWeight = candidate == 0 || candidate == total - 1 ? 3 : 1;
-                    weights.Add(Math.Max(1, nearest * nearest * edgeWeight + _rng.NextInt(Math.Max(1, total * total))));
-                }
-
-                int totalWeight = weights.Sum();
-                int roll = _rng.NextInt(Math.Max(1, totalWeight));
-                int chosenIndex = 0;
-                for (int i = 0; i < weights.Count; i++)
-                {
-                    roll -= weights[i];
-                    if (roll < 0)
-                    {
-                        chosenIndex = i;
-                        break;
-                    }
-                }
-
-                selected.Add(candidates[chosenIndex]);
-                candidates.RemoveAt(chosenIndex);
-            }
-
-            return selected;
         }
 
         private static bool UseRoleListMode => OptionGroupSingleton<RoleOptions>.Instance?.UseRoleListForPool ?? false;
