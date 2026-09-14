@@ -351,7 +351,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         {
             foreach (var playerVA in MeetingHud.Instance.playerStates)
             {
-                if (!playerVA.gameObject.active)
+                if (!playerVA.gameObject || !playerVA.gameObject.active)
                 {
                     continue;
                 }

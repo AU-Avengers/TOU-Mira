@@ -15,7 +15,6 @@ namespace TownOfUs.Modules.DraftMode
     public static class DraftSidebarManager
     {
         private static bool _active;
-        private static GameObject    _bannerGo = null!;
         private static string _cachedStaticContent = null!;
         private static int    _cachedPickedCount   = -1;
         private static int    _cachedDisconnectedCount = -1;
@@ -36,8 +35,6 @@ namespace TownOfUs.Modules.DraftMode
             _cachedDisconnectedCount = -1;
             _cachedDraftActive   = false;
 
-            if (_bannerGo != null) _bannerGo.SetActive(false);
-
             var tmp = HudManagerPatches.RoleListTextComp;
             if (tmp != null)
                 tmp.text = string.Empty;
@@ -48,10 +45,6 @@ namespace TownOfUs.Modules.DraftMode
 
             HudManagerPatches.IsHoveringRoleList = false;
 
-        }
-        public static void ClearBannerRef()
-        {
-            _bannerGo = null!;
         }
 
         public static bool IsActive => _active;
@@ -240,7 +233,6 @@ namespace TownOfUs.Modules.DraftMode
             DraftCancelButton.Hide();
             DraftShuffleButton.HideAndReset();
             DraftSidebarManager.Deactivate();
-            DraftSidebarManager.ClearBannerRef();
         }
     }
 }
