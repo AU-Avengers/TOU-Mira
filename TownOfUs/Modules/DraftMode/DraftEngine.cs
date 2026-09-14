@@ -90,7 +90,14 @@ namespace TownOfUs.Modules.DraftMode
             _scheduledNeutralAlignmentsBySlot.Clear();
 
             if (!UseRoleListMode)
+            {
                 BuildFactionOfferSchedule();
+            }
+            else
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
+                    "[DraftEngine] UseRoleListMode is on - BuildFactionOfferSchedule (and its ConcurrentPicks-aware spread) is skipped entirely in this mode.");
+            }
 
             _currentTurnNumber = 0;
             _running = true;
@@ -357,7 +364,7 @@ namespace TownOfUs.Modules.DraftMode
                 (evilFactions[i], evilFactions[j]) = (evilFactions[j], evilFactions[i]);
             }
 
-            var evilIndices = _rng.NextSpreadIndices(evilCount, maxScheduled);
+            var evilIndices = SelectSpreadEvilSlotIndices(evilCount, maxScheduled);
             var evilIndexSet = new HashSet<int>(evilIndices);
             var evilFactionIndex = 0;
             var neutralAlignments = GetRoleListNeutralAlignments();
@@ -376,6 +383,62 @@ namespace TownOfUs.Modules.DraftMode
                 if (faction == DraftFaction.Neutral && neutralAlignmentIndex < neutralAlignments.Count)
                     _scheduledNeutralAlignmentsBySlot[slot] = neutralAlignments[neutralAlignmentIndex++];
             }
+        }
+
+        // Spreads evilCount slot indices across the pool of maxScheduled slots. With
+        // ConcurrentPicks == 1, this is identical to spreading directly over slot indices, since
+        // every turn only ever contains a single slot. With ConcurrentPicks == 2, several slots
+        // share the same turn (see HostDraftLoop's batching), so spreading blindly over raw slot
+        // indices could land two scheduled-evil slots in the same turn/batch. GenerateOffersForSlot
+        // only forces later slots in a turn back to Crewmate when they *aren't* already
+        // hard-scheduled (see the _currentOffersBySlot check there), so two scheduled-evil slots
+        // sharing a turn would both get offered evil roles at once instead of being spread out.
+        // To avoid that, spread the evil picks across turns first, then choose one random slot
+        // within each chosen turn's batch.
+        [HideFromIl2Cpp]
+        private List<int> SelectSpreadEvilSlotIndices(int evilCount, int maxScheduled)
+        {
+            if (evilCount <= 0 || maxScheduled <= 0) return new List<int>();
+
+            int concurrency = Math.Max(1, Math.Min(2, (int)OptionGroupSingleton<RoleOptions>.Instance.ConcurrentPicks.Value));
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
+                $"[DraftEngine] SelectSpreadEvilSlotIndices: concurrency={concurrency} evilCount={evilCount} maxScheduled={maxScheduled}");
+
+            if (concurrency <= 1)
+                return _rng.NextSpreadIndices(evilCount, maxScheduled);
+
+            int turnCount = Math.Max(1, (int)Math.Ceiling(maxScheduled / (double)concurrency));
+            int perTurnCount = Math.Min(evilCount, turnCount);
+
+            var result = new List<int>();
+            foreach (var turnIndex in _rng.NextSpreadIndices(perTurnCount, turnCount))
+            {
+                int batchStart = turnIndex * concurrency;
+                int batchEnd = Math.Min(maxScheduled, batchStart + concurrency);
+                if (batchEnd <= batchStart) continue;
+
+                result.Add(_rng.NextInt(batchStart, batchEnd));
+            }
+
+            int remaining = evilCount - result.Count;
+            if (remaining > 0)
+            {
+                // Not enough turns to give every scheduled-evil slot its own batch (e.g. very low
+                // player counts combined with a high impostor/neutral count) - spread the rest
+                // across whatever slots are left instead of dropping them, accepting that a turn
+                // may end up with more than one scheduled-evil slot in this edge case.
+                var takenSlots = new HashSet<int>(result);
+                var leftoverSlots = Enumerable.Range(0, maxScheduled).Where(i => !takenSlots.Contains(i)).ToList();
+                foreach (var slotIndex in _rng.NextSpreadIndices(Math.Min(remaining, leftoverSlots.Count), leftoverSlots.Count))
+                {
+                    result.Add(leftoverSlots[slotIndex]);
+                }
+            }
+
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
+                $"[DraftEngine] SelectSpreadEvilSlotIndices result (turn-aware): [{string.Join(",", result)}] (turnCount={turnCount})");
+
+            return result;
         }
 
         private static List<HashSet<RoleAlignment>> GetRoleListNeutralAlignments()
@@ -1956,33 +2019,56 @@ namespace TownOfUs.Modules.DraftMode
                 yield break;
             }
 
-
             GameStartPatch.SkipIntercept = true;
-            int orig = GameStartManager.Instance.MinPlayers;
+            GameStartPatch.PostDraftCountdownActive = true;
+            var gsm = GameStartManager.Instance;
+            int orig = gsm.MinPlayers;
+
             try
             {
-                GameStartManager.Instance.ResetStartState();
-                GameStartManager.Instance.MinPlayers = 1;
-                GameStartManager.Instance.BeginGame();
+                gsm.ResetStartState();
+                gsm.MinPlayers = 1;
+                gsm.startState = GameStartManager.StartingStates.Countdown;
+                gsm.countDownTimer = 5f;
+
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
+                    "[DraftEngine] Starting post-draft countdown: 5.00s");
             }
             catch (System.Exception ex)
             {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftEngine] Exception during post-draft game start: {ex}");
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error,
+                    $"[DraftEngine] Exception starting native post-draft countdown: {ex}");
                 DraftApplier.PendingDraftStates.Clear();
-                GameStartManager.Instance.MinPlayers = orig;
+                gsm.MinPlayers = orig;
                 GameStartPatch.SkipIntercept = false;
+                GameStartPatch.PostDraftCountdownActive = false;
                 yield break;
             }
 
-            float timeout = 10f;
-            while (AmongUsClient.Instance != null && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined && timeout > 0f)
+            const float postDraftCountdownSeconds = 5f;
+            float remaining = postDraftCountdownSeconds;
+            while (AmongUsClient.Instance != null &&
+                   AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined &&
+                   remaining > 0f)
             {
-                timeout -= Time.deltaTime;
+                remaining -= Time.deltaTime;
+                gsm.countDownTimer = Mathf.Max(0f, remaining);
                 yield return null;
             }
 
-            GameStartManager.Instance.MinPlayers = orig;
+            if (AmongUsClient.Instance != null &&
+                AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined &&
+                GameStartManager.Instance != null)
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
+                    "[DraftEngine] Post-draft countdown finished, calling ReallyBegin");
+                GameStartManager.Instance.ReallyBegin(false);
+            }
+
+            if (GameStartManager.Instance != null)
+                GameStartManager.Instance.MinPlayers = orig;
             GameStartPatch.SkipIntercept = false;
+            GameStartPatch.PostDraftCountdownActive = false;
         }
 
         public void RequestShuffle(byte playerId)
