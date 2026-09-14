@@ -88,16 +88,7 @@ namespace TownOfUs.Modules.DraftMode
 
             _scheduledFactionBySlot.Clear();
             _scheduledNeutralAlignmentsBySlot.Clear();
-
-            if (!UseRoleListMode)
-            {
-                BuildFactionOfferSchedule();
-            }
-            else
-            {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
-                    "[DraftEngine] UseRoleListMode is on - BuildFactionOfferSchedule (and its ConcurrentPicks-aware spread) is skipped entirely in this mode.");
-            }
+            BuildFactionOfferSchedule();
 
             _currentTurnNumber = 0;
             _running = true;
@@ -385,58 +376,24 @@ namespace TownOfUs.Modules.DraftMode
             }
         }
 
-        // Spreads evilCount slot indices across the pool of maxScheduled slots. With
-        // ConcurrentPicks == 1, this is identical to spreading directly over slot indices, since
-        // every turn only ever contains a single slot. With ConcurrentPicks == 2, several slots
-        // share the same turn (see HostDraftLoop's batching), so spreading blindly over raw slot
-        // indices could land two scheduled-evil slots in the same turn/batch. GenerateOffersForSlot
-        // only forces later slots in a turn back to Crewmate when they *aren't* already
-        // hard-scheduled (see the _currentOffersBySlot check there), so two scheduled-evil slots
-        // sharing a turn would both get offered evil roles at once instead of being spread out.
-        // To avoid that, spread the evil picks across turns first, then choose one random slot
-        // within each chosen turn's batch.
+        // Choose unique positions from the whole draft rather than evenly spacing them. Even
+        // spacing makes high-evil lobbies visibly alternate between crew and evil turns.
         [HideFromIl2Cpp]
         private List<int> SelectSpreadEvilSlotIndices(int evilCount, int maxScheduled)
         {
             if (evilCount <= 0 || maxScheduled <= 0) return new List<int>();
 
-            int concurrency = Math.Max(1, Math.Min(2, (int)OptionGroupSingleton<RoleOptions>.Instance.ConcurrentPicks.Value));
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
-                $"[DraftEngine] SelectSpreadEvilSlotIndices: concurrency={concurrency} evilCount={evilCount} maxScheduled={maxScheduled}");
+                $"[DraftEngine] SelectRandomEvilSlotIndices: evilCount={evilCount} maxScheduled={maxScheduled}");
 
-            if (concurrency <= 1)
-                return _rng.NextSpreadIndices(evilCount, maxScheduled);
-
-            int turnCount = Math.Max(1, (int)Math.Ceiling(maxScheduled / (double)concurrency));
-            int perTurnCount = Math.Min(evilCount, turnCount);
-
-            var result = new List<int>();
-            foreach (var turnIndex in _rng.NextSpreadIndices(perTurnCount, turnCount))
-            {
-                int batchStart = turnIndex * concurrency;
-                int batchEnd = Math.Min(maxScheduled, batchStart + concurrency);
-                if (batchEnd <= batchStart) continue;
-
-                result.Add(_rng.NextInt(batchStart, batchEnd));
-            }
-
-            int remaining = evilCount - result.Count;
-            if (remaining > 0)
-            {
-                // Not enough turns to give every scheduled-evil slot its own batch (e.g. very low
-                // player counts combined with a high impostor/neutral count) - spread the rest
-                // across whatever slots are left instead of dropping them, accepting that a turn
-                // may end up with more than one scheduled-evil slot in this edge case.
-                var takenSlots = new HashSet<int>(result);
-                var leftoverSlots = Enumerable.Range(0, maxScheduled).Where(i => !takenSlots.Contains(i)).ToList();
-                foreach (var slotIndex in _rng.NextSpreadIndices(Math.Min(remaining, leftoverSlots.Count), leftoverSlots.Count))
-                {
-                    result.Add(leftoverSlots[slotIndex]);
-                }
-            }
+            int take = Math.Min(evilCount, maxScheduled);
+            var result = Enumerable.Range(0, maxScheduled)
+                .OrderBy(_ => _rng.NextInt(1_000_000))
+                .Take(take)
+                .ToList();
 
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
-                $"[DraftEngine] SelectSpreadEvilSlotIndices result (turn-aware): [{string.Join(",", result)}] (turnCount={turnCount})");
+                $"[DraftEngine] SelectRandomEvilSlotIndices result: [{string.Join(",", result)}]");
 
             return result;
         }
@@ -927,14 +884,13 @@ namespace TownOfUs.Modules.DraftMode
             bool scheduledEvil = _scheduledFactionBySlot.TryGetValue(slot, out var scheduledFaction) &&
                 scheduledFaction != DraftFaction.Crewmate;
 
-            // Evil offers are guaranteed only on randomly spread evil turns. Other turns get a
-            // normal chance, preventing the finite evil pool from being exhausted at the top.
+            // Only randomly spread evil turns may expose evil cards. This prevents early normal
+            // picks from consuming the finite impostor/neutral seats before their assigned slots.
             int maxEvil = Math.Min(nonCrew.Count, Math.Min(offered, offered >= 4 ? 4 : offered));
-            int evilToOffer = nonCrew.Count > 0 &&
-                (scheduledEvil || _rng.NextDouble() < EvilOfferChance) ? 1 : 0;
+            int evilToOffer = nonCrew.Count > 0 && scheduledEvil ? 1 : 0;
             for (int i = evilToOffer; i < maxEvil; i++)
             {
-                if (_rng.NextDouble() >= EvilOfferChance) continue;
+                if (!scheduledEvil || _rng.NextDouble() >= EvilOfferChance) continue;
                 evilToOffer++;
             }
 
