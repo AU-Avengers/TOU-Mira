@@ -889,11 +889,11 @@ Upij jednego gracza wiele razy, aby go zatruć.</string>
   <string name="TownOfUsMira.Role.Barkeeper">Barman</string>
   <string name="TownOfUsMira.Role.Barkeeper.IntroBlurb">Poczęstuj Złoczyńców aby ich spowolnić</string>
   <string name="TownOfUsMira.Role.Barkeeper.TabDescription">Poczęstuj Złoczyńcę, aby zablokować jego umiejętności na [blockTime]s.</string>
-  <string name="TownOfUsMira.Role.Barkeeper.WikiDescription">Barman to Załogant Wsparcia który może poczęstować innego gracza aby tymczasowo zablokować jego umiejętności. Może on także, wylać trochę piwa aby przyśpieszyć, bądź spowolnić graczy.</string>
+  <string name="TownOfUsMira.Role.Barkeeper.WikiDescription">Barman to Załogant Wsparcia który może wypić z innymi aby tymczasowo zablokować ich umiejętności. Może on także, wylać trochę piwa aby przyśpieszyć, bądź spowolnić graczy.</string>
   <string name="TownOfUsMira.Role.BarkeeperRoleblock">Poczęstuj</string>
   <string name="TownOfUsMira.Role.BarkeeperRoleblocking">Częstowanie</string>
-  <string name="TownOfUsMira.Role.BarkeeperRoleblock.WikiDescription">Poczęstuj gracza, sprawiając, że jego umiejętności będą zablokowane na [blockTime]s.</string>
-  <string name="TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover">Poczęstuj gracza, sprawiając, że jego umiejętności będą zablokowane na [blockTime]s. Gdy blokada się skończy, będzie on miał kaca przez [overTime]s</string>
+  <string name="TownOfUsMira.Role.BarkeeperRoleblock.WikiDescription">Wypij z graczem, sprawiając, że jego umiejętności będą zablokowane na [blockTime]s.</string>
+  <string name="TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover">Wypij z graczem, sprawiając, że jego umiejętności będą zablokowane na [blockTime]s. Gdy blokada się skończy, będzie on miał kaca przez [overTime]s</string>
   <string name="TownOfUsMira.Role.BarkeeperSpill">Wylej</string>
   <string name="TownOfUsMira.Role.BarkeeperSpilling">Wylewanie</string>
   <string name="TownOfUsMira.Role.BarkeeperSpill.WikiDescription">Wylej jedno ze swoich piw na ziemię, sprawiając, że każdy kto w nie wejdzie będzie szybszy, bądź wolniejszy zależnie od czasu który minął od wylania. Ten efekt uruchamia się raz na każdego gracza.</string>
@@ -1267,4 +1267,18 @@ innych graczy podczas masowej histerii</string>
   <string name="TouOptionHypnotistHypnotizeCooldown">Cooldown Hipnozy</string>
   <string name="TouOptionHypnotistHypnotistCanKillWithTeammate">Hipnotyzer Może Zabijać Ze Wspólnikami</string>
   <string name="TownOfUsMira.Role.Imitator.MedDescription">Naśladuj to czym zmarli raz byli.</string>
+  <string name="TownOfUsMira.Role.Inquisitor">Inkwizytor</string>
+  <string name="TownOfUsMira.Role.Inquisitor.IntroBlurb">Pokonaj Heretyków!</string>
+  <string name="TownOfUsMira.Role.Altruist.MedDescription">Wskrześ martwych załogantów.</string>
+  <string name="TownOfUsMira.Modifier.AltruistArrow">Strzałka Altruisty</string>
+  <string name="TownOfUsMira.Role.Ambassador.MedDescription">Zmień rolę Intruzów na resztę gry.</string>
+  <string name="TownOfUsMira.Role.Ambusher.MedDescription">Nękaj Załogantów aby później Osaczyć kogoś blisko nich.</string>
+  <string name="TownOfUsMira.Role.Arsonist.MedDescription">Oblej załogantów i podpal któregokolwiek z nich aby zapłonęli.</string>
+  <string name="TownOfUsMira.Role.Barkeeper.MedDescription">Wypij ze Złolami aby tymczasowo zablokować ich umiejętności.</string>
+  <string name="TownOfUsMira.Role.Bomber.MedDescription">Podkładaj bomby aby zabić kilku Załogantów na raz.</string>
+  <string name="TownOfUsMira.Role.Bootlegger.MedDescription">Wypij z Załogantami aby tymczasowo zablokować ich umiejętności.</string>
+  <string name="TownOfUsMira.Role.Chef.MedDescription">Ugotuj świeże ciała Załogi.
+Wygrasz gdy nakarmisz wystarczającą ilość graczy.</string>
+  <string name="TownOfUsMira.Role.Cleric.MedDescription">Ochroń załogantów aby zapobiec interakcjom.
+Oczyść ich aby usunąć negatywne efekty.</string>
 </resources>
