@@ -5,7 +5,9 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using MiraAPI.Utilities;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using TownOfUs.Options;
+using TownOfUs.Patches;
 
 
 namespace TownOfUs.Modules.DraftMode;
@@ -23,9 +25,12 @@ public static class DraftRpcs
     [MethodRpc((uint)TownOfUsRpc.DraftStart)]
     public static void RpcStartDraft(PlayerControl sender, int totalSlots)
     {
+        HudManagerPatches.ResetZoom();
         DraftManager.IsDraftActive = true;
         DraftAudio.PlayDraftStart();
         DraftSidebarManager.Activate();
+        DraftCancelButton.Show();
+        CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftSlotNotify)]
@@ -80,9 +85,7 @@ public static class DraftRpcs
     [MethodRpc((uint)TownOfUsRpc.DraftEnd)]
     public static void RpcEndDraft(PlayerControl sender)
     {
-        DraftManager.Reset(cancelledBeforeCompletion: true);
-        DraftScreenController.Hide();
-        DraftCancelButton.Hide();
+        RpcCancelDraft(sender);
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftCreateNotif)]
@@ -464,6 +467,7 @@ public static class DraftNetworkHelper
         DraftRpcs.RpcCancelDraft(PlayerControl.LocalPlayer);
         DraftManager.Reset(cancelledBeforeCompletion: true);
         DraftCancelButton.Hide();
+        CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
         DraftSidebarManager.Deactivate();
     }
 
@@ -488,12 +492,6 @@ public static class DraftNetworkHelper
 
         DraftRpcs.RpcBroadcastRecap(PlayerControl.LocalPlayer, recapData);
         DraftSidebarManager.Deactivate();
-    }
-
-    public static void BroadcastDraftEnd()
-    {
-        DraftRpcs.RpcEndDraft(PlayerControl.LocalPlayer);
-        DraftManager.Reset(cancelledBeforeCompletion: true);
-        DraftCancelButton.Hide();
+        DraftShuffleButton.HideAndReset();
     }
 }

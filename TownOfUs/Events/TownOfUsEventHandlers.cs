@@ -181,7 +181,6 @@ public static class TownOfUsEventHandlers
     public static void IntroBeginEventHandler(IntroBeginEvent @event)
     {
         DraftSidebarManager.Deactivate();
-        DraftSidebarManager.ClearBannerRef();
         if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
         {
             return;

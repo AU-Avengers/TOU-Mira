@@ -334,7 +334,7 @@ public static class MiscUtils
         {
             return touRole.RoleAlignment;
         }
-        else if (role is ICustomRole customRole)
+        if (role is ICustomRole customRole)
         {
             var alignments = Enum.GetValues<RoleAlignment>();
             foreach (var alignment in alignments)
@@ -347,6 +347,10 @@ public static class MiscUtils
                     return roleAlignment;
                 }
             }
+        }
+        if (role == null)
+        {
+            return RoleAlignment.GameOutlier;
         }
 
         if (role.IsDead)
@@ -1649,12 +1653,18 @@ public static class MiscUtils
             var z = 1f + (Effects.ElasticOut(t, duration) - 1f) * intensity;
             z *= finalSize;
             localScale.x = localScale.y = localScale.z = z;
-            target.localScale = localScale;
+            if (target)
+            {
+                target.localScale = localScale;
+            }
             yield return null;
         }
 
         localScale.z = localScale.y = localScale.x = finalSize;
-        target.localScale = localScale;
+        if (target)
+        {
+            target.localScale = localScale;
+        }
     }
 
     public static void AdjustGhostTasks(PlayerControl player)
