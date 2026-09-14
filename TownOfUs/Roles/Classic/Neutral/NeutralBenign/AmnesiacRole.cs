@@ -22,8 +22,9 @@ using UnityEngine;
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class AmnesiacRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IGuessable, ICrewVariant
+    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IGuessable, ICrewVariant, IUnbribable
 {
+    public bool CanBeBribed => false;
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (!playerControl.AmOwner)

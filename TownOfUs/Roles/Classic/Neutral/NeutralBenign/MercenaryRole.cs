@@ -10,6 +10,7 @@ using Reactor.Networking.Attributes;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -17,14 +18,19 @@ using UnityEngine;
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class MercenaryRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IGuessable
+    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IGuessable, IUnbribable
 {
+    public bool CanBeBribed => false;
     public void InitialSetup()
     {
         TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.BribeSprite.LoadAsset(),
             "TouMira.Role.Neutral.Mercenary.Ui.Bribe", 1.45f);
         TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.GuardSprite.LoadAsset(),
             "TouMira.Role.Neutral.Mercenary.Ui.Guard", 1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.MercBribeBad.LoadAsset(),
+            "TouMira.Role.Neutral.Mercenary.Ui.Bribe.Bad", 1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.MercBribeGood.LoadAsset(),
+            "TouMira.Role.Neutral.Mercenary.Ui.Bribe.Good", 1.45f);
     }
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
@@ -45,6 +51,10 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     public DoomableType DoomHintType => DoomableType.Insight;
     public string IdPart => "Mercenary";
     public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
+    public static bool WinsWithNb;
+    public static bool WinsWithNe;
+    public static bool WinsWithNk;
+    public static bool WinsWithNo;
 
     public string GetAdvancedDescription()
     {
@@ -108,11 +118,21 @@ public sealed class MercenaryRole(IntPtr cppPtr)
 
             foreach (var player in playerControls)
             {
-                stringB.Append(TownOfUsPlugin.Culture, $"\n{player.Data.PlayerName}");
+                stringB.Append(TownOfUsPlugin.Culture, $"\n<color=#{(CanWinWithBribedPlayer(player) ? "00FF00" : "FF0000")}>{player.Data.PlayerName}</color>");
             }
         }
 
         return stringB;
+    }
+
+    public override void Initialize(PlayerControl player)
+    {
+        RoleBehaviourStubs.Initialize(this, player);
+        var mercOpts = OptionGroupSingleton<MercenaryOptions>.Instance;
+        WinsWithNb = mercOpts.WinsWithNeutralBenign.Value;
+        WinsWithNe = mercOpts.WinsWithNeutralEvil.Value;
+        WinsWithNk = mercOpts.WinsWithNeutralKilling.Value;
+        WinsWithNo = mercOpts.WinsWithNeutralOutlier.Value;
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)
@@ -143,9 +163,27 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         }
     }
 
+    public static bool CanWinWithBribedPlayer(PlayerControl player)
+    {
+        var role = player.GetRoleWhenAlive();
+        var alignment = role.GetRoleAlignment();
+        if (role is IUnbribable bribable)
+        {
+            return bribable.CanBeBribed;
+        }
+        if (!role.IsNeutral())
+        {
+            return true;
+        }
+        return !(!WinsWithNb && alignment is RoleAlignment.NeutralBenign ||
+                 !WinsWithNe && alignment is RoleAlignment.NeutralEvil ||
+                 !WinsWithNk && alignment is RoleAlignment.NeutralKilling ||
+                 !WinsWithNo && alignment is RoleAlignment.NeutralOutlier);
+    }
+
     public override bool DidWin(GameOverReason gameOverReason)
     {
-        var bribed = ModifierUtils.GetPlayersWithModifier<MercenaryBribedModifier>(x => x.Mercenary == Player);
+        var bribed = ModifierUtils.GetPlayersWithModifier<MercenaryBribedModifier>(x => x.Mercenary == Player && CanWinWithBribedPlayer(x.Player));
 
         return bribed.Any(x =>
             x.Data.Role.DidWin(gameOverReason) ||

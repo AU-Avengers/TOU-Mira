@@ -1,5 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
@@ -109,17 +110,6 @@ public static class PlayerRoleTextExtensions
             color = Color.cyan;
         }
 
-        if (player.HasModifier(MercenaryBribedPredicate) &&
-            PlayerControl.LocalPlayer.IsRole<MercenaryRole>())
-        {
-            color = Color.green;
-
-            if (player.Is(RoleAlignment.NeutralEvil) || player.IsRole<AmnesiacRole>() || player.IsRole<MercenaryRole>())
-            {
-                color = Color.red;
-            }
-        }
-
         return color;
     }
 
@@ -147,6 +137,15 @@ public static class PlayerRoleTextExtensions
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         var isDead = visibility is DataVisibility.Show ||
                      PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden;
+
+        if (player.HasModifier(MercenaryBribedPredicate) &&
+            (PlayerControl.LocalPlayer.IsRole<MercenaryRole>() ||
+             PlayerControl.LocalPlayer.GetRoleWhenAlive() is MercenaryRole))
+        {
+            name +=
+                $" <sprite name=\"TouMira.Role.Neutral.Mercenary.Ui.Bribe.{(!player.HasDied() && MercenaryRole.CanWinWithBribedPlayer(player) ? "Good" : "Bad")}\">";
+        }
+
         if ((player.HasModifier(ExecutionerTargetPredicate) &&
              PlayerControl.LocalPlayer.IsRole<ExecutionerRole>())
             || (player.HasModifier<ExecutionerTargetModifier>() && isDead))
