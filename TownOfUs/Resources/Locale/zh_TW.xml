@@ -2556,4 +2556,20 @@
   <string name="TownOfUsMira.TownOfPolus.Role.Swooper.WikiDescription">隱身人是偽裝者職業, 可以隨時進入隱身狀態來躲或逃離擊殺現場, 但他們無法使用通風管。</string>
   <string name="TownOfUsMira.Role.Spectator.MedDescription">觀戰遊戲進程。</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Chameleon.MedDescription">進入隱身狀態, 躲避搜尋者的追捕。</string>
+  <string name="TownOfUsMira.Role.Outcast">異類</string>
+  <string name="TownOfUsMira.Role.Outcast.IntroBlurb">對抗超自然力量。</string>
+  <string name="TownOfUsMira.Role.Outcast.TabDescription">利用你的視野和通風管能力取得優勢。</string>
+  <string name="TownOfUsMira.Role.Outcast.MedDescription">使用通風管和強化視野來消滅競爭者。</string>
+  <string name="TownOfUsMira.Role.Outcast.WikiDescription">異類是基礎擊殺型職業, 可以使用通風管, 並擁有比其他擊殺職業更遠的視野。</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Mystic.MedDescription">立即獲知船員死亡的位置。</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Snitch.MedDescription">通過完成任務更快減少計時器, 但也會因此暴露你的位置。</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Noisemaker.MedDescription">死亡時向船員發出警報。</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Camouflager.MedDescription">混入躲藏者之中。
+讓他們相信不存在的事物。</string>
+  <string name="TownOfUsMira.Cultist.Role.Necromancer.MedDescription">復活願意加入的死者, 使其成為教團的一員。</string>
+  <string name="TownOfUsMira.Role.Altruist.MedDescription">復活死亡的船員。</string>
+  <string name="TownOfUsMira.Role.Aurial.MedDescription">感知你所在區域內能力的具體使用位置。
+如果距離非常近, 你還可以看到使用者的顏色。</string>
+  <string name="TownOfUsMira.Role.Cleric.MedDescription">為船員施加屏障以阻止互動。
+淨化他們以消除負面效果。</string>
 </resources>
