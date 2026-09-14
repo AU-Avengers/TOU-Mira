@@ -917,18 +917,18 @@ executa-os se desejares</string>
   <string name="TownOfUsMira.Role.Lookout.TabDescription">Observa outros tripulantes para ver que funções interagiram com eles</string>
   <string name="TownOfUsMira.Role.Lookout.AltTabDescription">Observa outros tripulantes para ver quem interage com quem</string>
   <string name="TownOfUsMira.Role.Lookout.WikiDescription">O Observador é uma Função Tripulante Investigador que pode observar outros jogadores durante o jogo. Nas reuniões, ele pode ver todas as funções ou jogadores que interagiram com o jogador observado.</string>
-  <string name="TownOfUsMira.Role.LookoutWatch">Observar</string>
-  <string name="TownOfUsMira.Role.LookoutWatch.WikiDescription">Observa um jogador ou múltiplos, na próxima reunião vais saber quais jogadores interagiram com os observados.</string>
+  <string name="TownOfUsMira.Role.LookoutWatch">Vigiar</string>
+  <string name="TownOfUsMira.Role.LookoutWatch.WikiDescription">Vigia um jogador ou múltiplos, na próxima reunião vais saber quais jogadores interagiram com os observados.</string>
   <string name="TownOfUsMira.Role.LookoutWatchNotif">Vais saber que funções interagiram com [player] na próxima reunião.</string>
   <string name="TownOfUsMira.Role.LookoutWatchAltNotif">Vais saber quem interagiu com [player] na próxima reunião.</string>
   <string name="TownOfUsMira.Role.LookoutFeedbackTitle">Feedback do Observador</string>
   <string name="TownOfUsMira.Role.LookoutNoInteractionFeedback">Nenhum jogador interagiu com [player]</string>
   <string name="TownOfUsMira.Role.LookoutInteractionFeedback">Funções vistos a interagiram com [player]</string>
   <string name="TownOfUsMira.Role.LookoutAltInteractionFeedback">Jogadores vistos a interagirem com [player]</string>
-  <string name="TouOptionLookoutWatchCooldown">Tempo De Recarga Da Observação</string>
-  <string name="TouOptionLookoutMaxWatches">Jogadores Iniciais Que Podem Ser Observados</string>
+  <string name="TouOptionLookoutWatchCooldown">Tempo De Recarga Da Vigia</string>
+  <string name="TouOptionLookoutMaxWatches">Jogadores Iniciais Que Podem Ser Vigiados</string>
   <string name="TouOptionLookoutSeesIndirectAttacks">Ver Ataques Indiretos</string>
-  <string name="TouOptionLookoutLoResetOnNewRound">Observar Reseta Depois de Cada Ronda</string>
+  <string name="TouOptionLookoutLoResetOnNewRound">Vigiar Reinicia Depois de Cada Ronda</string>
   <string name="TouOptionLookoutTaskUses">Receber Mais Usos Por Completar Tarefas</string>
   <string name="TownOfUsMira.Role.Mayor">Presidente</string>
   <string name="TownOfUsMira.Role.Mayor.IntroBlurb">Revela-te para salvar a Tripulação</string>
@@ -1964,4 +1964,11 @@ Vais desacelerar jogadores perto de ti numa área, enquanto sendo rápido e esco
   <string name="TouOptionArsonistIgniteRadius">Área Do Incêndio</string>
   <string name="TouOptionArsonistCanVent">Incendiário Pode Usar Ventilação</string>
   <string name="TouOptionArsonistImpVision">Tem Visão De Impostor</string>
+  <string name="TownOfUsMira.Role.Doomsayer">Arruinador</string>
+  <string name="TownOfUsMira.Role.Doomsayer.IntroBlurb">Adivinhas as funções de jogadores para ganhar!</string>
+  <string name="TownOfUsMira.Role.Doomsayer.MedDescription">Adivinha as funções de múltiplos jogadores para os arruinar e ganhar.</string>
+  <string name="TownOfUsMira.Role.Doomsayer.TabDescription">Ganha adivinhando as funções de [guessCount] jogadores.</string>
+  <string name="TownOfUsMira.Role.Doomsayer.WikiDescription">O Arruinador é uma Função Neutro Malvado que ganha adivinhando as funções de [guessCount].</string>
+  <string name="TownOfUsMira.Role.DoomsayerWikiDescriptionIfCanObserve">O Arruinador é uma Função Neutro Malvado que ganha adivinhando funções de [guessCount] jogadores. Ele pode observar jogadores para receber uma dica do que é a sua função na próxima reunião.</string>
+  <string name="TownOfUsMira.Role.DoomsayerObserve">Observar</string>
 </resources>
