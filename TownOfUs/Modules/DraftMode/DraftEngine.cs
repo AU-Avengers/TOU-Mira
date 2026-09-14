@@ -1963,41 +1963,15 @@ namespace TownOfUs.Modules.DraftMode
             {
                 GameStartManager.Instance.ResetStartState();
                 GameStartManager.Instance.MinPlayers = 1;
+                GameStartManager.Instance.BeginGame();
             }
             catch (System.Exception ex)
             {
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftEngine] Exception during post-draft game start: {ex}");
                 DraftApplier.PendingDraftStates.Clear();
                 GameStartManager.Instance.MinPlayers = orig;
+                GameStartPatch.SkipIntercept = false;
                 yield break;
-            }
-
-            for (sbyte sec = 5; sec >= 1; sec--)
-            {
-                if (AmongUsClient.Instance == null || AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Joined)
-                {
-                    MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, "[DraftEngine] Left the lobby during post-draft countdown, aborting start");
-                    DraftApplier.PendingDraftStates.Clear();
-                    GameStartManager.Instance.MinPlayers = orig;
-                    yield break;
-                }
-
-                GameStartManager.Instance.SetStartCounter(sec);
-                yield return new WaitForSeconds(1f);
-            }
-
-            try
-            {
-                GameStartManager.Instance.ReallyBegin(false);
-            }
-            catch (System.Exception ex)
-            {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftEngine] Exception during post-draft game start: {ex}");
-                DraftApplier.PendingDraftStates.Clear();
-            }
-            finally
-            {
-                GameStartManager.Instance.MinPlayers = orig;
             }
 
             float timeout = 10f;
@@ -2006,6 +1980,8 @@ namespace TownOfUs.Modules.DraftMode
                 timeout -= Time.deltaTime;
                 yield return null;
             }
+
+            GameStartManager.Instance.MinPlayers = orig;
             GameStartPatch.SkipIntercept = false;
         }
 
