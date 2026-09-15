@@ -52,6 +52,69 @@ public static class StabilityPatches
         }
         return false;
     }*/
+
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.Toggle))]
+    [HarmonyPriority(Priority.Last)]
+    [HarmonyPrefix]
+    public static bool Toggle(ChatController __instance)
+    {
+        CustomNetworkTransform customNetworkTransform = PlayerControl.LocalPlayer ? PlayerControl.LocalPlayer.NetTransform : null!;
+        // TODO: Uncomment and test this to make sure Parasite Chat doesn't break once match info guide is actually used.
+        if (!customNetworkTransform /*|| MatchInfoGuide.Instance && MatchInfoGuide.Instance.IsActive*/)
+        {
+            return false;
+        }
+
+        try
+        {
+            if (FriendsListManager.InstanceExists && FriendsListManager.Instance.Ui.gameObject &&
+                FriendsListManager.Instance.Ui.gameObject.activeSelf)
+            {
+                return false;
+            }
+        }
+        catch
+        {
+            // ignored cause of innerslop
+        }
+        if (PlayerCustomizationMenu.Instance && PlayerCustomizationMenu.Instance.cosmicubeMenu.activeSelf)
+        {
+            return false;
+        }
+        __instance.StopAllCoroutines();
+        if (__instance.IsOpenOrOpening)
+        {
+            __instance.StartCoroutine(__instance.CoClose());
+            if (FriendsListManager.InstanceExists)
+            {
+                FriendsListManager.Instance.SetFriendButtonColor(false);
+            }
+        }
+        else
+        {
+            __instance.chatScreen.SetActive(true);
+            customNetworkTransform.Halt();
+            __instance.StartCoroutine(__instance.CoOpen());
+            if (FriendsListManager.InstanceExists)
+            {
+                FriendsListManager.Instance.SetFriendButtonColor(true);
+            }
+
+            try
+            {
+                if (__instance.chatNotification.gameObject.activeSelf)
+                {
+                    __instance.chatNotification.Close();
+                }
+            }
+            catch
+            {
+                Error("CHat notification failed to be checked.");
+            }
+        }
+
+        return false;
+    }
     [HarmonyPatch(typeof(PlayerVoteArea), nameof(PlayerVoteArea.SetCosmetics))]
     [HarmonyPrefix]
     public static bool PrefixSetCosmetics(PlayerVoteArea __instance, NetworkedPlayerInfo playerInfo)
@@ -75,7 +138,7 @@ public static class StabilityPatches
                         namePlateById.GetAssetReference(),
                         x));
             }
-            catch (Exception e)
+            catch
             {
                 Error($"Fallback nameplate checks failed for {playerInfo.PlayerName}. No nameplate applied.");
             }
