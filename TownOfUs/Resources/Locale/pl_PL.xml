@@ -775,13 +775,13 @@ narzuć Bariery by całkowicie powstrzymać wszelkie interakcje</string>
   <string name="TouOptionEngineerFixDelay">Opóźnienie Naprawy</string>
   <string name="TownOfUsMira.Role.Escapist">Uciekinier</string>
   <string name="TownOfUsMira.Role.Escapist.IntroBlurb">Ucieknij od ciał z łatwizną</string>
-  <string name="TownOfUsMira.Role.Escapist.TabDescription">Zaznacz lokalizację, po czym wycofaj do niej w każdej
+  <string name="TownOfUsMira.Role.Escapist.TabDescription">Zaznacz miejsce, po czym do niego wycofaj w każdej
 chwili aby umknąć ze sceny zbrodni</string>
-  <string name="TownOfUsMira.Role.Escapist.WikiDescription">Uciekinier to Intruz Skrywający potrafiący zaznaczyć lokalizację i się do niej wycofać (przeteleportować).</string>
+  <string name="TownOfUsMira.Role.Escapist.WikiDescription">Uciekinier to Intruz Skrywający potrafiący zaznaczyć miejsce i się do niego wycofać (przeteleportować).</string>
   <string name="TownOfUsMira.Role.EscapistMark">Zaznacz</string>
-  <string name="TownOfUsMira.Role.EscapistMark.WikiDescription">Zaznacz lokalizację na później.</string>
+  <string name="TownOfUsMira.Role.EscapistMark.WikiDescription">Zaznacz miejsce na później.</string>
   <string name="TownOfUsMira.Role.EscapistRecall">Wycofaj</string>
-  <string name="TownOfUsMira.Role.EscapistRecall.WikiDescription">Wycofaj do zaznaczone lokalizacji.</string>
+  <string name="TownOfUsMira.Role.EscapistRecall.WikiDescription">Wycofaj do zaznaczonego miejsca.</string>
   <string name="TouOptionEscapistRecallUsesPerGame">Ilość Wycofań Na Grę</string>
   <string name="TouOptionEscapistRecallCooldown">Cooldown Wycofania</string>
   <string name="TouOptionEscapistEscapistCanVent">Uciekinier Może Wentować</string>
@@ -1281,4 +1281,13 @@ innych graczy podczas masowej histerii</string>
 Wygrasz gdy nakarmisz wystarczającą ilość graczy.</string>
   <string name="TownOfUsMira.Role.Cleric.MedDescription">Ochroń załogantów aby zapobiec interakcjom.
 Oczyść ich aby usunąć negatywne efekty.</string>
+  <string name="TownOfUsMira.Modifier.BarkeeperSpillEffect">Efekt Wylania Piwa</string>
+  <string name="TownOfUsMira.Role.Deputy.MedDescription">Kamp załogantów, a po ich śmierci spróbuj zastrzelić mordercę.</string>
+  <string name="TownOfUsMira.Role.Doomsayer.MedDescription">Zgadnij role kilku graczy aby ich stracić i wygrać.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.MedDescription">Napraw jeden sabotaż zdalnie.</string>
+  <string name="TownOfUsMira.Role.Engineer.MedDescription">Naprawiaj zdalnie sabotaże oraz wentuj gdzie się da jeśli tego potrzeba.</string>
+  <string name="TownOfUsMira.Role.Escapist.MedDescription">Zaznacz miejsce, po czym wycofaj do niego kiedy to będzie potrzebne.</string>
+  <string name="TownOfUsMira.Role.Executioner.MedDescription">Za wszelką cenę spraw, aby twój cel został wygłosowany.</string>
+  <string name="TownOfUsMira.Role.Fairy.MedDescription">Chroń swój cel nie ważne za jaką cenę.</string>
+  <string name="TownOfUsMira.Role.Forensic.MedDescription">Badaj sceny zbrodni aby odnaleźć podejrzanych.</string>
 </resources>
