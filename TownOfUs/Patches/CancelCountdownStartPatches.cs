@@ -61,7 +61,33 @@ internal static class CancelCountdownStart
         var opts = OptionGroupSingleton<RoleOptions>.Instance;
         if (opts.CurrentRoleDistribution() is RoleDistribution.Draft)
         {
-            var warningText = opts.DraftRecap.Value is DraftRecapMode.Nothing ? "<b>No Draft recap will be displayed.</b>" : $"<b>Draft Mode Recap will display {opts.DraftRecap.Value}.</b>";
+            
+            var recapModeText = opts.DraftRecap.Value switch
+            {
+                DraftRecapMode.Role => MiraLocaleManager.Get(
+                    "TouDraftRecapModeRole",
+                    "Role"),
+
+                DraftRecapMode.Faction => MiraLocaleManager.Get(
+                    "TouDraftRecapModeFaction",
+                    "Faction"),
+
+                DraftRecapMode.Alignment => MiraLocaleManager.Get(
+                    "Alignment",
+                    "Alignment"),
+
+                _ => string.Empty
+            };
+
+            var warningText = opts.DraftRecap.Value is DraftRecapMode.Nothing
+                ? $"<b>{MiraLocaleManager.Get(
+                    "TouDraftRecapDisabled",
+                    "No Draft recap will be displayed.")}</b>"
+                : $"<b>{MiraLocaleManager.Get(
+                        "TouDraftRecapEnabled",
+                        "Draft Mode Recap will display <recap>.")
+                    .Replace("<recap>", recapModeText)}</b>";
+
             var notif = Helpers.CreateAndShowNotification(warningText, Color.white, new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode.LoadAsset());
             notif.AdjustNotification();
         }
@@ -70,13 +96,18 @@ internal static class CancelCountdownStart
             if (OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay.Value)
             {
                 var warningText =
-                    "<color=#FF0000><b>Warning: Multiplayer Freeplay is enabled. The game will not end automatically.</b></color>";
+                    $"<color=#FF0000><b>{MiraLocaleManager.Get(
+                        "TouMultiplayerFreeplayWarning",
+                        "Warning: Multiplayer Freeplay is enabled. The game will not end automatically.")}</b></color>";
                 var notif = Helpers.CreateAndShowNotification(warningText, Color.red, new Vector3(0f, 1f, -20f));
                 notif.AdjustNotification();
             }
             else if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
             {
-                var warningText = "<color=#FF0000><b>Warning: No Game End is enabled. The game will not end automatically.</b></color>";
+                var warningText =
+                    $"<color=#FF0000><b>{MiraLocaleManager.Get(
+                        "TouNoGameEndWarning",
+                        "Warning: No Game End is enabled. The game will not end automatically.")}</b></color>";
                 var notif = Helpers.CreateAndShowNotification(warningText, Color.red, new Vector3(0f, 1f, -20f)); // I'm not good enough with vectors to place this properly
                 notif.AdjustNotification();
             }

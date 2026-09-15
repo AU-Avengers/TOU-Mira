@@ -147,8 +147,13 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
 
                     if (plr.IsInTargetingAnimState())
                     {
+                        var notificationText = MiraLocaleManager.Get(
+                                "TownOfUsMira.Role.PuppeteerTargetInAnimation",
+                                "<player> is currently in an animation (ladder/zipline/platform/vent), please wait.")
+                            .Replace("<player>", plr.CachedPlayerData.PlayerName);
+
                         var notif = Helpers.CreateAndShowNotification(
-                            $"<b>{plr.CachedPlayerData.PlayerName} is currently in an animation (ladder/zipline/platform/vent), please wait.</b>",
+                            $"<b>{notificationText}</b>",
                             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Puppeteer.LoadAsset());
                         notif.Text.SetOutlineThickness(0.35f);
                         return;

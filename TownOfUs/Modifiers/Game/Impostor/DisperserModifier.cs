@@ -75,8 +75,12 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
 
         DispersePlayersToCoordinates(coordinates);
 
+        var notificationText = MiraLocaleManager.Get(
+            "TownOfUsMira.Modifier.DisperserNotif",
+            "Everyone has been dispersed to a vent!");
+
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}Everyone has been dispersed to a vent!</color></b>", Color.white,
+            $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>", Color.white,
             new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Disperser.LoadAsset());
 
         notif1.AdjustNotification();

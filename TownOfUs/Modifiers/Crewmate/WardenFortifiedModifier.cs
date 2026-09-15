@@ -12,9 +12,12 @@ namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldModifier
 {
-    public override string ModifierName => "Fortified";
+    public override string ModifierName => MiraLocaleManager.Get("TouOptionWardenFortEnumSelf", "Fortified");
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Warden;
-    public override string ShieldDescription => "You are fortified by a Warden!\nNo one can interact with you.";
+    public override string ShieldDescription => 
+        MiraLocaleManager.Get(
+            "TownOfUsMira.Modifier.WardenFortifiedDescription",
+            "You are fortified by a Warden!\nNo one can interact with you.");
     public GameObject WardenFort { get; set; }
     public bool ShowFort { get; set; }
 

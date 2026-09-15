@@ -7,7 +7,7 @@ public class TouLocalTabPractice(ConfigFile config) : LocalSettingsTab(config)
 {
     public static DraftAudioCueMode CurrentDraftAudioCueMode { get; private set; } = DraftAudioCueMode.None;
 
-    public override string TabName => "<size=50%>Lobby / Practice</size>";
+    public override string TabName => $"<size=50%>{MiraLocaleManager.Get("TouLocalTabPractice", "Lobby / Practice")}</size>";
     protected override bool ShouldCreateLabels => true;
 
     public override LocalSettingTabAppearance TabAppearance => new()

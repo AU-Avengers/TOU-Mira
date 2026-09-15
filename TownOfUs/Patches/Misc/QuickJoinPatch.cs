@@ -135,9 +135,23 @@ public static class LobbyJoin
                 code = "******";
             }
 
-            Text.text = $"<size=110%>Prev Lobby:</size>"
-                        + $"\n<size=4.6f>({code})</size>"
-                        + $"\nPress Tab to\n<size=2.6f>attempt joining</size>";
+            var previousLobbyText = MiraLocaleManager.Get(
+                "TouQuickJoinPreviousLobby",
+                "Prev Lobby");
+
+            var pressTabText = MiraLocaleManager.Get(
+                "TouQuickJoinPressTab",
+                "Press Tab to");
+
+            var attemptJoiningText = MiraLocaleManager.Get(
+                "TouQuickJoinAttemptJoining",
+                "attempt joining");
+
+            Text.text =
+                $"<size=110%>{previousLobbyText}:</size>"
+                + $"\n<size=4.6f>({code})</size>"
+                + $"\n{pressTabText}"
+                + $"\n<size=2.6f>{attemptJoiningText}</size>";
         }
     }
 }
