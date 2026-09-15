@@ -125,7 +125,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_timerRoot != null)
             {
-                try { MiraAPI.Utilities.Extensions.DeepDestroy(_timerRoot, true); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+                MiraAPI.Utilities.Extensions.DeepDestroy(_timerRoot, true);
                 _timerRoot = null!;
                 _timerText = null!;
                 _timerTrack = null!;
@@ -187,7 +187,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_tooltipRoot != null)
             {
-                try { MiraAPI.Utilities.Extensions.DeepDestroy(_tooltipRoot, true); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+                MiraAPI.Utilities.Extensions.DeepDestroy(_tooltipRoot, true);
                 _tooltipRoot = null!;
                 _tooltipText = null!;
             }
@@ -274,11 +274,7 @@ namespace TownOfUs.Modules.DraftMode
             if (go != null)
                 MiraAPI.Utilities.Extensions.DeepDestroy(go, false);
 
-            try
-            {
-                MiraAPI.Utilities.Extensions.ClearGarbageCollector();
-            }
-            catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+            MiraAPI.Utilities.Extensions.ClearGarbageCollector();
         }
 
         private void BuildScreen()
@@ -499,7 +495,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_selectionBackdrop != null)
             {
-                try { MiraAPI.Utilities.Extensions.DeepDestroy(_selectionBackdrop, true); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+                MiraAPI.Utilities.Extensions.DeepDestroy(_selectionBackdrop, true);
                 _selectionBackdrop = null!;
                 _selectionBackdropWash = null!;
                 _selectionBackdropHorizon = null!;
