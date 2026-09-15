@@ -104,12 +104,6 @@ public static class PlayerRoleTextExtensions
             color = Color.red;
         }
 
-        if (player.HasModifier(PoliticianCampaignedPredicate) &&
-            (PlayerControl.LocalPlayer.IsRole<PoliticianRole>() || PlayerControl.LocalPlayer.IsRole<MayorRole>()))
-        {
-            color = Color.cyan;
-        }
-
         return color;
     }
 
@@ -146,11 +140,18 @@ public static class PlayerRoleTextExtensions
                 $" <sprite name=\"TouMira.Role.Neutral.Mercenary.Ui.Bribe.{(!player.HasDied() && MercenaryRole.CanWinWithBribedPlayer(player) ? "Good" : "Bad")}\">";
         }
 
+        if (player.HasModifier(PoliticianCampaignedPredicate) &&
+            (PlayerControl.LocalPlayer.IsRole<PoliticianRole>() || PlayerControl.LocalPlayer.IsRole<MayorRole>()))
+        {
+            name += " <sprite name=\"TouMira.Role.Crewmate.Politician.Ui.Campaign\">";
+        }
+
         if ((player.HasModifier(ExecutionerTargetPredicate) &&
              PlayerControl.LocalPlayer.IsRole<ExecutionerRole>())
             || (player.HasModifier<ExecutionerTargetModifier>() && isDead))
         {
             name += "<color=#643B1F> X</color>";
+            // name += " <sprite name=\"TouMira.Role.Neutral.Executioner.Ui.Target\">";
         }
 
         if (player.HasModifier<InquisitorHereticModifier>() && (visibility is DataVisibility.Show ||
