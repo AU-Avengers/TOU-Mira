@@ -2035,4 +2035,9 @@ mimica outros para os incriminar.</string>
   <string name="TouOptionGlitchHackDuration">Duração Do Hack</string>
   <string name="TouOptionGlitchCanVent">Erro Pode Usar Ventilação</string>
   <string name="TownOfUsMira.Role.Fairy">Fada</string>
+  <string name="TownOfUsMira.Role.Fairy.MedDescription">Protege o teu alvo com a tua vida usando todos os meis necessários.</string>
+  <string name="TownOfUsMira.Role.Fairy.TabDescription">Protege [target] com a tua vida!</string>
+  <string name="TownOfUsMira.Role.FairyIfNoTarget">Protege o teu alvo com a tua vida!</string>
+  <string name="TownOfUsMira.Role.Fairy.WikiDescription">A Fada é uma Função Neutro Benigno que precisa de proteger o seu alvo (marcado com [symbol]) de ser morto/ejetado.</string>
+  <string name="TownOfUsMira.Role.FairyProtect">Proteger</string>
 </resources>
