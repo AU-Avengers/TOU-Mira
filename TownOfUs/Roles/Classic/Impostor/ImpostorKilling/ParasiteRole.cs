@@ -3,6 +3,7 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -106,16 +107,9 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         var target = Controlled;
         if (Player.AmOwner && target != null)
         {
-            if (!OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfMeetingCalled && !target.HasDied())
-            {
-                PlayerControl.LocalPlayer.RpcSpecialMurder(
-                    target,
-                    teleportMurderer: false,
-                    showKillAnim: false,
-                    causeOfDeath: "Parasite");
-            }
 
-            RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position);
+            RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position,
+                !OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfMeetingCalled && !target.HasDied());
         }
     }
 
@@ -130,16 +124,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        if (!OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfParasiteDies && !target.HasDied())
-        {
-            PlayerControl.LocalPlayer.RpcSpecialMurder(
-                target,
-                teleportMurderer: false,
-                showKillAnim: false,
-                causeOfDeath: "Parasite");
-        }
-
-        RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position);
+        RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position,
+            !OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfParasiteDies && !target.HasDied());
     }
 
     public void FixedUpdate()
@@ -159,14 +145,14 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         if (target.Data == null || target.HasDied() || target.Data.Disconnected)
         {
-            RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position);
+            RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position, false);
             _killPendingFromTimer = false;
             return;
         }
 
         if (Player.HasDied() && OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfParasiteDies)
         {
-            RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position);
+            RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position, false);
             _killPendingFromTimer = false;
             return;
         }
@@ -179,18 +165,10 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             !target.walkingToVent)
         {
             _killPendingFromTimer = false;
-            if (PlayerControl.LocalPlayer)
-            {
-                PlayerControl.LocalPlayer.RpcSpecialMurder(
-                    target,
-                    teleportMurderer: false,
-                    showKillAnim: false,
-                    causeOfDeath: "Parasite");
-            }
 
             if (PlayerControl.LocalPlayer)
             {
-                RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position);
+                RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position, true);
             }
         }
     }
@@ -556,7 +534,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         if (target.HasDied())
         {
-            RpcParasiteEndControl(local, target, target.transform.position);
+            RpcParasiteEndControl(local, target, target.transform.position, false);
             return;
         }
 
@@ -570,13 +548,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        local.RpcSpecialMurder(
-            target,
-            teleportMurderer: false,
-            showKillAnim: false,
-            causeOfDeath: "Parasite");
-
-        RpcParasiteEndControl(local, target, target.transform.position);
+        RpcParasiteEndControl(local, target, target.transform.position, true);
     }
 
     private void EnsureCamera()
@@ -759,7 +731,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     }
 
     [MethodRpc((uint)TownOfUsRpc.ParasiteEndControl)]
-    public static void RpcParasiteEndControl(PlayerControl parasite, PlayerControl target, Vector2 finalPos)
+    public static void RpcParasiteEndControl(PlayerControl parasite, PlayerControl target, Vector2 finalPos, bool toKillPlayer)
     {
         if (LobbyBehaviour.Instance)
         {
@@ -850,6 +822,11 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
 
         role.ClearNotifications();
+        if (toKillPlayer && parasite != null && target != null)
+        {
+            CustomTouMurderRpcs.Indirect(parasite, target, MeetingCheck.Ignore, true, true, true,
+                true, !MeetingHud.Instance, false, !MeetingHud.Instance, !MeetingHud.Instance, "Parasite");
+        }
     }
 
     [MethodRpc((uint)TownOfUsRpc.ParasiteTriggerInteraction)]

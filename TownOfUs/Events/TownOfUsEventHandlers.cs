@@ -180,7 +180,6 @@ public static class TownOfUsEventHandlers
     public static void IntroBeginEventHandler(IntroBeginEvent @event)
     {
         DraftSidebarManager.Deactivate();
-        DraftSidebarManager.ClearBannerRef();
         if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
         {
             return;
@@ -518,7 +517,7 @@ public static class TownOfUsEventHandlers
 
         if (player.Data.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
         {
-            ParasiteRole.RpcParasiteEndControl(player, parasiteRole.Controlled, parasiteRole.Controlled.transform.position);
+            ParasiteRole.RpcParasiteEndControl(player, parasiteRole.Controlled, parasiteRole.Controlled.transform.position, false);
         }
 
         if (ParasiteControlState.IsControlled(player.PlayerId, out var controllerId))
@@ -526,7 +525,7 @@ public static class TownOfUsEventHandlers
             var controller = MiscUtils.PlayerById(controllerId);
             if (controller?.Data?.Role is ParasiteRole controllerRole && controllerRole.Controlled == player)
             {
-                ParasiteRole.RpcParasiteEndControl(controller, player, player.transform.position);
+                ParasiteRole.RpcParasiteEndControl(controller, player, player.transform.position, false);
             }
             else
             {

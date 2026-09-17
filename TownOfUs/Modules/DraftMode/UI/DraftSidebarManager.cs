@@ -15,11 +15,11 @@ namespace TownOfUs.Modules.DraftMode
     public static class DraftSidebarManager
     {
         private static bool _active;
-        private static GameObject    _bannerGo = null!;
         private static string _cachedStaticContent = null!;
         private static int    _cachedPickedCount   = -1;
         private static int    _cachedDisconnectedCount = -1;
         private static bool   _cachedDraftActive;
+        private static bool   _draftSpriteAssetReady;
 
         public static void Activate()
         {
@@ -36,8 +36,6 @@ namespace TownOfUs.Modules.DraftMode
             _cachedDisconnectedCount = -1;
             _cachedDraftActive   = false;
 
-            if (_bannerGo != null) _bannerGo.SetActive(false);
-
             var tmp = HudManagerPatches.RoleListTextComp;
             if (tmp != null)
                 tmp.text = string.Empty;
@@ -48,10 +46,6 @@ namespace TownOfUs.Modules.DraftMode
 
             HudManagerPatches.IsHoveringRoleList = false;
 
-        }
-        public static void ClearBannerRef()
-        {
-            _bannerGo = null!;
         }
 
         public static bool IsActive => _active;
@@ -129,7 +123,11 @@ namespace TownOfUs.Modules.DraftMode
             float t = Time.time;
             var sb = new StringBuilder();
             var draftWord = MiraLocaleManager.Get("TouDraftShimmerDraft", "DRAFT").ToUpperInvariant();
-            TmpSpriteUtils.CreateSpriteAsset(TouAssets.IconDraftMode.LoadAsset(),"TouMira.Gamemode.DraftMode",1.45f);
+            if (!_draftSpriteAssetReady)
+            {
+                TmpSpriteUtils.CreateSpriteAsset(TouAssets.IconDraftMode.LoadAsset(), "TouMira.Gamemode.DraftMode", 1.45f);
+                _draftSpriteAssetReady = true;
+            }
             var modeWord = MiraLocaleManager.Get("TouDraftShimmerMode", "MODE").ToUpperInvariant();
             sb.Append("<size=105%><b>");
             sb.Append(Shimmer(draftWord, new Color(1f, 0.31f, 0.31f), t, 0));
@@ -240,7 +238,6 @@ namespace TownOfUs.Modules.DraftMode
             DraftCancelButton.Hide();
             DraftShuffleButton.HideAndReset();
             DraftSidebarManager.Deactivate();
-            DraftSidebarManager.ClearBannerRef();
         }
     }
 }

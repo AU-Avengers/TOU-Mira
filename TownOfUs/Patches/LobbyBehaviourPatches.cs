@@ -65,6 +65,5 @@ public static class LobbyBehaviourPatches
         DraftCancelButton.Hide();
         DraftShuffleButton.HideAndReset();
         DraftSidebarManager.Deactivate();
-        DraftSidebarManager.ClearBannerRef();
     }
 }

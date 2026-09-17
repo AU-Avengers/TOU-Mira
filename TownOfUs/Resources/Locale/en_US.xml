@@ -2447,6 +2447,10 @@ then bribe the winners!</string>
   <string name="TouOptionMercenaryBribeCost">Bribe Cost</string>
   <string name="TouOptionMercenaryProtectiveGuard">Guarding Stops Attacks</string>
   <string name="TouOptionMercenaryProtectiveGuardGold">Gold Given From An Attack</string>
+    <string name="TouOptionMercenaryWinsWithNeutralBenign">Wins with Neutral Benign</string>
+    <string name="TouOptionMercenaryWinsWithNeutralEvil">Wins with Neutral Evil</string>
+    <string name="TouOptionMercenaryWinsWithNeutralKilling">Wins with Neutral Killing</string>
+    <string name="TouOptionMercenaryWinsWithNeutralOutlier">Wins with Neutral Outlier</string>
   <!-- Pestilence -->
     <!-- Pestilence Wiki / Description -->
     <string name="TownOfUsMira.Role.Pestilence">Pestilence</string>

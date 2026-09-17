@@ -10,10 +10,6 @@ namespace TownOfUs.Modules.DraftMode
 {
     public static class DraftRolePool
     {
-        public static Func<string, List<string>> ResolveDelegate;
-        public static Func<string, ushort> IdResolver;
-        public static Func<ushort, string> NameResolver;
-
         private static readonly Dictionary<string, ushort> RoleNameToIdCache = new(StringComparer.Ordinal);
         private static readonly Dictionary<string, List<string>> BucketToNamesCache = new(StringComparer.OrdinalIgnoreCase);
 
@@ -31,18 +27,7 @@ namespace TownOfUs.Modules.DraftMode
                 return new List<string>(cached);
 
             List<string> result;
-            if (ResolveDelegate != null)
-            {
-                try
-                {
-                    result = ResolveDelegate(bucket) ?? new List<string>();
-                }
-                catch
-                {
-                    result = new List<string>();
-                }
-            }
-            else if (TryResolveBucketToConcreteRoles(bucket, out var resolvedNames))
+            if (TryResolveBucketToConcreteRoles(bucket, out var resolvedNames))
             {
                 result = resolvedNames;
             }
@@ -110,19 +95,6 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (roleNames == null || roleNames.Count == 0) return 0;
 
-            if (IdResolver != null)
-            {
-                foreach (var nm in roleNames)
-                {
-                    try
-                    {
-                        var id = IdResolver(nm);
-                        if (id != 0) return id;
-                    }
-                    catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
-                }
-            }
-
             foreach (var nm in roleNames)
             {
                 var resolvedId = ResolveRoleIdFromName(nm);
@@ -134,12 +106,6 @@ namespace TownOfUs.Modules.DraftMode
 
         public static string GetRoleNameFromId(ushort id)
         {
-            if (NameResolver != null)
-            {
-                try { return NameResolver(id); }
-                catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
-            }
-
             if (id == 0) return null!;
             try
             {
@@ -442,14 +408,6 @@ public static bool IsImpostorRoleId(ushort id)
             return MiscUtils.SpawnableRoles
                 .Where(IsUsableRole)
                 .Where(r => r.IsImpostor() && !known.Contains(r));
-        }
-        public static ushort GetAnyUsableRoleId()
-        {
-            var role = MiscUtils.SpawnableRoles.FirstOrDefault(IsUsableRole);
-            if (role != null) return (ushort)role.Role;
-
-            role = MiscUtils.AllInGameRoles.FirstOrDefault(r => r != null && IsUsableRole(r));
-            return role != null ? (ushort)role.Role : (ushort)0;
         }
 
         private static bool IsUsableRole(RoleBehaviour role)

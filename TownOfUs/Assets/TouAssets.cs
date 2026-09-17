@@ -572,6 +572,12 @@ public static class TouAssets
     public static LoadableAsset<Sprite> ChefProgressNone { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.ChefNone.png");
     
+    public static LoadableAsset<Sprite> MercBribeGood { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.BribeGood.png");
+    
+    public static LoadableAsset<Sprite> MercBribeBad { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.BribeBad.png");
+    
     public static LoadableAsset<Sprite> PlatformEpic { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.PlatformEpic.png");
     
