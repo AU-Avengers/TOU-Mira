@@ -24,6 +24,12 @@ public sealed class GeneralOptions : AbstractOptionGroup
 
     [ModdedToggleOption("TouOptionFFAImpostorMode")]
     public bool FFAImpostorMode { get; set; } = false;
+    public ModdedNumberOption PlayerCountWhenSabotagesDisable { get; set; } =
+        new("TouOptionPlayerCountWhenSabotagesDisable",
+            2f, 1f, 15f, 1f, MiraNumberSuffixes.None, "0.#");
+
+    public ModdedToggleOption CanSabotageWhenDead { get; set; } =
+        new("TouOptionCanSabotageWhenDead", false);
 
     public ModdedToggleOption ImpsKnowRoles { get; set; } =
         new("TouOptionImpsKnowRoles", true)

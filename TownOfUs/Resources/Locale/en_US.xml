@@ -2997,6 +2997,8 @@ when the lights are sabotaged.</string>
   <string name="TouOptionKillAnimationBackgroundColorEnumRoleColor">Role Color</string>
   <string name="TouOptionPlayerCountWhenVentsDisable">Max Players Alive When Vents Disable</string>
   <string name="TouOptionGhostwalkerFixSabos">Ghostwalkers Can Fix Sabotages</string>
+  <string name="TouOptionPlayerCountWhenSabotagesDisable">Max Players Alive When Sabotages Disable</string>
+  <string name="TouOptionCanSabotageWhenDead">Can Sabotage When Dead</string>
     <string name="TouOptionGhostwalkerVentSpawn">Ghostwalkers That Auto-Vent On Spawn</string>
     <string name="TouOptionGhostwalkerVentSpawnEnumNone">None</string>
     <string name="TouOptionGhostwalkerVentSpawnEnumCrewmates">Crewmates</string>
