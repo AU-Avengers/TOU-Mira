@@ -29,7 +29,7 @@ public sealed class GeneralOptions : AbstractOptionGroup
             2f, 1f, 15f, 1f, MiraNumberSuffixes.None, "0.#");
 
     public ModdedToggleOption CanSabotageWhenDead { get; set; } =
-        new("TouOptionCanSabotageWhenDead", false);
+        new("TouOptionCanSabotageWhenDead", true);
 
     public ModdedToggleOption ImpsKnowRoles { get; set; } =
         new("TouOptionImpsKnowRoles", true)
