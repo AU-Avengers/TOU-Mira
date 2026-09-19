@@ -26,6 +26,7 @@ using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
+using TownOfUs.Modules.DraftMode;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Alliance;
@@ -986,7 +987,7 @@ public static class MiscUtils
             chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
         }
 
-        if (showHeadsup && !chat.IsOpenOrOpening)
+        if (showHeadsup && !chat.IsOpenOrOpening && !DraftManager.IsDraftActive)
         {
             SoundManager.Instance.PlaySound(chat.messageSound, false).pitch =
                 0.5f + PlayerControl.LocalPlayer.PlayerId / 15f;
@@ -1062,7 +1063,7 @@ public static class MiscUtils
             chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
         }
 
-        if (showHeadsup && !chat.IsOpenOrOpening)
+        if (showHeadsup && !chat.IsOpenOrOpening && !DraftManager.IsDraftActive)
         {
             SoundManager.Instance.PlaySound(chat.messageSound, false).pitch =
                 0.5f + PlayerControl.LocalPlayer.PlayerId / 15f;
@@ -1188,7 +1189,7 @@ public static class MiscUtils
             SoundManager.Instance.PlaySound(chat.messageSound, false).pitch = 0.1f;
         }
 
-        if (showHeadsup && !chat.IsOpenOrOpening)
+        if (showHeadsup && !chat.IsOpenOrOpening && !DraftManager.IsDraftActive)
         {
             chat.chatNotification.SetUp(PlayerControl.LocalPlayer, message);
         }
