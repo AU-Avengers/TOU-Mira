@@ -7,7 +7,7 @@ namespace TownOfUs;
 
 public class TouLocalTabPreferences(ConfigFile config) : LocalSettingsTab(config)
 {
-    public override string TabName => "<size=65%>Preferences</size>";
+    public override string TabName => $"<size=65%>{MiraLocaleManager.Get("TouLocalTabPreferences", "Preferences")}</size>";
     protected override bool ShouldCreateLabels => true;
 
     public override void OnOptionChanged(ConfigEntryBase configEntry)

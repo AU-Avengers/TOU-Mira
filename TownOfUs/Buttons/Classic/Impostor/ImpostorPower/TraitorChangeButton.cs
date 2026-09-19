@@ -109,9 +109,15 @@ public sealed class TraitorChangeButton : TownOfUsRoleButton<TraitorRole>
             if (Role.ChosenRoles.Count == 0)
             {
                 NoRolesAvailable = true;
+                var notificationText = MiraLocaleManager.Get(
+                    "TownOfUsMira.Role.TraitorNoRolesAvailable",
+                    "No roles are available for the taking.");
+
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}No roles are available for the taking.</color></b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Traitor.LoadAsset());
+                    $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>",
+                    Color.white,
+                    new Vector3(0f, 1f, -20f),
+                    spr: TouRoleIcons.Traitor.LoadAsset());
 
                 notif1.AdjustNotification();
                 return;

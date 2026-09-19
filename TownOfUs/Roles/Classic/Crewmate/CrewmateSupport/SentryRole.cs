@@ -99,9 +99,19 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             var canMove = OptionGroupSingleton<SentryOptions>.Instance.CanMoveWhilePlacingCameras.Value;
             if (!canMove)
             {
-                stringB.AppendLine($"<b><color=#FFAA00>Stand still to deploy sentry-only cameras</color></b>");
+                var standStillText = MiraLocaleManager.Get(
+                    "TownOfUsMira.Role.SentryStandStillToDeploy",
+                    "Stand still to deploy sentry-only cameras");
+
+                stringB.AppendLine(TownOfUsPlugin.Culture,
+                    $"<b><color=#FFAA00>{standStillText}</color></b>");
             }
-            stringB.AppendLine($"<size=60%><color=#BFBFBF>Cameras become public after the next meeting.</color></size>");
+            var publicCamerasText = MiraLocaleManager.Get(
+                "TownOfUsMira.Role.SentryCamerasPublicAfterMeeting",
+                "Cameras become public after the next meeting.");
+
+            stringB.AppendLine(TownOfUsPlugin.Culture,
+                $"<size=60%><color=#BFBFBF>{publicCamerasText}</color></size>");
         }
         if (Cameras.Count > 0 || FutureCameras.Count > 0)
         {
@@ -128,7 +138,14 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                     var sr = cam.gameObject?.GetComponent<SpriteRenderer>();
                     var isPending = (sr != null && sr.color.a < 0.99f);
 
-                    var remainingText = duration == 0 ? string.Empty : $" ({duration} rounds)";
+                   var remainingText = duration == 0
+                    ? string.Empty
+                    : MiraLocaleManager.Get("TownOfUsMira.Role.SentryCameraRounds",
+                            " (<rounds> rounds)")
+                        .Replace(
+                            "<rounds>",
+                            duration.ToString(TownOfUsPlugin.Culture));
+
                     var cameraPos = cam.transform != null ? cam.transform.position : Vector3.zero;
                     var roomName = cam.NewName != StringNames.None
                         ? TranslationController.Instance.GetString(cam.NewName)
@@ -141,8 +158,17 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                     var status = isPending
                         ? $" <size=60%><color=#BFBFBF>{MiraLocaleManager.Get("TownOfUsMira.Role.SentrySentryOnly", "(Sentry-only)")}</color></size>"
                         : string.Empty;
-                    stringB.AppendLine(TownOfUsPlugin.Culture, 
-                        $"• <b>Cam {idx}</b>: {roomName}{remainingText}{status}");
+
+                    var cameraLabel = MiraLocaleManager.Get(
+                        "TownOfUsMira.Role.SentryCameraLabel",
+                        "Cam <number>")
+                    .Replace(
+                        "<number>",
+                        idx.ToString(TownOfUsPlugin.Culture));
+
+                    stringB.AppendLine(
+                        TownOfUsPlugin.Culture,
+                        $"• <b>{cameraLabel}</b>: {roomName}{remainingText}{status}");
                     idx++;
                 }
             }

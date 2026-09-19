@@ -45,14 +45,25 @@ public static class MeetingShhPatches
             render.sprite = LegacyAssets.IsLegacy ? LegacyAssets.JailCellSprite.LoadAsset() : TouAssets.JailCellSprite.LoadAsset();
             jailCell.gameObject.SetActive(true);
             jailCell.GetComponent<SpriteRenderer>().enabled = true;
-            HudManager.Instance.shhhEmblem.TextImage.text = PlayerControl.LocalPlayer.HasModifier<BlackmailedModifier>()
-                ? "<size=55%>YOU ARE JAILED</size><size=40%>\nAND BLACKMAILED</size>"
-                : "YOU ARE JAILED!";
+            if (PlayerControl.LocalPlayer.HasModifier<BlackmailedModifier>())
+            {
+                var jailedText = MiraLocaleManager.Get("TouJailedShhhText");
+                var blackmailedText = MiraLocaleManager.Get("TouAndBlackmailedShhhText");
+
+                HudManager.Instance.shhhEmblem.TextImage.text =
+                    $"<size=55%>{jailedText}</size><size=40%>\n{blackmailedText}</size>";
+            }
+            else
+            {
+                HudManager.Instance.shhhEmblem.TextImage.text =
+                    MiraLocaleManager.Get("TouJailedShhh");
+            }
+                
             HudManager.Instance.shhhEmblem.Hand.gameObject.SetActive(false);
         }
         else
         {
-            HudManager.Instance.shhhEmblem.TextImage.text = "YOU ARE BLACKMAILED!";
+            HudManager.Instance.shhhEmblem.TextImage.text = MiraLocaleManager.Get("TouBlackmailedShhh");
         }
 
         HudManager.Instance.shhhEmblem.HoldDuration = 2.5f;

@@ -40,7 +40,7 @@ public class NeutralGhostRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsR
         Ability = crewGhost.Ability;
     }
 
-    public virtual string RoleName => Player != null ? Player.GetRoleWhenAlive().GetRoleName() : "Neutral Ghost";
+    public virtual string RoleName => Player != null ? Player.GetRoleWhenAlive().GetRoleName() : MiraLocaleManager.Get("NeutralGhost", "Neutral Ghost");
     public virtual string RoleDescription => Player != null ? Player.GetRoleWhenAlive().Blurb : string.Empty;
     public virtual string RoleLongDescription => Player != null ? Player.GetRoleWhenAlive().BlurbLong : string.Empty;
     public virtual Color RoleColor => Player != null ? Player.GetRoleWhenAlive().TeamColor : TownOfUsColors.Neutral;
@@ -60,21 +60,32 @@ public class NeutralGhostRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsR
     public StringBuilder SetTabText()
     {
         var stringB = new StringBuilder();
+        var deadText = MiraLocaleManager.Get("NeutralGhostDead", "You are dead.");
         if (Player.GetRoleWhenAlive() is ITownOfUsRole touRole)
         {
             stringB = ITownOfUsRole.SetDeadTabText(touRole);
             if (touRole.MetWinCon)
             {
-                stringB.Append("<b>You have already won.</b>");
+                var alreadyWonText = MiraLocaleManager.Get(
+                "NeutralGhostAlreadyWon",
+                "You have already won.");
+
+                stringB.Append(
+                    TownOfUsPlugin.Culture,
+                    $"<b>{alreadyWonText}</b>");
             }
             else
             {
-                stringB.Append("<b>You are dead.</b>");
+                stringB.Append(
+                    TownOfUsPlugin.Culture,
+                    $"<b>{deadText}</b>");
             }
         }
         else
         {
-            stringB.Append("<b>You are dead.</b>");
+            stringB.Append(
+                TownOfUsPlugin.Culture,
+                $"<b>{deadText}</b>");
         }
 
         return stringB;

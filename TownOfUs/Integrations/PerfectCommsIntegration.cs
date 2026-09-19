@@ -475,71 +475,109 @@ internal static class PerfectCommsRuntime
         PerfectCommsApi.RegisterModTab(id, "TOU Mira");
 
         RegisterToggle(MuteBlackmailedInMeetings,
-            "<color=#FF0000><b>Blackmailer</b></color>: Mute Blackmailed in Meetings", true,
-            "Prevents the currently blackmailed player from transmitting voice during meetings.");
-        RegisterToggle(MuteBlackmailedNextRound,
-            "<color=#FF0000><b>Blackmailer</b></color>: Mute Blackmailed Next Round", false,
-            "Keeps a meeting-blackmailed player voice-muted during the following task round.");
-        RegisterToggle(MuteParasiteControlled,
-            "<color=#FF0000><b>Parasite</b></color>: Mute Controlled Victim", true,
-            "Prevents a player marked by the Parasite from transmitting their own voice while the effect is active.");
-        RegisterToggle(ParasiteHearFromVictim,
-            "<color=#FF0000><b>Parasite</b></color>: Also Hear Controlled Victim", true,
-            "Lets the Parasite also hear the voices audible around its marked victim while remaining at the Parasite's own position.");
-        RegisterToggle(MutePuppeteerControlled,
-            "<color=#FF0000><b>Puppeteer</b></color>: Mute Controlled Victim", true,
-            "Prevents a Puppeteer-controlled player from transmitting their own voice while controlled.");
-        RegisterToggle(PuppeteerHearFromVictim,
-            "<color=#FF0000><b>Puppeteer</b></color>: Hear From Controlled Victim", true,
-            "Lets the Puppeteer hear the voices audible around the player it currently controls.");
-        RegisterToggle(MuteSwooperWhileSwooped,
-            "<color=#FF0000><b>Swooper</b></color>: Mute While Swooped", true,
-            "Prevents an invisible Swooper from transmitting voice until the swoop ends.");
-        RegisterToggle(MuffleBlindedOrFlashedHearing,
-            "<color=#FF0000><b>Eclipsal/Grenadier</b></color>: Muffle Blinded/Flashed Hearing", true,
-            "Muffles incoming voice during tasks for players currently blinded by Eclipsal or flashed by Grenadier.");
-        RegisterToggle(MuffleHypnotizedDuringHysteria,
-            "<color=#FF0000><b>Hypnotist</b></color>: Muffle Hypnotized During Hysteria", true,
-            "Muffles incoming voice during tasks for affected hypnotized players while Mass Hysteria is active.");
-        RegisterToggle(CrewpostorUsesImpostorVoice,
-            "<color=#FF0000><b>Crewpostor</b></color>: Use Impostor Voice", true,
-            "Treats Crewpostor as an impostor for private impostor voice and team-radio routing.");
-        RegisterToggle(MuteGlitchHacked,
-            "<color=#00FF00><b>Glitch</b></color>: Mute Hacked Players", true,
-            "Prevents a player affected by the Glitch's Hack ability from transmitting voice until the hack ends.");
-        RegisterToggle(MuteJailedInMeetings,
-            "<color=#A6A6A6><b>Jailor</b></color>: Mute Jailee in Meetings", true,
-            "Prevents the jailed player from transmitting voice during meetings unless the Jailor temporarily unmutes them.");
-        RegisterToggle(JailPersistsAfterJailorDeath,
-            "<color=#A6A6A6><b>Jailor</b></color>: Jail Persists If Jailor Dies", false,
-            "Keeps the meeting voice jail active even if the Jailor is dead.",
-            context => context.GetOption(MuteJailedInMeetings));
-        RegisterToggle(JailorCanUnmuteJailed,
-            "<color=#A6A6A6><b>Jailor</b></color>: Can Unmute Jailee", true,
-            "Lets the Jailor temporarily allow the jailed player to speak during a meeting.");
-        RegisterToggle(TeamRadioVampires,
-            "Team Radio - <color=#A32929><b>Vampires</b></color>", true,
-            "Enables the private Vampire managed Team Radio channel when Team Radio is on.",
-            context => context.TeamRadioEnabled);
-        RegisterToggle(TeamRadioLovers,
-            "Team Radio - <color=#FF66CC><b>Lovers</b></color>", true,
-            "Enables the private Lovers managed Team Radio channel when Team Radio is on.",
-            context => context.TeamRadioEnabled);
+        $"<color=#FF0000><b>{MiraLocaleManager.Get("TownOfUsMira.Role.Blackmailer", "Blackmailer")}</b></color>: {MiraLocaleManager.Get("TouPerfectCommsMuteBlackmailedInMeetings", "Mute Blackmailed in Meetings")}", true,
+        MiraLocaleManager.Get("TouPerfectCommsMuteBlackmailedInMeetingsDescription",
+            "Prevents the currently blackmailed player from transmitting voice during meetings."));
 
-        PerfectCommsApi.RegisterHostEnumOption(
-            TownOfUsPlugin.Id,
-            new VoiceHostEnumOption(
-                MediumGhostVoice,
-                "<color=#A680FF><b>Medium</b></color>: Ghost Voice",
-                0,
-                ["None", "Medium -> Ghost", "Ghost -> Medium", "Both"])
-            {
-                Description = "Chooses which voice direction is allowed between a Medium and dead players during tasks.",
-                LegacyBinding = new VoiceHostOptionLegacyBinding(
-                    LegacyRoleOptionsSection,
-                    MediumGhostVoice),
-            });
-    }
+    RegisterToggle(MuteBlackmailedNextRound,
+        $"<color=#FF0000><b>{MiraLocaleManager.Get("TownOfUsMira.Role.Blackmailer", "Blackmailer")}</b></color>: {MiraLocaleManager.Get("TouPerfectCommsMuteBlackmailedNextRound", "Mute Blackmailed Next Round")}", false,
+        MiraLocaleManager.Get("TouPerfectCommsMuteBlackmailedNextRoundDescription",
+            "Keeps a meeting-blackmailed player voice-muted during the following task round."));
+
+    RegisterToggle(MuteParasiteControlled,
+        $"<color=#FF0000><b>{MiraLocaleManager.Get("TownOfUsMira.Role.Parasite", "Parasite")}</b></color>: {MiraLocaleManager.Get("TouPerfectCommsMuteControlledVictim", "Mute Controlled Victim")}", true,
+        MiraLocaleManager.Get("TouPerfectCommsMuteParasiteControlledDescription",
+            "Prevents a player marked by the Parasite from transmitting their own voice while the effect is active."));
+
+    RegisterToggle(ParasiteHearFromVictim,
+        $"<color=#FF0000><b>{MiraLocaleManager.Get("TownOfUsMira.Role.Parasite", "Parasite")}</b></color>: {MiraLocaleManager.Get("TouPerfectCommsAlsoHearControlledVictim", "Also Hear Controlled Victim")}", true,
+        MiraLocaleManager.Get("TouPerfectCommsParasiteHearFromVictimDescription",
+            "Lets the Parasite also hear the voices audible around its marked victim while remaining at the Parasite's own position."));
+
+    RegisterToggle(MutePuppeteerControlled,
+        $"<color=#FF0000><b>{MiraLocaleManager.Get("TownOfUsMira.Role.Puppeteer", "Puppeteer")}</b></color>: {MiraLocaleManager.Get("TouPerfectCommsMuteControlledVictim", "Mute Controlled Victim")}", true,
+        MiraLocaleManager.Get("TouPerfectCommsMutePuppeteerControlledDescription",
+            "Prevents a Puppeteer-controlled player from transmitting their own voice while controlled."));
+
+    RegisterToggle(PuppeteerHearFromVictim,
+        $"<color=#FF0000><b>{MiraLocaleManager.Get("TownOfUsMira.Role.Puppeteer", "Puppeteer")}</b></color>: {MiraLocaleManager.Get("TouPerfectCommsHearFromControlledVictim", "Hear From Controlled Victim")}", true,
+        MiraLocaleManager.Get("TouPerfectCommsPuppeteerHearFromVictimDescription",
+            "Lets the Puppeteer hear the voices audible around the player it currently controls."));
+
+    RegisterToggle(MuteSwooperWhileSwooped,
+        $"<color=#FF0000><b>{MiraLocaleManager.Get("TownOfUsMira.Role.Swooper", "Swooper")}</b></color>: {MiraLocaleManager.Get("TouPerfectCommsMuteWhileSwooped", "Mute While Swooped")}", true,
+        MiraLocaleManager.Get("TouPerfectCommsMuteSwooperWhileSwoopedDescription",
+            "Prevents an invisible Swooper from transmitting voice until the swoop ends."));
+
+    RegisterToggle(MuffleBlindedOrFlashedHearing,
+        $"<color=#FF0000><b>{MiraLocaleManager.Get("TownOfUsMira.Role.Eclipsal", "Eclipsal")}/{MiraLocaleManager.Get("TownOfUsMira.Role.Grenadier", "Grenadier")}</b></color>: {MiraLocaleManager.Get("TouPerfectCommsMuffleBlindedOrFlashedHearing", "Muffle Blinded/Flashed Hearing")}", true,
+        MiraLocaleManager.Get("TouPerfectCommsMuffleBlindedOrFlashedHearingDescription",
+            "Muffles incoming voice during tasks for players currently blinded by Eclipsal or flashed by Grenadier."));
+
+    RegisterToggle(MuffleHypnotizedDuringHysteria,
+        $"<color=#FF0000><b>{MiraLocaleManager.Get("TownOfUsMira.Role.Hypnotist", "Hypnotist")}</b></color>: {MiraLocaleManager.Get("TouPerfectCommsMuffleHypnotizedDuringHysteria", "Muffle Hypnotized During Hysteria")}", true,
+        MiraLocaleManager.Get("TouPerfectCommsMuffleHypnotizedDuringHysteriaDescription",
+            "Muffles incoming voice during tasks for affected hypnotized players while Mass Hysteria is active."));
+
+    RegisterToggle(CrewpostorUsesImpostorVoice,
+        $"<color=#FF0000><b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.Crewpostor", "Crewpostor")}</b></color>: {MiraLocaleManager.Get("TouPerfectCommsUseImpostorVoice", "Use Impostor Voice")}", true,
+        MiraLocaleManager.Get("TouPerfectCommsCrewpostorUsesImpostorVoiceDescription",
+            "Treats Crewpostor as an impostor for private impostor voice and team-radio routing."));
+
+    RegisterToggle(MuteGlitchHacked,
+        $"<color=#00FF00><b>{MiraLocaleManager.Get("TownOfUsMira.Role.Glitch", "Glitch")}</b></color>: {MiraLocaleManager.Get("TouPerfectCommsMuteHackedPlayers", "Mute Hacked Players")}", true,
+        MiraLocaleManager.Get("TouPerfectCommsMuteGlitchHackedDescription",
+            "Prevents a player affected by the Glitch's Hack ability from transmitting voice until the hack ends."));
+
+    RegisterToggle(MuteJailedInMeetings,
+        $"<color=#A6A6A6><b>{MiraLocaleManager.Get("TownOfUsMira.Role.Jailor", "Jailor")}</b></color>: {MiraLocaleManager.Get("TouPerfectCommsMuteJaileeInMeetings", "Mute Jailee in Meetings")}", true,
+        MiraLocaleManager.Get("TouPerfectCommsMuteJailedInMeetingsDescription",
+            "Prevents the jailed player from transmitting voice during meetings unless the Jailor temporarily unmutes them."));
+
+    RegisterToggle(JailPersistsAfterJailorDeath,
+        $"<color=#A6A6A6><b>{MiraLocaleManager.Get("TownOfUsMira.Role.Jailor", "Jailor")}</b></color>: {MiraLocaleManager.Get("TouPerfectCommsJailPersistsIfJailorDies", "Jail Persists If Jailor Dies")}", false,
+        MiraLocaleManager.Get("TouPerfectCommsJailPersistsAfterJailorDeathDescription",
+            "Keeps the meeting voice jail active even if the Jailor is dead."),
+        context => context.GetOption(MuteJailedInMeetings));
+
+    RegisterToggle(JailorCanUnmuteJailed,
+        $"<color=#A6A6A6><b>{MiraLocaleManager.Get("TownOfUsMira.Role.Jailor", "Jailor")}</b></color>: {MiraLocaleManager.Get("TouPerfectCommsCanUnmuteJailee", "Can Unmute Jailee")}", true,
+        MiraLocaleManager.Get("TouPerfectCommsJailorCanUnmuteJailedDescription",
+            "Lets the Jailor temporarily allow the jailed player to speak during a meeting."));
+
+    RegisterToggle(TeamRadioVampires,
+        $"{MiraLocaleManager.Get("TouPerfectCommsTeamRadio", "Team Radio")} - <color=#A32929><b>{MiraLocaleManager.Get("TouPerfectCommsVampires", "Vampires")}</b></color>", true,
+        MiraLocaleManager.Get("TouPerfectCommsTeamRadioVampiresDescription",
+            "Enables the private Vampire managed Team Radio channel when Team Radio is on."),
+        context => context.TeamRadioEnabled);
+
+    RegisterToggle(TeamRadioLovers,
+        $"{MiraLocaleManager.Get("TouPerfectCommsTeamRadio", "Team Radio")} - <color=#FF66CC><b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.Lovers", "Lovers")}</b></color>", true,
+        MiraLocaleManager.Get("TouPerfectCommsTeamRadioLoversDescription",
+            "Enables the private Lovers managed Team Radio channel when Team Radio is on."),
+        context => context.TeamRadioEnabled);
+
+    PerfectCommsApi.RegisterHostEnumOption(
+        TownOfUsPlugin.Id,
+        new VoiceHostEnumOption(
+            MediumGhostVoice,
+            $"<color=#A680FF><b>{MiraLocaleManager.Get("TownOfUsMira.Role.Medium", "Medium")}</b></color>: {MiraLocaleManager.Get("TouPerfectCommsGhostVoice", "Ghost Voice")}",
+            0,
+            [
+                MiraLocaleManager.Get("TouPerfectCommsMediumVoiceNone", "None"),
+                MiraLocaleManager.Get("TouPerfectCommsMediumVoiceMediumToGhost", "Medium -> Ghost"),
+                MiraLocaleManager.Get("TouPerfectCommsMediumVoiceGhostToMedium", "Ghost -> Medium"),
+                MiraLocaleManager.Get("TouPerfectCommsMediumVoiceBoth", "Both")
+            ])
+        {
+            Description = MiraLocaleManager.Get(
+                "TouPerfectCommsMediumGhostVoiceDescription",
+                "Chooses which voice direction is allowed between a Medium and dead players during tasks."),
+            LegacyBinding = new VoiceHostOptionLegacyBinding(
+                LegacyRoleOptionsSection,
+                MediumGhostVoice),
+        });
+}
 
     private static void RegisterToggle(
         string key,

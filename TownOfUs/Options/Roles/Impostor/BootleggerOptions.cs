@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class BootleggerOptions : AbstractRoleOptionGroup<BootleggerRole>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => "Bootlegger";
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Bootlegger", "Bootlegger");
 
     public ModdedNumberOption RoleblockCooldown { get; } =
         new("TouOptionBarkeeperRoleblockCooldown", 22.5f, 15f, 120f, 2.5f, MiraNumberSuffixes.Seconds);
@@ -20,10 +20,10 @@ public sealed class BootleggerOptions : AbstractRoleOptionGroup<BootleggerRole>,
         new("TouOptionBarkeeperRoleblockDelayMax", 5f, 1f, 10f, 0.5f, MiraNumberSuffixes.Seconds);
 
     public ModdedEnumOption PoisonRoleblockTrigger { get; } =
-        new("Poison Triggers On", (int)PoisonTrigger.OnDurationEnd, typeof(PoisonTrigger), ["Delay End", "Meeting Start", "Meeting End"]);
+        new("TouOptionBootleggerPoisonTriggersOn", (int)PoisonTrigger.OnDurationEnd, typeof(PoisonTrigger), ["TouOptionBootleggerPoisonTriggerEnumDelayEnd", "TouOptionBootleggerPoisonTriggerEnumMeetingStart", "TouOptionBootleggerPoisonTriggerEnumMeetingEnd"]);
 
     public ModdedNumberOption ForcedPoisonDelay { get; } =
-        new("Poison Delay", 15f, 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)
+        new("TouOptionBootleggerPoisonDelay", 15f, 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)
         {
             Visible = () => (PoisonTrigger)OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger.Value is PoisonTrigger.OnDurationEnd
         };
