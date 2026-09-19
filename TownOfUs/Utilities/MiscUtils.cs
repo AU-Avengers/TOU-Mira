@@ -2609,6 +2609,25 @@ public static class MiscUtils
         return $"<sprite name=\"AmongUs.Role.{role.Role}\">";
     }
 
+    public static string GetMaskedRoleTmpIcon(RoleTypes role)
+    {
+        return GetRoleTmpIcon(RoleManager.Instance.GetRole(role));
+    }
+
+    public static string GetMaskedRoleTmpIcon(ICustomRole role)
+    {
+        return role.Configuration.IconTmp ? $"<sprite name=\"{role.Configuration.IconTmp.name}.Masked\">" : $"<sprite name=\"AmongUs.Role.{role.Team}.Masked\">";
+    }
+
+    public static string GetMaskedRoleTmpIcon(RoleBehaviour role)
+    {
+        if (role is ICustomRole custom)
+        {
+            return custom.Configuration.IconTmp ? $"<sprite name=\"{custom.Configuration.IconTmp.name}.Masked\">" : $"<sprite name=\"AmongUs.Role.{custom.Team}.Masked\">";
+        }
+        return $"<sprite name=\"AmongUs.Role.{role.Role}.Masked\">";
+    }
+
     public static string GetToggledRoleTmpIcon(RoleBehaviour role, bool enabled)
     {
         if (!enabled)
