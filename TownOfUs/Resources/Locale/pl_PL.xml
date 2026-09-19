@@ -775,13 +775,13 @@ narzuć Bariery by całkowicie powstrzymać wszelkie interakcje</string>
   <string name="TouOptionEngineerFixDelay">Opóźnienie Naprawy</string>
   <string name="TownOfUsMira.Role.Escapist">Uciekinier</string>
   <string name="TownOfUsMira.Role.Escapist.IntroBlurb">Ucieknij od ciał z łatwizną</string>
-  <string name="TownOfUsMira.Role.Escapist.TabDescription">Zaznacz lokalizację, po czym wycofaj do niej w każdej
+  <string name="TownOfUsMira.Role.Escapist.TabDescription">Zaznacz miejsce, po czym do niego wycofaj w każdej
 chwili aby umknąć ze sceny zbrodni</string>
-  <string name="TownOfUsMira.Role.Escapist.WikiDescription">Uciekinier to Intruz Skrywający potrafiący zaznaczyć lokalizację i się do niej wycofać (przeteleportować).</string>
+  <string name="TownOfUsMira.Role.Escapist.WikiDescription">Uciekinier to Intruz Skrywający potrafiący zaznaczyć miejsce i się do niego wycofać (przeteleportować).</string>
   <string name="TownOfUsMira.Role.EscapistMark">Zaznacz</string>
-  <string name="TownOfUsMira.Role.EscapistMark.WikiDescription">Zaznacz lokalizację na później.</string>
+  <string name="TownOfUsMira.Role.EscapistMark.WikiDescription">Zaznacz miejsce na później.</string>
   <string name="TownOfUsMira.Role.EscapistRecall">Wycofaj</string>
-  <string name="TownOfUsMira.Role.EscapistRecall.WikiDescription">Wycofaj do zaznaczone lokalizacji.</string>
+  <string name="TownOfUsMira.Role.EscapistRecall.WikiDescription">Wycofaj do zaznaczonego miejsca.</string>
   <string name="TouOptionEscapistRecallUsesPerGame">Ilość Wycofań Na Grę</string>
   <string name="TouOptionEscapistRecallCooldown">Cooldown Wycofania</string>
   <string name="TouOptionEscapistEscapistCanVent">Uciekinier Może Wentować</string>
@@ -889,11 +889,11 @@ Upij jednego gracza wiele razy, aby go zatruć.</string>
   <string name="TownOfUsMira.Role.Barkeeper">Barman</string>
   <string name="TownOfUsMira.Role.Barkeeper.IntroBlurb">Poczęstuj Złoczyńców aby ich spowolnić</string>
   <string name="TownOfUsMira.Role.Barkeeper.TabDescription">Poczęstuj Złoczyńcę, aby zablokować jego umiejętności na [blockTime]s.</string>
-  <string name="TownOfUsMira.Role.Barkeeper.WikiDescription">Barman to Załogant Wsparcia który może poczęstować innego gracza aby tymczasowo zablokować jego umiejętności. Może on także, wylać trochę piwa aby przyśpieszyć, bądź spowolnić graczy.</string>
+  <string name="TownOfUsMira.Role.Barkeeper.WikiDescription">Barman to Załogant Wsparcia który może wypić z innymi aby tymczasowo zablokować ich umiejętności. Może on także, wylać trochę piwa aby przyśpieszyć, bądź spowolnić graczy.</string>
   <string name="TownOfUsMira.Role.BarkeeperRoleblock">Poczęstuj</string>
   <string name="TownOfUsMira.Role.BarkeeperRoleblocking">Częstowanie</string>
-  <string name="TownOfUsMira.Role.BarkeeperRoleblock.WikiDescription">Poczęstuj gracza, sprawiając, że jego umiejętności będą zablokowane na [blockTime]s.</string>
-  <string name="TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover">Poczęstuj gracza, sprawiając, że jego umiejętności będą zablokowane na [blockTime]s. Gdy blokada się skończy, będzie on miał kaca przez [overTime]s</string>
+  <string name="TownOfUsMira.Role.BarkeeperRoleblock.WikiDescription">Wypij z graczem, sprawiając, że jego umiejętności będą zablokowane na [blockTime]s.</string>
+  <string name="TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover">Wypij z graczem, sprawiając, że jego umiejętności będą zablokowane na [blockTime]s. Gdy blokada się skończy, będzie on miał kaca przez [overTime]s</string>
   <string name="TownOfUsMira.Role.BarkeeperSpill">Wylej</string>
   <string name="TownOfUsMira.Role.BarkeeperSpilling">Wylewanie</string>
   <string name="TownOfUsMira.Role.BarkeeperSpill.WikiDescription">Wylej jedno ze swoich piw na ziemię, sprawiając, że każdy kto w nie wejdzie będzie szybszy, bądź wolniejszy zależnie od czasu który minął od wylania. Ten efekt uruchamia się raz na każdego gracza.</string>
@@ -1093,7 +1093,7 @@ Gdy takowej użyją, możesz go zabić.</string>
   <string name="TownOfUsMira.Role.ImitatorImpostorCounterparts">Odpowiedniki Intruzów</string>
   <string name="TouOptionImitatorImitateNeutrals">Może Naśladować Odpowiedniki Neutralne</string>
   <string name="TouOptionImitatorImitateImpostors">Może Naśladować Odpowiedniki Intruzów</string>
-  <string name="TouOptionImitatorImitateBasicCrewmate">Może Naśladować Podstawowego Załoganta</string>
+  <string name="TouOptionImitatorImitateBasicCrewmate">Może Naśladować Zwykłego Załoganta</string>
   <string name="TouOptionImitatorGuessAs">Naśladowca Musi Być Zgadnięty Jako</string>
   <string name="TouOptionImitatorGuessEnumCached">Naśladowca</string>
   <string name="TouOptionImitatorGuessEnumActive">Naśladowana Rola</string>
@@ -1239,4 +1239,55 @@ Imituj się w innych aby ich wrobić.</string>
   <string name="TouOptionGrenadierGrenadierCanVent">Grenadier Może Wentować</string>
   <string name="TownOfUsMira.Modifier.GrenadierFlashedNotification">Zostałeś oślepiony przez Grenadiera!</string>
   <string name="TownOfUsMira.Role.Haunter.MedDescription">Ujawnij Intruzów długo po swojej śmierci.</string>
+  <string name="TownOfUsMira.Role.Herbalist">Zielarz</string>
+  <string name="TownOfUsMira.Role.Herbalist.IntroBlurb">Niech rośliny i zioła doprowadzą do wygranej</string>
+  <string name="TownOfUsMira.Role.Herbalist.MedDescription">Ujawnij role, Zmyl Załogę i broń pozostałych jeśli potrzeba.</string>
+  <string name="TownOfUsMira.Role.Herbalist.TabDescription">Użyj swoją głęboką wiedzę o naturze na innych.
+Twój cooldown zabicia jest odłączony od innych umiejętności.</string>
+  <string name="TownOfUsMira.Role.Herbalist.WikiDescription">Zielarz jest Intruzem Silnym posiadającym kilka umiejętności połączonych jednym cooldownem. Mogą pomagać Intruzom bądź wpływać na to co widzą inni.</string>
+  <string name="TownOfUsMira.Role.HerbalistExpose">Ujawnij</string>
+  <string name="TownOfUsMira.Role.HerbalistExpose.WikiDescription">Ujawnij rolę gracza wszystkim Intruzom, sprawiając jednak że nie będą mogli być zgadnięci.</string>
+  <string name="TownOfUsMira.Role.HerbalistConfuse">Zmyl</string>
+  <string name="TownOfUsMira.Role.HerbalistConfuse.WikiDescription">Zmyl gracza zarodnikami fungal aby uniemożliwić mu odróżnianie innych.</string>
+  <string name="TownOfUsMira.Role.HerbalistProtect">Ochroń</string>
+  <string name="TownOfUsMira.Role.HerbalistChangeHerb">Zmień Zioło</string>
+  <string name="TownOfUsMira.Modifier.HerbalistProtectionDescription">Jesteś chroniony przez Kleryka!
+Nikt nie może wejść z tobą w interakcję.</string>
+  <string name="TownOfUsMira.Role.Hypnotist">Hipnotyzer</string>
+  <string name="TownOfUsMira.Role.Hypnotist.IntroBlurb">Zahipnotyzuj Załogę</string>
+  <string name="TownOfUsMira.Role.Hypnotist.MedDescription">Zahipnotyzuj Załogę, po czym wywołaj Masową Histerię by zmienić to co widzą.</string>
+  <string name="TownOfUsMira.Role.Hypnotist.TabDescription">Zahipnotyzuj załogantów aby nie mogli odróżniać
+innych graczy podczas masowej histerii</string>
+  <string name="TownOfUsMira.Role.Hypnotist.WikiDescription">Hipnotyzer jest Intruzem Wsparcia który może zahipnotyzować graczy. Podczas spotkania może rozpętać Masową Histerię, która powoduje że każdy zahipnotyzowany gracz (oznaczony symbolem [symbol]) od następnej rundy widzi innych graczy na totalnie inny sposób.</string>
+  <string name="TownOfUsMira.Role.HypnotistHypnotize">Hipnotyzuj</string>
+  <string name="TownOfUsMira.Role.HypnotistHypnotize.WikiDescription">Zahipnotyzuj gracza, sprawiając że będzie widział grę na inny sposób niż nie-zahipnotyzowani gracze o ile masowa histeria jest aktywna.</string>
+  <string name="TownOfUsMira.Role.HypnotistMassHysteria">Histeria</string>
+  <string name="TownOfUsMira.Role.HypnotistMassHysteriaWiki">Masowa Histeria (Spotkanie)</string>
+  <string name="TownOfUsMira.Role.HypnotistMassHysteria.WikiDescription">Spraw aby zahipnotyzowani gracze widzieli wszystkich na unikatowy sposób podczas następnej rundy.</string>
+  <string name="TouOptionHypnotistHypnotizeCooldown">Cooldown Hipnozy</string>
+  <string name="TouOptionHypnotistHypnotistCanKillWithTeammate">Hipnotyzer Może Zabijać Ze Wspólnikami</string>
+  <string name="TownOfUsMira.Role.Imitator.MedDescription">Naśladuj to czym zmarli raz byli.</string>
+  <string name="TownOfUsMira.Role.Inquisitor">Inkwizytor</string>
+  <string name="TownOfUsMira.Role.Inquisitor.IntroBlurb">Pokonaj Heretyków!</string>
+  <string name="TownOfUsMira.Role.Altruist.MedDescription">Wskrześ martwych załogantów.</string>
+  <string name="TownOfUsMira.Modifier.AltruistArrow">Strzałka Altruisty</string>
+  <string name="TownOfUsMira.Role.Ambassador.MedDescription">Zmień rolę Intruzów na resztę gry.</string>
+  <string name="TownOfUsMira.Role.Ambusher.MedDescription">Nękaj Załogantów aby później Osaczyć kogoś blisko nich.</string>
+  <string name="TownOfUsMira.Role.Arsonist.MedDescription">Oblej załogantów i podpal któregokolwiek z nich aby zapłonęli.</string>
+  <string name="TownOfUsMira.Role.Barkeeper.MedDescription">Wypij ze Złolami aby tymczasowo zablokować ich umiejętności.</string>
+  <string name="TownOfUsMira.Role.Bomber.MedDescription">Podkładaj bomby aby zabić kilku Załogantów na raz.</string>
+  <string name="TownOfUsMira.Role.Bootlegger.MedDescription">Wypij z Załogantami aby tymczasowo zablokować ich umiejętności.</string>
+  <string name="TownOfUsMira.Role.Chef.MedDescription">Ugotuj świeże ciała Załogi.
+Wygrasz gdy nakarmisz wystarczającą ilość graczy.</string>
+  <string name="TownOfUsMira.Role.Cleric.MedDescription">Ochroń załogantów aby zapobiec interakcjom.
+Oczyść ich aby usunąć negatywne efekty.</string>
+  <string name="TownOfUsMira.Modifier.BarkeeperSpillEffect">Efekt Wylania Piwa</string>
+  <string name="TownOfUsMira.Role.Deputy.MedDescription">Kamp załogantów, a po ich śmierci spróbuj zastrzelić mordercę.</string>
+  <string name="TownOfUsMira.Role.Doomsayer.MedDescription">Zgadnij role kilku graczy aby ich stracić i wygrać.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.MedDescription">Napraw jeden sabotaż zdalnie.</string>
+  <string name="TownOfUsMira.Role.Engineer.MedDescription">Naprawiaj zdalnie sabotaże oraz wentuj gdzie się da jeśli tego potrzeba.</string>
+  <string name="TownOfUsMira.Role.Escapist.MedDescription">Zaznacz miejsce, po czym wycofaj do niego kiedy to będzie potrzebne.</string>
+  <string name="TownOfUsMira.Role.Executioner.MedDescription">Za wszelką cenę spraw, aby twój cel został wygłosowany.</string>
+  <string name="TownOfUsMira.Role.Fairy.MedDescription">Chroń swój cel nie ważne za jaką cenę.</string>
+  <string name="TownOfUsMira.Role.Forensic.MedDescription">Badaj sceny zbrodni aby odnaleźć podejrzanych.</string>
 </resources>

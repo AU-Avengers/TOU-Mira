@@ -845,7 +845,7 @@ Faake-Aufgaben:</string>
   <string name="WikiSettingsTouMiraGameSettingsTitle">TOU Mira Spiel Einstellungen</string>
   <string name="WikiSettingsRoleDistOptions">Rollenverteilungsoptionen</string>
   <string name="TermsProtectionSymbolsInfo">Schutzsymbole erscheinen neben Spielernamen in Besprechungen und/oder während des Spiels, um zu zeigen, dass der Spieler gegen die meisten Attacken immun ist. Dieses ist aber normalerweise nur für Betroffende Rollen, das Ziel oder die Toten sichtbar. • Arzt Schilder sind in der Farbe [color=#006600]+[/color] makiert • Kleriker Barrieren sind mit der Farbe [color=#00FFB3]Ω[/color] makiert • Wächterverstärkungen sind in der Farbe [color=#9900FF]π[/color] makiert • Spiegelwerfers Refelexionen sind mit der Farbe [color=#90A2C3]〚〛[/color] • Feen Schutz ist mit der Farbe [color=#FFD900]★[/color] makiert • Schutzengel Schutz ist mit der Farbe [color=#66AAF3]☀[/color] makiert • Segen des Orakel ist mit der Farbe [color=#BF00BF]†[/color] makiert</string>
-  <string name="TermsStatusEffectInfo">Status Effekte werden während der Besprechungen und/oder während des Spiels auf dem Spielernamen für die betroffenen Rollen und/oder die Toten angezeigt. • Brandstifter Tränkungen sind mit der Farbe [color=#FF4D00]Δ[/color] markiert • Seuchenhüters plagen sind mit der Farbe [color=#E6FFB3]¥[/color] markiert • Ferngesteuerte Spieler sind mit der Farbe [color=#FF2660]⦿[/color] markiert • Erpresste ziele sind mit der Farbe [color=#2A1119]M[/color markiert] • Hypnose ist mit der Farbe [color=#D53F42]@[/color] markiert • Der Zauberwirker Fluch wird mit der Farbe [color=#FF0000]乂[/color] markiert • Die Ritter des Monarch sind mit der Farbe [color=#EA535B]♠[/color] markiert</string>
+  <string name="TermsStatusEffectInfo">Statuseffekte werden während Sirtzungen und während des Spiels angezeigt, normalerweise nur sichtbar zur dazugehörigen Rolle und/oder den Toten. • Brandstifter übergieβungen sind mit einem [color=#FF4D00]Δ[/color] markiert • Seuchenhüter infizierungen sind mit einem [color=#E6FFB3]¥[/color] markiert • Kontrolierte Spieler sind mit einem [color=#FF2660]⦿[/color] markiert • Erpresste Spieler sind mit einem [color=#2A1119]M[/color] markiert • Hypnotisierte Spieler sind mit einem [color=#D53F42]@[/color] markiert • Ritter des Monarchen sind mit einem [color=#EA535B]♠[/color] markiert</string>
   <string name="TermsCrewRoleAlignmentsTitle">[color=#8CFFFF]Besatzung[/color] Teilausrichtung</string>
   <string name="UpCommandHostError">Du musst der Host sein um den /up Befehl nutzen zu können.</string>
   <string name="UpCommandDevBuildError">Der /up Befehl ist nur in den Entwicklungsversionen verfügbar.</string>
@@ -931,4 +931,20 @@ Fake-Aufgaben:</string>
   <string name="TownOfUsMira.BetterMaps.Option.SubmergedSpawnEnumLowerDeck">Unteres Deck</string>
   <string name="TouTabOptionModifiersDesc">Alle Spieler können einen Allianz, Universellen und/oder Fraktionsmodifikator erhalten.</string>
   <string name="TownOfUsMira.HideAndSeek.Modifier.Giant">Riese</string>
+  <string name="ExileTextConfirm">[player] war [role].</string>
+  <string name="TownOfUsMira.AdvancedUtils.Option.TasksToUseAdmin">Aufgaben benötigt um Admin zu benutzen</string>
+  <string name="TownOfUsMira.AdvancedUtils.Option.TasksToUseCams">Aufgaben benötigt um Kameras zu benutzen</string>
+  <string name="TownOfUsMira.AdvancedUtils.Option.TasksToUseDoorlog">Aufgaben benötigt um Türlog zu benutzen</string>
+  <string name="TouUnavailableUtilityNotifSingle">Du musst [amount] mehr Aufgaben erfüllen um das zu benutzen!</string>
+  <string name="TownOfUsMira.RandomMaps.Option.PolusChance">Polus Warscheinlichkeit</string>
+  <string name="TownOfUsMira.RandomMaps.Option.AirshipChance">Airship Warscheinlichkeit</string>
+  <string name="TownOfUsMira.RandomMaps.Option.FungleChance">Fungle Warscheinlichkeit</string>
+  <string name="TownOfUsMira.RandomMaps.Option.SubmergedChance">Submerged Warscheinlichkeit</string>
+  <string name="TownOfUsMira.RandomMaps.Option.LevelImpostorChance">Level Impostor Warscheinlichkeit</string>
+  <string name="TownOfUsMira.Options.Groups.RandomDoorMode">Zufälliger Türen Modus</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumSkeld">Skeld</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumPolus">Polus</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumAirship">Airship</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumFungle">Fungle</string>
+  <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumSubmerged">Submerged</string>
 </resources>
