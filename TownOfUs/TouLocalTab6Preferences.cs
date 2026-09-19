@@ -50,6 +50,10 @@ public class TouLocalTabPreferences(ConfigFile config) : LocalSettingsTab(config
         config.Bind("Gameplay", "SeparateChatBubbles", false);
 
     [LocalToggleSetting]
+    public ConfigEntry<bool> ShowChatNotifsInGame { get; private set; } =
+        config.Bind("Gameplay", "ShowChatNotifsInGame", true);
+
+    [LocalToggleSetting]
     public ConfigEntry<bool> DeadSeeGhostsToggle { get; private set; } = config.Bind("Miscellaneous", "DeadSeeGhosts", true);
 
     [LocalToggleSetting]

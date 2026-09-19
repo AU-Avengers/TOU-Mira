@@ -68,13 +68,13 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
         };
 
     public ModdedToggleOption RequireCrowded { get; set; } =
-        new("TouOptionRequireCrowded", true, false)
+        new("TouOptionRequireCrowded", false, false)
         {
             Visible = () => ModCompatibility.CrowdedLoaded
         };
 
     public ModdedToggleOption RequireAleLudu { get; set; } =
-        new("TouOptionRequireAleLudu", true, false)
+        new("TouOptionRequireAleLudu", false, false)
         {
             Visible = () => ModCompatibility.AleLuduLoaded
         };

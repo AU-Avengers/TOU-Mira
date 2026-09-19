@@ -73,6 +73,7 @@
   <string name="RainbowColorAsFortegreen">Rainbow Color As Fortegreen</string>
   <string name="ZoomingInPractice">Zoom In Practice</string>
   <string name="SeparateChatBubbles">Separate Chat Bubbles</string>
+    <string name="ShowChatNotifsInGame">Show Chat Notifications Mid-Game</string>
   <string name="RoleIconOnReveal">Show Role Icon on Intro</string>
   <string name="ColorPlayerName">Colored Player Name</string>
   <string name="RoleNameStyle">Role Name Style</string>
@@ -1992,7 +1993,7 @@ distinguishing players under a mass hysteria</string>
   <!-- Morphling Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Morphling">Morphling</string>
   <string name="TownOfUsMira.Role.Morphling.IntroBlurb">Transform into Crewmates</string>
-  <string name="TownOfUsMira.Role.Morphling.MedDescription">Sample Crewmate and moprh into them to frame them.</string>
+  <string name="TownOfUsMira.Role.Morphling.MedDescription">Sample Crewmate and morph into them to frame them.</string>
   <string name="TownOfUsMira.Role.Morphling.TabDescription">Sample players and morph into them to disguise yourself.
 Your sample clears at the beginning of every round.</string>
   <string name="TownOfUsMira.Role.MorphlingTabMorphed">Morphed As: [player]</string>
@@ -2997,6 +2998,8 @@ when the lights are sabotaged.</string>
   <string name="TouOptionKillAnimationBackgroundColorEnumRoleColor">Role Color</string>
   <string name="TouOptionPlayerCountWhenVentsDisable">Max Players Alive When Vents Disable</string>
   <string name="TouOptionGhostwalkerFixSabos">Ghostwalkers Can Fix Sabotages</string>
+  <string name="TouOptionPlayerCountWhenSabotagesDisable">Max Players Alive When Sabotages Disable</string>
+  <string name="TouOptionCanSabotageWhenDead">Can Sabotage When Dead</string>
     <string name="TouOptionGhostwalkerVentSpawn">Ghostwalkers That Auto-Vent On Spawn</string>
     <string name="TouOptionGhostwalkerVentSpawnEnumNone">None</string>
     <string name="TouOptionGhostwalkerVentSpawnEnumCrewmates">Crewmates</string>
