@@ -1130,7 +1130,6 @@ pelo menos metade dos jogadores inocentes para te revelares com sucesso</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecute">Processar</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecuteWiki">Processar (Reunião)</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecute.WikiDescription">Exila qualquer jogador da tua escolha, atirando cinco votos nesse jogador e ignorando outros votos.</string>
-  <string name="TouOptionProsecutorDiesWhenCrewmateExiled">Procurador Morre Se Ele Exilar Um Tripulante</string>
   <string name="TouOptionProsecutorMaxProsecutions">Max Processos</string>
   <string name="TownOfUsMira.Role.Seer">Vidente</string>
   <string name="TownOfUsMira.Role.Seer.IntroBlurb">Revela as alianças de outros</string>

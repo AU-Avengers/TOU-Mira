@@ -1145,7 +1145,6 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TownOfUsMira.Role.ProsecutorProsecute">起诉</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecuteWiki">起诉（会议）</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecute.WikiDescription">起诉你选择的任意玩家，对其投出5票并无视其他所有票数。</string>
-  <string name="TouOptionProsecutorDiesWhenCrewmateExiled">检察官放逐船员时死亡</string>
   <string name="TouOptionProsecutorMaxProsecutions">最大检举次数</string>
   <string name="TownOfUsMira.Role.Seer.IntroBlurb">揭示其他玩家的阵营</string>
   <string name="TownOfUsMira.Role.Seer.TabDescription">揭示其他玩家的阵营以找出坏人。</string>

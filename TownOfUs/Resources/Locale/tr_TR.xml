@@ -754,8 +754,6 @@ Bu mesajı seçenekler menüsünden devre dışı bırakabilirsin.</string>
   <string name="TownOfUsMira.Role.AltruistRevivedNotif">Bir Fedakâr tarafından diriltildin!</string>
   <string name="TownOfUsMira.Role.AltruistReviveSuccessNotif">[player] oyuncusunu başarıyla dirilttin!</string>
   <string name="TownOfUsMira.Role.AltruistRevive.WikiDescription">Yakınındaki ölü bedenlerden bir grubu dirilt.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveGroupSacrifice.WikiDescription">Yakınındaki ölü bedenlerden bir grubu dirilt. Diriltme tamamlanırsa beden bırakmadan ölürsün.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveSacrifice.WikiDescription">En yakın ölü bedeni dirilt. Diriltme tamamlanırsa beden bırakmadan ölürsün.</string>
   <string name="TouOptionAltruistReviveType">Diriltme Türü</string>
   <string name="TouOptionAltruistReviveEnumSacrifice">Fedakârlık</string>
   <string name="TouOptionAltruistReviveEnumGroupSacrifice">Toplu Fedakârlık</string>
@@ -1211,7 +1209,6 @@ bir sonraki tur onları engellemek için havalandırmaları barikatla kapat</str
   <string name="TownOfUsMira.Role.ProsecutorProsecute">Yargıla</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecuteWiki">Prosecute (Toplantı)</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecute.WikiDescription">Seçtiğin herhangi bir oyuncuyu sürgüne gönder; ona beş oy ver ve diğer tüm oyları yok say.</string>
-  <string name="TouOptionProsecutorDiesWhenCrewmateExiled">Prosecutor Dies When They Exile A Mürettebatmate</string>
   <string name="TouOptionProsecutorMaxProsecutions">Maksimum Yargılama</string>
   <string name="TownOfUsMira.Role.Seer">Kâhin</string>
   <string name="TownOfUsMira.Role.Seer.IntroBlurb">Diğerlerinin ittifakını açığa çıkar</string>
@@ -1384,12 +1381,6 @@ Mürettebatı tehdit edenleri vur.</string>
   <string name="TownOfUsMira.Role.Sheriff.WikiDescription">Şerif, bir oyuncuyu öldürmeye çalışmak için ateş edebilen bir Katil Mürettebat rolüdür. Hatalı ateş sonucu ölmezse ateş etme yeteneğini kaybeder.</string>
   <string name="TownOfUsMira.Role.SheriffShoot">Ateş Et</string>
   <string name="TownOfUsMira.Role.SheriffShoot.WikiDescription">Bir oyuncuyu öldürmek için ateş et. Oyuncu Sahtekâr veya seçilen diğer vurulabilir taraflardan biri değilse hatalı ateş edersin.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfired">Artık ateş edemezsin.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsBoth">Hatalı ateş hem seni hem hedefini öldürür.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsSheriff">Hatalı ateş intiharla sonuçlanır.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsTarget">Hatalı ateş hedefinin ölümüne yol açar;
-bunun karşılığında yeteneğini kaybedersin.</string>
-  <string name="TownOfUsMira.Role.SheriffTabMisfireKillsNobody">Hatalı ateş tekrar ateş etmeni engeller.</string>
   <string name="TownOfUsMira.Role.SheriffMisfireFeedback">Ateş etme yeteneğini kaybettin!</string>
   <string name="TouOptionSheriffKillCooldown">Öldürme Bekleme Süresi</string>
   <string name="TouOptionSheriffCanSelfReport">Kendini Raporlayabilir</string>

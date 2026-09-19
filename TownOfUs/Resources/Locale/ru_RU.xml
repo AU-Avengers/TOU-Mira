@@ -475,7 +475,6 @@
   <string name="TownOfUsMira.Role.ProsecutorProsecute">Выгнать</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecuteWiki">Выгнать (На собрании)</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecute.WikiDescription">Выгоняйте кого захотите, добавляя пять голосов против цели, игнорируя остальные голоса.</string>
-  <string name="TouOptionProsecutorDiesWhenCrewmateExiled">Прокурор умирает, когда выгоняет Члена Экипажа</string>
   <string name="TouOptionProsecutorMaxProsecutions">Макс. количество Изгнаний</string>
   <string name="TownOfUsMira.Role.Seer">Провидец</string>
   <string name="TownOfUsMira.Role.Seer.IntroBlurb">Раскрывайте фракции других игроков</string>
