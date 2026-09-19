@@ -314,6 +314,11 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> ShootMeetingSprite { get; } =
         new LoadableBundleSubAsset("Shoot", MeetingAbilityHolder);
+    public static LoadableAsset<Sprite> MassHysteriaSprite { get; } = new LoadableResourceAsset($"{ShortPath}.MassHysteriaSprite.png");
+    public static LoadableAsset<Sprite> MayorRevealSprite { get; } = new LoadableResourceAsset($"{ShortPath}.MayorRevealSprite.png");
+    public static LoadableAsset<Sprite> ProsecutorToggleSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ProsecutorToggleSprite.png");
+    public static LoadableAsset<Sprite> ToggleDisabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ToggleDisabled.png");
+    public static LoadableAsset<Sprite> ToggleEnabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ToggleEnabled.png");
 
     public static LoadableAsset<Sprite> ProsecuteMeetingSprite { get; } =
         new LoadableResourceAsset($"{ShortPath}.ProsecuteSprite.png");
@@ -432,6 +437,9 @@ public static class TouAssets
     public static LoadableAsset<Sprite> NeutKillBg { get; } = new LoadableBundleAsset<Sprite>("KillBackgroundNeut", MainBundle);
 
     public static LoadableAsset<Sprite> CrewKillBg { get; } = new LoadableBundleAsset<Sprite>("KillBackgroundCrew", MainBundle);
+
+    public static LoadableAsset<Sprite> GhostwalkerVentSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.GhostwalkerVentSprite.png");
 
     public static LoadableAsset<Sprite> VitalBgMissin { get; } =
         new LoadableResourceAsset($"{ShortPath}.VitalBgMissin.png");
@@ -563,6 +571,12 @@ public static class TouAssets
     
     public static LoadableAsset<Sprite> ChefProgressNone { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.ChefNone.png");
+    
+    public static LoadableAsset<Sprite> MercBribeGood { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.BribeGood.png");
+    
+    public static LoadableAsset<Sprite> MercBribeBad { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.BribeBad.png");
     
     public static LoadableAsset<Sprite> PlatformEpic { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.PlatformEpic.png");

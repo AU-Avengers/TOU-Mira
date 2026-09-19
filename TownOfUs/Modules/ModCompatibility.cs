@@ -6,6 +6,8 @@ using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
+using MiraAPI;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Patches.Hud;
@@ -109,6 +111,13 @@ public static class ModCompatibility
     public static bool AleLuduLoaded { get; private set; }
     public static BasePlugin AleLuduPlugin { get; private set; }
     public static Assembly AleLuduAssembly { get; private set; }
+
+
+    public const string MciGuid = "auavengers.tou.mci";
+    public static Version MciVersion { get; private set; }
+    public static bool MciLoaded { get; private set; }
+    public static BasePlugin MciPlugin { get; private set; }
+    public static Assembly MciAssembly { get; private set; }
     
     /*public const string CorsacGuid = "CorsacCosmetics";
     public static Version CorsacVersion { get; private set; }
@@ -122,14 +131,20 @@ public static class ModCompatibility
         ResourceBundles.Add(assembly, resourcePath);
     }*/
     public const string PerfectCommsGuid = "com.edgetel.perfectcomms";
+    public static readonly Dictionary<Type, List<MiraEventWrapper>> ExposedEventWrappers = [];
+    public static BasePlugin ApiPlugin { get; private set; }
+    public static Assembly ApiAssembly { get; private set; }
+    public static Type[] ApiTypes { get; private set; }
     
     public static void Initialize()
     {
+        InitApiExposing();
         InitBetterAmongUs();
         InitSubmerged();
         InitLevelImpostor();
         InitCrowded();
         InitAleLudu();
+        InitMci();
         InitLaunchpad();
         // InitCorsac();
         InitPerfectComms();
@@ -144,6 +159,51 @@ public static class ModCompatibility
         }
 
         InternalModList = sBuilder.ToString();
+    }
+
+    private static void InitApiExposing()
+    {
+        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(MiraApiPlugin.Id, out var value))
+        {
+            return;
+        }
+
+        ApiPlugin = (value.Instance as BasePlugin)!;
+        ApiAssembly = ApiPlugin.GetType().Assembly;
+        ApiTypes = AccessTools.GetTypesFromAssembly(ApiAssembly);
+        var staticClassType = typeof(MiraEventManager); 
+        var dictField = staticClassType.GetField("EventWrappers", BindingFlags.NonPublic | BindingFlags.Static);
+
+        if (dictField != null)
+        {
+            // 3. Extract the dictionary object from the instance
+            var dictionaryObject = dictField.GetValue(null);
+
+            var dictionary = dictionaryObject as Dictionary<Type, List<MiraEventWrapper>>;
+
+            if (dictionary != null)
+            {
+                Info($"Successfully found api event wrappers");
+                foreach (var pair in dictionary)
+                {
+                    ExposedEventWrappers.Add(pair.Key, pair.Value);
+                }
+            }
+        }
+
+        // This is done to fix locale icons.
+        foreach (var locale in MiraLocaleManager.LangList)
+        {
+            var dict = MiraLocaleManager.Locale[locale.Key];
+            dict["TouOptionDoubleShotAmount.Imp"] = "<sprite name=\"AmongUs.Role.Impostor\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionDoubleShotAmount");
+            dict["TouOptionDoubleShotChance.Imp"] = "<sprite name=\"AmongUs.Role.Impostor\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionDoubleShotChance");
+            dict["TouOptionDoubleShotAmount.Neut"] = "<sprite name=\"AmongUs.Role.Neutral\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionDoubleShotAmount");
+            dict["TouOptionDoubleShotChance.Neut"] = "<sprite name=\"AmongUs.Role.Neutral\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionDoubleShotChance");
+            dict["TouOptionOverclockerAmount.Imp"] = "<sprite name=\"AmongUs.Role.Impostor\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionOverclockerAmount");
+            dict["TouOptionOverclockerChance.Imp"] = "<sprite name=\"AmongUs.Role.Impostor\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionOverclockerChance");
+            dict["TouOptionOverclockerAmount.Neut"] = "<sprite name=\"AmongUs.Role.Neutral\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionOverclockerAmount");
+            dict["TouOptionOverclockerChance.Neut"] = "<sprite name=\"AmongUs.Role.Neutral\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionOverclockerChance");
+        }
     }
     
     private static void InitPerfectComms()
@@ -738,6 +798,21 @@ public static class ModCompatibility
 
         AleLuduLoaded = true;
         Message("AleLuduMod was detected");
+    }
+
+    private static void InitMci()
+    {
+        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(MciGuid, out var value))
+        {
+            return;
+        }
+
+        MciPlugin = (value.Instance as BasePlugin)!;
+        MciAssembly = MciPlugin.GetType().Assembly;
+        MciVersion = value.Metadata.Version;
+
+        MciLoaded = true;
+        Message("ToU MCI was detected.");
     }
 
     public static string GetLIVentType(Vent vent)

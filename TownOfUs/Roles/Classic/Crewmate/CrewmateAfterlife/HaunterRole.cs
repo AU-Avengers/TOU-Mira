@@ -10,6 +10,7 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Neutral;
@@ -88,7 +89,15 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
         if (Player.AmOwner)
         {
-            Player.SpawnAtRandomVent();
+            if ((GhostwalkerVentMode)OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerVentSpawn.Value is
+                GhostwalkerVentMode.Crewmates or GhostwalkerVentMode.All)
+            {
+                Player.VentAtRandomVent();
+            }
+            else
+            {
+                Player.SpawnAtRandomVent();
+            }
             Player.MyPhysics.ResetMoveState();
 
             HudManager.Instance.SetHudActive(false);
@@ -167,6 +176,8 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         OptionsScreenshot = TouBanners.HaunterRoleBanner,
         TasksCountForProgress = false,
         HideSettings = false,
+        CanUseVent = false,
+        GetsVentData = true,
         ShowInFreeplay = true
     };
 

@@ -15,6 +15,11 @@ public static class FreeplayButtonsVisibility
 
     public static void Toggle()
     {
+        if (ModCompatibility.MciLoaded)
+        {
+            // disabled here!
+            return;
+        }
         PracticeModeToggle.Value = !PracticeModeToggle.Value;
         Apply();
     }

@@ -50,6 +50,12 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
         return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.NoisemakerAmount;
     }
 
+    public override void OnMeetingStart()
+    {
+        base.OnMeetingStart();
+        ActiveNoisemakerTriggers.Clear();
+    }
+
     private static void SoundDynamics(PlayerControl player, AudioSource source)
     {
         if (!PlayerControl.LocalPlayer)
@@ -62,6 +68,7 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
         var truePosition = PlayerControl.LocalPlayer.GetTruePosition();
         source.volume = SoundManager.GetSoundVolume(player.GetTruePosition(), truePosition, 7f, 50f, 0.5f);
     }
+    public static readonly Dictionary<int, NoisemakerArrow> ActiveNoisemakerTriggers = [];
 
     public static void NotifyOfDeath(PlayerControl player, bool checkRole)
     {
@@ -120,6 +127,7 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
 
             deathArrow.gameObject.SetActive(true);
             deathArrow.target = player.GetTruePosition();
+            ActiveNoisemakerTriggers.Add(player.PlayerId, deathArrow);
         }
         else
         {
@@ -181,6 +189,7 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
 
             deathArrow.gameObject.SetActive(true);
             deathArrow.target = player.GetTruePosition();
+            ActiveNoisemakerTriggers.Add(player.PlayerId, deathArrow);
         }
     }
 

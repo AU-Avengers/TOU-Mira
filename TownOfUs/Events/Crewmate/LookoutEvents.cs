@@ -44,7 +44,7 @@ public static class LookoutEvents
             return;
         }
 
-        CheckForLookoutWatched(source, target);
+        CheckForLookoutWatched(@event, source, target);
     }
 
     [RegisterEvent]
@@ -79,6 +79,25 @@ public static class LookoutEvents
         }
 
         if (!target.HasModifier<LookoutWatchedModifier>() || !(TutorialManager.InstanceExists || source.AmOwner) || source.HasModifier<IndirectAttackerModifier>() && !OptionGroupSingleton<LookoutOptions>.Instance.LookoutSeesIndirectAttacks.Value)
+        {
+            return;
+        }
+
+        LookoutRole.RpcSeePlayer(source, target);
+    }
+
+    public static void CheckForLookoutWatched(MiraCancelableEvent miraEvent, PlayerControl source, PlayerControl target)
+    {
+        if (MeetingHud.Instance || ExileController.Instance)
+        {
+            return;
+        }
+
+        if (!target.HasModifier<LookoutWatchedModifier>() || !(TutorialManager.InstanceExists || source.AmOwner) ||
+            (source.HasModifier<IndirectAttackerModifier>() ||
+             miraEvent is ExtendedMiraButtonClickEvent { IsIndirectInteraction: true } ||
+             miraEvent is BeforeMurderEvent { IsIndirectAttack: true }) &&
+            !OptionGroupSingleton<LookoutOptions>.Instance.LookoutSeesIndirectAttacks.Value)
         {
             return;
         }

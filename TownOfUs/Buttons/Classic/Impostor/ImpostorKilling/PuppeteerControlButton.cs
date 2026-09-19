@@ -66,7 +66,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
                 pr.Controlled.Data.Disconnected ||
                 !PuppeteerControlState.IsControlled(pr.Controlled.PlayerId, out _))
             {
-                PuppeteerRole.RpcPuppeteerEndControl(PlayerControl.LocalPlayer, pr.Controlled);
+                PuppeteerRole.RpcPuppeteerEndControl(PlayerControl.LocalPlayer, pr.Controlled, pr.Controlled.transform.position);
                 return false;
             }
             return base.CanUse();

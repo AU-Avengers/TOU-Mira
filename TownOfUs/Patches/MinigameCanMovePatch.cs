@@ -49,7 +49,7 @@ public static class MinigameCanMovePatch
 
         if (PlayerControl.LocalPlayer.Data.Role is TransporterRole &&
             ActiveInputManager.currentControlType == ActiveInputManager.InputType.Keyboard &&
-            OptionGroupSingleton<TransporterOptions>.Instance.MoveWithMenu && Minigame.Instance is CustomPlayerMenu)
+            OptionGroupSingleton<TransporterOptions>.Instance.MoveWithMenu && Minigame.Instance is CustomPhoneMenuComponent)
         {
             __result = __instance.moveable;
             return false;
@@ -57,7 +57,7 @@ public static class MinigameCanMovePatch
 
         if (PlayerControl.LocalPlayer.Data.Role is GlitchRole &&
             ActiveInputManager.currentControlType == ActiveInputManager.InputType.Keyboard &&
-            OptionGroupSingleton<GlitchOptions>.Instance.MoveWithMenu && Minigame.Instance is CustomPlayerMenu)
+            OptionGroupSingleton<GlitchOptions>.Instance.MoveWithMenu && Minigame.Instance is CustomPhoneMenuComponent)
         {
             __result = __instance.moveable;
             return false;

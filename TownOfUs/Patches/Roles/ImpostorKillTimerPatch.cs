@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using AmongUs.GameOptions;
+using HarmonyLib;
 using TownOfUs.Events.Crewmate;
 using UnityEngine;
 
@@ -17,16 +18,17 @@ public static class ImpostorKillTimerPatch
         }
         if (__instance.Data?.Role?.CanUseKillButton == true)
         {
-            if (GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown <= 0f)
+            if (GameOptionsManager.Instance.CurrentGameOptions.GetFloat(FloatOptionNames.KillCooldown) <= 0f)
             {
                 return false;
             }
 
             // Record kill cooldown change for Time Lord rewind
+            var cdDefault = PlayerControl.LocalPlayer.GetKillCooldown();
             var cooldownBefore = __instance.killTimer;
-            var maxvalue = time > GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown
+            var maxvalue = time > cdDefault
                 ? time + 1f
-                : GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
+                : cdDefault;
             var cooldownAfter = Mathf.Clamp(time, 0, maxvalue);
             
             // Only record if the cooldown actually changed

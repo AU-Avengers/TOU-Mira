@@ -863,6 +863,8 @@ public static class TouRoleManagerPatches
 
     public static IEnumerator CoAssignTargets()
     {
+        yield return null;
+
         foreach (var role in MiscUtils.SpawnableRoles.Where(x => x is IAssignableTargets)
                      .OrderBy(x => (x as IAssignableTargets)!.Priority))
         {

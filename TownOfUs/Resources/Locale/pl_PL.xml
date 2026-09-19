@@ -340,8 +340,8 @@ za cenę własnego życia.</string>
   <string name="TownOfUsMira.Role.AltruistRevivedNotif">Zostałeś wskrzeszony przez Altruistę!</string>
   <string name="TownOfUsMira.Role.AltruistReviveSuccessNotif">Udało Ci się wskrzesić [player]!</string>
   <string name="TownOfUsMira.Role.AltruistRevive.WikiDescription">Wskrześ grupę martwych ciał w pobliżu.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveGroupSacrifice.WikiDescription">Wskrześ grupę martwych ciał w pobliżu. Jeżeli proces się uda, umierasz nie pozostawiając za tobą ciała.</string>
-  <string name="TownOfUsMira.Role.AltruistReviveSacrifice.WikiDescription">Wskrześ najbliższe martwe ciało. Jeżeli proces się uda, umierasz nie pozostawiając za tobą ciała.</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.GroupSacrifice.WikiDescription">Wskrześ grupę martwych ciał w pobliżu. Jeżeli proces się uda, umierasz nie pozostawiając za tobą ciała.</string>
+  <string name="TownOfUsMira.Role.AltruistRevive.Sacrifice.WikiDescription">Wskrześ najbliższe martwe ciało. Jeżeli proces się uda, umierasz nie pozostawiając za tobą ciała.</string>
   <string name="TouOptionAltruistReviveType">Rodzaj Wskrzeszenia</string>
   <string name="TouOptionAltruistReviveEnumSacrifice">Poświęcenie</string>
   <string name="TouOptionAltruistReviveEnumGroupSacrifice">Grupowe Poświęcenie</string>

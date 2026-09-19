@@ -25,4 +25,12 @@ public sealed class MercenaryOptions : AbstractRoleOptionGroup<MercenaryRole>
     {
         Visible = () => OptionGroupSingleton<MercenaryOptions>.Instance.GuardProtection.Value
     };
+
+    public ModdedToggleOption WinsWithNeutralBenign { get; set; } = new("TouOptionMercenaryWinsWithNeutralBenign", true);
+
+    public ModdedToggleOption WinsWithNeutralEvil { get; set; } = new("TouOptionMercenaryWinsWithNeutralEvil", true);
+
+    public ModdedToggleOption WinsWithNeutralKilling { get; set; } = new("TouOptionMercenaryWinsWithNeutralKilling", true);
+
+    public ModdedToggleOption WinsWithNeutralOutlier { get; set; } = new("TouOptionMercenaryWinsWithNeutralOutlier", false);
 }

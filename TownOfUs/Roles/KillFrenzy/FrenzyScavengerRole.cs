@@ -117,6 +117,7 @@ public sealed class FrenzyScavengerRole(IntPtr cppPtr)
     }
 
     public string IdPart => "Scavenger";
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
 
     public string GetAdvancedDescription()
     {

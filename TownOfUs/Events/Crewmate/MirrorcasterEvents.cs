@@ -5,6 +5,7 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Neutral;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
@@ -121,5 +122,18 @@ public static class MirrorcasterEvents
             CustomButtonSingleton<WerewolfRampageButton>.Instance.ResetCooldownAndOrEffect();
         }
         source.SetKillTimer(source.GetReducedKillCooldown());
+    }
+
+    [RegisterEvent]
+    public static void ChangeRoleEventHandler(ChangeRoleEvent @event)
+    {
+        if (@event.OldRole is MirrorcasterRole)
+        {
+            var ownedShield = ModifierUtils.GetActiveModifiers<MagicMirrorModifier>().FirstOrDefault(x => x.Mirrorcaster == @event.Player);
+            if (ownedShield != null)
+            {
+                ownedShield.Player.RemoveModifier(ownedShield);
+            }
+        }
     }
 }

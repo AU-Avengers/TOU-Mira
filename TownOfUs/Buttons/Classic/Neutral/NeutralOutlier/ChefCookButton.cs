@@ -29,7 +29,7 @@ public sealed class ChefCookButton : TownOfUsRoleButton<ChefRole, DeadBody>
             return;
         }
 
-        ChefRole.RpcCookBody(PlayerControl.LocalPlayer, Target);
+        ChefRole.RpcCookBody(PlayerControl.LocalPlayer, Target, Target.ParentId);
         CustomButtonSingleton<ChefServeButton>.Instance.UpdateServingType();
         if (OptionGroupSingleton<ChefOptions>.Instance.ResetCooldowns)
         {

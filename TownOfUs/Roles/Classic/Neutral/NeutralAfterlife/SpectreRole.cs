@@ -108,7 +108,15 @@ public sealed class SpectreRole(IntPtr cppPtr)
 
         if (Player.AmOwner)
         {
-            Player.SpawnAtRandomVent();
+            if ((GhostwalkerVentMode)OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerVentSpawn.Value is
+                GhostwalkerVentMode.Evils or GhostwalkerVentMode.All)
+            {
+                Player.VentAtRandomVent();
+            }
+            else
+            {
+                Player.SpawnAtRandomVent();
+            }
             Player.MyPhysics.ResetMoveState();
 
             HudManager.Instance.SetHudActive(false);
@@ -191,6 +199,8 @@ public sealed class SpectreRole(IntPtr cppPtr)
         Icon = TouRoleIcons.Spectre,
         OptionsScreenshot = TouBanners.SpectreRoleBanner,
         HideSettings = false,
+        CanUseVent = false,
+        GetsVentData = true,
         ShowInFreeplay = true
     };
 

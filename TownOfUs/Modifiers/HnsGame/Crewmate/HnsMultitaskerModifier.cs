@@ -65,7 +65,7 @@ public sealed class HnsMultitaskerModifier : HnsGameModifier
                Minigame.Instance.TryCast<SurveillanceMinigame>() ||
                Minigame.Instance.TryCast<PlanetSurveillanceMinigame>() ||
                Minigame.Instance is IngameWikiMinigame ||
-               Minigame.Instance is CustomPlayerMenu ||
+               Minigame.Instance is CustomPhoneMenuComponent ||
                Minigame.Instance is GuesserMenu;
     }
 }

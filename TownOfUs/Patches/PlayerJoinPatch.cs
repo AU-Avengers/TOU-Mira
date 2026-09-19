@@ -3,6 +3,7 @@ using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
+using Rewired;
 using TownOfUs.Modules;
 using TownOfUs.Networking;
 using TownOfUs.Roles.Other;
@@ -46,6 +47,11 @@ public static class PlayerJoinPatch
         {
             if (Minigame.Instance)
             {
+                return;
+            }
+            if (ModCompatibility.MciLoaded && TouKeybinds.Wiki.CurrentKey == KeyboardKeyCode.F1)
+            {
+                // disabled here!
                 return;
             }
 

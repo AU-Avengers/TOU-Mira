@@ -58,9 +58,7 @@ public sealed class UnderdogModifier : TouGameModifier, IWikiDiscoverable
 
     public static float GetKillCooldown(PlayerControl player)
     {
-        var mod = player.GetModifier<UnderdogModifier>();
-
-        if (mod == null)
+        if (!player.HasModifier<UnderdogModifier>())
         {
             return GameOptionsManager.Instance.CurrentGameOptions.GetFloat(FloatOptionNames.KillCooldown);
         }

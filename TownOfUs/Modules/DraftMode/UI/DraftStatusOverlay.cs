@@ -45,7 +45,6 @@ namespace TownOfUs.Modules.DraftMode
 
         private static GameObject _cachedRolePrefab;
 
-        private ushort? _pendingRoleId = null!;
         private ushort? _shownRoleId = null!;
         private int _cachedMySlot = -1;
         private int _cachedPickerSlot = -1;
@@ -104,7 +103,6 @@ namespace TownOfUs.Modules.DraftMode
             if (roleId != _instance._shownRoleId)
             {
                 _instance._shownRoleId = roleId;
-                _instance._pendingRoleId = null;
                 _instance.ShowRoleCard(roleId);
             }
         }
@@ -131,7 +129,6 @@ namespace TownOfUs.Modules.DraftMode
             _instance.DestroyRoleCardCore();
             _instance._cardTooltipRoot = null!;
             _instance._cardTooltipText = null!;
-            _instance._pendingRoleId = null;
             _instance._shownRoleId = null;
             _instance._cachedMySlot = -1;
             _instance._cachedPickerSlot = -1;
@@ -573,22 +570,18 @@ namespace TownOfUs.Modules.DraftMode
 
         private static bool IsAnyMenuOpen()
         {
-            try
+            if (Minigame.Instance != null) return true;
+            if (PlayerCustomizationMenu.Instance != null) return true;
+            if (GameSettingMenu.Instance != null) return true;
+
+            var hud = HudManager.Instance;
+            if (hud != null)
             {
-                if (Minigame.Instance != null) return true;
-                if (PlayerCustomizationMenu.Instance != null) return true;
-                if (GameSettingMenu.Instance != null) return true;
-
-                var hud = HudManager.Instance;
-                if (hud != null)
-                {
-                    if (hud.GameMenu != null && hud.GameMenu.IsOpen) return true;
-                    if (hud.Chat != null && hud.Chat.IsOpenOrOpening) return true;
-                }
-
-                if (FriendsListUI.Instance != null && FriendsListUI.Instance.IsOpen) return true;
+                if (hud.GameMenu != null && hud.GameMenu.IsOpen) return true;
+                if (hud.Chat != null && hud.Chat.IsOpenOrOpening) return true;
             }
-            catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+
+            if (FriendsListUI.Instance != null && FriendsListUI.Instance.IsOpen) return true;
 
             return false;
         }
@@ -597,12 +590,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_roleCardNewRoleObj != null)
             {
-                try
-                {
-                    MiraAPI.Utilities.Extensions.DeepDestroy(_roleCardNewRoleObj, true);
-                }
-                catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
-
+                MiraAPI.Utilities.Extensions.DeepDestroy(_roleCardNewRoleObj, true);
                 _roleCardNewRoleObj = null!;
             }
 
@@ -664,11 +652,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_cardTooltipRoot != null)
             {
-                try
-                {
-                    MiraAPI.Utilities.Extensions.DeepDestroy(_cardTooltipRoot, true);
-                }
-                catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+                MiraAPI.Utilities.Extensions.DeepDestroy(_cardTooltipRoot, true);
             }
 
             _cardTooltipRoot = null!;
@@ -717,7 +701,7 @@ namespace TownOfUs.Modules.DraftMode
             bool isMyTurn = false;
             bool isLocalGame = AmongUsClient.Instance?.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance?.NetworkMode == NetworkModes.FreePlay;
 
-            foreach (var s in DraftManager.GetActivePickerStatesNonAlloc())
+            foreach (var s in DraftManager.States)
             {
                 if (s == null || !s.IsPickingNow) continue;
                 pickerCount++;
@@ -792,13 +776,6 @@ namespace TownOfUs.Modules.DraftMode
                     }
                 }
             }
-
-            if (_pendingRoleId.HasValue && _pendingRoleId != _shownRoleId)
-            {
-                _shownRoleId = _pendingRoleId;
-                _pendingRoleId = null;
-                ShowRoleCard(_shownRoleId.Value);
-            }
         }
 
         private void UpdateContent()
@@ -863,7 +840,6 @@ namespace TownOfUs.Modules.DraftMode
                 if (_bgOverlay != null) _bgOverlay.SetActive(false);
                 if (_backdropArt != null) _backdropArt.SetActive(false);
                 DestroyRoleCardCore();
-                _pendingRoleId = null;
                 _shownRoleId = null;
                 _waitAnimTime = 0f;
                 _menuCheckTimer = 0f;

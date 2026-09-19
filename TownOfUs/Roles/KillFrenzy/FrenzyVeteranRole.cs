@@ -39,6 +39,7 @@ public sealed class FrenzyVeteranRole(IntPtr cppPtr) : FrenzyRole(cppPtr), ITown
     public override bool IsAffectedByComms => false;
 
     public string IdPart => "Veteran";
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
 
     public string GetAdvancedDescription()
     {

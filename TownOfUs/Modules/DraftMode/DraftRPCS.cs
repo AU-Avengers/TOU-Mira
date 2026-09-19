@@ -5,7 +5,9 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using MiraAPI.Utilities;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using TownOfUs.Options;
+using TownOfUs.Patches;
 
 
 namespace TownOfUs.Modules.DraftMode;
@@ -23,9 +25,12 @@ public static class DraftRpcs
     [MethodRpc((uint)TownOfUsRpc.DraftStart)]
     public static void RpcStartDraft(PlayerControl sender, int totalSlots)
     {
+        HudManagerPatches.ResetZoom();
         DraftManager.IsDraftActive = true;
         DraftAudio.PlayDraftStart();
         DraftSidebarManager.Activate();
+        DraftCancelButton.Show();
+        CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftSlotNotify)]
@@ -80,9 +85,7 @@ public static class DraftRpcs
     [MethodRpc((uint)TownOfUsRpc.DraftEnd)]
     public static void RpcEndDraft(PlayerControl sender)
     {
-        DraftManager.Reset(cancelledBeforeCompletion: true);
-        DraftScreenController.Hide();
-        DraftCancelButton.Hide();
+        RpcCancelDraft(sender);
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftCreateNotif)]
@@ -349,7 +352,6 @@ public static class DraftNetworkHelper
     {
         if (roleIds == null) return;
 
-
         DraftManager.SetClientTurn(turnNumber, slot);
 
         var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
@@ -359,36 +361,22 @@ public static class DraftNetworkHelper
 
         var count = Math.Min(allowed, roleIds.Count);
 
-        var publicAnnouncement = new DraftTurnAnnouncement
+        // Broadcast the full turn state so every client gets the same slot/turn metadata. The receiving
+        // client decides locally whether it is the active picker and whether to show the picker UI.
+        var announcement = new DraftTurnAnnouncement
         {
             TurnNumber = turnNumber,
             Slot = slot,
             PickerId = playerId
         };
-        Rpc<DraftAnnounceTurnRpc>.Instance.Send(PlayerControl.LocalPlayer, publicAnnouncement);
 
-        var privateAnnouncement = new DraftTurnAnnouncement
-        {
-            TurnNumber = turnNumber,
-            Slot = slot,
-            PickerId = playerId
-        };
         for (int i = 0; i < count; i++)
         {
-            privateAnnouncement.RoleIds.Add(roleIds[i]);
-            privateAnnouncement.RoleNames.Add(roleNames != null && i < roleNames.Count ? (roleNames[i] ?? string.Empty) : string.Empty);
+            announcement.RoleIds.Add(roleIds[i]);
+            announcement.RoleNames.Add(roleNames != null && i < roleNames.Count ? (roleNames[i] ?? string.Empty) : string.Empty);
         }
 
-        if (TryGetClientId(playerId, out var pickerClientId))
-        {
-            Rpc<DraftAnnounceTurnRpc>.Instance.SendTo(PlayerControl.LocalPlayer, pickerClientId, privateAnnouncement);
-        }
-        else
-        {
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
-                $"[DraftNetworkHelper] Could not resolve client id for picker {playerId}, falling back to broadcasting offered roles");
-            Rpc<DraftAnnounceTurnRpc>.Instance.Send(PlayerControl.LocalPlayer, privateAnnouncement);
-        }
+        Rpc<DraftAnnounceTurnRpc>.Instance.Send(PlayerControl.LocalPlayer, announcement);
     }
 
     public static void BroadcastPickConfirmed(int slot, ushort roleId, bool timedOut = false)
@@ -416,7 +404,12 @@ public static class DraftNetworkHelper
         Rpc<DraftPickConfirmedRpc>.Instance.Send(PlayerControl.LocalPlayer,
             new DraftPickConfirmedData { Slot = slot, RoleId = publicRoleId, TimedOut = timedOut });
 
-        foreach (Action cleanup in new Action[] { DraftScreenController.Hide, DraftSidebarManager.InvalidateCache, DraftStatusOverlay.Refresh })
+        var localSlot = DraftManager.GetSlotForPlayer(PlayerControl.LocalPlayer.PlayerId);
+        Action[] cleanupActions = slot == localSlot
+            ? [ DraftScreenController.Hide, DraftSidebarManager.InvalidateCache, DraftStatusOverlay.Refresh ]
+            : [ DraftSidebarManager.InvalidateCache, DraftStatusOverlay.Refresh];
+
+        foreach (var cleanup in cleanupActions)
         {
             try
             {
@@ -459,6 +452,7 @@ public static class DraftNetworkHelper
         DraftRpcs.RpcCancelDraft(PlayerControl.LocalPlayer);
         DraftManager.Reset(cancelledBeforeCompletion: true);
         DraftCancelButton.Hide();
+        CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
         DraftSidebarManager.Deactivate();
     }
 
@@ -483,12 +477,6 @@ public static class DraftNetworkHelper
 
         DraftRpcs.RpcBroadcastRecap(PlayerControl.LocalPlayer, recapData);
         DraftSidebarManager.Deactivate();
-    }
-
-    public static void BroadcastDraftEnd()
-    {
-        DraftRpcs.RpcEndDraft(PlayerControl.LocalPlayer);
-        DraftManager.Reset(cancelledBeforeCompletion: true);
-        DraftCancelButton.Hide();
+        DraftShuffleButton.HideAndReset();
     }
 }

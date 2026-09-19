@@ -1,6 +1,6 @@
 <Project>
     <ItemGroup>
-        <PackageReference Include="AllOfUs.MiraAPI" Version="0.4.3"/>
+        <PackageReference Include="AllOfUs.MiraAPI" Version="0.5.0"/>
         <PackageReference Include="Reactor" Version="2.5.0-ci.371"/>
         <PackageReference Include="PerfectComms.Api" Version="4.1.7.1" PrivateAssets="all" />
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.735" Private="false" ExcludeAssets="runtime;native"/>

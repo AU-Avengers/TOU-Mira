@@ -52,6 +52,7 @@ public sealed class FrenzyVenererRole(IntPtr cppPtr) : FrenzyRole(cppPtr), ITown
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.FrenzyKiller;
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.KillFrenzy;
 
     public CustomRoleConfiguration Configuration => new(this)
     {

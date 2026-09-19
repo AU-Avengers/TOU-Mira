@@ -180,7 +180,6 @@ public static class TownOfUsEventHandlers
     public static void IntroBeginEventHandler(IntroBeginEvent @event)
     {
         DraftSidebarManager.Deactivate();
-        DraftSidebarManager.ClearBannerRef();
         if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
         {
             return;
@@ -262,9 +261,10 @@ public static class TownOfUsEventHandlers
                 }
             }
 
-            if (PlayerControl.LocalPlayer.IsImpostor())
+            if (HudManager.Instance.KillButton)
             {
                 PlayerControl.LocalPlayer.SetKillTimer(genOpt.GameStartCd);
+                HudManager.Instance.KillButton.SetCoolDown(genOpt.GameStartCd, PlayerControl.LocalPlayer.killTimer);
             }
         }
 
@@ -299,7 +299,7 @@ public static class TownOfUsEventHandlers
         panel.SetTaskText(role.SetTabText().ToString());
     }
 
-    [RegisterEvent(-1000)]
+    [RegisterEvent(-10000)]
     public static void BeforeMurderEventHandler(BeforeMurderEvent murderEvent)
     {
         if (murderEvent.Source.TryGetModifier<IndirectAttackerModifier>(out var mod))
@@ -311,19 +311,6 @@ public static class TownOfUsEventHandlers
             murderEvent.IsIndirectAttack = true;
         }
     }
-
-    /*[RegisterEvent(-1000)]
-    public static void BeforeMurderEventHandler(ExtendedMiraButtonClickEvent clickEvent)
-    {
-        if (PlayerControl.LocalPlayer.TryGetModifier<IndirectAttackerModifier>(out var mod))
-        {
-            if (mod.IgnoreShield)
-            {
-                clickEvent.IgnoreDefense = true;
-            }
-            clickEvent.IsIndirectInteraction = true;
-        }
-    }*/
 
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent _)
@@ -530,7 +517,7 @@ public static class TownOfUsEventHandlers
 
         if (player.Data.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
         {
-            ParasiteRole.RpcParasiteEndControl(player, parasiteRole.Controlled);
+            ParasiteRole.RpcParasiteEndControl(player, parasiteRole.Controlled, parasiteRole.Controlled.transform.position, false);
         }
 
         if (ParasiteControlState.IsControlled(player.PlayerId, out var controllerId))
@@ -538,7 +525,7 @@ public static class TownOfUsEventHandlers
             var controller = MiscUtils.PlayerById(controllerId);
             if (controller?.Data?.Role is ParasiteRole controllerRole && controllerRole.Controlled == player)
             {
-                ParasiteRole.RpcParasiteEndControl(controller, player);
+                ParasiteRole.RpcParasiteEndControl(controller, player, player.transform.position, false);
             }
             else
             {
@@ -1107,12 +1094,7 @@ public static class TownOfUsEventHandlers
             var votes = voteData.Votes.RemoveAll(x => x.Suspect == target.PlayerId);
             voteData.VotesRemaining += votes;
 
-            if (!voteAreaPlayer.AmOwner)
-            {
-                continue;
-            }
-
-            instance.RpcClearVote(pva.PlayerId);
+            instance.ClearVote(pva.PlayerId, voteAreaPlayer.AmOwner);
         }
 
         instance.SetDirtyBit(1U);

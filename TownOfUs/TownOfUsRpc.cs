@@ -27,6 +27,7 @@ public enum TownOfUsRpc : uint
     ChangeRole,
     PlayerExile,
     SetPos,
+    ForceEnterVent,
     SendLoveChat,
     SendJailorChat,
     SendJaileeChat,

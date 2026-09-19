@@ -15,6 +15,11 @@ namespace TownOfUs.Roles.Crewmate;
 
 public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
 {
+    public void InitialSetup()
+    {
+        TmpSpriteUtils.CreateSpriteAsset(TouCrewAssets.CampaignButtonSprite.LoadAsset(),
+            "TouMira.Role.Crewmate.Politician.Ui.Campaign", 1.45f);
+    }
     public bool CanBeTraitor => false;
     public bool CanBeCrewpostor => false;
     public bool CanBeEgotist => true;

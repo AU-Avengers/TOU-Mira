@@ -37,6 +37,7 @@ public static class HudManagerPatches
     public static bool IconOnRoleName;
     public static GameObject ZoomButton;
     public static GameObject WikiButton;
+    public static GameObject OldVanillaWikiButton;
     public static GameObject RoleList;
     public static string RoleListPrefixText = string.Empty;
     public static TextMeshPro RoleListTextComp;
@@ -101,7 +102,7 @@ public static class HudManagerPatches
         AdjustCameraSize(!Zooming ? 12f : 3f);
     }
 
-    public static void ScrollZoom(bool zoomOut = false)
+    public static void ScrollZoom(bool zoomOut = false, float mult = 1.25f)
     {
         if (MeetingHud.Instance || ExileController.Instance)
         {
@@ -110,7 +111,7 @@ public static class HudManagerPatches
         }
 
         var size = Camera.main!.orthographicSize;
-        size = zoomOut ? size * 1.25f : size / 1.25f;
+        size = zoomOut ? size * mult : size / mult;
         size = Mathf.Clamp(size, 3, 15);
         if (Camera.main!.orthographicSize == size)
         {
@@ -131,11 +132,11 @@ public static class HudManagerPatches
         var scrollWheel = Input.GetAxis("Mouse ScrollWheel");
         var axisRaw = ConsoleJoystick.player.GetAxisRaw(55);
 
-        if (scrollWheel == 0 && Input.touchCount < 2 && axisRaw == 0)
+        if (scrollWheel == 0 && Input.touchCount < 3 && axisRaw == 0)
         {
             return;
         }
-        if (Input.touchCount == 2)
+        if (Input.touchCount == 3)
         {
             Touch touch0 = Input.GetTouch(0);
             Touch touch1 = Input.GetTouch(1);
@@ -151,12 +152,12 @@ public static class HudManagerPatches
             {
                 case > 0:
                 {
-                    ScrollZoom();
+                    ScrollZoom(false, 1.05f);
                     break;
                 }
                 case < 0:
                 {
-                    ScrollZoom(true);
+                    ScrollZoom(true, 1.05f);
                     break;
                 }
             }
@@ -516,7 +517,7 @@ public static class HudManagerPatches
         }
     }
 
-    public static void UpdateSubmergedButtons(HudManager instance)
+    public static void UpdateSubmergedButtons(HudManager instance, IGhostRole ghost)
     {
         if (ModCompatibility.IsSubmerged())
         {
@@ -530,9 +531,9 @@ public static class HudManagerPatches
                 MiraApiSettings.SetUpButtonPositions();
                 HasAdjustedSubButton = true;
             }
-            if (MiraHudHelper.SubmergedFloorButton && PlayerControl.LocalPlayer.Data.Role is IGhostRole ghost)
+            if (MiraHudHelper.SubmergedFloorButton)
             {
-                MiraHudHelper.SubmergedFloorButton.SetActive(ghost.Caught);
+                MiraHudHelper.SubmergedFloorButton.SetActive(!ghost.GhostActive);
             }
         }
     }
@@ -544,7 +545,7 @@ public static class HudManagerPatches
 
     public static void CreateWikiButton(HudManager instance)
     {
-        if (!WikiButton && MiraHudHelper.UiTopRight && MiraHudHelper.ExtraUiTopRight)
+        if (!WikiButton && MiraHudHelper.UiTopRight && MiraHudHelper.ExtraUiTopRight && MiraHudHelper.VanillaMatchInfoButton)
         {
             WikiButton = Object.Instantiate(instance.MapButton.gameObject, MiraHudHelper.ExtraUiTopRight.transform);
             WikiButton.name = "WikiButton";
@@ -569,6 +570,8 @@ public static class HudManagerPatches
             active.localPosition = new Vector3(0, 0.021f, -0.1f);
 
             WikiButton.GetComponentInChildren<AspectPosition>().Destroy();
+            OldVanillaWikiButton = MiraHudHelper.VanillaMatchInfoButton;
+            MiraHudHelper.VanillaMatchInfoButton = null!;
             MiraApiSettings.SetUpButtonPositions();
         }
 
@@ -577,23 +580,32 @@ public static class HudManagerPatches
             WikiButton.SetActive(!GameSettingMenu.Instance &&
                                  (!Minigame.Instance || Minigame.Instance is IngameWikiMinigame));
         }
+
+        if (OldVanillaWikiButton)
+        {
+            OldVanillaWikiButton.SetActive(false);
+        }
     }
 
     public static bool CanZoom =>
         ((PlayerControl.LocalPlayer.DiedOtherRound() &&
           (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
            PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) ||
-         (TutorialManager.InstanceExists && LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInPractice.Value) ||
-         (GameStartManager.InstanceExists && LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInLobby.Value)) && !(HudManager.Instance.GameMenu.IsOpen ||
-                                                 HudManager.Instance.Chat.IsOpenOrOpening ||
-                                                 MeetingHud.Instance || Minigame.Instance ||
-                                                 PlayerCustomizationMenu.Instance ||
-                                                 FriendsListUI.Instance && FriendsListUI.Instance.IsOpen ||
-                                                 MatchInfoGuide.Instance && MatchInfoGuide.Instance.IsActive ||
-                                                 GameStartManager.InstanceExists &&
-                                                 (GameStartManager.Instance.RulesViewPanel &&
-                                                  GameStartManager.Instance.RulesViewPanel.active ||
-                                                  GameSettingMenu.Instance));
+         (TutorialManager.InstanceExists &&
+          LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInPractice.Value) ||
+         (GameStartManager.InstanceExists &&
+          LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInLobby.Value)) &&
+        !(HudManager.Instance.GameMenu.IsOpen ||
+          DraftManager.IsDraftActive ||
+          HudManager.Instance.Chat.IsOpenOrOpening ||
+          MeetingHud.Instance || Minigame.Instance ||
+          PlayerCustomizationMenu.Instance ||
+          FriendsListUI.Instance && FriendsListUI.Instance.IsOpen ||
+          MatchInfoGuide.Instance && MatchInfoGuide.Instance.IsActive ||
+          GameStartManager.InstanceExists &&
+          (GameStartManager.Instance.RulesViewPanel &&
+           GameStartManager.Instance.RulesViewPanel.active ||
+           GameSettingMenu.Instance));
 
     private static bool _registeredSoftModifiers;
     public static string StoredTasksText { get; private set; } = "Tasks";
@@ -608,7 +620,7 @@ public static class HudManagerPatches
     public static string StoredMinimum { get; private set; } = "Min";
     public static string StoredMaximum { get; private set; } = "Max";
     public static string StoredDraftTitle { get; private set; } = "Draft Mode";
-    public static List<string> StoredRoleBuckets =
+    public static readonly List<string> StoredRoleBuckets =
     [
         "CrewInvestigative",
         "CrewKilling",
