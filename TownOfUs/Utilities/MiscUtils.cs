@@ -991,7 +991,7 @@ public static class MiscUtils
         {
             SoundManager.Instance.PlaySound(chat.messageSound, false).pitch =
                 0.5f + PlayerControl.LocalPlayer.PlayerId / 15f;
-            chat.chatNotification.SetUp(PlayerControl.LocalPlayer, message);
+            chat.chatNotification.SetUpNotif(PlayerControl.LocalPlayer, message);
         }
     }
 
@@ -1067,7 +1067,7 @@ public static class MiscUtils
         {
             SoundManager.Instance.PlaySound(chat.messageSound, false).pitch =
                 0.5f + PlayerControl.LocalPlayer.PlayerId / 15f;
-            chat.chatNotification.SetUp(PlayerControl.LocalPlayer, message);
+            chat.chatNotification.SetUpNotif(PlayerControl.LocalPlayer, message);
         }
     }
 
@@ -1191,7 +1191,7 @@ public static class MiscUtils
 
         if (showHeadsup && !chat.IsOpenOrOpening && !DraftManager.IsDraftActive)
         {
-            chat.chatNotification.SetUp(PlayerControl.LocalPlayer, message);
+            chat.chatNotification.SetUpNotif(PlayerControl.LocalPlayer, message, inverted: blackoutText);
         }
     }
 

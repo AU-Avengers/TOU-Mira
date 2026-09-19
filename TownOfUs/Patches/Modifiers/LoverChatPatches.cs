@@ -33,7 +33,7 @@ public static class LoverChatPatches
             {
                 MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
                     $"<color=#{TownOfUsColors.Lover.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("LoverChatTitle").Replace("<player>", PlayerControl.LocalPlayer.Data.PlayerName)}</color>",
-                    "You are under control! Your message cannot be sent.", blackoutText: false, bubbleType: BubbleType.Lover, onLeft: false);
+                    "You are under control! Your message cannot be sent.", false, blackoutText: false, bubbleType: BubbleType.Lover, onLeft: false);
             }
             else
             {

@@ -850,14 +850,14 @@ public static class TeamChatPatches
         {
             MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
                 $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.Jailor")}</color>",
-                text, bubbleType: BubbleType.Jailor, onLeft: !player.AmOwner);
+                text, !player.AmOwner, bubbleType: BubbleType.Jailor, onLeft: !player.AmOwner);
             shouldMarkUnread = true;
         }
         else if (PlayerControl.LocalPlayer.Data.Role is JailorRole || GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow)
         {
             MiscUtils.AddTeamChat(player.Data,
                 $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("JailorChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
-                text, bubbleType: BubbleType.Jailor, onLeft: !player.AmOwner);
+                text, !player.AmOwner, bubbleType: BubbleType.Jailor, onLeft: !player.AmOwner);
             shouldMarkUnread = true;
         }
 
@@ -890,7 +890,7 @@ public static class TeamChatPatches
         {
             MiscUtils.AddTeamChat(player.Data,
                 $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("JaileeChatTitle").Replace("<player>", player.Data.PlayerName)}</color>", text,
-                bubbleType: BubbleType.Jailed, onLeft: !player.AmOwner);
+                !player.AmOwner, bubbleType: BubbleType.Jailed, onLeft: !player.AmOwner);
             shouldMarkUnread = true;
         }
 
@@ -922,7 +922,7 @@ public static class TeamChatPatches
         {
             MiscUtils.AddTeamChat(player.Data,
                 $"<color=#{TownOfUsColors.Vampire.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("VampireChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
-                text, bubbleType: BubbleType.Vampire, onLeft: !player.AmOwner);
+                text, !player.AmOwner, bubbleType: BubbleType.Vampire, onLeft: !player.AmOwner);
             shouldMarkUnread = true;
         }
 
@@ -954,7 +954,7 @@ public static class TeamChatPatches
         {
             MiscUtils.AddTeamChat(player.Data,
                 $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("ImpostorChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
-                text, bubbleType: BubbleType.Impostor, onLeft: !player.AmOwner);
+                text, !player.AmOwner, bubbleType: BubbleType.Impostor, onLeft: !player.AmOwner);
             shouldMarkUnread = true;
         }
 
@@ -985,7 +985,7 @@ public static class TeamChatPatches
         {
             MiscUtils.AddTeamChat(player.Data,
                 $"<color=#{TownOfUsColors.Lover.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("LoverChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
-                text, blackoutText: false, bubbleType: BubbleType.Lover, onLeft: !player.AmOwner);
+                text, !player.AmOwner, blackoutText: false, bubbleType: BubbleType.Lover, onLeft: !player.AmOwner);
         }
     }
 
@@ -1214,7 +1214,45 @@ public static class TeamChatPatches
             }
         }
     }*/
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(ChatNotification), nameof(ChatNotification.SetUp))]
+    public static bool SetUp(ChatNotification __instance, PlayerControl sender, string text)
+    {
+        __instance.SetUpNotif(sender, text);
+        return false;
+    }
 
+    public static void SetUpNotif(this ChatNotification instance, PlayerControl sender, string text, float time = 5f,
+        bool inverted = false)
+    {
+        if (PlayerCustomizationMenu.Instance || ShipStatus.Instance &&
+            !LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.ShowChatNotifsInGame.Value)
+        {
+            return;
+        }
+
+        instance.timeOnScreen = time;
+        instance.gameObject.SetActive(true);
+        instance.SetCosmetics(sender.Data);
+        string str = ColorUtility.ToHtmlStringRGB(Palette.TextColors[instance.player.ColorId]);
+        Color color = Palette.TextOutlineColors[instance.player.ColorId];
+        instance.playerColorText.text = instance.player.ColorBlindName;
+        instance.playerNameText.text = "<color=#" + str + ">" +
+                                       (string.IsNullOrEmpty(sender.Data.PlayerName) ? "..." : sender.Data.PlayerName);
+        instance.playerNameText.outlineColor = color;
+        if (inverted)
+        {
+            instance.chatText.color = Color.white;
+            instance.background.color = Color.black;
+        }
+        else
+        {
+            instance.chatText.color = Color.black;
+            instance.background.color = Color.white;
+        }
+
+        instance.chatText.text = text;
+    }
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.GetPooledBubble))]
