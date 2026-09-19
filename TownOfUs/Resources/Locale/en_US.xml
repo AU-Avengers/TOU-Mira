@@ -1992,7 +1992,7 @@ distinguishing players under a mass hysteria</string>
   <!-- Morphling Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Morphling">Morphling</string>
   <string name="TownOfUsMira.Role.Morphling.IntroBlurb">Transform into Crewmates</string>
-  <string name="TownOfUsMira.Role.Morphling.MedDescription">Sample Crewmate and moprh into them to frame them.</string>
+  <string name="TownOfUsMira.Role.Morphling.MedDescription">Sample Crewmate and morph into them to frame them.</string>
   <string name="TownOfUsMira.Role.Morphling.TabDescription">Sample players and morph into them to disguise yourself.
 Your sample clears at the beginning of every round.</string>
   <string name="TownOfUsMira.Role.MorphlingTabMorphed">Morphed As: [player]</string>
