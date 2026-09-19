@@ -265,7 +265,7 @@ public static class ChatPatches
                 msg = string.Empty;
             }
 
-            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
+            MiscUtils.AddSimpleSystemChat(title, msg);
 
             __instance.freeChatField.Clear();
             __instance.quickChatMenu.Clear();
