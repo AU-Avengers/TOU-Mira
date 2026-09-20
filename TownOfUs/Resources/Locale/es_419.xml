@@ -1250,8 +1250,7 @@ para revelarte con éxito.</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecuteWiki">Acusar (Reunión)</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecute.WikiDescription">Exilia al jugador que elijas, aplicándole cinco votos e ignorando todos los demás votos.</string>
   <!-- Opciones del Fiscal -->
-        <string name="TouOptionProsecutorDiesWhenCrewmateExiled">Muere si exilia a un Tripulante</string>
-  <!-- Vidente - Tripulante de Investigación -->
+        <!-- Vidente - Tripulante de Investigación -->
       <!-- Vidente - Wiki / Habilidades -->
         <string name="TownOfUsMira.Role.Seer">Vidente</string>
   <string name="TownOfUsMira.Role.Seer.IntroBlurb">Revela las alianzas de otros</string>
