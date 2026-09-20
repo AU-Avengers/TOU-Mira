@@ -60,7 +60,7 @@ public static class WikiHyperLinkPatches
                     replacement =
                         $"{fontTag}<b>{customRole.RoleColor.ToTextColor()}<link={customRole.GetType().FullName}:{linkIndex}>{customRole.RoleName}</link></color></b></font>";
                     shouldHyperlink = customRole is IWikiDiscoverable || SoftWikiEntries.RoleEntries.ContainsKey(role);
-                    iconText = MiscUtils.GetRoleTmpIcon(customRole);
+                    iconText = MiscUtils.GetMaskedRoleTmpIcon(customRole);
                 }
                 else if (role != null && SoftWikiEntries.RoleEntries.ContainsKey(role))
                 {
@@ -72,7 +72,7 @@ public static class WikiHyperLinkPatches
                         $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
                     }
                     shouldHyperlink = true;
-                    iconText = MiscUtils.GetRoleTmpIcon(role);
+                    iconText = MiscUtils.GetMaskedRoleTmpIcon(role);
                 }
                 else
                 {
@@ -93,7 +93,7 @@ public static class WikiHyperLinkPatches
                                 $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
                             shouldHyperlink = true;
                         }
-                        iconText = MiscUtils.GetRoleTmpIcon(role);
+                        iconText = MiscUtils.GetMaskedRoleTmpIcon(role);
                     }
                 }
             }
@@ -110,7 +110,7 @@ public static class WikiHyperLinkPatches
                     shouldHyperlink = modifier is IWikiDiscoverable;
                     if (modifier is TouBaseGameModifier touMod && touMod.Configuration.PopUpIconTmp)
                     {
-                        iconText = $"<sprite name=\"{touMod.Configuration.PopUpIconTmp.name}\">";
+                        iconText = $"<sprite name=\"{touMod.Configuration.PopUpIconTmp.name}.Masked\">";
                     }
                 }
             }

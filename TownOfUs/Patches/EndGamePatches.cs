@@ -55,13 +55,13 @@ public static class EndGamePatches
             {
                 EndGameData.PlayerRecords.Add(new EndGameData.PlayerRecord
                 {
-                    ChatSummaryTitle = $"{playerStats.PlayerName} - {MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>())}{MiraLocaleManager.Get("TownOfUsMira.Role.Spectator")}",
+                    ChatSummaryTitle = $"{playerStats.PlayerName} - {MiscUtils.GetMaskedRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>())}{MiraLocaleManager.Get("TownOfUsMira.Role.Spectator")}",
                     ChatSummaryRoleInfo = string.Empty,
                     ChatSummaryStats = string.Empty,
                     ChatSummaryCod = string.Empty,
                     PlayerName = playerStats.PlayerName,
-                    RoleString = MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>()) + MiraLocaleManager.Get("TownOfUsMira.Role.Spectator"),
-                    RoleStringShort = MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>()) + MiraLocaleManager.Get("TownOfUsMira.Role.Spectator"),
+                    RoleString = MiscUtils.GetMaskedRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>()) + MiraLocaleManager.Get("TownOfUsMira.Role.Spectator"),
+                    RoleStringShort = MiscUtils.GetMaskedRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>()) + MiraLocaleManager.Get("TownOfUsMira.Role.Spectator"),
                     Winner = false,
                     LastRole = (RoleTypes)RoleId.Get<SpectatorRole>(),
                     Team = ModdedRoleTeams.Custom,
@@ -90,7 +90,7 @@ public static class EndGamePatches
                         : StringNames.Crewmate);
                 }
 
-                roleName = $"{MiscUtils.GetRoleTmpIcon(role)}{roleName}";
+                roleName = $"{MiscUtils.GetMaskedRoleTmpIcon(role)}{roleName}";
 
                 if (latestRole != string.Empty)
                 {
@@ -416,15 +416,15 @@ public static class EndGamePatches
 
         var roleSummaryTextMeshRectTransform = roleSummaryTextMesh.GetComponent<RectTransform>();
         roleSummaryTextMeshRectTransform.anchoredPosition = new Vector2(position.x + 3.5f, position.y - 0.1f);
-        roleSummaryTextMesh.text = roleSummaryText1.ToString();
+        roleSummaryTextMesh.text = roleSummaryText1.ToString().Replace(".Masked", string.Empty);
 
         var roleSummaryTextMeshRectTransform2 = roleSummaryTextMesh2.GetComponent<RectTransform>();
         roleSummaryTextMeshRectTransform2.anchoredPosition = new Vector2(position.x + 8.8f, position.y - 0.1f);
-        roleSummaryTextMesh2.text = roleSummaryText2.ToString();
+        roleSummaryTextMesh2.text = roleSummaryText2.ToString().Replace(".Masked", string.Empty);
 
         var roleSummaryTextMeshRectTransformLeft = roleSummaryTextMeshLeft.GetComponent<RectTransform>();
         roleSummaryTextMeshRectTransformLeft.anchoredPosition = new Vector2(position.x + 3.5f, position.y - 0.1f);
-        roleSummaryTextMeshLeft.text = roleSummaryTextFull.ToString();
+        roleSummaryTextMeshLeft.text = roleSummaryTextFull.ToString().Replace(".Masked", string.Empty);
 
         GameHistory.EndGameSummarySimple = basicSummary.ToString();
         GameHistory.EndGameSummary = normalSummary.ToString();
@@ -575,7 +575,7 @@ public static class EndGamePatches
                 var nameTxt = player.cosmetics.nameText;
                 nameTxt.gameObject.SetActive(true);
                 player.SetName(
-                    $"\n<size=85%>{realPlayer.PlayerName}</size>\n<size=65%><color=#{actualRole.TeamColor.ToHtmlStringRGBA()}>{MiscUtils.GetRoleTmpIcon(actualRole)}{actualRole.GetRoleName()}</size>",
+                    $"\n<size=85%>{realPlayer.PlayerName}</size>\n<size=65%><color=#{actualRole.TeamColor.ToHtmlStringRGBA()}>{MiscUtils.GetMaskedRoleTmpIcon(actualRole)}{actualRole.GetRoleName()}</size>",
                     new Vector3(1.1619f, 1.1619f, 1f), Color.white, -15f);
                 player.SetNamePosition(new Vector3(0f, -1.31f, -0.5f));
                 nameTxt.fontSize = 1.9f;
