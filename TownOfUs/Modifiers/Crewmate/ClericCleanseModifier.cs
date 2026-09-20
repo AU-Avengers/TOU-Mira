@@ -23,7 +23,7 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
         Hex
     }
 
- public override string ModifierName => MiraLocaleManager.Get("TownOfUsMira.Modifier.ClericCleanse");
+ public override string ModifierName => "Cleric Cleanse";
 public override bool HideOnUi => true;
 public PlayerControl Cleric { get; } = cleric;
 

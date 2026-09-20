@@ -3396,7 +3396,6 @@ You may not die to other players</string>
     <string name="TownOfUsMira.Modifier.HerbalistProtectionDescription">You are shielded by a Cleric!
 No one can interact with you.</string>
   <!-- Blackmailed Modifier -->
-    <string name="TownOfUsMira.Modifier.Blackmailed">Blackmailed</string>
   <string name="TownOfUsMira.Modifier.BlackmailedVoteNotification">You are unable to vote this meeting! You will auto-skip after [time] seconds.</string>
   <!-- Eclipsal Blind -->
     <string name="TownOfUsMira.Modifier.EclipsalBlindedNotification">You were blinded by an Eclipsal!</string>
@@ -3405,7 +3404,6 @@ No one can interact with you.</string>
   <!-- Mass Hysteria -->
     <string name="TownOfUsMira.Modifier.MassHysteriaNotification">You are under a Mass Hysteria!</string>
   <!-- Guardian Angel Protection -->
-    <string name="TownOfUsMira.Modifier.GuardianAngelProtected">Protected</string>
   <string name="TownOfUsMira.Modifier.GuardianAngelProtectedDescription">You are protected by your Fairy!
 You cannot be killed.</string>
   <!-- Mercenary Bribe Feedback -->
@@ -3422,8 +3420,6 @@ You cannot be killed.</string>
   <string name="TownOfUsMira.Modifier.RoleblockedEndNotification">You are no longer roleblocked.</string>
   <!-- Basic Shield Modifier -->
     <string name="TownOfUsMira.Modifier.ShieldDescription">You are protected!</string>
-  <!-- Base Disabled Modifier (I have no idea if this is shown to the player) -->
-    <string name="TownOfUsMira.Modifier.DisabledDescription">You are disabled!</string>
   <!-- First Death Shield -->
     <string name="TouFirstDeathShieldDescription">You have protection because you died first last game</string>
   <string name="TownOfUsMira.Modifier.Knighted">Knighted</string>
