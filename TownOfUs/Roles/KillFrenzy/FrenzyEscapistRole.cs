@@ -124,7 +124,7 @@ public sealed class FrenzyEscapistRole(IntPtr cppPtr)
     }
 
     [MethodRpc((uint)TownOfUsRpc.FrenzyMarkLocation)]
-    public static void RpcMarkLocation(PlayerControl player, Vector2 pos)
+    public static void RpcMarkLocation(PlayerControl player, Vector2 pos, float zPos)
     {
         if (player.Data.Role is not FrenzyEscapistRole henry)
         {
@@ -134,7 +134,7 @@ public sealed class FrenzyEscapistRole(IntPtr cppPtr)
 
         henry.MarkedLocation = pos;
         henry.EscapeMark = AnimStore.SpawnAnimAtPlayer(player, TouAssets.EscapistMarkPrefab.LoadAsset());
-        henry.EscapeMark.transform.localPosition = new Vector3(pos.x, pos.y + 0.3f, 0.1f);
+        henry.EscapeMark.transform.localPosition = new Vector3(pos.x, pos.y + 0.3f, zPos);
         henry.EscapeMark.SetActive(false);
     }
 }

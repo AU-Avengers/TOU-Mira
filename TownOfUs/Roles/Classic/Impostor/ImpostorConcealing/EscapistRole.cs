@@ -111,7 +111,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
     }
 
     [MethodRpc((uint)TownOfUsRpc.MarkLocation)]
-    public static void RpcMarkLocation(PlayerControl player, Vector2 pos)
+    public static void RpcMarkLocation(PlayerControl player, Vector2 pos, float zPos)
     {
         if (LobbyBehaviour.Instance)
         {
@@ -129,7 +129,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
 
         henry.MarkedLocation = pos;
         henry.EscapeMark = AnimStore.SpawnAnimAtPlayer(player, TouAssets.EscapistMarkPrefab.LoadAsset());
-        henry.EscapeMark.transform.localPosition = new Vector3(pos.x, pos.y + 0.3f, 0.1f);
+        henry.EscapeMark.transform.localPosition = new Vector3(pos.x, pos.y + 0.3f, zPos);
         henry.EscapeMark.SetActive(false);
     }
 }
