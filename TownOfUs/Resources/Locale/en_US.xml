@@ -3363,30 +3363,20 @@ when the lights are sabotaged.</string>
       <!-- 
       Some of these don't even need localizing but as some of them can be seen when doing FreePlay, I translated anyway 
       -->
-
-  <!-- Altruist Arrow -->
-    <string name="TownOfUsMira.Modifier.AltruistArrow">Altruist Arrow</string>
-  <!-- Barkeeper Spill Effect -->
-    <string name="TownOfUsMira.Modifier.BarkeeperSpillEffect">Spill Effect</string>
   <!-- Cleric Barrier -->
-    <string name="TownOfUsMira.Modifier.ClericBarrier">Barrier</string>
   <string name="TownOfUsMira.Modifier.ClericBarrierDescription">You are shielded by a Cleric!
 No one can interact with you.</string>
   <!-- Cleric Cleanse -->
-    <string name="TownOfUsMira.Modifier.ClericCleanse">Cleric Cleanse</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseEffectsFound">Cleansed effects on [player]:</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseNoEffects">No negative effects were found on [player].</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseFeedbackTitle">Cleric Feedback:</string>
   <!-- Deputy Revealed Modifier -->
-    <string name="TownOfUsMira.Modifier.DeputyRevealed">Revealed</string>
   <!-- After this I stopped making strings for everything that has "HideOnUi" -->
     <!-- Jailed Modifier -->
-    <string name="TownOfUsMira.Modifier.Jailed">Jailed</string>
   <string name="TownOfUsMira.Modifier.JailedFeedbackTitle">Jailee Feedback</string>
   <string name="TownOfUsMira.Modifier.JailedNonCrewFeedback">You are jailed, convince the Jailor that you are Crew to avoid being executed in the chatbox above the user report button.</string>
   <string name="TownOfUsMira.Modifier.JailedCrewFeedback">You are jailed, provide relevant information to the Jailor to prove you are Crew in the chatbox above the user report button.</string>
   <!-- Magic Mirror -->
-    <string name="TownOfUsMira.Modifier.MagicMirror">Magic Mirror</string>
   <string name="TownOfUsMira.Modifier.MagicMirrorDescription">You are protected by the Mirrorcaster!
 You may not die to other players</string>
   <!-- Medic Shield -->
