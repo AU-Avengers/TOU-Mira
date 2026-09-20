@@ -1,6 +1,5 @@
 ﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Hud;
-using Reactor.Utilities.Attributes;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,7 +10,6 @@ namespace TownOfUs.Modules.Components;
 /// <para/>
 /// Specifically used for selecting two players.
 /// </summary>
-[RegisterInIl2Cpp]
 public class DoublePlayerMenu : CustomPlayerMenu
 {
     public PlayerControl? target1;

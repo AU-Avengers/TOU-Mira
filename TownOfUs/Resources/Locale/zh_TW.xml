@@ -2,7 +2,7 @@
 <resources>
   <string name="FoolsMode">愚人節模式</string>
   <string name="TertiaryAbility">第三技能(黑入技能)</string>
-  <string name="ModifierAbility">附加屬性技能</string>
+  <string name="ModifierAbility">附加特性技能</string>
   <string name="ClientTabGameplay">遊戲玩法</string>
   <string name="ClientOptionsButton">我們的小鎮Mira客户端設置</string>
   <string name="ShowVanillaWikiEntries">展示原版維基條目</string>
@@ -74,15 +74,15 @@
   <string name="WikiRoleGuideTab">職業指南</string>
   <string name="SearchboxHeadsUp">點擊這裏搜索</string>
   <string name="Amount">數量</string>
-  <string name="Chance">概率</string>
+  <string name="Chance">機率</string>
   <string name="Options">設置</string>
-  <string name="PlayerHasNoModifiers">無附加屬性</string>
+  <string name="PlayerHasNoModifiers">無附加特性</string>
   <string name="SetRoleList">設置職業清單</string>
   <string name="NeutralFactionList">中立職業類型清單</string>
   <string name="NeutralBenigns">中立友善型</string>
   <string name="NeutralEvils">中立邪惡型</string>
   <string name="NeutralOutliers">中立外來者型</string>
-  <string name="NeutralKillers">中立擊殺型</string>
+  <string name="NeutralKillers">中立殺手型</string>
   <string name="MinimumShort">最小數量</string>
   <string name="MaximumShort">最大數量</string>
   <string name="GameOutlier">遊戲外來者</string>
@@ -128,7 +128,7 @@
   <string name="ImpKilling">偽裝者擊殺型</string>
   <string name="ImpPower">偽裝者強力型</string>
   <string name="ImpSupport">偽裝者輔助型</string>
-  <string name="RolesHeader">[type]職業</string>
+  <string name="RolesHeader">[type] 職業</string>
   <string name="GameKeyword">遊戲</string>
   <string name="GhostKeyword">幽靈</string>
   <string name="Alliance">同盟</string>
@@ -152,10 +152,10 @@
   <string name="UniversalVisibility">通用可見型</string>
   <string name="UniversalPostmortem">通用後期型</string>
   <string name="UniversalPassive">通用被動型</string>
-  <string name="AssailantUtility">同盟通用型</string>
-  <string name="AssailantVisibility">同盟可見型</string>
-  <string name="AssailantPostmortem">同盟後期型</string>
-  <string name="AssailantPassive">同盟被動型</string>
+  <string name="AssailantUtility">襲擊者通用型</string>
+  <string name="AssailantVisibility">襲擊者可見型</string>
+  <string name="AssailantPostmortem">襲擊者後期型</string>
+  <string name="AssailantPassive">襲擊者被動型</string>
   <string name="NonCrewmate">非船員型</string>
   <string name="NonCrewUtility">非船員通用型</string>
   <string name="NonCrewVisibility">非船員可見型</string>
@@ -189,15 +189,15 @@
   <string name="YouWereAn">你的職業曾是</string>
   <string name="YouWereThe">你的職業曾是</string>
   <string name="YouWere">你的職業曾是</string>
-  <string name="LoverChatTitle">[player](戀人聊天)</string>
-  <string name="ImpostorChatTitle">[player](偽裝者聊天)</string>
-  <string name="VampireChatTitle">[player](吸血魔聊天)</string>
-  <string name="JailorChatTitle">[player](典獄長)</string>
-  <string name="JaileeChatTitle">[player](被囚禁者)</string>
+  <string name="LoverChatTitle">[player] (戀人聊天)</string>
+  <string name="ImpostorChatTitle">[player] (偽裝者聊天)</string>
+  <string name="VampireChatTitle">[player] (吸血魔聊天)</string>
+  <string name="JailorChatTitle">[player] (典獄長)</string>
+  <string name="JaileeChatTitle">[player] (被囚禁者)</string>
   <string name="SystemChatTitle">系統</string>
   <string name="AnticheatChatTitle">反作弊系統</string>
-  <string name="AnticheatMessage">[player]正在使用以下模組加入遊戲:</string>
-  <string name="AnticheatKickChatMessage">[player]因使用作弊模組被踢出:</string>
+  <string name="AnticheatMessage">[player] 正在使用以下模組加入遊戲:</string>
+  <string name="AnticheatKickChatMessage">[player] 因使用作弊模組被踢出:</string>
   <string name="SpectatorCommandList">觀眾:觀戰</string>
   <string name="SpectatorLobbyError">你不能在大廳之外切換觀戰模式!</string>
   <string name="SpectatorStartError">遊戲正在開始時你無法切換觀戰模式!</string>
@@ -214,16 +214,16 @@
   <string name="SetNameCommandList">設定名稱:更改名稱:重命名:名稱</string>
   <string name="SetNameLobbyError">你不能在大廳外更改名字!</string>
   <string name="SetNameRequirementError">玩家名稱必須至少有1個字元,且不能超過12個字元!</string>
-  <string name="SetNameSimilarError">另一位玩家的名字與[name]太相似,請嘗試使用其他名字。</string>
-  <string name="SetNameSuccess">已將下一場比賽的玩家名稱更改為:[name]。</string>
+  <string name="SetNameSimilarError">另一位玩家的名字與 [name] 太相似,請嘗試使用其他名字。</string>
+  <string name="SetNameSuccess">已將下一場比賽的玩家名稱更改為: [name]。</string>
   <string name="WelcomeMessageBlurb">歡迎來到我們的小鎮Mira v[modVersion]!
-使用百科(地球圖標)可獲取更多關於角色或附加特性的資訊。你可以使用搜索欄,或者在聊天中輸入/help獲取命令清單。
+使用百科(地球圖標)可獲取更多關於角色或附加特性的資訊。你可以使用搜索欄,或者在聊天中輸入 /help 獲取命令清單。
 你也可以在選項清單中關閉此消息。</string>
   <string name="HelpCommandList">幫助:支持:指令:命令:指南</string>
   <string name="HelpMessageTitle">聊天指令:</string>
   <string name="HelpCommandDescription">/help - 顯示此訊息</string>
   <string name="NerfMeCommandDescription">/nerfme - 將你的視野減半</string>
-  <string name="SetNameCommandDescription">/setname - 將你的名字更改為命令後所跟隨的文字(例如/setname [randomName]),適用於下一局遊戲。</string>
+  <string name="SetNameCommandDescription">/setname - 將你的名字更改為命令後所跟隨的文字(例如/setname [randomName]), 適用於下一局遊戲。</string>
   <string name="SpectateCommandDescription">/spec - 允許你在剩餘的遊戲時間內自動觀戰。(前提是房主已啟用)</string>
   <string name="SummaryCommandDescription">/summary - 顯示上一局遊戲的結算總結</string>
   <string name="RolesCommandDescription">/roles - 顯示遊戲中所有已啟用的職業清單。</string>
@@ -240,7 +240,7 @@
   <string name="UpCommandSuccessOther">已成功為玩家 '[player]' 請求下一局的角色: [role]。</string>
   <string name="UpCommandSuccessGlobal">房主已為玩家 '[player]' 請求了下一局的角色。</string>
   <string name="JailCommandError">該模組不再使用 /jail 聊天。請改用遊戲內的紅色聊天按鈕。</string>
-  <string name="NoCommandFoundError">無效指令。如果你需要查看聊天指令的資訊,請輸入 /help 。如果你想了解某個職業或附加屬性的作用,請點擊屏幕右上角的地球圖標查看遊戲內維基百科。</string>
+  <string name="NoCommandFoundError">無效指令。如果你需要查看聊天指令的資訊,請輸入 /help 。如果你想了解某個職業或附加特性的作用,請點擊屏幕右上角的地球圖標查看遊戲內維基百科。</string>
   <string name="GameSummaryModeButton">遊戲結算:總結</string>
   <string name="EndGameSummary">遊戲結算總結</string>
   <string name="EndResult">獲勝陣營: [victoryType]</string>
@@ -260,8 +260,8 @@
   <string name="RoundOfDeath">第[count]回合</string>
   <string name="RoundOfDeathLong">第[count]回合</string>
   <string name="FirstDeadText">(在第1輪死亡)</string>
-  <string name="DiedByString">[cod] 由 [player]造成</string>
-  <string name="DiedByStringBasic">由[player]造成</string>
+  <string name="DiedByString">[cod] 由 [player] 造成</string>
+  <string name="DiedByStringBasic">由 [player] 造成</string>
   <string name="Alive">存活</string>
   <string name="DiedToDisconnect">離綫</string>
   <string name="DiedToEjection">被驅逐</string>
@@ -416,7 +416,7 @@
   <string name="TownOfUsMira.HideAndSeek.Modifier.Frosty">雪人</string>
   <string name="TownOfUsMira.HideAndSeek.Modifier.Frosty.TabDescription">在短時間內減緩你的追捕者。</string>
   <string name="TownOfUsMira.HideAndSeek.Modifier.Frosty.WikiDescription">當你死亡後,你的追捕者會被減速!</string>
-  <string name="TownOfUsMira.HideAndSeek.Modifier.FrostyTriggeredNotif">[player] 是 [modifier], 你將在 [time]秒內變得更慢。</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.FrostyTriggeredNotif">[player] 是 [modifier], 你將在[time]秒內變得更慢。</string>
   <string name="TownOfUsMira.HideAndSeek.Modifier.Option.FrostyChillDuration">冰凍持續時間</string>
   <string name="TownOfUsMira.HideAndSeek.Modifier.Option.FrostyChillStartSpeed">冰凍初始速度</string>
   <string name="TownOfUsMira.HideAndSeek.Modifier.Oblivious">遲鈍</string>
@@ -497,8 +497,8 @@
   <string name="TownOfUsMira.Role.ClericCleanse">淨化</string>
   <string name="TownOfUsMira.Role.ClericCleanse.WikiDescription">移除玩家身上的所有負面效果。(澆油、黑入、感染、勒索、致盲、閃光、催眠)</string>
   <string name="TownOfUsMira.Role.ClericMessageTitle">牧師反饋</string>
-  <string name="TownOfUsMira.Role.ClericCleansedEffects">淨化效果在[player]:</string>
-  <string name="TownOfUsMira.Role.ClericCleansedNoEffects">未在[player]上發現負面效果。</string>
+  <string name="TownOfUsMira.Role.ClericCleansedEffects">淨化效果在 [player]:</string>
+  <string name="TownOfUsMira.Role.ClericCleansedNoEffects">未在 [player] 上發現負面效果。</string>
   <string name="TouOptionClericBarrierCooldown">屏障冷卻</string>
   <string name="TouOptionClericBarrierDuration">屏障持續時間</string>
   <string name="TouOptionClericCleanseCooldown">淨化冷卻</string>
@@ -510,8 +510,8 @@
   <string name="TownOfUsMira.Role.Deputy.WikiDescription">副手是一名船員擊殺型職業,可以蹲守其他玩家。當被蹲守的玩家死亡時，副手會收到提示。在接下來的會議中,副手可以嘗試擊殺兇手,若成功則兇手死亡，否則什麼都不會發生。</string>
   <string name="TownOfUsMira.Role.DeputyCamp">蹲守</string>
   <string name="TownOfUsMira.Role.DeputyCamp.WikiDescription">蹲守一名玩家,當其死亡時你會收到提示。之後你可以嘗試射殺兇手,若成功,兇手會死亡,否則什麼都不會發生。</string>
-  <string name="TownOfUsMira.Role.DeputyCampNotif">等待[player]死亡後,你就可以在會議中為該玩家復仇。</string>
-  <string name="TownOfUsMira.Role.DeputyCampedKillNotif">你的蹲守目標[player],已經死亡! 在會議中為該玩家復仇吧。</string>
+  <string name="TownOfUsMira.Role.DeputyCampNotif">等待 [player] 死亡後,你就可以在會議中為該玩家復仇。</string>
+  <string name="TownOfUsMira.Role.DeputyCampedKillNotif">你的蹲守目標 [player], 已經死亡! 在會議中為該玩家復仇吧。</string>
   <string name="TownOfUsMira.Role.DeputyMessageTitle">副手回饋</string>
   <string name="TownOfUsMira.Role.DeputyMissedShot">你射偏了! 對方不是兇手或擁有無敵效果。</string>
   <string name="TownOfUsMira.Role.Forensic">側寫師</string>
@@ -523,7 +523,7 @@
   <string name="TownOfUsMira.Role.ForensicInspect.WikiDescription">所有屍體都會生成案發現場。調查案發現場後檢查玩家以發現線索。下次會議中,你會收到兇手身份的報告。</string>
   <string name="TownOfUsMira.Role.ForensicExamine">檢查</string>
   <string name="TownOfUsMira.Role.ForensicExamine.WikiDescription">調查案發現場後檢查玩家。你會被告知該玩家是否在案發現場。</string>
-  <string name="TownOfUsMira.Role.ForensicInspectNotif">你已調查了[player]的案發現場。兇手或任何進入案發現場的人在被檢查時會閃紅光。</string>
+  <string name="TownOfUsMira.Role.ForensicInspectNotif">你已調查了 [player] 的案發現場。兇手或任何進入案發現場的人在被檢查時會閃紅光。</string>
   <string name="TouOptionForensicExamineCooldown">側寫師檢查冷卻</string>
   <string name="TouOptionForensicReportOn">顯示側寫師報告</string>
   <string name="TouOptionForensicRoleDuration">最大死亡時間 -- 側寫報告包含職業</string>
@@ -543,9 +543,9 @@
  (擊殺時間: [time]秒前)。</string>
   <string name="TownOfUsMira.Role.ForensicBodyKillerImpostor">兇手似乎是偽裝者! 
  (擊殺時間: [time]秒前)。</string>
-  <string name="TownOfUsMira.Role.ForensicAtScene">[player]在[deadPlayer]的案發現場! 
+  <string name="TownOfUsMira.Role.ForensicAtScene">[player] 在 [deadPlayer] 的案發現場! 
 他們可能是兇手或證人。</string>
-  <string name="TownOfUsMira.Role.ForensicNotAtScene">[player]不在案發現場。</string>
+  <string name="TownOfUsMira.Role.ForensicNotAtScene">[player] 不在案發現場。</string>
   <string name="TownOfUsMira.Role.Engineer">工程師</string>
   <string name="TownOfUsMira.Role.Engineer.IntroBlurb">維護飛船重要系統</string>
   <string name="TownOfUsMira.Role.Engineer.TabDescription">可以在飛船中使用通風管並遠程修復破壞</string>
@@ -582,7 +582,7 @@
   <string name="TownOfUsMira.Role.HunterStalk">盯梢</string>
   <string name="TownOfUsMira.Role.HunterStalking">盯梢中</string>
   <string name="TownOfUsMira.Role.HunterStalk.WikiDescription">選擇一個要盯梢的目標。你可以盯梢[hunterMaxStalkUsages]個玩家。如果他們在被盯梢時使用任何技能,他們就會被添加到你的命中清單中並可以被殺死。</string>
-  <string name="TownOfUsMira.Role.HunterStalkNotif">如果[player]使用了技能,你將在本回合內可以隨時擊殺該玩家。</string>
+  <string name="TownOfUsMira.Role.HunterStalkNotif">如果 [player] 使用了技能, 你將在本回合內可以隨時擊殺該玩家。</string>
   <string name="TouOptionHunterKillCooldown">巡邏者擊殺冷卻</string>
   <string name="TouOptionHunterStalkCooldown">巡邏者盯梢冷卻</string>
   <string name="TouOptionHunterStalkDuration">巡邏者盯梢持續時間</string>
@@ -590,7 +590,7 @@
   <string name="TouOptionHunterStalksPerTasks">額外盯梢次數使用所需完成的任務數量</string>
   <string name="TouOptionHunterRetributionOnVote">被投票出局時巡獵者擊殺最後投票者</string>
   <string name="TouOptionHunterHunterBodyReport">巡獵者可報告其擊殺對象</string>
-  <string name="ExileTextConfirm">[player]是[role]。</string>
+  <string name="ExileTextConfirm">[player] 曾是 [role]。</string>
   <string name="PiPLocationTopLeft">左上</string>
   <string name="PiPLocationMiddleLeft">左中</string>
   <string name="UseSeparateRedChat">顯示獨立的私人聊天</string>
@@ -610,15 +610,15 @@
   <string name="DiedToPuppetControl">被操控</string>
   <string name="TouTabOptionBetterMaps">地圖/破壞 優化</string>
   <string name="TouTabOptionBetterMapsDesc">為每張地圖配置任務、冷卻時間、門、通風口、破壞等內容!</string>
-  <string name="FreeplaySetModifiersButton">設置附加屬性</string>
+  <string name="FreeplaySetModifiersButton">設置附加特性</string>
   <string name="TouFirstRoundDeathIndicator">首回合死亡指示</string>
   <string name="TownOfUsMira.BetterMaps.Option.MapsNoLadderCooldown">無梯子冷卻</string>
   <string name="TownOfUsMira.Role.AltruistRevivedNotif">你被一名殉道者復活了!</string>
-  <string name="TownOfUsMira.Role.AltruistReviveSuccessNotif">你已成功復活[player]!</string>
+  <string name="TownOfUsMira.Role.AltruistReviveSuccessNotif">你已成功復活 [player]!</string>
   <string name="TownOfUsMira.Role.Imitator">效顰者</string>
   <string name="TownOfUsMira.Role.Imitator.IntroBlurb">利用死亡角色幫助船員</string>
   <string name="TownOfUsMira.Role.Imitator.TabDescription">在會議中借助忠誠船員的亡魂以再次幫助船員</string>
-  <string name="TouTabOptionModifiersDesc">每名玩家都可以獲得陣營、通用 和/或 派系專屬附加屬性。</string>
+  <string name="TouTabOptionModifiersDesc">每名玩家都可以獲得同盟、通用 和/或 派系專屬附加特性。</string>
   <string name="TownOfUsMira.Role.Imitator.WikiDescription">效顰者是一名船員輔助型職業,可以選擇一名死亡船員模仿其角色,直到你更換目標。如果有多名效顰者存活,部分角色將無法被模仿。</string>
   <string name="TownOfUsMira.Role.ImitatorCrewmateImitation">船員效仿</string>
   <string name="TownOfUsMira.Role.ImitatorCrewmateImitation.WikiDescription">除了政治家、市長之外,所有船員職業都可以使用。典獄長和檢察官無法使用他們的會議技能,而俠客無法獲得安全猜測。</string>
@@ -658,16 +658,16 @@
   <string name="TouOptionJailorJaileePublicChat">被監禁人可公頻聊天</string>
   <string name="TownOfUsMira.Role.JailorMessageTitle">典獄長反饋</string>
   <string name="TownOfUsMira.Role.JailorJailorFeedback">請在"用户舉報"按鈕上方的私聊框與被關押者進行溝通。</string>
-  <string name="TownOfUsMira.Role.JailorCannotExecute">[player]無法被處決! 他們一定是無敵或者被佑護的!</string>
-  <string name="TownOfUsMira.Role.JailorExecutedCrew">[player]是船員! 你不能再關押任何人了!</string>
-  <string name="TownOfUsMira.Role.JailorExecutedEvil">[player]被成功處決!</string>
+  <string name="TownOfUsMira.Role.JailorCannotExecute">[player] 無法被處決! 他們一定是無敵或者被佑護的!</string>
+  <string name="TownOfUsMira.Role.JailorExecutedCrew">[player] 是船員! 你不能再關押任何人了!</string>
+  <string name="TownOfUsMira.Role.JailorExecutedEvil">[player] 被成功處決!</string>
   <string name="TownOfUsMira.Role.Lookout">觀測者</string>
   <string name="TownOfUsMira.Role.Lookout.IntroBlurb">睜大你的眼睛仔細看</string>
   <string name="TownOfUsMira.Role.Lookout.TabDescription">觀察其他船員,了解與其互動的角色</string>
   <string name="TownOfUsMira.Role.Lookout.WikiDescription">觀測者是一名船員調查型職業,可以在回合中觀測其他玩家。會議期間你會看到所有與被觀測者互動過的角色或玩家。</string>
   <string name="TownOfUsMira.Role.LookoutWatch">觀測</string>
   <string name="TownOfUsMira.Role.LookoutWatch.WikiDescription">觀測一名或多名玩家,下次會議你會知道哪些玩家與被觀測者有過互動。</string>
-  <string name="TownOfUsMira.Role.LookoutWatchNotif">如果[player]在下次會議前未死亡,你將會知道與其互動的所有職業。</string>
+  <string name="TownOfUsMira.Role.LookoutWatchNotif">如果 [player] 在下次會議前未死亡,你將會知道與其互動的所有職業。</string>
   <string name="TouOptionLookoutWatchCooldown">觀測冷卻</string>
   <string name="TouOptionLookoutMaxWatches">初始可觀測玩家數量</string>
   <string name="TouOptionLookoutLoResetOnNewRound">每回合重置觀測次數</string>
@@ -705,7 +705,7 @@
 (死亡時間: [time]秒前)。</string>
   <string name="TownOfUsMira.Role.MedicBodySuicide">看起來這個死亡是自殺造成的!
 (死亡時間: [time]秒前)。</string>
-  <string name="TownOfUsMira.Role.MedicBodyKillerName">兇手似乎是[player]!
+  <string name="TownOfUsMira.Role.MedicBodyKillerName">兇手似乎是 [player]!
 (擊殺時間: [time]秒前)。</string>
   <string name="TownOfUsMira.Role.MedicBodyKillerDarkColor">兇手似乎是深色的!
 (擊殺時間: [time]秒前)。</string>
@@ -734,7 +734,7 @@
   <string name="TownOfUsMira.Role.Mirrorcaster.TabDescription">用魔法鏡保護一名玩家。
 如果他們被直接攻擊,
 則將攻擊反射到另一名玩家身上!</string>
-  <string name="TownOfUsMira.Role.MirrorcasterTabProtecting">保護中:[player]</string>
+  <string name="TownOfUsMira.Role.MirrorcasterTabProtecting">保護中: [player]</string>
   <string name="TownOfUsMira.Role.Mirrorcaster.WikiDescription">鏡法師是船員保護型職業,可以為一名玩家施加魔法鏡進行保護。如果被直接攻擊,鏡法師可以將攻擊反射到另一名玩家身上。</string>
   <string name="TownOfUsMira.Role.MirrorcasterMagicMirror">魔法鏡</string>
   <string name="TownOfUsMira.Role.MirrorcasterMagicMirrorProtecting">保護中</string>
@@ -742,8 +742,8 @@
   <string name="TownOfUsMira.Role.MirrorcasterUnleash">反射</string>
   <string name="TownOfUsMira.Role.MirrorcasterUnleash.WikiDescription">一旦魔法鏡破碎,利用其力量將攻擊反射到另一名玩家!</string>
   <string name="TownOfUsMira.Role.MirrorcasterAlreadyDiedNotif">你試圖保護的玩家已經死亡!</string>
-  <string name="TownOfUsMira.Role.MirrorcasterTargetDiedNotif">[player]因間接攻擊而死亡,你的魔法鏡無法保護他們。</string>
-  <string name="TownOfUsMira.Role.MirrorcasterTargetDidNotDieNotif">[player]未受到攻擊。</string>
+  <string name="TownOfUsMira.Role.MirrorcasterTargetDiedNotif">[player] 因間接攻擊而死亡,你的魔法鏡無法保護他們。</string>
+  <string name="TownOfUsMira.Role.MirrorcasterTargetDidNotDieNotif">[player] 未受到攻擊。</string>
   <string name="TouOptionMirrorcasterWhoGetsMurderAttemptIndicator">誰獲得謀殺嘗試指示器</string>
   <string name="TouOptionMirrorcasterNotifEnumMirrorcaster">鏡法師</string>
   <string name="TouOptionMirrorcasterNotifEnumMirrorcasterAndKiller">鏡法師+兇手</string>
@@ -757,20 +757,20 @@
   <string name="TouOptionMirrorcasterInfoEnumNothing">無</string>
   <string name="TouOptionMirrorcasterAccumulateMultipleUnleashes">可累積並多次反射</string>
   <string name="TouOptionMirrorcasterMaxNumberOfMagicMirrors">魔法鏡最大數量</string>
-  <string name="TownOfUsMira.Role.MirrorcasterAttackedMessageWithType">[player]被[attackerRole]攻擊! 你現在可以將這次攻擊反射到另一名玩家!</string>
-  <string name="TownOfUsMira.Role.MirrorcasterAttackedMessageWithoutType">[player]被攻擊! 你現在可以將這次攻擊反射到另一名玩家!</string>
+  <string name="TownOfUsMira.Role.MirrorcasterAttackedMessageWithType">[player] 被 [attackerRole] 攻擊! 你現在可以將這次攻擊反射到另一名玩家!</string>
+  <string name="TownOfUsMira.Role.MirrorcasterAttackedMessageWithoutType">[player] 被攻擊! 你現在可以將這次攻擊反射到另一名玩家!</string>
   <string name="TownOfUsMira.Role.Monarch">君主</string>
   <string name="TownOfUsMira.Role.Monarch.IntroBlurb">冊封船員為騎士以獲得額外投票數</string>
   <string name="TownOfUsMira.Role.Monarch.TabDescription">冊封船員以在會議中獲得幫助,
 但請避免冊封邪惡陣營玩家。</string>
   <string name="TownOfUsMira.Role.MonarchTabDescriptionEgo">冊封邪惡陣營玩家以在會議中協助他們。</string>
-  <string name="TownOfUsMira.Role.MonarchTabVoteInfo">被冊封為騎士的玩家各自獲得[amount]票。</string>
+  <string name="TownOfUsMira.Role.MonarchTabVoteInfo">被冊封為騎士的玩家各自獲得 [amount] 票。</string>
   <string name="TownOfUsMira.Role.MonarchTabDefenseInfoEgo">存活的騎士會為你提供防護。</string>
   <string name="TownOfUsMira.Role.MonarchTabDefenseInfo">存活的船員騎士會為你提供防護。</string>
   <string name="TownOfUsMira.Role.Monarch.WikiDescription">君主是一名船員強力型職業,可以賦予其他玩家額外的投票數。</string>
   <string name="TownOfUsMira.Role.MonarchTabDeathInfo">如果有被冊封的玩家死亡,你將會收到通知。</string>
   <string name="TownOfUsMira.Role.MonarchKnight">冊封騎士</string>
-  <string name="TownOfUsMira.Role.MonarchKnightDescription">冊封一名玩家,使其獲得[amount]票</string>
+  <string name="TownOfUsMira.Role.MonarchKnightDescription">冊封一名玩家,使其獲得 [amount] 票</string>
   <string name="TownOfUsMira.Role.Mystic">靈媒</string>
   <string name="TownOfUsMira.Role.Mystic.IntroBlurb">知曉撃殺發生的時間與地點</string>
   <string name="TownOfUsMira.Role.Mystic.TabDescription">感知撃殺發生的時間與地點</string>
@@ -781,11 +781,11 @@
   <string name="TownOfUsMira.Role.Oracle.IntroBlurb">讓其他玩家坦白他們的身份</string>s
   <string name="TownOfUsMira.Role.Oracle.TabDescription">佑護船員以在會議中保護他們,
 並讓他們在會議中坦白</string>
-  <string name="TownOfUsMira.Role.Oracle.WikiDescription">神諭者是一名船員保護型職業,可以讓一名玩家坦白(當神諭者死亡時,以[revealAccuracy]的準確率揭示其陣營),也可以保護一名玩家免受會議技能影響。</string>
+  <string name="TownOfUsMira.Role.Oracle.WikiDescription">神諭者是一名船員保護型職業,可以讓一名玩家坦白(當神諭者死亡時,以[revealAccuracy]%的準確率揭示其陣營),也可以保護一名玩家免受會議技能影響。</string>
   <string name="TownOfUsMira.Role.OracleBless">佑護</string>
   <string name="TownOfUsMira.Role.OracleBless.WikiDescription">佑護一名玩家,使其在會議中免受任何傷害。</string>
   <string name="TownOfUsMira.Role.OracleConfess">坦白</string>
-  <string name="TownOfUsMira.Role.OracleConfess.WikiDescription">讓一名玩家在會議中坦白,展示3個可能的惡人(包括坦白者),並在神諭者死亡時以[revealAccuracy]的準確率向所有人揭示其陣營。</string>
+  <string name="TownOfUsMira.Role.OracleConfess.WikiDescription">讓一名玩家在會議中坦白,展示3個可能的惡人(包括坦白者),並在神諭者死亡時以[revealAccuracy]%的準確率向所有人揭示其陣營。</string>
   <string name="TouOptionOracleConfessCooldown">坦白冷卻</string>
   <string name="TouOptionOracleBlessCooldown">佑護冷卻</string>
   <string name="TouOptionOracleRevealAccuracy">揭示準確率</string>
@@ -801,19 +801,19 @@
   <string name="TouOptionOracleNeutBadNone">無</string>
   <string name="TownOfUsMira.Role.OracleConfessorDied">你的坦白者未能存活,因此沒有獲得坦白訊息</string>
   <string name="TownOfUsMira.Role.OracleTooFew">存活人數過少,無法獲得坦白訊息</string>
-  <string name="TownOfUsMira.Role.OracleNoMoreEvil">[player]坦白得知場上已無惡人!</string>
-  <string name="TownOfUsMira.Role.OracleThreePlayers">[player1]坦白得知自己、[player2]和/或[player3]是惡人!</string>
-  <string name="TownOfUsMira.Role.OracleBlessingMessageSelf">你的佑護讓[player]免於被殺!</string>
-  <string name="TownOfUsMira.Role.OracleBlessingMessageOthers">[player]因被[color=#FFBF00BF]神諭者[/color]佑護而倖存!</string>
+  <string name="TownOfUsMira.Role.OracleNoMoreEvil">[player] 坦白得知場上已無惡人!</string>
+  <string name="TownOfUsMira.Role.OracleThreePlayers">[player1] 坦白得知自己、[player2] 和/或 [player3] 是惡人!</string>
+  <string name="TownOfUsMira.Role.OracleBlessingMessageSelf">你的佑護讓 [player] 免於被殺!</string>
+  <string name="TownOfUsMira.Role.OracleBlessingMessageOthers">[player] 因被[color=#FFBF00BF]神諭者[/color]佑護而倖存!</string>
   <string name="TownOfUsMira.Role.Plumber">水管工</string>
   <string name="TownOfUsMira.Role.Plumber.IntroBlurb">把船上那些煩人的鑽管道者踢出去</string>
   <string name="TownOfUsMira.Role.Plumber.TabDescription">清理並管理通風口系統,同時
 放置路障在管道上,阻止下一輪的使用</string>
-  <string name="TownOfUsMira.Role.PlumberExtraTabText">路障將持續[roundCount]回合</string>
+  <string name="TownOfUsMira.Role.PlumberExtraTabText">路障將持續 [roundCount] 回合</string>
   <string name="TownOfUsMira.Role.PlumberVentListTabText">管道清單</string>
   <string name="TownOfUsMira.Role.PlumberUnbuiltBarricadeTabText">準備中...</string>
-  <string name="TownOfUsMira.Role.PlumberVentLabelTabText">[roomName]管道</string>
-  <string name="TownOfUsMira.Role.PlumberVentRoundsTabText">剩餘[roundsRemaining]回合</string>
+  <string name="TownOfUsMira.Role.PlumberVentLabelTabText">[roomName] 管道</string>
+  <string name="TownOfUsMira.Role.PlumberVentRoundsTabText">剩餘 [roundsRemaining] 回合</string>
   <string name="TouNotifPlumberBlock">這個通風口將在下一輪開始時被堵住。</string>
   <string name="TownOfUsMira.Role.Plumber.WikiDescription">水管工是一名船員輔助型職業,可以在通風口放置路障並將所有人趕出通風口。</string>
   <string name="TownOfUsMira.Role.PlumberFlush">沖洗</string>
@@ -865,14 +865,14 @@
   <string name="TownOfUsMira.Role.SeerGaze">凝視</string>
   <string name="TownOfUsMira.Role.SeerCompare">覺察[and]凝視 </string>
   <string name="TownOfUsMira.Role.SeerCompare.WikiDescription">通過對兩名不同玩家分別使用"覺察"和"凝視"能力來比較他們的陣營。如果他們的陣營相互敵對,你將會收到提示。</string>
-  <string name="TownOfUsMira.Role.SeerGazeNotif">當前正在凝視[player]。如有需要,你可以更改目標。 </string>
-  <string name="TownOfUsMira.Role.SeerIntuitNotif">當前正在覺察[player]。如有需要,你可以更改目標。 </string>
+  <string name="TownOfUsMira.Role.SeerGazeNotif">當前正在凝視 [player]。如有需要, 你可以更改目標。 </string>
+  <string name="TownOfUsMira.Role.SeerIntuitNotif">當前正在覺察 [player]。如有需要, 你可以更改目標。 </string>
   <string name="TownOfUsMira.Role.SeerCompareErrorAmountNotif">你必須選擇兩個目標來進行凝視和覺察。</string>
   <string name="TownOfUsMira.Role.SeerCompareErrorSelfNotif">你不能使用自己作為比較目標!</string>
-  <string name="TownOfUsMira.Role.SeerCompareEnemiesNotif">[gazed]和[intuited]看起來是敵對關係!</string>
-  <string name="TownOfUsMira.Role.SeerCompareFriendsNotif">[gazed]和[intuited]看起來是友好關係!</string>
+  <string name="TownOfUsMira.Role.SeerCompareEnemiesNotif">[gazed] 和 [intuited] 看起來是敵對關係!</string>
+  <string name="TownOfUsMira.Role.SeerCompareFriendsNotif">[gazed] 和 [intuited] 看起來是友好關係!</string>
   <string name="TownOfUsMira.Role.SeerTabHeader">歷史比較紀錄:</string>
-  <string name="TownOfUsMira.Role.SeerTabComparison">[gazed]vs[intuited](第[num]輪)</string>
+  <string name="TownOfUsMira.Role.SeerTabComparison">[gazed] vs [intuited] (第 [num] 輪)</string>
   <string name="TouOptionSeerSalemMode">比較玩家而非檢查陣營</string>
   <string name="TouOptionSeerCooldown">揭示/比較 冷卻時間</string>
   <string name="TouOptionSeerUses">揭示/比較 的最大使用次數</string>
@@ -897,7 +897,7 @@
   <string name="TownOfUsMira.Role.SentryCamerasHeader">攝影機</string>
   <string name="TownOfUsMira.Role.SentrySentryOnly">(僅限哨兵)</string>
   <string name="TownOfUsMira.Role.SentryPlacing">(部署中...)</string>
-  <string name="TownOfUsMira.Role.SentryMaxCamerasReached">已達到最大攝影機數量([count]/[max])。</string>
+  <string name="TownOfUsMira.Role.SentryMaxCamerasReached">已達到最大攝影機數量 ([count]/[max])。</string>
   <string name="TouOptionSentryPlacementCooldown">部署冷卻時間</string>
   <string name="TouOptionSentryInitialCameras">初始攝影機數量</string>
   <string name="TouOptionSentryCameraRoundsLast">攝影機持續回合數量</string>
@@ -1029,8 +1029,8 @@
   <string name="TouOptionSpyDeadEnumEveryone">所有人</string>
   <string name="TouOptionSpyAllowPortableAdminTableFor">便攜管理台可用對象</string>
   <string name="TouOptionSpyPortableEnumRole">職業</string>
-  <string name="TouOptionSpyPortableEnumModifier">附加屬性</string>
-  <string name="TouOptionSpyPortableEnumBoth">職業和附加屬性</string>
+  <string name="TouOptionSpyPortableEnumModifier">附加特性</string>
+  <string name="TouOptionSpyPortableEnumBoth">職業和附加特性</string>
   <string name="TouOptionSpyPortableEnumNone">禁用</string>
   <string name="TouOptionSpyMoveWhileUsingPortableAdmin">使用便攜式管理台時可移動</string>
   <string name="TouOptionSpyStartingCharge">初始電量</string>
@@ -1134,8 +1134,8 @@
   <string name="TouOptionVigilanteGuessableKilling">殺戮型</string>
   <string name="TouOptionVigilanteGuessableOutlier">外來者型</string>
   <string name="TouOptionVigilanteGuessableNone">無</string>
-  <string name="TouOptionVigilanteCanGuessKillerModifiers">俠客可猜殺手附加屬性</string>
-  <string name="TouOptionVigilanteCanGuessAlliances">俠客可猜同盟關係附加屬性</string>
+  <string name="TouOptionVigilanteCanGuessKillerModifiers">俠客可猜殺手附加特性</string>
+  <string name="TouOptionVigilanteCanGuessAlliances">俠客可猜同盟關係附加特性</string>
   <string name="TouOptionVigilanteSafeShotsAvailable">俠客可安全猜測次數</string>
   <string name="TownOfUsMira.Role.Warden">護衛者</string>
   <string name="TownOfUsMira.Role.Warden.IntroBlurb">強化船員</string>
@@ -1150,17 +1150,17 @@
   <string name="TouOptionWardenFortEnumSelfAndWarden">被強化者+護衛者</string>
   <string name="TouOptionWardenFortEnumEveryone">所有人</string>
   <string name="TownOfUsMira.Role.Ambassador">偽面使</string>
-  <string name="TownOfUsMira.Role.Ambassador.IntroBlurb">帶領[color=#FF0000FF]偽裝者取得勝利[/color]</string>
+  <string name="TownOfUsMira.Role.Ambassador.IntroBlurb">帶領[color=#FF0000FF]偽裝者[/color]取得勝利</string>
   <string name="TownOfUsMira.Role.Ambassador.WikiDescription">偽面使是偽裝者強力型職業,可以將偽裝者覆寫為其他偽裝者職業。</string>
   <string name="TownOfUsMira.Role.AmbassadorRetrain">覆寫</string>
   <string name="TownOfUsMira.Role.AmbassadorRetrainWiki">覆寫 (會議)</string>
-  <string name="TownOfUsMira.Role.AmbassadorRetrainsAvailable">剩餘[retrainsLeft]/[retrainsTotal]次覆寫</string>
-  <string name="TownOfUsMira.Role.AmbassadorRetrainWaiting">第[roundToWait]回合可覆寫</string>
+  <string name="TownOfUsMira.Role.AmbassadorRetrainsAvailable">剩餘 [retrainsLeft] / [retrainsTotal] 次覆寫</string>
+  <string name="TownOfUsMira.Role.AmbassadorRetrainWaiting">第 [roundToWait] 回合可覆寫</string>
   <string name="TownOfUsMira.Role.AmbassadorRetrainCooldown">轉變冷卻: [roundsLeft] / [roundsTotal]</string>
   <string name="TownOfUsMira.Role.AmbassadorChooseRole">選擇一個職業進行覆寫。</string>
   <string name="TownOfUsMira.Role.AmbassadorRandomImpostorOption">隨機偽裝者</string>
   <string name="TownOfUsMira.Role.AmbassadorConfirmPromptTitle">偽面使的覆寫</string>
-  <string name="TownOfUsMira.Role.AmbassadorConfirmPromptText">你確定要覆寫成為[newRole]?
+  <string name="TownOfUsMira.Role.AmbassadorConfirmPromptText">你確定要覆寫成為 [newRole]?
 這項變更是永久的。</string>
   <string name="TownOfUsMira.Role.AmbassadorConfirmPromptDeny">拒絕</string>
   <string name="TownOfUsMira.Role.AmbassadorConfirmPromptAccept">接受</string>
@@ -1174,16 +1174,16 @@
   <string name="TouOptionAmbassadorKillsNeededByAmbassadorOrTeammateToRetrain">偽面使或隊友覆寫所需擊殺數目</string>
   <string name="TouOptionAmbassadorRoundInWhichRetrainingIsPossible">可進行覆寫的回合數</string>
   <string name="TouOptionAmbassadorRoundsNeededToRetrainAgain">再次覆寫所需回合數</string>
-  <string name="TownOfUsMira.Role.AmbassadorDecidedToRetrainYou">偽面使已決定將你覆寫為[newRole]</string>
-  <string name="TownOfUsMira.Role.AmbassadorDecidedToRetrainSelf">偽面使已決定將他們覆寫為[newRole]</string>
-  <string name="TownOfUsMira.Role.AmbassadorDecidedToRetrainYourself">你已決定覆寫為[newRole]</string>
-  <string name="TownOfUsMira.Role.AmbassadorDecidedToRetrain">偽面使已決定將[player]覆寫為[newRole]</string>
-  <string name="TownOfUsMira.Role.AmbassadorRetrainCancelled">偽面使對[player]的覆寫已取消</string>
-  <string name="TownOfUsMira.Role.AmbassadorYouDeniedRetrain">你已拒絕覆寫為[newRole]!</string>
-  <string name="TownOfUsMira.Role.AmbassadorPlayerHasDenied">[player]拒絕了覆寫為[newRole]!</string>
-  <string name="TownOfUsMira.Role.AmbassadorYouHaveAccepted">你已接受覆寫為[newRole]!</string>
-  <string name="TownOfUsMira.Role.AmbassadorPlayerHasBeenRetrained">[player]現已被覆寫為[newRole]!</string>
-  <string name="TownOfUsMira.Role.AmbassadorNeedKills">你或偽裝者要想覆寫必須至少有[requiredKills]次擊殺。</string>
+  <string name="TownOfUsMira.Role.AmbassadorDecidedToRetrainYou">偽面使已決定將你覆寫為 [newRole]</string>
+  <string name="TownOfUsMira.Role.AmbassadorDecidedToRetrainSelf">偽面使已決定將他們覆寫為 [newRole]</string>
+  <string name="TownOfUsMira.Role.AmbassadorDecidedToRetrainYourself">你已決定覆寫為 [newRole]</string>
+  <string name="TownOfUsMira.Role.AmbassadorDecidedToRetrain">偽面使已決定將 [player] 覆寫為 [newRole]</string>
+  <string name="TownOfUsMira.Role.AmbassadorRetrainCancelled">偽面使對 [player] 的覆寫已取消</string>
+  <string name="TownOfUsMira.Role.AmbassadorYouDeniedRetrain">你已拒絕覆寫為 [newRole]!</string>
+  <string name="TownOfUsMira.Role.AmbassadorPlayerHasDenied">[player] 拒絕了覆寫為 [newRole]!</string>
+  <string name="TownOfUsMira.Role.AmbassadorYouHaveAccepted">你已接受覆寫為 [newRole]!</string>
+  <string name="TownOfUsMira.Role.AmbassadorPlayerHasBeenRetrained">[player] 現已被覆寫為 [newRole]!</string>
+  <string name="TownOfUsMira.Role.AmbassadorNeedKills">你或偽裝者要想覆寫必須至少有 [requiredKills] 次擊殺。</string>
   <string name="TownOfUsMira.Role.Ambusher">伏擊者</string>
   <string name="TownOfUsMira.Role.Ambusher.IntroBlurb">將船員拖入黑暗之中</string>
   <string name="TownOfUsMira.Role.Ambusher.TabDescription">追蹤一名玩家,然後伏擊其身邊最近的玩家。
@@ -1202,7 +1202,7 @@
   <string name="TownOfUsMira.Role.Blackmailer">勒索者</string>
   <string name="TownOfUsMira.Role.Blackmailer.IntroBlurb">在會議中讓船員沉默</string>
   <string name="TownOfUsMira.Role.Blackmailer.TabDescription">讓一名船員在下次會議中無法發言</string>
-  <string name="TownOfUsMira.Role.Blackmailer.WikiDescription">勒索者是一名偽裝者輔助型職業,可以讓一名玩家在下次會議中無法發言 (以[symbol]標記)</string>
+  <string name="TownOfUsMira.Role.Blackmailer.WikiDescription">勒索者是一名偽裝者輔助型職業,可以讓一名玩家在下次會議中無法發言 (以 [symbol] 標記)</string>
   <string name="TownOfUsMira.Role.BlackmailerBlackmail">勒索</string>
   <string name="TownOfUsMira.Role.BlackmailerBlackmail.WikiDescription">讓一名玩家在下次會議中無法發言。他們將無法說話,且在存活人數小於或等於設定值前無法投票。是否公開勒索狀態可由設置決定</string>
   <string name="TouOptionBlackmailerNumberOfBlackmailUsesPerGame">每局可用勒索次數</string>
@@ -1214,7 +1214,7 @@
   <string name="TownOfUsMira.Role.Bomber">爆破手</string>
   <string name="TownOfUsMira.Role.Bomber.IntroBlurb">放下炸彈,一次性擊殺多名船員。</string>
   <string name="TownOfUsMira.Role.Bomber.TabDescription">佈置炸彈,一次性擊殺多名船員</string>
-  <string name="TownOfUsMira.Role.Bomber.WikiDescription">爆破手是一名偽裝者擊殺型職業,可以在地圖上佈置炸彈,[detonateDelay]秒後爆炸。</string>
+  <string name="TownOfUsMira.Role.Bomber.WikiDescription">爆破手是一名偽裝者擊殺型職業,可以在地圖上佈置炸彈, [detonateDelay] 秒後爆炸。</string>
   <string name="TownOfUsMira.Role.BomberPlace">佈置</string>
   <string name="TownOfUsMira.Role.BomberDetonating">引爆</string>
   <string name="TownOfUsMira.Role.BomberPlace.WikiDescription">佈置一個炸彈,顯示其爆炸範圍,最多可擊殺[maxKills]名玩家</string>
@@ -1261,7 +1261,7 @@
   <string name="TouOptionGrenadierGrenadierCanVent">擲彈兵可使用通風口</string>
   <string name="TownOfUsMira.Role.Herbalist">草藥師</string>
   <string name="TownOfUsMira.Role.Hypnotist">催眠師</string>
-  <string name="TownOfUsMira.Role.Hypnotist.WikiDescription">催眠師是一名偽裝者輔助型職業,可以催眠玩家。在會議期間可釋放集體癔症,使所有被催眠的玩家(以[symbol]標記)在下一回合看到不同的視覺效果。</string>
+  <string name="TownOfUsMira.Role.Hypnotist.WikiDescription">催眠師是一名偽裝者輔助型職業,可以催眠玩家。在會議期間可釋放集體癔症,使所有被催眠的玩家(以 [symbol] 標記)在下一回合看到不同的視覺效果。</string>
   <string name="TownOfUsMira.Role.Hypnotist.IntroBlurb">催眠船員</string>
   <string name="TownOfUsMira.Role.Hypnotist.TabDescription">催眠船員使其無法分辨玩家
 並陷入瘋狂</string>
@@ -1308,7 +1308,7 @@
   <string name="TownOfUsMira.Role.MorphlingMorph">化形</string>
   <string name="TownOfUsMira.Role.MorphlingUnmorph">取消化形</string>
   <string name="TownOfUsMira.Role.MorphlingMorph.WikiDescription">化形為已採樣玩家的外觀,可提前取消。</string>
-  <string name="TownOfUsMira.Role.MorphlingSampleNotif">你採樣了[player]。採樣每輪會重置。</string>
+  <string name="TownOfUsMira.Role.MorphlingSampleNotif">你採樣了 [player]。採樣每輪會重置。</string>
   <string name="TouOptionMorphlingSamplesPerGame">每局可採樣次數</string>
   <string name="TouOptionMorphlingMorphUsesPerRound">每回合可化形次數</string>
   <string name="TouOptionMorphlingMorphCooldown">化形冷卻</string>
@@ -1455,8 +1455,8 @@
   <string name="TownOfUsMira.Role.Amnesiac.WikiDescription">失憶者是一名中立友善型職業,可以通過回憶一具屍體的身份獲得新身份。利用你回憶的身份贏得遊戲。</string>
   <string name="TownOfUsMira.Role.AmnesiacRemember">回憶</string>
   <string name="TownOfUsMira.Role.AmnesiacRemember.WikiDescription">回憶屍體的職業,如果屍體的職業是獨特的職業,你會回憶基礎陣營的職業。</string>
-  <string name="TownOfUsMira.Role.AmnesiacRememberNotif">你回憶起來你像是[player],轉變成為[role]</string>
-  <string name="TownOfUsMira.Role.AmnesiacRememberFailNotif">[player]是[role],所以他們無法被回憶。</string>
+  <string name="TownOfUsMira.Role.AmnesiacRememberNotif">你回憶起來你像是 [player],轉變成為 [role]</string>
+  <string name="TownOfUsMira.Role.AmnesiacRememberFailNotif">[player] 是 [role], 所以他們無法被回憶。</string>
   <string name="TouOptionAmnesiacShowArrows">失憶者獲得指向屍體的箭頭</string>
   <string name="TouOptionAmnesiacArrowDelay">死亡後箭頭出現時間</string>
   <string name="TownOfUsMira.Role.Arsonist">縱火狂</string>
@@ -1485,7 +1485,7 @@
   <string name="TownOfUsMira.Role.DoomsayerWikiDescriptionIfCanObserve">末日預言者是一名中立邪惡型職業,通過猜中[guessCount]名玩家的身份獲勝。他們可在會議前洞察玩家,獲得其身份線索。</string>
   <string name="TownOfUsMira.Role.DoomsayerObserve">洞察</string>
   <string name="TownOfUsMira.Role.DoomsayerObserve.WikiDescription">洞察一名玩家,在下次會議獲得其身份線索。</string>
-  <string name="TownOfUsMira.Role.DoomsayerObserveNotif">你將在下次會議期間收到關於[player]的報告。這將幫助你縮小他們的角色範圍。</string>
+  <string name="TownOfUsMira.Role.DoomsayerObserveNotif">你將在下次會議期間收到關於 [player] 的報告。這將幫助你縮小他們的角色範圍。</string>
   <string name="TouOptionDoomsayerCooldown">洞察冷卻</string>
   <string name="TouOptionDoomsayerNecessaryGuessed">獲勝所需猜測次數</string>
   <string name="TouOptionDoomsayerGuessCrewInvestigative">末日預言者可猜測船員調查型職業</string>
@@ -1514,10 +1514,10 @@
   <string name="HostWin">房主中止了遊戲</string>
   <string name="TownOfUsMira.AdvancedUtils.Option.TasksToUseAdmin">使用管理台所需任務數量</string>
   <string name="TownOfUsMira.AdvancedUtils.Option.TasksToUseCams">使用監控所需任務數量</string>
-  <string name="TownOfUsMira.AdvancedUtils.Option.TasksToUseDoorlog">使用門禁日誌所需任務數量</string>
+  <string name="TownOfUsMira.AdvancedUtils.Option.TasksToUseDoorlog">使用通行記錄所需任務數量</string>
   <string name="TownOfUsMira.AdvancedUtils.Option.TasksToUseVitals">使用生命監測器所需任務數量</string>
-  <string name="TouUnavailableUtilityNotif">你還需要完成[amount]個任務才能使用此功能!</string>
-  <string name="TouUnavailableUtilityNotifSingle">你還需要完成[amount]個任務才能使用此功能!</string>
+  <string name="TouUnavailableUtilityNotif">你還需要完成 [amount] 個任務才能使用此功能!</string>
+  <string name="TouUnavailableUtilityNotifSingle">你還需要完成 [amount] 個任務才能使用此功能!</string>
   <string name="TownOfUsMira.AdvancedSabo.Option.GlobalCamouflageComms">切換偽裝通訊破壞</string>
   <string name="TownOfUsMira.GlobalBetterMap.Option.CamouflageComms">使用偽裝通訊破壞</string>
   <string name="TownOfUsMira.GlobalBetterMap.Option.ChangeEnumOff">全局禁用</string>
@@ -1538,16 +1538,16 @@
   <string name="TouOptionSentryCamerasVisibleAfter">攝影機可見於</string>
   <string name="TouOptionSentryCanMoveWhilePlacingCameras">放置攝影機時可移動</string>
   <string name="TouOptionSentryPortableCamerasMode">便攜式攝影機模式 (立即/完成任務後)</string>
-  <string name="TownOfUsMira.Role.DoomsayerRoleHintPerception">你觀察到[player]對現實有不同的感知</string>
-  <string name="TownOfUsMira.Role.DoomsayerRoleHintInsight">你觀察到[player]對隱私訊息有洞察力</string>
-  <string name="TownOfUsMira.Role.DoomsayerRoleHintDeath">你觀察到[player]對屍體有異常的執著</string>
-  <string name="TownOfUsMira.Role.DoomsayerRoleHintHunter">你觀察到[player]擅長追獵獵物</string>
-  <string name="TownOfUsMira.Role.DoomsayerRoleHintFearmonger">你觀察到[player]在隊伍中散播恐懼</string>
-  <string name="TownOfUsMira.Role.DoomsayerRoleHintTrickster">你觀察到[player]暗藏詭計</string>
-  <string name="TownOfUsMira.Role.DoomsayerRoleHintRelentless">你觀察到[player]能夠發動無情的攻擊</string>
-  <string name="TownOfUsMira.Role.DoomsayerRoleHintDefault">你觀察到[player]並不來自這座小鎮</string>
+  <string name="TownOfUsMira.Role.DoomsayerRoleHintPerception">你觀察到 [player] 對現實有不同的感知</string>
+  <string name="TownOfUsMira.Role.DoomsayerRoleHintInsight">你觀察到 [player] 對隱私訊息有洞察力</string>
+  <string name="TownOfUsMira.Role.DoomsayerRoleHintDeath">你觀察到 [player] 對屍體有異常的執著</string>
+  <string name="TownOfUsMira.Role.DoomsayerRoleHintHunter">你觀察到 [player] 擅長追獵獵物</string>
+  <string name="TownOfUsMira.Role.DoomsayerRoleHintFearmonger">你觀察到 [player] 在隊伍中散播恐懼</string>
+  <string name="TownOfUsMira.Role.DoomsayerRoleHintTrickster">你觀察到 [player] 暗藏詭計</string>
+  <string name="TownOfUsMira.Role.DoomsayerRoleHintRelentless">你觀察到 [player] 能夠發動無情的攻擊</string>
+  <string name="TownOfUsMira.Role.DoomsayerRoleHintDefault">你觀察到 [player] 並不來自這座小鎮</string>
   <string name="TownOfUsMira.Role.Executioner">行刑者</string>
-  <string name="TownOfUsMira.Role.DoomsayerRoleHintProtective">你觀察到[player]會隱藏來保護自己或他人</string>
+  <string name="TownOfUsMira.Role.DoomsayerRoleHintProtective">你觀察到 [player] 會隱藏來保護自己或他人</string>
   <string name="TownOfUsMira.Role.Executioner.TabDescription">投票放逐[target]即可獲勝。</string>
   <string name="TownOfUsMira.Role.ExecutionerMissingTargetDescription">讓你的目標被投票放逐後即可獲勝。</string>
   <string name="TownOfUsMira.Role.Executioner.WikiDescription">行刑者是一名中立邪惡型職業,只要讓帶有[symbol]標記的目標在會議中被放逐即可獲勝。</string>
@@ -1575,7 +1575,7 @@
   <string name="TownOfUsMira.Role.GlitchMimic.WikiDescription">模仿另一名玩家的外觀,完全變成對方的樣子。</string>
   <string name="TownOfUsMira.Role.GlitchHack">黑入</string>
   <string name="TownOfUsMira.Role.GlitchHack.WikiDescription">使一名玩家暫時失去能力。</string>
-  <string name="TownOfUsMira.Role.GlitchHackNotif">一旦[player]嘗試使用技能,該玩家的所有技能都暫時被禁用。</string>
+  <string name="TownOfUsMira.Role.GlitchHackNotif">一旦 [player] 嘗試使用技能, 該玩家的所有技能都暫時被禁用。</string>
   <string name="TouOptionGlitchKillCooldown">混沌擊殺冷卻</string>
   <string name="TouOptionGlitchMimicCooldown">混沌模仿冷卻</string>
   <string name="TouOptionGlitchMimicDuration">混沌模仿持續時間</string>
@@ -1599,7 +1599,7 @@
   <string name="TouOptionFairyOnDeathFairyBecomes">目標死亡後,天使變為</string>
   <string name="TouOptionFairyTargetKnowsFairyExists">目標知曉天使存在</string>
   <string name="TouOptionFairyFairyKnowsRole">天使知曉目標職業</string>
-  <string name="TouOptionFairyEvilOdds">目標為邪惡陣營概率</string>
+  <string name="TouOptionFairyEvilOdds">目標為邪惡陣營機率</string>
   <string name="TownOfUsMira.Role.Inquisitor">審判官</string>
   <string name="TownOfUsMira.Role.Inquisitor.IntroBlurb">消滅異端!</string>
   <string name="TownOfUsMira.Role.Inquisitor.TabDescription">消滅你的異端目標或讓他們被殺。
@@ -1607,13 +1607,13 @@
 若所有異端在會議結束後死亡,
 你將離開遊戲[and]宣佈你的勝利</string>
   <string name="TownOfUsMira.Role.InquisitorTabAddition">你的異端目標身份:</string>
-  <string name="TownOfUsMira.Role.Inquisitor.WikiDescription">審判官是一名中立外來者型職業,只要所有異端目標死亡即可獲勝。你只知道他們的身份,需要審判官自己找出這些玩家(對死者以[symbol]標記),並想辦法讓他們被殺。</string>
-  <string name="TownOfUsMira.Role.InquisitorInquireNotif">你將在下次會議中得知[player]是否為異端。</string>
+  <string name="TownOfUsMira.Role.Inquisitor.WikiDescription">審判官是一名中立外來者型職業, 只要所有異端目標死亡即可獲勝。你只知道他們的身份, 需要審判官自己找出這些玩家(對死者以[symbol]標記), 並想辦法讓他們被殺。</string>
+  <string name="TownOfUsMira.Role.InquisitorInquireNotif">你將在下次會議中得知 [player] 是否為異端。</string>
   <string name="TownOfUsMira.Role.InquisitorMessageTitle">審判官報告</string>
-  <string name="TownOfUsMira.Role.InquisitorInquiredHeretic">你的調查顯示[player]是異端!</string>
-  <string name="TownOfUsMira.Role.InquisitorInquiredNonHeretic">你的調查顯示[player]不是異端!</string>
-  <string name="TownOfUsMira.Role.InquisitorVictoryMessage">[role],[player],已成功獲勝,因為所有異端已被消滅!</string>
-  <string name="TownOfUsMira.Role.InquisitorVictoryMessageSelf">你作為[role],已成功獲勝,所有異端已被消滅!</string>
+  <string name="TownOfUsMira.Role.InquisitorInquiredHeretic">你的調查顯示 [player] 是異端!</string>
+  <string name="TownOfUsMira.Role.InquisitorInquiredNonHeretic">你的調查顯示 [player] 不是異端!</string>
+  <string name="TownOfUsMira.Role.InquisitorVictoryMessage">[role], [player], 已成功獲勝, 因為所有異端已被消滅!</string>
+  <string name="TownOfUsMira.Role.InquisitorVictoryMessageSelf">你作為 [role], 已成功獲勝, 所有異端已被消滅!</string>
   <string name="TownOfUsMira.Role.InquisitorInquire">審問</string>
   <string name="TownOfUsMira.Role.InquisitorInquire.WikiDescription">審問一名玩家,在會議中得知其是否為你的目標。</string>
   <string name="TownOfUsMira.Role.InquisitorVanquish">審判</string>
@@ -1635,7 +1635,7 @@
   <string name="TownOfUsMira.Role.ChefVictoryMessageSelf">你已經成功以[role]獲勝,因為你餵食了足夠的玩家!</string>
   <string name="TownOfUsMira.Role.ChefCook">烹飪</string>
   <string name="TownOfUsMira.Role.ChefCook.WikiDescription">烹飪一具屍體並保存以備後用。</string>
-  <string name="TownOfUsMira.Role.ChefVictoryMessage">[role],[player],已經成功獲勝,因為他們餵食了足夠的玩家!</string>
+  <string name="TownOfUsMira.Role.ChefVictoryMessage">[role], [player], 已經成功獲勝, 因為他們餵食了足夠的玩家!</string>
   <string name="TownOfUsMira.Role.ChefServe">餵食</string>
   <string name="TownOfUsMira.Role.ChefServe.WikiDescription">將你手頭上最早的食物餵給另一個空腹的人。</string>
   <string name="TouOptionChefServeCooldown">餵食冷卻</string>
@@ -1653,7 +1653,7 @@
   <string name="TownOfUsMira.Role.JesterHaunt">纏繞</string>
   <string name="TouNotifJesterWinOwner">你成功以小丑身份獲勝,是通過被投票淘汰而獲勝的!</string>
   <string name="TouNotifJesterHauntOwner">你有一輪時間來選擇一名玩家將其嚇死, 請明智地選擇!</string>
-  <string name="TouNotifJesterWinGlobal">小丑,[player],已成功獲勝,因為他們被投票淘汰了!</string>
+  <string name="TouNotifJesterWinGlobal">小丑, [player], 已成功獲勝, 因為他們被投票淘汰了!</string>
   <string name="TouOptionJesterCanButton">小丑可召開會議</string>
   <string name="TouOptionJesterCanVent">小丑可藏身通風口</string>
   <string name="TouOptionJesterImpVision">小丑擁有偽裝者視野</string>
@@ -1667,7 +1667,7 @@
   <string name="TownOfUsMira.Role.Juggernaut">天啟</string>
   <string name="TownOfUsMira.Role.Juggernaut.IntroBlurb">每次擊殺都會降低你的冷卻時間。</string>
   <string name="TownOfUsMira.Role.Juggernaut.TabDescription">每擊殺一人,你的擊殺冷卻都會減少。</string>
-  <string name="TownOfUsMira.Role.JuggernautTabKillCounter">擊殺次數:[count]</string>
+  <string name="TownOfUsMira.Role.JuggernautTabKillCounter">擊殺次數: [count]</string>
   <string name="TownOfUsMira.Role.Juggernaut.WikiDescription">天啟是一名中立殺手型職業,通過成為場上最後一名殺手獲勝。每擊殺一人,擊殺冷卻都會減少。</string>
   <string name="TouOptionJuggernautInitialCooldown">初始擊殺冷卻</string>
   <string name="TouOptionJuggernautCooldownReduction">擊殺冷卻縮減</string>
@@ -1676,14 +1676,14 @@
   <string name="TownOfUsMira.Role.Mercenary.IntroBlurb">通過行賄與他人共同獲勝</string>
   <string name="TownOfUsMira.Role.Mercenary.TabDescription">守護船員,獲取金幣,
 然後賄賂獲勝者!</string>
-  <string name="TownOfUsMira.Role.MercenaryTabGoldCounter">金幣:[count]</string>
+  <string name="TownOfUsMira.Role.MercenaryTabGoldCounter">金幣: [count]</string>
   <string name="TownOfUsMira.Role.MercenaryTabBribedInfo">已賄賂:</string>
   <string name="TownOfUsMira.Role.Mercenary.WikiDescription">僱傭兵是一名中立友善型職業,只能通過賄賂玩家來獲勝,可以獲得多個勝利條件。</string>
   <string name="TownOfUsMira.Role.MercenaryGuard">守護</string>
   <string name="TownOfUsMira.Role.MercenaryGuard.WikiDescription">守護一名玩家可以為僱傭兵吸收對目標使用的能力,並獲得金幣用於賄賂。如果被賄賂的目標獲勝,僱傭兵也會一同獲勝。</string>
   <string name="TownOfUsMira.Role.MercenaryBribe">賄賂</string>
   <string name="TownOfUsMira.Role.MercenaryBribe.WikiDescription">賄賂一名玩家可以讓僱傭兵獲得其勝利條件,前提是你有足夠的金幣。</string>
-  <string name="TownOfUsMira.Role.MercenaryGuardNotif">當[player]被互動時,你將獲得一枚金幣。</string>
+  <string name="TownOfUsMira.Role.MercenaryGuardNotif">當 [player] 被互動時, 你將獲得一枚金幣。</string>
   <string name="TouOptionMercenaryCooldown">僱傭兵守衛冷卻</string>
   <string name="TouOptionMercenaryMaxGuards">僱傭兵最大守衛次數</string>
   <string name="TouOptionMercenaryBribeCost">賄賂花費</string>
@@ -1707,12 +1707,12 @@
   <string name="TownOfUsMira.Role.Plaguebearer">瘟疫之源</string>
   <string name="TownOfUsMira.Role.Plaguebearer.IntroBlurb">散播瘟疫以成為[color=#4D4D4DFF]萬疫之神[/color]</string>
   <string name="TownOfUsMira.Role.Plaguebearer.TabDescription">感染所有人以成為[color=#4D4D4DFF]萬疫之神[/color]</string>
-  <string name="TownOfUsMira.Role.PlaguebearerTabInfectCounter">剩餘未感染玩家:[count]</string>
+  <string name="TownOfUsMira.Role.PlaguebearerTabInfectCounter">剩餘未感染玩家: [count]</string>
   <string name="TownOfUsMira.Role.PlaguebearerTabInfectedInfo">已感染玩家:</string>
   <string name="TownOfUsMira.Role.Plaguebearer.WikiDescription">瘟疫之源是一名中立殺手型職業,需要感染所有其他玩家後變為萬疫之神。</string>
   <string name="TownOfUsMira.Role.PlaguebearerInfect">感染</string>
   <string name="TownOfUsMira.Role.PlaguebearerInfect.WikiDescription">感染一名玩家,使其被感染。當被感染的玩家或屍體與其他未感染玩家互動時,感染會繼續傳播。</string>
-  <string name="TouOptionPlaguebearerInstantPesti">一開始生成萬疫之神概率</string>
+  <string name="TouOptionPlaguebearerInstantPesti">一開始生成萬疫之神機率</string>
   <string name="TouOptionPlaguebearerInfectCooldown">感染冷卻</string>
   <string name="TouOptionPlaguebearerAnnounceTransformation">告知瘟疫之源成神</string>
   <string name="TouOptionPlaguebearerPestilenceKillCooldown">萬疫之神擊殺冷卻</string>
@@ -1720,7 +1720,7 @@
   <string name="TownOfUsMira.Role.SoulCollector">噬魂獸</string>
   <string name="TownOfUsMira.Role.Survivor">倖存者</string>
   <string name="TownOfUsMira.Role.Survivor.IntroBlurb">不擇手段活下去。</string>
-  <string name="TownOfUsMira.Role.Survivor.TabDescription">活到最後即可與任意陣營一同獲勝</string>
+  <string name="TownOfUsMira.Role.Survivor.TabDescription">活到最後即可與任意陣營一同獲勝。</string>
   <string name="TownOfUsMira.Role.Survivor.WikiDescription">倖存者是一名中立友善型職業,只需要活到遊戲結束即可獲勝。</string>
   <string name="TownOfUsMira.Role.SurvivorSafeguard">防彈衣</string>
   <string name="TownOfUsMira.Role.SurvivorSafeguard.WikiDescription">穿上防彈衣保護自己免受攻擊。</string>
@@ -1739,7 +1739,7 @@
   <string name="TouOptionVampireMaxVamps">每局最大吸血魔數量 (包含原生、死亡的)</string>
   <string name="TouOptionVampireImpostorVision">吸血魔擁有偽裝者視野</string>
   <string name="TouOptionVampireNewVampsAssassinate">新吸血魔可猜測</string>
-  <string name="TouOptionVampireValidNeutralConversions">有效轉化對象</string>
+  <string name="TouOptionVampireValidNeutralConversions">有效轉化的中立陣營</string>
   <string name="TouOptionVampireNeutConvertBenign">友善型</string>
   <string name="TouOptionVampireNeutConvertEvil">邪惡型</string>
   <string name="TouOptionVampireNeutConvertOutlier">外來者型</string>
@@ -1764,26 +1764,26 @@
   <string name="TownOfUsMira.Modifier.Crewpostor">偽船員</string>
   <string name="TownOfUsMira.Modifier.Crewpostor.IntroBlurb">協助[color=#FF0000FF]偽裝者[/color]</string>
   <string name="TownOfUsMira.Modifier.Crewpostor.TabDescription">作為偽裝者背叛船員。</string>
-  <string name="TownOfUsMira.Modifier.Crewpostor.WikiDescription">偽裝者是一種船員同盟附加屬性,會強迫一名船員為偽裝者陣營效力。若所有偽裝者死亡,你將變為背叛者。</string>
+  <string name="TownOfUsMira.Modifier.Crewpostor.WikiDescription">偽船員是一種船員同盟附加特性,會強迫一名船員為偽裝者陣營效力。若所有偽裝者死亡,你將變為背叛者。</string>
   <string name="TownOfUsMira.Modifier.Egotist">自大狂</string>
   <string name="TownOfUsMira.Modifier.Egotist.IntroBlurb">背叛船員以滿足你的虛榮心</string>
   <string name="TownOfUsMira.Modifier.Egotist.TabDescription">背叛船員,與殺手一同獲勝。</string>
-  <string name="TownOfUsMira.Modifier.Egotist.WikiDescription">自大狂是一種船員同盟附加屬性(以[symbol]為標識)。作為自大狂,只有船員失敗你才能獲勝,即使你已經死亡。如果會議結束後沒有船員存活,你會直接勝利離場,但遊戲會繼續。</string>
-  <string name="TownOfUsMira.Modifier.EgotistVictoryMessage">[modifier],[player],已成功獲勝,因為沒有船員倖存!</string>
-  <string name="TownOfUsMira.Modifier.EgotistVictoryMessageSelf">你已以[modifier]的身份成功獲勝,因為沒有船員倖存!</string>
-  <string name="TownOfUsMira.Modifier.EgotistSpeedChangeMessage">[modifier]的腎上腺素正在增強。玩家的移動速度現已提升至[newSpeed]倍!</string>
-  <string name="TownOfUsMira.Modifier.EgotistCooldownChangeMessage">[modifier]的腎上腺素正在增強。技能冷卻時間現已縮短[newOffset]秒!</string>
-  <string name="TownOfUsMira.Modifier.EgotistCooldownSpeedChangeMessage">[modifier]的腎上腺素正在增強。技能冷卻時間現已縮短[newOffset]秒,玩家移動速度提升至[newSpeed]倍!</string>
-  <string name="TownOfUsMira.Modifier.EgotistDeadMessage">[modifier]已死亡,他們的腎上腺素也隨之消退!</string>
+  <string name="TownOfUsMira.Modifier.Egotist.WikiDescription">自大狂是一種船員同盟附加特性(以[symbol]為標識)。作為自大狂, 只有船員失敗你才能獲勝, 即使你已經死亡。如果會議結束後沒有船員存活, 你會直接勝利離場, 但遊戲會繼續。</string>
+  <string name="TownOfUsMira.Modifier.EgotistVictoryMessage">[modifier], [player], 已成功獲勝, 因為沒有船員倖存!</string>
+  <string name="TownOfUsMira.Modifier.EgotistVictoryMessageSelf">你已以 [modifier] 的身份成功獲勝,因為沒有船員倖存!</string>
+  <string name="TownOfUsMira.Modifier.EgotistSpeedChangeMessage">[modifier] 的腎上腺素正在增強。玩家的移動速度現已提升至 [newSpeed] 倍!</string>
+  <string name="TownOfUsMira.Modifier.EgotistCooldownChangeMessage">[modifier] 的腎上腺素正在增強。技能冷卻時間現已縮短 [newOffset] 秒!</string>
+  <string name="TownOfUsMira.Modifier.EgotistCooldownSpeedChangeMessage">[modifier] 的腎上腺素正在增強。技能冷卻時間現已縮短 [newOffset] 秒,玩家移動速度提升至 [newSpeed] 倍!</string>
+  <string name="TownOfUsMira.Modifier.EgotistDeadMessage">[modifier] 已死亡, 他們的腎上腺素也隨之消退!</string>
   <string name="TownOfUsMira.Modifier.Lover">戀人</string>
-  <string name="TownOfUsMira.Modifier.LoverInfo">你的戀人是[player]。</string>
+  <string name="TownOfUsMira.Modifier.LoverInfo">你的戀人是 [player]。</string>
   <string name="TouOptionLoverDieAndRevive">戀人同生共死</string>
-  <string name="TouOptionLoverAnotherKiller">戀人一方是殺手的概率</string>
+  <string name="TouOptionLoverAnotherKiller">戀人一方是殺手的機率</string>
   <string name="TouOptionLoverCanBeNeutral">中立職業可以成為戀人</string>
   <string name="TouOptionLoverKillFactionTeammates">戀人可以殺死同陣營隊友</string>
   <string name="TouOptionLoverKillOneAnother">戀人可以殺死對方</string>
   <string name="TownOfUsMira.Modifier.Lovers">戀人</string>
-  <string name="TownOfUsMira.Modifier.Lover.WikiDescription">作為戀人,你可以在回合中與另一位戀人(以[symbol]標識)聊天。如果你們是最後三人之一且都存活,戀人可以共同獲勝。</string>
+  <string name="TownOfUsMira.Modifier.Lover.WikiDescription">作為戀人, 你可以在回合中與另一位戀人(以[symbol]標識)聊天。如果你們是最後三人之一且都存活, 戀人可以共同獲勝。</string>
   <string name="TownOfUsMira.Modifier.ButtonBarry">執鈕人</string>
   <string name="TownOfUsMira.Modifier.ButtonBarry.TabDescription">你可以在地圖任意位置
 召開會議。</string>
@@ -1815,12 +1815,12 @@
 最近玩家的箭頭。</string>
   <string name="TownOfUsMira.Modifier.Satellite">衛星員</string>
   <string name="TownOfUsMira.Modifier.Satellite.TabDescription">你可以發射訊號,探測地圖上所有屍體的位置。</string>
-  <string name="TownOfUsMira.Modifier.Satellite.WikiDescription">你可以在地圖上檢測屍體,每局可用[maxUses]次。</string>
+  <string name="TownOfUsMira.Modifier.Satellite.WikiDescription">你可以在地圖上檢測屍體, 每局可用[maxUses]次。</string>
   <string name="TownOfUsMira.Modifier.SatelliteBroadcast">廣播搜索</string>
-  <string name="TownOfUsMira.Modifier.SatelliteBroadcast.WikiDescription">你可以在地圖上檢測屍體,每局可用[maxUses]次。</string>
+  <string name="TownOfUsMira.Modifier.SatelliteBroadcast.WikiDescription">你可以在地圖上檢測屍體, 每局可用[maxUses]次。</string>
   <string name="TownOfUsMira.Modifier.SatelliteFailedNotif">地圖上未發現任何屍體。</string>
   <string name="TownOfUsMira.Modifier.SatelliteSingleNotif">在地圖上發現了一具屍體。</string>
-  <string name="TownOfUsMira.Modifier.SatellitePluralNotif">在地圖上發現了[count]具屍體。</string>
+  <string name="TownOfUsMira.Modifier.SatellitePluralNotif">在地圖上發現了 [count] 具屍體。</string>
   <string name="TouOptionSatelliteCooldown">發射按鈕冷卻</string>
   <string name="TouOptionSatelliteMaxUses">最大可用次數</string>
   <string name="TouOptionSatelliteOnePerRound">每回合限用一次</string>
@@ -1829,8 +1829,8 @@
   <string name="TownOfUsMira.Modifier.Shy.TabDescription">你靜止一段時間後
 會變得半透明。</string>
   <string name="TownOfUsMira.Modifier.Shy.WikiDescription">你會與環境融為一體,靜止時變得半透明。</string>
-  <string name="TouOptionShyDelay">變透明延遲</string>
-  <string name="TouOptionShyDuration">變透明持續時間</string>
+  <string name="TouOptionShyDelay">淡出延遲</string>
+  <string name="TouOptionShyDuration">淡出持續時間</string>
   <string name="TouOptionFinalOpacity">最終透明度</string>
   <string name="TownOfUsMira.Modifier.SixthSense">第六感</string>
   <string name="TownOfUsMira.Modifier.SixthSense.TabDescription">有人對你使用技能時你會知曉。</string>
@@ -1844,7 +1844,7 @@
   <string name="TownOfUsMira.Modifier.Disperser">分散者</string>
   <string name="TownOfUsMira.Modifier.Disperser.IntroBlurb">你可以將所有玩家分散到隨機通風口。</string>
   <string name="TownOfUsMira.Modifier.Disperser.TabDescription">將船員分散開。</string>
-  <string name="TownOfUsMira.Modifier.Disperser.WikiDescription">將所有玩家分散到隨機通風口(不可分散磐石)。擁有分散者時不能有其他按鈕型附加屬性。</string>
+  <string name="TownOfUsMira.Modifier.Disperser.WikiDescription">將所有玩家分散到隨機通風口(不可分散磐石)。擁有分散者時不能有其他按鈕型附加特性。</string>
   <string name="TownOfUsMira.Modifier.DisperserDisperse">分散</string>
   <string name="TownOfUsMira.Modifier.DisperserDisperse.WikiDescription">你可以將玩家分散到地圖上的任意通風口,每局限用一次。</string>
   <string name="TownOfUsMira.Modifier.Saboteur">破壞者</string>
@@ -1857,11 +1857,11 @@
   <string name="TownOfUsMira.Modifier.TelepathDescriptionBasic">知曉隊友擊殺的訊息</string>
   <string name="TownOfUsMira.Modifier.TelepathDescriptionIfKnowWhen">知曉隊友擊殺的時間[and]位置</string>
   <string name="TownOfUsMira.Modifier.TelepathDescriptionAddIfKnowDeath">,知曉隊友死亡的時間</string>
-  <string name="TownOfUsMira.Modifier.TelepathDescriptionAddIfKnowDeathLoc">,知曉隊友死亡的時間[and]位置。</string>
-  <string name="TownOfUsMira.Modifier.TelepathKillNotif">你的隊友,[player],進行了擊殺。</string>
-  <string name="TownOfUsMira.Modifier.TelepathDeathNotif">你的隊友,[player],被殺害了!</string>
-  <string name="TownOfUsMira.Modifier.TelepathGuessNotif">你的隊友,[player],以[role]身份猜殺了[victim]!</string>
-  <string name="TownOfUsMira.Modifier.TelepathMisguessNotif">你的隊友,[player],嘗試以[role]身份猜殺[victim],但失敗了!</string>
+  <string name="TownOfUsMira.Modifier.TelepathDescriptionAddIfKnowDeathLoc">, 知曉隊友死亡的時間[and]位置。</string>
+  <string name="TownOfUsMira.Modifier.TelepathKillNotif">你的隊友, [player], 進行了擊殺。</string>
+  <string name="TownOfUsMira.Modifier.TelepathDeathNotif">你的隊友, [player], 被殺害了!</string>
+  <string name="TownOfUsMira.Modifier.TelepathGuessNotif">你的隊友, [player],以 [role] 身份猜殺了 [victim]!</string>
+  <string name="TownOfUsMira.Modifier.TelepathMisguessNotif">你的隊友, [player],嘗試以 [role] 身份猜殺 [victim],但失敗了!</string>
   <string name="TouOptionTelepathKnowKill">知曉隊友擊殺位置</string>
   <string name="TouOptionTelepathKnowDeath">知曉隊友死亡時間</string>
   <string name="TouOptionTelepathKnowDeathLoc">知曉隊友死亡位置</string>
@@ -1883,52 +1883,52 @@
   <string name="TownOfUsMira.Modifier.Aftermath.IntroBlurb">你的撃殺者會被強制使用技能。</string>
   <string name="TownOfUsMira.Modifier.Aftermath.TabDescription">你的撃殺者會被強制使用技能!</string>
   <string name="TownOfUsMira.Modifier.Aftermath.WikiDescription">你死後,擊殺你的玩家會被強制使用技能,目標為你的屍體或他們自己。</string>
-  <string name="TownOfUsMira.Modifier.AftermathTriggeredNotif">[player]是[modifier],迫使你使用了你的技能。</string>
+  <string name="TownOfUsMira.Modifier.AftermathTriggeredNotif">[player] 是 [modifier], 迫使你使用了你的技能。</string>
   <string name="TownOfUsMira.Modifier.Bait">誘餌</string>
   <string name="TownOfUsMira.Modifier.Bait.IntroBlurb">讓你的擊殺者強制自報屍體。</string>
   <string name="TownOfUsMira.Modifier.Bait.TabDescription">讓你的擊殺者強制自報屍體。</string>
   <string name="TownOfUsMira.Modifier.Bait.WikiDescription">你死後,擊殺你的玩家會強制自報你的屍體。</string>
-  <string name="TownOfUsMira.Modifier.BaitTriggeredNotif">[player]是[modifier],導致你強制自報屍體。</string>
+  <string name="TownOfUsMira.Modifier.BaitTriggeredNotif">[player] 是 [modifier], 導致你強制自報屍體。</string>
   <string name="TouOptionBaitMinDelay">最小誘餌報告延遲時間</string>
   <string name="TouOptionBaitMaxDelay">最大誘餌報告延遲時間</string>
   <string name="TownOfUsMira.Modifier.Celebrity">名人</string>
   <string name="TownOfUsMira.Modifier.Celebrity.IntroBlurb">你死亡時會公布你的死因。</string>
   <string name="TownOfUsMira.Modifier.Celebrity.TabDescription">死亡時會公布你的死因。</string>
   <string name="TownOfUsMira.Modifier.Celebrity.WikiDescription">你死後,你的死亡細節會被公布,包括你被殺的位置和殺你的職業,並會在會議中顯示。</string>
-  <string name="TownOfUsMira.Modifier.CelebrityPopup">名人,[player],已死亡!:(詳情見聊天框)</string>
+  <string name="TownOfUsMira.Modifier.CelebrityPopup">名人, [player], 已死亡!:(詳情見聊天框)</string>
   <string name="TownOfUsMira.Role.CelebrityMessageTitle">名人報告</string>
-  <string name="TownOfUsMira.Modifier.CelebrityDetailsSelf">[modifier],[player],已死亡!
-地點:[room],
-死因:自殺,
+  <string name="TownOfUsMira.Modifier.CelebrityDetailsSelf">[modifier], [player], 已死亡!
+地點: [room],
+死因: 自殺,
 時間: [timeAgo]秒前。</string>
-  <string name="TownOfUsMira.Modifier.CelebrityDetailsKilled">[modifier],[player],遭[killed]!
-地點:[room],
-兇手:[role],
-時間:[timeAgo]秒前。</string>
+  <string name="TownOfUsMira.Modifier.CelebrityDetailsKilled">[modifier], [player],遭 [killed]!
+地點: [room],
+兇手: [role],
+時間: [timeAgo]秒前。</string>
   <string name="TownOfUsMira.Modifier.Circumvent">禁管者</string>
   <string name="TownOfUsMira.Modifier.Circumvent.IntroBlurb">你的通風口使用能力受限。</string>
   <string name="TownOfUsMira.Modifier.CircumventIntroBlurbNone">你失去了使用通風管道的能力。</string>
   <string name="TownOfUsMira.Modifier.CircumventTabDescriptionNone">你無法使用通風口。</string>
-  <string name="TownOfUsMira.Modifier.Circumvent.TabDescription">剩餘通風口使用次數:[amount]</string>
+  <string name="TownOfUsMira.Modifier.Circumvent.TabDescription">剩餘通風口使用次數: [amount]</string>
   <string name="TownOfUsMira.Modifier.Circumvent.WikiDescription">你在地圖上的通風口使用能力被嚴重削弱,或者完全無法使用通風口。</string>
   <string name="TownOfUsMira.Modifier.DeadlyQuota">必戮之契</string>
   <string name="TownOfUsMira.Modifier.DeadlyQuota.IntroBlurb">你必須至少擊殺一個人。</string>
-  <string name="TownOfUsMira.Modifier.DeadlyQuotaIntroBlurbPlural">你必須擊殺至少[amount]人。</string>
-  <string name="TownOfUsMira.Modifier.DeadlyQuota.TabDescription">達成契約目標,否則失敗!
-撃殺數:[amount] / [total]</string>
+  <string name="TownOfUsMira.Modifier.DeadlyQuotaIntroBlurbPlural">你必須擊殺至少 [amount] 人。</string>
+  <string name="TownOfUsMira.Modifier.DeadlyQuota.TabDescription">達成契約目標, 否則失敗!
+撃殺數: [amount] / [total]</string>
   <string name="TownOfUsMira.Modifier.DeadlyQuota.WikiDescription">若未達成契約目標,你將失敗。遊戲開始時,你需要完成規定數量的擊殺以達成目標。</string>
   <string name="TownOfUsMira.Modifier.DeadlyQuotaWarningNotif">你尚未開始履行契約。若偽裝者獲勝,而你未能在遊戲結束前達成[amount]的擊殺配額,你將失敗。</string>
   <string name="TownOfUsMira.Modifier.Diseased">病人</string>
   <string name="TownOfUsMira.Modifier.Diseased.IntroBlurb">讓你的擊殺者擊殺冷卻增加。</string>
   <string name="TownOfUsMira.Modifier.Diseased.TabDescription">讓你的擊殺者擊殺冷卻增加。</string>
-  <string name="TownOfUsMira.Modifier.Diseased.WikiDescription">擊殺你的兇手的擊殺冷卻時間乘以[cooldownMultiplier]。</string>
-  <string name="TownOfUsMira.Modifier.DiseasedTriggeredNotif">[player]是[modifier],你的擊殺冷卻將乘以[cooldownMultiplier]倍。</string>
+  <string name="TownOfUsMira.Modifier.Diseased.WikiDescription">擊殺你的兇手的擊殺冷卻時間乘以 [cooldownMultiplier]。</string>
+  <string name="TownOfUsMira.Modifier.DiseasedTriggeredNotif">[player] 是 [modifier], 你的擊殺冷卻將乘以 [cooldownMultiplier] 倍。</string>
   <string name="TouOptionDiseasedCooldownModifier">病人擊殺冷卻倍率</string>
   <string name="TownOfUsMira.Modifier.Frosty">雪人</string>
   <string name="TownOfUsMira.Modifier.Frosty.IntroBlurb">你的擊殺者會減速。</string>
   <string name="TownOfUsMira.Modifier.Frosty.TabDescription">讓你的擊殺者短時間內減速。</string>
   <string name="TownOfUsMira.Modifier.Frosty.WikiDescription">你死後,擊殺你的玩家會被減速!</string>
-  <string name="TownOfUsMira.Modifier.FrostyTriggeredNotif">[player]是[modifier],你將在[time]秒內變得更慢。</string>
+  <string name="TownOfUsMira.Modifier.FrostyTriggeredNotif">[player] 是 [modifier], 你將在 [time] 秒內變得更慢。</string>
   <string name="TouOptionFrostyChillDuration">冰凍持續時間</string>
   <string name="TouOptionFrostyChillStartSpeed">冰凍初始速度</string>
   <string name="TownOfUsMira.Modifier.Investigator.IntroBlurb">你可以看到所有人的腳印。</string>
@@ -1943,7 +1943,7 @@
   <string name="TownOfUsMira.Modifier.Noisemaker.TabDescription">你死亡時,會在地圖上向所有玩家發出持續[noiseTime]秒的警報。</string>
   <string name="TownOfUsMira.Modifier.Noisemaker.WikiDescription">你死後,所以玩家的地圖上會顯示一個紅色屍體指示器。</string>
   <string name="TouOptionNoisemakerImpAlert">偽裝者收到大嗓門警報</string>
-  <string name="TouOptionNoisemakerNeutAlert">中立收到大嗓門警報</string>
+  <string name="TouOptionNoisemakerNeutAlert">中立角色收到大嗓門警報</string>
   <string name="TouOptionNoisemakerCommsPreventsAlert">通訊破壞阻止大嗓門警報</string>
   <string name="TouOptionNoisemakerOnlyWithBody">大嗓門僅在有屍體時觸發</string>
   <string name="TouOptionNoisemakerAlertDuration">大嗓門警報持續時間</string>
@@ -1951,7 +1951,7 @@
   <string name="TownOfUsMira.Modifier.Operative.IntroBlurb">在任意位置使用攝影機。</string>
   <string name="TownOfUsMira.Modifier.Operative.TabDescription">可以在任意位置使用攝影機。</string>
   <string name="TownOfUsMira.Modifier.Operative.WikiDescription">可隨時使用攝影機,但有電量限制。</string>
-  <string name="TouOptionOperativeMiraDoorlog">使用Mira門禁時可移動</string>
+  <string name="TouOptionOperativeMiraDoorlog">使用Mira通行記錄時可移動</string>
   <string name="TouOptionOperativeStartingCharge">初始電量</string>
   <string name="TouOptionOperativeChargedEachRound">每回合充電量</string>
   <string name="TouOptionOperativeChargedPerTask">每任務充電量</string>
@@ -1960,7 +1960,7 @@
   <string name="TownOfUsMira.Modifier.Rotting">腐爛</string>
   <string name="TownOfUsMira.Modifier.Rotting.IntroBlurb">你的屍體會腐爛,無法被報告。</string>
   <string name="TownOfUsMira.Modifier.Rotting.TabDescription">你的屍體將在[rotDelay]秒後腐爛消失。</string>
-  <string name="TownOfUsMira.Modifier.Rotting.WikiDescription">[rotDelay]秒後,你的屍體會腐爛,無法被報告</string>
+  <string name="TownOfUsMira.Modifier.Rotting.WikiDescription">[rotDelay]秒後, 你的屍體會腐爛, 無法被報告</string>
   <string name="TouOptionRottingDelay">屍體腐爛前的時間</string>
   <string name="TownOfUsMira.Modifier.Scientist">科學家</string>
   <string name="TownOfUsMira.Modifier.Scientist.IntroBlurb">隨時隨地查看生命監測器。</string>
@@ -1983,7 +1983,7 @@
   <string name="TownOfUsMira.Modifier.Taskmaster.IntroBlurb">每回合自動完成一個隨機任務。</string>
   <string name="TownOfUsMira.Modifier.Taskmaster.TabDescription">每次會議後會自動完成一個隨機任務。</string>
   <string name="TownOfUsMira.Modifier.Taskmaster.WikiDescription">每回合開始時,你會自動完成一個任務。</string>
-  <string name="TownOfUsMira.Modifier.TaskmasterTaskNotif">任務[taskName]已為你自動完成。</string>
+  <string name="TownOfUsMira.Modifier.TaskmasterTaskNotif">任務 [taskName] 已為你自動完成。</string>
   <string name="TownOfUsMira.Modifier.Torch">火炬</string>
   <string name="TownOfUsMira.Modifier.Torch.IntroBlurb">當燈被破壞時,視野不會減少。</string>
   <string name="TownOfUsMira.Modifier.Torch.TabDescription">當燈被破壞時,
@@ -2000,12 +2000,12 @@
   <string name="NeutralOutlierTaskHeader">你必須完成你的目標才能獲勝。
 偽裝任務:</string>
   <string name="NeutralSpectreTaskHeader">你已經死亡。完成任務即可獲勝!</string>
-  <string name="TownOfUsMira.Role.AmnesiacRememberFailTargetNotif">[player]的職業以你為目標,因此該職業無法被繼承。</string>
-  <string name="TownOfUsMira.Modifier.CrewpostorIntroMessage">你獲得了[modifier]附加屬性。你只能與偽裝者陣營一同獲勝,並會在他們死亡後變為[role]。</string>
-  <string name="TownOfUsMira.Modifier.EgotistIntroMessage">你獲得了[modifier]附加屬性。只有當船員失敗時你才能獲勝。</string>
-  <string name="TownOfUsMira.Modifier.LoverIntroMessage">你與[player]成為了[modifier]。與你的愛人聊天,並在你們二人成為最後三人之一時一同獲勝。</string>
-  <string name="TownOfUsMira.Role.HunterCaughtInteractionNotif">[player]對另一名玩家使用了能力!</string>
-  <string name="TownOfUsMira.Role.HunterCaughtAbilityNotif">[player]使用了一個常規能力!</string>
+  <string name="TownOfUsMira.Role.AmnesiacRememberFailTargetNotif">[player] 的職業以你為目標,因此該職業無法被繼承。</string>
+  <string name="TownOfUsMira.Modifier.CrewpostorIntroMessage">你獲得了 [modifier] 附加特性。你只能與偽裝者陣營一同獲勝,並會在他們死亡後變 [role]。</string>
+  <string name="TownOfUsMira.Modifier.EgotistIntroMessage">你獲得了 [modifier] 附加特性。只有當船員失敗時你才能獲勝。</string>
+  <string name="TownOfUsMira.Modifier.LoverIntroMessage">你與 [player] 成為了 [modifier]。與你的愛人聊天, 並在你們二人成為最後三人之一時一同獲勝。</string>
+  <string name="TownOfUsMira.Role.HunterCaughtInteractionNotif">[player] 對另一名玩家使用了能力!</string>
+  <string name="TownOfUsMira.Role.HunterCaughtAbilityNotif">[player] 使用了一個常規能力!</string>
   <string name="TouOptionHunterSeesTypeOfInteraction">巡獵者可看見互動類型</string>
   <string name="TouOptionHunterStalkTriggeredBy">盯梢觸發條件</string>
   <string name="TouOptionHunterStalkTriggerEnumInteraction">互動行為</string>
@@ -2013,10 +2013,10 @@
   <string name="TownOfUsMira.Role.VeteranMessageTitle">老兵警告</string>
   <string name="TownOfUsMira.Role.VeteranAttackMessage">你在本次會議前處於警戒狀態時遭到了攻擊!</string>
   <string name="TouOptionVeteranKnowWhenAttackedInMeeting">在會議中得知自己遭到攻擊</string>
-  <string name="TouOptionAmnesiacInheritFactionModifier">繼承陣營的附加屬性</string>
+  <string name="TouOptionAmnesiacInheritFactionModifier">繼承陣營的附加特性</string>
   <string name="TownOfUsMira.Role.PestilenceMessageTitle">萬疫之神警告</string>
   <string name="TownOfUsMira.Role.PestilenceAnnounceMessage">致命瘟疫席捲了全體船員。
-[role],天啟四騎士之ー,已然降臨!</string>
+[role], 天啟四騎士之ー, 已然降臨!</string>
   <string name="TownOfUsMira.Role.PlumberExtraTabTextForever">路障整局存在</string>
   <string name="ShowRoleIconOnRoleTab">在職業標簽頁顯示圖標</string>
   <string name="RainbowColorAsFortegreen">彩虹顏色顯示為Fortegreen</string>
@@ -2034,7 +2034,7 @@
   <string name="CrewmateGhost">船員幽靈型</string>
   <string name="NeutralGhost">中立幽靈型</string>
   <string name="ImpostorGhost">偽裝者幽靈型</string>
-  <string name="AnticheatKickMissingMessage">[player]缺少以下模組:</string>
+  <string name="AnticheatKickMissingMessage">[player] 缺少以下模組:</string>
   <string name="HostStartMeetingNotif">房主已強制召開會議。</string>
   <string name="HostEndMeetingNotif">房主已強制結束會議。</string>
   <string name="GuesserNoResults">沒有結果</string>
@@ -2048,32 +2048,32 @@
   <string name="TownOfUsMira.Role.HaunterImpRevealFeedback">冤魂已完成所有任務!</string>
   <string name="TownOfUsMira.Role.JailorEvilTabInfo">你可以處決船員。</string>
   <string name="TownOfUsMira.Role.LookoutFeedbackTitle">觀測反饋</string>
-  <string name="TownOfUsMira.Role.LookoutNoInteractionFeedback">沒有玩家與[player]發生互動</string>
-  <string name="TownOfUsMira.Role.LookoutInteractionFeedback">與[player]發生互動的職業</string>
+  <string name="TownOfUsMira.Role.LookoutNoInteractionFeedback">沒有玩家與 [player] 發生互動</string>
+  <string name="TownOfUsMira.Role.LookoutInteractionFeedback">與 [player] 發生互動的職業</string>
   <string name="TouOptionMediumReworkToggle">冥想時暫時生成靈魂</string>
   <string name="TouOptionMediumMediateDuration">冥想持續時間</string>
   <string name="TouOptionMediumMediateEarlyCancel">冥想可提前取消</string>
   <string name="TouOptionMediumMediatingSpeed">冥想時靈魂速度</string>
-  <string name="TermsTargetSymbolsInfo">目標標記會顯示在會議和遊戲進行中玩家的名字旁,通常只有相關職業或死亡玩家能看到。•行刑者的目標會標記為[color=#643B1F]X[/color]•審判官的異端在死亡玩家視角下會標記為[color=#D94291]$[/color]•天使的目標會標記為[color=#B3FFFF]★[/color]</string>
+  <string name="TermsTargetSymbolsInfo">目標標記會顯示在會議和遊戲進行中玩家的名字旁,通常只有相關職業或死亡玩家能看到。•行刑者的目標會標記為 [color=#643B1F]X[/color]•審判官的異端在死亡玩家視角下會標記為 [color=#D94291]$[/color]•天使的目標會標記為 [color=#B3FFFF]★[/color]</string>
   <string name="TermsProtectionSymbolsTitle">保護標記</string>
-  <string name="TermsProtectionSymbolsInfo">保護標記會顯示在會議或遊戲過程中玩家名字旁,表示他們對大多數攻擊免疫。通常只有相關職業、目標玩家或死亡玩家可以見到。•法醫護盾標記為[color=#006600]+[/color]•牧師屏障標記為[color=#00FFB3]Ω[/color]•護衛者駐防標記為[color=#9900FF]π[/color] •鏡法師反射標記為[color=#90A2C3]〚〛[/color] •天使保護標記為[color=#FFD900]★[/color] •守護天使保護標記為[color=#66AAF3]☀[/color] •神諭者佑護標記為[color=#BF00BF]†[/color]</string>
+  <string name="TermsProtectionSymbolsInfo">保護標記會顯示在會議或遊戲過程中玩家名字旁,表示他們對大多數攻擊免疫。通常只有相關職業、目標玩家或死亡玩家可以見到。•法醫護盾標記為 [color=#006600]+[/color]•牧師屏障標記為 [color=#00FFB3]Ω[/color]•護衛者駐防標記為 [color=#9900FF]π[/color] •鏡法師反射標記為 [color=#90A2C3]〚〛[/color] •天使保護標記為 [color=#FFD900]★[/color] •守護天使保護標記為 [color=#66AAF3]☀[/color] •神諭者佑護標記為 [color=#BF00BF]†[/color]</string>
   <string name="TermsStatusEffectSymbolsTitle">狀態效果標記</string>
-  <string name="TermsStatusEffectInfo">狀態效果標記會顯示在會議或遊戲過程中玩家名字旁,通常只有相關職業或死亡玩家可以見到•縱火犯澆油標記為[color=#FF4D00]Δ[/color] • 瘟疫之源感染標記為[color=#E6FFB3]¥[/color] • 被控制的玩家標記為 [color=#FF2660]⦿[/color] • 被勒索的目標標記為[color=#2A1119]M[/color] • 被催眠標記為[color=#D53F42]@[/color] • 爆咒師詛咒標記為[color=#FF0000]乂[/color] • 君主冊封的騎士標記為[color=#EA535B]♠[/color]</string>
-  <string name="TermsCrewRoleAlignmentsTitle">[color=#8CFFFF]船員[/color]子陣營</string>
+  <string name="TermsStatusEffectInfo">狀態效果標記會顯示在會議或遊戲過程中玩家名字旁,通常只有相關職業或死亡玩家可以見到•縱火犯澆油標記為 [color=#FF4D00]Δ[/color] • 瘟疫之源感染標記為 [color=#E6FFB3]¥[/color] • 被控制的玩家標記為 [color=#FF2660]⦿[/color] • 被勒索的目標標記為 [color=#2A1119]M[/color] • 被催眠標記為 [color=#D53F42]@[/color] • 爆咒師詛咒標記為 [color=#FF0000]乂[/color] • 君主冊封的騎士標記為 [color=#EA535B]♠[/color]</string>
+  <string name="TermsCrewRoleAlignmentsTitle">[color=#8CFFFF]船員[/color] 子陣營</string>
   <string name="TouOptionMediumLivingSeeSpiritTimer">靈魂對他人可見前的時間</string>
   <string name="TouOptionMediumAppearanceVisibility">靈化使可識別</string>
   <string name="TouOptionMediumAppearanceEnumLiving">存活玩家</string>
   <string name="TouOptionMediumAppearanceEnumDead">幽靈</string>
   <string name="TouOptionMediumAppearanceEnumBoth">存活玩家+幽靈</string>
   <string name="TouOptionMediumAppearanceEnumNone">無人</string>
-  <string name="TownOfUsMira.Role.MirrorcasterAttackedMessageWithFaction">[player]被[faction]陣營攻擊! 你現在可以將這次攻擊釋放到另一名玩家身上!</string>
-  <string name="TownOfUsMira.Role.MirrorcasterAttackedMessageWithSubalignment">[player]被[subalignment]陣營攻擊! 你現在可以將這次攻擊釋放到另一名玩家身上!</string>
-  <string name="TownOfUsMira.Role.MonarchKnightTargetDied">[player]在你冊封騎士前就已經死亡。</string>
-  <string name="TownOfUsMira.Role.MonarchKnightSuccess">[player]已被冊封騎士!</string>
+  <string name="TownOfUsMira.Role.MirrorcasterAttackedMessageWithFaction">[player] 被 [faction] 陣營攻擊! 你現在可以將這次攻擊釋放到另一名玩家身上!</string>
+  <string name="TownOfUsMira.Role.MirrorcasterAttackedMessageWithSubalignment">[player] 被 [subalignment] 陣營攻擊! 你現在可以將這次攻擊釋放到另一名玩家身上!</string>
+  <string name="TownOfUsMira.Role.MonarchKnightTargetDied">[player] 在你冊封騎士前就已經死亡。</string>
+  <string name="TownOfUsMira.Role.MonarchKnightSuccess">[player] 已被冊封騎士!</string>
   <string name="TownOfUsMira.Role.MonarchKnightedFeedback">你被[role]冊封了騎士身份,獲得了[votes]票!</string>
-  <string name="TownOfUsMira.Role.MonarchKnightFallenFeedback">你的騎士[player]已陣亡...</string>
-  <string name="TermsCrewRoleAlignmentsInfo">• [color=#8CFFFF]調查型[/color]職業可以收集其他玩家的資料,從而判斷誰是船員。• [color=#8CFFFF]擊殺型[/color]職業可以[color=#FF8B95]擊殺[/color]他人,但[color=#FF8B95]擊殺[/color][color=#8CFFFF]船員[/color]可能會帶來後果。 • [color=#8CFFFF]保護型[/color]職業可以保護其他玩家,有時也能保護自己。 • [color=#8CFFFF]強力型[/color] 職業通常會影響投票,或擁有比其他[color=#8CFFFF]船員[/color]更強的能力。 • [color=#8CFFFF]支援型[/color]職業通常可以幫助其他[color=#8CFFFF]船員[/color]，或為自己提供幫助。</string>
-  <string name="TermsNeutRoleAlignmentsTitle">[color=#8A8A8A]中立[/color]子陣營</string>
+  <string name="TownOfUsMira.Role.MonarchKnightFallenFeedback">你的騎士 [player] 已陣亡...</string>
+  <string name="TermsCrewRoleAlignmentsInfo">• [color=#8CFFFF]調查型[/color]職業可以收集其他玩家的資料,從而判斷誰是船員。• [color=#8CFFFF]擊殺型[/color]職業可以[color=#FF8B95]擊殺[/color]他人,但[color=#FF8B95]擊殺[/color][color=#8CFFFF]船員[/color]可能會帶來後果。 • [color=#8CFFFF]保護型[/color]職業可以保護其他玩家,有時也能保護自己。 • [color=#8CFFFF]強力型[/color]職業通常會影響投票,或擁有比其他[color=#8CFFFF]船員[/color]更強的能力。 • [color=#8CFFFF]輔助型[/color]職業通常可以幫助其他[color=#8CFFFF]船員[/color]，或為自己提供幫助。</string>
+  <string name="TermsNeutRoleAlignmentsTitle">[color=#8A8A8A]中立[/color] 子陣營</string>
   <string name="TownOfUsMira.Role.ProsecutorCanProsecuteCrew">[b]你可以起訴船員。[/b]</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecutionsRemaining">剩餘起訴次數: [count]/[total]</string>
   <string name="TownOfUsMira.Role.SnitchSelfRevealedEgoFeedback">偽裝者已經知道你的位置,並且知道你是自大狂!</string>
@@ -2084,20 +2084,20 @@
   <string name="TownOfUsMira.Role.SnitchSelfCompletedFeedback">你已經揭露了偽裝者!</string>
   <string name="TownOfUsMira.Role.VigilanteEvilTabInfo">你也可以猜測船員。</string>
   <string name="TownOfUsMira.Role.VigilanteNoSafeShots">你已經沒有安全射擊次數了。</string>
-  <string name="TownOfUsMira.Role.VigilanteSafeShotsLeft">剩餘[count]次安全射擊。</string>
-  <string name="TownOfUsMira.Role.VigilanteMultiShotFeedback">你的多重射擊讓你在本次會議中免於死亡! 剩餘[count]次安全射擊!</string>
-  <string name="TownOfUsMira.Role.DoomsayerWonSelf">你作為[role]成功獲勝,因為你成功猜中了足夠多的玩家!</string>
-  <string name="TownOfUsMira.Role.DoomsayerWonOther">[role],[player]已成功獲勝,因為他們成功猜中了足夠多的玩家!</string>
-  <string name="TownOfUsMira.Role.ExecutionerWonSelf">你作為[role]成功獲勝,因為你的目標被投票出局了!</string>
-  <string name="TownOfUsMira.Role.ExecutionerWonOther">[role],[player]已成功獲勝,因為他們的目標被投票出局了!</string>
+  <string name="TownOfUsMira.Role.VigilanteSafeShotsLeft">剩餘 [count] 次安全射擊。</string>
+  <string name="TownOfUsMira.Role.VigilanteMultiShotFeedback">你的多重射擊讓你在本次會議中免於死亡! 剩餘 [count] 次安全射擊!</string>
+  <string name="TownOfUsMira.Role.DoomsayerWonSelf">你作為 [role] 成功獲勝,因為你成功猜中了足夠多的玩家!</string>
+  <string name="TownOfUsMira.Role.DoomsayerWonOther">[role], [player] 已成功獲勝,因為他們成功猜中了足夠多的玩家!</string>
+  <string name="TownOfUsMira.Role.ExecutionerWonSelf">你作為 [role] 成功獲勝,因為你的目標被投票出局了!</string>
+  <string name="TownOfUsMira.Role.ExecutionerWonOther">[role], [player], 已成功獲勝, 因為他們的目標被投票出局了!</string>
   <string name="TownOfUsMira.Role.ExecutionerTormentFeedback">你有一回合時間折磨並殺死一名玩家,請謹慎選擇。</string>
   <string name="TermsNeutRoleAlignmentsInfo">•[color=#8A8A8A]友善型[/color]職業無法單獨獲勝,通常需要幫助別人或盡可能存活。•[color=#8A8A8A]邪惡型[/color]職業專注完成自己的目標,可能操控勝負或提前結束遊戲。•[color=#8A8A8A]殺手型[/color]職業的目標是不惜一切成為最後存活的[color=#FF8B95]殺手[/color]。•[color=#8A8A8A]外來者型[/color]職業擁有各自獨特的勝利條件,行為可能類似於[color=#8A8A8A]友善型[/color]、[color=#8A8A8A]邪惡型[/color]或[color=#8A8A8A]殺手型[/color]職業的混合。</string>
-  <string name="TermsImpRoleAlignmentsTitle">[color=#FF0000]偽裝者[/color]子陣營</string>
+  <string name="TermsImpRoleAlignmentsTitle">[color=#FF0000]偽裝者[/color] 子陣營</string>
   <string name="TermsImpRoleAlignmentsInfo">•[color=#FF0000]隱匿型[/color]職業可以[color=#FF8B95]擊殺[/color]並通過偽裝或隱藏來欺騙他人。•[color=#FF0000]擊殺型[/color]職業擁有強化或特殊的[color=#FF8B95]擊殺[/color]能力,從而提升[color=#FF8B95]擊殺[/color]效率。•[color=#FF0000]強力型[/color]職業擁有非常強大的技能,可以顯著增強[color=#FF0000]偽裝者[/color]陣營。•[color=#FF0000]輔助型[/color]職業可以隱藏屍體或讓[color=#FF8B95]擊殺[/color]更加容易。</string>
   <string name="TermsRoleBucketsTitle">職業池分類</string>
-  <string name="TermsRoleBucketsInfo">職業池分類僅在啟用“設置職業清單”生成方式時生效。•常規[color=#8CFFFF]船員[/color]: 調查型、保護型、支援型。•常規[color=#FF0000]偽裝者[/color]: 隱匿型、輔助型。•常規[color=#8A8A8A]中立[/color]: 友善型、邪惡型。•特殊[color=#8CFFFF]船員[/color]: 擊殺型、強力型。•特殊[color=#FF0000]偽裝者[/color]: 擊殺型、強力型。•特殊[color=#8A8A8A]中立[/color]: 殺手型、外來者型。•非殺手[color=#8A8A8A]中立[/color]: 友善型、邪惡型、外來者型。•非-[color=#FF0000]偽裝者[/color]包含所有[color=#8A8A8A]中立[/color]和[color=#8CFFFF]船員[/color]職業。•“隨機”分類會生成該陣營的任意職業(如隨機[color=#8CFFFF]船員[/color])。•“任意”分類允許生成任何啟用的職業。</string>
+  <string name="TermsRoleBucketsInfo">職業池分類僅在啟用“設置職業清單”生成方式時生效。•常規[color=#8CFFFF]船員[/color]: 調查型、保護型、輔助型。•常規[color=#FF0000]偽裝者[/color]: 隱匿型、輔助型。•常規[color=#8A8A8A]中立[/color]: 友善型、邪惡型。•特殊[color=#8CFFFF]船員[/color]: 擊殺型、強力型。•特殊[color=#FF0000]偽裝者[/color]: 擊殺型、強力型。•特殊[color=#8A8A8A]中立[/color]: 殺手型、外來者型。•非殺手[color=#8A8A8A]中立[/color]: 友善型、邪惡型、外來者型。•非-[color=#FF0000]偽裝者[/color]包含所有[color=#8A8A8A]中立[/color]和[color=#8CFFFF]船員[/color]職業。•“隨機”分類會生成該陣營的任意職業(如隨機[color=#8CFFFF]船員[/color])。•“任意”分類允許生成任何啟用的職業。</string>
   <string name="TermsCommonSlangTitle">常見術語</string>
-  <string name="TermsCommonSlangInfo">常見術語通常由TOU/TOS社區創造,用於快速交流訊息。•金水HC: Hard-Cleared,表示該玩家幾乎可以確定是好人。•變身Glorphing: 指玩家變成另一名玩家的外觀,例如來自[color=#00FF00]混沌[/color]、[color=#FF0000]化形者[/color]、[color=#FF0000]變形者[/color]等相關職業。•鬼影Ghostwalkers: 用於稱呼 [color=#D4D4D4]冤魂[/color]和[color=#662961]幻影[/color]等能在死亡後行動的幽靈職業。•說悄悄話Sidebars: 在近距離語音房間中把玩家拉到一旁進行私下交流。</string>
+  <string name="TermsCommonSlangInfo">常見術語通常由TOU/TOS社區創造,用於快速交流訊息。•金水HC: Hard-Cleared,表示該玩家幾乎可以確定是好人。•變身Glorphing: 指玩家變成另一名玩家的外觀,例如來自[color=#00FF00]混沌[/color]、[color=#FF0000]化形者[/color]、[color=#FF0000]變形者[/color]等相關職業。•鬼影Ghostwalkers: 用於稱呼[color=#D4D4D4]冤魂[/color]和[color=#662961]幻影[/color]等能在死亡後行動的幽靈職業。•說悄悄話Sidebars: 在近距離語音房間中把玩家拉到一旁進行私下交流。</string>
   <string name="TownOfUsMira.Role.OracleConfessionTitle">神諭者坦白</string>
   <string name="TownOfUsMira.Role.PoliticianEgotistTabInfo">當你的身份被揭露時,邪惡陣營將會知道你的真正目的。</string>
   <string name="TownOfUsMira.Role.SnitchImpCompletedEgoFeedback">告密者現在可以以自大狂的身份幫助你!</string>
@@ -2122,10 +2122,10 @@
   <string name="EndSumLeftSide">左側顯示</string>
   <string name="EndSumSplit">分欄顯示</string>
   <string name="EndSumHidden">隱藏</string>
-  <string name="AnticheatIllegalRpcMessage">[player]使用了非大廳允許的功能/能力,可能存在作弊或利用漏洞行為。</string>
-  <string name="InfoCommandList">信息</string>
-  <string name="InfoCommandDescription">/info - 重新顯示你最近收到的職業信息</string>
-  <string name="InfoCommandNoInfo">你當前沒有可重新查看的職業信息。</string>
+  <string name="AnticheatIllegalRpcMessage">[player] 使用了非大廳允許的功能/能力,可能存在作弊或利用漏洞行為。</string>
+  <string name="InfoCommandList">資訊</string>
+  <string name="InfoCommandDescription">/info - 重新顯示你最近收到的職業資訊</string>
+  <string name="InfoCommandNoInfo">你當前沒有可重新查看的職業資訊。</string>
   <string name="DisconnectedData">斷開連接 第[round]輪 </string>
   <string name="DisconnectedDataFull">[cod] | 斷開連接 第[round]輪 </string>
   <string name="DiedToOfficer">被創傷</string>
@@ -2182,7 +2182,7 @@
   <string name="TouOptionAssassinGuessableCrewRolesTitle">不可被猜測的船員職業: </string>
   <string name="TouOptionAssassinGuessableNeutRolesTitle">不可被猜測的中立職業: </string>
   <string name="TouOptionAssassinGuessableImpRolesTitle">不可被猜測的偽裝者職業: </string>
-  <string name="TouOptionAssassinGuessableModifiersTitle">不可被猜測的附加屬性: </string>
+  <string name="TouOptionAssassinGuessableModifiersTitle">不可被猜測的附加特性: </string>
   <string name="TouOptionAssassinNone">無</string>
   <string name="TouOptionAssassinAll">全部</string>
   <string name="TouOptionAssassinNeutBenign">友善型</string>
@@ -2230,9 +2230,9 @@
   <string name="TouOptionDeputyEnumAnnounceRole">公佈職業</string>
   <string name="TouOptionDeputyEnumRevealPlayer">公佈副手身份</string>
   <string name="TownOfUsMira.Role.Lookout.AltTabDescription">觀察其他船員,查看有哪些玩家與他們互動</string>
-  <string name="TownOfUsMira.Role.LookoutWatchAltNotif">下一次會議時,你將得知有哪些玩家與[player]發生過互動。</string>
-  <string name="TownOfUsMira.Role.LookoutAltInteractionFeedback">與[player]發生過互動的玩家</string>
-  <string name="TouNeutAnonymousVictoryMessage">[player]已成功獲勝並離開了遊戲!</string>
+  <string name="TownOfUsMira.Role.LookoutWatchAltNotif">下一次會議時,你將得知有哪些玩家與 [player] 發生過互動。</string>
+  <string name="TownOfUsMira.Role.LookoutAltInteractionFeedback">與 [player] 發生過互動的玩家</string>
+  <string name="TouNeutAnonymousVictoryMessage">[player] 已成功獲勝並離開了遊戲!</string>
   <string name="TouOptionNeutAnonymousVictoryWin">在獲勝通知中隱藏職業</string>
   <string name="TouOptionJesterNotifyWin">獲勝時通知其他玩家</string>
   <string name="TouDraftCancelButton">取消輪抽選角</string>
@@ -2450,4 +2450,532 @@
   <string name="TouOptionTimeLordRewindDuration">回溯持續時間</string>
   <string name="TownOfUsMira.Modifier.LoverInfoDisconnected">與你相愛的是 [player], 但對方已斷開連接。</string>
   <string name="NeutralKilling.Colored">[color=#999999FF]中立[/color] 殺手</string>
+  <string name="FrenzyKillerTaskHeader">不惜一切手段消滅其他所有陣營。</string>
+  <string name="FrenzyKiller">狂暴殺手</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.TabText">職業: [roleName][nl][description]</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.FakeTaskTabText">虛假任務:</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.CrewDescription">完成你的任務。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.CrewDescriptionDead">你已經死亡, 請完成你的任務。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.NeutDescription">完成你的目標。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.NeutDescriptionDead">你已經死亡。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.ImpDescription">破壞設施並殺死船員。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.ImpDescriptionDead">你已經死亡。</string>
+  <string name="NeutralBenign.Colored">[color=#999999FF]中立[/color] 友善</string>
+  <string name="NeutralEvil.Colored">[color=#999999FF]中立[/color] 邪惡</string>
+  <string name="NeutralOutlier.Colored">[color=#999999FF]中立[/color] 外來者</string>
+  <string name="CommonCrew.Colored">普通 [color=#66FFFFFF]船員[/color]</string>
+  <string name="SpecialCrew.Colored">特殊 [color=#66FFFFFF]船員[/color]</string>
+  <string name="RandomCrew.Colored">隨機 [color=#66FFFFFF]船員[/color]</string>
+  <string name="CommonNeutral.Colored">普通 [color=#999999FF]中立[/color]</string>
+  <string name="SpecialNeutral.Colored">特殊 [color=#999999FF]中立[/color]</string>
+  <string name="WildcardNeutral.Colored">非殺手 [color=#999999FF]中立[/color]</string>
+  <string name="RandomNeutral.Colored">隨機 [color=#999999FF]中立[/color]</string>
+  <string name="NonImp.Colored">非 [color=#FF0000FF]偽裝者[/color]</string>
+  <string name="CommonImp.Colored">普通 [color=#FF0000FF]偽裝者[/color]</string>
+  <string name="SpecialImp.Colored">特殊 [color=#FF0000FF]偽裝者[/color]</string>
+  <string name="RandomImp.Colored">隨機 [color=#FF0000FF]偽裝者[/color]</string>
+  <string name="CrewInvestigative.Colored">[color=#66FFFFFF]船員[/color] 調查</string>
+  <string name="CrewKilling.Colored">[color=#66FFFFFF]船員[/color] 擊殺</string>
+  <string name="CrewPower.Colored">[color=#66FFFFFF]船員[/color] 強力</string>
+  <string name="CrewProtective.Colored">[color=#66FFFFFF]船員[/color] 保護</string>
+  <string name="CrewSupport.Colored">[color=#66FFFFFF]船員[/color] 輔助</string>
+  <string name="ImpConcealing.Colored">[color=#FF0000FF]偽裝者[/color] 隱匿</string>
+  <string name="ImpKilling.Colored">[color=#FF0000FF]偽裝者[/color] 擊殺</string>
+  <string name="ImpPower.Colored">[color=#FF0000FF]偽裝者[/color] 力量</string>
+  <string name="ImpSupport.Colored">[color=#FF0000FF]偽裝者[/color] 輔助</string>
+  <string name="TownOfUsMira.Options.Groups.VanillaTweaks">原版調整</string>
+  <string name="TouOptionHideNamesOutOfSight">視野外隱藏名字</string>
+  <string name="TouOptionTickCooldownsInMinigame">在任務與面板中繼續計算冷卻時間</string>
+  <string name="TouOptionParallelMedbay">醫務室掃描可同時進行</string>
+  <string name="TouOptionMedscanWalk">走向醫務點掃描</string>
+  <string name="TouOptionSkipButtonDisable">禁用會議跳過投票按鈕</string>
+  <string name="TouOptionSkipButtonDisableEnumNever">從不</string>
+  <string name="TouOptionSkipButtonDisableEnumEmergency">緊急會議</string>
+  <string name="TouOptionSkipButtonDisableEnumAlways">始終</string>
+  <string name="TouOptionHideVentAnimationNotInVision">隱藏視野外的鑽管動畫</string>
+  <string name="TouOptionShowPetsMode">寵物可見性</string>
+  <string name="TouOptionShowPetsModeEnumClientSide">客戶端可見</string>
+  <string name="TouOptionShowPetsModeEnumWhenAlive">存活時可見</string>
+  <string name="TouOptionShowPetsModeEnumAlwaysVisible">始終可見</string>
+  <string name="TouOptionHidePetsOnBodyRemove">清除屍體時移除寵物</string>
+  <string name="TouOptionHidePetsOnBodyRemoveEnumNever">從不</string>
+  <string name="TouOptionHidePetsOnBodyRemoveEnumDuringRound">回合中</string>
+  <string name="TouOptionHidePetsOnBodyRemoveEnumAlways">始終</string>
+  <string name="TownOfUsMira.Options.Groups.Assassin">刺客選項</string>
+  <string name="TouOptionNumberOfImpostorAssassins">偽裝者刺客數量</string>
+  <string name="TouOptionImpAssassinChance">偽裝者刺客機率</string>
+  <string name="TouOptionImpAssassinKills">偽裝者刺客擊殺次數</string>
+  <string name="TouOptionImpAssassinMultiKill">偽裝者刺客每次會議可多次擊殺</string>
+  <string name="TouOptionNumberOfNeutralAssassins">中立刺客數量</string>
+  <string name="TouOptionNeutAssassinChance">中立刺客機率</string>
+  <string name="TouOptionNeutAssassinKills">中立刺客可用擊殺次數</string>
+  <string name="TouOptionNeutAssassinMultiKill">中立刺客每次會議可多次擊殺</string>
+  <string name="TouOptionGuessVanillaRoles">非基礎原版職業可以被猜測</string>
+  <string name="TouOptionAssassinCrewmateGuess">刺客可猜“船員”身份</string>
+  <string name="TouOptionAssassinGuessInvest">刺客可猜船員調查職業</string>
+  <string name="TouOptionAssassinGuessNeutralBenign">刺客可猜中立友善職業</string>
+  <string name="TouOptionAssassinGuessNeutralEvil">刺客可猜中立邪惡職業</string>
+  <string name="TouOptionAssassinGuessNeutralKilling">刺客可猜中立殺手職業</string>
+  <string name="TouOptionAssassinGuessNeutralOutlier">刺客可猜中立外來職業</string>
+  <string name="TouOptionAssassinGuessImpostors">刺客可猜偽裝者職業</string>
+  <string name="TouOptionAssassinGuessCrewModifiers">刺客可猜船員附加特性</string>
+  <string name="TouOptionAssassinGuessUtilityModifiers">刺客可猜船員通用型附加特性</string>
+  <string name="TouOptionAssassinGuessImpostorModifiers">刺客可猜偽裝者附加特性</string>
+  <string name="TouOptionAssassinGuessNonCrewModifiers">刺客可猜陣營類附加特性</string>
+  <string name="TouOptionAssassinGuessAlliances">刺客可猜同盟關係</string>
+  <string name="TouOptionAssassinShots">[amount] 次射擊</string>
+  <string name="TouOptionAssassinOverall">(總計)</string>
+  <string name="TouOptionAssassinOnePerMeeting">(每次會議 1 次)</string>
+  <string name="TownOfUsMira.Options.Groups.GameMechanics">遊戲機制</string>
+  <string name="TouOptionCrewKillersContinue">強力船員繼續遊戲</string>
+  <string name="TouOptionAnonymousShields">護盾觸發時所有護盾閃爍為灰色</string>
+  <string name="TouOptionCleanedBodiesAppearance">清理/溶解的屍體顯示為</string>
+  <string name="TouOptionCleanedBodiesAppearanceEnumMissing">消失 (MIS)</string>
+  <string name="TouOptionCleanedBodiesAppearanceEnumDead">死亡 (DED)</string>
+  <string name="TouOptionCleanedBodiesAppearanceEnumDisconnected">斷開連接 (D/C)</string>
+  <string name="TouOptionKillAnimationBackgroundColor">擊殺動畫背景顏色</string>
+  <string name="TouOptionKillAnimationBackgroundColorEnumRed">紅色</string>
+  <string name="TouOptionKillAnimationBackgroundColorEnumFaction">陣營</string>
+  <string name="TouOptionKillAnimationBackgroundColorEnumRoleColor">職業顏色</string>
+  <string name="TouOptionPlayerCountWhenVentsDisable">通風管禁用時的最大存活玩家數量</string>
+  <string name="TouOptionGhostwalkerFixSabos">冤魂幻影可修復破壞</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer">工程師</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.IntroBlurb">維護前哨站</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.TabDescription">完成你的任務。[nl]你可以修復 1 次破壞。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.MedDescription">遠程修復一次破壞。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.WikiDescription">工程師是船員職業, 每局遊戲可以從地圖上的任意位置修復一次破壞。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper">隱身人</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller">連環殺手</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.IntroBlurb">殺死所有人</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.TabDescription">殺死所有人。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.MedDescription">殺死擋在你路上的所有人。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.WikiDescription">連環殺手是中立職業, 唯一目標是殺死所有玩家。如果沒有達到所需的最低擊殺人數, 就會輸掉遊戲。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.IntroBlurb">使用隱身能力進入隱形狀態</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.TabDescription">破壞設施並殺死船員。[nl]使用隱身能力進入隱形狀態。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.MedDescription">隨時進入隱身狀態, 以逃跑或躲藏。</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.WikiDescription">隱身人是偽裝者職業, 可以隨時進入隱身狀態來躲或逃離擊殺現場, 但他們無法使用通風管。</string>
+  <string name="TownOfUsMira.Role.Spectator.MedDescription">觀戰遊戲進程。</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Chameleon.MedDescription">進入隱身狀態, 躲避搜尋者的追捕。</string>
+  <string name="TownOfUsMira.Role.Outcast">異類</string>
+  <string name="TownOfUsMira.Role.Outcast.IntroBlurb">對抗超自然力量。</string>
+  <string name="TownOfUsMira.Role.Outcast.TabDescription">利用你的視野和通風管能力取得優勢。</string>
+  <string name="TownOfUsMira.Role.Outcast.MedDescription">使用通風管和強化視野來消滅競爭者。</string>
+  <string name="TownOfUsMira.Role.Outcast.WikiDescription">異類是基礎擊殺型職業, 可以使用通風管, 並擁有比其他擊殺職業更遠的視野。</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Mystic.MedDescription">立即獲知船員死亡的位置。</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Snitch.MedDescription">通過完成任務更快減少計時器, 但也會因此暴露你的位置。</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Noisemaker.MedDescription">死亡時向船員發出警報。</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Camouflager.MedDescription">混入躲藏者之中。
+讓他們相信不存在的事物。</string>
+  <string name="TownOfUsMira.Cultist.Role.Necromancer.MedDescription">復活願意加入的死者, 使其成為教團的一員。</string>
+  <string name="TownOfUsMira.Role.Altruist.MedDescription">復活死亡的船員。</string>
+  <string name="TownOfUsMira.Role.Aurial.MedDescription">感知你所在區域內能力的具體使用位置。
+如果距離非常近, 你還可以看到使用者的顏色。</string>
+  <string name="TownOfUsMira.Role.Cleric.MedDescription">為船員施加屏障以阻止互動。
+淨化他們以消除負面效果。</string>
+  <string name="TownOfUsMira.Role.Deputy.MedDescription">蹲守船員。船員死亡後, 嘗試擊殺其兇手。</string>
+  <string name="TownOfUsMira.Role.Forensic.MedDescription">調查犯罪現場, 找出謀殺案現場的嫌疑人。</string>
+  <string name="TownOfUsMira.Role.Barkeeper.MedDescription">與邪惡陣營一起喝酒, 暫時禁用他們的能力。</string>
+  <string name="TownOfUsMira.Role.Engineer.MedDescription">遠程修復破壞, 並在需要時通過通風管移動。</string>
+  <string name="TownOfUsMira.Role.Haunter.MedDescription">在死亡很久之後揭示偽裝者。</string>
+  <string name="TownOfUsMira.Options.Groups.RoleDraftCrew">輪抽船員設置</string>
+  <string name="TouOptionRoleDraftCrewMaxInvestigative">最大調查型角色數量</string>
+  <string name="TouOptionRoleDraftCrewMaxKilling">最大擊殺型角色數量</string>
+  <string name="TouOptionRoleDraftCrewMaxProtective">最大保護型角色數量</string>
+  <string name="TownOfUsMira.Role.Hunter.MedDescription">盯梢其他玩家, 如果他們在規定時間內使用能力, 你就可以將其擊殺。</string>
+  <string name="TownOfUsMira.Role.Imitator.MedDescription">模仿死者生前的身份。</string>
+  <string name="TownOfUsMira.Role.Investigator.MedDescription">通過跟隨腳印觀察其他玩家的行動路線。</string>
+  <string name="TownOfUsMira.Role.Jailor.MedDescription">關押玩家, 並在必要時處決他們。
+在作出判斷前與他們私下交談。</string>
+  <string name="TownOfUsMira.Role.Lookout.MedDescription">觀察其他船員, 查看誰或什麼與他們互動。</string>
+  <string name="TownOfUsMira.Role.Mayor.MedDescription">在合適的時機公開身份, 掌控會議並帶領船員。</string>
+  <string name="TownOfUsMira.Role.Medic.MedDescription">創建護盾, 保護船員免受攻擊。</string>
+  <string name="TownOfUsMira.Role.Medium.MedDescription">暫時離開肉身, 以靈體狀態行動。</string>
+  <string name="TownOfUsMira.Role.Mirrorcaster.MedDescription">反射對魔法鏡發動的攻擊。
+然後將這些攻擊釋放向邪惡陣營!</string>
+  <string name="TouOptionRoleDraftCrewMaxPower">最大強力型角色數量</string>
+  <string name="TouOptionRoleDraftCrewMaxSupport">最大輔助型角色數量</string>
+  <string name="TownOfUsMira.Options.Groups.RoleDraftImp">輪抽偽裝者設置</string>
+  <string name="TouOptionRoleDraftImpMaxImpostors">最大偽裝者總數</string>
+  <string name="TouOptionRoleDraftImpMaxConcealing">最大隱匿型角色數量</string>
+  <string name="TouOptionRoleDraftImpMaxKilling">最大擊殺型角色數量</string>
+  <string name="TouOptionRoleDraftImpMaxPower">最大強力型角色數量</string>
+  <string name="TouOptionRoleDraftImpMaxSupport">最大輔助型角色數量</string>
+  <string name="TownOfUsMira.Options.Groups.RoleDraftNeut">輪抽中立角色設置</string>
+  <string name="TouOptionRoleDraftNeutMaxNeutrals">最大中立角色總數</string>
+  <string name="TouOptionRoleDraftNeutMaxBenign">最大友善型角色數量</string>
+  <string name="TouOptionRoleDraftNeutMaxEvil">最大邪惡型角色數量</string>
+  <string name="TouOptionRoleDraftNeutMaxKilling">最大殺手型角色數量</string>
+  <string name="TouOptionRoleDraftNeutMaxOutlier">最大外來者角色數量</string>
+  <string name="TownOfUsMira.Options.Groups.RoleDraftRoleList">輪抽角色清單設置</string>
+  <string name="TouOptionRoleDraftRoleListSlot1">位置 1</string>
+  <string name="TouOptionRoleDraftRoleListSlot2">位置 2</string>
+  <string name="TouOptionRoleDraftRoleListSlot3">位置 3</string>
+  <string name="TouOptionRoleDraftRoleListSlot4">位置 4</string>
+  <string name="TouOptionRoleDraftRoleListSlot5">位置 5</string>
+  <string name="TouOptionRoleDraftRoleListSlot6">位置 6</string>
+  <string name="TouOptionRoleDraftRoleListSlot7">位置 7</string>
+  <string name="TouOptionRoleDraftRoleListSlot8">位置 8</string>
+  <string name="TouOptionRoleDraftRoleListSlot9">位置 9</string>
+  <string name="TouOptionRoleDraftRoleListSlot10">位置 10</string>
+  <string name="TouOptionRoleDraftRoleListSlot11">位置 11</string>
+  <string name="TouOptionRoleDraftRoleListSlot12">位置 12</string>
+  <string name="TouOptionRoleDraftRoleListSlot13">位置 13</string>
+  <string name="TouOptionRoleDraftRoleListSlot14">位置 14</string>
+  <string name="TouOptionRoleDraftRoleListSlot15">位置 15</string>
+  <string name="TownOfUsMira.Options.Groups.RoleSettings">職業設置</string>
+  <string name="TouOptionCurrentGameMode">當前遊戲模式</string>
+  <string name="TouOptionCurrentGameModeEnumNormal">普通</string>
+  <string name="TouOptionCurrentGameModeEnumHideAndSeek">捉迷藏 (N/A)</string>
+  <string name="TouOptionCurrentGameModeEnumCultist">邪教徒 (N/A)</string>
+  <string name="TouOptionRoleAssignmentType">角色分配方式</string>
+  <string name="TouOptionRoleAssignmentTypeEnumVanilla">原版</string>
+  <string name="TouOptionRoleAssignmentTypeEnumRoleList">職業清單</string>
+  <string name="TouOptionRoleAssignmentTypeEnumMinMaxList">最小/最大清單</string>
+  <string name="TouOptionRoleAssignmentTypeEnumDraft">輪抽選角</string>
+  <string name="TouOptionImpostorStreakReductionChance">減少機率</string>
+  <string name="TownOfUsMira.Options.Groups.GameTimer">遊戲時長計時器</string>
+  <string name="TouOptionGameTimerEnabled">遊戲時長限制模式</string>
+  <string name="TouOptionGameTimerPauseInMeetings">會議期間暫停計時器</string>
+  <string name="TouOptionGameTimerEndOption">計時結束時</string>
+  <string name="TouOptionGameTimerEndEnumImpostorWin">偽裝者勝利</string>
+  <string name="TouOptionGameTimerEndEnumGameDraw">遊戲平局</string>
+  <string name="TouOptionGameTimerTimeLimit">遊戲時長限制</string>
+  <string name="TownOfUsMira.Options.Groups.General">通用設置</string>
+  <string name="TouOptionFFAImpostorMode">偽裝者互不知曉身份模式</string>
+  <string name="TouOptionImpsKnowRoles">偽裝者知曉彼此職業</string>
+  <string name="TouOptionImpostorChat">偽裝者擁有專屬會議聊天</string>
+  <string name="TouOptionVampireChat">吸血魔擁有專屬會議聊天</string>
+  <string name="TouOptionAddedMeetingDeathTimer">會議死亡後增加的投票時間</string>
+  <string name="TownOfUsMira.Options.Groups.HostSpecific">房主專屬選項</string>
+  <string name="TouOptionAntiCheatWarnings">啟用反作弊警告</string>
+  <string name="TouOptionKickCheatMods">踢出使用作弊模組的玩家</string>
+  <string name="TouOptionMultiplayerFreeplay">自由模式</string>
+  <string name="TouOptionBetaLoggingLevel">高級日誌模式</string>
+  <string name="TouOptionBetaLoggingLevelEnumNoLogging">無日誌</string>
+  <string name="TouOptionBetaLoggingLevelEnumLogForHost">僅房主記錄</string>
+  <string name="TouOptionBetaLoggingLevelEnumLogForEveryone">所有人記錄</string>
+  <string name="TouOptionBetaLoggingLevelEnumLogPostGame">賽後記錄</string>
+  <string name="TouOptionLobbyFunMode">允許僅在大廳使用Ctrl穿墻 (No-Clip)</string>
+  <string name="TouOptionShowRulesOnLobbyJoin">玩家加入大廳時顯示規則</string>
+  <string name="TouOptionAllowAprilFools">允許愚人節視覺效果</string>
+  <string name="TownOfUsMira.Role.Monarch.MedDescription">冊封船員為騎士, 使其在會議中獲得額外票數。謹慎選擇你的騎士。</string>
+  <string name="TownOfUsMira.Role.Mystic.MedDescription">船員死亡時收到通知。
+同時會獲得指向其所在方向的箭頭。</string>
+  <string name="TownOfUsMira.Role.Oracle.MedDescription">佑護船員, 使他們在會議中免遭淘汰。讓邪惡陣營認罪。</string>
+  <string name="TownOfUsMira.Role.Plumber.MedDescription">封鎖通風管系統, 阻止其他人使用。</string>
+  <string name="TownOfUsMira.Role.Politician.MedDescription">爭取一半船員的支持, 以公開身份成為市長!</string>
+  <string name="TownOfUsMira.Role.Prosecutor.MedDescription">在會議中強制放逐違抗你的人。</string>
+  <string name="TownOfUsMira.Role.Seer.MedDescription">揭示船員真正的陣營傾向。</string>
+  <string name="TownOfUsMira.Role.Sentry.MedDescription">部署額外的攝影機, 監視船員。</string>
+  <string name="TownOfUsMira.Role.Officer.MedDescription">為你的槍械重新裝填。
+射擊那些威脅船員的人。</string>
+  <string name="TownOfUsMira.Role.Sheriff.MedDescription">射擊邪惡陣營, 否則誤殺船員將自食其果。</string>
+  <string name="TownOfUsMira.Role.Snitch.MedDescription">完成任務後揭發偽裝者。</string>
+  <string name="TownOfUsMira.Role.Spy.MedDescription">在管理台上查看詳細的顏色資訊</string>
+  <string name="TownOfUsMira.Role.Swapper.MedDescription">在會議中按你的意願交換兩名目標的票數。</string>
+  <string name="TownOfUsMira.Role.TimeLord.MedDescription">倒轉時間, 撤銷最近發生的行動。</string>
+  <string name="TownOfUsMira.Role.Sonar.MedDescription">感知多名船員, 確定他們的大致方向。</string>
+  <string name="TownOfUsMira.Role.Transporter.MedDescription">交換兩名船員的位置。</string>
+  <string name="TownOfUsMira.Role.Trapper.MedDescription">放置陷阱, 查明場上有哪些職業。</string>
+  <string name="TownOfUsMira.Role.Veteran.MedDescription">進入警戒狀態, 攻擊任何試圖與你互動的人。</string>
+  <string name="TownOfUsMira.Role.Vigilante.MedDescription">在會議中猜測場上的邪惡職業。</string>
+  <string name="TownOfUsMira.Role.Warden.MedDescription">強化船員, 防止他們在會議之外與任何人互動。</string>
+  <string name="TouOptionTempSaveCdReset">臨時救援冷卻重置</string>
+  <string name="TouOptionEnableSpectators">允許觀戰者</string>
+  <string name="TouOptionRequireSubmerged">要求玩家安裝 Submerged</string>
+  <string name="TouOptionRequireCrowded">要求玩家安裝 Crowded</string>
+  <string name="TouOptionRequireAleLudu">要求玩家安裝 AleLuduMod</string>
+  <string name="TouOptionNoGameEnd">不結束遊戲</string>
+  <string name="TownOfUsMira.Options.Groups.RoundStart">回合開始選項</string>
+  <string name="TouOptionModifierReveal">角色介紹中顯示的附加特性類型</string>
+  <string name="TouOptionModifierRevealEnumAlliance">同盟</string>
+  <string name="TownOfUsMira.Options.Groups.AllianceModifiers">同盟附加特性</string>
+  <string name="TownOfUsMira.Role.Ambassador.MedDescription">覆寫偽裝者, 使其在本局剩餘時間內改變職業。</string>
+  <string name="TownOfUsMira.Role.Ambusher.MedDescription">追蹤船員, 然後伏擊他們附近的人。</string>
+  <string name="TownOfUsMira.Role.Bootlegger.MedDescription">與船員一起喝酒, 暫時禁用他們的能力。</string>
+  <string name="TownOfUsMira.Role.Bomber.MedDescription">放置炸彈, 一次性擊殺範圍內的多名船員。</string>
+  <string name="TownOfUsMira.Role.Escapist.MedDescription">標記一個位置, 然後在需要時隨時傳送回該地。</string>
+  <string name="TownOfUsMira.Role.Herbalist.MedDescription">揭曉職業、迷惑船員, 並在需要時保護他人。</string>
+  <string name="TownOfUsMira.Role.Hypnotist.MedDescription">催眠船員, 然後觸發集體癔症來改變他們看到的景象。</string>
+  <string name="TownOfUsMira.Role.Miner.MedDescription">創建互相連通的通風管系統, 以便快速穿梭地圖。</string>
+  <string name="TownOfUsMira.Role.Morphling.MedDescription">採樣船員並變身為他們, 以嫁禍於人。</string>
+  <string name="TownOfUsMira.Role.Parasite.MedDescription">侵佔並控制一名受害者, 然後讓其在視野範圍外死亡。</string>
+  <string name="TownOfUsMira.Role.Scavenger.MedDescription">擊殺你的目標以加快擊殺速度, 否則將面臨較長的冷卻時間。</string>
+  <string name="TownOfUsMira.Role.Puppeteer.MedDescription">控制其他船員, 讓他們不情願地進行擊殺。</string>
+  <string name="TownOfUsMira.Role.Spellslinger.MedDescription">對船員施加詛咒以釋放詛咒炸彈。
+如果成功, 所有人都會被消滅。</string>
+  <string name="TownOfUsMira.Role.Venerer.MedDescription">擊殺船員以升級你的能力。
+偽裝、衝刺, 然後凍結你周圍的其他人!</string>
+  <string name="TownOfUsMira.Role.Arsonist.MedDescription">給船員施加澆油效果, 然後點燃他們, 看着他們被燒死。</string>
+  <string name="TownOfUsMira.Role.Doomsayer.MedDescription">猜測多名玩家的職業, 使他們陷入末日, 並以此獲勝。</string>
+  <string name="TownOfUsMira.Role.Executioner.MedDescription">不擇手段地讓你的目標被投票淘汰。</string>
+  <string name="TownOfUsMira.Role.Glitch.MedDescription">黑入船員, 劫持他們的能力。
+偽裝成其他玩家, 以嫁禍於人。</string>
+  <string name="TownOfUsMira.Role.Fairy.MedDescription">不惜一切代價保護你的目標, 甚至為其犧牲生命。</string>
+  <string name="TownOfUsMira.Role.Inquisitor.MedDescription">找出持有目標職業的人。
+如有必要, 消滅他們已獲得勝利。</string>
+  <string name="TownOfUsMira.Role.Chef.MedDescription">烹飪其他船員的新鮮屍體。
+完成你的進食配額並獲勝。</string>
+  <string name="TownOfUsMira.Role.Spectre.MedDescription">利用死後獲得的第二次救贖機會完成任務, 並取得勝利。</string>
+  <string name="TownOfUsMira.Role.Plaguebearer.MedDescription">將瘟疫傳播給所有船員, 進化為致命的萬疫之神。</string>
+  <string name="TouOptionFullSaveCdMultiplier">完全拯救冷卻倍數</string>
+  <string name="TouOptionModifierRevealEnumUniversal">通用</string>
+  <string name="TouOptionModifierRevealEnumNeither">從不</string>
+  <string name="TouOptionTeamModifierReveal">角色揭示時顯示陣營附加特性</string>
+  <string name="TouOptionGameStartCd">開局按鈕冷卻時間</string>
+  <string name="TouOptionStartCooldownMode">開局冷卻時間應用於</string>
+  <string name="TouOptionStartCooldownModeEnumAllButtons">所有按鈕</string>
+  <string name="TouOptionStartCooldownModeEnumSpecificCooldowns">特定按鈕冷卻</string>
+  <string name="TouOptionStartCooldownModeEnumNoButtons">無按鈕</string>
+  <string name="TouOptionStartCooldownMin">最小適用冷卻時間</string>
+  <string name="TouOptionStartCooldownMax">最大適用冷卻時間</string>
+  <string name="TouOptionFirstDeathShield">首名死者下局獲得護盾</string>
+  <string name="TouOptionRoundOneVictims">標記第一輪受害者</string>
+  <string name="TownOfUsMira.Options.Groups.Postmortem">陣亡後選項</string>
+  <string name="TouOptionTheDeadKnow">陣亡的玩家知道其他玩家身份</string>
+  <string name="TouOptionDeadSeeVotes">陣亡的玩家可見投票</string>
+  <string name="TouOptionDeadSeePrivateChat">陣亡的玩家可見私人聊天</string>
+  <string name="TouOptionDeadSeePrivateChatEnumDisabled">禁用</string>
+  <string name="TouOptionDeadSeePrivateChatEnumDisabledUponDeath">陣亡的回合中禁用</string>
+  <string name="TouOptionDeadSeePrivateChatEnumInMeetings">在會議中</string>
+  <string name="TouOptionDeadSeePrivateChatEnumAlways">始終</string>
+  <string name="TouOptionDeadCanHaunt">作崇 (跟隨) 模式</string>
+  <string name="TouOptionDeadCanHauntEnumDisabled">禁用</string>
+  <string name="TouOptionDeadCanHauntEnumDisabledUponDeath">陣亡的回合中禁用</string>
+  <string name="TouOptionDeadCanHauntEnumAlways">始終</string>
+  <string name="TouOptionHideChatButton">陣亡的回合中暫時隱藏聊天按鈕</string>
+  <string name="TouOptionShowTaskDead">陣亡時查看任務追蹤</string>
+  <string name="TownOfUsMira.Options.Groups.RoleblockMechanics">技能封鎖機制</string>
+  <string name="TouOptionRoleblockAffectsConsoles">技能封鎖影響非角色行為</string>
+  <string name="TouOptionRoleblockDuration">技能封鎖持續時間</string>
+  <string name="TouOptionReduceImpostorStreak">減少偽裝者連續機率</string>
+  <string name="TouOptionRoleListSlot1">位置 1</string>
+  <string name="TouOptionRoleListSlot2">位置 2</string>
+  <string name="TouOptionRoleListSlot3">位置 3</string>
+  <string name="TouOptionRoleListSlot4">位置 4</string>
+  <string name="TouOptionRoleListSlot5">位置 5</string>
+  <string name="TouOptionRoleListSlot6">位置 6</string>
+  <string name="TouOptionRoleListSlot7">位置 7</string>
+  <string name="TouOptionRoleListSlot8">位置 8</string>
+  <string name="TouOptionRoleListSlot9">位置 9</string>
+  <string name="TouOptionRoleListSlot10">位置 10</string>
+  <string name="TouOptionRoleListSlot11">位置 11</string>
+  <string name="TouOptionRoleListSlot12">位置 12</string>
+  <string name="TouOptionRoleListSlot13">位置 13</string>
+  <string name="TouOptionRoleListSlot14">位置 14</string>
+  <string name="TouOptionRoleListSlot15">位置 15</string>
+  <string name="TouOptionMinNeutralBenign">最小中立友善型數量</string>
+  <string name="TouOptionMaxNeutralBenign">最大中立友善型數量</string>
+  <string name="TouOptionMinNeutralEvil">最小中立邪惡型數量</string>
+  <string name="TouOptionMaxNeutralEvil">最大中立邪惡型數量</string>
+  <string name="TouOptionMinNeutralKiller">最小中立殺手型數量</string>
+  <string name="TouOptionMaxNeutralKiller">最大中立殺手型數量</string>
+  <string name="TouOptionMinNeutralOutlier">最小中立外來者型數量</string>
+  <string name="TouOptionMaxNeutralOutlier">最大中立外來者型數量</string>
+  <string name="TouOptionDraftRecapDisplays">輪抽選角回顧概覽顯示內容</string>
+  <string name="TouOptionDraftSidebarDisplays">輪抽選角側邊欄顯示內容</string>
+  <string name="TouOptionDraftDisplayEnumNothing">無</string>
+  <string name="TouOptionDraftDisplayEnumFaction">陣營</string>
+  <string name="TouOptionDraftDisplayEnumAlignment">子陣營</string>
+  <string name="TouOptionDraftDisplayEnumRole">職業</string>
+  <string name="TouOptionDraftUseRoleListForPool">使用職業清單作為抽取池</string>
+  <string name="TouOptionDraftOfferedRolesCount">每輪提供的職業選擇數量</string>
+  <string name="TouOptionDraftShowRandomOption">顯示隨機職業選項</string>
+  <string name="TouOptionDraftTurnDuration">每輪持續時間</string>
+  <string name="TouOptionDraftConcurrentPicks">每輪同時選擇數量</string>
+  <string name="TouOptionDraftShufflesPerPlayer">每名玩家重新抽取次數</string>
+  <string name="TouOptionCrewpostorReplacesImpostor">偽船員取代一名偽裝者</string>
+  <string name="TouOptionCrewpostorCanAlwaysSabotage">偽船員始終可以破壞</string>
+  <string name="TouOptionCrewpostorVision">偽船員獲得偽裝者視野</string>
+  <string name="TouOptionEgotistMustSurvive">自大狂必須存活以獲勝</string>
+  <string name="TouOptionEgotistSpeedsUp">自大狂加快遊戲速度</string>
+  <string name="TouOptionEgotistRoundsToApplyEffects">速度/冷卻時間變化所需的輪數</string>
+  <string name="TouOptionEgotistSpeedMultiplier">每輪速度加成</string>
+  <string name="TouOptionEgotistCooldownOffset">每輪冷卻時間減少</string>
+  <string name="TouOptionLoversDieAndReviveTogether">戀人同生共死</string>
+  <string name="TouOptionLoversKillerProbability">戀人一方是殺手的機率</string>
+  <string name="TouOptionLoversNeutralRoles">中立角色可以成為戀人</string>
+  <string name="TouOptionLoversKillFactionTeammates">戀人可以殺死同陣營隊友</string>
+  <string name="TouOptionLoversKillEachOther">戀人可以殺死對方</string>
+  <string name="TouOptionOverclockerCooldown">超頻冷卻時間</string>
+  <string name="TouOptionOverclockerDuration">超頻持續時間</string>
+  <string name="TouOptionOverclockerRoundOne">允許首回合使用超頻</string>
+  <string name="TouOptionOverclockerUses">超頻使用次數</string>
+  <string name="TouOptionOverclockerMultiplier">超頻冷卻時間倍數</string>
+  <string name="TouOptionOverclockerUnderclockMultiplier">降頻冷卻時間倍數</string>
+  <string name="TouOptionBaitMinReportDelay">最小誘餌報告延遲</string>
+  <string name="TouOptionBaitMaxReportDelay">最大誘餌報告延遲</string>
+  <string name="TouOptionDiseasedKillMultiplier">病人撃殺冷卻倍率</string>
+  <string name="TouOptionCrewpostorShowsAsImpostor">偽船員顯示為背叛者</string>
+  <string name="TouOptionNoisemakerImpostorsAlerted">偽裝者收到大嗓門警報</string>
+  <string name="TouOptionNoisemakerNeutsAlerted">中立殺手收到大嗓門警報</string>
+  <string name="TouOptionNoisemakerCommsAffected">通訊破壞阻止大嗓門警報</string>
+  <string name="TouOptionNoisemakerBodyCheck">大嗓門僅在有屍體時觸發</string>
+  <string name="TouOptionOperativeMoveOnMira">使用Mira通行記錄時可移動</string>
+  <string name="TouOptionInvertControlsOfRoleblocked">技能被封鎖者的控制反轉</string>
+  <string name="TouOptionRoleblockHangover">施加宿醉效果</string>
+  <string name="TouOptionRoleblockHangoverDuration">宿醉持續時間</string>
+  <string name="TouOptionOperativeRoundCharge">每輪充電量</string>
+  <string name="TouOptionOperativeTaskCharge">每項任務的充電量</string>
+  <string name="TouOptionOperativeDisplayDuration">最大監控顯示時長</string>
+  <string name="TouOptionRottingTimeBeforeBodyRots">屍體腐爛前的時間</string>
+  <string name="TouOptionScientistRoundCharge">每輪充電量</string>
+  <string name="TouOptionScientistTaskCharge">每項任務的充電量</string>
+  <string name="TouOptionScientistMoveWithVitals">使用生命監測器時可移動</string>
+  <string name="TouOptionScientistDisplayDuration">最大生命監察器顯示時長</string>
+  <string name="TouOptionCircumventMinimumVents">最少可用通風口數量</string>
+  <string name="TouOptionCircumventMaximumVents">最多可用通風口數量</string>
+  <string name="TouOptionDeadlyQuotaMinimumKillQuota">最小擊殺配額</string>
+  <string name="TouOptionDeadlyQuotaMaximumKillQuota">最大擊殺配額</string>
+  <string name="TouOptionDeadlyQuotaMeetingKillsCount">會議擊殺納入配額</string>
+  <string name="TouOptionDeadlyQuotaTemporaryShield">達到配額前有臨時護盾防護</string>
+  <string name="TouOptionDeadlyQuotaRemoveUponDeath">死亡時移除配額</string>
+  <string name="TouOptionSaboteurReducedSabotageBonus">縮短破壞冷卻時間</string>
+  <string name="TouOptionTelepathKnowKillLocation">知曉隊友擊殺位置</string>
+  <string name="TouOptionTelepathKnowDeathLocation">知曉隊友死亡位置</string>
+  <string name="TouOptionTelepathKnowCorrectGuess">知曉隊友猜測成功</string>
+  <string name="TouOptionTelepathKnowFailedGuess">知曉隊友猜測失敗</string>
+  <string name="TouOptionUnderdogKillCooldownBonus">擊殺冷卻縮減</string>
+  <string name="TouOptionUnderdogExtraImpsKillCooldown">當2+個偽裝者存在時, 增加擊殺冷卻時間</string>
+  <string name="TouOptionSatelliteButtonCooldown">發射按鈕冷卻</string>
+  <string name="TouOptionSatelliteOneUsagePerRound">每回合限用一次</string>
+  <string name="TouOptionSatelliteAllowFirstRound">首回合可用</string>
+  <string name="TouOptionShyTransparencyDelay">淡出延遲</string>
+  <string name="TouOptionShyTurnTransparentDuration">淡出持續時間</string>
+  <string name="TouOptionShyFinalOpacity">最終透明度</string>
+  <string name="TouOptionCrewpostorChance">偽船員生成機率</string>
+  <string name="TouOptionEgotistChance">自大狂生成機率</string>
+  <string name="TouOptionLoversChance">戀人生成機率</string>
+  <string name="TownOfUsMira.Options.Groups.AssailantModifiers">襲擊者附加特性</string>
+  <string name="TouOptionDoubleShotAmount">專業刺客數量</string>
+  <string name="TouOptionDoubleShotChance">專業刺客生成機率</string>
+  <string name="TouOptionOverclockerAmount">超頻者數量</string>
+  <string name="TouOptionOverclockerChance">超頻者生成機率</string>
+  <string name="TownOfUsMira.Options.Groups.CrewmateModifiers">船員附加特性</string>
+  <string name="TouOptionBaitChance">誘餌生成機率</string>
+  <string name="TouOptionCelebrityChance">名人生成機率</string>
+  <string name="TouOptionAftermathAmount">餘波數量</string>
+  <string name="TouOptionAftermathChance">餘波生成機率</string>
+  <string name="TouOptionDiseasedAmount">病人數量</string>
+  <string name="TouOptionDiseasedChance">病人生成機率</string>
+  <string name="TouOptionFrostyAmount">雪人數量</string>
+  <string name="TouOptionFrostyChance">雪人生成機率</string>
+  <string name="TouOptionInvestigatorAmount">調查員數量</string>
+  <string name="TouOptionMultitaskerAmount">多綫程數量</string>
+  <string name="TouOptionNoisemakerAmount">大嗓門數量</string>
+  <string name="TouOptionOperativeAmount">監控員數量</string>
+  <string name="TouOptionRottingAmount">腐爛數量</string>
+  <string name="TouOptionScientistAmount">科學家數量</string>
+  <string name="TouOptionScoutAmount">偵察兵數量</string>
+  <string name="TouOptionSpyAmount">特工數量</string>
+  <string name="TouOptionTaskmasterAmount">任務大師數量</string>
+  <string name="TouOptionTorchAmount">火炬數量</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.FrostyAmount">雪人數量</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.GiantAmount">巨人數量</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.MiniAmount">迷你數量</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.MultitaskerAmount">多綫程數量</string>
+  <string name="TouOptionInvestigatorChance">調查員生成機率</string>
+  <string name="TouOptionMultitaskerChance">多綫程生成機率</string>
+  <string name="TouOptionNoisemakerChance">大嗓門生成機率</string>
+  <string name="TouOptionOperativeChance">監控員生成機率</string>
+  <string name="TouOptionRottingChance">腐爛生成機率</string>
+  <string name="TouOptionScientistChance">科學家生成機率</string>
+  <string name="TouOptionScoutChance">偵察兵生成機率</string>
+  <string name="TouOptionSpyChance">特工生成機率</string>
+  <string name="TouOptionTaskmasterChance">任務大師生成機率</string>
+  <string name="TouOptionTorchChance">火炬生成機率</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.FrostyChance">雪人生成機率</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.GiantChance">巨人生成機率</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.MiniChance">迷你生成機率</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.MultitaskerChance">多綫程生成機率</string>
+  <string name="HnsOptionTitleHiderModifiers">躲藏者附加特性</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.ObliviousAmount">遲鈍數量</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.ObliviousChance">遲鈍生成機率</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.TransporterAmount">傳送師數量</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.TransporterChance">傳送師生成機率</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.WaryAmount">警覺者數量</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.WaryChance">警覺者生成機率</string>
+  <string name="HnsOptionTitleSeekerModifiers">追捕者附加特性</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Option.AdministratorChanceNA">管理員生成機率 (不適用)</string>
+  <string name="TownOfUsMira.HideAndSeek.Modifier.Option.DisperserChanceNA">分散者生成機率 (不適用)</string>
+  <string name="TownOfUsMira.Options.Groups.ImpostorModifiers">偽裝者附加特性</string>
+  <string name="TouOptionCircumventAmount">禁管者數量</string>
+  <string name="TouOptionDeadlyQuotaAmount">必戮之契數量</string>
+  <string name="TouOptionDisperserAmount">分散者數量</string>
+  <string name="TouOptionSaboteurAmount">破壞者數量</string>
+  <string name="TouOptionTelepathAmount">通感者數量</string>
+  <string name="TouOptionUnderdogAmount">潛伏者數量</string>
+  <string name="TouOptionDrunkAmount">醉漢數量</string>
+  <string name="TouOptionFlashAmount">閃電俠數量</string>
+  <string name="TouOptionGiantAmount">巨人數量</string>
+  <string name="TouOptionImmovableAmount">磐石數量</string>
+  <string name="TouOptionMiniAmount">迷你數量</string>
+  <string name="TouOptionRadarAmount">雷達數量</string>
+  <string name="TouOptionSatelliteAmount">衛星員數量</string>
+  <string name="TouOptionShyAmount">變色龍數量</string>
+  <string name="TouOptionSixthSenseAmount">第六感數量</string>
+  <string name="TouOptionSleuthAmount">掘墓人數量</string>
+  <string name="TouOptionCircumventChance">禁管者生成機率</string>
+  <string name="TouOptionDeadlyQuotaChance">必戮之契生成機率</string>
+  <string name="TouOptionDisperserChance">分散者生成機率</string>
+  <string name="TouOptionSaboteurChance">破壞者生成機率</string>
+  <string name="TouOptionTelepathChance">通感者生成機率</string>
+  <string name="TouOptionUnderdogChance">潛伏者生成機率</string>
+  <string name="TownOfUsMira.Options.Groups.NeutralModifiers">中立角色附加特性</string>
+  <string name="TownOfUsMira.Options.Groups.UniversalModifiers">通用型附加特性</string>
+  <string name="TouOptionButtonBarryChance">執鈕人生成機率</string>
+  <string name="TouOptionTiebreakerChance">破平者生成機率</string>
+  <string name="TouOptionDrunkChance">醉漢生成機率</string>
+  <string name="TouOptionFlashChance">閃電俠生成機率</string>
+  <string name="TouOptionGiantChance">巨人生成機率</string>
+  <string name="TouOptionImmovableChance">磐石生成機率</string>
+  <string name="TouOptionMiniChance">迷你生成機率</string>
+  <string name="TouOptionRadarChance">雷達生成機率</string>
+  <string name="TouOptionSatelliteChance">衛星員生成機率</string>
+  <string name="TouOptionShyChance">變色龍生成機率</string>
+  <string name="TouOptionSixthSenseChance">第六感生成機率</string>
+  <string name="TouOptionSleuthChance">掘墓人生成機率</string>
+  <string name="TownOfUsMira.Modifier.AltruistArrow">殉道者箭頭</string>
+  <string name="TownOfUsMira.Modifier.BarkeeperSpillEffect">傾倒效果</string>
+  <string name="TownOfUsMira.Modifier.ClericBarrier">屏障</string>
+  <string name="TownOfUsMira.Modifier.ClericBarrierDescription">你被牧師保護着!
+任何人都無法與你互動。</string>
+  <string name="TownOfUsMira.Modifier.ClericCleanse">牧師淨化</string>
+  <string name="TownOfUsMira.Modifier.ClericCleanseEffectsFound">淨化了 [player] 身上的效果:</string>
+  <string name="TownOfUsMira.Modifier.ClericCleanseNoEffects">沒有在 [player] 上發現負面效果。</string>
+  <string name="TownOfUsMira.Modifier.ClericCleanseFeedbackTitle">牧師反饋:</string>
+  <string name="TownOfUsMira.Modifier.DeputyRevealed">已揭示</string>
+  <string name="TownOfUsMira.Modifier.Jailed">已入獄</string>
+  <string name="TownOfUsMira.Modifier.JailedFeedbackTitle">囚禁反饋</string>
+  <string name="TownOfUsMira.Modifier.JailedNonCrewFeedback">你已被囚禁, 在用戶舉報按鈕上方的聊天框中說服典獄長你是船員以避免被處決。</string>
+  <string name="TownOfUsMira.Modifier.JailedCrewFeedback">你已被囚禁, 在用戶舉報按鈕上方的聊天框中提供相關資訊以向典獄長證明你是船員。</string>
+  <string name="TownOfUsMira.Modifier.MagicMirror">魔法鏡</string>
+  <string name="TownOfUsMira.Modifier.MagicMirrorDescription">你被鏡法師保護着!
+你不會被其他玩家殺死</string>
+  <string name="TouMedicShieldDescription">你被法醫保護着!
+你不會被其他玩家殺死</string>
+  <string name="TownOfUsMira.Modifier.HerbalistProtectionDescription">你被牧師保護着!
+任何人都無法與你互動。</string>
+  <string name="TownOfUsMira.Modifier.Blackmailed">已勒索</string>
+  <string name="TownOfUsMira.Modifier.BlackmailedVoteNotification">本次會議中你無法投票! [time] 秒後將自動跳過。</string>
+  <string name="TownOfUsMira.Modifier.EclipsalBlindedNotification">你被蝕影者致盲了!</string>
+  <string name="TownOfUsMira.Modifier.GrenadierFlashedNotification">你被擲彈兵閃光了!</string>
+  <string name="TownOfUsMira.Modifier.MassHysteriaNotification">你正處於集體癔症狀態!</string>
+  <string name="TownOfUsMira.Modifier.GuardianAngelProtected">已受保護</string>
+  <string name="TownOfUsMira.Modifier.GuardianAngelProtectedDescription">你被天使保護着!
+你不會被殺死。</string>
+  <string name="TownOfUsMira.Modifier.MercenaryBribedFeedbackTitle">僱傭兵反饋</string>
+  <string name="TownOfUsMira.Modifier.MercenaryBribedFeedback">你被僱傭兵賄賂了!</string>
+  <string name="TownOfUsMira.Modifier.Hangover">宿醉</string>
+  <string name="TownOfUsMira.Modifier.HangoverDescription">你正處於宿醉狀態, 暫時免疫角色阻斷。</string>
+  <string name="TownOfUsMira.Modifier.HangoverStartNotification">你正陷入宿醉狀態!</string>
+  <string name="TownOfUsMira.Modifier.HangoverEndNotification">你不再處於宿醉狀態。</string>
+  <string name="TownOfUsMira.Modifier.Roleblocked">被角色阻斷</string>
+  <string name="TownOfUsMira.Modifier.RoleblockedDescription">有人給你喝了酒, 你被角色阻斷了!</string>
+  <string name="TownOfUsMira.Modifier.RoleblockedEndNotification">你不再受到角色阻斷。</string>
+  <string name="TownOfUsMira.Modifier.ShieldDescription">你正受到保護!</string>
+  <string name="TouFirstDeathShieldDescription">你因上一局第一個死亡而獲得了保護</string>
+  <string name="TownOfUsMira.Modifier.Knighted">獲封騎士</string>
+  <string name="TownOfUsMira.Modifier.KnightedDescription">你被君主冊封為騎士。 你獲得了額外的 [votes] 票。</string>
+  <string name="TownOfUsMira.Modifier.DisabledDescription">你已被禁用!</string>
 </resources>

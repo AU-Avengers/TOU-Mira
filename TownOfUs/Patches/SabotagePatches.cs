@@ -23,9 +23,9 @@ public static class SabotagePatches
 
         var options = OptionGroupSingleton<GeneralOptions>.Instance;
 
-        if (localPlayer.HasDied())
+        if (localPlayer.HasDied() && !options.CanSabotageWhenDead.Value)
         {
-            return options.CanSabotageWhenDead.Value;
+            return false;
         }
 
         var minimum = (int)options.PlayerCountWhenSabotagesDisable.Value;
