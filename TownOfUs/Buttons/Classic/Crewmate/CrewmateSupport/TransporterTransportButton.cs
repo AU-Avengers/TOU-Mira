@@ -1,6 +1,6 @@
 ﻿using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Utilities;
-using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -42,7 +42,12 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
             return;
         }
 
-        var playerMenu = DoublePlayerMenu.Create(TownOfUsColors.Transporter, TouCrewAssets.Transport);
+        var playerMenu = CustomPlayerMenu.Create(
+            TownOfUsColors.Transporter,
+            TouCrewAssets.Transport,
+            onMouseOut: MouseOutEvent,
+            onMouseOver: MouseOverEvent
+        );
         playerMenu.PhoneUI.GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
         playerMenu.PhoneUI.GetChild(1).GetComponent<SpriteRenderer>().material =
@@ -55,12 +60,13 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
             {
                 playerMenu.Close();
 
-                TransporterRole.RpcTransport(PlayerControl.LocalPlayer, plr1.PlayerId, plr2.PlayerId);
+                if (plr1 == null || plr2 == null)
+                {
+                    return;
+                }
 
-                playerMenu.target1 = null;
-            },
-            MouseOutEvent,
-            MouseOverEvent
+                TransporterRole.RpcTransport(PlayerControl.LocalPlayer, plr1.PlayerId, plr2.PlayerId);
+            }
         );
         foreach (var panel in playerMenu.potentialVictims)
         {

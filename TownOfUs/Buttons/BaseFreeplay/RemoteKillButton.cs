@@ -4,7 +4,6 @@ using Reactor.Networking.Rpc;
 using TownOfUs.Networking;
 using TownOfUs.Modules;
 using UnityEngine;
-using TownOfUs.Modules.Components;
 
 namespace TownOfUs.Buttons.BaseFreeplay;
 
@@ -52,7 +51,12 @@ public sealed class RemoteKillButton : TownOfUsButton
         Killer = null;
         Victim = null;
 
-        var playerMenu = DoublePlayerMenu.Create(TownOfUsColors.Impostor, TouAssets.KillSprite, hoverDeselectSprite: TouImpAssets.AmbushSprite);
+        var playerMenu = CustomPlayerMenu.Create(
+            TownOfUsColors.Impostor,
+            TouAssets.KillSprite,
+            hoverDeselectSprite: TouImpAssets.AmbushSprite,
+            onMouseOut: MouseOutEvent,
+            onMouseOver: MouseOverEvent);
         playerMenu.PhoneUI.GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
         playerMenu.PhoneUI.GetChild(1).GetComponent<SpriteRenderer>().material =
@@ -65,16 +69,17 @@ public sealed class RemoteKillButton : TownOfUsButton
             {
                 playerMenu.Close();
 
+                if (plr1 == null || plr2 == null)
+                {
+                    return;
+                }
+
                 Killer = plr1;
                 Victim = plr2;
                 EffectActive = true;
                 Timer = EffectDuration;
-
-                playerMenu.target1 = null;
             },
-            MouseOutEvent,
-            MouseOverEvent,
-            allowUnselectFirst: false
+            canRepeat: true
         );
         foreach (var panel in playerMenu.potentialVictims)
         {
