@@ -1316,10 +1316,11 @@ public static class TeamChatPatches
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
             var localDeadKnows = PlayerControl.LocalPlayer.Data.IsDead && genOpt.TheDeadKnow;
             var teammateSeesRole = TouRoleUtils.AreTeammates(PlayerControl.LocalPlayer, player);
+            var role = player.GetSignificantRole();
             var shouldRevealRole = player != null && MeetingHud.Instance &&
                 !(genOpt.FFAImpostorMode && PlayerControl.LocalPlayer.IsImpostorAligned() && !PlayerControl.LocalPlayer.Data.IsDead &&
                   !player.AmOwner && player.IsImpostorAligned()) &&
-                (player.AmOwner || player.Data.Role is MayorRole mayor && mayor.Revealed ||
+                (player.AmOwner || role is MayorRole mayor && mayor.Revealed ||
                  localDeadKnows || teammateSeesRole);
 
             var chatVisual = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowRolesOnChatBubbles.Value;
@@ -1328,8 +1329,7 @@ public static class TeamChatPatches
 
             if (shouldRevealRole && (showIcon || showColor))
             {
-                var role = player.GetRoleWhenAlive();
-                var roleColor = (role is ICustomRole custom) ? custom.RoleColor : role.TeamColor;
+                var roleColor = role.TeamColor;
                 var icon = showIcon ? MiscUtils.GetMaskedRoleTmpIcon(role) : string.Empty;
                 var colorText = showColor ? $"{roleColor.ToTextColor()}{text}</color>" : text;
                 text = $"{icon}{colorText}";

@@ -93,7 +93,7 @@ public static class TownOfUsEventHandlers
             newObj.layer = LayerMask.NameToLayer("UI");
             newObj.transform.localPosition = new Vector3(-1.2f, 0.325f, -0.1f);
             RoleIconRenderer = newObj.AddComponent<SpriteRenderer>();
-            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.Data.Role.GetRoleIcon();
+            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.GetSignificantRole().GetRoleIcon();
             newObj.transform.localScale = new Vector3(1, 1, 1);
             RoleIconRenderer.SetSizeLimit(0.4f);
             var oldScale = newObj.transform.localScale;
@@ -102,7 +102,7 @@ public static class TownOfUsEventHandlers
 
         if (RoleIconRenderer != null)
         {
-            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.Data.Role.GetRoleIcon();
+            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.GetSignificantRole().GetRoleIcon();
             RoleIconRenderer.transform.localScale = new Vector3(1, 1, 1);
             RoleIconRenderer.SetSizeLimit(0.4f);
             var oldScale = RoleIconRenderer.transform.localScale;

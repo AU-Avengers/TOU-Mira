@@ -1285,7 +1285,7 @@ namespace TownOfUs.Modules.DraftMode
         }
 
         [HideFromIl2Cpp]
-        private bool IsEmergencyFallbackRoleAllowed(string candidate, DraftSlotContext context)
+        private static bool IsEmergencyFallbackRoleAllowed(string candidate, DraftSlotContext context)
         {
             if (string.IsNullOrWhiteSpace(candidate) || candidate == "__RANDOM__") return false;
 

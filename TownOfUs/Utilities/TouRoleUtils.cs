@@ -129,7 +129,7 @@ public static class TouRoleUtils
 
     public static string GetRoleIdPart(this RoleBehaviour role)
     {
-        if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
+        if (role is ICustomRole touRole && touRole.IdPart != "KEY_MISS")
         {
             return touRole.IdPart;
         }
