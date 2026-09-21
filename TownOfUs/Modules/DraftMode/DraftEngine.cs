@@ -811,6 +811,7 @@ namespace TownOfUs.Modules.DraftMode
             return true;
         }
 
+        [HideFromIl2Cpp]
         private bool CanConfirmPick(string candidate, DraftSlotContext context)
         {
             if (string.IsNullOrWhiteSpace(candidate) || candidate == "__RANDOM__") return false;
@@ -1075,6 +1076,7 @@ namespace TownOfUs.Modules.DraftMode
             return candidates[^1];
         }
 
+        [HideFromIl2Cpp]
         private void ShuffleOffer(List<string> offer)
         {
             for (int i = offer.Count - 1; i > 0; i--)
@@ -1166,6 +1168,7 @@ namespace TownOfUs.Modules.DraftMode
             return result;
         }
 
+        [HideFromIl2Cpp]
         private List<string> TopUpWithAnyLegalRole(List<string> result, int offered, HashSet<string> avoidNames, int slot, DraftSlotContext? suppliedContext = null)
         {
             if (result.Count >= offered) return result;
@@ -1195,6 +1198,7 @@ namespace TownOfUs.Modules.DraftMode
             return result;
         }
 
+        [HideFromIl2Cpp]
         private void PadWithCrewRoles(List<string> result, int offered, DraftSlotContext context)
         {
             if (result.Count >= offered) return;
