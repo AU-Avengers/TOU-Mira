@@ -338,9 +338,11 @@ public static class HudManagerPatches
 
             var rolelistBuilder = new StringBuilder("<color=#FFD700>");
             var players = GameData.Instance.PlayerCount - SpectatorRole.TrackedSpectators.Count;
-            var maxSlots = players < 15 ? players : 15;
-
+            
             var list = OptionGroupSingleton<RoleOptions>.Instance;
+            var maxCount = list.Slots.Count;
+            var maxSlots = players < maxCount ? players : maxCount;
+
             switch (roleAssignmentType)
             {
                 case RoleDistribution.RoleList:
@@ -349,25 +351,9 @@ public static class HudManagerPatches
                     rolelistBuilder.Append(":</color>\n");
                     for (var i = 0; i < maxSlots; i++)
                     {
-                        var slotValue = i switch
-                        {
-                            0 => list.Slot1.Value,
-                            1 => list.Slot2.Value,
-                            2 => list.Slot3.Value,
-                            3 => list.Slot4.Value,
-                            4 => list.Slot5.Value,
-                            5 => list.Slot6.Value,
-                            6 => list.Slot7.Value,
-                            7 => list.Slot8.Value,
-                            8 => list.Slot9.Value,
-                            9 => list.Slot10.Value,
-                            10 => list.Slot11.Value,
-                            11 => list.Slot12.Value,
-                            12 => list.Slot13.Value,
-                            13 => list.Slot14.Value,
-                            14 => list.Slot15.Value,
-                            _ => (RoleListOption)(-1)
-                        };
+                        var slotValue = i >= list.Slots.Count
+                            ? (RoleListOption)(-1)
+                            : list.Slots[i].Value;
 
                         rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
                     }
@@ -410,25 +396,9 @@ public static class HudManagerPatches
                         {
                             for (var i = 0; i < maxSlots; i++)
                             {
-                                var slotValue = i switch
-                                {
-                                    0 => draftOpts.Slot1.Value,
-                                    1 => draftOpts.Slot2.Value,
-                                    2 => draftOpts.Slot3.Value,
-                                    3 => draftOpts.Slot4.Value,
-                                    4 => draftOpts.Slot5.Value,
-                                    5 => draftOpts.Slot6.Value,
-                                    6 => draftOpts.Slot7.Value,
-                                    7 => draftOpts.Slot8.Value,
-                                    8 => draftOpts.Slot9.Value,
-                                    9 => draftOpts.Slot10.Value,
-                                    10 => draftOpts.Slot11.Value,
-                                    11 => draftOpts.Slot12.Value,
-                                    12 => draftOpts.Slot13.Value,
-                                    13 => draftOpts.Slot14.Value,
-                                    14 => draftOpts.Slot15.Value,
-                                    _ => (RoleListOption)(-1)
-                                };
+                                var slotValue = i >= draftOpts.Slots.Count
+                                                ? (RoleListOption)(-1)
+                                                : draftOpts.Slots[i].Value;
 
                                 rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
                             }

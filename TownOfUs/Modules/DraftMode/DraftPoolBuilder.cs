@@ -190,20 +190,13 @@ namespace TownOfUs.Modules.DraftMode
             var rl   = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
             if (rl == null) return pool;
 
-            RoleListOption[] slots =
-            [
-                rl.Slot1.Value,  rl.Slot2.Value,  rl.Slot3.Value,
-                rl.Slot4.Value,  rl.Slot5.Value,  rl.Slot6.Value,
-                rl.Slot7.Value,  rl.Slot8.Value,  rl.Slot9.Value,
-                rl.Slot10.Value, rl.Slot11.Value, rl.Slot12.Value,
-                rl.Slot13.Value, rl.Slot14.Value, rl.Slot15.Value,
-            ];
+            var slots = rl.Slots;
 
-            int activeSlots = Math.Max(1, Math.Min(Math.Max(1, numPlayers), slots.Length));
+            int activeSlots = Math.Max(1, Math.Min(Math.Max(1, numPlayers), slots.Count));
 
             for (var slotIndex = 0; slotIndex < activeSlots; slotIndex++)
             {
-                var bucket = slots[slotIndex];
+                var bucket = slots[slotIndex].Value;
                 var slotSuffix = $"|slot{slotIndex + 1}";
 
                 var names = DraftRolePool.ResolveBucketToRoleNames(bucket.ToString())

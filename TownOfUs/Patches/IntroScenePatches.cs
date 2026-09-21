@@ -171,31 +171,16 @@ public static class IntroScenePatches
         }
 
         var list = OptionGroupSingleton<RoleOptions>.Instance;
+        var maxCount = list.Slots.Count;
 
-        int maxSlots = players < 15 ? players : 15;
+        int maxSlots = players < maxCount ? players : maxCount;
 
         List<RoleListOption> buckets = [];
         for (int i = 0; i < maxSlots; i++)
         {
-            RoleListOption slotValue = i switch
-            {
-                0 => list.Slot1.Value,
-                1 => list.Slot2.Value,
-                2 => list.Slot3.Value,
-                3 => list.Slot4.Value,
-                4 => list.Slot5.Value,
-                5 => list.Slot6.Value,
-                6 => list.Slot7.Value,
-                7 => list.Slot8.Value,
-                8 => list.Slot9.Value,
-                9 => list.Slot10.Value,
-                10 => list.Slot11.Value,
-                11 => list.Slot12.Value,
-                12 => list.Slot13.Value,
-                13 => list.Slot14.Value,
-                14 => list.Slot15.Value,
-                _ => (RoleListOption)(-1)
-            };
+            RoleListOption slotValue = i >= list.Slots.Count
+                                       ? (RoleListOption)(-1)
+                                       : list.Slots[i].Value;
 
             buckets.Add(slotValue);
         }
