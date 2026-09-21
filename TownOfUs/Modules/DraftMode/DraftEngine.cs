@@ -1266,7 +1266,49 @@ namespace TownOfUs.Modules.DraftMode
                 guaranteed.Add(allowedPoolCandidates[0]);
             }
 
+            if (guaranteed.Count == 0)
+            {
+                var emergency = _pool
+                    .Where(n => !string.IsNullOrWhiteSpace(n) && n != "__RANDOM__")
+                    .Where(n => !avoidNames.Contains(n) && !avoidNames.Contains(BaseRoleName(n)))
+                    .Where(n => IsEmergencyFallbackRoleAllowed(n, context))
+                    .GroupBy(n => BaseRoleName(n), StringComparer.OrdinalIgnoreCase)
+                    .Select(g => g.First())
+                    .OrderBy(_ => _rng.NextDouble())
+                    .ToList();
+
+                if (emergency.Count > 0)
+                    guaranteed = emergency;
+            }
+
             return guaranteed.Take(Math.Max(1, targetCount)).ToList();
+        }
+
+        [HideFromIl2Cpp]
+        private bool IsEmergencyFallbackRoleAllowed(string candidate, DraftSlotContext context)
+        {
+            if (string.IsNullOrWhiteSpace(candidate) || candidate == "__RANDOM__") return false;
+
+            var baseName = BaseRoleName(candidate);
+            var resolvedId = DraftRolePool.ResolveRoleIdFromName(baseName);
+            if (resolvedId == 0) return false;
+
+            bool isImp = DraftRolePool.IsImpostorRoleName(baseName);
+            bool isNeut = DraftRolePool.IsNeutralRoleName(baseName);
+            int candidateWeight = SeatWeightForRoleName(baseName);
+
+            if (isImp && context.PickedImps + candidateWeight > context.MaxImps) return false;
+            if (isNeut && context.PickedNeuts + candidateWeight > context.MaxNeuts) return false;
+            if (isNeut && DraftRolePool.GetRoleAlignment(baseName) == RoleAlignment.NeutralKilling &&
+                context.PickedNeutKilling + candidateWeight > context.MaxNeutKilling) return false;
+
+            var representativeId = context.GetRepresentativeId(baseName);
+            int currentCountById = context.AssignedCountsById.GetValueOrDefault(representativeId);
+            int currentCountByName = context.AssignedCountsByName.GetValueOrDefault(NormalizeRoleNameKey(baseName));
+            if (Math.Max(currentCountById, currentCountByName) >= DraftRolePool.GetMaxCountForRoleName(baseName))
+                return false;
+
+            return true;
         }
 
         private static List<string> MergeOfferLists(List<string> primary, List<string> extra, int target)
@@ -1324,8 +1366,18 @@ namespace TownOfUs.Modules.DraftMode
                         fallbackContext);
                 }
 
-            var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
-            int offeredLimit = Math.Max(1, (int)(roleOpts?.OfferedRolesCount.Value ?? 3));
+                if (offers.Count == 0)
+                {
+                    var emergencyContext = BuildSlotContext(slot, ignoreConcurrentOffers: true, ignoreForce: true);
+                    offers = BuildGuaranteedOfferFallback(
+                        Math.Max(1, (int)(OptionGroupSingleton<RoleOptions>.Instance?.OfferedRolesCount.Value ?? 3)),
+                        emergencyContext.AvoidNames,
+                        slot,
+                        emergencyContext);
+                }
+
+                var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
+                int offeredLimit = Math.Max(1, (int)(roleOpts?.OfferedRolesCount.Value ?? 3));
             var offerContext = BuildSlotContext(slot, ignoreConcurrentOffers: false, ignoreForce: true);
             if (offers.Count < offeredLimit)
             {
@@ -1677,6 +1729,20 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             var offers = _currentOffersBySlot.TryGetValue(slot, out var o) ? o : new List<string>();
+            if (index != 255 && offers.Count > 0 && index >= offers.Count)
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                    $"[DraftEngine] Submitted index {index} for slot {slot} exceeds the active offer count {offers.Count}; treating it as a safe fallback instead of skipping the pick");
+                index = 255;
+            }
+
+            if (index != 255 && offers.Count == 0)
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                    $"[DraftEngine] Slot {slot} has no current offers while a pick was submitted; forcing a legal fallback instead of skipping the turn");
+                index = 255;
+            }
+
             string? chosenName = (index >= offers.Count) ? "__RANDOM__" : offers[index];
             ReleaseReservedSeats(slot);
             var validationContext = BuildSlotContext(slot, ignoreConcurrentOffers: true, ignoreForce: true);
