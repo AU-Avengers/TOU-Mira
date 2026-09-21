@@ -1,6 +1,7 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 
 namespace TownOfUs.Patches;
@@ -76,6 +77,11 @@ public static class SabotagePatches
         if (__instance.gameObject.active && !CanLocalPlayerSabotage())
         {
             __instance.SetDisabled();
+            HudManagerHelper.Instance.SabotageButtonDisabledSprite?.gameObject.SetActive(true);
+        }
+        else
+        {
+            HudManagerHelper.Instance.SabotageButtonDisabledSprite?.gameObject.SetActive(false);
         }
     }
 }

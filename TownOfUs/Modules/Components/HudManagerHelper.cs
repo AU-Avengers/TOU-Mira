@@ -42,6 +42,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
     public static HudManagerHelper Instance { get; private set; }
     public float DeathTimer;
     public int CurrentRound { get; set; } = 1;
+    public GameObject VentButtonDisabledSprite { get; set; }
+    public GameObject SabotageButtonDisabledSprite { get; set; }
     public static void RefreshPlatformData()
     {
         PlatformAssociations.Clear();
@@ -178,6 +180,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 Error($"Failed to create custom button {button.GetType().Name}: {e}");
             }
         }
+        VentButtonDisabledSprite = HudManager.Instance.ImpostorVentButton.CreateDeathDisabledSprite();
+        SabotageButtonDisabledSprite = HudManager.Instance.SabotageButton.CreateDeathDisabledSprite();
     }
     public void FixedUpdate()
     {

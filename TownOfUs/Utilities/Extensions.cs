@@ -800,6 +800,21 @@ public static class Extensions
         }
     }
 
+    public static GameObject CreateDeathDisabledSprite(this ActionButton button)
+    {
+        var hackedSprite = new GameObject("DisabledSprite");
+        hackedSprite.transform.SetParent(button.transform);
+        hackedSprite.transform.localPosition = new Vector3(0, 0, -10f);
+        hackedSprite.gameObject.layer = button.gameObject.layer;
+
+        var render = hackedSprite.AddComponent<SpriteRenderer>();
+        render.sprite = TouAssets.DeathDisabledSprite.LoadAsset();
+
+        hackedSprite.SetActive(false);
+
+        return hackedSprite;
+    }
+
     public static void FillWhere<T>(this List<T> source, List<T> destination, System.Predicate<T> match)
     {
         destination.Clear(); // Clear the reusable list
