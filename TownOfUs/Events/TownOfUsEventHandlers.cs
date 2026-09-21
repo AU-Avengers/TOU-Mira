@@ -94,7 +94,7 @@ public static class TownOfUsEventHandlers
             newObj.layer = LayerMask.NameToLayer("UI");
             newObj.transform.localPosition = new Vector3(-1.2f, 0.325f, -0.1f);
             RoleIconRenderer = newObj.AddComponent<SpriteRenderer>();
-            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.Data.Role.GetRoleIcon();
+            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.GetSignificantRole().GetRoleIcon();
             newObj.transform.localScale = new Vector3(1, 1, 1);
             RoleIconRenderer.SetSizeLimit(0.4f);
             var oldScale = newObj.transform.localScale;
@@ -103,7 +103,7 @@ public static class TownOfUsEventHandlers
 
         if (RoleIconRenderer != null)
         {
-            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.Data.Role.GetRoleIcon();
+            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.GetSignificantRole().GetRoleIcon();
             RoleIconRenderer.transform.localScale = new Vector3(1, 1, 1);
             RoleIconRenderer.SetSizeLimit(0.4f);
             var oldScale = RoleIconRenderer.transform.localScale;
@@ -363,6 +363,10 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void RoundStartHandler(RoundStartEvent @event)
     {
+        var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
+        var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
+        AreVentsAllowed = aliveCount > minimum;
+        HudManagerHelper.Instance.VentButtonDisabledSprite.SetActive(!AreVentsAllowed);
         if (!@event.TriggeredByIntro)
         {
             foreach (var button in CustomButtonManager.Buttons)
@@ -777,19 +781,27 @@ public static class TownOfUsEventHandlers
                 }
             }
         }
+
+        var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
+        var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
+        AreVentsAllowed = aliveCount > minimum;
+        HudManagerHelper.Instance.VentButtonDisabledSprite.SetActive(!AreVentsAllowed);
     }
 
+    public static bool AreVentsAllowed;
     [RegisterEvent]
     public static void PlayerCanUseEventHandler(PlayerCanUseEvent @event)
     {
         if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
             !PlayerControl.LocalPlayer.Data.Role)
         {
+            AreVentsAllowed = true;
             return;
         }
 
         if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
         {
+            AreVentsAllowed = true;
             return;
         }
 
@@ -801,6 +813,7 @@ public static class TownOfUsEventHandlers
         // Prevent last 2 players from venting (or however many are set up)
         if (@event.IsVent)
         {
+            AreVentsAllowed = true;
             if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>())
             {
                 if (PlayerControl.LocalPlayer.inVent)
@@ -829,8 +842,10 @@ public static class TownOfUsEventHandlers
 
             if (aliveCount <= minimum)
             {
+                AreVentsAllowed = false;
                 @event.Cancel();
             }
+            HudManagerHelper.Instance.VentButtonDisabledSprite.SetActive(!AreVentsAllowed);
         }
     }
 

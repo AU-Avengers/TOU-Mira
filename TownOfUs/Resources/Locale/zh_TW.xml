@@ -849,7 +849,6 @@
   <string name="TownOfUsMira.Role.ProsecutorProsecute">起訴</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecuteWiki">起訴(會議)</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecute.WikiDescription">起訴你選擇的任意玩家,對其投出5票並無視其他所有票數。</string>
-  <string name="TouOptionProsecutorDiesWhenCrewmateExiled">檢察官放逐船員時死亡</string>
   <string name="TouOptionProsecutorMaxProsecutions">最大檢舉次數</string>
   <string name="TownOfUsMira.Role.Seer">預言家</string>
   <string name="TownOfUsMira.Role.Seer.IntroBlurb">揭示其他玩家的陣營</string>

@@ -1,4 +1,5 @@
 using HarmonyLib;
+using MiraAPI;
 using TownOfUs.Modules.Components;
 using TownOfUs.Modules.MedSpirit;
 using UnityEngine.ProBuilder;
@@ -24,12 +25,13 @@ public static class AmongUsClientPatches
             ManualDoorsSystemType.SystemType,
         };
         // This allows the custom door types to update properly
+        var objOffset = ModCompatibility.SubLoaded ? 1 : 0;
         Warning("Added TOU Mira System Types!");
         SystemTypeHelpers.AllTypes = SystemTypeHelpers.AllTypes.Concat(customSysTypes).ToArray();
 
         Warning("Added TOU Mira Spawnables.");
         var medSpirit = TouAssets.MediumSpirit.LoadAsset().GetComponent<MedSpiritObject>();
-        medSpirit.SpawnId = (uint)__instance.SpawnableObjects.Count;
+        medSpirit.SpawnId = (uint)(__instance.SpawnableObjects.Count + objOffset);
         __instance.SpawnableObjects =
             __instance.SpawnableObjects.Add(__instance.SpawnableObjects[0]).ToArray(); // dummy value
 

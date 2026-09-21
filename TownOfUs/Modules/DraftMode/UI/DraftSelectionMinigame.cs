@@ -858,10 +858,31 @@ namespace TownOfUs.Modules.DraftMode
         private void OnCardClicked(int index)
         {
             if (_hasPicked) return;
+            if (_offeredRoleIds == null || _offeredRoleIds.Length == 0) return;
+            if (index < 0 || index >= _offeredRoleIds.Length) return;
+
+            var localPlayer = PlayerControl.LocalPlayer;
+            if (localPlayer == null) return;
+
+            if (TargetPickerId != localPlayer.PlayerId)
+                return;
+
+            var localState = DraftManager.GetStateForPlayer(localPlayer.PlayerId);
+            if (localState == null || localState.HasPicked || !localState.IsPickingNow)
+                return;
+
+            if (localState.PendingPickTurnNumber != DraftManager.CurrentTurnNumber)
+                return;
+
+            // Concurrent turns can have multiple slots active in the same turn number. The click gate
+            // must validate this player's actual slot state instead of a single global CurrentTurnSlot,
+            // which only reflects the last announcement and would block otherwise valid clicks.
+            var localSlot = DraftManager.GetSlotForPlayer(localPlayer.PlayerId);
+            if (localSlot < 0)
+                return;
 
             _hasPicked = true;
-            DraftNetworkHelper.SendPickToHost(index, TargetPickerId);
-            Invoke(nameof(DestroySelf), 1.2f);
+            DraftNetworkHelper.SendPickToHost((byte)index, TargetPickerId);
         }
 
         public static void ShowFinalPickNotification(ushort roleId)

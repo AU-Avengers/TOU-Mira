@@ -100,7 +100,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
             ModNewsFetcher
                 .CheckForNews; // Checks for mod announcements after everything is loaded to avoid Epic Games crashing
 
-        if (!IsMobile)
+        /*if (!IsMobile)
         {
             var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
                 "touhats.catalog");
@@ -114,7 +114,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
                 AddressablesLoader.RegisterHats("touhats");
                 Error("touhats.catalog was loaded!");
             }
-        }
+        }*/
 
         ClassInjector.RegisterTypeInIl2Cpp<HatLocator>(new RegisterTypeOptions
         {
