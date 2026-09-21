@@ -5,6 +5,7 @@ using MiraAPI.Hud;
 using MiraAPI.LocalSettings.Attributes;
 using TownOfUs.Buttons;
 using TownOfUs.Patches.Misc;
+using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
 
 namespace TownOfUs;
@@ -45,6 +46,14 @@ public class TouLocalTabButtons(ConfigFile config) : LocalSettingsTab(config)
         {
             ModStampPatch.StampPlacement = ModStampPlacement.Value;
         }
+        else if (configEntry == SeparateChatBubbles)
+        {
+            if (!HudManager.InstanceExists)
+            {
+                return;
+            }
+            TeamChatPatches.UpdateChat();
+        }
     }
 
     public override LocalSettingTabAppearance TabAppearance => new()
@@ -76,6 +85,18 @@ public class TouLocalTabButtons(ConfigFile config) : LocalSettingsTab(config)
     [LocalToggleSetting]
     public ConfigEntry<bool> OffsetButtonsToggle { get; private set; } =
         config.Bind("Abilities", "OffsetButtons", false);
+
+    [LocalToggleSetting]
+    public ConfigEntry<bool> SeparateChatBubbles { get; private set; } =
+        config.Bind("Chat", "SeparateChatBubbles", false);
+
+    [LocalToggleSetting]
+    public ConfigEntry<bool> ShowChatNotifsInGame { get; private set; } =
+        config.Bind("Chat", "ShowChatNotifsInGame", true);
+
+    [LocalEnumSetting(names: ["ChatRoleVisualDisabled", "ChatRoleVisualIcon", "ChatRoleVisualColor", "ChatRoleVisualIconAndColor"])]
+    public ConfigEntry<ChatRoleVisual> ShowRolesOnChatBubbles { get; private set; } =
+        config.Bind("Chat", "ShowRolesOnChatBubbles", ChatRoleVisual.IconAndColor);
 }
 
 public enum ModStampLocation
@@ -84,4 +105,12 @@ public enum ModStampLocation
     TopRight,
     BottomLeft,
     BottomRight
+}
+
+public enum ChatRoleVisual
+{
+    Disabled,
+    Icon,
+    Color,
+    IconAndColor
 }

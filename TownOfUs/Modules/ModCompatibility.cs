@@ -119,17 +119,14 @@ public static class ModCompatibility
     public static BasePlugin MciPlugin { get; private set; }
     public static Assembly MciAssembly { get; private set; }
     
-    /*public const string CorsacGuid = "CorsacCosmetics";
+    public const string CorsacGuid = "CorsacCosmetics";
     public static Version CorsacVersion { get; private set; }
     public static bool CorsacLoaded { get; private set; }
     public static BasePlugin CorsacPlugin { get; private set; }
     public static Assembly CorsacAssembly { get; private set; }
     public static Type[] CorsacTypes { get; private set; }
-    private static readonly Dictionary<Assembly, string> ResourceBundles = new();
-    public static void AddCorsacResourceBundle(Assembly assembly, string resourcePath)
-    {
-        ResourceBundles.Add(assembly, resourcePath);
-    }*/
+    private static MethodInfo QueueBundleDownload;
+
     public const string PerfectCommsGuid = "com.edgetel.perfectcomms";
     public static readonly Dictionary<Type, List<MiraEventWrapper>> ExposedEventWrappers = [];
     public static BasePlugin ApiPlugin { get; private set; }
@@ -146,7 +143,7 @@ public static class ModCompatibility
         InitAleLudu();
         InitMci();
         InitLaunchpad();
-        // InitCorsac();
+        InitCorsac();
         InitPerfectComms();
 
         var sBuilder = new StringBuilder();
@@ -276,7 +273,35 @@ public static class ModCompatibility
         harmony.Patch(detConstruct, new HarmonyMethod(AccessTools.Method(compatType, nameof(AdjustRoleBehaviour))));
     }
 #pragma warning restore S3011
-    /*public static void InitCorsac()
+    public static string StarlightPath => Environment.GetEnvironmentVariable("STAR_DATA_PATH")!;
+    
+    public static string BasePath { get; } = Path.Combine(
+        OperatingSystem.IsAndroid() ? StarlightPath : Paths.GameRootPath,
+        "CorsacCosmetics"
+    );
+
+    public static string BundlePath { get; } = Path.Combine(BasePath, "Bundles");
+    public static readonly string[] CosmeticsArray =
+    {
+        "15Streamers",
+        "Atony",
+        "GhostEjims",
+        "HannahTheBeef",
+        "Kazumai",
+        "LittleDooDoo",
+        "OneOffs",
+        "Ophidian",
+        "PhasmoFireGod",
+        "Pigoletto",
+        "Ressnie",
+        "Rum",
+        "Sarinjin",
+        "SugaNope",
+        "Sweetrolled",
+        "TheLastShaymin",
+        "Tori"
+    };
+    public static void InitCorsac()
     {
         if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(CorsacGuid, out var plugin))
         {
@@ -288,18 +313,20 @@ public static class ModCompatibility
 
         CorsacAssembly = CorsacPlugin.GetType().Assembly;
         CorsacTypes = AccessTools.GetTypesFromAssembly(CorsacAssembly);
-        var bundleLoader = CorsacTypes.First(t => t.Name == "BundleLoader");
-        var addResourceHandler = AccessTools.Method(bundleLoader, "AddResourceBundle", [typeof(Assembly), typeof(string)]);
-        if (ResourceBundles.HasAny())
-        {
-            foreach (var pair in ResourceBundles)
-            {
-                addResourceHandler.Invoke(null, [pair.Key, pair.Value]);
-            }
-        }
+        var pluginCompat = CorsacTypes.First(t => t.Name == "PluginCompat");
+        QueueBundleDownload = AccessTools.Method(pluginCompat, "QueueBundleDownload", [typeof(string), typeof(string)]);
         CorsacLoaded = true;
-        Message("Corsac Cosmetics was detected");
-    }*/
+        Message("Corsac Cosmetics was detected, attempting to load hats now if they're not already downloaded.");
+
+        foreach (var cosmetic in CosmeticsArray)
+        {
+            if (File.Exists(Path.Combine(BundlePath, Path.GetFileName($"TownOfUs.{cosmetic}.ccb"))))
+            {
+                continue;
+            }
+            QueueBundleDownload.Invoke(null, [$"https://github.com/AU-Avengers/TownOfUs-Cosmetics/raw/refs/heads/main/Bundles/TownOfUs.{cosmetic}.ccb", null]);
+        }
+    }
 
     public static void InitSubmerged()
     {
@@ -515,10 +542,10 @@ public static class ModCompatibility
     {
         GameHistory.UpdatePlayerDeathData(player.PlayerId, MiraLocaleManager.Get("DiedToSubmergedOxygen"),
             0f, HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetTrue,
-        lockInfo: DeathHandlerOverride.SetTrue);
+            lockInfo: DeathHandlerOverride.SetTrue);
     }
 
-    public static string SelectedRoleName;
+public static string SelectedRoleName;
     public static bool SelectedRoleStatus = true;
     public static void AdjustRoleBehaviour(object __instance, ref bool __state)
     {
@@ -869,4 +896,5 @@ public static class ModCompatibility
             return;
         }
     }
-}
+
+    }

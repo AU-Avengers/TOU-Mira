@@ -1,7 +1,6 @@
 using BepInEx.Configuration;
 using MiraAPI.LocalSettings.Attributes;
 using MiraAPI.Utilities;
-using TownOfUs.Patches.Options;
 
 namespace TownOfUs;
 
@@ -9,19 +8,6 @@ public class TouLocalTabPreferences(ConfigFile config) : LocalSettingsTab(config
 {
     public override string TabName => $"<size=65%>{MiraLocaleManager.Get("TouLocalTabPreferences", "Preferences")}</size>";
     protected override bool ShouldCreateLabels => true;
-
-    public override void OnOptionChanged(ConfigEntryBase configEntry)
-    {
-        base.OnOptionChanged(configEntry);
-        if (configEntry == SeparateChatBubbles)
-        {
-            if (!HudManager.InstanceExists)
-            {
-                return;
-            }
-            TeamChatPatches.UpdateChat();
-        }
-    }
 
     public override LocalSettingTabAppearance TabAppearance => new()
     {
@@ -44,14 +30,6 @@ public class TouLocalTabPreferences(ConfigFile config) : LocalSettingsTab(config
     [LocalToggleSetting]
     public ConfigEntry<bool> SortGuessingByAlignmentToggle { get; private set; } =
         config.Bind("Gameplay", "SortGuessingByAlignment", false);
-
-    [LocalToggleSetting]
-    public ConfigEntry<bool> SeparateChatBubbles { get; private set; } =
-        config.Bind("Gameplay", "SeparateChatBubbles", false);
-
-    [LocalToggleSetting]
-    public ConfigEntry<bool> ShowChatNotifsInGame { get; private set; } =
-        config.Bind("Gameplay", "ShowChatNotifsInGame", true);
 
     [LocalToggleSetting]
     public ConfigEntry<bool> DeadSeeGhostsToggle { get; private set; } = config.Bind("Miscellaneous", "DeadSeeGhosts", true);

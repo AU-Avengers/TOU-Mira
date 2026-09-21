@@ -6,7 +6,7 @@ namespace TownOfUs.Patches.Options;
 [HarmonyPatch]
 public static class VanillaSettingsPatch
 {
-    [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.CreateSettings))]
+    [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Initialize))]
     [HarmonyPostfix]
     public static void Postfix(GameOptionsMenu __instance)
     {

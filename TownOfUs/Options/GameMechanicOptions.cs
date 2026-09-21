@@ -37,6 +37,13 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
                 "TouOptionKillAnimationBackgroundColorEnumRoleColor"
             ]);
 
+    public ModdedNumberOption PlayerCountWhenSabotagesDisable { get; set; } =
+        new("TouOptionPlayerCountWhenSabotagesDisable",
+            2f, 1f, 15f, 1f, MiraNumberSuffixes.None, "0.#");
+
+    public ModdedToggleOption CanSabotageWhenDead { get; set; } =
+        new("TouOptionCanSabotageWhenDead", true);
+
     public ModdedNumberOption PlayerCountWhenVentsDisable { get; set; } =
         new("TouOptionPlayerCountWhenVentsDisable",
             2f, 1f, 15f, 1f, MiraNumberSuffixes.None, "0.#");

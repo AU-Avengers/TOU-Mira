@@ -42,6 +42,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
     public static HudManagerHelper Instance { get; private set; }
     public float DeathTimer;
     public int CurrentRound { get; set; } = 1;
+    public GameObject VentButtonDisabledSprite { get; set; }
+    public GameObject SabotageButtonDisabledSprite { get; set; }
     public static void RefreshPlatformData()
     {
         PlatformAssociations.Clear();
@@ -178,6 +180,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 Error($"Failed to create custom button {button.GetType().Name}: {e}");
             }
         }
+        VentButtonDisabledSprite = HudManager.Instance.ImpostorVentButton.CreateDeathDisabledSprite();
+        SabotageButtonDisabledSprite = HudManager.Instance.SabotageButton.CreateDeathDisabledSprite();
     }
     public void FixedUpdate()
     {
@@ -437,8 +441,10 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
     internal static (Color PlayerColor, string PlayerName) GetRoleNameText(PlayerControl player, bool isImpFfa, PostmortemOptions taskOpt, string roleNameSize, bool roleOnTop, bool colorPlayerNames, bool localDead, bool localGhost, bool localImp, bool localVamp, bool useMiraApiChecks, bool inMeeting, bool isVisible = true, bool removeCod = false)
     {
-        // End Shared of loop
-        if (!inMeeting && localGhost)
+        // Dead players should continue to see the live role reveal state when "The Dead Know" is enabled.
+        // The non-meeting field visibility check is only meant to gate temporary ghost-only visibility,
+        // not to strip the dead-player reveal path entirely.
+        if (!inMeeting && localGhost && !localDead)
         {
             localGhost = isVisible;
         }
@@ -475,9 +481,10 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var bottomText = "";
         var impostorBuddy = localImp && player.IsImpostorAligned();
         var vampBuddy = localVamp && role is VampireRole;
+        var teammateSeesRole = TouRoleUtils.AreTeammates(PlayerControl.LocalPlayer, player);
         var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
         var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
-        if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
+        if (player.AmOwner || vampBuddy || impostorBuddy || teammateSeesRole || revealed || localGhost || localFairy || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
         {
             color = role.TeamColor;
             roleName = $"<size={roleNameSize}>{MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{role.GetRoleName()}</color></size>";

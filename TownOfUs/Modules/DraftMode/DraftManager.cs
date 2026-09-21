@@ -61,7 +61,25 @@ public static class DraftManager
         if (state == null) return;
         if (state.HasPicked || state.ChosenRoleId != 0) return;
         if (!state.IsPickingNow) return;
-        if (state.PendingPickIndex != 255 && state.PendingPickTurnNumber == _currentTurn) return;
+
+        if (state.PendingPickIndex != 255 && state.PendingPickTurnNumber == _currentTurn)
+        {
+            if (state.PendingPickIndex == index)
+            {
+                return;
+            }
+
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                $"[DraftManager] Ignoring duplicate submitted pick for player {playerId}: stored index {state.PendingPickIndex}, new index {index}, turn {_currentTurn}");
+            return;
+        }
+
+        if (index == 255)
+        {
+            state.PendingPickIndex = 255;
+            state.PendingPickTurnNumber = _currentTurn;
+            return;
+        }
 
         state.PendingPickIndex = index;
         state.PendingPickTurnNumber = _currentTurn;
