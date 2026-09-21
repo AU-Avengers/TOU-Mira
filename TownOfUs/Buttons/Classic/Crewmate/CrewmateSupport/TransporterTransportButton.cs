@@ -43,9 +43,9 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
         }
 
         var playerMenu = DoublePlayerMenu.Create(TownOfUsColors.Transporter, TouCrewAssets.Transport);
-        playerMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
+        playerMenu.PhoneUI.GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
-        playerMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
+        playerMenu.PhoneUI.GetChild(1).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
         playerMenu.Begin(
