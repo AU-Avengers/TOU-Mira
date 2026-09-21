@@ -20,7 +20,7 @@ namespace TownOfUs.Patches.Options;
 public static class TeamChatPatches
 {
     public static bool SplitChats =>
-        LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.SeparateChatBubbles.Value;
+        LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.SeparateChatBubbles.Value;
     public static GameObject TeamChatButton;
     private static TextMeshPro? _teamText;
     public static bool TeamChatActive; // True if any team chat is active
@@ -808,7 +808,7 @@ public static class TeamChatPatches
 
     public static void CheckCurrentChats(ChatController instance)
     {
-        if (!LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.SeparateChatBubbles.Value)
+        if (!LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.SeparateChatBubbles.Value)
         {
             PrivateChatItems.gameObject.SetActive(false);
             PublicChatItems.gameObject.SetActive(false);
@@ -1113,7 +1113,7 @@ public static class TeamChatPatches
         MergedChatBubbles.Select(x => x.Bubble).Do(x => list.Add(x));
         MergedChatPool = list;
 
-        if (!LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.SeparateChatBubbles.Value)
+        if (!LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.SeparateChatBubbles.Value)
         {
             PrivateChatItems.gameObject.SetActive(false);
             PublicChatItems.gameObject.SetActive(false);
@@ -1226,7 +1226,7 @@ public static class TeamChatPatches
         bool inverted = false)
     {
         if (PlayerCustomizationMenu.Instance || ShipStatus.Instance &&
-            !LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.ShowChatNotifsInGame.Value)
+            !LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowChatNotifsInGame.Value)
         {
             return;
         }

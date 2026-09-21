@@ -74,6 +74,11 @@
   <string name="ZoomingInPractice">Zoom In Practice</string>
   <string name="SeparateChatBubbles">Separate Chat Bubbles</string>
     <string name="ShowChatNotifsInGame">Show Chat Notifications Mid-Game</string>
+    <string name="ShowRolesOnChatBubbles">Show Roles On Chat Bubbles</string>
+    <string name="ChatRoleVisualDisabled">Disabled</string>
+    <string name="ChatRoleVisualIcon">Icon</string>
+    <string name="ChatRoleVisualColor">Color</string>
+    <string name="ChatRoleVisualIconAndColor">Icon [and] Color</string>
   <string name="RoleIconOnReveal">Show Role Icon on Intro</string>
   <string name="ColorPlayerName">Colored Player Name</string>
   <string name="RoleNameStyle">Role Name Style</string>
