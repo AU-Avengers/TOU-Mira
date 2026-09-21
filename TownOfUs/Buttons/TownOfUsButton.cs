@@ -6,6 +6,7 @@ using MiraAPI.PluginLoading;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Globalization;
+using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
@@ -646,6 +647,23 @@ public abstract class TownOfUsKillRoleButton<TRole, TTarget> : TownOfUsRoleButto
 [MiraIgnore]
 public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, Vent> where TRole : RoleBehaviour
 {
+    public GameObject DisableSprite;
+    public override void CreateButton(Transform parent)
+    {
+        base.CreateButton(parent);
+        DisableSprite = Button!.CreateDeathDisabledSprite();
+    }
+
+    public override void FixedUpdateHandler(PlayerControl playerControl)
+    {
+        base.FixedUpdateHandler(playerControl);
+        if (DisableSprite)
+        {
+            DisableSprite.SetActive(!TownOfUsEventHandlers.AreVentsAllowed);
+        }
+    }
+
+
     public override Vent? GetTarget()
     {
         return HudManager.Instance.ImpostorVentButton.currentTarget;
@@ -690,6 +708,22 @@ public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, 
 [MiraIgnore]
 public abstract class TownOfUsVentButton : TownOfUsTargetButton<Vent>
 {
+    public GameObject DisableSprite;
+    public override void CreateButton(Transform parent)
+    {
+        base.CreateButton(parent);
+        DisableSprite = Button!.CreateDeathDisabledSprite();
+    }
+
+    public override void FixedUpdateHandler(PlayerControl playerControl)
+    {
+        base.FixedUpdateHandler(playerControl);
+        if (DisableSprite)
+        {
+            DisableSprite.SetActive(!TownOfUsEventHandlers.AreVentsAllowed);
+        }
+    }
+
     public override void SetOutline(bool active)
     {
         if (Target != null)
