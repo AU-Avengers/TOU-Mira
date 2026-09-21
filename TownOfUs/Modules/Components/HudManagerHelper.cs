@@ -441,9 +441,6 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
     internal static (Color PlayerColor, string PlayerName) GetRoleNameText(PlayerControl player, bool isImpFfa, PostmortemOptions taskOpt, string roleNameSize, bool roleOnTop, bool colorPlayerNames, bool localDead, bool localGhost, bool localImp, bool localVamp, bool useMiraApiChecks, bool inMeeting, bool isVisible = true, bool removeCod = false)
     {
-        // Dead players should continue to see the live role reveal state when "The Dead Know" is enabled.
-        // The non-meeting field visibility check is only meant to gate temporary ghost-only visibility,
-        // not to strip the dead-player reveal path entirely.
         if (!inMeeting && localGhost && !localDead)
         {
             localGhost = isVisible;
