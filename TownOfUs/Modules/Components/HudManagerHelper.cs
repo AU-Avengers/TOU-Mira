@@ -481,7 +481,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var bottomText = "";
         var impostorBuddy = localImp && player.IsImpostorAligned();
         var vampBuddy = localVamp && role is VampireRole;
-        var teammateSeesRole = TouRoleUtils.AreTeammates(PlayerControl.LocalPlayer, player);
+        TouRoleUtils.AreTeammates(PlayerControl.LocalPlayer, player, isImpFfa, out var teammateSeesRole);
         var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
         var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
         if (player.AmOwner || vampBuddy || impostorBuddy || teammateSeesRole || revealed || localGhost || localFairy || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
