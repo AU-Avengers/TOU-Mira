@@ -70,7 +70,15 @@ public static class DraftManager
             }
 
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
-                $"[DraftManager] Ignoring duplicate submitted pick for player {playerId}: stored index {state.PendingPickIndex}, new index {index}, turn {_currentTurn}");
+                $"[DraftManager] Replacing stale submitted pick for player {playerId}: stored index {state.PendingPickIndex}, new index {index}, turn {_currentTurn}");
+            state.PendingPickIndex = index;
+            state.PendingPickTurnNumber = _currentTurn;
+
+            if (AmongUsClient.Instance.AmHost && DraftEngineBehaviour.Instance != null)
+            {
+                DraftEngineBehaviour.Instance.TryApplySubmittedPick(playerId, index);
+            }
+
             return;
         }
 
