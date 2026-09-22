@@ -22,8 +22,13 @@ using UnityEngine;
 namespace TownOfUs.Roles.Crewmate;
 
 public sealed class MayorRole(IntPtr cppPtr)
-    : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, IUnguessable, ILoyalCrewmate
+    : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, IUnguessable, ILoyalCrewmate, IVisibleRole
 {
+    public bool CanOtherRoleSee(RoleBehaviour role, out bool consideredTeammates)
+    {
+        consideredTeammates = false;
+        return Revealed;
+    }
     public bool CanBeTraitor => false;
     public bool CanBeCrewpostor => false;
     public bool CanBeEgotist => true;

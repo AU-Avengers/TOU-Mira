@@ -17,8 +17,14 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IDoubleDraftRole
+public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IDoubleDraftRole, IVisibleRole
 {
+    public bool CanOtherRoleSee(RoleBehaviour role, out bool consideredTeammates)
+    {
+        consideredTeammates = role is VampireRole;
+        return consideredTeammates;
+    }
+
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (!playerControl.AmOwner)
