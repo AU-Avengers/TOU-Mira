@@ -1007,15 +1007,15 @@ public static class TeamChatPatches
             }
 
             var localDeadKnows = GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow;
-            TouRoleUtils.AreTeammates(PlayerControl.LocalPlayer, player, genOpt.FFAImpostorMode, out var teammateSeesRole);
+            TouRoleUtils.AreTeammates(PlayerControl.LocalPlayer, player, genOpt.FFAImpostorMode, genOpt.ImpsKnowRoles, out var teammateSeesRole, out var canSeeColor);
             var role = player.GetSignificantRole();
             var shouldRevealRole = player != null && MeetingHud.Instance &&
                                    (player.AmOwner ||
-                                    localDeadKnows || teammateSeesRole);
+                                    localDeadKnows || teammateSeesRole || canSeeColor);
 
             var chatVisual = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowRolesOnChatBubbles.Value;
-            var showIcon = chatVisual is ChatRoleVisual.Icon or ChatRoleVisual.IconAndColor;
-            var showColor = chatVisual is ChatRoleVisual.Color or ChatRoleVisual.IconAndColor;
+            var showIcon = chatVisual is ChatRoleVisual.Icon or ChatRoleVisual.IconAndColor && teammateSeesRole;
+            var showColor = chatVisual is ChatRoleVisual.Color or ChatRoleVisual.IconAndColor && canSeeColor;
 
             if (shouldRevealRole && (showIcon || showColor))
             {
@@ -1313,15 +1313,15 @@ public static class TeamChatPatches
             var player = srcPlayer.Object;
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
             var localDeadKnows = GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow;
-            TouRoleUtils.AreTeammates(PlayerControl.LocalPlayer, player, genOpt.FFAImpostorMode, out var teammateSeesRole);
+            TouRoleUtils.AreTeammates(PlayerControl.LocalPlayer, player, genOpt.FFAImpostorMode, genOpt.ImpsKnowRoles.Value, out var teammateSeesRole, out var canSeeColor);
             var role = player.GetSignificantRole();
             var shouldRevealRole = player != null && MeetingHud.Instance &&
                 (player.AmOwner ||
-                 localDeadKnows || teammateSeesRole);
+                 localDeadKnows || teammateSeesRole || canSeeColor);
 
             var chatVisual = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowRolesOnChatBubbles.Value;
-            var showIcon = chatVisual is ChatRoleVisual.Icon or ChatRoleVisual.IconAndColor;
-            var showColor = chatVisual is ChatRoleVisual.Color or ChatRoleVisual.IconAndColor;
+            var showIcon = chatVisual is ChatRoleVisual.Icon or ChatRoleVisual.IconAndColor && teammateSeesRole;
+            var showColor = chatVisual is ChatRoleVisual.Color or ChatRoleVisual.IconAndColor && canSeeColor;
 
             if (shouldRevealRole && (showIcon || showColor))
             {

@@ -107,7 +107,7 @@ public static class TouRoleUtils
                && player.Data.Role is not IGhostRole;
     }
 
-    public static bool AreTeammates(PlayerControl player, PlayerControl other, bool impFfa, out bool canSeeRoles)
+    public static bool AreTeammates(PlayerControl player, PlayerControl other, bool impFfa, bool impsSeeRole, out bool canSeeRoles, out bool canSeeColor)
     {
         var playerRole = player.GetRoleWhenAlive();
         var otherRole = other.GetRoleWhenAlive();
@@ -116,7 +116,8 @@ public static class TouRoleUtils
         var areImps = player.IsImpostorAligned() && other.IsImpostorAligned();
         var areLovers = player.IsLoverWithPlayer(other);
         var flag = areImps || consideredTeammates || areLovers;
-        canSeeRoles = areImps && !impFfa || visible;
+        canSeeRoles = areImps && !impFfa && impsSeeRole || visible;
+        canSeeColor = areImps && !impFfa || visible;
         return flag;
     }
 
