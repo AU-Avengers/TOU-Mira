@@ -1,5 +1,6 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 
 namespace TownOfUs.Patches;
@@ -7,7 +8,6 @@ namespace TownOfUs.Patches;
 [HarmonyPatch]
 public static class SabotagePatches
 {
-
     public static bool CanLocalPlayerSabotage()
     {
         var localPlayer = PlayerControl.LocalPlayer;
@@ -21,7 +21,7 @@ public static class SabotagePatches
             return true;
         }
 
-        var options = OptionGroupSingleton<GeneralOptions>.Instance;
+        var options = OptionGroupSingleton<GameMechanicOptions>.Instance;
 
         if (localPlayer.HasDied() && !options.CanSabotageWhenDead.Value)
         {
@@ -41,27 +41,14 @@ public static class SabotagePatches
         return true;
     }
 
-    [HarmonyPatch(typeof(SabotageButton), nameof(SabotageButton.Refresh))]
-    [HarmonyPriority(Priority.First)]
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.ToggleMapVisible))]
     [HarmonyPrefix]
-    public static bool SabotageButtonRefreshPatch(SabotageButton __instance)
+    public static void ToggleMapVisiblePatch(HudManager __instance, MapOptions options)
     {
-        if (CanLocalPlayerSabotage())
+        if (options.Mode is MapOptions.Modes.Sabotage && !CanLocalPlayerSabotage())
         {
-            return true;
+            options.Mode = MapOptions.Modes.Normal;
         }
-
-        __instance.ToggleVisible(false);
-        __instance.SetDisabled();
-        return false;
-    }
-
-    [HarmonyPatch(typeof(SabotageButton), nameof(SabotageButton.DoClick))]
-    [HarmonyPriority(Priority.First)]
-    [HarmonyPrefix]
-    public static bool SabotageButtonClickPatch()
-    {
-        return CanLocalPlayerSabotage();
     }
 
     [HarmonyPatch(typeof(NormalGameManager), nameof(NormalGameManager.GetMapOptions))]
@@ -76,27 +63,24 @@ public static class SabotagePatches
         __result = new MapOptions { Mode = MapOptions.Modes.Normal };
     }
 
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
+    [HarmonyPatch(typeof(SabotageButton), nameof(SabotageButton.Refresh))]
     [HarmonyPostfix]
-    public static void HudManagerUpdatePatch(HudManager __instance)
+    public static void RefreshPostfix(SabotageButton __instance)
     {
-        if (!__instance.SabotageButton)
+        var player = PlayerControl.LocalPlayer;
+        if (GameManager.Instance == null || player == null)
         {
             return;
         }
 
-        var sabotageButton = __instance.SabotageButton;
-        if (!sabotageButton.isActiveAndEnabled)
+        if (__instance.gameObject.active && !CanLocalPlayerSabotage())
         {
-            return;
+            __instance.SetDisabled();
+            HudManagerHelper.Instance.SabotageButtonDisabledSprite?.gameObject.SetActive(true);
         }
-
-        if (CanLocalPlayerSabotage())
+        else
         {
-            sabotageButton.SetEnabled();
-            return;
+            HudManagerHelper.Instance.SabotageButtonDisabledSprite?.gameObject.SetActive(false);
         }
-
-        sabotageButton.SetDisabled();
     }
 }

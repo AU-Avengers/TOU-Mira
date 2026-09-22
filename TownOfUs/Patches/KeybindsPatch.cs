@@ -5,6 +5,7 @@ using MiraAPI.GameEnd;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Networking;
+using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using MiraAPI.Voting;
 using Reactor.Networking.Attributes;
@@ -336,7 +337,7 @@ public static class Bindings
                     }
                 }
 
-                if (vent.isActiveAndEnabled)
+                if (vent.isActiveAndEnabled && PlayerControl.LocalPlayer.Data.Role is ICustomRole { Configuration.CanUseVent: true })
                 {
                     var ventKey = ReInput.players.GetPlayer(0).GetButtonDown("UseVent");
                     var controllerVent = ConsoleJoystick.player.GetButtonDown(50);

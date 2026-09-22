@@ -394,6 +394,15 @@ public static class GameHistory
         return player.Data.Role;
     }
 
+    public static RoleBehaviour GetSignificantRole(this PlayerControl player)
+    {
+        if (player.Data.IsDead && !MiscUtils.IsBasicGhost(player.Data.Role))
+        {
+            return player.Data.Role;
+        }
+        return player.GetRoleWhenAlive();
+    }
+
     public static int RoleCount<T>() where T : RoleBehaviour
     {
         return RoleWhenAlive.Count(x => x.Value is T);

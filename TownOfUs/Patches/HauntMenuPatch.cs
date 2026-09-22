@@ -50,11 +50,7 @@ public static class HauntMenuMinigamePatch
                 __instance.FilterText.text = modifierTextBuilder.ToString();
             }
 
-            var role = target.Data.Role;
-            if (target.Data.IsDead && MiscUtils.IsBasicGhost(role))
-            {
-                role = target.GetRoleWhenAlive();
-            }
+            var role = target.GetSignificantRole();
 
             var name = role.GetRoleName();
 

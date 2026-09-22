@@ -319,6 +319,7 @@ public static class TouAssets
     public static LoadableAsset<Sprite> ProsecutorToggleSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ProsecutorToggleSprite.png");
     public static LoadableAsset<Sprite> ToggleDisabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ToggleDisabled.png");
     public static LoadableAsset<Sprite> ToggleEnabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ToggleEnabled.png");
+    public static LoadableAsset<Sprite> DeathDisabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.DeathDisabledSprite.png");
 
     public static LoadableAsset<Sprite> ProsecuteMeetingSprite { get; } =
         new LoadableResourceAsset($"{ShortPath}.ProsecuteSprite.png");
