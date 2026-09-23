@@ -189,6 +189,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string IdPart => "Inquisitor";
 
+    public string RoleWikiDescription => GetAdvancedDescription();
     public string GetAdvancedDescription()
     {
         return

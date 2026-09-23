@@ -570,8 +570,11 @@ public static class HudManagerPatches
             active.localPosition = new Vector3(0, 0.021f, -0.1f);
 
             WikiButton.GetComponentInChildren<AspectPosition>().Destroy();
-            OldVanillaWikiButton = MiraHudHelper.VanillaMatchInfoButton;
-            MiraHudHelper.VanillaMatchInfoButton = null!;
+            if (TownOfUsPlugin.ReplaceInfoGuide)
+            {
+                OldVanillaWikiButton = MiraHudHelper.VanillaMatchInfoButton;
+                MiraHudHelper.VanillaMatchInfoButton = null!;
+            }
             MiraApiSettings.SetUpButtonPositions();
         }
 

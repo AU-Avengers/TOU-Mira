@@ -35,6 +35,7 @@ public sealed class HypnotistRole(IntPtr cppPtr)
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Hypnotist";
 
+    public string RoleWikiDescription => GetAdvancedDescription();
     public string GetAdvancedDescription()
     {
         return

@@ -32,6 +32,7 @@ namespace TownOfUs;
 public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
 {
     public static bool IsMobile => Constants.GetPlatformType() is Platforms.Android or Platforms.IPhone;
+    internal static readonly bool ReplaceInfoGuide = false;
     /// <summary>
     ///     Gets the specified Culture for string manipulations.
     /// </summary>

@@ -146,6 +146,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         return AllGuessesCorrect;
     }
 
+    public string RoleWikiDescription => GetAdvancedDescription();
     public string GetAdvancedDescription()
     {
         var opts = OptionGroupSingleton<DoomsayerOptions>.Instance;

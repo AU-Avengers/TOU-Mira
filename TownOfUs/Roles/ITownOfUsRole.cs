@@ -2,11 +2,27 @@
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using TMPro;
+using UnityEngine;
 
 namespace TownOfUs.Roles;
 
 public interface ITownOfUsRole : ICustomRole
 {
+    GameObject ICustomRole.GetAdvancedWiki(MatchInfoGuide guide, TextMeshPro titleText, Scroller parent)
+    {
+        parent.ScrollToTop();
+        var obj = new GameObject(RoleNameLocale);
+        titleText.text = RoleName + $" ({RoleFactionTitle})";
+        var desc = UnityEngine.Object.Instantiate(guide.MatchInfoRolePanelPrefab.roleCount, obj.transform);
+        desc.fontSizeMin = desc.fontSizeMax = desc.fontSize = 2f;
+        desc.text = RoleWikiDescription + MiscUtils.AppendOptionsText(GetType());
+        desc.rectTransform.sizeDelta = new Vector2(7.5f, 0.3f);
+        desc.alignment = TextAlignmentOptions.TopLeft;
+        obj.transform.SetParent(parent.Inner.transform);
+        desc.transform.localPosition = new Vector3(0, 1.125f, 0);
+        return obj;
+    }
     /// <summary>
     /// Runs when all roles are finished up being added. Mostly used to set up icons.
     /// </summary>

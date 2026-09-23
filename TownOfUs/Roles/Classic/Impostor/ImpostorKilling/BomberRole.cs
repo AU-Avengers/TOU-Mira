@@ -31,6 +31,8 @@ public sealed class BomberRole(IntPtr cppPtr)
 
     public string IdPart => "Bomber";
 
+    public string RoleWikiDescription => GetAdvancedDescription();
+
     public string GetAdvancedDescription()
     {
         return
