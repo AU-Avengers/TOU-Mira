@@ -1,12 +1,10 @@
 using System.Text;
 using AmongUs.GameOptions;
-using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
-using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Other;
@@ -109,23 +107,27 @@ public static class TouRoleUtils
                && player.Data.Role is not IGhostRole;
     }
 
-    public static bool AreTeammates(PlayerControl player, PlayerControl other)
+    public static bool AreTeammates(PlayerControl player, PlayerControl other, bool impFfa, bool impsSeeRole, out bool canSeeRoles, out bool canSeeColor)
     {
         var playerRole = player.GetRoleWhenAlive();
         var otherRole = other.GetRoleWhenAlive();
-        var flag = (player.IsImpostorAligned() && other.IsImpostorAligned()) ||
-                   playerRole.Role == otherRole.Role ||
-                   (player.IsLover() && other.IsLover());
+        var consideredTeammates = false;
+        var visible = otherRole is IVisibleRole vis && vis.CanOtherRoleSee(playerRole, out consideredTeammates);
+        var areImps = player.IsImpostorAligned() && other.IsImpostorAligned();
+        var areLovers = player.IsLoverWithPlayer(other);
+        var flag = areImps || consideredTeammates || areLovers;
+        canSeeRoles = areImps && !impFfa && impsSeeRole || visible;
+        canSeeColor = areImps && !impFfa || visible;
         return flag;
     }
 
-    public static bool CanKill(PlayerControl player)
+    /*public static bool CanKill(PlayerControl player)
     {
         var canBetray = PlayerControl.LocalPlayer.IsLover() &&
                         OptionGroupSingleton<LoversOptions>.Instance.LoverKillTeammates;
 
         return !(AreTeammates(PlayerControl.LocalPlayer, player) && canBetray && !player.IsLover());
-    }
+    }*/
 
     public static string GetRoleIdPart(this RoleBehaviour role)
     {

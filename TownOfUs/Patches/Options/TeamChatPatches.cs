@@ -665,7 +665,7 @@ public static class TeamChatPatches
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         _teamText.text = string.Empty;
         
-        if (PlayerControl.LocalPlayer.Data.IsDead && genOpt.TheDeadKnow &&
+        if (GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow &&
             (genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true } || genOpt.VampireChat ||
              Helpers.GetAlivePlayers().Any(x => x.Data.Role is JailorRole)))
         {
@@ -735,7 +735,7 @@ public static class TeamChatPatches
             else if (_teamText != null)
             {
                 // Fallback for dead players or when no chats are available
-                if (PlayerControl.LocalPlayer.Data.IsDead && genOpt.TheDeadKnow)
+                if (GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow)
                 {
                     _teamText.text = MiraLocaleManager.Get("TouDeadTeamChatsVisible");
                     _teamText.color = Color.white;
@@ -860,14 +860,14 @@ public static class TeamChatPatches
         if (PlayerControl.LocalPlayer.IsJailed())
         {
             MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
-                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.Jailor")}</color>",
+                $"<sprite name=\"TouMira.Role.Crewmate.Jailor.Masked\"><color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.Jailor")}</color>",
                 text, !player.AmOwner, bubbleType: BubbleType.Jailor, onLeft: !player.AmOwner);
             shouldMarkUnread = true;
         }
-        else if (PlayerControl.LocalPlayer.Data.Role is JailorRole || PlayerControl.LocalPlayer.Data.IsDead && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow)
+        else if (PlayerControl.LocalPlayer.Data.Role is JailorRole || GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow)
         {
             MiscUtils.AddTeamChat(player.Data,
-                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("JailorChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
+                $"<sprite name=\"TouMira.Role.Crewmate.Jailor.Masked\"><color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("JailorChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
                 text, !player.AmOwner, bubbleType: BubbleType.Jailor, onLeft: !player.AmOwner);
             shouldMarkUnread = true;
         }
@@ -895,7 +895,7 @@ public static class TeamChatPatches
             return;
         }
         var shouldMarkUnread = false;
-        if (PlayerControl.LocalPlayer.Data.Role is JailorRole || PlayerControl.LocalPlayer.IsJailed() || (PlayerControl.LocalPlayer.Data.IsDead &&
+        if (PlayerControl.LocalPlayer.Data.Role is JailorRole || PlayerControl.LocalPlayer.IsJailed() || (GameHistory.IsFullyDead(PlayerControl.LocalPlayer) &&
                                                                  OptionGroupSingleton<GeneralOptions>.Instance
                                                                      .TheDeadKnow))
         {
@@ -929,10 +929,10 @@ public static class TeamChatPatches
         }
         var shouldMarkUnread = false;
         if ((PlayerControl.LocalPlayer.Data.Role is VampireRole) ||
-            (PlayerControl.LocalPlayer.Data.IsDead && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
+            (GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
         {
             MiscUtils.AddTeamChat(player.Data,
-                $"<color=#{TownOfUsColors.Vampire.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("VampireChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
+                $"<sprite name=\"TouMira.Role.Neutral.Vampire.Masked\"><color=#{TownOfUsColors.Vampire.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("VampireChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
                 text, !player.AmOwner, bubbleType: BubbleType.Vampire, onLeft: !player.AmOwner);
             shouldMarkUnread = true;
         }
@@ -961,10 +961,10 @@ public static class TeamChatPatches
         }
         var shouldMarkUnread = false;
         if ((PlayerControl.LocalPlayer.IsImpostorAligned()) ||
-            (PlayerControl.LocalPlayer.Data.IsDead && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
+            (GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
         {
             MiscUtils.AddTeamChat(player.Data,
-                $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("ImpostorChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
+                $"<sprite name=\"AmongUs.Role.Impostor.Masked\"><color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("ImpostorChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
                 text, !player.AmOwner, bubbleType: BubbleType.Impostor, onLeft: !player.AmOwner);
             shouldMarkUnread = true;
         }
@@ -995,7 +995,7 @@ public static class TeamChatPatches
             (GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {
             MiscUtils.AddTeamChat(player.Data,
-                $"<color=#{TownOfUsColors.Lover.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("LoverChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
+                $"<sprite name=\"TouMira.Modifier.Alliance.Lover.Masked\"><color=#{TownOfUsColors.Lover.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("LoverChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
                 text, !player.AmOwner, blackoutText: false, bubbleType: BubbleType.Lover, onLeft: !player.AmOwner);
         }
     }
@@ -1017,21 +1017,19 @@ public static class TeamChatPatches
                 return;
             }
 
-            var localDeadKnows = PlayerControl.LocalPlayer.Data.IsDead && genOpt.TheDeadKnow;
-            var teammateSeesRole = TouRoleUtils.AreTeammates(PlayerControl.LocalPlayer, player);
-            var shouldRevealRole = MeetingHud.Instance &&
-                !(genOpt.FFAImpostorMode && PlayerControl.LocalPlayer.IsImpostorAligned() && !PlayerControl.LocalPlayer.Data.IsDead &&
-                  !player.AmOwner && player.IsImpostorAligned()) &&
-                (player == PlayerControl.LocalPlayer || player.AmOwner || player.Data.Role is MayorRole mayor && mayor.Revealed ||
-                 localDeadKnows || teammateSeesRole);
+            var localDeadKnows = GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow;
+            TouRoleUtils.AreTeammates(PlayerControl.LocalPlayer, player, genOpt.FFAImpostorMode, genOpt.ImpsKnowRoles, out var teammateSeesRole, out var canSeeColor);
+            var role = player.GetSignificantRole();
+            var shouldRevealRole = player != null && MeetingHud.Instance &&
+                                   (player.AmOwner ||
+                                    localDeadKnows || teammateSeesRole || canSeeColor);
 
             var chatVisual = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowRolesOnChatBubbles.Value;
-            var showIcon = chatVisual is ChatRoleVisual.Icon or ChatRoleVisual.IconAndColor;
-            var showColor = chatVisual is ChatRoleVisual.Color or ChatRoleVisual.IconAndColor;
+            var showIcon = chatVisual is ChatRoleVisual.Icon or ChatRoleVisual.IconAndColor && teammateSeesRole;
+            var showColor = chatVisual is ChatRoleVisual.Color or ChatRoleVisual.IconAndColor && canSeeColor;
 
             if (shouldRevealRole && (showIcon || showColor))
             {
-                var role = player.GetRoleWhenAlive();
                 var roleColor = (role is ICustomRole custom) ? custom.RoleColor : role.TeamColor;
                 __instance.NameText.color = showColor ? roleColor : color;
 
@@ -1325,18 +1323,16 @@ public static class TeamChatPatches
 
             var player = srcPlayer.Object;
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-            var localDeadKnows = PlayerControl.LocalPlayer.Data.IsDead && genOpt.TheDeadKnow;
-            var teammateSeesRole = TouRoleUtils.AreTeammates(PlayerControl.LocalPlayer, player);
+            var localDeadKnows = GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow;
+            TouRoleUtils.AreTeammates(PlayerControl.LocalPlayer, player, genOpt.FFAImpostorMode, genOpt.ImpsKnowRoles.Value, out var teammateSeesRole, out var canSeeColor);
             var role = player.GetSignificantRole();
             var shouldRevealRole = player != null && MeetingHud.Instance &&
-                !(genOpt.FFAImpostorMode && PlayerControl.LocalPlayer.IsImpostorAligned() && !PlayerControl.LocalPlayer.Data.IsDead &&
-                  !player.AmOwner && player.IsImpostorAligned()) &&
-                (player.AmOwner || role is MayorRole mayor && mayor.Revealed ||
-                 localDeadKnows || teammateSeesRole);
+                (player.AmOwner ||
+                 localDeadKnows || teammateSeesRole || canSeeColor);
 
             var chatVisual = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowRolesOnChatBubbles.Value;
-            var showIcon = chatVisual is ChatRoleVisual.Icon or ChatRoleVisual.IconAndColor;
-            var showColor = chatVisual is ChatRoleVisual.Color or ChatRoleVisual.IconAndColor;
+            var showIcon = chatVisual is ChatRoleVisual.Icon or ChatRoleVisual.IconAndColor && teammateSeesRole;
+            var showColor = chatVisual is ChatRoleVisual.Color or ChatRoleVisual.IconAndColor && canSeeColor;
 
             if (shouldRevealRole && (showIcon || showColor))
             {

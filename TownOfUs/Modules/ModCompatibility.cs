@@ -132,6 +132,15 @@ public static class ModCompatibility
     public static BasePlugin ApiPlugin { get; private set; }
     public static Assembly ApiAssembly { get; private set; }
     public static Type[] ApiTypes { get; private set; }
+
+    public static void TryDownloadCosmeticBundle(string bundlePath, string downloadLink, string? outputFolder = null)
+    {
+        if (!CorsacLoaded || File.Exists(bundlePath))
+        {
+            return;
+        }
+        QueueBundleDownload.Invoke(null, [downloadLink, outputFolder]);
+    }
     
     public static void Initialize()
     {
@@ -317,14 +326,12 @@ public static class ModCompatibility
         QueueBundleDownload = AccessTools.Method(pluginCompat, "QueueBundleDownload", [typeof(string), typeof(string)]);
         CorsacLoaded = true;
         Message("Corsac Cosmetics was detected, attempting to load hats now if they're not already downloaded.");
+        Directory.CreateDirectory(BundlePath);
 
         foreach (var cosmetic in CosmeticsArray)
         {
-            if (File.Exists(Path.Combine(BundlePath, Path.GetFileName($"TownOfUs.{cosmetic}.ccb"))))
-            {
-                continue;
-            }
-            QueueBundleDownload.Invoke(null, [$"https://github.com/AU-Avengers/TownOfUs-Cosmetics/raw/refs/heads/main/Bundles/TownOfUs.{cosmetic}.ccb", null]);
+            TryDownloadCosmeticBundle(Path.Combine(BundlePath, $"TownOfUs.{cosmetic}.ccb"),
+                $"https://github.com/AU-Avengers/TownOfUs-Cosmetics/raw/refs/heads/main/Bundles/TownOfUs.{cosmetic}.ccb");
         }
     }
 
