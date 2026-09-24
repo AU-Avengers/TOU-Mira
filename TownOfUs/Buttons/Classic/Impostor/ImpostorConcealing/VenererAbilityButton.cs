@@ -39,11 +39,35 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
 
         if (ability != VenererAbility.None && Role)
         {
-            var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You have unlocked the {ability} ability for getting a kill. {(EffectActive ? "You must wait until your current ability is over." : string.Empty)}</color></b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Venerer.LoadAsset());
+            var abilityName = ability switch
+    {
+            VenererAbility.Camouflage => MiraLocaleManager.Get("TownOfUsMira.Role.VenererCamouflage",
+                "Camouflage"),
 
-            notif1.AdjustNotification();
+            VenererAbility.Sprint => MiraLocaleManager.Get("TownOfUsMira.Role.VenererSprint",
+                "Sprint"),
+
+            VenererAbility.Freeze => MiraLocaleManager.Get("TownOfUsMira.Role.VenererFreeze",
+                "Freeze"),
+
+            _ => ability.ToString()
+        };
+        var notificationText = MiraLocaleManager.Get(
+                EffectActive
+                    ? "TownOfUsMira.Role.VenererAbilityUnlockedWait"
+                    : "TownOfUsMira.Role.VenererAbilityUnlocked",
+                EffectActive
+                    ? "You have unlocked the <ability> ability for getting a kill. You must wait until your current ability is over."
+                    : "You have unlocked the <ability> ability for getting a kill.")
+            .Replace("<ability>", abilityName);
+
+        var notif1 = Helpers.CreateAndShowNotification(
+            $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>",
+            Color.white,
+            new Vector3(0f, 1f, -20f),
+            spr: TouRoleIcons.Venerer.LoadAsset());
+
+        notif1.AdjustNotification();
         }
 
         if (EffectActive)

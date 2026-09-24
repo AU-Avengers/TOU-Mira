@@ -49,7 +49,7 @@ public static class ChatControllerPatches
         if (PlayerControl.LocalPlayer.HasModifier<BlackmailedModifier>() &&
             !PlayerControl.LocalPlayer.Data.IsDead)
         {
-            _noticeText.text = "You have been blackmailed.";
+            _noticeText.text = MiraLocaleManager.Get("TouBlackmailedChatNotice");
             __instance.freeChatField.SetVisible(false);
             __instance.quickChatField.SetVisible(false);
         }
@@ -65,12 +65,12 @@ public static class ChatControllerPatches
             var canChat = OptionGroupSingleton<JailorOptions>.Instance.JaileePublicChat;
             if (canChat)
             {
-                _noticeText.text = "You are jailed. You can use public chat.";
+                _noticeText.text = _noticeText.text = MiraLocaleManager.Get("TouJailedPublicChatAllowed");
                 __instance.freeChatField.SetVisible(true);
             }
             else
             {
-                _noticeText.text = "You are jailed. You cannot use public chat.";
+                _noticeText.text = _noticeText.text = MiraLocaleManager.Get("TouJailedPublicChatBlocked");
                 __instance.freeChatField.SetVisible(false);
                 __instance.quickChatField.SetVisible(false);
             }

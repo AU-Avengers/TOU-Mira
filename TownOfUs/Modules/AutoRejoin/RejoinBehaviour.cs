@@ -51,7 +51,16 @@ public class RejoinBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         if (secs != _lastShown)
         {
             _lastShown = secs;
-            ScreenText = $"[AutoRejoin]  Rejoining in {secs}s";
+            var rejoiningText = MiraLocaleManager.Get(
+                "TouAutoRejoinCountdown",
+                "Rejoining in <seconds>");
+
+            rejoiningText = rejoiningText.Replace(
+                "<seconds>",
+                secs.ToString(TownOfUsPlugin.Culture));
+
+            ScreenText = $"[AutoRejoin]  {rejoiningText}s";
+
             if (!_isStreamer)
             {
                 ScreenText += $" ({_gameCode})";

@@ -13,7 +13,7 @@ namespace TownOfUs;
 
 public class TouLocalTabGameplay(ConfigFile config) : LocalSettingsTab(config)
 {
-    public override string TabName => "<size=80%>Gameplay</size>";
+    public override string TabName => $"<size=80%>{MiraLocaleManager.Get("ClientTabGameplay", "Gameplay")}</size>";
     protected override bool ShouldCreateLabels => true;
 
     public override void OnOptionChanged(ConfigEntryBase configEntry)

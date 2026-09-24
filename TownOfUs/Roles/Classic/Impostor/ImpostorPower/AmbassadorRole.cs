@@ -284,8 +284,12 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
         {
             if (roleList.Count == 0)
             {
+                var notificationText = MiraLocaleManager.Get(
+                    "TownOfUsMira.Role.AmbassadorNoRolesAvailable",
+                    "No roles are available for the player.");
+
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}No roles are available for the player.</color></b>",
+                    $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Ambassador.LoadAsset());
 
                 notif1.AdjustNotification();

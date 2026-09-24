@@ -12,7 +12,7 @@ namespace TownOfUs;
 
 public class TouLocalTabButtons(ConfigFile config) : LocalSettingsTab(config)
 {
-    public override string TabName => "UI / UX";
+    public override string TabName => MiraLocaleManager.Get("TouLocalTabButtons", "UI / UX");
     protected override bool ShouldCreateLabels => true;
 
     public override void OnOptionChanged(ConfigEntryBase configEntry)

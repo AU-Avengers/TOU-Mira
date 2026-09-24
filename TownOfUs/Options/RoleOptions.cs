@@ -200,49 +200,49 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
 
     // --- Min/Max Neutral Options ---
     public ModdedNumberOption MinNeutralBenign { get; } =
-        new("Min Neutral Benign", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        new("TouOptionMinNeutralBenign", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
         };
 
     public ModdedNumberOption MaxNeutralBenign { get; } =
-        new("Max Neutral Benign", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        new("TouOptionMaxNeutralBenign", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
         };
 
     public ModdedNumberOption MinNeutralEvil { get; } =
-        new("Min Neutral Evil", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        new("TouOptionMinNeutralEvil", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
         };
 
     public ModdedNumberOption MaxNeutralEvil { get; } =
-        new("Max Neutral Evil", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        new("TouOptionMaxNeutralEvil", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
         };
 
     public ModdedNumberOption MinNeutralKiller { get; } =
-        new("Min Neutral Killer", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        new("TouOptionMinNeutralKiller", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
         };
 
     public ModdedNumberOption MaxNeutralKiller { get; } =
-        new("Max Neutral Killer", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        new("TouOptionMaxNeutralKiller", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
         };
 
     public ModdedNumberOption MinNeutralOutlier { get; } =
-        new("Min Neutral Outliers", 0f, 0f, 15f, 1f, MiraNumberSuffixes.None, "0")
+        new("TouOptionMinNeutralOutlier", 0f, 0f, 15f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
         };
 
     public ModdedNumberOption MaxNeutralOutlier { get; } =
-        new("Max Neutral Outliers", 0f, 0f, 15f, 1f, MiraNumberSuffixes.None, "0")
+        new("TouOptionMaxNeutralOutlier", 0f, 0f, 15f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
         };
