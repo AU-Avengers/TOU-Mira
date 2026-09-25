@@ -3,6 +3,7 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Interfaces;
+using UnityEngine;
 
 namespace TownOfUs.Modules.Components;
 
@@ -63,8 +64,9 @@ public sealed class GuesserMenu : CustomPaginableMenu
 
             foreach (var shapeshifterPanel in EntryPanels)
             {
-                shapeshifterPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight")
-                    .FindChild("ShapeshifterIcon").gameObject.SetActive(false);
+                var highlight = shapeshifterPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight");
+                highlight.FindChild("ShapeshifterIcon").gameObject.SetActive(false);
+                highlight.GetComponent<SpriteRenderer>().gameObject.SetActive(false);
             }
         });
     }
