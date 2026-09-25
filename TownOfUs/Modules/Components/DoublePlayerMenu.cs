@@ -10,6 +10,9 @@ namespace TownOfUs.Modules.Components;
 /// <para/>
 /// Specifically used for selecting two players.
 /// </summary>
+#pragma warning disable S1133 // Deprecated code should be removed
+[Obsolete("Use CustomPlayerMenu instead, updated to account for it.", true)]
+#pragma warning restore S1133 // Deprecated code should be removed
 public class DoublePlayerMenu : CustomPlayerMenu
 {
     public PlayerControl? target1;
