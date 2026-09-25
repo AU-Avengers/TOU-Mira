@@ -288,25 +288,19 @@ namespace TownOfUs.Modules.DraftMode
                 var rl = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
                 if (rl != null)
                 {
-                    RoleListOption[] slots =
-                    [
-                        rl.Slot1.Value,  rl.Slot2.Value,  rl.Slot3.Value,
-                        rl.Slot4.Value,  rl.Slot5.Value,  rl.Slot6.Value,
-                        rl.Slot7.Value,  rl.Slot8.Value,  rl.Slot9.Value,
-                        rl.Slot10.Value, rl.Slot11.Value, rl.Slot12.Value,
-                        rl.Slot13.Value, rl.Slot14.Value, rl.Slot15.Value,
-                    ];
+                    var slots = rl.Slots;
 
                     int numPlayers = Instance != null && Instance._totalSlots > 0
                         ? Instance._totalSlots
                         : Math.Max(1, DraftManager.GetAllStates().Count);
+                    int maxCount = slots.Count;
                     if (numPlayers <= 0 && AmongUsClient.Instance != null && PlayerControl.AllPlayerControls != null)
                     {
                         numPlayers = PlayerControl.AllPlayerControls.Count;
                     }
-                    if (numPlayers <= 0) numPlayers = 15;
+                    if (numPlayers <= 0) numPlayers = maxCount;
 
-                    int activeSlots = Math.Max(1, Math.Min(numPlayers, slots.Length));
+                    int activeSlots = Math.Max(1, Math.Min(numPlayers, maxCount));
 
                     int impSlots = 0;
                     int neutSlots = 0;
@@ -316,7 +310,7 @@ namespace TownOfUs.Modules.DraftMode
 
                     for (int i = 0; i < activeSlots; i++)
                     {
-                        var opt = slots[i];
+                        var opt = slots[i].Value;
                         if (DraftRolePool.IsImpostorRoleListOption(opt)) impSlots++;
                         else if (DraftRolePool.IsNeutralRoleListOption(opt))
                         {
@@ -424,16 +418,7 @@ namespace TownOfUs.Modules.DraftMode
             var options = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
             if (options == null) return result;
 
-            RoleListOption[] slots =
-            [
-                options.Slot1.Value, options.Slot2.Value, options.Slot3.Value,
-                options.Slot4.Value, options.Slot5.Value, options.Slot6.Value,
-                options.Slot7.Value, options.Slot8.Value, options.Slot9.Value,
-                options.Slot10.Value, options.Slot11.Value, options.Slot12.Value,
-                options.Slot13.Value, options.Slot14.Value, options.Slot15.Value,
-            ];
-
-            foreach (var option in slots)
+            foreach (var option in options.Slots.Options.Select(slot => slot.Value))
             {
                 var alignments = option switch
                 {

@@ -239,25 +239,9 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
             if (roleList.UseRoleListForPool)
             {
                 var draftList = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
-                bucket = slotIndex switch
-                {
-                    0 => draftList.Slot1.Value,
-                    1 => draftList.Slot2.Value,
-                    2 => draftList.Slot3.Value,
-                    3 => draftList.Slot4.Value,
-                    4 => draftList.Slot5.Value,
-                    5 => draftList.Slot6.Value,
-                    6 => draftList.Slot7.Value,
-                    7 => draftList.Slot8.Value,
-                    8 => draftList.Slot9.Value,
-                    9 => draftList.Slot10.Value,
-                    10 => draftList.Slot11.Value,
-                    11 => draftList.Slot12.Value,
-                    12 => draftList.Slot13.Value,
-                    13 => draftList.Slot14.Value,
-                    14 => draftList.Slot15.Value,
-                    _ => (RoleListOption)(-1)
-                };
+                bucket = slotIndex >= draftList.Slots.Count
+                         ? (RoleListOption)(-1)
+                         : draftList.Slots[slotIndex].Value;
             }
             else
             {
@@ -295,25 +279,9 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
         }
         else
         {
-            bucket = slotIndex switch
-            {
-                0  => roleList.Slot1.Value,
-                1  => roleList.Slot2.Value,
-                2  => roleList.Slot3.Value,
-                3  => roleList.Slot4.Value,
-                4  => roleList.Slot5.Value,
-                5  => roleList.Slot6.Value,
-                6  => roleList.Slot7.Value,
-                7  => roleList.Slot8.Value,
-                8  => roleList.Slot9.Value,
-                9  => roleList.Slot10.Value,
-                10 => roleList.Slot11.Value,
-                11 => roleList.Slot12.Value,
-                12 => roleList.Slot13.Value,
-                13 => roleList.Slot14.Value,
-                14 => roleList.Slot15.Value,
-                _  => (RoleListOption)(-1)
-            };
+            bucket = slotIndex >= roleList.Slots.Count
+                     ? (RoleListOption)(-1)
+                     : roleList.Slots[slotIndex].Value;
         }
 
         if ((int)bucket < 0) return;

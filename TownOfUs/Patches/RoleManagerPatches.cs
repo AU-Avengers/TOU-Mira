@@ -482,24 +482,19 @@ public static class TouRoleManagerPatches
     {
         var opts = OptionGroupSingleton<RoleOptions>.Instance;
         var buckets = new List<RoleListOption>();
-        var slotValues = new[]
-        {
-            opts.Slot1, opts.Slot2, opts.Slot3, opts.Slot4, opts.Slot5,
-            opts.Slot6, opts.Slot7, opts.Slot8, opts.Slot9, opts.Slot10,
-            opts.Slot11, opts.Slot12, opts.Slot13, opts.Slot14, opts.Slot15
-        };
+        var maxCount = opts.Slots.Count;
 
         // Add slots up to player count (max 15)
-        var slotsToAdd = Math.Min(playerCount, 15);
+        var slotsToAdd = Math.Min(playerCount, maxCount);
         for (var i = 0; i < slotsToAdd; i++)
         {
-            buckets.Add(slotValues[i].Value);
+            buckets.Add(opts.Slots[i]);
         }
 
         // For players beyond 15, add random crew/non-imp roles
-        if (playerCount > 15)
+        if (playerCount > maxCount)
         {
-            for (var i = 0; i < playerCount - 15; i++)
+            for (var i = 0; i < playerCount - maxCount; i++)
             {
                 // Use better random distribution: 25% chance for CrewRandom, 75% for NonImp
                 var random = Random.RandomRangeInt(0, 4);
@@ -1184,7 +1179,8 @@ public static class TouRoleManagerPatches
         var players = GameData.Instance.PlayerCount - SpectatorRole.TrackedSpectators.Count;
         var impostors = 0;
         var list = OptionGroupSingleton<RoleOptions>.Instance;
-        var maxSlots = players < 15 ? players : 15;
+        var maxCount = list.Slots.Count;
+        var maxSlots = players < maxCount ? players : maxCount;
         List<RoleListOption> impBuckets =
         [
             RoleListOption.ImpConceal, RoleListOption.ImpKilling, RoleListOption.ImpPower, RoleListOption.ImpSupport,
@@ -1195,25 +1191,9 @@ public static class TouRoleManagerPatches
 
         for (int i = 0; i < maxSlots; i++)
         {
-            RoleListOption slotValue = i switch
-            {
-                0 => list.Slot1.Value,
-                1 => list.Slot2.Value,
-                2 => list.Slot3.Value,
-                3 => list.Slot4.Value,
-                4 => list.Slot5.Value,
-                5 => list.Slot6.Value,
-                6 => list.Slot7.Value,
-                7 => list.Slot8.Value,
-                8 => list.Slot9.Value,
-                9 => list.Slot10.Value,
-                10 => list.Slot11.Value,
-                11 => list.Slot12.Value,
-                12 => list.Slot13.Value,
-                13 => list.Slot14.Value,
-                14 => list.Slot15.Value,
-                _ => (RoleListOption)(-1)
-            };
+            RoleListOption slotValue = i >= list.Slots.Count
+                                       ? (RoleListOption)(-1)
+                                       : list.Slots[i].Value;
 
             buckets.Add(slotValue);
         }
