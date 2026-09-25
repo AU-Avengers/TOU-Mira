@@ -881,6 +881,11 @@ namespace TownOfUs.Modules.DraftMode
             if (localSlot < 0)
                 return;
 
+            if (localState.PendingPickIndex != 255 && localState.PendingPickIndex != index)
+            {
+                localState.PendingPickIndex = 255;
+            }
+
             _hasPicked = true;
             DraftNetworkHelper.SendPickToHost((byte)index, TargetPickerId);
         }

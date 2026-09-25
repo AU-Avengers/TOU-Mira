@@ -18,10 +18,10 @@ namespace TownOfUs.Modules.DraftMode
                 return BuildPoolFromRoleList(numPlayers, rng);
 
             var manualPool = BuildPoolFromManualAmounts(rng);
-            
+
             int rolesPerSlot = Math.Max(1, (int)roleOpts.OfferedRolesCount.Value);
             int concurrency = Math.Max(1, Math.Min(2, (int)roleOpts.ConcurrentPicks.Value));
-            int targetSize = numPlayers + rolesPerSlot * concurrency;
+            int targetSize = GetLowPlayerPoolTargetSize(numPlayers, rolesPerSlot, concurrency);
             if (manualPool.Count < targetSize)
             {
                 var fallbackNames = GetAllowedCrewFallbackNames();
@@ -43,8 +43,19 @@ namespace TownOfUs.Modules.DraftMode
                     }
                 }
             }
-            
+
             return manualPool;
+        }
+
+        private static int GetLowPlayerPoolTargetSize(int numPlayers, int rolesPerSlot, int concurrency)
+        {
+            int baseTarget = (Math.Max(1, numPlayers) + Math.Max(1, rolesPerSlot) * Math.Max(1, concurrency));
+            if (numPlayers <= 8)
+            {
+                return Math.Max(baseTarget, 18);
+            }
+
+            return baseTarget;
         }
 
         public static List<string> GetOfferedRoles(List<string> currentPool, IRng rng = null!, ICollection<string> avoid = null!, bool allowGuaranteed = true)
@@ -225,7 +236,7 @@ namespace TownOfUs.Modules.DraftMode
 
             int rolesPerSlot = Math.Max(1, (int)OptionGroupSingleton<RoleOptions>.Instance.OfferedRolesCount.Value);
             int concurrency = Math.Max(1, Math.Min(2, (int)OptionGroupSingleton<RoleOptions>.Instance.ConcurrentPicks.Value));
-            int targetSize = Math.Max(1, numPlayers) + rolesPerSlot * concurrency;
+            int targetSize = GetLowPlayerPoolTargetSize(numPlayers, rolesPerSlot, concurrency);
             var fundedNames = slots.Take(activeSlots)
                 .SelectMany(bucket => DraftRolePool.ResolveBucketToRoleNames(bucket.ToString()) ?? [])
                 .Where(n => !string.IsNullOrWhiteSpace(n))
@@ -236,6 +247,23 @@ namespace TownOfUs.Modules.DraftMode
             {
                 var name = fundedNames[rng.NextInt(fundedNames.Count)];
                 pool.Add($"{name}|fund{fundingIndex++}");
+            }
+
+            if (numPlayers <= 8 && pool.Count < targetSize)
+            {
+                var fillerNames = Enum.GetValues<RoleListOption>()
+                    .SelectMany(bucket => DraftRolePool.ResolveBucketToRoleNames(bucket.ToString()) ?? [])
+                    .Where(n => !string.IsNullOrWhiteSpace(n))
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .Where(n => !pool.Contains(n))
+                    .ToList();
+
+                while (pool.Count < targetSize && fillerNames.Count > 0)
+                {
+                    var name = fillerNames[rng.NextInt(fillerNames.Count)];
+                    pool.Add($"{name}|lowfill{fundingIndex++}");
+                    fillerNames.Remove(name);
+                }
             }
 
             if (pool.Count == 0)

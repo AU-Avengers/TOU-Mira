@@ -67,6 +67,11 @@ public static class Extensions
         return player?.HasModifier<LoverModifier>() == true;
     }
 
+    public static bool IsLoverWithPlayer(this PlayerControl player, PlayerControl player2)
+    {
+        return player?.TryGetModifier<LoverModifier>(out var love) == true && love.OtherLover == player2;
+    }
+
     public static bool IsImpostorAligned(this PlayerControl player)
     {
         return player?.Data && player?.Data?.Role && (player?.Data?.Role.IsImpostor() == true ||

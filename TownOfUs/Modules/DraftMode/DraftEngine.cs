@@ -35,7 +35,7 @@ namespace TownOfUs.Modules.DraftMode
         private readonly Dictionary<int, float> _turnDeadlines = new();
         private readonly Dictionary<int, float> _turnAnnouncedAtBySlot = new();
         private readonly HashSet<int> _resentAnnouncementSlots = new();
-        private const float MinRerollPickWindowSeconds = 3f;
+        private const float MinRerollPickWindowSeconds = 5f;
         private const float PickerReadyResendGraceSeconds = 2.5f;
         private readonly Dictionary<int, HashSet<string>> _seenBaseNamesBySlot = new();
         private readonly Dictionary<int, DraftFaction> _scheduledFactionBySlot = new();
@@ -341,6 +341,16 @@ namespace TownOfUs.Modules.DraftMode
 
         private void BuildFactionOfferSchedule()
         {
+            _scheduledFactionBySlot.Clear();
+            _scheduledNeutralAlignmentsBySlot.Clear();
+
+            if (!UseRoleListMode)
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
+                    "[DraftEngine] Non role-list drafts do not pre-schedule faction slots; evil bias remains soft and quota-driven.");
+                return;
+            }
+
             var (maxImps, maxNeuts, _) = GetTargetLimits();
             int maxScheduled = _slotOrder.Count;
             int impCount = Math.Min(Math.Max(0, maxImps), maxScheduled);
@@ -910,15 +920,17 @@ namespace TownOfUs.Modules.DraftMode
 
             bool scheduledEvil = _scheduledFactionBySlot.TryGetValue(slot, out var scheduledFaction) &&
                 scheduledFaction != DraftFaction.Crewmate;
+            bool hardFloorRequiresEvil = hardLockedFaction.HasValue && hardLockedFaction.Value != DraftFaction.Crewmate;
 
-            // Only randomly spread evil turns may expose evil cards. This prevents early normal
-            // picks from consuming the finite impostor/neutral seats before their assigned slots.
+            // Shuffle-based evil offers are an abuse vector when a player can reroll a crew-heavy hand
+            // into a guaranteed evil role. Only slots that are already scheduled evil or genuinely
+            // forced by the remaining faction floor should be allowed to expose evil during a reroll.
             int maxEvil = Math.Min(nonCrew.Count, Math.Min(offered, offered >= 4 ? 4 : offered));
-            bool exposeShuffleEvil = allowShuffleEvil && !scheduledEvil && _rng.NextDouble() < EvilOfferChance;
-            int evilToOffer = nonCrew.Count > 0 && (scheduledEvil || exposeShuffleEvil) ? 1 : 0;
+            bool exposeShuffleEvil = allowShuffleEvil && (scheduledEvil || hardFloorRequiresEvil) && _rng.NextDouble() < EvilOfferChance;
+            int evilToOffer = nonCrew.Count > 0 && (scheduledEvil || hardFloorRequiresEvil || exposeShuffleEvil) ? 1 : 0;
             for (int i = evilToOffer; i < maxEvil; i++)
             {
-                if (!scheduledEvil || _rng.NextDouble() >= EvilOfferChance) continue;
+                if (!scheduledEvil && !hardFloorRequiresEvil || _rng.NextDouble() >= EvilOfferChance) continue;
                 evilToOffer++;
             }
 
@@ -1041,24 +1053,27 @@ namespace TownOfUs.Modules.DraftMode
             if (candidates.Count == 1)
                 return candidates[0];
 
-            int total = 0;
-            var weights = new int[candidates.Count];
-            for (int i = 0; i < candidates.Count; i++)
+            var weighted = new List<(string Name, int Weight)>();
+            foreach (var candidate in candidates)
             {
-                weights[i] = Math.Max(1, DraftRolePool.GetChanceForRoleName(BaseRoleName(candidates[i])));
-                total += weights[i];
+                int baseWeight = Math.Max(1, DraftRolePool.GetChanceForRoleName(BaseRoleName(candidate)));
+                int jitter = _rng.NextInt(Math.Max(1, baseWeight / 2 + 1)) - (baseWeight / 4);
+                int weight = Math.Max(1, baseWeight + jitter);
+                weighted.Add((candidate, weight));
             }
 
+            int total = weighted.Sum(x => x.Weight);
             int roll = _rng.NextInt(total);
             int cumulative = 0;
-            for (int i = 0; i < candidates.Count; i++)
+
+            foreach (var entry in weighted)
             {
-                cumulative += weights[i];
+                cumulative += entry.Weight;
                 if (roll < cumulative)
-                    return candidates[i];
+                    return entry.Name;
             }
 
-            return candidates[^1];
+            return weighted[^1].Name;
         }
 
         [HideFromIl2Cpp]
@@ -1210,6 +1225,41 @@ namespace TownOfUs.Modules.DraftMode
                 result.Add(pick);
                 candidates.RemoveAll(n => string.Equals(BaseRoleName(n), BaseRoleName(pick), StringComparison.OrdinalIgnoreCase));
             }
+        }
+
+        private List<string> BuildLegalRandomCandidatePool(int slot, bool isDc, DraftSlotContext strictContext, bool allowVisibleOnly = true)
+        {
+            var result = new List<string>();
+            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var candidate in _pool)
+            {
+                if (string.IsNullOrWhiteSpace(candidate) || candidate == "__RANDOM__") continue;
+                var baseName = BaseRoleName(candidate);
+                if (isDc && (DraftRolePool.IsImpostorRoleName(baseName) || DraftRolePool.IsNeutralRoleName(baseName))) continue;
+                if (!IsRoleAllowedForSlot(candidate, slot, ignoreConcurrentOffers: false, ignoreForce: true, context: strictContext)) continue;
+                if (seen.Add(baseName)) result.Add(candidate);
+            }
+
+            if (allowVisibleOnly || result.Count > 0)
+            {
+                return result;
+            }
+
+            foreach (var visible in _currentOffersBySlot.TryGetValue(slot, out var offers) ? offers : new List<string>())
+            {
+                if (string.IsNullOrWhiteSpace(visible) || visible == "__RANDOM__") continue;
+                var baseName = BaseRoleName(visible);
+                if (isDc && (DraftRolePool.IsImpostorRoleName(baseName) || DraftRolePool.IsNeutralRoleName(baseName))) continue;
+                if (seen.Contains(baseName)) continue;
+                if (IsRoleAllowedForSlot(visible, slot, ignoreConcurrentOffers: false, ignoreForce: true, context: strictContext))
+                {
+                    seen.Add(baseName);
+                    result.Add(visible);
+                }
+            }
+
+            return result;
         }
 
         private static DraftFaction? GetHardFloorFaction(DraftSlotContext context)
@@ -1749,10 +1799,7 @@ namespace TownOfUs.Modules.DraftMode
             {
                 bool isDc = DraftManager.IsPlayerDisconnected(state.PlayerId);
                 var strictValidationContext = BuildSlotContext(slot, ignoreConcurrentOffers: false, ignoreForce: true);
-                var eligibleRemaining = _pool.Where(r => !string.IsNullOrWhiteSpace(r)
-                    && IsRoleAllowedForSlot(r, slot, ignoreConcurrentOffers: false, ignoreForce: true, context: strictValidationContext))
-                    .Where(r => !isDc || (!DraftRolePool.IsImpostorRoleName(BaseRoleName(r)) && !DraftRolePool.IsNeutralRoleName(BaseRoleName(r))))
-                    .ToList();
+                var eligibleRemaining = BuildLegalRandomCandidatePool(slot, isDc, strictValidationContext);
 
                 if (!isDc)
                 {
@@ -1789,11 +1836,9 @@ namespace TownOfUs.Modules.DraftMode
                 else
                 {
                     var eligibleContext = BuildSlotContext(slot, ignoreConcurrentOffers: false, ignoreForce: true);
-                    var anyNames = _pool
+                    var anyNames = BuildLegalRandomCandidatePool(slot, isDc, eligibleContext, allowVisibleOnly: false)
                         .Where(n => !string.IsNullOrWhiteSpace(n))
-                        .Where(n => IsRoleAllowedForSlot(n, slot, ignoreConcurrentOffers: false, ignoreForce: true, context: eligibleContext))
-                        .Where(n => !isDc || (!DraftRolePool.IsImpostorRoleName(BaseRoleName(n)) && !DraftRolePool.IsNeutralRoleName(BaseRoleName(n))))
-                        .ToList() ?? new List<string>();
+                        .ToList();
 
                     if (anyNames.Count > 0)
                     {
@@ -2066,8 +2111,12 @@ namespace TownOfUs.Modules.DraftMode
             var remaining = _turnDeadlines.TryGetValue(currentSlot, out var existingDeadline)
                 ? existingDeadline - Time.time
                 : 0f;
-            if (remaining < MinRerollPickWindowSeconds)
+
+            var configuredTurnDuration = OptionGroupSingleton<RoleOptions>.Instance?.TurnDurationSeconds.Value ?? 1f;
+            if (configuredTurnDuration <= MinRerollPickWindowSeconds && remaining < MinRerollPickWindowSeconds)
+            {
                 _turnDeadlines[currentSlot] = Time.time + MinRerollPickWindowSeconds;
+            }
 
             ReleaseReservedSeats(currentSlot);
 
@@ -2084,7 +2133,7 @@ namespace TownOfUs.Modules.DraftMode
                 .Select(BaseRoleName)
                 .ToList();
             seen.UnionWith(justShownBaseNames);
-            var offers = GenerateOffersForSlot(currentSlot, seen, allowShuffleEvil: true);
+            var offers = GenerateOffersForSlot(currentSlot, seen, allowShuffleEvil: false);
             offers = FinalizeShuffleOffers(currentSlot, offers, seen, offeredCount, previousOffers);
             var shuffleContext = BuildSlotContext(currentSlot, ignoreConcurrentOffers: false, ignoreForce: true);
             offers = TopUpWithAnyLegalRole(offers, offeredCount, shuffleContext.AvoidNames, currentSlot, shuffleContext);
