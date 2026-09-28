@@ -2978,4 +2978,21 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="HnsOptionTitleSeekerModifiers">追捕者附加特性</string>
   <string name="TownOfUsMira.HideAndSeek.Role.Option.AdministratorChanceNA">管理员生成概率（不适用）</string>
   <string name="TownOfUsMira.HideAndSeek.Modifier.Option.DisperserChanceNA">分散者生成概率（不适用）</string>
+  <string name="ShowChatNotifsInGame">游戏中显示聊天通知</string>
+  <string name="ShowRolesOnChatBubbles">在聊天框内显示职业</string>
+  <string name="ChatRoleVisualDisabled">禁用</string>
+  <string name="ChatRoleVisualIcon">图标</string>
+  <string name="ChatRoleVisualColor">颜色</string>
+  <string name="ChatRoleVisualIconAndColor">图标 [and] 颜色</string>
+  <string name="ProsecutorProsToggling">起诉需要确认</string>
+  <string name="TownOfUsMira.Role.Prosecutor.ShameNotification">检察官 [player] 因判断失误而羞愧地离开了。</string>
+  <string name="TownOfUsMira.Role.Prosecutor.ShameNotificationSelf">你的糟糕判断已导致你迅速受到惩罚。</string>
+  <string name="TownOfUsMira.Role.Prosecutor.ShameNotificationSelfPrivate">你已起诉了一名船员。你不能再进行起诉。</string>
+  <string name="Enabled">启用</string>
+  <string name="Disabled">禁用</string>
+  <string name="TouOptionProsecutorWrongfulProsecutionResult">错误起诉时</string>
+  <string name="TouOptionProsecutorWrongProsEnumPros">驱逐检察官</string>
+  <string name="TouOptionProsecutorWrongProsEnumTarget">驱逐受害者,失去使用次数</string>
+  <string name="TouOptionProsecutorWrongProsEnumProsTarget">驱逐双方</string>
+  <string name="TouOptionMercenaryWinsWithNeutralBenign">与中立善良阵营共同获胜</string>
 </resources>
