@@ -4,7 +4,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
-using TownOfUs.Modifiers.Neutral.NeutralOutlier;
+using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Roles.Neutral.NeutralOutlier;
@@ -327,7 +327,7 @@ public static class DuelManager
         yield return new WaitForSeconds(0.5f);
 
         if (winner == null || loser == null || AmongUsClient.Instance == null ||
-            AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started)
+            AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started && !TutorialManager.InstanceExists)
         {
             yield break;
         }
@@ -375,6 +375,7 @@ public static class DuelManager
         var hex = ColorUtility.ToHtmlStringRGB(DuelistRole.DuelistColor);
         var icon = DivaniAssets.DuelistIcon.LoadAsset();
 
+        LobbyNotificationMessage? lobbyNotif = null;
         for (var seconds = 5; seconds >= 1; seconds--)
         {
             var local = PlayerControl.LocalPlayer;
@@ -390,13 +391,22 @@ public static class DuelManager
 
             var text = MiraLocaleManager
                 .Get(key)
-                .Replace("<seconds>", seconds.ToString());
+                .Replace("<seconds>", seconds.ToString(TownOfUsPlugin.Culture));
 
-            MiraAPI.Utilities.Helpers.CreateAndShowNotification(
-                $"<b><color=#{hex}>{text}</color></b>",
-                Color.white,
-                new Vector3(0f, 1f, -20f),
-                spr: icon);
+            if (lobbyNotif == null)
+            {
+                lobbyNotif = Helpers.CreateAndShowNotification(
+                    $"<b><color=#{hex}>{text}</color></b>",
+                    Color.white,
+                    new Vector3(0f, 1f, -20f),
+                    spr: icon);
+            }
+            else
+            {
+                lobbyNotif.UpdateMessage($"<b><color=#{hex}>{text}</color></b>");
+            }
+            lobbyNotif.alphaTimer = seconds;
+            lobbyNotif.AdjustNotification();
 
             yield return new WaitForSeconds(1f);
         }
