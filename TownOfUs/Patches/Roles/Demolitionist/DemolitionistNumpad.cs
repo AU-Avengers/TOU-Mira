@@ -408,31 +408,6 @@ internal static class DemolitionistNumpad
             }
         }
 
-        [HarmonyPatch(typeof(NoOxyTask), nameof(NoOxyTask.Initialize))]
-        [HarmonyPrefix]
-        private static bool NoOxyTaskInitializePrefix(NoOxyTask __instance)
-        {
-            if (__instance is not DemolitionistKeypadNoOxyTask tk)
-            {
-                return true;
-            }
-
-            // Open() assigns targetNumber before Begin; do not re-roll or validation won't match TargetText.
-
-            if (ShipStatus.Instance != null
-                && ShipStatus.Instance.Systems != null
-                && ShipStatus.Instance.Systems.TryGetValue(SystemTypes.LifeSupp, out var sys))
-            {
-                var lifeSupp = sys?.TryCast<LifeSuppSystemType>();
-                if (lifeSupp != null)
-                {
-                    Traverse.Create(tk).Field("reactor").SetValue(lifeSupp);
-                }
-            }
-
-            return false;
-        }
-
         [HarmonyPatch(typeof(NoOxyTask), "FixedUpdate")]
         [HarmonyPrefix]
         private static bool NoOxyTaskFixedUpdatePrefix(NoOxyTask __instance) =>
@@ -600,6 +575,25 @@ internal static class DemolitionistNumpad
         public override void AppendTaskText(StringBuilder sb)
         {
             // Not used here.
+        }
+
+        public void FixedUpdate()
+        {
+            // nothing runs on fixed update.
+        }
+
+        public override void Initialize()
+        {
+            if (ShipStatus.Instance != null
+                && ShipStatus.Instance.Systems != null
+                && ShipStatus.Instance.Systems.TryGetValue(SystemTypes.LifeSupp, out var sys))
+            {
+                var lifeSupp = sys?.TryCast<LifeSuppSystemType>();
+                if (lifeSupp != null)
+                {
+                    reactor = lifeSupp;
+                }
+            }
         }
 
         public override bool ValidConsole(global::Console console) => true;
