@@ -99,8 +99,8 @@
   <string name="TermsProtectionSymbolsTitle">Symbole Ochron</string>
   <string name="NeutralBasicTaskHeader">Wykonaj swój cel.</string>
   <string name="NeutralBasicDeadTaskHeader">Nie żyjesz. Wyluzuj i ciesz się chaosem.</string>
-  <string name="NeutralBenignTaskHeader">Sam z siebie nie wygrasz.
-Opcjonalne zadania:</string>
+  <string name="NeutralBenignTaskHeader">Nie możesz wygrać sam.
+Opcjonalne Zadania:</string>
   <string name="NeutralEvilTaskHeader">Musisz dokonać swego celu za wszelką cenę.
 Fałszywe Zadania:</string>
   <string name="Alignment">Przynależność</string>
@@ -798,7 +798,7 @@ chwili aby umknąć ze sceny zbrodni</string>
   <string name="TouOptionExecutionerCanButton">Kat Może Zwołać Spotkanie</string>
   <string name="TouOptionExecutionerWin">Kat Przy Wygranej</string>
   <string name="TouOptionExecutionerWinEnumEndsGame">Kończy Grę</string>
-  <string name="TouOptionExecutionerWinEnumTorments">Umiera i Dręczy</string>
+  <string name="TouOptionExecutionerWinEnumTorments">Opuszcza i Dręczy</string>
   <string name="TouOptionExecutionerWinEnumNothing">Nic</string>
   <string name="TownOfUsMira.Role.Fairy">Wróżka</string>
   <string name="TownOfUsMira.Role.Fairy.TabDescription">Chroń [target] za wszelką cenę!</string>
