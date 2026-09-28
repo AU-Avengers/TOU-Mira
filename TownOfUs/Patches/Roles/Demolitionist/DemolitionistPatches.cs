@@ -1,14 +1,7 @@
-using System;
-using System.Reflection;
 using BepInEx.Logging;
 using HarmonyLib;
 using MiraAPI.GameOptions;
-using MiraAPI.Translation;
-using MiraAPI.Hud;
-using TownOfUs.Buttons.Neutral.NeutralEvil;
 using TownOfUs.Options;
-using TownOfUs.Roles.Neutral.NeutralEvil;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches;
@@ -16,25 +9,17 @@ namespace TownOfUs.Patches;
 [HarmonyPatch]
 public static class DemolitionistPatches
 {
-    public static void Register(ManualLogSource log) => SabotageMap.Register(log);
+    public static void Register(ManualLogSource log)
+    {
+        log.LogInfo("Demolitionist sabotage map: using MapBehaviour / InfectedOverlay patches.");
+    }
 
     #region Emergency / imp sabotage mutex / lifecycle
 
     [HarmonyPatch(typeof(EmergencyMinigame), nameof(EmergencyMinigame.Begin))]
-    [HarmonyPostfix]
-    public static void EmergencyMinigameBeginPostfix(EmergencyMinigame __instance)
-    {
-        if (!DemolitionistSabotageState.IsActive)
-        {
-            return;
-        }
-
-        ApplySabotageEmergencyDisabledUi(__instance);
-    }
-
     [HarmonyPatch(typeof(EmergencyMinigame), nameof(EmergencyMinigame.Update))]
     [HarmonyPostfix]
-    public static void EmergencyMinigameUpdatePostfix(EmergencyMinigame __instance)
+    public static void EmergencyMinigameBeginUpdatePostfix(EmergencyMinigame __instance)
     {
         if (!DemolitionistSabotageState.IsActive)
         {
@@ -221,11 +206,6 @@ public static class DemolitionistPatches
         private static readonly Color RestoreTint = Color.white;
 
         private static bool _sabotageMapOpen;
-
-        public static void Register(ManualLogSource log)
-        {
-            log.LogInfo("Demolitionist sabotage map: using MapBehaviour / InfectedOverlay patches.");
-        }
 
         public static void HudManagerUpdatePostfix()
         {

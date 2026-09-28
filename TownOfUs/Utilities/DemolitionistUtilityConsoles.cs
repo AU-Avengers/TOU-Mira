@@ -1,10 +1,6 @@
-using System.Collections.Generic;
 using System.Reflection;
-using AmongUs.GameOptions;
-using MiraAPI.Translation;
 using TownOfUs.Patches;
 using Il2CppInterop.Runtime;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

@@ -117,13 +117,13 @@ public sealed class DemolitionistRole(IntPtr cppPtr)
             .Replace("<count>", capped.ToString(TownOfUsPlugin.Culture))
             .Replace("<needed>", needed.ToString(TownOfUsPlugin.Culture));
 
-        stringB.AppendLine($"<b>{progressText}</b>");
+        stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{progressText}</b>");
         return stringB;
     }
 
-    public override void Initialize(PlayerControl targetPlayer)
+    public override void Initialize(PlayerControl player)
     {
-        RoleBehaviourStubs.Initialize(this, targetPlayer);
+        RoleBehaviourStubs.Initialize(this, player);
 
         if (Player.AmOwner)
         {
@@ -132,7 +132,7 @@ public sealed class DemolitionistRole(IntPtr cppPtr)
             CustomButtonSingleton<FakeVentButton>.Instance.Show = false;
         }
 
-        DemolitionistSabotageState.RegisterDemolitionist(targetPlayer);
+        DemolitionistSabotageState.RegisterDemolitionist(player);
 
         AboutToTorment = false;
         HasKilled = false;

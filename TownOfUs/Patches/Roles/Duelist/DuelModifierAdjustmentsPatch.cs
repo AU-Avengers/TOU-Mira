@@ -1,6 +1,6 @@
 using HarmonyLib;
 using MiraAPI.Modifiers;
-using TownOfUs.Modifiers.Neutral.NeutralOutlier;
+using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;

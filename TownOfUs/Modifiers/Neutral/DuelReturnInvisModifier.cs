@@ -6,7 +6,7 @@ using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace TownOfUs.Modifiers.Neutral.NeutralOutlier;
+namespace TownOfUs.Modifiers.Neutral;
 
 public sealed class DuelReturnInvisModifier : ConcealedModifier, IVisualAppearance
 {

@@ -35,7 +35,7 @@ public sealed class DemolitionistSabotageTask(nint cppPtr) : SabotageTask(cppPtr
         var text = MiraLocaleManager
             .Get("TownOfUsMira.Role.Demolitionist.Task.SabotageActive")
             .Replace("<location>", location)
-            .Replace("<seconds>", seconds.ToString());
+            .Replace("<seconds>", seconds.ToString(TownOfUsPlugin.Culture));
 
         sb.AppendLine(
             $"<color=#{hex}>{text}</color>");

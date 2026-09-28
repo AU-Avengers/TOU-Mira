@@ -3,23 +3,20 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Modifiers.Types;
-using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Neutral.NeutralOutlier;
+using TownOfUs.Interfaces;
 using TownOfUs.Modules.Duelist;
 using TownOfUs.Options;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Neutral.NeutralOutlier;
-using TownOfUs.Modifiers;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace TownOfUs.Modifiers.Neutral.NeutralOutlier;
+namespace TownOfUs.Modifiers.Neutral;
 public sealed class DuelModifier(byte opponentId, bool isDuelist, Vector2 returnPos)
-    : DisabledModifier, IVisualAppearance
+    : DisabledModifier, IVisualAppearance, IUntransportable
 {
     public override string ModifierName => "In Duel";
     public override bool HideOnUi => true;
@@ -241,6 +238,7 @@ public sealed class DuelModifier(byte opponentId, bool isDuelist, Vector2 return
 
     public override void OnDeath(DeathReason reason)
     {
+        // Don't do anything upon death.
     }
 
     [HideFromIl2Cpp]
@@ -306,7 +304,7 @@ public sealed class DuelModifier(byte opponentId, bool isDuelist, Vector2 return
         for (var i = 0; i < cosmeticsLayer.childCount; i++)
         {
             var child = cosmeticsLayer.GetChild(i);
-            if (child != null && child.name.StartsWith("A_") && child.gameObject.activeSelf != active)
+            if (child != null && child.name.StartsWith("A_", StringComparison.InvariantCulture) && child.gameObject.activeSelf != active)
             {
                 child.gameObject.SetActive(active);
             }

@@ -292,7 +292,7 @@ internal static class DemolitionistNumpad
         }
     }
 
-    [HarmonyPatch(typeof(Minigame), nameof(Minigame.Close), new Type[] { })]
+    [HarmonyPatch(typeof(Minigame), nameof(Minigame.Close), [])]
     internal static class MinigameClose
     {
         private static void Postfix(Minigame __instance) => Controller.Cancel(__instance);
@@ -599,6 +599,7 @@ internal static class DemolitionistNumpad
 
         public override void AppendTaskText(StringBuilder sb)
         {
+            // Not used here.
         }
 
         public override bool ValidConsole(global::Console console) => true;

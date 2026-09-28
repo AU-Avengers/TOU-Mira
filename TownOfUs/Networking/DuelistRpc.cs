@@ -8,7 +8,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using TownOfUs.Assets;
-using TownOfUs.Modifiers.Neutral.NeutralOutlier;
+using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules.Duelist;
 using TownOfUs.Options;
 using TownOfUs.Roles.Neutral.NeutralOutlier;

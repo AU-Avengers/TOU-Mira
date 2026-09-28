@@ -117,7 +117,7 @@ public class DemolitionistOptions : AbstractRoleOptionGroup<DemolitionistRole>, 
             ? TranslationController.Instance.GetString(option.StringName)
             : option.StringName.ToString();
 
-        return new[] { $"{title}: {valueStr}" };
+        return [ $"{title}: {valueStr}" ];
     }
 
     private ModdedNumberOption GetSabotageDurationOptionForMap(ExpandedMapNames map) =>

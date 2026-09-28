@@ -8,12 +8,12 @@ public static class KeybindHelpers
     {
         var name = key.ToString();
 
-        if (name.StartsWith("Alpha") && name.Length == 6 && char.IsDigit(name[5]))
+        if (name.StartsWith("Alpha", StringComparison.InvariantCulture) && name.Length == 6 && char.IsDigit(name[5]))
         {
             return name.Substring(5);
         }
 
-        if (name.StartsWith("Keypad") && name.Length == 7 && char.IsDigit(name[6]))
+        if (name.StartsWith("Keypad", StringComparison.InvariantCulture) && name.Length == 7 && char.IsDigit(name[6]))
         {
             return name.Substring(6);
         }

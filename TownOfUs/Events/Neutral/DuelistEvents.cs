@@ -9,7 +9,7 @@ using MiraAPI.Translation;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Assets;
-using TownOfUs.Modifiers.Neutral.NeutralOutlier;
+using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules.Duelist;
 using TownOfUs.Roles.Neutral.NeutralOutlier;
 using TownOfUs.Events;

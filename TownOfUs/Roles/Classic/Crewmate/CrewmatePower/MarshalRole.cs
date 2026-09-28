@@ -253,8 +253,8 @@ public sealed class MarshalRole(IntPtr cppPtr)
 
         foreach (var swapper in CustomRoleUtils.GetActiveRolesOfType<SwapperRole>())
         {
-            swapper.Swap1 = null;
-            swapper.Swap2 = null;
+            swapper.Swap1 = null!;
+            swapper.Swap2 = null!;
         }
         MeetingMenu.Instances.Do(x => x.HideButtons());
 

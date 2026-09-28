@@ -342,8 +342,8 @@ public static class DemolitionistSabotageState
         var notificationText = MiraLocaleManager
             .Get(key)
             .Replace("<location>", location)
-            .Replace("<count>", SuccessfulSabotages.ToString())
-            .Replace("<needed>", needed.ToString());
+            .Replace("<count>", SuccessfulSabotages.ToString(TownOfUsPlugin.Culture))
+            .Replace("<needed>", needed.ToString(TownOfUsPlugin.Culture));
 
         MiraAPI.Utilities.Helpers.CreateAndShowNotification(
             $"<b><color=#{colorHex}>{notificationText}</color></b>",

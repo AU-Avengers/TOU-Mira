@@ -138,8 +138,8 @@ public sealed class DuelistRole(IntPtr cppPtr)
             .Replace("<losses>", losses.ToString(TownOfUsPlugin.Culture))
             .Replace("<needed>", LossesToDie.ToString(TownOfUsPlugin.Culture));
 
-        stringB.AppendLine($"<b>{winsText}</b>");
-        stringB.AppendLine($"<b>{lossesText}</b>");
+        stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{winsText}</b>");
+        stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{lossesText}</b>");
 
         return stringB;
     }

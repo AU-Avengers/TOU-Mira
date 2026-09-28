@@ -1,16 +1,13 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using TownOfUs.Modifiers.Neutral.NeutralOutlier;
+using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules.Duelist;
 using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Roles.Neutral.NeutralOutlier;
-using TownOfUs.Buttons;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
-using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral.NeutralOutlier;
@@ -96,7 +93,7 @@ public sealed class DuelButton : TownOfUsRoleButton<DuelistRole>, IDiseaseableBu
     {
     }
 
-    private void OpenTargetMenu(PlayerControl player)
+    private static void OpenTargetMenu(PlayerControl player)
     {
         var menu = CustomPlayerMenu.Create();
         menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
