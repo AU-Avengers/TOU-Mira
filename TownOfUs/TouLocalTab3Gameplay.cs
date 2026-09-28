@@ -86,6 +86,10 @@ public class TouLocalTabGameplay(ConfigFile config) : LocalSettingsTab(config)
     [LocalToggleSetting]
     public ConfigEntry<bool> ProsecutorProsToggling { get; private set; } =
         config.Bind("Role Visuals", "ProsecutorProsToggling", false);
+
+    [LocalToggleSetting]
+    public ConfigEntry<bool> DemolitionistAlternatingColors { get; private set; } =
+        config.Bind("Role Visuals", "DemolitionistAlternatingColors", true);
 }
 
 public enum SonarTargetStyle

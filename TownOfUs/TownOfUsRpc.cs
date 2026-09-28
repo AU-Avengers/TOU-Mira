@@ -140,6 +140,12 @@ public enum TownOfUsRpc : uint
     OfficerSyncBullets,
     SetUpCrewpostor,
     MisguessSummary,
+    DemolitionistSabotageExpired,
+    DemolitionistPlantSabotage,
+    DemolitionistDefuseSabotage,
+    DuelistResolveDuel,
+    DuelistStartDuel,
+    DuelistStrike,
     // Frenzy Killers
     FrenzyRecall,
     FrenzyMarkLocation,

@@ -90,6 +90,8 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
         MiraLocaleManager.Register("auavengers.tou.mira", "TownOfUs");
 
         TouAssets.Initialize();
+        DemolitionistPatches.Register(Log);
+        DemolitionistNumpad.Register(Harmony, Log);
 
         IL2CPPChainloader.Instance.Finished +=
             ModCompatibility

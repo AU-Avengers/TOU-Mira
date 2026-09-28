@@ -140,6 +140,7 @@
   <string name="PiPSizeLarge">Large</string>
   <string name="SonarTargetType">Sonar Target Style</string>
     <string name="ProsecutorProsToggling">Prosecuting Requires a Confirmation</string>
+    <string name="DemolitionistAlternatingColors">Demolitionist Sabotage Alternates Colors</string>
   <string name="SonarHeartbeats">Heartbeats</string>
   <string name="SonarArrows">Arrows</string>
   <!-- Player Colors -->
@@ -524,6 +525,8 @@ You may disable this message through your option menu.</string>
   <string name="DiedToPuppetControl">Targeted</string>
   <string name="DiedToPoison">Poisoned</string>
   <string name="DiedToTempRevive">Temporarily Revived</string>
+    <string name="DiedToDemolitionist">Sabotaged</string>
+    <string name="DiedToDuelist">Defeated</string>
   <!-- Status Effects -->
     <string name="TouFirstDeathShield">First Death Shield</string>
   <string name="TouClericBarrier">Cleric Barrier</string>
@@ -2231,6 +2234,63 @@ You will slow down players around you in a radius, as well as being fast and hid
   <string name="TouOptionArsonistIgniteRadius">Ignite Radius</string>
   <string name="TouOptionArsonistCanVent">Arsonist Can Vent</string>
   <string name="TouOptionArsonistImpVision">Has Impostor Vision</string>
+    <!-- Demolitionist -->
+    <string name="TownOfUsMira.Role.Demolitionist">Demolitionist</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Description">The bomb has been planted!</string>
+    <string name="TownOfUsMira.Role.Demolitionist.MedDescription">Plant bombs on consoles and successfully detonate enough of them to win.</string>
+    <string name="TownOfUsMira.Role.Demolitionist.TabDescription">Plant Bombs at consoles (Admin, Cams, Doorlog, Vitals) to win!
+If the crew defuses in time, it fails.</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Ability.Plant">Plant</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Ability.Plant.Description">Plant a bomb at a console (Admin, Cams, Doorlog, Vitals) to start a sabotage. It explodes unless the crew defuses it in time.</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Ability.Defuse">Defuse</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Ability.Defuse.Description">Defuse the planted bomb before it triggers an explosion</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Progress.SuccessfulSabotages">Successful sabotages: [count]/[needed]</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Button.Defusing">DEFUSING</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Notification.Defusing">Defusing...</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Notification.DefuseTooFar">Defuse aborted — too far from sabotage!</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Button.Planting">PLANTING</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Button.Arming">ARMING</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Notification.Planting">Planting sabotage...</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Notification.PlantTooFar">Plant aborted — too far from console!</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Notification.Arming">Bomb arming in [seconds]s...</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Notification.CancelledBySabotage">Plant cancelled, Impostor sabotage started.</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Numpad.Success">OK</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Numpad.Incorrect">Bad</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Notification.EmergencyDuringSabotage">You cannot call an emergency meeting during a sabotage.</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Notification.SabotageActive">Demolitionist Sabotage active
+Location: [location]</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Notification.SabotageDefused">Demolitionist Sabotage Defused
+Location: [location]</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Notification.Exploded">Demolitionist Exploded [location] ([count]/[needed])</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Notification.GoalReached">Demolitionist Exploded [location] — Demolitionist goal reached!</string>
+    <string name="TownOfUsMira.Role.Demolitionist.Task.SabotageActive">Demolitionist Sabotage active
+Location: [location]
+[seconds]s</string>
+    <string name="TownOfUsMira.Demolitionist.Utility.Admin">Admin Table</string>
+    <string name="TownOfUsMira.Demolitionist.Utility.Lookout">Lookout</string>
+    <string name="TownOfUsMira.Demolitionist.Utility.Security">Security</string>
+    <string name="TownOfUsMira.Demolitionist.Utility.Vitals">Vitals</string>
+    <string name="TownOfUsMira.Demolitionist.Utility.DoorLog">Door Log</string>
+    <string name="TownOfUsMira.Demolitionist.Utility.Unknown">Unknown</string>
+    <!-- Demolitionist Options -->
+    <string name="TownOfUsMira.Options.Demolitionist.SabotagesToWin">Successful Sabotages To Win</string>
+    <string name="TownOfUsMira.Options.Demolitionist.PlantCooldown">Plant Cooldown</string>
+    <string name="TownOfUsMira.Options.Demolitionist.PlantToSabotageDelay">Plant To Sabotage Delay</string>
+    <string name="TownOfUsMira.Options.Demolitionist.SabotageDuration.Skeld">Sabotage Duration (Skeld)</string>
+    <string name="TownOfUsMira.Options.Demolitionist.SabotageDuration.MiraHQ">Sabotage Duration (MIRA HQ)</string>
+    <string name="TownOfUsMira.Options.Demolitionist.SabotageDuration.Polus">Sabotage Duration (Polus)</string>
+    <string name="TownOfUsMira.Options.Demolitionist.SabotageDuration.Fungle">Sabotage Duration (Fungle)</string>
+    <string name="TownOfUsMira.Options.Demolitionist.SabotageDuration.Airship">Sabotage Duration (Airship)</string>
+    <string name="TownOfUsMira.Options.Demolitionist.SabotageStyle">Sabotage Style</string>
+    <string name="TownOfUsMira.Options.Demolitionist.PlantTime">Plant Time</string>
+    <string name="TownOfUsMira.Options.Demolitionist.DefuseTime">Defuse Time</string>
+    <string name="TownOfUsMira.Options.Demolitionist.CanVent">Demolitionist Can Vent</string>
+    <string name="TownOfUsMira.Options.Demolitionist.DisableExplodedConsoles">Successful Explosion Disables Utility Console</string>
+    <string name="TownOfUsMira.Options.Demolitionist.ExplosionKillsDefusers">Explosion Kills Active Defusers</string>
+    <string name="TownOfUsMira.Options.Demolitionist.WinOutcome">Win Outcome</string>
+    <string name="TownOfUsMira.Options.Demolitionist.WinOutcome.EndsGame">Ends Game</string>
+    <string name="TownOfUsMira.Options.Demolitionist.WinOutcome.KillOnePlayer">Kill One Player</string>
+    <string name="TownOfUsMira.Options.Demolitionist.WinOutcome.Nothing">Nothing</string>
   <!-- Doomsayer -->
     <!-- Doomsayer Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Doomsayer">Doomsayer</string>
@@ -2365,6 +2425,41 @@ you'll leave [and] announce your victory</string>
   <string name="TouOptionInquisitorInquireCooldown">Inquire Cooldown</string>
   <string name="TouOptionInquisitorMaxInquiries">Max Number Of Inquiries</string>
   <string name="TouOptionInquisitorHereticAmount">Amount Of Heretics Needed</string>
+    <!-- Duelist -->
+    <string name="TownOfUsMira.Role.Duelist">Duelist</string>
+    <string name="TownOfUsMira.Role.Duelist.Description">ITS TIME TO D-D-D-DUEL</string>
+    <string name="TownOfUsMira.Role.Duelist.MedDescription">Challenge players to duels and win enough of them to claim victory.</string>
+    <string name="TownOfUsMira.Role.Duelist.TabDescription">Challenge a player to a duel.
+Win enough duels to claim victory.</string>
+    <string name="TownOfUsMira.Role.Duelist.Ability.Duel">Duel</string>
+    <string name="TownOfUsMira.Role.Duelist.Ability.Duel.Description">Challenge a shipmate to a duel.</string>
+    <string name="TownOfUsMira.Role.Duelist.Ability.Strike">Strike</string>
+    <string name="TownOfUsMira.Role.Duelist.Ability.Strike.Description">Attack your opponent during the duel.</string>
+    <string name="TownOfUsMira.Role.Duelist.Progress.Detailed">Duels won: [wins]/[winsNeeded] | Duels lost: [losses]/[lossesNeeded]</string>
+    <string name="TownOfUsMira.Role.Duelist.Tab.DuelsWon">Duels won ([wins]/[needed])</string>
+    <string name="TownOfUsMira.Role.Duelist.Tab.DuelsLost">Duels lost ([losses]/[needed])</string>
+    <string name="TownOfUsMira.Role.Duelist.Notification.YouWon">¡Ganaste como Duelista al conseguir suficientes victorias!</string>
+    <string name="TownOfUsMira.Role.Duelist.Notification.PlayerWon">¡El Duelista, [player], ganó tras conseguir suficientes victorias!</string>
+    <string name="TownOfUsMira.Role.Duelist.Notification.VictoryPending">You have won enough duels, so you can no longer duel. Victory awaits!</string>
+    <string name="TownOfUsMira.Role.Duelist.Notification.Challenged">You have been challenged to a duel by the Duelist! Show 'em what you're worth!</string>
+    <string name="TownOfUsMira.Role.Duelist.Notification.DuelStarted">Your duel against [player] started. Show no mercy!</string>
+    <string name="TownOfUsMira.Role.Duelist.Notification.ReturningSingular">Returning to the map in [seconds] second</string>
+    <string name="TownOfUsMira.Role.Duelist.Notification.ReturningPlural">Returning to the map in [seconds] seconds</string>
+    <string name="TownOfUsMira.Role.Duelist.Notification.WonDuel">You won the duel!</string>
+    <string name="TownOfUsMira.Role.Duelist.Notification.LostDuel">You lost the duel!</string>
+    <string name="TownOfUsMira.Role.Duelist.Notification.Draw">Clash! Both blades landed at once. The duel ends in a draw.</string>
+    <!-- Duelist Options -->
+    <string name="TownOfUsMira.Options.Duelist.DuelCooldown">Duel Cooldown</string>
+    <string name="TownOfUsMira.Options.Duelist.DuelSpeed">Duel Speed Boost</string>
+    <string name="TownOfUsMira.Options.Duelist.DuelsToWin">Duels Needed To Win</string>
+    <string name="TownOfUsMira.Options.Duelist.DuelsLostToDie">Duels Lost Before Dying</string>
+    <string name="TownOfUsMira.Options.Duelist.WinType">When Victorious</string>
+    <string name="TownOfUsMira.Options.Duelist.WinType.WinAlone">Win Alone</string>
+    <string name="TownOfUsMira.Options.Duelist.WinType.LeaveInVictory">Leave In Victory</string>
+    <string name="TownOfUsMira.Options.Duelist.SpawnType">Duelers Spawn</string>
+    <string name="TownOfUsMira.Options.Duelist.SpawnType.Close">Close</string>
+    <string name="TownOfUsMira.Options.Duelist.SpawnType.Far">Far</string>
+    <string name="TownOfUsMira.Options.Duelist.SpawnType.Random">Random</string>
   <!-- Chef -->
     <!-- Chef Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Chef">Chef</string>
