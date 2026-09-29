@@ -2995,4 +2995,14 @@ n你会减缓周围玩家的速度，同时自己依然快速且处于伪装状�
   <string name="TouOptionProsecutorWrongProsEnumTarget">驱逐受害者,失去使用次数</string>
   <string name="TouOptionProsecutorWrongProsEnumProsTarget">驱逐双方</string>
   <string name="TouOptionMercenaryWinsWithNeutralBenign">与中立善良阵营共同获胜</string>
+  <string name="TouOptionMercenaryWinsWithNeutralEvil">与中立邪恶阵营共同获胜</string>
+  <string name="TouOptionMercenaryWinsWithNeutralKilling">与中立杀手型阵营共同获胜</string>
+  <string name="TouOptionMercenaryWinsWithNeutralOutlier">与中立外来者型阵营共同获胜</string>
+  <string name="TouOptionPlayerCountWhenSabotagesDisable">破坏被禁用时的最大存活玩家数</string>
+  <string name="TouOptionCanSabotageWhenDead">死亡后可以破坏</string>
+  <string name="TouOptionGhostwalkerVentSpawn">生成时自动进入通风管道的冤魂幻影</string>
+  <string name="TouOptionGhostwalkerVentSpawnEnumNone">无</string>
+  <string name="TouOptionGhostwalkerVentSpawnEnumCrewmates">船员</string>
+  <string name="TouOptionGhostwalkerVentSpawnEnumEvils">邪恶</string>
+  <string name="TouOptionGhostwalkerVentSpawnEnumAll">全部</string>
 </resources>
