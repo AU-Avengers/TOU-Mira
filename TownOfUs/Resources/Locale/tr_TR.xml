@@ -2953,4 +2953,9 @@ Bu değişiklik kalıcıdır.</string>
   <string name="TouHexBombCountdown">Büyü Atıcısı bir Lanet Bombası salıyor!
 [time] saniye kaldı!</string>
   <string name="TouHexBombSpellslingerDead">Büyü Atıcısı öldü!</string>
+  <string name="ShowRolesOnChatBubbles">Sohbet baloncuklarında rolleri göster</string>
+  <string name="ChatRoleVisualDisabled">Devre Dışı</string>
+  <string name="ChatRoleVisualIcon">Simge</string>
+  <string name="ChatRoleVisualColor">Renk</string>
+  <string name="ChatRoleVisualIconAndColor">Simge [and] Renk</string>
 </resources>
