@@ -24,6 +24,7 @@ using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
@@ -369,6 +370,16 @@ public static class TownOfUsEventHandlers
         HudManagerHelper.Instance.VentButtonDisabledSprite.SetActive(!AreVentsAllowed);
         if (!@event.TriggeredByIntro)
         {
+            foreach (var role in CustomRoleUtils.GetActiveRoles())
+            {
+                if (role is not IAltWinConRole neutAltRole)
+                {
+                    continue;
+                }
+
+                neutAltRole.TryResolveQuietWin(role);
+            }
+
             foreach (var button in CustomButtonManager.Buttons)
             {
                 if (button is FakeVentButton)

@@ -2187,6 +2187,9 @@ You will slow down players around you in a radius, as well as being fast and hid
 
   <!--Anonymous Feedback-->
     <string name="TouNeutAnonymousVictoryMessage">[player] has successfully won and left!</string>
+    <string name="TouNeutBasicVictoryMessage">The [role], [player] has successfully won and left!</string>
+    <string name="TouNeutBasicVictoryMessageSelf">You have successfully won as the [role], and have left for good!</string>
+    <string name="TouNeutBasicTormentMessage">You have one round to kill a player of your choice, choose wisely.</string>
   <string name="TouOptionNeutAnonymousVictoryWin">Hide Role On Win Notification</string>
   <string name="TownOfUsMira.Role.AnonymousVictoryKillNotif">[source] has killed [victim] after their victory!</string>
   <!-- Amnesiac -->

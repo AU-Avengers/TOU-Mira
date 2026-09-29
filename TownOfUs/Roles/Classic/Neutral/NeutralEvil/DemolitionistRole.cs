@@ -22,6 +22,7 @@ public sealed class DemolitionistRole(IntPtr cppPtr)
     public static readonly Color DemolitionistColor = new Color32(0x28, 0x36, 0x7D, 255);
     public Color RoleColor => DemolitionistColor;
     public string IdPart => "Demolitionist";
+    public bool RoleIsDisplayed => /*!OptionGroupSingleton<DemolitionistOptions>.Instance.DemoAnonymizeWin.Value*/ true;
 
     public LoadableAsset<Sprite> WinIcon => DivaniAssets.DemolitionistIcon;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
@@ -52,7 +53,7 @@ public sealed class DemolitionistRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = MiraAPI.Utilities.Assets.TmpSpriteUtils.CreateSpriteAsset(DivaniAssets.DemolitionistIcon.LoadAsset(), "DivaniMod.Role.Neutral.Demolitionist", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(DivaniAssets.DemolitionistIcon.LoadAsset(), "DivaniMod.Role.Neutral.Demolitionist", 1.45f),
         OptionsScreenshot = DivaniAssets.DemolitionistBanner,
         Icon = DivaniAssets.DemolitionistIcon,
         IntroSound = DivaniAssets.DemolitionistIntroSound,

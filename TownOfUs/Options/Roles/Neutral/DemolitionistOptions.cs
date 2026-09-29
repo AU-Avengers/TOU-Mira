@@ -1,12 +1,9 @@
-using System.Collections.Generic;
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
-using MiraAPI.Translation;
 using MiraAPI.Utilities;
 using TownOfUs.Roles.Neutral.NeutralEvil;
 using TownOfUs.Interfaces;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Options;
 
@@ -83,9 +80,9 @@ public class DemolitionistOptions : AbstractRoleOptionGroup<DemolitionistRole>, 
 
     [ModdedEnumOption("TownOfUsMira.Options.Demolitionist.WinOutcome", typeof(AltWinResult), 
     [
-        "TownOfUsMira.Options.Demolitionist.WinOutcome.EndsGame",
+        "TownOfUsMira.Options.Demolitionist.WinOutcome.Nothing",
         "TownOfUsMira.Options.Demolitionist.WinOutcome.KillOnePlayer",
-        "TownOfUsMira.Options.Demolitionist.WinOutcome.Nothing"
+        "TownOfUsMira.Options.Demolitionist.WinOutcome.EndsGame"
     ]
     )]
     public AltWinResult WinOutcome { get; set; } = AltWinResult.EndsGame;
