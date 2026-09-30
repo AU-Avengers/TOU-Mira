@@ -52,15 +52,15 @@ public static class TouAssets
         var sprite = LegacyDisabled;
         switch (value)
         {
-            case LegacyVisuals.Players:
+            /*case LegacyVisuals.Players:
                 sprite = LegacyPlayers;
-                break;
+                break;*/
             case LegacyVisuals.Art:
                 sprite = LegacyArt;
                 break;
-            case LegacyVisuals.Full:
+            /*case LegacyVisuals.Full:
                 sprite = LegacyFull;
-                break;
+                break;*/
         }
 
         return sprite;

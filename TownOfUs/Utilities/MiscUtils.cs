@@ -718,6 +718,7 @@ public static class MiscUtils
                 break;
             case RoleAlignment.CrewmateAfterlife:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.GuardianAngel));
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.SpiritGuide));
                 break;
             case RoleAlignment.ImpostorSupport:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Impostor));
@@ -749,6 +750,7 @@ public static class MiscUtils
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Tracker));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Detective));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.GuardianAngel));
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.SpiritGuide));
                 break;
             case ModdedRoleTeams.Impostor:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Impostor));

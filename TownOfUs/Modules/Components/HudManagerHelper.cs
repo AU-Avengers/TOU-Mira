@@ -489,6 +489,10 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
             {
                 roleName = $"<size={roleNameSize}>{MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{TranslationController.Instance.GetString(StringNames.GuardianAngelRole)}</color></size>";
             }
+            else if (role.Role is RoleTypes.SpiritGuide)
+            {
+                roleName = $"<size={roleNameSize}>{MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{TranslationController.Instance.GetString(StringNames.SpiritGuideRole)}</color></size>";
+            }
 
             var revealedRole = revealMods.FirstOrDefault(x => x.Visible && x.RevealRole && x.ShownRole != null);
             if (revealedRole != null)
