@@ -91,7 +91,7 @@ public static class GhostRoleEvents
         }
 
         var player = @event.Player;
-        if (@event.NewRole.Role is RoleTypes.GuardianAngel && !player.HasModifier<BasicGhostModifier>())
+        if (@event.NewRole.Role is RoleTypes.GuardianAngel or RoleTypes.SpiritGuide && !player.HasModifier<BasicGhostModifier>())
         {
             player.AddModifier<BasicGhostModifier>();
         }

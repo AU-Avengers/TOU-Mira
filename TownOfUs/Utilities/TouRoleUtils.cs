@@ -95,6 +95,7 @@ public static class TouRoleUtils
             RoleTypes.Engineer => TouRoleIcons.Engineer.LoadAsset(),
             RoleTypes.Judge => TouRoleIcons.Prosecutor.LoadAsset(),
             RoleTypes.Viper => TouRoleIcons.Viper.LoadAsset(),
+            RoleTypes.SpiritGuide => TouRoleIcons.Spectator.LoadAsset(),
             _ => null
         };
     }
