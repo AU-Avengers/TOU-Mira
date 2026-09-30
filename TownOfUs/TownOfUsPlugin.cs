@@ -151,7 +151,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
 public enum LegacyVisuals
 {
     Disabled,
-    Players,
+    /*Players,*/
     Art,
-    Full
+    /*Full*/
 }
