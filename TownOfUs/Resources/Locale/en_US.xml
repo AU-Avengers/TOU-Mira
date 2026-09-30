@@ -140,7 +140,6 @@
   <string name="PiPSizeLarge">Large</string>
   <string name="SonarTargetType">Sonar Target Style</string>
     <string name="ProsecutorProsToggling">Prosecuting Requires a Confirmation</string>
-    <string name="DemolitionistAlternatingColors">Demolitionist Sabotage Alternates Colors</string>
   <string name="SonarHeartbeats">Heartbeats</string>
   <string name="SonarArrows">Arrows</string>
   <!-- Player Colors -->

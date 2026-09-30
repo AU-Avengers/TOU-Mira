@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using BepInEx.Unity.IL2CPP.Utils.Collections;
-
+using MiraAPI;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.GameOptions;
@@ -72,7 +72,7 @@ public static class DemolitionistSabotageState
 
     public static bool LocalDefuseInProgress { get; set; }
 
-    public static readonly Color SecondaryColor = new Color32(0xF9, 0xA1, 0x23, 255);
+    public static readonly Color SecondaryColor = new Color32(0x28, 0x36, 0x7D, 0);
 
     private static readonly Color DefuseFlashColor = Palette.AcceptedGreen;
 
@@ -332,6 +332,7 @@ public static class DemolitionistSabotageState
         PlayResultFlash(ExplosionFlashColor);
 
         PlayExplosionSound();
+        HudManager.Instance.StartCoroutine(HudManager.Instance.PlayerCam.CoShakeScreen(0.4f, 1.5f));
 
         var colorHex = ColorUtility.ToHtmlStringRGB(DemolitionistRole.DemolitionistColor);
 
@@ -760,10 +761,6 @@ public static class DemolitionistSabotageState
 
     public static Color GetCurrentPulseColor()
     {
-        if (!LocalSettingsTabSingleton<TouLocalTabGameplay>.Instance.DemolitionistAlternatingColors.Value)
-        {
-            return DemolitionistRole.DemolitionistColor;
-        }
 
         return (FlashPulseIndex & 1) == 0 ? DemolitionistRole.DemolitionistColor : SecondaryColor;
     }
@@ -826,7 +823,7 @@ public static class DemolitionistSabotageState
 
             var clip = ShipStatus.Instance.SabotageSound;
 
-            if (clip == null) return;
+            if (clip == null || !LocalSettingsTabSingleton<MiraApiSettings>.Instance.EnableSabotageBlares.Value) return;
 
 
 
@@ -931,8 +928,10 @@ public static class DemolitionistSabotageState
             var color = GetCurrentPulseColor();
 
             FlashPulseIndex++;
+            var cantSeeFlash = color.a == 0 ||
+                               !LocalSettingsTabSingleton<MiraApiSettings>.Instance.EnableSabotageFlashes.Value;
 
-            yield return MiscUtils.CoFlash(color, waitfor: 0.5f, alpha: 0.35f);
+            yield return MiscUtils.CoFlash(color, waitfor: 0.5f, alpha: cantSeeFlash ? 0 : 0.35f);
 
         }
 

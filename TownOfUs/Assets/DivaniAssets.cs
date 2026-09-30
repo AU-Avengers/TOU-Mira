@@ -32,7 +32,7 @@ public static class DivaniAssets
         new LoadableResourceAsset($"{ShortPath}.DemolitionistDefuse.png");
 
     public static LoadableAudioResourceAsset DemolitionistExplosionSound { get; } =
-        new ($"{ShortPath}.DemolitionistExplode.wav");
+        new ($"{ShortPath}.DemolitionistExplosion.wav");
 
     public static LoadableAudioResourceAsset DemolitionistIntroSound { get; } =
         new ($"{ShortPath}.DemolitionistIntro.wav");
