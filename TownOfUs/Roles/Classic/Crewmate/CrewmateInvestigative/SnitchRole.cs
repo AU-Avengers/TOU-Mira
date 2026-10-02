@@ -228,17 +228,21 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                     notif1.AdjustNotification();
                 }
             }
-            else if (IsTargetOfSnitch(PlayerControl.LocalPlayer) && !silent)
+            else if (IsTargetOfSnitch(PlayerControl.LocalPlayer))
             {
-                Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
-                var text = Player.HasModifier<EgotistModifier>()
-                    ? MiraLocaleManager.Get("TownOfUsMira.Role.SnitchImpCompletedEgoFeedback")
-                    : MiraLocaleManager.Get("TownOfUsMira.Role.SnitchImpCompletedFeedback");
+                CreateRevealingArrow(silent: true);
+                if (!silent)
+                {
+                    Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
+                    var text = Player.HasModifier<EgotistModifier>()
+                        ? MiraLocaleManager.Get("TownOfUsMira.Role.SnitchImpCompletedEgoFeedback")
+                        : MiraLocaleManager.Get("TownOfUsMira.Role.SnitchImpCompletedFeedback");
 
-                var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
-                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Snitch.LoadAsset());
-                notif1.AdjustNotification();
+                    var notif1 = Helpers.CreateAndShowNotification(
+                        $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
+                        new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Snitch.LoadAsset());
+                    notif1.AdjustNotification();
+                }
             }
         }
     }
