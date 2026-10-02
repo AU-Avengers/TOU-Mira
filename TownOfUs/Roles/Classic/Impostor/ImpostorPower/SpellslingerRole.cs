@@ -12,6 +12,7 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
+using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Roles.Impostor;
@@ -94,8 +95,10 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
 
         var text = MiraLocaleManager.Get("TownOfUsMira.Role.SpellslingerGlobalWarning").Replace("<role>", $"#{this.GetRoleName().ToLowerInvariant().Replace(" ", "-")}");
 
+        var saboTime = (int)Math.Max(0, (int)sabotage.TimeRemaining -
+            OptionGroupSingleton<SpellslingerOptions>.Instance.HexBombDecreasePerMeeting + 1);
         reportBuilder.Append(TownOfUsPlugin.Culture,
-            $"{text.Replace("<time>", $"{(int)sabotage.TimeRemaining + 1}")}");
+            $"{text.Replace("<time>", $"{saboTime}")}");
 
         var report = reportBuilder.ToString();
 
