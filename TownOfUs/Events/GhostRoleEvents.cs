@@ -23,6 +23,7 @@ namespace TownOfUs.Events;
 
 public static class GhostRoleEvents
 {
+    [RegisterEvent]
     public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
     {
         var player = @event.Player;
