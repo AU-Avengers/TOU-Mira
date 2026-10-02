@@ -1,4 +1,7 @@
 ﻿using System.Globalization;
+using AmongUs.Data;
+using AmongUs.Data.Player;
+using AmongUs.Data.Settings;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Unity.IL2CPP;
@@ -136,6 +139,10 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
         Info("HatLocator initialized!");
 
         Harmony.PatchAll();
+        DataManager.player = new PlayerData();
+        DataManager.player.ForceLoad();
+        DataManager.settings = new SettingsData();
+        DataManager.settings.ForceLoad();
         RegisterWinConditions();
     }
 
