@@ -30,6 +30,8 @@ public interface ITownOfUsRole : ICustomRole
             var grid = Object.Instantiate(parent.Inner, obj.transform);
             var layoutGroup = grid.GetComponent<GridLayoutGroup>();
             layoutGroup.startAxis = GridLayoutGroup.Axis.Vertical;
+            layoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            layoutGroup.spacing = new Vector2(0.75f, 0.4f);
             grid.DestroyChildren();
             foreach (var ability in wiki.Abilities)
             {
@@ -58,7 +60,7 @@ public interface ITownOfUsRole : ICustomRole
         }
         obj.transform.SetParent(parent.Inner.transform);
         obj.transform.localPosition = new Vector3(0f, 0f, 0f);
-        parent.SetYBoundsMax(Mathf.Clamp((desc.textBounds.size.y - 2) + (Mathf.Ceil(num / 2f) * 1.3f), 0f, 999f));
+        parent.SetYBoundsMax(Mathf.Clamp((desc.textBounds.size.y - 2) + (Mathf.Ceil(num / 2f) * 1.45f), 0f, 999f));
         return obj;
     }
     /// <summary>

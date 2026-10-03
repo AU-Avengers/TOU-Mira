@@ -67,6 +67,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
 
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralBenign;
 
+    public bool? ForceShowRoleOnWiki => CanBeGuessed ? true : null;
     // This is so the role can be guessed without requiring it to be enabled normally
     public bool CanBeGuessed =>
         (MiscUtils.GetPotentialRoles()

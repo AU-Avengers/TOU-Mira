@@ -21,6 +21,7 @@ public sealed class TraitorRole(IntPtr cppPtr)
         RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TraitorRole>()) is ICustomRole customRole &&
         (int)customRole.GetCount()! > 0 && (int)customRole.GetChance()! > 0 ||
         (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance.Value > 0;
+    public bool? ForceShowRoleOnWiki => CanBeGuessed ? true : null;
     public bool CanSpawnOnCurrentMode() => false;
     [HideFromIl2Cpp] public List<RoleBehaviour> ChosenRoles { get; } = [];
     [HideFromIl2Cpp] public RoleBehaviour? RandomRole { get; set; }

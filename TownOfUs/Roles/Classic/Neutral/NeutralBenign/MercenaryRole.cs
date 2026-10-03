@@ -86,6 +86,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralBenign;
 
     // This is so the role can be guessed without requiring it to be enabled normally
+    public bool? ForceShowRoleOnWiki => CanBeGuessed ? true : null;
     public bool CanBeGuessed =>
         (MiscUtils.GetPotentialRoles()
              .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<FairyRole>())) &&
