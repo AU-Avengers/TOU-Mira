@@ -2326,6 +2326,7 @@ mimic into others to frame them.</string>
     <string name="TouOptionFairyCooldown">Protect Cooldown</string>
   <string name="TouOptionFairyDuration">Protect Duration</string>
   <string name="TouOptionFairyMaxProtects">Max Number Of Protects</string>
+  <string name="TouOptionFairyGetMoreUsesFromCompletingTasks">Get More Uses From Completing Tasks</string>
   <string name="TouOptionFairyShowProtected">Show Protected Player</string>
   <string name="TouOptionFairyProtectionEnumFairy">Fairy</string>
   <string name="TouOptionFairyProtectionEnumFairyAndTarget">Fairy + Target</string>
@@ -2450,6 +2451,7 @@ then bribe the winners!</string>
   <!-- Mercenary Options -->
     <string name="TouOptionMercenaryCooldown">Guard Cooldown</string>
   <string name="TouOptionMercenaryMaxGuards">Max Number Of Guards</string>
+  <string name="TouOptionMercenaryGetMoreUsesFromCompletingTasks">Get More Uses From Completing Tasks</string>
   <string name="TouOptionMercenaryBribeCost">Bribe Cost</string>
   <string name="TouOptionMercenaryProtectiveGuard">Guarding Stops Attacks</string>
   <string name="TouOptionMercenaryProtectiveGuardGold">Gold Given From An Attack</string>
@@ -2532,6 +2534,7 @@ then bribe the winners!</string>
     <string name="TouOptionSurvivorVestCooldown">Vest Cooldown</string>
   <string name="TouOptionSurvivorVestDuration">Vest Duration</string>
   <string name="TouOptionSurvivorMaxVests">Max Number Of Vests</string>
+  <string name="TouOptionSurvivorGetMoreUsesFromCompletingTasks">Get More Uses From Completing Tasks</string>
   <string name="TouOptionSurvivorScatterEnabled">Survivor Scatter Mechanic Enabled</string>
   <string name="TouOptionSurvivorScatterTimer">Survivor Scatter Timer</string>
   <!-- Vampire -->

@@ -18,6 +18,9 @@ public sealed class FairyOptions : AbstractRoleOptionGroup<FairyRole>
     [ModdedNumberOption("TouOptionFairyMaxProtects", 1, 15, 1, MiraNumberSuffixes.None, "0")]
     public float MaxProtects { get; set; } = 5;
 
+    [ModdedToggleOption("TouOptionFairyGetMoreUsesFromCompletingTasks")]
+    public bool TaskUses { get; set; } = false;
+
     [ModdedEnumOption("TouOptionFairyShowProtected", typeof(ProtectOptions), ["TouOptionFairyProtectionEnumFairy", "TouOptionFairyProtectionEnumFairyAndTarget", "TouOptionFairyProtectionEnumEveryone"])]
     public ProtectOptions ShowProtect { get; set; } = ProtectOptions.SelfAndFairy;
 
