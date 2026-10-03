@@ -930,7 +930,7 @@
   <string name="TouOptionEscapistEscapistCanVent">逃逸者可使用通风口</string>
   <string name="TownOfUsMira.Role.Grenadier.IntroBlurb">干扰船员视野</string>
   <string name="TownOfUsMira.Role.Grenadier.TabDescription">致盲船员，便于隐蔽击杀</string>
-  <string name="TownOfUsMira.Role.Grenadier.WikiDescription">掷弹兵是一名伪装者隐匿型职业，可以投掷手雷致盲所有其他玩家。</string>
+  <string name="TownOfUsMira.Role.Grenadier.WikiDescription">掷弹兵是一名伪装者隐匿型职业，可以投掷手雷致盲所有其他玩家</string>
   <string name="TownOfUsMira.Role.GrenadierFlash">闪光</string>
   <string name="TownOfUsMira.Role.GrenadierFlash.WikiDescription">投掷手雷，致盲范围内所有玩家。</string>
   <string name="TouOptionGrenadierFlashUsesPerGame">每局可用闪光弹次数</string>
@@ -969,7 +969,7 @@
   <string name="TownOfUsMira.Role.PlumberFlush">冲洗</string>
   <string name="TownOfUsMira.Role.Blackmailer.IntroBlurb">在会议中让船员沉默</string>
   <string name="TownOfUsMira.Role.Blackmailer.TabDescription">让一名船员在下次会议中无法发言</string>
-  <string name="TownOfUsMira.Role.Blackmailer.WikiDescription">勒索者是一名伪装者辅助型职业，可以让一名玩家在下次会议中无法发言（以 [symbol] 标记）。</string>
+  <string name="TownOfUsMira.Role.Blackmailer.WikiDescription">勒索者是一名伪装者辅助型职业，可以让一名玩家在下次会议中无法发言（以 [symbol] 标记）</string>
   <string name="TownOfUsMira.Role.BlackmailerBlackmail">勒索</string>
   <string name="TownOfUsMira.Role.BlackmailerBlackmail.WikiDescription">让一名玩家在下次会议中无法发言。他们将无法说话，且在存活人数小于等于设定值前无法投票。是否公开勒索状态可由设置决定</string>
   <string name="TouOptionBlackmailerNumberOfBlackmailUsesPerGame">每局可用勒索次数</string>
@@ -1145,7 +1145,7 @@
   <string name="TownOfUsMira.Role.ProsecutorProsecute">起诉</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecuteWiki">起诉（会议）</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecute.WikiDescription">起诉你选择的任意玩家，对其投出5票并无视其他所有票数。</string>
-  <string name="TouOptionProsecutorMaxProsecutions">最大检举次数</string>
+  <string name="TouOptionProsecutorMaxProsecutions">最大起诉次数</string>
   <string name="TownOfUsMira.Role.Seer.IntroBlurb">揭示其他玩家的阵营</string>
   <string name="TownOfUsMira.Role.Seer.TabDescription">揭示其他玩家的阵营以找出坏人。</string>
   <string name="TownOfUsMira.Role.Seer.WikiDescription">预言家是一名船员调查型职业，可以揭示其他玩家的阵营。</string>
@@ -1948,7 +1948,7 @@
   <string name="SourceCode">源代码</string>
   <string name="ZoomingInLobby">大厅内缩放</string>
   <string name="ZoomingInPractice">练习模式缩放</string>
-  <string name="SeparateChatBubbles">分离聊天气泡</string>
+  <string name="SeparateChatBubbles">分离聊天框</string>
   <string name="RulesCommandDescription">/rules - 显示房主保存的房间规则。</string>
   <string name="RulesCommandList">规则</string>
   <string name="RulesMessageTitle">大厅规则</string>
@@ -2996,11 +2996,11 @@
   <string name="TouOptionProsecutorWrongProsEnumProsTarget">驱逐双方</string>
   <string name="TouOptionMercenaryWinsWithNeutralBenign">与中立友善阵营共同获胜</string>
   <string name="TouOptionMercenaryWinsWithNeutralEvil">与中立邪恶阵营共同获胜</string>
-  <string name="TouOptionMercenaryWinsWithNeutralKilling">与中立杀手型阵营共同获胜</string>
-  <string name="TouOptionMercenaryWinsWithNeutralOutlier">与中立外来者型阵营共同获胜</string>
+  <string name="TouOptionMercenaryWinsWithNeutralKilling">与中立杀手阵营共同获胜</string>
+  <string name="TouOptionMercenaryWinsWithNeutralOutlier">与中立外来者阵营共同获胜</string>
   <string name="TouOptionPlayerCountWhenSabotagesDisable">破坏被禁用时的最大存活玩家数</string>
   <string name="TouOptionCanSabotageWhenDead">死亡后可以破坏</string>
-  <string name="TouOptionGhostwalkerVentSpawn">生成时自动进入通风管道的冤魂幻影</string>
+  <string name="TouOptionGhostwalkerVentSpawn">冤魂幻影生成时自动进入通风管</string>
   <string name="TouOptionGhostwalkerVentSpawnEnumNone">无</string>
   <string name="TouOptionGhostwalkerVentSpawnEnumCrewmates">船员</string>
   <string name="TouOptionGhostwalkerVentSpawnEnumEvils">邪恶</string>
