@@ -50,6 +50,7 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
 
 
 
+    public string RoleWikiDescription => GetAdvancedDescription();
     public string GetAdvancedDescription()
     {
         return
