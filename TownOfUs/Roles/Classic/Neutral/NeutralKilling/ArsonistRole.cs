@@ -47,6 +47,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         ? MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescriptionLegacy")
         : MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
+    public string RoleWikiDescription => GetAdvancedDescription();
     public string GetAdvancedDescription()
     {
         return

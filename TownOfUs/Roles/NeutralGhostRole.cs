@@ -13,6 +13,7 @@ namespace TownOfUs.Roles.Neutral;
 
 public class NeutralGhostRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsRole
 {
+    public bool? ForceShowRoleOnWiki => false;
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (!playerControl.AmOwner)

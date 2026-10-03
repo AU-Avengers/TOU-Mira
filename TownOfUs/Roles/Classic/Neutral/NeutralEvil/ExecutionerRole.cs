@@ -112,6 +112,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     public string RoleDescription => TargetString(true);
     public string RoleLongDescription => TargetString();
 
+    public string RoleWikiDescription => GetAdvancedDescription();
     public string GetAdvancedDescription()
     {
         return

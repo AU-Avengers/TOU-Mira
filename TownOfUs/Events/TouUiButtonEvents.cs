@@ -10,15 +10,22 @@ public static class UiResetEvents
     [RegisterEvent]
     public static void ResetButtonParents(UiButtonResetEvent @event)
     {
+        var roleGuideButton = HudManagerPatches.OldVanillaWikiButton;
         var wikiButton = HudManagerPatches.WikiButton;
         var zoomButton = HudManagerPatches.ZoomButton;
         if (wikiButton)
         {
             wikiButton.transform.SetParent(null);
         }
+
         if (zoomButton)
         {
             zoomButton.transform.SetParent(null);
+        }
+
+        if (roleGuideButton)
+        {
+            roleGuideButton.transform.SetParent(null);
         }
     }
 
@@ -26,6 +33,7 @@ public static class UiResetEvents
     public static void PlaceWikiButton(UiButtonPostResetEvent @event)
     {
         var wikiButton = HudManagerPatches.WikiButton;
+        var roleGuideButton = HudManagerPatches.OldVanillaWikiButton;
         if (!wikiButton)
         {
             return;
@@ -34,6 +42,7 @@ public static class UiResetEvents
         var secondRow = @event.SecondTopUiRow;
         var opts = LocalSettingsTabSingleton<MiraApiSettings>.Instance;
         wikiButton.transform.SetParent(opts.WikiOnBottomRow.Value ? secondRow.transform : firstRow.transform);
+        roleGuideButton.transform.SetParent(opts.WikiOnBottomRow.Value ? secondRow.transform : firstRow.transform);
     }
 
     [RegisterEvent(-850)]

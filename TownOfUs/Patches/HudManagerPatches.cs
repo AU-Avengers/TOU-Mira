@@ -32,6 +32,7 @@ public static class HudManagerPatches
 {
     public static ProgressTracking PlayerNameProgress = ProgressTracking.Always;
     public static NameStyle RoleNameStyle = NameStyle.TopSmall;
+    public static bool UseVanillaWiki;
     public static bool RoleOnTop => RoleNameStyle is NameStyle.Top or NameStyle.TopSmall;
     public static bool RoleIsSmall => RoleNameStyle is NameStyle.BottomSmall or NameStyle.TopSmall;
     public static bool IconOnRoleName;
@@ -577,13 +578,13 @@ public static class HudManagerPatches
 
         if (WikiButton)
         {
-            WikiButton.SetActive(!GameSettingMenu.Instance &&
-                                 (!Minigame.Instance || Minigame.Instance is IngameWikiMinigame));
+            WikiButton.SetActive(!UseVanillaWiki && !GameSettingMenu.Instance &&
+                                                 (!Minigame.Instance || Minigame.Instance is IngameWikiMinigame));
         }
 
         if (OldVanillaWikiButton)
         {
-            OldVanillaWikiButton.SetActive(false);
+            OldVanillaWikiButton.SetActive(UseVanillaWiki);
         }
     }
 
@@ -662,6 +663,7 @@ public static class HudManagerPatches
     {
         __instance.gameObject.AddComponent<HudManagerHelper>();
         RoleNameStyle = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.RoleNameStyle.Value;
+        UseVanillaWiki = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.UseVanillaRoleGuide.Value;
         PlayerNameProgress = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.DisplayPlayerProgress.Value;
         IconOnRoleName = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.ShowRoleIcons.Value;
         StoredHostLocale = TranslationController.Instance.GetString(StringNames.HostNounEmpty);
