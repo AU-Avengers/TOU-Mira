@@ -31,8 +31,8 @@ namespace TownOfUs.Modules.DraftMode
                 }
                 if (fallbackNames.Count == 0)
                 {
-                    fallbackNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any))
-                        ?.Where(n => !string.IsNullOrWhiteSpace(n)).ToList() ?? new List<string>();
+                    fallbackNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewRandom))
+                        ?.Where(n => !string.IsNullOrWhiteSpace(n) && DraftRolePool.IsRoleUsableAndEnabled(n)).ToList() ?? new List<string>();
                 }
 
                 if (fallbackNames.Count > 0)
@@ -80,6 +80,7 @@ namespace TownOfUs.Modules.DraftMode
                 .Where(c =>
                 {
                     var baseName = BaseRoleName(c);
+                    if (!DraftRolePool.IsRoleUsableAndEnabled(baseName)) return false;
                     return avoid == null || (!avoid.Contains(c) && !avoid.Contains(baseName));
                 })
                 .ToList();
@@ -94,8 +95,9 @@ namespace TownOfUs.Modules.DraftMode
                 {
                     if (picked.Count >= offered) break;
                     if (string.IsNullOrWhiteSpace(candidate)) continue;
-                    if (!allowGuaranteed && DraftRolePool.GetChanceForRoleName(candidate) >= 100) continue;
                     var baseName = BaseRoleName(candidate);
+                    if (!DraftRolePool.IsRoleUsableAndEnabled(baseName)) continue;
+                    if (!allowGuaranteed && DraftRolePool.GetChanceForRoleName(candidate) >= 100) continue;
                     if (avoid != null && (avoid.Contains(candidate) || avoid.Contains(baseName))) continue;
                     if (picked.Any(existing => string.Equals(BaseRoleName(existing), baseName, StringComparison.OrdinalIgnoreCase))) continue;
                     picked.Add(candidate);
@@ -146,6 +148,7 @@ namespace TownOfUs.Modules.DraftMode
                 var guaranteed = allowGuaranteed
                     ? remaining
                         .Where(candidate => !string.IsNullOrWhiteSpace(candidate))
+                        .Where(candidate => DraftRolePool.IsRoleUsableAndEnabled(BaseRoleName(candidate)))
                         .Where(candidate => !seenBaseNames.Contains(BaseRoleName(candidate)))
                         .Where(candidate => DraftRolePool.GetChanceForRoleName(candidate) >= 100)
                         .ToList()
@@ -155,6 +158,7 @@ namespace TownOfUs.Modules.DraftMode
                     ? guaranteed
                     : remaining
                         .Where(candidate => !string.IsNullOrWhiteSpace(candidate))
+                        .Where(candidate => DraftRolePool.IsRoleUsableAndEnabled(BaseRoleName(candidate)))
                         .Where(candidate => !seenBaseNames.Contains(BaseRoleName(candidate)))
                         .Where(candidate => allowGuaranteed || DraftRolePool.GetChanceForRoleName(candidate) < 100)
                         .ToList();
@@ -256,29 +260,34 @@ namespace TownOfUs.Modules.DraftMode
                 pool.Add($"{name}|fund{fundingIndex++}");
             }
 
-            if (numPlayers <= 8 && pool.Count < targetSize)
+            if (pool.Count < targetSize)
             {
-                var fillerNames = Enum.GetValues<RoleListOption>()
-                    .SelectMany(bucket => DraftRolePool.ResolveBucketToRoleNames(bucket.ToString()) ?? [])
-                    .Where(n => !string.IsNullOrWhiteSpace(n))
-                    .Distinct(StringComparer.OrdinalIgnoreCase)
-                    .Where(n => !pool.Contains(n))
-                    .ToList();
-
-                while (pool.Count < targetSize && fillerNames.Count > 0)
+                var fallbackNames = fundedNames.Count > 0 ? fundedNames : GetAllowedCrewFallbackNames();
+                if (fallbackNames.Count == 0)
                 {
-                    var name = fillerNames[rng.NextInt(fillerNames.Count)];
-                    pool.Add($"{name}|lowfill{fundingIndex++}");
-                    fillerNames.Remove(name);
+                    fallbackNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewRandom))
+                        ?.Where(n => !string.IsNullOrWhiteSpace(n) && DraftRolePool.IsRoleUsableAndEnabled(n))
+                        .Distinct(StringComparer.OrdinalIgnoreCase)
+                        .ToList() ?? new List<string>();
+                }
+
+                while (pool.Count < targetSize && fallbackNames.Count > 0)
+                {
+                    var name = fallbackNames[rng.NextInt(fallbackNames.Count)];
+                    pool.Add($"{name}|fund{fundingIndex++}");
                 }
             }
 
             if (pool.Count == 0)
             {
-                var fallbackNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewRandom))
-                    ?.Where(n => !string.IsNullOrWhiteSpace(n))
-                    .Distinct(StringComparer.OrdinalIgnoreCase)
-                    .ToList() ?? new List<string>();
+                var fallbackNames = GetAllowedCrewFallbackNames();
+                if (fallbackNames.Count == 0)
+                {
+                    fallbackNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewRandom))
+                        ?.Where(n => !string.IsNullOrWhiteSpace(n) && DraftRolePool.IsRoleUsableAndEnabled(n))
+                        .Distinct(StringComparer.OrdinalIgnoreCase)
+                        .ToList() ?? new List<string>();
+                }
                 foreach (var fallbackName in fallbackNames)
                 {
                     pool.Add(fallbackName + "|slot1");
@@ -472,7 +481,7 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             return fallbackNames
-                .Where(name => !string.IsNullOrWhiteSpace(name))
+                .Where(name => !string.IsNullOrWhiteSpace(name) && DraftRolePool.IsRoleUsableAndEnabled(name))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();
         }
@@ -508,7 +517,7 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             return fallbackNames
-                .Where(name => !string.IsNullOrWhiteSpace(name))
+                .Where(name => !string.IsNullOrWhiteSpace(name) && DraftRolePool.IsRoleUsableAndEnabled(name))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();
         }
