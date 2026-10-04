@@ -840,7 +840,7 @@ namespace TownOfUs.Modules.DraftMode
         }
 
         [HideFromIl2Cpp]
-        private bool CanConfirmPick(string candidate, DraftSlotContext context)
+        private bool CanConfirmPick(string candidate, DraftSlotContext context, bool skipPoolSeatCheck = false)
         {
             if (string.IsNullOrWhiteSpace(candidate) || candidate == "__RANDOM__") return false;
             var baseName = BaseRoleName(candidate);
@@ -864,7 +864,7 @@ namespace TownOfUs.Modules.DraftMode
                  !context.ScheduledNeutralAlignments.Contains(DraftRolePool.GetRoleAlignment(baseName)!.Value)))
                 return false;
 
-            if (candidateWeight == 2 && CountDistinctPoolSeatsForGroup(baseName) < 2) return false;
+            if (!skipPoolSeatCheck && candidateWeight == 2 && CountDistinctPoolSeatsForGroup(baseName) < 2) return false;
 
             if (isImp && context.PickedImps + candidateWeight > context.MaxImps) return false;
             if (isNeut && context.PickedNeuts + candidateWeight > context.MaxNeuts) return false;
@@ -1862,8 +1862,11 @@ namespace TownOfUs.Modules.DraftMode
             var validationContext = BuildSlotContext(slot, ignoreConcurrentOffers: true, ignoreForce: true);
 
             bool wasDoubleDraftBlocked = false;
-            if (chosenName != null && chosenName != "__RANDOM__" && !CanConfirmPick(chosenName, validationContext))
+            if (chosenName != null && chosenName != "__RANDOM__" && !CanConfirmPick(chosenName, validationContext) &&
+                !(index != 255 && CanConfirmPick(chosenName, validationContext, skipPoolSeatCheck: true)))
             {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                    $"[DraftEngine] Pick '{chosenName}' for slot {slot} failed validation (pickedImps={validationContext.PickedImps}/{validationContext.MaxImps}), falling back to a random legal role");
                 wasDoubleDraftBlocked = DraftRolePool.IsDoubleDraftRoleName(BaseRoleName(chosenName));
                 chosenName = null;
             }
@@ -2003,6 +2006,15 @@ namespace TownOfUs.Modules.DraftMode
                     .Where(n => IsRoleAllowedForSlot(n, slot, ignoreConcurrentOffers: false, ignoreForce: true, context: emergencyContext))
                     .Select(n => DraftRolePool.ResolveRoleIdFromName(BaseRoleName(n)))
                     .FirstOrDefault(id => id != 0);
+
+                if (emergencyId == 0)
+                {
+                    emergencyId = DraftPoolBuilder.GetAllowedCrewFallbackNames()
+                        .Where(n => emergencyContext.AssignedCountsByName.GetValueOrDefault(NormalizeRoleNameKey(n)) < DraftRolePool.GetMaxCountForRoleName(n))
+                        .OrderBy(_ => _rng.NextInt(1000000))
+                        .Select(DraftRolePool.ResolveRoleIdFromName)
+                        .FirstOrDefault(id => id != 0);
+                }
 
                 if (emergencyId == 0)
                 {
