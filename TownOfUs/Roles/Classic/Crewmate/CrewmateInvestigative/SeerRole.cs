@@ -53,6 +53,27 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            var sprite = TouCrewAssets.SeerSprite;
+            var abilityName = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Reveal", "Reveal");
+            var abilityDesc = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Reveal.WikiDescription");
+            if (OptionGroupSingleton<SeerOptions>.Instance.SalemSeer.Value)
+            {
+                abilityName = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Compare", "Compare");
+                abilityDesc = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Compare.WikiDescription");
+                sprite = TouCrewAssets.SeerButtonSprites.AsEnumerable().Random()!;
+            }
+            return
+            [
+                new(abilityName, MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"), abilityDesc, sprite)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Seer;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateInvestigative;

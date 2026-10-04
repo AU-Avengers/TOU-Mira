@@ -62,6 +62,25 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
             TouCrewAssets.SpillSprite)
     ];
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities { get; } =
+    [
+        new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock"),
+            MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value
+                ? MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
+                    OptionGroupSingleton<RoleblockOptions>.Instance.HangoverDuration.Value.ToString(TownOfUsPlugin
+                        .Culture))
+                : MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock.WikiDescription")).Replace("<blockTime>",
+                OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value
+                    .ToString(TownOfUsPlugin.Culture)),
+            TouCrewAssets.RoleblockSprite),
+        new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperSpill"),
+            MiraLocaleManager.Get("MiraApi.AbilityType.Radius"),
+            MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperSpill.WikiDescription"),
+            TouCrewAssets.SpillSprite)
+    ];
+
     [MethodRpc((uint)TownOfUsRpc.SpillDrink)]
     public static void RpcSpillDrink(PlayerControl player, Vector2 pos)
     {

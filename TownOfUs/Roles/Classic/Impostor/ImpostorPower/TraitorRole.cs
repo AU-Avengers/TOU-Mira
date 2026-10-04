@@ -75,6 +75,21 @@ public sealed class TraitorRole(IntPtr cppPtr)
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ChangeRole", "Change Role"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Menu"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ChangeRole.WikiDescription"),
+                    TouImpAssets.TraitorSelect)
+            ];
+        }
+    }
+
     public void Clear()
     {
         ChosenRoles.Clear();

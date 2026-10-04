@@ -57,6 +57,29 @@ public sealed class MedusaRole(IntPtr cppPtr)
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            List<AdvancedWikiAbilityDescription> list =
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Petrify", "Petrify"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Petrify.WikiDescription"),
+                    TouNeutAssets.PetrifySprite)
+            ];
+            if (OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable.Value)
+            {
+                list.Add(new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}StoneGaze", "Stone Gaze"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}StoneGaze.WikiDescription"),
+                    TouNeutAssets.StoneGazeSprite));
+            }
+            return list;
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Medusa;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralKilling;

@@ -50,6 +50,23 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Stalk", "Stalk"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Stalk.WikiDescription")
+                        .Replace("<hunterMaxStalkUsages>",
+                            $"{(int)OptionGroupSingleton<HunterOptions>.Instance.StalkUses}"),
+                    TouCrewAssets.StalkButtonSprite)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Hunter;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateKilling;

@@ -214,6 +214,25 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Inquire", "Inquire"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Inquire.WikiDescription"),
+                    TouNeutAssets.InquireSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Vanquish", "Vanquish"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Vanquish.WikiDescription"),
+                    TouNeutAssets.InquisKillSprite)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Inquisitor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralOutlier;
