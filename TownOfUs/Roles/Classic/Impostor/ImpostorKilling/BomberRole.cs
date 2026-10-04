@@ -71,6 +71,22 @@ public sealed class BomberRole(IntPtr cppPtr)
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Place", "Place"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Radius"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Place.WikiDescription").Replace("<maxKills>",
+                        $"{(int)OptionGroupSingleton<BomberOptions>.Instance.MaxKillsInDetonation}"),
+                    TouImpAssets.PlaceSprite)
+            ];
+        }
+    }
+
     [MethodRpc((uint)TownOfUsRpc.PlantBomb)]
     public static void RpcPlantBomb(PlayerControl player, Vector2 position)
     {

@@ -96,6 +96,22 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Knight", "Knight"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}KnightDescription").Replace("<amount>",
+                        ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)),
+                    TouCrewAssets.KnightSprite)
+            ];
+        }
+    }
+
     [MethodRpc((uint)TownOfUsRpc.Knight)]
     public static void RpcKnight(PlayerControl player, PlayerControl target)
     {

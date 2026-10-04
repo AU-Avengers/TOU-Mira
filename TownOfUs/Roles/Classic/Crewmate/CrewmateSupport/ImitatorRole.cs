@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
@@ -6,6 +7,8 @@ using MiraAPI.Utilities;
 using TMPro;
 using TownOfUs.Modifiers.Crewmate;
 using UnityEngine;
+using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Crewmate;
 
@@ -21,6 +24,100 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             MiscUtils.AppendOptionsText(GetType());
     }
     public bool CanShowSecondTab => true;
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            var variantRoles = MiscUtils.AllRoles.Where(x => x is ICrewVariant).OrderBy(x => x.GetRoleName()).ToList();
+            var neutEquivalents = new Dictionary<RoleBehaviour, RoleBehaviour>();
+            var impEquivalents = new Dictionary<RoleBehaviour, RoleBehaviour>();
+            foreach (var role in variantRoles)
+            {
+                var crewVariant = role as ICrewVariant;
+                if (role.IsNeutral())
+                {
+                    neutEquivalents.Add(role, crewVariant!.CrewVariant);
+                }
+                else
+                {
+                    impEquivalents.Add(role, crewVariant!.CrewVariant);
+                }
+            }
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}NeutralCounterparts"),
+                    MiraLocaleManager.Get("TownOfUsMira.Role.Imitator.CounterpartHint"),
+                    GetRoleEquivalents(neutEquivalents),
+                    TouRoleIcons.Neutral),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ImpostorCounterparts"),
+                    MiraLocaleManager.Get("TownOfUsMira.Role.Imitator.CounterpartHint"),
+                    GetRoleEquivalents(impEquivalents),
+                    TouRoleIcons.Impostor)
+            ];
+        }
+    }
+
+    public string RoleWikiDescription => GetAdvancedDescription() +
+                                         "\n\n" + MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}CrewmateImitation.WikiDescription");
+    GameObject ICustomRole.GetAdvancedWiki(MatchInfoGuide guide, TextMeshPro titleText, Scroller parent)
+    {
+        parent.ScrollToTop();
+        var custom = this as ICustomRole;
+        var obj = Helpers.CreateAdvancedWikiTab(
+            guide,
+            custom.RoleNameLocale,
+            custom.RoleName + $" ({custom.RoleFactionTitle})",
+            custom.RoleWikiDescription,
+            titleText,
+            out var desc);
+        var num = 0;
+        var grid = Instantiate(parent.Inner, obj.transform);
+        var layoutGroup = grid.GetComponent<GridLayoutGroup>();
+        layoutGroup.startAxis = GridLayoutGroup.Axis.Vertical;
+        layoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        layoutGroup.spacing = new Vector2(0.75f, 0.4f);
+        grid.DestroyChildren();
+        var maxTextSize = 0f;
+        foreach (var ability in WikiAbilities)
+        {
+            num++;
+            var panel = Instantiate(
+                guide.MatchInfoRolePanelPrefab,
+                grid);
+            panel.roleCount.text = ability.AbilityType;
+            panel.roleCount.transform.localPosition += new Vector3(-0.04f, 0);
+            panel.roleName.text = ability.Name;
+            panel.roleName.transform.localPosition += new Vector3(-0.04f, 0);
+            panel.roleDescription.text = ability.Description;
+            panel.roleDescription.rectTransform.sizeDelta = new Vector2(2.601f, 0.8f);
+            panel.roleDescription.transform.localPosition += new Vector3(0, -0.1f);
+            panel.roleDescription.alignment = TextAlignmentOptions.Top;
+            panel.roleDescription.fontSizeMin = 1.5f;
+            panel.roleDescription.ForceMeshUpdate();
+            if (maxTextSize < panel.roleDescription.textBounds.size.y)
+            {
+                maxTextSize = panel.roleDescription.textBounds.size.y;
+            }
+            panel.roleIcon.sprite = ability.Icon.LoadAsset();
+            panel.roleIcon.SetSizeLimit(0.13f);
+
+            panel.roleIcon.material.SetInt(PlayerMaterial.MaskLayer, 50);
+            panel.roleName.fontMaterial.SetFloat(panel.STENCIL_NAME, 50f);
+            panel.roleDescription.fontMaterial.SetFloat(panel.STENCIL_NAME, 50f);
+            panel.roleCount.fontMaterial.SetFloat(panel.STENCIL_NAME, 50f);
+            panel.roleIcon.transform.localScale = new Vector3(3.5f, 3.5f, 1f);
+        }
+
+        grid.localPosition = new Vector3(-3.9f, 1.1f - desc.textBounds.size.y, 0f);
+        grid.localScale = new Vector3(1.3f, 1.3f, 1);
+
+        obj.transform.SetParent(parent.Inner.transform);
+        obj.transform.localPosition = new Vector3(0f, 0f, 0f);
+        parent.SetYBoundsMax(Mathf.Clamp((desc.textBounds.size.y - 2) + maxTextSize + 0.475f, 0f, 999f));
+        return obj;
+    }
 
     public float ShowAbilitiesTab(Transform abilityTemplate, Transform abilityTemplateLong, Transform abilityScroller)
     {
@@ -90,6 +187,19 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{description}</font>";
         newAbility.gameObject.SetActive(true);
         return newAbility.gameObject;
+    }
+
+    public static string GetRoleEquivalents(Dictionary<RoleBehaviour, RoleBehaviour> equivalentRoles)
+    {
+        var description = new StringBuilder();
+        foreach (var rolePair in equivalentRoles)
+        {
+            var ogRole = rolePair.Key;
+            var newRole = rolePair.Value;
+            description.AppendLine(TownOfUsPlugin.Culture,
+                $"{MiscUtils.GetMaskedRoleTmpIcon(ogRole)}{ogRole.GetRoleName()} ⇨ {newRole.GetRoleName()} {MiscUtils.GetMaskedRoleTmpIcon(newRole)}");
+        }
+        return description.ToString();
     }
 
     public Color RoleColor => TownOfUsColors.Imitator;

@@ -44,4 +44,19 @@ public sealed class GrenadierRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             ];
         }
     }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Flash", "Flash"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Radius"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Flash.WikiDescription"),
+                    TouImpAssets.FlashSprite)
+            ];
+        }
+    }
 }

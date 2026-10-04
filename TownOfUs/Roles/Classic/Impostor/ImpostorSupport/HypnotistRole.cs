@@ -74,6 +74,25 @@ public sealed class HypnotistRole(IntPtr cppPtr)
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hypnotize", "Hypnotize"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hypnotize.WikiDescription"),
+                    TouImpAssets.HypnotiseButtonSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteriaLong", "Mass Hysteria"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Meeting"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteria.WikiDescription"),
+                    TouAssets.MassHysteriaSprite)
+            ];
+        }
+    }
+
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);

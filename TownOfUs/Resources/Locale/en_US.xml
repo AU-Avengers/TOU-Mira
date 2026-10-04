@@ -893,6 +893,8 @@ cast Barriers to stop any interactions altogether</string>
   <string name="TownOfUsMira.Role.Deputy.WikiDescription">The Deputy is a Crewmate Killing role that can camp other players. Once a camped player dies, the Deputy is alerted to their death. The following meeting, the Deputy may then attempt to shoot the killer of the camped player. If successful the killer dies and if not nothing happens.</string>
   <string name="TownOfUsMira.Role.DeputyCamp">Camp</string>
   <string name="TownOfUsMira.Role.DeputyCamp.WikiDescription">Camp a player to be alerted once they die. After their death, you may attempt to shoot the killer. If your shot is successful, the killer dies, if not, nothing will happen.</string>
+    <string name="TownOfUsMira.Role.DeputyShoot">Shoot</string>
+    <string name="TownOfUsMira.Role.DeputyShoot.WikiDescription">Shoot a player in the meeting. The player will be killed successfully if they are the killer and they are not unkillable by natural means.</string>
   <!-- Deputy Feedback -->
     <string name="TownOfUsMira.Role.DeputyRevealedText"> (Blasted)</string>
   <string name="TownOfUsMira.Role.DeputyCampNotif">Wait for [player]'s death so you can blast their killer in the meeting.</string>
@@ -1050,6 +1052,7 @@ Once they use an ability, you may kill them.</string>
   <string name="TownOfUsMira.Role.ImitatorCrewmateImitation.WikiDescription">All crewmate roles are available besides Politician and Mayor. Roles like Jailor and Prosecutor cannot use their meeting abilities, and Vigi does not get safe shots.</string>
   <string name="TownOfUsMira.Role.ImitatorNeutralCounterparts">Neutral Counterparts</string>
   <string name="TownOfUsMira.Role.ImitatorImpostorCounterparts">Impostor Counterparts</string>
+    <string name="TownOfUsMira.Role.Imitator.CounterpartHint">(Only if Enabled)</string>
   <!-- Imitator Options -->
     <string name="TouOptionImitatorImitateNeutrals">Imitate Neutral Counterparts</string>
   <string name="TouOptionImitatorImitateImpostors">Imitate Impostor Counterparts</string>
@@ -1964,6 +1967,7 @@ distinguishing players under a mass hysteria</string>
   <string name="TownOfUsMira.Role.HypnotistHypnotize.WikiDescription">Hypnotize a player, causing them to see the game differently than non-hypnotized players if mass hysteria is active.</string>
   <string name="TownOfUsMira.Role.HypnotistMassHysteria">Hysteria</string>
   <string name="TownOfUsMira.Role.HypnotistMassHysteriaWiki">Mass Hysteria (Meeting)</string>
+    <string name="TownOfUsMira.Role.HypnotistMassHysteriaLong">Mass Hysteria</string>
   <string name="TownOfUsMira.Role.HypnotistMassHysteria.WikiDescription">Cause all hypnotized players to have different visuals applied to players on their screen the following round.</string>
   <!-- Hypnotist Options -->
     <string name="TouOptionHypnotistHypnotizeCooldown">Hypnotize Cooldown</string>
@@ -2499,6 +2503,7 @@ Once your quota is fed, leave in victory!</string>
   <string name="TownOfUsMira.Role.Jester.WikiDescription">The Jester is a Neutral Evil role that wins by getting themselves ejected.</string>
   <string name="TownOfUsMira.Role.JesterHaunt">Haunt</string>
   <string name="TownOfUsMira.Role.JesterPoke">Poke</string>
+    <string name="TownOfUsMira.Role.JesterPoke.WikiDescription">Poke a player to trigger an interaction, setting off a variety of roles. Use it every so often to make yourself suspicious!</string>
   <!-- Jester Messages -->
     <string name="TouNotifJesterWinOwner">You have successfully won as the Jester, by getting voted out!</string>
   <string name="TouNotifJesterHauntOwner">You have one round to haunt a player of your choice to death, choose wisely!</string>

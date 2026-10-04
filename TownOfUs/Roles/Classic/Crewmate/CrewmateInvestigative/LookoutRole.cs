@@ -53,6 +53,21 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Watch", "Watch"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Watch.WikiDescription"),
+                    TouCrewAssets.WatchSprite)
+            ];
+        }
+    }
+
     [MethodRpc((uint)TownOfUsRpc.LookoutSeePlayer)]
     public static void RpcSeePlayer(PlayerControl source, PlayerControl target)
     {

@@ -42,6 +42,19 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
             TouImpAssets.HexBombSprite)
     ];
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities =>
+    [
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hex", "Hex"),
+            MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hex.WikiDescription"),
+            TouImpAssets.HexSprite),
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}HexBomb", "Hex Bomb"),
+            MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}HexBomb.WikiDescription"),
+            TouImpAssets.HexBombSprite)
+    ];
+
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
     public RoleAlignment RoleAlignment => RoleAlignment.ImpostorPower;

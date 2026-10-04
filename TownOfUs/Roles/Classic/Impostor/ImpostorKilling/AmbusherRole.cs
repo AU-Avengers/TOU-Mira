@@ -66,6 +66,25 @@ public sealed class AmbusherRole(IntPtr cppPtr)
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Pursue", "Pursue"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Pursue.WikiDescription"),
+                    TouImpAssets.PursueSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Ambush", "Ambush"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Indirect"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Ambush.WikiDescription"),
+                    TouImpAssets.AmbushSprite)
+            ];
+        }
+    }
+
     public void LobbyStart()
     {
         Clear();

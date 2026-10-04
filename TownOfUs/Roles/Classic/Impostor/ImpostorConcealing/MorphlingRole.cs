@@ -75,6 +75,25 @@ public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Sample", "Sample"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Sample.WikiDescription"),
+                    TouImpAssets.SampleSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Morph", "Morph"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Morph.WikiDescription"),
+                    TouImpAssets.MorphSprite)
+            ];
+        }
+    }
+
     public override void OnVotingComplete()
     {
         RoleBehaviourStubs.OnVotingComplete(this);

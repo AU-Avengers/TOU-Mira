@@ -69,6 +69,25 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Jail", "Jail"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Jail.WikiDescription"),
+                    TouCrewAssets.JailSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Execute", "Execute"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.SelectiveMeeting"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Execute.WikiDescription"),
+                    TouAssets.ExecuteCleanSprite)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Jailor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmatePower;

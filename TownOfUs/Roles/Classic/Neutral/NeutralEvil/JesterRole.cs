@@ -75,6 +75,21 @@ public sealed class JesterRole(IntPtr cppPtr)
             MiscUtils.AppendOptionsText(GetType());
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Poke", "Poke"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Poke.WikiDescription"),
+                    TouNeutAssets.JesterPokeSprite)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Jester;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralEvil;

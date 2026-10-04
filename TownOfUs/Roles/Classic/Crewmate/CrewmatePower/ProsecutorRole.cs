@@ -48,7 +48,22 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             [
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ProsecuteWiki", "Prosecute"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Prosecute.WikiDescription"),
-                    TouRoleIcons.Prosecutor)
+                    TouAssets.ProsecutorToggleSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ProsecuteWiki", "Prosecute"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.SelectiveMeeting"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Prosecute.WikiDescription"),
+                    TouAssets.ProsecutorToggleSprite)
             ];
         }
     }

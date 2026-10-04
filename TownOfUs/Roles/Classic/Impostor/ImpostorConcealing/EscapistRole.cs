@@ -85,6 +85,25 @@ public sealed class EscapistRole(IntPtr cppPtr)
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mark", "Mark"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mark.WikiDescription"),
+                    TouImpAssets.MarkSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Recall", "Recall"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Recall.WikiDescription"),
+                    TouImpAssets.RecallSprite)
+            ];
+        }
+    }
+
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
