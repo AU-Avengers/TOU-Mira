@@ -344,7 +344,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var colorPlayerNames = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.ColorPlayerNameToggle.Value;
         var localDead = PlayerControl.LocalPlayer.HasDied();
         var localGhost = localDead && genOpt.TheDeadKnow;
-        var hideOutOfSight = OptionGroupSingleton<VanillaTweakOptions>.Instance.HideNamesOutOfSight.Value && !localDead;
+        var hideOutOfSight = OptionGroupSingleton<VanillaTweakOptions>.Instance.HideNamesOutOfSight.Value && !localDead && HudManager.InstanceExists && HudManager.Instance.ShadowQuad.gameObject.active;
         var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
                        genOpt is
                            { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
@@ -428,6 +428,11 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 if (hideOutOfSight && !player.AmOwner && !VentPatches.InVision(player))
                 {
                     playerName = string.Empty;
+                    player.cosmetics.colorBlindText.enabled = false;
+                }
+                else
+                {
+                    player.cosmetics.colorBlindText.enabled = false;
                 }
 
                 player.cosmetics.nameText.text = playerName;
