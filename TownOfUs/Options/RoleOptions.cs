@@ -249,7 +249,7 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
 
     // --- Slot Definitions (Declared LAST to keep summary output cleanly at the end) ---
 
-    public ModdedOptionList<ModdedEnumOption<RoleListOption>> Slots { get; } =
+    public ModdedOptionList<ModdedEnumOption<RoleListOption>> Slot { get; } =
         new(15, i => new($"TouOptionRoleListSlot{i + 1}",
                          i + 2 % 5 == 0 ? RoleListOption.ImpCommon : RoleListOption.CrewCommon,
                          OptionStrings)
@@ -259,7 +259,7 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
         );
 
     public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
-        new HashSet<StringNames>(Slots.Select(slot => slot.StringName))
+        new HashSet<StringNames>(Slot.Select(slot => slot.StringName))
         {
             // These are hidden because rolelist text already handles this
             MaxNeutralBenign.StringName,

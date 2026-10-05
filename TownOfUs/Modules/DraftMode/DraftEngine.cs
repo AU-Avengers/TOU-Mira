@@ -288,7 +288,7 @@ namespace TownOfUs.Modules.DraftMode
                 var rl = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
                 if (rl != null)
                 {
-                    var slots = rl.Slots;
+                    var slots = rl.Slot;
 
                     int numPlayers = Instance != null && Instance._totalSlots > 0
                         ? Instance._totalSlots
@@ -418,7 +418,7 @@ namespace TownOfUs.Modules.DraftMode
             var options = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
             if (options == null) return result;
 
-            foreach (var option in options.Slots.Options.Select(slot => slot.Value))
+            foreach (var option in options.Slot.Options.Select(slot => slot.Value))
             {
                 var alignments = option switch
                 {

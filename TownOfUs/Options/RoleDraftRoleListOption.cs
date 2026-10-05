@@ -21,8 +21,8 @@ public sealed class RoleDraftRoleListOptions : AbstractOptionGroup
     public override uint GroupPriority => 3;
     public override Color GroupColor => TownOfUsColors.Jester;
 
-    public ModdedOptionList<ModdedEnumOption<RoleListOption>> Slots { get; } =
+    public ModdedOptionList<ModdedEnumOption<RoleListOption>> Slot { get; } =
         new(15, i => new($"TouOptionRoleDraftRoleListSlot{i + 1}",
-                         i + 2 % 5 == 0 ? RoleListOption.ImpCommon : RoleListOption.CrewCommon,
+            (i + 2) % 5 == 0 ? RoleListOption.ImpCommon : RoleListOption.CrewCommon,
                          RoleOptions.OptionStrings));
 }

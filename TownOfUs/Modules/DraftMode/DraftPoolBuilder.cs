@@ -201,7 +201,7 @@ namespace TownOfUs.Modules.DraftMode
             var rl   = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
             if (rl == null) return pool;
 
-            var slots = rl.Slots;
+            var slots = rl.Slot;
 
             int activeSlots = Math.Max(1, Math.Min(Math.Max(1, numPlayers), slots.Count));
 
