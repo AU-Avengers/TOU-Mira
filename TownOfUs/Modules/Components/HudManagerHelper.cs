@@ -344,7 +344,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var colorPlayerNames = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.ColorPlayerNameToggle.Value;
         var localDead = PlayerControl.LocalPlayer.HasDied();
         var localGhost = localDead && genOpt.TheDeadKnow;
-        var hideOutOfSight = OptionGroupSingleton<VanillaTweakOptions>.Instance.HideNamesOutOfSight.Value && !localDead && HudManager.InstanceExists && HudManager.Instance.ShadowQuad.gameObject.active;
+        var sightMode = (NameSight)OptionGroupSingleton<VanillaTweakOptions>.Instance.HideNamesOutOfSight.Value;
+        var hideOutOfSight = sightMode is not NameSight.Basic && !localDead && HudManager.InstanceExists && HudManager.Instance.ShadowQuad.gameObject.active;
         var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
                        genOpt is
                            { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
@@ -425,14 +426,14 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
                 var (playerColor, playerName) = GetRoleNameText(player, genOpt.FFAImpostorMode, taskOpt, roleNameSize, roleOnTop, colorPlayerNames, localDead, localGhost, localImp, localVamp, useMiraApiChecks, false, isVisible);
 
-                if (hideOutOfSight && !player.AmOwner && !VentPatches.InVision(player))
+                if (hideOutOfSight && !player.AmOwner && !VentPatches.InVision(player) && (sightMode is NameSight.Harsh || !MiscUtils.AreLocationsInSameRoom(PlayerControl.LocalPlayer.GetTruePosition(), player.GetTruePosition())))
                 {
                     playerName = string.Empty;
                     player.cosmetics.colorBlindText.enabled = false;
                 }
                 else
                 {
-                    player.cosmetics.colorBlindText.enabled = false;
+                    player.cosmetics.colorBlindText.enabled = true;
                 }
 
                 player.cosmetics.nameText.text = playerName;
