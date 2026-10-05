@@ -15,11 +15,11 @@ namespace TownOfUs.Modules.DraftMode;
 public static class DraftRpcs
 {
     [MethodRpc((uint)TownOfUsRpc.DraftSubmitPick)]
-    public static void RpcSubmitPick(PlayerControl sender, int index)
+    public static void RpcSubmitPick(PlayerControl sender, int index, int roleId)
     {
         if (!AmongUsClient.Instance.AmHost) return;
         if (sender == null) return;
-        DraftManager.SubmitPick(sender.PlayerId, (byte)index);
+        DraftManager.SubmitPick(sender.PlayerId, (byte)index, (ushort)roleId);
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftStart)]
@@ -318,13 +318,13 @@ public static class DraftNetworkHelper
         return client != null;
     }
 
-    public static void SendPickToHost(int index, byte pickerId = 255)
+    public static void SendPickToHost(int index, ushort roleId, byte pickerId = 255)
     {
         byte idToSend = pickerId == 255 ? PlayerControl.LocalPlayer.PlayerId : pickerId;
         if (AmongUsClient.Instance.AmHost)
-            DraftManager.SubmitPick(idToSend, (byte)index);
+            DraftManager.SubmitPick(idToSend, (byte)index, roleId);
         else
-            DraftRpcs.RpcSubmitPick(PlayerControl.LocalPlayer, index);
+            DraftRpcs.RpcSubmitPick(PlayerControl.LocalPlayer, index, roleId);
     }
 
     public static void BroadcastSlotNotifications(int totalSlots, Dictionary<byte, int> pidToSlot)

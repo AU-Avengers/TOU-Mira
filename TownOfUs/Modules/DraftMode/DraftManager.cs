@@ -55,7 +55,7 @@ public static class DraftManager
         DraftSidebarManager.InvalidateCache();
     }
 
-    public static void SubmitPick(byte playerId, byte index)
+    public static void SubmitPick(byte playerId, byte index, ushort roleId)
     {
         var state = GetStateForPlayer(playerId);
         if (state == null) return;
@@ -64,7 +64,7 @@ public static class DraftManager
 
         if (state.PendingPickIndex != 255 && state.PendingPickTurnNumber == _currentTurn)
         {
-            if (state.PendingPickIndex == index)
+            if (state.PendingPickIndex == index && state.PendingPickRoleId == roleId)
             {
                 return;
             }
@@ -72,11 +72,12 @@ public static class DraftManager
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
                 $"[DraftManager] Replacing stale submitted pick for player {playerId}: stored index {state.PendingPickIndex}, new index {index}, turn {_currentTurn}");
             state.PendingPickIndex = index;
+            state.PendingPickRoleId = roleId;
             state.PendingPickTurnNumber = _currentTurn;
 
             if (AmongUsClient.Instance.AmHost && DraftEngineBehaviour.Instance != null)
             {
-                DraftEngineBehaviour.Instance.TryApplySubmittedPick(playerId, index);
+                DraftEngineBehaviour.Instance.TryApplySubmittedPick(playerId, index, roleId);
             }
 
             return;
@@ -85,16 +86,18 @@ public static class DraftManager
         if (index == 255)
         {
             state.PendingPickIndex = 255;
+            state.PendingPickRoleId = 0;
             state.PendingPickTurnNumber = _currentTurn;
             return;
         }
 
         state.PendingPickIndex = index;
+        state.PendingPickRoleId = roleId;
         state.PendingPickTurnNumber = _currentTurn;
 
         if (AmongUsClient.Instance.AmHost && DraftEngineBehaviour.Instance != null)
         {
-            DraftEngineBehaviour.Instance.TryApplySubmittedPick(playerId, index);
+            DraftEngineBehaviour.Instance.TryApplySubmittedPick(playerId, index, roleId);
         }
     }
 
@@ -108,6 +111,7 @@ public static class DraftManager
             if (state.ChosenRoleId == roleId)
             {
                 state.PendingPickIndex = 255;
+                state.PendingPickRoleId = 0;
                 state.PendingPickTurnNumber = -1;
                 return;
             }
@@ -121,6 +125,7 @@ public static class DraftManager
         state.HasPicked = true;
         state.IsPickingNow = false;
         state.PendingPickIndex = 255;
+        state.PendingPickRoleId = 0;
         state.PendingPickTurnNumber = -1;
 
         if (PlayerControl.LocalPlayer != null && state.PlayerId == PlayerControl.LocalPlayer.PlayerId)
@@ -148,6 +153,7 @@ public static class DraftManager
             {
                 s.IsPickingNow = false;
                 s.PendingPickIndex = 255;
+                s.PendingPickRoleId = 0;
                 s.PendingPickTurnNumber = -1;
             }
         }
@@ -158,6 +164,7 @@ public static class DraftManager
             CurrentTurnSlot = slot;
             target.IsPickingNow = true;
             target.PendingPickIndex = 255;
+            target.PendingPickRoleId = 0;
             target.PendingPickTurnNumber = turnNumber;
         }
 
@@ -200,15 +207,7 @@ public static class DraftManager
             return false;
         }
 
-        bool clientMissing;
-        try
-        {
-            clientMissing = AmongUsClient.Instance.GetClient(player.OwnerId) == null;
-        }
-        catch
-        {
-            clientMissing = false;
-        }
+        bool clientMissing = AmongUsClient.Instance.GetClient(player.OwnerId) == null;
 
         if (!clientMissing)
         {
@@ -247,9 +246,10 @@ public static class DraftManager
                     return isDummy;
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // ignored
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                $"[DraftManager] Could not check whether player {player.PlayerId} is a bot: {ex.Message}");
         }
 
         return false;
@@ -274,17 +274,8 @@ public static class DraftManager
         DraftStatusOverlay.SetState(OverlayState.Hidden);
         DraftSidebarManager.InvalidateCache();
 
-        try
-        {
-            if (GameStartManager.Instance != null)
-            {
-                GameStartManager.Instance.ResetStartState();
-            }
-        }
-        catch
-        {
-            //ignored
-        }
+        if (GameStartManager.Instance != null)
+            GameStartManager.Instance.ResetStartState();
     }
 }
 
@@ -307,6 +298,7 @@ public class DraftSlotState
     public bool IsPickingNow;
     public bool IsPickerReady;
     public byte PendingPickIndex = 255;
+    public ushort PendingPickRoleId;
     public int PendingPickTurnNumber = -1;
     public string ForcedRoleName;
 }
