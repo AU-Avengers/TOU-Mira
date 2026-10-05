@@ -2124,6 +2124,20 @@ public static class MiscUtils
             : "Outside/Hallway";
     }
 
+    public static bool AreLocationsInSameRoom(Vector3 position, Vector3 position2)
+    {
+        var allRooms2 = ShipStatus.Instance.FastRooms;
+        foreach (var plainShipRoom2 in allRooms2.Values)
+        {
+            if (plainShipRoom2.roomArea && plainShipRoom2.roomArea.OverlapPoint(position) && plainShipRoom2.roomArea.OverlapPoint(position2))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static void AddMiraTranslator(this GameObject obj, string stringName,
         string? defaultStr = null)
     {
