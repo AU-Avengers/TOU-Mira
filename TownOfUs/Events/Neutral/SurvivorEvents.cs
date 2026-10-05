@@ -1,18 +1,36 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using Reactor.Utilities;
 using TownOfUs.Buttons;
+using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
+using TownOfUs.Options.Roles.Neutral;
+using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Events.Neutral;
 
 public static class SurvivorEvents
 {
+    [RegisterEvent]
+    public static void CompleteTaskEvent(CompleteTaskEvent @event)
+    {
+        if (!@event.Player.AmOwner || @event.Player.Data.Role is not SurvivorRole ||
+            !OptionGroupSingleton<SurvivorOptions>.Instance.TaskUses)
+        {
+            return;
+        }
+
+        var button = CustomButtonSingleton<SurvivorVestButton>.Instance;
+        ++button.UsesLeft;
+        button.SetUses(button.UsesLeft);
+    }
+
     [RegisterEvent]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {
