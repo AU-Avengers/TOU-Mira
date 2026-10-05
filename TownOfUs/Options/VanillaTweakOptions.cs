@@ -5,7 +5,7 @@ namespace TownOfUs.Options;
 
 public sealed class VanillaTweakOptions : AbstractOptionGroup
 {
-    public override string GroupName => TouLocale.Get("TouOptionTitleVanillaTweaks");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.VanillaTweaks");
     public override uint GroupPriority => 1;
 
     public ModdedToggleOption HideNamesOutOfSight { get; set; } =

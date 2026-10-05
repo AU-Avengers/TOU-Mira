@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class HunterStalkButton : TownOfUsRoleButton<HunterRole, PlayerControl>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleHunterStalk", "Stalk");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.HunterStalk", "Stalk");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Hunter;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<HunterOptions>.Instance.HunterStalkCooldown + MapCooldown, 5f, 120f);
@@ -29,17 +29,17 @@ public sealed class HunterStalkButton : TownOfUsRoleButton<HunterRole, PlayerCon
         }
 
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{TouLocale.GetParsed("TouRoleHunterStalkNotif").Replace("<player>", Target.Data.PlayerName)}</b>",
+            $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.HunterStalkNotif").Replace("<player>", Target.Data.PlayerName)}</b>",
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter.LoadAsset());
         notif1.AdjustNotification();
 
         Target.RpcAddModifier<HunterStalkedModifier>(PlayerControl.LocalPlayer);
-        OverrideName(TouLocale.Get("TouRoleHunterStalking", "Stalking"));
+        OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.HunterStalking", "Stalking"));
     }
 
     public override void OnEffectEnd()
     {
-        OverrideName(TouLocale.Get("TouRoleHunterStalk", "Stalk"));
+        OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.HunterStalk", "Stalk"));
     }
 
     public override PlayerControl? GetTarget()

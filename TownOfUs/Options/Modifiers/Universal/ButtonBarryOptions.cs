@@ -1,5 +1,4 @@
-﻿using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
+﻿using MiraAPI.GameOptions.Attributes;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Universal;
 using UnityEngine;
@@ -8,8 +7,8 @@ namespace TownOfUs.Options.Modifiers.Universal;
 
 public sealed class ButtonBarryOptions : AbstractTouModifierOptionGroup<ButtonBarryModifier>
 {
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
-    public override string GroupName => TouLocale.Get("TouModifierButtonBarry", "Button Barry");
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.ButtonBarry", "Button Barry");
     public override uint GroupPriority => 30;
     public override Color GroupColor => TownOfUsColors.ButtonBarry;
 

@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class JesterHauntButton : TownOfUsButton
 {
-    public override string Name => TouLocale.GetParsed("TouRoleJesterHaunt", "Haunt");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.JesterHaunt", "Haunt");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Jester;
     public override float Cooldown => 0.01f;

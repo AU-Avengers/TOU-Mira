@@ -30,7 +30,7 @@ namespace TownOfUs.Modules.DraftMode
         private TextMeshPro _timerText;
         private GameObject _tooltipRoot;
         private TextMeshPro _tooltipText;
-        private static string PickPrompt => $"<color=#FFFFFF><size=200%><b>{TouLocale.GetParsed("TouDraftPickPrompt", "Pick Your Role!")}</b></size></color>";
+        private static string PickPrompt => $"<color=#FFFFFF><size=200%><b>{MiraLocaleManager.Get("TouDraftPickPrompt", "Pick Your Role!")}</b></size></color>";
         private GameObject _timerRoot;
         private GameObject _timerTrack;
         private GameObject _timerFill;
@@ -125,7 +125,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_timerRoot != null)
             {
-                try { MiraAPI.Utilities.Extensions.DeepDestroy(_timerRoot, true); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+                MiraAPI.Utilities.Extensions.DeepDestroy(_timerRoot, true);
                 _timerRoot = null!;
                 _timerText = null!;
                 _timerTrack = null!;
@@ -187,7 +187,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_tooltipRoot != null)
             {
-                try { MiraAPI.Utilities.Extensions.DeepDestroy(_tooltipRoot, true); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+                MiraAPI.Utilities.Extensions.DeepDestroy(_tooltipRoot, true);
                 _tooltipRoot = null!;
                 _tooltipText = null!;
             }
@@ -274,11 +274,7 @@ namespace TownOfUs.Modules.DraftMode
             if (go != null)
                 MiraAPI.Utilities.Extensions.DeepDestroy(go, false);
 
-            try
-            {
-                MiraAPI.Utilities.Extensions.ClearGarbageCollector();
-            }
-            catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+            MiraAPI.Utilities.Extensions.ClearGarbageCollector();
         }
 
         private void BuildScreen()
@@ -499,7 +495,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_selectionBackdrop != null)
             {
-                try { MiraAPI.Utilities.Extensions.DeepDestroy(_selectionBackdrop, true); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+                MiraAPI.Utilities.Extensions.DeepDestroy(_selectionBackdrop, true);
                 _selectionBackdrop = null!;
                 _selectionBackdropWash = null!;
                 _selectionBackdropHorizon = null!;
@@ -845,7 +841,7 @@ namespace TownOfUs.Modules.DraftMode
                     string color = urgent ? "#FF5555" : "#FFD700";
                     float timerPulse = urgent ? 1f + Mathf.Sin(Time.time * 10f) * 0.08f : 1f;
                     _timerText.transform.localScale = Vector3.one * timerPulse;
-                    string timerLabel = TouLocale.GetParsed("TouDraftTimerRemaining", "<secs> Second(s) Remaining")
+                    string timerLabel = MiraLocaleManager.Get("TouDraftTimerRemaining", "<secs> Second(s) Remaining")
                         .Replace("<secs>", secs.ToString(System.Globalization.CultureInfo.InvariantCulture));
                     _timerText.text = $"<color={color}><b>{timerLabel}</b></color>";
 
@@ -862,17 +858,43 @@ namespace TownOfUs.Modules.DraftMode
         private void OnCardClicked(int index)
         {
             if (_hasPicked) return;
+            if (_offeredRoleIds == null || _offeredRoleIds.Length == 0) return;
+            if (index < 0 || index >= _offeredRoleIds.Length) return;
+
+            var localPlayer = PlayerControl.LocalPlayer;
+            if (localPlayer == null) return;
+
+            if (TargetPickerId != localPlayer.PlayerId)
+                return;
+
+            var localState = DraftManager.GetStateForPlayer(localPlayer.PlayerId);
+            if (localState == null || localState.HasPicked || !localState.IsPickingNow)
+                return;
+
+            if (localState.PendingPickTurnNumber != DraftManager.CurrentTurnNumber)
+                return;
+
+            // Concurrent turns can have multiple slots active in the same turn number. The click gate
+            // must validate this player's actual slot state instead of a single global CurrentTurnSlot,
+            // which only reflects the last announcement and would block otherwise valid clicks.
+            var localSlot = DraftManager.GetSlotForPlayer(localPlayer.PlayerId);
+            if (localSlot < 0)
+                return;
+
+            if (localState.PendingPickIndex != 255 && localState.PendingPickIndex != index)
+            {
+                localState.PendingPickIndex = 255;
+            }
 
             _hasPicked = true;
-            DraftNetworkHelper.SendPickToHost(index, TargetPickerId);
-            Invoke(nameof(DestroySelf), 1.2f);
+            DraftNetworkHelper.SendPickToHost((byte)index, TargetPickerId);
         }
 
         public static void ShowFinalPickNotification(ushort roleId)
         {
             var roleName = DraftRolePool.GetRoleNameFromId(roleId);
             if (string.IsNullOrEmpty(roleName))
-                roleName = TouLocale.GetParsed("TouDraftUnknownRoleLabel", "Unknown Role");
+                roleName = MiraLocaleManager.Get("TouDraftUnknownRoleLabel", "Unknown Role");
 
             var roleBehaviour = roleId != 0
                 ? MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)roleId)

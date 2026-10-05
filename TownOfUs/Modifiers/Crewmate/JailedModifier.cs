@@ -14,7 +14,7 @@ namespace TownOfUs.Modifiers.Crewmate;
 public sealed class JailedModifier(byte jailorId) : BaseModifier
 {
     private GameObject jailCell;
-    public override string ModifierName => TouLocale.Get("TouModifierJailed");
+    public override string ModifierName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Jailed");
     public override bool HideOnUi => true;
     public byte JailorId { get; } = jailorId;
 
@@ -49,13 +49,13 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
         if (Player.AmOwner)
         {
             var title =
-                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.Get("TouModifierJailedFeedbackTitle")}</color>";
+                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Modifier.JailedFeedbackTitle")}</color>";
 
-            var text = TouLocale.Get("TouModifierJailedNonCrewFeedback");
+            var text = MiraLocaleManager.Get("TownOfUsMira.Modifier.JailedNonCrewFeedback");
 
             if (PlayerControl.LocalPlayer.Is(ModdedRoleTeams.Crewmate))
             {
-                text = TouLocale.Get("TouModifierJailedCrewFeedback");
+                text = MiraLocaleManager.Get("TownOfUsMira.Modifier.JailedCrewFeedback");
             }
 
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, text, false, true);

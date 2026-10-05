@@ -6,6 +6,7 @@ using MiraAPI.PluginLoading;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Globalization;
+using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
@@ -151,7 +152,9 @@ public abstract class TownOfUsButton : CustomActionButton
 
         CreateRoundLockIcon();
 
-        Button.usesRemainingSprite.sprite = this is ILegacyCapable && LegacyAssets.IsLegacy ? TouAssets.BlankSprite.LoadAsset() : TouAssets.AbilityCounterBasicSprite.LoadAsset();
+        Button.usesRemainingSprite.sprite = this is ILegacyCapable && LegacyAssets.IsLegacy || this is ILegacyButton
+            ? TouAssets.BlankSprite.LoadAsset()
+            : TouAssets.AbilityCounterBasicSprite.LoadAsset();
 
         TownOfUsColors.UseBasic = false;
         if (TextOutlineColor != Color.clear)
@@ -426,7 +429,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
 
         CreateRoundLockIcon();
 
-        if (this is ILegacyCapable && LegacyAssets.IsLegacy)
+        if (this is ILegacyCapable && LegacyAssets.IsLegacy || this is ILegacyButton)
         {
             Button.usesRemainingSprite.sprite = TouAssets.BlankSprite.LoadAsset();
         }
@@ -604,6 +607,10 @@ public interface ILegacyCapable
 {
 }
 
+public interface ILegacyButton
+{
+}
+
 /// <summary>
 /// Base class for role buttons that need kill cooldown tracking.
 /// Buttons implementing IKillButton or IDiseaseableButton should inherit from this.
@@ -640,6 +647,23 @@ public abstract class TownOfUsKillRoleButton<TRole, TTarget> : TownOfUsRoleButto
 [MiraIgnore]
 public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, Vent> where TRole : RoleBehaviour
 {
+    public GameObject DisableSprite;
+    public override void CreateButton(Transform parent)
+    {
+        base.CreateButton(parent);
+        DisableSprite = Button!.CreateDeathDisabledSprite();
+    }
+
+    public override void FixedUpdateHandler(PlayerControl playerControl)
+    {
+        base.FixedUpdateHandler(playerControl);
+        if (DisableSprite)
+        {
+            DisableSprite.SetActive(!TownOfUsEventHandlers.AreVentsAllowed);
+        }
+    }
+
+
     public override Vent? GetTarget()
     {
         return HudManager.Instance.ImpostorVentButton.currentTarget;
@@ -672,6 +696,68 @@ public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, 
 
         return (PlayerControl.LocalPlayer.inVent || Timer <= 0 && Target != null) &&
             (!LimitedUses || UsesLeft > 0);
+    }
+}
+
+/// <summary>
+/// Base class for regular buttons with Vent targets that do not use <see cref="VentButton"/> 
+/// or <see cref="HudManager.ImpostorVentButton"/> as a base.
+/// <para/>
+/// Utilizies the vanilla system for getting its Vent targets, as well as handling outlines.
+/// </summary>
+[MiraIgnore]
+public abstract class TownOfUsVentButton : TownOfUsTargetButton<Vent>
+{
+    public GameObject DisableSprite;
+    public override void CreateButton(Transform parent)
+    {
+        base.CreateButton(parent);
+        DisableSprite = Button!.CreateDeathDisabledSprite();
+    }
+
+    public override void FixedUpdateHandler(PlayerControl playerControl)
+    {
+        base.FixedUpdateHandler(playerControl);
+        if (DisableSprite)
+        {
+            DisableSprite.SetActive(!TownOfUsEventHandlers.AreVentsAllowed);
+        }
+    }
+
+    public override void SetOutline(bool active)
+    {
+        if (Target != null)
+        {
+            Target.SetOutline(active, true, PlayerControl.LocalPlayer.Data.Role.TeamColor);
+        }
+    }
+    public override Vent? GetTarget()
+    {
+        return HudManager.Instance.ImpostorVentButton.currentTarget ?? Vent.currentVent;
+    }
+
+    public override bool CanUse()
+    {
+        if (TimeLordRewindSystem.IsRewinding)
+        {
+            return false;
+        }
+
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        {
+            return false;
+        }
+
+        var newTarget = GetTarget();
+        Target = IsTargetValid(newTarget) ? newTarget : null;
+
+        return (PlayerControl.LocalPlayer.inVent || Timer <= 0 && Target != null) &&
+               (!LimitedUses || UsesLeft > 0);
     }
 }
 #pragma warning restore S3060

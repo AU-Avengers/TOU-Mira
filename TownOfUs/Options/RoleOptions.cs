@@ -1,127 +1,73 @@
-﻿using AmongUs.GameOptions;
+﻿using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Interfaces;
+using TownOfUs.GameModes;
 using TownOfUs.Patches;
 
 namespace TownOfUs.Options;
 
 public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvider
 {
-    public override Func<bool> GroupVisible => () =>
-        !(GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
-            or GameModes.SeekFools);
-    
-    public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
-        new HashSet<StringNames>
-        {
-            // These are hidden because rolelist text already handles this
-            MaxNeutralBenign.StringName,
-            MinNeutralBenign.StringName,
-            MaxNeutralEvil.StringName,
-            MinNeutralEvil.StringName,
-            MaxNeutralKiller.StringName,
-            MinNeutralKiller.StringName,
-            MaxNeutralOutlier.StringName,
-            MinNeutralOutlier.StringName,
-            Slot1.StringName,
-            Slot2.StringName,
-            Slot3.StringName,
-            Slot4.StringName,
-            Slot5.StringName,
-            Slot6.StringName,
-            Slot7.StringName,
-            Slot8.StringName,
-            Slot9.StringName,
-            Slot10.StringName,
-            Slot11.StringName,
-            Slot12.StringName,
-            Slot13.StringName,
-            Slot14.StringName,
-            Slot15.StringName
-        };
-
-    public IEnumerable<string> GetWikiOptionSummaryLines()
-    {
-        var currentDist = CurrentRoleDistribution();
-
-        if (currentDist == RoleDistribution.Vanilla) { return Enumerable.Empty<string>(); }
-
-        if (HudManagerPatches.RoleListTextComp == null || string.IsNullOrWhiteSpace(HudManagerPatches.RoleListTextComp.text))
-        {
-            return Enumerable.Empty<string>();
-        }
-
-        string roleListText = HudManagerPatches.RoleListTextComp.text;
-
-        float sizePercent = 100f;
-        const float minSizePercent = 35f; 
-        const float sizeStep = 2.5f;
-
-        int lineCount = roleListText.Split([ '\n', '\r' ], StringSplitOptions.RemoveEmptyEntries).Length;
-
-        if (lineCount > 5)
-        {
-            sizePercent = Math.Max(minSizePercent, 100f - ((lineCount - 5) * sizeStep * 2.0f));
-        }
-
-        string formattedText = $"<page><size={sizePercent:0}%>{roleListText}</size>";
-
-        return [ formattedText ];
-    }
-
+    public override Func<bool> GroupVisible => () => IsClassicRoleAssignment;
     internal static string[] OptionStrings =
     [
-        MiscUtils.GetParsedRoleBucket("CrewInvestigative"),
-        MiscUtils.GetParsedRoleBucket("CrewKilling"),
-        MiscUtils.GetParsedRoleBucket("CrewProtective"),
-        MiscUtils.GetParsedRoleBucket("CrewPower"),
-        MiscUtils.GetParsedRoleBucket("CrewSupport"),
+        "CrewInvestigative.Colored",
+        "CrewKilling.Colored",
+        "CrewProtective.Colored",
+        "CrewPower.Colored",
+        "CrewSupport.Colored",
 
-        MiscUtils.GetParsedRoleBucket("CommonCrew"),
-        MiscUtils.GetParsedRoleBucket("SpecialCrew"),
-        MiscUtils.GetParsedRoleBucket("RandomCrew"),
+        "CommonCrew.Colored",
+        "SpecialCrew.Colored",
+        "RandomCrew.Colored",
 
-        MiscUtils.GetParsedRoleBucket("NeutralBenign"),
-        MiscUtils.GetParsedRoleBucket("NeutralEvil"),
-        MiscUtils.GetParsedRoleBucket("NeutralKilling"),
-        MiscUtils.GetParsedRoleBucket("NeutralOutlier"),
+        "NeutralBenign.Colored",
+        "NeutralEvil.Colored",
+        "NeutralKilling.Colored",
+        "NeutralOutlier.Colored",
 
-        MiscUtils.GetParsedRoleBucket("CommonNeutral"),
-        MiscUtils.GetParsedRoleBucket("SpecialNeutral"),
-        MiscUtils.GetParsedRoleBucket("WildcardNeutral"),
-        MiscUtils.GetParsedRoleBucket("RandomNeutral"),
+        "CommonNeutral.Colored",
+        "SpecialNeutral.Colored",
+        "WildcardNeutral.Colored",
+        "RandomNeutral.Colored",
 
-        MiscUtils.GetParsedRoleBucket("ImpConcealing"),
-        MiscUtils.GetParsedRoleBucket("ImpKilling"),
-        MiscUtils.GetParsedRoleBucket("ImpPower"),
-        MiscUtils.GetParsedRoleBucket("ImpSupport"),
+        "ImpConcealing.Colored",
+        "ImpKilling.Colored",
+        "ImpPower.Colored",
+        "ImpSupport.Colored",
 
-        MiscUtils.GetParsedRoleBucket("CommonImp"),
-        MiscUtils.GetParsedRoleBucket("SpecialImp"),
-        MiscUtils.GetParsedRoleBucket("RandomImp"),
+        "CommonImp.Colored",
+        "SpecialImp.Colored",
+        "RandomImp.Colored",
 
-        MiscUtils.GetParsedRoleBucket("NonImp"),
-        MiscUtils.GetParsedRoleBucket("Any")
+        "NonImp.Colored",
+        "Any"
     ];
 
-    public override string GroupName => TouLocale.Get("TouOptionTitleRoleSettings");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleSettings");
     public override uint GroupPriority => 2;
 
     public RoleDistribution CurrentRoleDistribution()
     {
-        var gameMode = (TouGamemode)CustomGameMode.Value;
         var roleDist = (RoleSelectionMode)RoleAssignmentType.Value;
-        if (GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek or GameModes.SeekFools)
+        if (CustomGameModeManager.IsHideNSeek() || GameOptionsManager.Instance.CurrentGameOptions.GameMode is AmongUs.GameOptions.GameModes.HideNSeek or AmongUs.GameOptions.GameModes.SeekFools)
         {
             return RoleDistribution.HideAndSeek;
         }
 
-        switch (gameMode)
+        if (CustomGameModeManager.IsActiveGameMode<CultistMode>())
         {
-            case TouGamemode.Cultist:
-                return RoleDistribution.Cultist;
+            return RoleDistribution.Cultist;
+        }
+        if (CustomGameModeManager.IsActiveGameMode<KillFrenzyMode>())
+        {
+            return RoleDistribution.KillFrenzy;
+        }
+        if (CustomGameModeManager.IsActiveGameMode<TownOfPolusMode>())
+        {
+            return RoleDistribution.TownOfPolus;
         }
 
         return roleDist switch
@@ -133,51 +79,13 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
         };
     }
 
-    public bool IsClassicRoleAssignment
+    public static bool IsClassicRoleAssignment
     {
         get
         {
-            var gameMode = (TouGamemode)CustomGameMode.Value;
-            return !(GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
-                or GameModes.SeekFools || gameMode is TouGamemode.Cultist);
+            return CustomGameModeManager.IsClassic();
         }
     }
-
-    public ModdedEnumOption CustomGameMode { get; } =
-        new("TouOptionCurrentGameMode", (int)TouGamemode.Normal, typeof(TouGamemode),
-        [
-            "TouOptionCurrentGameModeEnumNormal",
-            "TouOptionCurrentGameModeEnumHideAndSeek",
-            "TouOptionCurrentGameModeEnumCultist"
-            /*,
-            "TouOptionCurrentGameModeEnumAllKillers",
-            "TouOptionCurrentGameModeEnumLegacyTou"
-            */
-        ], false)
-        {
-            // Who could've possibly thought this code breaks the game?
-            /*ChangedEvent = x =>
-            {
-                var newGm = (TouGamemode)x;
-                var manager = GameOptionsManager.Instance;
-                if (manager != null)
-                {
-                    if (newGm is TouGamemode.HideAndSeek && manager.currentGameMode is not GameModes.HideNSeek && manager.currentGameMode is not GameModes.SeekFools)
-                    {
-                        GameOptionsManager.Instance.SwitchGameMode(GameModes.HideNSeek);
-                        GameManager.DestroyInstance();
-                        GameManager netObjParent2 = GameManagerCreator.CreateGameManager(GameOptionsManager.Instance.CurrentGameOptions.GameMode);
-                        AmongUsClient.Instance.Spawn(netObjParent2, -2, SpawnFlags.None);
-                    }
-                    else if (newGm is not TouGamemode.HideAndSeek && (manager.currentGameMode is GameModes.HideNSeek || manager.currentGameMode is GameModes.SeekFools))
-                    {
-                        GameOptionsManager.Instance.SwitchGameMode(GameModes.Normal);
-                        GameManager.DestroyInstance();
-                        GameManager netObjParent2 = GameManagerCreator.CreateGameManager(GameOptionsManager.Instance.CurrentGameOptions.GameMode);
-                        AmongUsClient.Instance.Spawn(netObjParent2, -2, SpawnFlags.None);
-                    }
-                }*/
-        };
 
     public ModdedEnumOption RoleAssignmentType { get; } =
         new("TouOptionRoleAssignmentType", (int)RoleSelectionMode.RoleList, typeof(RoleSelectionMode),
@@ -188,24 +96,19 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
                 "TouOptionRoleAssignmentTypeEnumDraft"
             ])
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment
+            Visible = () => IsClassicRoleAssignment
         };
 
     public ModdedToggleOption LastImpostorBias { get; } =
         new("TouOptionReduceImpostorStreak", true)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment &&
-                            OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution()
-                                is not RoleDistribution.Vanilla and not RoleDistribution.Draft
+            Visible = () => IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla and not RoleDistribution.Draft
         };
 
     public ModdedNumberOption ImpostorBiasPercent { get; } =
         new("TouOptionImpostorStreakReductionChance", 15f, 0f, 100f, 5f, MiraNumberSuffixes.Percent)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.LastImpostorBias &&
-                            OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment &&
-                            OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution()
-                                is not RoleDistribution.Vanilla and not RoleDistribution.Draft
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.LastImpostorBias && IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla and not RoleDistribution.Draft
         };
 
     // --- Draft Settings (Declared BEFORE Slots to fix wiki option ordering) ---
@@ -434,6 +337,63 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
+    public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
+        new HashSet<StringNames>
+        {
+            // These are hidden because rolelist text already handles this
+            MaxNeutralBenign.StringName,
+            MinNeutralBenign.StringName,
+            MaxNeutralEvil.StringName,
+            MinNeutralEvil.StringName,
+            MaxNeutralKiller.StringName,
+            MinNeutralKiller.StringName,
+            MaxNeutralOutlier.StringName,
+            MinNeutralOutlier.StringName,
+            Slot1.StringName,
+            Slot2.StringName,
+            Slot3.StringName,
+            Slot4.StringName,
+            Slot5.StringName,
+            Slot6.StringName,
+            Slot7.StringName,
+            Slot8.StringName,
+            Slot9.StringName,
+            Slot10.StringName,
+            Slot11.StringName,
+            Slot12.StringName,
+            Slot13.StringName,
+            Slot14.StringName,
+            Slot15.StringName
+        };
+
+    public IEnumerable<string> GetWikiOptionSummaryLines()
+    {
+        var currentDist = CurrentRoleDistribution();
+
+        if (currentDist == RoleDistribution.Vanilla) { return Enumerable.Empty<string>(); }
+
+        if (HudManagerPatches.RoleListTextComp == null || string.IsNullOrWhiteSpace(HudManagerPatches.RoleListTextComp.text))
+        {
+            return Enumerable.Empty<string>();
+        }
+
+        string roleListText = HudManagerPatches.RoleListTextComp.text;
+
+        float sizePercent = 100f;
+        const float minSizePercent = 35f; 
+        const float sizeStep = 2.5f;
+
+        int lineCount = roleListText.Split([ '\n', '\r' ], StringSplitOptions.RemoveEmptyEntries).Length;
+
+        if (lineCount > 5)
+        {
+            sizePercent = Math.Max(minSizePercent, 100f - ((lineCount - 5) * sizeStep * 2.0f));
+        }
+
+        string formattedText = $"<page><size={sizePercent:0}%>{roleListText}</size>";
+
+        return [ formattedText ];
+    }
 }
 
 public enum RequiredKiller
@@ -459,6 +419,9 @@ public enum RoleDistribution
     Draft,
     HideAndSeek,
     Cultist,
+    KillFrenzy,
+    TownOfPolus,
+    // Legacy
 }
 
 public enum DraftRecapMode

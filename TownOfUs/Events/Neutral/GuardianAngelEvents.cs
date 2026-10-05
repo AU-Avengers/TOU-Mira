@@ -8,14 +8,30 @@ using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Utilities;
 using TownOfUs.Buttons;
+using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
+using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Events.Neutral;
 
 public static class GuardianAngelEvents
 {
+    [RegisterEvent]
+    public static void CompleteTaskEvent(CompleteTaskEvent @event)
+    {
+        if (!@event.Player.AmOwner || @event.Player.Data.Role is not FairyRole ||
+            !OptionGroupSingleton<FairyOptions>.Instance.TaskUses)
+        {
+            return;
+        }
+
+        var button = CustomButtonSingleton<GuardianAngelProtectButton>.Instance;
+        ++button.UsesLeft;
+        button.SetUses(button.UsesLeft);
+    }
+
     [RegisterEvent]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {

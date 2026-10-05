@@ -27,8 +27,12 @@ public static class MiraApiPatches
             __result = true;
             return false;
         }
-
         if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek && (role.Role is not RoleTypes.Engineer and not RoleTypes.Impostor))
+        {
+            __result = true;
+            return false;
+        }
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
         {
             __result = true;
             return false;
@@ -39,21 +43,21 @@ public static class MiraApiPatches
     [HarmonyPrefix]
     public static bool NeutralTeamPrefix(ref string __result)
     {
-        __result = TouLocale.Get("NeutralKeyword").ToUpperInvariant();
+        __result = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral").ToUpperInvariant();
         return false;
     }
     [HarmonyPatch(typeof(TaskAdderPatches), nameof(TaskAdderPatches.NeutralName), MethodType.Getter)]
     [HarmonyPrefix]
     public static bool NeutralNamePrefix(ref string __result)
     {
-        __result = TouLocale.Get("NeutralKeyword");
+        __result = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral");
         return false;
     }
     [HarmonyPatch(typeof(TaskAdderPatches), nameof(TaskAdderPatches.ModifiersName), MethodType.Getter)]
     [HarmonyPrefix]
     public static bool ModifierNamePrefix(ref string __result)
     {
-        __result = TouLocale.Get("Modifiers");
+        __result = MiraLocaleManager.Get("Modifiers");
         return false;
     }
 

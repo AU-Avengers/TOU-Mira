@@ -21,9 +21,9 @@ public sealed class LoverGameOver : CustomGameOver
         endGameManager.BackgroundBar.material.SetColor(ShaderID.Color, TownOfUsColors.Lover);
 
         var text = Object.Instantiate(endGameManager.WinText);
-        text.text = $"{TouLocale.Get("LoversWin")}!";
+        text.text = $"{MiraLocaleManager.Get("LoversWin")}!";
         text.color = TownOfUsColors.Lover;
-        GameHistory.WinningFaction = $"<color=#{TownOfUsColors.Lover.ToHtmlStringRGBA()}>{TouLocale.Get("LoversWin")}</color>";
+        GameHistory.WinningFaction = $"<color=#{TownOfUsColors.Lover.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("LoversWin")}</color>";
 
         var pos = endGameManager.WinText.transform.localPosition;
         pos.y = 1.5f;

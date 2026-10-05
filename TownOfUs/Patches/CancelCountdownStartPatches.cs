@@ -111,10 +111,7 @@ internal static class CancelCountdownStart
     [HarmonyPostfix]
     public static void PostfixStart(GameStartManager __instance)
     {
-        if (MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek)
-        {
-            __instance.MinPlayers = 1;
-        }
+        __instance.MinPlayers = 1;
     }
 
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]

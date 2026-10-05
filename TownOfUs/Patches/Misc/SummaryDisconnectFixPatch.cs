@@ -29,7 +29,7 @@ public static class SummaryDisconnectFixPatch
             if (stats.PlayerState is StoredPlayerState.Alive)
             {
                 stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
-                stats.DeathString = TouLocale.Get("DiedToDisconnect");
+                stats.DeathString = MiraLocaleManager.Get("DiedToDisconnect");
             }
             stats.PlayerState = StoredPlayerState.Disconnected;
         }

@@ -1,5 +1,4 @@
-﻿using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
+﻿using MiraAPI.GameOptions.Attributes;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Crewmate;
 using UnityEngine;
@@ -8,8 +7,8 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 
 public sealed class OperativeOptions : AbstractTouModifierOptionGroup<OperativeModifier>
 {
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
-    public override string GroupName => TouLocale.Get("TouModifierOperative", "Operative");
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Operative", "Operative");
     public override uint GroupPriority => 24;
 
     public override Color GroupColor => new(0.8f, 0.33f, 0.37f, 1f);

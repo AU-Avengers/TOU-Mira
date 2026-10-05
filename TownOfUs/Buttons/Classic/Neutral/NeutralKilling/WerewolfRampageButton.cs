@@ -8,7 +8,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class WerewolfRampageButton : TownOfUsRoleButton<WerewolfRole>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleWerewolfRampage", "Rampage");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.WerewolfRampage", "Rampage");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Werewolf;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<WerewolfOptions>.Instance.RampageCooldown + MapCooldown, 5f, 120f);

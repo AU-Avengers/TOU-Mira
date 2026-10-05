@@ -9,7 +9,7 @@ namespace TownOfUs.Utilities;
 /// Utilities for flushing buffered/interpolated state inside <see cref="CustomNetworkTransform"/>.
 /// Used to prevent visual "replay" when we temporarily suppress CNT updates (e.g., <see cref="Roles.Impostor.ParasiteRole"/> control camera).
 /// </summary>
-internal static class NetTransformBacklogUtils
+public static class NetTransformBacklogUtils
 {
     private static bool _searched;
     private static FieldInfo[] _clearableCollectionFields = [];

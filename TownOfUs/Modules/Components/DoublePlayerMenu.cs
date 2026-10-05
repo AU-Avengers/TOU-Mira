@@ -1,8 +1,5 @@
-﻿using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Hud;
-using Reactor.Utilities.Attributes;
-using Reactor.Utilities.Extensions;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,9 +10,7 @@ namespace TownOfUs.Modules.Components;
 /// <para/>
 /// Specifically used for selecting two players.
 /// </summary>
-/// <param name="il2CppPtr"><inheritdoc/></param>
-[RegisterInIl2Cpp]
-public class DoublePlayerMenu(IntPtr il2CppPtr) : CustomPlayerMenu(il2CppPtr)
+public class DoublePlayerMenu : CustomPlayerMenu
 {
     public PlayerControl? target1;
     private LoadableAsset<Sprite>? hoverSelectSprite;
@@ -29,35 +24,7 @@ public class DoublePlayerMenu(IntPtr il2CppPtr) : CustomPlayerMenu(il2CppPtr)
 
     public static DoublePlayerMenu Create()
     {
-        var shapeShifterRole = RoleManager.Instance.GetRole(RoleTypes.Shapeshifter);
-
-        var ogMenu = shapeShifterRole.TryCast<ShapeshifterRole>()!.ShapeshifterMenu;
-        var newMenu = Instantiate(ogMenu);
-        var customMenu = newMenu.gameObject.AddComponent<DoublePlayerMenu>();
-
-        customMenu.panelPrefab = newMenu.PanelPrefab;
-        customMenu.xStart = newMenu.XStart;
-        customMenu.yStart = newMenu.YStart;
-        customMenu.xOffset = newMenu.XOffset;
-        customMenu.yOffset = newMenu.YOffset;
-        customMenu.backButton = newMenu.BackButton;
-        var back = customMenu.backButton.GetComponent<PassiveButton>();
-        back.OnClick.RemoveAllListeners();
-        back.OnClick.AddListener((UnityAction)(() =>
-        {
-            Instance.Close();
-        }));
-
-        customMenu.CloseSound = newMenu.CloseSound;
-        customMenu.logger = newMenu.logger;
-        customMenu.OpenSound = newMenu.OpenSound;
-
-        newMenu.DestroyImmediate();
-
-        customMenu.transform.SetParent(Camera.main!.transform, false);
-        customMenu.transform.localPosition = new Vector3(0f, 0f, -50f);
-
-        return customMenu;
+        return Create<DoublePlayerMenu>();
     }
 
     public static DoublePlayerMenu Create(

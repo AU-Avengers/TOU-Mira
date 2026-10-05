@@ -8,7 +8,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class MercenaryBribeButton : TownOfUsRoleButton<MercenaryRole, PlayerControl>, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleMercenaryBribe", "Bribe");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.MercenaryBribe", "Bribe");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Mercenary;
     public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);

@@ -51,10 +51,10 @@ public sealed class BarkeeperOptions : AbstractRoleOptionGroup<BarkeeperRole>, I
     {
         string[] array =
         [
-            TouLocale.GetParsed("TouOptionBarkeeperRoleblockDelaySummarized")
+            MiraLocaleManager.Get("TouOptionBarkeeperRoleblockDelaySummarized")
                 .Replace("<min>", RoleblockDelayMin.Value.ToString(TownOfUsPlugin.Culture)).Replace("<max>",
                     RoleblockDelayMax.Value.ToString(TownOfUsPlugin.Culture)),
-            TouLocale.GetParsed("TouOptionBarkeeperSpillDurationOptionsSummarized")
+            MiraLocaleManager.Get("TouOptionBarkeeperSpillDurationOptionsSummarized")
                 .Replace("<duration>", SpillEffectDuration.Value.ToString(TownOfUsPlugin.Culture)).Replace("<fast>",
                     SpillEffectBuffMultiplier.Value.ToString(TownOfUsPlugin.Culture)).Replace("<slow>",
                     SpillEffectDebuffMultiplier.Value.ToString(TownOfUsPlugin.Culture))

@@ -7,7 +7,7 @@ namespace TownOfUs.Options;
 
 public sealed class GameMechanicOptions : AbstractOptionGroup
 {
- public override string GroupName => TouLocale.Get("TouOptionTitleGameMechanics");
+ public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.GameMechanics");
     public override uint GroupPriority => 1;
 
     /*[ModdedToggleOption("TouOptionHideNamesOutOfSight")]
@@ -37,12 +37,29 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
                 "TouOptionKillAnimationBackgroundColorEnumRoleColor"
             ]);
 
+    public ModdedNumberOption PlayerCountWhenSabotagesDisable { get; set; } =
+        new("TouOptionPlayerCountWhenSabotagesDisable",
+            2f, 1f, 15f, 1f, MiraNumberSuffixes.None, "0.#");
+
+    public ModdedToggleOption CanSabotageWhenDead { get; set; } =
+        new("TouOptionCanSabotageWhenDead", true);
+
     public ModdedNumberOption PlayerCountWhenVentsDisable { get; set; } =
         new("TouOptionPlayerCountWhenVentsDisable",
             2f, 1f, 15f, 1f, MiraNumberSuffixes.None, "0.#");
 
     public ModdedToggleOption GhostwalkerFixSabos { get; set; } =
         new("TouOptionGhostwalkerFixSabos", false);
+
+    public ModdedEnumOption GhostwalkerVentSpawn { get; set; } =
+        new("TouOptionGhostwalkerVentSpawn", (int)GhostwalkerVentMode.Crewmates,
+            typeof(GhostwalkerVentMode),
+            [
+                "TouOptionGhostwalkerVentSpawnEnumNone",
+                "TouOptionGhostwalkerVentSpawnEnumCrewmates",
+                "TouOptionGhostwalkerVentSpawnEnumEvils",
+                "TouOptionGhostwalkerVentSpawnEnumAll"
+            ]);
 
     [ModdedNumberOption("TouOptionTempSaveCdReset", 0f, 15f, 0.5f,
         MiraNumberSuffixes.Seconds, "0.#")]
@@ -51,6 +68,13 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
     public ModdedNumberOption FullSaveCdMultiplier { get; set; } =
         new("TouOptionFullSaveCdMultiplier",
             0.5f, 0.25f, 1f, 0.05f, MiraNumberSuffixes.Multiplier, "0.#");
+}
+public enum GhostwalkerVentMode
+{
+    None,
+    Crewmates,
+    Evils,
+    All,
 }
 
 public enum BodyVitalsMode

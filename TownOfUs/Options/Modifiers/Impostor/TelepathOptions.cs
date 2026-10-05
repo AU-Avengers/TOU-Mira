@@ -9,8 +9,8 @@ namespace TownOfUs.Options.Modifiers.Impostor;
 
 public sealed class TelepathOptions : AbstractTouModifierOptionGroup<TelepathModifier>
 {
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
-    public override string GroupName => TouLocale.Get("TouModifierTelepath", "Telepath");
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Telepath", "Telepath");
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
     public override uint GroupPriority => 42;
 

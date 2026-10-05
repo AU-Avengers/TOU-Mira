@@ -17,6 +17,10 @@ public static class TownOfUsColors
     public static Color ImpSoft => new Color32(214, 64, 66, 255);
     public static Color Neutral => Color.gray;
     public static Color Other => Color.gray.DarkenColor();
+    // Town of Polus Colors
+    public static Color PolusEngineer => UseBasic ? Palette.CrewmateBlue : new Color32(248, 191, 21, 255);
+    public static Color PolusSwooper => UseBasic ? Palette.ImpostorRed : new Color32(150, 150, 150, 255);
+    public static Color PolusSerialKiller => new Color32(255, 84, 124, 255);
 
     // Crew Colors
     public static Color Aurial => UseBasic ? Palette.CrewmateBlue : new Color32(179, 77, 153, 255);
@@ -84,6 +88,7 @@ public static class TownOfUsColors
     public static Color Jester => new Color32(255, 191, 204, 255);
     public static Color SoulCollector => new Color32(153, 255, 204, 255);
     public static Color Death => new Color32(76, 76, 84, 255);
+    public static Color Ghostwalker => new Color32(43, 86, 155, 255);
 
     public static Color Arsonist => new Color32(255, 77, 0, 255);
     public static Color Glitch => Color.green;

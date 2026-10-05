@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class ChefCookButton : TownOfUsRoleButton<ChefRole, DeadBody>
 {
-    public override string Name => TouLocale.GetParsed("TouRoleChefCook", "Cook");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.ChefCook", "Cook");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override int MaxUses => (int)OptionGroupSingleton<ChefOptions>.Instance.ServingsNeeded;
     public override Color TextOutlineColor => TownOfUsColors.Chef;
@@ -29,7 +29,7 @@ public sealed class ChefCookButton : TownOfUsRoleButton<ChefRole, DeadBody>
             return;
         }
 
-        ChefRole.RpcCookBody(PlayerControl.LocalPlayer, Target);
+        ChefRole.RpcCookBody(PlayerControl.LocalPlayer, Target, Target.ParentId);
         CustomButtonSingleton<ChefServeButton>.Instance.UpdateServingType();
         if (OptionGroupSingleton<ChefOptions>.Instance.ResetCooldowns)
         {

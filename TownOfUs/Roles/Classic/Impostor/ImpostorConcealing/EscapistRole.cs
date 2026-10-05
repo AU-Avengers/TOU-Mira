@@ -44,15 +44,12 @@ public sealed class EscapistRole(IntPtr cppPtr)
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TransporterRole>());
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string LocaleKey => "Escapist";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Escapist";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -78,11 +75,11 @@ public sealed class EscapistRole(IntPtr cppPtr)
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Mark", "Mark"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}MarkWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mark", "Mark"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mark.WikiDescription"),
                     TouImpAssets.MarkSprite),
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Recall", "Recall"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}RecallWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Recall", "Recall"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Recall.WikiDescription"),
                     TouImpAssets.RecallSprite)
             ];
         }
@@ -114,7 +111,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
     }
 
     [MethodRpc((uint)TownOfUsRpc.MarkLocation)]
-    public static void RpcMarkLocation(PlayerControl player, Vector2 pos)
+    public static void RpcMarkLocation(PlayerControl player, Vector2 pos, float zPos)
     {
         if (LobbyBehaviour.Instance)
         {
@@ -132,7 +129,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
 
         henry.MarkedLocation = pos;
         henry.EscapeMark = AnimStore.SpawnAnimAtPlayer(player, TouAssets.EscapistMarkPrefab.LoadAsset());
-        henry.EscapeMark.transform.localPosition = new Vector3(pos.x, pos.y + 0.3f, 0.1f);
+        henry.EscapeMark.transform.localPosition = new Vector3(pos.x, pos.y + 0.3f, zPos);
         henry.EscapeMark.SetActive(false);
     }
 }

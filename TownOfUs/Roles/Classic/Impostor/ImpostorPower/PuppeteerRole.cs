@@ -1,4 +1,5 @@
-﻿using Il2CppInterop.Runtime.Attributes;
+﻿using System.Collections;
+using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -6,6 +7,7 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
+using Reactor.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
@@ -29,14 +31,11 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     private LobbyNotificationMessage? controllerNotification;
 
     public DoomableType DoomHintType => DoomableType.Trickster;
-    public string LocaleKey => "Puppeteer";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Puppeteer";
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public Color RoleColor => TownOfUsColors.Impostor;
@@ -56,8 +55,8 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities =>
     [
-        new(TouLocale.GetParsed($"TouRole{LocaleKey}Control", "Control"),
-            TouLocale.GetParsed($"TouRole{LocaleKey}ControlWikiDescription"),
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Control", "Control"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Control.WikiDescription"),
             TouImpAssets.ControlSprite),
     ];
 
@@ -80,7 +79,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         if (Player.AmOwner && Controlled != null)
         {
-            RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled);
+            RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled, Controlled.transform.position);
         }
     }
 
@@ -94,7 +93,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             return;
         }
 
-        RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled);
+        RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled, Controlled.transform.position);
     }
 
     public void FixedUpdate()
@@ -111,7 +110,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         if (Controlled.Data == null || Controlled.HasDied() || Controlled.Data.Disconnected || Player.HasDied())
         {
-            RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled);
+            RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled, Controlled.transform.position);
             return;
         }
 
@@ -127,7 +126,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
             if (ControlTimer <= 0f && Controlled != null)
             {
-                RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled);
+                RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled, Controlled.transform.position);
             }
         }
     }
@@ -149,7 +148,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         if (controllerNotification == null)
         {
-            var controllerText = TouLocale.GetParsed("TouRolePuppeteerControlNotifSelf");
+            var controllerText = MiraLocaleManager.Get("TownOfUsMira.Role.PuppeteerControlNotifSelf");
             controllerNotification = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Impostor.ToTextColor()}{controllerText.Replace("<player>", Controlled.Data.PlayerName)}</color></b>",
                 Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Puppeteer.LoadAsset());
@@ -186,13 +185,19 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             return;
         }
 
-        if (target.IsInTargetingAnimState())
+        Coroutines.Start(role.CoFinishControl(target));
+    }
+
+    public IEnumerator CoFinishControl(PlayerControl target)
+    {
+        var puppeteer = Player;
+        while (target.IsInTargetingAnimState())
         {
-            return;
+            yield return null;
         }
 
-        role.Controlled = target;
-        role.ControlTimer = OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
+        Controlled = target;
+        ControlTimer = OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
 
         PuppeteerControlState.SetControl(target.PlayerId, puppeteer.PlayerId);
         if (!target.HasModifier<PuppeteerControlModifier>())
@@ -231,8 +236,8 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         if (puppeteer.AmOwner)
         {
-            CustomButtonSingleton<TownOfUs.Buttons.Impostor.PuppeteerControlButton>.Instance.SetActive(true, role);
-            role.CreateNotification();
+            CustomButtonSingleton<TownOfUs.Buttons.Impostor.PuppeteerControlButton>.Instance.SetActive(true, this);
+            CreateNotification();
         }
         else if (target.AmOwner && OptionGroupSingleton<PuppeteerOptions>.Instance.VictimSeesControlDirection.Value > 0)
         {
@@ -241,7 +246,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     }
 
     [MethodRpc((uint)TownOfUsRpc.PuppeteerEndControl)]
-    public static void RpcPuppeteerEndControl(PlayerControl puppeteer, PlayerControl target)
+    public static void RpcPuppeteerEndControl(PlayerControl puppeteer, PlayerControl target, Vector2 finalPos)
     {
         if (LobbyBehaviour.Instance)
         {
@@ -267,7 +272,6 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
                 target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
             }
 
-            var finalPos = (Vector2)target.transform.position;
             if (target.NetTransform != null)
             {
                 try

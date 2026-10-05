@@ -13,7 +13,7 @@ public sealed class WerewolfKillButton : TownOfUsKillRoleButton<WerewolfRole, Pl
     public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Werewolf;
-    public override float Cooldown => Math.Clamp(OptionGroupSingleton<WerewolfOptions>.Instance.RampageKillCooldown + MapCooldown, 0.5f, 120f);
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<WerewolfOptions>.Instance.RampageKillCooldown, 0.5f, 120f);
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.KillSprite : TouNeutAssets.WerewolfKillSprite;
 
     public void SetDiseasedTimer(float multiplier)

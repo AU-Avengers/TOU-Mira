@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class JesterOptions : AbstractRoleOptionGroup<JesterRole>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => TouLocale.Get("TouRoleJester", "Jester");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Jester", "Jester");
 
     [ModdedToggleOption("TouOptionJesterCanButton")] public bool CanButton { get; set; } = true;
     public ModdedToggleOption CanVent { get; } =

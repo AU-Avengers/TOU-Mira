@@ -3,12 +3,11 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI;
 using MiraAPI.GameOptions;
-using MiraAPI.Modifiers.ModifierDisplay;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Modules.Components;
@@ -38,23 +37,12 @@ public static class HudManagerPatches
     public static bool IconOnRoleName;
     public static GameObject ZoomButton;
     public static GameObject WikiButton;
-    public static GameObject ModifierDisplayObject;
-    public static GameObject VanillaMatchInfoButton;
-    public static bool ModifierDisplayOnRight;
-    public static GameObject ClonedChatButton;
-    public static GameObject ExtraUiTopRight;
-    public static GridArrange ExtraUiGrid;
-    public static AspectPosition ExtraUiAspectPos;
-    public static GameObject UiTopRight;
-    public static GridArrange UiGrid;
-    public static AspectPosition UiAspectPos;
+    public static GameObject OldVanillaWikiButton;
     public static GameObject RoleList;
     public static string RoleListPrefixText = string.Empty;
     public static TextMeshPro RoleListTextComp;
-    public static GameObject SubmergedFloorButton;
-    public static SpriteRenderer SubmergedFloorButtonRenderer;
-    public static SpriteRenderer SubmergedFloorButtonRendererHover;
     public static bool IsHoveringRoleList;
+    public static bool HasAdjustedSubButton;
 
     public static bool Zooming;
     public static bool CamouflageCommsEnabled;
@@ -114,7 +102,7 @@ public static class HudManagerPatches
         AdjustCameraSize(!Zooming ? 12f : 3f);
     }
 
-    public static void ScrollZoom(bool zoomOut = false)
+    public static void ScrollZoom(bool zoomOut = false, float mult = 1.25f)
     {
         if (MeetingHud.Instance || ExileController.Instance)
         {
@@ -123,7 +111,7 @@ public static class HudManagerPatches
         }
 
         var size = Camera.main!.orthographicSize;
-        size = zoomOut ? size * 1.25f : size / 1.25f;
+        size = zoomOut ? size * mult : size / mult;
         size = Mathf.Clamp(size, 3, 15);
         if (Camera.main!.orthographicSize == size)
         {
@@ -144,11 +132,11 @@ public static class HudManagerPatches
         var scrollWheel = Input.GetAxis("Mouse ScrollWheel");
         var axisRaw = ConsoleJoystick.player.GetAxisRaw(55);
 
-        if (scrollWheel == 0 && Input.touchCount < 2 && axisRaw == 0)
+        if (scrollWheel == 0 && Input.touchCount < 3 && axisRaw == 0)
         {
             return;
         }
-        if (Input.touchCount == 2)
+        if (Input.touchCount == 3)
         {
             Touch touch0 = Input.GetTouch(0);
             Touch touch1 = Input.GetTouch(1);
@@ -164,12 +152,12 @@ public static class HudManagerPatches
             {
                 case > 0:
                 {
-                    ScrollZoom();
+                    ScrollZoom(false, 1.05f);
                     break;
                 }
                 case < 0:
                 {
-                    ScrollZoom(true);
+                    ScrollZoom(true, 1.05f);
                     break;
                 }
             }
@@ -230,8 +218,8 @@ public static class HudManagerPatches
     public static string GetRoleForSlot(RoleListOption slotValue)
     {
         var newVal = (int)slotValue;
-        var roleListText = RoleOptions.OptionStrings;
-        if (newVal >= 0 && newVal < roleListText.Length)
+        var roleListText = StoredRoleBuckets;
+        if (newVal >= 0 && newVal < roleListText.Count)
         {
             return roleListText[newVal];
         }
@@ -241,8 +229,8 @@ public static class HudManagerPatches
 
     public static string GetRoleForSlot(int slotValue)
     {
-        var roleListText = RoleOptions.OptionStrings;
-        if (slotValue >= 0 && slotValue < roleListText.Length)
+        var roleListText = StoredRoleBuckets;
+        if (slotValue >= 0 && slotValue < roleListText.Count)
         {
             return roleListText[slotValue];
         }
@@ -343,7 +331,7 @@ public static class HudManagerPatches
         else
         {
             RoleList.SetActive(false);
-            if (roleAssignmentType is not RoleDistribution.RoleList && roleAssignmentType is not RoleDistribution.MinMaxList && roleAssignmentType is not RoleDistribution.Draft)
+            if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek or TouGamemode.Other || roleAssignmentType is not RoleDistribution.RoleList && roleAssignmentType is not RoleDistribution.MinMaxList && roleAssignmentType is not RoleDistribution.Draft)
             {
                 return;
             }
@@ -510,9 +498,9 @@ public static class HudManagerPatches
 
     public static void CreateZoomButton(HudManager instance)
     {
-        if (!ZoomButton && UiTopRight && ExtraUiTopRight)
+        if (!ZoomButton && MiraHudHelper.UiTopRight && MiraHudHelper.ExtraUiTopRight)
         {
-            ZoomButton = Object.Instantiate(instance.MapButton.gameObject, ExtraUiTopRight.transform);
+            ZoomButton = Object.Instantiate(instance.MapButton.gameObject, MiraHudHelper.ExtraUiTopRight.transform);
             ZoomButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
             ZoomButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(ButtonClickZoom));
             ZoomButton.name = "ZoomButton";
@@ -525,37 +513,27 @@ public static class HudManagerPatches
                 TouAssets.ZoomMinusActive.LoadAsset();
                 active.localPosition = new Vector3(0, 0.021f, -0.1f);
             ZoomButton.GetComponentInChildren<AspectPosition>().Destroy();
-            TouLocalTabButtons.SetUpButtonPositions();
+            MiraApiSettings.SetUpButtonPositions();
         }
     }
 
-    public static void UpdateSubmergedButtons(HudManager instance)
+    public static void UpdateSubmergedButtons(HudManager instance, IGhostRole ghost)
     {
         if (ModCompatibility.IsSubmerged())
         {
-            if (!SubmergedFloorButton && ExtraUiTopRight)
+            if (!HasAdjustedSubButton && MiraHudHelper.SubmergedFloorButton && MiraHudHelper.ExtraUiTopRight)
             {
-                var transform = instance.MapButton.transform.parent.Find(instance.MapButton.name + "(Clone)");
-                if (transform != null)
-                {
-                    SubmergedFloorButton = transform.gameObject;
-                    SubmergedFloorButton.transform.SetParent(ExtraUiTopRight.transform, false);
+                PassiveButton buttonBehavior = MiraHudHelper.SubmergedFloorButton.GetComponent<PassiveButton>();
+                buttonBehavior.OnClick.RemoveAllListeners();
+                buttonBehavior.OnClick = new Button.ButtonClickedEvent();
+                buttonBehavior.OnClick.AddListener(new Action(ChangeSubFloor));
 
-                    SubmergedFloorButtonRenderer =
-                        SubmergedFloorButton.transform.Find("Inactive").GetComponent<SpriteRenderer>();
-                    SubmergedFloorButtonRendererHover =
-                        SubmergedFloorButton.transform.Find("Active").GetComponent<SpriteRenderer>();
-                    PassiveButton buttonBehavior = SubmergedFloorButton.GetComponent<PassiveButton>();
-                    buttonBehavior.OnClick.RemoveAllListeners();
-                    buttonBehavior.OnClick = new Button.ButtonClickedEvent();
-                    buttonBehavior.OnClick.AddListener(new Action(ChangeSubFloor));
-
-                    TouLocalTabButtons.SetUpButtonPositions();
-                }
+                MiraApiSettings.SetUpButtonPositions();
+                HasAdjustedSubButton = true;
             }
-            if (SubmergedFloorButton && PlayerControl.LocalPlayer.Data.Role is IGhostRole ghost)
+            if (MiraHudHelper.SubmergedFloorButton)
             {
-                SubmergedFloorButton.SetActive(ghost.Caught);
+                MiraHudHelper.SubmergedFloorButton.SetActive(!ghost.GhostActive);
             }
         }
     }
@@ -565,109 +543,11 @@ public static class HudManagerPatches
         ModCompatibility.ChangeFloor(PlayerControl.LocalPlayer.transform.position.y <= -5);
     }
 
-    public static Vector3 BelowOptionPos = new (0.435f, 1.25f, 0f);
-    public static Vector3 FullTopPos = new (0.435f, 0.475f, 0f);
-    public static void CreateUiRow(HudManager instance)
-    {
-        if (!UiTopRight)
-        {
-            UiTopRight = instance.MapButton.transform.parent.gameObject;
-
-            UiGrid = UiTopRight.AddComponent<GridArrange>();
-            UiAspectPos = UiTopRight.AddComponent<AspectPosition>();
-
-            UiGrid.Alignment = GridArrange.StartAlign.Left;
-            UiGrid.CellSize = new Vector2(0.85f, 0.85f);
-            UiGrid.MaxColumns = 6;
-            UiAspectPos.Alignment = AspectPosition.EdgeAlignments.RightTop;
-            UiGrid.Start();
-            UiAspectPos.DistanceFromEdge = FullTopPos;
-            var mapButton = instance.MapButton.gameObject;
-            mapButton.GetComponent<AspectPosition>().Destroy();
-            var settingsButton = instance.SettingsButton;
-            settingsButton.GetComponent<AspectPosition>().Destroy();
-            VanillaMatchInfoButton = instance.MatchInfoButton.gameObject;
-            VanillaMatchInfoButton.GetComponent<AspectPosition>().Destroy();
-            var oldPos = settingsButton.transform.localPosition;
-            settingsButton.transform.localPosition = new Vector3(oldPos.x, oldPos.y, -100);
-            var chatButton = instance.Chat.chatButton.gameObject;
-            ClonedChatButton = Object.Instantiate(chatButton, chatButton.transform.parent);
-            ClonedChatButton.SetActive(false);
-            instance.Chat.chatButtonAspectPosition = ClonedChatButton.GetComponent<AspectPosition>();
-            chatButton.GetComponent<AspectPosition>().Destroy();
-            var inactivePos = settingsButton.transform.GetChild(1).transform.localPosition;
-            var bg = settingsButton.transform.GetChild(2).gameObject;
-            var bgPos = bg.transform.localPosition;
-            var bgSprite = bg.GetComponent<SpriteRenderer>().sprite;
-            var activePos = settingsButton.transform.GetChild(3).transform.localPosition;
-            var selectedPos = settingsButton.transform.GetChild(4).transform.localPosition;
-            chatButton.transform.GetChild(2).transform.localPosition = inactivePos;
-            var chatBg = chatButton.transform.GetChild(3);
-            chatBg.transform.localPosition = bgPos;
-            chatBg.GetComponent<SpriteRenderer>().sprite = bgSprite;
-            chatButton.transform.GetChild(4).transform.localPosition = activePos;
-            chatButton.transform.GetChild(5).transform.localPosition = selectedPos;
-            var collider = chatButton.GetComponent<BoxCollider2D>();
-            collider.size = new Vector2(0.4354f, 0.4003f);
-            collider.offset = new Vector2(0.0025f, 0.0254f);
-            if (FriendsListManager.InstanceExists && !TutorialManager.InstanceExists)
-            {
-                var listButton = FriendsListManager.Instance.FriendsListButton.transform.GetChild(0);
-                listButton.transform.SetParent(UiTopRight.transform, false);
-                FriendsListManager.Instance.FriendsListButton = listButton.GetComponent<FriendsListButton>();
-                listButton.GetComponent<AspectPosition>().Destroy();
-                listButton.localPosition = new Vector3(0, 0, 0);
-            }
-            settingsButton.transform.SetAsLastSibling();
-            chatButton.transform.SetParent(UiTopRight.transform, false);
-            instance.Chat.chatButton = chatButton.GetComponent<PassiveButton>();
-            var iconContainer = new GameObject("iconContainer")
-            {
-                layer = LayerMask.NameToLayer("UI")
-            };
-            iconContainer.transform.SetParent(chatButton.transform, false);
-            iconContainer.transform.localPosition = new Vector3(0.1f, -0.1f, 0);
-            instance.Chat.chatNotifyDot.transform.SetParent(iconContainer.transform, false);
-            instance.Chat.chatNotifyDot = iconContainer.transform.GetChild(0).GetComponent<SpriteRenderer>();
-            TeamChatPatches.PublicChatDot = instance.Chat.chatNotifyDot;
-        }
-
-        if (UiTopRight && UiGrid)
-        {
-            var isChatButtonVisible = HudManager.Instance.Chat.isActiveAndEnabled;
-            instance.Chat.chatButton.gameObject.SetActive(isChatButtonVisible);
-            if (VanillaMatchInfoButton)
-            {
-                VanillaMatchInfoButton.SetActive(false);
-            }
-        }
-    }
-    public static void CreateNewUiRow(HudManager instance)
-    {
-        if (!ExtraUiTopRight && UiTopRight)
-        {
-            ExtraUiTopRight = new GameObject("ExtraUiTopRight")
-            {
-                layer = UiTopRight.layer
-            };
-            ExtraUiTopRight.transform.SetParent(instance.MapButton.transform.parent.parent, false);
-
-            ExtraUiGrid = ExtraUiTopRight.AddComponent<GridArrange>();
-            ExtraUiAspectPos = ExtraUiTopRight.AddComponent<AspectPosition>();
-
-            ExtraUiGrid.Alignment = GridArrange.StartAlign.Left;
-            ExtraUiGrid.CellSize = new Vector2(0.85f, 0.85f);
-            ExtraUiAspectPos.Alignment = AspectPosition.EdgeAlignments.RightTop;
-            ExtraUiAspectPos.DistanceFromEdge = BelowOptionPos;
-            ExtraUiGrid.Start();
-        }
-    }
-
     public static void CreateWikiButton(HudManager instance)
     {
-        if (!WikiButton && UiTopRight && ExtraUiTopRight)
+        if (!WikiButton && MiraHudHelper.UiTopRight && MiraHudHelper.ExtraUiTopRight && MiraHudHelper.VanillaMatchInfoButton)
         {
-            WikiButton = Object.Instantiate(instance.MapButton.gameObject, ExtraUiTopRight.transform);
+            WikiButton = Object.Instantiate(instance.MapButton.gameObject, MiraHudHelper.ExtraUiTopRight.transform);
             WikiButton.name = "WikiButton";
             WikiButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
             WikiButton.GetComponent<PassiveButton>().OnClick.AddListener((UnityAction)(() =>
@@ -690,7 +570,9 @@ public static class HudManagerPatches
             active.localPosition = new Vector3(0, 0.021f, -0.1f);
 
             WikiButton.GetComponentInChildren<AspectPosition>().Destroy();
-            TouLocalTabButtons.SetUpButtonPositions();
+            OldVanillaWikiButton = MiraHudHelper.VanillaMatchInfoButton;
+            MiraHudHelper.VanillaMatchInfoButton = null!;
+            MiraApiSettings.SetUpButtonPositions();
         }
 
         if (WikiButton)
@@ -698,24 +580,10 @@ public static class HudManagerPatches
             WikiButton.SetActive(!GameSettingMenu.Instance &&
                                  (!Minigame.Instance || Minigame.Instance is IngameWikiMinigame));
         }
-    }
 
-    public static void AdjustModifierTab()
-    {
-        if (!ModifierDisplayObject && UiTopRight && ExtraUiTopRight && ModifierDisplayComponent.Instance)
+        if (OldVanillaWikiButton)
         {
-            ModifierDisplayObject = ModifierDisplayComponent.Instance?.gameObject ?? null!;
-            ModifierDisplayOnRight = !LocalSettingsTabSingleton<MiraApiSettings>.Instance.ModifiersHudLeftSide.Value;
-            if (ModifierDisplayOnRight)
-            {
-                ModifierDisplayObject.transform.SetParent(ExtraUiTopRight.transform, false);
-                ModifierDisplayObject.GetComponent<AspectPosition>().Destroy();
-                var oldPos = ModifierDisplayObject.transform.GetChild(0).localPosition;
-                ModifierDisplayObject.transform.GetChild(0).localPosition = new Vector3(-1.1757f, -2.1633f, oldPos.z);
-                oldPos = ModifierDisplayObject.transform.GetChild(1).localPosition;
-                ModifierDisplayObject.transform.GetChild(1).localPosition = new Vector3(-0.45f, 0.3f, oldPos.z);
-            }
-            TouLocalTabButtons.SetUpButtonPositions();
+            OldVanillaWikiButton.SetActive(false);
         }
     }
 
@@ -723,16 +591,21 @@ public static class HudManagerPatches
         ((PlayerControl.LocalPlayer.DiedOtherRound() &&
           (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
            PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) ||
-         (TutorialManager.InstanceExists && LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInPractice.Value) ||
-         (GameStartManager.InstanceExists && LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInLobby.Value)) && !(HudManager.Instance.GameMenu.IsOpen ||
-                                                 HudManager.Instance.Chat.IsOpenOrOpening ||
-                                                 MeetingHud.Instance || Minigame.Instance ||
-                                                 PlayerCustomizationMenu.Instance ||
-                                                 FriendsListUI.Instance && FriendsListUI.Instance.IsOpen ||
-                                                 GameStartManager.InstanceExists &&
-                                                 (GameStartManager.Instance.RulesViewPanel &&
-                                                  GameStartManager.Instance.RulesViewPanel.active ||
-                                                  GameSettingMenu.Instance));
+         (TutorialManager.InstanceExists &&
+          LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInPractice.Value) ||
+         (GameStartManager.InstanceExists &&
+          LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInLobby.Value)) &&
+        !(HudManager.Instance.GameMenu.IsOpen ||
+          DraftManager.IsDraftActive ||
+          HudManager.Instance.Chat.IsOpenOrOpening ||
+          MeetingHud.Instance || Minigame.Instance ||
+          PlayerCustomizationMenu.Instance ||
+          FriendsListUI.Instance && FriendsListUI.Instance.IsOpen ||
+          MatchInfoGuide.Instance && MatchInfoGuide.Instance.IsActive ||
+          GameStartManager.InstanceExists &&
+          (GameStartManager.Instance.RulesViewPanel &&
+           GameStartManager.Instance.RulesViewPanel.active ||
+           GameSettingMenu.Instance));
 
     private static bool _registeredSoftModifiers;
     public static string StoredTasksText { get; private set; } = "Tasks";
@@ -747,7 +620,7 @@ public static class HudManagerPatches
     public static string StoredMinimum { get; private set; } = "Min";
     public static string StoredMaximum { get; private set; } = "Max";
     public static string StoredDraftTitle { get; private set; } = "Draft Mode";
-    internal static List<string> StoredRoleBuckets =
+    public static readonly List<string> StoredRoleBuckets =
     [
         "CrewInvestigative",
         "CrewKilling",
@@ -793,19 +666,19 @@ public static class HudManagerPatches
         IconOnRoleName = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.ShowRoleIcons.Value;
         StoredHostLocale = TranslationController.Instance.GetString(StringNames.HostNounEmpty);
         StoredTasksText = TranslationController.Instance.GetString(StringNames.Tasks);
-        StoredSpectatingLocale = TouLocale.Get("TouRoleSpectator");
-        StoredRoleList = TouLocale.Get("SetRoleList");
-        StoredFactionList = TouLocale.Get("NeutralFactionList");
-        StoredDraftTitle = TouLocale.Get("StoredDraftTitle");
+        StoredSpectatingLocale = MiraLocaleManager.Get("TownOfUsMira.Role.Spectator");
+        StoredRoleList = MiraLocaleManager.Get("SetRoleList");
+        StoredFactionList = MiraLocaleManager.Get("NeutralFactionList");
+        StoredDraftTitle = MiraLocaleManager.Get("StoredDraftTitle");
         List<string> lists =
         [
-            TouLocale.Get("NeutralBenigns"),
-            TouLocale.Get("NeutralEvils"),
-            TouLocale.Get("NeutralOutliers"),
-            TouLocale.Get("NeutralKillers")
+            MiraLocaleManager.Get("NeutralBenigns"),
+            MiraLocaleManager.Get("NeutralEvils"),
+            MiraLocaleManager.Get("NeutralOutliers"),
+            MiraLocaleManager.Get("NeutralKillers")
         ];
         List<string> listsNew = [];
-        var neutKeyword = TouLocale.Get("NeutralKeyword");
+        var neutKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral");
         foreach (var alignment in lists)
         {
             var text = alignment;
@@ -825,15 +698,13 @@ public static class HudManagerPatches
         NeutralEvils = listsNew[1];
         NeutralOutliers = listsNew[2];
         NeutralKillers = listsNew[3];
-        StoredMinimum = TouLocale.Get("MinimumShort");
-        StoredMaximum = TouLocale.Get("MaximumShort");
-        List<string> localizedRoleList = [];
-        foreach (var bucket in StoredRoleBuckets)
+        StoredMinimum = MiraLocaleManager.Get("MinimumShort");
+        StoredMaximum = MiraLocaleManager.Get("MaximumShort");
+        StoredRoleBuckets.Clear();
+        foreach (var bucket in RoleOptions.OptionStrings)
         {
-            localizedRoleList.Add(MiscUtils.GetParsedRoleBucket(bucket));
+            StoredRoleBuckets.Add(MiraLocaleManager.Get(bucket));
         }
-
-        RoleOptions.OptionStrings = localizedRoleList.ToArray();
         if (!_registeredSoftModifiers)
         {
             var modifiers = MiscUtils.AllModifiers.Where(x =>
@@ -847,9 +718,6 @@ public static class HudManagerPatches
 
             _registeredSoftModifiers = true;
         }
-
-        MiraApiSettings.OldButtonScaleFactor =
-            LocalSettingsTabSingleton<MiraApiSettings>.Instance.ButtonUIFactorSlider.Value;
 
         TownOfUsColors.UseBasic = false;
         BucketTooltipData.AllRoles.Clear();
@@ -872,10 +740,6 @@ public static class HudManagerPatches
 
         TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance
             .UseCrewmateTeamColorToggle.Value;
-        
-        TouLocalTabButtons.OldButtonScaleFactor =
-            LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ButtonUIFactorSlider.Value;
-        Coroutines.Start(TouLocalTabButtons.CoResizeSettingsUI());
     }
 
     internal static readonly Dictionary<RoleListOption, RoleAlignment> TooltipAlignments = new()

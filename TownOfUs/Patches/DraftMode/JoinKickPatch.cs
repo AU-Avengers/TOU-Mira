@@ -14,10 +14,10 @@ public static class KickOnJoinWhileLockedPatch
     [HarmonyPostfix]
     public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
     {
-        if (!DraftManager.IsDraftActive) return;
+        if (!DraftManager.IsDraftActive && DraftApplier.PendingDraftStates.Count == 0) return;
         if (!AmongUsClient.Instance.AmHost) return;
 
-        var reason = TouLocale.GetParsed("TouDraftKickReason", "You were kicked because you tried to join mid-draft. Please try again when lobby is open");
+        var reason = MiraLocaleManager.Get("TouDraftKickReason", "You were kicked because you tried to join mid-draft. Please try again when lobby is open");
 
         Error($"Client {client.Id} ({client.PlayerName}) was kicked due to joining mid-draft.");
 

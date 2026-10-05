@@ -42,6 +42,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
     public static HudManagerHelper Instance { get; private set; }
     public float DeathTimer;
     public int CurrentRound { get; set; } = 1;
+    public GameObject VentButtonDisabledSprite { get; set; }
+    public GameObject SabotageButtonDisabledSprite { get; set; }
     public static void RefreshPlatformData()
     {
         PlatformAssociations.Clear();
@@ -85,8 +87,11 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         Instance = this;
     }
 
+#pragma warning disable S2325
+#pragma warning disable CA1822
     public void Start()
     {
+        HudManagerPatches.HasAdjustedSubButton = false;
         foreach (var button in CustomButtonManager.Buttons)
         {
             try
@@ -103,10 +108,41 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     var genericEvent = new ExtendedMiraButtonClickEvent(button);
                     if (PlayerControl.LocalPlayer.TryGetModifier<IndirectAttackerModifier>(out var indirectMod))
                     {
+                        Warning($"Has Attacker Modifier!");
                         genericEvent.IsIndirectInteraction = true;
                         genericEvent.IgnoreDefense = indirectMod.IgnoreShield;
                     }
-                    MiraEventManager.InvokeEvent(genericEvent);
+
+                    if (ModCompatibility.ExposedEventWrappers.TryGetValue(typeof(ExtendedMiraButtonClickEvent),
+                            out var handlers) && handlers != null && handlers.Count != 0)
+                    {
+                        foreach (var handler in handlers)
+                        {
+                            try
+                            {
+                                ((Action<ExtendedMiraButtonClickEvent>)handler.EventHandler).Invoke(genericEvent);
+                            }
+                            catch (Exception ex)
+                            {
+                                Error($"Error invoking event handler for {nameof(ExtendedMiraButtonClickEvent)}: {ex.ToString()}");
+                            }
+                        }
+                    }
+                    if (ModCompatibility.ExposedEventWrappers.TryGetValue(typeof(MiraButtonClickEvent),
+                            out var otherHandlers) && otherHandlers != null && otherHandlers.Count != 0)
+                    {
+                        foreach (var handler in otherHandlers)
+                        {
+                            try
+                            {
+                                ((Action<MiraButtonClickEvent>)handler.EventHandler).Invoke(genericEvent);
+                            }
+                            catch (Exception ex)
+                            {
+                                Error($"Error invoking event handler for {nameof(MiraButtonClickEvent)}: {ex.ToString()}");
+                            }
+                        }
+                    }
                     if (genericEvent.IsCancelled)
                     {
                         MiraEventManager.InvokeEvent(new MiraButtonCancelledEvent(button));
@@ -144,9 +180,9 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 Error($"Failed to create custom button {button.GetType().Name}: {e}");
             }
         }
+        VentButtonDisabledSprite = HudManager.Instance.ImpostorVentButton.CreateDeathDisabledSprite();
+        SabotageButtonDisabledSprite = HudManager.Instance.SabotageButton.CreateDeathDisabledSprite();
     }
-#pragma warning disable S2325
-    #pragma warning disable CA1822
     public void FixedUpdate()
     {
         if (!HudManager.InstanceExists || !PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
@@ -156,12 +192,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
         var instance = HudManager.Instance;
 
-        HudManagerPatches.CreateUiRow(instance);
-        HudManagerPatches.CreateNewUiRow(instance);
-
         HudManagerPatches.CreateWikiButton(instance);
         HudManagerPatches.CreateZoomButton(instance);
-        HudManagerPatches.AdjustModifierTab();
 
         HudManagerPatches.UpdateRoleList(instance);
         HudManagerPatches.UpdateTeamChat();
@@ -173,7 +205,6 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         {
             return;
         }
-        HudManagerPatches.UpdateSubmergedButtons(instance);
         
         if (!PlayerControl.LocalPlayer.Data.Role ||
             !ShipStatus.Instance ||
@@ -227,8 +258,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         TimeLordPatches.RecordTimeLordSnapshot(instance);
         if (PlayerControl.LocalPlayer.Data.IsDead && ghostRole != null)
         {
-            GhostRolePatches.HandleGhostRoleVent(instance, ghostRole);
-            SubmergedHudPatch.UpdateFloorButton(instance, ghostRole);
+            HudManagerPatches.UpdateSubmergedButtons(instance, ghostRole);
         }
     }
     #pragma warning restore CA1822
@@ -326,7 +356,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         {
             foreach (var playerVA in MeetingHud.Instance.playerStates)
             {
-                if (!playerVA.gameObject.active)
+                if (!playerVA.gameObject || !playerVA.gameObject.active)
                 {
                     continue;
                 }
@@ -428,12 +458,6 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var playerName = player.GetAppearance().PlayerName ?? "Unknown";
         var playerColor = Color.white;
 
-        if (colorPlayerNames && PlayerControl.LocalPlayer.IsImpostorAligned() && player.IsImpostorAligned() &&
-            !player.AmOwner && !isImpFfa)
-        {
-            playerColor = Color.red;
-        }
-
         playerColor = playerColor.UpdateTargetColor(player);
         playerName = playerName.UpdateTargetSymbols(player, !isVisible);
         playerName = playerName.UpdateProtectionSymbols(player, !isVisible);
@@ -453,12 +477,17 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var roleName = "";
         var topText = "";
         var bottomText = "";
-        var impostorBuddy = localImp && player.IsImpostorAligned();
+        var playerIsImp = player.IsImpostorAligned();
+        var impostorBuddy = localImp && playerIsImp;
         var vampBuddy = localVamp && role is VampireRole;
         var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
         var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
         if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
         {
+            if (!isImpFfa && playerIsImp && !OptionGroupSingleton<GeneralOptions>.Instance.ImpsKnowRoles.Value && !player.AmOwner && !revealed && !localGhost && !localSleuth)
+            {
+                role = RoleManager.Instance.GetRole(RoleTypes.Impostor);
+            }
             color = role.TeamColor;
             roleName = $"<size={roleNameSize}>{MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{role.GetRoleName()}</color></size>";
 

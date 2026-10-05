@@ -6,14 +6,16 @@ using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
+using MiraAPI;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Patches.Hud;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Integrations;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Maps;
-using TownOfUs.Patches;
 using TownOfUs.Roles;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -109,29 +111,48 @@ public static class ModCompatibility
     public static bool AleLuduLoaded { get; private set; }
     public static BasePlugin AleLuduPlugin { get; private set; }
     public static Assembly AleLuduAssembly { get; private set; }
+
+
+    public const string MciGuid = "auavengers.tou.mci";
+    public static Version MciVersion { get; private set; }
+    public static bool MciLoaded { get; private set; }
+    public static BasePlugin MciPlugin { get; private set; }
+    public static Assembly MciAssembly { get; private set; }
     
-    /*public const string CorsacGuid = "CorsacCosmetics";
+    public const string CorsacGuid = "CorsacCosmetics";
     public static Version CorsacVersion { get; private set; }
     public static bool CorsacLoaded { get; private set; }
     public static BasePlugin CorsacPlugin { get; private set; }
     public static Assembly CorsacAssembly { get; private set; }
     public static Type[] CorsacTypes { get; private set; }
-    private static readonly Dictionary<Assembly, string> ResourceBundles = new();
-    public static void AddCorsacResourceBundle(Assembly assembly, string resourcePath)
-    {
-        ResourceBundles.Add(assembly, resourcePath);
-    }*/
+    private static MethodInfo QueueBundleDownload;
+
     public const string PerfectCommsGuid = "com.edgetel.perfectcomms";
+    public static readonly Dictionary<Type, List<MiraEventWrapper>> ExposedEventWrappers = [];
+    public static BasePlugin ApiPlugin { get; private set; }
+    public static Assembly ApiAssembly { get; private set; }
+    public static Type[] ApiTypes { get; private set; }
+
+    public static void TryDownloadCosmeticBundle(string bundlePath, string downloadLink, string? outputFolder = null)
+    {
+        if (!CorsacLoaded || File.Exists(bundlePath))
+        {
+            return;
+        }
+        QueueBundleDownload.Invoke(null, [downloadLink, outputFolder]);
+    }
     
     public static void Initialize()
     {
+        InitApiExposing();
         InitBetterAmongUs();
         InitSubmerged();
         InitLevelImpostor();
         InitCrowded();
         InitAleLudu();
+        InitMci();
         InitLaunchpad();
-        // InitCorsac();
+        InitCorsac();
         InitPerfectComms();
 
         var sBuilder = new StringBuilder();
@@ -144,6 +165,51 @@ public static class ModCompatibility
         }
 
         InternalModList = sBuilder.ToString();
+    }
+
+    private static void InitApiExposing()
+    {
+        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(MiraApiPlugin.Id, out var value))
+        {
+            return;
+        }
+
+        ApiPlugin = (value.Instance as BasePlugin)!;
+        ApiAssembly = ApiPlugin.GetType().Assembly;
+        ApiTypes = AccessTools.GetTypesFromAssembly(ApiAssembly);
+        var staticClassType = typeof(MiraEventManager); 
+        var dictField = staticClassType.GetField("EventWrappers", BindingFlags.NonPublic | BindingFlags.Static);
+
+        if (dictField != null)
+        {
+            // 3. Extract the dictionary object from the instance
+            var dictionaryObject = dictField.GetValue(null);
+
+            var dictionary = dictionaryObject as Dictionary<Type, List<MiraEventWrapper>>;
+
+            if (dictionary != null)
+            {
+                Info($"Successfully found api event wrappers");
+                foreach (var pair in dictionary)
+                {
+                    ExposedEventWrappers.Add(pair.Key, pair.Value);
+                }
+            }
+        }
+
+        // This is done to fix locale icons.
+        foreach (var locale in MiraLocaleManager.LangList)
+        {
+            var dict = MiraLocaleManager.Locale[locale.Key];
+            dict["TouOptionDoubleShotAmount.Imp"] = "<sprite name=\"AmongUs.Role.Impostor.Masked\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionDoubleShotAmount");
+            dict["TouOptionDoubleShotChance.Imp"] = "<sprite name=\"AmongUs.Role.Impostor.Masked\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionDoubleShotChance");
+            dict["TouOptionDoubleShotAmount.Neut"] = "<sprite name=\"AmongUs.Role.Neutral.Masked\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionDoubleShotAmount");
+            dict["TouOptionDoubleShotChance.Neut"] = "<sprite name=\"AmongUs.Role.Neutral.Masked\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionDoubleShotChance");
+            dict["TouOptionOverclockerAmount.Imp"] = "<sprite name=\"AmongUs.Role.Impostor.Masked\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionOverclockerAmount");
+            dict["TouOptionOverclockerChance.Imp"] = "<sprite name=\"AmongUs.Role.Impostor.Masked\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionOverclockerChance");
+            dict["TouOptionOverclockerAmount.Neut"] = "<sprite name=\"AmongUs.Role.Neutral.Masked\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionOverclockerAmount");
+            dict["TouOptionOverclockerChance.Neut"] = "<sprite name=\"AmongUs.Role.Neutral.Masked\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionOverclockerChance");
+        }
     }
     
     private static void InitPerfectComms()
@@ -216,7 +282,35 @@ public static class ModCompatibility
         harmony.Patch(detConstruct, new HarmonyMethod(AccessTools.Method(compatType, nameof(AdjustRoleBehaviour))));
     }
 #pragma warning restore S3011
-    /*public static void InitCorsac()
+    public static string StarlightPath => Environment.GetEnvironmentVariable("STAR_DATA_PATH")!;
+    
+    public static string BasePath { get; } = Path.Combine(
+        OperatingSystem.IsAndroid() ? StarlightPath : Paths.GameRootPath,
+        "CorsacCosmetics"
+    );
+
+    public static string BundlePath { get; } = Path.Combine(BasePath, "Bundles");
+    public static readonly string[] CosmeticsArray =
+    {
+        "15Streamers",
+        "Atony",
+        "GhostEjims",
+        "HannahTheBeef",
+        "Kazumai",
+        "LittleDooDoo",
+        "OneOffs",
+        "Ophidian",
+        "PhasmoFireGod",
+        "Pigoletto",
+        "Ressnie",
+        "Rum",
+        "Sarinjin",
+        "SugaNope",
+        "Sweetrolled",
+        "TheLastShaymin",
+        "Tori"
+    };
+    public static void InitCorsac()
     {
         if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(CorsacGuid, out var plugin))
         {
@@ -228,18 +322,18 @@ public static class ModCompatibility
 
         CorsacAssembly = CorsacPlugin.GetType().Assembly;
         CorsacTypes = AccessTools.GetTypesFromAssembly(CorsacAssembly);
-        var bundleLoader = CorsacTypes.First(t => t.Name == "BundleLoader");
-        var addResourceHandler = AccessTools.Method(bundleLoader, "AddResourceBundle", [typeof(Assembly), typeof(string)]);
-        if (ResourceBundles.HasAny())
-        {
-            foreach (var pair in ResourceBundles)
-            {
-                addResourceHandler.Invoke(null, [pair.Key, pair.Value]);
-            }
-        }
+        var pluginCompat = CorsacTypes.First(t => t.Name == "PluginCompat");
+        QueueBundleDownload = AccessTools.Method(pluginCompat, "QueueBundleDownload", [typeof(string), typeof(string)]);
         CorsacLoaded = true;
-        Message("Corsac Cosmetics was detected");
-    }*/
+        Message("Corsac Cosmetics was detected, attempting to load hats now if they're not already downloaded.");
+        Directory.CreateDirectory(BundlePath);
+
+        foreach (var cosmetic in CosmeticsArray)
+        {
+            TryDownloadCosmeticBundle(Path.Combine(BundlePath, $"TownOfUs.{cosmetic}.ccb"),
+                $"https://github.com/AU-Avengers/TownOfUs-Cosmetics/raw/refs/heads/main/Bundles/TownOfUs.{cosmetic}.ccb");
+        }
+    }
 
     public static void InitSubmerged()
     {
@@ -331,8 +425,8 @@ public static class ModCompatibility
 
     public static bool FloorStylePrefix(bool isMovingUp)
     {
-        var hoverRend = HudManagerPatches.SubmergedFloorButtonRendererHover;
-        var basicRend = HudManagerPatches.SubmergedFloorButtonRenderer;
+        var hoverRend = MiraHudHelper.SubmergedFloorButtonRendererHover;
+        var basicRend = MiraHudHelper.SubmergedFloorButtonRenderer;
         if (basicRend && hoverRend)
         {
             if (isMovingUp)
@@ -453,12 +547,12 @@ public static class ModCompatibility
 
     public static void OxygenDeathPostfix(PlayerControl player)
     {
-        GameHistory.UpdatePlayerDeathData(player.PlayerId, TouLocale.Get("DiedToSubmergedOxygen"),
+        GameHistory.UpdatePlayerDeathData(player.PlayerId, MiraLocaleManager.Get("DiedToSubmergedOxygen"),
             0f, HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetTrue,
-        lockInfo: DeathHandlerOverride.SetTrue);
+            lockInfo: DeathHandlerOverride.SetTrue);
     }
 
-    public static string SelectedRoleName;
+public static string SelectedRoleName;
     public static bool SelectedRoleStatus = true;
     public static void AdjustRoleBehaviour(object __instance, ref bool __state)
     {
@@ -740,6 +834,21 @@ public static class ModCompatibility
         Message("AleLuduMod was detected");
     }
 
+    private static void InitMci()
+    {
+        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(MciGuid, out var value))
+        {
+            return;
+        }
+
+        MciPlugin = (value.Instance as BasePlugin)!;
+        MciAssembly = MciPlugin.GetType().Assembly;
+        MciVersion = value.Metadata.Version;
+
+        MciLoaded = true;
+        Message("ToU MCI was detected.");
+    }
+
     public static string GetLIVentType(Vent vent)
     {
         if (!IsLevelImpostor() || vent == null)
@@ -794,4 +903,5 @@ public static class ModCompatibility
             return;
         }
     }
-}
+
+    }

@@ -85,7 +85,7 @@ public static class GhostRoleEvents
     [RegisterEvent]
     public static void ChangeRoleHandler(ChangeRoleEvent @event)
     {
-        if (!PlayerControl.LocalPlayer)
+        if (!PlayerControl.LocalPlayer || !@event.NewRole)
         {
             return;
         }
@@ -181,7 +181,7 @@ public static class GhostRoleEvents
         }
     }
 
-    [RegisterEvent]
+    [RegisterEvent(10000000)]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
         if (@event.TriggeredByIntro)

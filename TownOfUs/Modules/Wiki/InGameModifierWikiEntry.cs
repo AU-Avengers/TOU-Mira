@@ -2,6 +2,7 @@ using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
+using MiraAPI.Utilities;
 using Reactor.Utilities.Attributes;
 using TMPro;
 using TownOfUs.Modifiers;
@@ -36,8 +37,8 @@ public sealed class InGameModifierWikiEntry(IntPtr cppPtr) : MonoBehaviour(cppPt
         }
 
         var txt = amount != 0
-            ? $"{TouLocale.Get("Amount", "Amount")}: {amount} - {TouLocale.Get("Chance", "Chance")}: {chance}%"
-            : $"{TouLocale.Get("Amount", "Amount")}: 0";
+            ? $"{MiraLocaleManager.Get("Amount", "Amount")}: {amount} - {MiraLocaleManager.Get("Chance", "Chance")}: {chance}%"
+            : $"{MiraLocaleManager.Get("Amount", "Amount")}: 0";
 
         EntryTitle = Modifier.ModifierName;
         gameObject.name = $"{EntryTitle.ToLower(TownOfUsPlugin.Culture)} - {EntryTeam.ToLower(TownOfUsPlugin.Culture)} - {EntrySource.ToLower(TownOfUsPlugin.Culture)}";

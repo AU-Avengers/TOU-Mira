@@ -1,5 +1,4 @@
-﻿using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
+﻿using MiraAPI.GameOptions.Attributes;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Universal;
 using UnityEngine;
@@ -8,8 +7,8 @@ namespace TownOfUs.Options.Modifiers.Universal;
 
 public sealed class SatelliteOptions : AbstractTouModifierOptionGroup<SatelliteModifier>
 {
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
-    public override string GroupName => TouLocale.Get("TouModifierSatellite", "Satellite");
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Satellite", "Satellite");
     public override uint GroupPriority => 34;
     public override Color GroupColor => TownOfUsColors.Satellite;
 

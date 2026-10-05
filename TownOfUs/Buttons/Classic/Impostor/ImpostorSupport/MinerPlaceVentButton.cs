@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAftermathableButton, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleMinerMine", "Mine");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.MinerMine", "Mine");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<MinerOptions>.Instance.MineCooldown + MapCooldown, 5f, 120f);
@@ -49,6 +49,7 @@ public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAfter
 
         var hits = Physics2D.OverlapBoxAll(PlayerControl.LocalPlayer.transform.position, VentSize, 0);
 
+        // TODO: Figure out why decon doors aren't being checked.
         hits = hits.Where(c =>
             (c.name.Contains("Vent") || c.name.Contains("Door") || !c.isTrigger) && c.gameObject.layer != 8 &&
             c.gameObject.layer != 5).ToArray();

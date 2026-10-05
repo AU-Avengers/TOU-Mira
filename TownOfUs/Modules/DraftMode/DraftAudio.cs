@@ -10,20 +10,18 @@ public static class DraftAudio
 
     private static DraftAudioCueMode GetConfiguredCueMode()
     {
+        var instance = LocalSettingsTabSingleton<TouLocalTabPractice>.Instance;
+            if (instance?.DraftAudioCue != null)
+            {
+                return instance.DraftAudioCue.Value;
+            }
         try
         {
             return TouLocalTabPractice.CurrentDraftAudioCueMode;
         }
         catch (Exception)
         {
-            try
-            {
-                return LocalSettingsTabSingleton<TouLocalTabPractice>.Instance?.DraftAudioCue?.Value ?? DraftAudioCueMode.None;
-            }
-            catch (Exception)
-            {
-                return DraftAudioCueMode.None;
-            }
+            return DraftAudioCueMode.None;
         }
     }
 

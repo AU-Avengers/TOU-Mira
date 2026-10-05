@@ -62,12 +62,12 @@ public static class UpCommandRequests
             allRoles.FirstOrDefault(r =>
                 r.GetRoleName().Equals(roleName, StringComparison.OrdinalIgnoreCase) ||
                 r.GetRoleName().Replace(" ", "").Equals(roleName.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
-                (r is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleName, StringComparison.OrdinalIgnoreCase)))
+                (r is ITownOfUsRole touRole && touRole.IdPart.Equals(roleName, StringComparison.OrdinalIgnoreCase)))
             ?? allRoles.FirstOrDefault(r =>
                 r.GetRoleName().Contains(roleName, StringComparison.OrdinalIgnoreCase) ||
                 roleName.Contains(r.GetRoleName(), StringComparison.OrdinalIgnoreCase) ||
-                (r is ITownOfUsRole touRole2 && (touRole2.LocaleKey.Contains(roleName, StringComparison.OrdinalIgnoreCase) ||
-                                                 roleName.Contains(touRole2.LocaleKey, StringComparison.OrdinalIgnoreCase))));
+                (r is ITownOfUsRole touRole2 && (touRole2.IdPart.Contains(roleName, StringComparison.OrdinalIgnoreCase) ||
+                                                 roleName.Contains(touRole2.IdPart, StringComparison.OrdinalIgnoreCase))));
         if (role == null)
         {
             return false;
@@ -122,12 +122,12 @@ public static class UpCommandRequests
             allRoles.FirstOrDefault(r =>
                 r.GetRoleName().Equals(roleName, StringComparison.OrdinalIgnoreCase) ||
                 r.GetRoleName().Replace(" ", "").Equals(roleName.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
-                (r is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleName, StringComparison.OrdinalIgnoreCase)))
+                (r is ITownOfUsRole touRole && touRole.IdPart.Equals(roleName, StringComparison.OrdinalIgnoreCase)))
             ?? allRoles.FirstOrDefault(r =>
                 r.GetRoleName().Contains(roleName, StringComparison.OrdinalIgnoreCase) ||
                 roleName.Contains(r.GetRoleName(), StringComparison.OrdinalIgnoreCase) ||
-                (r is ITownOfUsRole touRole2 && (touRole2.LocaleKey.Contains(roleName, StringComparison.OrdinalIgnoreCase) ||
-                                                 roleName.Contains(touRole2.LocaleKey, StringComparison.OrdinalIgnoreCase))));
+                (r is ITownOfUsRole touRole2 && (touRole2.IdPart.Contains(roleName, StringComparison.OrdinalIgnoreCase) ||
+                                                 roleName.Contains(touRole2.IdPart, StringComparison.OrdinalIgnoreCase))));
         if (foundRole == null)
         {
             return false;

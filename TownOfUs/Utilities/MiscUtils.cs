@@ -17,13 +17,16 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using MiraAPI.GameModes;
 using PowerTools;
 using TMPro;
 using TownOfUs.Events;
+using TownOfUs.GameModes;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
+using TownOfUs.Modules.DraftMode;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Alliance;
@@ -33,6 +36,7 @@ using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
+using TownOfUs.Roles.TownOfPolus;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -135,14 +139,14 @@ public static class MiscUtils
     /// Gets all registered <see cref="RoleBehaviour"/>s that aren't blacklisted.
     /// </summary>
     /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
-    public static IEnumerable<RoleBehaviour> AllRegisteredRoles => AllInGameRoles.Where(x => !x.IsRoleBlacklisted());
+    public static IEnumerable<RoleBehaviour> AllRegisteredRoles => AllInGameRoles.Where(x => !Enum.IsDefined(x.Role) || !x.IsRoleBlacklisted());
 
     /// <summary>
     /// Gets all registered <see cref="RoleBehaviour"/>s that aren't blacklisted and spawn on the current mode.
     /// </summary>
     /// <returns>A list of <see cref="RoleBehaviour"/>s.</returns>
     public static IEnumerable<RoleBehaviour> SpawnableRoles =>
-        AllInGameRoles.Where(x => !x.IsRoleBlacklisted() && CustomRoleUtils.CanSpawnOnCurrentMode(x));
+        AllInGameRoles.Where(x => (!Enum.IsDefined(x.Role) || !x.IsRoleBlacklisted()) && CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
     public static ReadOnlyCollection<IModdedOption>? GetModdedOptionsForRole(Type classType)
     {
@@ -178,7 +182,7 @@ public static class MiscUtils
 
         var builder = new StringBuilder();
         builder.AppendLine(TownOfUsPlugin.Culture,
-            $"\n<size=50%> \n</size><b>{TownOfUsColors.Vigilante.ToTextColor()}{TouLocale.Get("Options")}</color></b>");
+            $"\n<size=50%> \n</size><b>{TownOfUsColors.Vigilante.ToTextColor()}{MiraLocaleManager.Get("Options")}</color></b>");
 
         var insertedSummary = false;
         foreach (var option in options)
@@ -242,7 +246,7 @@ public static class MiscUtils
                     }
 
                     builder.AppendLine(TranslationController.Instance.GetString(enumOption.StringName) + ": " +
-                                       TouLocale.GetParsed(enumOption.Values[enumOption.Value],
+                                       MiraLocaleManager.Get(enumOption.Values[enumOption.Value],
                                            enumOption.Values[enumOption.Value]));
                     break;
                 case ModdedNumberOption numberOption:
@@ -303,7 +307,7 @@ public static class MiscUtils
         {
             var roleAlignment = alignment;
             if (role.RoleOptionsGroup.Name.Replace(" Roles", "") == roleAlignment.ToDisplayString() ||
-                role.RoleOptionsGroup.Name.Replace($" {TouLocale.Get("Roles")}", "") ==
+                role.RoleOptionsGroup.Name.Replace($" {MiraLocaleManager.Get("Roles")}", "") ==
                 roleAlignment.ToDisplayString())
             {
                 return roleAlignment;
@@ -331,19 +335,23 @@ public static class MiscUtils
         {
             return touRole.RoleAlignment;
         }
-        else if (role is ICustomRole customRole)
+        if (role is ICustomRole customRole)
         {
             var alignments = Enum.GetValues<RoleAlignment>();
             foreach (var alignment in alignments)
             {
                 var roleAlignment = alignment;
                 if (customRole.RoleOptionsGroup.Name.Replace(" Roles", "") == roleAlignment.ToDisplayString() ||
-                    customRole.RoleOptionsGroup.Name.Replace($" {TouLocale.Get("Roles")}", "") ==
+                    customRole.RoleOptionsGroup.Name.Replace($" {MiraLocaleManager.Get("Roles")}", "") ==
                     roleAlignment.ToDisplayString())
                 {
                     return roleAlignment;
                 }
             }
+        }
+        if (role == null)
+        {
+            return RoleAlignment.GameOutlier;
         }
 
         if (role.IsDead)
@@ -477,30 +485,30 @@ public static class MiscUtils
     public static string GetParsedModifierFaction(BaseModifier modifier)
     {
         var localeName = $"{modifier.GetModifierFaction()}";
-        var localizedName = TouLocale.Get(localeName);
+        var localizedName = MiraLocaleManager.Get(localeName);
 
         return localizedName;
     }
 
     public static string GetParsedModifierFaction(ModifierFaction faction, bool coloredText = false)
     {
-        var localizedName = TouLocale.Get($"{faction}");
+        var localizedName = MiraLocaleManager.Get($"{faction}");
 
         if (coloredText)
         {
-            if (localizedName.Contains("Crewmate") || localizedName.Contains(TouLocale.Get("CrewmateKeyword")))
+            if (localizedName.Contains("Crewmate") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate")))
             {
                 localizedName = $"<color=#68ACF4>{localizedName}";
             }
-            else if (localizedName.Contains("Impostor") || localizedName.Contains(TouLocale.Get("ImpostorKeyword")))
+            else if (localizedName.Contains("Impostor") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor")))
             {
                 localizedName = $"<color=#D63F42>{localizedName}";
             }
-            else if (localizedName.Contains("Neutral") || localizedName.Contains(TouLocale.Get("NeutralKeyword")))
+            else if (localizedName.Contains("Neutral") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral")))
             {
                 localizedName = $"<color=#8A8A8A>{localizedName}";
             }
-            else if (localizedName.Contains("Game") || localizedName.Contains(TouLocale.Get("GameKeyword")))
+            else if (localizedName.Contains("Game") || localizedName.Contains(MiraLocaleManager.Get("GameKeyword")))
             {
                 localizedName = $"<color=#888888>{localizedName}";
             }
@@ -517,19 +525,19 @@ public static class MiscUtils
 
     public static string GetColoredFactionString(string text)
     {
-        if (text.Contains("Crewmate") || text.Contains(TouLocale.Get("CrewmateKeyword")))
+        if (text.Contains("Crewmate") || text.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate")))
         {
             text = $"<color=#68ACF4>{text}";
         }
-        else if (text.Contains("Impostor") || text.Contains(TouLocale.Get("ImpostorKeyword")))
+        else if (text.Contains("Impostor") || text.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor")))
         {
             text = $"<color=#D63F42>{text}";
         }
-        else if (text.Contains("Neutral") || text.Contains(TouLocale.Get("NeutralKeyword")))
+        else if (text.Contains("Neutral") || text.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral")))
         {
             text = $"<color=#8A8A8A>{text}";
         }
-        else if (text.Contains("Game") || text.Contains(TouLocale.Get("GameKeyword")))
+        else if (text.Contains("Game") || text.Contains(MiraLocaleManager.Get("GameKeyword")))
         {
             text = $"<color=#888888>{text}";
         }
@@ -546,23 +554,23 @@ public static class MiscUtils
     public static string GetParsedRoleAlignment(ICustomRole role, bool coloredText = false)
     {
         var localeName = $"{role.GetRoleAlignment()}";
-        var localizedName = TouLocale.Get(localeName);
+        var localizedName = MiraLocaleManager.Get(localeName);
 
         if (coloredText)
         {
-            if (localizedName.Contains("Crewmate") || localizedName.Contains(TouLocale.Get("CrewmateKeyword")))
+            if (localizedName.Contains("Crewmate") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate")))
             {
                 localizedName = $"<color=#68ACF4>{localizedName}";
             }
-            else if (localizedName.Contains("Impostor") || localizedName.Contains(TouLocale.Get("ImpostorKeyword")))
+            else if (localizedName.Contains("Impostor") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor")))
             {
                 localizedName = $"<color=#D63F42>{localizedName}";
             }
-            else if (localizedName.Contains("Neutral") || localizedName.Contains(TouLocale.Get("NeutralKeyword")))
+            else if (localizedName.Contains("Neutral") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral")))
             {
                 localizedName = $"<color=#8A8A8A>{localizedName}";
             }
-            else if (localizedName.Contains("Game") || localizedName.Contains(TouLocale.Get("GameKeyword")))
+            else if (localizedName.Contains("Game") || localizedName.Contains(MiraLocaleManager.Get("GameKeyword")))
             {
                 localizedName = $"<color=#888888>{localizedName}";
             }
@@ -579,24 +587,29 @@ public static class MiscUtils
 
     public static string GetParsedRoleAlignment(RoleBehaviour role, bool coloredText = false)
     {
-        var localeName = $"{role.GetRoleAlignment()}";
-        var localizedName = TouLocale.Get(localeName);
+        var roleAlignment = role.GetRoleAlignment();
+        var localeName = $"{roleAlignment}";
+        if (roleAlignment is RoleAlignment.Crewmate or RoleAlignment.Impostor or RoleAlignment.Neutral)
+        {
+            localeName = $"MiraApi.RoleTeam.{roleAlignment}";
+        }
+        var localizedName = MiraLocaleManager.Get(localeName);
 
         if (coloredText)
         {
-            if (localizedName.Contains("Crewmate") || localizedName.Contains(TouLocale.Get("CrewmateKeyword")))
+            if (localizedName.Contains("Crewmate") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate")))
             {
                 localizedName = $"<color=#68ACF4>{localizedName}";
             }
-            else if (localizedName.Contains("Impostor") || localizedName.Contains(TouLocale.Get("ImpostorKeyword")))
+            else if (localizedName.Contains("Impostor") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor")))
             {
                 localizedName = $"<color=#D63F42>{localizedName}";
             }
-            else if (localizedName.Contains("Neutral") || localizedName.Contains(TouLocale.Get("NeutralKeyword")))
+            else if (localizedName.Contains("Neutral") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral")))
             {
                 localizedName = $"<color=#8A8A8A>{localizedName}";
             }
-            else if (localizedName.Contains("Game") || localizedName.Contains(TouLocale.Get("GameKeyword")))
+            else if (localizedName.Contains("Game") || localizedName.Contains(MiraLocaleManager.Get("GameKeyword")))
             {
                 localizedName = $"<color=#888888>{localizedName}";
             }
@@ -614,23 +627,28 @@ public static class MiscUtils
     public static string GetParsedRoleAlignment(RoleAlignment roleAlignment, bool coloredText = false)
     {
         var localeName = $"{roleAlignment}";
-        var localizedName = TouLocale.Get(localeName);
+        if (roleAlignment is RoleAlignment.Crewmate or RoleAlignment.Impostor or RoleAlignment.Neutral)
+        {
+            localeName = $"MiraApi.RoleTeam.{roleAlignment}";
+        }
+
+        var localizedName = MiraLocaleManager.Get(localeName);
 
         if (coloredText)
         {
-            if (localizedName.Contains("Crewmate") || localizedName.Contains(TouLocale.Get("CrewmateKeyword")))
+            if (localizedName.Contains("Crewmate") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate")))
             {
                 localizedName = $"<color=#68ACF4>{localizedName}";
             }
-            else if (localizedName.Contains("Impostor") || localizedName.Contains(TouLocale.Get("ImpostorKeyword")))
+            else if (localizedName.Contains("Impostor") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor")))
             {
                 localizedName = $"<color=#D63F42>{localizedName}";
             }
-            else if (localizedName.Contains("Neutral") || localizedName.Contains(TouLocale.Get("NeutralKeyword")))
+            else if (localizedName.Contains("Neutral") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral")))
             {
                 localizedName = $"<color=#8A8A8A>{localizedName}";
             }
-            else if (localizedName.Contains("Game") || localizedName.Contains(TouLocale.Get("GameKeyword")))
+            else if (localizedName.Contains("Game") || localizedName.Contains(MiraLocaleManager.Get("GameKeyword")))
             {
                 localizedName = $"<color=#888888>{localizedName}";
             }
@@ -666,13 +684,13 @@ public static class MiscUtils
     public static Color GetRoleFactionColor(RoleAlignment roleAlignment, bool useAltColors = false)
     {
         var localeName = $"{roleAlignment}";
-        var localizedName = TouLocale.Get(localeName);
+        var localizedName = MiraLocaleManager.Get(localeName);
 
-        if (localizedName.Contains("Crewmate") || localizedName.Contains(TouLocale.Get("CrewmateKeyword")))
+        if (localizedName.Contains("Crewmate") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate")))
         {
             return useAltColors ? TownOfUsColors.Crewmate : Palette.CrewmateBlue;
         }
-        else if (localizedName.Contains("Impostor") || localizedName.Contains(TouLocale.Get("ImpostorKeyword")))
+        else if (localizedName.Contains("Impostor") || localizedName.Contains(MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor")))
         {
             return useAltColors ? TownOfUsColors.ImpSoft : TownOfUsColors.Impostor;
         }
@@ -682,7 +700,7 @@ public static class MiscUtils
 
     public static IEnumerable<RoleBehaviour> GetRegisteredRoles(RoleAlignment alignment)
     {
-        var roles = AllRoles.Where(x => x.GetRoleAlignment() == alignment);
+        var roles = AllInGameRoles.Where(x => x.GetRoleAlignment() == alignment);
 
         var registeredRoles = roles.ToList();
 
@@ -777,38 +795,27 @@ public static class MiscUtils
         return ModifierUtils.GetPlayersWithModifier<T>().FirstOrDefault();
     }
 
-    public static string GetLocaleKey(ITownOfUsRole role)
+    public static string GetIdPart(ICustomRole role)
     {
-        return role.LocaleKey;
+        return role.IdPart;
     }
 
-    public static string GetLocaleKey(ICustomRole role)
+    public static string GetIdPart(RoleBehaviour role)
     {
-        var name = role.RoleName;
-        if (role is ITownOfUsRole touRole)
+        var name = role.Role.ToString();
+        if (role is ICustomRole customRole)
         {
-            name = touRole.LocaleKey;
+            name = customRole.IdPart;
         }
 
         return name;
     }
 
-    public static string GetLocaleKey(RoleBehaviour role)
-    {
-        var name = role.GetRoleName();
-        if (role is ITownOfUsRole touRole)
-        {
-            name = touRole.LocaleKey;
-        }
-
-        return name;
-    }
-
-    public static string GetLocaleKey(BaseModifier modifier)
+    public static string GetIdPart(BaseModifier modifier)
     {
         if (modifier is TouBaseGameModifier touMod)
         {
-            return touMod.LocaleKey;
+            return touMod.IdPart;
         }
 
         return modifier.ModifierName;
@@ -834,7 +841,7 @@ public static class MiscUtils
         {
             return touMod.Configuration.UiColor;
         }
-        var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
+        var color = GetRoleColour(GetIdPart(modifier).Replace(" ", string.Empty));
         if (modifier is IColoredModifier colorMod)
         {
             color = colorMod.ModifierColor;
@@ -980,11 +987,95 @@ public static class MiscUtils
             chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
         }
 
-        if (showHeadsup && !chat.IsOpenOrOpening)
+        if (showHeadsup && !chat.IsOpenOrOpening && !DraftManager.IsDraftActive)
+        {
+            SoundManager.Instance.PlaySound(chat.messageSound, false).pitch =
+                0.5f + basePlayer.Object.PlayerId / 15f;
+            chat.chatNotification.SetUpNotif(basePlayer.Object, message);
+        }
+    }
+
+    public static void AddSimpleSystemChat(string nameText, string message,
+        bool showHeadsup = false, bool altColors = false)
+    {
+        var chat = HudManager.Instance.Chat;
+
+        var pooledBubble = chat.GetPooledBubble();
+        var clonedBubble = chat.GetPooledBubble();
+        clonedBubble.gameObject.name = TeamChatPatches.PublicBubbleName;
+
+        pooledBubble.transform.SetParent(TeamChatPatches.PublicChatItems);
+        clonedBubble.transform.SetParent(TeamChatPatches.MergedChatItems);
+        pooledBubble.transform.localScale = Vector3.one;
+        clonedBubble.transform.localScale = Vector3.one;
+        pooledBubble.SetLeft();
+        clonedBubble.SetLeft();
+
+        pooledBubble.NameText.text = nameText;
+        pooledBubble.NameText.color = Color.white;
+        pooledBubble.NameText.ForceMeshUpdate(true, true);
+        pooledBubble.votedMark.enabled = false;
+        pooledBubble.Xmark.enabled = false;
+        pooledBubble.TextArea.text = message;
+        pooledBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, pooledBubble.TextArea);
+        pooledBubble.TextArea.ForceMeshUpdate(true, true);
+        pooledBubble.Background.size = new Vector2(5.52f,
+            0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
+        pooledBubble.MaskArea.size = pooledBubble.Background.size - new Vector2(0, 0.03f);
+
+        pooledBubble.NameText.transform.localPosition = new Vector3(-0.2f, 0.358f, 0);
+        pooledBubble.Background.transform.localPosition = new Vector3(2.735f, -1.5801f, 0);
+        pooledBubble.Background.transform.localScale = new Vector3(1.115f, 1, 1);
+        pooledBubble.MaskArea.transform.localPosition = new Vector3(2.725f, -1.5601f, 0.1f);
+        pooledBubble.MaskArea.transform.localScale = new Vector3(1.12f, 1, 1);
+        pooledBubble.NameText.rectTransform.sizeDelta = new Vector2(6, pooledBubble.NameText.rectTransform.sizeDelta.y);
+        pooledBubble.Player.transform.localScale = new Vector3(0, 0, 0);
+        pooledBubble.ColorBlindName.transform.localScale = new Vector3(0, 0, 0);
+
+        clonedBubble.NameText.text = nameText;
+        clonedBubble.NameText.color = Color.white;
+        clonedBubble.NameText.ForceMeshUpdate(true, true);
+        clonedBubble.votedMark.enabled = false;
+        clonedBubble.Xmark.enabled = false;
+        clonedBubble.TextArea.text = message;
+        clonedBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, clonedBubble.TextArea);
+        clonedBubble.TextArea.ForceMeshUpdate(true, true);
+        clonedBubble.Background.size = new Vector2(5.52f,
+            0.2f + clonedBubble.NameText.GetNotDumbRenderedHeight() + clonedBubble.TextArea.GetNotDumbRenderedHeight());
+        clonedBubble.MaskArea.size = clonedBubble.Background.size - new Vector2(0, 0.03f);
+
+        clonedBubble.NameText.transform.localPosition = new Vector3(-0.2f, 0.358f, 0);
+        clonedBubble.Background.transform.localPosition = new Vector3(2.735f, -1.5801f, 0);
+        clonedBubble.Background.transform.localScale = new Vector3(1.115f, 1, 1);
+        clonedBubble.MaskArea.transform.localPosition = new Vector3(2.725f, -1.5601f, 0.1f);
+        clonedBubble.MaskArea.transform.localScale = new Vector3(1.12f, 1, 1);
+        clonedBubble.NameText.rectTransform.sizeDelta = new Vector2(6, clonedBubble.NameText.rectTransform.sizeDelta.y);
+        clonedBubble.Player.transform.localScale = new Vector3(0, 0, 0);
+        clonedBubble.ColorBlindName.transform.localScale = new Vector3(0, 0, 0);
+
+        if (altColors)
+        {
+            pooledBubble.Background.color = Color.black;
+            pooledBubble.TextArea.color = Color.white;
+            clonedBubble.Background.color = Color.black;
+            clonedBubble.TextArea.color = Color.white;
+        }
+
+        pooledBubble.AlignChildren();
+        clonedBubble.AlignChildren();
+        TeamChatPatches.PublicChatBubbles.Add(pooledBubble);
+        TeamChatPatches.MergedChatBubbles.Add(new TeamChatPatches.MergedBubble(clonedBubble, true));
+        TeamChatPatches.AlignAllChatBubbles(chat, ChatToCheck.Public);
+        if (chat is { IsOpenOrOpening: false, notificationRoutine: null })
+        {
+            chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
+        }
+
+        if (showHeadsup && !chat.IsOpenOrOpening && !DraftManager.IsDraftActive)
         {
             SoundManager.Instance.PlaySound(chat.messageSound, false).pitch =
                 0.5f + PlayerControl.LocalPlayer.PlayerId / 15f;
-            chat.chatNotification.SetUp(PlayerControl.LocalPlayer, message);
+            chat.chatNotification.SetUpNotif(PlayerControl.LocalPlayer, message);
         }
     }
 
@@ -1056,11 +1147,11 @@ public static class MiscUtils
             chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
         }
 
-        if (showHeadsup && !chat.IsOpenOrOpening)
+        if (showHeadsup && !chat.IsOpenOrOpening && !DraftManager.IsDraftActive)
         {
             SoundManager.Instance.PlaySound(chat.messageSound, false).pitch =
                 0.5f + PlayerControl.LocalPlayer.PlayerId / 15f;
-            chat.chatNotification.SetUp(PlayerControl.LocalPlayer, message);
+            chat.chatNotification.SetUpNotif(PlayerControl.LocalPlayer, message);
         }
     }
 
@@ -1182,9 +1273,9 @@ public static class MiscUtils
             SoundManager.Instance.PlaySound(chat.messageSound, false).pitch = 0.1f;
         }
 
-        if (showHeadsup && !chat.IsOpenOrOpening)
+        if (showHeadsup && !chat.IsOpenOrOpening && !DraftManager.IsDraftActive)
         {
-            chat.chatNotification.SetUp(PlayerControl.LocalPlayer, message);
+            chat.chatNotification.SetUpNotif(basePlayer.Object, message, inverted: blackoutText);
         }
     }
 
@@ -1647,12 +1738,18 @@ public static class MiscUtils
             var z = 1f + (Effects.ElasticOut(t, duration) - 1f) * intensity;
             z *= finalSize;
             localScale.x = localScale.y = localScale.z = z;
-            target.localScale = localScale;
+            if (target)
+            {
+                target.localScale = localScale;
+            }
             yield return null;
         }
 
         localScale.z = localScale.y = localScale.x = finalSize;
-        target.localScale = localScale;
+        if (target)
+        {
+            target.localScale = localScale;
+        }
     }
 
     public static void AdjustGhostTasks(PlayerControl player)
@@ -1976,37 +2073,6 @@ public static class MiscUtils
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(includePostors, distance);
     }
 
-    public static void SetSizeLimit(this SpriteRenderer sprite, float pixelSize)
-    {
-        sprite.drawMode = SpriteDrawMode.Sliced;
-        if (!sprite.sprite)
-        {
-            return;
-        }
-
-        float spriteWidth = sprite.sprite.rect.width;
-        float spriteHeight = sprite.sprite.rect.height;
-
-        if (spriteWidth < spriteHeight)
-        {
-            sprite.size = new Vector2(pixelSize * spriteWidth / spriteHeight, pixelSize);
-        }
-        else
-        {
-            sprite.size = new Vector2(pixelSize, pixelSize * spriteHeight / spriteWidth);
-        }
-    }
-
-    public static void SetSizeLimit(this GameObject spriteObj, float pixelSize)
-    {
-        if (!spriteObj.TryGetComponent<SpriteRenderer>(out var sprite))
-        {
-            return;
-        }
-
-        sprite.SetSizeLimit(pixelSize);
-    }
-
     public static bool DiedOtherRound(this PlayerControl player)
     {
         if (player == null)
@@ -2058,7 +2124,7 @@ public static class MiscUtils
             : "Outside/Hallway";
     }
 
-    public static void AddMiraTranslator(this GameObject obj, string stringName, bool parseInfo,
+    public static void AddMiraTranslator(this GameObject obj, string stringName,
         string? defaultStr = null)
     {
         if (obj.TryGetComponent<TextTranslatorTMP>(out var amogTmp))
@@ -2069,11 +2135,10 @@ public static class MiscUtils
 
         var translator = obj.AddComponent<TmpMiraTranslator>();
         translator.stringName = stringName;
-        translator.parseStr = parseInfo;
         translator.defaultStr = defaultStr ?? string.Empty;
     }
 
-    public static void AddMiraTranslator(this Transform obj, string stringName, bool parseInfo,
+    public static void AddMiraTranslator(this Transform obj, string stringName,
         string? defaultStr = null)
     {
         if (obj.TryGetComponent<TextTranslatorTMP>(out var amogTmp))
@@ -2084,19 +2149,18 @@ public static class MiscUtils
 
         var translator = obj.gameObject.AddComponent<TmpMiraTranslator>();
         translator.stringName = stringName;
-        translator.parseStr = parseInfo;
         translator.defaultStr = defaultStr ?? string.Empty;
     }
 
     public static string GetParsedRoleBucket(string bucket)
     {
-        var text = TouLocale.Get(bucket);
-        var crewmateKeyword = TouLocale.Get("CrewmateKeyword");
-        var crewKeyword = TouLocale.Get("CrewKeyword");
-        var impostorKeyword = TouLocale.Get("ImpostorKeyword");
-        var impKeyword = TouLocale.Get("ImpKeyword");
-        var neutralKeyword = TouLocale.Get("NeutralKeyword");
-        var neutKeyword = TouLocale.Get("NeutKeyword");
+        var text = MiraLocaleManager.Get(bucket);
+        var crewmateKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate");
+        var crewKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate.Short");
+        var impostorKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor");
+        var impKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor.Short");
+        var neutralKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral");
+        var neutKeyword = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral.Short");
 
         if (text.Contains(impostorKeyword))
         {
@@ -2223,11 +2287,41 @@ public static class MiscUtils
         }
     }
 
+    public static bool IsBasicGhost(RoleBehaviour role)
+    {
+        return IsBasicGhost(role.Role);
+    }
+
+    public static bool IsBasicGhost(RoleTypes role)
+    {
+        return role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost ||
+               role == (RoleTypes)RoleId.Get<NeutralGhostRole>() ||
+               role == (RoleTypes)RoleId.Get<PolusGhostCrewRole>() ||
+               role == (RoleTypes)RoleId.Get<PolusGhostImpRole>() ||
+               role == (RoleTypes)RoleId.Get<PolusGhostNeutRole>();
+    }
+
     public static TouGamemode CurrentGamemode()
     {
-        if (GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek or GameModes.SeekFools)
+        if (CustomGameModeManager.IsHideNSeek() || GameOptionsManager.Instance.CurrentGameOptions.GameMode is AmongUs.GameOptions.GameModes.HideNSeek or AmongUs.GameOptions.GameModes.SeekFools)
             return TouGamemode.HideAndSeek;
-        return TouGamemode.Normal;
+        if (CustomGameModeManager.IsActiveGameMode<CultistMode>())
+        {
+            return TouGamemode.Cultist;
+        }
+        if (CustomGameModeManager.IsActiveGameMode<KillFrenzyMode>())
+        {
+            return TouGamemode.KillFrenzy;
+        }
+        if (CustomGameModeManager.IsActiveGameMode<TownOfPolusMode>())
+        {
+            return TouGamemode.TownOfPolus;
+        }
+        if (CustomGameModeManager.IsClassic())
+        {
+            return TouGamemode.Normal;
+        }
+        return TouGamemode.Other;
     }
 
     public static void LogInfo(TownOfUsEventHandlers.LogLevel logLevel, string text)
@@ -2417,7 +2511,7 @@ public static class MiscUtils
 
         if (!cantUseCamera) return true;
         var notif1 = Helpers.CreateAndShowNotification(
-            TouLocale.GetParsed(tasksLeftToUnlock > 1 ? "TouUnavailableUtilityNotif" : "TouUnavailableUtilityNotifSingle").Replace("<amount>",
+            MiraLocaleManager.Get(tasksLeftToUnlock > 1 ? "TouUnavailableUtilityNotif" : "TouUnavailableUtilityNotifSingle").Replace("<amount>",
                 $"<size=120%><b>\n{tasksLeftToUnlock.ToString(TownOfUsPlugin.Culture)}</b></size>"),
             Color.white, new Vector3(0f, 1f, -20f), spr: sprite.LoadAsset());
 
@@ -2428,8 +2522,8 @@ public static class MiscUtils
     public static void RunAnticheatWarning(PlayerControl source)
     {
         var stringBuilder = new StringBuilder();
-        stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatIllegalRpcMessage").Replace("<player>", source.Data.PlayerName)}");
-        AddFakeChat(source.Data, $"<color=#D53F42>{TouLocale.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
+        stringBuilder.Append(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get("AnticheatIllegalRpcMessage").Replace("<player>", source.Data.PlayerName)}");
+        AddFakeChat(source.Data, $"<color=#D53F42>{MiraLocaleManager.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
     }
 
     public static string GetRegionName(IRegionInfo? region = null, bool shorten = true)
@@ -2515,6 +2609,25 @@ public static class MiscUtils
         return $"<sprite name=\"AmongUs.Role.{role.Role}\">";
     }
 
+    public static string GetMaskedRoleTmpIcon(RoleTypes role)
+    {
+        return GetRoleTmpIcon(RoleManager.Instance.GetRole(role));
+    }
+
+    public static string GetMaskedRoleTmpIcon(ICustomRole role)
+    {
+        return role.Configuration.IconTmp ? $"<sprite name=\"{role.Configuration.IconTmp.name}.Masked\">" : $"<sprite name=\"AmongUs.Role.{role.Team}.Masked\">";
+    }
+
+    public static string GetMaskedRoleTmpIcon(RoleBehaviour role)
+    {
+        if (role is ICustomRole custom)
+        {
+            return custom.Configuration.IconTmp ? $"<sprite name=\"{custom.Configuration.IconTmp.name}.Masked\">" : $"<sprite name=\"AmongUs.Role.{custom.Team}.Masked\">";
+        }
+        return $"<sprite name=\"AmongUs.Role.{role.Role}.Masked\">";
+    }
+
     public static string GetToggledRoleTmpIcon(RoleBehaviour role, bool enabled)
     {
         if (!enabled)
@@ -2538,7 +2651,9 @@ public enum TouGamemode
     Normal,
     HideAndSeek,
     Cultist,
-    // AllKillers,
+    KillFrenzy,
+    TownOfPolus,
+    Other,
     // Legacy
 }
 public enum ExpandedMapNames

@@ -6,4 +6,5 @@ global using TownOfUs.Modules.Wiki;
 global using MiraAPI.Keybinds;
 global using MiraAPI.LocalSettings;
 global using MiraAPI.Utilities.Assets;
+global using MiraAPI.Translation;
 global using static Reactor.Utilities.Logger<TownOfUs.TownOfUsPlugin>;

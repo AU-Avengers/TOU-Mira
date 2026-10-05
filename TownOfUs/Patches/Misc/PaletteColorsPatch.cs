@@ -18,7 +18,7 @@ public static class PaletteColorsPatch
         
         if (vanillaString != null)
         {
-            var name = TouLocale.Get($"{vanillaString}");
+            var name = MiraLocaleManager.Get($"{vanillaString}");
             if (name.Contains("STRMISS"))
             {
                 __result = vanillaString;

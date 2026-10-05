@@ -146,6 +146,30 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         ProgressStage = StoneStage.Shatter;
     }
 
+    public void ForceStone()
+    {
+        if (_cosmeticsLayer)
+        {
+            _nameTextMaster.color = _nameTextMaster.color.SetAlpha(1);
+            _colorBindText.color = _colorBindText.color.SetAlpha(1);
+            SpriteRenderer[] rends =
+            [
+                _rend, _cosmeticsLayer.hat.FrontLayer, _cosmeticsLayer.hat.BackLayer, _cosmeticsLayer.visor.Image,
+                _cosmeticsLayer.skin.layer
+            ];
+            foreach (var rend in rends)
+            {
+                rend.color = rend.color.SetAlpha(0);
+            }
+            _stoneRend.color = _stoneRend.color.SetAlpha(1);
+        }
+        else
+        {
+            _stoneRend.color = _stoneRend.color.SetAlpha(1);
+            _rend.color = _rend.color.SetAlpha(0);
+        }
+    }
+
     public static StonedPlayer CreateStone(PlayerControl player)
     {
         var obj = new GameObject($"Fake {player.gameObject.name}");
@@ -331,7 +355,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         _cosmeticsLayer.nameText.color = _cosmeticsLayer.nameText.color.SetAlpha(1f);
 
         _colorBindTextObj.SetActive(false);
-        _nameTextMaster.text = TouLocale.Get("DiedToMedusa");
+        _nameTextMaster.text = MiraLocaleManager.Get("DiedToMedusa");
         _nameTextMaster.color = Color.grey;
     }
 
@@ -596,6 +620,11 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
             if (stone.CurrentCoroutine != null)
             {
                 Coroutines.Stop(stone.CurrentCoroutine);
+            }
+            // This forces any players not fully stoned to get the stoned sprite immediately.
+            if (stone.ProgressStage is StoneStage.Frozen or StoneStage.Petrified)
+            {
+                stone.ForceStone();
             }
             stone.ProgressStage = StoneStage.Permanent;
             stone.SetStonedName();

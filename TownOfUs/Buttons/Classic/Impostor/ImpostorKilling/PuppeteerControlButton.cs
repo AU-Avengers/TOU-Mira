@@ -15,7 +15,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, IDiseaseableButton
 {
-    public override string Name => TouLocale.GetParsed("TouRolePuppeteerControl", "Control");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.PuppeteerControl", "Control");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown =>
@@ -66,7 +66,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
                 pr.Controlled.Data.Disconnected ||
                 !PuppeteerControlState.IsControlled(pr.Controlled.PlayerId, out _))
             {
-                PuppeteerRole.RpcPuppeteerEndControl(PlayerControl.LocalPlayer, pr.Controlled);
+                PuppeteerRole.RpcPuppeteerEndControl(PlayerControl.LocalPlayer, pr.Controlled, pr.Controlled.transform.position);
                 return false;
             }
             return base.CanUse();

@@ -12,7 +12,7 @@ namespace TownOfUs.Modifiers;
 
 public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
 {
-    public override string ModifierName => TouLocale.Get("TouFirstDeathShield", "First Death Shield");
+    public override string ModifierName => MiraLocaleManager.Get("TouFirstDeathShield", "First Death Shield");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.FirstRoundShield;
 
     public override bool HideOnUi =>
@@ -75,7 +75,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
 
     public override string GetDescription()
     {
-            return !HideOnUi ? TouLocale.Get("TouFirstDeathShieldDescription") : string.Empty;
+            return !HideOnUi ? MiraLocaleManager.Get("TouFirstDeathShieldDescription") : string.Empty;
     }
 
     public override void OnActivate()

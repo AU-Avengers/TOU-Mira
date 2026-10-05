@@ -52,22 +52,19 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
         HudManager.Instance.AbilityButton.SetDisabled();
     }
 
-    public string LocaleKey => "Spectator";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Spectator";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
     public Color RoleColor => TownOfUsColors.Spectator;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.GameOutlier;
-    [HideFromIl2Cpp] public bool IsHiddenFromList => true;
+    [HideFromIl2Cpp] public bool IsHiddenFromList => false;
 
     public override bool IsDead => true;
 
@@ -91,7 +88,7 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
         }
 
         var stats = GameHistory.PlayerStats[Player.PlayerId];
-        stats.DeathString = TouLocale.Get("Spectating");
+        stats.DeathString = MiraLocaleManager.Get("Spectating");
         stats.RoundOfDeath = 0;
         stats.DiedThisRound = false;
         stats.PlayerState = StoredPlayerState.Dead;

@@ -8,13 +8,16 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class MercenaryOptions : AbstractRoleOptionGroup<MercenaryRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleMercenary", "Mercenary");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Mercenary", "Mercenary");
 
     [ModdedNumberOption("TouOptionMercenaryCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float GuardCooldown { get; set; } = 25f;
 
     [ModdedNumberOption("TouOptionMercenaryMaxGuards", 1f, 15f, 1f, MiraNumberSuffixes.None, "0")]
     public float MaxUses { get; set; } = 6f;
+
+    [ModdedToggleOption("TouOptionMercenaryGetMoreUsesFromCompletingTasks")]
+    public bool TaskUses { get; set; } = false;
 
     [ModdedNumberOption("TouOptionMercenaryBribeCost", 1f, 15f, 1f, MiraNumberSuffixes.None, "0")]
     public float BribeCost { get; set; } = 2f;
@@ -25,4 +28,12 @@ public sealed class MercenaryOptions : AbstractRoleOptionGroup<MercenaryRole>
     {
         Visible = () => OptionGroupSingleton<MercenaryOptions>.Instance.GuardProtection.Value
     };
+
+    public ModdedToggleOption WinsWithNeutralBenign { get; set; } = new("TouOptionMercenaryWinsWithNeutralBenign", true);
+
+    public ModdedToggleOption WinsWithNeutralEvil { get; set; } = new("TouOptionMercenaryWinsWithNeutralEvil", true);
+
+    public ModdedToggleOption WinsWithNeutralKilling { get; set; } = new("TouOptionMercenaryWinsWithNeutralKilling", true);
+
+    public ModdedToggleOption WinsWithNeutralOutlier { get; set; } = new("TouOptionMercenaryWinsWithNeutralOutlier", false);
 }

@@ -1,6 +1,7 @@
 ﻿using AmongUs.Data;
 using HarmonyLib;
 using MiraAPI.GameEnd;
+using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
@@ -25,6 +26,7 @@ public static class LogicGameFlowPatches
 
         if (GameData.Instance.TotalTasks > 0 && GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
         {
+            Error($"Game ended from Tasks Completed!");
             instance.Manager.RpcEndGame(GameOverReason.CrewmatesByTask, false);
 
             return true;
@@ -40,6 +42,7 @@ public static class LogicGameFlowPatches
             var timeType = (GameTimerType)OptionGroupSingleton<GameTimerOptions>.Instance.TimerEndOption.Value;
             if (timeType is GameTimerType.Impostors)
             {
+                Error($"Game ended from Game Timer for Impostors!");
                 instance.Manager.RpcEndGame(GameOverReason.ImpostorsBySabotage, false);
             }
             else
@@ -51,6 +54,7 @@ public static class LogicGameFlowPatches
                 CustomGameOver.Trigger<DrawGameOver>([
                     randomPlayer != null ? randomPlayer.Data : PlayerControl.LocalPlayer.Data
                 ]);
+                Error($"Game ended from Game Timer for a draw!");
             }
 
             GameTimerPatch.TriggerEndGame = false;
@@ -64,6 +68,7 @@ public static class LogicGameFlowPatches
     {
         if (HexBombSabotageSystem.BombFinished && SpellslingerRole.EveryoneHexed() && CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().HasAny())
         {
+            Error($"Game ended from Hex Bomb!");
             instance.Manager.RpcEndGame(GameOverReason.ImpostorsBySabotage, false);
             return true;
         }
@@ -74,7 +79,7 @@ public static class LogicGameFlowPatches
     [HarmonyPrefix]
     private static bool RecomputeTasksPatch(GameData __instance)
     {
-        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek or TouGamemode.Other)
         {
             return true;
         }
@@ -163,6 +168,7 @@ public static class LogicGameFlowPatches
 
     [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
     [HarmonyPrefix]
+    [HarmonyPriority(Priority.First)]
     public static bool CheckEndCriteriaPatch(LogicGameFlowNormal __instance)
     {
         if (OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay.Value)
@@ -190,6 +196,21 @@ public static class LogicGameFlowPatches
             return false;
         }
 
+        if (!CustomGameModeManager.IsClassic())
+        {
+            return true;
+        }
+
+        if (CustomGameModeManager.ActiveMode != null)
+        {
+            CustomGameModeManager.ActiveMode.CheckGameEnd(out var runOriginal, __instance);
+
+            if (!runOriginal)
+            {
+                return false;
+            }
+        }
+
         // Prevents game end on exile screen
         if (ExileController.Instance)
         {
@@ -201,6 +222,7 @@ public static class LogicGameFlowPatches
             var lifeSuppSystemType = ShipStatus.Instance.Systems[SystemTypes.LifeSupp].Cast<LifeSuppSystemType>();
             if (lifeSuppSystemType is { Countdown: < 0f })
             {
+                Error($"Game ended from Sabotage!");
                 __instance.EndGameForSabotage();
                 lifeSuppSystemType.Countdown = 10000f;
 
@@ -218,6 +240,7 @@ public static class LogicGameFlowPatches
 
             if (sabo.Countdown < 0f)
             {
+                Error($"Game ended from Sabotage!");
                 __instance.EndGameForSabotage();
                 sabo.ClearSabotage();
             }
@@ -266,6 +289,7 @@ public static class LogicGameFlowPatches
         // Causes the game to draw in extreme scenarios
         if (MiscUtils.GetImpactfulLivingPlayers().Count <= 0)
         {
+            Error($"Game ended from a game draw!");
             var randomPlayer = PlayerControl.AllPlayerControls.ToArray().Where(x =>
                 !x.Data.Role.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) && !x.GetModifiers<GameModifier>()
                     .Any(y => y.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) == true)).Random();
@@ -278,6 +302,7 @@ public static class LogicGameFlowPatches
         int item2 = playerCounts.Item2;
         if (item2 <= 0)
         {
+            Error($"Game ended from votes for Crewmates!");
             GameOverReason endReason = GameOverReason.CrewmatesByVote;
             __instance.Manager.RpcEndGame(endReason, !DataManager.Player.Ads.HasPurchasedAdRemoval);
         }
@@ -288,12 +313,15 @@ public static class LogicGameFlowPatches
             {
                 case DeathReason.Exile:
                     endReason2 = GameOverReason.ImpostorsByVote;
+                    Error($"Game ended from voting Crewmates for Impostors!");
                     break;
                 case DeathReason.Kill:
                     endReason2 = GameOverReason.ImpostorsByKill;
+                    Error($"Game ended from killing Crewmates for Impostors!");
                     break;
                 default:
                     endReason2 = GameOverReason.CrewmateDisconnect;
+                    Error($"Game ended from disconnected Crewmates for Impostors!");
                     break;
             }
             __instance.Manager.RpcEndGame(endReason2, !DataManager.Player.Ads.HasPurchasedAdRemoval);
@@ -310,7 +338,10 @@ public static class LogicGameFlowPatches
     [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.IsGameOverDueToDeath))]
     public static void IsGameOverDueToDeathPatch(LogicGameFlowNormal __instance, ref bool __result)
     {
-        __result = false;
+        if (CustomGameModeManager.IsClassic())
+        {
+            __result = false;
+        }
     }
     public static ValueTuple<int, int> GetPlayerCounts()
     {

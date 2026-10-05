@@ -13,7 +13,7 @@ public static class VanillaTweakEvents
     public static void AdjustAllPetVisibility()
     {
         var petMode = (PetVisiblity)OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value;
-        if (petMode is PetVisiblity.AlwaysVisible)
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek or TouGamemode.Other || petMode is PetVisiblity.AlwaysVisible)
         {
             return;
         }
@@ -57,7 +57,7 @@ public static class VanillaTweakEvents
     public static void AdjustPetVisibility(PlayerControl player, bool? forced = null)
     {
         var petMode = (PetVisiblity)OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value;
-        if (petMode is PetVisiblity.AlwaysVisible || player.AmOwner)
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek or TouGamemode.Other || petMode is PetVisiblity.AlwaysVisible || player.AmOwner)
         {
             return;
         }
@@ -117,7 +117,6 @@ public static class VanillaTweakEvents
             // This fixes an issue within vanilla where any players who were removed out of vents via a meeting can be "kicked" out of the vent they were previously in, even if they aren't in there.
             VanillaSystemCheckPatches.VentSystem.PlayersInsideVents.Clear();
         }
-
         AdjustAllPetVisibility();
     }
 

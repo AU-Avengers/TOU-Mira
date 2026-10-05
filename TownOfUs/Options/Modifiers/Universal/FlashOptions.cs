@@ -1,5 +1,4 @@
-﻿using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
+﻿using MiraAPI.GameOptions.Attributes;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Universal;
 using UnityEngine;
@@ -8,8 +7,8 @@ namespace TownOfUs.Options.Modifiers.Universal;
 
 public sealed class FlashOptions : AbstractTouModifierOptionGroup<FlashModifier>
 {
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
-    public override string GroupName => TouLocale.Get("TouModifierFlash", "Flash");
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Flash", "Flash");
     public override uint GroupPriority => 31;
     public override Color GroupColor => TownOfUsColors.Flash;
 

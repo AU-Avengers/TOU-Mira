@@ -6,7 +6,7 @@ namespace TownOfUs.Patches.Options;
 [HarmonyPatch]
 public static class VanillaSettingsPatch
 {
-    [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.CreateSettings))]
+    [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Initialize))]
     [HarmonyPostfix]
     public static void Postfix(GameOptionsMenu __instance)
     {
@@ -53,7 +53,7 @@ public static class VanillaSettingsPatch
         var commonTask = Math.Min(__instance.CommonTasks.Count, 4);
         var normalTask = Math.Min(__instance.ShortTasks.Count, 8);
         var longTask = Math.Min(__instance.LongTasks.Count, 4);
-        if (GameOptionsManager.Instance.currentGameOptions.GameMode is GameModes.HideNSeek)
+        if (GameOptionsManager.Instance.currentGameOptions.GameMode is AmongUs.GameOptions.GameModes.HideNSeek)
         {
             var options = GameOptionsManager.Instance.currentHideNSeekGameOptions;
             if (options.NumCommonTasks > commonTask) options.NumCommonTasks = commonTask;

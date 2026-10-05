@@ -101,6 +101,11 @@ public static class ButtonClickPatches
             return false;
         }
 
+        if (__instance is SabotageButton && !SabotagePatches.CanLocalPlayerSabotage())
+        {
+            return false;
+        }
+
         return true;
     }
 }

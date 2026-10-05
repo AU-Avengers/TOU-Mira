@@ -314,6 +314,15 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> ShootMeetingSprite { get; } =
         new LoadableBundleSubAsset("Shoot", MeetingAbilityHolder);
+    public static LoadableAsset<Sprite> MassHysteriaSprite { get; } = new LoadableResourceAsset($"{ShortPath}.MassHysteriaSprite.png");
+    public static LoadableAsset<Sprite> MayorRevealSprite { get; } = new LoadableResourceAsset($"{ShortPath}.MayorRevealSprite.png");
+    public static LoadableAsset<Sprite> ProsecutorToggleSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ProsecutorToggleSprite.png");
+    public static LoadableAsset<Sprite> ToggleDisabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ToggleDisabled.png");
+    public static LoadableAsset<Sprite> ToggleEnabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ToggleEnabled.png");
+    public static LoadableAsset<Sprite> DeathDisabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.DeathDisabledSprite.png");
+
+    public static LoadableAsset<Sprite> ProsecuteMeetingSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.ProsecuteSprite.png");
 
     public static LoadableAsset<Sprite> BlackmailLetterSprite { get; } =
         new LoadableBundleAsset<Sprite>("BlackmailLetter", MainBundle);
@@ -430,6 +439,9 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> CrewKillBg { get; } = new LoadableBundleAsset<Sprite>("KillBackgroundCrew", MainBundle);
 
+    public static LoadableAsset<Sprite> GhostwalkerVentSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.GhostwalkerVentSprite.png");
+
     public static LoadableAsset<Sprite> VitalBgMissin { get; } =
         new LoadableResourceAsset($"{ShortPath}.VitalBgMissin.png");
 
@@ -533,6 +545,9 @@ public static class TouAssets
     
     public static LoadableAsset<Sprite> IconSubmerged { get; } =
         new LoadableResourceAsset($"{SettingIconPath}.Submerged.png");
+    
+    public static LoadableAsset<Sprite> IconTownOfPolus { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.TownOfPolus.png", 200f);
 
     public static LoadableAsset<Sprite> IconDraftMode { get; } =
         new LoadableResourceAsset($"{SettingIconPath}.Draft.png", 345f);
@@ -557,6 +572,12 @@ public static class TouAssets
     
     public static LoadableAsset<Sprite> ChefProgressNone { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.ChefNone.png");
+    
+    public static LoadableAsset<Sprite> MercBribeGood { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.BribeGood.png");
+    
+    public static LoadableAsset<Sprite> MercBribeBad { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.BribeBad.png");
     
     public static LoadableAsset<Sprite> PlatformEpic { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.PlatformEpic.png");

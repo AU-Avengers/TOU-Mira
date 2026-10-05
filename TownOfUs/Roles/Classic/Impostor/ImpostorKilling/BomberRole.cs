@@ -29,15 +29,12 @@ public sealed class BomberRole(IntPtr cppPtr)
         return modifier is not OverclockerModifier;
     }
 
-    public string LocaleKey => "Bomber";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Bomber";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription").Replace("<detonateDelay>",
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription").Replace("<detonateDelay>",
                 $"{OptionGroupSingleton<BomberOptions>.Instance.DetonateDelay}") +
             MiscUtils.AppendOptionsText(GetType());
     }
@@ -64,8 +61,8 @@ public sealed class BomberRole(IntPtr cppPtr)
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Place", "Place"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}PlaceWikiDescription").Replace("<maxKills>",
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Place", "Place"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Place.WikiDescription").Replace("<maxKills>",
                         $"{(int)OptionGroupSingleton<BomberOptions>.Instance.MaxKillsInDetonation}"),
                     TouImpAssets.PlaceSprite)
             ];

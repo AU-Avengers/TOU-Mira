@@ -70,9 +70,43 @@ public static class BetterSkeldPatches
             return;
         }
 
-        var hallowTheme = rootObj.transform.FindChild("HalloweenDecorSkeld") ?? rootObj.transform.FindChild("Helloween");
-        var birthTheme = rootObj.transform.FindChild("BirthdayDecorSkeld");
-        var tvTheme = rootObj.transform.FindChild("ProjectParasiteDecorSkeld");
+        if (rootObj.name == "AprilShip(Clone)")
+        {
+            var hallowThemeFools = rootObj.transform.FindChild("Helloween");
+            if (HalloweenTheme == null && hallowThemeFools != null)
+            {
+                HalloweenTheme = hallowThemeFools.gameObject;
+            }
+            ThemesFetched = HalloweenTheme != null;
+            return;
+        }
+        var mapDecor = rootObj.transform.FindChild("MapDecor")?.GetComponent<MapDecor>();
+        if (mapDecor == null)
+        {
+            ThemesFetched = false;
+            return;
+        }
+        Transform? birthTheme = null;
+        Transform? tvTheme = null;
+        Transform? hallowTheme = null;
+        foreach (var decor in mapDecor.AllDecor)
+        {
+            if (hallowTheme == null && decor.gameObject.name.Contains("Halloween"))
+            {
+                hallowTheme = decor.transform;
+            }
+
+            if (birthTheme == null && decor.gameObject.name.Contains("Birthday"))
+            {
+                birthTheme = decor.transform;
+            }
+
+            if (tvTheme == null && decor.gameObject.name.Contains("Parasite"))
+            {
+                tvTheme = decor.transform;
+            }
+        }
+
         if (TvShowTheme == null && tvTheme != null)
         {
             TvShowTheme = tvTheme.gameObject;

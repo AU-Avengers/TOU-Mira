@@ -17,7 +17,7 @@ public sealed class DraftCancelButton : TownOfUsButton
         CustomButtonSingleton<DraftCancelButton>.Instance.Disabled = true;
     }
 
-    public override string Name => TouLocale.GetParsed("TouDraftCancelButton", "Cancel Draft");
+    public override string Name => MiraLocaleManager.Get("TouDraftCancelButton", "Cancel Draft");
     public override float InitialCooldown => 0.001f;
     public override float Cooldown => 0.001f;
 
@@ -45,8 +45,7 @@ public sealed class DraftCancelButton : TownOfUsButton
         if (!AmongUsClient.Instance.AmHost) return;
         if (!DraftManager.IsDraftActive) return;
         DraftEngineBehaviour.Instance?.CancelDraft();
-        DraftRpcs.RpcCreateNotif(PlayerControl.LocalPlayer, TouLocale.GetParsed("TouDraftCancelledNotif", "Draft Mode has been cancelled by the <color=#FFBFCC><b>Host</b></color>!"));
-        DraftNetworkHelper.BroadcastDraftEnd();
+        DraftRpcs.RpcCreateNotif(PlayerControl.LocalPlayer, MiraLocaleManager.Get("TouDraftCancelledNotif", "Draft Mode has been cancelled by the <color=#FFBFCC><b>Host</b></color>!"));
         Hide();
     }
 }
@@ -73,16 +72,6 @@ public static class HideCancelButtonOnRecap
 
 [HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastCancelDraft))]
 public static class HideCancelButtonOnCancelDraft
-{
-    [HarmonyPostfix]
-    public static void Postfix()
-    {
-        DraftCancelButton.Hide();
-    }
-}
-
-[HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastDraftEnd))]
-public static class HideCancelButtonOnDraftEnd
 {
     [HarmonyPostfix]
     public static void Postfix()

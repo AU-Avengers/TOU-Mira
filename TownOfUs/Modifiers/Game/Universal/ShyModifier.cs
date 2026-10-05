@@ -19,8 +19,8 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         TownOfUsColors.Shy,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Shy.LoadAsset(),
             "TouMira.Modifier.Universal.Shy", 1.45f));
-    public override string LocaleKey => "Shy";
-    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IdPart => "Shy";
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Shy;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalVisibility;
@@ -37,12 +37,12 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override string GetDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.TabDescription");
     }
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+        return MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];

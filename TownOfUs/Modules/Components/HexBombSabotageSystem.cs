@@ -85,9 +85,9 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
                     foreach (var player in PlayerControl.AllPlayerControls.ToArray()
                                  .Where(x => !x.HasDied() && !x.IsImpostorAligned()))
                     {
-                        GameHistory.UpdatePlayerDeathData(player, TouLocale.Get("DiedToSpellslingerHexBomb"), 0, HudManagerHelper.Instance.CurrentRound,
+                        GameHistory.UpdatePlayerDeathData(player, MiraLocaleManager.Get("DiedToSpellslingerHexBomb"), 0, HudManagerHelper.Instance.CurrentRound,
                             DeathHandlerOverride.SetTrue,
-                            TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", spellslinger.Player.Data.PlayerName),
+                            MiraLocaleManager.Get("DiedByStringBasic").Replace("<player>", spellslinger.Player.Data.PlayerName),
                             lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
                     }
                 }

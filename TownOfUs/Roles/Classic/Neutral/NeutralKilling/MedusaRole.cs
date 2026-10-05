@@ -19,22 +19,20 @@ public sealed class MedusaRole(IntPtr cppPtr)
             return;
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{MiraLocaleManager.Get("NeutralKillingTaskHeader")}</color>";
         orCreateTask.name = "NeutralRoleText";
     }
 
     public static bool AutoPlaceFakePlayers => true;
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MediumRole>());
     public DoomableType DoomHintType => DoomableType.Death;
-    public string LocaleKey => "Medusa";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Medusa";
+    public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -45,14 +43,14 @@ public sealed class MedusaRole(IntPtr cppPtr)
         {
             List<CustomButtonWikiDescription> list =
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Petrify", "Petrify"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}PetrifyWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Petrify", "Petrify"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Petrify.WikiDescription"),
                     TouNeutAssets.PetrifySprite)
             ];
             if (OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable.Value)
             {
-                list.Add(new(TouLocale.GetParsed($"TouRole{LocaleKey}StoneGaze", "Stone Gaze"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}StoneGazeWikiDescription"),
+                list.Add(new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}StoneGaze", "Stone Gaze"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}StoneGaze.WikiDescription"),
                     TouNeutAssets.StoneGazeSprite));
             }
             return list;

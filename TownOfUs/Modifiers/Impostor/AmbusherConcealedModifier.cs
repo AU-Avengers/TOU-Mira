@@ -73,9 +73,9 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
 
         if (body != null)
         {
-            GameHistory.UpdatePlayerDeathData(Target, TouLocale.Get("DiedToAmbusherAmbush"), 0, HudManagerHelper.Instance.CurrentRound,
+            GameHistory.UpdatePlayerDeathData(Target, MiraLocaleManager.Get("DiedToAmbusherAmbush"), 0, HudManagerHelper.Instance.CurrentRound,
                 DeathHandlerOverride.SetTrue,
-                TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", Player.Data.PlayerName),
+                MiraLocaleManager.Get("DiedByStringBasic").Replace("<player>", Player.Data.PlayerName),
                 lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
 
             var bodyPos = body.transform.position;

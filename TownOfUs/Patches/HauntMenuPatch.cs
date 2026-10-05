@@ -9,7 +9,6 @@ using MiraAPI.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Options;
-using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
 using UnityEngine;
 
@@ -28,7 +27,7 @@ public static class HauntMenuMinigamePatch
             var modifiers = target.GetModifiers<GameModifier>().Where(x => x is not ExcludedGameModifier)
                 .OrderBy(x => x.ModifierName).ToList();
             __instance.FilterText.text =
-                $"<color=#FFFFFF><size=100%>({TouLocale.Get("PlayerHasNoModifiers")})</size></color>";
+                $"<color=#FFFFFF><size=100%>({MiraLocaleManager.Get("PlayerHasNoModifiers")})</size></color>";
             if (modifiers.Count != 0)
             {
                 var modifierTextBuilder = new StringBuilder("<color=#FFFFFF><size=100%>(");
@@ -51,11 +50,7 @@ public static class HauntMenuMinigamePatch
                 __instance.FilterText.text = modifierTextBuilder.ToString();
             }
 
-            var role = target.Data.Role;
-            if (target.Data.IsDead && (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost || role.Role == (RoleTypes)RoleId.Get<NeutralGhostRole>()))
-            {
-                role = target.GetRoleWhenAlive();
-            }
+            var role = target.GetSignificantRole();
 
             var name = role.GetRoleName();
 
@@ -65,7 +60,7 @@ public static class HauntMenuMinigamePatch
             {
                 if (role.IsNeutral())
                 {
-                    name = TouLocale.Get("NeutralKeyword");
+                    name = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral");
                     rColor = Color.gray;
                 }
                 else if (role.IsCrewmate())
@@ -112,7 +107,7 @@ public static class HauntMenuMinigamePatch
             var modifiers = target.GetModifiers<GameModifier>().Where(x => x is not ExcludedGameModifier)
                 .OrderBy(x => x.ModifierName).ToList();
             __instance.FilterText.text =
-                $"<color=#FFFFFF><size=100%>({TouLocale.Get("PlayerHasNoModifiers")})</size></color>";
+                $"<color=#FFFFFF><size=100%>({MiraLocaleManager.Get("PlayerHasNoModifiers")})</size></color>";
             if (modifiers.Count != 0)
             {
                 var modifierTextBuilder = new StringBuilder("<color=#FFFFFF><size=100%>(");
@@ -149,7 +144,7 @@ public static class HauntMenuMinigamePatch
             {
                 if (role.IsNeutral())
                 {
-                    name = TouLocale.Get("NeutralKeyword");
+                    name = MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral");
                     rColor = Color.gray;
                 }
                 else if (role.IsCrewmate())

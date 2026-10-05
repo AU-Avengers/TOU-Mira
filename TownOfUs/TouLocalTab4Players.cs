@@ -1,6 +1,6 @@
 using BepInEx.Configuration;
-using TownOfUs.LocalSettings.Attributes;
-using TownOfUs.LocalSettings.SettingTypes;
+using MiraAPI.LocalSettings.Attributes;
+using MiraAPI.LocalSettings.SettingTypes;
 using TownOfUs.Modules;
 using TownOfUs.Patches;
 
@@ -10,24 +10,6 @@ public class TouLocalTabPlayers(ConfigFile config) : LocalSettingsTab(config)
 {
     public override string TabName => "Players";
     protected override bool ShouldCreateLabels => true;
-
-    public override void Open()
-    {
-        base.Open();
-
-        foreach (var entry in TouLocale.LocalizedToggles)
-        {
-            var toggleObject = entry.Key;
-            LocalizedLocalToggleSetting.UpdateToggleText(toggleObject.Text, entry.Value, toggleObject.onState);
-        }
-
-        foreach (var entry in TouLocale.LocalizedSliders)
-        {
-            var sliderObject = entry.Key;
-            sliderObject.SliderObject.Title.text =
-                LocalizedLocalSliderSetting.GetLocalizedValueText(sliderObject, sliderObject.LocaleKey);
-        }
-    }
 
     public override void OnOptionChanged(ConfigEntryBase configEntry)
     {
@@ -59,23 +41,23 @@ public class TouLocalTabPlayers(ConfigFile config) : LocalSettingsTab(config)
         HideIconOnHover = false,
     };
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> ColorPlayerNameToggle { get; private set; } =
         config.Bind("UI / Visuals", "ColorPlayerName", false);
 
-    [LocalizedLocalEnumSetting(names: ["NameStyleTop", "NameStyleTopSmall", "NameStyleBottom", "NameStyleBottomSmall"])]
+    [LocalEnumSetting(names: ["NameStyleTop", "NameStyleTopSmall", "NameStyleBottom", "NameStyleBottomSmall"])]
     public ConfigEntry<NameStyle> RoleNameStyle { get; private set; } =
         config.Bind("UI / Visuals", "RoleNameStyle", NameStyle.TopSmall);
 
-    [LocalizedLocalEnumSetting(names: ["ProgressTrackingNever", "ProgressTrackingOnSelf", "ProgressTrackingOnOthers", "ProgressTrackingAlways"])]
+    [LocalEnumSetting(names: ["ProgressTrackingNever", "ProgressTrackingOnSelf", "ProgressTrackingOnOthers", "ProgressTrackingAlways"])]
     public ConfigEntry<ProgressTracking> DisplayPlayerProgress { get; private set; } =
         config.Bind("UI / Visuals", "DisplayPlayerProgress", ProgressTracking.Always);
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> ShowRoleIcons { get; private set; } =
         config.Bind("UI / Visuals", "ShowRoleIcons", true);
 
-    [LocalizedLocalToggleSetting]
+    [LocalToggleSetting]
     public ConfigEntry<bool> UseCrewmateTeamColorToggle { get; private set; } =
         config.Bind("Gameplay", "UseCrewmateTeamColor", false);
 }

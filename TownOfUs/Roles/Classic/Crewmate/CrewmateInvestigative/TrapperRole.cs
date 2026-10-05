@@ -18,15 +18,12 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     [HideFromIl2Cpp] public List<RoleBehaviour> TrappedPlayers { get; set; } = [];
 
     public DoomableType DoomHintType => DoomableType.Insight;
-    public string LocaleKey => "Trapper";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Trapper";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -37,8 +34,8 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Trap", "Trap"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}TrapWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Trap", "Trap"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Trap.WikiDescription"),
                     TouCrewAssets.TrapSprite)
             ];
         }
@@ -85,15 +82,15 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         }
 
         var minAmountOfPlayersInTrap = OptionGroupSingleton<TrapperOptions>.Instance.MinAmountOfPlayersInTrap;
-        var msg = TouLocale.GetParsed("TouRoleTrapperNoPlayers");
+        var msg = MiraLocaleManager.Get("TownOfUsMira.Role.TrapperNoPlayers");
 
         if (TrappedPlayers.Count < minAmountOfPlayersInTrap)
         {
-            msg = TouLocale.GetParsed("TouRoleTrapperNotEnoughPLayers");
+            msg = MiraLocaleManager.Get("TownOfUsMira.Role.TrapperNotEnoughPLayers");
         }
         else if (TrappedPlayers.Count != 0)
         {
-            var message = new StringBuilder($"{TouLocale.GetParsed("TouRoleTrapperRolesCaught")}\n");
+            var message = new StringBuilder($"{MiraLocaleManager.Get("TownOfUsMira.Role.TrapperRolesCaught")}\n");
 
             TrappedPlayers.Shuffle();
 
@@ -114,7 +111,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
             msg = finalMessage;
         }
 
-        var title = $"<color=#{TownOfUsColors.Trapper.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleTrapperMessageTitle")}</color>";
+        var title = $"<color=#{TownOfUsColors.Trapper.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.TrapperMessageTitle")}</color>";
         MiscUtils.AddFakeChat(Player.Data, title, msg, false, true);
         TrappedPlayers.Clear();
     }

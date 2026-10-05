@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class SurvivorOptions : AbstractRoleOptionGroup<SurvivorRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleSurvivor", "Survivor");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Survivor", "Survivor");
 
     [ModdedNumberOption("TouOptionSurvivorVestCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float VestCooldown { get; set; } = 25f;
@@ -18,6 +18,9 @@ public sealed class SurvivorOptions : AbstractRoleOptionGroup<SurvivorRole>
 
     [ModdedNumberOption("TouOptionSurvivorMaxVests", 1f, 15f, 1f, MiraNumberSuffixes.None, "0")]
     public float MaxVests { get; set; } = 10f;
+
+    [ModdedToggleOption("TouOptionSurvivorGetMoreUsesFromCompletingTasks")]
+    public bool TaskUses { get; set; } = false;
 
     [ModdedToggleOption("TouOptionSurvivorScatterEnabled")]
     public bool ScatterOn { get; set; } = false;

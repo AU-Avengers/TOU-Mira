@@ -21,7 +21,7 @@ public class TownOfUsLocalMiscSettings(ConfigFile config) : LocalSettingsTab(con
         LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.AutoRejoinMode;
 
     public ConfigEntry<bool> SeparateChatBubbles =>
-        LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.SeparateChatBubbles;
+        LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.SeparateChatBubbles;
 
     public ConfigEntry<bool> ShowWelcomeMessageToggle =>
         LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ShowWelcomeMessageToggle;

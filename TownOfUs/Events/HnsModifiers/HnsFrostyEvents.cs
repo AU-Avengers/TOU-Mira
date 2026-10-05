@@ -22,8 +22,8 @@ public static class HnsFrostyEvents
 
         if (@event.Source.AmOwner)
         {
-            var text = TouLocale.GetParsed("HnsModifierFrostyTriggeredNotif").Replace("<player>", @event.Target.Data.PlayerName);
-            text = text.Replace("<modifier>", $"{TownOfUsColors.Frosty.ToTextColor()}{TouLocale.Get("HnsModifierFrosty")}</color>");
+            var text = MiraLocaleManager.Get("TownOfUsMira.HideAndSeek.Modifier.FrostyTriggeredNotif").Replace("<player>", @event.Target.Data.PlayerName);
+            text = text.Replace("<modifier>", $"{TownOfUsColors.Frosty.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.HideAndSeek.Modifier.Frosty")}</color>");
 
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{text.Replace("<time>", Math.Round(OptionGroupSingleton<HnsFrostyOptions>.Instance.ChillDuration, 2).ToString(TownOfUsPlugin.Culture))}</b>",

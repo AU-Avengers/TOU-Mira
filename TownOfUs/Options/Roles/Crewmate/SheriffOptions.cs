@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class SheriffOptions : AbstractRoleOptionGroup<SheriffRole>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => TouLocale.Get("TouRoleSheriff", "Sheriff");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Sheriff", "Sheriff");
 
     [ModdedNumberOption("TouOptionSheriffKillCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float KillCooldown { get; set; } = 25f;
@@ -38,7 +38,7 @@ public sealed class SheriffOptions : AbstractRoleOptionGroup<SheriffRole>, IWiki
 
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
-        var title = TouLocale.GetParsed("TouOptionSheriffValidNeutralShots");
+        var title = MiraLocaleManager.Get("TouOptionSheriffValidNeutralShots");
         var nbValid = ShootNeutralBenign.Value;
         var neValid = ShootNeutralEvil.Value;
         var nkValid = ShootNeutralKiller.Value;
@@ -47,15 +47,15 @@ public sealed class SheriffOptions : AbstractRoleOptionGroup<SheriffRole>, IWiki
         if (!nbValid && !neValid && !nkValid && !noValid)
         {
             var newArray = new []
-                { $"{title}: {TouLocale.GetParsed("TouOptionSheriffNeutShootNone")}" };
+                { $"{title}: {MiraLocaleManager.Get("TouOptionSheriffNeutShootNone")}" };
             return newArray;
         }
 
         var selected = new List<string>();
-        if (nbValid) selected.Add(TouLocale.GetParsed("TouOptionSheriffNeutShootBenign"));
-        if (neValid) selected.Add(TouLocale.GetParsed("TouOptionSheriffNeutShootEvil"));
-        if (nkValid) selected.Add(TouLocale.GetParsed("TouOptionSheriffNeutShootKilling"));
-        if (noValid) selected.Add(TouLocale.GetParsed("TouOptionSheriffNeutShootOutlier"));
+        if (nbValid) selected.Add(MiraLocaleManager.Get("TouOptionSheriffNeutShootBenign"));
+        if (neValid) selected.Add(MiraLocaleManager.Get("TouOptionSheriffNeutShootEvil"));
+        if (nkValid) selected.Add(MiraLocaleManager.Get("TouOptionSheriffNeutShootKilling"));
+        if (noValid) selected.Add(MiraLocaleManager.Get("TouOptionSheriffNeutShootOutlier"));
 
         var names = selected
             .Distinct()

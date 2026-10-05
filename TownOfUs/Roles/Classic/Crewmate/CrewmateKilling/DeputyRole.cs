@@ -136,17 +136,33 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         yield return new WaitForLerp(1.23f, new Action<float>(t =>
         {
             var adj = t / 200;
-            sheriffCloseup.localPosition += new Vector3(adj, 0f, 0f);
+            if (sheriffCloseup)
+            {
+                sheriffCloseup.localPosition += new Vector3(adj, 0f, 0f);
+            }
         }));
-        anim.gameObject.SetActive(false);
+        if (anim)
+        {
+            anim.gameObject.SetActive(false);
+        }
         yield return new WaitForLerp(0.16666667f, new Action<float>(t =>
         {
-            overlay.flameParent.transform.localScale = new Vector3(1f, 1f - t, 1f);
+            if (overlay.flameParent)
+            {
+                overlay.flameParent.transform.localScale = new Vector3(1f, 1f - t, 1f);
+            }
         }));
-        flameSprite.sprite = TouAssets.KillBG.LoadAsset();
-        flameSprite.transform.localPosition = new Vector3(0, 0);
-        overlay.flameParent.SetActive(false);
-        
+        if (flameSprite)
+        {
+            flameSprite.sprite = TouAssets.KillBG.LoadAsset();
+            flameSprite.transform.localPosition = new Vector3(0, 0);
+        }
+
+        if (overlay.flameParent)
+        {
+            overlay.flameParent.SetActive(false);
+        }
+
         Destroy(anim.gameObject);
         overlay.showOne = null;
         yield return CustomTouMurderRpcs.CoAnimateDeath(targetVoteArea, Random.RandomRangeInt(0, 2), true);
@@ -163,15 +179,12 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     [HideFromIl2Cpp] public PlayerControl? Killer { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
-    public string LocaleKey => "Deputy";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string IdPart => "Deputy";
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -182,8 +195,8 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Camp", "Camp"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}CampWikiDescription"),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Camp", "Camp"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Camp.WikiDescription"),
                     TouCrewAssets.CampButtonSprite)
             ];
         }
@@ -298,8 +311,8 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         else
         {
             var title =
-                $"<color=#{TownOfUsColors.Deputy.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleDeputyMessageTitle")}</color>";
-            var msg = TouLocale.Get("TouRoleDeputyMissedShot");
+                $"<color=#{TownOfUsColors.Deputy.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.DeputyMessageTitle")}</color>";
+            var msg = MiraLocaleManager.Get("TownOfUsMira.Role.DeputyMissedShot");
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg, false, true);
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Deputy.ToTextColor()}{msg}</b></color>",

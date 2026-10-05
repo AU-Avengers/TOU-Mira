@@ -93,7 +93,7 @@ public static class TownOfUsEventHandlers
             newObj.layer = LayerMask.NameToLayer("UI");
             newObj.transform.localPosition = new Vector3(-1.2f, 0.325f, -0.1f);
             RoleIconRenderer = newObj.AddComponent<SpriteRenderer>();
-            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.Data.Role.GetRoleIcon();
+            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.GetSignificantRole().GetRoleIcon();
             newObj.transform.localScale = new Vector3(1, 1, 1);
             RoleIconRenderer.SetSizeLimit(0.4f);
             var oldScale = newObj.transform.localScale;
@@ -102,7 +102,7 @@ public static class TownOfUsEventHandlers
 
         if (RoleIconRenderer != null)
         {
-            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.Data.Role.GetRoleIcon();
+            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.GetSignificantRole().GetRoleIcon();
             RoleIconRenderer.transform.localScale = new Vector3(1, 1, 1);
             RoleIconRenderer.SetSizeLimit(0.4f);
             var oldScale = RoleIconRenderer.transform.localScale;
@@ -127,7 +127,7 @@ public static class TownOfUsEventHandlers
         else if (uniModifier != null && option is ModReveal.Universal)
         {
             ModifierText.text =
-                $"<size={uniModifier.IntroSize}><color=#FFFFFF>{TouLocale.Get("Modifier")}: </color>{uniModifier.ModifierName}</size>";
+                $"<size={uniModifier.IntroSize}><color=#FFFFFF>{MiraLocaleManager.Get("Modifier")}: </color>{uniModifier.ModifierName}</size>";
 
             ModifierText.color = MiscUtils.GetModifierColour(uniModifier);
         }
@@ -180,7 +180,6 @@ public static class TownOfUsEventHandlers
     public static void IntroBeginEventHandler(IntroBeginEvent @event)
     {
         DraftSidebarManager.Deactivate();
-        DraftSidebarManager.ClearBannerRef();
         if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
         {
             return;
@@ -262,9 +261,10 @@ public static class TownOfUsEventHandlers
                 }
             }
 
-            if (PlayerControl.LocalPlayer.IsImpostor())
+            if (HudManager.Instance.KillButton)
             {
                 PlayerControl.LocalPlayer.SetKillTimer(genOpt.GameStartCd);
+                HudManager.Instance.KillButton.SetCoolDown(genOpt.GameStartCd, PlayerControl.LocalPlayer.killTimer);
             }
         }
 
@@ -299,7 +299,7 @@ public static class TownOfUsEventHandlers
         panel.SetTaskText(role.SetTabText().ToString());
     }
 
-    [RegisterEvent(-1000)]
+    [RegisterEvent(-10000)]
     public static void BeforeMurderEventHandler(BeforeMurderEvent murderEvent)
     {
         if (murderEvent.Source.TryGetModifier<IndirectAttackerModifier>(out var mod))
@@ -311,19 +311,6 @@ public static class TownOfUsEventHandlers
             murderEvent.IsIndirectAttack = true;
         }
     }
-
-    /*[RegisterEvent(-1000)]
-    public static void BeforeMurderEventHandler(ExtendedMiraButtonClickEvent clickEvent)
-    {
-        if (PlayerControl.LocalPlayer.TryGetModifier<IndirectAttackerModifier>(out var mod))
-        {
-            if (mod.IgnoreShield)
-            {
-                clickEvent.IgnoreDefense = true;
-            }
-            clickEvent.IsIndirectInteraction = true;
-        }
-    }*/
 
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent _)
@@ -375,6 +362,10 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void RoundStartHandler(RoundStartEvent @event)
     {
+        var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
+        var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
+        AreVentsAllowed = aliveCount > minimum;
+        HudManagerHelper.Instance.VentButtonDisabledSprite.SetActive(!AreVentsAllowed);
         if (!@event.TriggeredByIntro)
         {
             foreach (var button in CustomButtonManager.Buttons)
@@ -530,7 +521,7 @@ public static class TownOfUsEventHandlers
 
         if (player.Data.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
         {
-            ParasiteRole.RpcParasiteEndControl(player, parasiteRole.Controlled);
+            ParasiteRole.RpcParasiteEndControl(player, parasiteRole.Controlled, parasiteRole.Controlled.transform.position, false);
         }
 
         if (ParasiteControlState.IsControlled(player.PlayerId, out var controllerId))
@@ -538,7 +529,7 @@ public static class TownOfUsEventHandlers
             var controller = MiscUtils.PlayerById(controllerId);
             if (controller?.Data?.Role is ParasiteRole controllerRole && controllerRole.Controlled == player)
             {
-                ParasiteRole.RpcParasiteEndControl(controller, player);
+                ParasiteRole.RpcParasiteEndControl(controller, player, player.transform.position, false);
             }
             else
             {
@@ -787,19 +778,27 @@ public static class TownOfUsEventHandlers
                 }
             }
         }
+
+        var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
+        var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
+        AreVentsAllowed = aliveCount > minimum;
+        HudManagerHelper.Instance.VentButtonDisabledSprite.SetActive(!AreVentsAllowed);
     }
 
+    public static bool AreVentsAllowed;
     [RegisterEvent]
     public static void PlayerCanUseEventHandler(PlayerCanUseEvent @event)
     {
         if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
             !PlayerControl.LocalPlayer.Data.Role)
         {
+            AreVentsAllowed = true;
             return;
         }
 
-        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
         {
+            AreVentsAllowed = true;
             return;
         }
 
@@ -811,6 +810,7 @@ public static class TownOfUsEventHandlers
         // Prevent last 2 players from venting (or however many are set up)
         if (@event.IsVent)
         {
+            AreVentsAllowed = true;
             if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>())
             {
                 if (PlayerControl.LocalPlayer.inVent)
@@ -839,8 +839,10 @@ public static class TownOfUsEventHandlers
 
             if (aliveCount <= minimum)
             {
+                AreVentsAllowed = false;
                 @event.Cancel();
             }
+            HudManagerHelper.Instance.VentButtonDisabledSprite.SetActive(!AreVentsAllowed);
         }
     }
 
@@ -1107,12 +1109,7 @@ public static class TownOfUsEventHandlers
             var votes = voteData.Votes.RemoveAll(x => x.Suspect == target.PlayerId);
             voteData.VotesRemaining += votes;
 
-            if (!voteAreaPlayer.AmOwner)
-            {
-                continue;
-            }
-
-            instance.RpcClearVote(pva.PlayerId);
+            instance.ClearVote(pva.PlayerId, voteAreaPlayer.AmOwner);
         }
 
         instance.SetDirtyBit(1U);

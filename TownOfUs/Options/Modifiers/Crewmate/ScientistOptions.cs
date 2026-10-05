@@ -1,5 +1,4 @@
-﻿using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
+﻿using MiraAPI.GameOptions.Attributes;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Crewmate;
 using UnityEngine;
@@ -8,8 +7,8 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 
 public sealed class ScientistOptions : AbstractTouModifierOptionGroup<ScientistModifier>
 {
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
-    public override string GroupName => TouLocale.Get("TouModifierScientist", "Scientist");
+    public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Scientist", "Scientist");
     public override uint GroupPriority => 26;
     public override Color GroupColor => TownOfUsColors.Scientist;
 

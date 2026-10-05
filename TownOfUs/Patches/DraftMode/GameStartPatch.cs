@@ -14,6 +14,7 @@ namespace TownOfUs.Patches.DraftMode
     public static class GameStartPatch
     {
         internal static bool SkipIntercept;
+        internal static bool PostDraftCountdownActive;
 
         [HarmonyPrefix]
         public static bool Prefix(GameStartManager __instance, out bool __state)
@@ -28,7 +29,14 @@ namespace TownOfUs.Patches.DraftMode
 
             if (SkipIntercept)
             {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[GameStartPatch] SkipIntercept enabled, allowing start");
+                if (PostDraftCountdownActive)
+                {
+                    MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
+                        "[GameStartPatch] Suppressing native BeginGame; post-draft countdown owns completion");
+                    __state = false;
+                    return false;
+                }
+
                 return true;
             }
 
@@ -105,11 +113,6 @@ namespace TownOfUs.Patches.DraftMode
             DraftStatusOverlay.SetState(OverlayState.Hidden);
             DraftCancelButton.Hide();
 
-            if (SkipIntercept)
-            {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[GameStartPatch] Zeroing countDownTimer after BeginGame.");
-                __instance.countDownTimer = 0f;
-            }
         }
     }
 

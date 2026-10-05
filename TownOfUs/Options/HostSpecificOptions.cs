@@ -7,7 +7,7 @@ namespace TownOfUs.Options;
 
 public sealed class HostSpecificOptions : AbstractOptionGroup
 {
-    public override string GroupName => TouLocale.Get("TouOptionTitleHostSpecific");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.HostSpecific");
     public override uint GroupPriority => 0;
 
     public ModdedToggleOption AntiCheatWarnings { get; set; } =
@@ -68,13 +68,13 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
         };
 
     public ModdedToggleOption RequireCrowded { get; set; } =
-        new("TouOptionRequireCrowded", true, false)
+        new("TouOptionRequireCrowded", false, false)
         {
             Visible = () => ModCompatibility.CrowdedLoaded
         };
 
     public ModdedToggleOption RequireAleLudu { get; set; } =
-        new("TouOptionRequireAleLudu", true, false)
+        new("TouOptionRequireAleLudu", false, false)
         {
             Visible = () => ModCompatibility.AleLuduLoaded
         };

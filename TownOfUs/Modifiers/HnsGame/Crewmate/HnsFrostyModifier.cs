@@ -10,7 +10,7 @@ public sealed class HnsFrostyModifier : HnsGameModifier, IWikiDiscoverable
         TownOfUsColors.Frosty,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Frosty.LoadAsset(),
             "TouMira.Modifier.HnS.Hider.Frosty", 1.45f));
-    public override string LocaleKey => "Frosty";
+    public override string IdPart => "Frosty";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Frosty;
     public override ModifierFaction FactionType => ModifierFaction.HiderPostmortem;
 

@@ -11,12 +11,11 @@ namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifier
 {
-    public override string ModifierName => TouLocale.Get("TouMedicShield", "Medic");
+    public override string ModifierName => MiraLocaleManager.Get("TouMedicShield", "Medic");
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Medic;
 
     public override string ShieldDescription =>
-        TouLocale.Get("TouMedicShieldDescription");
-        
+        MiraLocaleManager.Get("TouMedicShieldDescription");
     public PlayerControl Medic { get; private set; } = medic;
     public List<PlayerControl> AllMedics { get; } = [];
     public GameObject MedicShield { get; set; }

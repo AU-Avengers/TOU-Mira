@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Classic.Neutral.NeutralKilling;
 
 public sealed class MedusaStoneGazeButton : TownOfUsRoleButton<MedusaRole>
 {
-    public override string Name => TouLocale.GetParsed("TouRoleMedusaStoneGaze", "Stone Gaze");
+    public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.MedusaStoneGaze", "Stone Gaze");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Medusa;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeCooldown.Value + MapCooldown, 5f, 120f);
@@ -25,11 +25,11 @@ public sealed class MedusaStoneGazeButton : TownOfUsRoleButton<MedusaRole>
     protected override void OnClick()
     {
         PlayerControl.LocalPlayer.RpcAddModifier<MedusaGazingModifier>();
-        OverrideName(TouLocale.Get("TouRoleMedusaStoneGazing", "Stone Gazing"));
+        OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.MedusaStoneGazing", "Stone Gazing"));
     }
 
     public override void OnEffectEnd()
     {
-        OverrideName(TouLocale.Get("TouRoleMedusaStoneGaze", "Stone Gaze"));
+        OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.MedusaStoneGaze", "Stone Gaze"));
     }
 }
