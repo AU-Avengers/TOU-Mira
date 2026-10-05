@@ -2949,7 +2949,10 @@ when the lights are sabotaged.</string>
   <!-- Game Settings -->
     <!-- Vanilla Tweaks -->
       <string name="TownOfUsMira.Options.Groups.VanillaTweaks">Vanilla Tweaks</string>
-  <string name="TouOptionHideNamesOutOfSight">Hide Names Out Of Sight</string>
+  <string name="TouOptionHideNamesOutOfSight">Level of Out-of-Sight Name Hiding</string>
+    <string name="TouOptionHideNamesOutOfSightEnumBasic">Basic</string>
+    <string name="TouOptionHideNamesOutOfSightEnumRoomBased">Room-Based</string>
+    <string name="TouOptionHideNamesOutOfSightEnumHarsh">Harsh</string>
   <string name="TouOptionTickCooldownsInMinigame">Continue Cooldown In Tasks and Panels</string>
   <string name="TouOptionParallelMedbay">Parallel Medbay Scans</string>
   <string name="TouOptionMedscanWalk">Walk to Medscan</string>
