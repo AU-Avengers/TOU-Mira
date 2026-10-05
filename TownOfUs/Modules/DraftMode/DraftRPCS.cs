@@ -70,6 +70,7 @@ public static class DraftRpcs
     public static void RpcForceRole(PlayerControl sender, string roleName, byte targetId)
     {
         if (!AmongUsClient.Instance.AmHost) return;
+        if (sender == null || sender.OwnerId != AmongUsClient.Instance.HostId) return;
         if (string.IsNullOrEmpty(roleName)) return;
         DraftManager.SetForcedDraftRole(roleName, targetId);
     }
@@ -134,19 +135,10 @@ public static class DraftRpcs
 
         DraftStatusOverlay.SetState(OverlayState.BackgroundOnly);
 
-        try
+        DraftRecapScreen.Show(entries, mode, onComplete: () =>
         {
-            DraftRecapScreen.Show(entries, mode, onComplete: () =>
-            {
-
-                DraftManager.Reset(cancelledBeforeCompletion: false);
-            });
-        }
-        catch (Exception e)
-        {
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftRpc] Failed to show recap screen: {e}");
             DraftManager.Reset(cancelledBeforeCompletion: false);
-        }
+        });
     }
 }
 
@@ -242,15 +234,8 @@ public sealed class DraftAnnounceTurnRpc(TownOfUsPlugin plugin, uint id)
             draftScreenController?.CacheOfferedRoles(offeredList.ToArray(), offeredNames.ToArray());
 
             DraftAudio.PlayYourTurn();
-            try
-            {
-                DraftScreenController.TargetPickerId = data.PickerId;
-                DraftScreenController.Show(offeredList.ToArray(), offeredNames.ToArray());
-            }
-            catch (Exception e)
-            {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftRpc] Exception showing picker screen: {e}");
-            }
+            DraftScreenController.TargetPickerId = data.PickerId;
+            DraftScreenController.Show(offeredList.ToArray(), offeredNames.ToArray());
         }
         else
         {
@@ -301,6 +286,16 @@ public sealed class DraftPickConfirmedRpc(TownOfUsPlugin plugin, uint id)
     public override void Handle(PlayerControl innerNetObject, DraftPickConfirmedData? data)
     {
         if (data == null) return;
+
+        if (!AmongUsClient.Instance.AmHost)
+        {
+            var existing = DraftManager.GetStateForSlot(data.Slot);
+            if (existing != null && existing.HasPicked && existing.ChosenRoleId != 0 && existing.ChosenRoleId != data.RoleId)
+            {
+                existing.HasPicked = false;
+                existing.ChosenRoleId = 0;
+            }
+        }
 
         DraftManager.ConfirmPick(data.Slot, data.RoleId);
 
@@ -361,8 +356,6 @@ public static class DraftNetworkHelper
 
         var count = Math.Min(allowed, roleIds.Count);
 
-        // Broadcast the full turn state so every client gets the same slot/turn metadata. The receiving
-        // client decides locally whether it is the active picker and whether to show the picker UI.
         var announcement = new DraftTurnAnnouncement
         {
             TurnNumber = turnNumber,
@@ -411,14 +404,7 @@ public static class DraftNetworkHelper
 
         foreach (var cleanup in cleanupActions)
         {
-            try
-            {
-                cleanup();
-            }
-            catch
-            {
-                // ignored
-            }
+            cleanup();
         }
     }
 
