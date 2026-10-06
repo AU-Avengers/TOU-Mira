@@ -11,39 +11,25 @@ public static class DraftAudio
     private static DraftAudioCueMode GetConfiguredCueMode()
     {
         var instance = LocalSettingsTabSingleton<TouLocalTabPractice>.Instance;
-            if (instance?.DraftAudioCue != null)
-            {
-                return instance.DraftAudioCue.Value;
-            }
-        try
+        if (instance?.DraftAudioCue != null)
         {
-            return TouLocalTabPractice.CurrentDraftAudioCueMode;
+            return instance.DraftAudioCue.Value;
         }
-        catch (Exception)
-        {
-            return DraftAudioCueMode.None;
-        }
+
+        return TouLocalTabPractice.CurrentDraftAudioCueMode;
     }
 
-    public static void PlayDraftStart()
+    public static void PlayDraftStart() => PlayCue(DraftAudioCueMode.Start, ref _lastStartPlayedAt);
+
+    public static void PlayYourTurn() => PlayCue(DraftAudioCueMode.YourTurn, ref _lastYourTurnPlayedAt);
+
+    private static void PlayCue(DraftAudioCueMode cue, ref float lastPlayedAt)
     {
-        if (Time.time - _lastStartPlayedAt < DebounceSeconds) return;
-        _lastStartPlayedAt = Time.time;
+        if (Time.time - lastPlayedAt < DebounceSeconds) return;
+        lastPlayedAt = Time.time;
 
         var mode = GetConfiguredCueMode();
-        if (mode == DraftAudioCueMode.Start || mode == DraftAudioCueMode.Both)
-        {
-            TouAudio.PlaySound(TouAudio.TribunalSound);
-        }
-    }
-
-    public static void PlayYourTurn()
-    {
-        if (Time.time - _lastYourTurnPlayedAt < DebounceSeconds) return;
-        _lastYourTurnPlayedAt = Time.time;
-
-        var mode = GetConfiguredCueMode();
-        if (mode == DraftAudioCueMode.YourTurn || mode == DraftAudioCueMode.Both)
+        if (mode == cue || mode == DraftAudioCueMode.Both)
         {
             TouAudio.PlaySound(TouAudio.TribunalSound);
         }
