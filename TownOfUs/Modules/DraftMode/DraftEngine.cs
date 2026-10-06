@@ -436,12 +436,7 @@ namespace TownOfUs.Modules.DraftMode
             return result;
         }
 
-        private static List<RoleListOption> GetRoleListSlots(RoleDraftRoleListOptions options) =>
-        [
-            options.Slot1.Value, options.Slot2.Value, options.Slot3.Value, options.Slot4.Value, options.Slot5.Value,
-            options.Slot6.Value, options.Slot7.Value, options.Slot8.Value, options.Slot9.Value, options.Slot10.Value,
-            options.Slot11.Value, options.Slot12.Value, options.Slot13.Value, options.Slot14.Value, options.Slot15.Value
-        ];
+        private static List<RoleListOption> GetRoleListSlots(RoleDraftRoleListOptions options) => options.Slot.Options.Select(x => x.Value).ToList();
 
         private static bool UseRoleListMode => OptionGroupSingleton<RoleOptions>.Instance?.UseRoleListForPool ?? false;
         private int CountDistinctPoolSeats()
