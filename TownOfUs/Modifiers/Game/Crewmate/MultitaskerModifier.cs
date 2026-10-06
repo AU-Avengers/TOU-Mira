@@ -81,7 +81,6 @@ public sealed class MultitaskerModifier : TouGameModifier, IWikiDiscoverable
                Minigame.Instance.TryCast<SurveillanceMinigame>() ||
                Minigame.Instance.TryCast<PlanetSurveillanceMinigame>() ||
                Minigame.Instance is IngameWikiMinigame ||
-               Minigame.Instance is CustomPhoneMenuComponent ||
-               Minigame.Instance is GuesserMenu;
+               Minigame.Instance is CustomPhoneMenuComponent;
     }
 }
