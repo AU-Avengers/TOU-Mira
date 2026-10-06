@@ -335,15 +335,16 @@ namespace TownOfUs.Modules.DraftMode
                         else if (DraftRolePool.IsNeutralRoleListOption(opt))
                         {
                             neutSlots++;
-                            if (opt is RoleListOption.NeutKilling or RoleListOption.NeutSpecial or RoleListOption.NeutRandom)
+                            if (opt == RoleListOption.NeutKilling)
                                 neutKillingSlots++;
                         }
                         else if (opt == RoleListOption.NonImp) nonImpSlots++;
                         else if (opt == RoleListOption.Any) anySlots++;
                     }
 
+                    int minImps = Math.Min(numPlayers, impSlots);
                     int maxImps = Math.Min(numPlayers, impSlots + anySlots);
-                    int maxNeuts = Math.Min(numPlayers - maxImps, neutSlots + nonImpSlots + anySlots);
+                    int maxNeuts = Math.Min(Math.Max(0, numPlayers - minImps), neutSlots + nonImpSlots + anySlots);
                     int maxNeutKilling = Math.Min(maxNeuts, neutKillingSlots + nonImpSlots + anySlots);
                     return (maxImps, maxNeuts, Math.Min(maxNeuts, maxNeutKilling));
                 }
@@ -357,6 +358,37 @@ namespace TownOfUs.Modules.DraftMode
             int maxNeutKillingManual = neutOpts != null ? Math.Max(0, (int)neutOpts.MaxNeutKilling.Value) : int.MaxValue;
 
             return (maxImpsManual, maxNeutsManual, Math.Min(maxNeutsManual, maxNeutKillingManual));
+        }
+
+        private (int imps, int neutrals, int neutralKilling) GetTargetMinimums()
+        {
+            if (!UseRoleListMode)
+            {
+                var (maxImps, maxNeuts, maxNeutKilling) = GetTargetLimits();
+                return (maxImps, maxNeuts, maxNeutKilling);
+            }
+
+            var options = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
+            if (options == null) return (0, 0, 0);
+
+            var slots = GetRoleListSlots(options);
+            int players = _totalSlots > 0 ? _totalSlots : Math.Max(1, DraftManager.GetAllStates().Count);
+            int requestedImps = slots.Count(DraftRolePool.IsImpostorRoleListOption);
+            int requestedNeutrals = slots.Count(DraftRolePool.IsNeutralRoleListOption);
+            int requestedNeutralKilling = slots.Count(option => option == RoleListOption.NeutKilling);
+
+            int availableImps = CountAvailableSeatsForFaction(DraftFaction.Impostor);
+            int availableNeutrals = CountAvailableSeatsForFaction(DraftFaction.Neutral);
+            int availableNeutralKilling = CountAvailableNeutralKillingSeats();
+            int requiredImps = Math.Min(Math.Min(players, requestedImps), availableImps);
+            int requiredNeutrals = Math.Min(
+                Math.Min(Math.Max(0, players - requiredImps), requestedNeutrals),
+                availableNeutrals);
+            int requiredNeutralKilling = Math.Min(
+                Math.Min(requiredNeutrals, requestedNeutralKilling),
+                availableNeutralKilling);
+
+            return (requiredImps, requiredNeutrals, requiredNeutralKilling);
         }
 
         private static List<RoleListOption> GetRoleListSlots(RoleDraftRoleListOptions options) =>
@@ -390,6 +422,84 @@ namespace TownOfUs.Modules.DraftMode
 
         private static int SeatWeightForRoleId(ushort roleId, string baseName) =>
             DraftRolePool.IsDoubleDraftRoleId(roleId) || DraftRolePool.IsDoubleDraftRoleName(baseName) ? 2 : 1;
+
+        private int CountAvailableSeatsForFaction(DraftFaction faction, string excludedBaseName = "")
+        {
+            return _pool
+                .Concat(_reservedSeatsBySlot.Values.SelectMany(seats => seats))
+                .Where(name => !string.IsNullOrWhiteSpace(name) && name != "__RANDOM__")
+                .Where(name => string.IsNullOrEmpty(excludedBaseName) ||
+                               !BaseRoleName(name).Equals(excludedBaseName, StringComparison.OrdinalIgnoreCase))
+                .GroupBy(BaseRoleName, StringComparer.OrdinalIgnoreCase)
+                .Where(group => GetRoleFaction(group.Key) == faction)
+                .Sum(group => Math.Min(
+                    group.Select(name => name.Contains('|') ? name.Substring(name.IndexOf('|')) : name)
+                        .Distinct(StringComparer.Ordinal)
+                        .Count(),
+                    DraftRolePool.GetMaxCountForRoleName(group.Key)) * SeatWeightForRoleName(group.Key));
+        }
+
+        private int CountAvailableNeutralKillingSeats(string excludedBaseName = "")
+        {
+            return _pool
+                .Concat(_reservedSeatsBySlot.Values.SelectMany(seats => seats))
+                .Where(name => !string.IsNullOrWhiteSpace(name) && name != "__RANDOM__")
+                .Where(name => string.IsNullOrEmpty(excludedBaseName) ||
+                               !BaseRoleName(name).Equals(excludedBaseName, StringComparison.OrdinalIgnoreCase))
+                .GroupBy(BaseRoleName, StringComparer.OrdinalIgnoreCase)
+                .Where(group => DraftRolePool.GetRoleAlignment(group.Key) == RoleAlignment.NeutralKilling)
+                .Sum(group => Math.Min(
+                    group.Select(name => name.Contains('|') ? name.Substring(name.IndexOf('|')) : name)
+                        .Distinct(StringComparer.Ordinal)
+                        .Count(),
+                    DraftRolePool.GetMaxCountForRoleName(group.Key)) * SeatWeightForRoleName(group.Key));
+        }
+
+        private bool PickPreservesFactionQuotas(string candidate, DraftSlotContext context)
+        {
+            if (context.RemainingUnpicked <= 0) return true;
+
+            var maxImps = context.MinImps;
+            var maxNeuts = context.MinNeuts;
+            var maxNeutKilling = context.MinNeutKilling;
+            string baseName = BaseRoleName(candidate);
+            bool isImp = GetRoleFaction(baseName) == DraftFaction.Impostor;
+            bool isNeut = GetRoleFaction(baseName) == DraftFaction.Neutral;
+            int weight = SeatWeightForRoleName(baseName);
+            bool isNeutKilling = isNeut &&
+                DraftRolePool.GetRoleAlignment(baseName) == RoleAlignment.NeutralKilling;
+
+            int beforeImpNeed = Math.Min(
+                Math.Max(0, maxImps - context.PickedImps),
+                CountAvailableSeatsForFaction(DraftFaction.Impostor));
+            int beforeNeutNeed = Math.Min(
+                Math.Max(0, maxNeuts - context.PickedNeuts),
+                CountAvailableSeatsForFaction(DraftFaction.Neutral));
+            int beforeNeutKillingNeed = Math.Min(
+                Math.Max(0, maxNeutKilling - context.PickedNeutKilling),
+                CountAvailableNeutralKillingSeats());
+            beforeNeutNeed = Math.Max(beforeNeutNeed, beforeNeutKillingNeed);
+
+            if (beforeImpNeed + beforeNeutNeed > context.RemainingUnpicked)
+                return true;
+
+            int picksLeft = context.RemainingUnpicked - 1;
+            int impsAfter = context.PickedImps + (isImp ? weight : 0);
+            int neutsAfter = context.PickedNeuts + (isNeut ? weight : 0);
+            int neutKillingAfter = context.PickedNeutKilling + (isNeutKilling ? weight : 0);
+            int neededImps = Math.Min(
+                Math.Max(0, maxImps - impsAfter),
+                CountAvailableSeatsForFaction(DraftFaction.Impostor, baseName));
+            int neededNeuts = Math.Min(
+                Math.Max(0, maxNeuts - neutsAfter),
+                CountAvailableSeatsForFaction(DraftFaction.Neutral, baseName));
+            int neededNeutKilling = Math.Min(
+                Math.Max(0, maxNeutKilling - neutKillingAfter),
+                CountAvailableNeutralKillingSeats(baseName));
+            neededNeuts = Math.Max(neededNeuts, neededNeutKilling);
+
+            return neededImps + neededNeuts <= picksLeft;
+        }
 
         private int CountDistinctPoolSeatsForGroup(string candidateBaseName)
         {
@@ -461,6 +571,9 @@ namespace TownOfUs.Modules.DraftMode
             public int MaxImps;
             public int MaxNeuts;
             public int MaxNeutKilling;
+            public int MinImps;
+            public int MinNeuts;
+            public int MinNeutKilling;
             public int RemainingUnpicked;
             public int RemainingSeats;
             public int LockedImps;
@@ -497,6 +610,10 @@ namespace TownOfUs.Modules.DraftMode
             context.MaxImps = maxImps;
             context.MaxNeuts = maxNeuts;
             context.MaxNeutKilling = maxNeutKilling;
+            var (minImps, minNeuts, minNeutKilling) = GetTargetMinimums();
+            context.MinImps = minImps;
+            context.MinNeuts = minNeuts;
+            context.MinNeutKilling = minNeutKilling;
 
             var allStates = DraftManager.GetAllStates();
             foreach (var s in allStates)
@@ -712,6 +829,7 @@ namespace TownOfUs.Modules.DraftMode
             if (isNeut && DraftRolePool.GetRoleAlignment(baseName) == RoleAlignment.NeutralKilling &&
                 context.CurrentNeutKilling + candidateWeight > context.MaxNeutKilling) return false;
             if (candidateWeight == 2 && CountDistinctPoolSeatsForGroup(baseName) < 2) return false;
+            if (!PickPreservesFactionQuotas(baseName, context)) return false;
 
             if (UseRoleListMode && !ignoreForce)
             {
@@ -756,6 +874,7 @@ namespace TownOfUs.Modules.DraftMode
             if (isNeut && context.PickedNeuts + candidateWeight > context.MaxNeuts) return false;
             if (isNeut && DraftRolePool.GetRoleAlignment(baseName) == RoleAlignment.NeutralKilling &&
                 context.PickedNeutKilling + candidateWeight > context.MaxNeutKilling) return false;
+            if (!PickPreservesFactionQuotas(baseName, context)) return false;
 
             var roleId = context.GetRepresentativeId(baseName);
             int currentCountById = context.AssignedCountsById.GetValueOrDefault(roleId);
@@ -813,7 +932,7 @@ namespace TownOfUs.Modules.DraftMode
                         lockedResult = hardLockedFaction.HasValue ? lockedResult : TopUpWithAnyLegalRole(lockedResult, offered, avoidNames, slot);
 
                     if (lockedResult.Count == offered || (hardLockedFaction.HasValue && lockedResult.Count > 0))
-                        return lockedResult;
+                        return TopUpWithAnyLegalRole(lockedResult, offered, avoidNames, slot, context);
                 }
             }
 
@@ -1162,6 +1281,7 @@ namespace TownOfUs.Modules.DraftMode
                 var pick = PickDiverseRole(candidates, new HashSet<string>(StringComparer.OrdinalIgnoreCase));
                 if (string.IsNullOrEmpty(pick)) break;
                 result.Add(pick);
+                used.Add(BaseRoleName(pick));
                 candidates.RemoveAll(n => string.Equals(BaseRoleName(n), BaseRoleName(pick), StringComparison.OrdinalIgnoreCase));
             }
 
@@ -1171,6 +1291,8 @@ namespace TownOfUs.Modules.DraftMode
                     .Where(n => DraftRolePool.IsRoleUsableAndEnabled(n))
                     .Where(n => !used.Contains(BaseRoleName(n)))
                     .Where(n => !context.AvoidNames.Contains(n) && !context.AvoidNames.Contains(BaseRoleName(n)))
+                    .Where(n => IsRoleAllowedForSlot(
+                        n, 0, ignoreConcurrentOffers: false, ignoreForce: true, context: context))
                     .Where(n => context.AssignedCountsByName.GetValueOrDefault(NormalizeRoleNameKey(n)) < DraftRolePool.GetMaxCountForRoleName(BaseRoleName(n)))
                     .ToList();
 
@@ -1179,8 +1301,64 @@ namespace TownOfUs.Modules.DraftMode
                     var pick = PickDiverseRole(fallbackCrew, new HashSet<string>(StringComparer.OrdinalIgnoreCase));
                     if (string.IsNullOrEmpty(pick)) break;
                     result.Add(pick);
+                    used.Add(BaseRoleName(pick));
                     fallbackCrew.RemoveAll(n => string.Equals(BaseRoleName(n), BaseRoleName(pick), StringComparison.OrdinalIgnoreCase));
                 }
+            }
+        }
+
+        private List<string> FillWithRandomCrewBucket(List<string> offers, int offered, int slot)
+        {
+            var result = new List<string>(offers);
+            if (result.Count >= offered) return result;
+
+            var used = new HashSet<string>(result.Select(BaseRoleName), StringComparer.OrdinalIgnoreCase);
+            var context = BuildSlotContext(slot, ignoreConcurrentOffers: true, ignoreForce: false);
+            var crewRoles = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewRandom))
+                .Where(name => !string.IsNullOrWhiteSpace(name))
+                .Select(BaseRoleName)
+                .Where(name => DraftRolePool.IsRoleUsableAndEnabled(name))
+                .Where(name => GetRoleFaction(name) == DraftFaction.Crewmate)
+                .Where(name => DraftRolePool.ResolveRoleIdFromName(name) != 0)
+                .Where(name =>
+                {
+                    var id = DraftRolePool.ResolveRoleIdFromName(name);
+                    return context.AssignedCountsById.GetValueOrDefault(id) <
+                               DraftRolePool.GetMaxCountForRoleName(name) &&
+                           context.AssignedCountsByName.GetValueOrDefault(NormalizeRoleNameKey(name)) <
+                               DraftRolePool.GetMaxCountForRoleName(name);
+                })
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            var quotaSafeCrew = crewRoles
+                .Where(name => !used.Contains(name))
+                .Where(name => IsRoleAllowedForSlot(
+                    name, slot, ignoreConcurrentOffers: true, ignoreForce: false, context: context))
+                .ToList();
+
+            AddRandomCrewOffers(result, offered, used, quotaSafeCrew);
+
+            var remainingCrew = crewRoles.Where(name => !used.Contains(name)).ToList();
+            AddRandomCrewOffers(result, offered, used, remainingCrew);
+
+            if (result.Count < offered && crewRoles.Count > 0)
+            {
+                AddRandomCrewOffers(result, offered, used, new List<string>(crewRoles));
+            }
+
+            return result;
+        }
+
+        private void AddRandomCrewOffers(List<string> offers, int offered, HashSet<string> used, List<string> candidates)
+        {
+            while (offers.Count < offered && candidates.Count > 0)
+            {
+                var choice = PickWeightedRoleName(candidates);
+                offers.Add(choice);
+                used.Add(BaseRoleName(choice));
+                candidates.RemoveAll(name =>
+                    string.Equals(BaseRoleName(name), BaseRoleName(choice), StringComparison.OrdinalIgnoreCase));
             }
         }
 
@@ -1222,8 +1400,8 @@ namespace TownOfUs.Modules.DraftMode
         private static DraftFaction? GetManualHardFloorFaction(DraftSlotContext context)
         {
             int future = Math.Max(0, context.RemainingUnpicked - 1 - context.OtherActiveSlots);
-            int neededImps = Math.Min(Math.Max(0, context.MaxImps - context.PickedImps - context.LockedImps), context.PoolImpSeats);
-            int neededNeuts = Math.Min(Math.Max(0, context.MaxNeuts - context.PickedNeuts - context.LockedNeuts), context.PoolNeutSeats);
+            int neededImps = Math.Min(Math.Max(0, context.MinImps - context.PickedImps - context.LockedImps), context.PoolImpSeats);
+            int neededNeuts = Math.Min(Math.Max(0, context.MinNeuts - context.PickedNeuts - context.LockedNeuts), context.PoolNeutSeats);
 
             DraftFaction? forced = null;
             if (neededImps > 0 && neededImps + Math.Max(0, neededNeuts - 1) > future)
@@ -1245,7 +1423,7 @@ namespace TownOfUs.Modules.DraftMode
         private static DraftFaction? GetHardFloorFaction(DraftSlotContext context)
         {
             if (context.RemainingUnpicked <= 0) return null;
-            return UseRoleListMode ? null : GetManualHardFloorFaction(context);
+            return GetManualHardFloorFaction(context);
         }
 
         [HideFromIl2Cpp]
@@ -1292,6 +1470,8 @@ namespace TownOfUs.Modules.DraftMode
                     .Where(n => DraftRolePool.IsRoleUsableAndEnabled(n))
                     .Where(n => !used.Contains(BaseRoleName(n)))
                     .Where(n => !avoidNames.Contains(n) && !avoidNames.Contains(BaseRoleName(n)))
+                    .Where(n => IsRoleAllowedForSlot(
+                        n, slot, ignoreConcurrentOffers: false, ignoreForce: true, context: context))
                     .ToList();
 
                 foreach (var crew in fallbackCrew)
@@ -1384,7 +1564,7 @@ namespace TownOfUs.Modules.DraftMode
 
             if (offers.Count == 0)
             {
-                var emergencyContext = BuildSlotContext(slot, ignoreConcurrentOffers: false, ignoreForce: true);
+                var emergencyContext = BuildSlotContext(slot, ignoreConcurrentOffers: false, ignoreForce: false);
                 offers = BuildGuaranteedOfferFallback(
                     Math.Max(1, (int)(OptionGroupSingleton<RoleOptions>.Instance?.OfferedRolesCount.Value ?? 3)),
                     emergencyContext.AvoidNames,
@@ -1394,22 +1574,23 @@ namespace TownOfUs.Modules.DraftMode
 
             var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
             int offeredLimit = Math.Max(1, (int)(roleOpts?.OfferedRolesCount.Value ?? 3));
-            var offerContext = BuildSlotContext(slot, ignoreConcurrentOffers: false, ignoreForce: true);
-            bool floorLocked = GetHardFloorFaction(BuildSlotContext(slot)).HasValue;
+            var offerContext = BuildSlotContext(slot, ignoreConcurrentOffers: false, ignoreForce: false);
             if (offers.Count < offeredLimit)
             {
-                offers = floorLocked ? offers : TopUpWithAnyLegalRole(offers, offeredLimit, offerContext.AvoidNames, slot, offerContext);
+                offers = TopUpWithAnyLegalRole(offers, offeredLimit, offerContext.AvoidNames, slot, offerContext);
             }
 
-            if (!floorLocked) PadWithCrewRoles(offers, offeredLimit, offerContext);
+            PadWithCrewRoles(offers, offeredLimit, offerContext);
 
             if (offers.Count < offeredLimit)
             {
-                var broadFallback = (floorLocked && offers.Count > 0 ? new List<string>() : BuildGuaranteedOfferFallback(offeredLimit, offerContext.AvoidNames, slot, offerContext))
+                var broadFallback = BuildGuaranteedOfferFallback(offeredLimit, offerContext.AvoidNames, slot, offerContext)
                     .Where(n => !string.IsNullOrWhiteSpace(n))
                     .ToList();
                 offers = MergeOfferLists(offers, broadFallback, offeredLimit);
             }
+
+            offers = FillWithRandomCrewBucket(offers, offeredLimit, slot);
 
             if (offers.Count > offeredLimit)
             {
@@ -1795,7 +1976,7 @@ namespace TownOfUs.Modules.DraftMode
                 string? chosenName = (index >= offers.Count) ? "__RANDOM__" : offers[index];
                 bool isExplicitPick = index != 255 && index < offers.Count && selectedRoleId != 0;
                 ReleaseReservedSeats(slot);
-                var validationContext = BuildSlotContext(slot, ignoreConcurrentOffers: true, ignoreForce: true);
+                var validationContext = BuildSlotContext(slot, ignoreConcurrentOffers: true, ignoreForce: false);
 
                 bool wasDoubleDraftBlocked = false;
                 if (chosenName != null && chosenName != "__RANDOM__" && !CanConfirmPick(chosenName, validationContext) &&
@@ -1818,7 +1999,7 @@ namespace TownOfUs.Modules.DraftMode
                 if (chosenName == "__RANDOM__" || chosenName == null)
                 {
                     bool isDc = DraftManager.IsPlayerDisconnected(state.PlayerId);
-                    var strictValidationContext = BuildSlotContext(slot, ignoreConcurrentOffers: false, ignoreForce: true);
+                    var strictValidationContext = BuildSlotContext(slot, ignoreConcurrentOffers: false, ignoreForce: false);
                     var eligibleRemaining = BuildLegalRandomCandidatePool(slot, isDc, strictValidationContext);
 
                     DraftFaction? hardFloorFaction = null;
@@ -1856,7 +2037,7 @@ namespace TownOfUs.Modules.DraftMode
                     }
                     else
                     {
-                        var eligibleContext = BuildSlotContext(slot, ignoreConcurrentOffers: false, ignoreForce: true);
+                        var eligibleContext = BuildSlotContext(slot, ignoreConcurrentOffers: false, ignoreForce: false);
                         var anyNames = BuildLegalRandomCandidatePool(slot, isDc, eligibleContext, allowVisibleOnly: false)
                             .Where(n => !string.IsNullOrWhiteSpace(n))
                             .ToList();
@@ -1931,7 +2112,7 @@ namespace TownOfUs.Modules.DraftMode
                         return;
                     }
 
-                    var emergencyContext = BuildSlotContext(slot, ignoreConcurrentOffers: false, ignoreForce: true);
+                    var emergencyContext = BuildSlotContext(slot, ignoreConcurrentOffers: false, ignoreForce: false);
                     var emergencyId = _pool
                         .Where(n => !string.IsNullOrWhiteSpace(n) && n != "__RANDOM__")
                         .Where(n => IsRoleAllowedForSlot(n, slot, ignoreConcurrentOffers: false, ignoreForce: true, context: emergencyContext))
@@ -2191,7 +2372,7 @@ namespace TownOfUs.Modules.DraftMode
             seen.UnionWith(justShownBaseNames);
             var floorLocked = GetHardFloorFaction(BuildSlotContext(currentSlot)).HasValue;
             var offers = GenerateOffersForSlot(currentSlot, floorLocked ? null! : seen);
-            var shuffleContext = BuildSlotContext(currentSlot, ignoreConcurrentOffers: false, ignoreForce: true);
+            var shuffleContext = BuildSlotContext(currentSlot, ignoreConcurrentOffers: false, ignoreForce: false);
             if (floorLocked)
             {
                 if (offers.Count == 0) offers = new List<string>(previousOffers);
@@ -2199,14 +2380,14 @@ namespace TownOfUs.Modules.DraftMode
             else
             {
                 offers = FinalizeShuffleOffers(currentSlot, offers, seen, offeredCount, previousOffers);
-                offers = TopUpWithAnyLegalRole(offers, offeredCount, shuffleContext.AvoidNames, currentSlot, shuffleContext);
             }
 
-            if (!floorLocked) PadWithCrewRoles(offers, offeredCount, shuffleContext);
+            offers = TopUpWithAnyLegalRole(offers, offeredCount, shuffleContext.AvoidNames, currentSlot, shuffleContext);
+            PadWithCrewRoles(offers, offeredCount, shuffleContext);
 
             if (offers.Count < offeredCount)
             {
-                var broadFallback = (floorLocked && offers.Count > 0 ? new List<string>() : BuildGuaranteedOfferFallback(offeredCount, shuffleContext.AvoidNames, currentSlot, shuffleContext))
+                var broadFallback = BuildGuaranteedOfferFallback(offeredCount, shuffleContext.AvoidNames, currentSlot, shuffleContext)
                     .Where(n => !string.IsNullOrWhiteSpace(n))
                     .ToList();
                 offers = MergeOfferLists(offers, broadFallback, offeredCount);
@@ -2234,6 +2415,8 @@ namespace TownOfUs.Modules.DraftMode
                 crewReplacements.RemoveAll(roleName =>
                     string.Equals(BaseRoleName(roleName), BaseRoleName(replacement), StringComparison.OrdinalIgnoreCase));
             }
+
+            offers = FillWithRandomCrewBucket(offers, offeredCount, currentSlot);
 
             if (offers.Count > offeredCount)
                 offers = offers.Take(offeredCount).ToList();
