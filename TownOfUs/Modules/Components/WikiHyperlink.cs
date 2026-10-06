@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using AmongUs.GameOptions;
-using MiraAPI.Modifiers;
 using MiraAPI.Patches;
 using Reactor.Utilities;
 using Reactor.Utilities.Attributes;

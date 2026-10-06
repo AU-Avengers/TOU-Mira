@@ -91,16 +91,16 @@ public static class AnimStore
         float yOffset = -0.575f,
         float zOffset = 0f)
     {
-        var cosmeticsLayer = player.transform.GetChild(2);
+        var cosmeticsLayer = player.cosmetics;
         var animation = SpawnAnimPlayer(player, prefab);
         var animationBounceHolder = new GameObject($"A_{prefab.name}");
-        animationBounceHolder.transform.SetParent(cosmeticsLayer, false);
+        animationBounceHolder.transform.SetParent(cosmeticsLayer.transform, false);
         animationBounceHolder.transform.localPosition =
             new Vector3(0, yOffset + 0.05f, zOffset); // -0.04f, 0.575 (but we flip to reverse this)
 
         animation.transform.SetParent(animationBounceHolder.transform, true);
         var bounceSync = animation.AddComponent<SpriteAnimNodeSync>();
-        var hatParent = animationBounceHolder.transform.parent.GetChild(0).GetComponent<HatParent>();
+        var hatParent = cosmeticsLayer.hat;
 
         bounceSync.NodeId = 1;
         bounceSync.Parent = hatParent.SpriteSyncNode.Parent;
