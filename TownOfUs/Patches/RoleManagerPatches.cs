@@ -426,10 +426,12 @@ public static class TouRoleManagerPatches
         // Adjust neutral counts for /up requests and ensure crewmates outnumber neutrals
         AdjustNeutralCountsForUpRequests(ref nbCount, ref neCount, ref nkCount, ref noCount, crewmates.Count);
 
-        var excluded = MiscUtils.SpawnableRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role);
+        var excluded = MiscUtils.SpawnableRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role)
+            .Concat(MiscUtils.GetExclusiveRoleExclusions().Select(x => (RoleTypes)x)).ToList();
+        var exclusionFilter = new Func<RoleBehaviour, bool>(x => !excluded.Contains(x.Role));
 
         var impRoles =
-            MiscUtils.GetMaxRolesToAssign(ModdedRoleTeams.Impostor, impCount, x => !excluded.Contains(x.Role));
+            MiscUtils.GetMaxRolesToAssign(ModdedRoleTeams.Impostor, impCount, exclusionFilter);
 
         // Handle unique role constraint
         var uniqueRole = MiscUtils.SpawnableRoles.FirstOrDefault(x => x is ISpawnChange { NoSpawn: false });
@@ -448,13 +450,13 @@ public static class TouRoleManagerPatches
         }
 
         // Get neutral and crewmate roles
-        var nbRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralBenign, nbCount);
-        var neRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralEvil, neCount);
-        var nkRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralKilling, nkCount);
-        var noRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralOutlier, noCount);
+        var nbRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralBenign, nbCount, exclusionFilter);
+        var neRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralEvil, neCount, exclusionFilter);
+        var nkRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralKilling, nkCount, exclusionFilter);
+        var noRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralOutlier, noCount, exclusionFilter);
 
         var crewCount = crewmates.Count - nbRoles.Count - neRoles.Count - nkRoles.Count - noRoles.Count;
-        var crewRoles = MiscUtils.GetMaxRolesToAssign(ModdedRoleTeams.Crewmate, crewCount);
+        var crewRoles = MiscUtils.GetMaxRolesToAssign(ModdedRoleTeams.Crewmate, crewCount, exclusionFilter);
 
         // Combine crewmate and neutral roles
         var crewAndNeutRoles = new List<ushort>();
@@ -644,7 +646,8 @@ public static class TouRoleManagerPatches
 
 
         // Get all role lists with exclusion filter
-        var excluded = MiscUtils.SpawnableRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role).ToList();
+        var excluded = MiscUtils.SpawnableRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role)
+            .Concat(MiscUtils.GetExclusiveRoleExclusions().Select(x => (RoleTypes)x)).ToList();
         var exclusionFilter = new Func<RoleBehaviour, bool>(x => !excluded.Contains(x.Role));
 
         var crewInvestRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateInvestigative, exclusionFilter);
@@ -659,7 +662,7 @@ public static class TouRoleManagerPatches
         var impConcealRoles = MiscUtils.GetRolesToAssign(RoleAlignment.ImpostorConcealing, exclusionFilter);
         var impKillingRoles = MiscUtils.GetRolesToAssign(RoleAlignment.ImpostorKilling, exclusionFilter);
         var impPowerRoles = MiscUtils.GetRolesToAssign(RoleAlignment.ImpostorPower, exclusionFilter);
-        var impSupportRoles = MiscUtils.GetRolesToAssign(RoleAlignment.ImpostorSupport);
+        var impSupportRoles = MiscUtils.GetRolesToAssign(RoleAlignment.ImpostorSupport, exclusionFilter);
 
         // imp buckets
         impRoles.AddFromBucket(buckets, impConcealRoles, takenRoles,
