@@ -11,6 +11,7 @@ using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
@@ -23,6 +24,10 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     public PlayerControl? LastVoted { get; set; }
 
     [HideFromIl2Cpp] public List<PlayerControl> CaughtPlayers { get; } = [];
+
+    [HideFromIl2Cpp] public Dictionary<byte, int> CaughtRounds { get; } = [];
+
+    public bool PendingShame { get; set; }
 
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string IdPart => "Hunter";
@@ -124,6 +129,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         if (!role.CaughtPlayers.Contains(source))
         {
             role.CaughtPlayers.Add(source);
+            role.CaughtRounds[source.PlayerId] = HudManagerHelper.Instance.CurrentRound;
 
             if (hunter.AmOwner)
             {
