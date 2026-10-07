@@ -1310,11 +1310,7 @@ public static class MiscUtils
     public static HashSet<ushort> GetExclusiveRoleExclusions()
     {
         var roleOptions = GameOptionsManager.Instance.CurrentGameOptions.RoleOptions;
-        var candidates = SpawnableRoles
-            .Where(x => x is not ISpawnChange { NoSpawn: true }
-                        && roleOptions.GetNumPerGame(x.Role) > 0
-                        && roleOptions.GetChancePerGame(x.Role) > 0)
-            .ToList();
+        var candidates = GetExclusionCandidates();
 
         var involved = candidates
             .Where(x => candidates.Any(y => x != y && AreRolesExclusive(x, y)))
@@ -1348,6 +1344,58 @@ public static class MiscUtils
         }
 
         return excluded;
+    }
+
+    /// <summary>
+    ///     Groups the enabled roles that cannot spawn together, for display. Each group is a connected set of
+    ///     roles linked by <see cref="IExclusiveRole"/> declarations or enabled exclusion buckets.
+    /// </summary>
+    public static List<List<RoleBehaviour>> GetExclusiveRoleGroups()
+    {
+        var candidates = GetExclusionCandidates();
+        var declaredTypes = candidates.OfType<IExclusiveRole>().SelectMany(x => x.ExclusiveWith).ToHashSet();
+        var relevant = candidates
+            .Where(x => x is IExclusiveRole
+                        || declaredTypes.Any(t => t.IsInstanceOfType(x))
+                        || RoleExclusionRegistry.RegisteredBuckets.Any(b => b.IsEnabled() && b.Contains(x)))
+            .ToList();
+
+        var groups = new List<List<RoleBehaviour>>();
+        var visited = new HashSet<RoleBehaviour>();
+        foreach (var role in relevant)
+        {
+            if (!visited.Add(role))
+            {
+                continue;
+            }
+
+            var group = new List<RoleBehaviour> { role };
+            for (var i = 0; i < group.Count; i++)
+            {
+                foreach (var other in relevant.Where(x => !visited.Contains(x) && AreRolesExclusive(group[i], x)).ToList())
+                {
+                    visited.Add(other);
+                    group.Add(other);
+                }
+            }
+
+            if (group.Count > 1)
+            {
+                groups.Add(group);
+            }
+        }
+
+        return groups;
+    }
+
+    private static List<RoleBehaviour> GetExclusionCandidates()
+    {
+        var roleOptions = GameOptionsManager.Instance.CurrentGameOptions.RoleOptions;
+        return SpawnableRoles
+            .Where(x => x is not ISpawnChange { NoSpawn: true }
+                        && roleOptions.GetNumPerGame(x.Role) > 0
+                        && roleOptions.GetChancePerGame(x.Role) > 0)
+            .ToList();
     }
 
     private static List<(uint Id, ushort RoleType, int Chance)> GetPossibleRoles(

@@ -359,6 +359,7 @@ public static class HudManagerPatches
                         rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
                     }
 
+                    AppendExclusiveRoles(rolelistBuilder);
                     break;
                 case RoleDistribution.MinMaxList:
                     rolelistBuilder.Append(StoredFactionList);
@@ -383,6 +384,7 @@ public static class HudManagerPatches
                         rolelistBuilder.Append(' ');
                         rolelistBuilder.AppendLine(StoredMaximum);
                     }
+                    AppendExclusiveRoles(rolelistBuilder);
                     break;
                 case RoleDistribution.Draft:
                     if (!DraftSidebarManager.IsActive)
@@ -464,6 +466,24 @@ public static class HudManagerPatches
             }
 
             RoleList.SetActive(true);
+        }
+    }
+
+    private static void AppendExclusiveRoles(StringBuilder builder)
+    {
+        var groups = MiscUtils.GetExclusiveRoleGroups();
+        if (groups.Count == 0)
+        {
+            return;
+        }
+
+        builder.Append("\n<color=#FFD700>");
+        builder.Append(StoredExclusiveRoles);
+        builder.Append(":</color>\n");
+        foreach (var group in groups)
+        {
+            builder.AppendLine(string.Join("<color=#696969> / </color>",
+                group.Select(x => $"{x.TeamColor.ToTextColor()}{x.GetRoleName()}</color>")));
         }
     }
 
@@ -584,6 +604,7 @@ public static class HudManagerPatches
     public static string StoredSpectatingLocale { get; private set; } = "Spectator";
     public static string StoredRoleList { get; private set; } = "Set Role List";
     public static string StoredFactionList { get; private set; } = "Neutral Faction List";
+    public static string StoredExclusiveRoles { get; private set; } = "Exclusive Roles";
     public static string NeutralBenigns { get; private set; } = "Neutral Benigns";
     public static string NeutralEvils { get; private set; } = "Neutral Evils";
     public static string NeutralOutliers { get; private set; } = "Neutral Outliers";
@@ -641,6 +662,7 @@ public static class HudManagerPatches
         StoredSpectatingLocale = MiraLocaleManager.Get("TownOfUsMira.Role.Spectator");
         StoredRoleList = MiraLocaleManager.Get("SetRoleList");
         StoredFactionList = MiraLocaleManager.Get("NeutralFactionList");
+        StoredExclusiveRoles = MiraLocaleManager.Get("ExclusiveRolesList");
         StoredDraftTitle = MiraLocaleManager.Get("StoredDraftTitle");
         List<string> lists =
         [
