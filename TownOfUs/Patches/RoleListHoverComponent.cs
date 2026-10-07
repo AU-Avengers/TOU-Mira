@@ -41,6 +41,15 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
             return;
         }
 
+        if (HudManagerPatches.IsAnyMenuOpen)
+        {
+            _lastLine = -1;
+            _hideDelay = 0f;
+            RestoreRoleListText();
+            HideTooltip();
+            return;
+        }
+
         EnsureTooltip();
 
         // Handle tooltip link hover/click in one place
