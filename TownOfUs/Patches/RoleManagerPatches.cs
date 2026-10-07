@@ -30,6 +30,7 @@ public static class TouRoleManagerPatches
     private static readonly List<RoleTypes> CustomGhostRolePool = [];
 
     public static bool ReplaceRoleManager;
+    public static HashSet<ushort> VanillaExclusions { get; private set; } = [];
     private static List<int> LastImps { get; set; } = [];
 
     private static void GhostRoleSetup()
@@ -905,6 +906,12 @@ public static class TouRoleManagerPatches
         if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla || !CustomGameModeManager.IsClassic())
         {
             MiraAPI.Patches.Roles.SelectRolesPatch.ApiHandlesRoleSelect = true;
+            VanillaExclusions = [];
+            if (assignmentType is RoleSelectionMode.Vanilla && !TutorialManager.InstanceExists && !ReplaceRoleManager && !GameManager.Instance.IsHideAndSeek() && CustomGameModeManager.IsClassic())
+            {
+                VanillaExclusions = MiscUtils.GetExclusiveRoleExclusions();
+            }
+
             return true;
         }
 
@@ -1031,6 +1038,13 @@ public static class TouRoleManagerPatches
         }
 
         return false;
+    }
+
+    [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
+    [HarmonyFinalizer]
+    public static void ClearVanillaExclusions()
+    {
+        VanillaExclusions = [];
     }
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
