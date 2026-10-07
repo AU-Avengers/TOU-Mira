@@ -235,6 +235,7 @@ Fake Tasks:</string>
   <string name="FrenzyKillerTaskHeader">Eliminate all other teams by any means.</string>
   <!-- Role List -->
     <string name="SetRoleList">Set Role List</string>
+    <string name="ExclusiveRolesList">Exclusive Roles</string>
   <string name="NeutralFactionList">Neutral Faction List</string>
   <string name="StoredDraftTitle">Draft Mode</string>
   <string name="NeutralBenigns">Neutral Benigns</string>
