@@ -1290,6 +1290,64 @@ public static class MiscUtils
         return rolesToKeep;
     }
 
+    /// <summary>
+    ///     Checks whether two roles cannot spawn together, based on either role's <see cref="IExclusiveRole"/> declaration.
+    /// </summary>
+    public static bool AreRolesExclusive(RoleBehaviour a, RoleBehaviour b)
+    {
+        return a is IExclusiveRole exclusiveA && exclusiveA.ExclusiveWith.Any(t => t.IsInstanceOfType(b))
+               || b is IExclusiveRole exclusiveB && exclusiveB.ExclusiveWith.Any(t => t.IsInstanceOfType(a));
+    }
+
+    /// <summary>
+    ///     Resolves which roles are blocked this game by <see cref="IExclusiveRole"/> relationships.
+    ///     Roles at 100% beat roles below 100%; otherwise roles that pass their spawn roll beat ones that don't.
+    ///     Ties are decided randomly, so two 100% roles that exclude each other are a 50/50.
+    /// </summary>
+    /// <returns>The role ids that must not spawn this game.</returns>
+    public static HashSet<ushort> GetExclusiveRoleExclusions()
+    {
+        var roleOptions = GameOptionsManager.Instance.CurrentGameOptions.RoleOptions;
+        var candidates = SpawnableRoles
+            .Where(x => x is not ISpawnChange { NoSpawn: true }
+                        && roleOptions.GetNumPerGame(x.Role) > 0
+                        && roleOptions.GetChancePerGame(x.Role) > 0)
+            .ToList();
+
+        var involved = candidates
+            .Where(x => candidates.Any(y => x != y && AreRolesExclusive(x, y)))
+            .Select(x => (Role: x, Chance: roleOptions.GetChancePerGame(x.Role)))
+            .ToList();
+
+        if (involved.Count == 0)
+        {
+            return [];
+        }
+
+        involved.Shuffle();
+        var ordered = involved
+            .OrderByDescending(x => x.Chance == 100)
+            .ThenByDescending(x => HashRandom.Next(101) < x.Chance)
+            .Select(x => x.Role)
+            .ToList();
+
+        var allowed = new List<RoleBehaviour>();
+        var excluded = new HashSet<ushort>();
+        foreach (var role in ordered)
+        {
+            if (allowed.Any(x => AreRolesExclusive(x, role)))
+            {
+                excluded.Add((ushort)role.Role);
+            }
+            else
+            {
+                allowed.Add(role);
+            }
+        }
+
+        return excluded;
+    }
+
     private static List<(uint Id, ushort RoleType, int Chance)> GetPossibleRoles(
         List<RoleManager.RoleAssignmentData> assignmentData,
         Func<RoleManager.RoleAssignmentData, bool>? predicate = null)
