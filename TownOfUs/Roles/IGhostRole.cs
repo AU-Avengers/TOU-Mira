@@ -1,7 +1,20 @@
 namespace TownOfUs.Roles;
 
-public interface IGhostRole
+public interface IBasicGhostRole
 {
+    virtual int SpawnPriority => 0;
+    virtual bool ApplyImmediatelyAfterDeath => true;
+
+    public virtual List<PlayerControl> GetAvailableGhosts(List<PlayerControl> basicGhosts, PlayerControl? exiled)
+    {
+        // empty by default!
+        return basicGhosts;
+    }
+}
+
+public interface IGhostRole : IBasicGhostRole
+{
+    bool ApplyImmediatelyAfterDeath => false;
     bool Setup { get; set; }
     bool Caught { get; set; }
     bool Faded { get; set; }

@@ -106,9 +106,26 @@ public static class TouRoleManagerPatches
             }
         }
 
-        CrewmateGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get<HaunterRole>());
-        CustomGhostRolePool.RemoveAll(x =>
-            x == (RoleTypes)RoleId.Get<SpectreRole>() || x == (RoleTypes)RoleId.Get<SpectatorRole>());
+        foreach (var role in MiscUtils.AllTouRoles)
+        {
+            if (role is not IBasicGhostRole ghostRole || ghostRole.ApplyImmediatelyAfterDeath)
+            {
+                continue;
+            }
+
+            switch (role.Team)
+            {
+                case ModdedRoleTeams.Crewmate:
+                    CrewmateGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get(ghostRole.GetType()));
+                    break;
+                case ModdedRoleTeams.Impostor:
+                    ImpostorGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get(ghostRole.GetType()));
+                    break;
+                default:
+                    CustomGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get(ghostRole.GetType()));
+                    break;
+            }
+        }
     }
 
     /// <summary>

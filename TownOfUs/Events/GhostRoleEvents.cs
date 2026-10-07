@@ -131,54 +131,11 @@ public static class GhostRoleEvents
     {
         yield return new WaitForSeconds(1f);
 
-        var haunterData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<HaunterRole>());
-
-        if (CustomRoleUtils.GetActiveRoles().OfType<HaunterRole>().Count() < haunterData.Count)
+        var basicGhosts = PlayerControl.AllPlayerControls.ToArray().ToList();
+        
+        foreach (var role in MiscUtils.AllTouRoles.OfType<IBasicGhostRole>().OrderBy(x => x.SpawnPriority))
         {
-            var isSkipped = haunterData.Chance < 100 && HashRandom.Next(101) > haunterData.Chance;
-
-            if (!isSkipped)
-            {
-                var deadCrew = PlayerControl.AllPlayerControls.ToArray().Where(x =>
-                    (x.Data.IsDead || x == exiled) && x.GetRoleWhenAlive().IsCrewmate() && !x.HasModifier<AllianceGameModifier>() &&
-                    x.CanGetGhostRole() &&
-                    x.Data.Role).ToList();
-
-                if (deadCrew.Count > 0)
-                {
-                    deadCrew.Shuffle();
-
-                    var player = deadCrew.TakeFirst();
-
-                    player?.RpcChangeRole(RoleId.Get<HaunterRole>());
-                }
-            }
-        }
-
-        var phantomData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<SpectreRole>());
-
-        if (CustomRoleUtils.GetActiveRoles().OfType<SpectreRole>().Count() < phantomData.Count)
-        {
-            var isSkipped = phantomData.Chance < 100 && HashRandom.Next(101) > phantomData.Chance;
-
-            if (!isSkipped)
-            {
-                var deadNeutral = PlayerControl.AllPlayerControls.ToArray().Where(x =>
-                    x.Data.IsDead && x != exiled && x.GetRoleWhenAlive().IsNeutral() &&
-                    !x.GetRoleWhenAlive().DidWin(GameOverReason.CrewmatesByVote) &&
-                    x.CanGetGhostRole() &&
-                    !x.HasModifier<AllianceGameModifier>() &&
-                    !(x.GetRoleWhenAlive() is ITownOfUsRole touRole && touRole.WinConditionMet())).ToList();
-
-                if (deadNeutral.Count > 0)
-                {
-                    deadNeutral.Shuffle();
-
-                    var player = deadNeutral.TakeFirst();
-
-                    player?.RpcChangeRole(RoleId.Get<SpectreRole>());
-                }
-            }
+            basicGhosts = role.GetAvailableGhosts(basicGhosts, exiled);
         }
     }
 
