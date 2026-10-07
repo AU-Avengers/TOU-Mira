@@ -235,6 +235,7 @@ Fake Tasks:</string>
   <string name="FrenzyKillerTaskHeader">Eliminate all other teams by any means.</string>
   <!-- Role List -->
     <string name="SetRoleList">Set Role List</string>
+    <string name="ExclusiveRolesList">Can't Spawn Together</string>
   <string name="NeutralFactionList">Neutral Faction List</string>
   <string name="StoredDraftTitle">Draft Mode</string>
   <string name="NeutralBenigns">Neutral Benigns</string>
@@ -3234,6 +3235,13 @@ when the lights are sabotaged.</string>
   <string name="TouOptionRoleDraftRoleListSlot13">Slot 13</string>
   <string name="TouOptionRoleDraftRoleListSlot14">Slot 14</string>
   <string name="TouOptionRoleDraftRoleListSlot15">Slot 15</string>
+  <!-- Role Exclusions -->
+      <string name="TownOfUsMira.Options.Groups.RoleExclusions">Role Exclusions</string>
+  <string name="TouOptionExclusiveCleaningRoles">Cleaning Roles Can't Spawn Together</string>
+  <string name="TouOptionExclusiveFramingRoles">Framing Roles Can't Spawn Together</string>
+  <string name="TouOptionExclusiveRevivingRoles">Reviving Roles Can't Spawn Together</string>
+  <string name="TouOptionExclusiveBlindingRoles">Blinding Roles Can't Spawn Together</string>
+  <string name="TouOptionExclusiveMunicipalRoles">Municipal Roles Can't Spawn Together</string>
   <!-- Role Settings -->
       <string name="TownOfUsMira.Options.Groups.RoleSettings">Role Settings</string>
   <string name="TouOptionCurrentGameMode">Current Game Mode</string>
