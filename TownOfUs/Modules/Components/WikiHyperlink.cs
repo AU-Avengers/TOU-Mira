@@ -1,4 +1,7 @@
-﻿using AmongUs.GameOptions;
+﻿using System.Collections;
+using AmongUs.GameOptions;
+using MiraAPI.Patches;
+using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
 using UnityEngine;
 using TMPro;
@@ -63,46 +66,75 @@ public class WikiHyperlink(IntPtr cppPtr) : MonoBehaviour(cppPtr)
                    RoleManager.Instance.GetRole(RoleTypes.Crewmate); // i hate il2cpp
         var modifier = MiscUtils.AllOverallWikiModifiers.FirstOrDefault(x => x.GetType().FullName == id);
 
-        dynamic wikiEntry;
-        if (role is IWikiDiscoverable wikiRole)
+        if (LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.UseVanillaRoleGuide.Value)
         {
-            wikiEntry = wikiRole;
-        }
-        else if (modifier is IWikiDiscoverable wikiModifier)
-        {
-            wikiEntry = wikiModifier;
-        }
-        else if (SoftWikiEntries.RoleEntries.TryGetValue(role, out var softRoleWiki))
-        {
-            wikiEntry = softRoleWiki;
-        }
-        else if (modifier != null && SoftWikiEntries.ModifierEntries.TryGetValue(modifier, out var softModWiki))
-        {
-            wikiEntry = softModWiki;
+            if (HudManager.Instance.Chat.IsOpenOrOpening)
+            {
+                HudManager.Instance.Chat.Close();
+            }
+
+            try
+            {
+                Minigame.Instance.Close();
+                Minigame.Instance.Close();
+            }
+            catch
+            {
+                // ignored
+            }
+            MatchInfoGuide.Instance.Open();
+            Coroutines.Start(CoLoadAdvancedWiki(modifier != null ? modifier : role));
         }
         else
         {
-            return;
-        }
+            dynamic wikiEntry;
+            if (role is IWikiDiscoverable wikiRole)
+            {
+                wikiEntry = wikiRole;
+            }
+            else if (modifier is IWikiDiscoverable wikiModifier)
+            {
+                wikiEntry = wikiModifier;
+            }
+            else if (SoftWikiEntries.RoleEntries.TryGetValue(role, out var softRoleWiki))
+            {
+                wikiEntry = softRoleWiki;
+            }
+            else if (modifier != null && SoftWikiEntries.ModifierEntries.TryGetValue(modifier, out var softModWiki))
+            {
+                wikiEntry = softModWiki;
+            }
+            else
+            {
+                return;
+            }
 
+            if (HudManager.Instance.Chat.IsOpenOrOpening)
+            {
+                HudManager.Instance.Chat.Close();
+            }
 
-        if (HudManager.Instance.Chat.IsOpenOrOpening)
-        {
-            HudManager.Instance.Chat.Close();
-        }
+            try
+            {
+                Minigame.Instance.Close();
+                Minigame.Instance.Close();
+            }
+            catch
+            {
+                // ignored
+            }
 
-        try
-        {
-            Minigame.Instance.Close();
-            Minigame.Instance.Close();
+            var wiki = IngameWikiMinigame.Create();
+            wiki.Begin(null);
+            wiki.OpenFor(wikiEntry);
         }
-        catch
-        {
-            // ignored
-        }
+    }
 
-        var wiki = IngameWikiMinigame.Create();
-        wiki.Begin(null);
-        wiki.OpenFor(wikiEntry);
+    public static IEnumerator CoLoadAdvancedWiki(dynamic entry)
+    {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        RoleGuidePatches.DisplayAdvancedWiki(MatchInfoGuide.Instance, entry);
     }
 }

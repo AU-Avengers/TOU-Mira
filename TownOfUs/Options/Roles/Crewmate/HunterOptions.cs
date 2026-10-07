@@ -43,6 +43,9 @@ public sealed class HunterOptions : AbstractRoleOptionGroup<HunterRole>
     [ModdedToggleOption("TouOptionHunterRetributionOnVote")]
     public bool RetributionOnVote { get; set; } = true;
 
+    [ModdedToggleOption("TouOptionHunterSameRoundKillPunishment")]
+    public bool SameRoundKillPunishment { get; set; } = true;
+
     [ModdedToggleOption("TouOptionHunterHunterBodyReport")]
     public bool HunterBodyReport { get; set; } = false;
 }

@@ -10,6 +10,27 @@ namespace TownOfUs.Modules.DraftMode
         List<int> NextSpreadIndices(int count, int rangeExclusive);
     }
 
+    internal static class RngExtensions
+    {
+        public static List<int> SpreadIndices(IRng rng, int count, int rangeExclusive)
+        {
+            var result = new List<int>();
+            if (count <= 0 || rangeExclusive <= 0) return result;
+
+            count = Math.Min(count, rangeExclusive);
+            double bucketSize = rangeExclusive / (double)count;
+
+            for (int i = 0; i < count; i++)
+            {
+                int start = (int)(i * bucketSize);
+                int end = Math.Min(rangeExclusive, (int)((i + 1) * bucketSize));
+                result.Add(rng.NextInt(start, end));
+            }
+
+            return result;
+        }
+    }
+
     public sealed class DeterministicRng : IRng
     {
         private uint _state;
@@ -52,22 +73,7 @@ namespace TownOfUs.Modules.DraftMode
 
         public double NextDouble() => (NextState() >> 8) / (double)(1u << 24);
 
-        public List<int> NextSpreadIndices(int count, int rangeExclusive)
-        {
-            var result = new List<int>();
-            if (count <= 0 || rangeExclusive <= 0) return result;
-            count = Math.Min(count, rangeExclusive);
-
-            double bucketSize = rangeExclusive / (double)count;
-            for (int i = 0; i < count; i++)
-            {
-                int bucketStart = (int)(i * bucketSize);
-                int bucketEnd = Math.Min(rangeExclusive, (int)((i + 1) * bucketSize));
-                if (bucketEnd <= bucketStart) bucketEnd = bucketStart + 1;
-                result.Add(NextInt(bucketStart, bucketEnd));
-            }
-
-            return result;
-        }
+        public List<int> NextSpreadIndices(int count, int rangeExclusive) =>
+            RngExtensions.SpreadIndices(this, count, rangeExclusive);
     }
 }

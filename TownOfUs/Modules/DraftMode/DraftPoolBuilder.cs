@@ -206,13 +206,11 @@ namespace TownOfUs.Modules.DraftMode
             if (rl == null) return pool;
 
             var slots = rl.Slot;
+            int seatIndex = 0;
 
-            int activeSlots = Math.Max(1, Math.Min(Math.Max(1, numPlayers), slots.Count));
-
-            for (var slotIndex = 0; slotIndex < activeSlots; slotIndex++)
+            for (var slotIndex = 0; slotIndex < slots.Count; slotIndex++)
             {
                 var bucket = slots[slotIndex].Value;
-                var slotSuffix = $"|slot{slotIndex + 1}";
 
                 var names = DraftRolePool.ResolveBucketToRoleNames(bucket.ToString())
                     ?.Where(n => !string.IsNullOrWhiteSpace(n))
@@ -234,17 +232,16 @@ namespace TownOfUs.Modules.DraftMode
 
                 foreach (var name in names)
                 {
-                    pool.Add(name + slotSuffix);
+                    pool.Add($"{name}|seat{seatIndex++}");
                 }
             }
 
             int rolesPerSlot = Math.Max(1, (int)OptionGroupSingleton<RoleOptions>.Instance.OfferedRolesCount.Value);
             int concurrency = Math.Max(1, Math.Min(2, (int)OptionGroupSingleton<RoleOptions>.Instance.ConcurrentPicks.Value));
             int targetSize = GetLowPlayerPoolTargetSize(numPlayers, rolesPerSlot, concurrency);
-            var fundedNames = slots.Take(activeSlots)
-                .SelectMany(bucket => DraftRolePool.ResolveBucketToRoleNames(bucket.ToString()) ?? [])
+            var fundedNames = slots.Options
+                .SelectMany(bucket => DraftRolePool.ResolveBucketToRoleNames(bucket.Value.ToString() ?? string.Empty))
                 .Where(n => !string.IsNullOrWhiteSpace(n))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();
             int fundingIndex = 0;
             while (pool.Count < targetSize && fundedNames.Count > 0)
@@ -283,7 +280,7 @@ namespace TownOfUs.Modules.DraftMode
                 }
                 foreach (var fallbackName in fallbackNames)
                 {
-                    pool.Add(fallbackName + "|slot1");
+                    pool.Add($"{fallbackName}|seat{seatIndex++}");
                 }
             }
 

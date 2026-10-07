@@ -904,11 +904,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             foreach (var go in _hiddenHudChildren)
                 if (go != null)
-                    try
-                    {
-                        go.SetActive(true);
-                    }
-                    catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+                    go.SetActive(true);
 
             _hiddenHudChildren.Clear();
         }

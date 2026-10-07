@@ -1021,7 +1021,9 @@ They might be the killer or a witness.</string>
   <string name="TownOfUsMira.Role.Hunter.TabDescription">Stalk players to get alerted when they use an ability.
 Once they use an ability, you may kill them.</string>
   <string name="TownOfUsMira.Role.HunterCaughtPlayersText">Caught Players:</string>
-  <string name="TownOfUsMira.Role.Hunter.WikiDescription">The Hunter is a Crewmate Killing role that can stalk players during the round. If a stalked player uses an ability, they can be killed by the Hunter at any point in the game, even Crew.</string>
+  <string name="TownOfUsMira.Role.Hunter.WikiDescription">The Hunter is a Crewmate Killing role that can stalk players during the round. If a stalked player uses an ability, they can be killed by the Hunter at any point in the game, even Crew. However, if the Hunter kills a caught Crewmate in the same round they were caught, the Hunter will leave in shame at the end of the next meeting.</string>
+  <string name="TownOfUsMira.Role.Hunter.ShameNotification">The Hunter, [player], has left in shame for killing a fellow Crewmate.</string>
+  <string name="TownOfUsMira.Role.Hunter.ShameNotificationSelf">Your hasty judgment has led to your swift punishment.</string>
   <string name="TownOfUsMira.Role.HunterStalk">Stalk</string>
   <string name="TownOfUsMira.Role.HunterStalking">Stalking</string>
   <string name="TownOfUsMira.Role.HunterStalk.WikiDescription">Choose a target to stalk. You can stalk [hunterMaxStalkUsages] players. If they use any ability while stalked, they're added to your hitlist and can be killed.</string>
@@ -1039,6 +1041,7 @@ Once they use an ability, you may kill them.</string>
   <string name="TouOptionHunterStalkTriggerEnumInteraction">Interactions</string>
   <string name="TouOptionHunterStalkTriggerEnumAlways">All Abilities</string>
   <string name="TouOptionHunterRetributionOnVote">Hunter Kills Last Voter If Voted Out</string>
+  <string name="TouOptionHunterSameRoundKillPunishment">Hunter Leaves If Killing Caught Crew Same Round</string>
   <string name="TouOptionHunterHunterBodyReport">Hunter Can Report Who They've Killed</string>
   <!-- Imitator - Crewmate Support -->
     <!-- Imitator Wiki / Abilities -->
