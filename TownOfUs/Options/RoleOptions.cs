@@ -1,4 +1,7 @@
-﻿using MiraAPI.GameModes;
+﻿using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
+using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
@@ -272,33 +275,61 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
             MinNeutralOutlier.StringName
         };
 
+    private const string WikiHeaderOpenTag = "<color=#FFD700>";
+    private const float WikiCharWidthPercent = 3.2f;
+    private const float WikiRowsAtFullSize = 7.5f;
+    private const float WikiSecondColumnStartPercent = 52f;
+    private const int WikiTwoColumnThreshold = 6;
+
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
-        var currentDist = CurrentRoleDistribution();
-
-        if (currentDist == RoleDistribution.Vanilla) { return Enumerable.Empty<string>(); }
+        if (CurrentRoleDistribution() == RoleDistribution.Vanilla) { return Enumerable.Empty<string>(); }
 
         if (HudManagerPatches.RoleListTextComp == null || string.IsNullOrWhiteSpace(HudManagerPatches.RoleListTextComp.text))
         {
             return Enumerable.Empty<string>();
         }
 
-        string roleListText = HudManagerPatches.RoleListTextComp.text;
+        var lines = HudManagerPatches.RoleListTextComp.text
+            .Replace("<i>", string.Empty, StringComparison.Ordinal)
+            .Replace("</i>", string.Empty, StringComparison.Ordinal)
+            .Split(['\n', '\r'], StringSplitOptions.RemoveEmptyEntries);
 
-        float sizePercent = 100f;
-        const float minSizePercent = 35f; 
-        const float sizeStep = 2.5f;
+        return [BuildWikiPage(lines)];
+    }
 
-        int lineCount = roleListText.Split([ '\n', '\r' ], StringSplitOptions.RemoveEmptyEntries).Length;
+    private static string BuildWikiPage(string[] pageLines)
+    {
+        var body = pageLines[1..];
+        var columns = body.Length > WikiTwoColumnThreshold ? 2 : 1;
+        var rows = (int)Math.Ceiling(body.Length / (double)columns);
+        var lineSpacing = columns == 2 ? 100f : 125f;
+        var bullet = columns == 2 ? string.Empty : "<color=#696969>•</color> ";
 
-        if (lineCount > 5)
+        var extraWidth = columns == 2 ? 0 : 2;
+        var widest = body.Length == 0
+            ? 1
+            : body.Max(x => Regex.Replace(x, "<[^>]+>", string.Empty).Length) + extraWidth;
+        var widthLimit = 100f * (columns == 2 ? 46f : 94f) / (widest * WikiCharWidthPercent);
+        var heightLimit = 100f * WikiRowsAtFullSize / ((rows * lineSpacing / 100f) + 1.5f);
+        var size = Math.Min(Math.Min(widthLimit, heightLimit), 100f);
+
+        var builder = new StringBuilder("<page>");
+        builder.Append(CultureInfo.InvariantCulture, $"<size={size * 1.15f:0}%><b>{pageLines[0]}</b></size>\n");
+        builder.Append(CultureInfo.InvariantCulture, $"<size={size:0}%><line-height={lineSpacing:0}%>");
+        for (var i = 0; i < rows; i++)
         {
-            sizePercent = Math.Max(minSizePercent, 100f - ((lineCount - 5) * sizeStep * 2.0f));
+            builder.Append(bullet).Append(body[i]);
+            var right = i + rows;
+            if (columns == 2 && right < body.Length)
+            {
+                builder.Append(CultureInfo.InvariantCulture, $"<pos={WikiSecondColumnStartPercent:0}%>").Append(body[right]);
+            }
+
+            builder.Append('\n');
         }
 
-        string formattedText = $"<page><size={sizePercent:0}%>{roleListText}</size>";
-
-        return [ formattedText ];
+        return builder.Append("</size>").ToString();
     }
 }
 
