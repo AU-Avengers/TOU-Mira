@@ -526,6 +526,19 @@ namespace TownOfUs.Modules.DraftMode
             try
             {
                 var r = DraftUiManager.ResolveRole(roleId);
+                if (TownOfUs.Patches.HudManagerPatches.UseVanillaWiki)
+                {
+                    if (r == null) return;
+
+                    if (_roleCardNewRoleObj != null)
+                        _roleCardNewRoleObj.SetActive(false);
+
+                    MatchInfoGuide.Instance.Open();
+                    Coroutines.Start(TownOfUs.Modules.Components.WikiHyperlink.CoLoadAdvancedWiki(r, null));
+                    Coroutines.Start(CoWaitForGuideClosed());
+                    return;
+                }
+
                 if (r is not TownOfUs.Modules.Wiki.IWikiDiscoverable wikiTarget)
                 {
                     MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
@@ -557,6 +570,23 @@ namespace TownOfUs.Modules.DraftMode
             while (wiki != null)
                 yield return null;
 
+            RestoreCardAfterWiki();
+        }
+
+        [HideFromIl2Cpp]
+        private IEnumerator CoWaitForGuideClosed()
+        {
+            for (var i = 0; i < 30 && !(MatchInfoGuide.Instance != null && MatchInfoGuide.Instance.IsActive); i++)
+                yield return null;
+
+            while (MatchInfoGuide.Instance != null && MatchInfoGuide.Instance.IsActive)
+                yield return null;
+
+            RestoreCardAfterWiki();
+        }
+
+        private void RestoreCardAfterWiki()
+        {
             _lastMenuOpen = IsAnyMenuOpen();
             _menuCheckTimer = 0f;
 
