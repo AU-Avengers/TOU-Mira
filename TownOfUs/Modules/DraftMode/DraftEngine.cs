@@ -41,6 +41,7 @@ namespace TownOfUs.Modules.DraftMode
         private const float PickerReadyResendGraceSeconds = 2.5f;
         private const float PickSubmissionGraceSeconds = 1f;
         private readonly Dictionary<int, HashSet<string>> _seenBaseNamesBySlot = new();
+        private readonly Dictionary<ushort, ushort[]> _exclusiveIdsCache = new();
 
         private void Awake()
         {
@@ -74,6 +75,7 @@ namespace TownOfUs.Modules.DraftMode
             StopDraftCoroutines();
 
             _rng = DeterministicRng.CreateRandomlySeeded();
+            _exclusiveIdsCache.Clear();
             _pool = DraftPoolBuilder.BuildPool(pidToSlot.Count, _rng);
             if (_pool == null || _pool.Count == 0)
             {
@@ -559,6 +561,7 @@ namespace TownOfUs.Modules.DraftMode
         private sealed class DraftSlotContext
         {
             public HashSet<string> AvoidNames { get; } = new(StringComparer.OrdinalIgnoreCase);
+            public HashSet<ushort> ExclusiveBlocked { get; } = new();
             public Dictionary<ushort, int> AssignedCountsById { get; } = new();
             public Dictionary<string, int> AssignedCountsByName { get; } = new(StringComparer.OrdinalIgnoreCase);
             public Dictionary<string, ushort> RepresentativeIds { get; } = new(StringComparer.OrdinalIgnoreCase);
@@ -600,6 +603,26 @@ namespace TownOfUs.Modules.DraftMode
                 RepresentativeIds[baseName] = id;
                 return id;
             }
+        }
+
+        [HideFromIl2Cpp]
+        private void BlockExclusiveRoles(DraftSlotContext context, ushort roleId)
+        {
+            if (roleId == 0) return;
+
+            if (!_exclusiveIdsCache.TryGetValue(roleId, out var ids))
+            {
+                var role = MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)roleId);
+                ids = role == null
+                    ? []
+                    : MiscUtils.SpawnableRoles
+                        .Where(x => x.Role != role.Role && MiscUtils.AreRolesExclusive(role, x))
+                        .Select(x => (ushort)x.Role)
+                        .ToArray();
+                _exclusiveIdsCache[roleId] = ids;
+            }
+
+            context.ExclusiveBlocked.UnionWith(ids);
         }
 
         [HideFromIl2Cpp]
@@ -648,6 +671,11 @@ namespace TownOfUs.Modules.DraftMode
                     }
                 }
             }
+            foreach (var pickedId in context.AssignedCountsById.Keys)
+            {
+                BlockExclusiveRoles(context, pickedId);
+            }
+
             foreach (var kvp in _currentOffersBySlot)
             {
                 if (kvp.Key == excludeSlot) continue;
@@ -671,6 +699,7 @@ namespace TownOfUs.Modules.DraftMode
                     {
                         context.AvoidNames.Add(n);
                         context.AvoidNames.Add(baseName);
+                        BlockExclusiveRoles(context, DraftRolePool.ResolveRoleIdFromName(baseName));
 
                         int groupPipeIdx = n.IndexOf('|');
                         if (groupPipeIdx >= 0)
@@ -821,6 +850,7 @@ namespace TownOfUs.Modules.DraftMode
 
             context ??= BuildSlotContext(slot, ignoreConcurrentOffers, ignoreForce);
             if (context.AvoidNames.Contains(candidate) || context.AvoidNames.Contains(baseName)) return false;
+            if (context.ExclusiveBlocked.Contains(resolvedId)) return false;
             bool isNeut = DraftRolePool.IsNeutralRoleName(baseName);
             int candidateWeight = SeatWeightForRoleName(baseName);
 
@@ -863,6 +893,8 @@ namespace TownOfUs.Modules.DraftMode
             {
                 return false;
             }
+
+            if (context.ExclusiveBlocked.Contains(resolvedId)) return false;
 
             bool isImp = DraftRolePool.IsImpostorRoleId(resolvedId) || DraftRolePool.IsImpostorRoleName(baseName);
             bool isNeut = DraftRolePool.IsNeutralRoleName(baseName);
@@ -2080,12 +2112,13 @@ namespace TownOfUs.Modules.DraftMode
                 if (chosenRoleId != 0)
                 {
                     var statsEx = GetDraftStats(slot);
+                    var exclusionContext = BuildSlotContext(slot, ignoreConcurrentOffers: true, ignoreForce: true);
                     int currentCountById = statsEx.assignedCountsById.GetValueOrDefault(chosenRoleId);
                     pickedRoleName = chosenRoleId.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
                     int maxAllowed = DraftRolePool.GetMaxCountForRoleName(pickedRoleName);
                     int currentCountByName = statsEx.assignedCountsByName.GetValueOrDefault(NormalizeRoleNameKey(pickedRoleName));
-                    if (currentCountById >= maxAllowed || currentCountByName >= maxAllowed)
+                    if (currentCountById >= maxAllowed || currentCountByName >= maxAllowed || exclusionContext.ExclusiveBlocked.Contains(chosenRoleId))
                     {
                         if (isExplicitPick)
                         {
@@ -2123,6 +2156,7 @@ namespace TownOfUs.Modules.DraftMode
                     {
                         emergencyId = DraftPoolBuilder.GetAllowedCrewFallbackNames()
                             .Where(n => emergencyContext.AssignedCountsByName.GetValueOrDefault(NormalizeRoleNameKey(n)) < DraftRolePool.GetMaxCountForRoleName(n))
+                            .Where(n => !emergencyContext.ExclusiveBlocked.Contains(DraftRolePool.ResolveRoleIdFromName(n)))
                             .OrderBy(_ => _rng.NextInt(1000000))
                             .Select(DraftRolePool.ResolveRoleIdFromName)
                             .FirstOrDefault(id => id != 0);
