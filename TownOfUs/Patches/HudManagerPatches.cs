@@ -43,6 +43,7 @@ public static class HudManagerPatches
     public static string RoleListPrefixText = string.Empty;
     public static TextMeshPro RoleListTextComp;
     public static bool IsHoveringRoleList;
+    public static int DisplayedRoleListSlots { get; private set; }
     public static bool HasAdjustedSubButton;
 
     public static bool Zooming;
@@ -343,6 +344,7 @@ public static class HudManagerPatches
             var list = OptionGroupSingleton<RoleOptions>.Instance;
             var maxCount = list.Slot.Count;
             var maxSlots = players < maxCount ? players : maxCount;
+            DisplayedRoleListSlots = maxSlots;
 
             switch (roleAssignmentType)
             {
@@ -604,7 +606,7 @@ public static class HudManagerPatches
     public static string StoredSpectatingLocale { get; private set; } = "Spectator";
     public static string StoredRoleList { get; private set; } = "Set Role List";
     public static string StoredFactionList { get; private set; } = "Neutral Faction List";
-    public static string StoredExclusiveRoles { get; private set; } = "Exclusive Roles";
+    public static string StoredExclusiveRoles { get; private set; } = "Can't Spawn Together";
     public static string NeutralBenigns { get; private set; } = "Neutral Benigns";
     public static string NeutralEvils { get; private set; } = "Neutral Evils";
     public static string NeutralOutliers { get; private set; } = "Neutral Outliers";

@@ -1,10 +1,12 @@
 using AmongUs.GameOptions;
+using TownOfUs.Interfaces;
 
 namespace TownOfUs.Modules;
 
 /// <summary>
 ///     A named group of roles that cannot spawn together while the bucket is enabled.
-///     Custom roles are matched by type, vanilla roles by <see cref="RoleTypes"/>.
+///     Custom roles are matched by type, vanilla roles by <see cref="RoleTypes"/>, and roles can also
+///     join a bucket via <see cref="IExclusiveRole.ExclusionBuckets"/>.
 /// </summary>
 public sealed class RoleExclusionBucket(string id, Func<bool> isEnabled)
 {
@@ -33,6 +35,8 @@ public sealed class RoleExclusionBucket(string id, Func<bool> isEnabled)
 
     public bool Contains(RoleBehaviour role)
     {
-        return VanillaRoles.Contains(role.Role) || Roles.Any(t => t.IsInstanceOfType(role));
+        return VanillaRoles.Contains(role.Role)
+               || Roles.Any(t => t.IsInstanceOfType(role))
+               || role is IExclusiveRole exclusive && exclusive.ExclusionBuckets.Contains(Id, StringComparer.OrdinalIgnoreCase);
     }
 }
