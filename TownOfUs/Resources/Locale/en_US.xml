@@ -3234,6 +3234,13 @@ when the lights are sabotaged.</string>
   <string name="TouOptionRoleDraftRoleListSlot13">Slot 13</string>
   <string name="TouOptionRoleDraftRoleListSlot14">Slot 14</string>
   <string name="TouOptionRoleDraftRoleListSlot15">Slot 15</string>
+  <!-- Role Exclusions -->
+      <string name="TownOfUsMira.Options.Groups.RoleExclusions">Role Exclusions</string>
+  <string name="TouOptionExclusiveCleaningRoles">Cleaning Roles Are Exclusive</string>
+  <string name="TouOptionExclusiveFramingRoles">Framing Roles Are Exclusive</string>
+  <string name="TouOptionExclusiveRevivingRoles">Reviving Roles Are Exclusive</string>
+  <string name="TouOptionExclusiveBlindingRoles">Blinding Roles Are Exclusive</string>
+  <string name="TouOptionExclusiveMunicipalRoles">Municipal Roles Are Exclusive</string>
   <!-- Role Settings -->
       <string name="TownOfUsMira.Options.Groups.RoleSettings">Role Settings</string>
   <string name="TouOptionCurrentGameMode">Current Game Mode</string>

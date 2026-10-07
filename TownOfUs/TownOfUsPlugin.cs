@@ -144,6 +144,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
         DataManager.settings = new SettingsData();
         DataManager.settings.ForceLoad();
         RegisterWinConditions();
+        RoleExclusionRegistry.RegisterBuiltInBuckets();
     }
 
     /// <summary>

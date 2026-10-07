@@ -1291,16 +1291,18 @@ public static class MiscUtils
     }
 
     /// <summary>
-    ///     Checks whether two roles cannot spawn together, based on either role's <see cref="IExclusiveRole"/> declaration.
+    ///     Checks whether two roles cannot spawn together, based on either role's <see cref="IExclusiveRole"/>
+    ///     declaration or a shared enabled RoleExclusionRegistry bucket.
     /// </summary>
     public static bool AreRolesExclusive(RoleBehaviour a, RoleBehaviour b)
     {
         return a is IExclusiveRole exclusiveA && exclusiveA.ExclusiveWith.Any(t => t.IsInstanceOfType(b))
-               || b is IExclusiveRole exclusiveB && exclusiveB.ExclusiveWith.Any(t => t.IsInstanceOfType(a));
+               || b is IExclusiveRole exclusiveB && exclusiveB.ExclusiveWith.Any(t => t.IsInstanceOfType(a))
+               || RoleExclusionRegistry.AreExclusive(a, b);
     }
 
     /// <summary>
-    ///     Resolves which roles are blocked this game by <see cref="IExclusiveRole"/> relationships.
+    ///     Resolves which roles are blocked this game by <see cref="IExclusiveRole"/> relationships and enabled exclusion buckets.
     ///     Roles at 100% beat roles below 100%; otherwise roles that pass their spawn roll beat ones that don't.
     ///     Ties are decided randomly, so two 100% roles that exclude each other are a 50/50.
     /// </summary>
