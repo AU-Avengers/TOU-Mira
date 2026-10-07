@@ -482,11 +482,30 @@ public static class HudManagerPatches
         builder.Append("\n<color=#FFD700>");
         builder.Append(StoredExclusiveRoles);
         builder.Append(":</color>\n");
+        var linkIndex = 0;
         foreach (var group in groups)
         {
-            builder.AppendLine(string.Join("<color=#696969> / </color>",
-                group.Select(x => $"{x.TeamColor.ToTextColor()}{x.GetRoleName()}</color>")));
+            var names = new List<string>();
+            foreach (var role in group)
+            {
+                names.Add(FormatExclusiveRole(role, ref linkIndex));
+            }
+
+            builder.AppendLine(string.Join("<color=#696969> / </color>", names));
         }
+    }
+
+    private static string FormatExclusiveRole(RoleBehaviour role, ref int linkIndex)
+    {
+        var name = $"{role.TeamColor.ToTextColor()}{role.GetRoleName()}</color>";
+        var isVanilla = Enum.IsDefined(role.Role);
+        if (!isVanilla && role is not IWikiDiscoverable && !SoftWikiEntries.RoleEntries.ContainsKey(role))
+        {
+            return name;
+        }
+
+        var linkId = isVanilla ? $"AmongUs.Roles.{role.Role}" : role.GetType().FullName;
+        return $"<link=\"{linkId}:{linkIndex++}\">{name}</link>";
     }
 
     public static void CreateZoomButton(HudManager instance)

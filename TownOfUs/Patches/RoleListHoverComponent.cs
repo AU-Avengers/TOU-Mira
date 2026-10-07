@@ -15,6 +15,7 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
 
     private int _lastLine = -1;
     private string _originalText = string.Empty;
+    private string _hoveredLinkId = string.Empty;
 
     private GameObject _tooltipGo;
     private TextMeshPro _tooltipTmp;
@@ -46,6 +47,14 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
         if (_tooltipGo != null && _tooltipGo.activeSelf)
         {
             UpdateTooltipLinks();
+        }
+
+        if (UpdateRoleListLinks())
+        {
+            _lastLine = -1;
+            _hideDelay = 0f;
+            HideTooltip();
+            return;
         }
 
         var line = GetLineUnderMouse();
@@ -134,6 +143,62 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
                 WikiHyperlink.OpenHyperlink(linkInfo);
             }
         }
+    }
+
+    // ── Role list link hover/click ────────────────────────────────────────────
+
+    private bool UpdateRoleListLinks()
+    {
+        var cam = Camera.main;
+        if (cam == null)
+        {
+            return false;
+        }
+
+        var linkIndex = TMP_TextUtilities.FindIntersectingLink(TextTarget, Input.mousePosition, cam);
+        if (linkIndex < 0 || linkIndex >= TextTarget.textInfo.linkCount)
+        {
+            if (_hoveredLinkId != string.Empty)
+            {
+                _hoveredLinkId = string.Empty;
+                RestoreRoleListText();
+            }
+            return false;
+        }
+
+        var linkInfo = TextTarget.textInfo.linkInfo[linkIndex];
+        var linkId = linkInfo.GetLinkID();
+        if (linkId != _hoveredLinkId)
+        {
+            RestoreRoleListText();
+            _hoveredLinkId = linkId;
+            _originalText = TextTarget.text;
+            TextTarget.text = ItaliciseLink(_originalText, linkId);
+            HudManagerPatches.IsHoveringRoleList = true;
+        }
+
+        if (Input.GetMouseButtonDown(0) && !Minigame.Instance)
+        {
+            WikiHyperlink.OpenHyperlink(linkInfo);
+        }
+
+        return true;
+    }
+
+    private static string ItaliciseLink(string text, string linkId)
+    {
+        var openTag = $"<link=\"{linkId}\">";
+        var start = text.IndexOf(openTag, StringComparison.Ordinal);
+        if (start < 0)
+        {
+            return text;
+        }
+
+        var contentStart = start + openTag.Length;
+        var end = text.IndexOf("</link>", contentStart, StringComparison.Ordinal);
+        return end < 0
+            ? text
+            : text[..contentStart] + "<i>" + text[contentStart..end] + "</i>" + text[end..];
     }
 
     // ── Tooltip show/hide ─────────────────────────────────────────────────────
@@ -326,6 +391,7 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
     private void RestoreRoleListText()
     {
         HudManagerPatches.IsHoveringRoleList = false;
+        _hoveredLinkId = string.Empty;
 
         if (_originalText != string.Empty && TextTarget != null)
         {
