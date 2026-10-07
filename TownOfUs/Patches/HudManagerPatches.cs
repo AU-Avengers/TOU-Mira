@@ -451,6 +451,8 @@ public static class HudManagerPatches
                                     $"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: None");
                             }
                         }
+
+                        AppendExclusiveRoles(rolelistBuilder);
                     }
                     else
                     {
@@ -607,17 +609,19 @@ public static class HudManagerPatches
           LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInPractice.Value) ||
          (GameStartManager.InstanceExists &&
           LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInLobby.Value)) &&
-        !(HudManager.Instance.GameMenu.IsOpen ||
-          DraftManager.IsDraftActive ||
-          HudManager.Instance.Chat.IsOpenOrOpening ||
-          MeetingHud.Instance || Minigame.Instance ||
-          PlayerCustomizationMenu.Instance ||
-          FriendsListUI.Instance && FriendsListUI.Instance.IsOpen ||
-          MatchInfoGuide.Instance && MatchInfoGuide.Instance.IsActive ||
-          GameStartManager.InstanceExists &&
-          (GameStartManager.Instance.RulesViewPanel &&
-           GameStartManager.Instance.RulesViewPanel.active ||
-           GameSettingMenu.Instance));
+        !(DraftManager.IsDraftActive || IsAnyMenuOpen);
+
+    public static bool IsAnyMenuOpen =>
+        HudManager.Instance.GameMenu.IsOpen ||
+        HudManager.Instance.Chat.IsOpenOrOpening ||
+        MeetingHud.Instance || Minigame.Instance ||
+        PlayerCustomizationMenu.Instance ||
+        FriendsListUI.Instance && FriendsListUI.Instance.IsOpen ||
+        MatchInfoGuide.Instance && MatchInfoGuide.Instance.IsActive ||
+        GameStartManager.InstanceExists &&
+        (GameStartManager.Instance.RulesViewPanel &&
+         GameStartManager.Instance.RulesViewPanel.active ||
+         GameSettingMenu.Instance);
 
     private static bool _registeredSoftModifiers;
     public static string StoredTasksText { get; private set; } = "Tasks";
