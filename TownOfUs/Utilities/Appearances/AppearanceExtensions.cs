@@ -5,7 +5,10 @@ using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
+using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Options;
 using TownOfUs.Options.Maps;
+using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Patches;
 using UnityEngine;
 
@@ -282,6 +285,81 @@ public static class AppearanceExtensions
         }
 
         return appearance;
+    }
+
+    /// <summary>
+    /// Gets the speed multiplier derived from the player's visual appearance without
+    /// allocating a <see cref="VisualAppearance"/> instance in the common case.
+    /// Called from the movement hot path (<see cref="LogicOptions.GetPlayerSpeedMod"/>),
+    /// so it must avoid per-frame allocations when no modifiers are active (e.g. lobby).
+    /// </summary>
+    public static float GetSpeedMultiplier(this PlayerControl player)
+    {
+        if (!player.TryGetComponent<ModifierComponent>(out var modifierComponent))
+        {
+            return 1f;
+        }
+
+        var activeModifiers = modifierComponent.ActiveModifiers;
+        if (activeModifiers == null || activeModifiers.IsEmpty)
+        {
+            return 1f;
+        }
+
+        // Only a handful of visual modifiers change movement speed. If any other visual
+        // modifier is active it may take precedence and override the speed, so fall back
+        // to the full appearance computation in that case.
+        var hasSpeedModifier = false;
+        var hasOtherVisualModifier = false;
+
+        foreach (var modifier in activeModifiers)
+        {
+            if (modifier is not IVisualAppearance)
+            {
+                continue;
+            }
+
+            if (modifier is MiniModifier or GiantModifier or FlashModifier or DuelModifier)
+            {
+                hasSpeedModifier = true;
+            }
+            else
+            {
+                hasOtherVisualModifier = true;
+            }
+        }
+
+        if (hasOtherVisualModifier)
+        {
+            return player.GetAppearance().Speed;
+        }
+
+        if (!hasSpeedModifier)
+        {
+            return 1f;
+        }
+
+        if (player.TryGetModifier<MiniModifier>(out _))
+        {
+            return OptionGroupSingleton<MiniOptions>.Instance.MiniSpeed;
+        }
+
+        if (player.TryGetModifier<GiantModifier>(out _))
+        {
+            return OptionGroupSingleton<GiantOptions>.Instance.GiantSpeed;
+        }
+
+        if (player.TryGetModifier<FlashModifier>(out _))
+        {
+            return OptionGroupSingleton<FlashOptions>.Instance.FlashSpeed;
+        }
+
+        if (player.TryGetModifier<DuelModifier>(out _))
+        {
+            return OptionGroupSingleton<DuelistOptions>.Instance.DuelSpeed.Value;
+        }
+
+        return 1f;
     }
 
     public static bool IsVisibleToOthers(this PlayerControl playerControl)
