@@ -24,7 +24,7 @@ public static class PlayerSpeedPatch
         if (!(HudManagerPatches.CamouflageCommsEnabled &&
               OptionGroupSingleton<AdvancedSabotageOptions>.Instance.HidePlayerSpeedInCamo))
         {
-            __result *= pc.GetAppearance().Speed;
+            __result *= pc.GetSpeedMultiplier();
         }
 
         if (pc.HasModifier<VenererSprintModifier>())

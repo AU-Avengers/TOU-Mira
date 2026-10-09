@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
 using TownOfUs.Events;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Crewmate;
@@ -65,5 +66,9 @@ public static class LobbyBehaviourPatches
         DraftCancelButton.Hide();
         DraftShuffleButton.HideAndReset();
         DraftSidebarManager.Deactivate();
+
+        // Force a collection now so the unavoidable startup allocation burst
+        // pauses here instead of during the first movement.
+        GC.Collect();
     }
 }
