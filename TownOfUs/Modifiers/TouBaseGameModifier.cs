@@ -33,12 +33,14 @@ public abstract class TouBaseGameModifier : GameModifier
                 a.Icon)).ToList();
         }
 
+        var iconTmp = Configuration.PopUpIconTmp ? Configuration.PopUpIconTmp : IconTmp;
+        var icon = iconTmp ? $"<sprite name=\"{iconTmp.name}\"> " : string.Empty;
         return Helpers.CreateAdvancedWikiPage(
             guide,
             titleText,
             parent,
             ModifierNameLocale,
-            ModifierName + $" ({ModifierCategoryTitle})",
+            $"{icon}{ModifierName} ({ModifierCategoryTitle})",
             ModifierWikiDescription,
             abilities);
     }

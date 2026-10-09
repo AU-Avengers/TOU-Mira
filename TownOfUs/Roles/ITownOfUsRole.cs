@@ -27,7 +27,7 @@ public interface ITownOfUsRole : ICustomRole
             titleText,
             parent,
             RoleNameLocale,
-            RoleName + $" ({RoleFactionTitle})",
+            $"{MiscUtils.GetRoleTmpIcon(this)} {RoleName} ({RoleFactionTitle})",
             RoleWikiDescription,
             abilities);
     }
