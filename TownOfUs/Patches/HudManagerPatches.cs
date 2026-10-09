@@ -337,6 +337,9 @@ public static class HudManagerPatches
             RoleListTextComp.alignment = TextAlignmentOptions.TopLeft;
             RoleListTextComp.verticalAlignment = VerticalAlignmentOptions.Top;
             RoleListTextComp.fontSize = RoleListTextComp.fontSizeMin = RoleListTextComp.fontSizeMax = 3f;
+            RoleListTextComp.text = string.Empty;
+            _lastRoleListText = null;
+            _lastRoleListUpdateTime = 0f;
             RoleList.SetActive(false);
             var hoverComp = instance.gameObject.GetComponent<RoleListHoverComponent>()
                          ?? instance.gameObject.AddComponent<RoleListHoverComponent>();
