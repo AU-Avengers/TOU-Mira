@@ -30,6 +30,7 @@ public static class TouRoleManagerPatches
     private static readonly List<RoleTypes> CustomGhostRolePool = [];
 
     public static bool ReplaceRoleManager;
+    public static HashSet<ushort> VanillaExclusions { get; private set; } = [];
     private static List<int> LastImps { get; set; } = [];
 
     private static void GhostRoleSetup()
@@ -105,9 +106,26 @@ public static class TouRoleManagerPatches
             }
         }
 
-        CrewmateGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get<HaunterRole>());
-        CustomGhostRolePool.RemoveAll(x =>
-            x == (RoleTypes)RoleId.Get<SpectreRole>() || x == (RoleTypes)RoleId.Get<SpectatorRole>());
+        foreach (var role in MiscUtils.AllTouRoles)
+        {
+            if (role is not IBasicGhostRole ghostRole || ghostRole.ApplyImmediatelyAfterDeath)
+            {
+                continue;
+            }
+
+            switch (role.Team)
+            {
+                case ModdedRoleTeams.Crewmate:
+                    CrewmateGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get(ghostRole.GetType()));
+                    break;
+                case ModdedRoleTeams.Impostor:
+                    ImpostorGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get(ghostRole.GetType()));
+                    break;
+                default:
+                    CustomGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get(ghostRole.GetType()));
+                    break;
+            }
+        }
     }
 
     /// <summary>
@@ -905,6 +923,12 @@ public static class TouRoleManagerPatches
         if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla || !CustomGameModeManager.IsClassic())
         {
             MiraAPI.Patches.Roles.SelectRolesPatch.ApiHandlesRoleSelect = true;
+            VanillaExclusions = [];
+            if (assignmentType is RoleSelectionMode.Vanilla && !TutorialManager.InstanceExists && !ReplaceRoleManager && !GameManager.Instance.IsHideAndSeek() && CustomGameModeManager.IsClassic())
+            {
+                VanillaExclusions = MiscUtils.GetExclusiveRoleExclusions();
+            }
+
             return true;
         }
 
@@ -1031,6 +1055,13 @@ public static class TouRoleManagerPatches
         }
 
         return false;
+    }
+
+    [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
+    [HarmonyFinalizer]
+    public static void ClearVanillaExclusions()
+    {
+        VanillaExclusions = [];
     }
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
