@@ -319,7 +319,7 @@ public static class AppearanceExtensions
                 continue;
             }
 
-            if (modifier is MiniModifier or GiantModifier or FlashModifier or DuelModifier)
+            if (modifier is MiniModifier or GiantModifier or FlashModifier/* or DuelModifier*/)
             {
                 hasSpeedModifier = true;
             }
@@ -352,12 +352,12 @@ public static class AppearanceExtensions
         if (player.TryGetModifier<FlashModifier>(out _))
         {
             return OptionGroupSingleton<FlashOptions>.Instance.FlashSpeed;
-        }
+        }/*
 
         if (player.TryGetModifier<DuelModifier>(out _))
         {
             return OptionGroupSingleton<DuelistOptions>.Instance.DuelSpeed.Value;
-        }
+        }*/
 
         return 1f;
     }
