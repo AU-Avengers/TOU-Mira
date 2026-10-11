@@ -1,5 +1,4 @@
 using HarmonyLib;
-using UnityEngine;
 
 namespace TownOfUs.DebugTools;
 
@@ -10,10 +9,12 @@ internal static class FpsCounterPatch
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Start))]
     public static void HudManagerStartPostfix(HudManager __instance)
     {
-        if (__instance == null || !TownOfUsPlugin.IsDevBuild)
+        if (__instance == null)
         {
             return;
         }
+
+        FpsCounter.showFps = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowFpsCounter.Value;
 
         if (!__instance.gameObject.GetComponent<FpsCounter>())
         {

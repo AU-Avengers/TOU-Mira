@@ -6,6 +6,7 @@ namespace TownOfUs.DebugTools;
 [RegisterInIl2Cpp]
 public sealed class FpsCounter(nint cppPtr) : MonoBehaviour(cppPtr)
 {
+    public static bool showFps;
     private float _deltaTime;
 
     private void Update()
@@ -15,6 +16,10 @@ public sealed class FpsCounter(nint cppPtr) : MonoBehaviour(cppPtr)
 
     private void OnGUI()
     {
+        if (!showFps)
+        {
+            return;
+        }
         var fps = 1.0f / _deltaTime;
         var style = new GUIStyle(GUI.skin.label)
         {
