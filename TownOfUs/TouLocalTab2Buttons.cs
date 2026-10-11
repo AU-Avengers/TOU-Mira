@@ -4,6 +4,7 @@ using MiraAPI;
 using MiraAPI.Hud;
 using MiraAPI.LocalSettings.Attributes;
 using TownOfUs.Buttons;
+using TownOfUs.DebugTools;
 using TownOfUs.Modules.Components;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
@@ -52,6 +53,10 @@ public class TouLocalTabButtons(ConfigFile config) : LocalSettingsTab(config)
         {
             HudManagerPatches.UseVanillaWiki = UseVanillaRoleGuide.Value;
         }
+        else if (configEntry == ShowFpsCounter)
+        {
+            FpsCounter.showFps = ShowFpsCounter.Value;
+        }
         else if (configEntry == SeparateChatBubbles)
         {
             if (!HudManager.InstanceExists)
@@ -87,6 +92,10 @@ public class TouLocalTabButtons(ConfigFile config) : LocalSettingsTab(config)
     [LocalToggleSetting]
     public ConfigEntry<bool> UseVanillaRoleGuide { get; private set; } =
         config.Bind("UI / Visuals", "UseVanillaRoleGuide", true);
+
+    [LocalToggleSetting]
+    public ConfigEntry<bool> ShowFpsCounter { get; private set; } =
+        config.Bind("UI / Visuals", "ShowFpsCounter", TownOfUsPlugin.IsDevBuild);
 
     [LocalToggleSetting]
     public ConfigEntry<bool> PreciseCooldownsToggle { get; private set; } =
