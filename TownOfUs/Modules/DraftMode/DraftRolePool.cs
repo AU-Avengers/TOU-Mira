@@ -11,10 +11,16 @@ namespace TownOfUs.Modules.DraftMode
     public static class DraftRolePool
     {
         private static readonly Dictionary<string, List<string>> BucketToNamesCache = new(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<ushort, bool> UsableRoleCache = new();
+        private static readonly Dictionary<ushort, int> RoleCountCache = new();
+        private static readonly Dictionary<ushort, int> RoleChanceCache = new();
 
-        public static void ClearNameCache()
+        public static void ClearCaches()
         {
             BucketToNamesCache.Clear();
+            UsableRoleCache.Clear();
+            RoleCountCache.Clear();
+            RoleChanceCache.Clear();
         }
 
         public static List<string> ResolveBucketToRoleNames(string bucket)
@@ -334,16 +340,21 @@ namespace TownOfUs.Modules.DraftMode
         public static bool IsUsableRole(RoleBehaviour role)
         {
             if (!role) return false;
-            if (role.IsDead)
-                return false;
-            if (role.Role == RoleTypes.Crewmate)
-                return false;
-            if (role.Role == AmongUs.GameOptions.RoleTypes.Impostor)
-                return false;
-            if (role is ITownOfUsRole touRole && (!touRole.IsDraftable || touRole.RoleAlignment > RoleAlignment.GameOutlier))
-                return false;
+            var roleId = (ushort)role.Role;
+            if (UsableRoleCache.TryGetValue(roleId, out var cachedUsable))
+                return cachedUsable;
 
-            return role.GetRoleName() is { Length: > 0 } && CustomRoleUtils.CanSpawnOnCurrentMode(role) && IsRoleEnabled(role);
+            var isUsable = !role.IsDead &&
+                role.Role != RoleTypes.Crewmate &&
+                role.Role != AmongUs.GameOptions.RoleTypes.Impostor &&
+                (role is not ITownOfUsRole touRole ||
+                 touRole.IsDraftable && touRole.RoleAlignment <= RoleAlignment.GameOutlier) &&
+                role.GetRoleName() is { Length: > 0 } &&
+                CustomRoleUtils.CanSpawnOnCurrentMode(role) &&
+                IsRoleEnabled(role);
+
+            UsableRoleCache[roleId] = isUsable;
+            return isUsable;
         }
 
         public static bool IsRoleUsableAndEnabled(string roleName)
@@ -360,8 +371,8 @@ namespace TownOfUs.Modules.DraftMode
             if (role is ICustomRole customRole)
             {
                 if (customRole.Configuration.MaxRoleCount == 0) return false;
-                int count = customRole.GetCount() is { } c ? (int)c : 0;
-                int chance = customRole.GetChance() is { } ch ? (int)ch : 0;
+                int count = customRole.GetCount() is { } c ? c : 0;
+                int chance = customRole.GetChance() is { } ch ? ch : 0;
                 return count > 0 && chance > 0;
             }
 
@@ -373,11 +384,18 @@ namespace TownOfUs.Modules.DraftMode
         public static int GetRoleChance(RoleBehaviour role)
         {
             if (role == null) return 0;
+            var roleId = (ushort)role.Role;
+            if (RoleChanceCache.TryGetValue(roleId, out var cachedChance))
+                return cachedChance;
 
+            int chance;
             if (role is ICustomRole customRole && customRole.Configuration.MaxRoleCount != 0)
-                return customRole.GetChance() is { } chance ? (int)chance : 0;
+                chance = customRole.GetChance() is { } customChance ? customChance : 0;
+            else
+                chance = GameOptionsManager.Instance?.CurrentGameOptions?.RoleOptions?.GetChancePerGame(role.Role) ?? 0;
 
-            return GameOptionsManager.Instance?.CurrentGameOptions?.RoleOptions?.GetChancePerGame(role.Role) ?? 0;
+            RoleChanceCache[roleId] = chance;
+            return chance;
         }
 
         public static int GetChanceForRoleName(string name)
@@ -390,11 +408,18 @@ namespace TownOfUs.Modules.DraftMode
         public static int GetRoleCount(RoleBehaviour role)
         {
             if (role == null) return 0;
+            var roleId = (ushort)role.Role;
+            if (RoleCountCache.TryGetValue(roleId, out var cachedCount))
+                return cachedCount;
 
+            int count;
             if (role is ICustomRole customRole && customRole.Configuration.MaxRoleCount != 0)
-                return customRole.GetCount() is { } count ? (int)count : 0;
+                count = customRole.GetCount() is { } customCount ? customCount : 0;
+            else
+                count = GameOptionsManager.Instance?.CurrentGameOptions?.RoleOptions?.GetNumPerGame(role.Role) ?? 0;
 
-            return GameOptionsManager.Instance?.CurrentGameOptions?.RoleOptions?.GetNumPerGame(role.Role) ?? 0;
+            RoleCountCache[roleId] = count;
+            return count;
         }
     }
 }

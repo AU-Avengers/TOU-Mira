@@ -20,6 +20,10 @@ namespace TownOfUs.Modules.DraftMode
         private static int    _cachedDisconnectedCount = -1;
         private static bool   _cachedDraftActive;
         private static bool   _draftSpriteAssetReady;
+        private static string _cachedRenderedContent = null!;
+        private static TextMeshPro _cachedTextComponent = null!;
+        private static float _nextRenderTime;
+        private const float SidebarRefreshInterval = 0.1f;
 
         public static void Activate()
         {
@@ -35,6 +39,9 @@ namespace TownOfUs.Modules.DraftMode
             _cachedPickedCount   = -1;
             _cachedDisconnectedCount = -1;
             _cachedDraftActive   = false;
+            _cachedRenderedContent = null!;
+            _cachedTextComponent = null!;
+            _nextRenderTime = 0f;
 
             var tmp = HudManagerPatches.RoleListTextComp;
             if (tmp != null)
@@ -55,14 +62,29 @@ namespace TownOfUs.Modules.DraftMode
             _cachedPickedCount   = -1;
             _cachedDisconnectedCount = -1;
             _cachedDraftActive   = false;
+            _cachedRenderedContent = null!;
+            _cachedTextComponent = null!;
+            _nextRenderTime = 0f;
         }
         public static void DrawSidebar(TextMeshPro tmp)
         {
+            float now = Time.unscaledTime;
+            if (tmp == _cachedTextComponent && _cachedRenderedContent != null && now < _nextRenderTime)
+                return;
+
             tmp.fontSize           = 3f;
             tmp.fontSizeMin        = 0.5f;
             tmp.fontSizeMax        = 3f;
             tmp.enableWordWrapping = false;
-            tmp.text = AnimatedTitle() + GetStaticContent();
+            var content = AnimatedTitle() + GetStaticContent();
+            if (tmp != _cachedTextComponent || content != _cachedRenderedContent || tmp.text != content)
+            {
+                tmp.text = content;
+                _cachedRenderedContent = content;
+                _cachedTextComponent = tmp;
+            }
+
+            _nextRenderTime = now + SidebarRefreshInterval;
         }
 
         private static string GetStaticContent()
