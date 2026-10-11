@@ -14,7 +14,6 @@ using Reactor.Localization;
 using Reactor.Networking;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
-using TownOfUs.Modules.Cosmetics.Unity;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.WinConditions;
@@ -117,24 +116,6 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
                 Error("touhats.catalog was loaded!");
             }
         }*/
-
-        ClassInjector.RegisterTypeInIl2Cpp<HatLocator>(new RegisterTypeOptions
-        {
-            Interfaces = new Il2CppInterfaceCollection([typeof(IResourceLocator)])
-        });
-
-        ClassInjector.RegisterTypeInIl2Cpp<HatProvider>(new RegisterTypeOptions
-        {
-            Interfaces = new Il2CppInterfaceCollection([typeof(IResourceProvider)])
-        });
-
-        Info("Initializing HatProvider...");
-        HatProvider.Initialize();
-        Info("HatProvider initialized!");
-        
-        Info("Initializing HatLocator...");
-        HatLocator.Initialize();
-        Info("HatLocator initialized!");
 
         Harmony.PatchAll();
         DataManager.player = new PlayerData();

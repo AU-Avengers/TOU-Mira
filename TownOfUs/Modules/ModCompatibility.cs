@@ -4,6 +4,7 @@ using System.Reflection.Emit;
 using System.Text;
 using BepInEx;
 using BepInEx.Unity.IL2CPP;
+using CorsacCosmetics.Cosmetics;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using MiraAPI;
@@ -13,6 +14,7 @@ using MiraAPI.Hud;
 using MiraAPI.Patches.Hud;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Cosmetics;
 using TownOfUs.Integrations;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Maps;
@@ -94,6 +96,7 @@ public static class ModCompatibility
     public static bool BauLoaded { get; private set; }
     public static BasePlugin BauPlugin { get; private set; }
     public static Assembly BauAssembly { get; private set; }
+
     public static Type[] BauTypes { get; private set; }
     /*private static PropertyInfo bauCommandPrefix;
     public static bool TweakForBauCommands => bauCommandPrefix.GetValue(null)*/
@@ -118,14 +121,6 @@ public static class ModCompatibility
     public static bool MciLoaded { get; private set; }
     public static BasePlugin MciPlugin { get; private set; }
     public static Assembly MciAssembly { get; private set; }
-    
-    public const string CorsacGuid = "CorsacCosmetics";
-    public static Version CorsacVersion { get; private set; }
-    public static bool CorsacLoaded { get; private set; }
-    public static BasePlugin CorsacPlugin { get; private set; }
-    public static Assembly CorsacAssembly { get; private set; }
-    public static Type[] CorsacTypes { get; private set; }
-    private static MethodInfo QueueBundleDownload;
 
     public const string PerfectCommsGuid = "com.edgetel.perfectcomms";
     public static readonly Dictionary<Type, List<MiraEventWrapper>> ExposedEventWrappers = [];
@@ -133,15 +128,6 @@ public static class ModCompatibility
     public static Assembly ApiAssembly { get; private set; }
     public static Type[] ApiTypes { get; private set; }
 
-    public static void TryDownloadCosmeticBundle(string bundlePath, string downloadLink, string? outputFolder = null)
-    {
-        if (!CorsacLoaded || File.Exists(bundlePath))
-        {
-            return;
-        }
-        QueueBundleDownload.Invoke(null, [downloadLink, outputFolder]);
-    }
-    
     public static void Initialize()
     {
         InitApiExposing();
@@ -177,7 +163,7 @@ public static class ModCompatibility
         ApiPlugin = (value.Instance as BasePlugin)!;
         ApiAssembly = ApiPlugin.GetType().Assembly;
         ApiTypes = AccessTools.GetTypesFromAssembly(ApiAssembly);
-        var staticClassType = typeof(MiraEventManager); 
+        var staticClassType = typeof(MiraEventManager);
         var dictField = staticClassType.GetField("EventWrappers", BindingFlags.NonPublic | BindingFlags.Static);
 
         if (dictField != null)
@@ -201,17 +187,25 @@ public static class ModCompatibility
         foreach (var locale in MiraLocaleManager.LangList)
         {
             var dict = MiraLocaleManager.Locale[locale.Key];
-            dict["TouOptionDoubleShotAmount.Imp"] = "<sprite name=\"AmongUs.Role.Impostor.Masked\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionDoubleShotAmount");
-            dict["TouOptionDoubleShotChance.Imp"] = "<sprite name=\"AmongUs.Role.Impostor.Masked\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionDoubleShotChance");
-            dict["TouOptionDoubleShotAmount.Neut"] = "<sprite name=\"AmongUs.Role.Neutral.Masked\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionDoubleShotAmount");
-            dict["TouOptionDoubleShotChance.Neut"] = "<sprite name=\"AmongUs.Role.Neutral.Masked\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionDoubleShotChance");
-            dict["TouOptionOverclockerAmount.Imp"] = "<sprite name=\"AmongUs.Role.Impostor.Masked\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionOverclockerAmount");
-            dict["TouOptionOverclockerChance.Imp"] = "<sprite name=\"AmongUs.Role.Impostor.Masked\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionOverclockerChance");
-            dict["TouOptionOverclockerAmount.Neut"] = "<sprite name=\"AmongUs.Role.Neutral.Masked\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionOverclockerAmount");
-            dict["TouOptionOverclockerChance.Neut"] = "<sprite name=\"AmongUs.Role.Neutral.Masked\"> " + MiraLocaleManager.Get(locale.Key, "TouOptionOverclockerChance");
+            dict["TouOptionDoubleShotAmount.Imp"] = "<sprite name=\"AmongUs.Role.Impostor.Masked\"> " +
+                                                    MiraLocaleManager.Get(locale.Key, "TouOptionDoubleShotAmount");
+            dict["TouOptionDoubleShotChance.Imp"] = "<sprite name=\"AmongUs.Role.Impostor.Masked\"> " +
+                                                    MiraLocaleManager.Get(locale.Key, "TouOptionDoubleShotChance");
+            dict["TouOptionDoubleShotAmount.Neut"] = "<sprite name=\"AmongUs.Role.Neutral.Masked\"> " +
+                                                     MiraLocaleManager.Get(locale.Key, "TouOptionDoubleShotAmount");
+            dict["TouOptionDoubleShotChance.Neut"] = "<sprite name=\"AmongUs.Role.Neutral.Masked\"> " +
+                                                     MiraLocaleManager.Get(locale.Key, "TouOptionDoubleShotChance");
+            dict["TouOptionOverclockerAmount.Imp"] = "<sprite name=\"AmongUs.Role.Impostor.Masked\"> " +
+                                                     MiraLocaleManager.Get(locale.Key, "TouOptionOverclockerAmount");
+            dict["TouOptionOverclockerChance.Imp"] = "<sprite name=\"AmongUs.Role.Impostor.Masked\"> " +
+                                                     MiraLocaleManager.Get(locale.Key, "TouOptionOverclockerChance");
+            dict["TouOptionOverclockerAmount.Neut"] = "<sprite name=\"AmongUs.Role.Neutral.Masked\"> " +
+                                                      MiraLocaleManager.Get(locale.Key, "TouOptionOverclockerAmount");
+            dict["TouOptionOverclockerChance.Neut"] = "<sprite name=\"AmongUs.Role.Neutral.Masked\"> " +
+                                                      MiraLocaleManager.Get(locale.Key, "TouOptionOverclockerChance");
         }
     }
-    
+
     private static void InitPerfectComms()
     {
         if (!IL2CPPChainloader.Instance.Plugins.ContainsKey(PerfectCommsGuid))
@@ -237,7 +231,7 @@ public static class ModCompatibility
         LaunchpadTypes = AccessTools.GetTypesFromAssembly(LaunchpadAssembly);
 
         LaunchpadTagManager = LaunchpadTypes.First(x => x.Name == "PlayerTagManager");
-        
+
         LaunchpadLoaded = true;
         IsWikiButtonOffset = true;
         Message("Launchpad Reloaded was detected");
@@ -283,13 +277,14 @@ public static class ModCompatibility
     }
 #pragma warning restore S3011
     public static string StarlightPath => Environment.GetEnvironmentVariable("STAR_DATA_PATH")!;
-    
+
     public static string BasePath { get; } = Path.Combine(
         OperatingSystem.IsAndroid() ? StarlightPath : Paths.GameRootPath,
         "CorsacCosmetics"
     );
 
     public static string BundlePath { get; } = Path.Combine(BasePath, "Bundles");
+
     public static readonly string[] CosmeticsArray =
     {
         "15Streamers",
@@ -310,29 +305,24 @@ public static class ModCompatibility
         "TheLastShaymin",
         "Tori"
     };
+
+    public static readonly CorsacUtils.QuickPetMetadata[] Pets =
+    {
+        new ("Black Minipostor", "BlackMinipostorPet.prefab", false),
+        new ("Flopster", "FlopsterPet.prefab", false),
+        new ("Tortellini", "TortelliniPet.prefab", false)
+    };
     public static void InitCorsac()
     {
-        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(CorsacGuid, out var plugin))
-        {
-            return;
-        }
-
-        CorsacPlugin = (plugin!.Instance as BasePlugin)!;
-        CorsacVersion = plugin.Metadata.Version;
-
-        CorsacAssembly = CorsacPlugin.GetType().Assembly;
-        CorsacTypes = AccessTools.GetTypesFromAssembly(CorsacAssembly);
-        var pluginCompat = CorsacTypes.First(t => t.Name == "PluginCompat");
-        QueueBundleDownload = AccessTools.Method(pluginCompat, "QueueBundleDownload", [typeof(string), typeof(string)]);
-        CorsacLoaded = true;
-        Message("Corsac Cosmetics was detected, attempting to load hats now if they're not already downloaded.");
+        Message("Attempting to add ToU Cosmetics and Pets.");
         Directory.CreateDirectory(BundlePath);
 
         foreach (var cosmetic in CosmeticsArray)
         {
-            TryDownloadCosmeticBundle(Path.Combine(BundlePath, $"TownOfUs.{cosmetic}.ccb"),
+            CorsacUtils.TryDownloadCosmeticBundle(Path.Combine(BundlePath, $"TownOfUs.{cosmetic}.ccb"),
                 $"https://github.com/AU-Avengers/TownOfUs-Cosmetics/raw/refs/heads/main/Bundles/TownOfUs.{cosmetic}.ccb");
         }
+        CorsacUtils.AddMultiplePets("TouPetsSource", "Atony", Pets, TouAssets.MainBundle);
     }
 
     public static void InitSubmerged()
@@ -903,5 +893,4 @@ public static string SelectedRoleName;
             return;
         }
     }
-
-    }
+}
