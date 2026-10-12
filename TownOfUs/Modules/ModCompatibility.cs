@@ -717,7 +717,7 @@ public static string SelectedRoleName;
 
     public static bool IsLevelImpostor()
     {
-        var map = GameOptionsManager.Instance.currentGameOptions.MapId;
+        var map = GameOptionsManager.Instance.CurrentGameOptions.MapId;
         return LILoaded && ShipStatus.Instance && map == 7;
     }
 
