@@ -10,7 +10,7 @@ namespace TownOfUs.Roles;
 
 public interface ITownOfUsRole : ICustomRole
 {
-    GameObject ICustomRole.GetAdvancedWiki(MatchInfoGuide guide, TextMeshPro titleText, Scroller parent)
+    GameObject ICustomRole.GetAdvancedWiki(MatchInfoGuide guide, TextMeshPro titleText, SpriteRenderer titleIcon, Scroller parent)
     {
         var abilities = WikiAbilities;
         if (abilities.Count == 0 && this is IWikiDiscoverable wiki && wiki.Abilities.HasAny())
@@ -25,9 +25,11 @@ public interface ITownOfUsRole : ICustomRole
         return Helpers.CreateAdvancedWikiPage(
             guide,
             titleText,
+            titleIcon,
             parent,
             RoleNameLocale,
-            $"{MiscUtils.GetRoleTmpIcon(this)} {RoleName} ({RoleFactionTitle})",
+            $"{RoleName} ({RoleFactionTitle})",
+            Configuration.Icon ?? MiraAssets.IconNeutral.LoadAsset(),
             RoleWikiDescription,
             abilities);
     }

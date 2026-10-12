@@ -21,7 +21,7 @@ public abstract class TouBaseGameModifier : GameModifier
     public override string ModifierWikiDescription => this is IWikiDiscoverable wiki ? wiki.GetAdvancedDescription() : MiraLocaleManager.Get(ModifierWikiDescriptionLocale, GetDescription()) +
                                                       Helpers.GetOptionsText(GetType());
     public virtual ModifierUiConfiguration Configuration => new(MiscUtils.GetRoleColour(IdPart));
-    public override GameObject GetAdvancedWiki(MatchInfoGuide guide, TextMeshPro titleText, Scroller parent)
+    public override GameObject GetAdvancedWiki(MatchInfoGuide guide, TextMeshPro titleText, SpriteRenderer titleIcon, Scroller parent)
     {
         var abilities = WikiAbilities;
         if (abilities.Count == 0 && this is IWikiDiscoverable wiki && wiki.Abilities.HasAny())
@@ -32,15 +32,14 @@ public abstract class TouBaseGameModifier : GameModifier
                 a.Description,
                 a.Icon)).ToList();
         }
-
-        var iconTmp = Configuration.PopUpIconTmp ? Configuration.PopUpIconTmp : IconTmp;
-        var icon = iconTmp ? $"<sprite name=\"{iconTmp.name}\"> " : string.Empty;
         return Helpers.CreateAdvancedWikiPage(
             guide,
             titleText,
+            titleIcon,
             parent,
             ModifierNameLocale,
-            $"{icon}{ModifierName} ({ModifierCategoryTitle})",
+            $"{ModifierName} ({ModifierCategoryTitle})".TrimStart(),
+            ModifierIcon ?? MiraAssets.IconNeutral.LoadAsset(),
             ModifierWikiDescription,
             abilities);
     }
