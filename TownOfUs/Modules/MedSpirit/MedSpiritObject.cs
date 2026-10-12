@@ -63,7 +63,7 @@ public sealed class MedSpiritObject(IntPtr cppPtr) : InnerNetObject(cppPtr)
     {
         /*var baseSpeed = 1f;
         
-        if (GameManager.Instance.LogicOptions.currentGameOptions.TryGetFloat(FloatOptionNames.PlayerSpeedMod, out var result))
+        if (GameManager.Instance.LogicOptions.CurrentGameOptions.TryGetFloat(FloatOptionNames.PlayerSpeedMod, out var result))
         {
             baseSpeed = result;
         }*/

@@ -1779,9 +1779,9 @@ public static class MiscUtils
                 }
 
                 if (normalPlayerTask.TaskType is TaskTypes.EmptyGarbage or TaskTypes.EmptyChute
-                    && (GameOptionsManager.Instance.currentGameOptions.MapId == 0 ||
-                        GameOptionsManager.Instance.currentGameOptions.MapId == 3 ||
-                        GameOptionsManager.Instance.currentGameOptions.MapId == 4))
+                    && (GameOptionsManager.Instance.CurrentGameOptions.MapId == 0 ||
+                        GameOptionsManager.Instance.CurrentGameOptions.MapId == 3 ||
+                        GameOptionsManager.Instance.CurrentGameOptions.MapId == 4))
                 {
                     normalPlayerTask.taskStep = 1;
                 }
@@ -1992,7 +1992,7 @@ public static class MiscUtils
     public static bool IsMap(byte mapid)
     {
         return (GameOptionsManager.Instance != null &&
-                GameOptionsManager.Instance.currentGameOptions.MapId == mapid)
+                GameOptionsManager.Instance.CurrentGameOptions.MapId == mapid)
                || (TutorialManager.InstanceExists && AmongUsClient.Instance.TutorialMapId == mapid);
     }
 
@@ -2291,7 +2291,7 @@ public static class MiscUtils
     {
         get
         {
-            var mapId = (ExpandedMapNames)GameOptionsManager.Instance.currentGameOptions.MapId;
+            var mapId = (ExpandedMapNames)GameOptionsManager.Instance.CurrentGameOptions.MapId;
             if (TutorialManager.InstanceExists)
             {
                 mapId = (ExpandedMapNames)AmongUsClient.Instance.TutorialMapId;

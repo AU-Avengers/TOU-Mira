@@ -76,7 +76,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     public static void EngineerFix(PlayerControl engineer)
     {
-        switch ((ExpandedMapNames)GameOptionsManager.Instance.currentGameOptions.MapId)
+        switch ((ExpandedMapNames)GameOptionsManager.Instance.CurrentGameOptions.MapId)
         {
             case ExpandedMapNames.Skeld or ExpandedMapNames.Dleks:
                 var comms1 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
