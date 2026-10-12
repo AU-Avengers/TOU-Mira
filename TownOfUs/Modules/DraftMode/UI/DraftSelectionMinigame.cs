@@ -801,6 +801,8 @@ namespace TownOfUs.Modules.DraftMode
         }
         private float _localTimeLeft = -1f;
         private bool _cardsReady;
+        private int _lastDisplayedSeconds = -1;
+        private bool _lastTimerUrgent;
 
         private void Update()
         {
@@ -832,12 +834,18 @@ namespace TownOfUs.Modules.DraftMode
                     }
 
                     bool urgent = secs <= 5;
-                    string color = urgent ? "#FF5555" : "#FFD700";
+                    if (secs != _lastDisplayedSeconds || urgent != _lastTimerUrgent)
+                    {
+                        string color = urgent ? "#FF5555" : "#FFD700";
+                        string timerLabel = MiraLocaleManager.Get("TouDraftTimerRemaining", "<secs> Second(s) Remaining")
+                            .Replace("<secs>", secs.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                        _timerText.text = $"<color={color}><b>{timerLabel}</b></color>";
+                        _lastDisplayedSeconds = secs;
+                        _lastTimerUrgent = urgent;
+                    }
+
                     float timerPulse = urgent ? 1f + Mathf.Sin(Time.time * 10f) * 0.08f : 1f;
                     _timerText.transform.localScale = Vector3.one * timerPulse;
-                    string timerLabel = MiraLocaleManager.Get("TouDraftTimerRemaining", "<secs> Second(s) Remaining")
-                        .Replace("<secs>", secs.ToString(System.Globalization.CultureInfo.InvariantCulture));
-                    _timerText.text = $"<color={color}><b>{timerLabel}</b></color>";
 
                     float timeForBar = AmongUsClient.Instance.AmHost
                         ? DraftManager.TurnTimeLeft
@@ -882,6 +890,8 @@ namespace TownOfUs.Modules.DraftMode
 
             _hasPicked = true;
             ushort roleId = randomPick ? (ushort)0 : _offeredRoleIds[index];
+            if (roleId != 0)
+                DraftStatusOverlay.NotifyLocalPlayerPicked(roleId);
             DraftNetworkHelper.SendPickToHost(index, roleId, TargetPickerId);
         }
 

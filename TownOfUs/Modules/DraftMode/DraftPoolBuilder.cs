@@ -8,7 +8,7 @@ namespace TownOfUs.Modules.DraftMode
     {
         public static List<string> BuildPool(int numPlayers, IRng rng = null!)
         {
-            DraftRolePool.ClearNameCache();
+            DraftRolePool.ClearCaches();
             rng ??= DeterministicRng.CreateRandomlySeeded();
             var pool    = new List<string>();
             var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;

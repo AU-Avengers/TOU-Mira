@@ -59,15 +59,17 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public string RoleWikiDescription => GetAdvancedDescription() +
                                          "\n\n" + MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}CrewmateImitation.WikiDescription");
-    GameObject ICustomRole.GetAdvancedWiki(MatchInfoGuide guide, TextMeshPro titleText, Scroller parent)
+    GameObject ICustomRole.GetAdvancedWiki(MatchInfoGuide guide, TextMeshPro titleText, SpriteRenderer titleIcon, Scroller parent)
     {
         var custom = this as ICustomRole;
         return Helpers.CreateAdvancedWikiPage(
             guide,
             titleText,
+            titleIcon,
             parent,
             custom.RoleNameLocale,
-            $"{MiscUtils.GetRoleTmpIcon(custom)} {custom.RoleName} ({custom.RoleFactionTitle})",
+            $"{custom.RoleName} ({custom.RoleFactionTitle})",
+            Configuration.Icon!,
             custom.RoleWikiDescription,
             WikiAbilities,
             variableTextSizing: true);
