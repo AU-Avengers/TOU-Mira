@@ -628,8 +628,6 @@ namespace TownOfUs.Modules.DraftMode
                         .ToArray();
                 _exclusiveIdsCache[roleId] = ids;
             }
-
-            context.ExclusiveBlocked.UnionWith(ids);
         }
 
         [HideFromIl2Cpp]
@@ -853,7 +851,6 @@ namespace TownOfUs.Modules.DraftMode
 
             context ??= BuildSlotContext(slot, ignoreConcurrentOffers, ignoreForce);
             if (context.AvoidNames.Contains(candidate) || context.AvoidNames.Contains(baseName)) return false;
-            if (context.ExclusiveBlocked.Contains(resolvedId)) return false;
             bool isNeut = DraftRolePool.IsNeutralRoleName(baseName);
             int candidateWeight = SeatWeightForRoleName(baseName);
 
@@ -895,8 +892,6 @@ namespace TownOfUs.Modules.DraftMode
             {
                 return false;
             }
-
-            if (context.ExclusiveBlocked.Contains(resolvedId)) return false;
 
             bool isImp = DraftRolePool.IsImpostorRoleId(resolvedId) || DraftRolePool.IsImpostorRoleName(baseName);
             bool isNeut = DraftRolePool.IsNeutralRoleName(baseName);
@@ -2115,7 +2110,7 @@ namespace TownOfUs.Modules.DraftMode
 
                     int maxAllowed = DraftRolePool.GetMaxCountForRoleName(pickedRoleName);
                     int currentCountByName = statsEx.assignedCountsByName.GetValueOrDefault(NormalizeRoleNameKey(pickedRoleName));
-                    if (currentCountById >= maxAllowed || currentCountByName >= maxAllowed || exclusionContext.ExclusiveBlocked.Contains(chosenRoleId))
+                    if (currentCountById >= maxAllowed || currentCountByName >= maxAllowed)
                     {
                         if (isExplicitPick)
                         {
@@ -2153,7 +2148,6 @@ namespace TownOfUs.Modules.DraftMode
                     {
                         emergencyId = DraftPoolBuilder.GetAllowedCrewFallbackNames()
                             .Where(n => emergencyContext.AssignedCountsByName.GetValueOrDefault(NormalizeRoleNameKey(n)) < DraftRolePool.GetMaxCountForRoleName(n))
-                            .Where(n => !emergencyContext.ExclusiveBlocked.Contains(DraftRolePool.ResolveRoleIdFromName(n)))
                             .OrderBy(_ => _rng.NextInt(1000000))
                             .Select(DraftRolePool.ResolveRoleIdFromName)
                             .FirstOrDefault(id => id != 0);
