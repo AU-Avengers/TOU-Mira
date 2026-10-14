@@ -1321,4 +1321,25 @@ Oczyść ich aby usunąć negatywne efekty.</string>
   <string name="TownOfUsMira.Role.Seer.IntroBlurb">Ujawnij przynależności innych</string>
   <string name="TownOfUsMira.Role.Seer.MedDescription">Ujawnij prawdziwe przynależności Załogi.</string>
   <string name="TownOfUsMira.Role.Seer.AltIntroBlurb">Porównaj przynależności dwóch graczy ze sobą</string>
+  <string name="TownOfUsMira.Role.AmbassadorRetrainTitle">Zmiana Ambasadora</string>
+  <string name="TownOfUsMira.Role.AmbassadorRetrainConfirm">Czy aby na pewno chcesz być zmieniony w [role]?
+Ta zmiana jest nieodwracalna.</string>
+  <string name="TownOfUsMira.Role.Aurial.MedDescription">Wyczuj w którym miejscu wśród twojej aury użyto umiejętności.
+Jeżeli użyto blisko ciebie, zobaczysz kolor osoby.</string>
+  <string name="TownOfUsMira.Modifier.ClericBarrier">Bariera</string>
+  <string name="TownOfUsMira.Modifier.ClericBarrierDescription">Jesteś chroniony przez Kleryka!
+Nie można z tobą wchodzić w interakcję.</string>
+  <string name="TownOfUsMira.Modifier.ClericCleanse">Oczyszczenie Kleryka</string>
+  <string name="TownOfUsMira.Modifier.ClericCleanseEffectsFound">Oczyszczono efekt z [player]:</string>
+  <string name="TownOfUsMira.Modifier.ClericCleanseNoEffects">Nie znaleziono negatywnych efektów u [player].</string>
+  <string name="TownOfUsMira.Modifier.ClericCleanseFeedbackTitle">Informacja Kleryka:</string>
+  <string name="TownOfUsMira.Modifier.DeputyRevealed">Ujawniony</string>
+  <string name="TownOfUsMira.Role.DeputyShootKiller">Zastrzel gracza z powodzeniem jeśli był zabójcą!</string>
+  <string name="TownOfUsMira.Role.DoomsayerGuessAllAtOnce">Zgadnij role [amount] graczy jednocześnie aby wygrać!</string>
+  <string name="TownOfUsMira.Role.DoomsayerSuccessfulGuesses">[current]/[total] Poprawnych strzałów ról do wygranej!</string>
+  <string name="TownOfUsMira.Modifier.EclipsalBlindedNotification">Zostałeś oślepiony przez Zaćmieniacza!</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer">Inżynier</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.IntroBlurb">Dbaj o placówkę</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.TabDescription">Ukończ swoje zadania.[nl]Możesz naprawić 1 sabotaż.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Engineer.WikiDescription">Inżynier jest Załogantem potrafiącym naprawić jeden sabotaż na grę, niezależnie od tego gdzie się znajduje.</string>
 </resources>
