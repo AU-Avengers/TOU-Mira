@@ -111,7 +111,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
             foreach (var role in TrappedPlayers)
             {
-                message.Append(TownOfUsPlugin.Culture, $"{MiscUtils.GetHyperlinkText(role)}, ");
+                message.Append(TownOfUsPlugin.Culture, $"{MiscUtils.GetReliableHyperlinkText(role)}, ");
             }
 
             message = message.Remove(message.Length - 2, 2);

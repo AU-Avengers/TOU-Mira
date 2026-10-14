@@ -5,6 +5,7 @@ using HarmonyLib;
 using MiraAPI;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
@@ -775,7 +776,7 @@ public static class HudManagerPatches
                     continue;
                 }
                 // Warning($"Adding: {role.GetRoleName()}, {role.Role}, {role.GetNamespace()}");
-                roleEntry = roleEntry.AddToArray(new(role.GetRoleName(), role.Role, role.GetNamespace(), role.TeamColor));
+                roleEntry = roleEntry.AddToArray(new(role.GetRoleName(), role.Role, role.GetNamespace(false), role.TeamColor));
             }
             BucketTooltipData.AllRoles.Add(pair.Key, roleEntry);
         }
@@ -803,17 +804,27 @@ public static class HudManagerPatches
         { RoleListOption.ImpSupport, RoleAlignment.ImpostorSupport },
     };
 
-    public static string GetNamespace(this RoleBehaviour role)
+    public static string GetNamespace(this RoleBehaviour role, bool useHyphens)
     {
-        if (role is ICustomRole customRole)
-        {
-            return customRole.GetType().FullName!;
-        }
-
         var text = role.GetType().FullName!;
         if (Enum.IsDefined(role.Role))
         {
             text = $"AmongUs.Roles.{role.Role}";
+        }
+        if (useHyphens)
+        {
+            text = text.Replace('.', '-');
+        }
+
+        return text;
+    }
+
+    public static string GetNamespace(this BaseModifier modifier, bool useHyphens)
+    {
+        var text = modifier.GetType().FullName!;
+        if (useHyphens)
+        {
+            text = text.Replace('.', '-');
         }
 
         return text;

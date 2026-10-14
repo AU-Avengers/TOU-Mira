@@ -2464,6 +2464,18 @@ public static class MiscUtils
         return $"&{name.Replace(" ", "-").RemoveAll(WikiHyperLinkPatches.RemovedCharacters)}";
     }
 
+    public static string GetReliableHyperlinkText(RoleBehaviour role)
+    {
+        var name = role.GetNamespace(true);
+        return $"#fullnamespace-{name}";
+    }
+
+    public static string? GetReliableHyperlinkText(BaseModifier modifier)
+    {
+        var name = modifier.GetNamespace(true);
+        return $"#fullnamespace-{name}";
+    }
+
     public static bool CanUseUtility(GameUtility utility, bool isPortable = false)
     {
         var opts = OptionGroupSingleton<AdvancedUtilityOptions>.Instance;

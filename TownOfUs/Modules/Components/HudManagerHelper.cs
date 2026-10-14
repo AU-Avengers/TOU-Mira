@@ -25,6 +25,7 @@ using TownOfUs.Patches.ControlSystem;
 using TownOfUs.Patches.Roles;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
+using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
@@ -417,6 +418,13 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         {
             HasSetMeetingColorText = false;
             var isVisible = TutorialManager.InstanceExists || PlayerControl.LocalPlayer.DiedOtherRound();
+            var controlledViewpoint = PlayerControl.LocalPlayer.Data.Role switch
+            {
+                PuppeteerRole puppeteerRole => puppeteerRole.Controlled,
+                ParasiteRole parasiteRole => parasiteRole.Controlled,
+                _ => null
+            };
+
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (player == null || !player.Data || !player.Data.Role)
@@ -426,10 +434,30 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
                 var (playerColor, playerName) = GetRoleNameText(player, genOpt.FFAImpostorMode, taskOpt, roleNameSize, roleOnTop, colorPlayerNames, localDead, localGhost, localImp, localVamp, useMiraApiChecks, false, isVisible);
 
-                if (hideOutOfSight && !player.AmOwner && !VentPatches.InVision(player) && (sightMode is NameSight.Harsh || !MiscUtils.AreLocationsInSameRoom(PlayerControl.LocalPlayer.GetTruePosition(), player.GetTruePosition())))
+                if (hideOutOfSight && !player.AmOwner)
                 {
-                    playerName = string.Empty;
-                    player.cosmetics.colorBlindText.enabled = false;
+                    var playerPosition = player.GetTruePosition();
+                    var localPosition = PlayerControl.LocalPlayer.GetTruePosition();
+                    var inVision = VentPatches.InVision(player);
+                    var inSameRoom = MiscUtils.AreLocationsInSameRoom(localPosition, playerPosition);
+
+                    if (controlledViewpoint != null)
+                    {
+                        var controlledPosition = controlledViewpoint.GetTruePosition();
+                        inVision |= VentPatches.InVision(player, controlledViewpoint);
+                        inSameRoom |= MiscUtils.AreLocationsInSameRoom(controlledPosition, playerPosition);
+                    }
+
+                    var visibleBySight = inVision || (sightMode is NameSight.RoomBased && inSameRoom);
+                    if (!visibleBySight)
+                    {
+                        playerName = string.Empty;
+                        player.cosmetics.colorBlindText.enabled = false;
+                    }
+                    else
+                    {
+                        player.cosmetics.colorBlindText.enabled = true;
+                    }
                 }
                 else
                 {

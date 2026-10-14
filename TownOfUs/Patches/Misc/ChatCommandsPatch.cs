@@ -539,7 +539,7 @@ public static class ChatPatches
                                     RpcForcePlayerRole(PlayerControl.LocalPlayer, targetPlayer);
                                     UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                                        MiraLocaleManager.Get("UpCommandSuccessOther").Replace("<player>", targetName).Replace("<role>", MiscUtils.GetHyperlinkText(matchingRole)));
+                                        MiraLocaleManager.Get("UpCommandSuccessOther").Replace("<player>", targetName).Replace("<role>", MiscUtils.GetReliableHyperlinkText(matchingRole)));
                                 }
                             }
                             else
@@ -551,7 +551,7 @@ public static class ChatPatches
                                 UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                 AchievementsTabSingleton<GeneralAchievementsTab>.Instance.Cheater.Unlock();
                                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                                    MiraLocaleManager.Get("UpCommandSuccess").Replace("<role>", MiscUtils.GetHyperlinkText(matchingRole)));
+                                    MiraLocaleManager.Get("UpCommandSuccess").Replace("<role>", MiscUtils.GetReliableHyperlinkText(matchingRole)));
                             }
                         }
                     }
@@ -607,7 +607,7 @@ public static class ChatPatches
 
             var roleNameToLink = new Func<RoleBehaviour, string>(role =>
             {
-                return MiscUtils.GetHyperlinkText(role);
+                return MiscUtils.GetReliableHyperlinkText(role);
             });
 
             var msgParts = new List<string>();
