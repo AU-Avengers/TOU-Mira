@@ -1,7 +1,9 @@
+using AchievementsAPI.API;
 using BepInEx.Configuration;
 using MiraAPI.GameEnd;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
+using TownOfUs.Achievements;
 using TownOfUs.GameOver;
 using MiraAPI.LocalSettings.Attributes;
 using TownOfUs.Patches;
@@ -82,6 +84,7 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
             // Suicide Keybind (ENTER + T + Left Shift)
             if (!PlayerControl.LocalPlayer.HasDied() && type is BindActionType.SelfKill)
             {
+                AchievementsTabSingleton<GeneralAchievementsTab>.Instance.IveSeenThePlays.Unlock();
                 PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
             }
 
@@ -91,6 +94,7 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
                 var gameFlow = GameManager.Instance.LogicFlow.Cast<LogicGameFlowNormal>();
                 if (gameFlow != null)
                 {
+                    AchievementsTabSingleton<GeneralAchievementsTab>.Instance.Oops.Unlock();
                     CustomGameOver.Trigger<HostGameOver>([]);
                 }
             }

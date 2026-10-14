@@ -8,6 +8,8 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using AchievementsAPI.API;
+using TownOfUs.Achievements;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Modules.DraftMode;
@@ -547,6 +549,7 @@ public static class ChatPatches
                                 var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.IdPart : matchingRole.GetRoleName();
                                 RpcForcePlayerRole(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer);
                                 UpCommandRequests.SetRequest(targetName, roleIdentifier);
+                                AchievementsTabSingleton<GeneralAchievementsTab>.Instance.Cheater.Unlock();
                                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                                     MiraLocaleManager.Get("UpCommandSuccess").Replace("<role>", MiscUtils.GetHyperlinkText(matchingRole)));
                             }
