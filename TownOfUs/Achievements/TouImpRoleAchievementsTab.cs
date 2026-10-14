@@ -6,7 +6,7 @@ namespace TownOfUs.Achievements;
 public class TouImpRoleAchievementsTab : TouAchievementsTab
 {
     /// <inheritdoc/>
-    public override string Name => "Impostor Achievements";
+    public override StringNames Name => MiraLocaleManager.GetOrCreateLocaleString("TownOfUsMira.Achievements.Tab.Impostor");
 
     /// <inheritdoc/>
     public override string CategoryId => AchievementCategories.Impostor;

@@ -6,7 +6,7 @@ namespace TownOfUs.Achievements;
 public class GeneralAchievementsTab : TouAchievementsTab
 {
     /// <inheritdoc/>
-    public override string Name => "General Achievements";
+    public override StringNames Name => MiraLocaleManager.GetOrCreateLocaleString("TownOfUsMira.Achievements.Tab.General");
 
     /// <inheritdoc/>
     public override string CategoryId => AchievementCategories.General;

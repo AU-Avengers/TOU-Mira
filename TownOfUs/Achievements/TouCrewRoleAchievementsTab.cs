@@ -6,7 +6,7 @@ namespace TownOfUs.Achievements;
 public class TouCrewRoleAchievementsTab : TouAchievementsTab
 {
     /// <inheritdoc/>
-    public override string Name => "Crewmate Achievements";
+    public override StringNames Name => MiraLocaleManager.GetOrCreateLocaleString("TownOfUsMira.Achievements.Tab.Crewmate");
 
     /// <inheritdoc/>
     public override string CategoryId => AchievementCategories.Crewmate;

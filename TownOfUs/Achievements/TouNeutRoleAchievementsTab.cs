@@ -6,7 +6,7 @@ namespace TownOfUs.Achievements;
 public class TouNeutRoleAchievementsTab : TouAchievementsTab
 {
     /// <inheritdoc/>
-    public override string Name => "Neutral Achievements";
+    public override StringNames Name => MiraLocaleManager.GetOrCreateLocaleString("TownOfUsMira.Achievements.Tab.Neutral");
 
     /// <inheritdoc/>
     public override string CategoryId => AchievementCategories.Neutral;

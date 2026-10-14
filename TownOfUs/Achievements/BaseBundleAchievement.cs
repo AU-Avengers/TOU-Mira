@@ -1,4 +1,5 @@
     using System.Reflection;
+    using System.Runtime.CompilerServices;
     using AchievementsAPI.API;
     using UnityEngine;
 
@@ -30,22 +31,22 @@
         public override Vector3 MenuDescOffset => new(10f, -10f);
         public override Vector3 ToastIconOffset => new(10f, -10f);
 
+        /// <summary>
+        /// Creates an achievement whose name and description are resolved through the Mira
+        /// locale manager as <c>TownOfUsMira.Achievement.{memberName}.Name/Description</c>
+        /// (falling back to the provided text when no key exists).
+        /// </summary>
         public BaseBundleAchievement(string name, string description, LoadableAsset<Sprite> icon, LoadableAsset<Sprite> subIcon, int rarity = 0,
-            bool hidden = false, bool hideRarity = false, Assembly? assembly = null) : base(name, description, rarity,
-            hidden, hideRarity, assembly)
+            bool hidden = false, bool hideRarity = false, Assembly? assembly = null,
+            [CallerMemberName] string memberName = "")
+            : base(AchievementLocale.Key(memberName, name, "Name"), AchievementLocale.Key(memberName, description, "Description"), rarity,
+                hidden, hideRarity, assembly)
         {
-            Name = name;
-            Description = description;
-            Assembly = assembly ?? Assembly.GetCallingAssembly();
             MiraSubIcon = subIcon;
             MiraIcon = icon;
-            Id = Assembly.GetName().Name + "_" + Name;
-            Rarity = rarity;
-            Hidden = hidden;
-            HideRarity = hideRarity;
+            Id = Assembly.GetName().Name + "_" + name;
         }
     }
-    
 
 /// <summary>
 /// Achievement class for achievements that can increment.
@@ -74,16 +75,27 @@ public class CountBundleAchievement : CountAchievement
     public override Vector3 MenuDescOffset => new(10f, -10f);
     public override Vector3 ToastIconOffset => new(10f, -10f);
 
+    /// <inheritdoc cref="BaseBundleAchievement(string, string, LoadableAsset{Sprite}, LoadableAsset{Sprite}, int, bool, bool, Assembly, string)"/>
     public CountBundleAchievement(string name, string description, LoadableAsset<Sprite> icon, LoadableAsset<Sprite> subIcon, int currentValue,
         int requiredValue, AchPersistence progressPersists = AchPersistence.ThroughoutSessions, int rarity = 0, bool hidden = false, bool hideRarity = false,
-        bool hideProgress = false) : base(name, description, currentValue, requiredValue, progressPersists, rarity,
-        hidden, hideRarity, hideProgress)
+        bool hideProgress = false, [CallerMemberName] string memberName = "")
+        : base(AchievementLocale.Key(memberName, name, "Name"), AchievementLocale.Key(memberName, description, "Description"), currentValue,
+            requiredValue, progressPersists, rarity, hidden, hideRarity, hideProgress)
     {
         MiraSubIcon = subIcon;
         MiraIcon = icon;
-        CurrentValue = currentValue;
-        RequiredValue = requiredValue;
-        ProgressPersists = progressPersists;
-        HideProgress = hideProgress;
+        Id = Assembly.GetName().Name + "_" + name;
     }
+}
+
+internal static class AchievementLocale
+{
+    /// <summary>
+    /// Builds a translatable <see cref="StringNames"/> keyed
+    /// <c>TownOfUsMira.Achievement.{memberName}.{part}</c>. When no member name is known
+    /// (non-property call sites), the display text itself is used as the key so English
+    /// still resolves correctly.
+    /// </summary>
+    public static StringNames Key(string memberName, string text, string part) =>
+        MiraLocaleManager.GetOrCreateLocaleString(memberName.Length == 0 ? text : $"TownOfUsMira.Achievement.{memberName}.{part}");
 }
