@@ -14,6 +14,7 @@ using Reactor.Localization;
 using Reactor.Networking;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Achievements;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.WinConditions;
@@ -92,6 +93,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
         MiraLocaleManager.Register("auavengers.tou.mira", "TownOfUs");
 
         TouAssets.Initialize();
+        TouAchievementsTab.RegisterCategoryIcons();
         DemolitionistPatches.Register(Log);
         DemolitionistNumpad.Register(Harmony, Log);
 

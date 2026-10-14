@@ -3,10 +3,13 @@ using UnityEngine;
 
 namespace TownOfUs.Achievements;
 
-public class GeneralAchievementsTab : AchievementsTab
+public class GeneralAchievementsTab : TouAchievementsTab
 {
     /// <inheritdoc/>
     public override string Name => "General Achievements";
+
+    /// <inheritdoc/>
+    public override string CategoryId => AchievementCategories.General;
 
     /// <inheritdoc/>
     public override Color GetTabColor() => TownOfUsColors.Politician;

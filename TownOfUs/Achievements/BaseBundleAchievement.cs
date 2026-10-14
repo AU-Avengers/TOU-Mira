@@ -31,7 +31,7 @@
         public override Vector3 ToastIconOffset => new(10f, -10f);
 
         public BaseBundleAchievement(string name, string description, LoadableAsset<Sprite> icon, LoadableAsset<Sprite> subIcon, int rarity = 0,
-            bool hidden = false, bool hideRarity = true, Assembly? assembly = null) : base(name, description, rarity,
+            bool hidden = false, bool hideRarity = false, Assembly? assembly = null) : base(name, description, rarity,
             hidden, hideRarity, assembly)
         {
             Name = name;
@@ -75,7 +75,7 @@ public class CountBundleAchievement : CountAchievement
     public override Vector3 ToastIconOffset => new(10f, -10f);
 
     public CountBundleAchievement(string name, string description, LoadableAsset<Sprite> icon, LoadableAsset<Sprite> subIcon, int currentValue,
-        int requiredValue, AchPersistence progressPersists = AchPersistence.ThroughoutSessions, int rarity = 0, bool hidden = false, bool hideRarity = true,
+        int requiredValue, AchPersistence progressPersists = AchPersistence.ThroughoutSessions, int rarity = 0, bool hidden = false, bool hideRarity = false,
         bool hideProgress = false) : base(name, description, currentValue, requiredValue, progressPersists, rarity,
         hidden, hideRarity, hideProgress)
     {

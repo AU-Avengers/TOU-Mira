@@ -3,10 +3,13 @@ using UnityEngine;
 
 namespace TownOfUs.Achievements;
 
-public class TouCrewRoleAchievementsTab : AchievementsTab
+public class TouCrewRoleAchievementsTab : TouAchievementsTab
 {
     /// <inheritdoc/>
     public override string Name => "Crewmate Achievements";
+
+    /// <inheritdoc/>
+    public override string CategoryId => AchievementCategories.Crewmate;
 
     /// <inheritdoc/>
     public override Color GetTabColor() => Palette.CrewmateRoleHeaderBlue;

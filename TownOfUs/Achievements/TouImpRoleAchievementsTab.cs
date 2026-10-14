@@ -3,10 +3,13 @@ using UnityEngine;
 
 namespace TownOfUs.Achievements;
 
-public class TouImpRoleAchievementsTab : AchievementsTab
+public class TouImpRoleAchievementsTab : TouAchievementsTab
 {
     /// <inheritdoc/>
     public override string Name => "Impostor Achievements";
+
+    /// <inheritdoc/>
+    public override string CategoryId => AchievementCategories.Impostor;
 
     /// <inheritdoc/>
     public override Color GetTabColor() => Palette.ImpostorRoleHeaderRed;

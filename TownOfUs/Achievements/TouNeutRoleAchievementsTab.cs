@@ -3,10 +3,13 @@ using UnityEngine;
 
 namespace TownOfUs.Achievements;
 
-public class TouNeutRoleAchievementsTab : AchievementsTab
+public class TouNeutRoleAchievementsTab : TouAchievementsTab
 {
     /// <inheritdoc/>
     public override string Name => "Neutral Achievements";
+
+    /// <inheritdoc/>
+    public override string CategoryId => AchievementCategories.Neutral;
 
     /// <inheritdoc/>
     public override Color GetTabColor() => TownOfUsColors.Neutral;
