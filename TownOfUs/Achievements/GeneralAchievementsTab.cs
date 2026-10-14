@@ -26,16 +26,16 @@ public class GeneralAchievementsTab : TouAchievementsTab
         "Play on Skeld on a Sunday!", TouAssets.IconSkeld, null!);
 
     public BaseBundleAchievement Cheater { get; set; } = new("Cheater",
-        "Use /up to give yourself a role in the lobby.", TouRoleIcons.Impostor, TouRoleIcons.Impostor, 2, true);
+        "Use /up to give yourself a role in the lobby.", TouRoleIcons.Impostor, null!, 2, true);
 
     public BaseBundleAchievement Silence { get; set; } = new("Silence",
-        "Force end a meeting as host.", TouRoleIcons.Prosecutor, TouRoleIcons.Prosecutor, 2, true);
+        "Force end a meeting as host.", TouRoleIcons.Prosecutor, null!, 2, true);
 
     public BaseBundleAchievement Oops { get; set; } = new("Oops",
-        "Abort a game as host.", TouRoleIcons.Mayor, TouRoleIcons.Mayor, 2, true);
+        "Abort a game as host.", TouRoleIcons.Mayor, null!, 2, true);
 
     public BaseBundleAchievement IveSeenThePlays { get; set; } = new("I've seen the plays",
         "No I'm actually inclined to believe 5up you know because I've seen the plays where dk hops out of a vent and then kills himself",
-        TouRoleIcons.Jester, TouRoleIcons.Jester, 2, true);
+        TouRoleIcons.Jester, null!, 2, true);
 
 }
