@@ -353,7 +353,7 @@ public static class Bindings
                 }
             }
 
-            if (ActiveInputManager.currentControlType != ActiveInputManager.InputType.Joystick)
+            /*if (ActiveInputManager.currentControlType != ActiveInputManager.InputType.Joystick)
             {
                 return;
             }
@@ -413,7 +413,7 @@ public static class Bindings
                 {
                     touButton.PassiveComp.OnClick.Invoke();
                 }
-            }
+            }*/
         }
     }
 }
