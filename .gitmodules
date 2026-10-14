@@ -8,4 +8,5 @@
 	branch = dev
 [submodule "GitSubmodules/Achievements-API"]
 	path = GitSubmodules/Achievements-API
-	url = https://github.com/am-clonec/Achievements-API
+	url = https://github.com/AtonyGit/Achievements-API
+	branch = master
