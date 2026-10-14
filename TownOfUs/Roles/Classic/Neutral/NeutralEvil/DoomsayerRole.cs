@@ -354,12 +354,12 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                     if (role2 == lastRole)
                     {
                         reportBuilder.Append(TownOfUsPlugin.Culture,
-                            $"{MiscUtils.GetHyperlinkText(lastRole)})");
+                            $"{MiscUtils.GetReliableHyperlinkText(lastRole)})");
                     }
                     else
                     {
                         reportBuilder.Append(TownOfUsPlugin.Culture,
-                            $"{MiscUtils.GetHyperlinkText(role2)}, ");
+                            $"{MiscUtils.GetReliableHyperlinkText(role2)}, ");
                     }
                 }
             }
