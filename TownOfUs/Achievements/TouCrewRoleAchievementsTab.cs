@@ -119,6 +119,71 @@ public class TouCrewRoleAchievementsTab : TouAchievementsTab
     public BaseBundleAchievement DeathByDemocracy { get; set; } =
         new("Death by Democracy", "Reveal in a 1v1.", TouAchAssets.DeathByDemocracy, TouRoleIcons.Mayor, 3, true);
 
+    public BaseBundleAchievement SwitchedFate { get; set; } = new("Switched Fate",
+        "Swap the votes so an Impostor is ejected instead of a Crewmate.", TouAssets.SwapActive, TouRoleIcons.Swapper, 2)
+    {
+        ToastTiming = AchToastTiming.OnGameEnd
+    };
+
+    public BaseBundleAchievement KnightInShiningArmor { get; set; } = new("Knight in Shining Armor",
+        "Knight a Crewmate who then kills an Impostor or Neutral Killer.", TouCrewAssets.KnightSprite, TouRoleIcons.Monarch, 2)
+    {
+        ToastTiming = AchToastTiming.OnGameEnd
+    };
+
+    public BaseBundleAchievement Spotlight { get; set; } = new("Spotlight",
+        "Reveal the Impostors as Snitch and have one ejected in the very next meeting.", TouAssets.RevealButtonSprite,
+        TouRoleIcons.Snitch, 1);
+
+    public BaseBundleAchievement JusticeServed { get; set; } = new("Justice Served",
+        "Shoot the killer of a body you reported.", TouCrewAssets.SheriffShootSprite, TouRoleIcons.Sheriff, 1);
+
+    public BaseBundleAchievement Exorcist { get; set; } = new("Exorcist",
+        "Cleanse a Spellslinger's hex off a player.", TouCrewAssets.CleanseSprite, TouRoleIcons.Cleric, 1)
+    {
+        ToastTiming = AchToastTiming.OnGameEnd
+    };
+
+    public BaseBundleAchievement OpenAndShut { get; set; } = new("Open and Shut",
+        "Prosecute an Impostor.", TouAssets.ProsecuteMeetingSprite, TouRoleIcons.Prosecutor, 1)
+    {
+        ToastTiming = AchToastTiming.OnGameEnd
+    };
+
+    public BaseBundleAchievement SixthSense { get; set; } = new("Sixth Sense",
+        "Report a body within 15 seconds of sensing its death as Mystic.", TouCrewAssets.InspectSprite, TouRoleIcons.Mystic, 1);
+
+    public BaseBundleAchievement TooCloseForComfort { get; set; } = new("Too Close for Comfort",
+        "Kill 2 players during a single Alert.", TouCrewAssets.AlertSprite, TouRoleIcons.Veteran, 1);
+
+    public BaseBundleAchievement DoubleTap { get; set; } = new("Double Tap",
+        "Correctly guess 2 players in a single meeting as Vigilante.", TouAssets.Guess, TouRoleIcons.Vigilante, 1);
+
+    public BaseBundleAchievement HeroHour { get; set; } = new("Hero Hour",
+        "Fix a critical sabotage with less than 5 seconds remaining.", TouCrewAssets.FixButtonSprite, TouRoleIcons.Engineer, 2);
+
+    public BaseBundleAchievement FlushedOut { get; set; } = new("Flushed Out",
+        "Flush a player out of a vent as Plumber.", TouCrewAssets.FlushSprite, TouRoleIcons.Plumber, 1)
+    {
+        ToastTiming = AchToastTiming.OnGameEnd
+    };
+
+    public BaseBundleAchievement MethodActor { get; set; } = new("Method Actor",
+        "Imitate 3 different roles in a single game.", TouAssets.ImitateSelectSprite, TouRoleIcons.Imitator, 1);
+
+    public CountBundleAchievement IronWall { get; set; } = new("Iron Wall",
+        "Have your shield block 3 attacks in a single game as Medic.", TouCrewAssets.BarrierSprite, TouRoleIcons.Medic,
+        0, 3, AchPersistence.ThroughoutRounds, 1);
+
+    public BaseBundleAchievement MassResurrection { get; set; } = new("Mass Resurrection",
+        "Revive 2 or more players with a single Revive.", TouCrewAssets.ReviveSprite, TouRoleIcons.Altruist, 2);
+
+    public BaseBundleAchievement Undo { get; set; } = new("Undo",
+        "Bring back 2 or more players with a single Rewind.", TouCrewAssets.RewindSprite, TouRoleIcons.TimeLord, 1);
+
+    public BaseBundleAchievement Poltergeist { get; set; } = new("Poltergeist",
+        "Reveal the evils as Haunter.", TouAssets.RevealCleanSprite, TouRoleIcons.Haunter);
+
     /*public BaseBundleAchievement AAAAAAAAAAAAAAAAAAA { get; set; } =
         new("AAAAAAAAAAAAAAAAAAA", "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", TouCrewAssets.RememberButtonSprite, TouRoleIcons.CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC);*/
 }

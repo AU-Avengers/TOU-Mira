@@ -1,6 +1,7 @@
 using System.Text;
 using AchievementsAPI.API;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -11,6 +12,7 @@ using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 using MiraAPI.Patches.Stubs;
 using TownOfUs.Achievements;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Game.Alliance;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -138,6 +140,9 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         }
 
         target.AddModifier<KnightedModifier>();
+
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.MonarchKnight, player, target);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
 
         if (player.AmOwner)
         {

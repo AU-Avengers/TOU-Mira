@@ -8,6 +8,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using System.Text;
+using TownOfUs.Achievements;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
@@ -212,6 +213,8 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
         else if (stage is TaskStage.CompletedTasks)
         {
+            TouAchievementEvents.OnSnitchReveal(Player);
+
             if (Player.AmOwner)
             {
                 CreateSnitchArrows(silent);

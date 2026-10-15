@@ -43,4 +43,30 @@ public class TouImpRoleAchievementsTab : TouAchievementsTab
 
     public BaseBundleAchievement Sneakman { get; set; } =
         new("Sneakman", "Kill and vent away during the same swoop.", TouImpAssets.SwoopSprite, TouRoleIcons.Swooper);
+
+    public BaseBundleAchievement Fireworks { get; set; } = new("Fireworks",
+        "Kill 3 or more players with a single bomb.", TouImpAssets.PlantSprite, TouRoleIcons.Bomber, 2);
+
+    public BaseBundleAchievement BurstFire { get; set; } = new("Burst Fire",
+        "Kill 2 players in a single Warlock charge.", TouAssets.KillSprite, TouRoleIcons.Warlock, 1);
+
+    public BaseBundleAchievement HushMoney { get; set; } = new("Hush Money",
+        "Blackmail the player who reported the body.", TouImpAssets.BlackmailSprite, TouRoleIcons.Blackmailer, 1);
+
+    public BaseBundleAchievement MassHysteria { get; set; } = new("Mass Hysteria",
+        "Trigger Hysteria with 4 or more hypnotized players.", TouAssets.MassHysteriaSprite, TouRoleIcons.Hypnotist, 1);
+
+    public CountBundleAchievement Spotless { get; set; } = new("Spotless",
+        "Clean 3 bodies in a single game.", TouImpAssets.CleanButtonSprite, TouRoleIcons.Janitor,
+        0, 3, AchPersistence.ThroughoutRounds, 1);
+
+    public CountBundleAchievement SubwaySystem { get; set; } = new("Subway System",
+        "Place 5 vents in a single game as Miner.", TouImpAssets.MineSprite, TouRoleIcons.Miner,
+        0, 5, AchPersistence.ThroughoutRounds, 1);
+
+    public BaseBundleAchievement Detonation { get; set; } = new("Detonation",
+        "Complete a Hex Bomb.", TouImpAssets.HexBombSprite, TouRoleIcons.Spellslinger, 2);
+
+    public BaseBundleAchievement PerfectAmbush { get; set; } = new("Perfect Ambush",
+        "Kill the player you were pursuing.", TouImpAssets.AmbushSprite, TouRoleIcons.Ambusher);
 }
