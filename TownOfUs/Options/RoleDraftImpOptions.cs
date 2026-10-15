@@ -23,7 +23,11 @@ public sealed class RoleDraftImpOptions : AbstractOptionGroup
 
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleDraftImp");
     public override uint GroupPriority => 3;
-    public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Impostor;
+    public override string? MatchInfoGuidePageKey => "RoleDraft";
+    public override string MatchInfoGuidePageTitle => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleDraftPage", "Role Draft Settings");
+    public override int MatchInfoGuidePageOrder => 3;
+    public override int MatchInfoGuidePageColumns => 3;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.IconDraftMode;
 
     public ModdedNumberOption MaxImpostors { get; set; } =
         new("TouOptionRoleDraftImpMaxImpostors", 2f, 1f, 5f, 1f, MiraNumberSuffixes.None, "0");
