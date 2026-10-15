@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using AchievementsAPI;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI;
@@ -645,7 +646,8 @@ public static class HudManagerPatches
         GameStartManager.InstanceExists &&
         (GameStartManager.Instance.RulesViewPanel &&
          GameStartManager.Instance.RulesViewPanel.active ||
-         GameSettingMenu.Instance);
+         GameSettingMenu.Instance) ||
+        AchievementsMenu.Instance != null;
 
     private static bool _registeredSoftModifiers;
     public static string StoredTasksText { get; private set; } = "Tasks";
