@@ -45,7 +45,7 @@ public class TouImpRoleAchievementsTab : TouAchievementsTab
         new("Sneakman", "Kill and vent away during the same swoop.", TouImpAssets.SwoopSprite, TouRoleIcons.Swooper);
 
     public BaseBundleAchievement Fireworks { get; set; } = new("Fireworks",
-        "Kill 3 or more players with a single bomb.", TouImpAssets.PlantSprite, TouRoleIcons.Bomber, 2);
+        "Kill 3 or more players with a single bomb.", TouImpAssets.MineSprite, TouRoleIcons.Bomber, 2);
 
     public BaseBundleAchievement BurstFire { get; set; } = new("Burst Fire",
         "Kill 2 players in a single Warlock charge.", TouAssets.KillSprite, TouRoleIcons.Warlock, 1);
