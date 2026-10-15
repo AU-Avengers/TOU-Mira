@@ -414,15 +414,16 @@ namespace TownOfUs.Modules.DraftMode
 
         private DraftSeatAvailability BuildSeatAvailability()
         {
-            var seatKeysByRole = new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
-            AddSeatKeys(_pool, seatKeysByRole);
+            var seatCountsByRole = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+            var suffixedSeatsByRole = new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
+            AddSeatCounts(_pool, seatCountsByRole, suffixedSeatsByRole);
             foreach (var reservedSeats in _reservedSeatsBySlot.Values)
-                AddSeatKeys(reservedSeats, seatKeysByRole);
+                AddSeatCounts(reservedSeats, seatCountsByRole, suffixedSeatsByRole);
 
             var availability = new DraftSeatAvailability();
-            foreach (var (baseName, seatKeys) in seatKeysByRole)
+            foreach (var (baseName, seatCount) in seatCountsByRole)
             {
-                var contribution = Math.Min(seatKeys.Count, DraftRolePool.GetMaxCountForRoleName(baseName)) *
+                var contribution = Math.Min(seatCount, DraftRolePool.GetMaxCountForRoleName(baseName)) *
                     SeatWeightForRoleName(baseName);
                 var faction = GetRoleFaction(baseName);
                 availability.Add(baseName, faction, DraftRolePool.GetRoleAlignment(baseName), contribution);
@@ -431,9 +432,10 @@ namespace TownOfUs.Modules.DraftMode
             return availability;
         }
 
-        private static void AddSeatKeys(
+        private static void AddSeatCounts(
             IEnumerable<string> names,
-            Dictionary<string, HashSet<string>> seatKeysByRole)
+            Dictionary<string, int> seatCountsByRole,
+            Dictionary<string, HashSet<string>> suffixedSeatsByRole)
         {
             foreach (var name in names)
             {
@@ -441,14 +443,21 @@ namespace TownOfUs.Modules.DraftMode
                     continue;
 
                 var baseName = BaseRoleName(name);
-                if (!seatKeysByRole.TryGetValue(baseName, out var seatKeys))
+                var separatorIndex = name.IndexOf('|');
+                if (separatorIndex < 0)
                 {
-                    seatKeys = new HashSet<string>(StringComparer.Ordinal);
-                    seatKeysByRole.Add(baseName, seatKeys);
+                    seatCountsByRole[baseName] = seatCountsByRole.GetValueOrDefault(baseName) + 1;
+                    continue;
                 }
 
-                var separatorIndex = name.IndexOf('|');
-                seatKeys.Add(separatorIndex >= 0 ? name.Substring(separatorIndex) : name);
+                if (!suffixedSeatsByRole.TryGetValue(baseName, out var seatKeys))
+                {
+                    seatKeys = new HashSet<string>(StringComparer.Ordinal);
+                    suffixedSeatsByRole.Add(baseName, seatKeys);
+                }
+
+                if (seatKeys.Add(name.Substring(separatorIndex)))
+                    seatCountsByRole[baseName] = seatCountsByRole.GetValueOrDefault(baseName) + 1;
             }
         }
 

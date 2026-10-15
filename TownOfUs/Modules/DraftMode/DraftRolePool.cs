@@ -171,13 +171,26 @@ namespace TownOfUs.Modules.DraftMode
         public static bool IsDoubleDraftRoleName(string name)
         {
             var role = FindRoleByName(name);
-            return role is IDoubleDraftRole doubleDraftRole && doubleDraftRole.IsDoubleDraftRole;
+            return IsDoubleDraftRole(role);
         }
 
         public static bool IsDoubleDraftRoleId(ushort id)
         {
             var role = MiscUtils.GetRegisteredRole((RoleTypes)id);
-            return role is IDoubleDraftRole doubleDraftRole && doubleDraftRole.IsDoubleDraftRole;
+            return IsDoubleDraftRole(role);
+        }
+
+        private static bool IsDoubleDraftRole(RoleBehaviour? role)
+        {
+            if (role is IDoubleDraftRole doubleDraftRole && doubleDraftRole.IsDoubleDraftRole)
+                return true;
+
+            if (role == null)
+                return false;
+
+            var roleType = role.GetType();
+            return roleType.Name.Contains("Recruiter", StringComparison.OrdinalIgnoreCase) &&
+                   roleType.Assembly.GetName().Name?.Contains("Divani", StringComparison.OrdinalIgnoreCase) == true;
         }
 
         public static RoleAlignment? GetRoleAlignment(string name)
