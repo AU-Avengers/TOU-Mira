@@ -23,6 +23,7 @@ public sealed class RoleDraftNeutOptions : AbstractOptionGroup
 
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleDraftNeut");
     public override uint GroupPriority => 3;
+    public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Neutral;
 
     public ModdedNumberOption MaxNeutrals { get; set; } =
         new("TouOptionRoleDraftNeutMaxNeutrals", 3f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0");

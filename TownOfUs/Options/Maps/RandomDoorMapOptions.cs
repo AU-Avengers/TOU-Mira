@@ -2,6 +2,8 @@
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Modules;
+using UnityEngine;
+using Random = System.Random;
 
 namespace TownOfUs.Options.Maps;
 
@@ -10,6 +12,8 @@ public sealed class RandomDoorMapOptions : AbstractOptionGroup
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RandomDoorMode");
     public override uint GroupPriority => 1;
+    public override bool ShowInMatchInfoGuide => true;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.AdminSprite;
 
     public ModdedNumberOption DisabledDoorChance { get; } = new("TownOfUsMira.BetterMaps.Option.DoorsNoneChance", 5f, 0, 100f, 10f, MiraNumberSuffixes.Percent);
     public ModdedNumberOption SkeldDoorChance { get; } = new("TownOfUsMira.BetterMaps.Option.DoorsSkeldChance", 20f, 0, 100f, 10f, MiraNumberSuffixes.Percent);

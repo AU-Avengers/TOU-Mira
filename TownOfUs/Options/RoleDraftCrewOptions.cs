@@ -11,6 +11,7 @@ public sealed class RoleDraftCrewOptions : AbstractOptionGroup
         OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.Draft &&
         !OptionGroupSingleton<RoleOptions>.Instance.UseRoleListForPool;
     public override Color GroupColor => Palette.CrewmateRoleHeaderBlue;
+    public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Crewmate;
 
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,

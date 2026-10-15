@@ -1,6 +1,7 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Options.Maps;
 
@@ -9,6 +10,8 @@ public sealed class GlobalBetterMapOptions : AbstractOptionGroup
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.GlobalBetterMaps");
     public override uint GroupPriority => 0;
+    public override bool ShowInMatchInfoGuide => true;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.AdminSprite;
     public static MapTweakMode GetMapTweakMode(ModdedEnumOption option) => (MapTweakMode)option.Value;
 
     public static readonly string[] GlobalOpts =

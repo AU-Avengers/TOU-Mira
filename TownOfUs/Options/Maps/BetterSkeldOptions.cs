@@ -12,6 +12,8 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.BetterSkeld");
     public override uint GroupPriority => 3;
     public override Color GroupColor => new Color32(188, 206, 200, 255);
+    public override bool ShowInMatchInfoGuide => true;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.IconSkeld;
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
         TmpSpriteUtils.CreateSpriteAsset(

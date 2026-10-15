@@ -8,6 +8,7 @@ using MiraAPI.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.GameModes;
 using TownOfUs.Patches;
+using UnityEngine;
 
 namespace TownOfUs.Options;
 
@@ -50,6 +51,7 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
     ];
 
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleSettings");
+    public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Traitor;
     public override uint GroupPriority => 2;
 
     public RoleDistribution CurrentRoleDistribution()
