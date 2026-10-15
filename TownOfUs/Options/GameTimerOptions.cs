@@ -3,15 +3,18 @@ using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Options;
 
 public sealed class GameTimerOptions : AbstractOptionGroup<ClassicMode>
 {
- public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.GameTimer");
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.GameTimer");
+    public override LoadableAsset<Sprite> Sprite => TouAssets.TimerImpSprite;
+    public override bool ShowInMatchInfoGuide => GameTimerEnabled;
     public override uint GroupPriority => 5;
 
-    [ModdedToggleOption("TouOptionGameTimerEnabled")] 
+    [ModdedToggleOption("TouOptionGameTimerEnabled")]
     public bool GameTimerEnabled { get; set; } = false;
 
     public ModdedNumberOption PauseInMeetings { get; } =
@@ -22,10 +25,10 @@ public sealed class GameTimerOptions : AbstractOptionGroup<ClassicMode>
 
     public ModdedEnumOption TimerEndOption { get; } =
         new("TouOptionGameTimerEndOption", 1, typeof(GameTimerType),
-            [
-                "TouOptionGameTimerEndEnumImpostorWin",
-                "TouOptionGameTimerEndEnumGameDraw"
-            ])
+        [
+            "TouOptionGameTimerEndEnumImpostorWin",
+            "TouOptionGameTimerEndEnumGameDraw"
+        ])
         {
             Visible = () => OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled
         };

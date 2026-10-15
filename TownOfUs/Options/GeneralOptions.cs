@@ -2,12 +2,14 @@
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Options;
 
 public sealed class GeneralOptions : AbstractOptionGroup
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.General");
+    public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Marshal;
     public override uint GroupPriority => 1;
 
     // Legacy Compatibility, this allows mods like ChaosTokens to still use this value as normal.

@@ -12,6 +12,8 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.BetterAirship");
     public override uint GroupPriority => 6;
     public override Color GroupColor => new Color32(255, 76, 73, 255);
+    public override bool ShowInMatchInfoGuide => true;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.IconAirship;
 
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,

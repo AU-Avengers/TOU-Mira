@@ -1,5 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
+using UnityEngine;
 
 namespace TownOfUs.Options;
 
@@ -7,6 +8,7 @@ public sealed class RoleExclusionOptions : AbstractOptionGroup
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleExclusions");
     public override uint GroupPriority => 2;
+    public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Ambassador;
     public override Func<bool> GroupVisible => () => RoleOptions.IsClassicRoleAssignment;
 
     [ModdedToggleOption("TouOptionExclusiveCleaningRoles")]

@@ -14,6 +14,8 @@ public sealed class BetterSubmergedOptions : AbstractOptionGroup
     public override uint GroupPriority => 8;
     public override Func<bool> GroupVisible => () => ModCompatibility.SubLoaded;
     public override Color GroupColor => new Color32(10, 150, 255, 255);
+    public override bool ShowInMatchInfoGuide => true;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.IconSubmerged;
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
         TmpSpriteUtils.CreateSpriteAsset(
