@@ -18,22 +18,22 @@ public class TouCrewRoleAchievementsTab : TouAchievementsTab
     public override Sprite GetIcon() => TouRoleIcons.Crewmate.LoadAsset();
 
     public CountBundleAchievement ForceBeWithYou { get; set; } = new("The Force Be With You",
-        "Sense 5 abilities being used in your radius throughout a game.", TouRoleIcons.Aurial, TouRoleIcons.Aurial, 0, 5, AchPersistence.ThroughoutRounds);
+        "Sense 5 abilities being used in your radius throughout a game.", TouRoleIcons.Aurial, TouRoleIcons.Aurial, 0, 5, AchPersistence.ThroughoutRounds, 1);
 
     public BaseBundleAchievement StrangerDanger { get; set; } = new("Stranger Danger",
         "Sense a kill happen within your uncolored radius.", TouRoleIcons.Aurial, TouRoleIcons.Aurial);
 
     public BaseBundleAchievement BloodyHands { get; set; } = new("Bloody Hands",
-        "Find a suspect on the first Examine attempt.", TouAchAssets.BloodyHands, TouRoleIcons.Forensic);
+        "Find a suspect on the first Examine attempt.", TouAchAssets.BloodyHands, TouRoleIcons.Forensic, 1);
 
     public BaseBundleAchievement RightOnTime { get; set; } = new("Right on Time",
         "Report a body quick enough to get the body's role / faction.", TouAchAssets.RightOnTime, TouRoleIcons.Forensic);
 
     public BaseBundleAchievement SearchParty { get; set; } =
-        new("Search Party", "Watch 5 players interact with someone.", TouCrewAssets.WatchSprite, TouRoleIcons.Lookout);
+        new("Search Party", "Watch 5 players interact with someone.", TouCrewAssets.WatchSprite, TouRoleIcons.Lookout, 1);
 
     public BaseBundleAchievement ParanormalActivity { get; set; } = new("Paranormal Activity",
-        "Watch someone die without interactions.", TouCrewAssets.WatchSprite, TouRoleIcons.Lookout);
+        "Watch someone die without interactions.", TouCrewAssets.WatchSprite, TouRoleIcons.Lookout, 1);
 
     public BaseBundleAchievement Purgatory { get; set; } =
         new("Purgatory", "Die while Mediating.", TouCrewAssets.MediateSprite, TouRoleIcons.Medium);
@@ -90,10 +90,13 @@ public class TouCrewRoleAchievementsTab : TouAchievementsTab
         new("The Dark Knight", "Successfully guess 3 players throughout a round.", TouAssets.Guess, TouRoleIcons.Vigilante, 0, 3, false);*/
 
     public BaseBundleAchievement ToKillAGod { get; set; } =
-        new("To Kill a God", "Attempt to execute a Horseman or invulnerable player.", TouAssets.ExecuteCleanSprite, TouRoleIcons.Jailor);
+        new("To Kill a God", "Attempt to execute a Horseman or invulnerable player.", TouAssets.ExecuteCleanSprite, TouRoleIcons.Jailor, 2, true)
+    {
+        ToastTiming = AchToastTiming.OnGameEnd
+    };
 
     public BaseBundleAchievement NoChances { get; set; } =
-        new("No Chances", "Execute an Evil without talking to them.", TouCrewAssets.JailSprite, TouRoleIcons.Jailor);
+        new("No Chances", "Execute an Evil without talking to them.", TouCrewAssets.JailSprite, TouRoleIcons.Jailor, 1);
 
     /*public BaseBundleAchievement FallenKnights { get; set; } =
         new("Fallen Knights", "Win and survive after all Knights die.", TouCrewAssets.KnightSprite, TouRoleIcons.Monarch);
@@ -105,10 +108,13 @@ public class TouCrewRoleAchievementsTab : TouAchievementsTab
         new("Circus Performer", "Knight a Jester that wins.", TouCrewAssets.KnightSprite, TouRoleIcons.Monarch, 2, true);*/
 
     public BaseBundleAchievement RiggedVotes { get; set; } =
-        new("Rigged Votes", "Get knighted as a revealed Mayor.", TouCrewAssets.KnightSprite, TouRoleIcons.Mayor, 1);
+        new("Rigged Votes", "Get knighted as a revealed Mayor.", TouCrewAssets.KnightSprite, TouRoleIcons.Mayor, 2);
 
     public BaseBundleAchievement CrewmatesUnite { get; set; } =
-        new("Crewmates Unite", "Only campaign Crewmates, and then reveal.", TouCrewAssets.CampaignButtonSprite, TouRoleIcons.Politician, 2, true);
+        new("Crewmates Unite", "Only campaign Crewmates, and then reveal.", TouCrewAssets.CampaignButtonSprite, TouRoleIcons.Politician, 2, true)
+    {
+        ToastTiming = AchToastTiming.OnGameEnd
+    };
 
     public BaseBundleAchievement DeathByDemocracy { get; set; } =
         new("Death by Democracy", "Reveal in a 1v1.", TouAchAssets.DeathByDemocracy, TouRoleIcons.Mayor, 3, true);

@@ -301,7 +301,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             }
             else
             {
-                AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.ToKillAGod.Unlock();
+                TouAchievementLifecycle.UnlockTentative(AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.ToKillAGod);
             }
             text = text.Replace("<player>", Jailed.Data.PlayerName);
 

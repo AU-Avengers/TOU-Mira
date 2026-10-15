@@ -142,7 +142,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             var campaigned = Helpers.GetAlivePlayers().Where(x => x.HasModifier<PoliticianCampaignedModifier>(y => y.Politician.AmOwner)).ToList();
             if (campaigned.All(x => x.IsCrewmate()) && campaigned.Count > 0)
             {
-                AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.CrewmatesUnite.Unlock();
+                TouAchievementLifecycle.UnlockTentative(AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.CrewmatesUnite);
             }
             Player.RpcChangeRole(RoleId.Get<MayorRole>());
         }

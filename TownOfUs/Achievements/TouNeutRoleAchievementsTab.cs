@@ -36,7 +36,7 @@ public class TouNeutRoleAchievementsTab : TouAchievementsTab
         "Poke an alerting Veteran, gazing Medusa, or a Pestilence, and die to them.", TouNeutAssets.JesterPokeSprite, TouRoleIcons.Jester);
 
     public BaseBundleAchievement HeatOfTheBattle { get; set; } = new("Heat of the Battle",
-        "Ignite 5 or more players at once.", TouNeutAssets.IgniteButtonSprite, TouRoleIcons.Arsonist);
+        "Ignite 5 or more players at once.", TouNeutAssets.IgniteButtonSprite, TouRoleIcons.Arsonist, 2);
 
     /*public BaseBundleAchievement Inflammable { get; set; } = new("Inflammable",
         "Attempt to ignite on a protected player.", TouNeutAssets.DouseButtonSprite, TouRoleIcons.Arsonist);*/
@@ -45,13 +45,13 @@ public class TouNeutRoleAchievementsTab : TouAchievementsTab
         "Get hacked as the Glitch.", TouNeutAssets.HackSprite, TouRoleIcons.Glitch, 1);
 
     public BaseBundleAchievement Ballistic { get; set; } = new("Ballistic",
-        "Get a zero-second cooldown.", TouNeutAssets.JuggKillSprite, TouRoleIcons.Juggernaut);
+        "Get a zero-second cooldown.", TouNeutAssets.JuggKillSprite, TouRoleIcons.Juggernaut, 2);
 
     public BaseBundleAchievement CommonCold { get; set; } = new("Common Cold",
-        "Win the game without transforming into Pestilence", TouNeutAssets.InfectSprite, TouRoleIcons.Plaguebearer, 1);
+        "Win the game without transforming into Pestilence", TouNeutAssets.InfectSprite, TouRoleIcons.Plaguebearer, 2);
 
     public CountBundleAchievement SnakeEyes { get; set; } = new("Snake Eyes",
-        "Petrify 15 players with Stone Gaze.", TouNeutAssets.StoneGazeSprite, TouRoleIcons.Medusa, 0, 15);
+        "Petrify 15 players with Stone Gaze.", TouNeutAssets.StoneGazeSprite, TouRoleIcons.Medusa, 0, 15, AchPersistence.ThroughoutSessions, 2);
 
     /*public BaseBundleAchievement ChangeOfHeart { get; set; } = new("Change of Heart",
         "Convert someone for the first time in a game when 5 or less players remain.", TouNeutAssets.BiteSprite, TouRoleIcons.Vampire, 1);
