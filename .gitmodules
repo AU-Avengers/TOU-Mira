@@ -1,11 +1,7 @@
-[submodule "MiraAPI"]
-	path = MiraAPI
-	url = https://github.com/All-Of-Us-Mods/MiraAPI
-	branch = dev
 [submodule "GitSubmodules/MiraAPI"]
 	path = GitSubmodules/MiraAPI
-	url = https://github.com/All-Of-Us-Mods/MiraAPI
-	branch = dev
+	url = https://github.com/idkimneil/MiraAPI
+	branch = wiki-improv
 [submodule "GitSubmodules/Achievements-API"]
 	path = GitSubmodules/Achievements-API
 	url = https://github.com/AtonyGit/Achievements-API
