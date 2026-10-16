@@ -214,7 +214,7 @@ public static class TouRoleIcons
         new LoadableBundleAsset<Sprite>("SerialKiller", TouAssets.MainBundle);
     
     public static LoadableAsset<Sprite> Martian { get; } =
-        new LoadableResourceAsset("TownOfUs.Resources.Martian.png", 200f);
+        new LoadableBundleAsset<Sprite>("Martian", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> Medusa { get; } =
         new LoadableBundleAsset<Sprite>("Medusa", TouAssets.MainBundle);
