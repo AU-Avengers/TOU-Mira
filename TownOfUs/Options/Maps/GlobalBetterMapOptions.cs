@@ -11,6 +11,8 @@ public sealed class GlobalBetterMapOptions : AbstractOptionGroup
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.GlobalBetterMaps");
     public override uint GroupPriority => 0;
     public override bool ShowInMatchInfoGuide => true;
+    public override string MatchInfoGuidePageKey => "TownOfUsMira.OptionGroups.BetterMaps";
+    public override string MatchInfoGuidePageTitle => MiraLocaleManager.Get("WikiSettingsBetterMapsSettingsTitle");
     public override LoadableAsset<Sprite> Sprite => TouAssets.AdminSprite;
     public static MapTweakMode GetMapTweakMode(ModdedEnumOption option) => (MapTweakMode)option.Value;
 

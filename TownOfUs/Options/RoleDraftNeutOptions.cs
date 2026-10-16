@@ -23,8 +23,9 @@ public sealed class RoleDraftNeutOptions : AbstractOptionGroup
 
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleDraftNeut");
     public override uint GroupPriority => 3;
-    public override string? MatchInfoGuidePageKey => "RoleDraft";
-    public override string MatchInfoGuidePageTitle => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleDraftPage", "Role Draft Settings");
+    public override bool ShowInMatchInfoGuide => GroupVisible();
+    public override string MatchInfoGuidePageKey => "TownOfUsMira.OptionGroups.RoleSettings";
+    public override string MatchInfoGuidePageTitle => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleSettings");
     public override int MatchInfoGuidePageOrder => 3;
     public override int MatchInfoGuidePageColumns => 3;
     public override LoadableAsset<Sprite> Sprite => TouAssets.IconDraftMode;
