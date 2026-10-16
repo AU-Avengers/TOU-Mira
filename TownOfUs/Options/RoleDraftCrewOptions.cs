@@ -11,7 +11,7 @@ public sealed class RoleDraftCrewOptions : AbstractOptionGroup
         OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.Draft &&
         !OptionGroupSingleton<RoleOptions>.Instance.UseRoleListForPool;
     public override Color GroupColor => Palette.CrewmateRoleHeaderBlue;
-    public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Crewmate;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.IconDraftMode;
 
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
@@ -22,6 +22,10 @@ public sealed class RoleDraftCrewOptions : AbstractOptionGroup
 
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleDraftCrew");
     public override uint GroupPriority => 3;
+    public override string? MatchInfoGuidePageKey => "RoleDraft";
+    public override string MatchInfoGuidePageTitle => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleDraftPage", "Role Draft Settings");
+    public override int MatchInfoGuidePageOrder => 3;
+    public override int MatchInfoGuidePageColumns => 3;
 
     public ModdedNumberOption MaxCrewInvestigative { get; set; } =
         new("TouOptionRoleDraftCrewMaxInvestigative", 5f, 0f, 15f, 1f, MiraNumberSuffixes.None, "0");
