@@ -189,7 +189,7 @@ public static class TouAchievements
     public static readonly AchievementSpec HushMoney = Define("Hush Money",
         "Blackmail the player who reported the body.", TouImpAssets.BlackmailSprite, TouRoleIcons.Blackmailer, rarity: 1);
     public static readonly AchievementSpec MassHysteria = Define("Mass Hysteria",
-        "Trigger Hysteria with 4 or more hypnotized players.", TouAssets.MassHysteriaSprite, TouRoleIcons.Hypnotist, rarity: 1);
+        "Trigger Hysteria with 4 or more hypnotized players.", TouAssets.HysteriaSprite, TouRoleIcons.Hypnotist, rarity: 1);
     public static readonly AchievementSpec Spotless = Define("Spotless",
         "Clean 3 bodies in a single game.", TouImpAssets.CleanButtonSprite, TouRoleIcons.Janitor, rarity: 1,
         progressGoal: 3, persistence: AchievementPersistence.ThroughoutRounds);
