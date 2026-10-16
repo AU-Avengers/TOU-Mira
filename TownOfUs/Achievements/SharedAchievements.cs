@@ -1,9 +1,93 @@
-using System;
-using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using BepInEx.Unity.IL2CPP;
-using TownOfUs.Achievements;
+using MiraAPI.Utilities;
+using TownOfUs.Modules;
+using UnityEngine;
 
-namespace TownOfUs.Modules;
+namespace TownOfUs.Achievements;
+
+/// <summary>
+/// How a count achievement's progress persists. Mirrors AchievementsAPI's
+/// <c>AchPersistence</c>; kept as a local mirror so this assembly never needs to
+/// reference AchievementsAPI for descriptors.
+/// </summary>
+public enum AchievementPersistence
+{
+    ThroughoutSessions,
+    ThroughoutRounds,
+    ResetOnRoundStart,
+    ResetOnMeetingStart
+}
+
+/// <summary>
+/// Describes a single achievement without referencing any AchievementsAPI type.
+/// Concrete <c>BaseAchievement</c> instances are materialized from these specs at runtime,
+/// only when the AchievementsAPI plugin is present.
+/// </summary>
+/// <param name="Key">Stable identity used for lookups and locale keys
+/// (e.g. <c>{LocalePrefix}.{Key}.Name</c>). Matches the old tab property names.</param>
+/// <param name="Name">English display name. Combined with the registering assembly's name it
+/// forms the storage id (<c>{AssemblyName}_{Name}</c>), matching previously shipped ids.</param>
+/// <param name="Description">English description.</param>
+/// <param name="Icon">The achievement's icon.</param>
+/// <param name="SubIcon">Optional sub-icon drawn in the achievements menu.</param>
+/// <param name="Rarity">0 = common, 1 = rare, 2 = epic, 3 = legendary.</param>
+/// <param name="Hidden">Whether the achievement is hidden until unlocked.</param>
+/// <param name="ProgressGoal">Progress to unlock; 0 means this is a simple unlock achievement.</param>
+/// <param name="Persistence">How progress persists for count achievements.</param>
+/// <param name="ToastOnGameEnd">Show the unlock toast at game end instead of immediately.</param>
+public sealed record AchievementSpec(
+    string Key,
+    string Name,
+    string Description,
+    LoadableAsset<Sprite> Icon,
+    LoadableAsset<Sprite>? SubIcon = null,
+    int Rarity = 0,
+    bool Hidden = false,
+    int ProgressGoal = 0,
+    AchievementPersistence Persistence = AchievementPersistence.ThroughoutSessions,
+    bool ToastOnGameEnd = false);
+
+/// <summary>
+/// Describes an achievements tab (plus default art) a mod's achievements are registered under.
+/// Adapts to whatever art/offsets a mod wants for its achievements.
+/// </summary>
+/// <param name="Assembly">The assembly that owns the achievements; prefixes their storage ids.</param>
+/// <param name="TabName">Plain-text fallback name of the tab.</param>
+/// <param name="ModName">Name of the mod, used for group headers in the achievements menu.</param>
+/// <param name="CategoryId">Shared category id to file this tab's achievements under
+/// (e.g. "general", "crewmate", "impostor", "neutral").</param>
+/// <param name="LocalePrefix">Prefix for per-achievement name/description locale keys
+/// (<c>{LocalePrefix}.{Key}.Name</c>), or null to use the plain English text.</param>
+/// <param name="TabIcon">Icon of the tab in the achievements menu.</param>
+/// <param name="ModIcon">Icon shown next to the mod name in group headers.</param>
+/// <param name="TabColor">Background color of the achievements menu for this tab.</param>
+/// <param name="Art">Optional shared artwork/offsets applied to every achievement of this mod.</param>
+public sealed record AchievementTabSpec(
+    Assembly Assembly,
+    string TabName,
+    string ModName,
+    string CategoryId,
+    string? TabLocaleKey = null,
+    string? LocalePrefix = null,
+    LoadableAsset<Sprite>? TabIcon = null,
+    LoadableAsset<Sprite>? ModIcon = null,
+    Color? TabColor = null,
+    AchievementArt? Art = null);
+
+/// <summary>
+/// Default artwork and layout offsets shared by all of a mod's achievements.
+/// </summary>
+public sealed record AchievementArt(
+    LoadableAsset<Sprite>? MenuBg = null,
+    LoadableAsset<Sprite>? ToastBg = null,
+    Vector3? MenuIconOffset = null,
+    Vector3? MenuTitleOffset = null,
+    Vector3? MenuDescOffset = null,
+    Vector3? MenuSubIconOffset = null,
+    Vector3? MenuSubIconScale = null,
+    Vector3? ToastIconOffset = null);
 
 /// <summary>
 /// Optional integration with the AchievementsAPI plugin. This type contains no references to

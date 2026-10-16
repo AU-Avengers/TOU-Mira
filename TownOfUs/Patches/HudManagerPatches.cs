@@ -2,6 +2,7 @@
 using System.Text;
 
 using AmongUs.GameOptions;
+using TownOfUs.Achievements;
 using TownOfUs.Modules;
 using HarmonyLib;
 using MiraAPI;

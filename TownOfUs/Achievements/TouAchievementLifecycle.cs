@@ -4,7 +4,6 @@ using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.GameEnd;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.GameOver;
-using TownOfUs.Modules;
 
 namespace TownOfUs.Achievements;
 
