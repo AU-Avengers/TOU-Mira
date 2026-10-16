@@ -328,7 +328,7 @@ public static class EndGamePatches
     {
         var map = TownOfUsEventHandlers.CurrentMap;
         var day = DateTime.Today.DayOfWeek;
-        if (!AmongUsClient.Instance.AmLocalHost)
+        if (!AmongUsClient.Instance.AmLocalHost && AchievementsAPIHelper.IsLoaded)
         {
             switch (day)
             {

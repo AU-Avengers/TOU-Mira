@@ -1,4 +1,5 @@
 using AchievementsAPI.API;
+using TownOfUs.Modules;
 using UnityEngine;
 
 namespace TownOfUs.Achievements;
@@ -21,6 +22,11 @@ public abstract class TouAchievementsTab : AchievementsTab
     /// </summary>
     public static void RegisterCategoryIcons()
     {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
         AchievementsManager.GetCategory(AchievementCategories.General)?.SetDefaultIcon(() => TouRoleIcons.Mayor.LoadAsset());
         AchievementsManager.GetCategory(AchievementCategories.Crewmate)?.SetDefaultIcon(() => TouRoleIcons.Crewmate.LoadAsset());
         AchievementsManager.GetCategory(AchievementCategories.Impostor)?.SetDefaultIcon(() => TouRoleIcons.Impostor.LoadAsset());

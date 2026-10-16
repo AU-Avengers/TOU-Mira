@@ -70,7 +70,7 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>, ILe
 
         if (dousedPlayers.Count > 0)
         {
-            if (dousedPlayers.Count > 4)
+            if (dousedPlayers.Count > 4 && AchievementsAPIHelper.IsLoaded)
             {
                 AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.HeatOfTheBattle.Unlock();
             }

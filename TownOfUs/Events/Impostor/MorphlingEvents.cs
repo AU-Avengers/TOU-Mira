@@ -10,6 +10,7 @@ using MiraAPI.Roles;
 using TownOfUs.Achievements;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 
@@ -45,6 +46,10 @@ public static class MorphlingEvents
         {
             return;
         }
-        AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance.IdentityCrisis.Unlock();
+
+        if (AchievementsAPIHelper.IsLoaded)
+        {
+            AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance.IdentityCrisis.Unlock();
+        }
     }
 }

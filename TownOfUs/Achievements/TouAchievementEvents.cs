@@ -56,6 +56,11 @@ public static class TouAchievementEvents
     /// </summary>
     public static void OnSnitchReveal(PlayerControl snitch)
     {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
         if (snitch.AmOwner)
         {
             _snitchRevealed = true;
@@ -67,7 +72,7 @@ public static class TouAchievementEvents
     /// </summary>
     public static void OnEngineerCriticalFix(PlayerControl engineer)
     {
-        if (!engineer.AmOwner || CrewTab.HeroHour.Unlocked)
+        if (!AchievementsAPIHelper.IsLoaded || !engineer.AmOwner || CrewTab.HeroHour.Unlocked)
         {
             return;
         }
@@ -87,10 +92,12 @@ public static class TouAchievementEvents
     /// </summary>
     public static void OnAltruistRevive(PlayerControl altruist, int reviveCount)
     {
-        if (altruist.AmOwner && reviveCount >= 2)
+        if (!AchievementsAPIHelper.IsLoaded || !altruist.AmOwner || reviveCount < 2)
         {
-            CrewTab.MassResurrection.Unlock();
+            return;
         }
+
+        CrewTab.MassResurrection.Unlock();
     }
 
     /// <summary>
@@ -98,7 +105,7 @@ public static class TouAchievementEvents
     /// </summary>
     public static void OnWerewolfRampageStart(PlayerControl werewolf)
     {
-        if (!werewolf.AmOwner)
+        if (!AchievementsAPIHelper.IsLoaded || !werewolf.AmOwner)
         {
             return;
         }
@@ -113,10 +120,12 @@ public static class TouAchievementEvents
     /// </summary>
     public static void OnHexBombComplete(PlayerControl spellslinger)
     {
-        if (spellslinger.AmOwner)
+        if (!AchievementsAPIHelper.IsLoaded || !spellslinger.AmOwner)
         {
-            ImpTab.Detonation.Unlock();
+            return;
         }
+
+        ImpTab.Detonation.Unlock();
     }
 
     /// <summary>
@@ -124,7 +133,7 @@ public static class TouAchievementEvents
     /// </summary>
     public static void OnBombDetonate(PlayerControl bomber, IEnumerable<PlayerControl> victims)
     {
-        if (!bomber.AmOwner)
+        if (!AchievementsAPIHelper.IsLoaded || !bomber.AmOwner)
         {
             return;
         }
@@ -140,6 +149,11 @@ public static class TouAchievementEvents
     [RegisterEvent]
     public static void TouAbilityEventHandler(TouAbilityEvent @event)
     {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
         switch (@event.AbilityType)
         {
             case AbilityType.ClericCleanse
@@ -226,6 +240,11 @@ public static class TouAchievementEvents
     [RegisterEvent(2)]
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
         var source = @event.Source;
         var target = @event.Target;
         var local = PlayerControl.LocalPlayer;
@@ -317,6 +336,11 @@ public static class TouAchievementEvents
     [RegisterEvent]
     public static void ReportBodyEventHandler(ReportBodyEvent @event)
     {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
         if (@event.Reporter != null)
         {
             _meetingReporterId = @event.Reporter.PlayerId;
@@ -345,6 +369,11 @@ public static class TouAchievementEvents
     [RegisterEvent]
     public static void EjectionEventHandler(EjectionEvent @event)
     {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
         var exiled = @event.ExileController?.initData?.networkedPlayer?.Object;
         var local = PlayerControl.LocalPlayer;
         if (exiled == null || local == null)
@@ -405,6 +434,11 @@ public static class TouAchievementEvents
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent _)
     {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
         _meetingsSeen++;
         _vigilanteGuesses = 0;
         _doomsayerGuesses = 0;
@@ -420,6 +454,11 @@ public static class TouAchievementEvents
     [RegisterEvent]
     public static void EndMeetingEventHandler(EndMeetingEvent _)
     {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
         _snitchRevealed = false;
         _meetingReporterId = byte.MaxValue;
         _reportedKillerId = byte.MaxValue;
@@ -429,6 +468,11 @@ public static class TouAchievementEvents
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
         _plaguebearerInfections = 0;
 
         if (!@event.TriggeredByIntro)
@@ -448,6 +492,11 @@ public static class TouAchievementEvents
     [RegisterEvent]
     public static void ChangeRoleEventHandler(ChangeRoleEvent @event)
     {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
         var player = @event.Player;
         if (!player.AmOwner || @event.NewRole is ImitatorRole || CrewTab.MethodActor.Unlocked)
         {
@@ -469,6 +518,11 @@ public static class TouAchievementEvents
     [RegisterEvent]
     public static void GameEndEventHandler(GameEndEvent _)
     {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
         var local = PlayerControl.LocalPlayer;
         if (local == null || local.Data?.Role is not WerewolfRole || _rampageAliveAtStart <= 0)
         {

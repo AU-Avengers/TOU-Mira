@@ -125,7 +125,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
             var deadPlayer = InvestigatingScene.DeadPlayer;
             text = text.Replace("<deadPlayer>", deadPlayer.Data.PlayerName);
-            if (firstAttempt)
+            if (firstAttempt && AchievementsAPIHelper.IsLoaded)
             {
                 AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.BloodyHands.Unlock();
             }

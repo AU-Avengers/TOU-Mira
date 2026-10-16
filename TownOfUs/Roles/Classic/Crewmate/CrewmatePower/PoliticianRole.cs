@@ -11,6 +11,7 @@ using TownOfUs.Achievements;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
@@ -120,7 +121,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         {
             return;
         }
-        if (Helpers.GetAlivePlayers().Count == 2)
+        if (Helpers.GetAlivePlayers().Count == 2 && AchievementsAPIHelper.IsLoaded)
         {
             AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.DeathByDemocracy.Unlock();
         }
@@ -142,7 +143,10 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             var campaigned = Helpers.GetAlivePlayers().Where(x => x.HasModifier<PoliticianCampaignedModifier>(y => y.Politician.AmOwner)).ToList();
             if (campaigned.All(x => x.IsCrewmate()) && campaigned.Count > 0)
             {
-                TouAchievementLifecycle.UnlockTentative(AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.CrewmatesUnite);
+                if (AchievementsAPIHelper.IsLoaded)
+                {
+                    TouAchievementLifecycle.UnlockTentative(AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.CrewmatesUnite);
+                }
             }
             Player.RpcChangeRole(RoleId.Get<MayorRole>());
         }

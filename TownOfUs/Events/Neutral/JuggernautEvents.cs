@@ -4,6 +4,7 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Hud;
 using TownOfUs.Achievements;
 using TownOfUs.Buttons.Neutral;
+using TownOfUs.Modules;
 using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Events.Neutral;
@@ -22,7 +23,7 @@ public static class JuggernautEvents
         juggernaut.KillCount++;
         var button = CustomButtonSingleton<JuggernautKillButton>.Instance;
         button.ResetCooldownAndOrEffect();
-        if (button.Cooldown == 0)
+        if (button.Cooldown == 0 && AchievementsAPIHelper.IsLoaded)
         {
             AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.Ballistic.Unlock();
         }

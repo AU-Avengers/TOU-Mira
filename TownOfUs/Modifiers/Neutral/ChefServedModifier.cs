@@ -4,6 +4,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Achievements;
+using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -51,7 +52,10 @@ public sealed class ChefServedModifier(PlayerControl chef, int servingType, int 
         if (Chef.AmOwner && ((FoodType is PlatterType.Turkey && othersFed.Any(x => x.FoodType is PlatterType.Cake))
                              || (FoodType is PlatterType.Cake && othersFed.Any(x => x.FoodType is PlatterType.Turkey))))
         {
-            AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.FullCourseMeal.Unlock();
+            if (AchievementsAPIHelper.IsLoaded)
+            {
+                AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.FullCourseMeal.Unlock();
+            }
         }
         /*var touAbilityEvent = new TouAbilityEvent(AbilityType.MercenaryBribe, Mercenary, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);*/

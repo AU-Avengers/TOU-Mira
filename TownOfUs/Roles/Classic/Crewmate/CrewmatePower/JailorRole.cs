@@ -17,6 +17,7 @@ using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Modules;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
@@ -290,7 +291,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                 {
                     color = Color.green;
                     text = MiraLocaleManager.Get("TownOfUsMira.Role.JailorExecutedEvil");
-                    if (!HasSpokenThisMeeting)
+                    if (!HasSpokenThisMeeting && AchievementsAPIHelper.IsLoaded)
                     {
                         AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.NoChances.Unlock();
                     }
@@ -301,7 +302,10 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             }
             else
             {
-                TouAchievementLifecycle.UnlockTentative(AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.ToKillAGod);
+                if (AchievementsAPIHelper.IsLoaded)
+                {
+                    TouAchievementLifecycle.UnlockTentative(AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.ToKillAGod);
+                }
             }
             text = text.Replace("<player>", Jailed.Data.PlayerName);
 

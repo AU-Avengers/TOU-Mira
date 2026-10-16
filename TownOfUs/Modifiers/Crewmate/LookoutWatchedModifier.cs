@@ -7,6 +7,7 @@ using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Achievements;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -74,7 +75,7 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
                 }
             }
 
-            if (SeenPlayers.Count > 4)
+            if (SeenPlayers.Count > 4 && AchievementsAPIHelper.IsLoaded)
             {
                 AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.SearchParty.Unlock();
             }
@@ -90,7 +91,7 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
 
             msg = final;
         }
-        else if (Player.HasDied())
+        else if (Player.HasDied() && AchievementsAPIHelper.IsLoaded)
         {
             AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.ParanormalActivity.Unlock();
         }

@@ -9,6 +9,7 @@ using MiraAPI.Modifiers;
 using TownOfUs.Achievements;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 
 namespace TownOfUs.Events.Impostor;
@@ -47,6 +48,12 @@ public static class SwooperEvents
         {
             swoopModifier.AchProgress = SwoopProgress.Killed;
         }
+
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
         var ach = AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance.Untraceable;
         ach.Increment(1, ach.CurrentValue == 14);
     }
@@ -62,7 +69,10 @@ public static class SwooperEvents
         if (swoopModifier.AchProgress is SwoopProgress.Killed)
         {
             swoopModifier.AchProgress = SwoopProgress.KilledAndVented;
-            AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance.Sneakman.Unlock();
+            if (AchievementsAPIHelper.IsLoaded)
+            {
+                AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance.Sneakman.Unlock();
+            }
         }
     }
 }

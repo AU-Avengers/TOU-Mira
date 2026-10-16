@@ -14,6 +14,7 @@ using MiraAPI.Patches.Stubs;
 using TownOfUs.Achievements;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modules;
 
 namespace TownOfUs.Roles.Crewmate;
 
@@ -151,7 +152,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
         if (target.AmOwner && !OptionGroupSingleton<MonarchOptions>.Instance.RevealAtMeeting)
         {
-            if (target.Data.Role is MayorRole mayor && mayor.Revealed)
+            if (target.Data.Role is MayorRole mayor && mayor.Revealed && AchievementsAPIHelper.IsLoaded)
             {
                 AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.RiggedVotes.Unlock();
             }

@@ -17,6 +17,7 @@ using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
@@ -269,7 +270,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
 
         if (Target == null || victim == Target)
         {
-            if (victim == Target && Player.AmOwner)
+            if (victim == Target && Player.AmOwner && AchievementsAPIHelper.IsLoaded)
             {
                 AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.FairlyBadParent.Unlock();
             }

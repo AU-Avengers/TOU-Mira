@@ -7,6 +7,7 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Achievements;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 using Color = UnityEngine.Color;
@@ -66,12 +67,18 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             OptionGroupSingleton<AurialOptions>.Instance.AuraInnerRadius);
         if (willDie)
         {
-            if (!willColor)
+            if (!willColor && AchievementsAPIHelper.IsLoaded)
             {
                 AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.StrangerDanger.Unlock();
             }
             yield break;
         }
+
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            yield break;
+        }
+
         var ach = AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.ForceBeWithYou;
         ach.Increment(1, ach.CurrentValue == 4);
 

@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using AchievementsAPI;
 using AmongUs.Data;
 using AmongUs.Data.Player;
 using AmongUs.Data.Settings;
@@ -15,6 +16,7 @@ using Reactor.Networking;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Achievements;
+using TownOfUs.Modules;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.WinConditions;
@@ -31,6 +33,7 @@ namespace TownOfUs;
 [BepInProcess("Among Us.exe")]
 [BepInDependency(ReactorPlugin.Id)]
 [BepInDependency(MiraApiPlugin.Id)]
+[BepInDependency(AchievementsAPIPlugin.Id, BepInDependency.DependencyFlags.SoftDependency)]
 [ReactorModFlags(ModFlags.RequireOnAllClients)]
 public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
 {
@@ -93,7 +96,11 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
         MiraLocaleManager.Register("auavengers.tou.mira", "TownOfUs");
 
         TouAssets.Initialize();
-        TouAchievementsTab.RegisterCategoryIcons();
+        if (AchievementsAPIHelper.IsLoaded)
+        {
+            TouAchievementsTab.RegisterCategoryIcons();
+        }
+
         DemolitionistPatches.Register(Log);
         DemolitionistNumpad.Register(Harmony, Log);
 

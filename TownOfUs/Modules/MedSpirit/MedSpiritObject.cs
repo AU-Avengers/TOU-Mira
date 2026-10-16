@@ -12,6 +12,7 @@ using Reactor.Utilities.Attributes;
 using TownOfUs.Achievements;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -267,7 +268,7 @@ public sealed class MedSpiritObject(IntPtr cppPtr) : InnerNetObject(cppPtr)
 
     public void DestroyImmediate()
     {
-        if (Owner != null && Owner.HasDied() && Owner.AmOwner)
+        if (Owner != null && Owner.HasDied() && Owner.AmOwner && AchievementsAPIHelper.IsLoaded)
         {
             AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.Purgatory.Unlock();
         }

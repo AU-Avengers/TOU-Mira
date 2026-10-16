@@ -134,7 +134,7 @@ public static class VeteranEvents
                 miraEvent.Cancel();
             }
 
-            if (miraEvent is MiraButtonClickEvent click && click.Button is JesterPokeButton)
+            if (miraEvent is MiraButtonClickEvent click && click.Button is JesterPokeButton && AchievementsAPIHelper.IsLoaded)
             {
                 AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.DontPokeTheBear.Unlock();
             }

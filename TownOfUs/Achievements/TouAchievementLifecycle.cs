@@ -5,6 +5,7 @@ using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.GameEnd;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.GameOver;
+using TownOfUs.Modules;
 
 namespace TownOfUs.Achievements;
 
@@ -22,7 +23,7 @@ public static class TouAchievementLifecycle
     /// </summary>
     public static void UnlockTentative(BaseAchievement achievement)
     {
-        if (achievement.Unlocked)
+        if (!AchievementsAPIHelper.IsLoaded || achievement.Unlocked)
         {
             return;
         }
@@ -44,12 +45,22 @@ public static class TouAchievementLifecycle
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
         TentativeThisRound.Clear();
     }
 
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent @event)
     {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
         TentativeThisRound.Clear();
     }
 
@@ -59,6 +70,11 @@ public static class TouAchievementLifecycle
     [RegisterEvent]
     public static void TouAbilityEventHandler(TouAbilityEvent @event)
     {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
         if (@event.AbilityType == AbilityType.TimeLordRewind)
         {
             ResetTentative();
@@ -71,6 +87,11 @@ public static class TouAchievementLifecycle
     [RegisterEvent]
     public static void BeforeGameEndEventHandler(BeforeGameEndEvent @event)
     {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
         if (CustomGameOver.Instance is HostGameOver)
         {
             ResetTentative();

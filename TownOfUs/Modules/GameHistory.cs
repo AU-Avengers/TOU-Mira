@@ -107,7 +107,11 @@ public sealed record BodyReport
             }
             else
             {
-                AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.RightOnTime.Unlock();
+                if (AchievementsAPIHelper.IsLoaded)
+                {
+                    AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.RightOnTime.Unlock();
+                }
+
                 if (br.KillAge < OptionGroupSingleton<ForensicOptions>.Instance.ForensicRoleDuration * 1000)
                 {
                     // if the killer died, they would still appear correctly here

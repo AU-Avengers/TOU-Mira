@@ -62,7 +62,7 @@ public static class MedusaEvents
             }
             miraEvent.Cancel();
 
-            if (miraEvent is MiraButtonClickEvent click && click.Button is JesterPokeButton)
+            if (miraEvent is MiraButtonClickEvent click && click.Button is JesterPokeButton && AchievementsAPIHelper.IsLoaded)
             {
                 AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.DontPokeTheBear.Unlock();
             }
@@ -83,7 +83,7 @@ public static class MedusaEvents
             // leave behind standing body
             // Message($"Leaving behind soulless player '{target.Data.PlayerName}'");
         {
-            if (source.AmOwner)
+            if (source.AmOwner && AchievementsAPIHelper.IsLoaded)
             {
                 var ach = AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.SnakeEyes;
                 ach.Increment(1, ach.CurrentValue == 14);

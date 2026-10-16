@@ -4,6 +4,7 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Modifiers;
 using TownOfUs.Achievements;
 using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modules;
 using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Events.Impostor;
@@ -20,7 +21,7 @@ public static class EclipsalEvents
             return;
         }
 
-        if (source.AmOwner && source.Data.Role is EclipsalRole && source != victim)
+        if (source.AmOwner && source.Data.Role is EclipsalRole && source != victim && AchievementsAPIHelper.IsLoaded)
         {
             var ach = AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance.EternalDarkness;
             ach.Increment(1, ach.CurrentValue == 2);
