@@ -105,7 +105,7 @@ public static class AchievementsAPIHelper
     /// <summary>
     /// The BepInEx GUID of the AchievementsAPI plugin.
     /// </summary>
-    public const string PluginGuid = "achievementsapi";
+    public const string PluginGuid = "AchievementsAPI";
 
     /// <summary>
     /// True when the AchievementsAPI plugin is loaded and achievements can be registered/triggered.
