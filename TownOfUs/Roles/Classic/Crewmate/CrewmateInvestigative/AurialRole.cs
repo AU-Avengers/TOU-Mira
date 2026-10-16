@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using AchievementsAPI.API;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
@@ -67,20 +66,15 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             OptionGroupSingleton<AurialOptions>.Instance.AuraInnerRadius);
         if (willDie)
         {
-            if (!willColor && AchievementsAPIHelper.IsLoaded)
+            if (!willColor)
             {
-                AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.StrangerDanger.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.StrangerDanger);
             }
             yield break;
         }
 
-        if (!AchievementsAPIHelper.IsLoaded)
-        {
-            yield break;
-        }
-
-        var ach = AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.ForceBeWithYou;
-        ach.Increment(1, ach.CurrentValue == 4);
+        AchievementsAPIHelper.Increment(TouAchievements.ForceBeWithYou, 1,
+            AchievementsAPIHelper.GetCurrentValue(TouAchievements.ForceBeWithYou) == 4);
 
         var position = player.transform.position;
         var colorID = player.Data.DefaultOutfit.ColorId;

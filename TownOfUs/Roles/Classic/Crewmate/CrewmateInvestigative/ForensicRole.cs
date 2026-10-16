@@ -1,5 +1,4 @@
-﻿using AchievementsAPI.API;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
@@ -125,9 +124,9 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
             var deadPlayer = InvestigatingScene.DeadPlayer;
             text = text.Replace("<deadPlayer>", deadPlayer.Data.PlayerName);
-            if (firstAttempt && AchievementsAPIHelper.IsLoaded)
+            if (firstAttempt)
             {
-                AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.BloodyHands.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.BloodyHands);
             }
         }
         else

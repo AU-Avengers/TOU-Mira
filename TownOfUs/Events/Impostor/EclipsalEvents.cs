@@ -1,5 +1,4 @@
-﻿using AchievementsAPI.API;
-using MiraAPI.Events;
+﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Modifiers;
 using TownOfUs.Achievements;
@@ -21,10 +20,10 @@ public static class EclipsalEvents
             return;
         }
 
-        if (source.AmOwner && source.Data.Role is EclipsalRole && source != victim && AchievementsAPIHelper.IsLoaded)
+        if (source.AmOwner && source.Data.Role is EclipsalRole && source != victim)
         {
-            var ach = AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance.EternalDarkness;
-            ach.Increment(1, ach.CurrentValue == 2);
+            AchievementsAPIHelper.Increment(TouAchievements.EternalDarkness, 1,
+                AchievementsAPIHelper.GetCurrentValue(TouAchievements.EternalDarkness) == 2);
         }
 
         victim.RemoveModifier(mod);

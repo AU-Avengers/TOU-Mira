@@ -1,5 +1,4 @@
-﻿using AchievementsAPI.API;
-using AmongUs.GameOptions;
+﻿using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -107,10 +106,7 @@ public sealed record BodyReport
             }
             else
             {
-                if (AchievementsAPIHelper.IsLoaded)
-                {
-                    AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.RightOnTime.Unlock();
-                }
+                AchievementsAPIHelper.Unlock(TouAchievements.RightOnTime);
 
                 if (br.KillAge < OptionGroupSingleton<ForensicOptions>.Instance.ForensicRoleDuration * 1000)
                 {

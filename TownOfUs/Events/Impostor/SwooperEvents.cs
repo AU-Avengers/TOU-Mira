@@ -1,5 +1,4 @@
-﻿using AchievementsAPI.API;
-using MiraAPI.Events;
+﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Usables;
@@ -49,13 +48,8 @@ public static class SwooperEvents
             swoopModifier.AchProgress = SwoopProgress.Killed;
         }
 
-        if (!AchievementsAPIHelper.IsLoaded)
-        {
-            return;
-        }
-
-        var ach = AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance.Untraceable;
-        ach.Increment(1, ach.CurrentValue == 14);
+        AchievementsAPIHelper.Increment(TouAchievements.Untraceable, 1,
+            AchievementsAPIHelper.GetCurrentValue(TouAchievements.Untraceable) == 14);
     }
 
     [RegisterEvent]
@@ -69,10 +63,7 @@ public static class SwooperEvents
         if (swoopModifier.AchProgress is SwoopProgress.Killed)
         {
             swoopModifier.AchProgress = SwoopProgress.KilledAndVented;
-            if (AchievementsAPIHelper.IsLoaded)
-            {
-                AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance.Sneakman.Unlock();
-            }
+            AchievementsAPIHelper.Unlock(TouAchievements.Sneakman);
         }
     }
 }

@@ -1,4 +1,3 @@
-using AchievementsAPI.API;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -70,9 +69,9 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>, ILe
 
         if (dousedPlayers.Count > 0)
         {
-            if (dousedPlayers.Count > 4 && AchievementsAPIHelper.IsLoaded)
+            if (dousedPlayers.Count > 4)
             {
-                AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.HeatOfTheBattle.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.HeatOfTheBattle);
             }
             PlayerControl.LocalPlayer.RpcSpecialMultiMurder(dousedPlayers, MeetingCheck.OutsideMeeting, true,
                 teleportMurderer: false,

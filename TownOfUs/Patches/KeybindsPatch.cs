@@ -1,4 +1,3 @@
-using AchievementsAPI.API;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
@@ -170,10 +169,7 @@ public static class Bindings
             }
 
             hud.RpcVotingComplete(voterStates, exiled, tie, processEvent.OverruledVote, processEvent.OverruledNonce);
-            if (AchievementsAPIHelper.IsLoaded)
-            {
-                AchievementsTabSingleton<GeneralAchievementsTab>.Instance.Silence.Unlock();
-            }
+            AchievementsAPIHelper.Unlock(TouAchievements.Silence);
         }
 
         CreateNotif("HostEndMeetingNotif", TouRoleIcons.Prosecutor.LoadAsset());
@@ -216,11 +212,7 @@ public static class Bindings
                     if (settings.SelfKillBindToggle.Value && !PlayerControl.LocalPlayer.HasDied() &&
                         Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.T) && Input.GetKey(KeyCode.LeftShift))
                     {
-                        if (AchievementsAPIHelper.IsLoaded)
-                        {
-                            AchievementsTabSingleton<GeneralAchievementsTab>.Instance.IveSeenThePlays.Unlock();
-                        }
-
+                        AchievementsAPIHelper.Unlock(TouAchievements.IveSeenThePlays);
                         PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
                     }
 
@@ -231,11 +223,7 @@ public static class Bindings
                         var gameFlow = GameManager.Instance.LogicFlow.Cast<LogicGameFlowNormal>();
                         if (gameFlow != null)
                         {
-                            if (AchievementsAPIHelper.IsLoaded)
-                            {
-                                AchievementsTabSingleton<GeneralAchievementsTab>.Instance.Oops.Unlock();
-                            }
-
+                            AchievementsAPIHelper.Unlock(TouAchievements.Oops);
                             CustomGameOver.Trigger<HostGameOver>([]);
                         }
                     }

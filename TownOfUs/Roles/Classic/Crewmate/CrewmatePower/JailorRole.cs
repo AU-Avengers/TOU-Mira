@@ -1,5 +1,4 @@
 using System.Text;
-using AchievementsAPI.API;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -291,9 +290,9 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                 {
                     color = Color.green;
                     text = MiraLocaleManager.Get("TownOfUsMira.Role.JailorExecutedEvil");
-                    if (!HasSpokenThisMeeting && AchievementsAPIHelper.IsLoaded)
+                    if (!HasSpokenThisMeeting)
                     {
-                        AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.NoChances.Unlock();
+                        AchievementsAPIHelper.Unlock(TouAchievements.NoChances);
                     }
                 }
 
@@ -302,10 +301,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             }
             else
             {
-                if (AchievementsAPIHelper.IsLoaded)
-                {
-                    TouAchievementLifecycle.UnlockTentative(AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.ToKillAGod);
-                }
+                TouAchievementLifecycle.UnlockTentative(TouAchievements.ToKillAGod);
             }
             text = text.Replace("<player>", Jailed.Data.PlayerName);
 

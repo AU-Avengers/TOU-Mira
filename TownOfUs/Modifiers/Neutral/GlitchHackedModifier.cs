@@ -1,5 +1,4 @@
-﻿using AchievementsAPI.API;
-using HarmonyLib;
+﻿using HarmonyLib;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -82,9 +81,9 @@ public sealed class GlitchHackedModifier(byte glitchId) : DisabledModifier
 
         if (Player.AmOwner)
         {
-            if (Player.Data.Role is GlitchRole && AchievementsAPIHelper.IsLoaded)
+            if (Player.Data.Role is GlitchRole)
             {
-                AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.Anomaly.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.Anomaly);
             }
             TouAudio.PlaySound(TouAudio.HackedSound);
 

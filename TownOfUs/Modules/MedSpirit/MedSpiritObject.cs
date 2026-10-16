@@ -1,5 +1,4 @@
 using System.Collections;
-using AchievementsAPI.API;
 using Hazel;
 using Il2CppInterop.Runtime.Attributes;
 using InnerNet;
@@ -268,9 +267,9 @@ public sealed class MedSpiritObject(IntPtr cppPtr) : InnerNetObject(cppPtr)
 
     public void DestroyImmediate()
     {
-        if (Owner != null && Owner.HasDied() && Owner.AmOwner && AchievementsAPIHelper.IsLoaded)
+        if (Owner != null && Owner.HasDied() && Owner.AmOwner)
         {
-            AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.Purgatory.Unlock();
+            AchievementsAPIHelper.Unlock(TouAchievements.Purgatory);
         }
         Moveable = false;
         Rigidbody.isKinematic = true;

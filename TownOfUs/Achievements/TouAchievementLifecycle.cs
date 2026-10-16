@@ -1,4 +1,3 @@
-using AchievementsAPI.API;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
@@ -15,31 +14,21 @@ namespace TownOfUs.Achievements;
 /// </summary>
 public static class TouAchievementLifecycle
 {
-    private static readonly HashSet<BaseAchievement> TentativeThisRound = new();
-
     /// <summary>
     /// Unlocks an achievement tentatively: it unlocks now, but a Time Lord rewind or a
     /// host abort before the round/meeting boundary will reset it.
     /// </summary>
-    public static void UnlockTentative(BaseAchievement achievement)
+    public static void UnlockTentative(AchievementSpec achievement)
     {
-        if (!AchievementsAPIHelper.IsLoaded || achievement.Unlocked)
-        {
-            return;
-        }
-
-        achievement.Unlock();
-        TentativeThisRound.Add(achievement);
+        AchievementsAPIHelper.UnlockTentative(achievement);
     }
 
-    private static void ResetTentative()
+    /// <summary>
+    /// Resets all tentative unlocks.
+    /// </summary>
+    public static void ResetTentative()
     {
-        foreach (var achievement in TentativeThisRound)
-        {
-            achievement.Reset();
-        }
-
-        TentativeThisRound.Clear();
+        AchievementsAPIHelper.ResetTentative();
     }
 
     [RegisterEvent]
@@ -50,7 +39,7 @@ public static class TouAchievementLifecycle
             return;
         }
 
-        TentativeThisRound.Clear();
+        AchievementsAPIHelper.ClearTentative();
     }
 
     [RegisterEvent]
@@ -61,7 +50,7 @@ public static class TouAchievementLifecycle
             return;
         }
 
-        TentativeThisRound.Clear();
+        AchievementsAPIHelper.ClearTentative();
     }
 
     /// <summary>

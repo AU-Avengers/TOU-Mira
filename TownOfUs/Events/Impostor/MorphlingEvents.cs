@@ -1,5 +1,4 @@
-﻿using AchievementsAPI.API;
-using HarmonyLib;
+﻿using HarmonyLib;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
@@ -47,9 +46,6 @@ public static class MorphlingEvents
             return;
         }
 
-        if (AchievementsAPIHelper.IsLoaded)
-        {
-            AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance.IdentityCrisis.Unlock();
-        }
+        AchievementsAPIHelper.Unlock(TouAchievements.IdentityCrisis);
     }
 }

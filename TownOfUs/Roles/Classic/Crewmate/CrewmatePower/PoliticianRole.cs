@@ -1,5 +1,5 @@
 using System.Text;
-using AchievementsAPI.API;
+
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -121,9 +121,9 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         {
             return;
         }
-        if (Helpers.GetAlivePlayers().Count == 2 && AchievementsAPIHelper.IsLoaded)
+        if (Helpers.GetAlivePlayers().Count == 2)
         {
-            AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.DeathByDemocracy.Unlock();
+            AchievementsAPIHelper.Unlock(TouAchievements.DeathByDemocracy);
         }
 
         // All living crewmates excluding the Politician
@@ -143,10 +143,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             var campaigned = Helpers.GetAlivePlayers().Where(x => x.HasModifier<PoliticianCampaignedModifier>(y => y.Politician.AmOwner)).ToList();
             if (campaigned.All(x => x.IsCrewmate()) && campaigned.Count > 0)
             {
-                if (AchievementsAPIHelper.IsLoaded)
-                {
-                    TouAchievementLifecycle.UnlockTentative(AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.CrewmatesUnite);
-                }
+                TouAchievementLifecycle.UnlockTentative(TouAchievements.CrewmatesUnite);
             }
             Player.RpcChangeRole(RoleId.Get<MayorRole>());
         }

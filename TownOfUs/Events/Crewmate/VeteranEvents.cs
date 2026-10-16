@@ -1,5 +1,4 @@
-﻿using AchievementsAPI.API;
-using MiraAPI.Events;
+﻿using MiraAPI.Events;
 using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Player;
@@ -134,9 +133,9 @@ public static class VeteranEvents
                 miraEvent.Cancel();
             }
 
-            if (miraEvent is MiraButtonClickEvent click && click.Button is JesterPokeButton && AchievementsAPIHelper.IsLoaded)
+            if (miraEvent is MiraButtonClickEvent click && click.Button is JesterPokeButton)
             {
-                AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.DontPokeTheBear.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.DontPokeTheBear);
             }
 
             if (source.HasModifier<InvulnerabilityModifier>() || source.HasModifier<VeteranAlertModifier>())

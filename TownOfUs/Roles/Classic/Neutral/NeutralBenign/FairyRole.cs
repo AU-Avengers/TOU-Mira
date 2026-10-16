@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using AchievementsAPI.API;
+
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
@@ -270,9 +270,9 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
 
         if (Target == null || victim == Target)
         {
-            if (victim == Target && Player.AmOwner && AchievementsAPIHelper.IsLoaded)
+            if (victim == Target && Player.AmOwner)
             {
-                AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.FairlyBadParent.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.FairlyBadParent);
             }
             var roleType = OptionGroupSingleton<FairyOptions>.Instance.OnTargetDeath switch
             {

@@ -1,4 +1,3 @@
-using AchievementsAPI.API;
 using BepInEx.Configuration;
 using MiraAPI.GameEnd;
 using MiraAPI.Networking;
@@ -85,11 +84,7 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
             // Suicide Keybind (ENTER + T + Left Shift)
             if (!PlayerControl.LocalPlayer.HasDied() && type is BindActionType.SelfKill)
             {
-                if (AchievementsAPIHelper.IsLoaded)
-                {
-                    AchievementsTabSingleton<GeneralAchievementsTab>.Instance.IveSeenThePlays.Unlock();
-                }
-
+                AchievementsAPIHelper.Unlock(TouAchievements.IveSeenThePlays);
                 PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
             }
 
@@ -99,11 +94,7 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
                 var gameFlow = GameManager.Instance.LogicFlow.Cast<LogicGameFlowNormal>();
                 if (gameFlow != null)
                 {
-                    if (AchievementsAPIHelper.IsLoaded)
-                    {
-                        AchievementsTabSingleton<GeneralAchievementsTab>.Instance.Oops.Unlock();
-                    }
-
+                    AchievementsAPIHelper.Unlock(TouAchievements.Oops);
                     CustomGameOver.Trigger<HostGameOver>([]);
                 }
             }

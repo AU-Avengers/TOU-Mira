@@ -1,4 +1,3 @@
-using AchievementsAPI.API;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
@@ -52,10 +51,7 @@ public sealed class ChefServedModifier(PlayerControl chef, int servingType, int 
         if (Chef.AmOwner && ((FoodType is PlatterType.Turkey && othersFed.Any(x => x.FoodType is PlatterType.Cake))
                              || (FoodType is PlatterType.Cake && othersFed.Any(x => x.FoodType is PlatterType.Turkey))))
         {
-            if (AchievementsAPIHelper.IsLoaded)
-            {
-                AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.FullCourseMeal.Unlock();
-            }
+            AchievementsAPIHelper.Unlock(TouAchievements.FullCourseMeal);
         }
         /*var touAbilityEvent = new TouAbilityEvent(AbilityType.MercenaryBribe, Mercenary, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);*/

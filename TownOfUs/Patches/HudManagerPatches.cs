@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using AchievementsAPI;
+
 using AmongUs.GameOptions;
+using TownOfUs.Modules;
 using HarmonyLib;
 using MiraAPI;
 using MiraAPI.GameOptions;
@@ -647,7 +648,7 @@ public static class HudManagerPatches
         (GameStartManager.Instance.RulesViewPanel &&
          GameStartManager.Instance.RulesViewPanel.active ||
          GameSettingMenu.Instance) ||
-        AchievementsMenu.Instance != null;
+        AchievementsAPIHelper.HasOpenMenu();
 
     private static bool _registeredSoftModifiers;
     public static string StoredTasksText { get; private set; } = "Tasks";

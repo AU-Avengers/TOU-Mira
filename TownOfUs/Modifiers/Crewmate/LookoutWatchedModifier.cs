@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using AchievementsAPI.API;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -75,9 +74,9 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
                 }
             }
 
-            if (SeenPlayers.Count > 4 && AchievementsAPIHelper.IsLoaded)
+            if (SeenPlayers.Count > 4)
             {
-                AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.SearchParty.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.SearchParty);
             }
 
             message = message.Remove(message.Length - 2, 2);
@@ -91,9 +90,9 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
 
             msg = final;
         }
-        else if (Player.HasDied() && AchievementsAPIHelper.IsLoaded)
+        else if (Player.HasDied())
         {
-            AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.ParanormalActivity.Unlock();
+            AchievementsAPIHelper.Unlock(TouAchievements.ParanormalActivity);
         }
 
         MiscUtils.AddFakeChat(Player.Data, title, msg, false, true);

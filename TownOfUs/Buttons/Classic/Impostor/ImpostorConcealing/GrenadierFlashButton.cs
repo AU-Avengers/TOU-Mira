@@ -1,5 +1,4 @@
-﻿using AchievementsAPI.API;
-using MiraAPI.GameOptions;
+﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Achievements;
@@ -53,9 +52,9 @@ public sealed class GrenadierFlashButton : TownOfUsRoleButton<GrenadierRole>, IA
                 if (Role.PlayersFlashedInARow.ContainsKey(player.PlayerId))
                 {
                     Role.PlayersFlashedInARow[player.PlayerId]++;
-                    if (Role.PlayersFlashedInARow[player.PlayerId] == 3 && AchievementsAPIHelper.IsLoaded)
+                    if (Role.PlayersFlashedInARow[player.PlayerId] == 3)
                     {
-                        AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance.BlindFoEva.Unlock();
+                        AchievementsAPIHelper.Unlock(TouAchievements.BlindFoEva);
                     }
                 }
                 else

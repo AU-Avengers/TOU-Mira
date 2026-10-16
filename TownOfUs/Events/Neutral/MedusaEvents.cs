@@ -1,5 +1,4 @@
-﻿using AchievementsAPI.API;
-using MiraAPI.Events;
+﻿using MiraAPI.Events;
 using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Hud;
@@ -62,9 +61,9 @@ public static class MedusaEvents
             }
             miraEvent.Cancel();
 
-            if (miraEvent is MiraButtonClickEvent click && click.Button is JesterPokeButton && AchievementsAPIHelper.IsLoaded)
+            if (miraEvent is MiraButtonClickEvent click && click.Button is JesterPokeButton)
             {
-                AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.DontPokeTheBear.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.DontPokeTheBear);
             }
 
             if (TutorialManager.InstanceExists || source.AmOwner)
@@ -83,10 +82,10 @@ public static class MedusaEvents
             // leave behind standing body
             // Message($"Leaving behind soulless player '{target.Data.PlayerName}'");
         {
-            if (source.AmOwner && AchievementsAPIHelper.IsLoaded)
+            if (source.AmOwner)
             {
-                var ach = AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.SnakeEyes;
-                ach.Increment(1, ach.CurrentValue == 14);
+                AchievementsAPIHelper.Increment(TouAchievements.SnakeEyes, 1,
+                    AchievementsAPIHelper.GetCurrentValue(TouAchievements.SnakeEyes) == 14);
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Role.MedusaPetrifyNotif").Replace("<player>", $"{TownOfUsColors.Medusa.ToTextColor()}{target.Data.PlayerName}</color>"),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Medusa.LoadAsset());

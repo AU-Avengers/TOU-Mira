@@ -1,4 +1,3 @@
-using AchievementsAPI.API;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
@@ -47,10 +46,6 @@ public static class TouAchievementEvents
     private static int _rampageAliveAtStart;
     private static int _meetingsSeen;
 
-    private static TouCrewRoleAchievementsTab CrewTab => AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance;
-    private static TouImpRoleAchievementsTab ImpTab => AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance;
-    private static TouNeutRoleAchievementsTab NeutTab => AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance;
-
     /// <summary>
     /// Called by the Snitch role when it finishes tasks and reveals the evils.
     /// </summary>
@@ -72,7 +67,8 @@ public static class TouAchievementEvents
     /// </summary>
     public static void OnEngineerCriticalFix(PlayerControl engineer)
     {
-        if (!AchievementsAPIHelper.IsLoaded || !engineer.AmOwner || CrewTab.HeroHour.Unlocked)
+        if (!AchievementsAPIHelper.IsLoaded || !engineer.AmOwner ||
+            AchievementsAPIHelper.IsUnlocked(TouAchievements.HeroHour))
         {
             return;
         }
@@ -81,7 +77,7 @@ public static class TouAchievementEvents
         {
             if (system.TryCast<ICriticalSabotage>() is { IsActive: true, Countdown: <= 5f })
             {
-                CrewTab.HeroHour.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.HeroHour);
                 break;
             }
         }
@@ -97,7 +93,7 @@ public static class TouAchievementEvents
             return;
         }
 
-        CrewTab.MassResurrection.Unlock();
+        AchievementsAPIHelper.Unlock(TouAchievements.MassResurrection);
     }
 
     /// <summary>
@@ -125,7 +121,7 @@ public static class TouAchievementEvents
             return;
         }
 
-        ImpTab.Detonation.Unlock();
+        AchievementsAPIHelper.Unlock(TouAchievements.Detonation);
     }
 
     /// <summary>
@@ -159,7 +155,7 @@ public static class TouAchievementEvents
             case AbilityType.ClericCleanse
                 when @event.Player.AmOwner && @event.Target is PlayerControl cleansed &&
                      cleansed.HasModifier<SpellslingerHexedModifier>():
-                TouAchievementLifecycle.UnlockTentative(CrewTab.Exorcist);
+                AchievementsAPIHelper.UnlockTentative(TouAchievements.Exorcist);
                 break;
 
             case AbilityType.VeteranAlert when @event.Player.AmOwner:
@@ -168,13 +164,13 @@ public static class TouAchievementEvents
 
             case AbilityType.PlumberFlush
                 when @event.Player.AmOwner && PlayerControl.AllPlayerControls.ToArray().Any(x => x.inVent):
-                CrewTab.FlushedOut.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.FlushedOut);
                 break;
 
             case AbilityType.BlackmailerBlackmail
                 when @event.Player.AmOwner && @event.Target is PlayerControl blackmailed &&
                      blackmailed.PlayerId == _meetingReporterId:
-                ImpTab.HushMoney.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.HushMoney);
                 break;
 
             case AbilityType.HypnotistHysteria when @event.Player.AmOwner && @event.Target is PlayerControl hypnotised:
@@ -187,28 +183,28 @@ public static class TouAchievementEvents
                 HysteriaTargets.Add(hypnotised.PlayerId);
                 if (HysteriaTargets.Count >= 4)
                 {
-                    ImpTab.MassHysteria.Unlock();
+                    AchievementsAPIHelper.Unlock(TouAchievements.MassHysteria);
                 }
 
                 break;
 
             case AbilityType.JanitorClean when @event.Player.AmOwner:
-                ImpTab.Spotless.Increment(1);
+                AchievementsAPIHelper.Increment(TouAchievements.Spotless, 1);
                 break;
 
             case AbilityType.MinerPlaceVent when @event.Player.AmOwner:
-                ImpTab.SubwaySystem.Increment(1);
+                AchievementsAPIHelper.Increment(TouAchievements.SubwaySystem, 1);
                 break;
 
             case AbilityType.VampireBite when @event.Player.AmOwner:
-                NeutTab.Nosferatu.Increment(1);
+                AchievementsAPIHelper.Increment(TouAchievements.Nosferatu, 1);
                 break;
 
             case AbilityType.PlaguebearerInfect when @event.Player.AmOwner:
                 _plaguebearerInfections++;
                 if (_plaguebearerInfections >= 5)
                 {
-                    NeutTab.PatientZero.Unlock();
+                    AchievementsAPIHelper.Unlock(TouAchievements.PatientZero);
                 }
 
                 break;
@@ -218,7 +214,7 @@ public static class TouAchievementEvents
                 break;
 
             case AbilityType.MedicShieldProtect when @event.Player.AmOwner:
-                CrewTab.IronWall.Increment(1);
+                AchievementsAPIHelper.Increment(TouAchievements.IronWall, 1);
                 break;
 
             case AbilityType.TimeLordRewind:
@@ -230,7 +226,7 @@ public static class TouAchievementEvents
                 _rewindRevives++;
                 if (_rewindRevives >= 2)
                 {
-                    CrewTab.Undo.Unlock();
+                    AchievementsAPIHelper.Unlock(TouAchievements.Undo);
                 }
 
                 break;
@@ -257,14 +253,14 @@ public static class TouAchievementEvents
         // Justice Served: shoot the killer of a body the sheriff reported.
         if (source.AmOwner && source.Data.Role is SheriffRole && target.PlayerId == _reportedKillerId)
         {
-            CrewTab.JusticeServed.Unlock();
+            AchievementsAPIHelper.Unlock(TouAchievements.JusticeServed);
         }
 
         // Knight in Shining Armor: a knighted crewmate kills an evil.
         if (local.Data?.Role is MonarchRole && KnightedIds.Contains(source.PlayerId) && source.IsCrewmate() &&
             (target.IsImpostor() || target.Is(RoleAlignment.NeutralKilling)))
         {
-            TouAchievementLifecycle.UnlockTentative(CrewTab.KnightInShiningArmor);
+            AchievementsAPIHelper.UnlockTentative(TouAchievements.KnightInShiningArmor);
         }
 
         // Too Close for Comfort: two kills during a single Alert.
@@ -273,7 +269,7 @@ public static class TouAchievementEvents
             _vetKillsThisAlert++;
             if (_vetKillsThisAlert >= 2)
             {
-                CrewTab.TooCloseForComfort.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.TooCloseForComfort);
             }
         }
 
@@ -282,17 +278,17 @@ public static class TouAchievementEvents
         {
             if (source.Data.Role is VigilanteRole && ++_vigilanteGuesses >= 2)
             {
-                CrewTab.DoubleTap.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.DoubleTap);
             }
 
             if (source.Data.Role is DoomsayerRole && ++_doomsayerGuesses >= 3)
             {
-                NeutTab.Nostradamus.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.Nostradamus);
             }
 
             if (source.HasModifier<AssassinModifier>() && ++_assassinGuesses >= 2)
             {
-                NeutTab.Hitman.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.Hitman);
             }
         }
 
@@ -313,7 +309,7 @@ public static class TouAchievementEvents
         if (source.AmOwner && source.Data.Role is AmbusherRole { Pursued: not null } ambusher &&
             ambusher.Pursued == target)
         {
-            ImpTab.PerfectAmbush.Unlock();
+            AchievementsAPIHelper.Unlock(TouAchievements.PerfectAmbush);
         }
 
         // Burst Fire: WarlockEvents (priority 0) already incremented Kills for this kill.
@@ -322,14 +318,14 @@ public static class TouAchievementEvents
             var warlockButton = CustomButtonSingleton<WarlockKillButton>.Instance;
             if (warlockButton is { BurstActive: true, Kills: >= 2 })
             {
-                ImpTab.BurstFire.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.BurstFire);
             }
         }
 
         // Fireworks: victims from the bomb's target list that actually died.
         if (source.AmOwner && PendingBombVictims.Remove(target.PlayerId) && ++_bombKills >= 3)
         {
-            ImpTab.Fireworks.Unlock();
+            AchievementsAPIHelper.Unlock(TouAchievements.Fireworks);
         }
     }
 
@@ -362,7 +358,7 @@ public static class TouAchievementEvents
         if (@event.Body != null && @event.Body.ParentId == _mysticSensedId &&
             Time.time - _mysticSenseTime <= 15f)
         {
-            CrewTab.SixthSense.Unlock();
+            AchievementsAPIHelper.Unlock(TouAchievements.SixthSense);
         }
     }
 
@@ -391,42 +387,42 @@ public static class TouAchievementEvents
             if ((exiled.PlayerId == first?.PlayerId || exiled.PlayerId == second?.PlayerId) &&
                 exiled.IsImpostor() && other != null && other.IsCrewmate())
             {
-                CrewTab.SwitchedFate.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.SwitchedFate);
             }
         }
 
         // Spotlight: an impostor ejected in the meeting right after the Snitch reveal.
         if (_snitchRevealed && exiled.IsImpostor())
         {
-            CrewTab.Spotlight.Unlock();
+            AchievementsAPIHelper.Unlock(TouAchievements.Spotlight);
         }
 
         // Open and Shut: the prosecuted player was an impostor and got ejected.
         if (local.Data?.Role is ProsecutorRole { HasProsecuted: true } prosecutor &&
             prosecutor.ProsecuteVictim == exiled.PlayerId && exiled.IsImpostor())
         {
-            CrewTab.OpenAndShut.Unlock();
+            AchievementsAPIHelper.Unlock(TouAchievements.OpenAndShut);
         }
 
         // Hangman: the executioner's target got ejected within 3 meetings.
         if (local.Data?.Role is ExecutionerRole && _meetingsSeen <= 3 &&
             exiled.GetModifiers<ExecutionerTargetModifier>().Any(mod => mod.OwnerId == local.PlayerId))
         {
-            NeutTab.Hangman.Unlock();
+            AchievementsAPIHelper.Unlock(TouAchievements.Hangman);
         }
 
         if (exiled.PlayerId == local.PlayerId && local.Data?.Role is JesterRole)
         {
             if (_meetingsSeen <= 3)
             {
-                NeutTab.TrickyClown.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.TrickyClown);
             }
 
             var remaining = PlayerControl.AllPlayerControls.ToArray()
                 .Count(x => !x.Data.IsDead && x.PlayerId != exiled.PlayerId);
             if (remaining <= 3)
             {
-                NeutTab.FinalAct.Unlock();
+                AchievementsAPIHelper.Unlock(TouAchievements.FinalAct);
             }
         }
     }
@@ -447,7 +443,7 @@ public static class TouAchievementEvents
         // Poltergeist: the Haunter's reveal happens when the meeting starts.
         if (PlayerControl.LocalPlayer.Data?.Role is HaunterRole { CompletedAllTasks: true, Caught: false })
         {
-            CrewTab.Poltergeist.Unlock();
+            AchievementsAPIHelper.Unlock(TouAchievements.Poltergeist);
         }
     }
 
@@ -498,7 +494,8 @@ public static class TouAchievementEvents
         }
 
         var player = @event.Player;
-        if (!player.AmOwner || @event.NewRole is ImitatorRole || CrewTab.MethodActor.Unlocked)
+        if (!player.AmOwner || @event.NewRole is ImitatorRole ||
+            AchievementsAPIHelper.IsUnlocked(TouAchievements.MethodActor))
         {
             return;
         }
@@ -511,7 +508,7 @@ public static class TouAchievementEvents
         ImitatedRoles.Add(@event.NewRole.GetType());
         if (ImitatedRoles.Count >= 3)
         {
-            CrewTab.MethodActor.Unlock();
+            AchievementsAPIHelper.Unlock(TouAchievements.MethodActor);
         }
     }
 
@@ -532,7 +529,7 @@ public static class TouAchievementEvents
         var won = EndGameResult.CachedWinners.ToArray().Any(w => w.PlayerName == local.Data.PlayerName);
         if (won && _rampageKills >= _rampageAliveAtStart)
         {
-            NeutTab.FullMoon.Unlock();
+            AchievementsAPIHelper.Unlock(TouAchievements.FullMoon);
         }
     }
 }

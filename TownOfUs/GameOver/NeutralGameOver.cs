@@ -1,5 +1,4 @@
-﻿using AchievementsAPI.API;
-using MiraAPI.GameEnd;
+﻿using MiraAPI.GameEnd;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Achievements;
@@ -61,9 +60,9 @@ public sealed class NeutralGameOver : CustomGameOver
         pos.y = 1.5f;
         pos += Vector3.down * 0.15f;
         text.transform.localScale = new Vector3(1f, 1f, 1f);
-        if (_role is PlaguebearerRole && _role.Player.AmOwner && AchievementsAPIHelper.IsLoaded)
+        if (_role is PlaguebearerRole && _role.Player.AmOwner)
         {
-            AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.CommonCold.Unlock();
+            AchievementsAPIHelper.Unlock(TouAchievements.CommonCold);
         }
 
         text.transform.position = pos;
