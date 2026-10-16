@@ -139,7 +139,8 @@ internal static class AchievementsAPIBridge
         }
 
         // Preserve previously shipped storage ids: "{AssemblyName}_{DisplayName}".
-        achievement.Id = $"{tab.Assembly.GetName().Name}_{spec.Name}";
+        achievement.Id = spec.Id ?? $"{tab.Assembly.GetName().Name}_{spec.Name}";
+        achievement.Category = spec.Category;
         if (spec.ToastOnGameEnd)
         {
             achievement.ToastTiming = AchToastTiming.OnGameEnd;

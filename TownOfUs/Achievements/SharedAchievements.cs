@@ -37,6 +37,10 @@ public enum AchievementPersistence
 /// <param name="ProgressGoal">Progress to unlock; 0 means this is a simple unlock achievement.</param>
 /// <param name="Persistence">How progress persists for count achievements.</param>
 /// <param name="ToastOnGameEnd">Show the unlock toast at game end instead of immediately.</param>
+/// <param name="Category">Optional per-achievement category override; null uses the owning tab's
+/// category (e.g. "crewmate", "impostor", "neutral").</param>
+/// <param name="Id">Optional explicit storage id; null defaults to
+/// <c>{RegisteringAssembly}_{Name}</c>. Use to preserve save ids when the display name changed.</param>
 // ATONY DOCUMENT THIS PATH
 public sealed record AchievementSpec(
     string Key,
@@ -48,7 +52,9 @@ public sealed record AchievementSpec(
     bool Hidden = false,
     int ProgressGoal = 0,
     AchievementPersistence Persistence = AchievementPersistence.ThroughoutSessions,
-    bool ToastOnGameEnd = false);
+    bool ToastOnGameEnd = false,
+    string? Category = null,
+    string? Id = null);
 
 /// <summary>
 /// Describes an achievements tab (plus default art) a mod's achievements are registered under.
