@@ -69,7 +69,7 @@ public sealed class HypnotistRole(IntPtr cppPtr)
                     TouImpAssets.HypnotiseButtonSprite),
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteriaWiki", "Mass Hysteria (Meeting)"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteria.WikiDescription"),
-                    TouAssets.MassHysteriaSprite)
+                    TouAssets.HysteriaSprite)
             ];
         }
     }
@@ -88,7 +88,7 @@ public sealed class HypnotistRole(IntPtr cppPtr)
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteriaLong", "Mass Hysteria"),
                     MiraLocaleManager.Get("MiraApi.AbilityType.Meeting"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteria.WikiDescription"),
-                    TouAssets.MassHysteriaSprite)
+                    TouAssets.HysteriaSprite)
             ];
         }
     }
