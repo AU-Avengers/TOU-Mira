@@ -37,6 +37,7 @@ public enum AchievementPersistence
 /// <param name="ProgressGoal">Progress to unlock; 0 means this is a simple unlock achievement.</param>
 /// <param name="Persistence">How progress persists for count achievements.</param>
 /// <param name="ToastOnGameEnd">Show the unlock toast at game end instead of immediately.</param>
+// ATONY DOCUMENT THIS PATH
 public sealed record AchievementSpec(
     string Key,
     string Name,
@@ -64,6 +65,7 @@ public sealed record AchievementSpec(
 /// <param name="ModIcon">Icon shown next to the mod name in group headers.</param>
 /// <param name="TabColor">Background color of the achievements menu for this tab.</param>
 /// <param name="Art">Optional shared artwork/offsets applied to every achievement of this mod.</param>
+// ATONY DOCUMENT THIS PATH
 public sealed record AchievementTabSpec(
     Assembly Assembly,
     string TabName,
@@ -79,6 +81,7 @@ public sealed record AchievementTabSpec(
 /// <summary>
 /// Default artwork and layout offsets shared by all of a mod's achievements.
 /// </summary>
+// ATONY DOCUMENT THIS PATH
 public sealed record AchievementArt(
     LoadableAsset<Sprite>? MenuBg = null,
     LoadableAsset<Sprite>? ToastBg = null,
@@ -100,6 +103,7 @@ public sealed record AchievementArt(
 /// The typed calls live in <c>AchievementsAPIBridge</c>, which is only ever invoked — and thus
 /// only JIT-compiled — once <see cref="IsLoaded"/> is known to be true.
 /// </remarks>
+// ATONY DOCUMENT THIS PATH
 public static class AchievementsAPIHelper
 {
     /// <summary>
@@ -139,6 +143,7 @@ public static class AchievementsAPIHelper
     /// </summary>
     /// <param name="tab">Description of the tab to register the achievements under.</param>
     /// <param name="achievements">The achievements to register.</param>
+    // ATONY DOCUMENT THIS PATH
     public static void RegisterMod(AchievementTabSpec tab, IReadOnlyCollection<AchievementSpec> achievements)
     {
         if (!IsLoaded)
