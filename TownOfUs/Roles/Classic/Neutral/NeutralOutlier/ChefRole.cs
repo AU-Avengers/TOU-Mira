@@ -10,6 +10,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Text;
+using MiraAPI.Colors;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.Neutral;
 using TownOfUs.Interfaces;
@@ -64,7 +65,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
         foreach (var pair in DisconnectedServings)
         {
             count--;
-            if (RainbowUtils.IsRainbow(pair.Value))
+            if (PaletteManager.IsVariable(pair.Value))
             {
                 tally.Append(GetIcon(_uxIcons[6]));
             }
@@ -77,7 +78,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
         foreach (var plr in fedPlayers)
         {
             count--;
-            if (RainbowUtils.IsRainbow(plr.Data.DefaultOutfit.ColorId))
+            if (PaletteManager.IsVariable(plr.Data.DefaultOutfit.ColorId))
             {
                 tally.Append(GetIcon(_uxIcons[6]));
             }
