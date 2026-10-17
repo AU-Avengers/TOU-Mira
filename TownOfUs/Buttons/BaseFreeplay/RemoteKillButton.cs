@@ -8,7 +8,7 @@ using TownOfUs.Modules.Components;
 
 namespace TownOfUs.Buttons.BaseFreeplay;
 
-public sealed class RemoteKillButton : TownOfUsButton
+public sealed class RemoteKillButton : TownOfUsButton, IAurialBypassButton
 {
     public override string Name => MiraLocaleManager.Get("FreeplayKillButton", "Remote Kill");
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
