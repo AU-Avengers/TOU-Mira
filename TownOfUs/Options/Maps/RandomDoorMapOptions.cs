@@ -13,6 +13,8 @@ public sealed class RandomDoorMapOptions : AbstractOptionGroup
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RandomDoorMode");
     public override uint GroupPriority => 1;
     public override bool ShowInMatchInfoGuide => true;
+    public override string MatchInfoGuidePageKey => "TownOfUsMira.OptionGroups.BetterMaps";
+    public override string MatchInfoGuidePageTitle => MiraLocaleManager.Get("WikiSettingsBetterMapsSettingsTitle");
     public override LoadableAsset<Sprite> Sprite => TouAssets.AdminSprite;
 
     public ModdedNumberOption DisabledDoorChance { get; } = new("TownOfUsMira.BetterMaps.Option.DoorsNoneChance", 5f, 0, 100f, 10f, MiraNumberSuffixes.Percent);

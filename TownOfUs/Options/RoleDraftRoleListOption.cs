@@ -21,6 +21,9 @@ public sealed class RoleDraftRoleListOptions : AbstractOptionGroup
     public override uint GroupPriority => 3;
     public override Color GroupColor => TownOfUsColors.Jester;
     public override LoadableAsset<Sprite> Sprite => TouAssets.IconDraftMode;
+    public override bool ShowInMatchInfoGuide => GroupVisible();
+    public override string MatchInfoGuidePageKey => "TownOfUsMira.OptionGroups.RoleSettings";
+    public override string MatchInfoGuidePageTitle => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleSettings");
 
     public ModdedOptionList<ModdedEnumOption<RoleListOption>> Slot { get; } =
         new(15, i => new($"TouOptionRoleDraftRoleListSlot{i + 1}",

@@ -51,6 +51,8 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
     ];
 
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleSettings");
+    public override string MatchInfoGuidePageKey => "TownOfUsMira.OptionGroups.RoleSettings";
+    public override string MatchInfoGuidePageTitle => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleSettings");
     public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Traitor;
     public override uint GroupPriority => 2;
 
