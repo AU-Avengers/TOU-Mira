@@ -19,6 +19,14 @@ public static class DraftRpcs
     {
         if (!AmongUsClient.Instance.AmHost) return;
         if (sender == null) return;
+        if (index < byte.MinValue || index > byte.MaxValue ||
+            roleId < ushort.MinValue || roleId > ushort.MaxValue)
+        {
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                $"[DraftRpcs] Ignoring out-of-range pick from player {sender.PlayerId}: index {index}, role id {roleId}");
+            return;
+        }
+
         DraftManager.SubmitPick(sender.PlayerId, (byte)index, (ushort)roleId);
     }
 
@@ -108,14 +116,16 @@ public static class DraftRpcs
         {
 
             var tokens = recapData.Split('|');
-            if (tokens.Length >= 1 && int.TryParse(tokens[0], out var modeInt))
+            if (tokens.Length >= 1 &&
+                int.TryParse(tokens[0], out var modeInt) &&
+                Enum.IsDefined(typeof(DraftRecapMode), modeInt))
             {
                 mode = (DraftRecapMode)modeInt;
                 for (int i = 1; i < tokens.Length; i++)
                 {
                     var parts = tokens[i].Split(':');
                     if (parts.Length < 3) continue;
-                    if (!int.TryParse(parts[0], out var slot)) continue;
+                    if (!int.TryParse(parts[0], out var slot) || slot <= 0) continue;
                     entries.Add((slot, parts[1], parts[2]));
                 }
             }

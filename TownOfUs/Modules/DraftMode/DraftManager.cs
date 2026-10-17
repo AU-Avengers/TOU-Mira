@@ -174,7 +174,7 @@ public static class DraftManager
 
     public static void SetForcedDraftRole(string roleName, byte targetId)
     {
-        if (string.IsNullOrEmpty(roleName)) return;
+        if (string.IsNullOrWhiteSpace(roleName)) return;
         var state = GetStateForPlayer(targetId);
         if (state == null) return;
         state.ForcedRoleName = roleName;
