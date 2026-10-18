@@ -100,6 +100,7 @@ public static class TouAchievementEvents
     private static readonly Dictionary<byte, HashSet<RoleTypes>> DoomsayerObservedRoleLists = [];
     private static bool _inquisitorUsedAbility;
     private static bool _rampageActive;
+    private static bool _rampageEnded;
     private static int _rampageKills;
     private static int _rampageAliveOthers;
 
@@ -435,12 +436,13 @@ public static class TouAchievementEvents
     /// </summary>
     public static void OnWerewolfRampageEnd(PlayerControl werewolf)
     {
-        if (!AchievementsAPIHelper.IsLoaded || !werewolf.AmOwner || !_rampageActive)
+        if (!AchievementsAPIHelper.IsLoaded || !werewolf.AmOwner || !_rampageActive || _rampageEnded)
         {
             return;
         }
 
-        _rampageActive = false;
+        // Blood Moon still needs _rampageActive at game end, so only mark the natural end here.
+        _rampageEnded = true;
 
         // All Bark No Bite: the rampage ran out naturally without any kills.
         if (_rampageKills == 0 && !MeetingHud.Instance && !ExileController.Instance)
@@ -926,6 +928,7 @@ public static class TouAchievementEvents
 
             case AbilityType.WerewolfRampage when @event.Player.AmOwner:
                 _rampageActive = true;
+                _rampageEnded = false;
                 _rampageKills = 0;
                 _rampageAliveOthers = AliveOthers().Count;
                 break;
