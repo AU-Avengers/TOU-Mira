@@ -242,7 +242,7 @@ public static class TouAchievementEvents
                 KnightedIds.Add(knight.PlayerId);
                 break;
 
-            case AbilityType.MedicShieldProtect when @event.Player.AmOwner:
+            case AbilityType.MedicShieldProtect when @event.Player.AmOwner && @event.Result == "New Attack":
                 AchievementsAPIHelper.Increment(TouAchievements.IronWall, 1);
                 break;
 
