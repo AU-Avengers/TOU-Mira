@@ -947,4 +947,6 @@ Fake-Aufgaben:</string>
   <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumAirship">Airship</string>
   <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumFungle">Fungle</string>
   <string name="TownOfUsMira.BetterMaps.Option.DoorsEnumSubmerged">Submerged</string>
+  <string name="ShowChatNotifsInGame">Chatbenachrichtigungen Während Des Spiels Anzeigen</string>
+  <string name="ProsecutorProsToggling">Bestrafung Benötigt Bestätigung</string>
 </resources>

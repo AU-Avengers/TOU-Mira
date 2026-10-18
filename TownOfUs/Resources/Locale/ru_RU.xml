@@ -1651,9 +1651,9 @@ Data Lost</string>
   <string name="TermsStatusEffectInfo">Статусные эффекты появляются над именами игроков на собраниях и в процессе игры, обычно их видит только та роль, которая их наложила, и/или мёртвые игроки. • Облитые Поджигателем отмечаются символом [color=#FF4D00]Δ[/color] • Чума Чумоносца отмечается символом [color=#E6FFB3]¥[/color] • Подконтрольные игроки отмечаются символом [color=#FF2660]⦿[/color] • Шантажируемые цели отмечаются символом [color=#2A1119]M[/color] • Гипноз отмечается символом [color=#D53F42]@[/color] • Проклятие Заклинателя отмечается символом [color=#FF0000]乂[/color] • Рыцари Монарха отмечаются символом [color=#EA535B]♠[/color]</string>
   <string name="ReverseSkeldMapName">длекС</string>
   <string name="LegacyThemeDisabled">Устаревший режим: Выкл</string>
-  <string name="LegacyThemeArt">Устаревшая тема</string>
-  <string name="LegacyThemePlayers">Устаревшие игроки</string>
-  <string name="LegacyThemeFull">Устаревший режим</string>
+  <string name="LegacyThemeArt">Устаревший режим: тема</string>
+  <string name="LegacyThemePlayers">Устаревший режим: игроки</string>
+  <string name="LegacyThemeFull">Устаревший режим: Всё</string>
   <string name="SelfKillBindToggle">Нажатие LSHIFT + T + ENTER для самоубийства</string>
   <string name="AbortGameBindToggle">Нажатие LSHIFT + L + ENTER для отмены игры</string>
   <string name="StartMeetingBindToggle">Нажатие LSHIFT + L + ENTER для начала собрания</string>
