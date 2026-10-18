@@ -2,11 +2,38 @@
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
+using TMPro;
+using UnityEngine;
 
 namespace TownOfUs.Roles;
 
 public interface ITownOfUsRole : ICustomRole
 {
+    GameObject ICustomRole.GetAdvancedWiki(MatchInfoGuide guide, TextMeshPro titleText, SpriteRenderer titleIcon, Scroller parent)
+    {
+        var abilities = WikiAbilities;
+        if (abilities.Count == 0 && this is IWikiDiscoverable wiki && wiki.Abilities.HasAny())
+        {
+            abilities = wiki.Abilities.Select(a => new AdvancedWikiAbilityDescription(
+                a.Name,
+                MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
+                a.Description,
+                a.Icon)).ToList();
+        }
+
+        return Helpers.CreateAdvancedWikiPage(
+            guide,
+            titleText,
+            titleIcon,
+            parent,
+            RoleNameLocale,
+            $"{RoleName} ({RoleFactionTitle})",
+            Configuration.Icon ?? MiraAssets.IconNeutral.LoadAsset(),
+            RoleWikiDescription,
+            abilities);
+    }
+
     /// <summary>
     /// Runs when all roles are finished up being added. Mostly used to set up icons.
     /// </summary>

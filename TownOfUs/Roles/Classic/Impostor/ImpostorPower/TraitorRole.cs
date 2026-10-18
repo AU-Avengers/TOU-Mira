@@ -21,6 +21,7 @@ public sealed class TraitorRole(IntPtr cppPtr)
         RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TraitorRole>()) is ICustomRole customRole &&
         (int)customRole.GetCount()! > 0 && (int)customRole.GetChance()! > 0 ||
         (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance.Value > 0;
+    public bool? ForceShowRoleOnWiki => CanBeGuessed ? true : null;
     public bool CanSpawnOnCurrentMode() => false;
     [HideFromIl2Cpp] public List<RoleBehaviour> ChosenRoles { get; } = [];
     [HideFromIl2Cpp] public RoleBehaviour? RandomRole { get; set; }
@@ -68,6 +69,21 @@ public sealed class TraitorRole(IntPtr cppPtr)
             return
             [
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ChangeRole", "Change Role"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ChangeRole.WikiDescription"),
+                    TouImpAssets.TraitorSelect)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ChangeRole", "Change Role"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Menu"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ChangeRole.WikiDescription"),
                     TouImpAssets.TraitorSelect)
             ];

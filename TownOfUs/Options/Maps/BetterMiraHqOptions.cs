@@ -12,6 +12,8 @@ public sealed class BetterMiraHqOptions : AbstractOptionGroup
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.BetterMira");
     public override uint GroupPriority => 4;
     public override Color GroupColor => new Color32(255, 128, 100, 255);
+    public override bool ShowInMatchInfoGuide => true;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.IconMira;
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
         TmpSpriteUtils.CreateSpriteAsset(

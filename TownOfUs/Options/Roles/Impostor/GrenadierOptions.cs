@@ -18,7 +18,7 @@ public sealed class GrenadierOptions : AbstractRoleOptionGroup<GrenadierRole>
     [ModdedNumberOption("TouOptionGrenadierFlashGrenadeDuration", 5f, 15f, 1f, MiraNumberSuffixes.Seconds)]
     public float GrenadeDuration { get; set; } = 10f;
 
-    [ModdedNumberOption("TouOptionGrenadierFlashRadius", 0.25f, 5f, 0.25f, MiraNumberSuffixes.Multiplier, "0.00")]
+    [ModdedNumberOption("TouOptionGrenadierFlashRadius", 0.25f, 5f, 0.25f, MiraNumberSuffixes.Distance, "0.00")]
     public float FlashRadius { get; set; } = 1f;
 
     [ModdedToggleOption("TouOptionGrenadierAllowFlashingDuringSabotage")]

@@ -19,6 +19,9 @@ public sealed class SurvivorOptions : AbstractRoleOptionGroup<SurvivorRole>
     [ModdedNumberOption("TouOptionSurvivorMaxVests", 1f, 15f, 1f, MiraNumberSuffixes.None, "0")]
     public float MaxVests { get; set; } = 10f;
 
+    [ModdedToggleOption("TouOptionSurvivorGetMoreUsesFromCompletingTasks")]
+    public bool TaskUses { get; set; } = false;
+
     [ModdedToggleOption("TouOptionSurvivorScatterEnabled")]
     public bool ScatterOn { get; set; } = false;
 

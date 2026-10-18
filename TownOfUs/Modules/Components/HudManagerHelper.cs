@@ -25,6 +25,7 @@ using TownOfUs.Patches.ControlSystem;
 using TownOfUs.Patches.Roles;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
+using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
@@ -344,6 +345,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var colorPlayerNames = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.ColorPlayerNameToggle.Value;
         var localDead = PlayerControl.LocalPlayer.HasDied();
         var localGhost = localDead && genOpt.TheDeadKnow;
+        var sightMode = (NameSight)OptionGroupSingleton<VanillaTweakOptions>.Instance.HideNamesOutOfSight.Value;
+        var hideOutOfSight = sightMode is not NameSight.Basic && !localDead && HudManager.InstanceExists && HudManager.Instance.ShadowQuad.gameObject.active;
         var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
                        genOpt is
                            { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
@@ -415,6 +418,13 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         {
             HasSetMeetingColorText = false;
             var isVisible = TutorialManager.InstanceExists || PlayerControl.LocalPlayer.DiedOtherRound();
+            var controlledViewpoint = PlayerControl.LocalPlayer.Data.Role switch
+            {
+                PuppeteerRole puppeteerRole => puppeteerRole.Controlled,
+                ParasiteRole parasiteRole => parasiteRole.Controlled,
+                _ => null
+            };
+
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (player == null || !player.Data || !player.Data.Role)
@@ -423,6 +433,36 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 }
 
                 var (playerColor, playerName) = GetRoleNameText(player, genOpt.FFAImpostorMode, taskOpt, roleNameSize, roleOnTop, colorPlayerNames, localDead, localGhost, localImp, localVamp, useMiraApiChecks, false, isVisible);
+
+                if (hideOutOfSight && !player.AmOwner)
+                {
+                    var playerPosition = player.GetTruePosition();
+                    var localPosition = PlayerControl.LocalPlayer.GetTruePosition();
+                    var inVision = VentPatches.InVision(player);
+                    var inSameRoom = MiscUtils.AreLocationsInSameRoom(localPosition, playerPosition);
+
+                    if (controlledViewpoint != null)
+                    {
+                        var controlledPosition = controlledViewpoint.GetTruePosition();
+                        inVision |= VentPatches.InVision(player, controlledViewpoint);
+                        inSameRoom |= MiscUtils.AreLocationsInSameRoom(controlledPosition, playerPosition);
+                    }
+
+                    var visibleBySight = inVision || (sightMode is NameSight.RoomBased && inSameRoom);
+                    if (!visibleBySight)
+                    {
+                        playerName = string.Empty;
+                        player.cosmetics.colorBlindText.enabled = false;
+                    }
+                    else
+                    {
+                        player.cosmetics.colorBlindText.enabled = true;
+                    }
+                }
+                else
+                {
+                    player.cosmetics.colorBlindText.enabled = true;
+                }
 
                 player.cosmetics.nameText.text = playerName;
                 player.cosmetics.nameText.color = playerColor;
@@ -488,6 +528,10 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
             if (role.Role is RoleTypes.GuardianAngel)
             {
                 roleName = $"<size={roleNameSize}>{MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{TranslationController.Instance.GetString(StringNames.GuardianAngelRole)}</color></size>";
+            }
+            else if (role.Role is RoleTypes.SpiritGuide)
+            {
+                roleName = $"<size={roleNameSize}>{MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{TranslationController.Instance.GetString(StringNames.SpiritGuideRole)}</color></size>";
             }
 
             var revealedRole = revealMods.FirstOrDefault(x => x.Visible && x.RevealRole && x.ShownRole != null);

@@ -12,6 +12,8 @@ public sealed class BetterFungleOptions : AbstractOptionGroup
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.BetterFungle");
     public override uint GroupPriority => 7;
     public override Color GroupColor => new Color32(239, 98, 162, 255);
+    public override bool ShowInMatchInfoGuide => true;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.IconFungle;
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
         TmpSpriteUtils.CreateSpriteAsset(

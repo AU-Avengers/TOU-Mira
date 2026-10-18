@@ -21,6 +21,6 @@ public sealed class VenererOptions : AbstractRoleOptionGroup<VenererRole>
     [ModdedNumberOption("TouOptionVenererMinimumFreezeSpeed", 0.05f, 0.75f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
     public float MinFreezeSpeed { get; set; } = 0.25f;
 
-    [ModdedNumberOption("TouOptionVenererFreezeRadius", 0.25f, 5f, 0.25f, MiraNumberSuffixes.Multiplier, "0.00")]
+    [ModdedNumberOption("TouOptionVenererFreezeRadius", 0.25f, 5f, 0.25f, MiraNumberSuffixes.Distance, "0.00")]
     public float FreezeRadius { get; set; } = 1f;
 }

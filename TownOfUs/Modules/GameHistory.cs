@@ -113,7 +113,7 @@ public sealed record BodyReport
                 }
 
                 text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerRole").Replace("<role>",
-                    $"#{role.GetRoleName().ToLowerInvariant().Replace(" ", "-")})");
+                    $"#{MiscUtils.GetReliableHyperlinkText(role)})");
             }
 
             else if (br.Killer.IsNeutral())

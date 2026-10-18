@@ -13,6 +13,10 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RandomMapChoice");
     public override uint GroupPriority => 0;
+    public override bool ShowInMatchInfoGuide => RandomMaps;
+    public override string MatchInfoGuidePageKey => "TownOfUsMira.OptionGroups.BetterMaps";
+    public override string MatchInfoGuidePageTitle => MiraLocaleManager.Get("WikiSettingsBetterMapsSettingsTitle");
+    public override LoadableAsset<Sprite> Sprite => TouAssets.AdminSprite;
 
     [ModdedToggleOption("TownOfUsMira.RandomMaps.Option.Toggle")]
     public bool RandomMaps { get; set; } = false;

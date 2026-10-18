@@ -97,6 +97,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
     public string RoleDescription => TargetString(true);
     public string RoleLongDescription => TargetString();
 
+    public string RoleWikiDescription => GetAdvancedDescription();
     public string GetAdvancedDescription()
     {
         return
@@ -164,6 +165,21 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
             return
             [
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Protect", "Protect"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Protect.WikiDescription"),
+                    TouNeutAssets.ProtectSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Protect", "Protect"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Protect.WikiDescription"),
                     TouNeutAssets.ProtectSprite)
             ];

@@ -1,6 +1,7 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -18,6 +19,20 @@ namespace TownOfUs.Events.Neutral;
 
 public static class MercenaryEvents
 {
+    [RegisterEvent]
+    public static void CompleteTaskEvent(CompleteTaskEvent @event)
+    {
+        if (!@event.Player.AmOwner || @event.Player.Data.Role is not MercenaryRole ||
+            !OptionGroupSingleton<MercenaryOptions>.Instance.TaskUses)
+        {
+            return;
+        }
+
+        var button = CustomButtonSingleton<MercenaryGuardButton>.Instance;
+        ++button.UsesLeft;
+        button.SetUses(button.UsesLeft);
+    }
+
     private static void ResetButtonTimer(PlayerControl source, CustomActionButton<PlayerControl>? button = null)
     {
         if (!source.AmOwner)

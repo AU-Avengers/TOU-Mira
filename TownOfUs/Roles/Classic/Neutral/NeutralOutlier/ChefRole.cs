@@ -10,6 +10,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Text;
+using MiraAPI.Colors;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.Neutral;
 using TownOfUs.Interfaces;
@@ -28,6 +29,10 @@ namespace TownOfUs.Roles.Neutral;
 
 public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame, IUnlovable, IProgressTally
 {
+    public void LobbyStart()
+    {
+        DisconnectedServings.Clear();
+    }
     public void InitialSetup()
     {
         TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressNone.LoadAsset(),
@@ -57,11 +62,23 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     {
         var count = OptionGroupSingleton<ChefOptions>.Instance.ServingsNeeded;
         var tally = new StringBuilder();
+        foreach (var pair in DisconnectedServings)
+        {
+            count--;
+            if (PaletteManager.IsVariable(pair.Value))
+            {
+                tally.Append(GetIcon(_uxIcons[6]));
+            }
+            else
+            {
+                tally.Append(GetIconColored(_uxIcons[5], Palette.TextColors[pair.Value].ToHtmlStringRGBA()));
+            }
+        }
         var fedPlayers = ModifierUtils.GetPlayersWithModifier<ChefServedModifier>().ToList();
         foreach (var plr in fedPlayers)
         {
             count--;
-            if (RainbowUtils.IsRainbow(plr.Data.DefaultOutfit.ColorId))
+            if (PaletteManager.IsVariable(plr.Data.DefaultOutfit.ColorId))
             {
                 tally.Append(GetIcon(_uxIcons[6]));
             }
@@ -132,6 +149,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     private static string _tabCounter = MiraLocaleManager.Get("TownOfUsMira.Role.ChefTabCounter");
     public bool TargetsServed { get; set; }
     public int BodiesServed { get; set; }
+    public static Dictionary<byte, int> DisconnectedServings { get; set; } = [];
 
     public string GetAdvancedDescription()
     {
@@ -151,6 +169,25 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Cook.WikiDescription"),
                     TouNeutAssets.ChefCookSprite),
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Serve", "Serve"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Serve.WikiDescription"),
+                    TouNeutAssets.ChefServeSprites.AsEnumerable().Random()!),
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Cook", "Cook"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Cook.WikiDescription"),
+                    TouNeutAssets.ChefCookSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Serve", "Serve"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Serve.WikiDescription"),
                     TouNeutAssets.ChefServeSprites.AsEnumerable().Random()!),
             ];
@@ -194,7 +231,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
             $"{(int)OptionGroupSingleton<ChefOptions>.Instance.ServingsNeeded}");
 
         var serveMods = ModifierUtils.GetActiveModifiers<ChefServedModifier>().ToList();
-        BodiesServed = serveMods.Count;
+        BodiesServed = serveMods.Count + DisconnectedServings.Count;
         if (BodiesServed >= OptionGroupSingleton<ChefOptions>.Instance.ServingsNeeded)
         {
             TargetsServed = true;

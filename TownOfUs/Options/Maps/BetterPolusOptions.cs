@@ -12,6 +12,8 @@ public sealed class BetterPolusOptions : AbstractOptionGroup
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.BetterPolus");
     public override uint GroupPriority => 5;
     public override Color GroupColor => new Color32(157, 146, 198, 255);
+    public override bool ShowInMatchInfoGuide => true;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.IconPolus;
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
         TmpSpriteUtils.CreateSpriteAsset(

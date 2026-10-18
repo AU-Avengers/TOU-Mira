@@ -31,6 +31,8 @@ public sealed class BomberRole(IntPtr cppPtr)
 
     public string IdPart => "Bomber";
 
+    public string RoleWikiDescription => GetAdvancedDescription();
+
     public string GetAdvancedDescription()
     {
         return
@@ -62,6 +64,22 @@ public sealed class BomberRole(IntPtr cppPtr)
             return
             [
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Place", "Place"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Place.WikiDescription").Replace("<maxKills>",
+                        $"{(int)OptionGroupSingleton<BomberOptions>.Instance.MaxKillsInDetonation}"),
+                    TouImpAssets.PlaceSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Place", "Place"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Radius"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Place.WikiDescription").Replace("<maxKills>",
                         $"{(int)OptionGroupSingleton<BomberOptions>.Instance.MaxKillsInDetonation}"),
                     TouImpAssets.PlaceSprite)

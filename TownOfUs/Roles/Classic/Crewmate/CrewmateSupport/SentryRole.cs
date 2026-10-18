@@ -41,6 +41,27 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            var abilities = new List<AdvancedWikiAbilityDescription>
+            {
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}PlaceCamera", "Deploy"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}PlaceCamera.WikiDescription"),
+                    TouCrewAssets.DeployCamSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}PortableCamera", "View"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}PortableCamera.WikiDescription"),
+                    TouAssets.CameraSprite)
+            };
+
+            return abilities;
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Sentry;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateSupport;

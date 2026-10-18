@@ -41,6 +41,22 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fix", "Fix"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fix.WikiDescription").Replace("<engiMaxFixes>",
+                        $"{(int)OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes}"),
+                    TouCrewAssets.FixButtonSprite)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Engineer;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateSupport;
@@ -76,7 +92,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     public static void EngineerFix(PlayerControl engineer)
     {
-        switch ((ExpandedMapNames)GameOptionsManager.Instance.currentGameOptions.MapId)
+        switch ((ExpandedMapNames)GameOptionsManager.Instance.CurrentGameOptions.MapId)
         {
             case ExpandedMapNames.Skeld or ExpandedMapNames.Dleks:
                 var comms1 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();

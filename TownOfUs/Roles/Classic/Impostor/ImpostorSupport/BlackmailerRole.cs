@@ -50,6 +50,7 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
 
 
 
+    public string RoleWikiDescription => GetAdvancedDescription();
     public string GetAdvancedDescription()
     {
         return
@@ -65,6 +66,21 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
             return
             [
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Blackmail", "Blackmail"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Blackmail.WikiDescription"),
+                    TouImpAssets.BlackmailSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Blackmail", "Blackmail"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Blackmail.WikiDescription"),
                     TouImpAssets.BlackmailSprite)
             ];

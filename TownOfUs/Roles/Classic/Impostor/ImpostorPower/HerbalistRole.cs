@@ -107,6 +107,26 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             TouImpAssets.HerbProtectSprite)
     ];
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities =>
+    [
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Expose", "Expose"),
+            MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Expose.WikiDescription"),
+            TouImpAssets.HerbExposeSprite),
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Confuse", "Confuse"),
+            MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Confuse.WikiDescription"),
+            TouImpAssets.HerbConfuseSprite),
+        /*new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Glamour", "Glamour"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Glamour.WikiDescription"),
+            TouImpAssets.FlashSprite),*/
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Protect", "Protect"),
+            MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Protect.WikiDescription"),
+            TouImpAssets.HerbProtectSprite)
+    ];
+
     [MethodRpc((uint)TownOfUsRpc.HerbalistBarrierAttacked)]
     public static void RpcHerbalistBarrierAttacked(PlayerControl cleric, PlayerControl source, PlayerControl shielded)
     {

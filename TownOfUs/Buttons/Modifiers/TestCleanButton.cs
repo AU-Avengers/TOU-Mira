@@ -15,7 +15,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Modifiers;
 
-public sealed class TestCleanButton : TownOfUsTargetButton<DeadBody>
+public sealed class TestCleanButton : TownOfUsTargetButton<DeadBody>, IAurialBypassButton
 {
     public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.JanitorClean", "Clean");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;

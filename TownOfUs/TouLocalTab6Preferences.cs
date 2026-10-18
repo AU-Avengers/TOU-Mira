@@ -40,10 +40,6 @@ public class TouLocalTabPreferences(ConfigFile config) : LocalSettingsTab(config
     [LocalToggleSetting]
     public ConfigEntry<bool> RoleIconOnReveal { get; private set; } =
         config.Bind("Miscellaneous", "RoleIconOnReveal", false);
-
-    [LocalToggleSetting]
-    public ConfigEntry<bool> RainbowColorAsFortegreen { get; private set; } =
-        config.Bind("Miscellaneous", "RainbowColorAsFortegreen", false);
 }
 
 public enum GameSummaryAppearance

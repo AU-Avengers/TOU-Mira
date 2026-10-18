@@ -59,6 +59,21 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fortify", "Fortify"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fortify.WikiDescription"),
+                    TouCrewAssets.FortifySprite)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Warden;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateProtective;

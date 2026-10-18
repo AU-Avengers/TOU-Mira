@@ -1,8 +1,10 @@
 using System.Collections;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
+using TownOfUs.Options;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -748,15 +750,7 @@ namespace TownOfUs.Modules.DraftMode
 
             Instance?.RegisterIdleCard(child, holder);
 
-            try
-            {
-                Coroutines.Start(MiscUtils.BetterBloop(child, finalSize: cardScale, duration: 0.22f, intensity: 0.16f));
-            }
-            catch (Exception bex)
-            {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftScreen] BetterBloop failed: {bex.Message}");
-            }
-
+            Coroutines.Start(MiscUtils.BetterBloop(child, finalSize: cardScale, duration: 0.22f, intensity: 0.16f));
         }
 
         private static IEnumerator CoAnimateCardIn(Transform card, int currentCard, int totalCards, float cardScale)
@@ -807,6 +801,8 @@ namespace TownOfUs.Modules.DraftMode
         }
         private float _localTimeLeft = -1f;
         private bool _cardsReady;
+        private int _lastDisplayedSeconds = -1;
+        private bool _lastTimerUrgent;
 
         private void Update()
         {
@@ -838,12 +834,18 @@ namespace TownOfUs.Modules.DraftMode
                     }
 
                     bool urgent = secs <= 5;
-                    string color = urgent ? "#FF5555" : "#FFD700";
+                    if (secs != _lastDisplayedSeconds || urgent != _lastTimerUrgent)
+                    {
+                        string color = urgent ? "#FF5555" : "#FFD700";
+                        string timerLabel = MiraLocaleManager.Get("TouDraftTimerRemaining", "<secs> Second(s) Remaining")
+                            .Replace("<secs>", secs.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                        _timerText.text = $"<color={color}><b>{timerLabel}</b></color>";
+                        _lastDisplayedSeconds = secs;
+                        _lastTimerUrgent = urgent;
+                    }
+
                     float timerPulse = urgent ? 1f + Mathf.Sin(Time.time * 10f) * 0.08f : 1f;
                     _timerText.transform.localScale = Vector3.one * timerPulse;
-                    string timerLabel = MiraLocaleManager.Get("TouDraftTimerRemaining", "<secs> Second(s) Remaining")
-                        .Replace("<secs>", secs.ToString(System.Globalization.CultureInfo.InvariantCulture));
-                    _timerText.text = $"<color={color}><b>{timerLabel}</b></color>";
 
                     float timeForBar = AmongUsClient.Instance.AmHost
                         ? DraftManager.TurnTimeLeft
@@ -859,7 +861,9 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_hasPicked) return;
             if (_offeredRoleIds == null || _offeredRoleIds.Length == 0) return;
-            if (index < 0 || index >= _offeredRoleIds.Length) return;
+            bool randomPick = index == _offeredRoleIds.Length &&
+                (OptionGroupSingleton<RoleOptions>.Instance?.ShowRandomOption.Value ?? false);
+            if (index < 0 || (index >= _offeredRoleIds.Length && !randomPick)) return;
 
             var localPlayer = PlayerControl.LocalPlayer;
             if (localPlayer == null) return;
@@ -874,9 +878,6 @@ namespace TownOfUs.Modules.DraftMode
             if (localState.PendingPickTurnNumber != DraftManager.CurrentTurnNumber)
                 return;
 
-            // Concurrent turns can have multiple slots active in the same turn number. The click gate
-            // must validate this player's actual slot state instead of a single global CurrentTurnSlot,
-            // which only reflects the last announcement and would block otherwise valid clicks.
             var localSlot = DraftManager.GetSlotForPlayer(localPlayer.PlayerId);
             if (localSlot < 0)
                 return;
@@ -884,10 +885,14 @@ namespace TownOfUs.Modules.DraftMode
             if (localState.PendingPickIndex != 255 && localState.PendingPickIndex != index)
             {
                 localState.PendingPickIndex = 255;
+                localState.PendingPickRoleId = 0;
             }
 
             _hasPicked = true;
-            DraftNetworkHelper.SendPickToHost((byte)index, TargetPickerId);
+            ushort roleId = randomPick ? (ushort)0 : _offeredRoleIds[index];
+            if (roleId != 0)
+                DraftStatusOverlay.NotifyLocalPlayerPicked(roleId);
+            DraftNetworkHelper.SendPickToHost(index, roleId, TargetPickerId);
         }
 
         public static void ShowFinalPickNotification(ushort roleId)

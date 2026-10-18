@@ -1,5 +1,7 @@
 ﻿using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
+using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using TMPro;
 using TownOfUs.Modules;
 using UnityEngine;
@@ -9,11 +11,38 @@ namespace TownOfUs.Modifiers;
 [MiraIgnore]
 public abstract class TouBaseGameModifier : GameModifier
 {
-    public virtual string IdPart => "KEY_MISS";
+    public override string IdPrefix => "TownOfUsMira.Modifier";
+    public override string IdPart => "KEY_MISS";
     public virtual string IntroInfo => $"{MiraLocaleManager.Get("Modifier")}: {ModifierName}";
     public virtual float IntroSize => 4f;
     public virtual ModifierFaction FactionType => ModifierFaction.Universal;
+    public override string ModifierCategoryTitle => MiscUtils.GetParsedModifierFaction(FactionType);
+    public override Color GeneralColor => MiscUtils.GetRoleColour(IdPart);
+    public override string ModifierWikiDescription => this is IWikiDiscoverable wiki ? wiki.GetAdvancedDescription() : MiraLocaleManager.Get(ModifierWikiDescriptionLocale, GetDescription()) +
+                                                      Helpers.GetOptionsText(GetType());
     public virtual ModifierUiConfiguration Configuration => new(MiscUtils.GetRoleColour(IdPart));
+    public override GameObject GetAdvancedWiki(MatchInfoGuide guide, TextMeshPro titleText, SpriteRenderer titleIcon, Scroller parent)
+    {
+        var abilities = WikiAbilities;
+        if (abilities.Count == 0 && this is IWikiDiscoverable wiki && wiki.Abilities.HasAny())
+        {
+            abilities = wiki.Abilities.Select(a => new AdvancedWikiAbilityDescription(
+                a.Name,
+                MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
+                a.Description,
+                a.Icon)).ToList();
+        }
+        return Helpers.CreateAdvancedWikiPage(
+            guide,
+            titleText,
+            titleIcon,
+            parent,
+            ModifierNameLocale,
+            $"{ModifierName} ({ModifierCategoryTitle})".TrimStart(),
+            ModifierIcon ?? MiraAssets.IconNeutral.LoadAsset(),
+            ModifierWikiDescription,
+            abilities);
+    }
     
     /// <summary>
     /// Method that runs before <see cref="GameModifier.IsModifierValidOn"/> is run by MiraAPI. This is used for Assailant modifiers to determine if they may spawn.

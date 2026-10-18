@@ -52,15 +52,15 @@ public static class TouAssets
         var sprite = LegacyDisabled;
         switch (value)
         {
-            case LegacyVisuals.Players:
+            /*case LegacyVisuals.Players:
                 sprite = LegacyPlayers;
-                break;
+                break;*/
             case LegacyVisuals.Art:
                 sprite = LegacyArt;
                 break;
-            case LegacyVisuals.Full:
+            /*case LegacyVisuals.Full:
                 sprite = LegacyFull;
-                break;
+                break;*/
         }
 
         return sprite;
@@ -307,16 +307,15 @@ public static class TouAssets
     public static LoadableAsset<Sprite> VentSprite { get; } = new LoadableBundleSubAsset("VentButton", AbilityHolder);
 
     public static LoadableAsset<Sprite> HysteriaSprite { get; } =
-        new LoadableBundleSubAsset("Hysteria", MeetingAbilityHolder);
+        new LoadableBundleSubAsset("MassHysteriaSprite", AbilityHolder);
 
-    public static LoadableAsset<Sprite> HysteriaCleanSprite { get; } =
-        new LoadableBundleSubAsset("HysteriaClean", MeetingAbilityHolder);
+    public static LoadableAsset<Sprite> HysteriaCleanSprite { get; } = HysteriaSprite;
+
+    public static LoadableAsset<Sprite> ProsecutorToggleSprite { get; } =
+        new LoadableBundleSubAsset("ProsecutorToggleSprite", AbilityHolder);
 
     public static LoadableAsset<Sprite> ShootMeetingSprite { get; } =
         new LoadableBundleSubAsset("Shoot", MeetingAbilityHolder);
-    public static LoadableAsset<Sprite> MassHysteriaSprite { get; } = new LoadableResourceAsset($"{ShortPath}.MassHysteriaSprite.png");
-    public static LoadableAsset<Sprite> MayorRevealSprite { get; } = new LoadableResourceAsset($"{ShortPath}.MayorRevealSprite.png");
-    public static LoadableAsset<Sprite> ProsecutorToggleSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ProsecutorToggleSprite.png");
     public static LoadableAsset<Sprite> ToggleDisabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ToggleDisabled.png");
     public static LoadableAsset<Sprite> ToggleEnabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ToggleEnabled.png");
     public static LoadableAsset<Sprite> DeathDisabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.DeathDisabledSprite.png");
@@ -340,10 +339,9 @@ public static class TouAssets
         new LoadableBundleSubAsset("SwapDisabled", MeetingAbilityHolder);
 
     public static LoadableAsset<Sprite> RevealButtonSprite { get; } =
-        new LoadableBundleSubAsset("Reveal", MeetingAbilityHolder);
+        new LoadableBundleSubAsset("MayorRevealSprite", AbilityHolder);
 
-    public static LoadableAsset<Sprite> RevealCleanSprite { get; } =
-        new LoadableBundleSubAsset("RevealClean", MeetingAbilityHolder);
+    public static LoadableAsset<Sprite> RevealCleanSprite { get; } = RevealButtonSprite;
 
     public static LoadableAsset<Sprite> Guess { get; } = new LoadableBundleSubAsset("Guess", MeetingAbilityHolder);
     public static LoadableAsset<Sprite> InJailSprite { get; } = new LoadableBundleAsset<Sprite>("InJail", MainBundle);
@@ -360,21 +358,18 @@ public static class TouAssets
     public static LoadableAsset<Sprite> ExecuteSprite { get; } =
         new LoadableBundleSubAsset("Execute", MeetingAbilityHolder);
 
-    public static LoadableAsset<Sprite> ExecuteCleanSprite { get; } =
-        new LoadableBundleSubAsset("ExecuteClean", MeetingAbilityHolder);
+    public static LoadableAsset<Sprite> ExecuteCleanSprite { get; } = ExecuteSprite;
 
     public static LoadableAsset<Sprite> RetrainSprite { get; } =
         new LoadableBundleSubAsset("Retrain", MeetingAbilityHolder);
 
-    public static LoadableAsset<Sprite> RetrainCleanSprite { get; } =
-        new LoadableBundleSubAsset("RetrainClean", MeetingAbilityHolder);
+    public static LoadableAsset<Sprite> RetrainCleanSprite { get; } = RetrainSprite;
     public static LoadableAsset<Sprite> Hacked { get; } = new LoadableBundleAsset<Sprite>("Hacked", MainBundle);
 
     public static LoadableAsset<Sprite> TribunalSprite { get; } =
         new LoadableBundleSubAsset("Tribunal", MeetingAbilityHolder);
     
-    public static LoadableAsset<Sprite> TribunalClearSprite { get; } =
-        new LoadableBundleSubAsset("TribunalClean", MeetingAbilityHolder);
+    public static LoadableAsset<Sprite> TribunalClearSprite { get; } = TribunalSprite;
   
     public static LoadableAsset<Sprite> BarricadeVentSprite { get; } =
         new LoadableBundleAsset<Sprite>("BarricadeVent1.png", MainBundle);
@@ -439,8 +434,7 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> CrewKillBg { get; } = new LoadableBundleAsset<Sprite>("KillBackgroundCrew", MainBundle);
 
-    public static LoadableAsset<Sprite> GhostwalkerVentSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.GhostwalkerVentSprite.png");
+    public static LoadableAsset<Sprite> GhostwalkerVentSprite { get; } = new LoadableBundleSubAsset("GhostwalkerVentSprite", AbilityHolder);
 
     public static LoadableAsset<Sprite> VitalBgMissin { get; } =
         new LoadableResourceAsset($"{ShortPath}.VitalBgMissin.png");
@@ -488,15 +482,6 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> SubmergedFloorUpHover { get; } =
         new LoadableResourceAsset($"{SubmergedPath}.FloorUpHover.png");
-
-    public static readonly LoadableAsset<GameObject> TortelliniPet =
-        new LoadableBundleAsset<GameObject>("TortelliniPet", MainBundle);
-
-    public static readonly LoadableAsset<GameObject> BlackMinipostorPet =
-        new LoadableBundleAsset<GameObject>("BlackMinipostorPet", MainBundle);
-
-    public static readonly LoadableAsset<GameObject> FlopsterPet =
-        new LoadableBundleAsset<GameObject>("FlopsterPet", MainBundle);
 
     public static readonly LoadableAsset<GameObject> ProsecuteAnimation =
         new LoadableBundleAsset<GameObject>("ProsecuteAnimation", MainBundle);

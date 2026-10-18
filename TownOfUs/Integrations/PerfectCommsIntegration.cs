@@ -1,4 +1,5 @@
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using MiraAPI.Colors;
 using MiraAPI.Modifiers;
 using PerfectComms.Api;
 using Reactor.Networking.Attributes;
@@ -457,7 +458,7 @@ internal static class PerfectCommsRuntime
             PerfectCommsApi.RegisterManagedRadioChannel(id, ResolveLoversRadio);
             PerfectCommsApi.RegisterOverlayViewerRule(id, ResolveOverlayViewer);
             PerfectCommsApi.RegisterOverlaySpeakerRule(id, ResolveOverlaySpeaker);
-            PerfectCommsApi.RegisterAnimatedColorRule(id, RainbowUtils.IsRainbow);
+            PerfectCommsApi.RegisterAnimatedColorRule(id, PaletteManager.IsVariable);
             _registered = true;
             PerfectCommsIntegration.MarkRegistered();
             Info($"Registered source-owned TOU-Mira voice integration with Perfect Comms API {PerfectCommsApi.RuntimeApiVersion}.");

@@ -42,6 +42,21 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Shoot", "Shoot"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Shoot.WikiDescription"),
+                    TouCrewAssets.SheriffShootSprite)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Sheriff;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateKilling;

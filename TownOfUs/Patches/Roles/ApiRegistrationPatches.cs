@@ -96,5 +96,7 @@ public static class ApiRegistrationPatches
             1.45f);
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Prosecutor.LoadAsset(), "AmongUs.Role.Judge",
             1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spectator.LoadAsset(), "AmongUs.Role.SpiritGuide",
+            1.45f);
     }
 }

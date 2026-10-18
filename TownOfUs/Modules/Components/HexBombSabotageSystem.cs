@@ -28,6 +28,18 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
         this.duration = duration;
     }
 
+    internal void DecreaseTimer(float time)
+    {
+        TimeRemaining -= time;
+        _dirtyTimer += time;
+            
+        if (_dirtyTimer > 2f)
+        {
+            _dirtyTimer = 0f;
+            IsDirty = true;
+        }
+    }
+
     public static HexBombSabotageSystem Instance { get; private set; }
     public void Deteriorate(float deltaTime)
     {
@@ -43,11 +55,6 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
             return;
         }
 
-        if (InMeeting)
-        {
-            return;
-        }
-
         if (!PlayerTask.PlayerHasTaskOfType<HexBombSabotageTask>(PlayerControl.LocalPlayer))
         {
             PlayerControl.LocalPlayer.AddSystemTask((SystemTypes)SabotageId);
@@ -57,14 +64,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
 
         if (!InMeeting)
         {
-            TimeRemaining -= deltaTime;
-            _dirtyTimer += deltaTime;
-            
-            if (_dirtyTimer > 2f)
-            {
-                _dirtyTimer = 0f;
-                IsDirty = true;
-            }
+            DecreaseTimer(deltaTime);
         }
 
         if (TimeRemaining <= 0)

@@ -30,6 +30,7 @@ public static class TouRoleManagerPatches
     private static readonly List<RoleTypes> CustomGhostRolePool = [];
 
     public static bool ReplaceRoleManager;
+    public static HashSet<ushort> VanillaExclusions { get; private set; } = [];
     private static List<int> LastImps { get; set; } = [];
 
     private static void GhostRoleSetup()
@@ -105,9 +106,26 @@ public static class TouRoleManagerPatches
             }
         }
 
-        CrewmateGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get<HaunterRole>());
-        CustomGhostRolePool.RemoveAll(x =>
-            x == (RoleTypes)RoleId.Get<SpectreRole>() || x == (RoleTypes)RoleId.Get<SpectatorRole>());
+        foreach (var role in MiscUtils.AllTouRoles)
+        {
+            if (role is not IBasicGhostRole ghostRole || ghostRole.ApplyImmediatelyAfterDeath)
+            {
+                continue;
+            }
+
+            switch (role.Team)
+            {
+                case ModdedRoleTeams.Crewmate:
+                    CrewmateGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get(ghostRole.GetType()));
+                    break;
+                case ModdedRoleTeams.Impostor:
+                    ImpostorGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get(ghostRole.GetType()));
+                    break;
+                default:
+                    CustomGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get(ghostRole.GetType()));
+                    break;
+            }
+        }
     }
 
     /// <summary>
@@ -426,10 +444,12 @@ public static class TouRoleManagerPatches
         // Adjust neutral counts for /up requests and ensure crewmates outnumber neutrals
         AdjustNeutralCountsForUpRequests(ref nbCount, ref neCount, ref nkCount, ref noCount, crewmates.Count);
 
-        var excluded = MiscUtils.SpawnableRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role);
+        var excluded = MiscUtils.SpawnableRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role)
+            .Concat(MiscUtils.GetExclusiveRoleExclusions().Select(x => (RoleTypes)x)).ToList();
+        var exclusionFilter = new Func<RoleBehaviour, bool>(x => !excluded.Contains(x.Role));
 
         var impRoles =
-            MiscUtils.GetMaxRolesToAssign(ModdedRoleTeams.Impostor, impCount, x => !excluded.Contains(x.Role));
+            MiscUtils.GetMaxRolesToAssign(ModdedRoleTeams.Impostor, impCount, exclusionFilter);
 
         // Handle unique role constraint
         var uniqueRole = MiscUtils.SpawnableRoles.FirstOrDefault(x => x is ISpawnChange { NoSpawn: false });
@@ -448,13 +468,13 @@ public static class TouRoleManagerPatches
         }
 
         // Get neutral and crewmate roles
-        var nbRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralBenign, nbCount);
-        var neRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralEvil, neCount);
-        var nkRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralKilling, nkCount);
-        var noRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralOutlier, noCount);
+        var nbRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralBenign, nbCount, exclusionFilter);
+        var neRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralEvil, neCount, exclusionFilter);
+        var nkRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralKilling, nkCount, exclusionFilter);
+        var noRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralOutlier, noCount, exclusionFilter);
 
         var crewCount = crewmates.Count - nbRoles.Count - neRoles.Count - nkRoles.Count - noRoles.Count;
-        var crewRoles = MiscUtils.GetMaxRolesToAssign(ModdedRoleTeams.Crewmate, crewCount);
+        var crewRoles = MiscUtils.GetMaxRolesToAssign(ModdedRoleTeams.Crewmate, crewCount, exclusionFilter);
 
         // Combine crewmate and neutral roles
         var crewAndNeutRoles = new List<ushort>();
@@ -482,24 +502,19 @@ public static class TouRoleManagerPatches
     {
         var opts = OptionGroupSingleton<RoleOptions>.Instance;
         var buckets = new List<RoleListOption>();
-        var slotValues = new[]
-        {
-            opts.Slot1, opts.Slot2, opts.Slot3, opts.Slot4, opts.Slot5,
-            opts.Slot6, opts.Slot7, opts.Slot8, opts.Slot9, opts.Slot10,
-            opts.Slot11, opts.Slot12, opts.Slot13, opts.Slot14, opts.Slot15
-        };
+        var maxCount = opts.Slot.Count;
 
         // Add slots up to player count (max 15)
-        var slotsToAdd = Math.Min(playerCount, 15);
+        var slotsToAdd = Math.Min(playerCount, maxCount);
         for (var i = 0; i < slotsToAdd; i++)
         {
-            buckets.Add(slotValues[i].Value);
+            buckets.Add(opts.Slot[i]);
         }
 
         // For players beyond 15, add random crew/non-imp roles
-        if (playerCount > 15)
+        if (playerCount > maxCount)
         {
-            for (var i = 0; i < playerCount - 15; i++)
+            for (var i = 0; i < playerCount - maxCount; i++)
             {
                 // Use better random distribution: 25% chance for CrewRandom, 75% for NonImp
                 var random = Random.RandomRangeInt(0, 4);
@@ -649,7 +664,8 @@ public static class TouRoleManagerPatches
 
 
         // Get all role lists with exclusion filter
-        var excluded = MiscUtils.SpawnableRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role).ToList();
+        var excluded = MiscUtils.SpawnableRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role)
+            .Concat(MiscUtils.GetExclusiveRoleExclusions().Select(x => (RoleTypes)x)).ToList();
         var exclusionFilter = new Func<RoleBehaviour, bool>(x => !excluded.Contains(x.Role));
 
         var crewInvestRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateInvestigative, exclusionFilter);
@@ -664,7 +680,7 @@ public static class TouRoleManagerPatches
         var impConcealRoles = MiscUtils.GetRolesToAssign(RoleAlignment.ImpostorConcealing, exclusionFilter);
         var impKillingRoles = MiscUtils.GetRolesToAssign(RoleAlignment.ImpostorKilling, exclusionFilter);
         var impPowerRoles = MiscUtils.GetRolesToAssign(RoleAlignment.ImpostorPower, exclusionFilter);
-        var impSupportRoles = MiscUtils.GetRolesToAssign(RoleAlignment.ImpostorSupport);
+        var impSupportRoles = MiscUtils.GetRolesToAssign(RoleAlignment.ImpostorSupport, exclusionFilter);
 
         // imp buckets
         impRoles.AddFromBucket(buckets, impConcealRoles, takenRoles,
@@ -907,6 +923,12 @@ public static class TouRoleManagerPatches
         if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla || !CustomGameModeManager.IsClassic())
         {
             MiraAPI.Patches.Roles.SelectRolesPatch.ApiHandlesRoleSelect = true;
+            VanillaExclusions = [];
+            if (assignmentType is RoleSelectionMode.Vanilla && !TutorialManager.InstanceExists && !ReplaceRoleManager && !GameManager.Instance.IsHideAndSeek() && CustomGameModeManager.IsClassic())
+            {
+                VanillaExclusions = MiscUtils.GetExclusiveRoleExclusions();
+            }
+
             return true;
         }
 
@@ -1007,13 +1029,16 @@ public static class TouRoleManagerPatches
         var distrib = OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution();
         if (distrib is RoleDistribution.Draft && TownOfUs.Modules.DraftMode.DraftApplier.PendingDraftStates.Count > 0)
         {
+            var draftedPlayers = TownOfUs.Modules.DraftMode.DraftApplier.PendingDraftStates
+                .Select(state => state.PlayerId)
+                .ToHashSet();
             TownOfUs.Modules.DraftMode.DraftApplier.ApplyDraftResults(TownOfUs.Modules.DraftMode.DraftApplier.PendingDraftStates);
             TownOfUs.Modules.DraftMode.DraftApplier.PendingDraftStates.Clear();
-            
-            // Safety fallback: any player who somehow didn't get a role gets Crewmate
+
             foreach (var p in PlayerControl.AllPlayerControls)
             {
                 if (p == null || p.Data == null || p.Data.Disconnected) continue;
+                if (draftedPlayers.Contains(p.PlayerId)) continue;
                 if (p.Data.Role == null || p.Data.Role.Role == 0)
                 {
                     p.RpcSetRole(RoleTypes.Crewmate);
@@ -1030,6 +1055,13 @@ public static class TouRoleManagerPatches
         }
 
         return false;
+    }
+
+    [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
+    [HarmonyFinalizer]
+    public static void ClearVanillaExclusions()
+    {
+        VanillaExclusions = [];
     }
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
@@ -1184,7 +1216,8 @@ public static class TouRoleManagerPatches
         var players = GameData.Instance.PlayerCount - SpectatorRole.TrackedSpectators.Count;
         var impostors = 0;
         var list = OptionGroupSingleton<RoleOptions>.Instance;
-        var maxSlots = players < 15 ? players : 15;
+        var maxCount = list.Slot.Count;
+        var maxSlots = players < maxCount ? players : maxCount;
         List<RoleListOption> impBuckets =
         [
             RoleListOption.ImpConceal, RoleListOption.ImpKilling, RoleListOption.ImpPower, RoleListOption.ImpSupport,
@@ -1195,25 +1228,9 @@ public static class TouRoleManagerPatches
 
         for (int i = 0; i < maxSlots; i++)
         {
-            RoleListOption slotValue = i switch
-            {
-                0 => list.Slot1.Value,
-                1 => list.Slot2.Value,
-                2 => list.Slot3.Value,
-                3 => list.Slot4.Value,
-                4 => list.Slot5.Value,
-                5 => list.Slot6.Value,
-                6 => list.Slot7.Value,
-                7 => list.Slot8.Value,
-                8 => list.Slot9.Value,
-                9 => list.Slot10.Value,
-                10 => list.Slot11.Value,
-                11 => list.Slot12.Value,
-                12 => list.Slot13.Value,
-                13 => list.Slot14.Value,
-                14 => list.Slot15.Value,
-                _ => (RoleListOption)(-1)
-            };
+            RoleListOption slotValue = i >= list.Slot.Count
+                                       ? (RoleListOption)(-1)
+                                       : list.Slot[i].Value;
 
             buckets.Add(slotValue);
         }

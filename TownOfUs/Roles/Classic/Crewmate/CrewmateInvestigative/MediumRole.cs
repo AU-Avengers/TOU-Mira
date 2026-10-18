@@ -49,6 +49,21 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mediate", "Mediate"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mediate.WikiDescription"),
+                    TouCrewAssets.MediateSprite)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Medium;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateInvestigative;

@@ -12,7 +12,7 @@ namespace TownOfUs.Buttons.BaseFreeplay;
 /// <summary>
 /// Freeplay-only debug button to apply/toggle specific modifiers.
 /// </summary>
-public sealed class FreeplaySetModifiersButton : TownOfUsButton
+public sealed class FreeplaySetModifiersButton : TownOfUsButton, IAurialBypassButton
 {
     public override string Name => MiraLocaleManager.Get("FreeplaySetModifiersButton", "Set Modifiers");
     public override Color TextOutlineColor => new Color32(89, 223, 231, 255);

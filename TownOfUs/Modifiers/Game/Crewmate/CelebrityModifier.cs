@@ -117,7 +117,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
             var text = MiraLocaleManager.Get($"DiedTo{cod}").ToLowerInvariant();
             celeb.DeathMessage = MiraLocaleManager.Get("TownOfUsMira.Modifier.CelebrityDetailsKilled").Replace("<killed>", text);
             celeb.DeathMessage =
-                celeb.DeathMessage.Replace("<role>", $"#{role.GetRoleName().ToLowerInvariant().Replace(" ", "-")}");
+                celeb.DeathMessage.Replace("<role>", MiscUtils.GetReliableHyperlinkText(role));
         }
 
         celeb.DeathMessage = celeb.DeathMessage.Replace("<modifier>", celebHyperlink);

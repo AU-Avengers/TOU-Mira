@@ -146,6 +146,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         return AllGuessesCorrect;
     }
 
+    public string RoleWikiDescription => GetAdvancedDescription();
     public string GetAdvancedDescription()
     {
         var opts = OptionGroupSingleton<DoomsayerOptions>.Instance;
@@ -165,6 +166,21 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             return
             [
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Observe", "Observe"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Observe.WikiDescription"),
+                    TouNeutAssets.Observe)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Observe", "Observe"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Observe.WikiDescription"),
                     TouNeutAssets.Observe)
             ];
@@ -338,12 +354,12 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                     if (role2 == lastRole)
                     {
                         reportBuilder.Append(TownOfUsPlugin.Culture,
-                            $"{MiscUtils.GetHyperlinkText(lastRole)})");
+                            $"{MiscUtils.GetReliableHyperlinkText(lastRole)})");
                     }
                     else
                     {
                         reportBuilder.Append(TownOfUsPlugin.Culture,
-                            $"{MiscUtils.GetHyperlinkText(role2)}, ");
+                            $"{MiscUtils.GetReliableHyperlinkText(role2)}, ");
                     }
                 }
             }

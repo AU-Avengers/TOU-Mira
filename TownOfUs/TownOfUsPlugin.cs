@@ -1,4 +1,7 @@
 ﻿using System.Globalization;
+using AmongUs.Data;
+using AmongUs.Data.Player;
+using AmongUs.Data.Settings;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Unity.IL2CPP;
@@ -11,7 +14,6 @@ using Reactor.Localization;
 using Reactor.Networking;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
-using TownOfUs.Modules.Cosmetics.Unity;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.WinConditions;
@@ -115,26 +117,13 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
             }
         }*/
 
-        ClassInjector.RegisterTypeInIl2Cpp<HatLocator>(new RegisterTypeOptions
-        {
-            Interfaces = new Il2CppInterfaceCollection([typeof(IResourceLocator)])
-        });
-
-        ClassInjector.RegisterTypeInIl2Cpp<HatProvider>(new RegisterTypeOptions
-        {
-            Interfaces = new Il2CppInterfaceCollection([typeof(IResourceProvider)])
-        });
-
-        Info("Initializing HatProvider...");
-        HatProvider.Initialize();
-        Info("HatProvider initialized!");
-        
-        Info("Initializing HatLocator...");
-        HatLocator.Initialize();
-        Info("HatLocator initialized!");
-
         Harmony.PatchAll();
+        DataManager.player = new PlayerData();
+        DataManager.player.ForceLoad();
+        DataManager.settings = new SettingsData();
+        DataManager.settings.ForceLoad();
         RegisterWinConditions();
+        RoleExclusionRegistry.RegisterBuiltInBuckets();
     }
 
     /// <summary>
@@ -151,7 +140,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
 public enum LegacyVisuals
 {
     Disabled,
-    Players,
+    /*Players,*/
     Art,
-    Full
+    /*Full*/
 }

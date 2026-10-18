@@ -1,10 +1,14 @@
-﻿using MiraAPI.GameModes;
+﻿using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
+using MiraAPI.GameModes;
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.GameModes;
 using TownOfUs.Patches;
+using UnityEngine;
 
 namespace TownOfUs.Options;
 
@@ -47,6 +51,9 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
     ];
 
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleSettings");
+    public override string MatchInfoGuidePageKey => "TownOfUsMira.OptionGroups.RoleSettings";
+    public override string MatchInfoGuidePageTitle => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleSettings");
+    public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Traitor;
     public override uint GroupPriority => 2;
 
     public RoleDistribution CurrentRoleDistribution()
@@ -248,97 +255,18 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
         };
 
     // --- Slot Definitions (Declared LAST to keep summary output cleanly at the end) ---
-    public ModdedEnumOption<RoleListOption> Slot1 { get; } =
-        new("TouOptionRoleListSlot1", RoleListOption.CrewCommon, OptionStrings)
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };
 
-    public ModdedEnumOption<RoleListOption> Slot2 { get; } =
-        new("TouOptionRoleListSlot2", RoleListOption.CrewCommon, OptionStrings)
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };
+    public ModdedOptionList<ModdedEnumOption<RoleListOption>> Slot { get; } =
+        new(15, i => new($"TouOptionRoleListSlot{i + 1}",
+                         i + 2 % 5 == 0 ? RoleListOption.ImpCommon : RoleListOption.CrewCommon,
+                         OptionStrings)
+            {
+                Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
+            }
+        );
 
-    public ModdedEnumOption<RoleListOption> Slot3 { get; } =
-        new("TouOptionRoleListSlot3", RoleListOption.CrewCommon, OptionStrings)
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };
-
-    public ModdedEnumOption<RoleListOption> Slot4 { get; } =
-        new("TouOptionRoleListSlot4", RoleListOption.ImpCommon, OptionStrings)
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };
-
-    public ModdedEnumOption<RoleListOption> Slot5 { get; } =
-        new("TouOptionRoleListSlot5", RoleListOption.CrewCommon, OptionStrings)
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };
-
-    public ModdedEnumOption<RoleListOption> Slot6 { get; } =
-        new("TouOptionRoleListSlot6", RoleListOption.CrewCommon, OptionStrings)
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };
-
-    public ModdedEnumOption<RoleListOption> Slot7 { get; } =
-        new("TouOptionRoleListSlot7", RoleListOption.CrewCommon, OptionStrings)
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };
-
-    public ModdedEnumOption<RoleListOption> Slot8 { get; } =
-        new("TouOptionRoleListSlot8", RoleListOption.CrewCommon, OptionStrings)
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };
-
-    public ModdedEnumOption<RoleListOption> Slot9 { get; } =
-        new("TouOptionRoleListSlot9", RoleListOption.ImpCommon, OptionStrings)
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };
-
-    public ModdedEnumOption<RoleListOption> Slot10 { get; } =
-        new("TouOptionRoleListSlot10", RoleListOption.CrewCommon, OptionStrings)
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };
-
-    public ModdedEnumOption<RoleListOption> Slot11 { get; } =
-        new("TouOptionRoleListSlot11", RoleListOption.CrewCommon, OptionStrings)
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };
-
-    public ModdedEnumOption<RoleListOption> Slot12 { get; } =
-        new("TouOptionRoleListSlot12", RoleListOption.CrewCommon, OptionStrings)
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };
-
-    public ModdedEnumOption<RoleListOption> Slot13 { get; } =
-        new("TouOptionRoleListSlot13", RoleListOption.CrewCommon, OptionStrings)
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };
-
-    public ModdedEnumOption<RoleListOption> Slot14 { get; } =
-        new("TouOptionRoleListSlot14", RoleListOption.ImpCommon, OptionStrings)
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };
-
-    public ModdedEnumOption<RoleListOption> Slot15 { get; } =
-        new("TouOptionRoleListSlot15", RoleListOption.CrewCommon, OptionStrings)
-        {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-        };
     public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
-        new HashSet<StringNames>
+        new HashSet<StringNames>(Slot.Select(slot => slot.StringName))
         {
             // These are hidden because rolelist text already handles this
             MaxNeutralBenign.StringName,
@@ -348,51 +276,64 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
             MaxNeutralKiller.StringName,
             MinNeutralKiller.StringName,
             MaxNeutralOutlier.StringName,
-            MinNeutralOutlier.StringName,
-            Slot1.StringName,
-            Slot2.StringName,
-            Slot3.StringName,
-            Slot4.StringName,
-            Slot5.StringName,
-            Slot6.StringName,
-            Slot7.StringName,
-            Slot8.StringName,
-            Slot9.StringName,
-            Slot10.StringName,
-            Slot11.StringName,
-            Slot12.StringName,
-            Slot13.StringName,
-            Slot14.StringName,
-            Slot15.StringName
+            MinNeutralOutlier.StringName
         };
+
+    private const string WikiHeaderOpenTag = "<color=#FFD700>";
+    private const float WikiCharWidthPercent = 3.2f;
+    private const float WikiRowsAtFullSize = 7.5f;
+    private const float WikiSecondColumnStartPercent = 52f;
+    private const int WikiTwoColumnThreshold = 6;
 
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
-        var currentDist = CurrentRoleDistribution();
-
-        if (currentDist == RoleDistribution.Vanilla) { return Enumerable.Empty<string>(); }
+        if (CurrentRoleDistribution() == RoleDistribution.Vanilla) { return Enumerable.Empty<string>(); }
 
         if (HudManagerPatches.RoleListTextComp == null || string.IsNullOrWhiteSpace(HudManagerPatches.RoleListTextComp.text))
         {
             return Enumerable.Empty<string>();
         }
 
-        string roleListText = HudManagerPatches.RoleListTextComp.text;
+        var lines = HudManagerPatches.RoleListTextComp.text
+            .Replace("<i>", string.Empty, StringComparison.Ordinal)
+            .Replace("</i>", string.Empty, StringComparison.Ordinal)
+            .Split(['\n', '\r'], StringSplitOptions.RemoveEmptyEntries);
 
-        float sizePercent = 100f;
-        const float minSizePercent = 35f; 
-        const float sizeStep = 2.5f;
+        return [BuildWikiPage(lines)];
+    }
 
-        int lineCount = roleListText.Split([ '\n', '\r' ], StringSplitOptions.RemoveEmptyEntries).Length;
+    private static string BuildWikiPage(string[] pageLines)
+    {
+        var body = pageLines[1..];
+        var columns = body.Length > WikiTwoColumnThreshold ? 2 : 1;
+        var rows = (int)Math.Ceiling(body.Length / (double)columns);
+        var lineSpacing = columns == 2 ? 100f : 125f;
+        var bullet = columns == 2 ? string.Empty : "<color=#696969>•</color> ";
 
-        if (lineCount > 5)
+        var extraWidth = columns == 2 ? 0 : 2;
+        var widest = body.Length == 0
+            ? 1
+            : body.Max(x => Regex.Replace(x, "<[^>]+>", string.Empty).Length) + extraWidth;
+        var widthLimit = 100f * (columns == 2 ? 46f : 94f) / (widest * WikiCharWidthPercent);
+        var heightLimit = 100f * WikiRowsAtFullSize / ((rows * lineSpacing / 100f) + 1.5f);
+        var size = Math.Min(Math.Min(widthLimit, heightLimit), 100f);
+
+        var builder = new StringBuilder("<page>");
+        builder.Append(CultureInfo.InvariantCulture, $"<size={size * 1.15f:0}%><b>{pageLines[0]}</b></size>\n");
+        builder.Append(CultureInfo.InvariantCulture, $"<size={size:0}%><line-height={lineSpacing:0}%>");
+        for (var i = 0; i < rows; i++)
         {
-            sizePercent = Math.Max(minSizePercent, 100f - ((lineCount - 5) * sizeStep * 2.0f));
+            builder.Append(bullet).Append(body[i]);
+            var right = i + rows;
+            if (columns == 2 && right < body.Length)
+            {
+                builder.Append(CultureInfo.InvariantCulture, $"<pos={WikiSecondColumnStartPercent:0}%>").Append(body[right]);
+            }
+
+            builder.Append('\n');
         }
 
-        string formattedText = $"<page><size={sizePercent:0}%>{roleListText}</size>";
-
-        return [ formattedText ];
+        return builder.Append("</size>").ToString();
     }
 }
 

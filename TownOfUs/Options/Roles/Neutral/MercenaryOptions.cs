@@ -16,6 +16,9 @@ public sealed class MercenaryOptions : AbstractRoleOptionGroup<MercenaryRole>
     [ModdedNumberOption("TouOptionMercenaryMaxGuards", 1f, 15f, 1f, MiraNumberSuffixes.None, "0")]
     public float MaxUses { get; set; } = 6f;
 
+    [ModdedToggleOption("TouOptionMercenaryGetMoreUsesFromCompletingTasks")]
+    public bool TaskUses { get; set; } = false;
+
     [ModdedNumberOption("TouOptionMercenaryBribeCost", 1f, 15f, 1f, MiraNumberSuffixes.None, "0")]
     public float BribeCost { get; set; } = 2f;
 

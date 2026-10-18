@@ -56,6 +56,27 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Campaign", "Campaign"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Campaign.WikiDescription"),
+                    TouCrewAssets.CampaignButtonSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}RevealWiki", "Reveal"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Meeting"),
+                    MiraLocaleManager.Get(OptionGroupSingleton<PoliticianOptions>.Instance.PreventCampaign
+                        ? $"TownOfUsMira.Role.{IdPart}RevealWikiDescriptionPunished"
+                        : $"TownOfUsMira.Role.{IdPart}Reveal.WikiDescription"),
+                    TouAssets.RevealCleanSprite)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Politician;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmatePower;
