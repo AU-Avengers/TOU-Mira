@@ -16,7 +16,7 @@ public sealed class BomberOptions : AbstractRoleOptionGroup<BomberRole>
     [ModdedNumberOption("TouOptionBomberDetonateDelay", 1f, 15f, 1f, MiraNumberSuffixes.Seconds)]
     public float DetonateDelay { get; set; } = 5f;
 
-    [ModdedNumberOption("TouOptionBomberDetonateRadius", 0.05f, 1f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
+    [ModdedNumberOption("TouOptionBomberDetonateRadius", 0.05f, 1f, 0.05f, MiraNumberSuffixes.Distance, "0.00")]
     public float DetonateRadius { get; set; } = 0.25f;
 
     [ModdedNumberOption("TouOptionBomberMAxKillsInDetonation", 1f, 15f, 1f, MiraNumberSuffixes.None, "0")]

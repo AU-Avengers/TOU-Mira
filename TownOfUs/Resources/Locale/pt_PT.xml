@@ -1409,7 +1409,7 @@ ao custo da tua habilidade.</string>
   <string name="TownOfUsMira.Role.TransporterTransportNotif">Foste transportado!</string>
   <string name="TouOptionTransporterTransportCooldown">Tempo De Recarga Para Transportar</string>
   <string name="TouOptionTransporterMaxUses">Usos Iniciais</string>
-  <string name="TouOptionTransporterMoveWithMenu">Mover Enquanto Usar O Meno De Transporte</string>
+  <string name="TouOptionTransporterMoveWithMenu">Mover Enquanto Usar O Menu De Transporte</string>
   <string name="TouOptionTransporterCanUseVitals">Pode Usar Os Vitais</string>
   <string name="TouOptionTransporterGetUsesFromTasks">Receber Mais Usos Por Completar Tarefas</string>
   <string name="TownOfUsMira.Role.TransporterYouWereTransported">Foste transportado!</string>
@@ -2039,4 +2039,83 @@ mimica outros para os incriminar.</string>
   <string name="TownOfUsMira.Role.FairyIfNoTarget">Protege o teu alvo com a tua vida!</string>
   <string name="TownOfUsMira.Role.Fairy.WikiDescription">A Fada é uma Função Neutro Benigno que precisa de proteger o seu alvo (marcado com [symbol]) de ser morto/ejetado.</string>
   <string name="TownOfUsMira.Role.FairyProtect">Proteger</string>
+  <string name="ShowChatNotifsInGame">Mostrar Notificações Do Chat No Meio Do Jogo</string>
+  <string name="ShowRolesOnChatBubbles">Mostrar Funções Nas Bolhas De Chat</string>
+  <string name="ChatRoleVisualDisabled">Desativado</string>
+  <string name="ChatRoleVisualIcon">Ícone</string>
+  <string name="ChatRoleVisualColor">Cor</string>
+  <string name="ChatRoleVisualIconAndColor">Ícone [and] Cor</string>
+  <string name="ProsecutorProsToggling">Processar Requer uma Confirmação</string>
+  <string name="TownOfUsMira.Role.Prosecutor.ShameNotification">O Procurador, [player], saiu em desgraça por causa da sua má escolha.</string>
+  <string name="TownOfUsMira.Role.Prosecutor.ShameNotificationSelf">A tua má escolha levou à tua rápida punição.</string>
+  <string name="TownOfUsMira.Role.Prosecutor.ShameNotificationSelfPrivate">Processaste um Tripulante. Não podes mais processar.</string>
+  <string name="Enabled">Ligado</string>
+  <string name="Disabled">Desativado</string>
+  <string name="TouOptionProsecutorWrongfulProsecutionResult">Se Processar Errado</string>
+  <string name="TouOptionProsecutorWrongProsEnumPros">Procurador É Ejetado</string>
+  <string name="TouOptionProsecutorWrongProsEnumTarget">Vítima Ejetada, Perde Usos</string>
+  <string name="TouOptionProsecutorWrongProsEnumProsTarget">Ejeta Ambos</string>
+  <string name="TownOfUsMira.Role.FairyProtect.WikiDescription">Protege o teu alvo de ser morto.</string>
+  <string name="TouOptionFairyCooldown">Tempo De Recarga Para Proteger</string>
+  <string name="TouOptionFairyDuration">Duração Da Proteção</string>
+  <string name="TouOptionFairyMaxProtects">Número Máximo De Proteções</string>
+  <string name="TouOptionFairyShowProtected">Mostrar Jogador Protegido</string>
+  <string name="TouOptionFairyProtectionEnumFairy">Fada</string>
+  <string name="TouOptionFairyProtectionEnumFairyAndTarget">Fada + Alvo</string>
+  <string name="TouOptionFairyProtectionEnumEveryone">Todos</string>
+  <string name="TouOptionFairyOnDeathFairyBecomes">Na Morte Do Alvo, Fada Vira</string>
+  <string name="TouOptionFairyTargetKnowsFairyExists">Alvo Sabe da Existência Da Fada</string>
+  <string name="TouOptionFairyFairyKnowsRole">Fada Sabe A Função Do Alvo</string>
+  <string name="TouOptionFairyEvilOdds">Chances Do Alvo Ser Malvado</string>
+  <string name="TownOfUsMira.Role.Inquisitor">Inquisidor</string>
+  <string name="TownOfUsMira.Role.Inquisitor.IntroBlurb">Derrota os Hereges!</string>
+  <string name="TownOfUsMira.Role.Inquisitor.MedDescription">Encontra quem detém as funções dos teus alvos.
+Elimina-os se necessário para ganhares.</string>
+  <string name="TownOfUsMira.Role.Inquisitor.TabDescription">Elimina os Hereges ou faz com que eles sejam mortos.
+Vais ganhar se todos os hereges morrerem.
+Se todos estiverem mortos depois de uma reunião acabar.
+vais sair [and] e anunciar a tua vitória</string>
+  <string name="TownOfUsMira.Role.InquisitorTabAddition">As funções dos teus Hereges:</string>
+  <string name="TownOfUsMira.Role.Inquisitor.WikiDescription">O Inquisidor é uma Função Neutro Atípico que ganha se os seus alvos (Hereges) morrerem. A única informação provida é as suas funções, e é a tarefa do Inquisidor identificar esses jogadores (marcado com [symbol] para os mortos) e fazer com que eles sejam mortos usando qualquer meios necessários.</string>
+  <string name="TownOfUsMira.Role.InquisitorInquireNotif">Vais saber se [player] é um herege na próxima reunião.</string>
+  <string name="TownOfUsMira.Role.InquisitorMessageTitle">Reportagem Do Inquisidor</string>
+  <string name="TownOfUsMira.Role.InquisitorInquiredHeretic">O teu inquérito revelou que [player] é um herege!</string>
+  <string name="TownOfUsMira.Role.InquisitorInquiredNonHeretic">O teu inquérito revelou que [player] não é um herege!</string>
+  <string name="TownOfUsMira.Role.InquisitorVictoryMessage">O [role], [player], ganhou com sucesso, porque todos os seus Hereges pereceram!</string>
+  <string name="TownOfUsMira.Role.InquisitorVictoryMessageSelf">Ganhaste com sucesso sendo o [role], pois os Hereges pereceram!</string>
+  <string name="TownOfUsMira.Role.InquisitorInquire">Inquirir</string>
+  <string name="TownOfUsMira.Role.InquisitorInquire.WikiDescription">Inquere um jogador, o que vai te dizer se ele é um dos teus alvos na reunião.</string>
+  <string name="TownOfUsMira.Role.InquisitorVanquish">Derrotar</string>
+  <string name="TownOfUsMira.Role.InquisitorVanquish.WikiDescription">Derrota um jogador para o matar. Se ele for um herege, serás informado, e podes continuar a derrotar. No entanto, se a vítima não for um herege, vais perder a habilidade de derrotar pelo resto do jogo.</string>
+  <string name="TouOptionInquisitorVanquishCooldown">Tempo De Recarga Para Derrotar</string>
+  <string name="TouOptionInquisitorRoundOneVanquish">Pode Derrotar na Primeira Ronda</string>
+  <string name="TouOptionInquisitorContinuesGame">Inquisidor Continua O Jogo Nos 3 Finais</string>
+  <string name="TouOptionInquisitorCantInquire">Inquisidor Não Pode Inquirir</string>
+  <string name="TouOptionInquisitorInquireCooldown">Tempo De Recarga Para Inquirir</string>
+  <string name="TouOptionInquisitorMaxInquiries">Número Máximo De Inquéritos</string>
+  <string name="TouOptionInquisitorHereticAmount">Número De Hereges Necessários</string>
+  <string name="TownOfUsMira.Role.Chef">Cozinheiro</string>
+  <string name="TownOfUsMira.Role.Chef.IntroBlurb">Cozinhado e pronto para servir</string>
+  <string name="TownOfUsMira.Role.Chef.MedDescription">Cozinha os corpos frescos de outros Tripulantes.
+Realiza a tua cota de corpos servidos para ganhares.</string>
+  <string name="TownOfUsMira.Role.Chef.TabDescription">Serve os tripulantes corpos mortos.
+Quando a tua cota for alcançada, sais em vitória!</string>
+  <string name="TownOfUsMira.Role.ChefTabCounter">Corpos Servidos: [bodiesFed]/[bodiesTotal]</string>
+  <string name="TownOfUsMira.Role.Chef.WikiDescription">O Cozinheiro é uma Função Neutro Atípico que ganha com qualquer outra fação desde que tenha servidos corpos mortos suficientes à tripulação.</string>
+  <string name="TownOfUsMira.Role.ChefMessageTitle">Feedback Do Cozinheiro</string>
+  <string name="TownOfUsMira.Role.ChefCustomerMessage">Foste servido um corpo pelo Cozinheiro!</string>
+  <string name="TownOfUsMira.Role.ChefVictoryMessage">O [role], [player], ganhou com sucesso, pois serviu jogadores suficientes!</string>
+  <string name="TownOfUsMira.Role.ChefVictoryMessageSelf">Ganhaste com sucesso sendo o [role], pois serviu jogadores suficientes!</string>
+  <string name="TownOfUsMira.Role.ChefCook">Cozinhar</string>
+  <string name="TownOfUsMira.Role.ChefCook.WikiDescription">Cozinha um corpo morto e salva-o para mais tarde.</string>
+  <string name="TownOfUsMira.Role.ChefServe">Servir</string>
+  <string name="TownOfUsMira.Role.ChefServe.WikiDescription">Serve a refeição mais antiga que tens na mão para outro estômago vazio.</string>
+  <string name="TouOptionChefServeCooldown">Tempo De Recarga Para Servir</string>
+  <string name="TouOptionChefCookCooldown">Tempo De Recarga Para Cozinhar</string>
+  <string name="TouOptionChefLinkedCooldowns">Reiniciar Tempos De Recarga Para Cozinhar [and] Servir Juntos</string>
+  <string name="TouOptionChefServingAmount">Número De Corpos Servidos Necessários</string>
+  <string name="TouOptionChefServingSideEffects">Duração Dos Efeitos Secundários</string>
+  <string name="TouOptionChefArrowsToBodies">Mostrar Seta A Apontar Para Corpos Mortos</string>
+  <string name="TouOptionChefArrowDelay">Atraso Da Seta De Um Corpo Morto</string>
+  <string name="TouOptionChefArrowDuration">Duração Da Seta De Corpo Morto</string>
 </resources>

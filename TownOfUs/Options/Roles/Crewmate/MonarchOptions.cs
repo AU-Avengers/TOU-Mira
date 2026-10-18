@@ -10,28 +10,28 @@ public sealed class MonarchOptions : AbstractRoleOptionGroup<MonarchRole>
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Monarch", "Monarch");
 
-    [ModdedNumberOption("Knight Cooldown", 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionMonarchKnightCooldown", 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float KnightCooldown { get; set; } = 20f;
 
-    [ModdedNumberOption("Maximum Knights", 0f, 15f, 1f, MiraNumberSuffixes.None, "0", zeroInfinity: true)]
+    [ModdedNumberOption("TouOptionMonarchMaximumKnights", 0f, 15f, 1f, MiraNumberSuffixes.None, "0", zeroInfinity: true)]
     public float MaxKnights { get; set; } = 3f;
-    [ModdedNumberOption("Votes Per Knight", 1f, 5f, 1f, MiraNumberSuffixes.None, "0")]
+    [ModdedNumberOption("TouOptionMonarchVotesPerKnight", 1f, 5f, 1f, MiraNumberSuffixes.None, "0")]
     public float VotesPerKnight { get; set; } = 1f;
-    [ModdedNumberOption("Knight Delay (Cancellable)", 1f, 10f, 1f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionMonarchKnightDelay", 1f, 10f, 1f, MiraNumberSuffixes.Seconds)]
     public float KnightDelay { get; set; } = 3f;
 
-    [ModdedToggleOption("Reveal Knighting At Meeting")]
+    [ModdedToggleOption("TouOptionMonarchRevealKnightingAtMeeting")]
     public bool RevealAtMeeting { get; set; } = false;
 
-    [ModdedToggleOption("Show Knighted Votes")]
+    [ModdedToggleOption("TouOptionMonarchShowKnightedVotes")]
     public bool ShowKnightedVotes { get; set; } = true;
 
-    [ModdedToggleOption("Allow Round One Knighting")]
+    [ModdedToggleOption("TouOptionMonarchAllowRoundOneKnighting")]
     public bool FirstRoundUse { get; set; } = false;
-    [ModdedToggleOption("Inform Monarch If a Knight Dies")]
+    [ModdedToggleOption("TouOptionMonarchInformIfKnightDies")]
     public bool InformWhenKnightDies { get; set; } = true;
 
-    [ModdedToggleOption("Crew Knights Grant Kill Immunity")]
+    [ModdedToggleOption("TouOptionMonarchCrewKnightsGrantKillImmunity")]
     public bool CrewKnightsGrantKillImmunity { get; set; } = true;
 }
 
