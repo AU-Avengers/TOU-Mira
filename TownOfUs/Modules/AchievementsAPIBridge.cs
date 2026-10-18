@@ -71,6 +71,17 @@ internal static class AchievementsAPIBridge
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
+    public static void UnlockWithToast(AchievementSpec spec, AchToastTiming timing)
+    {
+        if (Achievements.TryGetValue(spec, out var achievement))
+        {
+            achievement.Unlock();
+            achievement.ToastTiming = timing;
+            AchievementToastQueue.Enqueue(achievement, true);
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void Reset(AchievementSpec spec)
     {
         if (Achievements.TryGetValue(spec, out var achievement))
