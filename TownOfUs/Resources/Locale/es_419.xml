@@ -3372,28 +3372,22 @@ Sirve los necesarios paras ganar.</string>
   <string name="TouOptionUnderdogChance">Probabilidad de Rezagado</string>
   <string name="TownOfUsMira.Modifier.ClericBarrierDescription">¡Estás protegido por un Clérigo!
 Nadie puede interactuar contigo.</string>
-  <string name="TownOfUsMira.Modifier.ClericCleanse">Purificación del Clérigo</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseEffectsFound">Efectos purificados de [player]:</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseNoEffects">No se encontraron efectos negativos en [player].</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseFeedbackTitle">Informe del Clérigo:</string>
-  <string name="TownOfUsMira.Modifier.DeputyRevealed">Revelado</string>
-  <string name="TownOfUsMira.Modifier.Jailed">Encarcelado</string>
   <string name="TownOfUsMira.Modifier.JailedFeedbackTitle">Informe del prisionero</string>
   <string name="TownOfUsMira.Modifier.JailedNonCrewFeedback">Estás encarcelado. Convence al Carcelero de que eres Tripulante para evitar que te ejecute usando el chat sobre el botón de reportar.</string>
   <string name="TownOfUsMira.Modifier.JailedCrewFeedback">Estás encarcelado. Dale información relevante al Carcelero para demostrar que eres Tripulante usando el chat sobre el botón de reportar.</string>
-  <string name="TownOfUsMira.Modifier.MagicMirror">Espejo Mágico</string>
   <string name="TownOfUsMira.Modifier.MagicMirrorDescription">¡Estás protegido por el Reflector!
 No puedes morir a manos de otros jugadores.</string>
   <string name="TouMedicShieldDescription">¡Estás protegido por un Médico!
 No puedes morir a manos de otros jugadores.</string>
   <string name="TownOfUsMira.Modifier.HerbalistProtectionDescription">¡Estás protegido por un Clérigo!
 Nadie puede interactuar contigo.</string>
-  <string name="TownOfUsMira.Modifier.Blackmailed">Extorsionado</string>
   <string name="TownOfUsMira.Modifier.BlackmailedVoteNotification">¡No puedes votar en esta reunión! Omitirás automáticamente en [time] segundos.</string>
   <string name="TownOfUsMira.Modifier.EclipsalBlindedNotification">¡El Cegador te ha cegado!</string>
   <string name="TownOfUsMira.Modifier.GrenadierFlashedNotification">¡El Granadero te ha cegado!</string>
   <string name="TownOfUsMira.Modifier.MassHysteriaNotification">¡Estás bajo los efectos de la Histeria Colectiva!</string>
-  <string name="TownOfUsMira.Modifier.GuardianAngelProtected">Protegido</string>
   <string name="TownOfUsMira.Modifier.GuardianAngelProtectedDescription">¡Estás protegido por tu Hada!
 No pueden matarte.</string>
   <string name="TownOfUsMira.Modifier.MercenaryBribedFeedbackTitle">Informe del Mercenario</string>
@@ -3425,15 +3419,11 @@ No pueden matarte.</string>
   <string name="TouOptionSixthSenseChance">Probabilidad de Sexto Sentido</string>
   <string name="TouOptionSleuthAmount">Cantidad de Sabuesos</string>
   <string name="TouOptionSleuthChance">Probabilidad de Sabueso</string>
-  <string name="TownOfUsMira.Modifier.AltruistArrow">Flecha del Altruista</string>
-  <string name="TownOfUsMira.Modifier.BarkeeperSpillEffect">Efecto del derrame</string>
-  <string name="TownOfUsMira.Modifier.ClericBarrier">Barrera</string>
   <string name="TownOfUsMira.Modifier.HangoverEndNotification">Ya no tienes resaca.</string>
   <string name="TownOfUsMira.Modifier.Roleblocked">Embriagado</string>
   <string name="TownOfUsMira.Modifier.RoleblockedDescription">¡Alguien te dio una bebida y estás embriagado!</string>
   <string name="TownOfUsMira.Modifier.RoleblockedEndNotification">Ya no estás embriagado.</string>
   <string name="TownOfUsMira.Modifier.ShieldDescription">¡Estás protegido!</string>
-  <string name="TownOfUsMira.Modifier.DisabledDescription">¡Estás incapacitado!</string>
   <string name="TouFirstDeathShieldDescription">Tienes protección por haber muerto primero en la partida anterior.</string>
   <string name="TownOfUsMira.Modifier.Knighted">Investido</string>
   <string name="TownOfUsMira.Modifier.KnightedDescription">El Monarca te nombró caballero. Obtienes [votes] voto(s) adicional(es).</string>

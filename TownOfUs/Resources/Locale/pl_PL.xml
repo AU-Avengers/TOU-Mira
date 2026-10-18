@@ -1270,7 +1270,6 @@ innych graczy podczas masowej histerii</string>
   <string name="TownOfUsMira.Role.Inquisitor">Inkwizytor</string>
   <string name="TownOfUsMira.Role.Inquisitor.IntroBlurb">Pokonaj Heretyków!</string>
   <string name="TownOfUsMira.Role.Altruist.MedDescription">Wskrześ martwych załogantów.</string>
-  <string name="TownOfUsMira.Modifier.AltruistArrow">Strzałka Altruisty</string>
   <string name="TownOfUsMira.Role.Ambassador.MedDescription">Zmień rolę Intruzów na resztę gry.</string>
   <string name="TownOfUsMira.Role.Ambusher.MedDescription">Nękaj Załogantów aby później Osaczyć kogoś blisko nich.</string>
   <string name="TownOfUsMira.Role.Arsonist.MedDescription">Oblej załogantów i podpal któregokolwiek z nich aby zapłonęli.</string>
@@ -1281,7 +1280,6 @@ innych graczy podczas masowej histerii</string>
 Wygrasz gdy nakarmisz wystarczającą ilość graczy.</string>
   <string name="TownOfUsMira.Role.Cleric.MedDescription">Ochroń załogantów aby zapobiec interakcjom.
 Oczyść ich aby usunąć negatywne efekty.</string>
-  <string name="TownOfUsMira.Modifier.BarkeeperSpillEffect">Efekt Wylania Piwa</string>
   <string name="TownOfUsMira.Role.Deputy.MedDescription">Kamp załogantów, a po ich śmierci spróbuj zastrzelić mordercę.</string>
   <string name="TownOfUsMira.Role.Doomsayer.MedDescription">Zgadnij role kilku graczy aby ich stracić i wygrać.</string>
   <string name="TownOfUsMira.TownOfPolus.Role.Engineer.MedDescription">Napraw jeden sabotaż zdalnie.</string>
@@ -1326,14 +1324,11 @@ Oczyść ich aby usunąć negatywne efekty.</string>
 Ta zmiana jest nieodwracalna.</string>
   <string name="TownOfUsMira.Role.Aurial.MedDescription">Wyczuj w którym miejscu wśród twojej aury użyto umiejętności.
 Jeżeli użyto blisko ciebie, zobaczysz kolor osoby.</string>
-  <string name="TownOfUsMira.Modifier.ClericBarrier">Bariera</string>
   <string name="TownOfUsMira.Modifier.ClericBarrierDescription">Jesteś chroniony przez Kleryka!
 Nie można z tobą wchodzić w interakcję.</string>
-  <string name="TownOfUsMira.Modifier.ClericCleanse">Oczyszczenie Kleryka</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseEffectsFound">Oczyszczono efekt z [player]:</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseNoEffects">Nie znaleziono negatywnych efektów u [player].</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseFeedbackTitle">Informacja Kleryka:</string>
-  <string name="TownOfUsMira.Modifier.DeputyRevealed">Ujawniony</string>
   <string name="TownOfUsMira.Role.DeputyShootKiller">Zastrzel gracza z powodzeniem jeśli był zabójcą!</string>
   <string name="TownOfUsMira.Role.DoomsayerGuessAllAtOnce">Zgadnij role [amount] graczy jednocześnie aby wygrać!</string>
   <string name="TownOfUsMira.Role.DoomsayerSuccessfulGuesses">[current]/[total] Poprawnych strzałów ról do wygranej!</string>

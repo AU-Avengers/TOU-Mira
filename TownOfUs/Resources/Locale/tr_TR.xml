@@ -2859,33 +2859,24 @@ görüşün azalmaz.</string>
   <string name="TouOptionSixthSenseChance">Altıncı His İhtimali</string>
   <string name="TouOptionSleuthAmount">Dedektif Sayısı</string>
   <string name="TouOptionSleuthChance">Dedektif İhtimali</string>
-  <string name="TownOfUsMira.Modifier.AltruistArrow">Fedakâr Oku</string>
-  <string name="TownOfUsMira.Modifier.BarkeeperSpillEffect">Dökülme Etkisi</string>
-  <string name="TownOfUsMira.Modifier.ClericBarrier">Bariyer</string>
   <string name="TownOfUsMira.Modifier.ClericBarrierDescription">Bir Ruhban tarafından koruma altındasın!
 Kimse seninle etkileşime giremez.</string>
-  <string name="TownOfUsMira.Modifier.ClericCleanse">Ruhban Temizlemesi</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseEffectsFound">[player] üzerindeki etkiler temizlendi:</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseNoEffects">[player] üzerinde olumsuz bir etki bulunamadı.</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseFeedbackTitle">Ruhban Geri Bildirimi:</string>
-  <string name="TownOfUsMira.Modifier.DeputyRevealed">Açığa Çıktı</string>
-  <string name="TownOfUsMira.Modifier.Jailed">Hapsedildi</string>
   <string name="TownOfUsMira.Modifier.JailedFeedbackTitle">Mahkûm Geri Bildirimi</string>
   <string name="TownOfUsMira.Modifier.JailedNonCrewFeedback">Hapsedildin; idam edilmemek için kullanıcı raporlama butonunun üstündeki sohbet kutusunda Gardiyanı Mürettebat olduğuna ikna et.</string>
   <string name="TownOfUsMira.Modifier.JailedCrewFeedback">Hapsedildin; Mürettebat olduğunu kanıtlamak için kullanıcı raporlama butonunun üstündeki sohbet kutusunda Gardiyana gerekli bilgileri ver.</string>
-  <string name="TownOfUsMira.Modifier.MagicMirror">Sihirli Ayna</string>
   <string name="TownOfUsMira.Modifier.MagicMirrorDescription">Ayna Büyücüsü tarafından korunuyorsun!
 Diğer oyuncular tarafından öldürülemezsin</string>
   <string name="TouMedicShieldDescription">Bir Doktor tarafından korunuyorsun!
 Diğer oyuncular tarafından öldürülemezsin</string>
   <string name="TownOfUsMira.Modifier.HerbalistProtectionDescription">Bir Ruhban tarafından koruma altındasın!
 Kimse seninle etkileşime giremez.</string>
-  <string name="TownOfUsMira.Modifier.Blackmailed">Şantaja Uğradın</string>
   <string name="TownOfUsMira.Modifier.BlackmailedVoteNotification">Bu toplantıda oy veremezsin! [time] saniye sonra otomatik olarak atlayacaksın.</string>
   <string name="TownOfUsMira.Modifier.EclipsalBlindedNotification">Bir Tutulmacı tarafından kör edildin!</string>
   <string name="TownOfUsMira.Modifier.GrenadierFlashedNotification">Bir Bombacı tarafından flaşlandın!</string>
   <string name="TownOfUsMira.Modifier.MassHysteriaNotification">Toplu Histerinin etkisi altındasın!</string>
-  <string name="TownOfUsMira.Modifier.GuardianAngelProtected">Korunuyor</string>
   <string name="TownOfUsMira.Modifier.GuardianAngelProtectedDescription">Perin tarafından korunuyorsun!
 Öldürülemezsin.</string>
   <string name="TownOfUsMira.Modifier.MercenaryBribedFeedbackTitle">Paralı Asker Geri Bildirimi</string>
@@ -2898,7 +2889,6 @@ Kimse seninle etkileşime giremez.</string>
   <string name="TownOfUsMira.Modifier.RoleblockedDescription">Biri sana içki verdi, rolün engellendi!</string>
   <string name="TownOfUsMira.Modifier.RoleblockedEndNotification">Artık rolün engellenmiyor.</string>
   <string name="TownOfUsMira.Modifier.ShieldDescription">Koruma altındasın!</string>
-  <string name="TownOfUsMira.Modifier.DisabledDescription">Devre dışısın!</string>
   <string name="TouFirstDeathShieldDescription">Geçen oyunda ilk öldüğün için korumaya sahipsin</string>
   <string name="TownOfUsMira.Modifier.Knighted">Şövalye Yapıldı</string>
   <string name="TownOfUsMira.Modifier.KnightedDescription">Hükümdar tarafından şövalye ilan edildin. [votes] ek oy kazandın.</string>

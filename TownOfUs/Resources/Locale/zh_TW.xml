@@ -2934,33 +2934,24 @@
   <string name="TouOptionShyChance">變色龍生成機率</string>
   <string name="TouOptionSixthSenseChance">第六感生成機率</string>
   <string name="TouOptionSleuthChance">掘墓人生成機率</string>
-  <string name="TownOfUsMira.Modifier.AltruistArrow">殉道者箭頭</string>
-  <string name="TownOfUsMira.Modifier.BarkeeperSpillEffect">傾倒效果</string>
-  <string name="TownOfUsMira.Modifier.ClericBarrier">屏障</string>
   <string name="TownOfUsMira.Modifier.ClericBarrierDescription">你被牧師保護着!
 任何人都無法與你互動。</string>
-  <string name="TownOfUsMira.Modifier.ClericCleanse">牧師淨化</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseEffectsFound">淨化了 [player] 身上的效果:</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseNoEffects">沒有在 [player] 上發現負面效果。</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseFeedbackTitle">牧師反饋:</string>
-  <string name="TownOfUsMira.Modifier.DeputyRevealed">已揭示</string>
-  <string name="TownOfUsMira.Modifier.Jailed">已入獄</string>
   <string name="TownOfUsMira.Modifier.JailedFeedbackTitle">囚禁反饋</string>
   <string name="TownOfUsMira.Modifier.JailedNonCrewFeedback">你已被囚禁, 在用戶舉報按鈕上方的聊天框中說服典獄長你是船員以避免被處決。</string>
   <string name="TownOfUsMira.Modifier.JailedCrewFeedback">你已被囚禁, 在用戶舉報按鈕上方的聊天框中提供相關資訊以向典獄長證明你是船員。</string>
-  <string name="TownOfUsMira.Modifier.MagicMirror">魔法鏡</string>
   <string name="TownOfUsMira.Modifier.MagicMirrorDescription">你被鏡法師保護着!
 你不會被其他玩家殺死</string>
   <string name="TouMedicShieldDescription">你被法醫保護着!
 你不會被其他玩家殺死</string>
   <string name="TownOfUsMira.Modifier.HerbalistProtectionDescription">你被牧師保護着!
 任何人都無法與你互動。</string>
-  <string name="TownOfUsMira.Modifier.Blackmailed">已勒索</string>
   <string name="TownOfUsMira.Modifier.BlackmailedVoteNotification">本次會議中你無法投票! [time] 秒後將自動跳過。</string>
   <string name="TownOfUsMira.Modifier.EclipsalBlindedNotification">你被蝕影者致盲了!</string>
   <string name="TownOfUsMira.Modifier.GrenadierFlashedNotification">你被擲彈兵閃光了!</string>
   <string name="TownOfUsMira.Modifier.MassHysteriaNotification">你正處於集體癔症狀態!</string>
-  <string name="TownOfUsMira.Modifier.GuardianAngelProtected">已受保護</string>
   <string name="TownOfUsMira.Modifier.GuardianAngelProtectedDescription">你被天使保護着!
 你不會被殺死。</string>
   <string name="TownOfUsMira.Modifier.MercenaryBribedFeedbackTitle">僱傭兵反饋</string>
@@ -2976,7 +2967,6 @@
   <string name="TouFirstDeathShieldDescription">你因上一局第一個死亡而獲得了保護</string>
   <string name="TownOfUsMira.Modifier.Knighted">獲封騎士</string>
   <string name="TownOfUsMira.Modifier.KnightedDescription">你被君主冊封為騎士。 你獲得了額外的 [votes] 票。</string>
-  <string name="TownOfUsMira.Modifier.DisabledDescription">你已被禁用!</string>
   <string name="ShowChatNotifsInGame">遊戲中顯示聊天通知</string>
   <string name="ShowRolesOnChatBubbles">在聊天框內顯示職業</string>
   <string name="ChatRoleVisualDisabled">禁用</string>
