@@ -314,13 +314,20 @@ public static class ModCompatibility
     };
     public static void InitCorsac()
     {
-        Message("Attempting to add ToU Cosmetics and Pets.");
-        Directory.CreateDirectory(BundlePath);
-
-        foreach (var cosmetic in CosmeticsArray)
+        if (TownOfUsPlugin.AutoDownloadCosmetics.Value)
         {
-            CorsacUtils.TryDownloadCosmeticBundle(Path.Combine(BundlePath, $"TownOfUs.{cosmetic}.ccb"),
-                $"https://github.com/AU-Avengers/TownOfUs-Cosmetics/raw/refs/heads/main/Bundles/TownOfUs.{cosmetic}.ccb");
+            Message("Attempting to add ToU Cosmetics and Pets.");
+            Directory.CreateDirectory(BundlePath);
+
+            foreach (var cosmetic in CosmeticsArray)
+            {
+                CorsacUtils.TryDownloadCosmeticBundle(Path.Combine(BundlePath, $"TownOfUs.{cosmetic}.ccb"),
+                    $"https://github.com/AU-Avengers/TownOfUs-Cosmetics/raw/refs/heads/main/Bundles/TownOfUs.{cosmetic}.ccb");
+            }
+        }
+        else
+        {
+            Message("Attempting to load ToU Pets.");
         }
         CorsacUtils.AddMultiplePets("TouPetsSource", "Atony", Pets, TouAssets.MainBundle);
     }

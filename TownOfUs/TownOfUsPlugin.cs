@@ -68,6 +68,8 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
 
     public static ConfigEntry<LegacyVisuals> LegacyMode { get; private set; }
 
+    public static ConfigEntry<bool> AutoDownloadCosmetics { get; private set; }
+
     /// <inheritdoc />
     public ConfigFile GetConfigFile()
     {
@@ -86,6 +88,8 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     {
         LegacyMode = Config.Bind("LocalSettings", "LegacyMode", LegacyVisuals.Disabled,
             "If enabled, assets will appear like they did in TOU Reactivated / Polus.gg / Town of Us.");
+        AutoDownloadCosmetics = Config.Bind("LocalSettings", "AutoDownloadCosmetics", true,
+            "If enabled, cosmetics will automatically be downloaded for Corsac Cosmetics.");
         ReactorCredits.Register("Town Of Us: Mira", Version, IsDevBuild, ReactorCredits.AlwaysShow);
         LocalizationManager.Register(new TaskProvider());
         MiraLocaleManager.Register("auavengers.tou.mira", "TownOfUs");
