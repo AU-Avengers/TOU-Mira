@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using AchievementsAPI.API;
 using BepInEx.Unity.IL2CPP;
 using MiraAPI.Utilities;
 using TownOfUs.Modules;
@@ -178,20 +177,6 @@ public static class AchievementsAPIHelper
         }
 
         AchievementsAPIBridge.Unlock(achievement);
-    }
-
-    /// <summary>
-    /// Unlocks an achievement with a toast at the specified timing (useful for hidden achievements).
-    /// No-op if it isn't registered or the API is missing.
-    /// </summary>
-    public static void UnlockWithToast(AchievementSpec achievement, AchToastTiming timing)
-    {
-        if (!IsLoaded)
-        {
-            return;
-        }
-
-        AchievementsAPIBridge.UnlockWithToast(achievement, timing);
     }
 
     /// <summary>
