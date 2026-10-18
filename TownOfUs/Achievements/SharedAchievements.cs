@@ -34,6 +34,10 @@ public enum AchievementPersistence
 /// <param name="Description">English description.</param>
 /// <param name="Icon">The achievement's icon.</param>
 /// <param name="SubIcon">Optional sub-icon drawn in the achievements menu.</param>
+/// <param name="SubIconTooltip">Optional hover tooltip for the sub-icon (e.g. the role or
+/// modifier it represents). Resolved through Mira's locale manager at display time, so a
+/// registered locale key such as <c>TownOfUsMira.Role.Mayor</c> shows translated text;
+/// anything else is shown verbatim.</param>
 /// <param name="Rarity">0 = common, 1 = rare, 2 = epic, 3 = legendary.</param>
 /// <param name="Hidden">Whether the achievement is hidden until unlocked.</param>
 /// <param name="ProgressGoal">Progress to unlock; 0 means this is a simple unlock achievement.</param>
@@ -60,7 +64,8 @@ public sealed record AchievementSpec(
     string? Category = null,
     string? Id = null,
     bool HideProgress = false,
-    string[]? Tags = null);
+    string[]? Tags = null,
+    string? SubIconTooltip = null);
 
 /// <summary>
 /// Describes an achievements tab (plus default art) a mod's achievements are registered under.
