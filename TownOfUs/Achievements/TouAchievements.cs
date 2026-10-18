@@ -86,7 +86,7 @@ public static class TouAchievements
     public static readonly AchievementSpec Oops = Define("Oops",
         "Abort a game as host.", TouRoleIcons.Mayor, hidden: true, tags: new[] { "Hidden", "Host", "Abort" });
     public static readonly AchievementSpec IveSeenThePlays = Define("I've seen the plays",
-        "No I'm actually inclined to believe 5up you know because I've seen the plays where dk hops out of a vent and then kills himself",
+        "End your own life before they can.",
         TouRoleIcons.Jester, rarity: 1, hidden: true, tags: new[] { "Hidden", "Jester", "Meme" });
     public static readonly AchievementSpec GoBuyALotteryTicket = Define("Go buy a lottery ticket",
         "Win a 1 in 292,000,000 roll. Seriously, go buy a lottery ticket.", TouAchAssets.LuckyDice,
