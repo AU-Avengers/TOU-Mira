@@ -2,6 +2,7 @@ using Hazel;
 using Il2CppInterop.Runtime.Injection;
 using MiraAPI.Roles;
 using Reactor.Utilities.Attributes;
+using TownOfUs.Achievements;
 using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Modules.Components;
@@ -82,6 +83,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
                 var spellslinger = CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().FirstOrDefault();
                 if (spellslinger != null)
                 {
+                    TouAchievementEvents.OnHexBombComplete(spellslinger.Player);
                     foreach (var player in PlayerControl.AllPlayerControls.ToArray()
                                  .Where(x => !x.HasDied() && !x.IsImpostorAligned()))
                     {

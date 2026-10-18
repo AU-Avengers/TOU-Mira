@@ -3,6 +3,7 @@ using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
+using TownOfUs.Achievements;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modules.Components;
@@ -103,31 +104,37 @@ public sealed record BodyReport
             {
                 text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodySuicide");
             }
-            else if (br.KillAge < OptionGroupSingleton<ForensicOptions>.Instance.ForensicRoleDuration * 1000)
-            {
-                // if the killer died, they would still appear correctly here
-                var role = br.Killer.GetRoleWhenAlive();
-                if (br.Killer.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cacheMod)
-                {
-                    role = cacheMod.CachedRole;
-                }
-
-                text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerRole").Replace("<role>",
-                    $"#{MiscUtils.GetReliableHyperlinkText(role)})");
-            }
-
-            else if (br.Killer.IsNeutral())
-            {
-                text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerNeutral");
-            }
-
-            else if (br.Killer.IsCrewmate())
-            {
-                text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerCrewmate");
-            }
             else
             {
-                text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerImpostor");
+                AchievementsAPIHelper.Unlock(TouAchievements.RightOnTime);
+
+                if (br.KillAge < OptionGroupSingleton<ForensicOptions>.Instance.ForensicRoleDuration * 1000)
+                {
+                    // if the killer died, they would still appear correctly here
+                    var role = br.Killer.GetRoleWhenAlive();
+                    if (br.Killer.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole
+                        cacheMod)
+                    {
+                        role = cacheMod.CachedRole;
+                    }
+
+                    text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerRole").Replace("<role>",
+                        MiscUtils.GetReliableHyperlinkText(role));
+                }
+
+                else if (br.Killer.IsNeutral())
+                {
+                    text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerNeutral");
+                }
+
+                else if (br.Killer.IsCrewmate())
+                {
+                    text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerCrewmate");
+                }
+                else
+                {
+                    text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerImpostor");
+                }
             }
 
         }

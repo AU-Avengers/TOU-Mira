@@ -21,6 +21,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
     public override bool VisibleToOthers => false;
 
     public static SwoopTracking CanBeTracked => (SwoopTracking)OptionGroupSingleton<SwooperOptions>.Instance.TrackedMidSwoop.Value;
+    public SwoopProgress AchProgress = SwoopProgress.Nothing;
 
     public bool VisualPriority => true;
     public bool CanSwooperVent = true;
@@ -138,4 +139,11 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
 
         return null;
     }
+}
+
+public enum SwoopProgress
+{
+    Nothing,
+    Killed,
+    KilledAndVented
 }

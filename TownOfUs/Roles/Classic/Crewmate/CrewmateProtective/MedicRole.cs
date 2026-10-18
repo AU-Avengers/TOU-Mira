@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Events;
 using MiraAPI.Colors;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -10,6 +11,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options;
@@ -395,6 +397,9 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         {
             DangerAnimNonMedic();
         }
+
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.MedicShieldProtect, medic, shielded);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
 
         var shieldBreaks = OptionGroupSingleton<MedicOptions>.Instance.ShieldBreaks;
 

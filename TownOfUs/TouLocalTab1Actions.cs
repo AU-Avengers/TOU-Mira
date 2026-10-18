@@ -2,6 +2,7 @@ using BepInEx.Configuration;
 using MiraAPI.GameEnd;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
+using TownOfUs.Achievements;
 using TownOfUs.GameOver;
 using MiraAPI.LocalSettings.Attributes;
 using TownOfUs.Patches;
@@ -18,7 +19,7 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
         TabIcon = TouAssets.LocalActions,
         HideIconOnHover = false,
     };
-    // Not using fallbacks bc if I do it uses the english texts only
+
     [LocalSettingsButton]
     public LocalSettingsButton SelfKillButton { get; private set; } = new(MiraLocaleManager.Get("TouLocalActionSelfKill"), TriggerSelfKill);
     private static void TriggerSelfKill()
@@ -35,7 +36,6 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
 
     [LocalSettingsButton]
     public LocalSettingsButton StartMeetingButton { get; private set; } = new(MiraLocaleManager.Get("TouLocalActionStartMeeting"), TriggerStartMeeting);
-
     private static void TriggerStartMeeting()
     {
         DoActionType(BindActionType.StartMeeting);
@@ -83,6 +83,7 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
             // Suicide Keybind (ENTER + T + Left Shift)
             if (!PlayerControl.LocalPlayer.HasDied() && type is BindActionType.SelfKill)
             {
+                AchievementsAPIHelper.Unlock(TouAchievements.IveSeenThePlays);
                 PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
             }
 
@@ -92,6 +93,7 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
                 var gameFlow = GameManager.Instance.LogicFlow.Cast<LogicGameFlowNormal>();
                 if (gameFlow != null)
                 {
+                    AchievementsAPIHelper.Unlock(TouAchievements.Oops);
                     CustomGameOver.Trigger<HostGameOver>([]);
                 }
             }

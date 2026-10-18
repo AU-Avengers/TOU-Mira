@@ -23,6 +23,7 @@ public sealed class ForensicExamineButton : TownOfUsRoleButton<ForensicRole, Pla
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
     }
 
+    public bool IsFirstAttempt = true;
     protected override void OnClick()
     {
         if (Target == null)
@@ -30,6 +31,7 @@ public sealed class ForensicExamineButton : TownOfUsRoleButton<ForensicRole, Pla
             return;
         }
 
-        Role.ExaminePlayer(Target);
+        Role.ExaminePlayer(Target, IsFirstAttempt);
+        IsFirstAttempt = false;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using TownOfUs.Achievements;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -28,6 +29,8 @@ public sealed class WerewolfRampageButton : TownOfUsRoleButton<WerewolfRole>, IL
         }
 
         Role.Rampaging = true;
+
+        TouAchievementEvents.OnWerewolfRampageStart(PlayerControl.LocalPlayer);
 
         CustomButtonSingleton<WerewolfKillButton>.Instance.SetActive(true, Role);
         CustomButtonSingleton<WerewolfKillButton>.Instance.SetTimer(0.01f);

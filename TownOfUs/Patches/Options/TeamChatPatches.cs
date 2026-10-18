@@ -866,6 +866,10 @@ public static class TeamChatPatches
         }
         else if (PlayerControl.LocalPlayer.Data.Role is JailorRole || GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow)
         {
+            if (PlayerControl.LocalPlayer.Data.Role is JailorRole jail)
+            {
+                jail.HasSpokenThisMeeting = true;
+            }
             MiscUtils.AddTeamChat(player.Data,
                 $"<sprite name=\"TouMira.Role.Crewmate.Jailor.Masked\"><color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("JailorChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
                 text, !player.AmOwner, bubbleType: BubbleType.Jailor, onLeft: !player.AmOwner);

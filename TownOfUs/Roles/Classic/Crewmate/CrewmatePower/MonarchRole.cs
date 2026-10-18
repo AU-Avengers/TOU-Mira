@@ -1,5 +1,7 @@
 using System.Text;
+
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -9,7 +11,10 @@ using TownOfUs.Modifiers;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 using MiraAPI.Patches.Stubs;
+using TownOfUs.Achievements;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modules;
 
 namespace TownOfUs.Roles.Crewmate;
 
@@ -137,6 +142,9 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
         target.AddModifier<KnightedModifier>();
 
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.MonarchKnight, player, target);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
+
         if (player.AmOwner)
         {
             ShowNotification(MiraLocaleManager.Get("TownOfUsMira.Role.MonarchKnightSuccess").Replace("<player>", targetName));
@@ -144,6 +152,10 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
         if (target.AmOwner && !OptionGroupSingleton<MonarchOptions>.Instance.RevealAtMeeting)
         {
+            if (target.Data.Role is MayorRole mayor && mayor.Revealed)
+            {
+                AchievementsAPIHelper.Unlock(TouAchievements.RiggedVotes);
+            }
             ShowNotification(MiraLocaleManager.Get("TownOfUsMira.Role.MonarchKnightedFeedback").Replace("<role>", $"{TownOfUsColors.Monarch.ToTextColor()}{monarch.GetRoleName()}</color>").Replace("<votes>", ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)));
         }
 

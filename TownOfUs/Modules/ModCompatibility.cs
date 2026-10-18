@@ -286,7 +286,7 @@ public static class ModCompatibility
     public static string BundlePath { get; } = Path.Combine(BasePath, "Bundles");
 
     public static readonly string[] CosmeticsArray =
-    {
+    [
         "15Streamers",
         "Atony",
         "GhostEjims",
@@ -304,7 +304,7 @@ public static class ModCompatibility
         "Sweetrolled",
         "TheLastShaymin",
         "Tori"
-    };
+    ];
 
     public static readonly CorsacUtils.QuickPetMetadata[] Pets =
     {

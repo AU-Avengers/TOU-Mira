@@ -5,6 +5,8 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Achievements;
+using TownOfUs.Modules;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
@@ -54,19 +56,32 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     }
 
     [HideFromIl2Cpp]
-    public IEnumerator Sense(PlayerControl player)
+    public IEnumerator Sense(PlayerControl player, bool willDie)
     {
         if (!CheckRange(player, OptionGroupSingleton<AurialOptions>.Instance.AuraOuterRadius))
         {
             yield break;
         }
 
+        var willColor = CheckRange(player,
+            OptionGroupSingleton<AurialOptions>.Instance.AuraInnerRadius);
+        if (willDie)
+        {
+            if (!willColor)
+            {
+                AchievementsAPIHelper.Unlock(TouAchievements.StrangerDanger);
+            }
+            yield break;
+        }
+
+        AchievementsAPIHelper.Increment(TouAchievements.ForceBeWithYou, 1,
+            AchievementsAPIHelper.GetCurrentValue(TouAchievements.ForceBeWithYou) == 4);
+
         var position = player.transform.position;
         var colorID = player.Data.DefaultOutfit.ColorId;
         var color = Color.white;
 
-        if (CheckRange(player,
-                OptionGroupSingleton<AurialOptions>.Instance.AuraInnerRadius) /* && !CamouflageUnCamouflage.IsCamoed*/)
+        if (willColor)
         {
             color = Palette.PlayerColors[colorID];
         }
@@ -134,7 +149,7 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     }
 
     [MethodRpc((uint)TownOfUsRpc.AurialSense)]
-    public static void RpcSense(PlayerControl player, PlayerControl source)
+    public static void RpcSense(PlayerControl player, PlayerControl source, bool willDie)
     {
         if (LobbyBehaviour.Instance)
         {
@@ -149,7 +164,7 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         if (player.AmOwner)
         {
-            Coroutines.Start(aurial.Sense(source));
+            Coroutines.Start(aurial.Sense(source, willDie));
         }
     }
 }
