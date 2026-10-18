@@ -184,7 +184,7 @@ public static class TouAchievementEvents
             case AbilityType.ClericCleanse
                 when @event.Player.AmOwner && @event.Target is PlayerControl cleansed &&
                      cleansed.HasModifier<SpellslingerHexedModifier>():
-                AchievementsAPIHelper.UnlockTentative(TouAchievements.Exorcist);
+                AchievementsAPIHelper.Unlock(TouAchievements.Exorcist);
                 break;
 
             case AbilityType.VeteranAlert when @event.Player.AmOwner:
