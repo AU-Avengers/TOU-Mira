@@ -99,7 +99,7 @@ public static class TouAchievements
         "Sense 5 abilities being used in your radius throughout a game.", TouRoleIcons.Aurial, TouRoleIcons.Aurial, subIconTooltip: "TownOfUsMira.Role.Aurial",
         rarity: 1, progressGoal: 5, persistence: AchievementPersistence.ThroughoutRounds, tags: new[] { "Aurial", "Ability", "Sense" });
     public static readonly AchievementSpec StrangerDanger = Define("Stranger Danger",
-        "Sense a kill happen within your uncolored radius.", TouRoleIcons.Aurial, TouRoleIcons.Aurial, subIconTooltip: "TownOfUsMira.Role.Aurial", tags: new[] { "Aurial", "Kill", "Sense" });
+        "Sense a kill happen within your uncolored radius.", TouRoleIcons.Aurial, TouRoleIcons.Aurial, subIconTooltip: "TownOfUsMira.Role.Aurial", toastOnGameEnd: true, tags: new[] { "Aurial", "Kill", "Sense" });
     public static readonly AchievementSpec BloodyHands = Define("Bloody Hands",
         "Find a suspect on the first Examine attempt.", TouAchAssets.BloodyHands, TouRoleIcons.Forensic, subIconTooltip: "TownOfUsMira.Role.Forensic", rarity: 1, tags: new[] { "Forensic", "Investigate", "Body" });
     public static readonly AchievementSpec RightOnTime = Define("Right on Time",
@@ -155,7 +155,7 @@ public static class TouAchievements
     public static readonly AchievementSpec MethodActor = Define("Method Actor",
         "Imitate 3 different roles in a single game.", TouAssets.ImitateSelectSprite, TouRoleIcons.Imitator, subIconTooltip: "TownOfUsMira.Role.Imitator", rarity: 1, tags: new[] { "Imitator", "Imitate", "Role" });
     public static readonly AchievementSpec IronWall = Define("Iron Wall",
-        "Have your shield block 3 attacks in a single game as Medic.", TouCrewAssets.BarrierSprite, TouRoleIcons.Medic, subIconTooltip: "TownOfUsMira.Role.Medic",
+        "Have your shield block an attack in three rounds as Medic.", TouCrewAssets.BarrierSprite, TouRoleIcons.Medic, subIconTooltip: "TownOfUsMira.Role.Medic",
         rarity: 1, progressGoal: 3, persistence: AchievementPersistence.ThroughoutRounds, tags: new[] { "Medic", "Shield", "Protect", "Block" });
     public static readonly AchievementSpec MassResurrection = Define("Mass Resurrection",
         "Revive 2 or more players with a single Revive.", TouCrewAssets.ReviveSprite, TouRoleIcons.Altruist, subIconTooltip: "TownOfUsMira.Role.Altruist", rarity: 2, tags: new[] { "Altruist", "Revive", "Multi" });

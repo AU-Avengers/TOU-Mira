@@ -124,6 +124,10 @@ public sealed record AchievementArt(
 public static class AchievementsAPIHelper
 {
     /// <summary>
+    /// True when the local player can actually be given achievements that require validation.
+    /// </summary>
+    public static bool CanAchievementsBeGranted => true/*!TutorialManager.InstanceExists && AmongUsClient.Instance.allClients.Count > 3*/;
+    /// <summary>
     /// The BepInEx GUID of the AchievementsAPI plugin.
     /// </summary>
     public const string PluginGuid = "AchievementsAPI";
@@ -175,9 +179,9 @@ public static class AchievementsAPIHelper
     /// <summary>
     /// Unlocks an achievement. No-op if it isn't registered or the API is missing.
     /// </summary>
-    public static void Unlock(AchievementSpec achievement)
+    public static void Unlock(AchievementSpec achievement, bool needsToMeetRequirements = true)
     {
-        if (!IsLoaded)
+        if (!IsLoaded || !CanAchievementsBeGranted && needsToMeetRequirements)
         {
             return;
         }

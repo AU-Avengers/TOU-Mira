@@ -184,7 +184,7 @@ public static class TouAchievementEvents
             case AbilityType.ClericCleanse
                 when @event.Player.AmOwner && @event.Target is PlayerControl cleansed &&
                      cleansed.HasModifier<SpellslingerHexedModifier>():
-                AchievementsAPIHelper.UnlockTentative(TouAchievements.Exorcist);
+                AchievementsAPIHelper.Unlock(TouAchievements.Exorcist);
                 break;
 
             case AbilityType.VeteranAlert when @event.Player.AmOwner:
@@ -242,7 +242,7 @@ public static class TouAchievementEvents
                 KnightedIds.Add(knight.PlayerId);
                 break;
 
-            case AbilityType.MedicShieldProtect when @event.Player.AmOwner:
+            case AbilityType.MedicShieldProtect when @event.Player.AmOwner && @event.Result == "New Attack":
                 AchievementsAPIHelper.Increment(TouAchievements.IronWall, 1);
                 break;
 

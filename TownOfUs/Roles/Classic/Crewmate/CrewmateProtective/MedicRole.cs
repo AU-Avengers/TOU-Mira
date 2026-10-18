@@ -27,6 +27,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     [HideFromIl2Cpp] public PlayerControl? Shielded { get; set; }
     public bool IsProtecting { get; set; }
+    public bool ProtectedAttackedThisRound { get; set; }
 
     public void FixedUpdate()
     {
@@ -398,8 +399,9 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
             DangerAnimNonMedic();
         }
 
-        var touAbilityEvent = new TouAbilityEvent(AbilityType.MedicShieldProtect, medic, shielded);
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.MedicShieldProtect, !role.ProtectedAttackedThisRound ? "New Attack" : "Already Attacked", medic, shielded);
         MiraEventManager.InvokeEvent(touAbilityEvent);
+        role.ProtectedAttackedThisRound = true;
 
         var shieldBreaks = OptionGroupSingleton<MedicOptions>.Instance.ShieldBreaks;
 
