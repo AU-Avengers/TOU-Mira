@@ -156,7 +156,7 @@ public static class TouAchievements
         "Imitate 3 different roles in a single game.", TouAssets.ImitateSelectSprite, TouRoleIcons.Imitator, subIconTooltip: "TownOfUsMira.Role.Imitator", rarity: 1, tags: new[] { "Imitator", "Imitate", "Role" });
     public static readonly AchievementSpec IronWall = Define("Iron Wall",
         "Have your shield block an attack in three rounds as Medic.", TouCrewAssets.BarrierSprite, TouRoleIcons.Medic, subIconTooltip: "TownOfUsMira.Role.Medic",
-        rarity: 1, progressGoal: 3, persistence: AchievementPersistence.ThroughoutRounds, tags: new[] { "Medic", "Shield", "Protect", "Block" });
+        rarity: 1, progressGoal: 3, persistence: AchievementPersistence.ThroughoutRounds, toastOnGameEnd: true, tags: new[] { "Medic", "Shield", "Protect", "Block" });
     public static readonly AchievementSpec MassResurrection = Define("Mass Resurrection",
         "Revive 2 or more players with a single Revive.", TouCrewAssets.ReviveSprite, TouRoleIcons.Altruist, subIconTooltip: "TownOfUsMira.Role.Altruist", rarity: 2, tags: new[] { "Altruist", "Revive", "Multi" });
     public static readonly AchievementSpec Undo = Define("Undo",

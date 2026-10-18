@@ -126,15 +126,6 @@ internal static class AchievementsAPIBridge
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    public static void SetToastOnGameEnd(AchievementSpec spec, bool onGameEnd)
-    {
-        if (Achievements.TryGetValue(spec, out var achievement))
-        {
-            achievement.ToastTiming = onGameEnd ? AchToastTiming.OnGameEnd : AchToastTiming.Immediate;
-        }
-    }
-
-    [MethodImpl(MethodImplOptions.NoInlining)]
     public static bool IsMenuOpen()
     {
         return AchievementsMenu.Instance != null;

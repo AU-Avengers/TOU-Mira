@@ -2,7 +2,6 @@ using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Player;
-using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -13,7 +12,6 @@ using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
-using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
@@ -222,9 +220,6 @@ public static class TouAchievementEvents
                 break;
 
             case AbilityType.MedicShieldProtect when @event.Player.AmOwner && @event.Result == "New Attack":
-                var medicNotified = OptionGroupSingleton<MedicOptions>.Instance.WhoGetsNotification
-                    is MedicOption.Medic or MedicOption.ShieldedAndMedic or MedicOption.Everyone;
-                AchievementsAPIHelper.SetToastOnGameEnd(TouAchievements.IronWall, !medicNotified);
                 AchievementsAPIHelper.Increment(TouAchievements.IronWall, 1);
                 break;
 

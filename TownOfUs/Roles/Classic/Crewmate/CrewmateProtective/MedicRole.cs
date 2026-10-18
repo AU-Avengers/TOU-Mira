@@ -379,12 +379,12 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         var shieldNotify = OptionGroupSingleton<MedicOptions>.Instance.WhoGetsNotification;
 
-        if (shielded.AmOwner && shieldNotify == MedicOption.Shielded)
+        if (shielded.AmOwner && shieldNotify is MedicOption.Shielded or MedicOption.ShieldedAndMedic)
         {
             DangerAnim();
         }
 
-        if (medic.AmOwner && shieldNotify == MedicOption.Medic)
+        if (medic.AmOwner && shieldNotify is MedicOption.Medic or MedicOption.ShieldedAndMedic)
         {
             DangerAnim();
         }
