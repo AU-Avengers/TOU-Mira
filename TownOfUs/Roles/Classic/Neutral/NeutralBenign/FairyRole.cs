@@ -270,7 +270,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
 
         if (Target == null || victim == Target)
         {
-            if (victim == Target && Player.AmOwner)
+            if (victim == Target && Player.AmOwner && !victim.Data.Disconnected && TouAchievementEvents.IsFirstRound)
             {
                 AchievementsAPIHelper.Unlock(TouAchievements.FairlyBadParent);
             }

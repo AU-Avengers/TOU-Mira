@@ -45,6 +45,11 @@ public static class TouAchievementEvents
     private static int _meetingsSeen;
 
     /// <summary>
+    /// True until the first meeting of the match has been called.
+    /// </summary>
+    public static bool IsFirstRound => _meetingsSeen == 0;
+
+    /// <summary>
     /// Called by the Snitch role when it finishes tasks and reveals the evils.
     /// </summary>
     public static void OnSnitchReveal(PlayerControl snitch)
