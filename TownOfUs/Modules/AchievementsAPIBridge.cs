@@ -55,6 +55,15 @@ internal static class AchievementsAPIBridge
         AchievementsManager.GetCategory(AchievementCategories.Neutral)?.SetDefaultIcon(() => TouRoleIcons.Neutral.LoadAsset());
     }
 
+    /// <summary>
+    /// Blocks achievement unlocks/progress while Town of Us' multiplayer freeplay is active.
+    /// </summary>
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static void RegisterUnlockBlockers()
+    {
+        AchievementsManager.UnlockBlockers.Add(() => MultiplayerFreeplayMode.Enabled);
+    }
+
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static bool IsUnlocked(AchievementSpec spec)
     {

@@ -152,6 +152,7 @@ public static class AchievementsAPIHelper
         AchievementsAPIBridge.RegisterMod(TouAchievementGroups.Imp, TouAchievements.Imp);
         AchievementsAPIBridge.RegisterMod(TouAchievementGroups.Neut, TouAchievements.Neut);
         AchievementsAPIBridge.RegisterTouCategoryIcons();
+        AchievementsAPIBridge.RegisterUnlockBlockers();
     }
 
     /// <summary>
