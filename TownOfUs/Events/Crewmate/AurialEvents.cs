@@ -10,27 +10,13 @@ namespace TownOfUs.Events.Crewmate;
 
 public static class AurialEvents
 {
-    [RegisterEvent]
+    [RegisterEvent(100000)]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {
         var button = @event.Button;
         var source = PlayerControl.LocalPlayer;
 
-        if (!source.AmOwner || button == null || !button.CanClick() || button is IAurialBypassButton or IKillButton)
-        {
-            return;
-        }
-
-        CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Where(x => !x.Player.AmOwner)
-            .Do(x => AurialRole.RpcSense(x.Player, source, false));
-    }
-
-    [RegisterEvent]
-    public static void BeforeMurderEventHandler(BeforeMurderEvent @event)
-    {
-        var source = @event.Source;
-
-        if (!(TutorialManager.InstanceExists || source.AmOwner) || ExileController.Instance || MeetingHud.Instance)
+        if (@event.IsCancelled || !source.AmOwner || button == null || !button.CanClick() || button is IAurialBypassButton or IKillButton)
         {
             return;
         }
