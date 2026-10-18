@@ -100,6 +100,8 @@
   <string name="UseCrewmateTeamColor">Use Basic Crew Colors</string>
   <string name="ShowShieldHud">Show Shields On Hud</string>
   <string name="ShowBasicAssassinOnHud">Show Assassin On Hud</string>
+    <string name="UseVanillaRoleGuide">Use Vanilla Wiki</string>
+    <string name="ShowFpsCounter">Show FPS Counter</string>
   <string name="UseSeparateRedChat">Show Separate Private Chat</string>
   <string name="ButtonUIFactor">Button Scale Factor</string>
   <string name="OffsetButtons">Offset Buttons If You Can't Vent</string>
@@ -234,6 +236,7 @@ Fake Tasks:</string>
   <string name="FrenzyKillerTaskHeader">Eliminate all other teams by any means.</string>
   <!-- Role List -->
     <string name="SetRoleList">Set Role List</string>
+    <string name="ExclusiveRolesList">Can't Spawn Together</string>
   <string name="NeutralFactionList">Neutral Faction List</string>
   <string name="StoredDraftTitle">Draft Mode</string>
   <string name="NeutralBenigns">Neutral Benigns</string>
@@ -890,6 +893,8 @@ cast Barriers to stop any interactions altogether</string>
   <string name="TownOfUsMira.Role.Deputy.WikiDescription">The Deputy is a Crewmate Killing role that can camp other players. Once a camped player dies, the Deputy is alerted to their death. The following meeting, the Deputy may then attempt to shoot the killer of the camped player. If successful the killer dies and if not nothing happens.</string>
   <string name="TownOfUsMira.Role.DeputyCamp">Camp</string>
   <string name="TownOfUsMira.Role.DeputyCamp.WikiDescription">Camp a player to be alerted once they die. After their death, you may attempt to shoot the killer. If your shot is successful, the killer dies, if not, nothing will happen.</string>
+    <string name="TownOfUsMira.Role.DeputyShoot">Shoot</string>
+    <string name="TownOfUsMira.Role.DeputyShoot.WikiDescription">Shoot a player in the meeting. The player will be killed successfully if they are the killer and they are not unkillable by natural means.</string>
   <!-- Deputy Feedback -->
     <string name="TownOfUsMira.Role.DeputyRevealedText"> (Blasted)</string>
   <string name="TownOfUsMira.Role.DeputyCampNotif">Wait for [player]'s death so you can blast their killer in the meeting.</string>
@@ -1016,7 +1021,9 @@ They might be the killer or a witness.</string>
   <string name="TownOfUsMira.Role.Hunter.TabDescription">Stalk players to get alerted when they use an ability.
 Once they use an ability, you may kill them.</string>
   <string name="TownOfUsMira.Role.HunterCaughtPlayersText">Caught Players:</string>
-  <string name="TownOfUsMira.Role.Hunter.WikiDescription">The Hunter is a Crewmate Killing role that can stalk players during the round. If a stalked player uses an ability, they can be killed by the Hunter at any point in the game, even Crew.</string>
+  <string name="TownOfUsMira.Role.Hunter.WikiDescription">The Hunter is a Crewmate Killing role that can stalk players during the round. If a stalked player uses an ability, they can be killed by the Hunter at any point in the game, even Crew. However, if the Hunter kills a caught Crewmate in the same round they were caught, the Hunter will leave in shame at the end of the next meeting.</string>
+  <string name="TownOfUsMira.Role.Hunter.ShameNotification">The Hunter, [player], has left in shame for killing a fellow Crewmate.</string>
+  <string name="TownOfUsMira.Role.Hunter.ShameNotificationSelf">Your hasty judgment has led to your swift punishment.</string>
   <string name="TownOfUsMira.Role.HunterStalk">Stalk</string>
   <string name="TownOfUsMira.Role.HunterStalking">Stalking</string>
   <string name="TownOfUsMira.Role.HunterStalk.WikiDescription">Choose a target to stalk. You can stalk [hunterMaxStalkUsages] players. If they use any ability while stalked, they're added to your hitlist and can be killed.</string>
@@ -1034,6 +1041,7 @@ Once they use an ability, you may kill them.</string>
   <string name="TouOptionHunterStalkTriggerEnumInteraction">Interactions</string>
   <string name="TouOptionHunterStalkTriggerEnumAlways">All Abilities</string>
   <string name="TouOptionHunterRetributionOnVote">Hunter Kills Last Voter If Voted Out</string>
+  <string name="TouOptionHunterSameRoundKillPunishment">Hunter Leaves If Killing Caught Crew Same Round</string>
   <string name="TouOptionHunterHunterBodyReport">Hunter Can Report Who They've Killed</string>
   <!-- Imitator - Crewmate Support -->
     <!-- Imitator Wiki / Abilities -->
@@ -1047,6 +1055,7 @@ Once they use an ability, you may kill them.</string>
   <string name="TownOfUsMira.Role.ImitatorCrewmateImitation.WikiDescription">All crewmate roles are available besides Politician and Mayor. Roles like Jailor and Prosecutor cannot use their meeting abilities, and Vigi does not get safe shots.</string>
   <string name="TownOfUsMira.Role.ImitatorNeutralCounterparts">Neutral Counterparts</string>
   <string name="TownOfUsMira.Role.ImitatorImpostorCounterparts">Impostor Counterparts</string>
+    <string name="TownOfUsMira.Role.Imitator.CounterpartHint">(Only if Enabled)</string>
   <!-- Imitator Options -->
     <string name="TouOptionImitatorImitateNeutrals">Imitate Neutral Counterparts</string>
   <string name="TouOptionImitatorImitateImpostors">Imitate Impostor Counterparts</string>
@@ -1961,6 +1970,7 @@ distinguishing players under a mass hysteria</string>
   <string name="TownOfUsMira.Role.HypnotistHypnotize.WikiDescription">Hypnotize a player, causing them to see the game differently than non-hypnotized players if mass hysteria is active.</string>
   <string name="TownOfUsMira.Role.HypnotistMassHysteria">Hysteria</string>
   <string name="TownOfUsMira.Role.HypnotistMassHysteriaWiki">Mass Hysteria (Meeting)</string>
+    <string name="TownOfUsMira.Role.HypnotistMassHysteriaLong">Mass Hysteria</string>
   <string name="TownOfUsMira.Role.HypnotistMassHysteria.WikiDescription">Cause all hypnotized players to have different visuals applied to players on their screen the following round.</string>
   <!-- Hypnotist Options -->
     <string name="TouOptionHypnotistHypnotizeCooldown">Hypnotize Cooldown</string>
@@ -2402,6 +2412,7 @@ Once your quota is fed, leave in victory!</string>
   <string name="TownOfUsMira.Role.Jester.WikiDescription">The Jester is a Neutral Evil role that wins by getting themselves ejected.</string>
   <string name="TownOfUsMira.Role.JesterHaunt">Haunt</string>
   <string name="TownOfUsMira.Role.JesterPoke">Poke</string>
+    <string name="TownOfUsMira.Role.JesterPoke.WikiDescription">Poke a player to trigger an interaction, setting off a variety of roles. Use it every so often to make yourself suspicious!</string>
   <!-- Jester Messages -->
     <string name="TouNotifJesterWinOwner">You have successfully won as the Jester, by getting voted out!</string>
   <string name="TouNotifJesterHauntOwner">You have one round to haunt a player of your choice to death, choose wisely!</string>
@@ -3128,6 +3139,13 @@ when the lights are sabotaged.</string>
   <string name="TouOptionRoleDraftRoleListSlot13">Slot 13</string>
   <string name="TouOptionRoleDraftRoleListSlot14">Slot 14</string>
   <string name="TouOptionRoleDraftRoleListSlot15">Slot 15</string>
+  <!-- Role Exclusions -->
+      <string name="TownOfUsMira.Options.Groups.RoleExclusions">Role Exclusions</string>
+  <string name="TouOptionExclusiveCleaningRoles">Cleaning Roles Can't Spawn Together</string>
+  <string name="TouOptionExclusiveFramingRoles">Framing Roles Can't Spawn Together</string>
+  <string name="TouOptionExclusiveRevivingRoles">Reviving Roles Can't Spawn Together</string>
+  <string name="TouOptionExclusiveBlindingRoles">Blinding Roles Can't Spawn Together</string>
+  <string name="TouOptionExclusiveMunicipalRoles">Municipal Roles Can't Spawn Together</string>
   <!-- Role Settings -->
       <string name="TownOfUsMira.Options.Groups.RoleSettings">Role Settings</string>
   <string name="TouOptionCurrentGameMode">Current Game Mode</string>

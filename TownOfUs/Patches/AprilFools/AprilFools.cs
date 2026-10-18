@@ -75,6 +75,7 @@ public static class AprilFoolsPatches
                 translator.stringName = $"LegacyTheme{TownOfUsPlugin.LegacyMode.Value}";
                 translator.ResetText();
                 LogoPatch.GameLogo.sprite = TouAssets.Banner.LoadAsset();
+                // AprilFoolsMode.IsAprilFoolsModeToggledOn = value is LegacyVisuals.Players or LegacyVisuals.Full;
             }));
             /*var aprilfoolstoggle = __instance.newsButton.CloneMenuItem("AprilFoolsButton", new Vector2(0.815f, 0.775f), TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset(), "FoolsMode", "Fools Mode");
 
@@ -138,12 +139,13 @@ public static class AprilFoolsPatches
             __instance.mainButtons = uiList;
             __instance.SetUpControllerNav();
         }
+        // AprilFoolsMode.IsAprilFoolsModeToggledOn = TownOfUsPlugin.LegacyMode.Value is LegacyVisuals.Players or LegacyVisuals.Full;
     }
 
-    private static bool IsLegacyPlayer =>
-        TownOfUsPlugin.LegacyMode.Value is LegacyVisuals.Players or LegacyVisuals.Full;
+    /*private static bool IsLegacyPlayer =>
+        TownOfUsPlugin.LegacyMode.Value is LegacyVisuals.Players or LegacyVisuals.Full;*/
 
-    [HarmonyPatch(typeof(AprilFoolsMode), nameof(AprilFoolsMode.ShouldClassicMode))]
+    /*[HarmonyPatch(typeof(AprilFoolsMode), nameof(AprilFoolsMode.ShouldClassicMode))]
     [HarmonyPrefix]
     public static bool ClassicPlayersPrefix(ref bool __result)
     {
@@ -153,19 +155,26 @@ public static class AprilFoolsPatches
             return false;
         }
         return true;
-    }
+    }*/
 
-    [HarmonyPatch(typeof(AprilFoolsMode), nameof(AprilFoolsMode.ShouldClassicMainMenuMode))]
+    /*[HarmonyPatch(typeof(AprilFoolsMode), "ShouldClassicMode")]
+    [HarmonyPatch(typeof(AprilFoolsMode), "IsImpostorMonth")]
     [HarmonyPrefix]
     public static bool ClassicMenuPrefix(ref bool __result)
     {
         if (TownOfUsPlugin.LegacyMode != null && TownOfUsPlugin.LegacyMode.Value is not LegacyVisuals.Disabled)
         {
+            if (!EOSManager.Instance.HasServerTimestamp)
+            {
+                __result = false;
+                return false;
+            }
             __result = true;
             return false;
         }
+
         return true;
-    }
+    }*/
 
     public static PassiveButton CloneMenuItem(this PassiveButton newsButton, string objName, Vector2 pos, Sprite image, string IdPart, string? defaultText)
     {

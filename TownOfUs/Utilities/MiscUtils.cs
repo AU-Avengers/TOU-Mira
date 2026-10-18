@@ -150,149 +150,12 @@ public static class MiscUtils
 
     public static ReadOnlyCollection<IModdedOption>? GetModdedOptionsForRole(Type classType)
     {
-        var optionGroups =
-            AccessTools.Field(typeof(ModdedOptionsManager), "Groups").GetValue(null) as List<AbstractOptionGroup>;
-
-        return optionGroups?.FirstOrDefault(x => x.OptionableType == classType)?.Children;
+        return Helpers.GetModdedOptionsForType(classType);
     }
 
     public static string AppendOptionsText(Type classType)
     {
-        var options = GetModdedOptionsForRole(classType);
-        if (options == null)
-        {
-            return string.Empty;
-        }
-
-        IWikiOptionsSummaryProvider? summaryProvider = null;
-        IReadOnlySet<StringNames>? hiddenKeys = null;
-        try
-        {
-            var optionGroups =
-                AccessTools.Field(typeof(ModdedOptionsManager), "Groups").GetValue(null) as List<AbstractOptionGroup>;
-            summaryProvider =
-                optionGroups?.FirstOrDefault(x => x.OptionableType == classType) as IWikiOptionsSummaryProvider;
-            hiddenKeys = summaryProvider?.WikiHiddenOptionKeys;
-        }
-        catch
-        {
-            summaryProvider = null;
-            hiddenKeys = null;
-        }
-
-        var builder = new StringBuilder();
-        builder.AppendLine(TownOfUsPlugin.Culture,
-            $"\n<size=50%> \n</size><b>{TownOfUsColors.Vigilante.ToTextColor()}{MiraLocaleManager.Get("Options")}</color></b>");
-
-        var insertedSummary = false;
-        foreach (var option in options)
-        {
-            if (!insertedSummary && summaryProvider != null && hiddenKeys != null)
-            {
-                StringNames? key = option switch
-                {
-                    ModdedToggleOption t => t.StringName,
-                    ModdedEnumOption e => e.StringName,
-                    ModdedNumberOption n => n.StringName,
-                    _ => null
-                };
-                if (key.HasValue && hiddenKeys.Contains(key.Value))
-                {
-                    foreach (var line in summaryProvider.GetWikiOptionSummaryLines())
-                    {
-                        if (!string.IsNullOrWhiteSpace(line))
-                        {
-                            builder.AppendLine(line);
-                        }
-                    }
-
-                    insertedSummary = true;
-                }
-            }
-
-            switch (option)
-            {
-                case ModdedToggleOption toggleOption:
-                    if (!toggleOption.Visible())
-                    {
-                        continue;
-                    }
-
-                    if (hiddenKeys != null && hiddenKeys.Contains(toggleOption.StringName))
-                    {
-                        continue;
-                    }
-
-                    builder.AppendLine(TranslationController.Instance.GetString(toggleOption.StringName) + ": " +
-                                       toggleOption.Value);
-                    break;
-                /*case ModdedMultiSelectOption<Enum> enumOption:
-                    if (!enumOption.Visible())
-                    {
-                        continue;
-                    }
-
-                    builder.AppendLine(enumOption.Title + ": " + enumOption.Values[enumOption.Value]);
-                    break;*/
-                case ModdedEnumOption enumOption:
-                    if (!enumOption.Visible())
-                    {
-                        continue;
-                    }
-
-                    if (hiddenKeys != null && hiddenKeys.Contains(enumOption.StringName))
-                    {
-                        continue;
-                    }
-
-                    builder.AppendLine(TranslationController.Instance.GetString(enumOption.StringName) + ": " +
-                                       MiraLocaleManager.Get(enumOption.Values[enumOption.Value],
-                                           enumOption.Values[enumOption.Value]));
-                    break;
-                case ModdedNumberOption numberOption:
-                    if (!numberOption.Visible())
-                    {
-                        continue;
-                    }
-
-                    if (hiddenKeys != null && hiddenKeys.Contains(numberOption.StringName))
-                    {
-                        continue;
-                    }
-
-                    var optionStr = numberOption.Data.GetValueString(numberOption.Value);
-                    if (optionStr.Contains(".000"))
-                    {
-                        optionStr = optionStr.Replace(".000", "");
-                    }
-                    else if (optionStr.Contains(".00"))
-                    {
-                        optionStr = optionStr.Replace(".00", "");
-                    }
-                    else if (optionStr.Contains(".0"))
-                    {
-                        optionStr = optionStr.Replace(".0", "");
-                    }
-
-                    var title = TranslationController.Instance.GetString(numberOption.StringName);
-                    if (numberOption is { NegativeWordValue: not "#", Value: -1 })
-                    {
-                        builder.AppendLine(title + $": {numberOption.NegativeWordValue}");
-                    }
-                    else if (numberOption is { ZeroWordValue: not "#", Value: 0 })
-                    {
-                        builder.AppendLine(title + $": {numberOption.ZeroWordValue}");
-                    }
-                    else
-                    {
-                        builder.AppendLine(title + ": " + optionStr);
-                    }
-
-                    break;
-            }
-        }
-
-        return builder.ToString();
+        return Helpers.GetOptionsText(classType);
     }
 
     public static RoleAlignment GetRoleAlignment(this ICustomRole role)
@@ -718,6 +581,7 @@ public static class MiscUtils
                 break;
             case RoleAlignment.CrewmateAfterlife:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.GuardianAngel));
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.SpiritGuide));
                 break;
             case RoleAlignment.ImpostorSupport:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Impostor));
@@ -749,6 +613,7 @@ public static class MiscUtils
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Tracker));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Detective));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.GuardianAngel));
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.SpiritGuide));
                 break;
             case ModdedRoleTeams.Impostor:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Impostor));
@@ -1425,6 +1290,114 @@ public static class MiscUtils
         return rolesToKeep;
     }
 
+    /// <summary>
+    ///     Checks whether two roles cannot spawn together, based on either role's <see cref="IExclusiveRole"/>
+    ///     declaration or a shared enabled RoleExclusionRegistry bucket.
+    /// </summary>
+    public static bool AreRolesExclusive(RoleBehaviour a, RoleBehaviour b)
+    {
+        return a is IExclusiveRole exclusiveA && exclusiveA.ExclusiveWith.Any(t => t.IsInstanceOfType(b))
+               || b is IExclusiveRole exclusiveB && exclusiveB.ExclusiveWith.Any(t => t.IsInstanceOfType(a))
+               || RoleExclusionRegistry.AreExclusive(a, b);
+    }
+
+    /// <summary>
+    ///     Resolves which roles are blocked this game by <see cref="IExclusiveRole"/> relationships and enabled exclusion buckets.
+    ///     Roles at 100% beat roles below 100%; otherwise roles that pass their spawn roll beat ones that don't.
+    ///     Ties are decided randomly, so two 100% roles that exclude each other are a 50/50.
+    /// </summary>
+    /// <returns>The role ids that must not spawn this game.</returns>
+    public static HashSet<ushort> GetExclusiveRoleExclusions()
+    {
+        var roleOptions = GameOptionsManager.Instance.CurrentGameOptions.RoleOptions;
+        var candidates = GetExclusionCandidates();
+
+        var involved = candidates
+            .Where(x => candidates.Any(y => x != y && AreRolesExclusive(x, y)))
+            .Select(x => (Role: x, Chance: roleOptions.GetChancePerGame(x.Role)))
+            .ToList();
+
+        if (involved.Count == 0)
+        {
+            return [];
+        }
+
+        involved.Shuffle();
+        var ordered = involved
+            .OrderByDescending(x => x.Chance == 100)
+            .ThenByDescending(x => HashRandom.Next(101) < x.Chance)
+            .Select(x => x.Role)
+            .ToList();
+
+        var allowed = new List<RoleBehaviour>();
+        var excluded = new HashSet<ushort>();
+        foreach (var role in ordered)
+        {
+            if (allowed.Any(x => AreRolesExclusive(x, role)))
+            {
+                excluded.Add((ushort)role.Role);
+            }
+            else
+            {
+                allowed.Add(role);
+            }
+        }
+
+        return excluded;
+    }
+
+    /// <summary>
+    ///     Groups the enabled roles that cannot spawn together, for display. Each group is a connected set of
+    ///     roles linked by <see cref="IExclusiveRole"/> declarations or enabled exclusion buckets.
+    /// </summary>
+    public static List<List<RoleBehaviour>> GetExclusiveRoleGroups()
+    {
+        var candidates = GetExclusionCandidates();
+        var declaredTypes = candidates.OfType<IExclusiveRole>().SelectMany(x => x.ExclusiveWith).ToHashSet();
+        var relevant = candidates
+            .Where(x => x is IExclusiveRole
+                        || declaredTypes.Any(t => t.IsInstanceOfType(x))
+                        || RoleExclusionRegistry.RegisteredBuckets.Any(b => b.IsEnabled() && b.Contains(x)))
+            .ToList();
+
+        var groups = new List<List<RoleBehaviour>>();
+        var visited = new HashSet<RoleBehaviour>();
+        foreach (var role in relevant)
+        {
+            if (!visited.Add(role))
+            {
+                continue;
+            }
+
+            var group = new List<RoleBehaviour> { role };
+            for (var i = 0; i < group.Count; i++)
+            {
+                foreach (var other in relevant.Where(x => !visited.Contains(x) && AreRolesExclusive(group[i], x)).ToList())
+                {
+                    visited.Add(other);
+                    group.Add(other);
+                }
+            }
+
+            if (group.Count > 1)
+            {
+                groups.Add(group);
+            }
+        }
+
+        return groups;
+    }
+
+    private static List<RoleBehaviour> GetExclusionCandidates()
+    {
+        var roleOptions = GameOptionsManager.Instance.CurrentGameOptions.RoleOptions;
+        return SpawnableRoles
+            .Where(x => x is not ISpawnChange { NoSpawn: true }
+                        && roleOptions.GetNumPerGame(x.Role) > 0
+                        && roleOptions.GetChancePerGame(x.Role) > 0)
+            .ToList();
+    }
+
     private static List<(uint Id, ushort RoleType, int Chance)> GetPossibleRoles(
         List<RoleManager.RoleAssignmentData> assignmentData,
         Func<RoleManager.RoleAssignmentData, bool>? predicate = null)
@@ -1779,9 +1752,9 @@ public static class MiscUtils
                 }
 
                 if (normalPlayerTask.TaskType is TaskTypes.EmptyGarbage or TaskTypes.EmptyChute
-                    && (GameOptionsManager.Instance.currentGameOptions.MapId == 0 ||
-                        GameOptionsManager.Instance.currentGameOptions.MapId == 3 ||
-                        GameOptionsManager.Instance.currentGameOptions.MapId == 4))
+                    && (GameOptionsManager.Instance.CurrentGameOptions.MapId == 0 ||
+                        GameOptionsManager.Instance.CurrentGameOptions.MapId == 3 ||
+                        GameOptionsManager.Instance.CurrentGameOptions.MapId == 4))
                 {
                     normalPlayerTask.taskStep = 1;
                 }
@@ -1992,7 +1965,7 @@ public static class MiscUtils
     public static bool IsMap(byte mapid)
     {
         return (GameOptionsManager.Instance != null &&
-                GameOptionsManager.Instance.currentGameOptions.MapId == mapid)
+                GameOptionsManager.Instance.CurrentGameOptions.MapId == mapid)
                || (TutorialManager.InstanceExists && AmongUsClient.Instance.TutorialMapId == mapid);
     }
 
@@ -2291,7 +2264,7 @@ public static class MiscUtils
     {
         get
         {
-            var mapId = (ExpandedMapNames)GameOptionsManager.Instance.currentGameOptions.MapId;
+            var mapId = (ExpandedMapNames)GameOptionsManager.Instance.CurrentGameOptions.MapId;
             if (TutorialManager.InstanceExists)
             {
                 mapId = (ExpandedMapNames)AmongUsClient.Instance.TutorialMapId;
@@ -2489,6 +2462,18 @@ public static class MiscUtils
         }
         var name = modifier.ModifierName;
         return $"&{name.Replace(" ", "-").RemoveAll(WikiHyperLinkPatches.RemovedCharacters)}";
+    }
+
+    public static string GetReliableHyperlinkText(RoleBehaviour role)
+    {
+        var name = role.GetNamespace(true);
+        return $"#fullnamespace-{name}";
+    }
+
+    public static string? GetReliableHyperlinkText(BaseModifier modifier)
+    {
+        var name = modifier.GetNamespace(true);
+        return $"#fullnamespace-{name}";
     }
 
     public static bool CanUseUtility(GameUtility utility, bool isPortable = false)

@@ -22,7 +22,7 @@ public sealed class SonarHeartbeatTargetModifier(PlayerControl owner, Color colo
 
         var playerColor = Palette.PlayerColors[Player.GetDefaultAppearance().ColorId];
         var spr = Arrow.gameObject.GetComponent<SpriteRenderer>();
-        spr.color = RainbowUtils.LightUp(playerColor);
+        spr.color = RainbowBehaviour.LightUp(playerColor);
         var r = Arrow.gameObject.AddComponent<LightRainbowBehaviour>();
 
         r.AddRend(spr, Player.cosmetics.ColorId);

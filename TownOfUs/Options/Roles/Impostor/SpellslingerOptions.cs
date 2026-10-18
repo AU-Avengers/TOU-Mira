@@ -16,5 +16,8 @@ public sealed class SpellslingerOptions : AbstractRoleOptionGroup<SpellslingerRo
     public float MaxHexes { get; set; } = 5f;
 
     [ModdedNumberOption("Hex Bomb Countdown Duration", 30f, 180f, 5f, MiraNumberSuffixes.Seconds)]
-    public float HexBombDuration { get; set; } = 120f;
+    public float HexBombDuration { get; set; } = 90f;
+
+    [ModdedNumberOption("Hex Bomb Timer Decrease From Meetings", 5f, 30f, 5f, MiraNumberSuffixes.Seconds)]
+    public float HexBombDecreasePerMeeting { get; set; } = 10f;
 }

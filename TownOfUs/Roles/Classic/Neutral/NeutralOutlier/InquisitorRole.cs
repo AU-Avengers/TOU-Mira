@@ -189,6 +189,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string IdPart => "Inquisitor";
 
+    public string RoleWikiDescription => GetAdvancedDescription();
     public string GetAdvancedDescription()
     {
         return
@@ -207,6 +208,25 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Inquire.WikiDescription"),
                     TouNeutAssets.InquireSprite),
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Vanquish", "Vanquish"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Vanquish.WikiDescription"),
+                    TouNeutAssets.InquisKillSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Inquire", "Inquire"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Inquire.WikiDescription"),
+                    TouNeutAssets.InquireSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Vanquish", "Vanquish"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Vanquish.WikiDescription"),
                     TouNeutAssets.InquisKillSprite)
             ];
@@ -383,12 +403,12 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
                         if (role2 == lastRole)
                         {
                             reportBuilder.Append(TownOfUsPlugin.Culture,
-                                $"{MiscUtils.GetHyperlinkText(lastRole)})");
+                                $"{MiscUtils.GetReliableHyperlinkText(lastRole)})");
                         }
                         else
                         {
                             reportBuilder.Append(TownOfUsPlugin.Culture,
-                                $"{MiscUtils.GetHyperlinkText(role2)}, ");
+                                $"{MiscUtils.GetReliableHyperlinkText(role2)}, ");
                         }
                     }
                 }

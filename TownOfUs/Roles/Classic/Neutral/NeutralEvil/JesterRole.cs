@@ -54,6 +54,7 @@ public sealed class JesterRole(IntPtr cppPtr)
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<EngineerTouRole>());
 
+    public bool? ForceShowRoleOnWiki => CanBeGuessed ? true : null;
     // This is so the role can be guessed without requiring it to be enabled normally
     public bool CanBeGuessed =>
         (MiscUtils.GetPotentialRoles()
@@ -72,6 +73,21 @@ public sealed class JesterRole(IntPtr cppPtr)
         return
             MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Poke", "Poke"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Poke.WikiDescription"),
+                    TouNeutAssets.JesterPokeSprite)
+            ];
+        }
     }
 
     public Color RoleColor => TownOfUsColors.Jester;

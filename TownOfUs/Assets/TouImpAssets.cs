@@ -56,8 +56,7 @@ public static class TouImpAssets
     public static LoadableAsset<Sprite> DetonatingSprite { get; } =
         new LoadableBundleSubAsset("DetonatingButton", TouAssets.AbilityHolder);
 
-    public static LoadableAsset<Sprite> PlantSprite { get; } =
-        new LoadableBundleSubAsset("PlantButton", TouAssets.AbilityHolder);
+    public static LoadableAsset<Sprite> PlantSprite { get; } = PlaceSprite;
 
     public static LoadableAsset<Sprite> PoisonSprite { get; } =
         new LoadableBundleSubAsset("PoisonButton", TouAssets.AbilityHolder);

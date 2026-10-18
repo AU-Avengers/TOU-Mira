@@ -1,9 +1,11 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
@@ -32,6 +34,7 @@ public static class HudManagerPatches
 {
     public static ProgressTracking PlayerNameProgress = ProgressTracking.Always;
     public static NameStyle RoleNameStyle = NameStyle.TopSmall;
+    public static bool UseVanillaWiki;
     public static bool RoleOnTop => RoleNameStyle is NameStyle.Top or NameStyle.TopSmall;
     public static bool RoleIsSmall => RoleNameStyle is NameStyle.BottomSmall or NameStyle.TopSmall;
     public static bool IconOnRoleName;
@@ -42,10 +45,17 @@ public static class HudManagerPatches
     public static string RoleListPrefixText = string.Empty;
     public static TextMeshPro RoleListTextComp;
     public static bool IsHoveringRoleList;
+    public static int DisplayedRoleListSlots { get; private set; }
     public static bool HasAdjustedSubButton;
 
     public static bool Zooming;
     public static bool CamouflageCommsEnabled;
+
+    private static readonly Dictionary<byte, string> LastNameplateTexts = new();
+    private static readonly StringBuilder RoleListBuilder = new();
+    private static string? _lastRoleListText;
+    private static float _lastRoleListUpdateTime;
+    private const float RoleListUpdateInterval = 1f;
 
     private static void RefreshUIAnchors()
     {
@@ -247,6 +257,7 @@ public static class HudManagerPatches
                 RoleList.SetActive(false);
             }
 
+            LastNameplateTexts.Clear();
             return;
         }
 
@@ -304,9 +315,13 @@ public static class HudManagerPatches
 
             var playerColor = Color.white;
 
-            player.cosmetics.nameText.text = playerName;
-            player.cosmetics.nameText.color = playerColor;
-            player.cosmetics.nameText.alignment = TextAlignmentOptions.Bottom;
+            if (!LastNameplateTexts.TryGetValue(player.PlayerId, out var lastText) || lastText != playerName)
+            {
+                player.cosmetics.nameText.text = playerName;
+                player.cosmetics.nameText.color = playerColor;
+                player.cosmetics.nameText.alignment = TextAlignmentOptions.Bottom;
+                LastNameplateTexts[player.PlayerId] = playerName;
+            }
         }
 
         if (!RoleList)
@@ -323,6 +338,9 @@ public static class HudManagerPatches
             RoleListTextComp.alignment = TextAlignmentOptions.TopLeft;
             RoleListTextComp.verticalAlignment = VerticalAlignmentOptions.Top;
             RoleListTextComp.fontSize = RoleListTextComp.fontSizeMin = RoleListTextComp.fontSizeMax = 3f;
+            RoleListTextComp.text = string.Empty;
+            _lastRoleListText = null;
+            _lastRoleListUpdateTime = 0f;
             RoleList.SetActive(false);
             var hoverComp = instance.gameObject.GetComponent<RoleListHoverComponent>()
                          ?? instance.gameObject.AddComponent<RoleListHoverComponent>();
@@ -336,52 +354,47 @@ public static class HudManagerPatches
                 return;
             }
 
-            var rolelistBuilder = new StringBuilder("<color=#FFD700>");
+            if (Time.time - _lastRoleListUpdateTime < RoleListUpdateInterval)
+            {
+                RoleList.SetActive(true);
+                return;
+            }
+
+            _lastRoleListUpdateTime = Time.time;
+            RoleListBuilder.Clear();
+            RoleListBuilder.Append("<color=#FFD700>");
             var players = GameData.Instance.PlayerCount - SpectatorRole.TrackedSpectators.Count;
-            
+
             var list = OptionGroupSingleton<RoleOptions>.Instance;
             var maxCount = list.Slot.Count;
             var maxSlots = players < maxCount ? players : maxCount;
+            DisplayedRoleListSlots = maxSlots;
 
             switch (roleAssignmentType)
             {
                 case RoleDistribution.RoleList:
-                    rolelistBuilder.Append(RoleListPrefixText);
-                    rolelistBuilder.Append(StoredRoleList);
-                    rolelistBuilder.Append(":</color>\n");
+                    RoleListBuilder.Append(RoleListPrefixText);
+                    RoleListBuilder.Append(StoredRoleList);
+                    RoleListBuilder.Append(":</color>\n");
                     for (var i = 0; i < maxSlots; i++)
                     {
                         var slotValue = i >= list.Slot.Count
                             ? (RoleListOption)(-1)
                             : list.Slot[i].Value;
 
-                        rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
+                        RoleListBuilder.AppendLine(GetRoleForSlot(slotValue));
                     }
 
+                    AppendExclusiveRoles(RoleListBuilder);
                     break;
                 case RoleDistribution.MinMaxList:
-                    rolelistBuilder.Append(StoredFactionList);
-                    rolelistBuilder.Append(":</color>\n");
-                    var minMaxData = new (string Label, float Min, float Max)[]
-                    {
-                        (NeutralBenigns, list.MinNeutralBenign.Value, list.MaxNeutralBenign.Value),
-                        (NeutralEvils, list.MinNeutralEvil.Value, list.MaxNeutralEvil.Value),
-                        (NeutralKillers, list.MinNeutralKiller.Value, list.MaxNeutralKiller.Value),
-                        (NeutralOutliers, list.MinNeutralOutlier.Value, list.MaxNeutralOutlier.Value)
-                    };
-                    
-                    foreach (var (label, min, max) in minMaxData)
-                    {
-                        rolelistBuilder.Append(label);
-                        rolelistBuilder.Append(": ");
-                        rolelistBuilder.Append(min);
-                        rolelistBuilder.Append(' ');
-                        rolelistBuilder.Append(StoredMinimum);
-                        rolelistBuilder.Append(", ");
-                        rolelistBuilder.Append(max);
-                        rolelistBuilder.Append(' ');
-                        rolelistBuilder.AppendLine(StoredMaximum);
-                    }
+                    RoleListBuilder.Append(StoredFactionList);
+                    RoleListBuilder.Append(":</color>\n");
+                    AppendMinMaxLine(list.MinNeutralBenign.Value, list.MaxNeutralBenign.Value, NeutralBenigns);
+                    AppendMinMaxLine(list.MinNeutralEvil.Value, list.MaxNeutralEvil.Value, NeutralEvils);
+                    AppendMinMaxLine(list.MinNeutralKiller.Value, list.MaxNeutralKiller.Value, NeutralKillers);
+                    AppendMinMaxLine(list.MinNeutralOutlier.Value, list.MaxNeutralOutlier.Value, NeutralOutliers);
+                    AppendExclusiveRoles(RoleListBuilder);
                     break;
                 case RoleDistribution.Draft:
                     if (!DraftSidebarManager.IsActive)
@@ -390,8 +403,8 @@ public static class HudManagerPatches
                         var draftCrewOpts = OptionGroupSingleton<RoleDraftCrewOptions>.Instance;
                         var draftImpOpts = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
                         var draftNeutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
-                        rolelistBuilder.Append(StoredDraftTitle);
-                        rolelistBuilder.Append(":</color>\n");
+                        RoleListBuilder.Append(StoredDraftTitle);
+                        RoleListBuilder.Append(":</color>\n");
                         if (list.UseRoleListForPool.Value)
                         {
                             for (var i = 0; i < maxSlots; i++)
@@ -400,70 +413,125 @@ public static class HudManagerPatches
                                                 ? (RoleListOption)(-1)
                                                 : draftOpts.Slot[i].Value;
 
-                                rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
+                                RoleListBuilder.AppendLine(GetRoleForSlot(slotValue));
                             }
                         }
                         else
                         {
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                 $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Investigative: {draftCrewOpts.MaxCrewInvestigative.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                 $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Killing: {draftCrewOpts.MaxCrewKilling.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                 $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Power: {draftCrewOpts.MaxCrewPower.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                 $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Protective: {draftCrewOpts.MaxCrewProtective.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                 $"┗ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Support: {draftCrewOpts.MaxCrewSupport.Value} Max");
 
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                 $"{TownOfUsColors.ImpSoft.ToTextColor()}Impostors</color>: {draftImpOpts.MaxImpostors.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                 $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Concealing: {draftImpOpts.MaxImpConcealing.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                 $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Killing: {draftImpOpts.MaxImpKilling.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                 $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Power: {draftImpOpts.MaxImpPower.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                 $"┗ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Support: {draftImpOpts.MaxImpSupport.Value} Max");
 
                             if (draftNeutOpts.MaxNeutrals.Value > 0)
                             {
-                                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                     $"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: {draftNeutOpts.MaxNeutrals.Value} Max");
-                                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                     $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Benign: {draftNeutOpts.MaxNeutBenign.Value} Max");
-                                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                     $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Evil: {draftNeutOpts.MaxNeutEvil.Value} Max");
-                                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                     $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Killing: {draftNeutOpts.MaxNeutKilling.Value} Max");
-                                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                     $"┗ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Outlier: {draftNeutOpts.MaxNeutOutlier.Value} Max");
                             }
                             else
                             {
-                                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                     $"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: None");
                             }
                         }
+
+                        AppendExclusiveRoles(RoleListBuilder);
                     }
                     else
                     {
                         DraftSidebarManager.DrawSidebar(RoleListTextComp);
                         RoleList.SetActive(true);
+                        _lastRoleListText = null;
                         return;
                     }
 
                     break;
             }
 
-            if (!IsHoveringRoleList)
+            var roleListText = RoleListBuilder.ToString();
+            if (!IsHoveringRoleList && _lastRoleListText != roleListText)
             {
-                RoleListTextComp.text = rolelistBuilder.ToString();
+                RoleListTextComp.text = roleListText;
+                _lastRoleListText = roleListText;
             }
 
             RoleList.SetActive(true);
         }
+    }
+
+    private static void AppendMinMaxLine(float min, float max, string label)
+    {
+        RoleListBuilder.Append(label);
+        RoleListBuilder.Append(": ");
+        RoleListBuilder.Append(min);
+        RoleListBuilder.Append(' ');
+        RoleListBuilder.Append(StoredMinimum);
+        RoleListBuilder.Append(", ");
+        RoleListBuilder.Append(max);
+        RoleListBuilder.Append(' ');
+        RoleListBuilder.AppendLine(StoredMaximum);
+    }
+
+    private static void AppendExclusiveRoles(StringBuilder builder)
+    {
+        var groups = MiscUtils.GetExclusiveRoleGroups();
+        if (groups.Count == 0)
+        {
+            return;
+        }
+
+        builder.Append("\n<color=#FFD700>");
+        builder.Append(StoredExclusiveRoles);
+        builder.Append(":</color>\n");
+        var linkIndex = 0;
+        foreach (var group in groups)
+        {
+            var names = new List<string>();
+            foreach (var role in group)
+            {
+                names.Add(FormatExclusiveRole(role, ref linkIndex));
+            }
+
+            builder.AppendLine(string.Join("<color=#696969> / </color>", names));
+        }
+    }
+
+    private static string FormatExclusiveRole(RoleBehaviour role, ref int linkIndex)
+    {
+        var name = $"{role.TeamColor.ToTextColor()}{role.GetRoleName()}</color>";
+        var isVanilla = Enum.IsDefined(role.Role);
+        if (!isVanilla && role is not IWikiDiscoverable && !SoftWikiEntries.RoleEntries.ContainsKey(role))
+        {
+            return name;
+        }
+
+        var linkId = isVanilla ? $"AmongUs.Roles.{role.Role}" : role.GetType().FullName;
+        return $"<link=\"{linkId}:{linkIndex++}\">{name}</link>";
     }
 
     public static void CreateZoomButton(HudManager instance)
@@ -547,13 +615,13 @@ public static class HudManagerPatches
 
         if (WikiButton)
         {
-            WikiButton.SetActive(!GameSettingMenu.Instance &&
-                                 (!Minigame.Instance || Minigame.Instance is IngameWikiMinigame));
+            WikiButton.SetActive(!UseVanillaWiki && !GameSettingMenu.Instance &&
+                                                 (!Minigame.Instance || Minigame.Instance is IngameWikiMinigame));
         }
 
         if (OldVanillaWikiButton)
         {
-            OldVanillaWikiButton.SetActive(false);
+            OldVanillaWikiButton.SetActive(UseVanillaWiki);
         }
     }
 
@@ -565,17 +633,19 @@ public static class HudManagerPatches
           LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInPractice.Value) ||
          (GameStartManager.InstanceExists &&
           LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInLobby.Value)) &&
-        !(HudManager.Instance.GameMenu.IsOpen ||
-          DraftManager.IsDraftActive ||
-          HudManager.Instance.Chat.IsOpenOrOpening ||
-          MeetingHud.Instance || Minigame.Instance ||
-          PlayerCustomizationMenu.Instance ||
-          FriendsListUI.Instance && FriendsListUI.Instance.IsOpen ||
-          MatchInfoGuide.Instance && MatchInfoGuide.Instance.IsActive ||
-          GameStartManager.InstanceExists &&
-          (GameStartManager.Instance.RulesViewPanel &&
-           GameStartManager.Instance.RulesViewPanel.active ||
-           GameSettingMenu.Instance));
+        !(DraftManager.IsDraftActive || IsAnyMenuOpen);
+
+    public static bool IsAnyMenuOpen =>
+        HudManager.Instance.GameMenu.IsOpen ||
+        HudManager.Instance.Chat.IsOpenOrOpening ||
+        MeetingHud.Instance || Minigame.Instance ||
+        PlayerCustomizationMenu.Instance ||
+        FriendsListUI.Instance && FriendsListUI.Instance.IsOpen ||
+        MatchInfoGuide.Instance && MatchInfoGuide.Instance.IsActive ||
+        GameStartManager.InstanceExists &&
+        (GameStartManager.Instance.RulesViewPanel &&
+         GameStartManager.Instance.RulesViewPanel.active ||
+         GameSettingMenu.Instance);
 
     private static bool _registeredSoftModifiers;
     public static string StoredTasksText { get; private set; } = "Tasks";
@@ -583,6 +653,7 @@ public static class HudManagerPatches
     public static string StoredSpectatingLocale { get; private set; } = "Spectator";
     public static string StoredRoleList { get; private set; } = "Set Role List";
     public static string StoredFactionList { get; private set; } = "Neutral Faction List";
+    public static string StoredExclusiveRoles { get; private set; } = "Can't Spawn Together";
     public static string NeutralBenigns { get; private set; } = "Neutral Benigns";
     public static string NeutralEvils { get; private set; } = "Neutral Evils";
     public static string NeutralOutliers { get; private set; } = "Neutral Outliers";
@@ -632,6 +703,7 @@ public static class HudManagerPatches
     {
         __instance.gameObject.AddComponent<HudManagerHelper>();
         RoleNameStyle = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.RoleNameStyle.Value;
+        UseVanillaWiki = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.UseVanillaRoleGuide.Value;
         PlayerNameProgress = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.DisplayPlayerProgress.Value;
         IconOnRoleName = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.ShowRoleIcons.Value;
         StoredHostLocale = TranslationController.Instance.GetString(StringNames.HostNounEmpty);
@@ -639,6 +711,7 @@ public static class HudManagerPatches
         StoredSpectatingLocale = MiraLocaleManager.Get("TownOfUsMira.Role.Spectator");
         StoredRoleList = MiraLocaleManager.Get("SetRoleList");
         StoredFactionList = MiraLocaleManager.Get("NeutralFactionList");
+        StoredExclusiveRoles = MiraLocaleManager.Get("ExclusiveRolesList");
         StoredDraftTitle = MiraLocaleManager.Get("StoredDraftTitle");
         List<string> lists =
         [
@@ -703,7 +776,7 @@ public static class HudManagerPatches
                     continue;
                 }
                 // Warning($"Adding: {role.GetRoleName()}, {role.Role}, {role.GetNamespace()}");
-                roleEntry = roleEntry.AddToArray(new(role.GetRoleName(), role.Role, role.GetNamespace(), role.TeamColor));
+                roleEntry = roleEntry.AddToArray(new(role.GetRoleName(), role.Role, role.GetNamespace(false), role.TeamColor));
             }
             BucketTooltipData.AllRoles.Add(pair.Key, roleEntry);
         }
@@ -731,17 +804,27 @@ public static class HudManagerPatches
         { RoleListOption.ImpSupport, RoleAlignment.ImpostorSupport },
     };
 
-    public static string GetNamespace(this RoleBehaviour role)
+    public static string GetNamespace(this RoleBehaviour role, bool useHyphens)
     {
-        if (role is ICustomRole customRole)
-        {
-            return customRole.GetType().FullName!;
-        }
-
         var text = role.GetType().FullName!;
         if (Enum.IsDefined(role.Role))
         {
             text = $"AmongUs.Roles.{role.Role}";
+        }
+        if (useHyphens)
+        {
+            text = text.Replace('.', '-');
+        }
+
+        return text;
+    }
+
+    public static string GetNamespace(this BaseModifier modifier, bool useHyphens)
+    {
+        var text = modifier.GetType().FullName!;
+        if (useHyphens)
+        {
+            text = text.Replace('.', '-');
         }
 
         return text;

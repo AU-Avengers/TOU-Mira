@@ -80,12 +80,32 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Guard", "Guard"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Guard.WikiDescription"),
+                    TouNeutAssets.GuardSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bribe", "Bribe"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bribe.WikiDescription"),
+                    TouNeutAssets.BribeSprite)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Mercenary;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
 
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralBenign;
 
     // This is so the role can be guessed without requiring it to be enabled normally
+    public bool? ForceShowRoleOnWiki => CanBeGuessed ? true : null;
     public bool CanBeGuessed =>
         (MiscUtils.GetPotentialRoles()
              .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<FairyRole>())) &&

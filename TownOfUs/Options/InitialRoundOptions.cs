@@ -2,6 +2,7 @@
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Options;
 
@@ -9,6 +10,7 @@ public sealed class InitialRoundOptions : AbstractOptionGroup
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoundStart");
     public override uint GroupPriority => 1;
+    public override LoadableAsset<Sprite> Sprite => TouRoleIcons.TimeLord;
 
     [ModdedEnumOption("TouOptionModifierReveal", typeof(ModReveal),
         [

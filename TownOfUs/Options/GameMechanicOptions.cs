@@ -2,6 +2,7 @@
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Options;
 
@@ -9,6 +10,7 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
 {
  public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.GameMechanics");
     public override uint GroupPriority => 1;
+    public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Engineer;
 
     /*[ModdedToggleOption("TouOptionHideNamesOutOfSight")]
     public bool HideNamesOutOfSight { get; set; } = true;*/

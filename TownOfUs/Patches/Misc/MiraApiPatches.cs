@@ -39,6 +39,15 @@ public static class MiraApiPatches
         }
         return true;
     }
+    [HarmonyPatch(typeof(CustomRoleUtils), nameof(CustomRoleUtils.CanSpawnOnCurrentMode))]
+    [HarmonyPostfix]
+    public static void CanSpawnOnCurrentModePostfix(RoleBehaviour role, ref bool __result)
+    {
+        if (__result && role != null && TouRoleManagerPatches.VanillaExclusions.Contains((ushort)role.Role))
+        {
+            __result = false;
+        }
+    }
     [HarmonyPatch(typeof(TeamIntroConfiguration), nameof(TeamIntroConfiguration.Neutral.IntroTeamTitle), MethodType.Getter)]
     [HarmonyPrefix]
     public static bool NeutralTeamPrefix(ref string __result)

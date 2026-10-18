@@ -1,5 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
+using UnityEngine;
 
 namespace TownOfUs.Options;
 
@@ -7,6 +8,7 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.VanillaTweaks");
     public override uint GroupPriority => 1;
+    public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Scientist;
 
     public ModdedEnumOption HideNamesOutOfSight { get; set; } =
         new("TouOptionHideNamesOutOfSight", (int)NameSight.RoomBased,

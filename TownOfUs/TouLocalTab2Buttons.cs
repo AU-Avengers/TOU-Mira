@@ -4,6 +4,9 @@ using MiraAPI;
 using MiraAPI.Hud;
 using MiraAPI.LocalSettings.Attributes;
 using TownOfUs.Buttons;
+using TownOfUs.DebugTools;
+using TownOfUs.Modules.Components;
+using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
@@ -46,6 +49,14 @@ public class TouLocalTabButtons(ConfigFile config) : LocalSettingsTab(config)
         {
             ModStampPatch.StampPlacement = ModStampPlacement.Value;
         }
+        else if (configEntry == UseVanillaRoleGuide)
+        {
+            HudManagerPatches.UseVanillaWiki = UseVanillaRoleGuide.Value;
+        }
+        else if (configEntry == ShowFpsCounter)
+        {
+            FpsCounter.showFps = ShowFpsCounter.Value;
+        }
         else if (configEntry == SeparateChatBubbles)
         {
             if (!HudManager.InstanceExists)
@@ -77,6 +88,14 @@ public class TouLocalTabButtons(ConfigFile config) : LocalSettingsTab(config)
     [LocalEnumSetting(names: ["ModStampTopLeft", "ModStampTopRight", "ModStampBottomLeft", "ModStampBottomRight"])]
     public ConfigEntry<ModStampLocation> ModStampPlacement { get; private set; } =
         config.Bind("UI / Visuals", "ModStampPlacement", ModStampLocation.TopRight);
+
+    [LocalToggleSetting]
+    public ConfigEntry<bool> UseVanillaRoleGuide { get; private set; } =
+        config.Bind("UI / Visuals", "UseVanillaRoleGuide", true);
+
+    [LocalToggleSetting]
+    public ConfigEntry<bool> ShowFpsCounter { get; private set; } =
+        config.Bind("UI / Visuals", "ShowFpsCounter", TownOfUsPlugin.IsDevBuild);
 
     [LocalToggleSetting]
     public ConfigEntry<bool> PreciseCooldownsToggle { get; private set; } =

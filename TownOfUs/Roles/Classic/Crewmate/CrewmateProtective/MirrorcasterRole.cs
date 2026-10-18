@@ -72,6 +72,25 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MagicMirror", "Magic Mirror"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Menu"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MagicMirror.WikiDescription"),
+                    TouCrewAssets.MagicMirrorSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Unleash", "Unleash"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Unleash.WikiDescription"),
+                    TouCrewAssets.UnleashSprite)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Mirrorcaster;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateProtective;

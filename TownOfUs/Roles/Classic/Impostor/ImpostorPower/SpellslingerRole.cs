@@ -12,6 +12,7 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
+using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Roles.Impostor;
@@ -37,6 +38,19 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
             MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hex.WikiDescription"),
             TouImpAssets.HexSprite),
         new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}HexBomb", "Hex Bomb"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}HexBomb.WikiDescription"),
+            TouImpAssets.HexBombSprite)
+    ];
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities =>
+    [
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hex", "Hex"),
+            MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hex.WikiDescription"),
+            TouImpAssets.HexSprite),
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}HexBomb", "Hex Bomb"),
+            MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
             MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}HexBomb.WikiDescription"),
             TouImpAssets.HexBombSprite)
     ];
@@ -94,8 +108,10 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
 
         var text = MiraLocaleManager.Get("TownOfUsMira.Role.SpellslingerGlobalWarning").Replace("<role>", $"#{this.GetRoleName().ToLowerInvariant().Replace(" ", "-")}");
 
+        var saboTime = (int)Math.Max(0, (int)sabotage.TimeRemaining -
+            OptionGroupSingleton<SpellslingerOptions>.Instance.HexBombDecreasePerMeeting + 1);
         reportBuilder.Append(TownOfUsPlugin.Culture,
-            $"{text.Replace("<time>", $"{(int)sabotage.TimeRemaining + 1}")}");
+            $"{text.Replace("<time>", $"{saboTime}")}");
 
         var report = reportBuilder.ToString();
 

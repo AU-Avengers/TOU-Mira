@@ -185,7 +185,7 @@ public static class Extensions
     public static IEnumerator CoCleanCustom(this DeadBody body, BodyVitalsMode result)
     {
         var renderer = body.bodyRenderers[^1];
-        if (NoisemakerModifier.ActiveNoisemakerTriggers.TryGetValue(body.ParentId, out var noisemakerTrigger) && noisemakerTrigger.duration > 1)
+        if (NoisemakerModifier.ActiveNoisemakerTriggers.TryGetValue(body.ParentId, out var noisemakerTrigger) && noisemakerTrigger && noisemakerTrigger.duration > 1)
         {
             // this stops the alert from staying forever
             noisemakerTrigger.StopAllCoroutines();

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Modifiers;
 
-public sealed class TestTimeLordRewindButton : TownOfUsButton
+public sealed class TestTimeLordRewindButton : TownOfUsButton, IAurialBypassButton
 {
     public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.TimeLordRewind", "Rewind");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;

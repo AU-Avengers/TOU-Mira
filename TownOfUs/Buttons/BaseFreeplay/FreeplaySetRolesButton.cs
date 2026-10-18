@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.BaseFreeplay;
 
-public sealed class FreeplaySetRolesButton : TownOfUsButton
+public sealed class FreeplaySetRolesButton : TownOfUsButton, IAurialBypassButton
 {
     public override string Name => MiraLocaleManager.Get("FreeplaySetRoleButton", "Set Roles");
     public override Color TextOutlineColor => new Color32(231, 89, 105, 255);
