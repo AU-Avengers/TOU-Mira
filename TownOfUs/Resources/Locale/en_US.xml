@@ -3521,6 +3521,8 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Achievement.Oops.Description">Abort a game as host.</string>
   <string name="TownOfUsMira.Achievement.IveSeenThePlays.Name">I've seen the plays</string>
   <string name="TownOfUsMira.Achievement.IveSeenThePlays.Description">No I'm actually inclined to believe 5up you know because I've seen the plays where dk hops out of a vent and then kills himself</string>
+  <string name="TownOfUsMira.Achievement.GoBuyALotteryTicket.Name">Go buy a lottery ticket</string>
+  <string name="TownOfUsMira.Achievement.GoBuyALotteryTicket.Description">Win a 1 in 292,000,000 roll. Seriously, go buy a lottery ticket.</string>
   <string name="TownOfUsMira.Achievement.ForceBeWithYou.Name">The Force Be With You</string>
   <string name="TownOfUsMira.Achievement.ForceBeWithYou.Description">Sense 5 abilities being used in your radius throughout a game.</string>
   <string name="TownOfUsMira.Achievement.StrangerDanger.Name">Stranger Danger</string>

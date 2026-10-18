@@ -11,6 +11,10 @@ public static class TouAchAssets
     public static LoadableAsset<Sprite> AchievementToast { get; } =
         new LoadableResourceAsset($"{ShortPath}.AchievementToast.png");
 
+    // Tried My Best
+    public static LoadableAsset<Sprite> LuckyDice { get; } =
+    new LoadableResourceAsset($"{ShortPath}.LuckyDice.png");
+
     // Crewmates
     public static LoadableAsset<Sprite> BloodyHands { get; } =
         new LoadableResourceAsset($"{ShortPath}.BloodyHands.png");

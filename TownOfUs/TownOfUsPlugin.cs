@@ -101,6 +101,8 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
             ModNewsFetcher
                 .CheckForNews; // Checks for mod announcements after everything is loaded to avoid Epic Games crashing
 
+        IL2CPPChainloader.Instance.Finished += LotteryAchievementRoller.Start;
+
         /*if (!IsMobile)
         {
             var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
