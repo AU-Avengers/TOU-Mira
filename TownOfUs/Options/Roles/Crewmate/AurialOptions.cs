@@ -9,10 +9,10 @@ public sealed class AurialOptions : AbstractRoleOptionGroup<AurialRole>
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Aurial", "Aurial");
 
-    [ModdedNumberOption("TouOptionAurialAuraInnerRadius", 0f, 1f, 0.25f, MiraNumberSuffixes.Multiplier, "0.00")]
+    [ModdedNumberOption("TouOptionAurialAuraInnerRadius", 0f, 1f, 0.25f, MiraNumberSuffixes.Distance, "0.00")]
     public float AuraInnerRadius { get; set; } = 0.5f;
 
-    [ModdedNumberOption("TouOptionAurialAuraOuterRadius", 1f, 5f, 0.25f, MiraNumberSuffixes.Multiplier, "0.00")]
+    [ModdedNumberOption("TouOptionAurialAuraOuterRadius", 1f, 5f, 0.25f, MiraNumberSuffixes.Distance, "0.00")]
     public float AuraOuterRadius { get; set; } = 1.5f;
 
     [ModdedNumberOption("TouOptionAurialSenseDuration", 1f, 15f, 1f, MiraNumberSuffixes.Seconds, "0")]

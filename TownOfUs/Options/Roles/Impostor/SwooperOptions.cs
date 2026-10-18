@@ -10,20 +10,20 @@ public sealed class SwooperOptions : AbstractRoleOptionGroup<SwooperRole>
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Swooper", "Swooper");
 
-    [ModdedNumberOption("Swoop Uses Per Round", 0f, 10f, 1f, MiraNumberSuffixes.None, "0", true)]
+    [ModdedNumberOption("TouOptionSwooperSwoopUsesPerRound", 0f, 10f, 1f, MiraNumberSuffixes.None, "0", true)]
     public float MaxSwoops { get; set; } = 0f;
 
-    [ModdedNumberOption("Swoop Cooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionSwooperSwoopCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float SwoopCooldown { get; set; } = 25f;
 
-    [ModdedNumberOption("Swoop Duration", 5f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionSwooperSwoopDuration", 5f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float SwoopDuration { get; set; } = 10f;
 
-    public ModdedEnumOption TrackedMidSwoop { get; set; } = new("Can be Tracked while Invisible", (int)SwoopTracking.Always, typeof(SwoopTracking),
-        ["Never", "Not by Radar", "Always"]);
+    public ModdedEnumOption TrackedMidSwoop { get; set; } = new("TouOptionSwooperTrackedWhileInvisible", (int)SwoopTracking.Always, typeof(SwoopTracking),
+        ["TouOptionSwooperTrackingEnumNever", "TouOptionSwooperTrackingEnumNotByRadar", "TouOptionSwooperTrackingEnumAlways"]);
 
-    public ModdedEnumOption CanVent { get; set; } = new("Swooper Can Vent", (int)SwooperVent.Visible, typeof(SwooperVent),
-        ["Never", "While Visible", "Always"]);
+    public ModdedEnumOption CanVent { get; set; } = new("TouOptionSwooperCanVent", (int)SwooperVent.Visible, typeof(SwooperVent),
+        ["TouOptionSwooperVentEnumNever", "TouOptionSwooperVentEnumWhileVisible", "TouOptionSwooperVentEnumAlways"]);
 }
 
 public enum SwooperVent

@@ -43,7 +43,11 @@ public static class GameTimerPatch
         var ts = TimeSpan.FromSeconds(GameTimer);
 
         var timerText = GameTimerObj.GetComponent<TextMeshPro>();
-        timerText.text = $"<size=200%>Time:{ts.ToString(@"mm\:ss", TownOfUsPlugin.Culture)}</size>";
+        var timeText = MiraLocaleManager.Get(
+            "TouGameTimerTime",
+            "Time");
+
+        timerText.text = $"<size=200%>{timeText}:{ts.ToString(@"mm\:ss", TownOfUsPlugin.Culture)}</size>";
         timerText.alignment = TextAlignmentOptions.TopLeft;
         timerText.verticalAlignment = VerticalAlignmentOptions.Top;
 
@@ -99,12 +103,16 @@ public static class GameTimerPatch
             _ => Color.green
         };
 
+        var timeText = MiraLocaleManager.Get(
+                    "TouGameTimerTime",
+                    "Time");
+
         if (!MeetingHud.Instance)
         {
             TimerAspectPos.DistanceFromEdge = new Vector3(-0.6f, 5.5f);
             TimerAspectPos.Alignment = AspectPosition.EdgeAlignments.Bottom;
             timerText.text =
-                $"<size=200%>Time:{colour.ToTextColor()}{ts.ToString(@"mm\:ss", TownOfUsPlugin.Culture)}</color></size>";
+                $"<size=200%>{timeText}:{colour.ToTextColor()}{ts.ToString(@"mm\:ss", TownOfUsPlugin.Culture)}</color></size>";
             TimerSpriteObj.transform.localPosition = new Vector3(-1f, -0.4f, 1f);
         }
         else
@@ -112,7 +120,7 @@ public static class GameTimerPatch
             TimerAspectPos.DistanceFromEdge = new Vector3(-0.25f, 0.9f);
             TimerAspectPos.Alignment = AspectPosition.EdgeAlignments.Bottom;
             timerText.text =
-                $"<size=130%>Time:{colour.ToTextColor()}{ts.ToString(@"mm\:ss", TownOfUsPlugin.Culture)}</color></size>";
+                $"<size=130%>{timeText}:{colour.ToTextColor()}{ts.ToString(@"mm\:ss", TownOfUsPlugin.Culture)}</color></size>";
             TimerSpriteObj.transform.localPosition = new Vector3(-1f, -0.25f, 1f);
         }
 

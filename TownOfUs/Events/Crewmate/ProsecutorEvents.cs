@@ -133,7 +133,9 @@ public static class ProsecutorEvents
             var tmp = component.text.transform.GetComponent<TextMeshPro>();
             component.text.Destroy();
             component.text = null;
-            tmp.text = "The Prosecutor has spoken.";
+            tmp.text = MiraLocaleManager.Get(
+                "TownOfUsMira.Role.ProsecutorHasSpoken",
+                "The Prosecutor has spoken.");
         }
     }
 

@@ -21,7 +21,7 @@ public sealed class ArsonistOptions : AbstractRoleOptionGroup<ArsonistRole>
     public bool LegacyArsonist { get; set; } = true;
 
     public ModdedNumberOption IgniteRadius { get; set; } = new("TouOptionArsonistIgniteRadius", 0.25f, 0.05f, 1f, 0.05f,
-        MiraNumberSuffixes.Multiplier, "0.00")
+        MiraNumberSuffixes.Distance, "0.00")
     {
         Visible = () => !OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
     };
