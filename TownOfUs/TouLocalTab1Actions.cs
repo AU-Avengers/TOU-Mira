@@ -20,7 +20,7 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
         TabIcon = TouAssets.LocalActions,
         HideIconOnHover = false,
     };
-    // Not using fallbacks bc if I do it uses the english texts only
+
     [LocalSettingsButton]
     public LocalSettingsButton SelfKillButton { get; private set; } = new(MiraLocaleManager.Get("TouLocalActionSelfKill"), TriggerSelfKill);
     private static void TriggerSelfKill()
@@ -37,7 +37,6 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
 
     [LocalSettingsButton]
     public LocalSettingsButton StartMeetingButton { get; private set; } = new(MiraLocaleManager.Get("TouLocalActionStartMeeting"), TriggerStartMeeting);
-
     private static void TriggerStartMeeting()
     {
         DoActionType(BindActionType.StartMeeting);
