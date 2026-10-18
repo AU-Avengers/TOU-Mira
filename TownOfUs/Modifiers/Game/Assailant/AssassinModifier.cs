@@ -291,8 +291,12 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Impostor));
 
+                var notificationText = MiraLocaleManager.Get(
+                    "TownOfUsMira.Modifier.DoubleShotPreventedDeath",
+                    "Your Double Shot has prevented you from dying this meeting!");
+
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}Your Double Shot has prevented you from dying this meeting!</color></b>",
+                    $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.DoubleShot.LoadAsset());
 
                 notif1.AdjustNotification();

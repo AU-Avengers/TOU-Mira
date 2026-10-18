@@ -68,7 +68,9 @@ public sealed class MinerRole(IntPtr cppPtr)
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (OptionGroupSingleton<MinerOptions>.Instance.MineVisibility is MineVisiblityOptions.AfterUse)
         {
-            stringB.Append(TownOfUsPlugin.Culture, $"Vents will only be visible once used");
+            stringB.Append(MiraLocaleManager.Get(
+                "TownOfUsMira.Role.MinerVentsVisibleAfterUse",
+                "Vents will only be visible once used"));
         }
 
         return stringB;

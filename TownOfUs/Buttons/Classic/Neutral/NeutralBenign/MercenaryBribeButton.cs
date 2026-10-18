@@ -28,8 +28,13 @@ public sealed class MercenaryBribeButton : TownOfUsRoleButton<MercenaryRole, Pla
         }
 
         Target.RpcAddModifier<MercenaryBribedModifier>(PlayerControl.LocalPlayer);
+        var notificationText = MiraLocaleManager.Get(
+                "TownOfUsMira.Role.MercenaryBribeSuccess",
+                "If <player> wins, you will win as well.")
+            .Replace("<player>", Target.Data.PlayerName);
+
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>If {Target.Data.PlayerName} wins, you will win as well.</b>", Color.white, new Vector3(0f, 1f, -20f),
+            $"<b>{notificationText}</b>", Color.white, new Vector3(0f, 1f, -20f),
             spr: TouRoleIcons.Mercenary.LoadAsset());
         notif1.AdjustNotification();
 

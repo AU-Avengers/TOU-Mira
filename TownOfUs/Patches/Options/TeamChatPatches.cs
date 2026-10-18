@@ -170,7 +170,7 @@ public static class TeamChatPatches
                 IsForced = true,
                 IsChatAvailable = () => MeetingHud.Instance && PlayerControl.LocalPlayer.Data.Role is JailorRole,
                 SendMessage = (sender, msg) => RpcSendJailorChat(sender, msg),
-                GetDisplayText = () => "Jail Chat",
+                GetDisplayText = () => MiraLocaleManager.Get("TouJailChatDisplayName"),
                 DisplayTextColor = TownOfUsColors.Jailor
             };
             ExtensionTeamChatRegistry.RegisterHandler(jailorHandler);
@@ -182,7 +182,7 @@ public static class TeamChatPatches
                 IsForced = true,
                 IsChatAvailable = () => MeetingHud.Instance && PlayerControl.LocalPlayer.IsJailed(),
                 SendMessage = (sender, msg) => RpcSendJaileeChat(sender, msg),
-                GetDisplayText = () => "Jail Chat",
+                GetDisplayText = () => MiraLocaleManager.Get("TouJailChatDisplayName"),
                 DisplayTextColor = TownOfUsColors.Jailor
             };
             ExtensionTeamChatRegistry.RegisterHandler(jaileeHandler);
@@ -200,7 +200,7 @@ public static class TeamChatPatches
                            genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true };
                 },
                 SendMessage = (sender, msg) => RpcSendImpTeamChat(sender, msg),
-                GetDisplayText = () => "Impostor Chat",
+                GetDisplayText = () => MiraLocaleManager.Get("TouImpostorChatDisplayName"),
                 DisplayTextColor = TownOfUsColors.ImpSoft
             };
             ExtensionTeamChatRegistry.RegisterHandler(impostorHandler);
@@ -218,7 +218,7 @@ public static class TeamChatPatches
                            genOpt.VampireChat;
                 },
                 SendMessage = (sender, msg) => RpcSendVampTeamChat(sender, msg),
-                GetDisplayText = () => "Vampire Chat",
+                GetDisplayText = () => MiraLocaleManager.Get("TouVampireChatDisplayName"),
                 DisplayTextColor = TownOfUsColors.Vampire
             };
             ExtensionTeamChatRegistry.RegisterHandler(vampireHandler);
@@ -245,7 +245,7 @@ public static class TeamChatPatches
                     {
                         Priority = handler.Priority,
                         SendAction = handler.SendMessage,
-                        DisplayName = handler.GetDisplayText?.Invoke() ?? "Extension Chat",
+                        DisplayName = handler.GetDisplayText?.Invoke() ?? MiraLocaleManager.Get("TouExtensionChatDisplayName"),
                         DisplayColor = handler.DisplayTextColor ?? TownOfUsColors.ImpSoft,
                         BackgroundColor = handler.BackgroundColor,
                         IsForced = handler.IsForced
@@ -702,7 +702,8 @@ public static class TeamChatPatches
                 // Forced chats always show simple message (can't cycle to other team chats)
                 if (currentChat.IsForced)
                 {
-                    _teamText.text = $"{currentChat.DisplayName} is Active. Messages will be sent to this chat.";
+                    _teamText.text = MiraLocaleManager.Get("TouTeamChatActive")
+                        .Replace("<chat>", currentChat.DisplayName);
                 }
                 else
                 {
@@ -710,13 +711,23 @@ public static class TeamChatPatches
                     var nonForcedChats = availableChats.Where(c => !c.IsForced).ToList();
                     if (nonForcedChats.Count > 1)
                     {
-                        var currentIndexInNonForced = nonForcedChats.FindIndex(c => c.Priority == currentChat.Priority && c.DisplayName == currentChat.DisplayName);
-                        var chatNumber = currentIndexInNonForced >= 0 ? currentIndexInNonForced + 1 : 1;
-                        _teamText.text = $"{currentChat.DisplayName} is Active ({chatNumber}/{nonForcedChats.Count}). Press button to cycle.";
+                    var currentIndexInNonForced = nonForcedChats.FindIndex(c =>
+                        c.Priority == currentChat.Priority &&
+                        c.DisplayName == currentChat.DisplayName);
+
+                    var chatNumber = currentIndexInNonForced >= 0
+                        ? currentIndexInNonForced + 1
+                        : 1;
+
+                    _teamText.text = MiraLocaleManager.Get("TouTeamChatActiveCycle")
+                        .Replace("<chat>", currentChat.DisplayName)
+                        .Replace("<current>", chatNumber.ToString(TownOfUsPlugin.Culture))
+                        .Replace("<total>", nonForcedChats.Count.ToString(TownOfUsPlugin.Culture));
                     }
                     else
                     {
-                        _teamText.text = $"{currentChat.DisplayName} is Active. Messages will be sent to this chat.";
+                        _teamText.text = MiraLocaleManager.Get("TouTeamChatActive")
+                            .Replace("<chat>", currentChat.DisplayName);
                     }
                 }
                 _teamText.color = currentChat.DisplayColor;
@@ -726,7 +737,7 @@ public static class TeamChatPatches
                 // Fallback for dead players or when no chats are available
                 if (GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow)
                 {
-                    _teamText.text = "Jailor, Impostor, and Vampire Chat can be seen here.";
+                    _teamText.text = MiraLocaleManager.Get("TouDeadTeamChatsVisible");
                     _teamText.color = Color.white;
                 }
                 else

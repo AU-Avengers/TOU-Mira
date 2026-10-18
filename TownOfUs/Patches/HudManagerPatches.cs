@@ -418,45 +418,65 @@ public static class HudManagerPatches
                         }
                         else
                         {
-                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
-                                $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Investigative: {draftCrewOpts.MaxCrewInvestigative.Value} Max");
-                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
-                                $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Killing: {draftCrewOpts.MaxCrewKilling.Value} Max");
-                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
-                                $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Power: {draftCrewOpts.MaxCrewPower.Value} Max");
-                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
-                                $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Protective: {draftCrewOpts.MaxCrewProtective.Value} Max");
-                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
-                                $"┗ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Support: {draftCrewOpts.MaxCrewSupport.Value} Max");
+                            var crewInvestigative = MiraLocaleManager.Get("CrewInvestigative.Colored");
+                            var crewKilling = MiraLocaleManager.Get("CrewKilling.Colored");
+                            var crewPower = MiraLocaleManager.Get("CrewPower.Colored");
+                            var crewProtective = MiraLocaleManager.Get("CrewProtective.Colored");
+                            var crewSupport = MiraLocaleManager.Get("CrewSupport.Colored");
+
+                            var impConcealing = MiraLocaleManager.Get("ImpConcealing.Colored");
+                            var impKilling = MiraLocaleManager.Get("ImpKilling.Colored");
+                            var impPower = MiraLocaleManager.Get("ImpPower.Colored");
+                            var impSupport = MiraLocaleManager.Get("ImpSupport.Colored");
+
+                            var neutralBenign = MiraLocaleManager.Get("NeutralBenign.Colored");
+                            var neutralEvil = MiraLocaleManager.Get("NeutralEvil.Colored");
+                            var neutralKilling = MiraLocaleManager.Get("NeutralKilling.Colored");
+                            var neutralOutlier = MiraLocaleManager.Get("NeutralOutlier.Colored");
+
+                            var impostors = MiraLocaleManager.Get("TouOptionAltruistKillerEnumImpostors");
+                            var neutrals = MiraLocaleManager.Get("TouOptionAltruistKillerEnumNeutrals");
+                            var none = MiraLocaleManager.Get("DraftNone");
 
                             RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
-                                $"{TownOfUsColors.ImpSoft.ToTextColor()}Impostors</color>: {draftImpOpts.MaxImpostors.Value} Max");
+                                $"┣ {crewInvestigative}: {draftCrewOpts.MaxCrewInvestigative.Value} {StoredMaximum}");
                             RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
-                                $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Concealing: {draftImpOpts.MaxImpConcealing.Value} Max");
+                                $"┣ {crewKilling}: {draftCrewOpts.MaxCrewKilling.Value} {StoredMaximum}");
                             RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
-                                $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Killing: {draftImpOpts.MaxImpKilling.Value} Max");
+                                $"┣ {crewPower}: {draftCrewOpts.MaxCrewPower.Value} {StoredMaximum}");
                             RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
-                                $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Power: {draftImpOpts.MaxImpPower.Value} Max");
+                                $"┣ {crewProtective}: {draftCrewOpts.MaxCrewProtective.Value} {StoredMaximum}");
                             RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
-                                $"┗ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Support: {draftImpOpts.MaxImpSupport.Value} Max");
+                                $"┗ {crewSupport}: {draftCrewOpts.MaxCrewSupport.Value} {StoredMaximum}");
+
+                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                $"{TownOfUsColors.ImpSoft.ToTextColor()}{impostors}</color>: {draftImpOpts.MaxImpostors.Value} {StoredMaximum}");
+                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                $"┣ {impConcealing}: {draftImpOpts.MaxImpConcealing.Value} {StoredMaximum}");
+                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                $"┣ {impKilling}: {draftImpOpts.MaxImpKilling.Value} {StoredMaximum}");
+                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                $"┣ {impPower}: {draftImpOpts.MaxImpPower.Value} {StoredMaximum}");
+                            RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
+                                $"┗ {impSupport}: {draftImpOpts.MaxImpSupport.Value} {StoredMaximum}");
 
                             if (draftNeutOpts.MaxNeutrals.Value > 0)
                             {
                                 RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
-                                    $"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: {draftNeutOpts.MaxNeutrals.Value} Max");
+                                    $"{TownOfUsColors.Neutral.ToTextColor()}{neutrals}</color>: {draftNeutOpts.MaxNeutrals.Value} {StoredMaximum}");
                                 RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
-                                    $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Benign: {draftNeutOpts.MaxNeutBenign.Value} Max");
+                                    $"┣ {neutralBenign}: {draftNeutOpts.MaxNeutBenign.Value} {StoredMaximum}");
                                 RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
-                                    $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Evil: {draftNeutOpts.MaxNeutEvil.Value} Max");
+                                    $"┣ {neutralEvil}: {draftNeutOpts.MaxNeutEvil.Value} {StoredMaximum}");
                                 RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
-                                    $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Killing: {draftNeutOpts.MaxNeutKilling.Value} Max");
+                                    $"┣ {neutralKilling}: {draftNeutOpts.MaxNeutKilling.Value} {StoredMaximum}");
                                 RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
-                                    $"┗ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Outlier: {draftNeutOpts.MaxNeutOutlier.Value} Max");
+                                    $"┗ {neutralOutlier}: {draftNeutOpts.MaxNeutOutlier.Value} {StoredMaximum}");
                             }
                             else
                             {
                                 RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
-                                    $"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: None");
+                                    $"{TownOfUsColors.Neutral.ToTextColor()}{neutrals}</color>: {none}");
                             }
                         }
 

@@ -14,7 +14,7 @@ namespace TownOfUs.Modifiers.Crewmate;
 public sealed class JailedModifier(byte jailorId) : BaseModifier
 {
     private GameObject jailCell;
-    public override string ModifierName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Jailed");
+    public override string ModifierName => "Jailed";
     public override bool HideOnUi => true;
     public byte JailorId { get; } = jailorId;
 
