@@ -131,11 +131,11 @@ internal static class AchievementsAPIBridge
         if (spec.ProgressGoal > 0)
         {
             achievement = new RuntimeCountAchievement(name, description, 0, spec.ProgressGoal,
-                MapPersistence(spec.Persistence), spec.Rarity, spec.Hidden, assembly: tab.Assembly);
+                MapPersistence(spec.Persistence), spec.Rarity, spec.Hidden, hideProgress: spec.HideProgress, assembly: tab.Assembly, tags: spec.Tags);
         }
         else
         {
-            achievement = new RuntimeAchievement(name, description, spec.Rarity, spec.Hidden, assembly: tab.Assembly);
+            achievement = new RuntimeAchievement(name, description, spec.Rarity, spec.Hidden, assembly: tab.Assembly, tags: spec.Tags);
         }
 
         // Preserve previously shipped storage ids: "{AssemblyName}_{DisplayName}".

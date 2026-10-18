@@ -1,6 +1,7 @@
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
+using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -94,6 +95,34 @@ public static class TouAchievementEvents
         }
 
         AchievementsAPIHelper.Unlock(TouAchievements.MassResurrection);
+    }
+
+    /// <summary>
+    /// Called by the Ambusher when they die mid-ambush.
+    /// </summary>
+    public static void OnAmbusherDeathMidAmbush()
+    {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
+        AchievementsAPIHelper.Unlock(TouAchievements.FailedAmbush);
+    }
+
+    [RegisterEvent]
+    public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
+    {
+        if (!AchievementsAPIHelper.IsLoaded)
+        {
+            return;
+        }
+
+        // Failed Ambush: die while mid-ambush (has AmbusherConcealedModifier)
+        if (@event.Player.AmOwner && @event.Player.HasModifier<AmbusherConcealedModifier>())
+        {
+            AchievementsAPIHelper.Unlock(TouAchievements.FailedAmbush);
+        }
     }
 
     /// <summary>
@@ -305,11 +334,11 @@ public static class TouAchievementEvents
             _rampageKills++;
         }
 
-        // Perfect Ambush: the ambushed player is the one being pursued.
+        // Are you stupid?: the ambushed player is the one being pursued.
         if (source.AmOwner && source.Data.Role is AmbusherRole { Pursued: not null } ambusher &&
             ambusher.Pursued == target)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.PerfectAmbush);
+            AchievementsAPIHelper.Unlock(TouAchievements.AreYouStupid);
         }
 
         // Burst Fire: WarlockEvents (priority 0) already incremented Kills for this kill.
