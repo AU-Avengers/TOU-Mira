@@ -171,24 +171,21 @@ internal static class AchievementsAPIBridge
     private static void ApplyArt(BaseAchievement achievement, AchievementSpec spec, AchievementArt? art)
     {
         Func<Sprite?> iconProvider = () => spec.Icon.LoadAsset();
+        var subIconProvider = spec.SubIcon != null ? () => spec.SubIcon.LoadAsset() : (Func<Sprite?>?)null;
         var menuBgProvider = art?.MenuBg != null ? () => art.MenuBg.LoadAsset() : (Func<Sprite?>?)null;
         var toastBgProvider = art?.ToastBg != null ? () => art.ToastBg.LoadAsset() : (Func<Sprite?>?)null;
-
-        if (spec.SubIcon != null)
-        {
-            achievement.SubIcon = spec.SubIcon.LoadAsset();
-            achievement.SubIconOffset = art?.MenuSubIconOffset;
-            achievement.SubIconScale = art?.MenuSubIconScale;
-        }
 
         if (achievement is RuntimeAchievement runtime)
         {
             runtime.IconProvider = iconProvider;
             runtime.MenuBgProvider = menuBgProvider;
             runtime.ToastBgProvider = toastBgProvider;
+            runtime.MenuSubIconProvider = subIconProvider;
             runtime.MenuIconOffsetOverride = art?.MenuIconOffset;
             runtime.MenuTitleOffsetOverride = art?.MenuTitleOffset;
             runtime.MenuDescOffsetOverride = art?.MenuDescOffset;
+            runtime.MenuSubIconOffsetOverride = art?.MenuSubIconOffset;
+            runtime.MenuSubIconScaleOverride = art?.MenuSubIconScale;
             runtime.ToastIconOffsetOverride = art?.ToastIconOffset;
         }
         else if (achievement is RuntimeCountAchievement count)
@@ -196,9 +193,12 @@ internal static class AchievementsAPIBridge
             count.IconProvider = iconProvider;
             count.MenuBgProvider = menuBgProvider;
             count.ToastBgProvider = toastBgProvider;
+            count.MenuSubIconProvider = subIconProvider;
             count.MenuIconOffsetOverride = art?.MenuIconOffset;
             count.MenuTitleOffsetOverride = art?.MenuTitleOffset;
             count.MenuDescOffsetOverride = art?.MenuDescOffset;
+            count.MenuSubIconOffsetOverride = art?.MenuSubIconOffset;
+            count.MenuSubIconScaleOverride = art?.MenuSubIconScale;
             count.ToastIconOffsetOverride = art?.ToastIconOffset;
         }
     }
