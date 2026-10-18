@@ -1,6 +1,7 @@
 using System.Text;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Patches.Stubs;
@@ -9,6 +10,7 @@ using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
@@ -191,6 +193,9 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         }
 
         var players = new [] {playerA, playerB}.OrderBy(x => x.ToLowerInvariant()).ToArray();
+
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.SeerComparisonResult, enemies ? "Enemies" : "Friends", seer, GazeTarget, IntuitTarget);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
 
         if (enemies)
         {

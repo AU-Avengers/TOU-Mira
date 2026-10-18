@@ -1,9 +1,11 @@
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using System.Text;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches.Roles;
 using UnityEngine;
@@ -338,6 +340,9 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         Cameras.Add(new(camera, rounds));
 
         SentryCameraUtilities.EnsureSubmergedUsesPolusSurveillanceIfSentryCamsExist();
+
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.SentryPlaceCam, player, camera);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
 
         SentryCameraPortablePatch.ApplyPortableBlinkState();
     }

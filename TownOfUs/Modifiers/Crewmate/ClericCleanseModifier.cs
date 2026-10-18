@@ -33,10 +33,10 @@ public bool Cleansed { get; set; }
 public override void OnActivate()
 {
     base.OnActivate();
-    var touAbilityEvent = new TouAbilityEvent(AbilityType.ClericCleanse, Cleric, Player);
-    MiraEventManager.InvokeEvent(touAbilityEvent);
-
     Effects = FindNegativeEffects(Player);
+
+    var touAbilityEvent = new TouAbilityEvent(AbilityType.ClericCleanse, Effects.Count.ToString(TownOfUsPlugin.Culture), Cleric, Player);
+    MiraEventManager.InvokeEvent(touAbilityEvent);
 
     // Error($"ClericCleanseModifier.OnActivate");
 }

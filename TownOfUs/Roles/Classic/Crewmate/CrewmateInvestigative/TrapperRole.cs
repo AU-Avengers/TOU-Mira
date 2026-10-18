@@ -5,6 +5,7 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Achievements;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
@@ -128,6 +129,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
         var title = $"<color=#{TownOfUsColors.Trapper.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.TrapperMessageTitle")}</color>";
         MiscUtils.AddFakeChat(Player.Data, title, msg, false, true);
+        TouAchievementEvents.OnTrapperFeedback(Player, TrappedPlayers.Select(x => x.GetType()).Distinct().Count());
         TrappedPlayers.Clear();
     }
 }

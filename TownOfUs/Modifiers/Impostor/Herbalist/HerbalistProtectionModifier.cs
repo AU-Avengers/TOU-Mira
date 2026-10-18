@@ -1,6 +1,8 @@
-﻿using MiraAPI.GameOptions;
+﻿using MiraAPI.Events;
+using MiraAPI.GameOptions;
 using PowerTools;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
@@ -55,6 +57,8 @@ public sealed class HerbalistProtectionModifier(PlayerControl herbalist) : BaseS
         ClericBarrier =
             AnimStore.SpawnAnimBody(Player, TouAssets.ClericBarrier.LoadAsset(), false, -1.1f, -0.35f, 1.5f)!;
         ClericBarrier.GetComponent<SpriteAnim>().SetSpeed(2f);
+
+        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.HerbalistProtect, Herbalist, Player));
     }
 
     public override void Update()

@@ -6,6 +6,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
+using TownOfUs.Achievements;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Roles.Crewmate;
@@ -856,6 +857,7 @@ public static class TeamChatPatches
             MiscUtils.RunAnticheatWarning(player);
             return;
         }
+        TouAchievementEvents.OnJailorChat(player);
         var shouldMarkUnread = false;
         if (PlayerControl.LocalPlayer.IsJailed())
         {

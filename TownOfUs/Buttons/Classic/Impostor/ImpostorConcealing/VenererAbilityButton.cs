@@ -82,6 +82,11 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
 
     private void UpdateButton(VenererAbility ability)
     {
+        if (ability == VenererAbility.Freeze)
+        {
+            Achievements.TouAchievementEvents.OnVenererFreezeUnlocked(PlayerControl.LocalPlayer);
+        }
+
         ActiveAbility = ability;
 
         if (EffectActive)

@@ -349,7 +349,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             return;
         }
 
-        var touAbilityEvent = new TouAbilityEvent(AbilityType.EngineerFix, engi);
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.EngineerFix, "Critical", engi);
         MiraEventManager.InvokeEvent(touAbilityEvent);
     }
 }

@@ -1,7 +1,9 @@
 using HarmonyLib;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -49,6 +51,8 @@ public sealed class InquisitorInquireButton : TownOfUsRoleButton<InquisitorRole,
             .Do(x => x.RemoveModifier<InquisitorInquiredModifier>());
 
         Target.AddModifier<InquisitorInquiredModifier>();
+
+        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.InquisitorInquire, PlayerControl.LocalPlayer, Target));
 
         var notif1 = Helpers.CreateAndShowNotification(
             MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorInquireNotif").Replace("<player>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{Target.Data.PlayerName}</color>"),

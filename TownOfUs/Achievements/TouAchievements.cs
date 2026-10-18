@@ -91,11 +91,23 @@ public static class TouAchievements
     public static readonly AchievementSpec GoBuyALotteryTicket = Define("Go buy a lottery ticket",
         "Win a 1 in 292,000,000 roll. Seriously, go buy a lottery ticket.", TouAchAssets.LuckyDice,
         rarity: 3, hidden: true, tags: new[] { "Hidden", "Luck", "Meme" });
+    public static readonly AchievementSpec NoYou = Define("No You",
+        "Serve a drink to the player who served you one in the same round.", TouCrewAssets.RoleblockSprite,
+        rarity: 1, tags: new[] { "Barkeeper", "Bootlegger", "Roleblock", "Drink" });
+    public static readonly AchievementSpec Endgame = Define("Endgame",
+        "Witness a 1v1 between a Juggernaut and Pestilence.", TouNeutAssets.JuggKillSprite,
+        rarity: 2, tags: new[] { "Juggernaut", "Pestilence", "Horseman", "1v1" });
+    public static readonly AchievementSpec ButItRefused = Define("But it refused.",
+        "Get revived alongside your lover.", TouCrewAssets.ReviveSprite, TouModifierIcons.Lover,
+        subIconTooltip: "TownOfUsMira.Modifier.Lover", rarity: 2, tags: new[] { "Lover", "Revive", "Modifier" });
+    public static readonly AchievementSpec YoureSafeWithMe = Define("You're Safe with Me",
+        "Protect your lover from an attack.", TouCrewAssets.MedicSprite, TouModifierIcons.Lover,
+        subIconTooltip: "TownOfUsMira.Modifier.Lover", rarity: 1, tags: new[] { "Lover", "Protect", "Modifier" });
 
     public static readonly AchievementSpec[] General =
     [
         MiraMonday, FungleFriday, SubmergedSaturday, SkeldSunday, Cheater, Silence, Oops, IveSeenThePlays,
-        GoBuyALotteryTicket
+        GoBuyALotteryTicket, NoYou, Endgame, ButItRefused, YoureSafeWithMe
     ];
 
     // Crewmate roles
@@ -167,13 +179,174 @@ public static class TouAchievements
         "Bring back 2 or more players with a single Rewind.", TouCrewAssets.RewindSprite, TouRoleIcons.TimeLord, subIconTooltip: "TownOfUsMira.Role.TimeLord", rarity: 1, toastOnGameEnd: true, tags: new[] { "TimeLord", "Rewind", "Multi", "Time" });
     public static readonly AchievementSpec Poltergeist = Define("Poltergeist",
         "Reveal the evils as Haunter.", TouAssets.RevealCleanSprite, TouRoleIcons.Haunter, subIconTooltip: "TownOfUsMira.Role.Haunter", tags: new[] { "Haunter", "Reveal", "Death" });
+    public static readonly AchievementSpec Injustice = Define("Injustice",
+        "Shoot a non-killing Crewmate as an Egotist Officer or Sheriff.", TouCrewAssets.SheriffShootSprite,
+        TouModifierIcons.Egotist, subIconTooltip: "TownOfUsMira.Modifier.Egotist", rarity: 1,
+        toastOnGameEnd: true, tags: new[] { "Egotist", "Sheriff", "Officer", "Shoot", "Modifier" });
+    public static readonly AchievementSpec CaughtGhostlyHanded = Define("Caught Ghostly-Handed",
+        "Watch a player die within your vision while Mediating.", TouCrewAssets.MediateSprite,
+        TouRoleIcons.Medium, subIconTooltip: "TownOfUsMira.Role.Medium", rarity: 1, tags: new[] { "Medium", "Mediate", "Death" });
+    public static readonly AchievementSpec LastCrewStanding = Define("Last Crew Standing",
+        "Have the game end right after sensing a death.", TouCrewAssets.InspectSprite,
+        TouRoleIcons.Mystic, subIconTooltip: "TownOfUsMira.Role.Mystic", rarity: 1, tags: new[] { "Mystic", "Sense", "Endgame" });
+    public static readonly AchievementSpec TownOfHatred = Define("Town of Hatred",
+        "Find three unique pairs of enemies in a single game.", TouCrewAssets.SeerSprite,
+        TouRoleIcons.Seer, subIconTooltip: "TownOfUsMira.Role.Seer", rarity: 2, progressGoal: 3,
+        persistence: AchievementPersistence.ThroughoutRounds, tags: new[] { "Seer", "Compare", "Multi" });
+    public static readonly AchievementSpec RoleTwins = Define("Role Twins",
+        "Compare two non-Crewmates who share a role or alignment and find them to be friends.", TouCrewAssets.SeerSprite,
+        TouRoleIcons.Seer, subIconTooltip: "TownOfUsMira.Role.Seer", rarity: 2, toastOnGameEnd: true,
+        tags: new[] { "Seer", "Compare", "Role" });
+    public static readonly AchievementSpec TooSlow = Define("Too Slow",
+        "Die after being revealed to the evils.", TouAssets.RevealButtonSprite,
+        TouRoleIcons.Snitch, subIconTooltip: "TownOfUsMira.Role.Snitch", tags: new[] { "Snitch", "Death", "Reveal" });
+    public static readonly AchievementSpec DeadTellNoTales = Define("Dead Tell No Tales",
+        "Finish your tasks only to reveal dead players.", TouAssets.RevealCleanSprite,
+        TouRoleIcons.Snitch, subIconTooltip: "TownOfUsMira.Role.Snitch", rarity: 2, hidden: true,
+        tags: new[] { "Snitch", "Reveal", "Death", "Hidden" });
+    public static readonly AchievementSpec SeeSomethingSayNothing = Define("See Something, Say Nothing",
+        "Get blackmailed in the meeting right after revealing the Impostors.", TouAssets.BlackmailLetterSprite,
+        TouRoleIcons.Snitch, subIconTooltip: "TownOfUsMira.Role.Snitch", rarity: 2, hidden: true,
+        tags: new[] { "Snitch", "Blackmail", "Meeting", "Hidden" });
+    public static readonly AchievementSpec Hyperfocused = Define("Hyperfocused",
+        "Keep track of more than 5 players at once.", TouCrewAssets.TrackSprite,
+        TouRoleIcons.Sonar, subIconTooltip: "TownOfUsMira.Role.Sonar", rarity: 2, tags: new[] { "Sonar", "Track", "Multi" });
+    public static readonly AchievementSpec OffTheGlock = Define("Off-The-Glock",
+        "Die while using the Admin Table.", TouAssets.AdminSprite,
+        TouRoleIcons.Spy, subIconTooltip: "TownOfUsMira.Role.Spy", hidden: true,
+        tags: new[] { "Spy", "Death", "Admin", "Hidden" });
+    public static readonly AchievementSpec RoleCollector = Define("Role Collector",
+        "Identify 5 or more roles from your traps in a single round.", TouCrewAssets.TrapSprite,
+        TouRoleIcons.Trapper, subIconTooltip: "TownOfUsMira.Role.Trapper", rarity: 2, tags: new[] { "Trapper", "Trap", "Role", "Multi" });
+    public static readonly AchievementSpec Sharpshooter = Define("Sharpshooter",
+        "Blast a player within 30 seconds of a meeting.", TouCrewAssets.OfficerShootSprite,
+        TouRoleIcons.Deputy, subIconTooltip: "TownOfUsMira.Role.Deputy", rarity: 1, tags: new[] { "Deputy", "Shoot", "Meeting" });
+    public static readonly AchievementSpec ThisTownAintBigEnough = Define("This Town Ain't Big Enough",
+        "Blast an Assassin.", TouAssets.ShootMeetingSprite,
+        TouRoleIcons.Deputy, subIconTooltip: "TownOfUsMira.Role.Deputy", rarity: 1, toastOnGameEnd: true,
+        tags: new[] { "Deputy", "Shoot", "Assassin", "Modifier" });
+    public static readonly AchievementSpec BecomeTheHunted = Define("Become the Hunted",
+        "Get killed by the player you were stalking.", TouCrewAssets.StalkButtonSprite,
+        TouRoleIcons.Hunter, subIconTooltip: "TownOfUsMira.Role.Hunter", rarity: 1, tags: new[] { "Hunter", "Stalk", "Death" });
+    public static readonly AchievementSpec Punisher = Define("Punisher",
+        "Kill an evil with Retribution.", TouCrewAssets.HunterKillSprite,
+        TouRoleIcons.Hunter, subIconTooltip: "TownOfUsMira.Role.Hunter", rarity: 1, toastOnGameEnd: true,
+        tags: new[] { "Hunter", "Retribution", "Kill", "Evil" });
+    public static readonly AchievementSpec HuntingSeason = Define("Hunting Season",
+        "Kill 3 stalked players in a single game.", TouCrewAssets.HunterKillSprite,
+        TouRoleIcons.Hunter, subIconTooltip: "TownOfUsMira.Role.Hunter", rarity: 2, progressGoal: 3,
+        persistence: AchievementPersistence.ThroughoutRounds, tags: new[] { "Hunter", "Stalk", "Kill", "Multi" });
+    public static readonly AchievementSpec TimeCop = Define("Time Cop",
+        "Shoot your killer after being brought back by the Time Lord.", TouCrewAssets.OfficerShootSprite,
+        TouRoleIcons.Officer, subIconTooltip: "TownOfUsMira.Role.Officer", rarity: 2,
+        tags: new[] { "Officer", "Shoot", "TimeLord", "Revive" });
+    public static readonly AchievementSpec Avenger = Define("Avenger",
+        "Shoot the killer of a player who died near you.", TouCrewAssets.SheriffShootSprite,
+        TouRoleIcons.Sheriff, subIconTooltip: "TownOfUsMira.Role.Sheriff", rarity: 1, toastOnGameEnd: true,
+        tags: new[] { "Sheriff", "Shoot", "Kill", "Nearby" });
+    public static readonly AchievementSpec Bloodshed = Define("Bloodshed",
+        "Kill 4 or more evils in a single game while on Alert.", TouCrewAssets.AlertSprite,
+        TouRoleIcons.Veteran, subIconTooltip: "TownOfUsMira.Role.Veteran", rarity: 2, progressGoal: 4,
+        persistence: AchievementPersistence.ThroughoutRounds, toastOnGameEnd: true,
+        tags: new[] { "Veteran", "Alert", "Kill", "Evil", "Multi" });
+    public static readonly AchievementSpec GoFetch = Define("Go Fetch",
+        "Kill a Werewolf while on Alert.", TouCrewAssets.AlertSprite,
+        TouRoleIcons.Veteran, subIconTooltip: "TownOfUsMira.Role.Veteran", rarity: 1,
+        tags: new[] { "Veteran", "Alert", "Kill", "Werewolf" });
+    public static readonly AchievementSpec ShotInTheDark = Define("Shot in the Dark",
+        "Correctly guess a player after losing all of your safe shots.", TouAssets.Guess,
+        TouRoleIcons.Vigilante, subIconTooltip: "TownOfUsMira.Role.Vigilante", rarity: 2, tags: new[] { "Vigilante", "Guess", "Kill" });
+    public static readonly AchievementSpec TheDarkKnight = Define("The Dark Knight",
+        "Correctly guess 3 players in a single game.", TouAssets.Guess,
+        TouRoleIcons.Vigilante, subIconTooltip: "TownOfUsMira.Role.Vigilante", rarity: 2, progressGoal: 3,
+        persistence: AchievementPersistence.ThroughoutRounds, tags: new[] { "Vigilante", "Guess", "Kill", "Multi" });
+    public static readonly AchievementSpec FallenKnights = Define("Fallen Knights",
+        "Win and survive after all of your Knights have died.", TouCrewAssets.KnightSprite,
+        TouRoleIcons.Monarch, subIconTooltip: "TownOfUsMira.Role.Monarch", rarity: 2,
+        tags: new[] { "Monarch", "Knight", "Win", "Survive" });
+    public static readonly AchievementSpec BostonTeaParty = Define("Boston Tea Party",
+        "Get voted out by your own Knight.", TouCrewAssets.KnightSprite,
+        TouRoleIcons.Monarch, subIconTooltip: "TownOfUsMira.Role.Monarch", rarity: 1, hidden: true,
+        tags: new[] { "Monarch", "Knight", "Eject", "Hidden" });
+    public static readonly AchievementSpec CircusPerformer = Define("Circus Performer",
+        "Knight a Jester who goes on to win.", TouNeutAssets.JesterHauntSprite,
+        TouRoleIcons.Monarch, subIconTooltip: "TownOfUsMira.Role.Monarch", rarity: 2, hidden: true,
+        tags: new[] { "Monarch", "Knight", "Jester", "Hidden" });
+    public static readonly AchievementSpec YourMajesty = Define("Your Majesty",
+        "Get knighted by another Monarch.", TouCrewAssets.KnightSprite,
+        TouRoleIcons.Monarch, subIconTooltip: "TownOfUsMira.Role.Monarch", rarity: 2, hidden: true,
+        tags: new[] { "Monarch", "Knight", "Hidden" });
+    public static readonly AchievementSpec JudgementDay = Define("Judgement Day",
+        "End the game with a Prosecution.", TouAssets.ProsecuteMeetingSprite,
+        TouRoleIcons.Prosecutor, subIconTooltip: "TownOfUsMira.Role.Prosecutor", rarity: 2,
+        tags: new[] { "Prosecutor", "Prosecute", "Endgame", "Eject" });
+    public static readonly AchievementSpec TheFinalSay = Define("The Final Say",
+        "Prosecute two players in a single game.", TouAssets.ProsecutorToggleSprite,
+        TouRoleIcons.Prosecutor, subIconTooltip: "TownOfUsMira.Role.Prosecutor", rarity: 1,
+        tags: new[] { "Prosecutor", "Prosecute", "Multi" });
+    public static readonly AchievementSpec Sike = Define("Sike",
+        "Get someone ejected by swapping the votes on yourself.", TouAssets.SwapActive,
+        TouRoleIcons.Swapper, subIconTooltip: "TownOfUsMira.Role.Swapper", rarity: 2,
+        tags: new[] { "Swapper", "Swap", "Voting", "Eject" });
+    public static readonly AchievementSpec LostCause = Define("Lost Cause",
+        "Revive a player, only for them to die again.", TouCrewAssets.ReviveSprite,
+        TouRoleIcons.Altruist, subIconTooltip: "TownOfUsMira.Role.Altruist", tags: new[] { "Altruist", "Revive", "Death" });
+    public static readonly AchievementSpec HowDidWeGetHere = Define("How did we get here?",
+        "Cleanse a player with 3 or more status effects.", TouCrewAssets.CleanseSprite,
+        TouRoleIcons.Cleric, subIconTooltip: "TownOfUsMira.Role.Cleric", rarity: 2, tags: new[] { "Cleric", "Cleanse", "Multi" });
+    public static readonly AchievementSpec Intact = Define("Intact",
+        "Shield a player until the end of the game without them being attacked once.", TouCrewAssets.MedicSprite,
+        TouRoleIcons.Medic, subIconTooltip: "TownOfUsMira.Role.Medic", rarity: 1,
+        tags: new[] { "Medic", "Shield", "Protect", "Survive" });
+    public static readonly AchievementSpec ReturnToSender = Define("Return to Sender",
+        "Unleash an attack back onto the player it originated from.", TouCrewAssets.UnleashSprite,
+        TouRoleIcons.Mirrorcaster, subIconTooltip: "TownOfUsMira.Role.Mirrorcaster", rarity: 2, toastOnGameEnd: true,
+        tags: new[] { "Mirrorcaster", "Unleash", "Reflect" });
+    public static readonly AchievementSpec HolyBlessing = Define("Holy Blessing",
+        "Bless a player and save them from ejection.", TouCrewAssets.BlessSprite,
+        TouRoleIcons.Oracle, subIconTooltip: "TownOfUsMira.Role.Oracle", rarity: 1,
+        tags: new[] { "Oracle", "Bless", "Eject", "Protect" });
+    public static readonly AchievementSpec NoConfessions = Define("No Confessions",
+        "Get no results from a confession because too few players remain.", TouCrewAssets.ConfessSprite,
+        TouRoleIcons.Oracle, subIconTooltip: "TownOfUsMira.Role.Oracle", rarity: 1, hidden: true,
+        tags: new[] { "Oracle", "Confess", "Hidden" });
+    public static readonly AchievementSpec NullifiedProtection = Define("Nullified Protection",
+        "Have your fortified player die anyway.", TouCrewAssets.FortifySprite,
+        TouRoleIcons.Warden, subIconTooltip: "TownOfUsMira.Role.Warden", tags: new[] { "Warden", "Fortify", "Death" });
+    public static readonly AchievementSpec Mechanic = Define("Mechanic",
+        "Fix a sabotage remotely within 5 seconds of it being called.", TouCrewAssets.FixButtonSprite,
+        TouRoleIcons.Engineer, subIconTooltip: "TownOfUsMira.Role.Engineer", rarity: 1,
+        tags: new[] { "Engineer", "Fix", "Sabotage" });
+    public static readonly AchievementSpec Powerless = Define("Powerless",
+        "Imitate a Crewmate Power role.", TouAssets.ImitateSelectSprite,
+        TouRoleIcons.Imitator, subIconTooltip: "TownOfUsMira.Role.Imitator", tags: new[] { "Imitator", "Imitate", "Role" });
+    public static readonly AchievementSpec Mimicry = Define("Mimicry",
+        "Imitate only non-Crewmates in a game, imitating at least twice.", TouAssets.ImitateDeselectSprite,
+        TouRoleIcons.Imitator, subIconTooltip: "TownOfUsMira.Role.Imitator", rarity: 2, tags: new[] { "Imitator", "Imitate", "Role" });
+    public static readonly AchievementSpec ExtraSecure = Define("Extra Secure",
+        "Place a camera in Security.", TouCrewAssets.DeployCamSprite,
+        TouRoleIcons.Sentry, subIconTooltip: "TownOfUsMira.Role.Sentry", tags: new[] { "Sentry", "Camera", "Security" });
+    public static readonly AchievementSpec PotatoTomato = Define("Potato Tomato",
+        "Transport two dead bodies with one another.", TouCrewAssets.Transport,
+        TouRoleIcons.Transporter, subIconTooltip: "TownOfUsMira.Role.Transporter", rarity: 1,
+        tags: new[] { "Transporter", "Transport", "Body" });
+    public static readonly AchievementSpec StolenValor = Define("Stolen Valor",
+        "Talk with a Jailed player whilst imitating a Jailor.", TouAssets.JailCellSprite,
+        TouRoleIcons.Imitator, subIconTooltip: "TownOfUsMira.Role.Imitator", rarity: 2,
+        tags: new[] { "Imitator", "Jailor", "Jail", "Chat" });
 
     public static readonly AchievementSpec[] Crew =
     [
         ForceBeWithYou, StrangerDanger, BloodyHands, RightOnTime, SearchParty, ParanormalActivity, Purgatory,
         ToKillAGod, NoChances, RiggedVotes, CrewmatesUnite, DeathByDemocracy, SwitchedFate, KnightInShiningArmor,
         Spotlight, JusticeServed, Exorcist, OpenAndShut, SixthSense, TooCloseForComfort, DoubleTap, HeroHour,
-        FlushedOut, MethodActor, IronWall, MassResurrection, Undo, Poltergeist
+        FlushedOut, MethodActor, IronWall, MassResurrection, Undo, Poltergeist, Injustice, CaughtGhostlyHanded,
+        LastCrewStanding, TownOfHatred, RoleTwins, TooSlow, DeadTellNoTales, SeeSomethingSayNothing,
+        Hyperfocused, OffTheGlock, RoleCollector, Sharpshooter, ThisTownAintBigEnough, BecomeTheHunted,
+        Punisher, HuntingSeason, TimeCop, Avenger, Bloodshed, GoFetch, ShotInTheDark, TheDarkKnight,
+        FallenKnights, BostonTeaParty, CircusPerformer, YourMajesty, JudgementDay, TheFinalSay, Sike,
+        LostCause, HowDidWeGetHere, Intact, ReturnToSender, HolyBlessing, NoConfessions, NullifiedProtection,
+        Mechanic, Powerless, Mimicry, ExtraSecure, PotatoTomato, StolenValor
     ];
 
     // Impostor roles
@@ -212,10 +385,118 @@ public static class TouAchievements
         "Get killed while mid-ambush.", TouImpAssets.AmbushSprite, TouRoleIcons.Ambusher, subIconTooltip: "TownOfUsMira.Role.Ambusher",
         rarity: 2, hidden: true, tags: new[] { "Ambusher", "Death", "Ambush", "Hidden" });
 
+    public static readonly AchievementSpec Undercover = Define("Undercover",
+        "Win as a living Crewpostor without becoming the Traitor.", TouModifierIcons.Crewpostor,
+        TouModifierIcons.Crewpostor, subIconTooltip: "TownOfUsMira.Modifier.Crewpostor", rarity: 2,
+        tags: new[] { "Crewpostor", "Win", "Modifier" });
+    public static readonly AchievementSpec TrueDarkness = Define("True Darkness",
+        "Trigger an eclipse while the lights are out.", TouImpAssets.BlindSprite,
+        TouRoleIcons.Eclipsal, subIconTooltip: "TownOfUsMira.Role.Eclipsal", rarity: 1,
+        tags: new[] { "Eclipsal", "Blind", "Sabotage" });
+    public static readonly AchievementSpec OhHenry = Define("Oh, Henry!",
+        "Recall into a room where a player is already standing.", TouImpAssets.RecallSprite,
+        TouRoleIcons.Escapist, subIconTooltip: "TownOfUsMira.Role.Escapist", rarity: 1, hidden: true,
+        tags: new[] { "Escapist", "Recall", "Hidden" });
+    public static readonly AchievementSpec Framer = Define("Framer",
+        "Kill while morphed as a player and have them voted out in the same round.", TouImpAssets.MorphSprite,
+        TouRoleIcons.Morphling, subIconTooltip: "TownOfUsMira.Role.Morphling", rarity: 2,
+        tags: new[] { "Morphling", "Morph", "Kill", "Eject" });
+    public static readonly AchievementSpec UnderTheRadar = Define("Under the Radar",
+        "Pass by 3 different non-Impostors during a single swoop.", TouImpAssets.SwoopSprite,
+        TouRoleIcons.Swooper, subIconTooltip: "TownOfUsMira.Role.Swooper", rarity: 1,
+        tags: new[] { "Swooper", "Swoop", "Stealth" });
+    public static readonly AchievementSpec Introvert = Define("Introvert",
+        "Swoop 3 times in a single round.", TouImpAssets.SwoopSprite,
+        TouRoleIcons.Swooper, subIconTooltip: "TownOfUsMira.Role.Swooper", rarity: 1,
+        tags: new[] { "Swooper", "Swoop", "Multi" });
+    public static readonly AchievementSpec Evolution = Define("Evolution",
+        "Unlock all 3 abilities in a single game.", TouImpAssets.FreezeSprite,
+        TouRoleIcons.Venerer, subIconTooltip: "TownOfUsMira.Role.Venerer", rarity: 1,
+        tags: new[] { "Venerer", "Ability", "Multi" });
+    public static readonly AchievementSpec Boogeyman = Define("Boogeyman",
+        "Ambush 3 players in a single game.", TouImpAssets.AmbushSprite,
+        TouRoleIcons.Ambusher, subIconTooltip: "TownOfUsMira.Role.Ambusher", rarity: 1, progressGoal: 3,
+        persistence: AchievementPersistence.ThroughoutRounds, tags: new[] { "Ambusher", "Ambush", "Kill", "Multi" });
+    public static readonly AchievementSpec UavInbound = Define("UAV Inbound",
+        "Kill 3 scavenge targets in a row.", TouAssets.KillSprite,
+        TouRoleIcons.Scavenger, subIconTooltip: "TownOfUsMira.Role.Scavenger", rarity: 2,
+        tags: new[] { "Scavenger", "Kill", "Streak" });
+    public static readonly AchievementSpec DoubleTrouble = Define("Double Trouble",
+        "Retrain yourself and another Impostor in the same game.", TouAssets.RetrainSprite,
+        TouRoleIcons.Ambassador, subIconTooltip: "TownOfUsMira.Role.Ambassador", rarity: 2,
+        tags: new[] { "Ambassador", "Retrain", "Multi" });
+    public static readonly AchievementSpec Strategist = Define("Strategist",
+        "Use 6 or more herbs in a single game.", TouAssets.AbilityCounterHerbsSprite,
+        TouRoleIcons.Herbalist, subIconTooltip: "TownOfUsMira.Role.Herbalist", rarity: 1, progressGoal: 6,
+        persistence: AchievementPersistence.ThroughoutRounds, tags: new[] { "Herbalist", "Herb", "Multi" });
+    public static readonly AchievementSpec ThreatEliminated = Define("Threat Eliminated",
+        "Kill a killer in the same round you exposed them.", TouImpAssets.HerbExposeSprite,
+        TouRoleIcons.Herbalist, subIconTooltip: "TownOfUsMira.Role.Herbalist", rarity: 2, toastOnGameEnd: true,
+        tags: new[] { "Herbalist", "Expose", "Kill" });
+    public static readonly AchievementSpec AllKnowing = Define("All-Knowing",
+        "Have the roles of every living player revealed to you.", TouImpAssets.HerbExposeSprite,
+        TouRoleIcons.Herbalist, subIconTooltip: "TownOfUsMira.Role.Herbalist", rarity: 3,
+        tags: new[] { "Herbalist", "Expose", "Role", "All" });
+    public static readonly AchievementSpec DoubleDipping = Define("Double-Dipping",
+        "Control the same player twice in one game.", TouImpAssets.ControlSprite,
+        TouRoleIcons.Puppeteer, subIconTooltip: "TownOfUsMira.Role.Puppeteer", rarity: 1,
+        tags: new[] { "Puppeteer", "Control", "Multi" });
+    public static readonly AchievementSpec Homewrecker = Define("Homewrecker",
+        "Kill your puppet's lover, taking both out at once.", TouImpAssets.ControlSprite,
+        TouRoleIcons.Puppeteer, subIconTooltip: "TownOfUsMira.Role.Puppeteer", rarity: 2,
+        tags: new[] { "Puppeteer", "Control", "Kill", "Lover" });
+    public static readonly AchievementSpec WorldEnder = Define("World-Ender",
+        "Win the game with a Hex Bomb.", TouImpAssets.HexBombSprite,
+        TouRoleIcons.Spellslinger, subIconTooltip: "TownOfUsMira.Role.Spellslinger", rarity: 3,
+        tags: new[] { "Spellslinger", "Hex", "Bomb", "Win" });
+    public static readonly AchievementSpec CulturalDischarge = Define("Cultural Discharge",
+        "Die while your Hex Bomb is active.", TouImpAssets.HexBombSprite,
+        TouRoleIcons.Spellslinger, subIconTooltip: "TownOfUsMira.Role.Spellslinger", rarity: 1, hidden: true,
+        tags: new[] { "Spellslinger", "Hex", "Bomb", "Death", "Hidden" });
+    public static readonly AchievementSpec DeadlyDelusion = Define("Deadly Delusion",
+        "Become the Traitor and win within two rounds.", TouImpAssets.TraitorSelect,
+        TouRoleIcons.Traitor, subIconTooltip: "TownOfUsMira.Role.Traitor", rarity: 2,
+        tags: new[] { "Traitor", "Win" });
+    public static readonly AchievementSpec UselessJail = Define("Useless Jail",
+        "Blackmail a player who is also Jailed.", TouImpAssets.BlackmailSprite,
+        TouRoleIcons.Blackmailer, subIconTooltip: "TownOfUsMira.Role.Blackmailer", rarity: 1, hidden: true,
+        tags: new[] { "Blackmailer", "Blackmail", "Jail", "Hidden" });
+    public static readonly AchievementSpec Poisoner = Define("Poisoner",
+        "Kill a player with poison.", TouImpAssets.PoisonSprite,
+        TouRoleIcons.Bootlegger, subIconTooltip: "TownOfUsMira.Role.Bootlegger", tags: new[] { "Bootlegger", "Poison", "Kill" });
+    public static readonly AchievementSpec Blackout = Define("Blackout",
+        "Serve the same player three drinks in a row in one round.", TouImpAssets.DrinkPoisonSprite,
+        TouRoleIcons.Bootlegger, subIconTooltip: "TownOfUsMira.Role.Bootlegger", rarity: 2,
+        tags: new[] { "Bootlegger", "Drink", "Poison", "Multi" });
+    public static readonly AchievementSpec HorsingAround = Define("Horsing Around",
+        "Trigger Hysteria with every living non-Impostor hypnotized.", TouAssets.HysteriaSprite,
+        TouRoleIcons.Hypnotist, subIconTooltip: "TownOfUsMira.Role.Hypnotist", rarity: 2,
+        tags: new[] { "Hypnotist", "Hysteria", "All" });
+    public static readonly AchievementSpec Delusional = Define("Delusional",
+        "Keep Hysteria active for three rounds.", TouAssets.HysteriaCleanSprite,
+        TouRoleIcons.Hypnotist, subIconTooltip: "TownOfUsMira.Role.Hypnotist", rarity: 2,
+        tags: new[] { "Hypnotist", "Hysteria", "Multi" });
+    public static readonly AchievementSpec FalseEvidence = Define("False Evidence",
+        "Have someone report a body you dragged elsewhere.", TouImpAssets.DragSprite,
+        TouRoleIcons.Undertaker, subIconTooltip: "TownOfUsMira.Role.Undertaker", rarity: 1,
+        tags: new[] { "Undertaker", "Drag", "Body", "Report" });
+    public static readonly AchievementSpec PublicExecution = Define("Public Execution",
+        "Kill your Overtaken target in front of another player.", TouImpAssets.OvertakeSprite,
+        TouRoleIcons.Parasite, subIconTooltip: "TownOfUsMira.Role.Parasite", rarity: 1,
+        tags: new[] { "Parasite", "Overtake", "Kill", "Witness" });
+    public static readonly AchievementSpec Fratricide = Define("Fratricide",
+        "Control one of your fellow Impostors.", TouImpAssets.ControlSprite,
+        TouRoleIcons.Puppeteer, subIconTooltip: "TownOfUsMira.Role.Puppeteer", rarity: 1, hidden: true,
+        tags: new[] { "Puppeteer", "Control", "Impostor", "Hidden" });
+
     public static readonly AchievementSpec[] Imp =
     [
         EternalDarkness, BlindFoEva, IdentityCrisis, SizeDoesntMatter, Untraceable, Sneakman, Fireworks, BurstFire,
-        HushMoney, MassHysteria, Spotless, SubwaySystem, Detonation, AreYouStupid, FailedAmbush
+        HushMoney, MassHysteria, Spotless, SubwaySystem, Detonation, AreYouStupid, FailedAmbush, Undercover,
+        TrueDarkness, OhHenry, Framer, UnderTheRadar, Introvert, Evolution, Boogeyman, UavInbound, DoubleTrouble,
+        Strategist, ThreatEliminated, AllKnowing, DoubleDipping, Homewrecker, WorldEnder, CulturalDischarge,
+        DeadlyDelusion, UselessJail, Poisoner, Blackout, HorsingAround, Delusional, FalseEvidence,
+        PublicExecution, Fratricide
     ];
 
     // Neutral roles
@@ -261,10 +542,73 @@ public static class TouAchievements
         "Kill 15 players across sessions as Werewolf.", TouNeutAssets.PestKillSprite, TouRoleIcons.Werewolf, subIconTooltip: "TownOfUsMira.Role.Werewolf", rarity: 2,
         progressGoal: 15, tags: new[] { "Werewolf", "Kill", "Multi" });
 
+    public static readonly AchievementSpec DivineProtector = Define("Divine Protector",
+        "Fend off an attacker with your protection.", TouNeutAssets.ProtectSprite,
+        TouRoleIcons.Fairy, subIconTooltip: "TownOfUsMira.Role.Fairy", rarity: 1,
+        tags: new[] { "Fairy", "Protect", "Block" });
+    public static readonly AchievementSpec DoABarrelroll = Define("Do a Barrelroll!",
+        "Bribe 2 or more players in a single game.", TouNeutAssets.BribeSprite,
+        TouRoleIcons.Mercenary, subIconTooltip: "TownOfUsMira.Role.Mercenary", rarity: 1,
+        tags: new[] { "Mercenary", "Bribe", "Multi" });
+    public static readonly AchievementSpec WinWinSituation = Define("Win-Win Situation",
+        "Win with at least two-thirds of the living players bribed.", TouNeutAssets.BribeSprite,
+        TouRoleIcons.Mercenary, subIconTooltip: "TownOfUsMira.Role.Mercenary", rarity: 2,
+        tags: new[] { "Mercenary", "Bribe", "Win" });
+    public static readonly AchievementSpec SurvivalOfTheFittest = Define("Survival of the Fittest",
+        "Be the sole winner as Survivor.", TouNeutAssets.VestSprite,
+        TouRoleIcons.Survivor, subIconTooltip: "TownOfUsMira.Role.Survivor", rarity: 3, hidden: true,
+        tags: new[] { "Survivor", "Win", "Solo", "Hidden" });
+    public static readonly AchievementSpec ThirdWheel = Define("Third-Wheel",
+        "Win alongside the Lovers.", TouNeutAssets.VestSprite,
+        TouRoleIcons.Survivor, subIconTooltip: "TownOfUsMira.Role.Survivor", rarity: 1,
+        tags: new[] { "Survivor", "Win", "Lover" });
+    public static readonly AchievementSpec RoleEater = Define("Role-Eater",
+        "Guess every role you need within 3 rounds.", TouNeutAssets.Observe,
+        TouRoleIcons.Doomsayer, subIconTooltip: "TownOfUsMira.Role.Doomsayer", rarity: 2,
+        tags: new[] { "Doomsayer", "Guess", "Win" });
+    public static readonly AchievementSpec Fireproof = Define("Fireproof",
+        "Try to ignite a protected player.", TouNeutAssets.IgniteButtonSprite,
+        TouRoleIcons.Arsonist, subIconTooltip: "TownOfUsMira.Role.Arsonist", hidden: true,
+        tags: new[] { "Arsonist", "Ignite", "Protect", "Hidden" });
+    public static readonly AchievementSpec Carrier = Define("Carrier",
+        "Win as Plaguebearer without ever transforming into Pestilence.", TouNeutAssets.InfectSprite,
+        TouRoleIcons.Plaguebearer, subIconTooltip: "TownOfUsMira.Role.Plaguebearer", rarity: 2,
+        tags: new[] { "Plaguebearer", "Win" });
+    public static readonly AchievementSpec BadStaringContest = Define("Bad Staring Contest",
+        "Get killed through Stone Gaze.", TouNeutAssets.StoneGazeSprite,
+        TouRoleIcons.Medusa, subIconTooltip: "TownOfUsMira.Role.Medusa", rarity: 1, hidden: true,
+        tags: new[] { "Medusa", "Gaze", "Death", "Hidden" });
+    public static readonly AchievementSpec ChangeOfHeart = Define("Change of Heart",
+        "Convert a player when fewer than 5 players remain.", TouNeutAssets.BiteSprite,
+        TouRoleIcons.Vampire, subIconTooltip: "TownOfUsMira.Role.Vampire", rarity: 2,
+        tags: new[] { "Vampire", "Bite", "Convert", "Endgame" });
+    public static readonly AchievementSpec BloodMoon = Define("Blood Moon",
+        "End the game by killing all remaining players in a single Rampage.", TouNeutAssets.RampageSprite,
+        TouRoleIcons.Werewolf, subIconTooltip: "TownOfUsMira.Role.Werewolf", rarity: 3,
+        tags: new[] { "Werewolf", "Rampage", "Kill", "Endgame" });
+    public static readonly AchievementSpec HappyCustomers = Define("Happy Customers",
+        "Leave in victory after completing your goal as Chef.", TouNeutAssets.ChefServeCakeSprite,
+        TouRoleIcons.Chef, subIconTooltip: "TownOfUsMira.Role.Chef", rarity: 1,
+        tags: new[] { "Chef", "Win" });
+    public static readonly AchievementSpec Lazybones = Define("Lazybones",
+        "Win as Inquisitor without using any abilities.", TouNeutAssets.InquireSprite,
+        TouRoleIcons.Inquisitor, subIconTooltip: "TownOfUsMira.Role.Inquisitor", rarity: 2, hidden: true,
+        tags: new[] { "Inquisitor", "Win", "Hidden" });
+    public static readonly AchievementSpec AllBarkNoBite = Define("All Bark No Bite",
+        "End a Rampage without killing anyone.", TouNeutAssets.RampageSprite,
+        TouRoleIcons.Werewolf, subIconTooltip: "TownOfUsMira.Role.Werewolf",
+        tags: new[] { "Werewolf", "Rampage" });
+    public static readonly AchievementSpec BlindFaith = Define("Blind Faith",
+        "Observe a player, then guess them as a role that wasn't even listed.", TouNeutAssets.Observe,
+        TouRoleIcons.Doomsayer, subIconTooltip: "TownOfUsMira.Role.Doomsayer", rarity: 1, hidden: true,
+        tags: new[] { "Doomsayer", "Observe", "Guess", "Hidden" });
+
     public static readonly AchievementSpec[] Neut =
     [
         AmnesiaSquared, FairlyBadParent, Hangman, TrickyClown, FinalAct, DontPokeTheBear, HeatOfTheBattle,
         Ballistic, SpanishInquisition, SnakeEyes, PatientZero, Nosferatu, CommonCold, Nostradamus, Hitman,
-        Anomaly, FullCourseMeal, FullMoon
+        Anomaly, FullCourseMeal, FullMoon, DivineProtector, DoABarrelroll, WinWinSituation,
+        SurvivalOfTheFittest, ThirdWheel, RoleEater, Fireproof, Carrier, BadStaringContest, ChangeOfHeart,
+        BloodMoon, HappyCustomers, Lazybones, AllBarkNoBite, BlindFaith
     ];
 }
