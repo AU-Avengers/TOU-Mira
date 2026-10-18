@@ -3730,8 +3730,8 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Achievement.SubwaySystem.Description">Place 5 vents in a single game as Miner.</string>
   <string name="TownOfUsMira.Achievement.Detonation.Name">Detonation</string>
   <string name="TownOfUsMira.Achievement.Detonation.Description">Complete a Hex Bomb.</string>
-  <string name="TownOfUsMira.Achievement.PerfectAmbush.Name">Perfect Ambush</string>
-  <string name="TownOfUsMira.Achievement.PerfectAmbush.Description">Kill the player you were pursuing.</string>
+  <string name="TownOfUsMira.Achievement.AreYouStupid.Name">Are you stupid?</string>
+  <string name="TownOfUsMira.Achievement.AreYouStupid.Description">Kill the player you were pursuing.</string>
   <string name="TownOfUsMira.Achievement.Nostradamus.Name">Nostradamus</string>
   <string name="TownOfUsMira.Achievement.Nostradamus.Description">Guess 3 players correctly in a single meeting.</string>
   <string name="TownOfUsMira.Achievement.Hitman.Name">Hitman</string>

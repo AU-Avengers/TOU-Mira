@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using BepInEx.Unity.IL2CPP;
@@ -41,6 +43,8 @@ public enum AchievementPersistence
 /// category (e.g. "crewmate", "impostor", "neutral").</param>
 /// <param name="Id">Optional explicit storage id; null defaults to
 /// <c>{RegisteringAssembly}_{Name}</c>. Use to preserve save ids when the display name changed.</param>
+/// <param name="HideProgress">Hides the progress bar for hidden count achievements.</param>
+/// <param name="Tags">Optional tags for filtering and searching (e.g. role names, modifier names).</param>
 // ATONY DOCUMENT THIS PATH
 public sealed record AchievementSpec(
     string Key,
@@ -54,7 +58,9 @@ public sealed record AchievementSpec(
     AchievementPersistence Persistence = AchievementPersistence.ThroughoutSessions,
     bool ToastOnGameEnd = false,
     string? Category = null,
-    string? Id = null);
+    string? Id = null,
+    bool HideProgress = false,
+    string[]? Tags = null);
 
 /// <summary>
 /// Describes an achievements tab (plus default art) a mod's achievements are registered under.
@@ -280,5 +286,37 @@ public static class AchievementsAPIHelper
     public static bool HasOpenMenu()
     {
         return IsLoaded && AchievementsAPIBridge.IsMenuOpen();
+    }
+}
+
+/// <summary>
+/// Extension methods for <see cref="AchievementSpec"/> to make it easier for other mods
+/// to customize achievement definitions.
+/// </summary>
+public static class AchievementSpecExtensions
+{
+    /// <summary>
+    /// Adds tags to an achievement spec. Useful for mod extensions to add role names,
+    /// modifier names, or other custom tags for filtering and searching.
+    /// </summary>
+    /// <param name="spec">The achievement spec to modify.</param>
+    /// <param name="tags">The tags to add.</param>
+    /// <returns>A new AchievementSpec with the added tags.</returns>
+    public static AchievementSpec WithTags(this AchievementSpec spec, params string[] tags)
+    {
+        var combinedTags = spec.Tags?.ToList() ?? new List<string>();
+        combinedTags.AddRange(tags);
+        return spec with { Tags = combinedTags.ToArray() };
+    }
+
+    /// <summary>
+    /// Adds a single tag to an achievement spec.
+    /// </summary>
+    /// <param name="spec">The achievement spec to modify.</param>
+    /// <param name="tag">The tag to add.</param>
+    /// <returns>A new AchievementSpec with the added tag.</returns>
+    public static AchievementSpec WithTag(this AchievementSpec spec, string tag)
+    {
+        return spec.WithTags(tag);
     }
 }
