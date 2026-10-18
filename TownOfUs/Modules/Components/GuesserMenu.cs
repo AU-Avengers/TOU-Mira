@@ -50,6 +50,13 @@ public sealed class GuesserMenu : CustomPaginableMenu
                 (shapeshifterPanel, role) => new MenuEntry(shapeshifterPanel, role.GetRoleName())
             );
 
+            foreach (var shapeshifterPanel in EntryPanels)
+            {
+                var highlight = shapeshifterPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight");
+                highlight.FindChild("ShapeshifterIcon").gameObject.SetActive(false);
+                highlight.GetComponent<SpriteRenderer>().transform.GetChild(0).gameObject.SetActive(false);
+            }
+
             if (modifierMatch == null || onModifierClick == null)
                 return;
 
