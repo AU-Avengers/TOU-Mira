@@ -132,7 +132,7 @@ public static class TouAchievements
         "Reveal the Impostors as Snitch and have one ejected in the very next meeting.", TouAssets.RevealButtonSprite,
         TouRoleIcons.Snitch, subIconTooltip: "TownOfUsMira.Role.Snitch", rarity: 1, tags: new[] { "Snitch", "Reveal", "Meeting", "Eject" });
     public static readonly AchievementSpec JusticeServed = Define("Justice Served",
-        "Shoot the killer of a body you reported.", TouCrewAssets.SheriffShootSprite, TouRoleIcons.Sheriff, subIconTooltip: "TownOfUsMira.Role.Sheriff", rarity: 1, tags: new[] { "Sheriff", "Shoot", "Kill", "Body" });
+        "Shoot the killer of a body you reported.", TouCrewAssets.SheriffShootSprite, TouRoleIcons.Sheriff, subIconTooltip: "TownOfUsMira.Role.Sheriff", rarity: 1, toastOnGameEnd: true, tags: new[] { "Sheriff", "Shoot", "Kill", "Body" });
     public static readonly AchievementSpec Exorcist = Define("Exorcist",
         "Cleanse a Spellslinger's hex off a player.", TouCrewAssets.CleanseSprite, TouRoleIcons.Cleric, subIconTooltip: "TownOfUsMira.Role.Cleric", rarity: 1,
         toastOnGameEnd: true, tags: new[] { "Cleric", "Cleanse", "Hex", "Protect" });
@@ -160,7 +160,7 @@ public static class TouAchievements
     public static readonly AchievementSpec MassResurrection = Define("Mass Resurrection",
         "Revive 2 or more players with a single Revive.", TouCrewAssets.ReviveSprite, TouRoleIcons.Altruist, subIconTooltip: "TownOfUsMira.Role.Altruist", rarity: 2, tags: new[] { "Altruist", "Revive", "Multi" });
     public static readonly AchievementSpec Undo = Define("Undo",
-        "Bring back 2 or more players with a single Rewind.", TouCrewAssets.RewindSprite, TouRoleIcons.TimeLord, subIconTooltip: "TownOfUsMira.Role.TimeLord", rarity: 1, tags: new[] { "TimeLord", "Rewind", "Multi", "Time" });
+        "Bring back 2 or more players with a single Rewind.", TouCrewAssets.RewindSprite, TouRoleIcons.TimeLord, subIconTooltip: "TownOfUsMira.Role.TimeLord", rarity: 1, toastOnGameEnd: true, tags: new[] { "TimeLord", "Rewind", "Multi", "Time" });
     public static readonly AchievementSpec Poltergeist = Define("Poltergeist",
         "Reveal the evils as Haunter.", TouAssets.RevealCleanSprite, TouRoleIcons.Haunter, subIconTooltip: "TownOfUsMira.Role.Haunter", tags: new[] { "Haunter", "Reveal", "Death" });
 
@@ -187,7 +187,7 @@ public static class TouAchievements
     public static readonly AchievementSpec Sneakman = Define("Sneakman",
         "Kill and vent away during the same swoop.", TouImpAssets.SwoopSprite, TouRoleIcons.Swooper, subIconTooltip: "TownOfUsMira.Role.Swooper", tags: new[] { "Swooper", "Kill", "Swoop", "Vent" });
     public static readonly AchievementSpec Fireworks = Define("Fireworks",
-        "Kill 3 or more players with a single bomb.", TouImpAssets.DetonatingSprite, TouRoleIcons.Bomber, subIconTooltip: "TownOfUsMira.Role.Bomber", rarity: 2, tags: new[] { "Bomber", "Kill", "Bomb", "Multi" });
+        "Kill 3 or more players with a single bomb.", TouImpAssets.DetonatingSprite, TouRoleIcons.Bomber, subIconTooltip: "TownOfUsMira.Role.Bomber", rarity: 2, toastOnGameEnd: true, tags: new[] { "Bomber", "Kill", "Bomb", "Multi" });
     public static readonly AchievementSpec BurstFire = Define("Burst Fire",
         "Kill 2 players in a single Warlock charge.", TouAssets.KillSprite, TouRoleIcons.Warlock, subIconTooltip: "TownOfUsMira.Role.Warlock", rarity: 1, tags: new[] { "Warlock", "Kill", "Multi" });
     public static readonly AchievementSpec HushMoney = Define("Hush Money",

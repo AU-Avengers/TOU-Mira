@@ -265,6 +265,20 @@ public static class AchievementsAPIHelper
     }
 
     /// <summary>
+    /// Switches an achievement's toasts between immediate and game-end delivery at runtime, for
+    /// achievements whose toast would leak information only under certain game options.
+    /// </summary>
+    public static void SetToastOnGameEnd(AchievementSpec achievement, bool onGameEnd)
+    {
+        if (!IsLoaded)
+        {
+            return;
+        }
+
+        AchievementsAPIBridge.SetToastOnGameEnd(achievement, onGameEnd);
+    }
+
+    /// <summary>
     /// Sets a count achievement's progress value directly.
     /// </summary>
     public static void SetValue(AchievementSpec achievement, int value, bool showOnUI = true)

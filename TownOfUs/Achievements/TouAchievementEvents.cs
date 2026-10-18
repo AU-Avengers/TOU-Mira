@@ -2,6 +2,7 @@ using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Player;
+using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -12,6 +13,7 @@ using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
+using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
@@ -39,12 +41,9 @@ public static class TouAchievementEvents
     private static int _vigilanteGuesses;
     private static int _doomsayerGuesses;
     private static int _assassinGuesses;
-    private static int _plaguebearerInfections;
     private static int _rewindRevives;
     private static float _lastHysteriaTime = -10f;
     private static int _bombKills;
-    private static int _rampageKills;
-    private static int _rampageAliveAtStart;
     private static int _meetingsSeen;
 
     /// <summary>
@@ -123,21 +122,6 @@ public static class TouAchievementEvents
         {
             AchievementsAPIHelper.Unlock(TouAchievements.FailedAmbush);
         }
-    }
-
-    /// <summary>
-    /// Called by the Werewolf rampage button when the rampage begins.
-    /// </summary>
-    public static void OnWerewolfRampageStart(PlayerControl werewolf)
-    {
-        if (!AchievementsAPIHelper.IsLoaded || !werewolf.AmOwner)
-        {
-            return;
-        }
-
-        _rampageKills = 0;
-        _rampageAliveAtStart = PlayerControl.AllPlayerControls.ToArray()
-            .Count(x => !x.HasDied() && x.PlayerId != werewolf.PlayerId);
     }
 
     /// <summary>
@@ -230,12 +214,7 @@ public static class TouAchievementEvents
                 break;
 
             case AbilityType.PlaguebearerInfect when @event.Player.AmOwner:
-                _plaguebearerInfections++;
-                if (_plaguebearerInfections >= 5)
-                {
-                    AchievementsAPIHelper.Unlock(TouAchievements.PatientZero);
-                }
-
+                AchievementsAPIHelper.Increment(TouAchievements.PatientZero, 1);
                 break;
 
             case AbilityType.MonarchKnight when @event.Player.AmOwner && @event.Target is PlayerControl knight:
@@ -243,6 +222,9 @@ public static class TouAchievementEvents
                 break;
 
             case AbilityType.MedicShieldProtect when @event.Player.AmOwner && @event.Result == "New Attack":
+                var medicNotified = OptionGroupSingleton<MedicOptions>.Instance.WhoGetsNotification
+                    is MedicOption.Medic or MedicOption.ShieldedAndMedic or MedicOption.Everyone;
+                AchievementsAPIHelper.SetToastOnGameEnd(TouAchievements.IronWall, !medicNotified);
                 AchievementsAPIHelper.Increment(TouAchievements.IronWall, 1);
                 break;
 
@@ -328,10 +310,10 @@ public static class TouAchievementEvents
             _mysticSenseTime = Time.time;
         }
 
-        // Full Moon: kills made by the local werewolf during the active rampage.
-        if (source.AmOwner && source.Data.Role is WerewolfRole { Rampaging: true })
+        // Full Moon: kills made by the local Werewolf.
+        if (source.AmOwner && source.Data.Role is WerewolfRole && target.PlayerId != source.PlayerId)
         {
-            _rampageKills++;
+            AchievementsAPIHelper.Increment(TouAchievements.FullMoon, 1);
         }
 
         // Are you stupid?: the ambushed player is the one being pursued.
@@ -498,8 +480,6 @@ public static class TouAchievementEvents
             return;
         }
 
-        _plaguebearerInfections = 0;
-
         if (!@event.TriggeredByIntro)
         {
             return;
@@ -509,8 +489,6 @@ public static class TouAchievementEvents
         ImitatedRoles.Clear();
         PendingBombVictims.Clear();
         _bombKills = 0;
-        _rampageKills = 0;
-        _rampageAliveAtStart = 0;
         _meetingsSeen = 0;
     }
 
@@ -538,27 +516,6 @@ public static class TouAchievementEvents
         if (ImitatedRoles.Count >= 3)
         {
             AchievementsAPIHelper.Unlock(TouAchievements.MethodActor);
-        }
-    }
-
-    [RegisterEvent]
-    public static void GameEndEventHandler(GameEndEvent _)
-    {
-        if (!AchievementsAPIHelper.IsLoaded)
-        {
-            return;
-        }
-
-        var local = PlayerControl.LocalPlayer;
-        if (local == null || local.Data?.Role is not WerewolfRole || _rampageAliveAtStart <= 0)
-        {
-            return;
-        }
-
-        var won = EndGameResult.CachedWinners.ToArray().Any(w => w.PlayerName == local.Data.PlayerName);
-        if (won && _rampageKills >= _rampageAliveAtStart)
-        {
-            AchievementsAPIHelper.Unlock(TouAchievements.FullMoon);
         }
     }
 }
