@@ -7,6 +7,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Achievements;
 using TownOfUs.Modules;
+using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 using Color = UnityEngine.Color;
@@ -87,6 +88,10 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         var arrow = MiscUtils.CreateArrow(Player.transform, color);
         arrow.target = position;
+        var spr = arrow.gameObject.GetComponent<SpriteRenderer>();
+        var r = arrow.gameObject.AddComponent<BasicRainbowBehaviour>();
+
+        r.AddRend(spr, Player.cosmetics.ColorId);
 
         try
         {

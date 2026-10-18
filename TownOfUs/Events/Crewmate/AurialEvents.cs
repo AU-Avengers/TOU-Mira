@@ -3,6 +3,7 @@ using MiraAPI.Events;
 using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Roles;
+using TownOfUs.Buttons;
 using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Events.Crewmate;
@@ -15,12 +16,13 @@ public static class AurialEvents
         var button = @event.Button;
         var source = PlayerControl.LocalPlayer;
 
-        if (!source.AmOwner || button == null || !button.CanClick())
+        if (!source.AmOwner || button == null || !button.CanClick() || button is IAurialBypassButton or IKillButton)
         {
             return;
         }
 
-        CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Do(x => AurialRole.RpcSense(x.Player, source, false));
+        CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Where(x => !x.Player.AmOwner)
+            .Do(x => AurialRole.RpcSense(x.Player, source, false));
     }
 
     [RegisterEvent]
@@ -33,7 +35,8 @@ public static class AurialEvents
             return;
         }
 
-        CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Do(x => AurialRole.RpcSense(x.Player, source, false));
+        CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Where(x => !x.Player.AmOwner)
+            .Do(x => AurialRole.RpcSense(x.Player, source, false));
     }
 
     [RegisterEvent]
@@ -46,6 +49,7 @@ public static class AurialEvents
             return;
         }
 
-        CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Do(x => AurialRole.RpcSense(x.Player, source, true));
+        CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Where(x => !x.Player.AmOwner)
+            .Do(x => AurialRole.RpcSense(x.Player, source, true));
     }
 }

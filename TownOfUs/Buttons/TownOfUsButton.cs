@@ -603,6 +603,10 @@ public interface IKillButton
 {
 }
 
+public interface IAurialBypassButton
+{
+}
+
 public interface ILegacyCapable
 {
 }
