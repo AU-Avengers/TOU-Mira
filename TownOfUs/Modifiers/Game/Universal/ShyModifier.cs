@@ -143,7 +143,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
 
             SetVisibility(Player, opacity, true);
         }
-        else if (Player.GetAppearanceType() == TownOfUsAppearances.Camouflage)
+        else if (Player.GetAppearanceType() == TownOfUsAppearances.Camouflage && OptionGroupSingleton<ShyOptions>.Instance.ShyAlwaysVisibleInCamoComms.Value)
         {
             SetVisibility(Player, 1f, true);
         }

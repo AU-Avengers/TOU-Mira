@@ -3289,6 +3289,7 @@ when the lights are sabotaged.</string>
         <string name="TouOptionShyTransparencyDelay">Transparency Delay</string>
   <string name="TouOptionShyTurnTransparentDuration">Turn Transparent Duration</string>
   <string name="TouOptionShyFinalOpacity">Final Opacity</string>
+    <string name="ShyAlwaysVisibleInCamoComms">Always Visible in Camo Comms</string>
   <!-- Other Modifier Options -->
     <!-- Alliance Modifier Options -->
       <string name="TownOfUsMira.Options.Groups.AllianceModifiers">Alliance Modifiers</string>
