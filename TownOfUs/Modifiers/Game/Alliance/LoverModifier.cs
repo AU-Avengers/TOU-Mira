@@ -32,7 +32,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
     public override string IntroInfo => LoverString();
     public bool LoverDisconnected { get; internal set; }
-    public string LoverDcString { get; internal set; } = string.Empty;
+    public string LoverDcString { get; internal set; } = " ";
 
     public override string GetDescription()
     {
@@ -158,7 +158,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
     public static bool LoverSeesRoleVisibilityFlag(PlayerControl player)
     {
         var loverKnowsOtherRole = OptionGroupSingleton<LoversOptions>.Instance.LoverKnowsOthersRole &&
-                                  PlayerControl.LocalPlayer.IsLoverWith(player);
+                                  PlayerControl.LocalPlayer.IsLoverWithPlayer(player);
 
         return loverKnowsOtherRole;
     }

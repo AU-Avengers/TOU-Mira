@@ -8,27 +8,56 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Crewmate;
+using UnityEngine;
 
 namespace TownOfUs.Events.Crewmate;
 
 public static class HunterEvents
 {
     public static int ActiveStalkTaskCount;
+    public static PlayerControl HunterToAnnounceNext;
     [RegisterEvent]
     public static void RoundStartHandler(RoundStartEvent @event)
     {
         if (!@event.TriggeredByIntro)
         {
+            if (!HunterToAnnounceNext)
+            {
+                return;
+            }
+
+            if (HunterToAnnounceNext.AmOwner)
+            {
+                var notif1 = Helpers.CreateAndShowNotification(
+                    MiraLocaleManager.Get("TownOfUsMira.Role.Hunter.ShameNotificationSelf"),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter.LoadAsset());
+
+                notif1.AdjustNotification();
+            }
+            else
+            {
+                var notif1 = Helpers.CreateAndShowNotification(
+                    MiraLocaleManager.Get("TownOfUsMira.Role.Hunter.ShameNotification").Replace("<player>", HunterToAnnounceNext.Data.PlayerName),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter.LoadAsset());
+
+                notif1.AdjustNotification();
+            }
+
+            HunterToAnnounceNext = null!;
             return; // Only run when game starts.
         }
 
+        HunterToAnnounceNext = null!;
         ActiveStalkTaskCount = 0;
 
         var hunterStalk = CustomButtonSingleton<HunterStalkButton>.Instance;
@@ -99,7 +128,7 @@ public static class HunterEvents
 
         CheckForHunterStalked(source, true);
 
-        if (source.Data.Role is not HunterRole)
+        if (source.Data.Role is not HunterRole role)
         {
             return;
         }
@@ -122,6 +151,67 @@ public static class HunterEvents
             {
                 stats.IncorrectKills += 1;
             }
+        }
+
+        if (OptionGroupSingleton<HunterOptions>.Instance.SameRoundKillPunishment
+            && !MeetingHud.Instance && !ExileController.Instance
+            && IsIncorrectKill(source, target)
+            && role.CaughtRounds.TryGetValue(target.PlayerId, out var caughtRound)
+            && caughtRound == HudManagerHelper.Instance.CurrentRound)
+        {
+            role.PendingShame = true;
+        }
+    }
+
+    private static bool IsIncorrectKill(PlayerControl hunter, PlayerControl target)
+    {
+        if (hunter.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        {
+            return false;
+        }
+
+        if (target.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished)
+        {
+            return false;
+        }
+
+        if (hunter == target)
+        {
+            return false;
+        }
+
+        return target.IsCrewmate();
+    }
+
+    [RegisterEvent(400)]
+    public static void ShameWrapUpEvent(EjectionEvent @event)
+    {
+        var exiled = @event.ExileController?.initData?.networkedPlayer?.Object;
+
+        foreach (var hunter in CustomRoleUtils.GetActiveRolesOfType<HunterRole>())
+        {
+            if (!hunter.PendingShame)
+            {
+                continue;
+            }
+
+            hunter.PendingShame = false;
+
+            if (hunter.Player.HasDied() || exiled == hunter.Player)
+            {
+                continue;
+            }
+
+            HunterToAnnounceNext = hunter.Player;
+            if (hunter.Player.TryGetModifier<CelebrityModifier>(out var celeb))
+            {
+                celeb.Announced = true;
+            }
+            GameHistory.UpdatePlayerDeathData(hunter.Player.PlayerId, MiraLocaleManager.Get("DiedToPunishment"), 0,
+                HudManagerHelper.Instance.CurrentRound, DeathHandlerOverride.SetFalse,
+                lockInfo: DeathHandlerOverride.SetTrue, playerState: StoredPlayerState.Dead);
+
+            hunter.Player.Exiled();
         }
     }
 

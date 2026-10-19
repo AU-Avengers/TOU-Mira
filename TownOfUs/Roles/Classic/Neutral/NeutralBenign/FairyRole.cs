@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
@@ -11,10 +12,12 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Achievements;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
@@ -97,6 +100,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
     public string RoleDescription => TargetString(true);
     public string RoleLongDescription => TargetString();
 
+    public string RoleWikiDescription => GetAdvancedDescription();
     public string GetAdvancedDescription()
     {
         return
@@ -164,6 +168,21 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
             return
             [
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Protect", "Protect"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Protect.WikiDescription"),
+                    TouNeutAssets.ProtectSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Protect", "Protect"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Protect.WikiDescription"),
                     TouNeutAssets.ProtectSprite)
             ];
@@ -251,6 +270,10 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
 
         if (Target == null || victim == Target)
         {
+            if (victim == Target && Player.AmOwner && !victim.Data.Disconnected && TouAchievementEvents.IsFirstRound)
+            {
+                AchievementsAPIHelper.Unlock(TouAchievements.FairlyBadParent);
+            }
             var roleType = OptionGroupSingleton<FairyOptions>.Instance.OnTargetDeath switch
             {
                 BecomeOptions.Crew => (ushort)RoleTypes.Crewmate,

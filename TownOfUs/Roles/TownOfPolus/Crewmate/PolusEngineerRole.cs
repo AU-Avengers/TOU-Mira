@@ -34,7 +34,6 @@ public sealed class PolusEngineerRole(IntPtr cppPtr) : PolusBaseCrewRole(cppPtr)
     {
         RoleHintType = RoleHintType.None,
         AssociatedGameMode = typeof(TownOfPolusMode),
-        HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.TownOfPolus,
         GhostRole = (RoleTypes)RoleId.Get<PolusGhostCrewRole>(),
         FreeplayFolder = "Town of Polus",
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconEngineer.LoadAsset(), "TownOfPolus.Role.Crewmate.Engineer", 1.45f),
@@ -43,7 +42,7 @@ public sealed class PolusEngineerRole(IntPtr cppPtr) : PolusBaseCrewRole(cppPtr)
 
     public static void EngineerFix(PlayerControl engineer)
     {
-        switch ((ExpandedMapNames)GameOptionsManager.Instance.currentGameOptions.MapId)
+        switch ((ExpandedMapNames)GameOptionsManager.Instance.CurrentGameOptions.MapId)
         {
             case ExpandedMapNames.Skeld or ExpandedMapNames.Dleks:
                 var comms1 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();

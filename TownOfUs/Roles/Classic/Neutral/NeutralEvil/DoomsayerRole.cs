@@ -10,6 +10,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Achievements;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
@@ -146,6 +147,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         return AllGuessesCorrect;
     }
 
+    public string RoleWikiDescription => GetAdvancedDescription();
     public string GetAdvancedDescription()
     {
         var opts = OptionGroupSingleton<DoomsayerOptions>.Instance;
@@ -165,6 +167,21 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             return
             [
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Observe", "Observe"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Observe.WikiDescription"),
+                    TouNeutAssets.Observe)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Observe", "Observe"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Observe.WikiDescription"),
                     TouNeutAssets.Observe)
             ];
@@ -338,15 +355,17 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                     if (role2 == lastRole)
                     {
                         reportBuilder.Append(TownOfUsPlugin.Culture,
-                            $"{MiscUtils.GetHyperlinkText(lastRole)})");
+                            $"{MiscUtils.GetReliableHyperlinkText(lastRole)})");
                     }
                     else
                     {
                         reportBuilder.Append(TownOfUsPlugin.Culture,
-                            $"{MiscUtils.GetHyperlinkText(role2)}, ");
+                            $"{MiscUtils.GetReliableHyperlinkText(role2)}, ");
                     }
                 }
             }
+
+            TouAchievementEvents.OnDoomsayerObserveReport(Player, player.PlayerId, roles.Select(x => x.Role));
 
             player.Object.RemoveModifier<DoomsayerObservedModifier>();
         }
@@ -396,6 +415,8 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
         void ClickRoleHandle(RoleBehaviour role)
         {
+            TouAchievementEvents.OnDoomsayerGuessAttempt(Player, voteArea.PlayerId, role.Role);
+
             var realRole = player.Data.Role;
 
 

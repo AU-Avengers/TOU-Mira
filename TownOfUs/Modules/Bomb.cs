@@ -5,6 +5,7 @@ using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Achievements;
 using TownOfUs.Modifiers;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
@@ -59,6 +60,11 @@ public sealed class Bomb : IDisposable
                 !x.HasDied() && (!x.AmOwner || x.AmOwner && !x.HasModifier<BaseShieldModifier>() &&
                     !x.HasModifier<FirstDeadShield>()))
             .ToList();
+        if (_bomber != null)
+        {
+            TouAchievementEvents.OnBombDetonate(_bomber, targetList);
+        }
+
         _bomber?.RpcSpecialMultiMurder(targetList, MeetingCheck.OutsideMeeting, true, teleportMurderer: false,
             causeOfDeath: "BomberBomb");
 

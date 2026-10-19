@@ -3,11 +3,15 @@ using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using InnerNet;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Utilities;
+using TownOfUs.Buttons.Impostor;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Assailant;
@@ -57,28 +61,20 @@ public sealed class ScavengerRole(IntPtr cppPtr)
             return;
         }
 
-        if (!GameStarted && Player.killTimer > 0f)
+        var killButton = CustomButtonSingleton<ScavengerKillButton>.Instance;
+
+        if (!GameStarted && killButton.Timer > 0f)
         {
             GameStarted = true;
         }
 
-        // scavenge mode starts once kill timer reaches 0
-        if (Player.killTimer <= 0f && !Scavenging && GameStarted && !Player.HasDied())
+        // scavenge mode starts once the kill button's cooldown reaches 0
+        if (killButton.Timer <= 0f && !Scavenging && GameStarted && !Player.HasDied())
         {
             // Message($"Scavenge Begin");
             Scavenging = true;
             TimeRemaining = OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeDuration;
-
-            Target = Player.GetClosestLivingPlayer(false, float.MaxValue, true,
-                x => !x.HasModifier<FirstDeadShield>())!;
-
-            if (Player.HasModifier<LoverModifier>())
-            {
-                Target = Player.GetClosestLivingPlayer(false, float.MaxValue, true,
-                    x => !x.HasModifier<FirstDeadShield>() && !x.HasModifier<LoverModifier>())!;
-            }
-
-            Target?.AddModifier<ScavengerArrowModifier>(Player, TownOfUsColors.Impostor);
+            RefreshTarget();
         }
 
         if (TimeRemaining > 0)
@@ -91,7 +87,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
             Clear();
 
             // Message($"Scavenge End");
-            Player.SetKillTimer(PlayerControl.LocalPlayer.GetKillCooldown());
+            killButton.SetTimer(killButton.Cooldown);
         }
     }
 
@@ -115,6 +111,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Scavenger.LoadAsset(), "TouMira.Role.Impostor.Scavenger", 1.45f),
         Icon = TouRoleIcons.Scavenger,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
+        UseVanillaKillButton = false,
         IntroSound = TouAudio.WarlockIntroSound
     };
 
@@ -159,22 +156,12 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         yield return new WaitForSeconds(0.01f);
         scav.GameStarted = true;
         scav.Scavenging = false;
-        if (player.killTimer <= 0f && !player.HasDied())
+        if (CustomButtonSingleton<ScavengerKillButton>.Instance.Timer <= 0f && !player.HasDied())
         {
             // Message($"Scavenge Begin");
             scav.Scavenging = true;
             scav.TimeRemaining = OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeDuration;
-
-            scav.Target =
-                player.GetClosestLivingPlayer(false, float.MaxValue, true, x => !x.HasModifier<FirstDeadShield>())!;
-
-            if (player.HasModifier<LoverModifier>())
-            {
-                scav.Target = player.GetClosestLivingPlayer(false, float.MaxValue, true,
-                    x => !x.HasModifier<FirstDeadShield>() && !x.HasModifier<LoverModifier>())!;
-            }
-
-            scav.Target?.AddModifier<ScavengerArrowModifier>(player, TownOfUsColors.Impostor);
+            scav.RefreshTarget();
         }
     }
 
@@ -183,6 +170,31 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         TouRoleUtils.ClearTaskHeader(Player);
         Clear();
+    }
+
+    private PlayerControl? GetNextTarget()
+    {
+        PlayerControl? nextTarget = Player.GetClosestLivingPlayer(false, float.MaxValue, true,
+            x => !x.HasModifier<FirstDeadShield>());
+
+        if (Player.HasModifier<LoverModifier>())
+        {
+            nextTarget = Player.GetClosestLivingPlayer(false, float.MaxValue, true,
+                x => !x.HasModifier<FirstDeadShield>() && !x.HasModifier<LoverModifier>());
+        }
+
+        return nextTarget;
+    }
+
+    private void RefreshTarget()
+    {
+        if (Target != null)
+        {
+            Target.RemoveModifier<ScavengerArrowModifier>();
+        }
+
+        Target = GetNextTarget();
+        Target?.AddModifier<ScavengerArrowModifier>(Player, TownOfUsColors.Impostor);
     }
 
     public void Clear()
@@ -206,34 +218,32 @@ public sealed class ScavengerRole(IntPtr cppPtr)
             return;
         }
 
+        var killButton = CustomButtonSingleton<ScavengerKillButton>.Instance;
+
+        if (Target == null)
+        {
+            return;
+        }
+
         if (victim == Target)
         {
-            // extend scavenge duration
-            TimeRemaining += OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeIncreaseDuration;
+            var touAbilityEvent = new TouAbilityEvent(AbilityType.ScavengerCorrectKill, Player, victim);
+            MiraEventManager.InvokeEvent(touAbilityEvent);
 
-            // set kill timer
-            Player.SetKillTimer(OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeCorrectKillCooldown);
+            TimeRemaining = Mathf.Max(0f,
+                TimeRemaining + OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeIncreaseDuration);
 
-            // get new target
-            Target = Player.GetClosestLivingPlayer(false, float.MaxValue, true)!;
+            killButton.SetTimer(OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeCorrectKillCooldown);
 
-            if (Player.HasModifier<LoverModifier>())
-            {
-                Target = Player.GetClosestLivingPlayer(false, float.MaxValue, true,
-                    x => !x.HasModifier<FirstDeadShield>() && !x.HasModifier<LoverModifier>())!;
-            }
-
-            // update arrow to point to new target
-            Target?.AddModifier<ScavengerArrowModifier>(Player, TownOfUsColors.Impostor);
+            RefreshTarget();
+            return;
         }
-        else
-        {
-            // set kill timer
-            Player.SetKillTimer(PlayerControl.LocalPlayer.GetKillCooldown() *
-                                OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeIncorrectKillCooldown);
 
-            // clear arrows
-            Clear();
-        }
+        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.ScavengerIncorrectKill, Player, victim));
+
+        var baseCooldown = killButton.Cooldown > 0f ? killButton.Cooldown : PlayerControl.LocalPlayer.GetKillCooldown();
+        killButton.SetTimer(baseCooldown * OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeIncorrectKillCooldown);
+
+        Clear();
     }
 }

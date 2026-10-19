@@ -11,6 +11,7 @@ namespace TownOfUs.Roles.Other;
 
 public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsRole, IWikiDiscoverable
 {
+    public bool? ForceShowRoleOnWiki => TrackedSpectators.HasAny() ? true : null;
     private Minigame _hauntMenu = null!;
 
     public static readonly HashSet<string> TrackedSpectators = [];

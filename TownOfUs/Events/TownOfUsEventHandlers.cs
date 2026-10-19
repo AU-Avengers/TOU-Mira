@@ -24,6 +24,7 @@ using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
@@ -69,6 +70,7 @@ public static class TownOfUsEventHandlers
     internal static TextMeshPro ModifierText;
     public static TaskPanelBehaviour RolePanel;
     public static SpriteRenderer RoleIconRenderer;
+    public static ExpandedMapNames CurrentMap = (ExpandedMapNames)7;
 
     public static TaskPanelBehaviour? TryGetRoleTab()
     {
@@ -93,7 +95,7 @@ public static class TownOfUsEventHandlers
             newObj.layer = LayerMask.NameToLayer("UI");
             newObj.transform.localPosition = new Vector3(-1.2f, 0.325f, -0.1f);
             RoleIconRenderer = newObj.AddComponent<SpriteRenderer>();
-            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.Data.Role.GetRoleIcon();
+            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.GetSignificantRole().GetRoleIcon();
             newObj.transform.localScale = new Vector3(1, 1, 1);
             RoleIconRenderer.SetSizeLimit(0.4f);
             var oldScale = newObj.transform.localScale;
@@ -102,7 +104,7 @@ public static class TownOfUsEventHandlers
 
         if (RoleIconRenderer != null)
         {
-            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.Data.Role.GetRoleIcon();
+            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.GetSignificantRole().GetRoleIcon();
             RoleIconRenderer.transform.localScale = new Vector3(1, 1, 1);
             RoleIconRenderer.SetSizeLimit(0.4f);
             var oldScale = RoleIconRenderer.transform.localScale;
@@ -180,7 +182,6 @@ public static class TownOfUsEventHandlers
     public static void IntroBeginEventHandler(IntroBeginEvent @event)
     {
         DraftSidebarManager.Deactivate();
-        DraftSidebarManager.ClearBannerRef();
         if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
         {
             return;
@@ -363,8 +364,22 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void RoundStartHandler(RoundStartEvent @event)
     {
+        var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
+        var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
+        AreVentsAllowed = aliveCount > minimum;
+        HudManagerHelper.Instance.VentButtonDisabledSprite.SetActive(!AreVentsAllowed);
         if (!@event.TriggeredByIntro)
         {
+            foreach (var role in CustomRoleUtils.GetActiveRoles())
+            {
+                if (role is not IAltWinConRole neutAltRole)
+                {
+                    continue;
+                }
+
+                neutAltRole.TryResolveQuietWin(role);
+            }
+
             foreach (var button in CustomButtonManager.Buttons)
             {
                 if (button is FakeVentButton)
@@ -394,6 +409,8 @@ public static class TownOfUsEventHandlers
             }
             return; // Only run when game starts.
         }
+
+        CurrentMap = MiscUtils.GetCurrentMap;
 
         if (FirstDeadPatch.PlayerNames.Count > 0)
         {
@@ -518,7 +535,7 @@ public static class TownOfUsEventHandlers
 
         if (player.Data.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
         {
-            ParasiteRole.RpcParasiteEndControl(player, parasiteRole.Controlled);
+            ParasiteRole.RpcParasiteEndControl(player, parasiteRole.Controlled, parasiteRole.Controlled.transform.position, false);
         }
 
         if (ParasiteControlState.IsControlled(player.PlayerId, out var controllerId))
@@ -526,7 +543,7 @@ public static class TownOfUsEventHandlers
             var controller = MiscUtils.PlayerById(controllerId);
             if (controller?.Data?.Role is ParasiteRole controllerRole && controllerRole.Controlled == player)
             {
-                ParasiteRole.RpcParasiteEndControl(controller, player);
+                ParasiteRole.RpcParasiteEndControl(controller, player, player.transform.position, false);
             }
             else
             {
@@ -775,19 +792,27 @@ public static class TownOfUsEventHandlers
                 }
             }
         }
+
+        var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
+        var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
+        AreVentsAllowed = aliveCount > minimum;
+        HudManagerHelper.Instance.VentButtonDisabledSprite.SetActive(!AreVentsAllowed);
     }
 
+    public static bool AreVentsAllowed;
     [RegisterEvent]
     public static void PlayerCanUseEventHandler(PlayerCanUseEvent @event)
     {
         if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
             !PlayerControl.LocalPlayer.Data.Role)
         {
+            AreVentsAllowed = true;
             return;
         }
 
         if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
         {
+            AreVentsAllowed = true;
             return;
         }
 
@@ -799,6 +824,7 @@ public static class TownOfUsEventHandlers
         // Prevent last 2 players from venting (or however many are set up)
         if (@event.IsVent)
         {
+            AreVentsAllowed = true;
             if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>())
             {
                 if (PlayerControl.LocalPlayer.inVent)
@@ -827,8 +853,10 @@ public static class TownOfUsEventHandlers
 
             if (aliveCount <= minimum)
             {
+                AreVentsAllowed = false;
                 @event.Cancel();
             }
+            HudManagerHelper.Instance.VentButtonDisabledSprite.SetActive(!AreVentsAllowed);
         }
     }
 

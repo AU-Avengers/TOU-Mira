@@ -15,11 +15,15 @@ namespace TownOfUs.Modules.DraftMode
     public static class DraftSidebarManager
     {
         private static bool _active;
-        private static GameObject    _bannerGo = null!;
         private static string _cachedStaticContent = null!;
         private static int    _cachedPickedCount   = -1;
         private static int    _cachedDisconnectedCount = -1;
         private static bool   _cachedDraftActive;
+        private static bool   _draftSpriteAssetReady;
+        private static string _cachedRenderedContent = null!;
+        private static TextMeshPro _cachedTextComponent = null!;
+        private static float _nextRenderTime;
+        private const float SidebarRefreshInterval = 0.1f;
 
         public static void Activate()
         {
@@ -35,8 +39,9 @@ namespace TownOfUs.Modules.DraftMode
             _cachedPickedCount   = -1;
             _cachedDisconnectedCount = -1;
             _cachedDraftActive   = false;
-
-            if (_bannerGo != null) _bannerGo.SetActive(false);
+            _cachedRenderedContent = null!;
+            _cachedTextComponent = null!;
+            _nextRenderTime = 0f;
 
             var tmp = HudManagerPatches.RoleListTextComp;
             if (tmp != null)
@@ -49,10 +54,6 @@ namespace TownOfUs.Modules.DraftMode
             HudManagerPatches.IsHoveringRoleList = false;
 
         }
-        public static void ClearBannerRef()
-        {
-            _bannerGo = null!;
-        }
 
         public static bool IsActive => _active;
         public static void InvalidateCache()
@@ -61,14 +62,29 @@ namespace TownOfUs.Modules.DraftMode
             _cachedPickedCount   = -1;
             _cachedDisconnectedCount = -1;
             _cachedDraftActive   = false;
+            _cachedRenderedContent = null!;
+            _cachedTextComponent = null!;
+            _nextRenderTime = 0f;
         }
         public static void DrawSidebar(TextMeshPro tmp)
         {
+            float now = Time.unscaledTime;
+            if (tmp == _cachedTextComponent && _cachedRenderedContent != null && now < _nextRenderTime)
+                return;
+
             tmp.fontSize           = 3f;
             tmp.fontSizeMin        = 0.5f;
             tmp.fontSizeMax        = 3f;
             tmp.enableWordWrapping = false;
-            tmp.text = AnimatedTitle() + GetStaticContent();
+            var content = AnimatedTitle() + GetStaticContent();
+            if (tmp != _cachedTextComponent || content != _cachedRenderedContent || tmp.text != content)
+            {
+                tmp.text = content;
+                _cachedRenderedContent = content;
+                _cachedTextComponent = tmp;
+            }
+
+            _nextRenderTime = now + SidebarRefreshInterval;
         }
 
         private static string GetStaticContent()
@@ -129,7 +145,11 @@ namespace TownOfUs.Modules.DraftMode
             float t = Time.time;
             var sb = new StringBuilder();
             var draftWord = MiraLocaleManager.Get("TouDraftShimmerDraft", "DRAFT").ToUpperInvariant();
-            TmpSpriteUtils.CreateSpriteAsset(TouAssets.IconDraftMode.LoadAsset(),"TouMira.Gamemode.DraftMode",1.45f);
+            if (!_draftSpriteAssetReady)
+            {
+                TmpSpriteUtils.CreateSpriteAsset(TouAssets.IconDraftMode.LoadAsset(), "TouMira.Gamemode.DraftMode", 1.45f);
+                _draftSpriteAssetReady = true;
+            }
             var modeWord = MiraLocaleManager.Get("TouDraftShimmerMode", "MODE").ToUpperInvariant();
             sb.Append("<size=105%><b>");
             sb.Append(Shimmer(draftWord, new Color(1f, 0.31f, 0.31f), t, 0));
@@ -240,7 +260,6 @@ namespace TownOfUs.Modules.DraftMode
             DraftCancelButton.Hide();
             DraftShuffleButton.HideAndReset();
             DraftSidebarManager.Deactivate();
-            DraftSidebarManager.ClearBannerRef();
         }
     }
 }

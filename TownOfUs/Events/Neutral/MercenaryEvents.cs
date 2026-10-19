@@ -1,6 +1,7 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -18,6 +19,20 @@ namespace TownOfUs.Events.Neutral;
 
 public static class MercenaryEvents
 {
+    [RegisterEvent]
+    public static void CompleteTaskEvent(CompleteTaskEvent @event)
+    {
+        if (!@event.Player.AmOwner || @event.Player.Data.Role is not MercenaryRole ||
+            !OptionGroupSingleton<MercenaryOptions>.Instance.TaskUses)
+        {
+            return;
+        }
+
+        var button = CustomButtonSingleton<MercenaryGuardButton>.Instance;
+        ++button.UsesLeft;
+        button.SetUses(button.UsesLeft);
+    }
+
     private static void ResetButtonTimer(PlayerControl source, CustomActionButton<PlayerControl>? button = null)
     {
         if (!source.AmOwner)
@@ -57,7 +72,7 @@ public static class MercenaryEvents
         var target = @event.Target;
 
         // only check if this interaction was via the standard kill button
-        if (source.Data.Role is ICustomRole { Configuration.UseVanillaKillButton: true } ||
+        if (TutorialManager.InstanceExists || source.Data.Role is ICustomRole { Configuration.UseVanillaKillButton: true } ||
             (source.Data.Role is not ICustomRole && source.IsImpostor()))
         {
             CheckForMercenaryGuard(@event, source, target);
@@ -78,7 +93,7 @@ public static class MercenaryEvents
 
         var mercOpts = OptionGroupSingleton<MercenaryOptions>.Instance;
 
-        var noAttack = (target.PlayerId == source.PlayerId ||
+        var noAttack = (!TutorialManager.InstanceExists && target.PlayerId == source.PlayerId ||
                         @event is BeforeMurderEvent { IgnoreDefense: true } ||
                         @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true } ||
                         source.HasModifier<InvulnerabilityModifier>() ||
@@ -109,7 +124,7 @@ public static class MercenaryEvents
 
         var mercenary = guardMod.Mercenary;
 
-        if (mercenary != null && source.AmOwner)
+        if (mercenary != null && (TutorialManager.InstanceExists || source.AmOwner))
         {
             MercenaryRole.RpcGuarded(mercenary, target, mercOpts.GuardProtection.Value && (!noAttack || isAttack));
         }

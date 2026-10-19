@@ -17,6 +17,7 @@ using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Neutral;
 using UnityEngine;
 using Enum = System.Enum;
 using Exception = System.Exception;
@@ -192,6 +193,10 @@ public static class CustomTouMurderRpcs
             if (murderResultFlags is MurderResultFlags.FailedError)
             {
                 survivors.Add(target.PlayerId, target.Data.PlayerName);
+                if (causeOfDeath == "Arsonist" && source.Data?.Role is ArsonistRole)
+                {
+                    Achievements.TouAchievementEvents.OnArsonistIgniteBlocked(source);
+                }
             }
             else
             {

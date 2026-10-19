@@ -1,12 +1,14 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Options;
 
 public sealed class RoleblockOptions : AbstractOptionGroup
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleblockMechanics");
+    public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Barkeeper;
     public override uint GroupPriority => 1;
 
     public ModdedToggleOption RoleblockAffectsConsoles { get; set; } =

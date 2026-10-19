@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Text;
+
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
@@ -10,6 +11,7 @@ using MiraAPI.Utilities;
 using PowerTools;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Achievements;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
@@ -20,8 +22,14 @@ using UnityEngine;
 namespace TownOfUs.Roles.Crewmate;
 
 public sealed class MayorRole(IntPtr cppPtr)
-    : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, IUnguessable, ILoyalCrewmate
+    : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, IUnguessable, ILoyalCrewmate, IVisibleRole
 {
+    public bool? ForceShowRoleOnWiki => MiscUtils.GetPotentialRoles().Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PoliticianRole>())) ? true : null;
+    public bool CanOtherRoleSee(RoleBehaviour role, out bool consideredTeammates)
+    {
+        consideredTeammates = false;
+        return Revealed;
+    }
     public bool CanBeTraitor => false;
     public bool CanBeCrewpostor => false;
     public bool CanBeEgotist => true;

@@ -1,8 +1,10 @@
 <Project>
     <ItemGroup>
-        <PackageReference Include="AllOfUs.MiraAPI" Version="0.5.0"/>
+        <PackageReference Include="AllOfUs.MiraAPI" Version="0.5.0" PrivateAssets="all"/>
+        <!-- Cosmetics system shouldn't be installed by everyone as it's kind of a waste to do so, especially without a public nuget. -->
+        <PackageReference Include="CorsacCosmetics" Version="3.0.2" PrivateAssets="all"/>
         <PackageReference Include="Reactor" Version="2.5.0-ci.371"/>
-        <PackageReference Include="PerfectComms.Api" Version="4.1.7.1" PrivateAssets="all" />
+        <PackageReference Include="PerfectComms.Api" Version="4.1.7.1" PrivateAssets="all"/>
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.735" Private="false" ExcludeAssets="runtime;native"/>
         <PackageReference Include="AmongUs.GameLibs.Steam" Version="2026.8.18" PrivateAssets="all"/>
 

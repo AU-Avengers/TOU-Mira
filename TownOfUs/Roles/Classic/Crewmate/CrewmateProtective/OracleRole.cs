@@ -7,6 +7,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Achievements;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities.Appearances;
@@ -20,6 +21,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public DoomableType DoomHintType => DoomableType.Insight;
     public string IdPart => "Oracle";
 
+    public string RoleWikiDescription => GetAdvancedDescription();
     public string GetAdvancedDescription()
     {
         return
@@ -39,6 +41,26 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bless.WikiDescription"),
                     TouCrewAssets.BlessSprite),
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Confess", "Confess"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Confess.WikiDescription").Replace("<revealAccuracy>",
+                        $"{OptionGroupSingleton<OracleOptions>.Instance.RevealAccuracyPercentage}"),
+                    TouCrewAssets.ConfessSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bless", "Bless"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bless.WikiDescription"),
+                    TouCrewAssets.BlessSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Confess", "Confess"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Confess.WikiDescription").Replace("<revealAccuracy>",
                         $"{OptionGroupSingleton<OracleOptions>.Instance.RevealAccuracyPercentage}"),
                     TouCrewAssets.ConfessSprite)
@@ -83,6 +105,11 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
 
         var report = BuildReport(confessing);
+
+        if (report == MiraLocaleManager.Get("TownOfUsMira.Role.OracleTooFew"))
+        {
+            TouAchievementEvents.OnOracleConfessEmpty(Player);
+        }
 
         var title = $"<color=#{TownOfUsColors.Oracle.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.OracleConfessionTitle")}</color>";
         MiscUtils.AddFakeChat(confessing.Data, title, report, false, true);
@@ -175,6 +202,10 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         var mod = exiled.GetModifier<OracleBlessedModifier>();
 
         mod?.SavedFromExile = true;
+        if (mod != null)
+        {
+            TouAchievementEvents.OnOracleBlessSaved(mod.Oracle, exiled);
+        }
     }
 
     [MethodRpc((uint)TownOfUsRpc.OracleBlessNotify)]

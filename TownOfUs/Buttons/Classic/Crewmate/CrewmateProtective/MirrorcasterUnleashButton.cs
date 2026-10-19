@@ -1,6 +1,7 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
+using TownOfUs.Achievements;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Crewmate;
@@ -36,6 +37,7 @@ public sealed class MirrorcasterUnleashButton : TownOfUsKillRoleButton<Mirrorcas
 
         PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
         MirrorcasterRole.RpcMirrorcasterUnleash(PlayerControl.LocalPlayer);
+        TouAchievementEvents.OnMirrorcasterUnleash(PlayerControl.LocalPlayer, Target, Role.ContainedAttackerId);
     }
 
     public override PlayerControl? GetTarget()

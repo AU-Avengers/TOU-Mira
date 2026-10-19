@@ -20,7 +20,7 @@ public class HypnotistHysteriaButton : MeetingActionButton
     public override int MaxUses => 0;
 
     public override LoadableAsset<Sprite> Sprite =>
-        LegacyAssets.IsLegacy ? LegacyAssets.HysteriaSprite : TouAssets.MassHysteriaSprite;
+        LegacyAssets.IsLegacy ? LegacyAssets.HysteriaSprite : TouAssets.HysteriaSprite;
 
     public override bool HideUponWrapUp => true;
     public override bool DisableUponUse => true;

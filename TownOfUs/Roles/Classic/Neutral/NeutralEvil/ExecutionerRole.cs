@@ -27,6 +27,11 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable,
     IAssignableTargets, ICrewVariant, IAnnounceableKill
 {
+    public void InitialSetup()
+    {
+        TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.ExeTormentSprite.LoadAsset(),
+            "TouMira.Role.Neutral.Executioner.Ui.Target", 1.45f);
+    }
     public void AnnounceKill(PlayerControl source, PlayerControl victim)
     {
         var text = OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnonymizeWin.Value
@@ -107,6 +112,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     public string RoleDescription => TargetString(true);
     public string RoleLongDescription => TargetString();
 
+    public string RoleWikiDescription => GetAdvancedDescription();
     public string GetAdvancedDescription()
     {
         return

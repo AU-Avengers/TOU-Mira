@@ -9,12 +9,17 @@ public static class VentPatches
 {
     public static bool InVision(PlayerControl player)
     {
-        var truePosition = PlayerControl.LocalPlayer.GetTruePosition();
-        var vector = player.GetTruePosition() - truePosition;
+        return InVision(player, PlayerControl.LocalPlayer);
+    }
+
+    public static bool InVision(PlayerControl player, PlayerControl observer)
+    {
+        var observerPosition = observer.GetTruePosition();
+        var vector = player.GetTruePosition() - observerPosition;
         var magnitude = vector.magnitude;
 
         if (magnitude < PlayerControl.LocalPlayer.lightSource.viewDistance &&
-            !PhysicsHelpers.AnyNonTriggersBetween(truePosition, vector.normalized, magnitude,
+            !PhysicsHelpers.AnyNonTriggersBetween(observerPosition, vector.normalized, magnitude,
                 Constants.ShipAndObjectsMask))
         {
             return true;

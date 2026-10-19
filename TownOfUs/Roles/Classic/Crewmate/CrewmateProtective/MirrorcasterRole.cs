@@ -29,6 +29,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     [HideFromIl2Cpp] public PlayerControl? Protected { get; set; }
     public bool IsProtecting { get; set; }
     public int UnleashesAvailable { get; set; }
+    public byte ContainedAttackerId { get; set; } = byte.MaxValue;
     [HideFromIl2Cpp] public RoleBehaviour? ContainedRole { get; set; }
 
     public void FixedUpdate()
@@ -66,6 +67,25 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MagicMirror.WikiDescription"),
                     TouCrewAssets.MagicMirrorSprite),
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Unleash", "Unleash"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Unleash.WikiDescription"),
+                    TouCrewAssets.UnleashSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MagicMirror", "Magic Mirror"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Menu"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MagicMirror.WikiDescription"),
+                    TouCrewAssets.MagicMirrorSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Unleash", "Unleash"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Unleash.WikiDescription"),
                     TouCrewAssets.UnleashSprite)
             ];
@@ -263,6 +283,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         }
 
         role.ContainedRole = killerRole;
+        role.ContainedAttackerId = source.PlayerId;
 
         var opt = OptionGroupSingleton<MirrorcasterOptions>.Instance;
         var attackInfo = (MirrorAttackInfo)opt.AttackInformationGiven.Value;

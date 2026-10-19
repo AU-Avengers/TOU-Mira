@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace TownOfUs.Buttons;
 
-public sealed class FakeVentButton : CustomActionButton
+public sealed class FakeVentButton : CustomActionButton, IAurialBypassButton
 {
     public override string Name => " ";
     public override Color TextOutlineColor => Color.clear;

@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class BarkeeperOptions : AbstractRoleOptionGroup<BarkeeperRole>, IWikiOptionsSummaryProvider
 {
-    public override string GroupName => "Barkeeper";
+    public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Barkeeper", "Barkeeper");
 
     public ModdedNumberOption RoleblockCooldown { get; } =
         new("TouOptionBarkeeperRoleblockCooldown", 22.5f, 15f, 120f, 2.5f, MiraNumberSuffixes.Seconds);

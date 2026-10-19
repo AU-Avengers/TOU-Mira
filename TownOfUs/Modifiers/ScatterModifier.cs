@@ -15,7 +15,7 @@ public class ScatterModifier(float time) : TimedModifier
     private TextMeshProUGUI? scatterText;
     private GameObject scatterUI;
     private float soundTimer = 1f;
-    public override string ModifierName => MiraLocaleManager.Get("Scatter", "Scatter");
+    public override string ModifierName => MiraLocaleManager.Get("TouScatter", "Scatter");
     public override float Duration => time;
     public override bool AutoStart => false;
     public override bool HideOnUi => true;
@@ -52,7 +52,8 @@ public class ScatterModifier(float time) : TimedModifier
 
         scatterText = scatterUI.transform.FindChild("ScatterCanvas").FindChild("ScatterText").gameObject
             .GetComponent<TextMeshProUGUI>();
-        scatterText.text = $"Scatter: {Duration}s";
+        var scatterName = MiraLocaleManager.Get("TouScatter", "Scatter");
+        scatterText.text = $"{scatterName}: {Duration}s";
         scatterText!.gameObject.SetActive(false);
 
         scatterBar = scatterUI.transform.FindChild("ScatterCanvas").FindChild("ScatterBar").gameObject
@@ -95,7 +96,8 @@ public class ScatterModifier(float time) : TimedModifier
             _ => Color.red
         };
 
-        scatterText?.text = $"Scatter: {textColor.ToTextColor()}{roundedTime}s</color>";
+        var scatterName = MiraLocaleManager.Get("TouScatter", "Scatter");
+        scatterText?.text = $"{scatterName}: {textColor.ToTextColor()}{roundedTime}s</color>";
 
         if (scatterBar != null)
         {

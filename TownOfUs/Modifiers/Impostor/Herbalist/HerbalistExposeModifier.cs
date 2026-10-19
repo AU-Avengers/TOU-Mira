@@ -1,4 +1,6 @@
-﻿using MiraAPI.Modifiers;
+﻿using MiraAPI.Events;
+using MiraAPI.Modifiers;
+using TownOfUs.Events.TouEvents;
 
 namespace TownOfUs.Modifiers.Impostor.Herbalist;
 
@@ -13,6 +15,12 @@ public sealed class HerbalistExposedModifier(PlayerControl herbalist, bool isFfa
     public override bool Visible { get; set; } = true;
     public bool FreeForAllActive => isFfa;
     public PlayerControl Herbalist { get; } = herbalist;
+
+    public override void OnActivate()
+    {
+        base.OnActivate();
+        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.HerbalistExpose, Herbalist, Player));
+    }
 
     public override void FixedUpdate()
     {

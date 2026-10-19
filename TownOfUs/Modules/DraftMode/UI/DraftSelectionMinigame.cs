@@ -1,8 +1,10 @@
 using System.Collections;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
+using TownOfUs.Options;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -125,7 +127,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_timerRoot != null)
             {
-                try { MiraAPI.Utilities.Extensions.DeepDestroy(_timerRoot, true); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+                MiraAPI.Utilities.Extensions.DeepDestroy(_timerRoot, true);
                 _timerRoot = null!;
                 _timerText = null!;
                 _timerTrack = null!;
@@ -187,7 +189,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_tooltipRoot != null)
             {
-                try { MiraAPI.Utilities.Extensions.DeepDestroy(_tooltipRoot, true); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+                MiraAPI.Utilities.Extensions.DeepDestroy(_tooltipRoot, true);
                 _tooltipRoot = null!;
                 _tooltipText = null!;
             }
@@ -274,11 +276,7 @@ namespace TownOfUs.Modules.DraftMode
             if (go != null)
                 MiraAPI.Utilities.Extensions.DeepDestroy(go, false);
 
-            try
-            {
-                MiraAPI.Utilities.Extensions.ClearGarbageCollector();
-            }
-            catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+            MiraAPI.Utilities.Extensions.ClearGarbageCollector();
         }
 
         private void BuildScreen()
@@ -499,7 +497,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_selectionBackdrop != null)
             {
-                try { MiraAPI.Utilities.Extensions.DeepDestroy(_selectionBackdrop, true); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+                MiraAPI.Utilities.Extensions.DeepDestroy(_selectionBackdrop, true);
                 _selectionBackdrop = null!;
                 _selectionBackdropWash = null!;
                 _selectionBackdropHorizon = null!;
@@ -752,15 +750,7 @@ namespace TownOfUs.Modules.DraftMode
 
             Instance?.RegisterIdleCard(child, holder);
 
-            try
-            {
-                Coroutines.Start(MiscUtils.BetterBloop(child, finalSize: cardScale, duration: 0.22f, intensity: 0.16f));
-            }
-            catch (Exception bex)
-            {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftScreen] BetterBloop failed: {bex.Message}");
-            }
-
+            Coroutines.Start(MiscUtils.BetterBloop(child, finalSize: cardScale, duration: 0.22f, intensity: 0.16f));
         }
 
         private static IEnumerator CoAnimateCardIn(Transform card, int currentCard, int totalCards, float cardScale)
@@ -811,6 +801,8 @@ namespace TownOfUs.Modules.DraftMode
         }
         private float _localTimeLeft = -1f;
         private bool _cardsReady;
+        private int _lastDisplayedSeconds = -1;
+        private bool _lastTimerUrgent;
 
         private void Update()
         {
@@ -842,12 +834,18 @@ namespace TownOfUs.Modules.DraftMode
                     }
 
                     bool urgent = secs <= 5;
-                    string color = urgent ? "#FF5555" : "#FFD700";
+                    if (secs != _lastDisplayedSeconds || urgent != _lastTimerUrgent)
+                    {
+                        string color = urgent ? "#FF5555" : "#FFD700";
+                        string timerLabel = MiraLocaleManager.Get("TouDraftTimerRemaining", "<secs> Second(s) Remaining")
+                            .Replace("<secs>", secs.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                        _timerText.text = $"<color={color}><b>{timerLabel}</b></color>";
+                        _lastDisplayedSeconds = secs;
+                        _lastTimerUrgent = urgent;
+                    }
+
                     float timerPulse = urgent ? 1f + Mathf.Sin(Time.time * 10f) * 0.08f : 1f;
                     _timerText.transform.localScale = Vector3.one * timerPulse;
-                    string timerLabel = MiraLocaleManager.Get("TouDraftTimerRemaining", "<secs> Second(s) Remaining")
-                        .Replace("<secs>", secs.ToString(System.Globalization.CultureInfo.InvariantCulture));
-                    _timerText.text = $"<color={color}><b>{timerLabel}</b></color>";
 
                     float timeForBar = AmongUsClient.Instance.AmHost
                         ? DraftManager.TurnTimeLeft
@@ -862,10 +860,39 @@ namespace TownOfUs.Modules.DraftMode
         private void OnCardClicked(int index)
         {
             if (_hasPicked) return;
+            if (_offeredRoleIds == null || _offeredRoleIds.Length == 0) return;
+            bool randomPick = index == _offeredRoleIds.Length &&
+                (OptionGroupSingleton<RoleOptions>.Instance?.ShowRandomOption.Value ?? false);
+            if (index < 0 || (index >= _offeredRoleIds.Length && !randomPick)) return;
+
+            var localPlayer = PlayerControl.LocalPlayer;
+            if (localPlayer == null) return;
+
+            if (TargetPickerId != localPlayer.PlayerId)
+                return;
+
+            var localState = DraftManager.GetStateForPlayer(localPlayer.PlayerId);
+            if (localState == null || localState.HasPicked || !localState.IsPickingNow)
+                return;
+
+            if (localState.PendingPickTurnNumber != DraftManager.CurrentTurnNumber)
+                return;
+
+            var localSlot = DraftManager.GetSlotForPlayer(localPlayer.PlayerId);
+            if (localSlot < 0)
+                return;
+
+            if (localState.PendingPickIndex != 255 && localState.PendingPickIndex != index)
+            {
+                localState.PendingPickIndex = 255;
+                localState.PendingPickRoleId = 0;
+            }
 
             _hasPicked = true;
-            DraftNetworkHelper.SendPickToHost(index, TargetPickerId);
-            Invoke(nameof(DestroySelf), 1.2f);
+            ushort roleId = randomPick ? (ushort)0 : _offeredRoleIds[index];
+            if (roleId != 0)
+                DraftStatusOverlay.NotifyLocalPlayerPicked(roleId);
+            DraftNetworkHelper.SendPickToHost(index, roleId, TargetPickerId);
         }
 
         public static void ShowFinalPickNotification(ushort roleId)
@@ -889,9 +916,20 @@ namespace TownOfUs.Modules.DraftMode
 
             string hex = ColorUtility.ToHtmlStringRGB(roleColor);
 
+            var localizedRoleName =
+                $"<b><color=#{hex}>{roleName}</color></b>";
+
+            var notificationText = MiraLocaleManager.Get(
+                    "TouDraftRoleCardHelp",
+                    "You can learn about what <role> does by clicking the role card towards the right")
+                .Replace("<role>", localizedRoleName);
+
             var notif = Helpers.CreateAndShowNotification(
-                $"You can learn about what <b><color=#{hex}>{roleName}</color></b> does by clicking the role card towards the right",
-                Color.white, new Vector3(0f, 1f, -20f), spr : TouAssets.IconDraftMode.LoadAsset());
+                notificationText,
+                Color.white,
+                new Vector3(0f, 1f, -20f),
+                spr: TouAssets.IconDraftMode.LoadAsset());
+
             notif?.AdjustNotification();
         }
 

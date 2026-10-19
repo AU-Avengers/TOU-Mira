@@ -17,8 +17,14 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IDoubleDraftRole
+public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IDoubleDraftRole, IVisibleRole
 {
+    public bool CanOtherRoleSee(RoleBehaviour role, out bool consideredTeammates)
+    {
+        consideredTeammates = role is VampireRole;
+        return consideredTeammates;
+    }
+
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (!playerControl.AmOwner)
@@ -53,6 +59,21 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
             return
             [
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bite", "Bite"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bite.WikiDescription"),
+                    TouNeutAssets.BiteSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bite", "Bite"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bite.WikiDescription"),
                     TouNeutAssets.BiteSprite)
             ];

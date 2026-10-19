@@ -2642,6 +2642,8 @@ return true;*/
             reviverOwnerNotificationText: successText,
             notificationIcon: TouRoleIcons.TimeLord.LoadAsset());
 
+        Achievements.TouAchievementEvents.OnTimeLordRevive(revived);
+
         if (revived.AmOwner && PlayerControl.LocalPlayer && revived.AmOwner)
         {
             TryUnstuckLocalPlayer(revived);

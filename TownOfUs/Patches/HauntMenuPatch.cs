@@ -50,11 +50,7 @@ public static class HauntMenuMinigamePatch
                 __instance.FilterText.text = modifierTextBuilder.ToString();
             }
 
-            var role = target.Data.Role;
-            if (target.Data.IsDead && MiscUtils.IsBasicGhost(role))
-            {
-                role = target.GetRoleWhenAlive();
-            }
+            var role = target.GetSignificantRole();
 
             var name = role.GetRoleName();
 
@@ -95,9 +91,13 @@ public static class HauntMenuMinigamePatch
                 __instance.NameText.text = string.Empty;
                 __instance.FilterText.text = string.Empty;
 
-                var text = (hauntMode is GhostModeInGame.Disabled)
-                    ? "Haunting was disabled by the host!"
-                    : "You must wait until next round to haunt!";
+                var text = hauntMode is GhostModeInGame.Disabled
+                    ? MiraLocaleManager.Get(
+                        "TouHauntingDisabled",
+                        "Haunting was disabled by the host!")
+                    : MiraLocaleManager.Get(
+                        "TouHauntingWaitNextRound",
+                        "You must wait until next round to haunt!");
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectator.LoadAsset());
 

@@ -36,11 +36,12 @@ namespace TownOfUs.Modules.DraftMode
                 }
                 else if (!string.IsNullOrWhiteSpace(fallbackName))
                 {
+                    var presentation = GetRoleNamePresentation(fallbackName);
                     displayName = fallbackName;
-                    team = GetTeamLabelForRoleName(fallbackName);
+                    team = presentation.team;
                     icon = TouRoleIcons.RandomAny.LoadAsset();
-                    color = GetColorForRoleName(fallbackName);
-                    faction = GetDraftFactionForRoleName(fallbackName);
+                    color = presentation.color;
+                    faction = presentation.faction;
                     description = string.Empty;
                 }
                 else
@@ -68,25 +69,14 @@ namespace TownOfUs.Modules.DraftMode
             return cards;
         }
 
-        private static string GetTeamLabelForRoleName(string roleName)
+        private static (string team, Color color, DraftFaction faction) GetRoleNamePresentation(string roleName)
         {
-            if (DraftRolePool.IsImpostorRoleName(roleName)) return MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor");
-            if (DraftRolePool.IsNeutralRoleName(roleName)) return MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral");
-            return MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate");
-        }
+            if (DraftRolePool.IsImpostorRoleName(roleName))
+                return (MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor"), TownOfUsColors.ImpSoft, DraftFaction.Impostor);
+            if (DraftRolePool.IsNeutralRoleName(roleName))
+                return (MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral"), TownOfUsColors.Neutral, DraftFaction.Neutral);
 
-        private static Color GetColorForRoleName(string roleName)
-        {
-            if (DraftRolePool.IsImpostorRoleName(roleName)) return TownOfUsColors.ImpSoft;
-            if (DraftRolePool.IsNeutralRoleName(roleName)) return TownOfUsColors.Neutral;
-            return TownOfUsColors.Crewmate;
-        }
-
-        private static DraftFaction GetDraftFactionForRoleName(string roleName)
-        {
-            if (DraftRolePool.IsImpostorRoleName(roleName)) return DraftFaction.Impostor;
-            if (DraftRolePool.IsNeutralRoleName(roleName)) return DraftFaction.Neutral;
-            return DraftFaction.Crewmate;
+            return (MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate"), TownOfUsColors.Crewmate, DraftFaction.Crewmate);
         }
 
         public static string GetRoleDescription(RoleBehaviour role)

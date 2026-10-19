@@ -1,13 +1,17 @@
 using System.Text;
+
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Achievements;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
@@ -15,6 +19,11 @@ namespace TownOfUs.Roles.Crewmate;
 
 public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
 {
+    public void InitialSetup()
+    {
+        TmpSpriteUtils.CreateSpriteAsset(TouCrewAssets.CampaignButtonSprite.LoadAsset(),
+            "TouMira.Role.Crewmate.Politician.Ui.Campaign", 1.45f);
+    }
     public bool CanBeTraitor => false;
     public bool CanBeCrewpostor => false;
     public bool CanBeEgotist => true;
@@ -43,6 +52,27 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Campaign.WikiDescription"),
                     TouCrewAssets.CampaignButtonSprite),
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}RevealWiki", "Reveal"),
+                    MiraLocaleManager.Get(OptionGroupSingleton<PoliticianOptions>.Instance.PreventCampaign
+                        ? $"TownOfUsMira.Role.{IdPart}RevealWikiDescriptionPunished"
+                        : $"TownOfUsMira.Role.{IdPart}Reveal.WikiDescription"),
+                    TouAssets.RevealCleanSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Campaign", "Campaign"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Campaign.WikiDescription"),
+                    TouCrewAssets.CampaignButtonSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}RevealWiki", "Reveal"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Meeting"),
                     MiraLocaleManager.Get(OptionGroupSingleton<PoliticianOptions>.Instance.PreventCampaign
                         ? $"TownOfUsMira.Role.{IdPart}RevealWikiDescriptionPunished"
                         : $"TownOfUsMira.Role.{IdPart}Reveal.WikiDescription"),
@@ -91,6 +121,10 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         {
             return;
         }
+        if (Helpers.GetAlivePlayers().Count == 2)
+        {
+            AchievementsAPIHelper.Unlock(TouAchievements.DeathByDemocracy);
+        }
 
         // All living crewmates excluding the Politician
         var aliveCrew = PlayerControl.AllPlayerControls.ToArray()
@@ -106,6 +140,11 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
         if (hasMajority)
         {
+            var campaigned = Helpers.GetAlivePlayers().Where(x => x.HasModifier<PoliticianCampaignedModifier>(y => y.Politician.AmOwner)).ToList();
+            if (campaigned.All(x => x.IsCrewmate()) && campaigned.Count > 0)
+            {
+                TouAchievementLifecycle.UnlockTentative(TouAchievements.CrewmatesUnite);
+            }
             Player.RpcChangeRole(RoleId.Get<MayorRole>());
         }
         else

@@ -1,10 +1,11 @@
 ﻿using System.Globalization;
-using System.Reflection;
+using AmongUs.Data;
+using AmongUs.Data.Player;
+using AmongUs.Data.Settings;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Injection;
 using MiraAPI;
 using MiraAPI.PluginLoading;
 using Reactor;
@@ -12,12 +13,10 @@ using Reactor.Localization;
 using Reactor.Networking;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
-using TownOfUs.Modules.Cosmetics.Unity;
+using TownOfUs.Achievements;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.WinConditions;
-using UnityEngine.AddressableAssets.ResourceLocators;
-using UnityEngine.ResourceManagement.ResourceProviders;
 using ModCompatibility = TownOfUs.Modules.ModCompatibility;
 
 namespace TownOfUs;
@@ -29,6 +28,7 @@ namespace TownOfUs;
 [BepInProcess("Among Us.exe")]
 [BepInDependency(ReactorPlugin.Id)]
 [BepInDependency(MiraApiPlugin.Id)]
+[BepInDependency(AchievementsAPIHelper.PluginGuid, BepInDependency.DependencyFlags.SoftDependency)]
 [ReactorModFlags(ModFlags.RequireOnAllClients)]
 public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
 {
@@ -91,6 +91,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
         MiraLocaleManager.Register("auavengers.tou.mira", "TownOfUs");
 
         TouAssets.Initialize();
+        AchievementsAPIHelper.RegisterTouAchievements();
 
         IL2CPPChainloader.Instance.Finished +=
             ModCompatibility
@@ -100,7 +101,9 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
             ModNewsFetcher
                 .CheckForNews; // Checks for mod announcements after everything is loaded to avoid Epic Games crashing
 
-        if (!IsMobile)
+        IL2CPPChainloader.Instance.Finished += LotteryAchievementRoller.Start;
+
+        /*if (!IsMobile)
         {
             var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
                 "touhats.catalog");
@@ -114,28 +117,15 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
                 AddressablesLoader.RegisterHats("touhats");
                 Error("touhats.catalog was loaded!");
             }
-        }
-
-        ClassInjector.RegisterTypeInIl2Cpp<HatLocator>(new RegisterTypeOptions
-        {
-            Interfaces = new Il2CppInterfaceCollection([typeof(IResourceLocator)])
-        });
-
-        ClassInjector.RegisterTypeInIl2Cpp<HatProvider>(new RegisterTypeOptions
-        {
-            Interfaces = new Il2CppInterfaceCollection([typeof(IResourceProvider)])
-        });
-
-        Info("Initializing HatProvider...");
-        HatProvider.Initialize();
-        Info("HatProvider initialized!");
-        
-        Info("Initializing HatLocator...");
-        HatLocator.Initialize();
-        Info("HatLocator initialized!");
+        }*/
 
         Harmony.PatchAll();
+        DataManager.player = new PlayerData();
+        DataManager.player.ForceLoad();
+        DataManager.settings = new SettingsData();
+        DataManager.settings.ForceLoad();
         RegisterWinConditions();
+        RoleExclusionRegistry.RegisterBuiltInBuckets();
     }
 
     /// <summary>
@@ -152,7 +142,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
 public enum LegacyVisuals
 {
     Disabled,
-    Players,
+    /*Players,*/
     Art,
-    Full
+    /*Full*/
 }

@@ -1,5 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
+using UnityEngine;
 
 namespace TownOfUs.Options;
 
@@ -7,9 +8,16 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.VanillaTweaks");
     public override uint GroupPriority => 1;
+    public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Scientist;
 
-    /*[ModdedToggleOption("TouOptionHideNamesOutOfSight")]
-    public bool HideNamesOutOfSight { get; set; } = true;*/
+    public ModdedEnumOption HideNamesOutOfSight { get; set; } =
+        new("TouOptionHideNamesOutOfSight", (int)NameSight.RoomBased,
+            typeof(NameSight),
+            [
+                "TouOptionHideNamesOutOfSightEnumBasic",
+                "TouOptionHideNamesOutOfSightEnumRoomBased",
+                "TouOptionHideNamesOutOfSightEnumHarsh"
+            ]);
 
     public ModdedToggleOption TickCooldownsInMinigame { get; set; } =
         new("TouOptionTickCooldownsInMinigame", true);
@@ -64,6 +72,13 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
             ? PetHidden.Never
             : (PetHidden)HidePetsOnBodyRemove.Value;
 }
+public enum NameSight
+{
+    Basic,
+    RoomBased,
+    Harsh
+}
+
 public enum SkipState
 {
     No,

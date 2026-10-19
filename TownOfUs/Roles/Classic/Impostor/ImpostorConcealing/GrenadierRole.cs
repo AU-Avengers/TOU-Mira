@@ -11,7 +11,7 @@ public sealed class GrenadierRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     public DoomableType DoomHintType => DoomableType.Protective;
     public string IdPart => "Grenadier";
     public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
-
+    [HideFromIl2Cpp] public Dictionary<int, int> PlayersFlashedInARow { get; set; } = [];
     public string GetAdvancedDescription()
     {
         return
@@ -39,6 +39,21 @@ public sealed class GrenadierRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             return
             [
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Flash", "Flash"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Flash.WikiDescription"),
+                    TouImpAssets.FlashSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Flash", "Flash"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Radius"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Flash.WikiDescription"),
                     TouImpAssets.FlashSprite)
             ];

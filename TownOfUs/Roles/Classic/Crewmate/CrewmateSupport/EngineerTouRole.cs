@@ -5,6 +5,7 @@ using MiraAPI.Hud;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
+using TownOfUs.Achievements;
 using TownOfUs.Buttons;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
@@ -34,6 +35,22 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             return
             [
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fix", "Fix"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fix.WikiDescription").Replace("<engiMaxFixes>",
+                        $"{(int)OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes}"),
+                    TouCrewAssets.FixButtonSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fix", "Fix"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fix.WikiDescription").Replace("<engiMaxFixes>",
                         $"{(int)OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes}"),
                     TouCrewAssets.FixButtonSprite)
@@ -76,7 +93,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     public static void EngineerFix(PlayerControl engineer)
     {
-        switch ((ExpandedMapNames)GameOptionsManager.Instance.currentGameOptions.MapId)
+        switch ((ExpandedMapNames)GameOptionsManager.Instance.CurrentGameOptions.MapId)
         {
             case ExpandedMapNames.Skeld or ExpandedMapNames.Dleks:
                 var comms1 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
@@ -269,6 +286,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     private static void FixAirshipReactor()
     {
+        TouAchievementEvents.OnEngineerCriticalFix(PlayerControl.LocalPlayer);
         ShipStatus.Instance.RpcUpdateSystem(SystemTypes.HeliSabotage, 16 | 0);
         ShipStatus.Instance.RpcUpdateSystem(SystemTypes.HeliSabotage, 16 | 1);
         RpcEngineerEventFix(PlayerControl.LocalPlayer);
@@ -276,12 +294,14 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     private static void FixReactor(SystemTypes system)
     {
+        TouAchievementEvents.OnEngineerCriticalFix(PlayerControl.LocalPlayer);
         ShipStatus.Instance.RpcUpdateSystem(system, 16);
         RpcEngineerEventFix(PlayerControl.LocalPlayer);
     }
 
     private static void FixOxygen()
     {
+        TouAchievementEvents.OnEngineerCriticalFix(PlayerControl.LocalPlayer);
         ShipStatus.Instance.RpcUpdateSystem(SystemTypes.LifeSupp, 16);
         RpcEngineerEventFix(PlayerControl.LocalPlayer);
     }
@@ -329,7 +349,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             return;
         }
 
-        var touAbilityEvent = new TouAbilityEvent(AbilityType.EngineerFix, engi);
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.EngineerFix, "Critical", engi);
         MiraEventManager.InvokeEvent(touAbilityEvent);
     }
 }

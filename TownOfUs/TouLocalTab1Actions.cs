@@ -2,6 +2,7 @@ using BepInEx.Configuration;
 using MiraAPI.GameEnd;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
+using TownOfUs.Achievements;
 using TownOfUs.GameOver;
 using MiraAPI.LocalSettings.Attributes;
 using TownOfUs.Patches;
@@ -10,7 +11,7 @@ namespace TownOfUs;
 
 public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
 {
-    public override string TabName => "Actions";
+    public override string TabName => MiraLocaleManager.Get("TouLocalTabActions", "Actions");
     protected override bool ShouldCreateLabels => true;
 
     public override LocalSettingTabAppearance TabAppearance => new()
@@ -20,28 +21,28 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
     };
 
     [LocalSettingsButton]
-    public LocalSettingsButton SelfKillButton { get; private set; } = new("Self Kill", TriggerSelfKill);
+    public LocalSettingsButton SelfKillButton { get; private set; } = new(MiraLocaleManager.Get("TouLocalActionSelfKill"), TriggerSelfKill);
     private static void TriggerSelfKill()
     {
         DoActionType(BindActionType.SelfKill);
     }
 
     [LocalSettingsButton]
-    public LocalSettingsButton AbortGameButton { get; private set; } = new("Abort Game", TriggerAbortGame);
+    public LocalSettingsButton AbortGameButton { get; private set; } = new(MiraLocaleManager.Get("TouLocalActionAbortGame"), TriggerAbortGame);
     private static void TriggerAbortGame()
     {
         DoActionType(BindActionType.AbortGame);
     }
 
     [LocalSettingsButton]
-    public LocalSettingsButton StartMeetingButton { get; private set; } = new("Start Meeting", TriggerStartMeeting);
+    public LocalSettingsButton StartMeetingButton { get; private set; } = new(MiraLocaleManager.Get("TouLocalActionStartMeeting"), TriggerStartMeeting);
     private static void TriggerStartMeeting()
     {
         DoActionType(BindActionType.StartMeeting);
     }
 
     [LocalSettingsButton]
-    public LocalSettingsButton EndMeetingButton { get; private set; } = new("End Meeting", TriggerEndMeeting);
+    public LocalSettingsButton EndMeetingButton { get; private set; } = new(MiraLocaleManager.Get("TouLocalActionEndMeeting"), TriggerEndMeeting);
     private static void TriggerEndMeeting()
     {
         DoActionType(BindActionType.EndMeeting);
@@ -82,6 +83,7 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
             // Suicide Keybind (ENTER + T + Left Shift)
             if (!PlayerControl.LocalPlayer.HasDied() && type is BindActionType.SelfKill)
             {
+                AchievementsAPIHelper.Unlock(TouAchievements.IveSeenThePlays);
                 PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
             }
 
@@ -91,6 +93,7 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
                 var gameFlow = GameManager.Instance.LogicFlow.Cast<LogicGameFlowNormal>();
                 if (gameFlow != null)
                 {
+                    AchievementsAPIHelper.Unlock(TouAchievements.Oops);
                     CustomGameOver.Trigger<HostGameOver>([]);
                 }
             }

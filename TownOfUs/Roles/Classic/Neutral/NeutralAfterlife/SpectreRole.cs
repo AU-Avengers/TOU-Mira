@@ -7,16 +7,19 @@ using MiraAPI.Utilities;
 using Reactor.Utilities;
 using System.Collections;
 using System.Text;
+using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,6 +29,40 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class SpectreRole(IntPtr cppPtr)
     : NeutralGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable, IProgressTally, IAnnounceableKill
 {
+    public List<PlayerControl> GetAvailableGhosts(List<PlayerControl> basicGhosts, PlayerControl? exiled)
+    {
+        var spectreData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<SpectreRole>());
+
+        if (CustomRoleUtils.GetActiveRoles().OfType<SpectreRole>().Count() < spectreData.Count)
+        {
+            var isSkipped = spectreData.Chance < 100 && HashRandom.Next(101) > spectreData.Chance;
+
+            if (!isSkipped)
+            {
+                var deadNeutral = PlayerControl.AllPlayerControls.ToArray().Where(x =>
+                    x.Data.IsDead && x != exiled && x.GetRoleWhenAlive().IsNeutral() &&
+                    !x.GetRoleWhenAlive().DidWin(GameOverReason.CrewmatesByVote) &&
+                    x.CanGetGhostRole() &&
+                    !x.HasModifier<AllianceGameModifier>() &&
+                    !(x.GetRoleWhenAlive() is ITownOfUsRole touRole && touRole.WinConditionMet())).ToList();
+
+                if (deadNeutral.Count > 0)
+                {
+                    deadNeutral.Shuffle();
+
+                    var player = deadNeutral.TakeFirst();
+
+                    if (player != null)
+                    {
+                        player.RpcChangeRole(RoleId.Get<SpectreRole>());
+                        basicGhosts.Remove(player);
+                    }
+                }
+            }
+        }
+
+        return basicGhosts;
+    }
     public void AnnounceKill(PlayerControl source, PlayerControl victim)
     {
         var text = MiraLocaleManager.Get("TownOfUsMira.Role.SpectreSpookNotif");

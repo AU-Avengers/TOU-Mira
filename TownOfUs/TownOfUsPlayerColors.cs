@@ -1,4 +1,6 @@
 ﻿using MiraAPI.Colors;
+using MiraAPI.Colors.ColorSpaces;
+using MiraAPI.Utilities;
 using UnityEngine;
 
 namespace TownOfUs;
@@ -237,9 +239,8 @@ public static class TownOfUsPlayerColors
         ColorBrightness = CustomColorBrightness.Lighter
     };
 
-    public static CustomColor Rainbow { get; } = new("Rainbow",
-        new Color32(0, 0, 0, byte.MaxValue))
+    public static VariableColor Rainbow { get; } = new("Rainbow", t => new HsbColor(MathUtilities.PingPong(t, 1f, 0.2f), 1f, 1f), null, new Color32(20, 140, 20, 255), new Color32(30, 120, 50, 255))
     {
-        ColorBrightness = CustomColorBrightness.Lighter
+        ColorBrightness = CustomColorBrightness.Lighter,
     };
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.BaseFreeplay;
 
-public sealed class FreeplayResetButton : TownOfUsButton
+public sealed class FreeplayResetButton : TownOfUsButton, IAurialBypassButton
 {
     public override string Name => MiraLocaleManager.Get("FreeplayRestartButton", "Reset Game");
     public override Color TextOutlineColor => new Color32(165, 231, 89, 255);

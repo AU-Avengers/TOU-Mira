@@ -1,12 +1,14 @@
 ﻿using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
@@ -39,6 +41,21 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             return
             [
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}RetrainWiki", "Retrain (Meeting)"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Retrain.WikiDescription"),
+                    TouAssets.RetrainCleanSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}RetrainWiki", "Retrain (Meeting)"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.MeetingMenu"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Retrain.WikiDescription"),
                     TouAssets.RetrainCleanSprite)
             ];
@@ -284,8 +301,12 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
         {
             if (roleList.Count == 0)
             {
+                var notificationText = MiraLocaleManager.Get(
+                    "TownOfUsMira.Role.AmbassadorNoRolesAvailable",
+                    "No roles are available for the player.");
+
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}No roles are available for the player.</color></b>",
+                    $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Ambassador.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -366,6 +387,8 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
             player.AddModifier<AmbassadorRetrainedModifier>((ushort)player.Data.Role.Role);
             player.ChangeRole(role);
+
+            MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.AmbassadorRetrainAccepted, ambassador, player));
 
             if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
                 (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || ambassador.AmOwner ||

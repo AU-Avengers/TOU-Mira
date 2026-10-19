@@ -49,4 +49,19 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                     .ToString(TownOfUsPlugin.Culture)),
             TouImpAssets.DrinkPoisonSprite)
     ];
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities { get; } =
+    [
+        new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock"),
+            MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value
+                ? MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
+                    OptionGroupSingleton<RoleblockOptions>.Instance.HangoverDuration.Value.ToString(TownOfUsPlugin
+                        .Culture))
+                : MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock.WikiDescription")).Replace("<blockTime>",
+                OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value
+                    .ToString(TownOfUsPlugin.Culture)),
+            TouImpAssets.DrinkPoisonSprite)
+    ];
 }

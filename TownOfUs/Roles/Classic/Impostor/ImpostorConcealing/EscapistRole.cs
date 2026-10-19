@@ -85,6 +85,25 @@ public sealed class EscapistRole(IntPtr cppPtr)
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mark", "Mark"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mark.WikiDescription"),
+                    TouImpAssets.MarkSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Recall", "Recall"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Recall.WikiDescription"),
+                    TouImpAssets.RecallSprite)
+            ];
+        }
+    }
+
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
@@ -111,7 +130,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
     }
 
     [MethodRpc((uint)TownOfUsRpc.MarkLocation)]
-    public static void RpcMarkLocation(PlayerControl player, Vector2 pos)
+    public static void RpcMarkLocation(PlayerControl player, Vector2 pos, float zPos)
     {
         if (LobbyBehaviour.Instance)
         {
@@ -129,7 +148,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
 
         henry.MarkedLocation = pos;
         henry.EscapeMark = AnimStore.SpawnAnimAtPlayer(player, TouAssets.EscapistMarkPrefab.LoadAsset());
-        henry.EscapeMark.transform.localPosition = new Vector3(pos.x, pos.y + 0.3f, 0.1f);
+        henry.EscapeMark.transform.localPosition = new Vector3(pos.x, pos.y + 0.3f, zPos);
         henry.EscapeMark.SetActive(false);
     }
 }

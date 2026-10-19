@@ -5,6 +5,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Achievements;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
@@ -41,6 +42,25 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Inspect.WikiDescription"),
                     TouCrewAssets.InspectSprite),
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Examine", "Examine"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Examine.WikiDescription"),
+                    TouCrewAssets.ExamineSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Inspect", "Inspect"),
+                    MiraLocaleManager.Get($"MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Inspect.WikiDescription"),
+                    TouCrewAssets.InspectSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Examine", "Examine"),
+                    MiraLocaleManager.Get($"MiraApi.AbilityType.Interaction"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Examine.WikiDescription"),
                     TouCrewAssets.ExamineSprite)
             ];
@@ -95,7 +115,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         InvestigatedPlayers.Clear();
     }
 
-    public void ExaminePlayer(PlayerControl player)
+    public void ExaminePlayer(PlayerControl player, bool firstAttempt)
     {
         var text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicAtScene").Replace("<player>", $"{TownOfUsColors.Forensic.ToTextColor()}{player.Data.PlayerName}</color>");
         if (InvestigatedPlayers.Contains(player.PlayerId) && InvestigatingScene != null && InvestigatingScene.DeadPlayer != null)
@@ -104,6 +124,10 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
             var deadPlayer = InvestigatingScene.DeadPlayer;
             text = text.Replace("<deadPlayer>", deadPlayer.Data.PlayerName);
+            if (firstAttempt)
+            {
+                AchievementsAPIHelper.Unlock(TouAchievements.BloodyHands);
+            }
         }
         else
         {

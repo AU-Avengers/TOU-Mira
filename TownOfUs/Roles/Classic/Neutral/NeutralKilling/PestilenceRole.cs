@@ -21,6 +21,7 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class PestilenceRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IUnguessable, ICrewVariant
 {
+    public bool? ForceShowRoleOnWiki => MiscUtils.GetPotentialRoles().Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PlaguebearerRole>())) ? true : null;
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (!playerControl.AmOwner)
@@ -169,7 +170,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
 
         notif1.AdjustNotification();
 
-        MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg.Replace("<role>", MiscUtils.GetHyperlinkText(this)), false, true);
+        MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg.Replace("<role>", MiscUtils.GetReliableHyperlinkText(this)), false, true);
     }
 
 

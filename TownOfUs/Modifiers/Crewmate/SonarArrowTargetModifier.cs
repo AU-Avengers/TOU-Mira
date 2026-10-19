@@ -1,4 +1,6 @@
-﻿using MiraAPI.GameOptions;
+﻿using MiraAPI.Events;
+using MiraAPI.GameOptions;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
@@ -13,6 +15,9 @@ public sealed class SonarArrowTargetModifier(PlayerControl owner, Color color, f
     public override void OnActivate()
     {
         base.OnActivate();
+
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.SonarTrack, Owner, Player);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
 
         if (Arrow == null)
         {
