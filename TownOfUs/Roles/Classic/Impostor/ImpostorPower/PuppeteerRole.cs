@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -8,6 +9,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
@@ -207,6 +209,8 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         Controlled = target;
         ControlTimer = OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
+
+        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.PuppeteerControl, puppeteer, target));
 
         PuppeteerControlState.SetControl(target.PlayerId, puppeteer.PlayerId);
         if (!target.HasModifier<PuppeteerControlModifier>())

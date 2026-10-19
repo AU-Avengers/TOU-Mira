@@ -3,6 +3,7 @@ using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using InnerNet;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -10,6 +11,7 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Impostor;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Assailant;
@@ -225,6 +227,9 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 
         if (victim == Target)
         {
+            var touAbilityEvent = new TouAbilityEvent(AbilityType.ScavengerCorrectKill, Player, victim);
+            MiraEventManager.InvokeEvent(touAbilityEvent);
+
             TimeRemaining = Mathf.Max(0f,
                 TimeRemaining + OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeIncreaseDuration);
 
@@ -233,6 +238,8 @@ public sealed class ScavengerRole(IntPtr cppPtr)
             RefreshTarget();
             return;
         }
+
+        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.ScavengerIncorrectKill, Player, victim));
 
         var baseCooldown = killButton.Cooldown > 0f ? killButton.Cooldown : PlayerControl.LocalPlayer.GetKillCooldown();
         killButton.SetTimer(baseCooldown * OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeIncorrectKillCooldown);

@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -9,6 +10,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules.Components;
@@ -178,5 +180,8 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
         // this kill animations normally plays on the target only
         HudManager.Instance.KillOverlay.ShowKillAnimation(hunter.Data, target.Data);
+
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.HunterRetribution, hunter, target);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
     }
 }

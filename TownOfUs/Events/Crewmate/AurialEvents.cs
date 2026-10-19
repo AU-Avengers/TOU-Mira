@@ -35,7 +35,7 @@ public static class AurialEvents
             return;
         }
 
-        CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Where(x => !x.Player.AmOwner)
+        CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Where(x => x.Player != source)
             .Do(x => AurialRole.RpcSense(x.Player, source, true));
     }
 }

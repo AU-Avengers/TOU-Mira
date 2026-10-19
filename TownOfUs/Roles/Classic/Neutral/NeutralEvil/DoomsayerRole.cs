@@ -10,6 +10,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Achievements;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
@@ -364,6 +365,8 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 }
             }
 
+            TouAchievementEvents.OnDoomsayerObserveReport(Player, player.PlayerId, roles.Select(x => x.Role));
+
             player.Object.RemoveModifier<DoomsayerObservedModifier>();
         }
 
@@ -412,6 +415,8 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
         void ClickRoleHandle(RoleBehaviour role)
         {
+            TouAchievementEvents.OnDoomsayerGuessAttempt(Player, voteArea.PlayerId, role.Role);
+
             var realRole = player.Data.Role;
 
 

@@ -1,7 +1,9 @@
-﻿using MiraAPI.GameOptions;
+﻿using MiraAPI.Events;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches;
 using TownOfUs.Utilities.Appearances;
@@ -58,6 +60,8 @@ public sealed class HerbalistConfusedModifier(PlayerControl herbalist) : TimedMo
                 plr.cosmetics.ToggleNameVisible(false);
             }
         }
+
+        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.HerbalistConfuse, Herbalist, Player));
     }
 
     public override void OnDeath(DeathReason reason)

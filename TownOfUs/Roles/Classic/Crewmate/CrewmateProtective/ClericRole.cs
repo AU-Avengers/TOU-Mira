@@ -1,11 +1,13 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
@@ -111,6 +113,9 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             Error("RpcClericBarrierAttacked - Invalid cleric");
             return;
         }
+
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.ClericBarrier, "Blocked", cleric, shielded);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
 
         if (source.AmOwner ||
             (cleric.AmOwner &&

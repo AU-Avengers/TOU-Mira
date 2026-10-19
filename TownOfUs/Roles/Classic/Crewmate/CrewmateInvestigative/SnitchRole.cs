@@ -214,6 +214,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         else if (stage is TaskStage.CompletedTasks)
         {
             TouAchievementEvents.OnSnitchReveal(Player);
+            TouAchievementEvents.OnSnitchCompletedTasks(Player);
 
             if (Player.AmOwner)
             {

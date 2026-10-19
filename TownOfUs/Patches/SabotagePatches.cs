@@ -63,6 +63,16 @@ public static class SabotagePatches
         __result = new MapOptions { Mode = MapOptions.Modes.Normal };
     }
 
+    [HarmonyPatch(typeof(SabotageSystemType), nameof(SabotageSystemType.UpdateSystem))]
+    [HarmonyPostfix]
+    public static void SabotageSystemUpdatePostfix(SabotageSystemType __instance, PlayerControl player)
+    {
+        if (__instance.IsDirty)
+        {
+            TownOfUs.Achievements.TouAchievementEvents.OnSabotageStart();
+        }
+    }
+
     [HarmonyPatch(typeof(SabotageButton), nameof(SabotageButton.Refresh))]
     [HarmonyPostfix]
     public static void RefreshPostfix(SabotageButton __instance)

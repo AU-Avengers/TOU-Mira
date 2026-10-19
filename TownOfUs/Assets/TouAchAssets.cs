@@ -11,6 +11,10 @@ public static class TouAchAssets
     public static LoadableAsset<Sprite> AchievementToast { get; } =
         new LoadableResourceAsset($"{ShortPath}.AchievementToast.png");
 
+    // Tried My Best
+    public static LoadableAsset<Sprite> LuckyDice { get; } =
+    new LoadableResourceAsset($"{ShortPath}.LuckyDice.png");
+
     // Crewmates
     public static LoadableAsset<Sprite> BloodyHands { get; } =
         new LoadableResourceAsset($"{ShortPath}.BloodyHands.png");
@@ -22,6 +26,8 @@ public static class TouAchAssets
     // Neutrals
     public static LoadableAsset<Sprite> FairlyBadParent { get; } =
         new LoadableResourceAsset($"{ShortPath}.FairlyBadParent.png");
+    public static LoadableAsset<Sprite> AllBarkNoBite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AllBarkNoBite.png");
     public static LoadableAsset<Sprite> FullCourseMeal { get; } =
         new LoadableResourceAsset($"{ShortPath}.FullCourseMeal.png");
 }

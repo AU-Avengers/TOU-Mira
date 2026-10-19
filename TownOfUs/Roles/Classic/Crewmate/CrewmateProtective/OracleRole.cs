@@ -7,6 +7,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Achievements;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities.Appearances;
@@ -105,6 +106,11 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         var report = BuildReport(confessing);
 
+        if (report == MiraLocaleManager.Get("TownOfUsMira.Role.OracleTooFew"))
+        {
+            TouAchievementEvents.OnOracleConfessEmpty(Player);
+        }
+
         var title = $"<color=#{TownOfUsColors.Oracle.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.OracleConfessionTitle")}</color>";
         MiscUtils.AddFakeChat(confessing.Data, title, report, false, true);
     }
@@ -196,6 +202,10 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         var mod = exiled.GetModifier<OracleBlessedModifier>();
 
         mod?.SavedFromExile = true;
+        if (mod != null)
+        {
+            TouAchievementEvents.OnOracleBlessSaved(mod.Oracle, exiled);
+        }
     }
 
     [MethodRpc((uint)TownOfUsRpc.OracleBlessNotify)]

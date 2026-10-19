@@ -34,6 +34,10 @@ public enum AchievementPersistence
 /// <param name="Description">English description.</param>
 /// <param name="Icon">The achievement's icon.</param>
 /// <param name="SubIcon">Optional sub-icon drawn in the achievements menu.</param>
+/// <param name="SubIconTooltip">Optional hover tooltip for the sub-icon (e.g. the role or
+/// modifier it represents). Resolved through Mira's locale manager at display time, so a
+/// registered locale key such as <c>TownOfUsMira.Role.Mayor</c> shows translated text;
+/// anything else is shown verbatim.</param>
 /// <param name="Rarity">0 = common, 1 = rare, 2 = epic, 3 = legendary.</param>
 /// <param name="Hidden">Whether the achievement is hidden until unlocked.</param>
 /// <param name="ProgressGoal">Progress to unlock; 0 means this is a simple unlock achievement.</param>
@@ -60,7 +64,8 @@ public sealed record AchievementSpec(
     string? Category = null,
     string? Id = null,
     bool HideProgress = false,
-    string[]? Tags = null);
+    string[]? Tags = null,
+    string? SubIconTooltip = null);
 
 /// <summary>
 /// Describes an achievements tab (plus default art) a mod's achievements are registered under.
@@ -71,6 +76,7 @@ public sealed record AchievementSpec(
 /// <param name="ModName">Name of the mod, used for group headers in the achievements menu.</param>
 /// <param name="CategoryId">Shared category id to file this tab's achievements under
 /// (e.g. "general", "crewmate", "impostor", "neutral").</param>
+/// <param name="TabLocaleKey">Localization key to use for the tabs.</param>
 /// <param name="LocalePrefix">Prefix for per-achievement name/description locale keys
 /// (<c>{LocalePrefix}.{Key}.Name</c>), or null to use the plain English text.</param>
 /// <param name="TabIcon">Icon of the tab in the achievements menu.</param>
@@ -119,6 +125,10 @@ public sealed record AchievementArt(
 public static class AchievementsAPIHelper
 {
     /// <summary>
+    /// True when the local player can actually be given achievements that require validation.
+    /// </summary>
+    public static bool CanAchievementsBeGranted => !TutorialManager.InstanceExists && AmongUsClient.Instance.allClients.Count > 3;
+    /// <summary>
     /// The BepInEx GUID of the AchievementsAPI plugin.
     /// </summary>
     public const string PluginGuid = "AchievementsAPI";
@@ -147,6 +157,7 @@ public static class AchievementsAPIHelper
         AchievementsAPIBridge.RegisterMod(TouAchievementGroups.Imp, TouAchievements.Imp);
         AchievementsAPIBridge.RegisterMod(TouAchievementGroups.Neut, TouAchievements.Neut);
         AchievementsAPIBridge.RegisterTouCategoryIcons();
+        AchievementsAPIBridge.RegisterUnlockBlockers();
     }
 
     /// <summary>
@@ -169,9 +180,9 @@ public static class AchievementsAPIHelper
     /// <summary>
     /// Unlocks an achievement. No-op if it isn't registered or the API is missing.
     /// </summary>
-    public static void Unlock(AchievementSpec achievement)
+    public static void Unlock(AchievementSpec achievement, bool needsToMeetRequirements = true)
     {
-        if (!IsLoaded)
+        if (!IsLoaded || !CanAchievementsBeGranted && needsToMeetRequirements)
         {
             return;
         }

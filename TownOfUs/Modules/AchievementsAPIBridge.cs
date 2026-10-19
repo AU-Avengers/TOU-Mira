@@ -55,6 +55,15 @@ internal static class AchievementsAPIBridge
         AchievementsManager.GetCategory(AchievementCategories.Neutral)?.SetDefaultIcon(() => TouRoleIcons.Neutral.LoadAsset());
     }
 
+    /// <summary>
+    /// Blocks achievement unlocks/progress while Town of Us' multiplayer freeplay is active.
+    /// </summary>
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static void RegisterUnlockBlockers()
+    {
+        AchievementsManager.UnlockBlockers.Add(() => MultiplayerFreeplayMode.Enabled);
+    }
+
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static bool IsUnlocked(AchievementSpec spec)
     {
@@ -174,13 +183,18 @@ internal static class AchievementsAPIBridge
         var subIconProvider = spec.SubIcon != null ? () => spec.SubIcon.LoadAsset() : (Func<Sprite?>?)null;
         var menuBgProvider = art?.MenuBg != null ? () => art.MenuBg.LoadAsset() : (Func<Sprite?>?)null;
         var toastBgProvider = art?.ToastBg != null ? () => art.ToastBg.LoadAsset() : (Func<Sprite?>?)null;
+        var tooltip = spec.SubIconTooltip;
+        var subIconTooltipProvider = tooltip != null
+            ? (Func<string?>)(() => MiraLocaleManager.Get(tooltip, tooltip))
+            : null;
 
         if (achievement is RuntimeAchievement runtime)
         {
             runtime.IconProvider = iconProvider;
             runtime.MenuBgProvider = menuBgProvider;
-            runtime.ToastBgProvider = toastBgProvider;
+            runtime.ToastBgProvider = toastBgProvider!;
             runtime.MenuSubIconProvider = subIconProvider;
+            runtime.MenuSubIconTooltipProvider = subIconTooltipProvider;
             runtime.MenuIconOffsetOverride = art?.MenuIconOffset;
             runtime.MenuTitleOffsetOverride = art?.MenuTitleOffset;
             runtime.MenuDescOffsetOverride = art?.MenuDescOffset;
@@ -194,6 +208,7 @@ internal static class AchievementsAPIBridge
             count.MenuBgProvider = menuBgProvider;
             count.ToastBgProvider = toastBgProvider;
             count.MenuSubIconProvider = subIconProvider;
+            count.MenuSubIconTooltipProvider = subIconTooltipProvider;
             count.MenuIconOffsetOverride = art?.MenuIconOffset;
             count.MenuTitleOffsetOverride = art?.MenuTitleOffset;
             count.MenuDescOffsetOverride = art?.MenuDescOffset;

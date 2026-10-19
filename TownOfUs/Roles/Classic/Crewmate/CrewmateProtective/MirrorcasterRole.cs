@@ -29,6 +29,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     [HideFromIl2Cpp] public PlayerControl? Protected { get; set; }
     public bool IsProtecting { get; set; }
     public int UnleashesAvailable { get; set; }
+    public byte ContainedAttackerId { get; set; } = byte.MaxValue;
     [HideFromIl2Cpp] public RoleBehaviour? ContainedRole { get; set; }
 
     public void FixedUpdate()
@@ -282,6 +283,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         }
 
         role.ContainedRole = killerRole;
+        role.ContainedAttackerId = source.PlayerId;
 
         var opt = OptionGroupSingleton<MirrorcasterOptions>.Instance;
         var attackInfo = (MirrorAttackInfo)opt.AttackInformationGiven.Value;
