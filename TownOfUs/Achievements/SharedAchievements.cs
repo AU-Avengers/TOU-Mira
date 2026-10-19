@@ -76,6 +76,7 @@ public sealed record AchievementSpec(
 /// <param name="ModName">Name of the mod, used for group headers in the achievements menu.</param>
 /// <param name="CategoryId">Shared category id to file this tab's achievements under
 /// (e.g. "general", "crewmate", "impostor", "neutral").</param>
+/// <param name="TabLocaleKey">Localization key to use for the tabs.</param>
 /// <param name="LocalePrefix">Prefix for per-achievement name/description locale keys
 /// (<c>{LocalePrefix}.{Key}.Name</c>), or null to use the plain English text.</param>
 /// <param name="TabIcon">Icon of the tab in the achievements menu.</param>
@@ -126,7 +127,7 @@ public static class AchievementsAPIHelper
     /// <summary>
     /// True when the local player can actually be given achievements that require validation.
     /// </summary>
-    public static bool CanAchievementsBeGranted => true/*!TutorialManager.InstanceExists && AmongUsClient.Instance.allClients.Count > 3*/;
+    public static bool CanAchievementsBeGranted => !TutorialManager.InstanceExists && AmongUsClient.Instance.allClients.Count > 3;
     /// <summary>
     /// The BepInEx GUID of the AchievementsAPI plugin.
     /// </summary>

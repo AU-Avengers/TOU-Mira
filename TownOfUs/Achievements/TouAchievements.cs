@@ -54,7 +54,7 @@ internal static class TouAchievementGroups
 }
 
 /// <summary>
-/// All Town of Us achievements as data. The <see cref="Key"/> matches both the old tab property
+/// All Town of Us achievements as data. The key matches both the old tab property
 /// names (so locale keys are unchanged) and the static member names via
 /// <see cref="CallerMemberNameAttribute"/>.
 /// </summary>
@@ -597,7 +597,7 @@ public static class TouAchievements
     public static readonly AchievementSpec AllBarkNoBite = Define("All Bark No Bite",
         "End a Rampage without killing anyone.", TouAchAssets.AllBarkNoBite,
         TouRoleIcons.Werewolf, subIconTooltip: "TownOfUsMira.Role.Werewolf",
-        tags: new[] { "Werewolf", "Rampage" });
+        hidden: true, tags: new[] { "Werewolf", "Rampage" });
     public static readonly AchievementSpec BlindFaith = Define("Blind Faith",
         "Observe a player, then guess them as a role that wasn't even listed.", TouNeutAssets.Observe,
         TouRoleIcons.Doomsayer, subIconTooltip: "TownOfUsMira.Role.Doomsayer", rarity: 1, hidden: true,
