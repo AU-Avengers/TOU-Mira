@@ -8,6 +8,8 @@ using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Achievements;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
@@ -31,6 +33,10 @@ public static class InquisitorEvents
             if (victim.HasModifier<InquisitorHereticModifier>())
             {
                 stats.CorrectKills += 1;
+                if (source.AmOwner && stats.CorrectKills == (int)OptionGroupSingleton<InquisitorOptions>.Instance.AmountOfHeretics.Value)
+                {
+                    AchievementsAPIHelper.Unlock(TouAchievements.SpanishInquisition);
+                }
             }
             else if (source != victim)
             {

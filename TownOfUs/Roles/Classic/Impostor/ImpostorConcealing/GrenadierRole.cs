@@ -11,7 +11,7 @@ public sealed class GrenadierRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     public DoomableType DoomHintType => DoomableType.Protective;
     public string IdPart => "Grenadier";
     public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
-
+    [HideFromIl2Cpp] public Dictionary<int, int> PlayersFlashedInARow { get; set; } = [];
     public string GetAdvancedDescription()
     {
         return

@@ -1,4 +1,6 @@
-﻿using MiraAPI.GameOptions;
+﻿using MiraAPI.Events;
+using MiraAPI.GameOptions;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities.Appearances;
@@ -14,6 +16,9 @@ public sealed class SonarHeartbeatTargetModifier(PlayerControl owner, Color colo
     public override void OnActivate()
     {
         base.OnActivate();
+
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.SonarTrack, Owner, Player);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
 
         if (Arrow == null)
         {

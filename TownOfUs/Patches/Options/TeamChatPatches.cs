@@ -6,6 +6,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
+using TownOfUs.Achievements;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Roles.Crewmate;
@@ -856,6 +857,7 @@ public static class TeamChatPatches
             MiscUtils.RunAnticheatWarning(player);
             return;
         }
+        TouAchievementEvents.OnJailorChat(player);
         var shouldMarkUnread = false;
         if (PlayerControl.LocalPlayer.IsJailed())
         {
@@ -866,6 +868,10 @@ public static class TeamChatPatches
         }
         else if (PlayerControl.LocalPlayer.Data.Role is JailorRole || GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow)
         {
+            if (PlayerControl.LocalPlayer.Data.Role is JailorRole jail)
+            {
+                jail.HasSpokenThisMeeting = true;
+            }
             MiscUtils.AddTeamChat(player.Data,
                 $"<sprite name=\"TouMira.Role.Crewmate.Jailor.Masked\"><color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("JailorChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
                 text, !player.AmOwner, bubbleType: BubbleType.Jailor, onLeft: !player.AmOwner);

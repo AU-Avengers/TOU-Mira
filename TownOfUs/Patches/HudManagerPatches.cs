@@ -12,6 +12,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
+using TownOfUs.Achievements;
 using TownOfUs.Modules.Components;
 using TownOfUs.Modules.DraftMode;
 using TownOfUs.Options;
@@ -641,7 +642,7 @@ public static class HudManagerPatches
 
         if (OldVanillaWikiButton)
         {
-            OldVanillaWikiButton.SetActive(UseVanillaWiki);
+            OldVanillaWikiButton.SetActive(UseVanillaWiki && !IsAnyMenuOpen);
         }
     }
 
@@ -665,7 +666,8 @@ public static class HudManagerPatches
         GameStartManager.InstanceExists &&
         (GameStartManager.Instance.RulesViewPanel &&
          GameStartManager.Instance.RulesViewPanel.active ||
-         GameSettingMenu.Instance);
+         GameSettingMenu.Instance) ||
+        AchievementsAPIHelper.HasOpenMenu();
 
     private static bool _registeredSoftModifiers;
     public static string StoredTasksText { get; private set; } = "Tasks";

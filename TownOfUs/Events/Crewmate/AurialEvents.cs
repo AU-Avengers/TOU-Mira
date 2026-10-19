@@ -10,32 +10,32 @@ namespace TownOfUs.Events.Crewmate;
 
 public static class AurialEvents
 {
-    [RegisterEvent]
+    [RegisterEvent(100000)]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {
         var button = @event.Button;
         var source = PlayerControl.LocalPlayer;
 
-        if (!source.AmOwner || button == null || !button.CanClick() || button is IAurialBypassButton)
+        if (@event.IsCancelled || !source.AmOwner || button == null || !button.CanClick() || button is IAurialBypassButton or IKillButton)
         {
             return;
         }
 
         CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Where(x => !x.Player.AmOwner)
-            .Do(x => AurialRole.RpcSense(x.Player, source));
+            .Do(x => AurialRole.RpcSense(x.Player, source, false));
     }
 
     [RegisterEvent]
-    public static void BeforeMurderEventHandler(BeforeMurderEvent @event)
+    public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
         var source = @event.Source;
 
-        if (!(TutorialManager.InstanceExists || source.AmOwner))
+        if (!(TutorialManager.InstanceExists || source.AmOwner) || ExileController.Instance || MeetingHud.Instance)
         {
             return;
         }
 
-        CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Where(x => !x.Player.AmOwner)
-            .Do(x => AurialRole.RpcSense(x.Player, source));
+        CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Where(x => x.Player != source)
+            .Do(x => AurialRole.RpcSense(x.Player, source, true));
     }
 }

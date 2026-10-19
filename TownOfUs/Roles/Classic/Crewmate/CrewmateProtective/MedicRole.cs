@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Events;
 using MiraAPI.Colors;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -10,6 +11,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options;
@@ -25,6 +27,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     [HideFromIl2Cpp] public PlayerControl? Shielded { get; set; }
     public bool IsProtecting { get; set; }
+    public bool ProtectedAttackedThisRound { get; set; }
 
     public void FixedUpdate()
     {
@@ -376,12 +379,12 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         var shieldNotify = OptionGroupSingleton<MedicOptions>.Instance.WhoGetsNotification;
 
-        if (shielded.AmOwner && shieldNotify == MedicOption.Shielded)
+        if (shielded.AmOwner && shieldNotify is MedicOption.Shielded or MedicOption.ShieldedAndMedic)
         {
             DangerAnim();
         }
 
-        if (medic.AmOwner && shieldNotify == MedicOption.Medic)
+        if (medic.AmOwner && shieldNotify is MedicOption.Medic or MedicOption.ShieldedAndMedic)
         {
             DangerAnim();
         }
@@ -395,6 +398,10 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         {
             DangerAnimNonMedic();
         }
+
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.MedicShieldProtect, !role.ProtectedAttackedThisRound ? "New Attack" : "Already Attacked", medic, shielded);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
+        role.ProtectedAttackedThisRound = true;
 
         var shieldBreaks = OptionGroupSingleton<MedicOptions>.Instance.ShieldBreaks;
 

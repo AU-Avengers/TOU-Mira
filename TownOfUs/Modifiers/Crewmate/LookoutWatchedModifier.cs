@@ -4,7 +4,9 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Achievements;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -72,6 +74,11 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
                 }
             }
 
+            if (SeenPlayers.Count > 4)
+            {
+                AchievementsAPIHelper.Unlock(TouAchievements.SearchParty);
+            }
+
             message = message.Remove(message.Length - 2, 2);
 
             var final = message.ToString();
@@ -82,6 +89,10 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
             }
 
             msg = final;
+        }
+        else if (Player.HasDied())
+        {
+            AchievementsAPIHelper.Unlock(TouAchievements.ParanormalActivity);
         }
 
         MiscUtils.AddFakeChat(Player.Data, title, msg, false, true);

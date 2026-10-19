@@ -1,6 +1,9 @@
 using MiraAPI.MeetingAbilities;
 using MiraAPI.Modifiers;
+using MiraAPI.Utilities;
+using TownOfUs.Achievements;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Modules;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
 
@@ -41,10 +44,18 @@ public class MayorRevealButton : MeetingActionButton
     {
         if (PlayerControl.LocalPlayer.Data.Role is MayorRole)
         {
+            if (Helpers.GetAlivePlayers().Count == 2)
+            {
+                AchievementsAPIHelper.Unlock(TouAchievements.DeathByDemocracy);
+            }
             MayorRole.RpcAnimateNewReveal(PlayerControl.LocalPlayer);
         }
         else if (PlayerControl.LocalPlayer.Data.Role is PoliticianRole poli)
         {
+            if (Helpers.GetAlivePlayers().Count == 2)
+            {
+                AchievementsAPIHelper.Unlock(TouAchievements.DeathByDemocracy);
+            }
             poli.AttemptReveal();
         }
     }

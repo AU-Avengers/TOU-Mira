@@ -11,7 +11,7 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
     public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Scientist;
 
     public ModdedEnumOption HideNamesOutOfSight { get; set; } =
-        new("TouOptionHideNamesOutOfSight", (int)NameSight.RoomBased,
+        new("TouOptionHideNamesOutOfSight", (int)NameSight.Basic,
             typeof(NameSight),
             [
                 "TouOptionHideNamesOutOfSightEnumBasic",

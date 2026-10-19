@@ -5,6 +5,7 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
+using TownOfUs.Achievements;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Networking;
@@ -68,6 +69,10 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>, ILe
 
         if (dousedPlayers.Count > 0)
         {
+            if (dousedPlayers.Count > 4)
+            {
+                AchievementsAPIHelper.Unlock(TouAchievements.HeatOfTheBattle);
+            }
             PlayerControl.LocalPlayer.RpcSpecialMultiMurder(dousedPlayers, MeetingCheck.OutsideMeeting, true,
                 teleportMurderer: false,
                 playKillSound: false,

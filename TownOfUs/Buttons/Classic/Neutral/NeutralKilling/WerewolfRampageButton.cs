@@ -1,5 +1,8 @@
-﻿using MiraAPI.GameOptions;
+﻿using MiraAPI.Events;
+using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using TownOfUs.Achievements;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -29,6 +32,8 @@ public sealed class WerewolfRampageButton : TownOfUsRoleButton<WerewolfRole>, IL
 
         Role.Rampaging = true;
 
+        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.WerewolfRampage, PlayerControl.LocalPlayer));
+
         CustomButtonSingleton<WerewolfKillButton>.Instance.SetActive(true, Role);
         CustomButtonSingleton<WerewolfKillButton>.Instance.SetTimer(0.01f);
         TouAudio.PlaySound(TouAudio.WerewolfRampageSound);
@@ -42,6 +47,8 @@ public sealed class WerewolfRampageButton : TownOfUsRoleButton<WerewolfRole>, IL
         }
 
         Role.Rampaging = false;
+
+        TouAchievementEvents.OnWerewolfRampageEnd(PlayerControl.LocalPlayer);
 
         CustomButtonSingleton<WerewolfKillButton>.Instance.SetActive(false, Role);
     }

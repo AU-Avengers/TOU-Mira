@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Text;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
@@ -9,6 +10,7 @@ using MiraAPI.Utilities;
 using MiraAPI.Voting;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Options.Roles.Crewmate;
@@ -20,7 +22,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 {
     public static bool HasProsecutedBefore { get; internal set; }
 
-    public bool HasProsecuted { get; private set; }
+    public bool HasProsecuted { get; set; }
 
     public byte ProsecuteVictim { get; set; } = byte.MaxValue;
 
@@ -148,6 +150,10 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
         prosecutorRole.HasProsecuted = true;
         prosecutorRole.ProsecuteVictim = Victim;
+
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.ProsecutorProsecutes, plr, MiscUtils.PlayerById(Victim));
+        MiraEventManager.InvokeEvent(touAbilityEvent);
+
         VotingUtils.CustomCastVote(plr.PlayerId, Victim);
     }
 

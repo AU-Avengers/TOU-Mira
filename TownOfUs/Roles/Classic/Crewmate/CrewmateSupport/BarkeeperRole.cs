@@ -6,6 +6,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using UnityEngine;
 using MiraAPI.Hud;
+using TownOfUs.Achievements;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Modifiers.Game.Universal;
@@ -103,8 +104,10 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         var targetName = target.CachedPlayerData.PlayerName;
         var rbText = MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblocked").Replace("<player>", targetName);
         var poisonPlayer = false;
+        TouAchievementEvents.OnDrinkServed(player, target);
         if (player.Data.Role is BootleggerRole)
         {
+
             var poisTrigger =
                 (PoisonTrigger)OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger.Value;
             var progress = PoisonProgress.Begun;

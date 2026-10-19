@@ -6,6 +6,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.ModifierDisplay;
 using MiraAPI.Voting;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Achievements;
 using TownOfUs.Modifiers;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -39,6 +40,10 @@ public static class KnightedEvents
         foreach (var knight in knights)
         {
             knight.Announced = true;
+            if (knight.Player.Data.Role is MayorRole mayor && mayor.Revealed)
+            {
+                AchievementsAPIHelper.Unlock(TouAchievements.RiggedVotes);
+            }
 
             var message = MiraLocaleManager.Get("TownOfUsMira.Role.MonarchKnightedFeedback").Replace("<role>", role).Replace("<votes>", votes);
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, message, false, true);

@@ -1,4 +1,5 @@
-﻿using AmongUs.GameOptions;
+﻿using AchievementsAPI.API;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
@@ -8,6 +9,7 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
+using TownOfUs.Achievements;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
@@ -145,6 +147,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
                     $"<b>{text.Replace("<role>", $"{roleWhenAlive.TeamColor.ToTextColor()}{roleWhenAlive.GetRoleName()}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
                 notif1.AdjustNotification();
+AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
             }
 
             return;
@@ -158,6 +161,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
                 notif1.AdjustNotification();
+AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
             }
 
             return;

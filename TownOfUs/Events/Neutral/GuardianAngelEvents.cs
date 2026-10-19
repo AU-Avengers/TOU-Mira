@@ -9,6 +9,7 @@ using MiraAPI.Roles;
 using Reactor.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Neutral;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
@@ -106,6 +107,13 @@ public static class GuardianAngelEvents
 
         @event.Cancel();
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a ga shield, stopping an attack from {source.Data.PlayerName}!");
+
+        var fairy = target.GetModifier<GuardianAngelProtectModifier>()?.Guardian;
+        if (fairy != null)
+        {
+            var touAbilityEvent = new TouAbilityEvent(AbilityType.FairyProtected, fairy, target);
+            MiraEventManager.InvokeEvent(touAbilityEvent);
+        }
 
         return true;
     }

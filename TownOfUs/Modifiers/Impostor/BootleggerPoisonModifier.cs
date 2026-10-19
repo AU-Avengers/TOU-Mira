@@ -43,6 +43,14 @@ public sealed class BootleggerPoisonModifier(PlayerControl bootlegger) : TimedMo
         }
     }
 
+    public override void OnTimerComplete()
+    {
+        if (!Player.HasDied() && Poison == PoisonProgress.Poison)
+        {
+            Achievements.TouAchievementEvents.OnBootleggerPoisonKill(Bootlegger, Player);
+        }
+    }
+
     public override void OnDeactivate()
     {
         if (!Player.HasDied() && PlayerControl.LocalPlayer.IsHost())

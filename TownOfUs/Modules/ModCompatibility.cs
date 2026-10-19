@@ -286,7 +286,7 @@ public static class ModCompatibility
     public static string BundlePath { get; } = Path.Combine(BasePath, "Bundles");
 
     public static readonly string[] CosmeticsArray =
-    {
+    [
         "15Streamers",
         "Atony",
         "GhostEjims",
@@ -304,7 +304,7 @@ public static class ModCompatibility
         "Sweetrolled",
         "TheLastShaymin",
         "Tori"
-    };
+    ];
 
     public static readonly CorsacUtils.QuickPetMetadata[] Pets =
     {
@@ -314,13 +314,20 @@ public static class ModCompatibility
     };
     public static void InitCorsac()
     {
-        Message("Attempting to add ToU Cosmetics and Pets.");
-        Directory.CreateDirectory(BundlePath);
-
-        foreach (var cosmetic in CosmeticsArray)
+        if (TownOfUsPlugin.AutoDownloadCosmetics.Value)
         {
-            CorsacUtils.TryDownloadCosmeticBundle(Path.Combine(BundlePath, $"TownOfUs.{cosmetic}.ccb"),
-                $"https://github.com/AU-Avengers/TownOfUs-Cosmetics/raw/refs/heads/main/Bundles/TownOfUs.{cosmetic}.ccb");
+            Message("Attempting to add ToU Cosmetics and Pets.");
+            Directory.CreateDirectory(BundlePath);
+
+            foreach (var cosmetic in CosmeticsArray)
+            {
+                CorsacUtils.TryDownloadCosmeticBundle(Path.Combine(BundlePath, $"TownOfUs.{cosmetic}.ccb"),
+                    $"https://github.com/AU-Avengers/TownOfUs-Cosmetics/raw/refs/heads/main/Bundles/TownOfUs.{cosmetic}.ccb");
+            }
+        }
+        else
+        {
+            Message("Attempting to load ToU Pets.");
         }
         CorsacUtils.AddMultiplePets("TouPetsSource", "Atony", Pets, TouAssets.MainBundle);
     }

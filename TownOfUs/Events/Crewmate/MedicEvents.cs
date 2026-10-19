@@ -21,10 +21,11 @@ public static class MedicEvents
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent _)
     {
-        if (PlayerControl.LocalPlayer.Data.Role is MedicRole)
+        if (PlayerControl.LocalPlayer.Data.Role is MedicRole role)
         {
             var button = CustomButtonSingleton<MedicShieldButton>.Instance;
             button.CanChangeTarget = true;
+            role.ProtectedAttackedThisRound = false;
         }
 
         var medicShields = ModifierUtils.GetActiveModifiers<MedicShieldModifier>();
