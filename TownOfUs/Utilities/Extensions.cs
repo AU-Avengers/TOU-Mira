@@ -82,7 +82,7 @@ public static class Extensions
 
     public static bool IsLoverWithPlayer(this PlayerControl player, PlayerControl player2)
     {
-        return player.IsLoverWith(out var other) && other == player2;
+        return player.IsLoverWith(out var love) && love == player2;
     }
 
     public static bool IsImpostorAligned(this PlayerControl player)
