@@ -642,7 +642,7 @@ public static class HudManagerPatches
 
         if (OldVanillaWikiButton)
         {
-            OldVanillaWikiButton.SetActive(UseVanillaWiki);
+            OldVanillaWikiButton.SetActive(UseVanillaWiki && !IsAnyMenuOpen);
         }
     }
 
