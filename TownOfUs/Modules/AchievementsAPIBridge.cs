@@ -192,7 +192,7 @@ internal static class AchievementsAPIBridge
         {
             runtime.IconProvider = iconProvider;
             runtime.MenuBgProvider = menuBgProvider;
-            runtime.ToastBgProvider = toastBgProvider;
+            runtime.ToastBgProvider = toastBgProvider!;
             runtime.MenuSubIconProvider = subIconProvider;
             runtime.MenuSubIconTooltipProvider = subIconTooltipProvider;
             runtime.MenuIconOffsetOverride = art?.MenuIconOffset;
