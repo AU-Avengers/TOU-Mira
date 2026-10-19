@@ -636,13 +636,12 @@ public static class HudManagerPatches
 
         if (WikiButton)
         {
-            WikiButton.SetActive(!UseVanillaWiki && !GameSettingMenu.Instance &&
-                                                 (!Minigame.Instance || Minigame.Instance is IngameWikiMinigame));
+            WikiButton.SetActive(!UseVanillaWiki && !ShouldBlockWikiMenu);
         }
 
         if (OldVanillaWikiButton)
         {
-            OldVanillaWikiButton.SetActive(UseVanillaWiki && !IsAnyMenuOpen);
+            OldVanillaWikiButton.SetActive(UseVanillaWiki && !ShouldBlockWikiMenu);
         }
     }
 
@@ -667,6 +666,12 @@ public static class HudManagerPatches
         (GameStartManager.Instance.RulesViewPanel &&
          GameStartManager.Instance.RulesViewPanel.active ||
          GameSettingMenu.Instance) ||
+        AchievementsAPIHelper.HasOpenMenu();
+
+    public static bool ShouldBlockWikiMenu =>
+        !(Minigame.Instance is IngameWikiMinigame || !Minigame.Instance) ||
+        PlayerCustomizationMenu.Instance ||
+        GameSettingMenu.Instance ||
         AchievementsAPIHelper.HasOpenMenu();
 
     private static bool _registeredSoftModifiers;
