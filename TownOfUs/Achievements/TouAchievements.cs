@@ -595,7 +595,7 @@ public static class TouAchievements
         TouRoleIcons.Inquisitor, subIconTooltip: "TownOfUsMira.Role.Inquisitor", rarity: 2, hidden: true,
         tags: new[] { "Inquisitor", "Win", "Hidden" });
     public static readonly AchievementSpec AllBarkNoBite = Define("All Bark No Bite",
-        "End a Rampage without killing anyone.", TouNeutAssets.RampageSprite,
+        "End a Rampage without killing anyone.", TouAchAssets.AllBarkNoBite,
         TouRoleIcons.Werewolf, subIconTooltip: "TownOfUsMira.Role.Werewolf",
         tags: new[] { "Werewolf", "Rampage" });
     public static readonly AchievementSpec BlindFaith = Define("Blind Faith",

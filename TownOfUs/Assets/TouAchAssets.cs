@@ -26,6 +26,8 @@ public static class TouAchAssets
     // Neutrals
     public static LoadableAsset<Sprite> FairlyBadParent { get; } =
         new LoadableResourceAsset($"{ShortPath}.FairlyBadParent.png");
+    public static LoadableAsset<Sprite> AllBarkNoBite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AllBarkNoBite.png");
     public static LoadableAsset<Sprite> FullCourseMeal { get; } =
         new LoadableResourceAsset($"{ShortPath}.FullCourseMeal.png");
 }
