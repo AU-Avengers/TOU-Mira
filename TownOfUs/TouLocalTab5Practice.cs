@@ -7,7 +7,7 @@ public class TouLocalTabPractice(ConfigFile config) : LocalSettingsTab(config)
 {
     public static DraftAudioCueMode CurrentDraftAudioCueMode { get; private set; } = DraftAudioCueMode.None;
 
-    public override string TabName => "<size=50%>Lobby / Practice</size>";
+    public override string TabName => $"<size=50%>{MiraLocaleManager.Get("TouLocalTabPractice", "Lobby / Practice")}</size>";
     protected override bool ShouldCreateLabels => true;
 
     public override LocalSettingTabAppearance TabAppearance => new()
@@ -34,7 +34,7 @@ public class TouLocalTabPractice(ConfigFile config) : LocalSettingsTab(config)
 
     [LocalEnumSetting(names: ["DraftAudioStart", "DraftAudioYourTurn", "DraftAudioBoth", "DraftAudioNone"])]
     public ConfigEntry<DraftAudioCueMode> DraftAudioCue { get; private set; } =
-        config.Bind("Lobby", "DraftAudioCue", DraftAudioCueMode.None);
+        BindDraftAudioCue(config);
 
     public override void OnOptionChanged(ConfigEntryBase configEntry)
     {
@@ -43,6 +43,13 @@ public class TouLocalTabPractice(ConfigFile config) : LocalSettingsTab(config)
         {
             CurrentDraftAudioCueMode = DraftAudioCue.Value;
         }
+    }
+
+    private static ConfigEntry<DraftAudioCueMode> BindDraftAudioCue(ConfigFile config)
+    {
+        var entry = config.Bind("Lobby", "DraftAudioCue", DraftAudioCueMode.None);
+        CurrentDraftAudioCueMode = entry.Value;
+        return entry;
     }
 
     [LocalToggleSetting]

@@ -9,7 +9,6 @@ using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
-using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
@@ -103,23 +102,6 @@ public static class PlayerRoleTextExtensions
             color = Color.red;
         }
 
-        if (player.HasModifier(PoliticianCampaignedPredicate) &&
-            (PlayerControl.LocalPlayer.IsRole<PoliticianRole>() || PlayerControl.LocalPlayer.IsRole<MayorRole>()))
-        {
-            color = Color.cyan;
-        }
-
-        if (player.HasModifier(MercenaryBribedPredicate) &&
-            PlayerControl.LocalPlayer.IsRole<MercenaryRole>())
-        {
-            color = Color.green;
-
-            if (player.Is(RoleAlignment.NeutralEvil) || player.IsRole<AmnesiacRole>() || player.IsRole<MercenaryRole>())
-            {
-                color = Color.red;
-            }
-        }
-
         return color;
     }
 
@@ -147,11 +129,27 @@ public static class PlayerRoleTextExtensions
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         var isDead = visibility is DataVisibility.Show ||
                      PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden;
+
+        if (player.HasModifier(MercenaryBribedPredicate) &&
+            (PlayerControl.LocalPlayer.IsRole<MercenaryRole>() ||
+             PlayerControl.LocalPlayer.GetRoleWhenAlive() is MercenaryRole))
+        {
+            name +=
+                $" <sprite name=\"TouMira.Role.Neutral.Mercenary.Ui.Bribe.{(!player.HasDied() && MercenaryRole.CanWinWithBribedPlayer(player) ? "Good" : "Bad")}\">";
+        }
+
+        if (player.HasModifier(PoliticianCampaignedPredicate) &&
+            (PlayerControl.LocalPlayer.IsRole<PoliticianRole>() || PlayerControl.LocalPlayer.IsRole<MayorRole>()))
+        {
+            name += " <sprite name=\"TouMira.Role.Crewmate.Politician.Ui.Campaign\">";
+        }
+
         if ((player.HasModifier(ExecutionerTargetPredicate) &&
              PlayerControl.LocalPlayer.IsRole<ExecutionerRole>())
             || (player.HasModifier<ExecutionerTargetModifier>() && isDead))
         {
             name += "<color=#643B1F> X</color>";
+            // name += " <sprite name=\"TouMira.Role.Neutral.Executioner.Ui.Target\">";
         }
 
         if (player.HasModifier<InquisitorHereticModifier>() && (visibility is DataVisibility.Show ||

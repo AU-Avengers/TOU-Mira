@@ -33,7 +33,9 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
     private List<RoleBehaviour> availableRoles = [];
     private Action<RoleBehaviour> clickHandler;
     public static int CurrentCard { get; set; }
+    public static int CurrentOuterCard { get; set; }
     public static int RoleCount { get; set; }
+    public static int OuterRoleCount { get; set; }
 
     private void Awake()
     {
@@ -89,7 +91,9 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
         clickHandler = onClick;
         _selectedRole = defaultRole ?? roles.Random()!.Role;
         // Adds random as an option
-        RoleCount = availableRoles.Count + 1;
+        var half = (availableRoles.Count) / 2;
+        RoleCount = half + 1;
+        OuterRoleCount = availableRoles.Count - half;
 
         Coroutines.Start(CoOpen(this));
     }
@@ -109,6 +113,8 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
     {
         HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(_bgColor, Color.clear));
         CurrentCard = -1;
+        CurrentOuterCard = -1;
+        OuterRoleCount = -1;
         RoleCount = -1;
         MinigameStubs.Close(this);
     }
@@ -125,6 +131,7 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
         WarpRing.SetActive(true);
         RoleIcon.SetSizeLimit(2.8f);
 
+        var isOut = false;
         foreach (var role in availableRoles)
         {
             var teamName = MiscUtils.GetParsedRoleAlignment(role);
@@ -144,13 +151,14 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
                 }
             }
 
-            var card = CreateCard(roleName, teamName, roleImg, role.TeamColor);
+            var card = CreateCard(roleName, teamName, roleImg, role.TeamColor, isOut);
             card.OnClick.RemoveAllListeners();
             card.OnClick.AddListener((UnityAction)(() => { clickHandler.Invoke(role); }));
+            isOut = !isOut;
         }
 
         var randomCard = CreateCard(MiraLocaleManager.Get("Random"), MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorRandomImpostorOption"), TouRoleIcons.RandomImp.LoadAsset(),
-            TownOfUsColors.Impostor);
+            TownOfUsColors.Impostor, isOut);
         randomCard.OnClick.RemoveAllListeners();
         randomCard.OnClick.AddListener((UnityAction)(() =>
         {
@@ -162,7 +170,7 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
         Begin(null);
     }
 
-    private PassiveButton CreateCard(string roleName, string teamName, Sprite? sprite, Color color)
+    private PassiveButton CreateCard(string roleName, string teamName, Sprite? sprite, Color color, bool isOuterRole)
     {
         var newRoleObj = Instantiate(RolePrefab, RolesHolder);
         var actualCard = newRoleObj!.transform.GetChild(0);
@@ -188,9 +196,10 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
         }));
         passiveButton.OnMouseOut.AddListener((UnityAction)(() => { selection.SetActive(false); }));
 
-        float angle = (2 * Mathf.PI / RoleCount) * CurrentCard;
-        float x = 1.9f * Mathf.Cos(angle);
-        float y = 0.1f + 1.9f * Mathf.Sin(angle);
+        var size = isOuterRole ? 2.05f : 1.725f;
+        float angle = (2 * Mathf.PI / (OuterRoleCount + RoleCount)) * (CurrentOuterCard + CurrentCard);
+        float x = size * Mathf.Cos(angle);
+        float y = 0.1f + size * Mathf.Sin(angle);
 
         newRoleObj.transform.localPosition =
             new Vector3(x, y, -1f);
@@ -205,7 +214,14 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
         buttonRollover.OverColor = color;
         roleText.color = color;
         teamText.color = color;
-        ++CurrentCard;
+        if (isOuterRole)
+        {
+            ++CurrentOuterCard;
+        }
+        else
+        {
+            ++CurrentCard;
+        }
         newRoleObj.gameObject.SetActive(true);
 
         return passiveButton;
@@ -223,12 +239,14 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
             }
 
             var child = card.GetChild(0);
-            Coroutines.Start(MiscUtils.BetterBloop(child, finalSize: 0.5f - (RoleCount * 0.0075f), duration: 0.1f,
+            Coroutines.Start(MiscUtils.BetterBloop(child, finalSize: 0.5f - (RoleCount * 0.015f), duration: 0.1f,
                 intensity: 0.11f));
             yield return new WaitForSeconds(0.01f);
         }
 
         CurrentCard = -1;
+        CurrentOuterCard = -1;
+        OuterRoleCount = -1;
         RoleCount = -1;
     }
 }

@@ -11,6 +11,7 @@ namespace TownOfUs.Roles.KillFrenzy;
 
 public class FrenzyGhostRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsRole
 {
+    public bool? ForceShowRoleOnWiki => false;
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (playerControl != PlayerControl.LocalPlayer)

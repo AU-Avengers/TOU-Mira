@@ -67,6 +67,11 @@ public static class Extensions
         return player?.HasModifier<LoverModifier>() == true;
     }
 
+    public static bool IsLoverWithPlayer(this PlayerControl player, PlayerControl player2)
+    {
+        return player?.TryGetModifier<LoverModifier>(out var love) == true && love.OtherLover == player2;
+    }
+
     public static bool IsImpostorAligned(this PlayerControl player)
     {
         return player?.Data && player?.Data?.Role && (player?.Data?.Role.IsImpostor() == true ||
@@ -180,7 +185,7 @@ public static class Extensions
     public static IEnumerator CoCleanCustom(this DeadBody body, BodyVitalsMode result)
     {
         var renderer = body.bodyRenderers[^1];
-        if (NoisemakerModifier.ActiveNoisemakerTriggers.TryGetValue(body.ParentId, out var noisemakerTrigger) && noisemakerTrigger.duration > 1)
+        if (NoisemakerModifier.ActiveNoisemakerTriggers.TryGetValue(body.ParentId, out var noisemakerTrigger) && noisemakerTrigger && noisemakerTrigger.duration > 1)
         {
             // this stops the alert from staying forever
             noisemakerTrigger.StopAllCoroutines();
@@ -798,6 +803,21 @@ public static class Extensions
             hackedSprite.gameObject.SetActive(isActive);
             hackedSprite.GetComponent<SpriteRenderer>().enabled = isActive;
         }
+    }
+
+    public static GameObject CreateDeathDisabledSprite(this ActionButton button)
+    {
+        var hackedSprite = new GameObject("DisabledSprite");
+        hackedSprite.transform.SetParent(button.transform);
+        hackedSprite.transform.localPosition = new Vector3(0, 0, -10f);
+        hackedSprite.gameObject.layer = button.gameObject.layer;
+
+        var render = hackedSprite.AddComponent<SpriteRenderer>();
+        render.sprite = TouAssets.DeathDisabledSprite.LoadAsset();
+
+        hackedSprite.SetActive(false);
+
+        return hackedSprite;
     }
 
     public static void FillWhere<T>(this List<T> source, List<T> destination, System.Predicate<T> match)

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
@@ -21,6 +22,58 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             MiscUtils.AppendOptionsText(GetType());
     }
     public bool CanShowSecondTab => true;
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            var variantRoles = MiscUtils.AllRoles.Where(x => x is ICrewVariant).OrderBy(x => x.GetRoleName()).ToList();
+            var neutEquivalents = new Dictionary<RoleBehaviour, RoleBehaviour>();
+            var impEquivalents = new Dictionary<RoleBehaviour, RoleBehaviour>();
+            foreach (var role in variantRoles)
+            {
+                var crewVariant = role as ICrewVariant;
+                if (role.IsNeutral())
+                {
+                    neutEquivalents.Add(role, crewVariant!.CrewVariant);
+                }
+                else
+                {
+                    impEquivalents.Add(role, crewVariant!.CrewVariant);
+                }
+            }
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}NeutralCounterparts"),
+                    MiraLocaleManager.Get("TownOfUsMira.Role.Imitator.CounterpartHint"),
+                    GetRoleEquivalents(neutEquivalents),
+                    TouRoleIcons.Neutral),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ImpostorCounterparts"),
+                    MiraLocaleManager.Get("TownOfUsMira.Role.Imitator.CounterpartHint"),
+                    GetRoleEquivalents(impEquivalents),
+                    TouRoleIcons.Impostor)
+            ];
+        }
+    }
+
+    public string RoleWikiDescription => GetAdvancedDescription() +
+                                         "\n\n" + MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}CrewmateImitation.WikiDescription");
+    GameObject ICustomRole.GetAdvancedWiki(MatchInfoGuide guide, TextMeshPro titleText, SpriteRenderer titleIcon, Scroller parent)
+    {
+        var custom = this as ICustomRole;
+        return Helpers.CreateAdvancedWikiPage(
+            guide,
+            titleText,
+            titleIcon,
+            parent,
+            custom.RoleNameLocale,
+            $"{custom.RoleName} ({custom.RoleFactionTitle})",
+            Configuration.Icon!,
+            custom.RoleWikiDescription,
+            WikiAbilities,
+            variableTextSizing: true);
+    }
 
     public float ShowAbilitiesTab(Transform abilityTemplate, Transform abilityTemplateLong, Transform abilityScroller)
     {
@@ -90,6 +143,19 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{description}</font>";
         newAbility.gameObject.SetActive(true);
         return newAbility.gameObject;
+    }
+
+    public static string GetRoleEquivalents(Dictionary<RoleBehaviour, RoleBehaviour> equivalentRoles)
+    {
+        var description = new StringBuilder();
+        foreach (var rolePair in equivalentRoles)
+        {
+            var ogRole = rolePair.Key;
+            var newRole = rolePair.Value;
+            description.AppendLine(TownOfUsPlugin.Culture,
+                $"{MiscUtils.GetMaskedRoleTmpIcon(ogRole)}{ogRole.GetRoleName()} ⇨ {newRole.GetRoleName()} {MiscUtils.GetMaskedRoleTmpIcon(newRole)}");
+        }
+        return description.ToString();
     }
 
     public Color RoleColor => TownOfUsColors.Imitator;

@@ -9,12 +9,14 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
+using TownOfUs.Achievements;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Integrations;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Modules;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
@@ -67,6 +69,25 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Jail", "Jail"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Jail.WikiDescription"),
+                    TouCrewAssets.JailSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Execute", "Execute"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.SelectiveMeeting"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Execute.WikiDescription"),
+                    TouAssets.ExecuteCleanSprite)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Jailor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmatePower;
@@ -113,11 +134,13 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         ModifierUtils.GetActiveModifiers<JailedModifier>().Do(x => x.Player.RemoveModifier(x));
     }
 
+    public bool HasSpokenThisMeeting;
     public override void OnMeetingStart()
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
         Clear();
+        HasSpokenThisMeeting = false;
 
         if (Player.HasDied())
         {
@@ -267,10 +290,18 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                 {
                     color = Color.green;
                     text = MiraLocaleManager.Get("TownOfUsMira.Role.JailorExecutedEvil");
+                    if (!HasSpokenThisMeeting)
+                    {
+                        AchievementsAPIHelper.Unlock(TouAchievements.NoChances);
+                    }
                 }
 
                 Player.RpcMeetingMurder(Jailed, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
                     causeOfDeath: "Jailor");
+            }
+            else
+            {
+                AchievementsAPIHelper.Unlock(TouAchievements.ToKillAGod);
             }
             text = text.Replace("<player>", Jailed.Data.PlayerName);
 

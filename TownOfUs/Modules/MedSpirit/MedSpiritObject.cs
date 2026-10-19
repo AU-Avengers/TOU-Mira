@@ -8,8 +8,10 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
+using TownOfUs.Achievements;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -63,7 +65,7 @@ public sealed class MedSpiritObject(IntPtr cppPtr) : InnerNetObject(cppPtr)
     {
         /*var baseSpeed = 1f;
         
-        if (GameManager.Instance.LogicOptions.currentGameOptions.TryGetFloat(FloatOptionNames.PlayerSpeedMod, out var result))
+        if (GameManager.Instance.LogicOptions.CurrentGameOptions.TryGetFloat(FloatOptionNames.PlayerSpeedMod, out var result))
         {
             baseSpeed = result;
         }*/
@@ -265,6 +267,10 @@ public sealed class MedSpiritObject(IntPtr cppPtr) : InnerNetObject(cppPtr)
 
     public void DestroyImmediate()
     {
+        if (Owner != null && Owner.HasDied() && Owner.AmOwner)
+        {
+            AchievementsAPIHelper.Unlock(TouAchievements.Purgatory);
+        }
         Moveable = false;
         Rigidbody.isKinematic = true;
         NetTransform.enabled = false;

@@ -50,6 +50,21 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Transport", "Transport"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Menu"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Transport.WikiDescription"),
+                    TouCrewAssets.Transport)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Transporter;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateSupport;

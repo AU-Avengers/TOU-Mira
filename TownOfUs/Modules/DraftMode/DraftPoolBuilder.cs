@@ -8,7 +8,7 @@ namespace TownOfUs.Modules.DraftMode
     {
         public static List<string> BuildPool(int numPlayers, IRng rng = null!)
         {
-            DraftRolePool.ClearNameCache();
+            DraftRolePool.ClearCaches();
             rng ??= DeterministicRng.CreateRandomlySeeded();
             var pool    = new List<string>();
             var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
@@ -18,10 +18,10 @@ namespace TownOfUs.Modules.DraftMode
                 return BuildPoolFromRoleList(numPlayers, rng);
 
             var manualPool = BuildPoolFromManualAmounts(rng);
-            
+
             int rolesPerSlot = Math.Max(1, (int)roleOpts.OfferedRolesCount.Value);
             int concurrency = Math.Max(1, Math.Min(2, (int)roleOpts.ConcurrentPicks.Value));
-            int targetSize = numPlayers + rolesPerSlot * concurrency;
+            int targetSize = GetLowPlayerPoolTargetSize(numPlayers, rolesPerSlot, concurrency);
             if (manualPool.Count < targetSize)
             {
                 var fallbackNames = GetAllowedCrewFallbackNames();
@@ -31,8 +31,8 @@ namespace TownOfUs.Modules.DraftMode
                 }
                 if (fallbackNames.Count == 0)
                 {
-                    fallbackNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any))
-                        ?.Where(n => !string.IsNullOrWhiteSpace(n)).ToList() ?? new List<string>();
+                    fallbackNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewRandom))
+                        ?.Where(n => !string.IsNullOrWhiteSpace(n) && DraftRolePool.IsRoleUsableAndEnabled(n)).ToList() ?? new List<string>();
                 }
 
                 if (fallbackNames.Count > 0)
@@ -43,8 +43,19 @@ namespace TownOfUs.Modules.DraftMode
                     }
                 }
             }
-            
+
             return manualPool;
+        }
+
+        private static int GetLowPlayerPoolTargetSize(int numPlayers, int rolesPerSlot, int concurrency)
+        {
+            int baseTarget = (Math.Max(1, numPlayers) + Math.Max(1, rolesPerSlot) * Math.Max(1, concurrency));
+            if (numPlayers <= 8)
+            {
+                return Math.Max(baseTarget, 18);
+            }
+
+            return baseTarget;
         }
 
         public static List<string> GetOfferedRoles(List<string> currentPool, IRng rng = null!, ICollection<string> avoid = null!, bool allowGuaranteed = true)
@@ -69,6 +80,7 @@ namespace TownOfUs.Modules.DraftMode
                 .Where(c =>
                 {
                     var baseName = BaseRoleName(c);
+                    if (!DraftRolePool.IsRoleUsableAndEnabled(baseName)) return false;
                     return avoid == null || (!avoid.Contains(c) && !avoid.Contains(baseName));
                 })
                 .ToList();
@@ -83,8 +95,9 @@ namespace TownOfUs.Modules.DraftMode
                 {
                     if (picked.Count >= offered) break;
                     if (string.IsNullOrWhiteSpace(candidate)) continue;
-                    if (!allowGuaranteed && DraftRolePool.GetChanceForRoleName(candidate) >= 100) continue;
                     var baseName = BaseRoleName(candidate);
+                    if (!DraftRolePool.IsRoleUsableAndEnabled(baseName)) continue;
+                    if (!allowGuaranteed && DraftRolePool.GetChanceForRoleName(candidate) >= 100) continue;
                     if (avoid != null && (avoid.Contains(candidate) || avoid.Contains(baseName))) continue;
                     if (picked.Any(existing => string.Equals(BaseRoleName(existing), baseName, StringComparison.OrdinalIgnoreCase))) continue;
                     picked.Add(candidate);
@@ -135,6 +148,7 @@ namespace TownOfUs.Modules.DraftMode
                 var guaranteed = allowGuaranteed
                     ? remaining
                         .Where(candidate => !string.IsNullOrWhiteSpace(candidate))
+                        .Where(candidate => DraftRolePool.IsRoleUsableAndEnabled(BaseRoleName(candidate)))
                         .Where(candidate => !seenBaseNames.Contains(BaseRoleName(candidate)))
                         .Where(candidate => DraftRolePool.GetChanceForRoleName(candidate) >= 100)
                         .ToList()
@@ -144,6 +158,7 @@ namespace TownOfUs.Modules.DraftMode
                     ? guaranteed
                     : remaining
                         .Where(candidate => !string.IsNullOrWhiteSpace(candidate))
+                        .Where(candidate => DraftRolePool.IsRoleUsableAndEnabled(BaseRoleName(candidate)))
                         .Where(candidate => !seenBaseNames.Contains(BaseRoleName(candidate)))
                         .Where(candidate => allowGuaranteed || DraftRolePool.GetChanceForRoleName(candidate) < 100)
                         .ToList();
@@ -190,21 +205,12 @@ namespace TownOfUs.Modules.DraftMode
             var rl   = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
             if (rl == null) return pool;
 
-            RoleListOption[] slots =
-            [
-                rl.Slot1.Value,  rl.Slot2.Value,  rl.Slot3.Value,
-                rl.Slot4.Value,  rl.Slot5.Value,  rl.Slot6.Value,
-                rl.Slot7.Value,  rl.Slot8.Value,  rl.Slot9.Value,
-                rl.Slot10.Value, rl.Slot11.Value, rl.Slot12.Value,
-                rl.Slot13.Value, rl.Slot14.Value, rl.Slot15.Value,
-            ];
+            var slots = rl.Slot;
+            int seatIndex = 0;
 
-            int activeSlots = Math.Max(1, Math.Min(Math.Max(1, numPlayers), slots.Length));
-
-            for (var slotIndex = 0; slotIndex < activeSlots; slotIndex++)
+            for (var slotIndex = 0; slotIndex < slots.Count; slotIndex++)
             {
-                var bucket = slots[slotIndex];
-                var slotSuffix = $"|slot{slotIndex + 1}";
+                var bucket = slots[slotIndex].Value;
 
                 var names = DraftRolePool.ResolveBucketToRoleNames(bucket.ToString())
                     ?.Where(n => !string.IsNullOrWhiteSpace(n))
@@ -226,17 +232,16 @@ namespace TownOfUs.Modules.DraftMode
 
                 foreach (var name in names)
                 {
-                    pool.Add(name + slotSuffix);
+                    pool.Add($"{name}|seat{seatIndex++}");
                 }
             }
 
             int rolesPerSlot = Math.Max(1, (int)OptionGroupSingleton<RoleOptions>.Instance.OfferedRolesCount.Value);
             int concurrency = Math.Max(1, Math.Min(2, (int)OptionGroupSingleton<RoleOptions>.Instance.ConcurrentPicks.Value));
-            int targetSize = Math.Max(1, numPlayers) + rolesPerSlot * concurrency;
-            var fundedNames = slots.Take(activeSlots)
-                .SelectMany(bucket => DraftRolePool.ResolveBucketToRoleNames(bucket.ToString()) ?? [])
+            int targetSize = GetLowPlayerPoolTargetSize(numPlayers, rolesPerSlot, concurrency);
+            var fundedNames = slots.Options
+                .SelectMany(bucket => DraftRolePool.ResolveBucketToRoleNames(bucket.Value.ToString() ?? string.Empty))
                 .Where(n => !string.IsNullOrWhiteSpace(n))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();
             int fundingIndex = 0;
             while (pool.Count < targetSize && fundedNames.Count > 0)
@@ -245,15 +250,37 @@ namespace TownOfUs.Modules.DraftMode
                 pool.Add($"{name}|fund{fundingIndex++}");
             }
 
+            if (pool.Count < targetSize)
+            {
+                var fallbackNames = fundedNames.Count > 0 ? fundedNames : GetAllowedCrewFallbackNames();
+                if (fallbackNames.Count == 0)
+                {
+                    fallbackNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewRandom))
+                        ?.Where(n => !string.IsNullOrWhiteSpace(n) && DraftRolePool.IsRoleUsableAndEnabled(n))
+                        .Distinct(StringComparer.OrdinalIgnoreCase)
+                        .ToList() ?? new List<string>();
+                }
+
+                while (pool.Count < targetSize && fallbackNames.Count > 0)
+                {
+                    var name = fallbackNames[rng.NextInt(fallbackNames.Count)];
+                    pool.Add($"{name}|fund{fundingIndex++}");
+                }
+            }
+
             if (pool.Count == 0)
             {
-                var fallbackNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewRandom))
-                    ?.Where(n => !string.IsNullOrWhiteSpace(n))
-                    .Distinct(StringComparer.OrdinalIgnoreCase)
-                    .ToList() ?? new List<string>();
+                var fallbackNames = GetAllowedCrewFallbackNames();
+                if (fallbackNames.Count == 0)
+                {
+                    fallbackNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewRandom))
+                        ?.Where(n => !string.IsNullOrWhiteSpace(n) && DraftRolePool.IsRoleUsableAndEnabled(n))
+                        .Distinct(StringComparer.OrdinalIgnoreCase)
+                        .ToList() ?? new List<string>();
+                }
                 foreach (var fallbackName in fallbackNames)
                 {
-                    pool.Add(fallbackName + "|slot1");
+                    pool.Add($"{fallbackName}|seat{seatIndex++}");
                 }
             }
 
@@ -444,7 +471,7 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             return fallbackNames
-                .Where(name => !string.IsNullOrWhiteSpace(name))
+                .Where(name => !string.IsNullOrWhiteSpace(name) && DraftRolePool.IsRoleUsableAndEnabled(name))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();
         }
@@ -480,7 +507,7 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             return fallbackNames
-                .Where(name => !string.IsNullOrWhiteSpace(name))
+                .Where(name => !string.IsNullOrWhiteSpace(name) && DraftRolePool.IsRoleUsableAndEnabled(name))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();
         }

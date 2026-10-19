@@ -2,6 +2,7 @@
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Options;
 
@@ -9,6 +10,7 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
 {
  public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.GameMechanics");
     public override uint GroupPriority => 1;
+    public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Engineer;
 
     /*[ModdedToggleOption("TouOptionHideNamesOutOfSight")]
     public bool HideNamesOutOfSight { get; set; } = true;*/
@@ -36,6 +38,13 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
                 "TouOptionKillAnimationBackgroundColorEnumFaction",
                 "TouOptionKillAnimationBackgroundColorEnumRoleColor"
             ]);
+
+    public ModdedNumberOption PlayerCountWhenSabotagesDisable { get; set; } =
+        new("TouOptionPlayerCountWhenSabotagesDisable",
+            2f, 1f, 15f, 1f, MiraNumberSuffixes.None, "0.#");
+
+    public ModdedToggleOption CanSabotageWhenDead { get; set; } =
+        new("TouOptionCanSabotageWhenDead", true);
 
     public ModdedNumberOption PlayerCountWhenVentsDisable { get; set; } =
         new("TouOptionPlayerCountWhenVentsDisable",

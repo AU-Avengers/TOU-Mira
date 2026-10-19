@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using AmongUs.GameOptions;
 using HarmonyLib;
+using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -51,16 +52,28 @@ public static class WikiHyperLinkPatches
             string replacement = match.Value;
             bool shouldHyperlink = true;
             var iconText = string.Empty;
+            Warning(match.Value);
             if (match.Value[0] == '#') // Role tag
             {
-                var role = MiscUtils.AllRegisteredRoles.FirstOrDefault(x =>
-                    CustomRoleUtils.CanSpawnOnCurrentMode(x) && x.GetRoleName().Replace(' ', '-').RemoveAll(RemovedCharacters).Equals(key, StringComparison.OrdinalIgnoreCase));
+                RoleBehaviour? role;
+                if (match.Value.StartsWith("#fullnamespace-", StringComparison.OrdinalIgnoreCase))
+                {
+                    var toCheck = match.Value.Substring("#fullnamespace-".Length);
+                    Warning(toCheck);
+                    role = MiscUtils.AllRegisteredRoles.FirstOrDefault(x =>
+                        x.GetNamespace(true) == toCheck);
+                }
+                else
+                {
+                    role = MiscUtils.AllRegisteredRoles.FirstOrDefault(x =>
+                        CustomRoleUtils.CanSpawnOnCurrentMode(x) && x.GetRoleName().Replace(' ', '-').RemoveAll(RemovedCharacters).Equals(key, StringComparison.OrdinalIgnoreCase));
+                }
                 if (role is ICustomRole customRole)
                 {
                     replacement =
                         $"{fontTag}<b>{customRole.RoleColor.ToTextColor()}<link={customRole.GetType().FullName}:{linkIndex}>{customRole.RoleName}</link></color></b></font>";
                     shouldHyperlink = customRole is IWikiDiscoverable || SoftWikiEntries.RoleEntries.ContainsKey(role);
-                    iconText = MiscUtils.GetRoleTmpIcon(customRole);
+                    iconText = MiscUtils.GetMaskedRoleTmpIcon(customRole);
                 }
                 else if (role != null && SoftWikiEntries.RoleEntries.ContainsKey(role))
                 {
@@ -72,13 +85,16 @@ public static class WikiHyperLinkPatches
                         $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
                     }
                     shouldHyperlink = true;
-                    iconText = MiscUtils.GetRoleTmpIcon(role);
+                    iconText = MiscUtils.GetMaskedRoleTmpIcon(role);
                 }
                 else
                 {
                     // Some non-custom roles (specifically Impostor and Crewmate) can also be tagged, but they have no wiki entries.
-                    role = MiscUtils.AllRegisteredRoles.FirstOrDefault(x =>
-                        x.GetRoleName().Equals(key, StringComparison.OrdinalIgnoreCase));
+                    if (role == null)
+                    {
+                        role = MiscUtils.AllRegisteredRoles.FirstOrDefault(x =>
+                            x.GetRoleName().Equals(key, StringComparison.OrdinalIgnoreCase));
+                    }
                     if (role != null)
                     {
                         if (role.Role is RoleTypes.Crewmate || role.Role is RoleTypes.Impostor)
@@ -93,15 +109,26 @@ public static class WikiHyperLinkPatches
                                 $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
                             shouldHyperlink = true;
                         }
-                        iconText = MiscUtils.GetRoleTmpIcon(role);
+                        iconText = MiscUtils.GetMaskedRoleTmpIcon(role);
                     }
                 }
             }
             else if (match.Value[0] == '&') // Modifier tag
             {
-                var modifier = MiscUtils.AllOverallWikiModifiers
-                    .Where(m => m is GameModifier)
-                    .FirstOrDefault(x => x.ModifierName.Equals(key, StringComparison.OrdinalIgnoreCase));
+                BaseModifier? modifier;
+                if (match.Value.StartsWith("&fullnamespace-", StringComparison.OrdinalIgnoreCase))
+                {
+                    var toCheck = match.Value.Substring("&fullnamespace-".Length);
+                    Warning(toCheck);
+                    modifier = MiscUtils.AllOverallWikiModifiers.Where(m => m is GameModifier).FirstOrDefault(x =>
+                        x.GetNamespace(true) == toCheck);
+                }
+                else
+                {
+                    modifier = MiscUtils.AllOverallWikiModifiers
+                        .Where(m => m is GameModifier)
+                        .FirstOrDefault(x => x.ModifierName.Replace(' ', '-').RemoveAll(RemovedCharacters).Equals(key, StringComparison.OrdinalIgnoreCase));
+                }
 
                 if (modifier != null)
                 {
@@ -110,7 +137,7 @@ public static class WikiHyperLinkPatches
                     shouldHyperlink = modifier is IWikiDiscoverable;
                     if (modifier is TouBaseGameModifier touMod && touMod.Configuration.PopUpIconTmp)
                     {
-                        iconText = $"<sprite name=\"{touMod.Configuration.PopUpIconTmp.name}\">";
+                        iconText = $"<sprite name=\"{touMod.Configuration.PopUpIconTmp.name}.Masked\">";
                     }
                 }
             }

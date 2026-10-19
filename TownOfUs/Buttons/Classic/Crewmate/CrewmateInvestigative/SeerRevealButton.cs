@@ -64,45 +64,58 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
         if (IsEvil(target))
         {
             target.AddModifier<SeerEvilRevealModifier>();
-            var possiblyGood = options.ShowCrewmateKillingAsRed.Value ? "possibly" : string.Empty;
-            if (options.ShowNeutralBenignAsRed.Value)
-            {
-                possiblyGood = "possibly";
-            }
+
+            var evilRevealKey =
+                options.ShowCrewmateKillingAsRed.Value ||
+                options.ShowNeutralBenignAsRed.Value
+                    ? "TouSeerPossiblyEvilReveal"
+                    : "TouSeerEvilReveal";
+
+            var evilRevealText = MiraLocaleManager.Get(evilRevealKey)
+                .Replace("<player>", target.Data.PlayerName);
 
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You have revealed that {target.Data.PlayerName} is {possiblyGood} evil!</color></b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Seer.LoadAsset());
+                $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{evilRevealText}</color></b>",
+                Color.white,
+                new Vector3(0f, 1f, -20f),
+                spr: TouRoleIcons.Seer.LoadAsset());
+                
             notif1.AdjustNotification();
 
             if (options.ShowCrewmateKillingAsRed.Value)
             {
-                possibleAlignment.Append("Crew Killer, ");
+                possibleAlignment.Append(
+                    MiraLocaleManager.Get("TouSeerAlignmentCrewKiller") + ", ");
             }
 
             if (options.ShowNeutralBenignAsRed.Value)
             {
-                possibleAlignment.Append("Neutral Benign, ");
+                possibleAlignment.Append(
+                    MiraLocaleManager.Get("TouSeerAlignmentNeutralBenign") + ", ");
             }
 
             if (options.ShowNeutralEvilAsRed.Value)
             {
-                possibleAlignment.Append("Neutral Evil, ");
+                possibleAlignment.Append(
+                    MiraLocaleManager.Get("TouSeerAlignmentNeutralEvil") + ", ");
             }
 
             if (options.ShowNeutralKillingAsRed.Value)
             {
-                possibleAlignment.Append("Neutral Killer, ");
+                possibleAlignment.Append(
+                    MiraLocaleManager.Get("TouSeerAlignmentNeutralKiller") + ", ");
             }
 
             if (options.ShowNeutralOutlierAsRed.Value)
             {
-                possibleAlignment.Append("Neutral Outlier, ");
+                possibleAlignment.Append(
+                    MiraLocaleManager.Get("TouSeerAlignmentNeutralOutlier") + ", ");
             }
 
             if (options.SwapTraitorColors.Value)
             {
-                possibleAlignment.Append("Traitor, ");
+                possibleAlignment.Append(
+                    MiraLocaleManager.Get("TouSeerAlignmentTraitor") + ", ");
             }
 
             if (possibleAlignment.Length > 3)
@@ -110,48 +123,66 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
                 possibleAlignment = possibleAlignment.Remove(possibleAlignment.Length - 2, 2);
             }
 
-            var impString = possibleAlignment.Length > 1 ? ", or Impostor!" : "Impostor!";
-            possibleAlignment.Append(impString);
+            var evilAlignmentText = possibleAlignment.Length > 1
+                ? MiraLocaleManager.Get("TouSeerPossibleImpostorAlignment")
+                    .Replace("<alignments>", possibleAlignment.ToString())
+                : MiraLocaleManager.Get("TouSeerImpostorAlignment");
 
-            Helpers.CreateAndShowNotification($"They must be a {possibleAlignment}", TownOfUsColors.ImpSoft);
+            Helpers.CreateAndShowNotification(
+                MiraLocaleManager.Get("TouSeerMustBeAlignment")
+                    .Replace("<alignments>", evilAlignmentText),
+                TownOfUsColors.ImpSoft);
         }
         else
         {
             target.AddModifier<SeerGoodRevealModifier>();
-            var possiblyGood = !options.ShowNeutralBenignAsRed.Value ? "likely" : string.Empty;
+            var goodRevealKey = "TouSeerGoodReveal";
+
+            if (!options.ShowNeutralBenignAsRed.Value)
+            {
+                goodRevealKey = "TouSeerLikelyGoodReveal";
+            }
+
             if (!options.ShowNeutralEvilAsRed)
             {
-                possiblyGood = "probably";
+                goodRevealKey = "TouSeerProbablyGoodReveal";
             }
 
             if (!options.ShowNeutralKillingAsRed)
             {
-                possiblyGood = "possibly";
+                goodRevealKey = "TouSeerPossiblyGoodReveal";
             }
 
+            var goodRevealText = MiraLocaleManager.Get(goodRevealKey)
+                .Replace("<player>", target.Data.PlayerName);
+
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{Palette.CrewmateBlue.ToTextColor()}You have revealed that {target.Data.PlayerName} is {possiblyGood} good!</color></b>",
+                $"<b>{Palette.CrewmateBlue.ToTextColor()}{goodRevealText}</color></b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Seer.LoadAsset());
             notif1.AdjustNotification();
 
             if (!options.ShowNeutralBenignAsRed.Value)
             {
-                possibleAlignment.Append("Neutral Benign, ");
+                possibleAlignment.Append(
+                    MiraLocaleManager.Get("TouSeerAlignmentNeutralBenign") + ", ");
             }
 
             if (!options.ShowNeutralEvilAsRed.Value)
             {
-                possibleAlignment.Append("Neutral Evil, ");
+                possibleAlignment.Append(
+                    MiraLocaleManager.Get("TouSeerAlignmentNeutralEvil") + ", ");
             }
 
             if (!options.ShowNeutralKillingAsRed.Value)
             {
-                possibleAlignment.Append("Neutral Killer, ");
+                possibleAlignment.Append(
+                    MiraLocaleManager.Get("TouSeerAlignmentNeutralKiller") + ", ");
             }
 
             if (!options.ShowNeutralOutlierAsRed.Value)
             {
-                possibleAlignment.Append("Neutral Outlier, ");
+                possibleAlignment.Append(
+                    MiraLocaleManager.Get("TouSeerAlignmentNeutralOutlier") + ", ");
             }
 
             if (possibleAlignment.Length > 3)
@@ -159,10 +190,16 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
                 possibleAlignment = possibleAlignment.Remove(possibleAlignment.Length - 2, 2);
             }
 
-            var impString = possibleAlignment.Length > 1 ? ", or Crewmate!" : "Crewmate!";
-            possibleAlignment.Append(impString);
-            var notif2 =
-                Helpers.CreateAndShowNotification($"<b>They must be a {possibleAlignment}</b>", Palette.CrewmateBlue);
+            var goodAlignmentText = possibleAlignment.Length > 1
+                ? MiraLocaleManager.Get("TouSeerPossibleCrewmateAlignment")
+                    .Replace("<alignments>", possibleAlignment.ToString())
+                : MiraLocaleManager.Get("TouSeerCrewmateAlignment");
+
+            var notif2 = Helpers.CreateAndShowNotification(
+                $"<b>{MiraLocaleManager.Get("TouSeerMustBeAlignment")
+                    .Replace("<alignments>", goodAlignmentText)}</b>",
+                Palette.CrewmateBlue);
+
             notif2.AdjustNotification();
         }
     }

@@ -79,6 +79,21 @@ public sealed class JanitorRole(IntPtr cppPtr)
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Clean", "Clean"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Clean.WikiDescription"),
+                    TouImpAssets.CleanButtonSprite)
+            ];
+        }
+    }
+
     [MethodRpc((uint)TownOfUsRpc.CleanBody, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcCleanBody(PlayerControl player, byte bodyId)
     {

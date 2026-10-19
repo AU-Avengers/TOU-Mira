@@ -6,6 +6,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using UnityEngine;
 using MiraAPI.Hud;
+using TownOfUs.Achievements;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Modifiers.Game.Universal;
@@ -62,6 +63,25 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
             TouCrewAssets.SpillSprite)
     ];
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities { get; } =
+    [
+        new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock"),
+            MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value
+                ? MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
+                    OptionGroupSingleton<RoleblockOptions>.Instance.HangoverDuration.Value.ToString(TownOfUsPlugin
+                        .Culture))
+                : MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock.WikiDescription")).Replace("<blockTime>",
+                OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value
+                    .ToString(TownOfUsPlugin.Culture)),
+            TouCrewAssets.RoleblockSprite),
+        new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperSpill"),
+            MiraLocaleManager.Get("MiraApi.AbilityType.Radius"),
+            MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperSpill.WikiDescription"),
+            TouCrewAssets.SpillSprite)
+    ];
+
     [MethodRpc((uint)TownOfUsRpc.SpillDrink)]
     public static void RpcSpillDrink(PlayerControl player, Vector2 pos)
     {
@@ -84,8 +104,10 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         var targetName = target.CachedPlayerData.PlayerName;
         var rbText = MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblocked").Replace("<player>", targetName);
         var poisonPlayer = false;
+        TouAchievementEvents.OnDrinkServed(player, target);
         if (player.Data.Role is BootleggerRole)
         {
+
             var poisTrigger =
                 (PoisonTrigger)OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger.Value;
             var progress = PoisonProgress.Begun;

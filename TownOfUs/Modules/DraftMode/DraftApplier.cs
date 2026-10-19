@@ -27,8 +27,7 @@ namespace TownOfUs.Modules.DraftMode
 
                 try
                 {
-                    var playerId = s.PlayerId;
-                    OnAssignRoleRequested?.Invoke(playerId, roleName, s.ChosenRoleId);
+                    OnAssignRoleRequested?.Invoke(s.PlayerId, roleName, s.ChosenRoleId);
                 }
                 catch (Exception e)
                 {

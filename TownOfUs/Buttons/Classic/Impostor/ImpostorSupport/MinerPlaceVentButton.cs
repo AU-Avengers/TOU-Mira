@@ -49,6 +49,7 @@ public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAfter
 
         var hits = Physics2D.OverlapBoxAll(PlayerControl.LocalPlayer.transform.position, VentSize, 0);
 
+        // TODO: Figure out why decon doors aren't being checked.
         hits = hits.Where(c =>
             (c.name.Contains("Vent") || c.name.Contains("Door") || !c.isTrigger) && c.gameObject.layer != 8 &&
             c.gameObject.layer != 5).ToArray();

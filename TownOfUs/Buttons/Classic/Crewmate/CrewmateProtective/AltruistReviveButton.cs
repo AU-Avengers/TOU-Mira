@@ -4,6 +4,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Achievements;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers.Alliance;
@@ -144,6 +145,8 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
             Helpers.CreateFilter(Constants.NotShipMask));
 
         var playersToRevive = bodiesInRange.Select(x => x.ParentId).ToList();
+
+        TouAchievementEvents.OnAltruistRevive(PlayerControl.LocalPlayer, playersToRevive.Count);
 
         foreach (var playerId in playersToRevive)
         {

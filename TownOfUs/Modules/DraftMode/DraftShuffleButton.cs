@@ -95,30 +95,7 @@ public sealed class DraftShuffleButton : TownOfUsButton
         [HarmonyPostfix]
         public static void Postfix()
         {
-            DraftShuffleButton.Hide();
-            CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
-        }
-    }
-
-
-    [HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastDraftEnd))]
-    public static class HideDraftShuffleOnDraftEnd
-    {
-        [HarmonyPostfix]
-        public static void Postfix()
-        {
-            DraftShuffleButton.Hide();
-            CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
-        }
-    }
-    [HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastDraftEnd))]
-    public static class HideDraftShuffleAfterUsedUp
-    {
-        [HarmonyPostfix]
-        public static void Postfix()
-        {
-            DraftShuffleButton.Hide();
-            CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
+            DraftShuffleButton.HideAndReset();
         }
     }
 }

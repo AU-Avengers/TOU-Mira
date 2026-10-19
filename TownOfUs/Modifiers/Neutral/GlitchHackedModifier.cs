@@ -2,9 +2,12 @@
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using TownOfUs.Achievements;
 using TownOfUs.Buttons;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
+using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Neutral;
@@ -78,6 +81,10 @@ public sealed class GlitchHackedModifier(byte glitchId) : DisabledModifier
 
         if (Player.AmOwner)
         {
+            if (Player.Data.Role is GlitchRole)
+            {
+                AchievementsAPIHelper.Unlock(TouAchievements.Anomaly);
+            }
             TouAudio.PlaySound(TouAudio.HackedSound);
 
             ReportButtonHackedSprite?.SetHackActive(true);

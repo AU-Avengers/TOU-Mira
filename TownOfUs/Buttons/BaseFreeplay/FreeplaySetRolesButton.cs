@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.BaseFreeplay;
 
-public sealed class FreeplaySetRolesButton : TownOfUsButton
+public sealed class FreeplaySetRolesButton : TownOfUsButton, IAurialBypassButton
 {
     public override string Name => MiraLocaleManager.Get("FreeplaySetRoleButton", "Set Roles");
     public override Color TextOutlineColor => new Color32(231, 89, 105, 255);
@@ -48,9 +48,9 @@ public sealed class FreeplaySetRolesButton : TownOfUsButton
         }
 
         var player1Menu = CustomPlayerMenu.Create();
-        player1Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
+        player1Menu.PhoneUI.GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
-        player1Menu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
+        player1Menu.PhoneUI.GetChild(1).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
         player1Menu.Begin(

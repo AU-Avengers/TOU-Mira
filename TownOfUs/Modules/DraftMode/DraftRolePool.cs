@@ -10,18 +10,18 @@ namespace TownOfUs.Modules.DraftMode
 {
     public static class DraftRolePool
     {
-        public static Func<string, List<string>> ResolveDelegate;
-        public static Func<string, ushort> IdResolver;
-        public static Func<ushort, string> NameResolver;
-
-        private static readonly Dictionary<string, ushort> RoleNameToIdCache = new(StringComparer.Ordinal);
         private static readonly Dictionary<string, List<string>> BucketToNamesCache = new(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<ushort, bool> UsableRoleCache = new();
+        private static readonly Dictionary<ushort, int> RoleCountCache = new();
+        private static readonly Dictionary<ushort, int> RoleChanceCache = new();
 
-        public static void ClearNameCache()
-    {
-        RoleNameToIdCache.Clear();
-        BucketToNamesCache.Clear();
-    }
+        public static void ClearCaches()
+        {
+            BucketToNamesCache.Clear();
+            UsableRoleCache.Clear();
+            RoleCountCache.Clear();
+            RoleChanceCache.Clear();
+        }
 
         public static List<string> ResolveBucketToRoleNames(string bucket)
         {
@@ -31,18 +31,7 @@ namespace TownOfUs.Modules.DraftMode
                 return new List<string>(cached);
 
             List<string> result;
-            if (ResolveDelegate != null)
-            {
-                try
-                {
-                    result = ResolveDelegate(bucket) ?? new List<string>();
-                }
-                catch
-                {
-                    result = new List<string>();
-                }
-            }
-            else if (TryResolveBucketToConcreteRoles(bucket, out var resolvedNames))
+            if (TryResolveBucketToConcreteRoles(bucket, out var resolvedNames))
             {
                 result = resolvedNames;
             }
@@ -74,54 +63,16 @@ namespace TownOfUs.Modules.DraftMode
 
         public static ushort ResolveRoleIdFromName(string roleName)
         {
-            if (string.IsNullOrWhiteSpace(roleName)) return 0;
-
-            var baseName = BaseRoleName(roleName);
-
-            if (RoleNameToIdCache.TryGetValue(baseName, out var cachedId) && cachedId != 0)
-                return cachedId;
-
-            if (ushort.TryParse(baseName, out var directId))
-            {
-                try
-                {
-                    var directRole = MiscUtils.GetRegisteredRole((RoleTypes)directId);
-                    if (directRole != null)
-                    {
-                        CacheRoleId(baseName, directId);
-                        return directId;
-                    }
-                }
-                catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
-            }
-
-            var resolved = FindRoleByName(baseName);
-            if (resolved != null)
-            {
-                var resolvedId = (ushort)resolved.Role;
-                CacheRoleId(baseName, resolvedId);
-                return resolvedId;
-            }
-
-            return 0;
+            var resolved = FindRoleByName(roleName);
+            return resolved != null ? (ushort)resolved.Role : (ushort)0;
         }
+
+        private static string RoleIdKey(RoleBehaviour role) =>
+            ((ushort)role.Role).ToString(System.Globalization.CultureInfo.InvariantCulture);
 
         public static ushort ChooseRepresentativeRoleId(List<string> roleNames)
         {
             if (roleNames == null || roleNames.Count == 0) return 0;
-
-            if (IdResolver != null)
-            {
-                foreach (var nm in roleNames)
-                {
-                    try
-                    {
-                        var id = IdResolver(nm);
-                        if (id != 0) return id;
-                    }
-                    catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
-                }
-            }
 
             foreach (var nm in roleNames)
             {
@@ -134,19 +85,9 @@ namespace TownOfUs.Modules.DraftMode
 
         public static string GetRoleNameFromId(ushort id)
         {
-            if (NameResolver != null)
-            {
-                try { return NameResolver(id); }
-                catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
-            }
-
             if (id == 0) return null!;
-            try
-            {
-                var role = MiscUtils.GetRegisteredRole((RoleTypes)id);
-                return (role?.GetRoleName() ?? role?.NiceName)!;
-            }
-            catch (Exception) { return null!; }
+            var role = MiscUtils.GetRegisteredRole((RoleTypes)id);
+            return (role?.GetRoleName() ?? role?.NiceName)!;
         }
 
         private static bool TryResolveBucketToConcreteRoles(string bucket, out List<string> resolvedNames)
@@ -160,16 +101,13 @@ namespace TownOfUs.Modules.DraftMode
                 var names = new List<string>();
                 foreach (var role in roleBehaviours)
                 {
-                    var name = role?.GetRoleName();
-                    if (!string.IsNullOrWhiteSpace(name))
-                    {
-                        CacheRoleId(name, (ushort)role!.Role);
+                    if (role == null) continue;
 
-                        int count = Math.Max(1, GetRoleCount(role));
-                        for (int i = 0; i < count; i++)
-                        {
-                            names.Add(name);
-                        }
+                    var name = RoleIdKey(role);
+                    int count = Math.Max(1, GetRoleCount(role));
+                    for (int i = 0; i < count; i++)
+                    {
+                        names.Add(name);
                     }
                 }
 
@@ -187,14 +125,10 @@ namespace TownOfUs.Modules.DraftMode
             var directRole = FindRoleByName(bucket);
             if (directRole != null &&
                 directRole.Role != RoleTypes.Impostor &&
-                directRole.Role != RoleTypes.Crewmate)
+                directRole.Role != RoleTypes.Crewmate &&
+                IsUsableRole(directRole))
             {
-                var name = directRole.GetRoleName();
-                if (!string.IsNullOrWhiteSpace(name))
-                {
-                    CacheRoleId(name, (ushort)directRole.Role);
-                    resolvedNames.Add(name);
-                }
+                resolvedNames.Add(RoleIdKey(directRole));
             }
 
             return resolvedNames.Count > 0;
@@ -206,57 +140,57 @@ namespace TownOfUs.Modules.DraftMode
             return role != null ? Math.Max(1, GetRoleCount(role)) : int.MaxValue;
         }
 
-        private static void CacheRoleId(string roleName, ushort roleId)
-        {
-            if (string.IsNullOrWhiteSpace(roleName) || roleId == 0) return;
-            RoleNameToIdCache[roleName] = roleId;
-        }
-
         public static bool IsImpostorRoleName(string name)
-{
-    var role = FindRoleByName(name);
-    return role != null && IsImpostorRole(role);
-}
-
-public static bool IsImpostorRoleId(ushort id)
-{
-    try
-    {
-        var r = MiscUtils.GetRegisteredRole((RoleTypes)id);
-        return r != null && IsImpostorRole(r);
-    }
-    catch { return false; }
-}
-
-    public static bool IsImpostorRole(RoleBehaviour role)
-    {
-        if (role == null) return false;
-        var alignment = role.GetRoleAlignment();
-        if (
-            alignment == RoleAlignment.ImpostorKilling || 
-            alignment == RoleAlignment.ImpostorConcealing || 
-            alignment == RoleAlignment.ImpostorPower || 
-            alignment == RoleAlignment.ImpostorSupport)
         {
-            return true;
+            var role = FindRoleByName(name);
+            return role != null && IsImpostorRole(role);
         }
 
-        return role.TeamType == RoleTeamTypes.Impostor;
-    }
+        public static bool IsImpostorRoleId(ushort id)
+        {
+            var role = MiscUtils.GetRegisteredRole((RoleTypes)id);
+            return role != null && IsImpostorRole(role);
+        }
+
+        public static bool IsImpostorRole(RoleBehaviour role)
+        {
+            if (role == null) return false;
+            var alignment = role.GetRoleAlignment();
+            if (
+                alignment == RoleAlignment.ImpostorKilling || 
+                alignment == RoleAlignment.ImpostorConcealing || 
+                alignment == RoleAlignment.ImpostorPower || 
+                alignment == RoleAlignment.ImpostorSupport)
+            {
+                return true;
+            }
+
+            return role.TeamType == RoleTeamTypes.Impostor;
+        }
+
         public static bool IsDoubleDraftRoleName(string name)
         {
             var role = FindRoleByName(name);
-            return role is ITownOfUsRole touRole && touRole is IDoubleDraftRole doubleDraftRole && doubleDraftRole.IsDoubleDraftRole;
+            return IsDoubleDraftRole(role);
         }
 
         public static bool IsDoubleDraftRoleId(ushort id)
         {
-            try
-            {
-                var role = MiscUtils.GetRegisteredRole((RoleTypes)id);
-                return role is ITownOfUsRole touRole && touRole is IDoubleDraftRole doubleDraftRole && doubleDraftRole.IsDoubleDraftRole;
-            }
-            catch { return false; }
+            var role = MiscUtils.GetRegisteredRole((RoleTypes)id);
+            return IsDoubleDraftRole(role);
+        }
+
+        private static bool IsDoubleDraftRole(RoleBehaviour? role)
+        {
+            if (role is IDoubleDraftRole doubleDraftRole && doubleDraftRole.IsDoubleDraftRole)
+                return true;
+
+            if (role == null)
+                return false;
+
+            var roleType = role.GetType();
+            return roleType.Name.Contains("Recruiter", StringComparison.OrdinalIgnoreCase) &&
+                   roleType.Assembly.GetName().Name?.Contains("Divani", StringComparison.OrdinalIgnoreCase) == true;
         }
 
         public static RoleAlignment? GetRoleAlignment(string name)
@@ -268,20 +202,13 @@ public static bool IsImpostorRoleId(ushort id)
         public static bool IsNeutralRoleName(string name)
         {
             var role = FindRoleByName(name);
-            if (role == null) return false;
-
-            return role.IsNeutral();
+            return role != null && role.IsNeutral();
         }
-        
 
         public static bool IsNeutralRoleId(ushort id)
         {
-            try
-            {
-                var r = MiscUtils.GetRegisteredRole((RoleTypes)id);
-                return r != null && r.IsNeutral();
-            }
-            catch { return false; }
+            var role = MiscUtils.GetRegisteredRole((RoleTypes)id);
+            return role != null && role.IsNeutral();
         }
 
         public static bool IsImpostorRoleListOption(RoleListOption opt) => opt switch
@@ -313,29 +240,8 @@ public static bool IsImpostorRoleId(ushort id)
         private static RoleBehaviour FindRoleByName(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) return null!;
-            name = BaseRoleName(name);
-
-            if (ushort.TryParse(name, out var id))
-            {
-                try
-                {
-                    var r = MiscUtils.GetRegisteredRole((RoleTypes)id);
-                    if (r != null) return r;
-                }
-                catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
-            }
-
-            var normalized = NormalizeName(name);
-
-            return MiscUtils.AllRoles.FirstOrDefault(role =>
-            {
-                if (role == null) return false;
-                var roleName = role.GetRoleName();
-                if (string.IsNullOrWhiteSpace(roleName)) return false;
-                return NormalizeName(roleName) == normalized ||
-                       NormalizeName(roleName.Replace(" ", string.Empty)) == normalized ||
-                       NormalizeName(roleName.Replace("-", string.Empty)) == normalized;
-            })!;
+            if (!ushort.TryParse(BaseRoleName(name), out var id)) return null!;
+            return MiscUtils.GetRegisteredRole((RoleTypes)id)!;
         }
 
         private static string NormalizeName(string value)
@@ -443,85 +349,66 @@ public static bool IsImpostorRoleId(ushort id)
                 .Where(IsUsableRole)
                 .Where(r => r.IsImpostor() && !known.Contains(r));
         }
-        public static ushort GetAnyUsableRoleId()
-        {
-            var role = MiscUtils.SpawnableRoles.FirstOrDefault(IsUsableRole);
-            if (role != null) return (ushort)role.Role;
 
-            role = MiscUtils.AllRoles.FirstOrDefault(r => r != null && IsUsableRole(r));
-            return role != null ? (ushort)role.Role : (ushort)0;
-        }
-
-        private static bool IsUsableRole(RoleBehaviour role)
+        public static bool IsUsableRole(RoleBehaviour role)
         {
             if (!role) return false;
-            if (role.IsDead)
-                return false;
-            if (role.Role == RoleTypes.Crewmate)
-                return false;
-            if (role.Role == AmongUs.GameOptions.RoleTypes.Impostor)
-                return false;
-            if (role is ITownOfUsRole touRole && (!touRole.IsDraftable || touRole.RoleAlignment > RoleAlignment.GameOutlier))
-                return false;
+            var roleId = (ushort)role.Role;
+            if (UsableRoleCache.TryGetValue(roleId, out var cachedUsable))
+                return cachedUsable;
 
-            return role.GetRoleName() is { Length: > 0 } && CustomRoleUtils.CanSpawnOnCurrentMode(role) && IsRoleEnabled(role);
+            var isUsable = !role.IsDead &&
+                role.Role != RoleTypes.Crewmate &&
+                role.Role != AmongUs.GameOptions.RoleTypes.Impostor &&
+                (role is not ITownOfUsRole touRole ||
+                 touRole.IsDraftable && touRole.RoleAlignment <= RoleAlignment.GameOutlier) &&
+                role.GetRoleName() is { Length: > 0 } &&
+                CustomRoleUtils.CanSpawnOnCurrentMode(role) &&
+                IsRoleEnabled(role);
+
+            UsableRoleCache[roleId] = isUsable;
+            return isUsable;
+        }
+
+        public static bool IsRoleUsableAndEnabled(string roleName)
+        {
+            if (string.IsNullOrWhiteSpace(roleName)) return false;
+            var role = FindRoleByName(roleName);
+            return role != null && IsUsableRole(role);
         }
 
         public static bool IsRoleEnabled(RoleBehaviour role)
         {
             if (role == null) return false;
-            try
+
+            if (role is ICustomRole customRole)
             {
-                if (role is ICustomRole customRole && customRole.Configuration.MaxRoleCount != 0)
-                {
-                    var countObj = customRole.GetCount();
-                    var chanceObj = customRole.GetChance();
-                    int count = countObj != null ? (int)countObj : 0;
-                    int chance = chanceObj != null ? (int)chanceObj : 0;
-                    return count > 0 && chance > 0;
-                }
-                else
-                {
-                    var roleOptions = GameOptionsManager.Instance?.CurrentGameOptions?.RoleOptions;
-                    if (roleOptions != null)
-                    {
-                        int count = roleOptions.GetNumPerGame(role.Role);
-                        int chance = roleOptions.GetChancePerGame(role.Role);
-                        return count > 0 && chance > 0;
-                    }
-                }
+                if (customRole.Configuration.MaxRoleCount == 0) return false;
+                int count = customRole.GetCount() is { } c ? c : 0;
+                int chance = customRole.GetChance() is { } ch ? ch : 0;
+                return count > 0 && chance > 0;
             }
-            catch (Exception ex)
-            {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftRolePool] Exception in IsRoleEnabled for {role.GetType().Name}: {ex}");
-            }
-            return false;
+
+            var roleOptions = GameOptionsManager.Instance?.CurrentGameOptions?.RoleOptions;
+            if (roleOptions == null) return false;
+            return roleOptions.GetNumPerGame(role.Role) > 0 && roleOptions.GetChancePerGame(role.Role) > 0;
         }
 
         public static int GetRoleChance(RoleBehaviour role)
         {
             if (role == null) return 0;
-            try
-            {
-                if (role is ICustomRole customRole && customRole.Configuration.MaxRoleCount != 0)
-                {
-                    var chanceObj = customRole.GetChance();
-                    return chanceObj != null ? (int)chanceObj : 0;
-                }
-                else
-                {
-                    var roleOptions = GameOptionsManager.Instance?.CurrentGameOptions?.RoleOptions;
-                    if (roleOptions != null)
-                    {
-                        return roleOptions.GetChancePerGame(role.Role);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftRolePool] Exception in GetRoleChance for {role.GetType().Name}: {ex}");
-            }
-            return 0;
+            var roleId = (ushort)role.Role;
+            if (RoleChanceCache.TryGetValue(roleId, out var cachedChance))
+                return cachedChance;
+
+            int chance;
+            if (role is ICustomRole customRole && customRole.Configuration.MaxRoleCount != 0)
+                chance = customRole.GetChance() is { } customChance ? customChance : 0;
+            else
+                chance = GameOptionsManager.Instance?.CurrentGameOptions?.RoleOptions?.GetChancePerGame(role.Role) ?? 0;
+
+            RoleChanceCache[roleId] = chance;
+            return chance;
         }
 
         public static int GetChanceForRoleName(string name)
@@ -534,27 +421,18 @@ public static bool IsImpostorRoleId(ushort id)
         public static int GetRoleCount(RoleBehaviour role)
         {
             if (role == null) return 0;
-            try
-            {
-                if (role is ICustomRole customRole && customRole.Configuration.MaxRoleCount != 0)
-                {
-                    var countObj = customRole.GetCount();
-                    return countObj != null ? (int)countObj : 0;
-                }
-                else
-                {
-                    var roleOptions = GameOptionsManager.Instance?.CurrentGameOptions?.RoleOptions;
-                    if (roleOptions != null)
-                    {
-                        return roleOptions.GetNumPerGame(role.Role);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftRolePool] Exception in GetRoleCount for {role.GetType().Name}: {ex}");
-            }
-            return 0;
+            var roleId = (ushort)role.Role;
+            if (RoleCountCache.TryGetValue(roleId, out var cachedCount))
+                return cachedCount;
+
+            int count;
+            if (role is ICustomRole customRole && customRole.Configuration.MaxRoleCount != 0)
+                count = customRole.GetCount() is { } customCount ? customCount : 0;
+            else
+                count = GameOptionsManager.Instance?.CurrentGameOptions?.RoleOptions?.GetNumPerGame(role.Role) ?? 0;
+
+            RoleCountCache[roleId] = count;
+            return count;
         }
     }
 }

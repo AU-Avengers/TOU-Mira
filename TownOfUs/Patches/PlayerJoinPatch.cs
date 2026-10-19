@@ -125,7 +125,7 @@ public static class PlayerJoinPatch
 
             var title =
                 $"{systemName}\n<size=62%>{factionText}{summary}</size>";
-            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
+            MiscUtils.AddSimpleSystemChat(title, msg);
         }
 
         if (!SentOnce && LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ShowWelcomeMessageToggle.Value)

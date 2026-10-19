@@ -1,6 +1,7 @@
 using System.Text;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Patches.Stubs;
@@ -9,6 +10,7 @@ using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
@@ -49,6 +51,27 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
             return
             [
                 new(abilityName, abilityDesc, sprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            var sprite = TouCrewAssets.SeerSprite;
+            var abilityName = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Reveal", "Reveal");
+            var abilityDesc = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Reveal.WikiDescription");
+            if (OptionGroupSingleton<SeerOptions>.Instance.SalemSeer.Value)
+            {
+                abilityName = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Compare", "Compare");
+                abilityDesc = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Compare.WikiDescription");
+                sprite = TouCrewAssets.SeerButtonSprites.AsEnumerable().Random()!;
+            }
+            return
+            [
+                new(abilityName, MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"), abilityDesc, sprite)
             ];
         }
     }
@@ -170,6 +193,9 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         }
 
         var players = new [] {playerA, playerB}.OrderBy(x => x.ToLowerInvariant()).ToArray();
+
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.SeerComparisonResult, enemies ? "Enemies" : "Friends", seer, GazeTarget, IntuitTarget);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
 
         if (enemies)
         {

@@ -1,4 +1,6 @@
-﻿using MiraAPI.GameOptions;
+﻿using MiraAPI.Events;
+using MiraAPI.GameOptions;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities.Appearances;
@@ -15,6 +17,9 @@ public sealed class SonarHeartbeatTargetModifier(PlayerControl owner, Color colo
     {
         base.OnActivate();
 
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.SonarTrack, Owner, Player);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
+
         if (Arrow == null)
         {
             return;
@@ -22,7 +27,7 @@ public sealed class SonarHeartbeatTargetModifier(PlayerControl owner, Color colo
 
         var playerColor = Palette.PlayerColors[Player.GetDefaultAppearance().ColorId];
         var spr = Arrow.gameObject.GetComponent<SpriteRenderer>();
-        spr.color = RainbowUtils.LightUp(playerColor);
+        spr.color = RainbowBehaviour.LightUp(playerColor);
         var r = Arrow.gameObject.AddComponent<LightRainbowBehaviour>();
 
         r.AddRend(spr, Player.cosmetics.ColorId);

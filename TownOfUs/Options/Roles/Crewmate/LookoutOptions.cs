@@ -13,7 +13,7 @@ public sealed class LookoutOptions : AbstractRoleOptionGroup<LookoutRole>
     [ModdedNumberOption("TouOptionLookoutWatchCooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
     public float WatchCooldown { get; set; } = 20f;
 
-    public ModdedEnumOption WatchType { get; } = new("Watched Player Feedback Reveals", (int)LookoutView.Players, typeof(LookoutView));
+    public ModdedEnumOption WatchType { get; } = new("TouOptionLookoutFeedbackReveals", (int)LookoutView.Players, typeof(LookoutView));
 
     [ModdedNumberOption("TouOptionLookoutMaxWatches", 1f, 15f, 1f, MiraNumberSuffixes.None, "0")]
     public float MaxWatches { get; set; } = 5;

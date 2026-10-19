@@ -462,7 +462,6 @@ barricadeer ventilatieschachten om deze de volgende ronde te blokkeren</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecute">Aanklagen</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecuteWiki">Aanklagen (Bijeenkomst)</string>
   <string name="TownOfUsMira.Role.ProsecutorProsecute.WikiDescription">Verban een speler naar keuze, wat ze vijf stemmen geeft en alle andere stemmen negeert.</string>
-  <string name="TouOptionProsecutorDiesWhenCrewmateExiled">Aanklager gaat als ze een Bemanningslid verbannen</string>
   <string name="TouOptionProsecutorMaxProsecutions">Maximale hoeveelheid Aanklagingen</string>
   <string name="TownOfUsMira.Role.Seer">Ziener</string>
   <string name="ClientTabGameplay">Spelverloop</string>

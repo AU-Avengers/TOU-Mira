@@ -1,5 +1,7 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Events;
+using MiraAPI.Colors;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -9,6 +11,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options;
@@ -24,6 +27,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     [HideFromIl2Cpp] public PlayerControl? Shielded { get; set; }
     public bool IsProtecting { get; set; }
+    public bool ProtectedAttackedThisRound { get; set; }
 
     public void FixedUpdate()
     {
@@ -57,6 +61,21 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
             return
             [
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Shield", "Shield"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Shield.WikiDescription"),
+                    TouCrewAssets.MedicSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Shield", "Shield"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Shield.WikiDescription"),
                     TouCrewAssets.MedicSprite)
             ];
@@ -278,68 +297,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public static string GetColorTypeForPlayer(int colorId)
     {
-        var colors = new Dictionary<int, string>
-        {
-            { 0, "darker" }, // Red
-            { 1, "darker" }, // Blue
-            { 2, "darker" }, // Green
-            { 3, "lighter" }, // Pink
-            { 4, "lighter" }, // Orange
-            { 5, "lighter" }, // Yellow
-            { 6, "darker" }, // Black
-            { 7, "lighter" }, // White
-            { 8, "darker" }, // Purple
-            { 9, "darker" }, // Brown
-            { 10, "lighter" }, // Cyan
-            { 11, "lighter" }, // Lime
-            { 12, "darker" }, // Maroon
-            { 13, "lighter" }, // Rose
-            { 14, "lighter" }, // Banana
-            { 15, "darker" }, // Gray
-            { 16, "darker" }, // Tan
-            { 17, "lighter" }, // Coral
-
-            { 18, "darker" }, // Watermelon
-            { 19, "darker" }, // Chocolate
-            { 20, "lighter" }, // Sky Blue
-            { 21, "lighter" }, // Beige
-            { 22, "darker" }, // Magenta
-            { 23, "lighter" }, // Sea Green
-            { 24, "lighter" }, // Lilac
-            { 25, "darker" }, // Olive
-            { 26, "lighter" }, // Azure
-            { 27, "darker" }, // Plum
-            { 28, "darker" }, // Jungle
-            { 29, "lighter" }, // Mint
-            { 30, "lighter" }, // Chartreuse
-            { 31, "darker" }, // Macau
-            { 32, "lighter" }, // Tawny
-            { 33, "darker" }, // Gold
-
-            { 34, "lighter" }, // Snow
-            { 35, "lighter" }, // Turquoise
-            { 36, "lighter" }, // Nacho
-            { 37, "darker" }, // Blood
-            { 38, "darker" }, // Grass
-            { 39, "lighter" }, // Mandarin
-            { 40, "lighter" }, // Glass
-            { 41, "darker" }, // Ash
-            { 42, "darker" }, // Midnight
-            { 43, "darker" }, // Steel
-            { 44, "lighter" }, // Silver
-            { 45, "lighter" }, // Shimmer
-            { 46, "darker" }, // Crimson
-            { 47, "darker" }, // Charcoal
-            { 48, "darker" }, // Violet
-            { 49, "darker" }, // Denim
-            { 50, "lighter" }, // Cotton Candy
-
-            { 51, "lighter" } // rainbow
-        };
-
-        var typeOfColor = colors[colorId];
-
-        return typeOfColor;
+        return PaletteManager.GetBrightness(colorId) is CustomColorBrightness.Darker ? "darker" : "lighter";
     }
 
     public static void DangerAnim()
@@ -421,12 +379,12 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         var shieldNotify = OptionGroupSingleton<MedicOptions>.Instance.WhoGetsNotification;
 
-        if (shielded.AmOwner && shieldNotify == MedicOption.Shielded)
+        if (shielded.AmOwner && shieldNotify is MedicOption.Shielded or MedicOption.ShieldedAndMedic)
         {
             DangerAnim();
         }
 
-        if (medic.AmOwner && shieldNotify == MedicOption.Medic)
+        if (medic.AmOwner && shieldNotify is MedicOption.Medic or MedicOption.ShieldedAndMedic)
         {
             DangerAnim();
         }
@@ -440,6 +398,10 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         {
             DangerAnimNonMedic();
         }
+
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.MedicShieldProtect, !role.ProtectedAttackedThisRound ? "New Attack" : "Already Attacked", medic, shielded);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
+        role.ProtectedAttackedThisRound = true;
 
         var shieldBreaks = OptionGroupSingleton<MedicOptions>.Instance.ShieldBreaks;
 

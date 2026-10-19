@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -8,6 +9,7 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options;
 using UnityEngine;
@@ -53,6 +55,21 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             return
             [
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fortify", "Fortify"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fortify.WikiDescription"),
+                    TouCrewAssets.FortifySprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fortify", "Fortify"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fortify.WikiDescription"),
                     TouCrewAssets.FortifySprite)
             ];
@@ -183,6 +200,9 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             Error("RpcWardenNotify - Invalid warden");
             return;
         }
+
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.WardenProtect, player, target);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
 
         // Error("RpcWardenNotify");
         if (source.AmOwner || player.AmOwner)

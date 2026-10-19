@@ -65,6 +65,25 @@ public sealed class GlitchRole(IntPtr cppPtr)
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mimic", "Mimic"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Menu"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mimic.WikiDescription"),
+                    TouNeutAssets.MimicSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hack", "Hack"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hack.WikiDescription"),
+                    TouNeutAssets.HackSprite)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Glitch;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralKilling;

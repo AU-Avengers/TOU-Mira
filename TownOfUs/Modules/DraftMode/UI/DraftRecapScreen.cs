@@ -235,7 +235,7 @@ namespace TownOfUs.Modules.DraftMode
             foreach (var t in _rowTexts)
                 if (t != null) MiraAPI.Utilities.Extensions.DeepDestroy(t.gameObject, false);
             _rowTexts.Clear();
-            try { MiraAPI.Utilities.Extensions.ClearGarbageCollector(); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"GC Error: {e.Message}"); }
+            MiraAPI.Utilities.Extensions.ClearGarbageCollector();
 
             string modeLabel = mode == DraftRecapMode.Role
                 ? MiraLocaleManager.Get("TouDraftRecapModeRole", "Role")
@@ -354,7 +354,7 @@ namespace TownOfUs.Modules.DraftMode
             _backdropHorizonRenderer = null!;
             _headerText              = null!;
 
-            try { MiraAPI.Utilities.Extensions.ClearGarbageCollector(); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"GC Error: {e.Message}"); }
+            MiraAPI.Utilities.Extensions.ClearGarbageCollector();
         }
 
         private static void CopyFont(TextMeshPro tmp)

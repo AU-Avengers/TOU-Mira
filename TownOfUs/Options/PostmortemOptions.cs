@@ -1,11 +1,13 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
+using UnityEngine;
 
 namespace TownOfUs.Options;
 
 public sealed class PostmortemOptions : AbstractOptionGroup
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.Postmortem");
+    public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Spectre;
     public override uint GroupPriority => 4;
 
     public ModdedToggleOption TheDeadKnow { get; set; } =

@@ -7,6 +7,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
@@ -98,6 +99,8 @@ public static class ChefEvents
             stats.PlayerState = StoredPlayerState.Dead;
             stats.LockDeathInfo = true;
 
+            MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.ChefWin, chef.Player));
+
             chef.Player.Exiled();
         }
     }
@@ -154,6 +157,8 @@ public static class ChefEvents
             stats.DiedThisRound = false;
             stats.PlayerState = StoredPlayerState.Dead;
             stats.LockDeathInfo = true;
+
+            MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.ChefWin, chef.Player));
 
             chef.Player.Exiled();
         }

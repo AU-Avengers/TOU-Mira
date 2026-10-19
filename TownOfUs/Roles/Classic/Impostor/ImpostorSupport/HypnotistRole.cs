@@ -35,6 +35,7 @@ public sealed class HypnotistRole(IntPtr cppPtr)
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Hypnotist";
 
+    public string RoleWikiDescription => GetAdvancedDescription();
     public string GetAdvancedDescription()
     {
         return
@@ -68,7 +69,26 @@ public sealed class HypnotistRole(IntPtr cppPtr)
                     TouImpAssets.HypnotiseButtonSprite),
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteriaWiki", "Mass Hysteria (Meeting)"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteria.WikiDescription"),
-                    TouAssets.MassHysteriaSprite)
+                    TouAssets.HysteriaSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hypnotize", "Hypnotize"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hypnotize.WikiDescription"),
+                    TouImpAssets.HypnotiseButtonSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteriaLong", "Mass Hysteria"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Meeting"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteria.WikiDescription"),
+                    TouAssets.HysteriaSprite)
             ];
         }
     }

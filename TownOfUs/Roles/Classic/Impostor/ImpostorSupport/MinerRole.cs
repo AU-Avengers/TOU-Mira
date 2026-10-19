@@ -68,7 +68,9 @@ public sealed class MinerRole(IntPtr cppPtr)
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (OptionGroupSingleton<MinerOptions>.Instance.MineVisibility is MineVisiblityOptions.AfterUse)
         {
-            stringB.Append(TownOfUsPlugin.Culture, $"Vents will only be visible once used");
+            stringB.Append(MiraLocaleManager.Get(
+                "TownOfUsMira.Role.MinerVentsVisibleAfterUse",
+                "Vents will only be visible once used"));
         }
 
         return stringB;
@@ -82,6 +84,21 @@ public sealed class MinerRole(IntPtr cppPtr)
             return
             [
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mine", "Mine"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mine.WikiDescription"),
+                    TouImpAssets.MineSprite)
+            ];
+        }
+    }
+
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mine", "Mine"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mine.WikiDescription"),
                     TouImpAssets.MineSprite)
             ];
@@ -112,8 +129,11 @@ public sealed class MinerRole(IntPtr cppPtr)
         {
             vent.transform.localScale = new Vector3(0.9f, 0.9f, 1);
             var collider = vent.transform.GetComponent<BoxCollider2D>();
-            collider.size = new Vector2(0.75f, 0.34f);
-            collider.offset = new Vector2(-0.005f, 0);
+            if (collider)
+            {
+                collider.size = new Vector2(0.75f, 0.34f);
+                collider.offset = new Vector2(-0.005f, 0);
+            }
             vent.Offset = new Vector3(0, 0.15f, 0);
             vent.myAnim.Stop();
             vent.myAnim.Destroy();
@@ -135,6 +155,24 @@ public sealed class MinerRole(IntPtr cppPtr)
 
         vent.Id = ventId;
         vent.transform.position = new Vector3(position.x, position.y, zAxis + 0.001f);
+
+        if (ModCompatibility.IsSubmerged())
+        {
+            vent.gameObject.layer = 12;
+            vent.gameObject.AddSubmergedComponent("ElevatorMover"); // just in case elevator vent is not blocked
+            /*if (vent.gameObject.transform.position.y > -7)
+            {
+                vent.gameObject.transform.position = new Vector3(vent.gameObject.transform.position.x,
+                    vent.gameObject.transform.position.y, 0.02f);
+            }
+            else
+            {
+                vent.gameObject.transform.position = new Vector3(vent.gameObject.transform.position.x,
+                    vent.gameObject.transform.position.y, 0.0009f);
+                vent.gameObject.transform.localPosition = new Vector3(vent.gameObject.transform.localPosition.x,
+                    vent.gameObject.transform.localPosition.y, -0.003f);
+            }*/
+        }
 
         if (miner == null)
         {
@@ -163,24 +201,6 @@ public sealed class MinerRole(IntPtr cppPtr)
         if (player.AmOwner || immediate)
         {
             Coroutines.Start(miner.CoExplode(new Vector3(position.x, position.y + 1.33f , zAxis - 0.0001f)));
-        }
-
-        if (ModCompatibility.SubLoaded)
-        {
-            vent.gameObject.layer = 12;
-            vent.gameObject.AddSubmergedComponent("ElevatorMover"); // just in case elevator vent is not blocked
-            if (vent.gameObject.transform.position.y > -7)
-            {
-                vent.gameObject.transform.position = new Vector3(vent.gameObject.transform.position.x,
-                    vent.gameObject.transform.position.y, 0.02f);
-            }
-            else
-            {
-                vent.gameObject.transform.position = new Vector3(vent.gameObject.transform.position.x,
-                    vent.gameObject.transform.position.y, 0.0009f);
-                vent.gameObject.transform.localPosition = new Vector3(vent.gameObject.transform.localPosition.x,
-                    vent.gameObject.transform.localPosition.y, -0.003f);
-            }
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MinerPlaceVent, player, vent);

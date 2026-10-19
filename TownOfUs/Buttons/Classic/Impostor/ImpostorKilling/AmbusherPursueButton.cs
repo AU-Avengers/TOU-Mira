@@ -40,8 +40,13 @@ public sealed class AmbusherPursueButton : TownOfUsRoleButton<AmbusherRole, Play
 
         TouAudio.PlaySound(TouAudio.TrackerActivateSound);
 
+        var notificationText = MiraLocaleManager.Get(
+                "TownOfUsMira.Role.AmbusherPursueNotif",
+                "You are now pursuing <player>. Ambush anyone near them at any time you wish.")
+            .Replace("<player>", Target.Data.PlayerName);
+
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You are now pursuing {Target.Data.PlayerName}. Ambush anyone near them at any time you wish.</b></color>",
+            $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>",
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Ambusher.LoadAsset());
         notif1.AdjustNotification();
 

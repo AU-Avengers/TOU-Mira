@@ -73,6 +73,12 @@
   <string name="RainbowColorAsFortegreen">Rainbow Color As Fortegreen</string>
   <string name="ZoomingInPractice">Zoom In Practice</string>
   <string name="SeparateChatBubbles">Separate Chat Bubbles</string>
+    <string name="ShowChatNotifsInGame">Show Chat Notifications Mid-Game</string>
+    <string name="ShowRolesOnChatBubbles">Show Roles On Chat Bubbles</string>
+    <string name="ChatRoleVisualDisabled">Disabled</string>
+    <string name="ChatRoleVisualIcon">Icon</string>
+    <string name="ChatRoleVisualColor">Color</string>
+    <string name="ChatRoleVisualIconAndColor">Icon [and] Color</string>
   <string name="RoleIconOnReveal">Show Role Icon on Intro</string>
   <string name="ColorPlayerName">Colored Player Name</string>
   <string name="RoleNameStyle">Role Name Style</string>
@@ -94,6 +100,8 @@
   <string name="UseCrewmateTeamColor">Use Basic Crew Colors</string>
   <string name="ShowShieldHud">Show Shields On Hud</string>
   <string name="ShowBasicAssassinOnHud">Show Assassin On Hud</string>
+    <string name="UseVanillaRoleGuide">Use Vanilla Wiki</string>
+    <string name="ShowFpsCounter">Show FPS Counter</string>
   <string name="UseSeparateRedChat">Show Separate Private Chat</string>
   <string name="ButtonUIFactor">Button Scale Factor</string>
   <string name="OffsetButtons">Offset Buttons If You Can't Vent</string>
@@ -228,6 +236,7 @@ Fake Tasks:</string>
   <string name="FrenzyKillerTaskHeader">Eliminate all other teams by any means.</string>
   <!-- Role List -->
     <string name="SetRoleList">Set Role List</string>
+    <string name="ExclusiveRolesList">Can't Spawn Together</string>
   <string name="NeutralFactionList">Neutral Faction List</string>
   <string name="StoredDraftTitle">Draft Mode</string>
   <string name="NeutralBenigns">Neutral Benigns</string>
@@ -884,6 +893,8 @@ cast Barriers to stop any interactions altogether</string>
   <string name="TownOfUsMira.Role.Deputy.WikiDescription">The Deputy is a Crewmate Killing role that can camp other players. Once a camped player dies, the Deputy is alerted to their death. The following meeting, the Deputy may then attempt to shoot the killer of the camped player. If successful the killer dies and if not nothing happens.</string>
   <string name="TownOfUsMira.Role.DeputyCamp">Camp</string>
   <string name="TownOfUsMira.Role.DeputyCamp.WikiDescription">Camp a player to be alerted once they die. After their death, you may attempt to shoot the killer. If your shot is successful, the killer dies, if not, nothing will happen.</string>
+    <string name="TownOfUsMira.Role.DeputyShoot">Shoot</string>
+    <string name="TownOfUsMira.Role.DeputyShoot.WikiDescription">Shoot a player in the meeting. The player will be killed successfully if they are the killer and they are not unkillable by natural means.</string>
   <!-- Deputy Feedback -->
     <string name="TownOfUsMira.Role.DeputyRevealedText"> (Blasted)</string>
   <string name="TownOfUsMira.Role.DeputyCampNotif">Wait for [player]'s death so you can blast their killer in the meeting.</string>
@@ -1010,7 +1021,9 @@ They might be the killer or a witness.</string>
   <string name="TownOfUsMira.Role.Hunter.TabDescription">Stalk players to get alerted when they use an ability.
 Once they use an ability, you may kill them.</string>
   <string name="TownOfUsMira.Role.HunterCaughtPlayersText">Caught Players:</string>
-  <string name="TownOfUsMira.Role.Hunter.WikiDescription">The Hunter is a Crewmate Killing role that can stalk players during the round. If a stalked player uses an ability, they can be killed by the Hunter at any point in the game, even Crew.</string>
+  <string name="TownOfUsMira.Role.Hunter.WikiDescription">The Hunter is a Crewmate Killing role that can stalk players during the round. If a stalked player uses an ability, they can be killed by the Hunter at any point in the game, even Crew. However, if the Hunter kills a caught Crewmate in the same round they were caught, the Hunter will leave in shame at the end of the next meeting.</string>
+  <string name="TownOfUsMira.Role.Hunter.ShameNotification">The Hunter, [player], has left in shame for killing a fellow Crewmate.</string>
+  <string name="TownOfUsMira.Role.Hunter.ShameNotificationSelf">Your hasty judgment has led to your swift punishment.</string>
   <string name="TownOfUsMira.Role.HunterStalk">Stalk</string>
   <string name="TownOfUsMira.Role.HunterStalking">Stalking</string>
   <string name="TownOfUsMira.Role.HunterStalk.WikiDescription">Choose a target to stalk. You can stalk [hunterMaxStalkUsages] players. If they use any ability while stalked, they're added to your hitlist and can be killed.</string>
@@ -1028,6 +1041,7 @@ Once they use an ability, you may kill them.</string>
   <string name="TouOptionHunterStalkTriggerEnumInteraction">Interactions</string>
   <string name="TouOptionHunterStalkTriggerEnumAlways">All Abilities</string>
   <string name="TouOptionHunterRetributionOnVote">Hunter Kills Last Voter If Voted Out</string>
+  <string name="TouOptionHunterSameRoundKillPunishment">Hunter Leaves If Killing Caught Crew Same Round</string>
   <string name="TouOptionHunterHunterBodyReport">Hunter Can Report Who They've Killed</string>
   <!-- Imitator - Crewmate Support -->
     <!-- Imitator Wiki / Abilities -->
@@ -1041,6 +1055,7 @@ Once they use an ability, you may kill them.</string>
   <string name="TownOfUsMira.Role.ImitatorCrewmateImitation.WikiDescription">All crewmate roles are available besides Politician and Mayor. Roles like Jailor and Prosecutor cannot use their meeting abilities, and Vigi does not get safe shots.</string>
   <string name="TownOfUsMira.Role.ImitatorNeutralCounterparts">Neutral Counterparts</string>
   <string name="TownOfUsMira.Role.ImitatorImpostorCounterparts">Impostor Counterparts</string>
+    <string name="TownOfUsMira.Role.Imitator.CounterpartHint">(Only if Enabled)</string>
   <!-- Imitator Options -->
     <string name="TouOptionImitatorImitateNeutrals">Imitate Neutral Counterparts</string>
   <string name="TouOptionImitatorImitateImpostors">Imitate Impostor Counterparts</string>
@@ -1955,6 +1970,7 @@ distinguishing players under a mass hysteria</string>
   <string name="TownOfUsMira.Role.HypnotistHypnotize.WikiDescription">Hypnotize a player, causing them to see the game differently than non-hypnotized players if mass hysteria is active.</string>
   <string name="TownOfUsMira.Role.HypnotistMassHysteria">Hysteria</string>
   <string name="TownOfUsMira.Role.HypnotistMassHysteriaWiki">Mass Hysteria (Meeting)</string>
+    <string name="TownOfUsMira.Role.HypnotistMassHysteriaLong">Mass Hysteria</string>
   <string name="TownOfUsMira.Role.HypnotistMassHysteria.WikiDescription">Cause all hypnotized players to have different visuals applied to players on their screen the following round.</string>
   <!-- Hypnotist Options -->
     <string name="TouOptionHypnotistHypnotizeCooldown">Hypnotize Cooldown</string>
@@ -1992,7 +2008,7 @@ distinguishing players under a mass hysteria</string>
   <!-- Morphling Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Morphling">Morphling</string>
   <string name="TownOfUsMira.Role.Morphling.IntroBlurb">Transform into Crewmates</string>
-  <string name="TownOfUsMira.Role.Morphling.MedDescription">Sample Crewmate and moprh into them to frame them.</string>
+  <string name="TownOfUsMira.Role.Morphling.MedDescription">Sample Crewmate and morph into them to frame them.</string>
   <string name="TownOfUsMira.Role.Morphling.TabDescription">Sample players and morph into them to disguise yourself.
 Your sample clears at the beginning of every round.</string>
   <string name="TownOfUsMira.Role.MorphlingTabMorphed">Morphed As: [player]</string>
@@ -2088,6 +2104,7 @@ If successful, everyone is obliterated.</string>
     <string name="TouOptionSpellslingerHexCooldown">Hex Cooldown</string>
   <string name="TouOptionSpellslingerMaxHexes">Max Hexes</string>
   <string name="TouOptionSpellslingerHexBombDuration">Hex Bomb Countdown Duration</string>
+    <string name="TouOptionSpellslingerHexBombDecreasePerMeeting">Hex Bomb Timer Decrease From Meetings</string>
   <!-- Swooper Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Swooper">Swooper</string>
   <string name="TownOfUsMira.Role.Swooper.IntroBlurb">Turn invisible temporarily</string>
@@ -2178,6 +2195,9 @@ You will slow down players around you in a radius, as well as being fast and hid
 
   <!--Anonymous Feedback-->
     <string name="TouNeutAnonymousVictoryMessage">[player] has successfully won and left!</string>
+    <string name="TouNeutBasicVictoryMessage">The [role], [player] has successfully won and left!</string>
+    <string name="TouNeutBasicVictoryMessageSelf">You have successfully won as the [role], and have left for good!</string>
+    <string name="TouNeutBasicTormentMessage">You have one round to kill a player of your choice, choose wisely.</string>
   <string name="TouOptionNeutAnonymousVictoryWin">Hide Role On Win Notification</string>
   <string name="TownOfUsMira.Role.AnonymousVictoryKillNotif">[source] has killed [victim] after their victory!</string>
   <!-- Amnesiac -->
@@ -2320,6 +2340,7 @@ mimic into others to frame them.</string>
     <string name="TouOptionFairyCooldown">Protect Cooldown</string>
   <string name="TouOptionFairyDuration">Protect Duration</string>
   <string name="TouOptionFairyMaxProtects">Max Number Of Protects</string>
+  <string name="TouOptionFairyGetMoreUsesFromCompletingTasks">Get More Uses From Completing Tasks</string>
   <string name="TouOptionFairyShowProtected">Show Protected Player</string>
   <string name="TouOptionFairyProtectionEnumFairy">Fairy</string>
   <string name="TouOptionFairyProtectionEnumFairyAndTarget">Fairy + Target</string>
@@ -2395,6 +2416,7 @@ Once your quota is fed, leave in victory!</string>
   <string name="TownOfUsMira.Role.Jester.WikiDescription">The Jester is a Neutral Evil role that wins by getting themselves ejected.</string>
   <string name="TownOfUsMira.Role.JesterHaunt">Haunt</string>
   <string name="TownOfUsMira.Role.JesterPoke">Poke</string>
+    <string name="TownOfUsMira.Role.JesterPoke.WikiDescription">Poke a player to trigger an interaction, setting off a variety of roles. Use it every so often to make yourself suspicious!</string>
   <!-- Jester Messages -->
     <string name="TouNotifJesterWinOwner">You have successfully won as the Jester, by getting voted out!</string>
   <string name="TouNotifJesterHauntOwner">You have one round to haunt a player of your choice to death, choose wisely!</string>
@@ -2444,9 +2466,14 @@ then bribe the winners!</string>
   <!-- Mercenary Options -->
     <string name="TouOptionMercenaryCooldown">Guard Cooldown</string>
   <string name="TouOptionMercenaryMaxGuards">Max Number Of Guards</string>
+  <string name="TouOptionMercenaryGetMoreUsesFromCompletingTasks">Get More Uses From Completing Tasks</string>
   <string name="TouOptionMercenaryBribeCost">Bribe Cost</string>
   <string name="TouOptionMercenaryProtectiveGuard">Guarding Stops Attacks</string>
   <string name="TouOptionMercenaryProtectiveGuardGold">Gold Given From An Attack</string>
+    <string name="TouOptionMercenaryWinsWithNeutralBenign">Wins with Neutral Benign</string>
+    <string name="TouOptionMercenaryWinsWithNeutralEvil">Wins with Neutral Evil</string>
+    <string name="TouOptionMercenaryWinsWithNeutralKilling">Wins with Neutral Killing</string>
+    <string name="TouOptionMercenaryWinsWithNeutralOutlier">Wins with Neutral Outlier</string>
   <!-- Pestilence -->
     <!-- Pestilence Wiki / Description -->
     <string name="TownOfUsMira.Role.Pestilence">Pestilence</string>
@@ -2522,6 +2549,7 @@ then bribe the winners!</string>
     <string name="TouOptionSurvivorVestCooldown">Vest Cooldown</string>
   <string name="TouOptionSurvivorVestDuration">Vest Duration</string>
   <string name="TouOptionSurvivorMaxVests">Max Number Of Vests</string>
+  <string name="TouOptionSurvivorGetMoreUsesFromCompletingTasks">Get More Uses From Completing Tasks</string>
   <string name="TouOptionSurvivorScatterEnabled">Survivor Scatter Mechanic Enabled</string>
   <string name="TouOptionSurvivorScatterTimer">Survivor Scatter Timer</string>
   <!-- Vampire -->
@@ -2936,7 +2964,10 @@ when the lights are sabotaged.</string>
   <!-- Game Settings -->
     <!-- Vanilla Tweaks -->
       <string name="TownOfUsMira.Options.Groups.VanillaTweaks">Vanilla Tweaks</string>
-  <string name="TouOptionHideNamesOutOfSight">Hide Names Out Of Sight</string>
+  <string name="TouOptionHideNamesOutOfSight">Level of Out-of-Sight Name Hiding</string>
+    <string name="TouOptionHideNamesOutOfSightEnumBasic">Basic</string>
+    <string name="TouOptionHideNamesOutOfSightEnumRoomBased">Room-Based</string>
+    <string name="TouOptionHideNamesOutOfSightEnumHarsh">Harsh</string>
   <string name="TouOptionTickCooldownsInMinigame">Continue Cooldown In Tasks and Panels</string>
   <string name="TouOptionParallelMedbay">Parallel Medbay Scans</string>
   <string name="TouOptionMedscanWalk">Walk to Medscan</string>
@@ -2993,6 +3024,8 @@ when the lights are sabotaged.</string>
   <string name="TouOptionKillAnimationBackgroundColorEnumRoleColor">Role Color</string>
   <string name="TouOptionPlayerCountWhenVentsDisable">Max Players Alive When Vents Disable</string>
   <string name="TouOptionGhostwalkerFixSabos">Ghostwalkers Can Fix Sabotages</string>
+  <string name="TouOptionPlayerCountWhenSabotagesDisable">Max Players Alive When Sabotages Disable</string>
+  <string name="TouOptionCanSabotageWhenDead">Can Sabotage When Dead</string>
     <string name="TouOptionGhostwalkerVentSpawn">Ghostwalkers That Auto-Vent On Spawn</string>
     <string name="TouOptionGhostwalkerVentSpawnEnumNone">None</string>
     <string name="TouOptionGhostwalkerVentSpawnEnumCrewmates">Crewmates</string>
@@ -3110,6 +3143,13 @@ when the lights are sabotaged.</string>
   <string name="TouOptionRoleDraftRoleListSlot13">Slot 13</string>
   <string name="TouOptionRoleDraftRoleListSlot14">Slot 14</string>
   <string name="TouOptionRoleDraftRoleListSlot15">Slot 15</string>
+  <!-- Role Exclusions -->
+      <string name="TownOfUsMira.Options.Groups.RoleExclusions">Role Exclusions</string>
+  <string name="TouOptionExclusiveCleaningRoles">Cleaning Roles Can't Spawn Together</string>
+  <string name="TouOptionExclusiveFramingRoles">Framing Roles Can't Spawn Together</string>
+  <string name="TouOptionExclusiveRevivingRoles">Reviving Roles Can't Spawn Together</string>
+  <string name="TouOptionExclusiveBlindingRoles">Blinding Roles Can't Spawn Together</string>
+  <string name="TouOptionExclusiveMunicipalRoles">Municipal Roles Can't Spawn Together</string>
   <!-- Role Settings -->
       <string name="TownOfUsMira.Options.Groups.RoleSettings">Role Settings</string>
   <string name="TouOptionCurrentGameMode">Current Game Mode</string>
@@ -3357,30 +3397,20 @@ when the lights are sabotaged.</string>
       <!-- 
       Some of these don't even need localizing but as some of them can be seen when doing FreePlay, I translated anyway 
       -->
-
-  <!-- Altruist Arrow -->
-    <string name="TownOfUsMira.Modifier.AltruistArrow">Altruist Arrow</string>
-  <!-- Barkeeper Spill Effect -->
-    <string name="TownOfUsMira.Modifier.BarkeeperSpillEffect">Spill Effect</string>
   <!-- Cleric Barrier -->
-    <string name="TownOfUsMira.Modifier.ClericBarrier">Barrier</string>
   <string name="TownOfUsMira.Modifier.ClericBarrierDescription">You are shielded by a Cleric!
 No one can interact with you.</string>
   <!-- Cleric Cleanse -->
-    <string name="TownOfUsMira.Modifier.ClericCleanse">Cleric Cleanse</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseEffectsFound">Cleansed effects on [player]:</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseNoEffects">No negative effects were found on [player].</string>
   <string name="TownOfUsMira.Modifier.ClericCleanseFeedbackTitle">Cleric Feedback:</string>
   <!-- Deputy Revealed Modifier -->
-    <string name="TownOfUsMira.Modifier.DeputyRevealed">Revealed</string>
   <!-- After this I stopped making strings for everything that has "HideOnUi" -->
     <!-- Jailed Modifier -->
-    <string name="TownOfUsMira.Modifier.Jailed">Jailed</string>
   <string name="TownOfUsMira.Modifier.JailedFeedbackTitle">Jailee Feedback</string>
   <string name="TownOfUsMira.Modifier.JailedNonCrewFeedback">You are jailed, convince the Jailor that you are Crew to avoid being executed in the chatbox above the user report button.</string>
   <string name="TownOfUsMira.Modifier.JailedCrewFeedback">You are jailed, provide relevant information to the Jailor to prove you are Crew in the chatbox above the user report button.</string>
   <!-- Magic Mirror -->
-    <string name="TownOfUsMira.Modifier.MagicMirror">Magic Mirror</string>
   <string name="TownOfUsMira.Modifier.MagicMirrorDescription">You are protected by the Mirrorcaster!
 You may not die to other players</string>
   <!-- Medic Shield -->
@@ -3390,7 +3420,6 @@ You may not die to other players</string>
     <string name="TownOfUsMira.Modifier.HerbalistProtectionDescription">You are shielded by a Cleric!
 No one can interact with you.</string>
   <!-- Blackmailed Modifier -->
-    <string name="TownOfUsMira.Modifier.Blackmailed">Blackmailed</string>
   <string name="TownOfUsMira.Modifier.BlackmailedVoteNotification">You are unable to vote this meeting! You will auto-skip after [time] seconds.</string>
   <!-- Eclipsal Blind -->
     <string name="TownOfUsMira.Modifier.EclipsalBlindedNotification">You were blinded by an Eclipsal!</string>
@@ -3399,7 +3428,6 @@ No one can interact with you.</string>
   <!-- Mass Hysteria -->
     <string name="TownOfUsMira.Modifier.MassHysteriaNotification">You are under a Mass Hysteria!</string>
   <!-- Guardian Angel Protection -->
-    <string name="TownOfUsMira.Modifier.GuardianAngelProtected">Protected</string>
   <string name="TownOfUsMira.Modifier.GuardianAngelProtectedDescription">You are protected by your Fairy!
 You cannot be killed.</string>
   <!-- Mercenary Bribe Feedback -->
@@ -3416,8 +3444,6 @@ You cannot be killed.</string>
   <string name="TownOfUsMira.Modifier.RoleblockedEndNotification">You are no longer roleblocked.</string>
   <!-- Basic Shield Modifier -->
     <string name="TownOfUsMira.Modifier.ShieldDescription">You are protected!</string>
-  <!-- Base Disabled Modifier (I have no idea if this is shown to the player) -->
-    <string name="TownOfUsMira.Modifier.DisabledDescription">You are disabled!</string>
   <!-- First Death Shield -->
     <string name="TouFirstDeathShieldDescription">You have protection because you died first last game</string>
   <string name="TownOfUsMira.Modifier.Knighted">Knighted</string>
@@ -3474,4 +3500,537 @@ This change is permanent.</string>
   <string name="TouHexBombCountdown">The Spellslinger is unleashing a Hex Bomb!
 [time] seconds left!</string>
   <string name="TouHexBombSpellslingerDead">The Spellslinger has perished!</string>
+<!-- Achievements -->
+  <string name="TownOfUsMira.Achievements.Tab.General">General Achievements</string>
+  <string name="TownOfUsMira.Achievements.Tab.Crewmate">Crewmate Achievements</string>
+  <string name="TownOfUsMira.Achievements.Tab.Impostor">Impostor Achievements</string>
+  <string name="TownOfUsMira.Achievements.Tab.Neutral">Neutral Achievements</string>
+  <string name="TownOfUsMira.Achievement.MiraMonday.Name">Mira Monday</string>
+  <string name="TownOfUsMira.Achievement.MiraMonday.Description">Play on Mira HQ on a Monday!</string>
+  <string name="TownOfUsMira.Achievement.FungleFriday.Name">Fungle Friday</string>
+  <string name="TownOfUsMira.Achievement.FungleFriday.Description">Play on Fungle on a Friday!</string>
+  <string name="TownOfUsMira.Achievement.SubmergedSaturday.Name">Submerged Saturday</string>
+  <string name="TownOfUsMira.Achievement.SubmergedSaturday.Description">Play on Submerged on a Saturday!</string>
+  <string name="TownOfUsMira.Achievement.SkeldSunday.Name">Skeld Sunday</string>
+  <string name="TownOfUsMira.Achievement.SkeldSunday.Description">Play on Skeld on a Sunday!</string>
+  <string name="TownOfUsMira.Achievement.Cheater.Name">Cheater</string>
+  <string name="TownOfUsMira.Achievement.Cheater.Description">Use /up to give yourself a role in the lobby.</string>
+  <string name="TownOfUsMira.Achievement.Silence.Name">Silence</string>
+  <string name="TownOfUsMira.Achievement.Silence.Description">Force end a meeting as host.</string>
+  <string name="TownOfUsMira.Achievement.Oops.Name">Oops</string>
+  <string name="TownOfUsMira.Achievement.Oops.Description">Abort a game as host.</string>
+  <string name="TownOfUsMira.Achievement.IveSeenThePlays.Name">I've seen the plays</string>
+  <string name="TownOfUsMira.Achievement.IveSeenThePlays.Description">End your own life before they can.</string>
+  <string name="TownOfUsMira.Achievement.GoBuyALotteryTicket.Name">Go buy a lottery ticket</string>
+  <string name="TownOfUsMira.Achievement.GoBuyALotteryTicket.Description">Win a 1 in 292,000,000 roll. Seriously, go buy a lottery ticket.</string>
+  <string name="TownOfUsMira.Achievement.NoYou.Name">No You</string>
+  <string name="TownOfUsMira.Achievement.NoYou.Description">Serve a drink to the player who served you one in the same round.</string>
+  <string name="TownOfUsMira.Achievement.Endgame.Name">Endgame</string>
+  <string name="TownOfUsMira.Achievement.Endgame.Description">Witness a 1v1 between a Juggernaut and Pestilence.</string>
+  <string name="TownOfUsMira.Achievement.ForceBeWithYou.Name">The Force Be With You</string>
+  <string name="TownOfUsMira.Achievement.ForceBeWithYou.Description">Sense 5 abilities being used in your radius throughout a game.</string>
+  <string name="TownOfUsMira.Achievement.StrangerDanger.Name">Stranger Danger</string>
+  <string name="TownOfUsMira.Achievement.StrangerDanger.Description">Sense a kill happen within your uncolored radius.</string>
+  <string name="TownOfUsMira.Achievement.BloodyHands.Name">Bloody Hands</string>
+  <string name="TownOfUsMira.Achievement.BloodyHands.Description">Find a suspect on the first Examine attempt.</string>
+  <string name="TownOfUsMira.Achievement.RightOnTime.Name">Right on Time</string>
+  <string name="TownOfUsMira.Achievement.RightOnTime.Description">Report a body quick enough to get the body's role / faction.</string>
+  <string name="TownOfUsMira.Achievement.SearchParty.Name">Search Party</string>
+  <string name="TownOfUsMira.Achievement.SearchParty.Description">Watch 5 players interact with someone.</string>
+  <string name="TownOfUsMira.Achievement.ParanormalActivity.Name">Paranormal Activity</string>
+  <string name="TownOfUsMira.Achievement.ParanormalActivity.Description">Watch someone die without interactions.</string>
+  <string name="TownOfUsMira.Achievement.Purgatory.Name">Purgatory</string>
+  <string name="TownOfUsMira.Achievement.Purgatory.Description">Die while Mediating.</string>
+  <string name="TownOfUsMira.Achievement.ToKillAGod.Name">To Kill a God</string>
+  <string name="TownOfUsMira.Achievement.ToKillAGod.Description">Attempt to execute a Horseman or invulnerable player.</string>
+  <string name="TownOfUsMira.Achievement.NoChances.Name">No Chances</string>
+  <string name="TownOfUsMira.Achievement.NoChances.Description">Execute an Evil without talking to them.</string>
+  <string name="TownOfUsMira.Achievement.RiggedVotes.Name">Rigged Votes</string>
+  <string name="TownOfUsMira.Achievement.RiggedVotes.Description">Get knighted as a revealed Mayor.</string>
+  <string name="TownOfUsMira.Achievement.CrewmatesUnite.Name">Crewmates Unite</string>
+  <string name="TownOfUsMira.Achievement.CrewmatesUnite.Description">Only campaign Crewmates, and then reveal.</string>
+  <string name="TownOfUsMira.Achievement.DeathByDemocracy.Name">Death by Democracy</string>
+  <string name="TownOfUsMira.Achievement.DeathByDemocracy.Description">Reveal in a 1v1.</string>
+  <string name="TownOfUsMira.Achievement.EternalDarkness.Name">Eternal Darkness</string>
+  <string name="TownOfUsMira.Achievement.EternalDarkness.Description">Kill three blinded players in the same game.</string>
+  <string name="TownOfUsMira.Achievement.BlindFoEva.Name">Blind Fo'Eva</string>
+  <string name="TownOfUsMira.Achievement.BlindFoEva.Description">Flashbang the same player 3 times in a single game.</string>
+  <string name="TownOfUsMira.Achievement.IdentityCrisis.Name">Identity Crisis</string>
+  <string name="TownOfUsMira.Achievement.IdentityCrisis.Description">Kill the player you are morphed as.</string>
+  <string name="TownOfUsMira.Achievement.SizeDoesntMatter.Name">Size Doesn't Matter</string>
+  <string name="TownOfUsMira.Achievement.SizeDoesntMatter.Description">Morph as a Giant into a Mini player, or vice-versa.</string>
+  <string name="TownOfUsMira.Achievement.Untraceable.Name">Untraceable</string>
+  <string name="TownOfUsMira.Achievement.Untraceable.Description">Kill 15 players while Swooped.</string>
+  <string name="TownOfUsMira.Achievement.Sneakman.Name">Sneakman</string>
+  <string name="TownOfUsMira.Achievement.Sneakman.Description">Kill and vent away during the same swoop.</string>
+  <string name="TownOfUsMira.Achievement.AmnesiaSquared.Name">Amnesia²</string>
+  <string name="TownOfUsMira.Achievement.AmnesiaSquared.Description">Attempt to remember a player who cannot be remembered.</string>
+  <string name="TownOfUsMira.Achievement.FairlyBadParent.Name">Fairly Bad Parent</string>
+  <string name="TownOfUsMira.Achievement.FairlyBadParent.Description">Have your target die in the first round.</string>
+  <string name="TownOfUsMira.Achievement.DontPokeTheBear.Name">Don't Poke the Bear</string>
+  <string name="TownOfUsMira.Achievement.DontPokeTheBear.Description">Poke an alerting Veteran, gazing Medusa, or a Pestilence, and die to them.</string>
+  <string name="TownOfUsMira.Achievement.HeatOfTheBattle.Name">Heat of the Battle</string>
+  <string name="TownOfUsMira.Achievement.HeatOfTheBattle.Description">Ignite 5 or more players at once.</string>
+  <string name="TownOfUsMira.Achievement.Anomaly.Name">Anomaly</string>
+  <string name="TownOfUsMira.Achievement.Anomaly.Description">Get hacked as the Glitch.</string>
+  <string name="TownOfUsMira.Achievement.Ballistic.Name">Ballistic</string>
+  <string name="TownOfUsMira.Achievement.Ballistic.Description">Get a zero-second cooldown.</string>
+  <string name="TownOfUsMira.Achievement.CommonCold.Name">Common Cold</string>
+  <string name="TownOfUsMira.Achievement.CommonCold.Description">Win the game without transforming into Pestilence</string>
+  <string name="TownOfUsMira.Achievement.SnakeEyes.Name">Snake Eyes</string>
+  <string name="TownOfUsMira.Achievement.SnakeEyes.Description">Petrify 15 players with Stone Gaze.</string>
+  <string name="TownOfUsMira.Achievement.FullCourseMeal.Name">Full-Course Meal</string>
+  <string name="TownOfUsMira.Achievement.FullCourseMeal.Description">Feed a Mini body and a Giant body in the same game.</string>
+  <string name="TownOfUsMira.Achievement.SpanishInquisition.Name">The Spanish Inquisition</string>
+  <string name="TownOfUsMira.Achievement.SpanishInquisition.Description">Vanquish all of your heretics by yourself.</string>
+  <string name="TownOfUsMira.Achievement.SwitchedFate.Name">Switched Fate</string>
+  <string name="TownOfUsMira.Achievement.SwitchedFate.Description">Swap the votes so an Impostor is ejected instead of a Crewmate.</string>
+  <string name="TownOfUsMira.Achievement.KnightInShiningArmor.Name">Knight in Shining Armor</string>
+  <string name="TownOfUsMira.Achievement.KnightInShiningArmor.Description">Knight a Crewmate who then kills an Impostor or Neutral Killer.</string>
+  <string name="TownOfUsMira.Achievement.Spotlight.Name">Spotlight</string>
+  <string name="TownOfUsMira.Achievement.Spotlight.Description">Reveal the Impostors as Snitch and have one ejected in the very next meeting.</string>
+  <string name="TownOfUsMira.Achievement.JusticeServed.Name">Justice Served</string>
+  <string name="TownOfUsMira.Achievement.JusticeServed.Description">Shoot the killer of a body you reported.</string>
+  <string name="TownOfUsMira.Achievement.Exorcist.Name">Exorcist</string>
+  <string name="TownOfUsMira.Achievement.Exorcist.Description">Cleanse a Spellslinger's hex off a player.</string>
+  <string name="TownOfUsMira.Achievement.OpenAndShut.Name">Open and Shut</string>
+  <string name="TownOfUsMira.Achievement.OpenAndShut.Description">Prosecute an Impostor.</string>
+  <string name="TownOfUsMira.Achievement.SixthSense.Name">Sixth Sense</string>
+  <string name="TownOfUsMira.Achievement.SixthSense.Description">Report a body within 15 seconds of sensing its death as Mystic.</string>
+  <string name="TownOfUsMira.Achievement.TooCloseForComfort.Name">Too Close for Comfort</string>
+  <string name="TownOfUsMira.Achievement.TooCloseForComfort.Description">Kill 2 players during a single Alert.</string>
+  <string name="TownOfUsMira.Achievement.DoubleTap.Name">Double Tap</string>
+  <string name="TownOfUsMira.Achievement.DoubleTap.Description">Correctly guess 2 players in a single meeting as Vigilante.</string>
+  <string name="TownOfUsMira.Achievement.HeroHour.Name">Hero Hour</string>
+  <string name="TownOfUsMira.Achievement.HeroHour.Description">Fix a critical sabotage with less than 5 seconds remaining.</string>
+  <string name="TownOfUsMira.Achievement.FlushedOut.Name">Flushed Out</string>
+  <string name="TownOfUsMira.Achievement.FlushedOut.Description">Flush a player out of a vent as Plumber.</string>
+  <string name="TownOfUsMira.Achievement.MethodActor.Name">Method Actor</string>
+  <string name="TownOfUsMira.Achievement.MethodActor.Description">Imitate 3 different roles in a single game.</string>
+  <string name="TownOfUsMira.Achievement.IronWall.Name">Iron Wall</string>
+  <string name="TownOfUsMira.Achievement.IronWall.Description">Have your shield block 3 attacks in a single game as Medic.</string>
+  <string name="TownOfUsMira.Achievement.MassResurrection.Name">Mass Resurrection</string>
+  <string name="TownOfUsMira.Achievement.MassResurrection.Description">Revive 2 or more players with a single Revive.</string>
+  <string name="TownOfUsMira.Achievement.Undo.Name">Undo</string>
+  <string name="TownOfUsMira.Achievement.Undo.Description">Bring back 2 or more players with a single Rewind.</string>
+  <string name="TownOfUsMira.Achievement.Poltergeist.Name">Poltergeist</string>
+  <string name="TownOfUsMira.Achievement.Poltergeist.Description">Reveal the evils as Haunter.</string>
+  <string name="TownOfUsMira.Achievement.Fireworks.Name">Fireworks</string>
+  <string name="TownOfUsMira.Achievement.Fireworks.Description">Kill 3 or more players with a single bomb.</string>
+  <string name="TownOfUsMira.Achievement.BurstFire.Name">Burst Fire</string>
+  <string name="TownOfUsMira.Achievement.BurstFire.Description">Kill 2 players in a single Warlock charge.</string>
+  <string name="TownOfUsMira.Achievement.HushMoney.Name">Hush Money</string>
+  <string name="TownOfUsMira.Achievement.HushMoney.Description">Blackmail the player who reported the body.</string>
+  <string name="TownOfUsMira.Achievement.MassHysteria.Name">Mass Hysteria</string>
+  <string name="TownOfUsMira.Achievement.MassHysteria.Description">Trigger Hysteria with 4 or more hypnotized players.</string>
+  <string name="TownOfUsMira.Achievement.Spotless.Name">Spotless</string>
+  <string name="TownOfUsMira.Achievement.Spotless.Description">Clean 3 bodies in a single game.</string>
+  <string name="TownOfUsMira.Achievement.SubwaySystem.Name">Subway System</string>
+  <string name="TownOfUsMira.Achievement.SubwaySystem.Description">Place 5 vents in a single game as Miner.</string>
+  <string name="TownOfUsMira.Achievement.Detonation.Name">Detonation</string>
+  <string name="TownOfUsMira.Achievement.Detonation.Description">Complete a Hex Bomb.</string>
+  <string name="TownOfUsMira.Achievement.AreYouStupid.Name">Are you stupid?</string>
+  <string name="TownOfUsMira.Achievement.AreYouStupid.Description">Kill the player you were pursuing.</string>
+  <string name="TownOfUsMira.Achievement.FailedAmbush.Name">Failed Ambush</string>
+  <string name="TownOfUsMira.Achievement.FailedAmbush.Description">Get killed while mid-ambush.</string>
+  <string name="TownOfUsMira.Achievement.Nostradamus.Name">Nostradamus</string>
+  <string name="TownOfUsMira.Achievement.Nostradamus.Description">Guess 3 players correctly in a single meeting.</string>
+  <string name="TownOfUsMira.Achievement.Hitman.Name">Hitman</string>
+  <string name="TownOfUsMira.Achievement.Hitman.Description">Correctly guess 2 players in a single meeting as Assassin.</string>
+  <string name="TownOfUsMira.Achievement.PatientZero.Name">Patient Zero</string>
+  <string name="TownOfUsMira.Achievement.PatientZero.Description">Infect 5 players in a single round as Plaguebearer.</string>
+  <string name="TownOfUsMira.Achievement.FullMoon.Name">Full Moon</string>
+  <string name="TownOfUsMira.Achievement.FullMoon.Description">Kill 15 players across sessions as Werewolf.</string>
+  <string name="TownOfUsMira.Achievement.Hangman.Name">Hangman</string>
+  <string name="TownOfUsMira.Achievement.Hangman.Description">Get your target voted within 3 rounds.</string>
+  <string name="TownOfUsMira.Achievement.TrickyClown.Name">Tricky Clown</string>
+  <string name="TownOfUsMira.Achievement.TrickyClown.Description">Get ejected within 3 rounds.</string>
+  <string name="TownOfUsMira.Achievement.FinalAct.Name">The Final Act</string>
+  <string name="TownOfUsMira.Achievement.FinalAct.Description">Get ejected when three or less players remain.</string>
+  <string name="TownOfUsMira.Achievement.Nosferatu.Name">Nosferatu</string>
+  <string name="TownOfUsMira.Achievement.Nosferatu.Description">Bite 3 players in a single game.</string>
+  <string name="TownOfUsMira.Achievement.ButItRefused.Name">But it refused.</string>
+  <string name="TownOfUsMira.Achievement.ButItRefused.Description">Get revived alongside your lover.</string>
+  <string name="TownOfUsMira.Achievement.YoureSafeWithMe.Name">You're Safe with Me</string>
+  <string name="TownOfUsMira.Achievement.YoureSafeWithMe.Description">Protect your lover from an attack.</string>
+  <string name="TownOfUsMira.Achievement.Injustice.Name">Injustice</string>
+  <string name="TownOfUsMira.Achievement.Injustice.Description">Shoot a non-killing Crewmate as an Egotist Officer or Sheriff.</string>
+  <string name="TownOfUsMira.Achievement.CaughtGhostlyHanded.Name">Caught Ghostly-Handed</string>
+  <string name="TownOfUsMira.Achievement.CaughtGhostlyHanded.Description">Watch a player die within your vision while Mediating.</string>
+  <string name="TownOfUsMira.Achievement.LastCrewStanding.Name">Last Crew Standing</string>
+  <string name="TownOfUsMira.Achievement.LastCrewStanding.Description">Have the game end right after sensing a death.</string>
+  <string name="TownOfUsMira.Achievement.TownOfHatred.Name">Town of Hatred</string>
+  <string name="TownOfUsMira.Achievement.TownOfHatred.Description">Find three unique pairs of enemies in a single game.</string>
+  <string name="TownOfUsMira.Achievement.RoleTwins.Name">Role Twins</string>
+  <string name="TownOfUsMira.Achievement.RoleTwins.Description">Compare two non-Crewmates who share a role or alignment and find them to be friends.</string>
+  <string name="TownOfUsMira.Achievement.TooSlow.Name">Too Slow</string>
+  <string name="TownOfUsMira.Achievement.TooSlow.Description">Die after being revealed to the evils.</string>
+  <string name="TownOfUsMira.Achievement.DeadTellNoTales.Name">Dead Tell No Tales</string>
+  <string name="TownOfUsMira.Achievement.DeadTellNoTales.Description">Finish your tasks only to reveal dead players.</string>
+  <string name="TownOfUsMira.Achievement.SeeSomethingSayNothing.Name">See Something, Say Nothing</string>
+  <string name="TownOfUsMira.Achievement.SeeSomethingSayNothing.Description">Get blackmailed in the meeting right after revealing the Impostors.</string>
+  <string name="TownOfUsMira.Achievement.Hyperfocused.Name">Hyperfocused</string>
+  <string name="TownOfUsMira.Achievement.Hyperfocused.Description">Keep track of more than 5 players at once.</string>
+  <string name="TownOfUsMira.Achievement.OffTheGlock.Name">Off-The-Glock</string>
+  <string name="TownOfUsMira.Achievement.OffTheGlock.Description">Die while using the Admin Table.</string>
+  <string name="TownOfUsMira.Achievement.RoleCollector.Name">Role Collector</string>
+  <string name="TownOfUsMira.Achievement.RoleCollector.Description">Identify 5 or more roles from your traps in a single round.</string>
+  <string name="TownOfUsMira.Achievement.Sharpshooter.Name">Sharpshooter</string>
+  <string name="TownOfUsMira.Achievement.Sharpshooter.Description">Blast a player within 30 seconds of a meeting.</string>
+  <string name="TownOfUsMira.Achievement.ThisTownAintBigEnough.Name">This Town Ain't Big Enough</string>
+  <string name="TownOfUsMira.Achievement.ThisTownAintBigEnough.Description">Blast an Assassin.</string>
+  <string name="TownOfUsMira.Achievement.BecomeTheHunted.Name">Become the Hunted</string>
+  <string name="TownOfUsMira.Achievement.BecomeTheHunted.Description">Get killed by the player you were stalking.</string>
+  <string name="TownOfUsMira.Achievement.Punisher.Name">Punisher</string>
+  <string name="TownOfUsMira.Achievement.Punisher.Description">Kill an evil with Retribution.</string>
+  <string name="TownOfUsMira.Achievement.HuntingSeason.Name">Hunting Season</string>
+  <string name="TownOfUsMira.Achievement.HuntingSeason.Description">Kill 3 stalked players in a single game.</string>
+  <string name="TownOfUsMira.Achievement.TimeCop.Name">Time Cop</string>
+  <string name="TownOfUsMira.Achievement.TimeCop.Description">Shoot your killer after being brought back by the Time Lord.</string>
+  <string name="TownOfUsMira.Achievement.Avenger.Name">Avenger</string>
+  <string name="TownOfUsMira.Achievement.Avenger.Description">Shoot the killer of a player who died near you.</string>
+  <string name="TownOfUsMira.Achievement.Bloodshed.Name">Bloodshed</string>
+  <string name="TownOfUsMira.Achievement.Bloodshed.Description">Kill 4 or more evils in a single game while on Alert.</string>
+  <string name="TownOfUsMira.Achievement.GoFetch.Name">Go Fetch</string>
+  <string name="TownOfUsMira.Achievement.GoFetch.Description">Kill a Werewolf while on Alert.</string>
+  <string name="TownOfUsMira.Achievement.ShotInTheDark.Name">Shot in the Dark</string>
+  <string name="TownOfUsMira.Achievement.ShotInTheDark.Description">Correctly guess a player after losing all of your safe shots.</string>
+  <string name="TownOfUsMira.Achievement.TheDarkKnight.Name">The Dark Knight</string>
+  <string name="TownOfUsMira.Achievement.TheDarkKnight.Description">Correctly guess 3 players in a single game.</string>
+  <string name="TownOfUsMira.Achievement.FallenKnights.Name">Fallen Knights</string>
+  <string name="TownOfUsMira.Achievement.FallenKnights.Description">Win and survive after all of your Knights have died.</string>
+  <string name="TownOfUsMira.Achievement.BostonTeaParty.Name">Boston Tea Party</string>
+  <string name="TownOfUsMira.Achievement.BostonTeaParty.Description">Get voted out by your own Knight.</string>
+  <string name="TownOfUsMira.Achievement.CircusPerformer.Name">Circus Performer</string>
+  <string name="TownOfUsMira.Achievement.CircusPerformer.Description">Knight a Jester who goes on to win.</string>
+  <string name="TownOfUsMira.Achievement.YourMajesty.Name">Your Majesty</string>
+  <string name="TownOfUsMira.Achievement.YourMajesty.Description">Get knighted by another Monarch.</string>
+  <string name="TownOfUsMira.Achievement.JudgementDay.Name">Judgement Day</string>
+  <string name="TownOfUsMira.Achievement.JudgementDay.Description">End the game with a Prosecution.</string>
+  <string name="TownOfUsMira.Achievement.TheFinalSay.Name">The Final Say</string>
+  <string name="TownOfUsMira.Achievement.TheFinalSay.Description">Prosecute two players in a single game.</string>
+  <string name="TownOfUsMira.Achievement.Sike.Name">Sike</string>
+  <string name="TownOfUsMira.Achievement.Sike.Description">Get someone ejected by swapping the votes on yourself.</string>
+  <string name="TownOfUsMira.Achievement.LostCause.Name">Lost Cause</string>
+  <string name="TownOfUsMira.Achievement.LostCause.Description">Revive a player, only for them to die again.</string>
+  <string name="TownOfUsMira.Achievement.HowDidWeGetHere.Name">How did we get here?</string>
+  <string name="TownOfUsMira.Achievement.HowDidWeGetHere.Description">Cleanse a player with 3 or more status effects.</string>
+  <string name="TownOfUsMira.Achievement.Intact.Name">Intact</string>
+  <string name="TownOfUsMira.Achievement.Intact.Description">Shield a player until the end of the game without them being attacked once.</string>
+  <string name="TownOfUsMira.Achievement.ReturnToSender.Name">Return to Sender</string>
+  <string name="TownOfUsMira.Achievement.ReturnToSender.Description">Unleash an attack back onto the player it originated from.</string>
+  <string name="TownOfUsMira.Achievement.HolyBlessing.Name">Holy Blessing</string>
+  <string name="TownOfUsMira.Achievement.HolyBlessing.Description">Bless a player and save them from ejection.</string>
+  <string name="TownOfUsMira.Achievement.NoConfessions.Name">No Confessions</string>
+  <string name="TownOfUsMira.Achievement.NoConfessions.Description">Get no results from a confession because too few players remain.</string>
+  <string name="TownOfUsMira.Achievement.NullifiedProtection.Name">Nullified Protection</string>
+  <string name="TownOfUsMira.Achievement.NullifiedProtection.Description">Have your fortified player die anyway.</string>
+  <string name="TownOfUsMira.Achievement.Mechanic.Name">Mechanic</string>
+  <string name="TownOfUsMira.Achievement.Mechanic.Description">Fix a sabotage remotely within 5 seconds of it being called.</string>
+  <string name="TownOfUsMira.Achievement.Powerless.Name">Powerless</string>
+  <string name="TownOfUsMira.Achievement.Powerless.Description">Imitate a Crewmate Power role.</string>
+  <string name="TownOfUsMira.Achievement.Mimicry.Name">Mimicry</string>
+  <string name="TownOfUsMira.Achievement.Mimicry.Description">Imitate only non-Crewmates in a game, imitating at least twice.</string>
+  <string name="TownOfUsMira.Achievement.ExtraSecure.Name">Extra Secure</string>
+  <string name="TownOfUsMira.Achievement.ExtraSecure.Description">Place a camera in Security.</string>
+  <string name="TownOfUsMira.Achievement.PotatoTomato.Name">Potato Tomato</string>
+  <string name="TownOfUsMira.Achievement.PotatoTomato.Description">Transport two dead bodies with one another.</string>
+  <string name="TownOfUsMira.Achievement.StolenValor.Name">Stolen Valor</string>
+  <string name="TownOfUsMira.Achievement.StolenValor.Description">Talk with a Jailed player whilst imitating a Jailor.</string>
+  <string name="TownOfUsMira.Achievement.Undercover.Name">Undercover</string>
+  <string name="TownOfUsMira.Achievement.Undercover.Description">Win as a living Crewpostor without becoming the Traitor.</string>
+  <string name="TownOfUsMira.Achievement.TrueDarkness.Name">True Darkness</string>
+  <string name="TownOfUsMira.Achievement.TrueDarkness.Description">Trigger an eclipse while the lights are out.</string>
+  <string name="TownOfUsMira.Achievement.OhHenry.Name">Oh, Henry!</string>
+  <string name="TownOfUsMira.Achievement.OhHenry.Description">Recall into a room where a player is already standing.</string>
+  <string name="TownOfUsMira.Achievement.Framer.Name">Framer</string>
+  <string name="TownOfUsMira.Achievement.Framer.Description">Kill while morphed as a player and have them voted out in the same round.</string>
+  <string name="TownOfUsMira.Achievement.UnderTheRadar.Name">Under the Radar</string>
+  <string name="TownOfUsMira.Achievement.UnderTheRadar.Description">Pass by 3 different non-Impostors during a single swoop.</string>
+  <string name="TownOfUsMira.Achievement.Introvert.Name">Introvert</string>
+  <string name="TownOfUsMira.Achievement.Introvert.Description">Swoop 3 times in a single round.</string>
+  <string name="TownOfUsMira.Achievement.Evolution.Name">Evolution</string>
+  <string name="TownOfUsMira.Achievement.Evolution.Description">Unlock all 3 abilities in a single game.</string>
+  <string name="TownOfUsMira.Achievement.Boogeyman.Name">Boogeyman</string>
+  <string name="TownOfUsMira.Achievement.Boogeyman.Description">Ambush 3 players in a single game.</string>
+  <string name="TownOfUsMira.Achievement.UavInbound.Name">UAV Inbound</string>
+  <string name="TownOfUsMira.Achievement.UavInbound.Description">Kill 3 scavenge targets in a row.</string>
+  <string name="TownOfUsMira.Achievement.DoubleTrouble.Name">Double Trouble</string>
+  <string name="TownOfUsMira.Achievement.DoubleTrouble.Description">Retrain yourself and another Impostor in the same game.</string>
+  <string name="TownOfUsMira.Achievement.Strategist.Name">Strategist</string>
+  <string name="TownOfUsMira.Achievement.Strategist.Description">Use 6 or more herbs in a single game.</string>
+  <string name="TownOfUsMira.Achievement.ThreatEliminated.Name">Threat Eliminated</string>
+  <string name="TownOfUsMira.Achievement.ThreatEliminated.Description">Kill a killer in the same round you exposed them.</string>
+  <string name="TownOfUsMira.Achievement.AllKnowing.Name">All-Knowing</string>
+  <string name="TownOfUsMira.Achievement.AllKnowing.Description">Have the roles of every living player revealed to you.</string>
+  <string name="TownOfUsMira.Achievement.DoubleDipping.Name">Double-Dipping</string>
+  <string name="TownOfUsMira.Achievement.DoubleDipping.Description">Control the same player twice in one game.</string>
+  <string name="TownOfUsMira.Achievement.Homewrecker.Name">Homewrecker</string>
+  <string name="TownOfUsMira.Achievement.Homewrecker.Description">Kill your puppet's lover, taking both out at once.</string>
+  <string name="TownOfUsMira.Achievement.WorldEnder.Name">World-Ender</string>
+  <string name="TownOfUsMira.Achievement.WorldEnder.Description">Win the game with a Hex Bomb.</string>
+  <string name="TownOfUsMira.Achievement.CulturalDischarge.Name">Cultural Discharge</string>
+  <string name="TownOfUsMira.Achievement.CulturalDischarge.Description">Die while your Hex Bomb is active.</string>
+  <string name="TownOfUsMira.Achievement.DeadlyDelusion.Name">Deadly Delusion</string>
+  <string name="TownOfUsMira.Achievement.DeadlyDelusion.Description">Become the Traitor and win within two rounds.</string>
+  <string name="TownOfUsMira.Achievement.UselessJail.Name">Useless Jail</string>
+  <string name="TownOfUsMira.Achievement.UselessJail.Description">Blackmail a player who is also Jailed.</string>
+  <string name="TownOfUsMira.Achievement.Poisoner.Name">Poisoner</string>
+  <string name="TownOfUsMira.Achievement.Poisoner.Description">Kill a player with poison.</string>
+  <string name="TownOfUsMira.Achievement.Blackout.Name">Blackout</string>
+  <string name="TownOfUsMira.Achievement.Blackout.Description">Serve the same player three drinks in a row in one round.</string>
+  <string name="TownOfUsMira.Achievement.HorsingAround.Name">Horsing Around</string>
+  <string name="TownOfUsMira.Achievement.HorsingAround.Description">Trigger Hysteria with every living non-Impostor hypnotized.</string>
+  <string name="TownOfUsMira.Achievement.Delusional.Name">Delusional</string>
+  <string name="TownOfUsMira.Achievement.Delusional.Description">Keep Hysteria active for three rounds.</string>
+  <string name="TownOfUsMira.Achievement.FalseEvidence.Name">False Evidence</string>
+  <string name="TownOfUsMira.Achievement.FalseEvidence.Description">Have someone report a body you dragged elsewhere.</string>
+  <string name="TownOfUsMira.Achievement.PublicExecution.Name">Public Execution</string>
+  <string name="TownOfUsMira.Achievement.PublicExecution.Description">Kill your Overtaken target in front of another player.</string>
+  <string name="TownOfUsMira.Achievement.Fratricide.Name">Fratricide</string>
+  <string name="TownOfUsMira.Achievement.Fratricide.Description">Control one of your fellow Impostors.</string>
+  <string name="TownOfUsMira.Achievement.DivineProtector.Name">Divine Protector</string>
+  <string name="TownOfUsMira.Achievement.DivineProtector.Description">Fend off an attacker with your protection.</string>
+  <string name="TownOfUsMira.Achievement.DoABarrelroll.Name">Do a Barrelroll!</string>
+  <string name="TownOfUsMira.Achievement.DoABarrelroll.Description">Bribe 2 or more players in a single game.</string>
+  <string name="TownOfUsMira.Achievement.WinWinSituation.Name">Win-Win Situation</string>
+  <string name="TownOfUsMira.Achievement.WinWinSituation.Description">Win with at least two-thirds of the living players bribed.</string>
+  <string name="TownOfUsMira.Achievement.SurvivalOfTheFittest.Name">Survival of the Fittest</string>
+  <string name="TownOfUsMira.Achievement.SurvivalOfTheFittest.Description">Be the sole winner as Survivor.</string>
+  <string name="TownOfUsMira.Achievement.ThirdWheel.Name">Third-Wheel</string>
+  <string name="TownOfUsMira.Achievement.ThirdWheel.Description">Win alongside the Lovers.</string>
+  <string name="TownOfUsMira.Achievement.RoleEater.Name">Role-Eater</string>
+  <string name="TownOfUsMira.Achievement.RoleEater.Description">Guess every role you need within 3 rounds.</string>
+  <string name="TownOfUsMira.Achievement.Fireproof.Name">Fireproof</string>
+  <string name="TownOfUsMira.Achievement.Fireproof.Description">Try to ignite a protected player.</string>
+  <string name="TownOfUsMira.Achievement.Carrier.Name">Carrier</string>
+  <string name="TownOfUsMira.Achievement.Carrier.Description">Win as Plaguebearer without ever transforming into Pestilence.</string>
+  <string name="TownOfUsMira.Achievement.BadStaringContest.Name">Bad Staring Contest</string>
+  <string name="TownOfUsMira.Achievement.BadStaringContest.Description">Get killed through Stone Gaze.</string>
+  <string name="TownOfUsMira.Achievement.ChangeOfHeart.Name">Change of Heart</string>
+  <string name="TownOfUsMira.Achievement.ChangeOfHeart.Description">Convert a player when fewer than 5 players remain.</string>
+  <string name="TownOfUsMira.Achievement.BloodMoon.Name">Blood Moon</string>
+  <string name="TownOfUsMira.Achievement.BloodMoon.Description">End the game by killing all remaining players in a single Rampage.</string>
+  <string name="TownOfUsMira.Achievement.HappyCustomers.Name">Happy Customers</string>
+  <string name="TownOfUsMira.Achievement.HappyCustomers.Description">Leave in victory after completing your goal as Chef.</string>
+  <string name="TownOfUsMira.Achievement.Lazybones.Name">Lazybones</string>
+  <string name="TownOfUsMira.Achievement.Lazybones.Description">Win as Inquisitor without using any abilities.</string>
+  <string name="TownOfUsMira.Achievement.AllBarkNoBite.Name">All Bark No Bite</string>
+  <string name="TownOfUsMira.Achievement.AllBarkNoBite.Description">End a Rampage without killing anyone.</string>
+  <string name="TownOfUsMira.Achievement.BlindFaith.Name">Blind Faith</string>
+  <string name="TownOfUsMira.Achievement.BlindFaith.Description">Observe a player, then guess them as a role that wasn't even listed.</string>
+<!-- Fault was here -->
+<!-- Chat strigns -->
+  <string name="TouBlackmailedChatNotice">You have been blackmailed.</string>
+  <string name="TouJailedPublicChatAllowed">You are jailed. You can use public chat.</string>
+  <string name="TouJailedPublicChatBlocked">You are jailed. You cannot use public chat.</string>
+<!-- SHHH screen patches-->
+  <string name="TouJailedShhhText">YOU ARE JAILED</string>
+  <string name="TouAndBlackmailedShhhText">AND BLACKMAILED</string>
+  <string name="TouJailedShhh">YOU ARE JAILED!</string>
+  <string name="TouBlackmailedShhh">YOU ARE BLACKMAILED!</string>
+<!-- Chat Display -->
+  <string name="TouJailChatDisplayName">Jail Chat</string>
+  <string name="TouImpostorChatDisplayName">Impostor Chat</string>
+  <string name="TouVampireChatDisplayName">Vampire Chat</string>
+  <string name="TouExtensionChatDisplayName">Extension Chat</string>
+  <string name="TouDeadTeamChatsVisible">Jailor, Impostor, and Vampire Chat can be seen here.</string>
+  <string name="TouTeamChatActive">[chat] is Active. Messages will be sent to this chat.</string>
+  <string name="TouTeamChatActiveCycle">[chat] is Active ([current]/[total]). Press button to cycle.</string>
+<!-- My spin on SeerRevealButton.cs -->
+  <string name="TouSeerEvilReveal">You have revealed that [player] is evil!</string>
+  <string name="TouSeerPossiblyEvilReveal">You have revealed that [player] is possibly evil!</string>
+  <string name="TouSeerGoodReveal">You have revealed that [player] is good!</string>
+  <string name="TouSeerLikelyGoodReveal">You have revealed that [player] is likely good!</string>
+  <string name="TouSeerProbablyGoodReveal">You have revealed that [player] is probably good!</string>
+  <string name="TouSeerPossiblyGoodReveal">You have revealed that [player] is possibly good!</string>
+  <string name="TouSeerAlignmentCrewKiller">Crew Killer</string>
+  <string name="TouSeerAlignmentNeutralBenign">Neutral Benign</string>
+  <string name="TouSeerAlignmentNeutralEvil">Neutral Evil</string>
+  <string name="TouSeerAlignmentNeutralKiller">Neutral Killer</string>
+  <string name="TouSeerAlignmentNeutralOutlier">Neutral Outlier</string>
+  <string name="TouSeerAlignmentTraitor">Traitor</string>
+  <string name="TouSeerPossibleImpostorAlignment">[alignments], or Impostor</string>
+  <string name="TouSeerImpostorAlignment">Impostor</string>
+  <string name="TouSeerPossibleCrewmateAlignment">[alignments], or Crewmate</string>
+  <string name="TouSeerCrewmateAlignment">Crewmate</string>
+  <string name="TouSeerMustBeAlignment">They must be a [alignments]!</string>
+<!-- Extra Sentry strings -->
+  <string name="TownOfUsMira.Role.SentryStandStillToDeploy">Stand still to deploy sentry-only cameras</string>
+  <string name="TownOfUsMira.Role.SentryCamerasPublicAfterMeeting">Cameras become public after the next meeting.</string>
+  <string name="TownOfUsMira.Role.SentryCameraRounds"> ([rounds] rounds)</string>
+  <string name="TownOfUsMira.Role.SentryCameraLabel">Cam [number]</string>
+<!-- Extra Miner strings -->
+  <string name="TownOfUsMira.Role.MinerVentsVisibleAfterUse">Vents will only be visible once used</string>
+<!-- Neutral Ghosts feedback -->
+  <string name="NeutralGhostAlreadyWon">You have already won.</string>
+  <string name="NeutralGhostDead">You are dead.</string>
+  <!-- Draft minigame -->
+  <string name="TouDraftRoleCardHelp">You can learn about what [role] does by clicking the role card towards the right</string>
+  <!-- Draft Sidebar -->
+  <string name="DraftNone">None</string>
+  <string name="TouDraftDisconnectedLabel">DISCONNECTED</string>
+  <string name="TouDraftKickReason">You were kicked because you tried to join mid-draft. Please try again when lobby is open</string>
+  <string name="TownOfUsMira.Role.JailorAllowVoice">Allow Voice</string>
+
+  
+<!-- Random uncategorized strings (I gave up with the comments)-->
+  <string name="TouGameTimerTime">Time</string>
+  <string name="TouAutoRejoinCountdown">Rejoining in [seconds]</string>
+  <string name="TouRegion">Region</string>
+  <string name="TouQuickJoinPreviousLobby">Prev Lobby</string>
+  <string name="TouQuickJoinPressTab">Press Tab to</string>
+  <string name="TouQuickJoinAttemptJoining">attempt joining</string>
+  <string name="TownOfUsMira.Role.MercenaryBribeSuccess">If [player] wins, you will win as well.</string>
+  <string name="TownOfUsMira.Role.VenererAbilityUnlocked">You have unlocked the [ability] ability for getting a kill.</string>
+  <string name="TownOfUsMira.Role.VenererAbilityUnlockedWait">You have unlocked the [ability] ability for getting a kill. You must wait until your current ability is over.</string>
+  <string name="TownOfUsMira.Role.TraitorNoRolesAvailable">No roles are available for the taking.</string>
+  <string name="TownOfUsMira.Role.PuppeteerTargetInAnimation">[player] is currently in an animation (ladder/zipline/platform/vent), please wait.</string>
+  <string name="TownOfUsMira.Role.AmbusherPursueNotif">You are now pursuing [player]. Ambush anyone near them at any time you wish.</string>
+  <string name="TownOfUsMira.Modifier.DisperserNotif">Everyone has been dispersed to a vent!</string>
+  <string name="TownOfUsMira.Modifier.DoubleShotPreventedDeath">Your Double Shot has prevented you from dying this meeting!</string>
+  <string name="TownOfUsMira.Role.AmbassadorNoRolesAvailable">No roles are available for the player.</string>
+  <string name="TouHauntingDisabled">Haunting was disabled by the host!</string>
+  <string name="TouHauntingWaitNextRound">You must wait until next round to haunt!</string>
+  <string name="TouDraftRecapDisabled">No Draft recap will be displayed.</string>
+  <string name="TouDraftRecapEnabled">Draft Mode Recap will display [recap].</string>
+  <string name="TouMultiplayerFreeplayWarning">Warning: Multiplayer Freeplay is enabled. The game will not end automatically.</string>
+  <string name="TouNoGameEndWarning">Warning: No Game End is enabled. The game will not end automatically.</string>
+  <string name="TownOfUsMira.Role.ProsecutorHasSpoken">The Prosecutor has spoken.</string>
+  <string name="TownOfUsMira.Modifier.WardenFortifiedDescription">You are fortified by a Warden!
+No one can interact with you.</string>
+<!-- UI Tabs -->
+  <string name="TouLocalTabActions">Actions</string>
+  <string name="TouLocalTabButtons">UI / UX</string>
+  <string name="TouLocalTabPlayers">&lt;size=70%&gt;Players&lt;/size&gt;</string>
+  <string name="TouLocalTabPractice">&lt;size=50%&gt;Lobby / Practice&lt;/size&gt;</string>
+  <string name="TouLocalTabPreferences">&lt;size=65%&gt;Preferences&lt;/size&gt;</string>
+  <string name="TouLocalActionSelfKill">Self Kill</string>
+  <string name="TouLocalActionAbortGame">Abort Game</string>
+  <string name="TouLocalActionStartMeeting">Start Meeting</string>
+  <string name="TouLocalActionEndMeeting">End Meeting</string>
+<!-- Role Options -->
+  <string name="TouOptionMedusaStoneDelay">Time For Victim To Become Stoned</string>
+  <string name="TouOptionMedusaStoneCompletion">Time Before Stone Shatters</string>
+  <string name="TouOptionMedusaAllowStoneGazing">Allow Stone Gazing</string>
+  <string name="TouOptionMedusaStoneGazeCooldown">Stone Gaze Cooldown</string>
+  <string name="TouOptionMedusaStoneGazeDuration">Stone Gaze Duration</string>
+  <string name="TouOptionMedusaStoneGazeUses">Stone Gaze Uses</string>
+  <string name="TouOptionGlitchCanVentEnumNever">Never</string>
+  <string name="TouOptionGlitchCanVentEnumUnlessMimicking">Unless Mimicking</string>
+  <string name="TouOptionGlitchCanVentEnumAlways">Always</string>
+  <string name="TouOptionSwooperTrackedWhileInvisible">Can be Tracked while Invisible</string>
+  <string name="TouOptionSwooperTrackingEnumNever">Never</string>
+  <string name="TouOptionSwooperTrackingEnumNotByRadar">Not by Radar</string>
+  <string name="TouOptionSwooperTrackingEnumAlways">Always</string>
+  <string name="TouOptionSwooperVentEnumNever">Never</string>
+  <string name="TouOptionSwooperVentEnumWhileVisible">While Visible</string>
+  <string name="TouOptionSwooperVentEnumAlways">Always</string>
+  <string name="TouOptionJanitorCooldownSyncEnumUnlinked">Unlinked</string>
+  <string name="TouOptionJanitorCooldownSyncEnumWithTeammates">With Teammates</string>
+  <string name="TouOptionJanitorCooldownSyncEnumAlways">Always</string>
+  <string name="TouOptionTraitorBecomesAssassin">Traitor Becomes Assassin</string>
+  <string name="TouOptionBootleggerPoisonTriggersOn">Poison Triggers On</string>
+  <string name="TouOptionBootleggerPoisonTriggerEnumDelayEnd">Delay End</string>
+  <string name="TouOptionBootleggerPoisonTriggerEnumMeetingStart">Meeting Start</string>
+  <string name="TouOptionBootleggerPoisonTriggerEnumMeetingEnd">Meeting End</string>
+  <string name="TouOptionBootleggerPoisonDelay">Poison Delay</string>
+  <string name="TouOptionSentryDeployedVisibilityEnumImmediately">Immediately</string>
+  <string name="TouOptionSentryDeployedVisibilityEnumAfterMeeting">After Meeting</string>
+  <string name="TouOptionSentryPortableModeEnumAlways">Always</string>
+  <string name="TouOptionSentryPortableModeEnumAfterTasks">After Tasks</string>
+  <string name="TouOptionSentryPortableModeEnumCamlessMaps">Only On Cam-less Maps</string>
+  <string name="TouOptionTimeLordReviveEnumDisabled">Disabled</string>
+  <string name="TouOptionTimeLordReviveEnumUntilNextRound">Until Next Round</string>
+  <string name="TouOptionTimeLordReviveEnumFully">Fully</string>
+  <string name="TouOptionLookoutFeedbackReveals">Watched Player Feedback Reveals</string>
+  <string name="TouOptionGrenadierAllowFlashingDuringSabotage">Allow Flashing During Sabotage</string>
+  <string name="TouOptionHerbalistHerbCooldown">Herb Cooldown</string>
+  <string name="TouOptionHerbalistMaxExposeUses">Max Expose Uses</string>
+  <string name="TouOptionHerbalistMaxConfuseUses">Max Confuse Uses</string>
+  <string name="TouOptionHerbalistMaxProtectUses">Max Protect Uses</string>
+  <string name="TouOptionHerbalistConfuseDelay">Confuse Delay</string>
+  <string name="TouOptionHerbalistConfuseDuration">Confuse Duration</string>
+  <string name="TouOptionHerbalistProtectDuration">Protect Duration</string>
+  <string name="TouOptionHerbalistNotifyUponAttack">Notify Herbalist Upon Attack</string>
+  <string name="TouOptionMonarchKnightCooldown">Knight Cooldown</string>
+  <string name="TouOptionMonarchMaximumKnights">Maximum Knights</string>
+  <string name="TouOptionMonarchVotesPerKnight">Votes Per Knight</string>
+  <string name="TouOptionMonarchKnightDelay">Knight Delay (Cancelable)</string>
+  <string name="TouOptionMonarchRevealKnightingAtMeeting">Reveal Knighting At Meeting</string>
+  <string name="TouOptionMonarchShowKnightedVotes">Show Knighted Votes</string>
+  <string name="TouOptionMonarchAllowRoundOneKnighting">Allow Round One Knighting</string>
+  <string name="TouOptionMonarchInformIfKnightDies">Inform Monarch If Knight Dies</string>
+  <string name="TouOptionMonarchCrewKnightsGrantKillImmunity">Crew Knights Grant Kill Immunity</string>
+<!-- Perfect Comms Integration -->
+  <string name="TouPerfectCommsMuteBlackmailedInMeetings">Mute Blackmailed in Meetings</string>
+  <string name="TouPerfectCommsMuteBlackmailedInMeetingsDescription">Prevents the currently blackmailed player from transmitting voice during meetings.</string>
+  <string name="TouPerfectCommsMuteBlackmailedNextRound">Mute Blackmailed Next Round</string>
+  <string name="TouPerfectCommsMuteBlackmailedNextRoundDescription">Keeps a meeting-blackmailed player voice-muted during the following task round.</string>
+  <string name="TouPerfectCommsMuteControlledVictim">Mute Controlled Victim</string>
+  <string name="TouPerfectCommsMuteParasiteControlledDescription">Prevents a player marked by the Parasite from transmitting their own voice while the effect is active.</string>
+  <string name="TouPerfectCommsAlsoHearControlledVictim">Also Hear Controlled Victim</string>
+  <string name="TouPerfectCommsParasiteHearFromVictimDescription">Lets the Parasite also hear the voices audible around its marked victim while remaining at the Parasite's own position.</string>
+  <string name="TouPerfectCommsMutePuppeteerControlledDescription">Prevents a Puppeteer-controlled player from transmitting their own voice while controlled.</string>
+  <string name="TouPerfectCommsHearFromControlledVictim">Hear From Controlled Victim</string>
+  <string name="TouPerfectCommsPuppeteerHearFromVictimDescription">Lets the Puppeteer hear the voices audible around the player it currently controls.</string>
+  <string name="TouPerfectCommsMuteWhileSwooped">Mute While Swooped</string>
+  <string name="TouPerfectCommsMuteSwooperWhileSwoopedDescription">Prevents an invisible Swooper from transmitting voice until the swoop ends.</string>
+  <string name="TouPerfectCommsMuffleBlindedOrFlashedHearing">Muffle Blinded/Flashed Hearing</string>
+  <string name="TouPerfectCommsMuffleBlindedOrFlashedHearingDescription">Muffles incoming voice during tasks for players currently blinded by Eclipsal or flashed by Grenadier.</string>
+  <string name="TouPerfectCommsMuffleHypnotizedDuringHysteria">Muffle Hypnotized During Hysteria</string>
+  <string name="TouPerfectCommsMuffleHypnotizedDuringHysteriaDescription">Muffles incoming voice during tasks for affected hypnotized players while Mass Hysteria is active.</string>
+  <string name="TouPerfectCommsUseImpostorVoice">Use Impostor Voice</string>
+  <string name="TouPerfectCommsCrewpostorUsesImpostorVoiceDescription">Treats Crewpostor as an impostor for private impostor voice and team-radio routing.</string>
+  <string name="TouPerfectCommsMuteHackedPlayers">Mute Hacked Players</string>
+  <string name="TouPerfectCommsMuteGlitchHackedDescription">Prevents a player affected by the Glitch's Hack ability from transmitting voice until the hack ends.</string>
+  <string name="TouPerfectCommsMuteJaileeInMeetings">Mute Jailee in Meetings</string>
+  <string name="TouPerfectCommsMuteJailedInMeetingsDescription">Prevents the jailed player from transmitting voice during meetings unless the Jailor temporarily unmutes them.</string>
+  <string name="TouPerfectCommsJailPersistsIfJailorDies">Jail Persists If Jailor Dies</string>
+  <string name="TouPerfectCommsJailPersistsAfterJailorDeathDescription">Keeps the meeting voice jail active even if the Jailor is dead.</string>
+  <string name="TouPerfectCommsCanUnmuteJailee">Can Unmute Jailee</string>
+  <string name="TouPerfectCommsJailorCanUnmuteJailedDescription">Lets the Jailor temporarily allow the jailed player to speak during a meeting.</string>
+  <string name="TouPerfectCommsTeamRadio">Team Radio</string>
+  <string name="TouPerfectCommsVampires">Vampires</string>
+  <string name="TouPerfectCommsTeamRadioVampiresDescription">Enables the private Vampire managed Team Radio channel when Team Radio is on.</string>
+  <string name="TouPerfectCommsTeamRadioLoversDescription">Enables the private Lovers managed Team Radio channel when Team Radio is on.</string>
+  <string name="TouPerfectCommsGhostVoice">Ghost Voice</string>
+  <string name="TouPerfectCommsMediumVoiceNone">None</string>
+  <string name="TouPerfectCommsMediumVoiceMediumToGhost">Medium -&gt; Ghost</string>
+  <string name="TouPerfectCommsMediumVoiceGhostToMedium">Ghost -&gt; Medium</string>
+  <string name="TouPerfectCommsMediumVoiceBoth">Both</string>
+  <string name="TouPerfectCommsMediumGhostVoiceDescription">Chooses which voice direction is allowed between a Medium and dead players during tasks.</string>
+<!-- Role Option Groups -->
+  <string name="TouRoleGroupCrewHider">Hiders (Hide and Seek)</string>
+  <string name="TouRoleGroupImpSeeker">Seekers (Hide and Seek)</string>
+  <string name="TouRoleGroupCrewBeliever">Crewmate Believer Roles (Cultist)</string>
+  <string name="TouRoleGroupCrewObstinate">Crewmate Obstinate Roles (Cultist)</string>
+  <string name="TouRoleGroupNeutralObstinate">Neutral Obstinate Roles (Cultist)</string>
+  <string name="TouRoleGroupImpCultist">Impostor Cultists (Cultist)</string>
+  <string name="TouRoleGroupImpFollower">Impostor Followers (Cultist)</string>
+  <string name="TouRoleGroupFrenzyKiller">Kill Frenzy Roles</string>
+  <string name="TouRoleGroupCrewInvestigative">Crewmate Investigative Roles</string>
+  <string name="TouRoleGroupCrewKilling">Crewmate Killing Roles</string>
+  <string name="TouRoleGroupCrewProtective">Crewmate Protective Roles</string>
+  <string name="TouRoleGroupCrewPower">Crewmate Power Roles</string>
+  <string name="TouRoleGroupCrewSupport">Crewmate Support Roles</string>
+  <string name="TouRoleGroupCrewGhost">Crewmate Ghost Roles</string>
+  <string name="TouRoleGroupCrewAfterlife">Crewmate Afterlife Roles</string>
+  <string name="TouRoleGroupNeutralBenign">Neutral Benign Roles</string>
+  <string name="TouRoleGroupNeutralEvil">Neutral Evil Roles</string>
+  <string name="TouRoleGroupNeutralOutlier">Neutral Outlier Roles</string>
+  <string name="TouRoleGroupNeutralKilling">Neutral Killing Roles</string>
+  <string name="TouRoleGroupNeutralGhost">Neutral Ghost Roles</string>
+  <string name="TouRoleGroupNeutralAfterlife">Neutral Afterlife Roles</string>
+  <string name="TouRoleGroupImpConcealing">Impostor Concealing Roles</string>
+  <string name="TouRoleGroupImpKilling">Impostor Killing Roles</string>
+  <string name="TouRoleGroupImpPower">Impostor Power Roles</string>
+  <string name="TouRoleGroupImpSupport">Impostor Support Roles</string>
+  <string name="TouRoleGroupImpGhost">Impostor Ghost Roles</string>
+  <string name="TouRoleGroupImpAfterlife">Impostor Afterlife Roles</string>
+  <string name="TouRoleGroupOther">Other Roles</string>
+  <string name="TouRoleGroupCrewmate">Crewmate Roles</string>
+  <string name="TouRoleGroupNeutral">Neutral Roles</string>
+  <string name="TouRoleGroupImpostor">Impostor Roles</string>
+  
 </resources>

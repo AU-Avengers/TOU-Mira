@@ -5,6 +5,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using System.Collections;
+using AmongUs.GameOptions;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
@@ -24,6 +25,38 @@ namespace TownOfUs.Roles.Crewmate;
 
 public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable
 {
+    public List<PlayerControl> GetAvailableGhosts(List<PlayerControl> basicGhosts, PlayerControl? exiled)
+    {
+        var haunterData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<HaunterRole>());
+
+        if (CustomRoleUtils.GetActiveRoles().OfType<HaunterRole>().Count() < haunterData.Count)
+        {
+            var isSkipped = haunterData.Chance < 100 && HashRandom.Next(101) > haunterData.Chance;
+
+            if (!isSkipped)
+            {
+                var deadCrew = basicGhosts.Where(x =>
+                    (x.Data.IsDead || x == exiled) && x.GetRoleWhenAlive().IsCrewmate() && !x.HasModifier<AllianceGameModifier>() &&
+                    x.CanGetGhostRole() &&
+                    x.Data.Role).ToList();
+
+                if (deadCrew.Count > 0)
+                {
+                    deadCrew.Shuffle();
+
+                    var player = deadCrew.TakeFirst();
+
+                    if (player != null)
+                    {
+                        player.RpcChangeRole(RoleId.Get<HaunterRole>());
+                        basicGhosts.Remove(player);
+                    }
+                }
+            }
+        }
+
+        return basicGhosts;
+    }
     public bool Revealed => TaskStage is GhostTaskStage.Revealed or GhostTaskStage.CompletedTasks;
     public bool CompletedAllTasks => TaskStage is GhostTaskStage.CompletedTasks;
 

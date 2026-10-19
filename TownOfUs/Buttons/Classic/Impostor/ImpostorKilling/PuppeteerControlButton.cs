@@ -66,7 +66,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
                 pr.Controlled.Data.Disconnected ||
                 !PuppeteerControlState.IsControlled(pr.Controlled.PlayerId, out _))
             {
-                PuppeteerRole.RpcPuppeteerEndControl(PlayerControl.LocalPlayer, pr.Controlled);
+                PuppeteerRole.RpcPuppeteerEndControl(PlayerControl.LocalPlayer, pr.Controlled, pr.Controlled.transform.position);
                 return false;
             }
             return base.CanUse();
@@ -125,9 +125,9 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
         {
             Info("No player is being controlled, opening menu.");
             var playerMenu = CustomPlayerMenu.Create();
-            playerMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
+            playerMenu.PhoneUI.GetChild(0).GetComponent<SpriteRenderer>().material =
                 PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
-            playerMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
+            playerMenu.PhoneUI.GetChild(1).GetComponent<SpriteRenderer>().material =
                 PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
             playerMenu.Begin(
@@ -147,8 +147,13 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
 
                     if (plr.IsInTargetingAnimState())
                     {
+                        var notificationText = MiraLocaleManager.Get(
+                                "TownOfUsMira.Role.PuppeteerTargetInAnimation",
+                                "<player> is currently in an animation (ladder/zipline/platform/vent), please wait.")
+                            .Replace("<player>", plr.CachedPlayerData.PlayerName);
+
                         var notif = Helpers.CreateAndShowNotification(
-                            $"<b>{plr.CachedPlayerData.PlayerName} is currently in an animation (ladder/zipline/platform/vent), please wait.</b>",
+                            $"<b>{notificationText}</b>",
                             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Puppeteer.LoadAsset());
                         notif.Text.SetOutlineThickness(0.35f);
                         return;

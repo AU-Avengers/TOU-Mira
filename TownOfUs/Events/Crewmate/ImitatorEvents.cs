@@ -49,7 +49,7 @@ public static class ImitatorEvents
         }
     }
 
-    [RegisterEvent]
+    [RegisterEvent(1)]
     public static void ChangeRoleHandler(ChangeRoleEvent @event)
     {
         if (!PlayerControl.LocalPlayer)

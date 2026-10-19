@@ -1,11 +1,13 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
@@ -66,6 +68,26 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Barrier", "Barrier"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Barrier.WikiDescription").Replace("<BarrierCooldown>",
+                        $"{OptionGroupSingleton<ClericOptions>.Instance.BarrierCooldown}"),
+                    TouCrewAssets.BarrierSprite),
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Cleanse", "Cleanse"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Cleanse.WikiDescription"),
+                    TouCrewAssets.CleanseSprite)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Cleric;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateProtective;
@@ -91,6 +113,9 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             Error("RpcClericBarrierAttacked - Invalid cleric");
             return;
         }
+
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.ClericBarrier, "Blocked", cleric, shielded);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
 
         if (source.AmOwner ||
             (cleric.AmOwner &&

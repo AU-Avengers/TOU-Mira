@@ -47,6 +47,21 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         }
     }
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities
+    {
+        get
+        {
+            return
+            [
+                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}SwapWiki", "Swap (Meeting)"),
+                    MiraLocaleManager.Get("MiraApi.AbilityType.SelectiveMeeting"),
+                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Swap.WikiDescription"),
+                    TouAssets.SwapActive)
+            ];
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Swapper;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmatePower;

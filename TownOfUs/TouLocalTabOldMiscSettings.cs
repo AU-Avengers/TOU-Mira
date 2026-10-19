@@ -21,7 +21,7 @@ public class TownOfUsLocalMiscSettings(ConfigFile config) : LocalSettingsTab(con
         LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.AutoRejoinMode;
 
     public ConfigEntry<bool> SeparateChatBubbles =>
-        LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.SeparateChatBubbles;
+        LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.SeparateChatBubbles;
 
     public ConfigEntry<bool> ShowWelcomeMessageToggle =>
         LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ShowWelcomeMessageToggle;
@@ -40,8 +40,5 @@ public class TownOfUsLocalMiscSettings(ConfigFile config) : LocalSettingsTab(con
 
     public ConfigEntry<bool> ZoomingInPractice =>
         LocalSettingsTabSingleton<TouLocalTabPractice>.Instance.ZoomingInPractice;
-
-    public ConfigEntry<bool> RainbowColorAsFortegreen =>
-        LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.RainbowColorAsFortegreen;
 }
 #pragma warning restore S2325 // This is for compatibility with older tou extension mods.

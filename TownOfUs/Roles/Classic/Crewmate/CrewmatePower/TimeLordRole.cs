@@ -40,6 +40,15 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             TouCrewAssets.RewindSprite)
     ];
 
+    [HideFromIl2Cpp]
+    public List<AdvancedWikiAbilityDescription> WikiAbilities =>
+    [
+        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Rewind", "Rewind"),
+            MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
+            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Rewind.WikiDescription"),
+            TouCrewAssets.RewindSprite)
+    ];
+
     public Color RoleColor => TownOfUsColors.TimeLord;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmatePower;
@@ -159,6 +168,9 @@ OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
         }
 
         TimeLordRewindSystem.ReviveFromRewind(revived);
+
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.TimeLordRevive, revived);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
     }
 
     [MethodRpc((uint)TownOfUsRpc.TimeLordUndoTask)]

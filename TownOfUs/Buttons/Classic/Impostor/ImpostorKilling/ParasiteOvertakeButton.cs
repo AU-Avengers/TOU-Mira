@@ -8,7 +8,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Modules.ControlSystem;
-using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
@@ -103,7 +102,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             {
                 if (controlled != null)
                 {
-                    ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, controlled);
+                    ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, controlled, controlled.transform.position, false);
                 }
                 return false;
             }
@@ -495,22 +494,14 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             }
 
             var target = pr.Controlled;
-            if (!target.HasDied())
-            {
-                PlayerControl.LocalPlayer.RpcSpecialMurder(
-                    target,
-                    teleportMurderer: false,
-                    showKillAnim: false,
-                    causeOfDeath: "Parasite");
-            }
 
-            ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
+            ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position, !target.HasDied());
             return;
         }
 
         if (pr.Controlled != null)
         {
-            ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, pr.Controlled);
+            ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, pr.Controlled, pr.Controlled.transform.position, false);
             return;
         }
 

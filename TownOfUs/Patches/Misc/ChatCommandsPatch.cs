@@ -8,6 +8,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Achievements;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Modules.DraftMode;
@@ -265,7 +266,7 @@ public static class ChatPatches
                 msg = string.Empty;
             }
 
-            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
+            MiscUtils.AddSimpleSystemChat(title, msg);
 
             __instance.freeChatField.Clear();
             __instance.quickChatMenu.Clear();
@@ -537,7 +538,7 @@ public static class ChatPatches
                                     RpcForcePlayerRole(PlayerControl.LocalPlayer, targetPlayer);
                                     UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                                        MiraLocaleManager.Get("UpCommandSuccessOther").Replace("<player>", targetName).Replace("<role>", MiscUtils.GetHyperlinkText(matchingRole)));
+                                        MiraLocaleManager.Get("UpCommandSuccessOther").Replace("<player>", targetName).Replace("<role>", MiscUtils.GetReliableHyperlinkText(matchingRole)));
                                 }
                             }
                             else
@@ -547,8 +548,9 @@ public static class ChatPatches
                                 var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.IdPart : matchingRole.GetRoleName();
                                 RpcForcePlayerRole(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer);
                                 UpCommandRequests.SetRequest(targetName, roleIdentifier);
+                                AchievementsAPIHelper.Unlock(TouAchievements.Cheater);
                                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
-                                    MiraLocaleManager.Get("UpCommandSuccess").Replace("<role>", MiscUtils.GetHyperlinkText(matchingRole)));
+                                    MiraLocaleManager.Get("UpCommandSuccess").Replace("<role>", MiscUtils.GetReliableHyperlinkText(matchingRole)));
                             }
                         }
                     }
@@ -604,7 +606,7 @@ public static class ChatPatches
 
             var roleNameToLink = new Func<RoleBehaviour, string>(role =>
             {
-                return MiscUtils.GetHyperlinkText(role);
+                return MiscUtils.GetReliableHyperlinkText(role);
             });
 
             var msgParts = new List<string>();

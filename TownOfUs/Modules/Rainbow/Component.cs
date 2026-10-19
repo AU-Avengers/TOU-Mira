@@ -1,3 +1,5 @@
+using MiraAPI.Colors;
+using MiraAPI.Utilities;
 using Reactor.Utilities.Attributes;
 using UnityEngine;
 
@@ -16,9 +18,9 @@ public sealed class RainbowBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
             return;
         }
 
-        if (RainbowUtils.IsRainbow(Id))
+        if (PaletteManager.IsVariable(Id))
         {
-            RainbowUtils.SetRainbow(Renderer);
+            SetVariableRend(Renderer, Id);
         }
     }
 
@@ -26,6 +28,18 @@ public sealed class RainbowBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     {
         Renderer = rend;
         Id = id;
+    }
+
+    public static void SetVariableRend(Renderer rend, int id)
+    {
+        rend.material.SetColor(ShaderID.BackColor, PaletteManager.GetShadowColor(id));
+        rend.material.SetColor(ShaderID.BodyColor, PaletteManager.GetMainColor(id));
+        rend.material.SetColor(ShaderID.VisorColor, Palette.VisorColor);
+    }
+
+    public static Color LightUp(Color color)
+    {
+        return new Color(color.r + 0.3f, color.g + 0.3f, color.b + 0.3f);
     }
 }
 
@@ -42,9 +56,9 @@ public sealed class BasicRainbowBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
             return;
         }
 
-        if (RainbowUtils.IsRainbow(Id))
+        if (PaletteManager.IsVariable(Id))
         {
-            Renderer.color = RainbowUtils.SetBasicRainbow();
+            Renderer.color = PaletteManager.GetMainColor(Id);
         }
     }
 
@@ -68,9 +82,9 @@ public sealed class LightRainbowBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
             return;
         }
 
-        if (RainbowUtils.IsRainbow(Id))
+        if (PaletteManager.IsVariable(Id))
         {
-            Renderer.color = RainbowUtils.LightUp(RainbowUtils.SetBasicRainbow());
+            Renderer.color = RainbowBehaviour.LightUp(PaletteManager.GetMainColor(Id));
         }
     }
 
