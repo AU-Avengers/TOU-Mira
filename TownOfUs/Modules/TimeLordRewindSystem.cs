@@ -20,6 +20,7 @@ using System.Runtime.CompilerServices;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules.Components;
+using MiraAPI.Events;
 
 namespace TownOfUs.Modules;
 
@@ -1607,7 +1608,7 @@ public static class TimeLordRewindSystem
                 {
                     // Fire the undo event through MiraEventManager
                     var undoEvent = CreateUndoEvent(evt);
-                    MiraAPI.Events.undoEvent.InvokeEvent();
+                    undoEvent.InvokeEvent();
                     _scheduledEventUndos.RemoveAt(i);
                 }
             }
