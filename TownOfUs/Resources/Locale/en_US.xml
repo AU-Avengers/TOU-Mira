@@ -2617,6 +2617,7 @@ vision, and vent away temporarily</string>
   <!-- Lover - Universal Alliance -->
     <!-- Lover Wiki / Description -->
     <string name="TownOfUsMira.Modifier.Lover">Lover</string>
+    <string name="TownOfUsMira.Modifier.Lover.MedDescription">Privately chat with your lover and win the game together!</string>
   <string name="TownOfUsMira.Modifier.LoverInfoDisconnected">You were in love with [player], whom disconnected.</string>
   <string name="TownOfUsMira.Modifier.LoverInfo">You are in love with [player].</string>
   <string name="TownOfUsMira.Modifier.Lover.WikiDescription">As a lover, you can chat with your other lover (signified with [symbol]) during the round, and you can win with your lover if you are both a part of the final three players.</string>
@@ -3524,8 +3525,8 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Achievement.IveSeenThePlays.Description">End your own life before they can.</string>
   <string name="TownOfUsMira.Achievement.GoBuyALotteryTicket.Name">Go buy a lottery ticket</string>
   <string name="TownOfUsMira.Achievement.GoBuyALotteryTicket.Description">Win a 1 in 292,000,000 roll. Seriously, go buy a lottery ticket.</string>
-  <string name="TownOfUsMira.Achievement.NoYou.Name">No You</string>
-  <string name="TownOfUsMira.Achievement.NoYou.Description">Serve a drink to the player who served you one in the same round.</string>
+  <string name="TownOfUsMira.Achievement.PartyOfTwo.Name">Party Of Two</string>
+  <string name="TownOfUsMira.Achievement.PartyOfTwo.Description">Serve a drink to the player who served you one in the same round.</string>
   <string name="TownOfUsMira.Achievement.Endgame.Name">Endgame</string>
   <string name="TownOfUsMira.Achievement.Endgame.Description">Witness a 1v1 between a Juggernaut and Pestilence.</string>
   <string name="TownOfUsMira.Achievement.ForceBeWithYou.Name">The Force Be With You</string>
