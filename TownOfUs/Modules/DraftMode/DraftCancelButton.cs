@@ -44,7 +44,7 @@ public sealed class DraftCancelButton : TownOfUsButton
     {
         if (!AmongUsClient.Instance.AmHost) return;
         if (!DraftManager.IsDraftActive) return;
-        DraftEngineBehaviour.Instance?.CancelDraft();
+        DraftEngine.Cancel();
         DraftRpcs.RpcCreateNotif(PlayerControl.LocalPlayer, MiraLocaleManager.Get("TouDraftCancelledNotif", "Draft Mode has been cancelled by the <color=#FFBFCC><b>Host</b></color>!"));
         Hide();
     }

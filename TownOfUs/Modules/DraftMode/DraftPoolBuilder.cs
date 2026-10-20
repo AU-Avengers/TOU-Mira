@@ -1,515 +1,323 @@
+using MiraAPI.GameOptions;
 using TownOfUs.Options;
 using TownOfUs.Roles;
-using MiraAPI.GameOptions;
+using Random = UnityEngine.Random;
+namespace TownOfUs.Modules.DraftMode;
 
-namespace TownOfUs.Modules.DraftMode
+public sealed record DraftSpreadOffer(DraftFaction Faction, bool Forced);
+
+public sealed class DraftPlan
 {
-    public static class DraftPoolBuilder
+    private readonly List<RoleAlignment[]> _seats;
+    private readonly Dictionary<RoleAlignment, int> _caps;
+    private readonly Dictionary<RoleAlignment, int> _extraCrewCaps = [];
+
+    private DraftPlan(List<RoleAlignment[]> seats, Dictionary<RoleAlignment, int> caps)
     {
-        public static List<string> BuildPool(int numPlayers, IRng rng = null!)
+        _seats = seats;
+        _caps = caps;
+    }
+
+    public int SeatCount => _seats.Count;
+
+    public static DraftPlan Create(int players, List<DraftCopy> pool)
+    {
+        return OptionGroupSingleton<RoleOptions>.Instance.UseRoleListForPool
+            ? FromRoleList(players)
+            : FromManualAmounts(players, pool);
+    }
+
+    private static DraftPlan FromRoleList(int players)
+    {
+        var slots = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance.Slot;
+        var seats = new List<RoleAlignment[]>();
+        for (var i = 0; i < Math.Min(players, slots.Count); i++)
         {
-            DraftRolePool.ClearCaches();
-            rng ??= DeterministicRng.CreateRandomlySeeded();
-            var pool    = new List<string>();
-            var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
-            if (roleOpts == null) return pool;
-
-            if (roleOpts.UseRoleListForPool)
-                return BuildPoolFromRoleList(numPlayers, rng);
-
-            var manualPool = BuildPoolFromManualAmounts(rng);
-
-            int rolesPerSlot = Math.Max(1, (int)roleOpts.OfferedRolesCount.Value);
-            int concurrency = Math.Max(1, Math.Min(2, (int)roleOpts.ConcurrentPicks.Value));
-            int targetSize = GetLowPlayerPoolTargetSize(numPlayers, rolesPerSlot, concurrency);
-            if (manualPool.Count < targetSize)
-            {
-                var fallbackNames = GetAllowedCrewFallbackNames();
-                if (fallbackNames.Count == 0)
-                {
-                    fallbackNames = GetAllowedManualFallbackNames();
-                }
-                if (fallbackNames.Count == 0)
-                {
-                    fallbackNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewRandom))
-                        ?.Where(n => !string.IsNullOrWhiteSpace(n) && DraftRolePool.IsRoleUsableAndEnabled(n)).ToList() ?? new List<string>();
-                }
-
-                if (fallbackNames.Count > 0)
-                {
-                    while (manualPool.Count < targetSize)
-                    {
-                        manualPool.Add(PickWeightedByChance(fallbackNames, rng));
-                    }
-                }
-            }
-
-            return manualPool;
+            seats.Add(Alignments(slots[i].Value));
         }
 
-        private static int GetLowPlayerPoolTargetSize(int numPlayers, int rolesPerSlot, int concurrency)
+        while (seats.Count < players)
         {
-            int baseTarget = (Math.Max(1, numPlayers) + Math.Max(1, rolesPerSlot) * Math.Max(1, concurrency));
-            if (numPlayers <= 8)
-            {
-                return Math.Max(baseTarget, 18);
-            }
-
-            return baseTarget;
+            var bucket = Random.RandomRangeInt(0, 4) == 0
+                ? RoleListOption.CrewRandom
+                : RoleListOption.NonImp;
+            seats.Add(Alignments(bucket));
         }
 
-        public static List<string> GetOfferedRoles(List<string> currentPool, IRng rng = null!, ICollection<string> avoid = null!, bool allowGuaranteed = true)
+        Shuffle(seats);
+        return new DraftPlan(seats, []);
+    }
+
+    private static DraftPlan FromManualAmounts(int players, List<DraftCopy> pool)
+    {
+        var crew = OptionGroupSingleton<RoleDraftCrewOptions>.Instance;
+        var imp = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
+        var neut = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
+
+        var caps = new Dictionary<RoleAlignment, int>
         {
-            rng ??= new UnityRng();
-            var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
-            if (roleOpts == null) return new List<string>();
-
-            if (currentPool == null || currentPool.Count == 0) return new List<string>();
-
-            int offered = Math.Max(1, (int)roleOpts.OfferedRolesCount.Value);
-            var poolCopy = new List<string>(currentPool);
-
-            for (int i = poolCopy.Count - 1; i > 0; i--)
-            {
-                int j = rng.NextInt(i + 1);
-                (poolCopy[i], poolCopy[j]) = (poolCopy[j], poolCopy[i]);
-            }
-
-            var eligible = poolCopy
-                .Where(c => !string.IsNullOrWhiteSpace(c))
-                .Where(c =>
-                {
-                    var baseName = BaseRoleName(c);
-                    if (!DraftRolePool.IsRoleUsableAndEnabled(baseName)) return false;
-                    return avoid == null || (!avoid.Contains(c) && !avoid.Contains(baseName));
-                })
-                .ToList();
-
-            if (eligible.Count == 0) return new List<string>();
-
-            var picked = SelectWeightedDistinctCandidates(eligible, Math.Min(offered, eligible.Count), rng, allowGuaranteed);
-
-            if (picked.Count < offered)
-            {
-                foreach (var candidate in poolCopy)
-                {
-                    if (picked.Count >= offered) break;
-                    if (string.IsNullOrWhiteSpace(candidate)) continue;
-                    var baseName = BaseRoleName(candidate);
-                    if (!DraftRolePool.IsRoleUsableAndEnabled(baseName)) continue;
-                    if (!allowGuaranteed && DraftRolePool.GetChanceForRoleName(candidate) >= 100) continue;
-                    if (avoid != null && (avoid.Contains(candidate) || avoid.Contains(baseName))) continue;
-                    if (picked.Any(existing => string.Equals(BaseRoleName(existing), baseName, StringComparison.OrdinalIgnoreCase))) continue;
-                    picked.Add(candidate);
-                }
-            }
-
-            int cap = Math.Max(1, (int)(roleOpts?.OfferedRolesCount.Value ?? 3));
-            if (picked.Count > cap) picked = picked.Take(cap).ToList();
-
-            return picked;
-        }
-
-        private static string BaseRoleName(string name) => DraftRolePool.BaseRoleName(name);
-
-        private static string PickWeightedByChance(List<string> candidates, IRng rng)
-        {
-            if (candidates.Count == 1) return candidates[0];
-
-            var weights = new int[candidates.Count];
-            int totalWeight = 0;
-            for (int i = 0; i < candidates.Count; i++)
-            {
-                weights[i] = Math.Max(1, DraftRolePool.GetChanceForRoleName(candidates[i]));
-                totalWeight += weights[i];
-            }
-
-            int roll = rng.NextInt(totalWeight);
-            int cumulative = 0;
-            for (int i = 0; i < candidates.Count; i++)
-            {
-                cumulative += weights[i];
-                if (roll < cumulative) return candidates[i];
-            }
-
-            return candidates[^1];
-        }
-
-        private static List<string> SelectWeightedDistinctCandidates(List<string> candidates, int take, IRng rng, bool allowGuaranteed = true)
-        {
-            if (candidates == null || candidates.Count == 0 || take <= 0) return new List<string>();
-
-            var result = new List<string>();
-            var remaining = new List<string>(candidates);
-            var seenBaseNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-            while (result.Count < take && remaining.Count > 0)
-            {
-                var guaranteed = allowGuaranteed
-                    ? remaining
-                        .Where(candidate => !string.IsNullOrWhiteSpace(candidate))
-                        .Where(candidate => DraftRolePool.IsRoleUsableAndEnabled(BaseRoleName(candidate)))
-                        .Where(candidate => !seenBaseNames.Contains(BaseRoleName(candidate)))
-                        .Where(candidate => DraftRolePool.GetChanceForRoleName(candidate) >= 100)
-                        .ToList()
-                    : new List<string>();
-
-                var available = guaranteed.Count > 0
-                    ? guaranteed
-                    : remaining
-                        .Where(candidate => !string.IsNullOrWhiteSpace(candidate))
-                        .Where(candidate => DraftRolePool.IsRoleUsableAndEnabled(BaseRoleName(candidate)))
-                        .Where(candidate => !seenBaseNames.Contains(BaseRoleName(candidate)))
-                        .Where(candidate => allowGuaranteed || DraftRolePool.GetChanceForRoleName(candidate) < 100)
-                        .ToList();
-
-                if (available.Count == 0) break;
-
-                var chosen = PickWeightedByChance(available, rng);
-                result.Add(chosen);
-                seenBaseNames.Add(BaseRoleName(chosen));
-
-                remaining.RemoveAll(candidate =>
-                    string.Equals(BaseRoleName(candidate), BaseRoleName(chosen), StringComparison.OrdinalIgnoreCase));
-            }
-
-            return result;
-        }
-
-        private static List<string> TakeWeightedByChance(List<string> names, int take, IRng rng)
-        {
-            if (names == null || names.Count == 0 || take <= 0) return new List<string>();
-
-            var result = new List<string>();
-            var countsByName = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-
-            for (int n = 0; n < take; n++)
-            {
-                var candidates = names
-                    .Where(nm => countsByName.GetValueOrDefault(nm) < Math.Max(1, DraftRolePool.GetMaxCountForRoleName(nm)))
-                    .ToList();
-
-                if (candidates.Count == 0) break; 
-
-                var chosen = PickWeightedByChance(candidates, rng);
-                result.Add(chosen);
-                countsByName[chosen] = countsByName.GetValueOrDefault(chosen) + 1;
-            }
-
-            return result;
-        }
-
-        private static List<string> BuildPoolFromRoleList(int numPlayers, IRng rng)
-        {
-            var pool = new List<string>();
-            var rl   = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
-            if (rl == null) return pool;
-
-            var slots = rl.Slot;
-            int seatIndex = 0;
-
-            for (var slotIndex = 0; slotIndex < slots.Count; slotIndex++)
-            {
-                var bucket = slots[slotIndex].Value;
-
-                var names = DraftRolePool.ResolveBucketToRoleNames(bucket.ToString())
-                    ?.Where(n => !string.IsNullOrWhiteSpace(n))
-                    .Distinct(StringComparer.OrdinalIgnoreCase)
-                    .ToList();
-
-                if (names == null || names.Count == 0)
-                {
-                    if (DraftRolePool.IsNeutralRoleListOption(bucket)) {
-                        continue;
-                    }
-
-                    var fallbackBucket = nameof(RoleListOption.Any);
-                    names = DraftRolePool.ResolveBucketToRoleNames(fallbackBucket)
-                        ?.Where(n => !string.IsNullOrWhiteSpace(n))
-                        .Distinct(StringComparer.OrdinalIgnoreCase)
-                        .ToList() ?? new List<string>();
-                }
-
-                foreach (var name in names)
-                {
-                    pool.Add($"{name}|seat{seatIndex++}");
-                }
-            }
-
-            int rolesPerSlot = Math.Max(1, (int)OptionGroupSingleton<RoleOptions>.Instance.OfferedRolesCount.Value);
-            int concurrency = Math.Max(1, Math.Min(2, (int)OptionGroupSingleton<RoleOptions>.Instance.ConcurrentPicks.Value));
-            int targetSize = GetLowPlayerPoolTargetSize(numPlayers, rolesPerSlot, concurrency);
-            var fundedNames = slots.Options
-                .SelectMany(bucket => DraftRolePool.ResolveBucketToRoleNames(bucket.Value.ToString() ?? string.Empty))
-                .Where(n => !string.IsNullOrWhiteSpace(n))
-                .ToList();
-            int fundingIndex = 0;
-            while (pool.Count < targetSize && fundedNames.Count > 0)
-            {
-                var name = fundedNames[rng.NextInt(fundedNames.Count)];
-                pool.Add($"{name}|fund{fundingIndex++}");
-            }
-
-            if (pool.Count < targetSize)
-            {
-                var fallbackNames = fundedNames.Count > 0 ? fundedNames : GetAllowedCrewFallbackNames();
-                if (fallbackNames.Count == 0)
-                {
-                    fallbackNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewRandom))
-                        ?.Where(n => !string.IsNullOrWhiteSpace(n) && DraftRolePool.IsRoleUsableAndEnabled(n))
-                        .Distinct(StringComparer.OrdinalIgnoreCase)
-                        .ToList() ?? new List<string>();
-                }
-
-                while (pool.Count < targetSize && fallbackNames.Count > 0)
-                {
-                    var name = fallbackNames[rng.NextInt(fallbackNames.Count)];
-                    pool.Add($"{name}|fund{fundingIndex++}");
-                }
-            }
-
-            if (pool.Count == 0)
-            {
-                var fallbackNames = GetAllowedCrewFallbackNames();
-                if (fallbackNames.Count == 0)
-                {
-                    fallbackNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewRandom))
-                        ?.Where(n => !string.IsNullOrWhiteSpace(n) && DraftRolePool.IsRoleUsableAndEnabled(n))
-                        .Distinct(StringComparer.OrdinalIgnoreCase)
-                        .ToList() ?? new List<string>();
-                }
-                foreach (var fallbackName in fallbackNames)
-                {
-                    pool.Add($"{fallbackName}|seat{seatIndex++}");
-                }
-            }
-
-            for (int i = pool.Count - 1; i > 0; i--)
-            {
-                int j = rng.NextInt(i + 1);
-                (pool[i], pool[j]) = (pool[j], pool[i]);
-            }
-
-            return pool;
-        }
-
-        private static List<string> BuildPoolFromManualAmounts(IRng rng)
-        {
-            var pool = new List<string>();
-
-            var crewOpts = OptionGroupSingleton<RoleDraftCrewOptions>.Instance;
-            if (crewOpts != null)
-            {
-                ExpandBucketCapped(pool, RoleListOption.CrewInvest,     (int)crewOpts.MaxCrewInvestigative.Value, rng);
-                ExpandBucketCapped(pool, RoleListOption.CrewKilling,    (int)crewOpts.MaxCrewKilling.Value, rng);
-                ExpandBucketCapped(pool, RoleListOption.CrewPower,      (int)crewOpts.MaxCrewPower.Value, rng);
-                ExpandBucketCapped(pool, RoleListOption.CrewProtective, (int)crewOpts.MaxCrewProtective.Value, rng);
-                ExpandBucketCapped(pool, RoleListOption.CrewSupport,    (int)crewOpts.MaxCrewSupport.Value, rng);
-            }
-
-            var neutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
-            if (neutOpts != null && neutOpts.MaxNeutrals.Value > 0)
-            {
-                ExpandBucketCapped(pool, RoleListOption.NeutBenign,  (int)neutOpts.MaxNeutBenign.Value, rng);
-                ExpandBucketCapped(pool, RoleListOption.NeutEvil,    (int)neutOpts.MaxNeutEvil.Value, rng);
-                ExpandBucketCapped(pool, RoleListOption.NeutKilling, (int)neutOpts.MaxNeutKilling.Value, rng);
-                ExpandBucketCapped(pool, RoleListOption.NeutOutlier, (int)neutOpts.MaxNeutOutlier.Value, rng);
-
-                var neutralSubBucketCaps = new Dictionary<RoleListOption, int>
-                {
-                    [RoleListOption.NeutBenign]  = (int)neutOpts.MaxNeutBenign.Value,
-                    [RoleListOption.NeutEvil]    = (int)neutOpts.MaxNeutEvil.Value,
-                    [RoleListOption.NeutKilling] = (int)neutOpts.MaxNeutKilling.Value,
-                    [RoleListOption.NeutOutlier] = (int)neutOpts.MaxNeutOutlier.Value,
-                };
-
-                TopUpBucketToTarget(pool, RoleListOption.NeutRandom, (int)neutOpts.MaxNeutrals.Value, rng, neutralSubBucketCaps);
-            }
-
-            var impOpts = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
-            if (impOpts != null && impOpts.MaxImpostors.Value > 0)
-            {
-                ExpandBucketCapped(pool, RoleListOption.ImpConceal, (int)impOpts.MaxImpConcealing.Value, rng);
-                ExpandBucketCapped(pool, RoleListOption.ImpKilling, (int)impOpts.MaxImpKilling.Value, rng);
-                ExpandBucketCapped(pool, RoleListOption.ImpPower,   (int)impOpts.MaxImpPower.Value, rng);
-                ExpandBucketCapped(pool, RoleListOption.ImpSupport, (int)impOpts.MaxImpSupport.Value, rng);
-            }
-
-            return pool;
-        }
-
-        private static RoleListOption? AlignmentToNeutralSubBucket(RoleAlignment? alignment) => alignment switch
-        {
-            RoleAlignment.NeutralBenign => RoleListOption.NeutBenign,
-            RoleAlignment.NeutralEvil => RoleListOption.NeutEvil,
-            RoleAlignment.NeutralKilling => RoleListOption.NeutKilling,
-            RoleAlignment.NeutralOutlier => RoleListOption.NeutOutlier,
-            _ => null
+            [RoleAlignment.CrewmateInvestigative] = (int)crew.MaxCrewInvestigative.Value,
+            [RoleAlignment.CrewmateKilling] = (int)crew.MaxCrewKilling.Value,
+            [RoleAlignment.CrewmatePower] = (int)crew.MaxCrewPower.Value,
+            [RoleAlignment.CrewmateProtective] = (int)crew.MaxCrewProtective.Value,
+            [RoleAlignment.CrewmateSupport] = (int)crew.MaxCrewSupport.Value,
+            [RoleAlignment.ImpostorConcealing] = (int)imp.MaxImpConcealing.Value,
+            [RoleAlignment.ImpostorKilling] = (int)imp.MaxImpKilling.Value,
+            [RoleAlignment.ImpostorPower] = (int)imp.MaxImpPower.Value,
+            [RoleAlignment.ImpostorSupport] = (int)imp.MaxImpSupport.Value,
+            [RoleAlignment.NeutralBenign] = (int)neut.MaxNeutBenign.Value,
+            [RoleAlignment.NeutralEvil] = (int)neut.MaxNeutEvil.Value,
+            [RoleAlignment.NeutralKilling] = (int)neut.MaxNeutKilling.Value,
+            [RoleAlignment.NeutralOutlier] = (int)neut.MaxNeutOutlier.Value
         };
 
-        private static void TopUpBucketToTarget(List<string> pool, RoleListOption bucket, int targetTotal, IRng rng, Dictionary<RoleListOption, int>? subBucketCaps = null)
+        var impSeats = Math.Min((int)imp.MaxImpostors.Value, Capacity(DraftRolePool.Impostor, caps, pool));
+        var neutSeats = Math.Min((int)neut.MaxNeutrals.Value, Capacity(DraftRolePool.Neutral, caps, pool));
+        impSeats = Math.Clamp(impSeats, 0, Math.Max(0, players - 1));
+        neutSeats = Math.Clamp(neutSeats, 0, Math.Max(0, players - impSeats - 1));
+        var crewSeats = players - impSeats - neutSeats;
+
+        if (Capacity(DraftRolePool.Crew, caps, pool) < crewSeats)
         {
-            if (targetTotal <= 0) return;
-
-            var names = DraftRolePool.ResolveBucketToRoleNames(bucket.ToString())
-                ?.Where(n => !string.IsNullOrWhiteSpace(n))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToList();
-            if (names == null || names.Count == 0) return;
-
-            var countsByName = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-            foreach (var entry in pool)
-                countsByName[entry] = countsByName.GetValueOrDefault(entry) + 1;
-
-            int currentTotal = names.Sum(n => countsByName.GetValueOrDefault(n));
-            int guard = Math.Max(0, targetTotal) * 10 + 20;
-            Dictionary<string, RoleListOption>? nameToSubBucket = null;
-            Dictionary<RoleListOption, int>? subBucketCounts = null;
-            if (subBucketCaps is { Count: > 0 })
+            foreach (var alignment in DraftRolePool.Crew)
             {
-                nameToSubBucket = new Dictionary<string, RoleListOption>(StringComparer.OrdinalIgnoreCase);
-                foreach (var subBucket in subBucketCaps.Keys)
-                {
-                    var subNames = DraftRolePool.ResolveBucketToRoleNames(subBucket.ToString())
-                        ?.Where(n => !string.IsNullOrWhiteSpace(n))
-                        .Distinct(StringComparer.OrdinalIgnoreCase) ?? Enumerable.Empty<string>();
-                    foreach (var n in subNames)
-                    {
-                        nameToSubBucket.TryAdd(n, subBucket);
-                    }
-                }
-
-                subBucketCounts = new Dictionary<RoleListOption, int>();
-                foreach (var entry in pool)
-                {
-                    var align = DraftRolePool.GetRoleAlignment(entry);
-                    var sb = AlignmentToNeutralSubBucket(align);
-                    if (!sb.HasValue && nameToSubBucket.TryGetValue(entry, out var lookupSb))
-                        sb = lookupSb;
-
-                    if (sb.HasValue)
-                        subBucketCounts[sb.Value] = subBucketCounts.GetValueOrDefault(sb.Value) + 1;
-                }
-            }
-
-            while (currentTotal < targetTotal && guard-- > 0)
-            {
-                var candidates = names.Where(n => countsByName.GetValueOrDefault(n) < Math.Max(1, DraftRolePool.GetMaxCountForRoleName(n))).ToList();
-
-                if (subBucketCaps != null && subBucketCounts != null)
-                {
-                    candidates = candidates.Where(n =>
-                    {
-                        var align = DraftRolePool.GetRoleAlignment(n);
-                        var sb = AlignmentToNeutralSubBucket(align);
-                        if (!sb.HasValue && nameToSubBucket != null && nameToSubBucket.TryGetValue(n, out var lookupSb))
-                            sb = lookupSb;
-
-                        if (sb.HasValue && subBucketCaps.TryGetValue(sb.Value, out var cap))
-                        {
-                            return subBucketCounts.GetValueOrDefault(sb.Value) < cap;
-                        }
-                        return true;
-                    }).ToList();
-                }
-
-                if (candidates.Count == 0) break;
-
-                var chosen = PickWeightedByChance(candidates, rng);
-                pool.Add(chosen);
-                countsByName[chosen] = countsByName.GetValueOrDefault(chosen) + 1;
-                currentTotal++;
-
-                if (subBucketCaps != null && subBucketCounts != null)
-                {
-                    var align = DraftRolePool.GetRoleAlignment(chosen);
-                    var sb = AlignmentToNeutralSubBucket(align);
-                    if (!sb.HasValue && nameToSubBucket != null && nameToSubBucket.TryGetValue(chosen, out var lookupSb))
-                        sb = lookupSb;
-
-                    if (sb.HasValue)
-                        subBucketCounts[sb.Value] = subBucketCounts.GetValueOrDefault(sb.Value) + 1;
-                }
-            }
-
-            if (currentTotal < targetTotal && subBucketCaps is { Count: > 0 })
-            {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
-                    $"[DraftPoolBuilder] Could not fill neutrals up to Max Neutrals Total ({targetTotal}) without exceeding a per-type cap; stopped at {currentTotal}. Raise a per-type max (Benign/Evil/Killing/Outlier) or lower Max Neutrals Total.");
+                caps.Remove(alignment);
             }
         }
 
-        private static void ExpandBucketCapped(List<string> pool, RoleListOption bucket, int maxSlots, IRng rng)
+        var seats = new List<RoleAlignment[]>();
+        seats.AddRange(Enumerable.Repeat(DraftRolePool.Impostor, impSeats));
+        seats.AddRange(Enumerable.Repeat(DraftRolePool.Neutral, neutSeats));
+        seats.AddRange(Enumerable.Repeat(DraftRolePool.Crew, crewSeats));
+
+        Shuffle(seats);
+        return new DraftPlan(seats, caps);
+    }
+
+    public List<DraftSpreadOffer?> AssignSpreadOffers(
+        IReadOnlyList<DraftCopy> picks,
+        int activePicks)
+    {
+        var deficits = new Dictionary<DraftFaction, int>
         {
-            if (maxSlots <= 0) return;
-
-            var names = DraftRolePool.ResolveBucketToRoleNames(bucket.ToString())
-                ?.Where(n => !string.IsNullOrWhiteSpace(n))
-                .ToList();
-            if (names == null || names.Count == 0) return;
-
-            pool.AddRange(TakeWeightedByChance(names, maxSlots, rng));
+            [DraftFaction.Impostor] = RequiredSeats(DraftFaction.Impostor) -
+                picks.Where(x => IsFaction(x.Alignment, DraftFaction.Impostor)).Sum(x => x.Weight),
+            [DraftFaction.Neutral] = RequiredSeats(DraftFaction.Neutral) -
+                picks.Where(x => IsFaction(x.Alignment, DraftFaction.Neutral)).Sum(x => x.Weight)
+        };
+        foreach (var faction in deficits.Keys.ToList())
+        {
+            deficits[faction] = Math.Max(0, deficits[faction]);
         }
 
-        internal static List<string> GetAllowedCrewFallbackNames()
+        var offers = Enumerable.Repeat<DraftSpreadOffer?>(null, activePicks).ToList();
+        var slots = Enumerable.Range(0, activePicks).ToList();
+        Shuffle(slots);
+        var offersToSchedule = Math.Min(deficits.Values.Sum(), activePicks);
+        for (var i = 0; i < offersToSchedule; i++)
         {
-            var fallbackNames = new List<string>();
-
-            var crewOpts = OptionGroupSingleton<RoleDraftCrewOptions>.Instance;
-            if (crewOpts != null)
-            {
-                if (crewOpts.MaxCrewInvestigative.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewInvest)));
-                if (crewOpts.MaxCrewKilling.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewKilling)));
-                if (crewOpts.MaxCrewPower.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewPower)));
-                if (crewOpts.MaxCrewProtective.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewProtective)));
-                if (crewOpts.MaxCrewSupport.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.CrewSupport)));
-            }
-
-            return fallbackNames
-                .Where(name => !string.IsNullOrWhiteSpace(name) && DraftRolePool.IsRoleUsableAndEnabled(name))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToList();
+            var deficit = deficits.Values.Sum();
+            var roll = Random.RandomRangeInt(0, deficit);
+            var factionToLock = roll < deficits[DraftFaction.Impostor]
+                ? DraftFaction.Impostor
+                : DraftFaction.Neutral;
+            offers[slots[i]] = new DraftSpreadOffer(factionToLock, true);
+            deficits[factionToLock]--;
         }
 
-        internal static List<string> GetAllowedManualFallbackNames()
+        return offers;
+    }
+
+    public static bool IsFaction(RoleAlignment alignment, DraftFaction faction) => faction switch
+    {
+        DraftFaction.Impostor => DraftRolePool.Impostor.Contains(alignment),
+        DraftFaction.Neutral => DraftRolePool.Neutral.Contains(alignment),
+        DraftFaction.Crewmate => DraftRolePool.Crew.Contains(alignment),
+        _ => false
+    };
+
+    public int RemainingSpreadNeed(IReadOnlyList<DraftCopy> picks, DraftFaction faction)
+    {
+        var pickedWeight = picks
+            .Where(copy => IsFaction(copy.Alignment, faction))
+            .Sum(copy => copy.Weight);
+        return Math.Max(0, RequiredSeats(faction) - pickedWeight);
+    }
+
+    private int RequiredSeats(DraftFaction faction)
+    {
+        return _seats.Count(seat =>
+            seat.Length > 0 && seat.All(alignment => IsFaction(alignment, faction)));
+    }
+
+    public void AddCrewSeats(int count, IReadOnlyList<DraftCopy> pool)
+    {
+        if (_caps.Count > 0)
         {
-            var fallbackNames = new List<string>(GetAllowedCrewFallbackNames());
-
-            var neutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
-            if (neutOpts != null && neutOpts.MaxNeutrals.Value > 0)
-            {
-                if (neutOpts.MaxNeutBenign.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.NeutBenign)));
-                if (neutOpts.MaxNeutEvil.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.NeutEvil)));
-                if (neutOpts.MaxNeutKilling.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.NeutKilling)));
-                if (neutOpts.MaxNeutOutlier.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.NeutOutlier)));
-            }
-
-            var impOpts = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
-            if (impOpts != null && impOpts.MaxImpostors.Value > 0)
-            {
-                if (impOpts.MaxImpConcealing.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.ImpConceal)));
-                if (impOpts.MaxImpKilling.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.ImpKilling)));
-                if (impOpts.MaxImpPower.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.ImpPower)));
-                if (impOpts.MaxImpSupport.Value > 0)
-                    fallbackNames.AddRange(DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.ImpSupport)));
-            }
-
-            return fallbackNames
-                .Where(name => !string.IsNullOrWhiteSpace(name) && DraftRolePool.IsRoleUsableAndEnabled(name))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToList();
+            var alignment = DraftRolePool.Crew
+                .OrderByDescending(candidate => pool.Count(copy => copy.Alignment == candidate) - _caps.GetValueOrDefault(candidate))
+                .ThenByDescending(candidate => pool.Count(copy => copy.Alignment == candidate))
+                .FirstOrDefault();
+            _caps[alignment] = _caps.GetValueOrDefault(alignment) + count;
+            _extraCrewCaps[alignment] = _extraCrewCaps.GetValueOrDefault(alignment) + count;
         }
+
+        for (var i = 0; i < count; i++)
+        {
+            _seats.Add(DraftRolePool.Crew);
+        }
+    }
+
+    public void RemoveCrewSeats(int count)
+    {
+        while (count-- > 0)
+        {
+            var capAlignment = _extraCrewCaps.FirstOrDefault(pair => pair.Value > 0).Key;
+            if (_extraCrewCaps.GetValueOrDefault(capAlignment) > 0)
+            {
+                _extraCrewCaps[capAlignment]--;
+                _caps[capAlignment]--;
+            }
+
+            var index = _seats.FindLastIndex(seat => seat.SequenceEqual(DraftRolePool.Crew));
+            if (index < 0) return;
+            _seats.RemoveAt(index);
+        }
+    }
+
+    private static void Shuffle<T>(IList<T> items)
+    {
+        for (var i = items.Count - 1; i > 0; i--)
+        {
+            var j = Random.RandomRangeInt(0, i + 1);
+            (items[i], items[j]) = (items[j], items[i]);
+        }
+    }
+
+    private static int Capacity(RoleAlignment[] alignments, Dictionary<RoleAlignment, int> caps, List<DraftCopy> pool)
+    {
+        return alignments.Sum(a => Math.Min(caps[a], pool.Count(x => x.Alignment == a)));
+    }
+
+    public bool CanComplete(IReadOnlyList<DraftCopy> picks, IEnumerable<DraftCopy> supply)
+    {
+        var candidates = new List<RoleAlignment>();
+        foreach (var group in picks.GroupBy(x => x.Alignment))
+        {
+            var weight = group.Sum(x => x.Weight);
+            if (weight > CapFor(group.Key))
+            {
+                return false;
+            }
+
+            candidates.AddRange(Enumerable.Repeat(group.Key, weight));
+        }
+
+        var mandatory = candidates.Count;
+        foreach (var group in supply.GroupBy(x => x.Alignment))
+        {
+            var room = CapFor(group.Key) - picks.Where(x => x.Alignment == group.Key).Sum(x => x.Weight);
+            candidates.AddRange(Enumerable.Repeat(group.Key, Math.Max(0, Math.Min(room, group.Count()))));
+        }
+
+        var owner = Enumerable.Repeat(-1, _seats.Count).ToArray();
+        var matched = 0;
+        for (var i = 0; i < candidates.Count; i++)
+        {
+            if (i >= mandatory && matched >= _seats.Count)
+            {
+                break;
+            }
+
+            var assigned = TryAssign(i, candidates, owner, new bool[_seats.Count]);
+            if (i < mandatory && !assigned)
+            {
+                return false;
+            }
+
+            if (assigned)
+            {
+                matched++;
+            }
+        }
+
+        return matched >= _seats.Count;
+    }
+
+    public bool DropSeat(IReadOnlyList<DraftCopy> picks)
+    {
+        var picked = picks.SelectMany(x => Enumerable.Repeat(x.Alignment, x.Weight)).ToList();
+        foreach (var seat in _seats.OrderByDescending(x => x.Length).ToList())
+        {
+            var index = _seats.IndexOf(seat);
+            var rest = _seats.Where((_, i) => i != index).ToList();
+            var owner = Enumerable.Repeat(-1, rest.Count).ToArray();
+            if (picked.Select((_, i) => i).All(i => TryAssign(i, picked, owner, new bool[rest.Count], rest)))
+            {
+                _seats.RemoveAt(index);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private int CapFor(RoleAlignment alignment) => _caps.GetValueOrDefault(alignment, int.MaxValue);
+
+    private bool TryAssign(int candidate, List<RoleAlignment> candidates, int[] owner, bool[] seen, List<RoleAlignment[]>? seats = null)
+    {
+        seats ??= _seats;
+        for (var s = 0; s < seats.Count; s++)
+        {
+            if (seen[s] || !seats[s].Contains(candidates[candidate]))
+            {
+                continue;
+            }
+
+            seen[s] = true;
+            if (owner[s] == -1 || TryAssign(owner[s], candidates, owner, seen, seats))
+            {
+                owner[s] = candidate;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static RoleAlignment[] Alignments(RoleListOption bucket)
+    {
+        RoleAlignment[] crew = DraftRolePool.Crew;
+        RoleAlignment[] imp = DraftRolePool.Impostor;
+        RoleAlignment[] neut = DraftRolePool.Neutral;
+
+        return bucket switch
+        {
+            RoleListOption.CrewInvest => [RoleAlignment.CrewmateInvestigative],
+            RoleListOption.CrewKilling => [RoleAlignment.CrewmateKilling],
+            RoleListOption.CrewProtective => [RoleAlignment.CrewmateProtective],
+            RoleListOption.CrewPower => [RoleAlignment.CrewmatePower],
+            RoleListOption.CrewSupport => [RoleAlignment.CrewmateSupport],
+            RoleListOption.CrewCommon => [RoleAlignment.CrewmateInvestigative, RoleAlignment.CrewmateProtective, RoleAlignment.CrewmateSupport],
+            RoleListOption.CrewSpecial => [RoleAlignment.CrewmateKilling, RoleAlignment.CrewmatePower],
+            RoleListOption.CrewRandom => crew,
+            RoleListOption.NeutBenign => [RoleAlignment.NeutralBenign],
+            RoleListOption.NeutEvil => [RoleAlignment.NeutralEvil],
+            RoleListOption.NeutKilling => [RoleAlignment.NeutralKilling],
+            RoleListOption.NeutOutlier => [RoleAlignment.NeutralOutlier],
+            RoleListOption.NeutCommon => [RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil],
+            RoleListOption.NeutSpecial => [RoleAlignment.NeutralKilling, RoleAlignment.NeutralOutlier],
+            RoleListOption.NeutWildcard => [RoleAlignment.NeutralBenign, RoleAlignment.NeutralEvil, RoleAlignment.NeutralOutlier],
+            RoleListOption.NeutRandom => neut,
+            RoleListOption.ImpConceal => [RoleAlignment.ImpostorConcealing],
+            RoleListOption.ImpKilling => [RoleAlignment.ImpostorKilling],
+            RoleListOption.ImpPower => [RoleAlignment.ImpostorPower],
+            RoleListOption.ImpSupport => [RoleAlignment.ImpostorSupport],
+            RoleListOption.ImpCommon => [RoleAlignment.ImpostorConcealing, RoleAlignment.ImpostorSupport],
+            RoleListOption.ImpSpecial => [RoleAlignment.ImpostorKilling, RoleAlignment.ImpostorPower],
+            RoleListOption.ImpRandom => imp,
+            RoleListOption.NonImp => [.. crew, .. neut],
+            _ => [.. crew, .. imp, .. neut]
+        };
     }
 }
