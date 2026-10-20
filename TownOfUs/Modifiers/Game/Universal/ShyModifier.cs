@@ -143,7 +143,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
 
             SetVisibility(Player, opacity, true);
         }
-        else if (Player.GetAppearanceType() == TownOfUsAppearances.Camouflage)
+        else if (Player.GetAppearanceType() == TownOfUsAppearances.Camouflage && OptionGroupSingleton<ShyOptions>.Instance.ShyAlwaysVisibleInCamoComms.Value)
         {
             SetVisibility(Player, 1f, true);
         }
@@ -188,18 +188,6 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         colour.a = transparency;
         player.cosmetics.currentBodySprite.BodySprite.color = colour;
 
-        if (hideName)
-        {
-            transparency = 0f;
-        }
-
-        cosmetics.nameText.color = cosmetics.nameText.color.SetAlpha(transparency);
-
-        if (DataManager.Settings.Accessibility.ColorBlindMode)
-        {
-            cosmetics.colorBlindText.color = cosmetics.colorBlindText.color.SetAlpha(transparency);
-        }
-
         player.SetHatAndVisorAlpha(transparency);
         cosmetics.skin.layer.color = cosmetics.skin.layer.color.SetAlpha(transparency);
         if (player.cosmetics.GetLongBoi() != null)
@@ -233,6 +221,18 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         foreach (var animation in player.transform.GetChild(2).GetComponentsInChildren<SpriteRenderer>())
         {
             animation.color = animation.color.SetAlpha(transparency);
+        }
+
+        if (hideName)
+        {
+            transparency = 0f;
+        }
+
+        cosmetics.nameText.color = cosmetics.nameText.color.SetAlpha(transparency);
+
+        if (DataManager.Settings.Accessibility.ColorBlindMode)
+        {
+            cosmetics.colorBlindText.color = cosmetics.colorBlindText.color.SetAlpha(transparency);
         }
     }
 }

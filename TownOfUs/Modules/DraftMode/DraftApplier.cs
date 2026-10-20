@@ -1,64 +1,26 @@
 using AmongUs.GameOptions;
 
+namespace TownOfUs.Modules.DraftMode;
 
-namespace TownOfUs.Modules.DraftMode
+public static class DraftApplier
 {
-    public static class DraftApplier
+    internal static List<DraftSlotState> PendingDraftStates = [];
+
+    public static void StorePendingDraftStates(IReadOnlyList<DraftSlotState> slotStates)
     {
-        public static Action<byte, string, ushort> OnAssignRoleRequested = DefaultAssignmentHandler;
+        PendingDraftStates = [.. slotStates];
+    }
 
-        internal static List<DraftSlotState> PendingDraftStates = new();
+    public static void ApplyDraftResults(IReadOnlyList<DraftSlotState> slotStates)
+    {
+        if (!AmongUsClient.Instance.AmHost) return;
 
-        public static void StorePendingDraftStates(IReadOnlyList<DraftSlotState> slotStates)
+        foreach (var state in slotStates)
         {
-            if (slotStates == null) return;
-            PendingDraftStates = slotStates.ToList();
-        }
+            var player = MiscUtils.PlayerById(state.PlayerId);
+            if (player == null) continue;
 
-        public static void ApplyDraftResults(IReadOnlyList<DraftSlotState> slotStates)
-        {
-            if (slotStates == null) return;
-
-            foreach (var s in slotStates)
-            {
-                var roleName = s.ForcedRoleName;
-                if (string.IsNullOrEmpty(roleName))
-                    roleName = DraftRolePool.GetRoleNameFromId(s.ChosenRoleId);
-
-                try
-                {
-                    OnAssignRoleRequested?.Invoke(s.PlayerId, roleName, s.ChosenRoleId);
-                }
-                catch (Exception e)
-                {
-                    MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, $"DraftApplier: assignment handler threw: {e}");
-                }
-            }
-        }
-
-        private static void DefaultAssignmentHandler(byte playerId, string roleName, ushort roleId)
-        {
-            if (!AmongUsClient.Instance.AmHost)
-                return;
-
-            if (roleId == 0)
-            {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
-                    $"DraftApplier: roleId is 0 for player {playerId} ({roleName ?? "unknown"}), cannot assign role");
-                return;
-            }
-
-            var player = MiscUtils.PlayerById(playerId);
-
-            if (player == null)
-            {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
-                    $"DraftApplier: no PlayerControl found for player {playerId}, cannot assign role {roleName}");
-                return;
-            }
-
-
-            player.RpcSetRole((RoleTypes)roleId);
+            player.RpcSetRole((RoleTypes)state.ChosenRoleId);
         }
     }
 }

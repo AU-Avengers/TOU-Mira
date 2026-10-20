@@ -380,7 +380,7 @@ public static class TouAchievementEvents
         // No You: the local player served a drink back to someone who served them this round.
         if (ServedLocalIds.Contains(target.PlayerId))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.NoYou);
+            AchievementsAPIHelper.Unlock(TouAchievements.PartyOfTwo);
         }
 
         if (server.Data.Role is not BootleggerRole)
@@ -1554,7 +1554,7 @@ public static class TouAchievementEvents
         // Carrier: the Plaguebearer won without ever transforming into Pestilence.
         if (local.GetRoleWhenAlive() is PlaguebearerRole && LocalWon())
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Carrier);
+            AchievementsAPIHelper.Unlock(TouAchievements.CommonCold);
         }
 
         // Blood Moon: the Werewolf killed every other living player in a single Rampage.
