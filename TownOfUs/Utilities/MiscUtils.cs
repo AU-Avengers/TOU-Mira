@@ -726,6 +726,11 @@ public static class MiscUtils
 
     public static IEnumerable<RoleBehaviour> GetPotentialRoles()
     {
+        if (TutorialManager.InstanceExists)
+        {
+            return AllRegisteredRoles;
+        }
+
         var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
         var roleOptions = currentGameOptions.RoleOptions;
         var assignmentData = SpawnableRoles.Select(role =>
@@ -767,11 +772,6 @@ public static class MiscUtils
 
         var impostorRole = AllRegisteredRoles.FirstOrDefault(x => x.Role == RoleTypes.Impostor);
         roleList = roleList.AddItem(impostorRole!);
-
-        if (TutorialManager.InstanceExists)
-        {
-            roleList = AllRegisteredRoles;
-        }
 
         //Error($"GetPotentialRoles - impostorRole: '{impostorRole?.GetRoleName()}'");
 
