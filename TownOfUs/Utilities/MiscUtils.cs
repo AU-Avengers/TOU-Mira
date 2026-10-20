@@ -749,20 +749,20 @@ public static class MiscUtils
 
         var roleList = assignmentData.Where(x => x is { Chance: > 0, Count: > 0, Role: ICustomRole })
             .Select(x => x.Role);
-        var array = AllRegisteredRoles;
+        var registeredRoles = AllRegisteredRoles;
 
         foreach (RoleTypes type in PotentialRoles)
         {
             if (assignmentData.FirstOrDefault(x => x.Role.Role == type) is { Chance: > 0, Count: > 0 })
                 roleList = roleList.AddItem(
-                    array.FirstOrDefault(x => x.Role == type)!);
+                    registeredRoles.FirstOrDefault(x => x.Role == type)!);
         }
 
-        var crewmateRole = AllRegisteredRoles.FirstOrDefault(x => x.Role == RoleTypes.Crewmate);
+        var crewmateRole = registeredRoles.FirstOrDefault(x => x.Role == RoleTypes.Crewmate);
         roleList = roleList.AddItem(crewmateRole!);
         //Error($"GetPotentialRoles - crewmateRole: '{crewmateRole?.GetRoleName()}'");
 
-        var impostorRole = AllRegisteredRoles.FirstOrDefault(x => x.Role == RoleTypes.Impostor);
+        var impostorRole = registeredRoles.FirstOrDefault(x => x.Role == RoleTypes.Impostor);
         roleList = roleList.AddItem(impostorRole!);
 
         //Error($"GetPotentialRoles - impostorRole: '{impostorRole?.GetRoleName()}'");
