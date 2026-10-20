@@ -20,7 +20,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IBodyReport
 {
     private MeetingMenu meetingMenu;
     public override bool IsAffectedByComms => false;
@@ -246,38 +246,10 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         }
     }
 
-    public void Report(byte deadPlayerId)
+    public bool ReportEnabled => OptionGroupSingleton<MedicOptions>.Instance.ShowReports;
+
+    public void ReportBody(BodyReport br)
     {
-        var areReportsEnabled = OptionGroupSingleton<MedicOptions>.Instance.ShowReports;
-
-        if (!areReportsEnabled)
-        {
-            return;
-        }
-
-        var matches = GameHistory.KilledPlayers.Where(x => x.VictimId == deadPlayerId).ToArray();
-
-        DeadPlayer? killer = null;
-
-        if (matches.Length > 0)
-        {
-            killer = matches[0];
-        }
-
-        if (killer == null)
-        {
-            return;
-        }
-
-        // Message($"CmdReportDeadBody");
-        var br = new BodyReport
-        {
-            Killer = MiscUtils.PlayerById(killer.KillerId),
-            Reporter = Player,
-            Body = MiscUtils.PlayerById(killer.VictimId),
-            KillAge = (float)(DateTime.UtcNow - killer.KillTime).TotalMilliseconds
-        };
-
         var reportMsg = BodyReport.ParseMedicReport(br);
 
         if (string.IsNullOrWhiteSpace(reportMsg))
