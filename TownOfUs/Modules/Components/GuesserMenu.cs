@@ -40,30 +40,23 @@ public sealed class GuesserMenu : CustomPaginableMenu
                 (shapeshifterPanel, role) => new MenuEntry(shapeshifterPanel, role.GetRoleName())
             );
 
+            if (modifierMatch != null && onModifierClick != null)
+            {
+                var modifiers = MiscUtils.AllModifiers.Where(modifierMatch).OrderBy(x => x.ModifierName);
+
+                RegisterPanels(
+                    modifiers,
+                    onModifierClick!,
+                    Utilities.Extensions.SetModifier,
+                    (shapeshifterPanel, modifier) => new MenuEntry(shapeshifterPanel, modifier.ModifierName)
+                );
+            }
+
             foreach (var shapeshifterPanel in EntryPanels)
             {
                 var highlight = shapeshifterPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight");
                 highlight.FindChild("ShapeshifterIcon").gameObject.SetActive(false);
                 highlight.GetComponent<SpriteRenderer>().transform.GetChild(0).gameObject.SetActive(false);
-            }
-
-            if (modifierMatch == null || onModifierClick == null)
-                return;
-
-            var modifiers = MiscUtils.AllModifiers.Where(modifierMatch).OrderBy(x => x.ModifierName);
-
-            RegisterPanels(
-                modifiers,
-                onModifierClick!,
-                Utilities.Extensions.SetModifier,
-                (shapeshifterPanel, modifier) => new MenuEntry(shapeshifterPanel, modifier.ModifierName)
-            );
-
-            foreach (var shapeshifterPanel in EntryPanels)
-            {
-                var highlight = shapeshifterPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight");
-                highlight.FindChild("ShapeshifterIcon").gameObject.SetActive(false);
-                highlight.GetComponent<SpriteRenderer>().transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
             }
         });
     }
