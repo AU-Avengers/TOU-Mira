@@ -26,8 +26,7 @@ public sealed class HypnotistRole(IntPtr cppPtr)
         }
 
         HudManager.Instance.KillButton.ToggleVisible(OptionGroupSingleton<HypnotistOptions>.Instance.HypnoKill ||
-                                                     (Player != null && Player.HasModifierOfType<ICachedRole>()) ||
-                                                     (Player != null && MiscUtils.ImpAliveCount == 1));
+                                                     Player != null && (Player.HasModifierOfType<ICachedRole>() || MiscUtils.ImpAliveCount == 1));
     }
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<LookoutRole>());

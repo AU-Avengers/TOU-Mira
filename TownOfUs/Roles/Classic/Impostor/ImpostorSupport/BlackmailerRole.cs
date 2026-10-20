@@ -26,10 +26,8 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
             return;
         }
 
-        HudManager.Instance.KillButton.ToggleVisible(
-            OptionGroupSingleton<BlackmailerOptions>.Instance.BlackmailerKill ||
-            (Player != null && Player.HasModifierOfType<ICachedRole>()) ||
-            (Player != null && MiscUtils.ImpAliveCount == 1));
+        HudManager.Instance.KillButton.ToggleVisible(OptionGroupSingleton<BlackmailerOptions>.Instance.BlackmailerKill ||
+                                                     Player != null && (Player.HasModifierOfType<ICachedRole>() || MiscUtils.ImpAliveCount == 1));
     }
 
     public DoomableType DoomHintType => DoomableType.Insight;

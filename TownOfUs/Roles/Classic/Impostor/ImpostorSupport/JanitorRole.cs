@@ -33,8 +33,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
         }
 
         HudManager.Instance.KillButton.ToggleVisible(OptionGroupSingleton<JanitorOptions>.Instance.JanitorKill ||
-                                                     (Player != null && Player.HasModifierOfType<ICachedRole>()) ||
-                                                     (Player != null && MiscUtils.ImpAliveCount == 1));
+                                                     Player != null && (Player.HasModifierOfType<ICachedRole>() || MiscUtils.ImpAliveCount == 1));
     }
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ForensicRole>());
