@@ -30,8 +30,7 @@ public sealed class UndertakerRole(IntPtr cppPtr)
         }
 
         HudManager.Instance.KillButton.ToggleVisible(OptionGroupSingleton<UndertakerOptions>.Instance.UndertakerKill ||
-                                                     (Player != null && Player.GetModifiers<BaseModifier>()
-                                                         .Any(x => x is ICachedRole)) ||
+                                                     (Player != null && Player.HasModifierOfType<ICachedRole>()) ||
                                                      (Player != null && MiscUtils.ImpAliveCount == 1));
     }
 

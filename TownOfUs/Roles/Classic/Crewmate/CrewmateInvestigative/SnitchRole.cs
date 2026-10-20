@@ -351,13 +351,13 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             var modifiers = player.GetModifiers<SnitchImpostorRevealModifier>().ToList();
             foreach (var mod in modifiers)
             {
-                player.GetModifierComponent()?.RemoveModifier(mod);
+                mod.RemoveSelf();
             }
 
             var playerMods = player.GetModifiers<SnitchPlayerRevealModifier>().ToList();
             foreach (var mod in playerMods)
             {
-                player.GetModifierComponent()?.RemoveModifier(mod);
+                mod.RemoveSelf();
             }
         }
     }

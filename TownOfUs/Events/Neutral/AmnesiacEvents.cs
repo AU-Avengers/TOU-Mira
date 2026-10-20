@@ -54,13 +54,10 @@ public static class AmnesiacEvents
                 continue;
             }
 
-            var arrowModifiers = amne.GetModifiers<AmnesiacArrowModifier>();
+            var arrowModifiers = amne.GetModifiers<AmnesiacArrowModifier>(x => x.DeadBody?.ParentId == cleanedBody.ParentId);
             foreach (var arrowMod in arrowModifiers)
             {
-                if (arrowMod.DeadBody != null && arrowMod.DeadBody.ParentId == cleanedBody.ParentId)
-                {
-                    amne.RemoveModifier(arrowMod);
-                }
+                arrowMod.RemoveSelf();
             }
         }
     }

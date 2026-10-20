@@ -59,8 +59,8 @@ public static class MiscUtils
         ];
     }
     public static int GameHaltersAliveCount => Helpers.GetAlivePlayers().Count(x =>
-        x.Data.Role is IContinuesGame gameHalt && gameHalt.ContinuesGame || x.GetModifiers<BaseModifier>()
-            .Any(y => y is IContinuesGame gameHaltMod && gameHaltMod.ContinuesGame));
+        x.Data.Role is IContinuesGame { ContinuesGame: true } ||
+        x.HasModifierOfType<IContinuesGame>(y => y.ContinuesGame));
 
     public static int NonGameEndingNeutralCount => Helpers.GetAlivePlayers().Count(x => x.Is(RoleAlignment.NeutralBenign));
 
@@ -83,10 +83,10 @@ public static class MiscUtils
          OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue));
 
     public static int ImpAliveCount => Helpers.GetAlivePlayers().Count(x =>
-        x.IsImpostor() || x.GetModifiers<AllianceGameModifier>().Any(y => y.TrueFactionType is AlliedFaction.Impostor));
+        x.IsImpostor() || x.HasModifier<AllianceGameModifier>(y => y.TrueFactionType is AlliedFaction.Impostor));
 
     public static int ImpostorHeadCount => Helpers.GetAlivePlayers().Count(x =>
-        x.IsImpostor() || x.GetModifiers<AllianceGameModifier>().Any(y => y.TrueFactionType is AlliedFaction.Impostor && y.CountTowardsTrueFaction));
+        x.IsImpostor() || x.HasModifier<AllianceGameModifier>(y => y.TrueFactionType is AlliedFaction.Impostor && y.CountTowardsTrueFaction));
 
     public static int CrewKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&

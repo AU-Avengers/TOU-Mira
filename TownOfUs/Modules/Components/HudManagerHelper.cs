@@ -328,8 +328,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         {
             player = disguise.Target;
         }
-        var mod = player.GetModifiers<BaseRevealModifier>()
-                .FirstOrDefault(x => x.Visible && x is FirstRoundIndicator && x.ExtraNameText != string.Empty);
+        var mod = player.GetModifier<BaseRevealModifier>(
+            x => x.Visible && x is FirstRoundIndicator && x.ExtraNameText != string.Empty);
         return mod?.ExtraNameText ?? string.Empty;
     }
 
@@ -552,8 +552,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 roleName += $"<size={roleNameSize}><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
             }
 
-            var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole);
-            if (cachedMod is ICachedRole cache && cache.Visible &&
+            if (player.TryGetModifierOfType<ICachedRole>(out var cache, x => x.Visible) &&
                 cache.CanDisplayForRole(role))
             {
                 var cachedName = cache.CachedRoleName == "" ? MiscUtils.GetToggledRoleTmpIcon(cache.CachedRole, HudManagerPatches.IconOnRoleName) + cache.CachedRole.GetRoleName() : cache

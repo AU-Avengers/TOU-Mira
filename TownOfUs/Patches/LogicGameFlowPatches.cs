@@ -48,9 +48,8 @@ public static class LogicGameFlowPatches
             else
             {
                 var randomPlayer = PlayerControl.AllPlayerControls.ToArray().Where(x =>
-                    !x.Data.Role.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) && !x
-                        .GetModifiers<GameModifier>()
-                        .Any(x => x.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) == true)).Random();
+                    !x.Data.Role.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) &&
+                    !x.HasModifier<GameModifier>(x => x.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) == true)).Random();
                 CustomGameOver.Trigger<DrawGameOver>([
                     randomPlayer != null ? randomPlayer.Data : PlayerControl.LocalPlayer.Data
                 ]);
@@ -291,8 +290,8 @@ public static class LogicGameFlowPatches
         {
             Error($"Game ended from a game draw!");
             var randomPlayer = PlayerControl.AllPlayerControls.ToArray().Where(x =>
-                !x.Data.Role.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) && !x.GetModifiers<GameModifier>()
-                    .Any(y => y.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) == true)).Random();
+                !x.Data.Role.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) &&
+                !x.HasModifier<GameModifier>(y => y.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) == true)).Random();
             CustomGameOver.Trigger<DrawGameOver>([
                 randomPlayer != null ? randomPlayer.Data : PlayerControl.LocalPlayer.Data
             ]);

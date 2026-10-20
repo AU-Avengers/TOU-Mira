@@ -32,7 +32,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     public override string IntroInfo => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
     public override bool PreventsOtherModifiers => false;
     public override bool AppearsInSummary => false;
-    public override bool AppearsInIntro => !PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().Any(x => x != this && x.AppearsInIntro);
+    public override bool AppearsInIntro => !PlayerControl.LocalPlayer.HasModifier<TouGameModifier>(x => x != this && x.AppearsInIntro);
     public override bool HideFromGuessing => true;
     public bool IsImpostorAssassin => Player.IsImpostorAligned();
 
@@ -223,7 +223,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
 
             var pickVictim = role.Role == realRole.Role;
-            if (player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
+            if (player.TryGetModifierOfType<ICachedRole>(out var cachedMod))
             {
                 pickVictim = cachedMod.GuessMode switch
                 {

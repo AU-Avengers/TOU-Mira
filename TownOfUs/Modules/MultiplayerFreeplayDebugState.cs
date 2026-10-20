@@ -98,7 +98,7 @@ public static class MultiplayerFreeplayDebugState
                         continue;
                     }
 
-                    if (player.GetModifiers<BaseModifier>().Any(x => x.GetType() == modType))
+                    if (player.HasModifier<BaseModifier>(x => x.GetType() == modType))
                     {
                         continue;
                     }

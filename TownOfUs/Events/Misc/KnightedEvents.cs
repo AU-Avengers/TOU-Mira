@@ -27,7 +27,7 @@ public static class KnightedEvents
             return;
         }
 
-        var knights = PlayerControl.LocalPlayer.GetModifiers<KnightedModifier>().Where(x => !x.Announced).ToList();
+        var knights = PlayerControl.LocalPlayer.GetModifiers<KnightedModifier>(x => !x.Announced).ToList();
         if (knights.Count == 0)
         {
             return;

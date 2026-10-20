@@ -160,7 +160,7 @@ internal sealed class MultiplayerFreeplayRequestRpc(TownOfUsPlugin plugin, uint 
             return;
         }
 
-        var existing = target.GetModifiers<BaseModifier>().Where(x => x.GetType() == modifierType).ToList();
+        var existing = target.GetModifiers<BaseModifier>(x => x.GetType() == modifierType).ToList();
         if (existing.Count > 0)
         {
             foreach (var mod in existing)

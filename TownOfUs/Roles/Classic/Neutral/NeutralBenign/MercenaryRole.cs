@@ -207,7 +207,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
 
         return bribed.Any(x =>
             x.Data.Role.DidWin(gameOverReason) ||
-            x.GetModifiers<GameModifier>().Any(x => x.DidWin(gameOverReason) == true));
+            x.HasModifier<GameModifier>(x => x.DidWin(gameOverReason) == true));
     }
 
     public void AddPayment(int gold = 1)

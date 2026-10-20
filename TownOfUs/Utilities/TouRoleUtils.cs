@@ -144,7 +144,7 @@ public static class TouRoleUtils
     }
 
     public static bool IsRevealed(this PlayerControl? player) =>
-        player?.GetModifiers<BaseRevealModifier>().Any(x => x.Visible && x.RevealRole) == true ||
+        player?.HasModifier<BaseRevealModifier>(x => x.Visible && x.RevealRole) == true ||
         player?.Data?.Role is MayorRole mayor && mayor.Revealed;
 
     public static StringBuilder SetTabText(ICustomRole role)

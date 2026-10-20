@@ -85,13 +85,9 @@ public static class AppearanceExtensions
                 Size = (OptionGroupSingleton<AdvancedSabotageOptions>.Instance.HidePlayerSizeInCamo) ? new Vector3(0.7f, 0.7f, 1f) : player.GetAppearance().Size
             });
         }
-        else if (!toggle && player.GetModifiers<BaseModifier>()
-                     .Any(x => x is IVisualAppearance visual && visual.VisualPriority))
+        else if (!toggle && player.TryGetModifierOfType<IVisualAppearance>(out var mod, x => x.VisualPriority))
         {
-            var mod = player.GetModifiers<BaseModifier>()
-                .FirstOrDefault(x => x is IVisualAppearance visual2 && visual2.VisualPriority);
-            var visualMod = mod as IVisualAppearance;
-            player.RawSetAppearance(visualMod!.GetVisualAppearance()!);
+            player.RawSetAppearance(mod.GetVisualAppearance()!);
             player.cosmetics.ToggleNameVisible(true);
         }
         else if (!toggle)
@@ -214,17 +210,13 @@ public static class AppearanceExtensions
             appearance = visualRole.GetVisualAppearance()!;
         }
 
-        if (player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is IVisualAppearance
-            {
-                VisualPriority: false
-            }) is IVisualAppearance visualMod2 &&
+        if (player.TryGetModifierOfType<IVisualAppearance>(out var visualMod2, x => !x.VisualPriority) &&
             visualMod2.GetVisualAppearance() != null)
         {
             appearance = visualMod2.GetVisualAppearance()!;
         }
 
-        if (player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is IVisualAppearance { VisualPriority: true }) is
-                IVisualAppearance { VisualPriority: true } visualMod &&
+        if (player.TryGetModifierOfType<IVisualAppearance>(out var visualMod, x => x.VisualPriority) &&
             visualMod.GetVisualAppearance() != null)
         {
             appearance = visualMod.GetVisualAppearance()!;
@@ -337,22 +329,22 @@ public static class AppearanceExtensions
             return 1f;
         }
 
-        if (player.TryGetModifier<MiniModifier>(out _))
+        if (player.HasModifier<MiniModifier>())
         {
             return OptionGroupSingleton<MiniOptions>.Instance.MiniSpeed;
         }
 
-        if (player.TryGetModifier<GiantModifier>(out _))
+        if (player.HasModifier<GiantModifier>())
         {
             return OptionGroupSingleton<GiantOptions>.Instance.GiantSpeed;
         }
 
-        if (player.TryGetModifier<FlashModifier>(out _))
+        if (player.HasModifier<FlashModifier>())
         {
             return OptionGroupSingleton<FlashOptions>.Instance.FlashSpeed;
         }/*
 
-        if (player.TryGetModifier<DuelModifier>(out _))
+        if (player.HasModifier<DuelModifier>())
         {
             return OptionGroupSingleton<DuelistOptions>.Instance.DuelSpeed.Value;
         }*/
@@ -363,7 +355,7 @@ public static class AppearanceExtensions
     public static bool IsVisibleToOthers(this PlayerControl playerControl)
     {
         return !playerControl.shouldAppearInvisible && playerControl.Visible && !playerControl.inVent &&
-               !playerControl.GetModifiers<ConcealedModifier>().Any(x => !x.VisibleToOthers) &&
-               !(playerControl.TryGetModifier<DisabledModifier>(out var mod) && !mod.IsConsideredAlive);
+               !playerControl.HasModifier<ConcealedModifier>(x => !x.VisibleToOthers) &&
+               !playerControl.HasModifier<DisabledModifier>(x => !x.IsConsideredAlive);
     }
 }

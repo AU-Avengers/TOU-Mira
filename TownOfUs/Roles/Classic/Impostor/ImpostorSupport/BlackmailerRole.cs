@@ -28,7 +28,7 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
 
         HudManager.Instance.KillButton.ToggleVisible(
             OptionGroupSingleton<BlackmailerOptions>.Instance.BlackmailerKill ||
-            (Player != null && Player.GetModifiers<BaseModifier>().Any(x => x is ICachedRole)) ||
+            (Player != null && Player.HasModifierOfType<ICachedRole>()) ||
             (Player != null && MiscUtils.ImpAliveCount == 1));
     }
 

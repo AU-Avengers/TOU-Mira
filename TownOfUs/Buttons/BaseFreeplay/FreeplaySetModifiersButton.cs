@@ -79,7 +79,7 @@ public sealed class FreeplaySetModifiersButton : TownOfUsButton, IAurialBypassBu
                     var modifierType = modifier.GetType();
 
                     // If the player currently has this modifier type, show it so it can be removed.
-                    if (plr.GetModifiers<BaseModifier>().Any(x => x.GetType() == modifierType))
+                    if (plr.HasModifier<BaseModifier>(x => x.GetType() == modifierType))
                     {
                         return true;
                     }
@@ -140,7 +140,7 @@ public sealed class FreeplaySetModifiersButton : TownOfUsButton, IAurialBypassBu
             return;
         }
 
-        var existing = player.GetModifiers<BaseModifier>().Where(x => x.GetType() == modifierType).ToList();
+        var existing = player.GetModifiers<BaseModifier>(x => x.GetType() == modifierType).ToList();
         if (existing.Count > 0)
         {
             foreach (var mod in existing)

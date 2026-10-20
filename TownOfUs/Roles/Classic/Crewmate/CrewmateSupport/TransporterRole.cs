@@ -326,7 +326,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 return null;
             }
 
-            if (pc.GetModifiers<BaseModifier>().Any(x => x is IUntransportable))
+            if (pc.HasModifierOfType<IUntransportable>())
             {
                 return null;
             }

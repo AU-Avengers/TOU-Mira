@@ -106,7 +106,7 @@ public override void OnMeetingStart()
 
         if (Effects.Contains(EffectType.Infect))
         {
-            Player.GetModifiers<PlaguebearerInfectedModifier>().Do(x => Player.RemoveModifier(x));
+            Player.GetModifiers<PlaguebearerInfectedModifier>().Do(Player.RemoveModifier);
         }
 
         if (Effects.Contains(EffectType.Blackmail))

@@ -276,7 +276,7 @@ public static class PlayerRoleTextExtensions
 
         if (player.IsCrewmate() && player.TryGetModifier<EgotistModifier>(out var egoMod) && (player.AmOwner ||
                 (EgotistModifier.EgoVisibilityFlag(player) &&
-                 (player.GetModifiers<BaseRevealModifier>().Any(RevealVisibleRolePredicate))) || isDead))
+                 (player.HasModifier(RevealVisibleRolePredicate))) || isDead))
         {
             name += $"<color=#FFFFFF> (<color=#669966>{egoMod.ShortName}</color>)</color>";
         }

@@ -117,16 +117,14 @@ public static class TownOfUsEventHandlers
     public static void RunModChecks()
     {
         var option = OptionGroupSingleton<InitialRoundOptions>.Instance.ModifierReveal;
-        var modifier = PlayerControl.LocalPlayer.GetModifiers<AllianceGameModifier>().FirstOrDefault();
-        var uniModifier = PlayerControl.LocalPlayer.GetModifiers<UniversalGameModifier>().FirstOrDefault();
 
-        if (modifier != null && option is ModReveal.Alliance)
+        if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var modifier) && option is ModReveal.Alliance)
         {
             ModifierText.text = $"<size={modifier.IntroSize}>{modifier.IntroInfo}</size>";
 
             ModifierText.color = MiscUtils.GetModifierColour(modifier);
         }
-        else if (uniModifier != null && option is ModReveal.Universal)
+        else if (PlayerControl.LocalPlayer.TryGetModifier<UniversalGameModifier>(out var uniModifier) && option is ModReveal.Universal)
         {
             ModifierText.text =
                 $"<size={uniModifier.IntroSize}><color=#FFFFFF>{MiraLocaleManager.Get("Modifier")}: </color>{uniModifier.ModifierName}</size>";
@@ -168,8 +166,8 @@ public static class TownOfUsEventHandlers
             instance.RoleText.text = $"<size=80%>{MiscUtils.GetRoleTmpIcon(role)}</size>{instance.RoleText.text}";
         }
 
-        var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault(x => x.AppearsInIntro);
-        if (teamModifier != null && OptionGroupSingleton<InitialRoundOptions>.Instance.TeamModifierReveal)
+        if (PlayerControl.LocalPlayer.TryGetModifier<TouGameModifier>(out var teamModifier, x => x.AppearsInIntro) &&
+            OptionGroupSingleton<InitialRoundOptions>.Instance.TeamModifierReveal)
         {
             var color = MiscUtils.GetModifierColour(teamModifier);
 
@@ -204,8 +202,8 @@ public static class TownOfUsEventHandlers
             cutscene.RoleBlurbText.text = custom.RoleDescription;
         }
 
-        var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault(x => x.AppearsInIntro);
-        if (teamModifier != null && OptionGroupSingleton<InitialRoundOptions>.Instance.TeamModifierReveal)
+        if (PlayerControl.LocalPlayer.TryGetModifier<TouGameModifier>(out var teamModifier, x => x.AppearsInIntro) &&
+            OptionGroupSingleton<InitialRoundOptions>.Instance.TeamModifierReveal)
         {
             var color = MiscUtils.GetModifierColour(teamModifier);
 
@@ -271,8 +269,8 @@ public static class TownOfUsEventHandlers
         }
 
         var modsTab = ModifierDisplayComponent.Instance;
-        if (modsTab != null && !modsTab.IsOpen && PlayerControl.LocalPlayer.GetModifiers<GameModifier>()
-                .Any(x => !x.HideOnUi && x.GetDescription() != string.Empty))
+        if (modsTab != null && !modsTab.IsOpen &&
+            PlayerControl.LocalPlayer.HasModifier<GameModifier>(x => !x.HideOnUi && x.GetDescription() != string.Empty))
         {
             modsTab.ToggleTab();
         }
@@ -690,13 +688,10 @@ public static class TownOfUsEventHandlers
             button.SetVisible();
         }
 
-        foreach (var modifier in exiled.GetModifiers<GameModifier>().Where(x => x is IAnimated))
+        foreach (var animatedMod in exiled.GetModifiers<GameModifier>().OfType<IAnimated>())
         {
-            if (modifier is IAnimated animatedMod)
-            {
-                animatedMod.IsVisible = false;
-                animatedMod.SetVisible();
-            }
+            animatedMod.IsVisible = false;
+            animatedMod.SetVisible();
         }
     }
 
@@ -729,13 +724,10 @@ public static class TownOfUsEventHandlers
             button.SetVisible();
         }
 
-        foreach (var modifier in target.GetModifiers<GameModifier>().Where(x => x is IAnimated))
+        foreach (var animatedMod in target.GetModifiers<GameModifier>().OfType<IAnimated>())
         {
-            if (modifier is IAnimated animatedMod)
-            {
-                animatedMod.IsVisible = false;
-                animatedMod.SetVisible();
-            }
+            animatedMod.IsVisible = false;
+            animatedMod.SetVisible();
         }
 
         if (source.IsImpostor() && source.AmOwner && source != target && !MeetingHud.Instance)
@@ -816,7 +808,7 @@ public static class TownOfUsEventHandlers
             return;
         }
 
-        /*if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        /*if (PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             @event.Cancel();
         }*/

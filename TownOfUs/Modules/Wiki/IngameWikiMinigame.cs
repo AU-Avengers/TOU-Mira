@@ -877,7 +877,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         {
             var activeModifiers = PlayerControl.LocalPlayer.GetModifiers<GameModifier>()
                 .Where(x => x is IWikiDiscoverable)
-                .Select(x => MiscUtils.GetModifierTypeId(x));
+                .Select(MiscUtils.GetModifierTypeId);
             var comparer = new ModifierComparer(activeModifiers);
 
             var activeMods = PlayerControl.LocalPlayer.GetModifiers<GameModifier>()
@@ -963,8 +963,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
             var curRole = PlayerControl.LocalPlayer.Data.Role.Role;
 
-            if (PlayerControl.LocalPlayer.GetModifiers<BaseModifier>().FirstOrDefault(x =>
-                    x is ICachedRole cached && cached.CachedRole.Role != curRole) is ICachedRole cachedMod)
+            if (PlayerControl.LocalPlayer.TryGetModifierOfType<ICachedRole>(out var cachedMod, x => x.CachedRole.Role != curRole))
             {
                 roleList.Add((ushort)cachedMod.CachedRole.Role);
             }

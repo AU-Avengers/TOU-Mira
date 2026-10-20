@@ -33,8 +33,7 @@ public sealed class MinerRole(IntPtr cppPtr)
         }
 
         HudManager.Instance.KillButton.ToggleVisible(OptionGroupSingleton<MinerOptions>.Instance.MinerKill ||
-                                                     (Player != null && Player.GetModifiers<BaseModifier>()
-                                                         .Any(x => x is ICachedRole)) ||
+                                                     (Player != null && Player.HasModifierOfType<ICachedRole>()) ||
                                                      (Player != null && MiscUtils.ImpAliveCount == 1));
     }
 

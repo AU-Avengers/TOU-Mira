@@ -149,7 +149,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -195,7 +195,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             return true;
         }
 
-        return target.GetModifiers<BaseShieldModifier>().HasAny();
+        return target.HasModifier<BaseShieldModifier>();
     }
 
     public override PlayerControl? GetTarget()
@@ -219,7 +219,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 !plr.HasDied() &&
                 !plr.IsImpostorAligned() &&
                 !plr.IsInTargetingAnimState() &&
-                !plr.GetModifiers<BaseModifier>().Any(x => x is IUncontrollable) &&
+                !plr.HasModifierOfType<IUncontrollable>() &&
                 !plr.HasModifier<TownOfUs.Modifiers.Impostor.ParasiteInfectedModifier>());
     }
 

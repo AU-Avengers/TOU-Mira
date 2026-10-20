@@ -87,7 +87,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
     public override void ClickHandler()
     {
-        if (!CanClick() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities) ||
+        if (!CanClick() || PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities) ||
             !MiscUtils.CanUseUtility(GameUtility.Cams, true))
         {
             return;
@@ -272,7 +272,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             return false;
         }

@@ -88,7 +88,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
         }
 
         if (!PlayerControl.LocalPlayer.CanMove ||
-            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+            PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -133,7 +133,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
             playerMenu.Begin(
                 plr => !plr.HasDied() && !plr.AmOwner &&
                        !plr.IsInTargetingAnimState() &&
-                       !plr.GetModifiers<BaseModifier>().Any(x => x is IUncontrollable) &&
+                       !plr.HasModifierOfType<IUncontrollable>() &&
                        ((plr.TryGetModifier<DisabledModifier>(out var mod) && mod.CanBeInteractedWith &&
                          mod.IsConsideredAlive) ||
                         !plr.HasModifier<DisabledModifier>()),

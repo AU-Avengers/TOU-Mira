@@ -147,7 +147,7 @@ AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
             return;
         }
 
-        if (player.GetModifiers<PlayerTargetModifier>().Any(x => x.OwnerId == target.PlayerId))
+        if (player.HasModifier<PlayerTargetModifier>(x => x.OwnerId == target.PlayerId))
         {
             if (player.AmOwner)
             {
@@ -295,9 +295,9 @@ AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
         }
 
         // Doesn't give Double Shot if Assassin isn't available
-        var modifier = target.GetModifiers<TouGameModifier>().FirstOrDefault(x => x is not AssassinModifier &&
-            (x is not DoubleShotModifier || amneIsAssassin));
-        if (opts.InheritFactionModifier && modifier != null)
+        if (opts.InheritFactionModifier &&
+            target.TryGetModifier<TouGameModifier>(out var modifier, x => x is not AssassinModifier &&
+                (x is not DoubleShotModifier || amneIsAssassin)))
         {
             player.AddModifier(modifier.GetType());
         }

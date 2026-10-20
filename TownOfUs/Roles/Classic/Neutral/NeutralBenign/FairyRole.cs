@@ -236,7 +236,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         }
 
         return gaMod.Player.Data.Role.DidWin(gameOverReason) ||
-               gaMod.Player.GetModifiers<GameModifier>().Any(x => x.DidWin(gameOverReason) == true);
+               gaMod.Player.HasModifier<GameModifier>(x => x.DidWin(gameOverReason) == true);
     }
 
     public static bool FairySeesRoleVisibilityFlag(PlayerControl player)

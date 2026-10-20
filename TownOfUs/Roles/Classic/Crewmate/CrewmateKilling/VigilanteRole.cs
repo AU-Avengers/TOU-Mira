@@ -147,7 +147,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
 
             var pickVictim = role.Role == realRole.Role;
-            if (player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
+            if (player.TryGetModifierOfType<ICachedRole>(out var cachedMod))
             {
                 pickVictim = cachedMod.GuessMode switch
                 {

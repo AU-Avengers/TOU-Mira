@@ -1316,7 +1316,7 @@ public static class TouAchievementEvents
 
         // Hangman: the executioner's target got ejected within 3 meetings.
         if (local.Data?.Role is ExecutionerRole && _meetingsSeen <= 3 &&
-            exiled.GetModifiers<ExecutionerTargetModifier>().Any(mod => mod.OwnerId == local.PlayerId))
+            exiled.HasModifier<ExecutionerTargetModifier>(mod => mod.OwnerId == local.PlayerId))
         {
             AchievementsAPIHelper.Unlock(TouAchievements.Hangman);
         }
@@ -1530,7 +1530,7 @@ public static class TouAchievementEvents
         {
             var others = AliveOthers();
             var bribed = others.Count(x =>
-                x.GetModifiers<MercenaryBribedModifier>().Any(mod => mod.Mercenary.AmOwner));
+                x.HasModifier<MercenaryBribedModifier>(mod => mod.Mercenary.AmOwner));
             if (others.Count >= 2 && bribed * 3 >= others.Count * 2)
             {
                 AchievementsAPIHelper.Unlock(TouAchievements.WinWinSituation);
