@@ -1,5 +1,4 @@
-﻿using AchievementsAPI.API;
-using AmongUs.GameOptions;
+﻿using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;

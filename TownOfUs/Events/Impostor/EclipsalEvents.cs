@@ -3,7 +3,6 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Modifiers;
 using TownOfUs.Achievements;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules;
 using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Events.Impostor;

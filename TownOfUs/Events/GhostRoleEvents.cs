@@ -11,12 +11,8 @@ using MiraAPI.Roles;
 using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
-using TownOfUs.Modifiers.Game;
-using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Crewmate;
-using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
 namespace TownOfUs.Events;

@@ -3,7 +3,6 @@ using MiraAPI.GameOptions;
 using TownOfUs.Modules.DraftMode;
 using TownOfUs.Options;
 using TownOfUs.Roles.Other;
-using UnityEngine;
 
 namespace TownOfUs.Patches.DraftMode
 {

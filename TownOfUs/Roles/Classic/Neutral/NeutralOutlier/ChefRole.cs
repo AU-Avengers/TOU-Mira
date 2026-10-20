@@ -17,7 +17,6 @@ using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Modules.TimeLord;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;

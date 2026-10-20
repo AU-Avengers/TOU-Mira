@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Achievements;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;

@@ -1,8 +1,3 @@
-using AmongUs.Data;
-using HarmonyLib;
-using TownOfUs.Modules.RainbowMod;
-using UnityEngine;
-
 namespace TownOfUs.RainbowMod;
 
 /*[HarmonyPatch(typeof(PlayerMaterial), nameof(PlayerMaterial.SetColors), typeof(int), typeof(Renderer))]

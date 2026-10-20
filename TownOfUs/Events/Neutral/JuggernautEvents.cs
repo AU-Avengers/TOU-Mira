@@ -3,7 +3,6 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Hud;
 using TownOfUs.Achievements;
 using TownOfUs.Buttons.Neutral;
-using TownOfUs.Modules;
 using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Events.Neutral;

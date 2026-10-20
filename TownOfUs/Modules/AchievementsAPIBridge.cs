@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using AchievementsAPI;
 using AchievementsAPI.API;
 using Reactor.Localization.Utilities;
 using TownOfUs.Achievements;
-using TownOfUs.Assets;
 using UnityEngine;
 
 namespace TownOfUs.Modules;

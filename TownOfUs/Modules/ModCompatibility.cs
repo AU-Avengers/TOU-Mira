@@ -4,7 +4,6 @@ using System.Reflection.Emit;
 using System.Text;
 using BepInEx;
 using BepInEx.Unity.IL2CPP;
-using CorsacCosmetics.Cosmetics;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using MiraAPI;

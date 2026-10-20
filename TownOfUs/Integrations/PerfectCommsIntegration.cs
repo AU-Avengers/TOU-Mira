@@ -12,7 +12,6 @@ using TownOfUs.Modifiers.HnsImpostor;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Impostor.Herbalist;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;

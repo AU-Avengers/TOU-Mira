@@ -5,7 +5,6 @@ using MiraAPI.Hud;
 using TownOfUs.Achievements;
 using TownOfUs.Buttons;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;

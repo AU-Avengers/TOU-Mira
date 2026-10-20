@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Achievements;
-using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;

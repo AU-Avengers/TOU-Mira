@@ -8,7 +8,6 @@ using MiraAPI.Modifiers;
 using TownOfUs.Achievements;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 
 namespace TownOfUs.Events.Impostor;
