@@ -278,14 +278,12 @@ public static class HunterEvents
             return;
         }
 
-        if (!source.HasModifier<HunterStalkedModifier>())
+        if (!source.TryGetModifier<HunterStalkedModifier>(out var mod))
         {
             return;
         }
 
-        var mod = source.GetModifier<HunterStalkedModifier>();
-
-        if (mod?.Hunter == null || !(TutorialManager.InstanceExists || source.AmOwner))
+        if (mod.Hunter == null || !(TutorialManager.InstanceExists || source.AmOwner))
         {
             return;
         }

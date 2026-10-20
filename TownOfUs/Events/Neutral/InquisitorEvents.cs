@@ -26,10 +26,12 @@ public static class InquisitorEvents
         var source = @event.Source;
         var victim = @event.Target;
 
+        var victimIsHeretic = victim.HasModifier<InquisitorHereticModifier>();
+
         if (source.Data.Role is InquisitorRole inquis &&
             GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
         {
-            if (victim.HasModifier<InquisitorHereticModifier>())
+            if (victimIsHeretic)
             {
                 stats.CorrectKills += 1;
                 if (source.AmOwner && stats.CorrectKills == (int)OptionGroupSingleton<InquisitorOptions>.Instance.AmountOfHeretics.Value)
@@ -46,7 +48,7 @@ public static class InquisitorEvents
 
         if (PlayerControl.LocalPlayer.Data.Role is InquisitorRole && !victim.AmOwner)
         {
-            if (victim.HasModifier<InquisitorHereticModifier>() && !source.AmOwner)
+            if (victimIsHeretic && !source.AmOwner)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Inquisitor, alpha: 0.1f));
                 var notif1 = Helpers.CreateAndShowNotification(
@@ -55,7 +57,7 @@ public static class InquisitorEvents
                     spr: TouRoleIcons.Inquisitor.LoadAsset());
                 notif1.AdjustNotification();
             }
-            else if (!victim.HasModifier<InquisitorHereticModifier>() && source.AmOwner)
+            else if (!victimIsHeretic && source.AmOwner)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Inquisitor, alpha: 0.4f));
                 var notif1 = Helpers.CreateAndShowNotification(
@@ -63,7 +65,7 @@ public static class InquisitorEvents
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
                 notif1.AdjustNotification();
             }
-            else if (victim.HasModifier<InquisitorHereticModifier>() && source.AmOwner)
+            else if (victimIsHeretic && source.AmOwner)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Doomsayer, alpha: 0.4f));
                 var notif1 = Helpers.CreateAndShowNotification(

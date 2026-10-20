@@ -216,10 +216,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             var opts = (InformedKillers)OptionGroupSingleton<AltruistOptions>.Instance.KillersAlertedAtEnd.Value;
             if (opts.ToDisplayString().Contains("Impostors") && PlayerControl.LocalPlayer.IsImpostorAligned() || opts.ToDisplayString().Contains("Neutrals") && PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
             {
-                if (Player.HasModifier<AltruistArrowModifier>())
-                {
-                    Player.RemoveModifier<AltruistArrowModifier>();
-                }
+                Player.TryRemoveModifier<AltruistArrowModifier>();
 
                 if (!dead.HasModifier<AltruistArrowModifier>() && !dead.AmOwner)
                 {

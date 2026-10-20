@@ -141,10 +141,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         TouRoleUtils.ClearTaskHeader(Player);
-        if (Player.HasModifier<InvulnerabilityModifier>())
-        {
-            Player.RemoveModifier<InvulnerabilityModifier>();
-        }
+        Player.TryRemoveModifier<InvulnerabilityModifier>();
 
         if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {

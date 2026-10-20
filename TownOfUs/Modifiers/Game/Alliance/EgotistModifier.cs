@@ -58,10 +58,7 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
             Player.AddModifier<BasicGhostModifier>();
         }
 
-        if (Player.HasModifier<ToBecomeTraitorModifier>())
-        {
-            Player.RemoveModifier<ToBecomeTraitorModifier>();
-        }
+        Player.TryRemoveModifier<ToBecomeTraitorModifier>();
     }
 
     public override int GetAssignmentChance()

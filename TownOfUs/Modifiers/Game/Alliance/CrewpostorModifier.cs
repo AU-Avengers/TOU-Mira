@@ -221,10 +221,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
             Player.AddModifier<BasicGhostModifier>();
         }
 
-        if (Player.HasModifier<ToBecomeTraitorModifier>())
-        {
-            Player.RemoveModifier<ToBecomeTraitorModifier>();
-        }
+        Player.TryRemoveModifier<ToBecomeTraitorModifier>();
     }
 
     public override int CustomAmount => (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance.Value != 0 ? 1 : 0;

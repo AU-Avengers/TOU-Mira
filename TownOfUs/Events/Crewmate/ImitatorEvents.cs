@@ -22,13 +22,8 @@ public static class ImitatorEvents
 
         if (imitatorRoles.HasAny())
         {
-            foreach (var imitatorPlayer in imitatorRoles)
+            foreach (var imitatorPlayer in imitatorRoles.Where(x => !x.Player.HasModifier<ImitatorCacheModifier>()))
             {
-                if (imitatorPlayer.Player.HasModifier<ImitatorCacheModifier>())
-                {
-                    continue;
-                }
-
                 imitatorPlayer.Player.AddModifier<ImitatorCacheModifier>();
             }
         }
@@ -40,12 +35,9 @@ public static class ImitatorEvents
             return;
         }
 
-        foreach (var mod in imitators)
+        foreach (var mod in imitators.Where(x => x.Player.AmOwner))
         {
-            if (mod.Player.AmOwner)
-            {
-                mod.UpdateRole();
-            }
+            mod.UpdateRole();
         }
     }
 

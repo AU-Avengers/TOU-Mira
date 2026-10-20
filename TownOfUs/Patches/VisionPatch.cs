@@ -31,10 +31,8 @@ public static class VisionPatch
 
         var visionFactor = 1f;
 
-        if (player.Object.HasModifier<EclipsalBlindModifier>())
+        if (player.Object.TryGetModifier<EclipsalBlindModifier>(out var mod))
         {
-            var mod = player.Object.GetModifier<EclipsalBlindModifier>()!;
-
             visionFactor = mod.VisionPerc;
         }
 

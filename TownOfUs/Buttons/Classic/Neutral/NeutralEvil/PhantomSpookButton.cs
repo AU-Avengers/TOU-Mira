@@ -48,7 +48,7 @@ public sealed class PhantomSpookButton : TownOfUsButton
                     PlayerControl.LocalPlayer.RpcGhostRoleMurder(plr);
                     foreach (var mod in ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>())
                     {
-                        mod.ModifierComponent?.RemoveModifier(mod);
+                        mod.RemoveSelf();
                     }
 
                     Show = false;

@@ -73,7 +73,7 @@ public static class HerbalistEvents
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has herbalist protection, stopping an interaction from {source.Data.PlayerName}!");
         @event.Cancel();
 
-        var cleric = target.GetModifier<HerbalistProtectionModifier>()?.Herbalist.GetRole<HerbalistRole>();
+        var cleric = protectMod.Herbalist.GetRole<HerbalistRole>();
 
         if (cleric != null && (TutorialManager.InstanceExists || source.AmOwner))
         {

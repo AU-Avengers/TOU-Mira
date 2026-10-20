@@ -175,6 +175,8 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         var textlog = $"Snitch Stage for '{Player.Data.PlayerName}': {stage.ToDisplayString()}";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
 
+        var isEgotist = Player.HasModifier<EgotistModifier>();
+
         if (stage is TaskStage.Revealed)
         {
             if (Player.AmOwner)
@@ -182,7 +184,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 if (!silent)
                 {
                     Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
-                    var text = Player.HasModifier<EgotistModifier>()
+                    var text = isEgotist
                         ? MiraLocaleManager.Get("TownOfUsMira.Role.SnitchSelfRevealedEgoFeedback")
                         : MiraLocaleManager.Get("TownOfUsMira.Role.SnitchSelfRevealedFeedback");
 
@@ -199,7 +201,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 if (!silent)
                 {
                     Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
-                    var text = Player.HasModifier<EgotistModifier>()
+                    var text = isEgotist
                         ? MiraLocaleManager.Get("TownOfUsMira.Role.SnitchImpRevealedEgoFeedback")
                         : MiraLocaleManager.Get("TownOfUsMira.Role.SnitchImpRevealedFeedback");
 
@@ -221,7 +223,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 CreateSnitchArrows(silent);
                 if (!silent)
                 {
-                    var text = Player.HasModifier<EgotistModifier>()
+                    var text = isEgotist
                         ? MiraLocaleManager.Get("TownOfUsMira.Role.SnitchSelfCompletedEgoFeedback")
                         : MiraLocaleManager.Get("TownOfUsMira.Role.SnitchSelfCompletedFeedback");
 
@@ -238,7 +240,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 if (!silent)
                 {
                     Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
-                    var text = Player.HasModifier<EgotistModifier>()
+                    var text = isEgotist
                         ? MiraLocaleManager.Get("TownOfUsMira.Role.SnitchImpCompletedEgoFeedback")
                         : MiraLocaleManager.Get("TownOfUsMira.Role.SnitchImpCompletedFeedback");
 

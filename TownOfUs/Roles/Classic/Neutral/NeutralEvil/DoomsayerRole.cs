@@ -277,7 +277,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             var doomableRole = role as IDoomable;
             var undoomableRole = role as IUnguessable;
             var hintType = DoomableType.Default;
-            if (player.Object.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
+            if (player.Object.TryGetModifierOfType<ICachedRole>(out var cachedMod))
             {
                 role = cachedMod.CachedRole;
                 doomableRole = role as IDoomable;

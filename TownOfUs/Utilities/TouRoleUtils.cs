@@ -103,9 +103,7 @@ public static class TouRoleUtils
     public static bool CanGetGhostRole(this PlayerControl player)
     {
         return !player.HasModifier<BasicGhostModifier>()
-               && player.Data.Role is not SpectatorRole
-               && player.Data.Role is not GuardianAngelRole
-               && player.Data.Role is not IGhostRole;
+               && player.Data.Role is not SpectatorRole and GuardianAngelRole and IGhostRole;
     }
 
     public static bool AreTeammates(PlayerControl player, PlayerControl other, bool impFfa, bool impsSeeRole, out bool canSeeRoles, out bool canSeeColor)

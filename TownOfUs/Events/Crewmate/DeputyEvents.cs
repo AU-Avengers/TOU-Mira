@@ -69,14 +69,7 @@ public static class DeputyEvents
             return;
         }
 
-        if (!target.HasModifier<DeputyCampedModifier>())
-        {
-            return;
-        }
-
-        var mod = target.GetModifier<DeputyCampedModifier>();
-
-        if (mod == null)
+        if (!target.TryGetModifier<DeputyCampedModifier>(out var mod))
         {
             return;
         }

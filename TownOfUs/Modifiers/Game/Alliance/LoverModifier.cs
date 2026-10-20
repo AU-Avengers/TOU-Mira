@@ -79,8 +79,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
             return;
         }
 
-        foreach (var lover in PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>())
-                     .ToList())
+        foreach (var lover in PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>()))
         {
             lover.RpcRemoveModifier<LoverModifier>();
         }

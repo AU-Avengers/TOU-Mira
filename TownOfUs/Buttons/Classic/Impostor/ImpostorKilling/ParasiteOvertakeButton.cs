@@ -165,9 +165,9 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             return false;
         }
 
-        if (target.HasModifier<MedicShieldModifier>() && target.PlayerId != local.PlayerId)
+        if (target.TryGetModifier<MedicShieldModifier>(out var medicMod) && target.PlayerId != local.PlayerId)
         {
-            var medic = target.GetModifier<MedicShieldModifier>()?.Medic.GetRole<MedicRole>();
+            var medic = medicMod.Medic.GetRole<MedicRole>();
             if (medic != null && (TutorialManager.InstanceExists || local.AmOwner))
             {
                 MedicRole.RpcMedicShieldAttacked(local, medic.Player, target);

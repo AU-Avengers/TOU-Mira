@@ -97,11 +97,10 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
                 shield.SetVisible();
             }
 
-            if (Player.HasModifier<FirstDeadShield>())
-            {
-                Player.GetModifier<FirstDeadShield>()!.IsVisible = false;
-                Player.GetModifier<FirstDeadShield>()!.SetVisible();
-            }
+            var firstDead = Player.GetModifier<FirstDeadShield>();
+
+            firstDead?.IsVisible = false;
+            firstDead?.SetVisible();
 
             var bodySprite = body.transform.GetChild(1).gameObject;
             var ambushAnim = AnimStore.SpawnFliplessAnimBody(Player, TouAssets.AmbushPrefab.LoadAsset());
@@ -121,11 +120,8 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
                     shield.SetVisible();
                 }
 
-                if (Player.HasModifier<FirstDeadShield>())
-                {
-                    Player.GetModifier<FirstDeadShield>()!.IsVisible = true;
-                    Player.GetModifier<FirstDeadShield>()!.SetVisible();
-                }
+                firstDead?.IsVisible = true;
+                firstDead?.SetVisible();
 
                 if (Player.AmOwner)
                 {
@@ -133,7 +129,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
                     Player.NetTransform.SetPaused(false);
                 }
 
-                Player.RemoveModifier(this);
+                RemoveSelf();
                 yield break;
             }
 
@@ -174,11 +170,8 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
                     shield.SetVisible();
                 }
 
-                if (Player.HasModifier<FirstDeadShield>())
-                {
-                    Player.GetModifier<FirstDeadShield>()!.IsVisible = true;
-                    Player.GetModifier<FirstDeadShield>()!.SetVisible();
-                }
+                firstDead?.IsVisible = true;
+                firstDead?.SetVisible();
 
                 if (!MeetingHud.Instance && !Player.HasDied())
                 {
@@ -192,7 +185,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
                     Player.NetTransform.SetPaused(false);
                 }
 
-                Player.RemoveModifier(this);
+                RemoveSelf();
                 yield break;
             }
 
@@ -217,11 +210,8 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
                 shield.SetVisible();
             }
 
-            if (Player.HasModifier<FirstDeadShield>())
-            {
-                Player.GetModifier<FirstDeadShield>()!.IsVisible = true;
-                Player.GetModifier<FirstDeadShield>()!.SetVisible();
-            }
+            firstDead?.IsVisible = true;
+            firstDead?.SetVisible();
 
             if (Player.AmOwner)
             {
@@ -229,7 +219,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
                 Player.NetTransform.SetPaused(false);
             }
 
-            Player.RemoveModifier(this);
+            RemoveSelf();
         }
     }
 
@@ -260,10 +250,10 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
                 shield.SetVisible();
             }
 
-            if (Player.HasModifier<FirstDeadShield>())
+            if (Player.TryGetModifier<FirstDeadShield>(out var firstDead))
             {
-                Player.GetModifier<FirstDeadShield>()!.IsVisible = true;
-                Player.GetModifier<FirstDeadShield>()!.SetVisible();
+                firstDead.IsVisible = true;
+                firstDead.SetVisible();
             }
         }
 

@@ -46,7 +46,7 @@ public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
         }
 
         Helpers.GetAlivePlayers().Where(plr => !plr.HasModifier<FootstepsModifier>())
-            .ToList().ForEach(plr => plr.GetModifierComponent().AddModifier<FootstepsModifier>());
+            .ToList().ForEach(plr => plr.AddModifier<FootstepsModifier>());
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)
@@ -58,8 +58,8 @@ public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
             return;
         }
 
-        PlayerControl.AllPlayerControls.ToArray().Where(plr => plr.HasModifier<FootstepsModifier>())
-            .ToList().ForEach(plr => plr.GetModifierComponent().RemoveModifier<FootstepsModifier>());
+        PlayerControl.AllPlayerControls.ToArray()
+            .ToList().ForEach(plr => plr.TryRemoveModifier<FootstepsModifier>());
     }
 
     public override void OnDeath(DeathReason reason)
@@ -69,7 +69,7 @@ public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
             return;
         }
 
-        PlayerControl.AllPlayerControls.ToArray().Where(plr => plr.HasModifier<FootstepsModifier>())
-            .ToList().ForEach(plr => plr.GetModifierComponent().RemoveModifier<FootstepsModifier>());
+        PlayerControl.AllPlayerControls.ToArray()
+            .ToList().ForEach(plr => plr.TryRemoveModifier<FootstepsModifier>());
     }
 }
