@@ -89,7 +89,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
         base.OnDeath(reason);
 
         FirstRoundShield?.SetActive(false);
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeactivate()
@@ -120,7 +120,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
         else if (MeetingHud.Instance)
         {
             FirstRoundShield?.SetActive(false);
-            ModifierComponent!.RemoveModifier(this);
+            RemoveSelf();
         }
     }
 }

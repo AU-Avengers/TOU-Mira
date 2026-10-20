@@ -73,7 +73,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             var text = "Removed Imitator Cache Modifier On Meeting Start";
             MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, text);
 
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 
@@ -189,7 +189,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             var text = "Removed Imitator Cache Modifier On Attempt To Update Role";
             MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, text);
 
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 

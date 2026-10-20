@@ -43,7 +43,7 @@ public override void OnActivate()
 
 public override void OnDeath(DeathReason reason)
 {
-    ModifierComponent?.RemoveModifier(this);
+    RemoveSelf();
 }
 
 public override void OnMeetingStart()
@@ -80,7 +80,7 @@ public override void OnMeetingStart()
         base.FixedUpdate();
         if (Cleric == null)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 

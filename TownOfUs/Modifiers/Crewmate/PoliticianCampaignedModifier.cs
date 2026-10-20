@@ -22,6 +22,6 @@ public sealed class PoliticianCampaignedModifier(PlayerControl politician) : Bas
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

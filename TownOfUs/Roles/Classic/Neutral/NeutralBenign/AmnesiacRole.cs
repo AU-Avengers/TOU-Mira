@@ -179,12 +179,12 @@ AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
         else if (player.Data.Role is PlaguebearerRole || player.Data.Role is PestilenceRole)
         {
             ModifierUtils.GetActiveModifiers<PlaguebearerInfectedModifier>()
-                .Do(x => x.ModifierComponent?.RemoveModifier(x));
+                .Do(x => x.RemoveSelf());
             player.AddModifier<PlaguebearerInfectedModifier>(player.PlayerId);
         }
         else if (player.Data.Role is ArsonistRole)
         {
-            ModifierUtils.GetActiveModifiers<ArsonistDousedModifier>().Do(x => x.ModifierComponent?.RemoveModifier(x));
+            ModifierUtils.GetActiveModifiers<ArsonistDousedModifier>().Do(x => x.RemoveSelf());
         }
         else if (player.Data.Role is MayorRole mayor)
         {

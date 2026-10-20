@@ -155,7 +155,7 @@ public sealed class FootstepsModifier : BaseModifier
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public static IEnumerator FootstepFadeout(GameObject obj, SpriteRenderer rend)

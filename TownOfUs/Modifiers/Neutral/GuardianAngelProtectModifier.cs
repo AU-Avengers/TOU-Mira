@@ -79,11 +79,11 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
 
     public override void OnMeetingStart()
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 }

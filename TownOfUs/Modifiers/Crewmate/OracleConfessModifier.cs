@@ -36,6 +36,6 @@ public sealed class OracleConfessModifier(PlayerControl oracle, int faction) : B
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

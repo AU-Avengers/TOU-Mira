@@ -38,7 +38,7 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeactivate()
@@ -57,7 +57,7 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
         base.FixedUpdate();
         if (!Player)
         {
-            ModifierComponent!.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
         

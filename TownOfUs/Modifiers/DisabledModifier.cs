@@ -30,6 +30,6 @@ public abstract class DisabledModifier : TimedModifier
     {
         base.OnDeath(reason);
 
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

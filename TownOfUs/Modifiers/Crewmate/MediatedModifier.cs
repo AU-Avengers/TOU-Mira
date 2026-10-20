@@ -25,7 +25,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
 
     public override void OnMeetingStart()
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnActivate()
@@ -35,7 +35,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
 
         if (_mediumPlayer == null || _medium == null || !Player.Data.IsDead || _medium.Spirit == null)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 
@@ -102,7 +102,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
     {
         if (!Player.Data.IsDead)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 

@@ -63,7 +63,7 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
     public override void OnDeath(DeathReason reason)
     {
         base.OnDeath(reason);
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeactivate()
@@ -78,7 +78,7 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
     {
         if (!Player || Target == null)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 
@@ -96,7 +96,7 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
                 _shield.SetActive(false);
             }
 
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
         }
     }
 }

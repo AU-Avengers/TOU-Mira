@@ -66,7 +66,7 @@ public sealed class PuppeteerControlModifier(PlayerControl controller) : Disable
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeactivate()

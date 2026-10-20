@@ -22,6 +22,6 @@ public sealed class MercenaryGuardModifier(PlayerControl mercenary) : TimedModif
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

@@ -2578,7 +2578,7 @@ return true;*/
         {
             if (drag.BodyId == revived.PlayerId)
             {
-                drag.Player.GetModifierComponent()?.RemoveModifier(drag);
+                drag.RemoveSelf();
                 if (drag.Player.AmOwner && drag.Player.Data.Role is UndertakerRole)
                 {
                     CustomButtonSingleton<UndertakerDragDropButton>.Instance.SetDrag();

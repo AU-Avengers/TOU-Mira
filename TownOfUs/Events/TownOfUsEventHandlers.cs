@@ -324,7 +324,7 @@ public static class TownOfUsEventHandlers
         // HudManager.Instance.KillOverlay.gameObject.SetActive(false);
         foreach (var mod in ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>())
         {
-            mod.ModifierComponent?.RemoveModifier(mod);
+            mod.RemoveSelf();
         }
 
         var exeButton = CustomButtonSingleton<ExeTormentButton>.Instance;

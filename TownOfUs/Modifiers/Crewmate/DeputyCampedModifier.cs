@@ -25,7 +25,7 @@ public sealed class DeputyCampedModifier(PlayerControl deputy) : BaseModifier
         base.FixedUpdate();
         if (!Player || Deputy == null)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 

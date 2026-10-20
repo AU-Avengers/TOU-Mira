@@ -65,7 +65,7 @@ public sealed class HerbalistProtectionModifier(PlayerControl herbalist) : BaseS
     {
         if (!Player || Herbalist == null)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 
@@ -77,12 +77,12 @@ public sealed class HerbalistProtectionModifier(PlayerControl herbalist) : BaseS
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnMeetingStart()
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeactivate()

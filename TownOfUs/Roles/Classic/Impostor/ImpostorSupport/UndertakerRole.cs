@@ -136,7 +136,7 @@ public sealed class UndertakerRole(IntPtr cppPtr)
         var touAbilityEvent = new TouAbilityEvent(AbilityType.UndertakerDrop, playerControl, dragMod.DeadBody);
         MiraEventManager.InvokeEvent(touAbilityEvent);
 
-        playerControl.GetModifierComponent()?.RemoveModifier(dragMod);
+        dragMod.RemoveSelf();
 
         if (playerControl.AmOwner)
         {

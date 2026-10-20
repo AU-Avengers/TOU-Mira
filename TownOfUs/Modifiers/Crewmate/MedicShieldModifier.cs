@@ -115,7 +115,7 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
         base.FixedUpdate();
         if (!Player || !AllMedics.HasAny())
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 

@@ -53,7 +53,7 @@ public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShield
     {
         if (!Player || Mirrorcaster == null)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 
@@ -65,11 +65,11 @@ public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShield
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnMeetingStart()
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 }

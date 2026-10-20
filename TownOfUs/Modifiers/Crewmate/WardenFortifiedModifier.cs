@@ -84,7 +84,7 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
     {
         if (!Player || Warden == null)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 

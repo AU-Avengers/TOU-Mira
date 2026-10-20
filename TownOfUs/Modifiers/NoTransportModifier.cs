@@ -24,6 +24,6 @@ public abstract class NoTransportModifier : TimedModifier, IUntransportable
     {
         base.OnDeath(reason);
 
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

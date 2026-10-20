@@ -24,7 +24,7 @@ public sealed class ArsonistDousedModifier(byte arsonistId) : BaseModifier
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void FixedUpdate()

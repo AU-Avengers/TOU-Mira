@@ -22,7 +22,7 @@ public sealed class ShapeshifterShiftModifier(PlayerControl target) : DisguisedM
     public override void OnMeetingStart()
     {
         base.OnMeetingStart();
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeactivate()

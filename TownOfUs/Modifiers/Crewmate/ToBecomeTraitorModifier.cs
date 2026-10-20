@@ -81,7 +81,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
     public void Clear()
     {
         AssignTargets();
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     [MethodRpc((uint)TownOfUsRpc.SetTraitor)]

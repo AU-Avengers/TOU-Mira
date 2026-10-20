@@ -90,7 +90,7 @@ public sealed class ChefServedModifier(PlayerControl chef, int servingType, int 
     {
         if (Chef.HasDied())
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 

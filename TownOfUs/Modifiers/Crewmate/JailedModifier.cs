@@ -37,7 +37,7 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
             GameData.Instance.GetPlayerById(JailorId).Object.Data.Role is not JailorRole || Player.HasDied() ||
             meeting == null)
         {
-            ModifierComponent!.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 
@@ -108,6 +108,6 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

@@ -20,7 +20,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnActivate()

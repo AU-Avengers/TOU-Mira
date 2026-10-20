@@ -20,6 +20,6 @@ public sealed class OracleBlessedModifier(PlayerControl oracle) : BaseModifier
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }
