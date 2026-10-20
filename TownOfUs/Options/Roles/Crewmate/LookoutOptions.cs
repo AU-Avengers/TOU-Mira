@@ -20,6 +20,11 @@ public sealed class LookoutOptions : AbstractRoleOptionGroup<LookoutRole>
 
     public ModdedToggleOption LookoutSeesIndirectAttacks { get; } = new("TouOptionLookoutSeesIndirectAttacks", false);
 
+    public ModdedToggleOption OnlySeesEvilInteractions { get; } = new("TouOptionLookoutOnlySeesEvilInteractions", true)
+    {
+        Visible = () => (LookoutView)OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Roles
+    };
+
     [ModdedToggleOption("TouOptionLookoutLoResetOnNewRound")]
     public bool LoResetOnNewRound { get; set; } = true;
 
