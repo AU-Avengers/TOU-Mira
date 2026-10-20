@@ -127,14 +127,12 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
                     Player.GetModifier<FirstDeadShield>()!.SetVisible();
                 }
 
-                if (!Player.AmOwner)
+                if (Player.AmOwner)
                 {
-                    Player.RemoveModifier(this);
-                    yield break;
+                    Player.moveable = true;
+                    Player.NetTransform.SetPaused(false);
                 }
 
-                Player.moveable = true;
-                Player.NetTransform.SetPaused(false);
                 Player.RemoveModifier(this);
                 yield break;
             }
@@ -188,14 +186,12 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
                     Player.NetTransform.SnapTo(ogPos);
                 }
 
-                if (!Player.AmOwner)
+                if (Player.AmOwner)
                 {
-                    Player.RemoveModifier(this);
-                    yield break;
+                    Player.moveable = true;
+                    Player.NetTransform.SetPaused(false);
                 }
 
-                Player.moveable = true;
-                Player.NetTransform.SetPaused(false);
                 Player.RemoveModifier(this);
                 yield break;
             }
@@ -227,14 +223,12 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
                 Player.GetModifier<FirstDeadShield>()!.SetVisible();
             }
 
-            if (!Player.AmOwner)
+            if (Player.AmOwner)
             {
-                Player.RemoveModifier(this);
-                yield break;
+                Player.moveable = true;
+                Player.NetTransform.SetPaused(false);
             }
 
-            Player.moveable = true;
-            Player.NetTransform.SetPaused(false);
             Player.RemoveModifier(this);
         }
     }
