@@ -6,6 +6,7 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class TestTimeLordModifier : TouGameModifier, IWikiDiscoverable, IButtonModifier
 {
+    public override bool? ForceShowModifierOnWiki => false;
     public override string IdPart => "TestTimeLord";
     public override string ModifierName => "Test Time Lord";
     public override string IntroInfo => "Test modifier for Time Lord rewind ability";

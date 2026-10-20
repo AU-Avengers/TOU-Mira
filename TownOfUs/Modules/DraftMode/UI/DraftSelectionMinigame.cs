@@ -349,9 +349,7 @@ namespace TownOfUs.Modules.DraftMode
 
             var idList = new List<ushort>();
             if (_offeredRoleIds != null) idList.AddRange(_offeredRoleIds);
-            var nameList = new List<string>();
-            if (_offeredRoleNames != null) nameList.AddRange(_offeredRoleNames);
-            var cards = DraftUiManager.BuildCards(idList, nameList);
+            var cards = DraftUiManager.BuildCards(idList);
 
             int totalCards = cards.Count;
             float cardScale = CardScaleForCount;

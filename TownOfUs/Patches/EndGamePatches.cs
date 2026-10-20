@@ -327,36 +327,38 @@ public static class EndGamePatches
     {
         var map = TownOfUsEventHandlers.CurrentMap;
         var day = DateTime.Today.DayOfWeek;
-        if (!AmongUsClient.Instance.AmLocalHost)
+        switch (day)
         {
-            switch (day)
-            {
-                case DayOfWeek.Monday:
-                    if (map is ExpandedMapNames.MiraHq)
-                    {
-                        AchievementsAPIHelper.Unlock(TouAchievements.MiraMonday);
-                    }
-                    break;
-                case DayOfWeek.Friday:
-                    if (map is ExpandedMapNames.Fungle)
-                    {
-                        AchievementsAPIHelper.Unlock(TouAchievements.FungleFriday);
-                    }
-                    break;
-                case DayOfWeek.Saturday:
-                    if (map is ExpandedMapNames.Submerged)
-                    {
-                        AchievementsAPIHelper.Unlock(TouAchievements.SubmergedSaturday);
-                    }
-                    break;
-                case DayOfWeek.Sunday:
-                    if (map is ExpandedMapNames.Skeld)
-                    {
-                        AchievementsAPIHelper.Unlock(TouAchievements.SkeldSunday);
-                    }
-                    break;
-            }
+            case DayOfWeek.Monday:
+                if (map is ExpandedMapNames.MiraHq)
+                {
+                    AchievementsAPIHelper.Unlock(TouAchievements.MiraMonday);
+                }
+
+                break;
+            case DayOfWeek.Friday:
+                if (map is ExpandedMapNames.Fungle)
+                {
+                    AchievementsAPIHelper.Unlock(TouAchievements.FungleFriday);
+                }
+
+                break;
+            case DayOfWeek.Saturday:
+                if (map is ExpandedMapNames.Submerged)
+                {
+                    AchievementsAPIHelper.Unlock(TouAchievements.SubmergedSaturday);
+                }
+
+                break;
+            case DayOfWeek.Sunday:
+                if (map is ExpandedMapNames.Skeld)
+                {
+                    AchievementsAPIHelper.Unlock(TouAchievements.SkeldSunday);
+                }
+
+                break;
         }
+
         var winText = instance.WinText;
         var exitBtn = instance.Navigation.ExitButton;
 

@@ -1,145 +1,49 @@
 using System.Reflection;
+using MiraAPI.GameOptions;
+using TownOfUs.Options;
 using UnityEngine;
 
 namespace TownOfUs.Modules.DraftMode;
 
 public static class DraftManager
 {
+    private const float DisconnectConfirmSeconds = 1.5f;
+    private static readonly List<DraftSlotState> SlotStates = [];
+    private static readonly Dictionary<byte, float> DisconnectSuspectSince = [];
+    private static int _currentTurn;
+
     public static bool IsDraftActive;
-    public static int CurrentTurnNumber { get; private set; }
-    public static int CurrentTurnSlot { get; private set; }
+    public static int CurrentTurnNumber => _currentTurn;
+    public static int CurrentTurnSlot { get; private set; } = -1;
     public static int TotalSlots { get; private set; }
-    public static float TurnDuration { get; set; } = 10f;
+    public static float TurnDuration { get; private set; } = 10f;
     public static float TurnTimeLeft { get; set; }
     public static IEnumerable<int> TurnOrder => SlotStates.Select(s => s.SlotNumber).OrderBy(x => x);
     public static IReadOnlyList<DraftSlotState> States => SlotStates;
 
-    private static readonly List<DraftSlotState> SlotStates = [];
-    private static readonly Dictionary<byte, int> PlayerToSlot = [];
-    private static readonly Dictionary<byte, float> DisconnectSuspectSince = [];
-    private const float DisconnectConfirmSeconds = 1.5f;
-    private static int _currentTurn;
-
-    public static void SetDraftStateFromHost(int totalSlots, List<byte> playerIds, List<int> slotNumbers)
+    public static void Begin(Dictionary<byte, int> playerSlots)
     {
-        if (playerIds == null || slotNumbers == null) return;
-        if (playerIds.Count != slotNumbers.Count) return;
-
         SlotStates.Clear();
-        PlayerToSlot.Clear();
-
-        for (var i = 0; i < playerIds.Count; i++)
+        DisconnectSuspectSince.Clear();
+        foreach (var (playerId, slot) in playerSlots)
         {
-            var state = new DraftSlotState { PlayerId = playerIds[i], SlotNumber = slotNumbers[i] };
-            SlotStates.Add(state);
-            PlayerToSlot[playerIds[i]] = slotNumbers[i];
+            SlotStates.Add(new DraftSlotState { PlayerId = playerId, SlotNumber = slot });
         }
 
         IsDraftActive = true;
-        TotalSlots = Math.Max(totalSlots, playerIds.Count);
-        CurrentTurnNumber = 0;
+        TotalSlots = playerSlots.Count;
+        _currentTurn = 0;
         CurrentTurnSlot = -1;
+        TurnDuration = OptionGroupSingleton<RoleOptions>.Instance.TurnDurationSeconds.Value;
+        DraftTicker.EnsureExists();
         DraftSidebarManager.InvalidateCache();
     }
 
-    public static void AddSlotState(DraftSlotState state)
+    public static void Remove(int slot)
     {
-        if (state == null) return;
-
-        var existing = SlotStates.FirstOrDefault(s => s.PlayerId == state.PlayerId);
-        if (existing != null)
-            SlotStates.Remove(existing);
-
-        SlotStates.Add(state);
-        PlayerToSlot[state.PlayerId] = state.SlotNumber;
-        DraftSidebarManager.InvalidateCache();
-    }
-
-    public static void SubmitPick(byte playerId, byte index, ushort roleId)
-    {
-        var state = GetStateForPlayer(playerId);
-        if (state == null) return;
-        if (state.HasPicked || state.ChosenRoleId != 0) return;
-        if (!state.IsPickingNow) return;
-
-        if (state.PendingPickIndex != 255 && state.PendingPickTurnNumber == _currentTurn)
-        {
-            if (state.PendingPickIndex == index && state.PendingPickRoleId == roleId)
-            {
-                return;
-            }
-
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
-                $"[DraftManager] Replacing stale submitted pick for player {playerId}: stored index {state.PendingPickIndex}, new index {index}, turn {_currentTurn}");
-            state.PendingPickIndex = index;
-            state.PendingPickRoleId = roleId;
-            state.PendingPickTurnNumber = _currentTurn;
-
-            if (AmongUsClient.Instance.AmHost && DraftEngineBehaviour.Instance != null)
-            {
-                DraftEngineBehaviour.Instance.TryApplySubmittedPick(playerId, index, roleId);
-            }
-
-            return;
-        }
-
-        if (index == 255)
-        {
-            state.PendingPickIndex = 255;
-            state.PendingPickRoleId = 0;
-            state.PendingPickTurnNumber = _currentTurn;
-            return;
-        }
-
-        state.PendingPickIndex = index;
-        state.PendingPickRoleId = roleId;
-        state.PendingPickTurnNumber = _currentTurn;
-
-        if (AmongUsClient.Instance.AmHost && DraftEngineBehaviour.Instance != null)
-        {
-            DraftEngineBehaviour.Instance.TryApplySubmittedPick(playerId, index, roleId);
-        }
-    }
-
-    public static void ConfirmPick(int slot, ushort roleId)
-    {
-        var state = GetStateForSlot(slot);
-        if (state == null) return;
-
-        if (state.HasPicked && state.ChosenRoleId != 0)
-        {
-            if (state.ChosenRoleId == roleId)
-            {
-                state.PendingPickIndex = 255;
-                state.PendingPickRoleId = 0;
-                state.PendingPickTurnNumber = -1;
-                return;
-            }
-
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
-                $"[DraftManager] Ignoring duplicate pick confirmation for slot {slot}: existing role {state.ChosenRoleId}, new role {roleId}");
-            return;
-        }
-
-        state.ChosenRoleId = roleId;
-        state.HasPicked = true;
-        state.IsPickingNow = false;
-        state.PendingPickIndex = 255;
-        state.PendingPickRoleId = 0;
-        state.PendingPickTurnNumber = -1;
-
-        if (PlayerControl.LocalPlayer != null && state.PlayerId == PlayerControl.LocalPlayer.PlayerId)
-            DraftStatusOverlay.NotifyLocalPlayerPicked(roleId);
-
+        SlotStates.RemoveAll(s => s.SlotNumber == slot);
         DraftSidebarManager.InvalidateCache();
         DraftStatusOverlay.Refresh();
-    }
-
-    public static void NotifyPickerReady(byte playerId)
-    {
-        var state = GetStateForPlayer(playerId);
-        if (state == null) return;
-        state.IsPickerReady = true;
     }
 
     public static void SetClientTurn(int turnNumber, int slot)
@@ -147,8 +51,8 @@ public static class DraftManager
         if (turnNumber != _currentTurn)
         {
             _currentTurn = turnNumber;
-            CurrentTurnNumber = turnNumber;
-            CurrentTurnSlot = slot;
+            TurnDuration = OptionGroupSingleton<RoleOptions>.Instance.TurnDurationSeconds.Value;
+            TurnTimeLeft = TurnDuration;
             foreach (var s in SlotStates)
             {
                 s.IsPickingNow = false;
@@ -158,10 +62,10 @@ public static class DraftManager
             }
         }
 
-        var target = SlotStates.FirstOrDefault(s => s.SlotNumber == slot);
+        CurrentTurnSlot = slot;
+        var target = GetStateForSlot(slot);
         if (target != null)
         {
-            CurrentTurnSlot = slot;
             target.IsPickingNow = true;
             target.PendingPickIndex = 255;
             target.PendingPickRoleId = 0;
@@ -172,88 +76,74 @@ public static class DraftManager
         DraftStatusOverlay.Refresh();
     }
 
-    public static void SetForcedDraftRole(string roleName, byte targetId)
+    public static void ConfirmPick(int slot, ushort roleId)
     {
-        if (string.IsNullOrWhiteSpace(roleName)) return;
-        var state = GetStateForPlayer(targetId);
+        var state = GetStateForSlot(slot);
         if (state == null) return;
-        state.ForcedRoleName = roleName;
+
+        if (!AmongUsClient.Instance.AmHost && (roleId != 0 || !state.HasPicked))
+        {
+            state.ChosenRoleId = roleId;
+        }
+
+        state.HasPicked = true;
+        state.IsPickingNow = false;
+        state.PendingPickIndex = 255;
+        state.PendingPickRoleId = 0;
+        state.PendingPickTurnNumber = -1;
+
+        if (PlayerControl.LocalPlayer != null && state.PlayerId == PlayerControl.LocalPlayer.PlayerId && roleId != 0)
+            DraftStatusOverlay.NotifyLocalPlayerPicked(roleId);
+
+        DraftSidebarManager.InvalidateCache();
+        DraftStatusOverlay.Refresh();
     }
 
-    public static int GetSlotForPlayer(byte playerId) =>
-        PlayerToSlot.TryGetValue(playerId, out var slot) ? slot : -1;
-
-    public static DraftSlotState GetStateForSlot(int slot) =>
-        SlotStates.FirstOrDefault(s => s.SlotNumber == slot)!;
-
-    public static DraftSlotState GetStateForPlayer(byte playerId) =>
-        SlotStates.FirstOrDefault(s => s.PlayerId == playerId)!;
-
-    public static IReadOnlyList<DraftSlotState> GetAllStates() => SlotStates.AsReadOnly();
-
-    public static bool IsPlayerDisconnected(byte playerId)
+    public static void NotifyPickerReady(byte playerId)
     {
-        var player = PlayerControl.AllPlayerControls?.ToArray()
-            .FirstOrDefault(p => p != null && p.PlayerId == playerId);
+        var state = GetStateForPlayer(playerId);
+        if (state != null) state.IsPickerReady = true;
+    }
 
-        if (player == null) return true;
-        if (player.Data == null || player.Data.Disconnected) return true;
-        if (IsBotLikePlayer(player)) return true;
+    public static int GetSlotForPlayer(byte playerId) => GetStateForPlayer(playerId)?.SlotNumber ?? -1;
 
-        bool isLocalGame = AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay;
-        if (isLocalGame)
+    public static DraftSlotState GetStateForSlot(int slot) => SlotStates.FirstOrDefault(s => s.SlotNumber == slot)!;
+
+    public static DraftSlotState GetStateForPlayer(byte playerId) => SlotStates.FirstOrDefault(s => s.PlayerId == playerId)!;
+
+    public static bool IsBot(byte playerId)
+    {
+        var data = MiscUtils.PlayerById(playerId)?.Data;
+        if (data == null) return false;
+
+        var type = data.GetType();
+        var flag = type.GetProperty("IsBot", BindingFlags.Public | BindingFlags.Instance)
+                   ?? type.GetProperty("IsDummy", BindingFlags.Public | BindingFlags.Instance);
+        return flag?.GetValue(data) is true;
+    }
+
+    public static bool IsPlayerGone(byte playerId)
+    {
+        var player = MiscUtils.PlayerById(playerId);
+        if (player == null || player.Data == null || player.Data.Disconnected) return true;
+
+        var offline = AmongUsClient.Instance.NetworkMode is NetworkModes.LocalGame or NetworkModes.FreePlay;
+        if (offline || AmongUsClient.Instance.GetClient(player.OwnerId) != null)
         {
             DisconnectSuspectSince.Remove(playerId);
             return false;
         }
 
-        bool clientMissing = AmongUsClient.Instance.GetClient(player.OwnerId) == null;
-
-        if (!clientMissing)
-        {
-            DisconnectSuspectSince.Remove(playerId);
-            return false;
-        }
-
-        if (!DisconnectSuspectSince.TryGetValue(playerId, out var suspectSince))
+        if (!DisconnectSuspectSince.TryGetValue(playerId, out var since))
         {
             DisconnectSuspectSince[playerId] = Time.time;
             return false;
         }
 
-        return Time.time - suspectSince >= DisconnectConfirmSeconds;
+        return Time.time - since >= DisconnectConfirmSeconds;
     }
 
-    private static bool IsBotLikePlayer(PlayerControl player)
-    {
-        if (player == null) return false;
-
-        try
-        {
-            var data = player.Data;
-            if (data == null) return false;
-
-            foreach (var candidate in new[] { data.GetType(), player.GetType() })
-            {
-                if (candidate == null) continue;
-
-                var prop = candidate.GetProperty("IsBot", BindingFlags.Public | BindingFlags.Instance);
-                if (prop?.GetValue(data) is bool isBot)
-                    return isBot;
-
-                var playerProp = candidate.GetProperty("IsDummy", BindingFlags.Public | BindingFlags.Instance);
-                if (playerProp?.GetValue(data) is bool isDummy)
-                    return isDummy;
-            }
-        }
-        catch (Exception ex)
-        {
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
-                $"[DraftManager] Could not check whether player {player.PlayerId} is a bot: {ex.Message}");
-        }
-
-        return false;
-    }
+    public static bool IsPlayerDisconnected(byte playerId) => IsPlayerGone(playerId) || IsBot(playerId);
 
     public static void Reset(bool cancelledBeforeCompletion)
     {
@@ -262,11 +152,10 @@ public static class DraftManager
         {
             DraftApplier.PendingDraftStates.Clear();
         }
+
         SlotStates.Clear();
-        PlayerToSlot.Clear();
         DisconnectSuspectSince.Clear();
         _currentTurn = 0;
-        CurrentTurnNumber = 0;
         CurrentTurnSlot = -1;
         TotalSlots = 0;
         TurnTimeLeft = 0f;
@@ -282,11 +171,9 @@ public static class DraftManager
 public class RecapEntry(int slotNumber, string roleName, string teamLabel = null!, string colorHex = null!)
 {
     public int SlotNumber { get; } = slotNumber;
-    public string RoleName  { get; } = roleName;
-
+    public string RoleName { get; } = roleName;
     public string TeamLabel { get; } = teamLabel ?? "Unknown";
-
-    public string ColorHex  { get; } = colorHex  ?? "FFFFFF";
+    public string ColorHex { get; } = colorHex ?? "FFFFFF";
 }
 
 public class DraftSlotState
@@ -300,5 +187,4 @@ public class DraftSlotState
     public byte PendingPickIndex = 255;
     public ushort PendingPickRoleId;
     public int PendingPickTurnNumber = -1;
-    public string ForcedRoleName;
 }
