@@ -321,11 +321,6 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 return null;
             }
 
-            if (pc.HasModifier<NoTransportModifier>())
-            {
-                return null;
-            }
-
             if (pc.HasModifierOfType<IUntransportable>())
             {
                 return null;
