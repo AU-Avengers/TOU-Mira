@@ -349,13 +349,14 @@ public static class HudManagerPatches
         }
         else
         {
-            RoleList.SetActive(false);
             if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek or TouGamemode.Other || roleAssignmentType is not RoleDistribution.RoleList && roleAssignmentType is not RoleDistribution.MinMaxList && roleAssignmentType is not RoleDistribution.Draft)
             {
+                RoleList.SetActive(false);
                 return;
             }
 
-            if (Time.time - _lastRoleListUpdateTime < RoleListUpdateInterval)
+            if (!DraftSidebarManager.IsActive &&
+                Time.time - _lastRoleListUpdateTime < RoleListUpdateInterval)
             {
                 RoleList.SetActive(true);
                 return;
