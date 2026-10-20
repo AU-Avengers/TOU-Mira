@@ -2105,7 +2105,7 @@ Quando a tua cota for alcançada, sais em vitória!</string>
   <string name="TownOfUsMira.Role.ChefMessageTitle">Feedback Do Cozinheiro</string>
   <string name="TownOfUsMira.Role.ChefCustomerMessage">Foste servido um corpo pelo Cozinheiro!</string>
   <string name="TownOfUsMira.Role.ChefVictoryMessage">O [role], [player], ganhou com sucesso, pois serviu jogadores suficientes!</string>
-  <string name="TownOfUsMira.Role.ChefVictoryMessageSelf">Ganhaste com sucesso sendo o [role], pois serviu jogadores suficientes!</string>
+  <string name="TownOfUsMira.Role.ChefVictoryMessageSelf">Ganhaste com sucesso sendo o [role], pois serviste jogadores suficientes!</string>
   <string name="TownOfUsMira.Role.ChefCook">Cozinhar</string>
   <string name="TownOfUsMira.Role.ChefCook.WikiDescription">Cozinha um corpo morto e salva-o para mais tarde.</string>
   <string name="TownOfUsMira.Role.ChefServe">Servir</string>
