@@ -42,10 +42,8 @@ public sealed class GuesserMenu : CustomPaginableMenu
 
             if (modifierMatch != null && onModifierClick != null)
             {
-                var modifiers = MiscUtils.AllModifiers.Where(modifierMatch).OrderBy(x => x.ModifierName);
-
                 RegisterPanels(
-                    modifiers,
+                    MiscUtils.AllModifiers.Where(modifierMatch).OrderBy(x => x.ModifierName),
                     onModifierClick!,
                     Utilities.Extensions.SetModifier,
                     (shapeshifterPanel, modifier) => new MenuEntry(shapeshifterPanel, modifier.ModifierName)
