@@ -362,6 +362,47 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
+    public static void ReportBodyEventHandler(ReportBodyEvent @event)
+    {
+        if (@event.Target == null)
+        {
+            return;
+        }
+
+        if (@event.Reporter.Data.Role is not IBodyReport { ReportEnabled: true } reporter || !@event.Reporter.AmOwner)
+        {
+            return;
+        }
+
+        var deadPlayerId = @event.Target.PlayerId;
+
+        var matches = GameHistory.KilledPlayers.Where(x => x.VictimId == deadPlayerId).ToArray();
+
+        DeadPlayer? killer = null;
+
+        if (matches.Length > 0)
+        {
+            killer = matches[0];
+        }
+
+        if (killer == null)
+        {
+            return;
+        }
+
+        // Message($"CmdReportDeadBody");
+        var br = new BodyReport
+        {
+            Killer = MiscUtils.PlayerById(killer.KillerId),
+            Reporter = reporter.Player,
+            Body = MiscUtils.PlayerById(killer.VictimId),
+            KillAge = (float)(DateTime.UtcNow - killer.KillTime).TotalMilliseconds
+        };
+
+        reporter.ReportBody(br);
+    }
+
+    [RegisterEvent]
     public static void RoundStartHandler(RoundStartEvent @event)
     {
         var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
