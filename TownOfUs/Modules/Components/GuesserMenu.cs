@@ -23,15 +23,15 @@ public sealed class GuesserMenu : CustomPaginableMenu
     {
         Begin(() =>
         {
-            var roles = MiscUtils.GetPotentialRoles().Where(roleMatch).ToList();
+            var roles = MiscUtils.GetPotentialRoles().Where(roleMatch);
 
             var guessableRoles = MiscUtils.AllRoles.Where(roleMatch)
-                                .Where(x => x is IGuessable guessable && !roles.Contains(x) && guessable.CanBeGuessed).ToList();
+                                .Where(x => x is IGuessable guessable && !roles.Contains(x) && guessable.CanBeGuessed);
 
             var newRoleList = roles.Concat(guessableRoles).OrderBy(x =>
             LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.SortGuessingByAlignmentToggle.Value
                 ? MiscUtils.GetParsedRoleAlignment(x) + x.GetRoleName()
-                : x.GetRoleName()).ToList();
+                : x.GetRoleName());
 
             RegisterPanels(
                 newRoleList,
@@ -50,7 +50,7 @@ public sealed class GuesserMenu : CustomPaginableMenu
             if (modifierMatch == null || onModifierClick == null)
                 return;
 
-            var modifiers = MiscUtils.AllModifiers.Where(modifierMatch).OrderBy(x => x.ModifierName).ToList();
+            var modifiers = MiscUtils.AllModifiers.Where(modifierMatch).OrderBy(x => x.ModifierName);
 
             RegisterPanels(
                 modifiers,
