@@ -2,36 +2,21 @@
 
 namespace TownOfUs.Roles;
 
-public interface IBodyReport
+public interface IBaseBodyReport
 {
     PlayerControl Player { get; }
 
     bool ReportEnabled { get; }
+}
 
+public interface IBodyReport : IBaseBodyReport
+{
     void ReportBody(BodyReport br);
 }
 
-public interface IBodyReportChat : IBodyReport
+public interface IBodyReportChat : IBaseBodyReport
 {
     string BodyReportTitle { get; }
 
     string ParseReport(BodyReport br);
-
-    void IBodyReport.ReportBody(BodyReport br)
-    {
-        var reportMsg = ParseReport(br);
-
-        if (string.IsNullOrWhiteSpace(reportMsg))
-        {
-            return;
-        }
-
-        var reported = Player;
-        if (br.Body != null)
-        {
-            reported = br.Body;
-        }
-
-        MiscUtils.AddFakeChat(reported.Data, BodyReportTitle, reportMsg, false, true);
-    }
 }

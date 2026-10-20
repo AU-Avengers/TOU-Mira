@@ -369,7 +369,7 @@ public static class TownOfUsEventHandlers
             return;
         }
 
-        if (@event.Reporter.Data.Role is not IBodyReport { ReportEnabled: true } reporter || !@event.Reporter.AmOwner)
+        if (@event.Reporter.Data.Role is not IBaseBodyReport { ReportEnabled: true } report || !@event.Reporter.AmOwner)
         {
             return;
         }
@@ -394,12 +394,32 @@ public static class TownOfUsEventHandlers
         var br = new BodyReport
         {
             Killer = MiscUtils.PlayerById(killer.KillerId),
-            Reporter = reporter.Player,
+            Reporter = report.Player,
             Body = MiscUtils.PlayerById(killer.VictimId),
             KillAge = (float)(DateTime.UtcNow - killer.KillTime).TotalMilliseconds
         };
 
-        reporter.ReportBody(br);
+        if (report is IBodyReport reporter)
+        {
+            reporter.ReportBody(br);
+        }
+        else if (report is IBodyReportChat chat)
+        {
+            var reportMsg = chat.ParseReport(br);
+
+            if (string.IsNullOrWhiteSpace(reportMsg))
+            {
+                return;
+            }
+
+            var reported = report.Player;
+            if (br.Body != null)
+            {
+                reported = br.Body;
+            }
+
+            MiscUtils.AddFakeChat(reported.Data, chat.BodyReportTitle, reportMsg, false, true);
+        }
     }
 
     [RegisterEvent]
