@@ -99,7 +99,7 @@ public static class ChefEvents
             stats.PlayerState = StoredPlayerState.Dead;
             stats.LockDeathInfo = true;
 
-            MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.ChefWin, chef.Player));
+            new TouAbilityEvent(AbilityType.ChefWin, chef.Player).InvokeEvent();
 
             chef.Player.Exiled();
         }
@@ -158,7 +158,7 @@ public static class ChefEvents
             stats.PlayerState = StoredPlayerState.Dead;
             stats.LockDeathInfo = true;
 
-            MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.ChefWin, chef.Player));
+            new TouAbilityEvent(AbilityType.ChefWin, chef.Player).InvokeEvent();
 
             chef.Player.Exiled();
         }

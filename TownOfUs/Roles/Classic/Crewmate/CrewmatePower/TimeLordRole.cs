@@ -151,7 +151,7 @@ OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
         TimeLordRewindSystem.StartRewind(timeLord.PlayerId, duration);
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.TimeLordRewind, timeLord);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     [MethodRpc((uint)TownOfUsRpc.TimeLordRewindRevive)]
@@ -170,7 +170,7 @@ OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
         TimeLordRewindSystem.ReviveFromRewind(revived);
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.TimeLordRevive, revived);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     [MethodRpc((uint)TownOfUsRpc.TimeLordUndoTask)]

@@ -49,7 +49,7 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
     {
         base.OnActivate();
         var touAbilityEvent = new TouAbilityEvent(AbilityType.WardenFortify, Warden, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         var show = OptionGroupSingleton<WardenOptions>.Instance.ShowFortified;

@@ -17,7 +17,7 @@ public sealed class PoliticianCampaignedModifier(PlayerControl politician) : Bas
     public override void OnActivate()
     {
         var touAbilityEvent = new TouAbilityEvent(AbilityType.PoliticianCampaign, Politician, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void OnDeath(DeathReason reason)

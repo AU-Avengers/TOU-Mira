@@ -22,7 +22,7 @@ public sealed class SpellslingerHexedModifier(PlayerControl spellslinger) : Base
         if (pb != null)
         {
             var touAbilityEvent = new TouAbilityEvent(AbilityType.SpellslingerHex, pb, Player);
-            MiraEventManager.InvokeEvent(touAbilityEvent);
+            touAbilityEvent.InvokeEvent();
         }
     }
 

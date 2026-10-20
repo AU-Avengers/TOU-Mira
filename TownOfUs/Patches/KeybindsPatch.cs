@@ -87,7 +87,7 @@ public static class Bindings
                 }
             }
 
-            MiraEventManager.InvokeEvent(new CheckForEndVotingEvent(true));
+            new CheckForEndVotingEvent(true).InvokeEvent();
 
             var finalVoteList = new List<CustomVote>();
             foreach (var player in PlayerControl.AllPlayerControls.ToArray())
@@ -114,7 +114,7 @@ public static class Bindings
             {
                 ExiledPlayer = seededExiled
             };
-            MiraEventManager.InvokeEvent(processEvent);
+            processEvent.InvokeEvent();
 
             var votesForStates = processEvent.Votes.ToList();
             if (TiebreakerEvents.TiebreakingVote.HasValue)

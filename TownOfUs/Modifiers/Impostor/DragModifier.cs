@@ -53,7 +53,7 @@ public sealed class DragModifier(byte bodyId) : BaseModifier
             CustomButtonSingleton<UndertakerDragDropButton>.Instance.SetDrag();
         }
         var touAbilityEvent = new TouAbilityEvent(AbilityType.UndertakerDrop, Player, DeadBody);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (DeadBody == null)
         {

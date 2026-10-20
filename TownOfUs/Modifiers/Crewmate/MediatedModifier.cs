@@ -40,7 +40,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MediumMediate, _mediumPlayer, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         _medium.MediatedPlayers.Add(this);
 

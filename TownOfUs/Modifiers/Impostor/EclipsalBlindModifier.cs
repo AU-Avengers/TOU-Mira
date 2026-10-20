@@ -28,7 +28,7 @@ public sealed class EclipsalBlindModifier(PlayerControl player) : DisabledModifi
     {
         base.OnActivate();
         var touAbilityEvent = new TouAbilityEvent(AbilityType.EclipsalBlind, Eclipsal, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         VisionPerc = 1f;
 

@@ -101,6 +101,6 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
         var modifier = new BlackmailedModifier(source.PlayerId);
         target.AddModifier(modifier);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.BlackmailerBlackmail, source, target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 }

@@ -16,7 +16,7 @@ public sealed class ShapeshifterShiftModifier(PlayerControl target) : DisguisedM
         base.OnActivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.ShapeshifterShift, Player, Target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void OnMeetingStart()
@@ -30,6 +30,6 @@ public sealed class ShapeshifterShiftModifier(PlayerControl target) : DisguisedM
         base.OnDeactivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.ShapeshifterUnshift, Player, Target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 }

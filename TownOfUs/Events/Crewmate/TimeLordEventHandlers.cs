@@ -25,49 +25,49 @@ public static class TimeLordEventHandlers
         EventQueue.RegisterUndoHandler<TimeLordVentEnterEvent>(evt =>
         {
             var undoEvent = new TimeLordVentEnterUndoEvent(evt);
-            MiraEventManager.InvokeEvent(undoEvent);
+            undoEvent.InvokeEvent();
         });
 
         EventQueue.RegisterUndoHandler<TimeLordVentExitEvent>(evt =>
         {
             var undoEvent = new TimeLordVentExitUndoEvent(evt);
-            MiraEventManager.InvokeEvent(undoEvent);
+            undoEvent.InvokeEvent();
         });
 
         EventQueue.RegisterUndoHandler<TimeLordTaskCompleteEvent>(evt =>
         {
             var undoEvent = new TimeLordTaskCompleteUndoEvent(evt);
-            MiraEventManager.InvokeEvent(undoEvent);
+            undoEvent.InvokeEvent();
         });
 
         EventQueue.RegisterUndoHandler<TimeLordBodyCleanedEvent>(evt =>
         {
             var undoEvent = new TimeLordBodyCleanedUndoEvent(evt);
-            MiraEventManager.InvokeEvent(undoEvent);
+            undoEvent.InvokeEvent();
         });
 
         EventQueue.RegisterUndoHandler<TimeLordKillEvent>(evt =>
         {
             var undoEvent = new TimeLordKillUndoEvent(evt);
-            MiraEventManager.InvokeEvent(undoEvent);
+            undoEvent.InvokeEvent();
         });
 
         EventQueue.RegisterUndoHandler<TimeLordChefCookEvent>(evt =>
         {
             var undoEvent = new TimeLordChefCookUndoEvent(evt);
-            MiraEventManager.InvokeEvent(undoEvent);
+            undoEvent.InvokeEvent();
         });
 
         EventQueue.RegisterUndoHandler<TimeLordChefServeEvent>(evt =>
         {
             var undoEvent = new TimeLordChefServeUndoEvent(evt);
-            MiraEventManager.InvokeEvent(undoEvent);
+            undoEvent.InvokeEvent();
         });
 
         EventQueue.RegisterUndoHandler<TimeLordKillCooldownEvent>(evt =>
         {
             var undoEvent = new TimeLordKillCooldownUndoEvent(evt);
-            MiraEventManager.InvokeEvent(undoEvent);
+            undoEvent.InvokeEvent();
         });
     }
 
@@ -87,7 +87,7 @@ public static class TimeLordEventHandlers
         }
 
         var evt = new TimeLordVentEnterEvent(player, vent, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
+        evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
 
@@ -102,7 +102,7 @@ public static class TimeLordEventHandlers
         }
 
         var evt = new TimeLordVentExitEvent(player, vent, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
+        evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
 
@@ -117,7 +117,7 @@ public static class TimeLordEventHandlers
         }
 
         var evt = new TimeLordTaskCompleteEvent(player, task, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
+        evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
 
@@ -133,7 +133,7 @@ public static class TimeLordEventHandlers
         }
 
         var evt = new TimeLordBodyCleanedEvent(player, body, position, source, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
+        evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
         
         TimeLordBodyManager.RecordBodyCleaned(body, source);
@@ -150,7 +150,7 @@ public static class TimeLordEventHandlers
         }
 
         var evt = new TimeLordKillEvent(killer, victim, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
+        evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
 
@@ -165,7 +165,7 @@ public static class TimeLordEventHandlers
         }
 
         var evt = new TimeLordChefCookEvent(chef, body, platterType, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
+        evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
 
@@ -180,7 +180,7 @@ public static class TimeLordEventHandlers
         }
 
         var evt = new TimeLordChefServeEvent(chef, target, bodyId, platterType, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
+        evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
 
@@ -195,7 +195,7 @@ public static class TimeLordEventHandlers
         }
 
         var evt = new TimeLordKillCooldownEvent(player, cooldownBefore, cooldownAfter, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
+        evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
 

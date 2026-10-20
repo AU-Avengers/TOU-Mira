@@ -32,7 +32,7 @@ public sealed class GlitchHackedModifier(byte glitchId) : DisabledModifier
     {
         var glitch = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == GlitchId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchInitialHack, glitch!, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
         if (Player.AmOwner)
         {
             ReportButtonHackedSprite = HudManager.Instance.ReportButton.CreateHackedIcon();
@@ -76,7 +76,7 @@ public sealed class GlitchHackedModifier(byte glitchId) : DisabledModifier
         StartTimer();
         var glitch = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == GlitchId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchHackTrigger, glitch!, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (Player.AmOwner)
         {

@@ -210,7 +210,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         Controlled = target;
         ControlTimer = OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
 
-        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.PuppeteerControl, puppeteer, target));
+        new TouAbilityEvent(AbilityType.PuppeteerControl, puppeteer, target).InvokeEvent();
 
         PuppeteerControlState.SetControl(target.PlayerId, puppeteer.PlayerId);
         if (!target.HasModifier<PuppeteerControlModifier>())

@@ -162,7 +162,7 @@ AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.AmnesiacPreRemember, player, target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         player.ChangeRole((ushort)roleWhenAlive.Role);
         if (player.Data.Role is InquisitorRole inquis)
@@ -303,6 +303,6 @@ AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
         }
 
         var touAbilityEvent2 = new TouAbilityEvent(AbilityType.AmnesiacPostRemember, player, target);
-        MiraEventManager.InvokeEvent(touAbilityEvent2);
+        touAbilityEvent2.InvokeEvent();
     }
 }

@@ -58,7 +58,7 @@ public sealed class HerbalistProtectionModifier(PlayerControl herbalist) : BaseS
             AnimStore.SpawnAnimBody(Player, TouAssets.ClericBarrier.LoadAsset(), false, -1.1f, -0.35f, 1.5f)!;
         ClericBarrier.GetComponent<SpriteAnim>().SetSpeed(2f);
 
-        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.HerbalistProtect, Herbalist, Player));
+        new TouAbilityEvent(AbilityType.HerbalistProtect, Herbalist, Player).InvokeEvent();
     }
 
     public override void Update()

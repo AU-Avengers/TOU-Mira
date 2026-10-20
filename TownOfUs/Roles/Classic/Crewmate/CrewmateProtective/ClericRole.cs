@@ -115,7 +115,7 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.ClericBarrier, "Blocked", cleric, shielded);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (source.AmOwner ||
             (cleric.AmOwner &&

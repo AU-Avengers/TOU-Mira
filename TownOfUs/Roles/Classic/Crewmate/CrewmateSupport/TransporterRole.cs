@@ -261,7 +261,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         Transport(t1, positions.Item2);
         Transport(t2, positions.Item1);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.TransporterTransport, transporter, t1, t2);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (transporter.AmOwner)
         {
@@ -361,7 +361,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                     dragMod.DeadBody!.transform.position = dropPos;
 
                     var touAbilityEvent2 = new TouAbilityEvent(AbilityType.UndertakerDrop, mod.Player, dragMod.DeadBody);
-                    MiraEventManager.InvokeEvent(touAbilityEvent2);
+                    touAbilityEvent2.InvokeEvent();
 
                     if (mod.Player.AmOwner)
                     {

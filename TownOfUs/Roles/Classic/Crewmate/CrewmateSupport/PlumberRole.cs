@@ -337,7 +337,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.PlumberFlush, player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         var someoneInVent = PlayerControl.AllPlayerControls.ToArray().Any(x => x.inVent);
         if (!someoneInVent)
@@ -389,6 +389,6 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         plumber.FutureBlocks.Add(ventId);
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.PlumberBlock, player, Helpers.GetVentById(ventId));
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 }

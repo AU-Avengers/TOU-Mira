@@ -400,7 +400,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MedicShieldProtect, !role.ProtectedAttackedThisRound ? "New Attack" : "Already Attacked", medic, shielded);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
         role.ProtectedAttackedThisRound = true;
 
         var shieldBreaks = OptionGroupSingleton<MedicOptions>.Instance.ShieldBreaks;

@@ -116,7 +116,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
         if (body != null)
         {
             var touAbilityEvent = new TouAbilityEvent(AbilityType.JanitorClean, player, body);
-            MiraEventManager.InvokeEvent(touAbilityEvent);
+            touAbilityEvent.InvokeEvent();
 
             var isHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
             var optionEnabled = OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind;

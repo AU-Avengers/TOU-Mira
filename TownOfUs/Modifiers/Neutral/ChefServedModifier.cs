@@ -53,7 +53,7 @@ public sealed class ChefServedModifier(PlayerControl chef, int servingType, int 
             AchievementsAPIHelper.Unlock(TouAchievements.FullCourseMeal);
         }
         /*var touAbilityEvent = new TouAbilityEvent(AbilityType.MercenaryBribe, Mercenary, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);*/
+        touAbilityEvent.InvokeEvent();*/
     }
 
     public override void FixedUpdate()

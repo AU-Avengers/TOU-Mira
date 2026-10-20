@@ -259,7 +259,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.AltruistRevive, alt, target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         Coroutines.Start(role.CoRevivePlayer(target));
     }

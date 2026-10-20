@@ -112,7 +112,7 @@ public sealed class UndertakerRole(IntPtr cppPtr)
 
         var touAbilityEvent =
             new TouAbilityEvent(AbilityType.UndertakerDrag, playerControl, Helpers.GetBodyById(bodyId));
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (playerControl.AmOwner)
         {
@@ -134,7 +134,7 @@ public sealed class UndertakerRole(IntPtr cppPtr)
         dragMod.DeadBody!.transform.position = dropPos;
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.UndertakerDrop, playerControl, dragMod.DeadBody);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         dragMod.RemoveSelf();
 

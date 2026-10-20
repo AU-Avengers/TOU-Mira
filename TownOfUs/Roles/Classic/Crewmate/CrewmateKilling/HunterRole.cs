@@ -182,6 +182,6 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         HudManager.Instance.KillOverlay.ShowKillAnimation(hunter.Data, target.Data);
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.HunterRetribution, hunter, target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 }

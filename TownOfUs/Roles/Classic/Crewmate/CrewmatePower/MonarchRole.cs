@@ -142,7 +142,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         target.AddModifier<KnightedModifier>();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MonarchKnight, player, target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (player.AmOwner)
         {

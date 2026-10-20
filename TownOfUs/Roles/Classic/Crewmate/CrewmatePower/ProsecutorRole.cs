@@ -152,7 +152,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         prosecutorRole.ProsecuteVictim = Victim;
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.ProsecutorProsecutes, plr, MiscUtils.PlayerById(Victim));
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         VotingUtils.CustomCastVote(plr.PlayerId, Victim);
     }

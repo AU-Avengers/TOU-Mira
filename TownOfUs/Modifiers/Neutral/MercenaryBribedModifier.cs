@@ -21,7 +21,7 @@ public sealed class MercenaryBribedModifier(PlayerControl mercenary) : BaseModif
         base.OnActivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MercenaryBribe, Mercenary, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
 public override void OnMeetingStart()

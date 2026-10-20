@@ -202,7 +202,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.WardenProtect, player, target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         // Error("RpcWardenNotify");
         if (source.AmOwner || player.AmOwner)

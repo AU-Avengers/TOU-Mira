@@ -112,7 +112,7 @@ public static class GuardianAngelEvents
         if (fairy != null)
         {
             var touAbilityEvent = new TouAbilityEvent(AbilityType.FairyProtected, fairy, target);
-            MiraEventManager.InvokeEvent(touAbilityEvent);
+            touAbilityEvent.InvokeEvent();
         }
 
         return true;

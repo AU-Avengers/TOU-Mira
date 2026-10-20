@@ -273,6 +273,6 @@ public sealed class PolusEngineerRole(IntPtr cppPtr) : PolusBaseCrewRole(cppPtr)
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.EngineerFix, engineer);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 }

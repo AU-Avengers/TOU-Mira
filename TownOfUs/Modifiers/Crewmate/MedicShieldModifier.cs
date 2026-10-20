@@ -80,7 +80,7 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
     public override void OnActivate()
     {
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MedicShield, Medic, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
         AllMedics.Add(Medic);
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;

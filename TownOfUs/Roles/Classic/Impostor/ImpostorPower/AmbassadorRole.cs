@@ -388,7 +388,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             player.AddModifier<AmbassadorRetrainedModifier>((ushort)player.Data.Role.Role);
             player.ChangeRole(role);
 
-            MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.AmbassadorRetrainAccepted, ambassador, player));
+            new TouAbilityEvent(AbilityType.AmbassadorRetrainAccepted, ambassador, player).InvokeEvent();
 
             if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
                 (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || ambassador.AmOwner ||

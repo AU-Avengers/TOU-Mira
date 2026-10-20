@@ -102,7 +102,7 @@ public sealed class BomberRole(IntPtr cppPtr)
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.BomberPlant, player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (player.AmOwner)
         {

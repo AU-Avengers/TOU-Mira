@@ -60,7 +60,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
     {
         base.OnActivate();
         var touAbilityEvent = new TouAbilityEvent(AbilityType.GrenadierFlash, Grenadier, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         flash = new ScreenFlash();
         SetColor();

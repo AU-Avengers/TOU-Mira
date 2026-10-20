@@ -202,11 +202,11 @@ public sealed class MinerRole(IntPtr cppPtr)
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MinerPlaceVent, player, vent);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
         if (immediate)
         {
             var touAbilityEvent2 = new TouAbilityEvent(AbilityType.MinerRevealVent, player, vent);
-            MiraEventManager.InvokeEvent(touAbilityEvent2);
+            touAbilityEvent2.InvokeEvent();
         }
     }
 
@@ -241,7 +241,7 @@ public sealed class MinerRole(IntPtr cppPtr)
             vent.gameObject.SetActive(true);
 
             var touAbilityEvent = new TouAbilityEvent(AbilityType.MinerRevealVent, player, vent);
-            MiraEventManager.InvokeEvent(touAbilityEvent);
+            touAbilityEvent.InvokeEvent();
         }
     }
 }

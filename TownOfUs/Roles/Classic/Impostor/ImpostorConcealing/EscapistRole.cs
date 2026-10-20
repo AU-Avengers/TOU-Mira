@@ -126,7 +126,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.EscapistRecall, player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     [MethodRpc((uint)TownOfUsRpc.MarkLocation)]
@@ -144,7 +144,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.EscapistMark, player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         henry.MarkedLocation = pos;
         henry.EscapeMark = AnimStore.SpawnAnimAtPlayer(player, TouAssets.EscapistMarkPrefab.LoadAsset());

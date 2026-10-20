@@ -27,7 +27,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
     {
         base.OnActivate();
         var touAbilityEvent = new TouAbilityEvent(AbilityType.HypnotistHypno, Hypnotist, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void OnDeactivate()
@@ -44,7 +44,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.HypnotistHysteria, Hypnotist, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
         if (!Player.AmOwner)
         {
             return;

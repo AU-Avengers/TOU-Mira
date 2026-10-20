@@ -43,7 +43,7 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
     public override void OnActivate()
     {
         var touAbilityEvent = new TouAbilityEvent(AbilityType.ClericBarrier, Cleric, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
 

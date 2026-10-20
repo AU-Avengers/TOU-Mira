@@ -61,7 +61,7 @@ public sealed class HerbalistConfusedModifier(PlayerControl herbalist) : TimedMo
             }
         }
 
-        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.HerbalistConfuse, Herbalist, Player));
+        new TouAbilityEvent(AbilityType.HerbalistConfuse, Herbalist, Player).InvokeEvent();
     }
 
     public override void OnDeath(DeathReason reason)

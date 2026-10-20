@@ -52,7 +52,7 @@ public sealed class InquisitorInquireButton : TownOfUsRoleButton<InquisitorRole,
 
         Target.AddModifier<InquisitorInquiredModifier>();
 
-        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.InquisitorInquire, PlayerControl.LocalPlayer, Target));
+        new TouAbilityEvent(AbilityType.InquisitorInquire, PlayerControl.LocalPlayer, Target).InvokeEvent();
 
         var notif1 = Helpers.CreateAndShowNotification(
             MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorInquireNotif").Replace("<player>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{Target.Data.PlayerName}</color>"),

@@ -689,7 +689,7 @@ public static class EndGamePatches
         }
 
         var changeRoleEvent = new ClientGameEndEvent();
-        MiraEventManager.InvokeEvent(changeRoleEvent);
+        changeRoleEvent.InvokeEvent();
 
         BuildEndGameData();
     }

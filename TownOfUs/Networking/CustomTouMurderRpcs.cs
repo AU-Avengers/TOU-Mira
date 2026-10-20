@@ -177,7 +177,7 @@ public static class CustomTouMurderRpcs
         foreach (var target in allPlayers)
         {
             var beforeMurderEvent = new BeforeMurderEvent(source, target, isIndirect, ignoreShields, inMeeting);
-            MiraEventManager.InvokeEvent(beforeMurderEvent);
+            beforeMurderEvent.InvokeEvent();
             var defenseFlag = beforeMurderEvent.IgnoreDefense;
             var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
             if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) ||
@@ -492,7 +492,7 @@ public static class CustomTouMurderRpcs
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, true, ignoreShield, MeetingCheck.OutsideMeeting);
-        MiraEventManager.InvokeEvent(beforeMurderEvent);
+        beforeMurderEvent.InvokeEvent();
         var defenseFlag = beforeMurderEvent.IgnoreDefense;
 
         var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
@@ -665,7 +665,7 @@ public static class CustomTouMurderRpcs
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, true, ignoreShield, MeetingCheck.OutsideMeeting);
-        MiraEventManager.InvokeEvent(beforeMurderEvent);
+        beforeMurderEvent.InvokeEvent();
         var defenseFlag = beforeMurderEvent.IgnoreDefense;
 
         var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
@@ -876,7 +876,7 @@ public static class CustomTouMurderRpcs
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, isIndirect, ignoreShield, inMeeting);
-        MiraEventManager.InvokeEvent(beforeMurderEvent);
+        beforeMurderEvent.InvokeEvent();
         var defenseFlag = beforeMurderEvent.IgnoreDefense;
         var indirectFlag = beforeMurderEvent.IsIndirectAttack;
         var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
@@ -1125,7 +1125,7 @@ public static class CustomTouMurderRpcs
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, true, true, MeetingCheck.ForMeeting);
-        MiraEventManager.InvokeEvent(beforeMurderEvent);
+        beforeMurderEvent.InvokeEvent();
         if (!MeetingHud.Instance && !ExileController.Instance)
         {
             beforeMurderEvent.Cancel();
@@ -1410,7 +1410,7 @@ public static class CustomTouMurderRpcs
         KillAnimation.SetMovement(target, true);
 
         var afterMurderEvent = new AfterMurderEvent(source, target, null);
-        MiraEventManager.InvokeEvent(afterMurderEvent);
+        afterMurderEvent.InvokeEvent();
 
         if (!isParticipant)
         {

@@ -228,7 +228,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         if (victim == Target)
         {
             var touAbilityEvent = new TouAbilityEvent(AbilityType.ScavengerCorrectKill, Player, victim);
-            MiraEventManager.InvokeEvent(touAbilityEvent);
+            touAbilityEvent.InvokeEvent();
 
             TimeRemaining = Mathf.Max(0f,
                 TimeRemaining + OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeIncreaseDuration);
@@ -239,7 +239,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
             return;
         }
 
-        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.ScavengerIncorrectKill, Player, victim));
+        new TouAbilityEvent(AbilityType.ScavengerIncorrectKill, Player, victim).InvokeEvent();
 
         var baseCooldown = killButton.Cooldown > 0f ? killButton.Cooldown : PlayerControl.LocalPlayer.GetKillCooldown();
         killButton.SetTimer(baseCooldown * OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeIncorrectKillCooldown);

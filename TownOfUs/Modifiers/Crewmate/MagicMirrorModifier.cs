@@ -27,7 +27,7 @@ public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShield
     public override void OnActivate()
     {
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MagicMirror, Mirrorcaster, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
 

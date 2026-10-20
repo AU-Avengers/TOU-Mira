@@ -36,7 +36,7 @@ public override void OnActivate()
     Effects = FindNegativeEffects(Player);
 
     var touAbilityEvent = new TouAbilityEvent(AbilityType.ClericCleanse, Effects.Count.ToString(TownOfUsPlugin.Culture), Cleric, Player);
-    MiraEventManager.InvokeEvent(touAbilityEvent);
+    touAbilityEvent.InvokeEvent();
 
     // Error($"ClericCleanseModifier.OnActivate");
 }

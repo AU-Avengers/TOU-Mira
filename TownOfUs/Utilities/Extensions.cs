@@ -505,7 +505,7 @@ public static class Extensions
         }
 
         var changeRoleEvent = new ChangeRoleEvent(player, oldRole, newRole);
-        MiraEventManager.InvokeEvent(changeRoleEvent);
+        changeRoleEvent.InvokeEvent();
     }
 
     [MethodRpc((uint)TownOfUsRpc.PlayerExile)]

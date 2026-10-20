@@ -19,7 +19,7 @@ public sealed class HerbalistExposedModifier(PlayerControl herbalist, bool isFfa
     public override void OnActivate()
     {
         base.OnActivate();
-        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.HerbalistExpose, Herbalist, Player));
+        new TouAbilityEvent(AbilityType.HerbalistExpose, Herbalist, Player).InvokeEvent();
     }
 
     public override void FixedUpdate()

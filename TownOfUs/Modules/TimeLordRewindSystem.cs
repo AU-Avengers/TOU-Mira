@@ -1607,7 +1607,7 @@ public static class TimeLordRewindSystem
                 {
                     // Fire the undo event through MiraEventManager
                     var undoEvent = CreateUndoEvent(evt);
-                    MiraAPI.Events.MiraEventManager.InvokeEvent(undoEvent);
+                    MiraAPI.Events.undoEvent.InvokeEvent();
                     _scheduledEventUndos.RemoveAt(i);
                 }
             }

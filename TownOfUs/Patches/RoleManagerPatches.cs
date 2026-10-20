@@ -1112,7 +1112,7 @@ public static class TouRoleManagerPatches
         AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
 
         var changeRoleEvent = new ChangeRoleEvent(__instance, null, RoleManager.Instance.GetRole(roleType), canOverrideRole);
-        MiraEventManager.InvokeEvent(changeRoleEvent);
+        changeRoleEvent.InvokeEvent();
 
         return false;
     }

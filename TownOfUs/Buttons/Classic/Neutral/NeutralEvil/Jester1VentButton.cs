@@ -94,7 +94,7 @@ public sealed class JesterVentButton : TownOfUsVentRoleButton<JesterRole>, ILega
                     break;
                 }
                 var @event = new PlayerCanUseEvent(closeVent.Cast<IUsable>());
-                MiraEventManager.InvokeEvent(@event);
+                @event.InvokeEvent();
 
                 if (!@event.IsCancelled)
                 {

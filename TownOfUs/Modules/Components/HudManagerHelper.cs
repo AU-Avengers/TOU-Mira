@@ -146,18 +146,18 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     }
                     if (genericEvent.IsCancelled)
                     {
-                        MiraEventManager.InvokeEvent(new MiraButtonCancelledEvent(button));
+                        new MiraButtonCancelledEvent(button).InvokeEvent();
                     }
 
                     // Invoke the button click event for specific button.
                     var eventType = CustomButtonManager.EventTypes[button.GetType()];
                     var @event = (MiraCancelableEvent)Activator.CreateInstance(eventType, button, genericEvent)!;
-                    var specificInvoked = MiraEventManager.InvokeEvent(@event, eventType);
+                    var specificInvoked = @event, eventType.InvokeEvent();
                     if (@event.IsCancelled)
                     {
                         var cancelEventType = CustomButtonManager.CancelledEventTypes[button.GetType()];
                         var cancelEvent = (MiraEvent)Activator.CreateInstance(cancelEventType, button)!;
-                        MiraEventManager.InvokeEvent(cancelEvent, cancelEventType);
+                        cancelEvent, cancelEventType.InvokeEvent();
                     }
 
                     if (specificInvoked)

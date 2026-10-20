@@ -18,7 +18,7 @@ public sealed class VeteranAlertModifier : TimedModifier
         base.OnActivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.VeteranAlert, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void OnDeactivate()

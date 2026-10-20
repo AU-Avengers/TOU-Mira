@@ -66,7 +66,7 @@ public sealed class HnsChameleonSwoopModifier : ConcealedModifier, IVisualAppear
         button.OverrideName(MiraLocaleManager.Get("TownOfUsMira.HideAndSeek.Role.ChameleonUnswoop", "Unswoop"));
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SwooperSwoop, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void FixedUpdate()
@@ -107,7 +107,7 @@ public sealed class HnsChameleonSwoopModifier : ConcealedModifier, IVisualAppear
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SwooperUnswoop, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public static void MushroomMixUp(MushroomMixupSabotageSystem instance, PlayerControl player)

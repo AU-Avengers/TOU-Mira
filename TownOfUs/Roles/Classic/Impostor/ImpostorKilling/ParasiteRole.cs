@@ -839,7 +839,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         role.ClearNotifications();
         if (toKillPlayer && parasite != null && target != null)
         {
-            MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.ParasiteKill, parasite, target));
+            new TouAbilityEvent(AbilityType.ParasiteKill, parasite, target).InvokeEvent();
             CustomTouMurderRpcs.Indirect(parasite, target, MeetingCheck.Ignore, true, true, true,
                 true, !MeetingHud.Instance, false, !MeetingHud.Instance, !MeetingHud.Instance, "Parasite");
         }

@@ -195,7 +195,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         var players = new [] {playerA, playerB}.OrderBy(x => x.ToLowerInvariant()).ToArray();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SeerComparisonResult, enemies ? "Enemies" : "Friends", seer, GazeTarget, IntuitTarget);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (enemies)
         {

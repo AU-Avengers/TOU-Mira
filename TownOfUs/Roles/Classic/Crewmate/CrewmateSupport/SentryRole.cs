@@ -342,7 +342,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         SentryCameraUtilities.EnsureSubmergedUsesPolusSurveillanceIfSentryCamsExist();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SentryPlaceCam, player, camera);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         SentryCameraPortablePatch.ApplyPortableBlinkState();
     }

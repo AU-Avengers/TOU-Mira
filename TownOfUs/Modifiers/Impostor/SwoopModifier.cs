@@ -74,7 +74,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
         Player.cosmetics.ToggleNameVisible(false);
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SwooperSwoop, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void FixedUpdate()
@@ -115,7 +115,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SwooperUnswoop, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public static void MushroomMixUp(MushroomMixupSabotageSystem instance, PlayerControl player)

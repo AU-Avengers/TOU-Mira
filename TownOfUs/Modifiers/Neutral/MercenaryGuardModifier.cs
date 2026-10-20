@@ -17,7 +17,7 @@ public sealed class MercenaryGuardModifier(PlayerControl mercenary) : TimedModif
         base.OnActivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MercenaryGuard, Mercenary, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void OnDeath(DeathReason reason)

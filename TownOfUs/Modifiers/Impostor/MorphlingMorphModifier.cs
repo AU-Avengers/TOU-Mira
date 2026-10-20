@@ -21,7 +21,7 @@ public sealed class MorphlingMorphModifier(PlayerControl target) : DisguisedModi
         base.OnActivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MorphlingMorph, Player, Target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void OnDeactivate()
@@ -29,7 +29,7 @@ public sealed class MorphlingMorphModifier(PlayerControl target) : DisguisedModi
         base.OnDeactivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MorphlingUnmorph, Player, Target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override bool? CanVent()

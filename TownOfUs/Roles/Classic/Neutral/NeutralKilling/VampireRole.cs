@@ -168,7 +168,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.VampireBite, player, target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         target.ChangeRole(RoleId.Get<VampireRole>());
         target.AddModifier<VampireBittenModifier>();

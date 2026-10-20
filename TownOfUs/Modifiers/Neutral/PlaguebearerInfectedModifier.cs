@@ -17,6 +17,6 @@ public sealed class PlaguebearerInfectedModifier(byte plaguebearerId) : BaseModi
 
         var pb = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == PlagueBearerId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.PlaguebearerInfect, pb!, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 }

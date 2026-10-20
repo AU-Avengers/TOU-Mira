@@ -155,7 +155,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
         var murderResultFlags = MurderResultFlags.Succeeded;
 
         var beforeMurderEvent = new BeforeMurderEvent(ambusher, target, true);
-        MiraEventManager.InvokeEvent(beforeMurderEvent);
+        beforeMurderEvent.InvokeEvent();
 
         if (beforeMurderEvent.IsCancelled)
         {

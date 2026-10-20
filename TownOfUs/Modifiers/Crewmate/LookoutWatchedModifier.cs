@@ -25,7 +25,7 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
         base.OnActivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.LookoutWatch, Lookout, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void FixedUpdate()

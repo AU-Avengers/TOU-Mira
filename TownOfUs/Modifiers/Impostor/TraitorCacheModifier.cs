@@ -39,6 +39,6 @@ public sealed class TraitorCacheModifier : BaseModifier, ICachedRole
         }*/
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.TraitorChangeRole, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 }
