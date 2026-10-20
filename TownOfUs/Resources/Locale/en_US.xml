@@ -2025,6 +2025,9 @@ Your sample clears at the beginning of every round.</string>
   <string name="TouOptionMorphlingMorphCooldown">Morph Cooldown</string>
   <string name="TouOptionMorphlingMorphDuration">Morph Duration</string>
   <string name="TouOptionMorphlingCanVent">Morphling Can Vent</string>
+    <string name="TouOptionMorphlingCanVentEnumNever">Never</string>
+    <string name="TouOptionMorphlingCanVentEnumUnlessMorphed">Unless Morphed</string>
+    <string name="TouOptionMorphlingCanVentEnumAlways">Always</string>
   <!-- Parasite Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Parasite">Parasite</string>
   <string name="TownOfUsMira.Role.Parasite.IntroBlurb">Overtake and control players</string>
@@ -2680,8 +2683,7 @@ vision, and vent away temporarily</string>
     <!-- Radar Wiki / Description -->
     <string name="TownOfUsMira.Modifier.Radar">Radar</string>
   <string name="TownOfUsMira.Modifier.Radar.TabDescription">Get an arrow to the closest player.</string>
-  <string name="TownOfUsMira.Modifier.Radar.WikiDescription">You have an arrow pointing
- to the closest player.</string>
+  <string name="TownOfUsMira.Modifier.Radar.WikiDescription">You have an arrow pointing to the closest player.</string>
   <!-- Satellite -->
     <!-- Satellite Wiki / Abilities -->
     <string name="TownOfUsMira.Modifier.Satellite">Satellite</string>
