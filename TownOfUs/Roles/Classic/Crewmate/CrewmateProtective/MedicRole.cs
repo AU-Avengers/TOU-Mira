@@ -252,7 +252,33 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public string ParseReport(BodyReport br)
     {
-        return BodyReport.ParseMedicReport(br);
+        var reportColorDuration = OptionGroupSingleton<MedicOptions>.Instance.MedicReportColorDuration;
+        var reportNameDuration = OptionGroupSingleton<MedicOptions>.Instance.MedicReportNameDuration;
+        var text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodyError");
+        if (br.Killer != null)
+        {
+            if (br.KillAge > reportColorDuration * 1000 && reportColorDuration > 0)
+            {
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodyOld");
+            }
+            else if (br.Killer.PlayerId == br.Body?.PlayerId)
+            {
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodySuicide");
+            }
+            else if (br.KillAge < reportNameDuration * 1000)
+            {
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodyKillerName").Replace("<player>", br.Killer.Data.PlayerName);
+            }
+            else
+            {
+                var typeOfColor = GetColorTypeForPlayer(br.Killer.Data.DefaultOutfit.ColorId);
+                text = MiraLocaleManager.Get((typeOfColor == "lighter") ? "TownOfUsMira.Role.MedicBodyKillerLightColor" : "TownOfUsMira.Role.MedicBodyKillerDarkColor");
+            }
+        }
+
+        text = text.Replace("<time>", Math.Round(br.KillAge / 1000).ToString(TownOfUsPlugin.Culture));
+
+        return text;
     }
 
     public static string GetColorTypeForPlayer(int colorId)
