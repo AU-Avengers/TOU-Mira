@@ -20,7 +20,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IBodyReport
+public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IBodyReportChat
 {
     private MeetingMenu meetingMenu;
     public override bool IsAffectedByComms => false;
@@ -248,23 +248,11 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public bool ReportEnabled => OptionGroupSingleton<MedicOptions>.Instance.ShowReports;
 
-    public void ReportBody(BodyReport br)
+    public string BodyReportTitle => $"<color=#{TownOfUsColors.Medic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.MedicMessageTitle")}</color>";
+
+    public string ParseReport(BodyReport br)
     {
-        var reportMsg = BodyReport.ParseMedicReport(br);
-
-        if (string.IsNullOrWhiteSpace(reportMsg))
-        {
-            return;
-        }
-
-        var title = $"<color=#{TownOfUsColors.Medic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.MedicMessageTitle")}</color>";
-        var reported = Player;
-        if (br.Body != null)
-        {
-            reported = br.Body;
-        }
-
-        MiscUtils.AddFakeChat(reported.Data, title, reportMsg, false, true);
+        return BodyReport.ParseMedicReport(br);
     }
 
     public static string GetColorTypeForPlayer(int colorId)

@@ -13,7 +13,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IBodyReport
+public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IBodyReportChat
 {
     public override bool IsAffectedByComms => false;
 
@@ -141,23 +141,10 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public bool ReportEnabled => OptionGroupSingleton<ForensicOptions>.Instance.ForensicReportOn;
 
-    public void ReportBody(BodyReport br)
+    public string BodyReportTitle => $"<color=#{TownOfUsColors.Forensic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.ForensicMessageTitle")}</color>";
+
+    public string ParseReport(BodyReport br)
     {
-        var reportMsg = BodyReport.ParseForensicReport(br);
-
-        if (string.IsNullOrWhiteSpace(reportMsg))
-        {
-            return;
-        }
-
-        // Send the message through chat only visible to the forensic
-        var title = $"<color=#{TownOfUsColors.Forensic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.ForensicMessageTitle")}</color>";
-        var reported = Player;
-        if (br.Body != null)
-        {
-            reported = br.Body;
-        }
-
-        MiscUtils.AddFakeChat(reported.Data, title, reportMsg, false, true);
+        return BodyReport.ParseForensicReport(br);
     }
 }
