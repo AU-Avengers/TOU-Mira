@@ -891,7 +891,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
             var modifiers = MiscUtils.AllOverallWikiModifiers
                 .OrderBy(x => x, comparer)
-                .ToList();
+                ;
 
             ToggleRoles(false);
             if (!_modifierEntries.HasAny())
@@ -995,7 +995,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 .OrderByDescending(child => child.name.Equals(text, StringComparison.OrdinalIgnoreCase))
                 .ThenByDescending(child => child.name.Contains(text, StringComparison.InvariantCultureIgnoreCase))
                 .ThenBy(child => child.name.ToLowerInvariant())
-                .ToList();*/
+                ;*/
 
             ToggleRoles(true);
             if (!_roleEntries.HasAny())

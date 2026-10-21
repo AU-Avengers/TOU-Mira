@@ -45,7 +45,7 @@ public sealed class SatelliteButton : TownOfUsButton, ILegacyCapable
 
     protected override void OnClick()
     {
-        var deadBodies = Object.FindObjectsOfType<DeadBody>().ToList();
+        var deadBodies = Object.FindObjectsOfType<DeadBody>();
 
         deadBodies.Do(x => PlayerControl.LocalPlayer.AddModifier<SatelliteArrowModifier>(x, Color.white));
         var text = MiraLocaleManager.Get("TownOfUsMira.Modifier.SatelliteFailedNotif");

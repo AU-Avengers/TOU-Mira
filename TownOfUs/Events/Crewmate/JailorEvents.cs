@@ -17,10 +17,10 @@ public static class JailorEvents
     [RegisterEvent]
     public static void EjectionEventHandler(EjectionEvent _)
     {
-        var sparedPlayers = ModifierUtils.GetPlayersWithModifier<JailSparedModifier>().ToList();
+        var sparedPlayers = ModifierUtils.GetPlayersWithModifier<JailSparedModifier>();
         sparedPlayers.Do(x => x.RemoveModifier<JailSparedModifier>());
 
-        var players = ModifierUtils.GetPlayersWithModifier<JailedModifier>().ToList();
+        var players = ModifierUtils.GetPlayersWithModifier<JailedModifier>();
         if (!OptionGroupSingleton<JailorOptions>.Instance.JailInARow)
         {
             players.Do(x => x.AddModifier<JailSparedModifier>(x.GetModifier<JailedModifier>()!.JailorId));

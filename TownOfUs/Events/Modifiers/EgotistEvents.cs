@@ -37,9 +37,8 @@ public static class EgotistEvents
         }
 
         EgotistRoundTracker--;
-        if (ego != null && !ego.LeaveMessageSent && !ego.Player.HasDied() && Helpers.GetAlivePlayers().Where(x =>
-                    x.IsCrewmate() && !(x.TryGetModifier<AllianceGameModifier>(out var ally) && !ally.GetsPunished))
-                .ToList().Count == 0)
+        if (ego != null && !ego.LeaveMessageSent && !ego.Player.HasDied() && !Helpers.GetAlivePlayers().Any(x =>
+                    x.IsCrewmate() && !(x.TryGetModifier<AllianceGameModifier>(out var ally) && !ally.GetsPunished)))
         {
             ego.HasSurvived = true;
             ego.LeaveMessageSent = true;

@@ -28,7 +28,7 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     {
         get
         {
-            var variantRoles = MiscUtils.AllRoles.Where(x => x is ICrewVariant).OrderBy(x => x.GetRoleName()).ToList();
+            var variantRoles = MiscUtils.AllRoles.Where(x => x is ICrewVariant).OrderBy(x => x.GetRoleName());
             var neutEquivalents = new Dictionary<RoleBehaviour, RoleBehaviour>();
             var impEquivalents = new Dictionary<RoleBehaviour, RoleBehaviour>();
             foreach (var role in variantRoles)
@@ -93,7 +93,7 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                 $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}CrewmateImitation.WikiDescription")}</font>";
             newAbility.gameObject.SetActive(true);
             listOfAbilities.Add(newAbility.gameObject);
-            var variantRoles = MiscUtils.AllRoles.Where(x => x is ICrewVariant).OrderBy(x => x.GetRoleName()).ToList();
+            var variantRoles = MiscUtils.AllRoles.Where(x => x is ICrewVariant).OrderBy(x => x.GetRoleName());
             var neutEquivalents = new Dictionary<RoleBehaviour, RoleBehaviour>();
             var impEquivalents = new Dictionary<RoleBehaviour, RoleBehaviour>();
             foreach (var role in variantRoles)

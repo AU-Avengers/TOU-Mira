@@ -35,7 +35,7 @@ public static class TiebreakerEvents
             return; // Skip everything if not a single person is tiebreaker
         }
 
-        var votes = @event.Votes.ToList();
+        var votes = @event.Votes;
         var player = tieBreakers.Random();
         var vote = votes.FirstOrDefault(x => x.Voter == player!.PlayerId);
 

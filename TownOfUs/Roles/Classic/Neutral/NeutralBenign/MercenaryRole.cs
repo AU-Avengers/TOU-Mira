@@ -166,7 +166,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
             Player.AddModifier<BasicGhostModifier>();
         }
 
-        var guardedMods = ModifierUtils.GetActiveModifiers<MercenaryGuardModifier>().ToList();
+        var guardedMods = ModifierUtils.GetActiveModifiers<MercenaryGuardModifier>();
         if (!guardedMods.HasAny())
         {
             return;

@@ -47,7 +47,7 @@ public sealed class TraitorChangeButton : TownOfUsRoleButton<TraitorRole>
                 .Where(x => x is ISpawnChange { NoSpawn: true } || x.Role is RoleTypes.Impostor || x.IsDead || x is ITownOfUsRole
                 {
                     RoleAlignment: RoleAlignment.ImpostorPower
-                }).Select(x => x.Role).ToList();
+                }).Select(x => x.Role);
             var impRoles = MiscUtils.GetRolesToAssign(ModdedRoleTeams.Impostor, x => !excluded.Contains(x.Role))
                 .Select(x => x.RoleType).ToList();
 

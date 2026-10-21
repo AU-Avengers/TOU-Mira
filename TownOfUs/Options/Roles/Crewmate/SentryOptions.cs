@@ -165,7 +165,7 @@ public sealed class SentryOptions : AbstractRoleOptionGroup<SentryRole>, IWikiOp
         var names = selected
             .Select(s => MiraLocaleManager.Get($"TouSystemType_{s}", $"{s}"))
             .Distinct()
-            .ToList();
+            ;
 
         var newArray2 = new []
             { $"{title}: {count} ({string.Join(", ", names)})" };

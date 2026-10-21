@@ -137,7 +137,7 @@ OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
 
         if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
         {
-            foreach (var drag in ModifierUtils.GetActiveModifiers<DragModifier>().ToList())
+            foreach (var drag in ModifierUtils.GetActiveModifiers<DragModifier>())
             {
                 if (!drag.Player || drag.DeadBody == null)
                 {

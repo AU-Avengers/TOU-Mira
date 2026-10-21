@@ -614,7 +614,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
             FakePlayers.Clear();
             return;
         }
-        var validStones = FakePlayers.Where(x => x.ProgressStage is not StoneStage.Shatter).ToList();
+        var validStones = FakePlayers.Where(x => x.ProgressStage is not StoneStage.Shatter);
         foreach (var stone in validStones)
         {
             if (stone.CurrentCoroutine != null)

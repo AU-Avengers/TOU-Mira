@@ -779,7 +779,7 @@ public static class HudManagerPatches
         {
             var modifiers = MiscUtils.AllModifiers.Where(x =>
                 x.ParentMod != MiraPluginManager.GetPluginByGuid("auavengers.tou.mira") && x is GameModifier &&
-                x is not IWikiDiscoverable).ToList();
+                x is not IWikiDiscoverable);
             foreach (var modifier in modifiers)
             {
                 SoftWikiEntries.RegisterModifierEntry(modifier);
@@ -793,7 +793,7 @@ public static class HudManagerPatches
         BucketTooltipData.AllRoles.Clear();
         foreach (var pair in TooltipAlignments)
         {
-            var allRoles = MiscUtils.GetRegisteredRoles(pair.Value).ToList();
+            var allRoles = MiscUtils.GetRegisteredRoles(pair.Value);
             BucketTooltipData.RoleEntry[] roleEntry = [];
             foreach (var role in allRoles)
             {

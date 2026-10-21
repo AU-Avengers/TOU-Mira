@@ -84,10 +84,10 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
 
             var randomTarget = filtered[rnd.Next(0, filtered.Count)];
 
-            var imps = Helpers.GetAlivePlayers().Where(x => x.IsImpostor()).ToList();
-            if (OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor.Value && imps.Count > 1)
+            var imps = Helpers.GetAlivePlayers().Where(x => x.IsImpostor());
+            if (OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor.Value && imps.Count() > 1)
             {
-                var textlognotfound = $"Replacing an impostor with a crewmate. Impostors: {imps.Count}.";
+                var textlognotfound = $"Replacing an impostor with a crewmate. Impostors: {imps.Count()}.";
                 MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlognotfound);
                 var discardedImp = imps.Where(x => x.Data.Role is not ISpawnChange).Random();
                 var curAlignment = MiscUtils.GetRoleAlignment(discardedImp!.Data.Role);
@@ -117,40 +117,40 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
 
                 var roles = MiscUtils.GetPotentialRoles().Where(x =>
                     x.GetRoleAlignment() == curAlignment &&
-                    !Helpers.GetAlivePlayers().Any(y => y.Data.Role.Role == x.Role)).ToList();
-                if (roles.Count < 2)
+                    !Helpers.GetAlivePlayers().Any(y => y.Data.Role.Role == x.Role));
+                if (roles.Count() < 2)
                 {
                     roles = MiscUtils.GetPotentialRoles().Where(x =>
                         x.GetRoleAlignment() is RoleAlignment.CrewmateSupport or RoleAlignment.CrewmateProtective
                             or RoleAlignment.NeutralBenign &&
-                        !Helpers.GetAlivePlayers().Any(y => y.Data.Role.Role == x.Role)).ToList();
+                        !Helpers.GetAlivePlayers().Any(y => y.Data.Role.Role == x.Role));
                 }
 
-                if (roles.Count < 2)
+                if (roles.Count() < 2)
                 {
                     roles = MiscUtils.GetPotentialRoles().Where(x =>
                         x.GetRoleAlignment() is RoleAlignment.CrewmateInvestigative or RoleAlignment.NeutralEvil &&
-                        !Helpers.GetAlivePlayers().Any(y => y.Data.Role.Role == x.Role)).ToList();
+                        !Helpers.GetAlivePlayers().Any(y => y.Data.Role.Role == x.Role));
                 }
 
-                if (roles.Count < 2)
+                if (roles.Count() < 2)
                 {
                     roles = MiscUtils.GetPotentialRoles().Where(x =>
                         x.GetRoleAlignment() is RoleAlignment.CrewmateKilling or RoleAlignment.NeutralKilling &&
-                        !Helpers.GetAlivePlayers().Any(y => y.Data.Role.Role == x.Role)).ToList();
+                        !Helpers.GetAlivePlayers().Any(y => y.Data.Role.Role == x.Role));
                 }
 
-                if (roles.Count < 2)
+                if (roles.Count() < 2)
                 {
                     roles = MiscUtils.GetPotentialRoles().Where(x =>
                         x.GetRoleAlignment() is RoleAlignment.CrewmatePower or RoleAlignment.NeutralOutlier &&
-                        !Helpers.GetAlivePlayers().Any(y => y.Data.Role.Role == x.Role)).ToList();
+                        !Helpers.GetAlivePlayers().Any(y => y.Data.Role.Role == x.Role));
                 }
 
                 var checktext = $"Forcing {discardedImp.Data.PlayerName} into a crewmate/neutral role.";
                 MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, checktext);
                 var newRole = RoleTypes.Crewmate;
-                if (roles.Count == 0)
+                if (!roles.Any())
                 {
                     var newtext = $"Forcing {discardedImp.Data.PlayerName} into Crewmate.";
                     MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, newtext);
@@ -168,7 +168,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
             else
             {
                 var textlognotfound =
-                    $"Could not replace an impostor with a crewmate. | Can Replace: {OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor.Value}, Enough Impostors: {imps.Count > 1}";
+                    $"Could not replace an impostor with a crewmate. | Can Replace: {OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor.Value}, Enough Impostors: {imps.Count() > 1}";
                 MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlognotfound);
                 RpcSetUpCrewpostor(randomTarget, randomTarget, RoleTypes.Crewmate);
             }

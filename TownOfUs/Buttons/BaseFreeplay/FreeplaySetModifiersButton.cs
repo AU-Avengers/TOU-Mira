@@ -140,8 +140,8 @@ public sealed class FreeplaySetModifiersButton : TownOfUsButton, IAurialBypassBu
             return;
         }
 
-        var existing = player.GetModifiers<BaseModifier>(x => x.GetType() == modifierType).ToList();
-        if (existing.Count > 0)
+        var existing = player.GetModifiers<BaseModifier>(x => x.GetType() == modifierType);
+        if (existing.Any())
         {
             foreach (var mod in existing)
             {

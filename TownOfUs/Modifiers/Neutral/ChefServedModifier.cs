@@ -46,7 +46,7 @@ public sealed class ChefServedModifier(PlayerControl chef, int servingType, int 
                     break;
             }
         }
-        var othersFed = ModifierUtils.GetActiveModifiers<ChefServedModifier>().ToList();
+        var othersFed = ModifierUtils.GetActiveModifiers<ChefServedModifier>();
         if (Chef.AmOwner && ((FoodType is PlatterType.Turkey && othersFed.Any(x => x.FoodType is PlatterType.Cake))
                              || (FoodType is PlatterType.Cake && othersFed.Any(x => x.FoodType is PlatterType.Turkey))))
         {

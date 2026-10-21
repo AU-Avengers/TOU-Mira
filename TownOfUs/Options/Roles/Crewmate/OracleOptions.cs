@@ -60,7 +60,7 @@ public sealed class OracleOptions : AbstractRoleOptionGroup<OracleRole>, IWikiOp
 
         var names = selected
             .Distinct()
-            .ToList();
+            ;
 
         var newArray2 = new []
             { $"{title}: {string.Join(", ", names)}" };

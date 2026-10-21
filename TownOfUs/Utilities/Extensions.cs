@@ -620,7 +620,7 @@ public static class Extensions
     {
         List<Vent> vents;
 
-        var cleanVentTasks = player.myTasks.ToArray().Where(x => x.TaskType == TaskTypes.VentCleaning).ToList();
+        var cleanVentTasks = player.myTasks.ToArray().Where(x => x.TaskType == TaskTypes.VentCleaning);
 
         if (cleanVentTasks != null)
         {

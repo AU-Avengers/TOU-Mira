@@ -27,9 +27,9 @@ public static class TimeLordEvents
     {
         if (!@event.TriggeredByIntro)
         {
-            var temporaryRevives = ModifierUtils.GetPlayersWithModifier<TimeLordTempReviveModifier>().ToList();
+            var temporaryRevives = ModifierUtils.GetPlayersWithModifier<TimeLordTempReviveModifier>();
             var timeLord = ModifierUtils.GetActiveModifiers<TimeLordTempReviveModifier>().FirstOrDefault()?.TimeLord;
-            if (temporaryRevives.Count > 0)
+            if (temporaryRevives.Any())
             {
                 var players = new List<PlayerControl>();
                 foreach (var temp in temporaryRevives)

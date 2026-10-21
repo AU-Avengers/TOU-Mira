@@ -73,7 +73,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
                 tally.Append(GetIconColored(_uxIcons[5], Palette.TextColors[pair.Value].ToHtmlStringRGBA()));
             }
         }
-        var fedPlayers = ModifierUtils.GetPlayersWithModifier<ChefServedModifier>().ToList();
+        var fedPlayers = ModifierUtils.GetPlayersWithModifier<ChefServedModifier>();
         foreach (var plr in fedPlayers)
         {
             count--;
@@ -229,8 +229,8 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
         _tabCounter = MiraLocaleManager.Get("TownOfUsMira.Role.ChefTabCounter").Replace("<bodiesTotal>",
             $"{(int)OptionGroupSingleton<ChefOptions>.Instance.ServingsNeeded}");
 
-        var serveMods = ModifierUtils.GetActiveModifiers<ChefServedModifier>().ToList();
-        BodiesServed = serveMods.Count + DisconnectedServings.Count;
+        var serveMods = ModifierUtils.GetActiveModifiers<ChefServedModifier>();
+        BodiesServed = serveMods.Count() + DisconnectedServings.Count;
         if (BodiesServed >= OptionGroupSingleton<ChefOptions>.Instance.ServingsNeeded)
         {
             TargetsServed = true;

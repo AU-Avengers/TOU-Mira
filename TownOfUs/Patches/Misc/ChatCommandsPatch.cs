@@ -501,7 +501,7 @@ public static class ChatPatches
                             targetPlayerName = string.Join(" ", parts.Skip(1));
                         }
 
-                        var allRoles = MiscUtils.SpawnableRoles.ToList();
+                        var allRoles = MiscUtils.SpawnableRoles;
                         var matchingRole =
                             allRoles.FirstOrDefault(role =>
                                 role.GetRoleName().Equals(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
@@ -569,8 +569,8 @@ public static class ChatPatches
             var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
             var roleOptions = currentGameOptions.RoleOptions;
 
-            var allRoles = MiscUtils.AllRegisteredRoles.Where(role => !role.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(role) && roleOptions.GetNumPerGame(role.Role) > 0).OrderBy(x => x.GetRoleName()).ToList();
-            var ghostRoles = MiscUtils.GetRegisteredGhostRoles().Where(role => CustomRoleUtils.CanSpawnOnCurrentMode(role) && roleOptions.GetNumPerGame(role.Role) > 0).OrderBy(x => x.GetRoleName()).ToList();
+            var allRoles = MiscUtils.AllRegisteredRoles.Where(role => !role.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(role) && roleOptions.GetNumPerGame(role.Role) > 0).OrderBy(x => x.GetRoleName());
+            var ghostRoles = MiscUtils.GetRegisteredGhostRoles().Where(role => CustomRoleUtils.CanSpawnOnCurrentMode(role) && roleOptions.GetNumPerGame(role.Role) > 0).OrderBy(x => x.GetRoleName());
 
             var crewmateRoles = new List<RoleBehaviour>();
             var impostorRoles = new List<RoleBehaviour>();

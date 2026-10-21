@@ -238,7 +238,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             .Where(x => x is ISpawnChange { NoSpawn: true } || x.Role is RoleTypes.Impostor || x.IsDead || x is ITownOfUsRole
             {
                 RoleAlignment: RoleAlignment.ImpostorPower
-            }).Select(x => x.Role).ToList();
+            }).Select(x => x.Role);
         var impRoles = MiscUtils.GetRolesToAssign(ModdedRoleTeams.Impostor, x => !excluded.Contains(x.Role))
             .Select(x => x.RoleType).ToList();
 
@@ -276,8 +276,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
         if (!player._object.Is(RoleAlignment.ImpostorKilling) && !player._object.Is(RoleAlignment.ImpostorPower))
         {
             var curRoleList = MiscUtils.GetPotentialRoles()
-                .Where(role => impRoles.Contains((ushort)role.Role))
-                .ToList();
+                .Where(role => impRoles.Contains((ushort)role.Role));
 
             if (TutorialManager.InstanceExists)
             {
@@ -285,8 +284,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                     .Where(x => !excluded.Contains(x.Role))
                     .Select(x => (ushort)x.Role).ToList();
                 curRoleList = MiscUtils.AllRegisteredRoles
-                    .Where(role => impRoles.Contains((ushort)role.Role))
-                    .ToList();
+                    .Where(role => impRoles.Contains((ushort)role.Role));
             }
             foreach (var roleBehaviour in curRoleList)
             {

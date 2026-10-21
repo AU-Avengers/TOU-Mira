@@ -105,7 +105,7 @@ public sealed class DraftPlan
             [DraftFaction.Neutral] = RequiredSeats(DraftFaction.Neutral) -
                 picks.Where(x => IsFaction(x.Alignment, DraftFaction.Neutral)).Sum(x => x.Weight)
         };
-        foreach (var faction in deficits.Keys.ToList())
+        foreach (var faction in deficits.Keys)
         {
             deficits[faction] = Math.Max(0, deficits[faction]);
         }
@@ -247,7 +247,7 @@ public sealed class DraftPlan
     public bool DropSeat(IReadOnlyList<DraftCopy> picks)
     {
         var picked = picks.SelectMany(x => Enumerable.Repeat(x.Alignment, x.Weight)).ToList();
-        foreach (var seat in _seats.OrderByDescending(x => x.Length).ToList())
+        foreach (var seat in _seats.OrderByDescending(x => x.Length))
         {
             var index = _seats.IndexOf(seat);
             var rest = _seats.Where((_, i) => i != index).ToList();

@@ -15,7 +15,7 @@ public static class UndertakerEvents
     public static void OnMeetingEventHandler(StartMeetingEvent _)
     {
         foreach (var undertaker in CustomRoleUtils.GetActiveRolesOfType<UndertakerRole>()
-                     .Select(undertaker => undertaker.Player).ToList())
+                     .Select(undertaker => undertaker.Player))
         {
             undertaker.TryRemoveModifier<DragModifier>();
 

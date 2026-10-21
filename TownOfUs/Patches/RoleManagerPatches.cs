@@ -345,7 +345,7 @@ public static class TouRoleManagerPatches
 
         // Collect /up requested roles first
         var upRequestedRoles = new List<(ushort roleId, string playerName)>();
-        foreach (var player in players.ToList())
+        foreach (var player in players)
         {
             if (UpCommandRequests.TryGetRequestRole(player.Data.PlayerName, out var requestedRole))
             {
@@ -444,7 +444,7 @@ public static class TouRoleManagerPatches
         AdjustNeutralCountsForUpRequests(ref nbCount, ref neCount, ref nkCount, ref noCount, crewmates.Count);
 
         var excluded = MiscUtils.SpawnableRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role)
-            .Concat(MiscUtils.GetExclusiveRoleExclusions().Select(x => (RoleTypes)x)).ToList();
+            .Concat(MiscUtils.GetExclusiveRoleExclusions().Select(x => (RoleTypes)x));
         var exclusionFilter = new Func<RoleBehaviour, bool>(x => !excluded.Contains(x.Role));
 
         var impRoles =
@@ -664,7 +664,7 @@ public static class TouRoleManagerPatches
 
         // Get all role lists with exclusion filter
         var excluded = MiscUtils.SpawnableRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role)
-            .Concat(MiscUtils.GetExclusiveRoleExclusions().Select(x => (RoleTypes)x)).ToList();
+            .Concat(MiscUtils.GetExclusiveRoleExclusions().Select(x => (RoleTypes)x));
         var exclusionFilter = new Func<RoleBehaviour, bool>(x => !excluded.Contains(x.Role));
 
         var crewInvestRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateInvestigative, exclusionFilter);
@@ -813,7 +813,7 @@ public static class TouRoleManagerPatches
         var chosenImpRoles = impRoles.Take(impCount).ToList();
 
         // Ensure /up requested impostor roles are included
-        foreach (var impostor in impostors.ToList())
+        foreach (var impostor in impostors)
         {
             if (UpCommandRequests.TryGetRequestRole(impostor.Data.PlayerName, out var requestedRole))
             {
@@ -849,7 +849,7 @@ public static class TouRoleManagerPatches
             chosenImpRoles.RemoveAll(x => x != RoleId.Get(uniqueRole.GetType()));
 
             // Re-add /up requested role if it was removed
-            foreach (var impostor in impostors.ToList())
+            foreach (var impostor in impostors)
             {
                 if (UpCommandRequests.TryGetRequestRole(impostor.Data.PlayerName, out var requestedRole))
                 {
@@ -1069,7 +1069,7 @@ public static class TouRoleManagerPatches
     public static void SetSpectatorsAndModifiers(RoleManager __instance)
     {
         var spectators = GameData.Instance.AllPlayers.ToArray()
-            .Where(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName)).ToList();
+            .Where(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName));
         var specId = (RoleTypes)RoleId.Get<SpectatorRole>();
 
         foreach (var player in spectators)
@@ -1085,7 +1085,7 @@ public static class TouRoleManagerPatches
         if (OptionGroupSingleton<InitialRoundOptions>.Instance.RoundOneVictims)
         {
             var firstDead = GameData.Instance.AllPlayers.ToArray()
-                .Where(x => FirstDeadPatch.FirstRoundPlayerNames.Contains(x.PlayerName) && !spectators.Contains(x)).ToList();
+                .Where(x => FirstDeadPatch.FirstRoundPlayerNames.Contains(x.PlayerName) && !spectators.Contains(x));
 
             foreach (var player in firstDead)
             {

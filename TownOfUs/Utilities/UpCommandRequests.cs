@@ -54,7 +54,7 @@ public static class UpCommandRequests
         // Use the same matching logic as in ChatCommandsPatch to ensure consistency between lobby and in-game.
         var allRoles = MiscUtils.AllRegisteredRoles
             .Where(r => !r.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(r))
-            .ToList();
+            ;
 
         // First try exact match (with and without spaces)
         // If exact match fails, try fuzzy matching (contains)
@@ -114,7 +114,7 @@ public static class UpCommandRequests
         // Use the same matching logic as in ChatCommandsPatch to ensure consistency between lobby and in-game.
         var allRoles = MiscUtils.AllRegisteredRoles
             .Where(r => !r.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(r))
-            .ToList();
+            ;
 
         // First try exact match (with and without spaces)
         // If exact match fails, try fuzzy matching (contains)

@@ -487,7 +487,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
             localGhost = isVisible;
         }
 
-        var revealMods = player.GetModifiers<BaseRevealModifier>().ToList();
+        var revealMods = player.GetModifiers<BaseRevealModifier>();
 
         var playerName = player.GetAppearance().PlayerName ?? "Unknown";
         var playerColor = Color.white;

@@ -66,7 +66,7 @@ public sealed class VigilanteOptions : AbstractRoleOptionGroup<VigilanteRole>, I
 
         var names = selected
             .Distinct()
-            .ToList();
+            ;
 
         var newArray2 = new []
             { $"{title}: {string.Join(", ", names)}" };

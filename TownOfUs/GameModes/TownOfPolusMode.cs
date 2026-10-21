@@ -88,7 +88,7 @@ public class TownOfPolusMode : AbstractGameMode
             new RoleManager.RoleAssignmentData(
                 role,
                 roleOptions.GetNumPerGame(role.Role),
-                roleOptions.GetChancePerGame(role.Role))).ToList();
+                roleOptions.GetChancePerGame(role.Role)));
 
         list.Clear();
         foreach (RoleManager.RoleAssignmentData roleAssignmentData3 in list2)

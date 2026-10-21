@@ -51,8 +51,8 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
         var showRoles = (LookoutView)OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Roles;
         if (SeenPlayers.Count != 0)
         {
-            var playerList = SeenPlayers.Select(x => x.Key).ToList();
-            var roleList = SeenPlayers.Select(x => x.Value).ToList();
+            var playerList = SeenPlayers.Select(x => x.Key);
+            var roleList = SeenPlayers.Select(x => x.Value);
             var message = new StringBuilder($"{MiraLocaleManager.Get(showRoles ? "TownOfUsMira.Role.LookoutInteractionFeedback" : "TownOfUsMira.Role.LookoutAltInteractionFeedback").Replace("<player>", Player.Data.PlayerName)}:\n");
 
             playerList.Shuffle();

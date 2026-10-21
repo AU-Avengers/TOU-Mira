@@ -121,7 +121,7 @@ public static class BucketTooltipData
                 Error($"All Roles doesn't contain alignment: {b.ToDisplayString()}!");
                 continue;
             }
-            var allRoles = MiscUtils.GetRegisteredRoles(alignment).ToList();
+            var allRoles = MiscUtils.GetRegisteredRoles(alignment);
             foreach (var role in allRoles)
             {
                 var entry = entries.FirstOrDefault(x => x.RoleId == role.Role);

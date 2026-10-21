@@ -413,7 +413,7 @@ public static class TimeLordBodyManager
 
         var now = DateTime.UtcNow;
         var cutoff = now - TimeSpan.FromSeconds(Math.Max(0.1f, maxAgeSeconds));
-        var keys = CleanedBodies.Keys.ToList();
+        var keys = CleanedBodies.Keys;
         foreach (var k in keys)
         {
             if (!CleanedBodies.TryGetValue(k, out var rec) || rec == null)

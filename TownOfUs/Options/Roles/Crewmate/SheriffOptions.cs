@@ -59,7 +59,7 @@ public sealed class SheriffOptions : AbstractRoleOptionGroup<SheriffRole>, IWiki
 
         var names = selected
             .Distinct()
-            .ToList();
+            ;
 
         var newArray2 = new []
             { $"{title}: {string.Join(", ", names)}" };

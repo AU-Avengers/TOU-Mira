@@ -116,7 +116,7 @@ public static class Bindings
             };
             processEvent.InvokeEvent();
 
-            var votesForStates = processEvent.Votes.ToList();
+            var votesForStates = processEvent.Votes;
             if (TiebreakerEvents.TiebreakingVote.HasValue)
             {
                 votesForStates.Add(TiebreakerEvents.TiebreakingVote.Value);
@@ -358,7 +358,7 @@ public static class Bindings
             var contPlayer = ConsoleJoystick.player;
             var buttonList = CustomButtonManager.Buttons.Where(x =>
                 x.Enabled(PlayerControl.LocalPlayer.Data.Role) && x.Button != null && x.Button.isActiveAndEnabled &&
-                x.CanUse()).ToList();
+                x.CanUse());
 
             foreach (var button in buttonList.Where(x => x is TownOfUsButton))
             {

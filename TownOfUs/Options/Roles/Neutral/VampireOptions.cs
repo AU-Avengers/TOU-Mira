@@ -62,7 +62,7 @@ public sealed class VampireOptions : AbstractRoleOptionGroup<VampireRole>, IWiki
 
         var names = selected
             .Distinct()
-            .ToList();
+            ;
 
         var newArray2 = new []
             { $"{title}: {string.Join(", ", names)}" };

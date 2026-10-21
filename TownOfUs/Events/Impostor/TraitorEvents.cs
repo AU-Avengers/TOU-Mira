@@ -60,7 +60,7 @@ public static class TraitorEvents
         {
             return;
         }
-        var alives = Helpers.GetAlivePlayers().ToList();
+        var alives = Helpers.GetAlivePlayers();
         if (crewpostor != null)
         {
             if (crewpostor.Player.HasDied() || alives.Any(x => x.IsImpostor()))
@@ -95,7 +95,7 @@ public static class TraitorEvents
             }
 
             var otherTraitors = Helpers.GetAlivePlayers()
-                .Where(x => x.HasModifier<ToBecomeTraitorModifier>() && x != traitorPlayer).ToList();
+                .Where(x => x.HasModifier<ToBecomeTraitorModifier>() && x != traitorPlayer);
             foreach (var faker in otherTraitors)
             {
                 faker.RpcRemoveModifier<ToBecomeTraitorModifier>();

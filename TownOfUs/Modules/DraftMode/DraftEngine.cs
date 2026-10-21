@@ -161,13 +161,13 @@ public static class DraftEngine
         while (Active(session))
         {
             PruneGone();
-            var pending = DraftManager.States.Where(s => !s.HasPicked).Select(s => s.SlotNumber).OrderBy(x => x).ToList();
-            if (pending.Count == 0) break;
+            var pending = DraftManager.States.Where(s => !s.HasPicked).Select(s => s.SlotNumber).OrderBy(x => x);
+            if (!pending.Any()) break;
 
             _turn++;
             var batch = pending.Take(concurrency).ToList();
             var forcedCrewSlots = pending
-                .TakeLast(Math.Min(_doubleDraftCrewSlotsRemaining, pending.Count))
+                .TakeLast(Math.Min(_doubleDraftCrewSlotsRemaining, pending.Count()))
                 .ToHashSet();
             var scheduledSlots = pending.Where(slot => !forcedCrewSlots.Contains(slot)).ToList();
             var spreadOffers = _plan.AssignSpreadOffers(Picked.Values.ToList(), scheduledSlots.Count);
@@ -204,7 +204,7 @@ public static class DraftEngine
         while (Active(session) && batch.Any(IsOpen))
         {
             PruneGone();
-            foreach (var slot in batch.Where(IsOpen).ToList())
+            foreach (var slot in batch.Where(IsOpen))
             {
                 var state = DraftManager.GetStateForSlot(slot);
                 if (Offers[slot].Count == 0)
@@ -228,7 +228,7 @@ public static class DraftEngine
 
             if (DraftManager.TurnTimeLeft <= 0f)
             {
-                foreach (var slot in batch.Where(IsOpen).ToList())
+                foreach (var slot in batch.Where(IsOpen))
                 {
                     var state = DraftManager.GetStateForSlot(slot);
                     if (DraftManager.IsBot(state.PlayerId) || Time.time >= graceUntil)
@@ -246,7 +246,7 @@ public static class DraftEngine
 
     private static void PruneGone()
     {
-        foreach (var state in DraftManager.States.Where(s => DraftManager.IsPlayerGone(s.PlayerId)).ToList())
+        foreach (var state in DraftManager.States.Where(s => DraftManager.IsPlayerGone(s.PlayerId)))
         {
             Drop(state.SlotNumber);
         }
@@ -364,9 +364,8 @@ public static class DraftEngine
             }
 
             var otherForcedOffers = SpreadOffers
-                .Where(pair => pair.Key != slot &&
-                    pair.Value.Faction == spreadOffer.Faction && !Offers.ContainsKey(pair.Key) && IsOpen(pair.Key))
-                .Count();
+                .Count(pair => pair.Key != slot &&
+                    pair.Value.Faction == spreadOffer.Faction && !Offers.ContainsKey(pair.Key) && IsOpen(pair.Key));
             var maxOptions = Math.Max(1, factionChoices.Count - otherForcedOffers);
             return Choose(factionChoices, Math.Min((int)Opts.OfferedRolesCount.Value, maxOptions));
         }
@@ -486,7 +485,7 @@ public static class DraftEngine
 
     private static void Revalidate()
     {
-        foreach (var slot in Offers.Keys.ToList())
+        foreach (var slot in Offers.Keys)
         {
             var legal = Legal(slot, false).Select(x => x.RoleId).ToHashSet();
             if (IsOpen(slot) && Offers[slot].Any(id => !legal.Contains(id)))
