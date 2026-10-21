@@ -43,7 +43,7 @@ public static class ShowVentsPatch
             }
         }
 
-        if (!ModifierUtils.GetActiveModifiers<SatelliteArrowModifier>().HasAny())
+        if (!ModifierUtils.GetActiveModifiers<SatelliteArrowModifier>().Any())
         {
             foreach (var icon in BodyIcons.Values.Where(x => x))
             {

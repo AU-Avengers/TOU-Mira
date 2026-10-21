@@ -41,7 +41,7 @@ public sealed class InquisitorInquireButton : TownOfUsRoleButton<InquisitorRole,
             return;
         }
 
-        if (ModifierUtils.GetActiveModifiers<InquisitorInquiredModifier>().HasAny())
+        if (ModifierUtils.GetActiveModifiers<InquisitorInquiredModifier>().Any())
         {
             ++UsesLeft;
             SetUses(UsesLeft);

@@ -116,7 +116,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
             !x.HasDied() && x != Player &&
             x.GetModifier<PlaguebearerInfectedModifier>()?.PlagueBearerId == Player.PlayerId);
 
-        if (allInfected.HasAny())
+        if (allInfected.Any())
         {
             stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.PlaguebearerTabInfectedInfo")}</b>");
             foreach (var plr in allInfected)

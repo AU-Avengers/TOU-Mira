@@ -105,7 +105,7 @@ public static class JesterEvents
     {
         var states = MeetingHudGetVotesPatch.States;
         var jests = CustomRoleUtils.GetActiveRolesOfType<JesterRole>();
-        if (!jests.HasAny())
+        if (!jests.Any())
         {
             return;
         }
@@ -146,7 +146,7 @@ public static class JesterEvents
         {
             var allVoters = PlayerControl.AllPlayerControls.ToArray()
                 .Where(x => jest.Voters.Contains(x.PlayerId) && !x.AmOwner);
-            if (!allVoters.HasAny())
+            if (!allVoters.Any())
             {
                 return;
             }

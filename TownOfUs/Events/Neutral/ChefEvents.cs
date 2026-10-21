@@ -22,7 +22,7 @@ public static class ChefEvents
     [RegisterEvent]
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
-        if (!CustomRoleUtils.GetActiveRolesOfType<ChefRole>().HasAny())
+        if (!CustomRoleUtils.GetActiveRolesOfType<ChefRole>().Any())
         {
             return;
         }

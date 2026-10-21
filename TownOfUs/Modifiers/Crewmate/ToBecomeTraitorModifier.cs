@@ -37,7 +37,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
         }
 
         if (GameOptionsManager.Instance.CurrentGameOptions.RoleOptions
-                .GetNumPerGame((RoleTypes)RoleId.Get<TraitorRole>()) == 0 || ModifierUtils.GetActiveModifiers<CrewpostorModifier>().HasAny())
+                .GetNumPerGame((RoleTypes)RoleId.Get<TraitorRole>()) == 0 || ModifierUtils.GetActiveModifiers<CrewpostorModifier>().Any())
         {
             return;
         }

@@ -20,7 +20,7 @@ public static class ImitatorEvents
 
         var imitatorRoles = CustomRoleUtils.GetActiveRolesOfType<ImitatorRole>();
 
-        if (imitatorRoles.HasAny())
+        if (imitatorRoles.Any())
         {
             foreach (var imitatorPlayer in imitatorRoles.Where(x => !x.Player.HasModifier<ImitatorCacheModifier>()))
             {
@@ -30,7 +30,7 @@ public static class ImitatorEvents
 
         var imitators = ModifierUtils.GetActiveModifiers<ImitatorCacheModifier>(x => !x.Player.HasDied() && x.Player.IsCrewmate());
 
-        if (!imitators.HasAny())
+        if (!imitators.Any())
         {
             return;
         }

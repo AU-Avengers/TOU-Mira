@@ -1035,7 +1035,7 @@ public static class TouAchievementEvents
 
         // Caught Ghostly-Handed: the Medium saw a player die while Mediating.
         if (!target.AmOwner && local.Data?.Role is MediumRole && IsNearLocal(target) &&
-            ModifierUtils.GetPlayersWithModifier<MediatedModifier>(x => x.MediumId == local.PlayerId).HasAny())
+            ModifierUtils.GetPlayersWithModifier<MediatedModifier>(x => x.MediumId == local.PlayerId).Any())
         {
             AchievementsAPIHelper.Unlock(TouAchievements.CaughtGhostlyHanded);
         }
@@ -1496,7 +1496,7 @@ public static class TouAchievementEvents
 
         // Intact: the Medic's shielded player survived to the end without ever being attacked.
         if (local.GetRoleWhenAlive() is MedicRole && !_medicShieldAttacked && _meetingsSeen >= 1 &&
-            ModifierUtils.GetPlayersWithModifier<MedicShieldModifier>(x => x.Medic.AmOwner && !x.Player.HasDied()).HasAny())
+            ModifierUtils.GetPlayersWithModifier<MedicShieldModifier>(x => x.Medic.AmOwner && !x.Player.HasDied()).Any())
         {
             AchievementsAPIHelper.Unlock(TouAchievements.Intact);
         }

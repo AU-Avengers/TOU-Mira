@@ -831,34 +831,4 @@ public static class Extensions
             }
         }
     }
-
-    public static bool HasAny<T>(this T[] list, System.Predicate<T> match)
-    {
-        if (list.Length < 1) return false;
-
-        for (int i = 0; i < list.Length; i++)
-        {
-            if (match(list[i])) return true;
-        }
-
-        return false;
-    }
-
-    public static bool HasAny<T>(this T[] list)
-    {
-        if (list.Length > 0) return true;
-
-        return false;
-    }
-
-#pragma warning disable CA1827
-#pragma warning disable S1155
-    public static bool HasAny<T>(this IEnumerable<T> list)
-    {
-        if (list.Count() > 0) return true;
-
-        return false;
-    }
-#pragma warning restore S1155
-#pragma warning restore CA1827
 }

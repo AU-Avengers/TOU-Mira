@@ -224,7 +224,7 @@ public static class HunterEvents
         }
         var states = MeetingHudGetVotesPatch.States;
         var hunters = CustomRoleUtils.GetActiveRolesOfType<HunterRole>();
-        if (!hunters.HasAny())
+        if (!hunters.Any())
         {
             return;
         }

@@ -161,13 +161,13 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         TouRoleUtils.ClearTaskHeader(Player);
 
         if (!Player.HasModifier<BasicGhostModifier>() && ModifierUtils
-                .GetActiveModifiers<MercenaryBribedModifier>([HideFromIl2Cpp](x) => x.Mercenary == Player).HasAny())
+                .GetActiveModifiers<MercenaryBribedModifier>([HideFromIl2Cpp](x) => x.Mercenary == Player).Any())
         {
             Player.AddModifier<BasicGhostModifier>();
         }
 
         var guardedMods = ModifierUtils.GetActiveModifiers<MercenaryGuardModifier>();
-        if (!guardedMods.HasAny())
+        if (!guardedMods.Any())
         {
             return;
         }

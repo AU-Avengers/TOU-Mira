@@ -107,7 +107,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     public bool IsPowerCrew =>
         UnleashesAvailable > 0 ||
         ModifierUtils.GetActiveModifiers<MagicMirrorModifier>()
-            .HasAny(); // Always disable end game checks if there is an Unleash available
+            .Any(); // Always disable end game checks if there is an Unleash available
 
     public static string ProtectionString = MiraLocaleManager.Get("TownOfUsMira.Role.MirrorcasterTabProtecting");
 

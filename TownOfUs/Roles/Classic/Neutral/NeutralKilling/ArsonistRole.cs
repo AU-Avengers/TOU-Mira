@@ -123,7 +123,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         var allDoused = PlayerControl.AllPlayerControls.ToArray().Where(x =>
             !x.HasDied() && x.GetModifier<ArsonistDousedModifier>()?.ArsonistId == Player.PlayerId);
 
-        if (allDoused.HasAny())
+        if (allDoused.Any())
         {
             stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.ArsonistTabDousedInfo")}</b>");
             foreach (var plr in allDoused)

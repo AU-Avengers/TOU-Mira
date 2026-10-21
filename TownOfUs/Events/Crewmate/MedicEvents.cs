@@ -30,7 +30,7 @@ public static class MedicEvents
 
         var medicShields = ModifierUtils.GetActiveModifiers<MedicShieldModifier>();
 
-        if (!medicShields.HasAny())
+        if (!medicShields.Any())
         {
             return;
         }

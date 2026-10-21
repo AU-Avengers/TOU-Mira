@@ -19,7 +19,7 @@ public static class WardenEvents
     {
         var wardenForts = ModifierUtils.GetActiveModifiers<WardenFortifiedModifier>();
 
-        if (!wardenForts.HasAny())
+        if (!wardenForts.Any())
         {
             return;
         }

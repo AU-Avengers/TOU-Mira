@@ -153,7 +153,7 @@ public static class ExecutionerEvents
     {
         var states = MeetingHudGetVotesPatch.States;
         var exes = CustomRoleUtils.GetActiveRolesOfType<ExecutionerRole>();
-        if (!exes.HasAny())
+        if (!exes.Any())
         {
             return;
         }
@@ -210,7 +210,7 @@ public static class ExecutionerEvents
                 var allVoters = PlayerControl.AllPlayerControls.ToArray()
                     .Where(x => exeRole.Voters.Contains(x.PlayerId) && !x.AmOwner);
 
-                if (!allVoters.HasAny())
+                if (!allVoters.Any())
                 {
                     return;
                 }

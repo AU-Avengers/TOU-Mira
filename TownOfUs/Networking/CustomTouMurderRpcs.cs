@@ -213,7 +213,7 @@ public static class CustomTouMurderRpcs
             firstTarget = false;
         }
 
-        if (victims.HasAny() && source.AmOwner)
+        if (victims.Any() && source.AmOwner)
         {
             source.isKilling = true;
         }
@@ -1338,7 +1338,7 @@ public static class CustomTouMurderRpcs
         NetworkedPlayerInfo victim, ExtendedKillAnimType animType)
     {
         OverlayKillAnimation killAnimation;
-        if (!StoredKillAnimations.HasAny())
+        if (!StoredKillAnimations.Any())
         {
             OverlayKillAnimation[] self = overlay.KillAnims;
             StoredKillAnimations = self.AddRangeToArray(overlay.CustomKillAnimations);

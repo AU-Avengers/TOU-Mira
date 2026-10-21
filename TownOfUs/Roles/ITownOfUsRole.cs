@@ -13,7 +13,7 @@ public interface ITownOfUsRole : ICustomRole
     GameObject ICustomRole.GetAdvancedWiki(MatchInfoGuide guide, TextMeshPro titleText, SpriteRenderer titleIcon, Scroller parent)
     {
         var abilities = WikiAbilities;
-        if (abilities.Count == 0 && this is IWikiDiscoverable wiki && wiki.Abilities.HasAny())
+        if (abilities.Count == 0 && this is IWikiDiscoverable wiki && wiki.Abilities.Any())
         {
             abilities = wiki.Abilities.Select(a => new AdvancedWikiAbilityDescription(
                 a.Name,

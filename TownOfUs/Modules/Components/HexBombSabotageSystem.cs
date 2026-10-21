@@ -115,7 +115,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
                 BombFinished = true;
             }
         }
-        else if (Stage == HexBombStage.Countdown && !CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().HasAny())
+        else if (Stage == HexBombStage.Countdown && !CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().Any())
         {
             Stage = HexBombStage.SpellslingerDead;
             TimeRemaining = 3f;

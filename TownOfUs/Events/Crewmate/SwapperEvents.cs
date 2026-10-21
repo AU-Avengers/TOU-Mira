@@ -73,7 +73,7 @@ public static class SwapperEvents
     [RegisterEvent]
     public static void VotingCompleteEventHandler(VotingCompleteEvent _)
     {
-        if (!CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().HasAny())
+        if (!CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().Any())
         {
             return;
         }

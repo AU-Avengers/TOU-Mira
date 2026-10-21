@@ -430,7 +430,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
             var allVictims = PlayerControl.AllPlayerControls.ToArray()
                 .Where(x => !x.AmOwner);
 
-            if (allVictims.HasAny())
+            if (allVictims.Any())
             {
                 foreach (var player in allVictims)
                 {

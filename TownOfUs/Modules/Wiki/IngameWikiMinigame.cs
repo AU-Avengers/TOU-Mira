@@ -894,7 +894,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 ;
 
             ToggleRoles(false);
-            if (!_modifierEntries.HasAny())
+            if (!_modifierEntries.Any())
             {
                 foreach (var modifier in modifiers)
                 {
@@ -983,7 +983,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             }
 
             var comparer = new RoleComparer(roleList);
-            if (!_roleList.HasAny())
+            if (!_roleList.Any())
             {
                 _roleList = MiscUtils.AllRegisteredRoles.Excluding(role =>
                     !SoftWikiEntries.RoleEntries.ContainsKey(role) && role is not IWikiDiscoverable ||
@@ -998,7 +998,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 ;*/
 
             ToggleRoles(true);
-            if (!_roleEntries.HasAny())
+            if (!_roleEntries.Any())
             {
                 foreach (var role in roles)
                 {

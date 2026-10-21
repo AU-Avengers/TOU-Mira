@@ -55,7 +55,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         NetworkedPlayerInfo victim, PlayerVoteArea targetVoteArea)
     {
         OverlayKillAnimation killAnimation;
-        if (!CustomTouMurderRpcs.StoredKillAnimations.HasAny())
+        if (!CustomTouMurderRpcs.StoredKillAnimations.Any())
         {
             OverlayKillAnimation[] self = overlay.KillAnims;
             CustomTouMurderRpcs.StoredKillAnimations = self.AddRangeToArray(overlay.CustomKillAnimations);
@@ -227,7 +227,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public bool IsPowerCrew =>
         Killer || ModifierUtils.GetActiveModifiers<DeputyCampedModifier>()
-            .HasAny(); // Only stop end game checks if the deputy can actually kill someone
+            .Any(); // Only stop end game checks if the deputy can actually kill someone
 
     public CustomRoleConfiguration Configuration => new(this)
     {
