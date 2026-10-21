@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using AmongUs.Data;
 using Assets.CoreScripts;
 using BepInEx.Unity.IL2CPP.Utils;
@@ -213,7 +214,7 @@ public static class CustomTouMurderRpcs
             firstTarget = false;
         }
 
-        if (victims.Any() && source.AmOwner)
+        if (victims.Count != 0 && source.AmOwner)
         {
             source.isKilling = true;
         }
@@ -1333,12 +1334,14 @@ public static class CustomTouMurderRpcs
         source.MyPhysics.StartCoroutine(CoPerformMeetingKill(source, target));
     }
 
+    [SuppressMessage("Minor Code Smell", "S2386:Mutable fields should not be \"public static\"", Justification = "Intentional.")]
     public static OverlayKillAnimation[] StoredKillAnimations = [];
+
     public static void TriggerKillAnimation(this KillOverlay overlay, NetworkedPlayerInfo killer,
         NetworkedPlayerInfo victim, ExtendedKillAnimType animType)
     {
         OverlayKillAnimation killAnimation;
-        if (!StoredKillAnimations.Any())
+        if (StoredKillAnimations.Length == 0)
         {
             OverlayKillAnimation[] self = overlay.KillAnims;
             StoredKillAnimations = self.AddRangeToArray(overlay.CustomKillAnimations);

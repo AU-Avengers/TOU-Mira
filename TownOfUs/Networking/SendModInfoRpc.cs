@@ -107,17 +107,17 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
 
             otherModArray = otherModArray.AddToArray(mod.Value);
         }
-        if (badModArray.Any())
+        if (badModArray.Length != 0)
         {
             Error(
                 $"Incompatible / Cheat Plugins: {string.Join(", ", badModArray)}");
         }
-        if (knownModArray.Any())
+        if (knownModArray.Length != 0)
         {
             Info(
                 $"Known Plugins: {string.Join(", ", knownModArray)}");
         }
-        if (otherModArray.Any())
+        if (otherModArray.Length != 0)
         {
             Warning(
                 $"Other Plugins: {string.Join(", ", otherModArray)}");

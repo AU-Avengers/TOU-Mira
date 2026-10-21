@@ -177,7 +177,7 @@ public sealed class MinerRole(IntPtr cppPtr)
             return;
         }
 
-        if (miner.Vents.Any())
+        if (miner.Vents.Count != 0)
         {
             var leftVent = miner.Vents[^1];
             vent.Left = leftVent;

@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using System.Diagnostics.CodeAnalysis;
+using HarmonyLib;
 using TownOfUs.Events;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Crewmate;
@@ -18,6 +19,7 @@ public static class LobbyBehaviourPatches
     [HarmonyPatch(typeof(LobbyBehaviour), nameof(LobbyBehaviour.Start))]
     [HarmonyPatch(typeof(TutorialManager), nameof(TutorialManager.Awake))]
     [HarmonyPostfix]
+    [SuppressMessage("Critical Code Smell", "S1215:\"GC.Collect\" should not be called", Justification = "Used to prevent lag.")]
     public static void LobbyStartPatch()
     {
         NoisemakerModifier.ActiveNoisemakerTriggers.Clear();

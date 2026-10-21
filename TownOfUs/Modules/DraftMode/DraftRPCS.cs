@@ -8,6 +8,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using TownOfUs.Options;
 using TownOfUs.Patches;
+using System.Globalization;
 
 
 namespace TownOfUs.Modules.DraftMode;
@@ -35,7 +36,7 @@ public static class DraftRpcs
         {
             var playerSlots = slots.Split(',', StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => x.Split(':'))
-                .ToDictionary(x => byte.Parse(x[0]), x => int.Parse(x[1]));
+                .ToDictionary(x => byte.Parse(x[0], NumberFormatInfo.InvariantInfo), x => int.Parse(x[1], NumberFormatInfo.InvariantInfo));
             DraftManager.Begin(playerSlots);
         }
 
@@ -138,9 +139,9 @@ public sealed class DraftAnnounceTurnRpc(TownOfUsPlugin plugin, uint id)
         writer.Write(data.Slot);
         writer.Write(data.PickerId);
         writer.Write((byte)data.RoleIds.Count);
-        foreach (var id in data.RoleIds)
+        foreach (var roleId in data.RoleIds)
         {
-            writer.Write((int)id);
+            writer.Write((int)roleId);
         }
     }
 

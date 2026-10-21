@@ -123,10 +123,10 @@ public class TownOfPolusMode : AbstractGameMode
         }
     }
 
-    public override IEnumerator IntroCutscene(IntroCutscene __instance)
+    public override IEnumerator IntroCutscene(IntroCutscene introCutscene)
     {
         Logger.GlobalInstance.Info("IntroCutscene :: CoBegin() :: Starting intro cutscene", null);
-        SoundManager.Instance.PlaySound(__instance.IntroStinger, false, 1f, null);
+        SoundManager.Instance.PlaySound(introCutscene.IntroStinger, false, 1f, null);
         if (!LegacyAssets.IsLegacy)
         {
             var hudInstance = HudManager.Instance;
@@ -155,14 +155,14 @@ public class TownOfPolusMode : AbstractGameMode
         {
             button.RemoveLabel();
         }
-        
+
         Logger.GlobalInstance.Info("IntroCutscene :: CoBegin() :: Game Mode: Town of Polus (TOU Mira)", null);
-        __instance.LogPlayerRoleData();
-        __instance.HideAndSeekPanels.SetActive(false);
-        __instance.CrewmateRules.SetActive(false);
-        __instance.ImpostorRules.SetActive(false);
-        __instance.ImpostorName.gameObject.SetActive(false);
-        __instance.ImpostorTitle.gameObject.SetActive(false);
+        introCutscene.LogPlayerRoleData();
+        introCutscene.HideAndSeekPanels.SetActive(false);
+        introCutscene.CrewmateRules.SetActive(false);
+        introCutscene.ImpostorRules.SetActive(false);
+        introCutscene.ImpostorName.gameObject.SetActive(false);
+        introCutscene.ImpostorTitle.gameObject.SetActive(false);
         Func<NetworkedPlayerInfo, bool> method = pcd =>
             !PlayerControl.LocalPlayer.Data.Role.IsImpostor ||
             pcd.Role.TeamType == PlayerControl.LocalPlayer.Data.Role.TeamType;
@@ -172,10 +172,10 @@ public class TownOfPolusMode : AbstractGameMode
             Logger.GlobalInstance.Error("IntroCutscene :: CoBegin() :: teamToShow is EMPTY or NULL", null);
         }
         var role = PlayerControl.LocalPlayer.Data.Role;
-        __instance.ImpostorText.text = role.Blurb;
-        yield return ShowTeam(__instance, list, 3f);
+        introCutscene.ImpostorText.text = role.Blurb;
+        yield return ShowTeam(introCutscene, list, 3f);
         ShipStatus.Instance.StartSFX();
-        Object.Destroy(__instance.gameObject);
+        Object.Destroy(introCutscene.gameObject);
     }
     public static IEnumerator ShowTeam(IntroCutscene __instance, Il2CppSystem.Collections.Generic.List<PlayerControl> teamToShow, float duration)
     {

@@ -55,13 +55,13 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         NetworkedPlayerInfo victim, PlayerVoteArea targetVoteArea)
     {
         OverlayKillAnimation killAnimation;
-        if (!CustomTouMurderRpcs.StoredKillAnimations.Any())
+        if (CustomTouMurderRpcs.StoredKillAnimations.Length == 0)
         {
             OverlayKillAnimation[] self = overlay.KillAnims;
             CustomTouMurderRpcs.StoredKillAnimations = self.AddRangeToArray(overlay.CustomKillAnimations);
         }
         killAnimation = overlay.HorseWrangleAnims.Random()!;
-        Coroutines.Start(CoShowAnim(overlay, (killAnimation.TryCast<HorseWrangleOverlay>())!,
+        Coroutines.Start(CoShowAnim(overlay, killAnimation.TryCast<HorseWrangleOverlay>()!,
             new KillOverlayInitData(killer, victim), targetVoteArea));
     }
 
@@ -127,7 +127,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         var sheriffCloseup = anim.transform.GetChild(2);
         var outfit = sheriffCloseup.GetChild(1).GetComponent<SpriteRenderer>();
         outfit.sprite = TouAssets.DeputyOutfit;
-        
+
         var clonedForeground = Instantiate(anim.impostorForeground, anim.impostorForeground.transform.parent);
         clonedForeground.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
         var clonedHand = Instantiate(anim.impostorHand, anim.impostorHand.transform.parent);

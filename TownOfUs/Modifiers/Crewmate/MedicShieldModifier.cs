@@ -49,7 +49,7 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
     public void RemoveMedic(PlayerControl med)
     {
         AllMedics.Remove(med);
-        if (Medic == med && AllMedics.Any())
+        if (Medic == med && AllMedics.Count != 0)
         {
             SetNewMedic(AllMedics[0]);
         }
@@ -113,7 +113,7 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (!Player || !AllMedics.Any())
+        if (!Player || AllMedics.Count == 0)
         {
             RemoveSelf();
             return;

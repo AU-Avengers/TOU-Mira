@@ -24,7 +24,7 @@ public abstract class TouBaseGameModifier : GameModifier
     public override GameObject GetAdvancedWiki(MatchInfoGuide guide, TextMeshPro titleText, SpriteRenderer titleIcon, Scroller parent)
     {
         var abilities = WikiAbilities;
-        if (abilities.Count == 0 && this is IWikiDiscoverable wiki && wiki.Abilities.Any())
+        if (abilities.Count == 0 && this is IWikiDiscoverable { Abilities.Count: > 0 } wiki)
         {
             abilities = wiki.Abilities.Select(a => new AdvancedWikiAbilityDescription(
                 a.Name,
@@ -43,7 +43,7 @@ public abstract class TouBaseGameModifier : GameModifier
             ModifierWikiDescription,
             abilities);
     }
-    
+
     /// <summary>
     /// Method that runs before <see cref="GameModifier.IsModifierValidOn"/> is run by MiraAPI. This is used for Assailant modifiers to determine if they may spawn.
     /// </summary>

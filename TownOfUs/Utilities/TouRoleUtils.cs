@@ -96,7 +96,7 @@ public static class TouRoleUtils
             RoleTypes.Judge => TouRoleIcons.Prosecutor,
             RoleTypes.Viper => TouRoleIcons.Viper,
             RoleTypes.SpiritGuide => TouRoleIcons.Spectator,
-            _ => null
+            _ => null!,
         };
     }
 

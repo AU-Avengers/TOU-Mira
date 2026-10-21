@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
@@ -152,6 +153,7 @@ public static class ModCompatibility
         InternalModList = sBuilder.ToString();
     }
 
+    [SuppressMessage("Major Code Smell", "S3011:Reflection should not be used to increase accessibility of classes, methods, or fields", Justification = "It is safe.")]
     private static void InitApiExposing()
     {
         if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(MiraApiPlugin.Id, out var value))
@@ -306,11 +308,11 @@ public static class ModCompatibility
     ];
 
     public static readonly CorsacUtils.QuickPetMetadata[] Pets =
-    {
+    [
         new ("Black Minipostor", "BlackMinipostorPet.prefab", false),
         new ("Flopster", "FlopsterPet.prefab", false),
         new ("Tortellini", "TortelliniPet.prefab", false)
-    };
+    ];
     public static void InitCorsac()
     {
         if (TownOfUsPlugin.AutoDownloadCosmetics.Value)
@@ -385,7 +387,7 @@ public static class ModCompatibility
 
         SubmarineSurvillanceMinigameType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSurvillanceMinigame")!;
         SubmarineSecuritySabotageSystemType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSecuritySabotageSystem")!;
-        
+
         var floorButtonPatch = SubTypes.First(t => t.Name == "ChangeFloorButtonPatches");
         var floorButtonStyleMethod = AccessTools.Method(floorButtonPatch, "SetButtonStyle", [typeof(bool)]);
 
@@ -398,7 +400,7 @@ public static class ModCompatibility
             types,
             null
         );
-            
+
         var compatType = typeof(ModCompatibility);
         var harmony = new Harmony("tou.submerged.patch");
 

@@ -1,6 +1,6 @@
-namespace TownOfUs.RainbowMod;
+/*namespace TownOfUs.RainbowMod;
 
-/*[HarmonyPatch(typeof(PlayerMaterial), nameof(PlayerMaterial.SetColors), typeof(int), typeof(Renderer))]
+[HarmonyPatch(typeof(PlayerMaterial), nameof(PlayerMaterial.SetColors), typeof(int), typeof(Renderer))]
 public static class SetPlayerMaterialPatch
 {
     public static bool Prefix([HarmonyArgument(0)] int colorId, [HarmonyArgument(1)] Renderer rend)

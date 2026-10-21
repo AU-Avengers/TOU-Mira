@@ -98,3 +98,9 @@ dotnet_diagnostic.S1144.severity = none
 
 # S2437: Unnecessary bit operations should not be performed
 dotnet_diagnostic.S2437.severity = none
+
+# IDE0079: Remove unnecessary suppression
+dotnet_diagnostic.IDE0079.severity = none
+
+# S3060: "is" should not be used with "this"
+dotnet_diagnostic.S3060.severity = none
