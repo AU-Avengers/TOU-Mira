@@ -1212,8 +1212,6 @@ public static class TouRoleManagerPatches
         var players = GameData.Instance.PlayerCount - SpectatorRole.TrackedSpectators.Count;
         var impostors = 0;
         var list = OptionGroupSingleton<RoleOptions>.Instance;
-        var maxCount = list.Slots.Count;
-        var maxSlots = players < maxCount ? players : maxCount;
         List<RoleListOption> impBuckets =
         [
             RoleListOption.ImpConceal, RoleListOption.ImpKilling, RoleListOption.ImpPower, RoleListOption.ImpSupport,
@@ -1222,7 +1220,7 @@ public static class TouRoleManagerPatches
         List<RoleListOption> buckets = [];
         var anySlots = 0;
 
-        for (int i = 0; i < maxSlots; i++)
+        for (int i = 0; i < Math.Min(players, list.Slots.Count); i++)
         {
             RoleListOption slotValue = i >= list.Slots.Count
                                        ? (RoleListOption)(-1)

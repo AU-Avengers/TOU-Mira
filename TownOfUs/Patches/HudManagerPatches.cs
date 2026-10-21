@@ -367,8 +367,7 @@ public static class HudManagerPatches
             var players = GameData.Instance.PlayerCount - SpectatorRole.TrackedSpectators.Count;
 
             var list = OptionGroupSingleton<RoleOptions>.Instance;
-            var maxCount = list.Slots.Count;
-            var maxSlots = players < maxCount ? players : maxCount;
+            var maxSlots = Math.Min(players, list.Slots.Count);
             DisplayedRoleListSlots = maxSlots;
 
             switch (roleAssignmentType)
