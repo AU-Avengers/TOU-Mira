@@ -72,7 +72,7 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
             "TownOfUsMira.BetterMaps.Option.DoorsEnumRandom"
         ]);
 
-    [ModdedEnumOption("TownOfUsMira.BetterMaps.Option.AirshipSpawnMode", typeof(SpawnModes), ["TownOfUsMira.BetterMaps.Option.AirshipSpawnEnumNormal", "TownOfUsMira.BetterMaps.Option.AirshipSpawnEnumSameSpawns", "TownOfUsMira.BetterMaps.Option.AirshipSpawnEnumHostChoosesOne"])]
+    [ModdedEnumOption<SpawnModes>("TownOfUsMira.BetterMaps.Option.AirshipSpawnMode", ["TownOfUsMira.BetterMaps.Option.AirshipSpawnEnumNormal", "TownOfUsMira.BetterMaps.Option.AirshipSpawnEnumSameSpawns", "TownOfUsMira.BetterMaps.Option.AirshipSpawnEnumHostChoosesOne"])]
     public SpawnModes SpawnMode { get; set; } = SpawnModes.Normal;
 
     public ModdedEnumOption<Locations> SingleLocation { get; } = new("TownOfUsMira.BetterMaps.Option.AirshipSingleLocation", Locations.MainHall,

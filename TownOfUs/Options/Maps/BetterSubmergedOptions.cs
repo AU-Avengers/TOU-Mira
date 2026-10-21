@@ -90,7 +90,7 @@ public sealed class BetterSubmergedOptions : AbstractOptionGroup
     };
 
     /*
-    [ModdedEnumOption("Spawn Mode", typeof(SubSpawnLocation), ["Selectable", "Upper Deck", "Lower Deck"])]
+    [ModdedEnumOption<SubSpawnLocation>("Spawn Mode", ["Selectable", "Upper Deck", "Lower Deck"])]
     public SubSpawnLocation SpawnMode { get; set; } = SubSpawnLocation.Selectable;
 
     [ModdedToggleOption("Change Sabotage Timers")]

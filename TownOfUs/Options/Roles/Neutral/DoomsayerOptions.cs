@@ -30,7 +30,7 @@ public sealed class DoomsayerOptions : AbstractRoleOptionGroup<DoomsayerRole>
     [ModdedToggleOption("TouOptionDoomsayerCantObserve")]
     public bool CantObserve { get; set; } = false;
 
-    [ModdedEnumOption("TouOptionDoomsayerWin", typeof(DoomWinOptions), ["TouOptionDoomsayerWinEnumEndsGame", "TouOptionDoomsayerWinEnumLeaves", "TouOptionDoomsayerWinEnumNothing"])]
+    [ModdedEnumOption<DoomWinOptions>("TouOptionDoomsayerWin", ["TouOptionDoomsayerWinEnumEndsGame", "TouOptionDoomsayerWinEnumLeaves", "TouOptionDoomsayerWinEnumNothing"])]
     public DoomWinOptions DoomWin { get; set; } = DoomWinOptions.Leaves;
 
     public ModdedToggleOption DoomAnonymizeWin { get; set; } =

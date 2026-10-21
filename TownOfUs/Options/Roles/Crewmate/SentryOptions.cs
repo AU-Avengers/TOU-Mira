@@ -14,7 +14,7 @@ public sealed class SentryOptions : AbstractRoleOptionGroup<SentryRole>, IWikiOp
     [ModdedNumberOption("TouOptionSentryPlacementCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float PlacementCooldown { get; set; } = 30f;
 
-    [ModdedEnumOption("TouOptionSentryDeployedCamerasVisibility", typeof(SentryDeployedCamerasVisibility),
+    [ModdedEnumOption<SentryDeployedCamerasVisibility>("TouOptionSentryDeployedCamerasVisibility",
         ["TouOptionSentryDeployedVisibilityEnumImmediately", "TouOptionSentryDeployedVisibilityEnumAfterMeeting"])]
     public SentryDeployedCamerasVisibility DeployedCamerasVisibility { get; set; } = SentryDeployedCamerasVisibility.Immediately;
 
@@ -32,7 +32,7 @@ public sealed class SentryOptions : AbstractRoleOptionGroup<SentryRole>, IWikiOp
                 OptionGroupSingleton<SentryOptions>.Instance.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting
         };
 
-    [ModdedEnumOption("TouOptionSentryPortableCamerasMode", typeof(SentryPortableCamerasMode),
+    [ModdedEnumOption<SentryPortableCamerasMode>("TouOptionSentryPortableCamerasMode",
         ["TouOptionSentryPortableModeEnumAlways", "TouOptionSentryPortableModeEnumAfterTasks", "TouOptionSentryPortableModeEnumCamlessMaps"])]
     public SentryPortableCamerasMode PortableCamerasMode { get; set; } = SentryPortableCamerasMode.OnMapsWithoutCameras;
 

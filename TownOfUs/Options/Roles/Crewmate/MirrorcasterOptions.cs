@@ -10,7 +10,7 @@ public sealed class MirrorcasterOptions : AbstractRoleOptionGroup<MirrorcasterRo
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Mirrorcaster", "Mirrorcaster");
 
-    [ModdedEnumOption("TouOptionMirrorcasterWhoGetsMurderAttemptIndicator", typeof(MirrorOption),
+    [ModdedEnumOption<MirrorOption>("TouOptionMirrorcasterWhoGetsMurderAttemptIndicator",
         ["TouOptionMirrorcasterNotifEnumMirrorcaster", "TouOptionMirrorcasterNotifEnumMirrorcasterAndKiller"])]
     public MirrorOption WhoGetsNotification { get; set; } = MirrorOption.MirrorcasterAndKiller;
 

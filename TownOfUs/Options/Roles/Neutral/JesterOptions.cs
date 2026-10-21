@@ -48,7 +48,7 @@ public sealed class JesterOptions : AbstractRoleOptionGroup<JesterRole>, IWikiOp
             Visible = () => OptionGroupSingleton<JesterOptions>.Instance.ScatterOn
         };
 
-    [ModdedEnumOption("TouOptionJesterAfterWin", typeof(JestWinOptions), ["TouOptionJesterWinEnumEndsGame", "TouOptionJesterWinEnumHaunts", "TouOptionJesterWinEnumNothing"])]
+    [ModdedEnumOption<JestWinOptions>("TouOptionJesterAfterWin", ["TouOptionJesterWinEnumEndsGame", "TouOptionJesterWinEnumHaunts", "TouOptionJesterWinEnumNothing"])]
     public JestWinOptions JestWin { get; set; } = JestWinOptions.EndsGame;
 
     public ModdedToggleOption JestAnnounceWin { get; set; } =

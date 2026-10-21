@@ -24,7 +24,7 @@ public sealed class SheriffOptions : AbstractRoleOptionGroup<SheriffRole>, IWiki
     public ModdedToggleOption ShootNeutralKiller { get; set; } = new("TouOptionSheriffCanShootNeutralKillingRoles", true);
     public ModdedToggleOption ShootNeutralOutlier { get; set; } = new("TouOptionSheriffCanShootNeutralOutlierRoles", true);
 
-    [ModdedEnumOption("TouOptionSheriffMisfireKills", typeof(MisfireOptions), ["TouOptionSheriffKillEnumSheriff", "TouOptionSheriffKillEnumTarget", "TouOptionSheriffKillEnumBoth", "TouOptionSheriffKillEnumNobody"])]
+    [ModdedEnumOption<MisfireOptions>("TouOptionSheriffMisfireKills", ["TouOptionSheriffKillEnumSheriff", "TouOptionSheriffKillEnumTarget", "TouOptionSheriffKillEnumBoth", "TouOptionSheriffKillEnumNobody"])]
     public MisfireOptions MisfireType { get; set; } = MisfireOptions.Sheriff;
 
     public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
