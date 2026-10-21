@@ -313,9 +313,9 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
             if (roleList.UseRoleListForPool)
             {
                 var draftList = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
-                bucket = slotIndex >= HudManagerPatches.DisplayedRoleListSlots || slotIndex >= draftList.Slot.Count
+                bucket = slotIndex >= HudManagerPatches.DisplayedRoleListSlots || slotIndex >= draftList.Slots.Count
                          ? (RoleListOption)(-1)
-                         : draftList.Slot[slotIndex].Value;
+                         : draftList.Slots[slotIndex].Value;
             }
             else
             {
@@ -353,9 +353,9 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
         }
         else
         {
-            bucket = slotIndex >= HudManagerPatches.DisplayedRoleListSlots || slotIndex >= roleList.Slot.Count
+            bucket = slotIndex >= HudManagerPatches.DisplayedRoleListSlots || slotIndex >= roleList.Slots.Count
                      ? (RoleListOption)(-1)
-                     : roleList.Slot[slotIndex].Value;
+                     : roleList.Slots[slotIndex].Value;
         }
 
         if ((int)bucket < 0) return;

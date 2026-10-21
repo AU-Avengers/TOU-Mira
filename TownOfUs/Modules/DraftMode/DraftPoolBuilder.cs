@@ -29,7 +29,7 @@ public sealed class DraftPlan
 
     private static DraftPlan FromRoleList(int players)
     {
-        var slots = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance.Slot;
+        var slots = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance.Slots;
         var seats = new List<RoleAlignment[]>();
         for (var i = 0; i < Math.Min(players, slots.Count); i++)
         {

@@ -501,13 +501,13 @@ public static class TouRoleManagerPatches
     {
         var opts = OptionGroupSingleton<RoleOptions>.Instance;
         var buckets = new List<RoleListOption>();
-        var maxCount = opts.Slot.Count;
+        var maxCount = opts.Slots.Count;
 
         // Add slots up to player count (max 15)
         var slotsToAdd = Math.Min(playerCount, maxCount);
         for (var i = 0; i < slotsToAdd; i++)
         {
-            buckets.Add(opts.Slot[i]);
+            buckets.Add(opts.Slots[i]);
         }
 
         // For players beyond 15, add random crew/non-imp roles
@@ -1212,7 +1212,7 @@ public static class TouRoleManagerPatches
         var players = GameData.Instance.PlayerCount - SpectatorRole.TrackedSpectators.Count;
         var impostors = 0;
         var list = OptionGroupSingleton<RoleOptions>.Instance;
-        var maxCount = list.Slot.Count;
+        var maxCount = list.Slots.Count;
         var maxSlots = players < maxCount ? players : maxCount;
         List<RoleListOption> impBuckets =
         [
@@ -1224,9 +1224,9 @@ public static class TouRoleManagerPatches
 
         for (int i = 0; i < maxSlots; i++)
         {
-            RoleListOption slotValue = i >= list.Slot.Count
+            RoleListOption slotValue = i >= list.Slots.Count
                                        ? (RoleListOption)(-1)
-                                       : list.Slot[i].Value;
+                                       : list.Slots[i].Value;
 
             buckets.Add(slotValue);
         }
