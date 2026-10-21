@@ -108,7 +108,7 @@ public sealed class UndertakerRole(IntPtr cppPtr)
         {
             return;
         }
-        playerControl.GetModifierComponent()?.AddModifier(new DragModifier(bodyId));
+        playerControl.AddModifier<DragModifier>(bodyId);
 
         var touAbilityEvent =
             new TouAbilityEvent(AbilityType.UndertakerDrag, playerControl, Helpers.GetBodyById(bodyId));
