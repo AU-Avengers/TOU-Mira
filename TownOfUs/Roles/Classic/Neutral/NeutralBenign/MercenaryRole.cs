@@ -179,7 +179,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
                 continue;
             }
 
-            guarded.Player.RemoveModifier(guarded);
+            guarded.RemoveSelf();
         }
     }
 

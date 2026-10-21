@@ -198,11 +198,9 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             return;
         }
         // Message($"RpcOracleBless exiled '{exiled.Data.PlayerName}'");
-        var mod = exiled.GetModifier<OracleBlessedModifier>();
-
-        mod?.SavedFromExile = true;
-        if (mod != null)
+        if (exiled.TryGetModifier<OracleBlessedModifier>(out var mod))
         {
+            mod.SavedFromExile = true;
             TouAchievementEvents.OnOracleBlessSaved(mod.Oracle, exiled);
         }
     }

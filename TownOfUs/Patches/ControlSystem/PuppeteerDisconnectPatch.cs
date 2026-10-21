@@ -29,10 +29,7 @@ public static class PuppeteerDisconnectPatch
             {
                 PuppeteerControlState.ClearControl(player.PlayerId);
 
-                if (player.TryGetModifier<PuppeteerControlModifier>(out var mod))
-                {
-                    player.RemoveModifier(mod);
-                }
+                player.TryRemoveModifier<PuppeteerControlModifier>();
             }
         }
 
@@ -41,9 +38,6 @@ public static class PuppeteerDisconnectPatch
             PuppeteerRole.RpcPuppeteerEndControl(player, role.Controlled, player.transform.position);
         }
 
-        if (player.TryGetModifier<PuppeteerControlModifier>(out var mod2))
-        {
-            player.RemoveModifier(mod2);
-        }
+        player.TryRemoveModifier<PuppeteerControlModifier>();
     }
 }

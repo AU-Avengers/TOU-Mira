@@ -149,10 +149,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             }
         }
 
-        if (source.TryGetModifier<HunterStalkedModifier>(out var modifier))
-        {
-            source.RemoveModifier(modifier);
-        }
+        source.TryRemoveModifier<HunterStalkedModifier>();
     }
 
     public static void Retribution(PlayerControl hunter, PlayerControl target)

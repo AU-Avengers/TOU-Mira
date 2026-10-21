@@ -114,7 +114,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
         var allInfected = PlayerControl.AllPlayerControls.Where(x =>
             !x.HasDied() && x != Player &&
-            x.GetModifier<PlaguebearerInfectedModifier>()?.PlagueBearerId == Player.PlayerId);
+            x.HasModifier<PlaguebearerInfectedModifier>(x => x.PlagueBearerId == Player.PlayerId));
 
         if (allInfected.Any())
         {

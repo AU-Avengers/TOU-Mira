@@ -51,12 +51,10 @@ public static class ImitatorEvents
 
         var player = @event.Player;
 
-        if (player.HasModifier<ImitatorCacheModifier>() && !@event.NewRole.IsCrewmate())
+        if (player.TryRemoveModifier<ImitatorCacheModifier>() && !@event.NewRole.IsCrewmate())
         {
             var text = "Removed Imitator Cache Modifier On Role Change";
             MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, text);
-
-            player.RemoveModifier<ImitatorCacheModifier>();
         }
     }
 }

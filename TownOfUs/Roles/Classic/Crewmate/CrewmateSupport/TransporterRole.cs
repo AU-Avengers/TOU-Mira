@@ -154,10 +154,9 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             return;
         }
 
-        var infectedtrans = transporter.GetModifier<PlaguebearerInfectedModifier>();
         var infectedplayer1 = play1.GetModifier<PlaguebearerInfectedModifier>();
         var infectedplayer2 = play2.GetModifier<PlaguebearerInfectedModifier>();
-        if (infectedtrans != null)
+        if (transporter.TryGetModifier<PlaguebearerInfectedModifier>(out var infectedtrans))
         {
             if (infectedplayer1 == null)
             {
@@ -169,11 +168,11 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 play2.AddModifier<PlaguebearerInfectedModifier>(infectedtrans.PlagueBearerId);
             }
         }
-        else if (infectedtrans == null && infectedplayer1 != null)
+        else if (infectedplayer1 != null)
         {
             transporter.AddModifier<PlaguebearerInfectedModifier>(infectedplayer1.PlagueBearerId);
         }
-        else if (infectedtrans == null && infectedplayer2 != null)
+        else if (infectedplayer2 != null)
         {
             transporter.AddModifier<PlaguebearerInfectedModifier>(infectedplayer2.PlagueBearerId);
         }
@@ -368,7 +367,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                         CustomButtonSingleton<UndertakerDragDropButton>.Instance.SetDrag();
                     }
 
-                    mod.Player.RemoveModifier(dragMod);
+                    dragMod.RemoveSelf();
                 }
             }
         }

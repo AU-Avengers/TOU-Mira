@@ -65,7 +65,7 @@ public static class FreeplayDebugState
             {
                 foreach (var mod in player.GetModifiers<BaseModifier>())
                 {
-                    modComp.RemoveModifier(mod);
+                    mod.RemoveSelf();
                 }
             }
 

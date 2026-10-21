@@ -145,7 +145,7 @@ public sealed class FreeplaySetModifiersButton : TownOfUsButton, IAurialBypassBu
         {
             foreach (var mod in existing)
             {
-                comp.RemoveModifier(mod);
+                mod.RemoveSelf();
             }
             return;
         }

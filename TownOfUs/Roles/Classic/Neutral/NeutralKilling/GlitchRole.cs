@@ -194,7 +194,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
         {
             if (fullRemoval)
             {
-                victim.RemoveModifier(hackMod);
+                hackMod.RemoveSelf();
             }
             else
             {

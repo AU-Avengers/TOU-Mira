@@ -37,7 +37,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public int Executes { get; set; } = (int)OptionGroupSingleton<JailorOptions>.Instance.MaxExecutes;
 
-    public PlayerControl Jailed => PlayerControl.AllPlayerControls.FirstOrDefault(x => x.GetModifier<JailedModifier>()?.JailorId == Player.PlayerId)!;
+    public PlayerControl Jailed => PlayerControl.AllPlayerControls.FirstOrDefault(x => x.HasModifier<JailedModifier>(x => x.JailorId == Player.PlayerId))!;
 
     public DoomableType DoomHintType => DoomableType.Relentless;
     public string IdPart => "Jailor";

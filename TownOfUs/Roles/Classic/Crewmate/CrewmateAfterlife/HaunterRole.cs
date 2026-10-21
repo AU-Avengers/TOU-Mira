@@ -393,7 +393,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                     var modifiers = p.GetModifiers<HaunterArrowModifier>(mod => mod.Owner == Player || mod.Player == Player);
                     foreach (var mod in modifiers)
                     {
-                        p.RemoveModifier(mod);
+                        mod.RemoveSelf();
                     }
                 }
             }

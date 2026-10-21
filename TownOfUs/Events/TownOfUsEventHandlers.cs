@@ -549,10 +549,7 @@ public static class TownOfUsEventHandlers
             }
         }
 
-        if (player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
-        {
-            player.RemoveModifier(mod);
-        }
+        player.TryRemoveModifier<ParasiteInfectedModifier>();
 
         if (!MeetingHud.Instance && player.AmOwner)
         {

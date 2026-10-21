@@ -167,9 +167,7 @@ public static class Extensions
 
     public static bool IsHysteria(this PlayerControl player)
     {
-        var mod = player.GetModifier<HypnotisedModifier>();
-
-        return mod?.HysteriaActive == true;
+        return player.HasModifier<HypnotisedModifier>(x => x.HysteriaActive);
     }
 
     public static bool HasDied(this PlayerControl player)

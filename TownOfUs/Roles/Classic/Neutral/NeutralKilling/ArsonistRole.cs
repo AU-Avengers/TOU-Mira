@@ -121,7 +121,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         var stringB = ITownOfUsRole.SetNewTabText(this);
 
         var allDoused = PlayerControl.AllPlayerControls.Where(x =>
-            !x.HasDied() && x.GetModifier<ArsonistDousedModifier>()?.ArsonistId == Player.PlayerId);
+            !x.HasDied() && x.HasModifier<ArsonistDousedModifier>(x => x.ArsonistId == Player.PlayerId));
 
         if (allDoused.Any())
         {

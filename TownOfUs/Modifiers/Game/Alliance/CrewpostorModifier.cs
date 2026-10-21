@@ -187,7 +187,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
             var faction = mod.FactionType.ToString();
             if (faction.Contains("Impostor") && !faction.Contains("Non"))
             {
-                discardedImp.RemoveModifier(mod);
+                mod.RemoveSelf();
             }
         }
 

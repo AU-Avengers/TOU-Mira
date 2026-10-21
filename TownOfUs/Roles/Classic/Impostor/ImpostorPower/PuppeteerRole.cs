@@ -274,10 +274,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         if (target != null)
         {
             PuppeteerControlState.ClearControl(target.PlayerId);
-            if (target.TryGetModifier<PuppeteerControlModifier>(out var mod))
-            {
-                target.RemoveModifier(mod);
-            }
+            target.TryRemoveModifier<PuppeteerControlModifier>();
 
             if (target.MyPhysics != null)
             {

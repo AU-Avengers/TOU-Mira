@@ -165,7 +165,7 @@ internal sealed class MultiplayerFreeplayRequestRpc(TownOfUsPlugin plugin, uint 
         {
             foreach (var mod in existing)
             {
-                comp.RemoveModifier(mod);
+                mod.RemoveSelf();
             }
 
             return;

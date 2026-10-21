@@ -90,7 +90,7 @@ public static class WardenEvents
             return;
         }
 
-        if (!target.HasModifier<WardenFortifiedModifier>() || source == target ||
+        if (!target.TryGetModifier<WardenFortifiedModifier>(out var fort) || source == target ||
             @event is BeforeMurderEvent { IgnoreDefense: true } ||
             @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
         {
@@ -113,7 +113,7 @@ public static class WardenEvents
         }
 
         // Find the warden which fortified the target
-        var warden = target.GetModifier<WardenFortifiedModifier>()?.Warden.GetRole<WardenRole>();
+        var warden = fort.Warden.GetRole<WardenRole>();
 
         if (warden != null && (TutorialManager.InstanceExists || source.AmOwner))
         {

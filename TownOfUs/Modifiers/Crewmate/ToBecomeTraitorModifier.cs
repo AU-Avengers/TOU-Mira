@@ -91,13 +91,12 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
             MiscUtils.RunAnticheatWarning(player);
             return;
         }
-        if (!player.HasModifier<ToBecomeTraitorModifier>() && !player.HasModifier<CrewpostorModifier>())
+        if (!player.TryRemoveModifier<ToBecomeTraitorModifier>() && !player.HasModifier<CrewpostorModifier>())
         {
             return;
         }
 
         player.ChangeRole(RoleId.Get<TraitorRole>());
-        player.TryRemoveModifier<ToBecomeTraitorModifier>();
 
         if (OptionGroupSingleton<TraitorOptions>.Instance.TraitorCanAssassin.Value)
         {

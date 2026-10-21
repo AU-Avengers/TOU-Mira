@@ -85,7 +85,7 @@ public static class MirrorcasterEvents
         }
 
         // Magic Mirrors can NOT protect from Arsonist, bombs, veterans, anything of that nature.
-        if (!target.HasModifier<MagicMirrorModifier>() ||
+        if (!target.TryGetModifier<MagicMirrorModifier>(out var mirror) ||
             target.PlayerId == source.PlayerId ||
             @event is BeforeMurderEvent { IgnoreDefense: true } ||
             @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true } ||
@@ -98,7 +98,7 @@ public static class MirrorcasterEvents
         @event.Cancel();
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a magic mirror, stopping an attack {source.Data.PlayerName}!");
 
-        var mirrorcaster = target.GetModifier<MagicMirrorModifier>()?.Mirrorcaster.GetRole<MirrorcasterRole>();
+        var mirrorcaster = mirror.Mirrorcaster.GetRole<MirrorcasterRole>();
 
         if (mirrorcaster != null && ((target.AmOwner && TutorialManager.InstanceExists) || source.AmOwner))
         {

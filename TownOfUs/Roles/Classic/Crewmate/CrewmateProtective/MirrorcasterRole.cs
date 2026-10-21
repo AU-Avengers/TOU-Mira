@@ -165,18 +165,11 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         IsProtecting = false;
         if (Protected == player && player != null)
         {
-            if (player.TryGetModifier<MagicMirrorModifier>(out var mod2))
-            {
-                player.RemoveModifier(mod2);
-            }
-
+            player.TryRemoveModifier<MagicMirrorModifier>();
             return;
         }
 
-        if (Protected?.TryGetModifier<MagicMirrorModifier>(out var mod) == true)
-        {
-            Protected.RemoveModifier(mod);
-        }
+        Protected?.TryRemoveModifier<MagicMirrorModifier>();
 
         Protected = (player?.HasDied() == true) ? null : player;
         if (Protected != null)

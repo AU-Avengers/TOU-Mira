@@ -96,7 +96,7 @@ public static class ButtonClickPatches
         }
 
         if (PlayerControl.LocalPlayer &&
-            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+            PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             return false;
         }

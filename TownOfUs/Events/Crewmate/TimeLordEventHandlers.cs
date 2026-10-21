@@ -386,11 +386,7 @@ public static class TimeLordEventHandlers
         }
 
         // Remove the ChefServedModifier
-        var servedMod = target.GetModifier<TownOfUs.Modifiers.Neutral.ChefServedModifier>();
-        if (servedMod != null)
-        {
-            target.RemoveModifier(servedMod);
-        }
+        target.TryRemoveModifier<TownOfUs.Modifiers.Neutral.ChefServedModifier>();
 
         // Add the body back to Chef's stored bodies
         var chef = originalEvent.Player;

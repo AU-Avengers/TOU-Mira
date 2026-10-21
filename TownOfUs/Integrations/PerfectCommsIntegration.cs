@@ -139,8 +139,7 @@ internal static class PerfectCommsIntegration
         }
 
         var jailee = MiscUtils.PlayerById(jaileeId);
-        var jail = jailee?.GetModifier<JailedModifier>();
-        if (jailee == null || jailee.HasDied() || jail == null || jail.JailorId != jailor.PlayerId)
+        if (jailee == null || jailee.HasDied() || !jailee.HasModifier<JailedModifier>(jail => jail.JailorId == jailor.PlayerId))
         {
             return;
         }
@@ -169,8 +168,7 @@ internal static class PerfectCommsIntegration
             foreach (byte jaileeId in JailVoiceAllowedPlayers)
             {
                 var jailee = MiscUtils.PlayerById(jaileeId);
-                var jail = jailee?.GetModifier<JailedModifier>();
-                if (jailee == null || jailee.HasDied() || jail == null ||
+                if (jailee == null || jailee.HasDied() || !jailee.TryGetModifier<JailedModifier>(out var jail) ||
                     !IsLivingJailor(jail.JailorId))
                 {
                     ScratchPlayerIds.Add(jaileeId);
@@ -198,8 +196,7 @@ internal static class PerfectCommsIntegration
         foreach (byte jaileeId in JailVoiceAllowedPlayers)
         {
             var jailee = MiscUtils.PlayerById(jaileeId);
-            var jail = jailee?.GetModifier<JailedModifier>();
-            if (jail?.JailorId == local.PlayerId)
+            if (jailee != null && jailee.HasModifier<JailedModifier>(jail => jail.JailorId == local.PlayerId))
             {
                 RpcSetJaileeVoiceAllowed(local, jaileeId, true);
             }
@@ -265,8 +262,7 @@ internal static class PerfectCommsIntegration
                 return;
             }
 
-            var jail = jailee.GetModifier<JailedModifier>();
-            if (jail == null || jail.JailorId != jailor.PlayerId)
+            if (!jailee.HasModifier<JailedModifier>(jail => jail.JailorId == jailor.PlayerId))
             {
                 return;
             }
@@ -757,7 +753,7 @@ internal static class PerfectCommsRuntime
         bool muffled =
             (sightObscured && context.GetOption(MuffleBlindedOrFlashedHearing)) ||
             (context.GetOption(MuffleHypnotizedDuringHysteria) &&
-             context.Listener.GetModifier<HypnotisedModifier>()?.HysteriaActive == true);
+             context.Listener.HasModifier<HypnotisedModifier>(x => x.HysteriaActive));
         if (muffled)
         {
             return (VoiceListenerFilterResult)(sightObscured
@@ -810,8 +806,7 @@ internal static class PerfectCommsRuntime
 
         if (ghostToMedium && TryGetActiveMedium(context.Listener, out var listenerMedium) && context.SpeakerIsDead)
         {
-            var mediated = context.Speaker.GetModifier<MediatedModifier>();
-            if (mediated == null || mediated.MediumId != context.Listener.PlayerId)
+            if (!context.Speaker.HasModifier<MediatedModifier>(mediated => mediated.MediumId == context.Listener.PlayerId))
             {
                 return (VoicePairResult)NonSelectedGhostMuted;
             }
@@ -860,7 +855,7 @@ internal static class PerfectCommsRuntime
 
         bool hideAll =
             context.Viewer.HasModifier<HerbalistConfusedModifier>() ||
-            context.Viewer.GetModifier<HypnotisedModifier>()?.HysteriaActive == true ||
+            context.Viewer.HasModifier<HypnotisedModifier>(x => x.HysteriaActive) ||
             context.Viewer.HasModifier<EclipsalBlindModifier>() ||
             context.Viewer.HasModifier<HnsGlobalCamouflageModifier>() ||
             (int)context.Viewer.CurrentOutfitType == 3 ||
@@ -944,14 +939,14 @@ internal static class PerfectCommsRuntime
     }
 
     private static bool IsActivelyGlitchHacked(PlayerControl player)
-        => player.GetModifier<GlitchHackedModifier>() is { ShouldHideHacked: false };
+        => player. GetModifier<GlitchHackedModifier>() is { ShouldHideHacked: false };
 
 
     private static PlayerControl? FindPuppeteerVictim(PlayerControl controller)
     {
         foreach (var player in PlayerControl.AllPlayerControls)
         {
-            if (player?.GetModifier<PuppeteerControlModifier>()?.Controller?.PlayerId == controller.PlayerId)
+            if (player && player.HasModifier<PuppeteerControlModifier>(x => x.Controller?.PlayerId == controller.PlayerId))
             {
                 return player;
             }
@@ -964,7 +959,7 @@ internal static class PerfectCommsRuntime
     {
         foreach (var player in PlayerControl.AllPlayerControls)
         {
-            if (player?.GetModifier<ParasiteInfectedModifier>()?.Controller?.PlayerId == controller.PlayerId)
+            if (player && player.HasModifier<ParasiteInfectedModifier>(x => x.Controller?.PlayerId == controller.PlayerId))
             {
                 return player;
             }

@@ -84,7 +84,7 @@ public static class ControlStateEvents
 
             if (player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
             {
-                player.RemoveModifier(mod);
+                mod.RemoveSelf();
             }
             
             if (player.Data.Role is PuppeteerRole puppeteerRole)
@@ -94,7 +94,7 @@ public static class ControlStateEvents
 
             if (player.TryGetModifier<PuppeteerControlModifier>(out var mod2))
             {
-                player.RemoveModifier(mod2);
+                mod2.RemoveSelf();
             }
         }
     }
@@ -114,7 +114,7 @@ public static class ControlStateEvents
 
             if (player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
             {
-                player.RemoveModifier(mod);
+                mod.RemoveSelf();
             }
             
             if (player.Data.Role is PuppeteerRole puppeteerRole)
@@ -124,7 +124,7 @@ public static class ControlStateEvents
 
             if (player.TryGetModifier<PuppeteerControlModifier>(out var mod2))
             {
-                player.RemoveModifier(mod2);
+                mod2.RemoveSelf();
             }
         }
     }

@@ -761,10 +761,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         if (target != null)
         {
             ParasiteControlState.ClearControl(target.PlayerId);
-            if (target.TryGetModifier<ParasiteInfectedModifier>(out var mod))
-            {
-                target.RemoveModifier(mod);
-            }
+            target.TryRemoveModifier<ParasiteInfectedModifier>();
 
             if (target.MyPhysics != null)
             {

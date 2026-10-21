@@ -107,7 +107,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         TouRoleUtils.ClearTaskHeader(Player);
 
-        Player.GetModifiers<AmnesiacArrowModifier>().Do([HideFromIl2Cpp](x) => Player.RemoveModifier(x.UniqueId));
+        Player.GetModifiers<AmnesiacArrowModifier>().Do([HideFromIl2Cpp](x) => x.RemoveSelf());
     }
 
     public override bool DidWin(GameOverReason gameOverReason)

@@ -29,10 +29,7 @@ public static class ParasiteDisconnectPatch
             {
                 ParasiteControlState.ClearControl(player.PlayerId);
 
-                if (player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
-                {
-                    player.RemoveModifier(mod);
-                }
+                player.TryRemoveModifier<ParasiteInfectedModifier>();
             }
         }
 
@@ -41,9 +38,6 @@ public static class ParasiteDisconnectPatch
             ParasiteRole.RpcParasiteEndControl(player, role.Controlled, role.Controlled.transform.position, false);
         }
 
-        if (player.TryGetModifier<ParasiteInfectedModifier>(out var mod2))
-        {
-            player.RemoveModifier(mod2);
-        }
+        player.TryRemoveModifier<ParasiteInfectedModifier>();
     }
 }
