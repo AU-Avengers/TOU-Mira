@@ -1,4 +1,5 @@
-﻿using MiraAPI.GameOptions;
+﻿using System.Globalization;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Roles;
@@ -33,6 +34,40 @@ public class DoubleShotModifier : TouGameModifier, IWikiDiscoverable
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
+
+    public override string GetAmountText(int amount, int chance, string source)
+    {
+        var opts = OptionGroupSingleton<AssailantModifierOptions>.Instance;
+        var neutCount = (int)opts.NeutDoubleShotAmount.Value;
+        var neutChance = Math.Clamp((int)opts.NeutDoubleShotChance.Value, 0, 100);
+        if (neutCount == 0)
+        {
+            neutChance = 0;
+        }
+        if (neutChance == 0)
+        {
+            neutCount = 0;
+        }
+        var impCount = (int)opts.ImpDoubleShotAmount.Value;
+        var impChance = Math.Clamp((int)opts.ImpDoubleShotChance.Value, 0, 100);
+        if (impCount == 0)
+        {
+            impChance = 0;
+        }
+        if (impChance == 0)
+        {
+            impCount = 0;
+        }
+
+        return string.Format(
+            CultureInfo.InvariantCulture,
+            "Neuts: {0} at {1}% ({2})\nImps: {3} at {4}%",
+            neutCount.ToString(CultureInfo.InvariantCulture),
+            neutChance.ToString(CultureInfo.InvariantCulture),
+            source,
+            impCount.ToString(CultureInfo.InvariantCulture),
+            impChance.ToString(CultureInfo.InvariantCulture));
+    }
 
     public override int CustomAmount =>
         (int)OptionGroupSingleton<AssailantModifierOptions>.Instance.ImpDoubleShotAmount +
