@@ -443,26 +443,25 @@ public static class DraftEngine
         chosen.AddRange(Choose(rest, count - chosen.Count));
     }
 
+    private static List<DraftCopy> RandomCrewBucket(int slot, bool respectReserved)
+    {
+        return Legal(slot, respectReserved).Where(x => DraftRolePool.Crew.Contains(x.Alignment)).ToList();
+    }
+
     private static void Offer(int slot)
     {
         var seen = Seen.TryGetValue(slot, out var known) ? known : Seen[slot] = [];
         var count = Math.Max(1, (int)Opts.OfferedRolesCount.Value);
 
         var preferred = Offerable(slot);
-        var hasSpreadOffer = SpreadOffers.ContainsKey(slot);
-        var randomCrewFallback = Legal(slot, true)
-            .Where(x => DraftRolePool.Crew.Contains(x.Alignment))
-            .ToList();
         var chosen = Choose(preferred.Where(x => !seen.Contains(x.RoleId)).ToList(), count);
-        if (!hasSpreadOffer)
+        if (chosen.Count < count)
         {
-            TopUp(chosen, randomCrewFallback.Where(x => !seen.Contains(x.RoleId)).ToList(), count);
-        }
-
-        TopUp(chosen, preferred, count);
-        if (!hasSpreadOffer)
-        {
-            TopUp(chosen, randomCrewFallback, count);
+            var fallback = RandomCrewBucket(slot, true);
+            TopUp(chosen, fallback.Where(x => !seen.Contains(x.RoleId)).ToList(), count);
+            TopUp(chosen, preferred, count);
+            TopUp(chosen, fallback, count);
+            TopUp(chosen, RandomCrewBucket(slot, false), count);
         }
 
         if (chosen.Count < count)
