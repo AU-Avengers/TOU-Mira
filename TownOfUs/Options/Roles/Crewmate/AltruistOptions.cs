@@ -9,15 +9,15 @@ public sealed class AltruistOptions : AbstractRoleOptionGroup<AltruistRole>
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Altruist", "Altruist");
 
-    public ModdedEnumOption ReviveMode { get; } =
-        new("TouOptionAltruistReviveType", (int)ReviveType.GroupSacrifice, typeof(ReviveType),
+    public ModdedEnumOption<ReviveType> ReviveMode { get; } =
+        new("TouOptionAltruistReviveType", ReviveType.GroupSacrifice,
             ["TouOptionAltruistReviveEnumSacrifice", "TouOptionAltruistReviveEnumGroupSacrifice", "TouOptionAltruistReviveEnumGroupRevive"]);
 
     public ModdedNumberOption ReviveRange { get; } =
         new("TouOptionAltruistReviveRange", 0.25f, 0.05f, 1f, 0.05f,
             MiraNumberSuffixes.Multiplier, "0.00")
         {
-            Visible = () => OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode != (int)ReviveType.Sacrifice
+            Visible = () => OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode != ReviveType.Sacrifice
         };
 
     public ModdedNumberOption ReviveDuration { get; } =
@@ -42,12 +42,12 @@ public sealed class AltruistOptions : AbstractRoleOptionGroup<AltruistRole>
     public ModdedToggleOption HideAtBeginningOfRevive { get; } =
         new("TouOptionAltruistHideAtBeginningOfRevive", false);
 
-    public ModdedEnumOption KillersAlertedAtStart { get; } =
-        new("TouOptionAltruistKillersAlertedAtStart", (int)InformedKillers.Nobody, typeof(InformedKillers),
+    public ModdedEnumOption<InformedKillers> KillersAlertedAtStart { get; } =
+        new("TouOptionAltruistKillersAlertedAtStart", InformedKillers.Nobody,
             ["TouOptionAltruistKillerEnumNobody", "TouOptionAltruistKillerEnumNeutrals", "TouOptionAltruistKillerEnumImpostors", "TouOptionAltruistKillerEnumNeutralsAndImpostors"]);
 
-    public ModdedEnumOption KillersAlertedAtEnd { get; } =
-        new("TouOptionAltruistKillersAlertedAtEnd", (int)InformedKillers.NeutralsAndImpostors, typeof(InformedKillers),
+    public ModdedEnumOption<InformedKillers> KillersAlertedAtEnd { get; } =
+        new("TouOptionAltruistKillersAlertedAtEnd", InformedKillers.NeutralsAndImpostors,
             ["TouOptionAltruistKillerEnumNobody", "TouOptionAltruistKillerEnumNeutrals", "TouOptionAltruistKillerEnumImpostors", "TouOptionAltruistKillerEnumNeutralsAndImpostors"]);
 }
 

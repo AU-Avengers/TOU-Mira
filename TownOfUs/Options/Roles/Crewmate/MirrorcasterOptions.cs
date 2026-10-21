@@ -23,7 +23,7 @@ public sealed class MirrorcasterOptions : AbstractRoleOptionGroup<MirrorcasterRo
     public ModdedNumberOption UnleashCooldown { get; } =
         new($"TouOptionMirrorcasterUnleashCooldown", 15f, 0f, 60f, 2.5f, MiraNumberSuffixes.Seconds);
 
-    public ModdedEnumOption AttackInformationGiven { get; set; } = new("TouOptionMirrorcasterAttackInformationGiven", (int)MirrorAttackInfo.Subalignment, typeof(MirrorAttackInfo),
+    public ModdedEnumOption<MirrorAttackInfo> AttackInformationGiven { get; set; } = new("TouOptionMirrorcasterAttackInformationGiven", MirrorAttackInfo.Subalignment,
         ["TouOptionMirrorcasterInfoEnumRole", "TouOptionMirrorcasterInfoEnumSubalignment", "TouOptionMirrorcasterInfoEnumFaction", "TouOptionMirrorcasterInfoEnumNothing"]);
 
     [ModdedToggleOption("TouOptionMirrorcasterAccumulateMultipleUnleashes")]

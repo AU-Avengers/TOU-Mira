@@ -83,7 +83,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
     public static float GetMapBasedSpeedMultiplier()
     {
         var opts = OptionGroupSingleton<GlobalBetterMapOptions>.Instance;
-        var mode = GlobalBetterMapOptions.GetMapTweakMode(opts.GlobalMapImpVisionConfig);
+        var mode = opts.GlobalMapImpVisionConfig;
         if (mode == MapTweakMode.GlobalOn)
         {
             return opts.SpeedMultiplier.Value;
@@ -112,7 +112,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
     public static float GetMapBasedCrewmateVision()
     {
         var opts = OptionGroupSingleton<GlobalBetterMapOptions>.Instance;
-        var mode = GlobalBetterMapOptions.GetMapTweakMode(opts.GlobalMapCrewVisionConfig);
+        var mode = opts.GlobalMapCrewVisionConfig;
         if (mode == MapTweakMode.GlobalOn)
         {
             return opts.CrewVisionMultiplier.Value;
@@ -142,7 +142,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
     public static float GetMapBasedImpostorVision()
     {
         var opts = OptionGroupSingleton<GlobalBetterMapOptions>.Instance;
-        var mode = GlobalBetterMapOptions.GetMapTweakMode(opts.GlobalMapImpVisionConfig);
+        var mode = opts.GlobalMapImpVisionConfig;
         if (mode == MapTweakMode.GlobalOn)
         {
             return opts.ImpVisionMultiplier.Value;
@@ -172,7 +172,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
     public static float GetMapBasedCooldownDifference()
     {
         var opts = OptionGroupSingleton<GlobalBetterMapOptions>.Instance;
-        var mode = GlobalBetterMapOptions.GetMapTweakMode(opts.GlobalMapCooldownConfig);
+        var mode = opts.GlobalMapCooldownConfig;
         if (mode == MapTweakMode.GlobalOn)
         {
             return opts.CooldownOffset.Value - EgotistModifier.CooldownReduction;
@@ -202,7 +202,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
     public static int GetMapBasedShortTasks()
     {
         var opts = OptionGroupSingleton<GlobalBetterMapOptions>.Instance;
-        var mode = GlobalBetterMapOptions.GetMapTweakMode(opts.GlobalMapShortTaskConfig);
+        var mode = opts.GlobalMapShortTaskConfig;
         if (mode == MapTweakMode.GlobalOn)
         {
             return (int)opts.OffsetShortTasks.Value;
@@ -232,7 +232,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
     public static int GetMapBasedLongTasks()
     {
         var opts = OptionGroupSingleton<GlobalBetterMapOptions>.Instance;
-        var mode = GlobalBetterMapOptions.GetMapTweakMode(opts.GlobalMapLongTaskConfig);
+        var mode = opts.GlobalMapLongTaskConfig;
         if (mode == MapTweakMode.GlobalOn)
         {
             return (int)opts.OffsetLongTasks.Value;
@@ -262,7 +262,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
     public static bool IsCamoCommsOn()
     {
         var opts = OptionGroupSingleton<GlobalBetterMapOptions>.Instance;
-        var mode = GlobalBetterMapOptions.GetMapTweakMode(opts.GlobalMapCamoCommsConfig);
+        var mode = opts.GlobalMapCamoCommsConfig;
         if (mode == MapTweakMode.GlobalOn)
         {
             return true;

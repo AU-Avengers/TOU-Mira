@@ -21,18 +21,16 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
     [ModdedToggleOption("TouOptionAnonymousShields")]
     public bool AnonymousShields { get; set; } = false;
 
-    public ModdedEnumOption CleanedBodiesAppearance { get; set; } =
-        new("TouOptionCleanedBodiesAppearance", (int)BodyVitalsMode.Missing,
-            typeof(BodyVitalsMode),
+    public ModdedEnumOption<BodyVitalsMode> CleanedBodiesAppearance { get; set; } =
+        new("TouOptionCleanedBodiesAppearance", BodyVitalsMode.Missing,
             [
                 "TouOptionCleanedBodiesAppearanceEnumMissing",
                 "TouOptionCleanedBodiesAppearanceEnumDead",
                 "TouOptionCleanedBodiesAppearanceEnumDisconnected"
             ]);
 
-    public ModdedEnumOption KillAnimationBackgroundColor { get; set; } =
-        new("TouOptionKillAnimationBackgroundColor", (int)KillColor.Red,
-            typeof(KillColor),
+    public ModdedEnumOption<KillColor> KillAnimationBackgroundColor { get; set; } =
+        new("TouOptionKillAnimationBackgroundColor", KillColor.Red,
             [
                 "TouOptionKillAnimationBackgroundColorEnumRed",
                 "TouOptionKillAnimationBackgroundColorEnumFaction",
@@ -53,9 +51,8 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
     public ModdedToggleOption GhostwalkerFixSabos { get; set; } =
         new("TouOptionGhostwalkerFixSabos", false);
 
-    public ModdedEnumOption GhostwalkerVentSpawn { get; set; } =
-        new("TouOptionGhostwalkerVentSpawn", (int)GhostwalkerVentMode.Crewmates,
-            typeof(GhostwalkerVentMode),
+    public ModdedEnumOption<GhostwalkerVentMode> GhostwalkerVentSpawn { get; set; } =
+        new("TouOptionGhostwalkerVentSpawn", GhostwalkerVentMode.Crewmates,
             [
                 "TouOptionGhostwalkerVentSpawnEnumNone",
                 "TouOptionGhostwalkerVentSpawnEnumCrewmates",

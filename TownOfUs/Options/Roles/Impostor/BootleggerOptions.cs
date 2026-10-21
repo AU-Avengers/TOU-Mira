@@ -19,8 +19,8 @@ public sealed class BootleggerOptions : AbstractRoleOptionGroup<BootleggerRole>,
     public ModdedNumberOption RoleblockDelayMax { get; } =
         new("TouOptionBarkeeperRoleblockDelayMax", 5f, 1f, 10f, 0.5f, MiraNumberSuffixes.Seconds);
 
-    public ModdedEnumOption PoisonRoleblockTrigger { get; } =
-        new("TouOptionBootleggerPoisonTriggersOn", (int)PoisonTrigger.OnDurationEnd, typeof(PoisonTrigger), ["TouOptionBootleggerPoisonTriggerEnumDelayEnd", "TouOptionBootleggerPoisonTriggerEnumMeetingStart", "TouOptionBootleggerPoisonTriggerEnumMeetingEnd"]);
+    public ModdedEnumOption<PoisonTrigger> PoisonRoleblockTrigger { get; } =
+        new("TouOptionBootleggerPoisonTriggersOn", PoisonTrigger.OnDurationEnd, ["TouOptionBootleggerPoisonTriggerEnumDelayEnd", "TouOptionBootleggerPoisonTriggerEnumMeetingStart", "TouOptionBootleggerPoisonTriggerEnumMeetingEnd"]);
 
     public ModdedNumberOption ForcedPoisonDelay { get; } =
         new("TouOptionBootleggerPoisonDelay", 15f, 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)

@@ -10,8 +10,7 @@ public sealed class InvestigatorOptions : AbstractRoleOptionGroup<InvestigatorRo
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Investigator", "Investigator");
 
-    public ModdedEnumOption FootprintMode { get; set; } = new("TouOptionInvestigatorFootprintSeperated", (int)PrintMode.Distance,
-        typeof(PrintMode));
+    public ModdedEnumOption<PrintMode> FootprintMode { get; set; } = new("TouOptionInvestigatorFootprintSeperated", PrintMode.Distance);
 
     public ModdedNumberOption FootprintIntervalDistance { get; set; } = new("TouOptionInvestigatorFootprintInterval",
         0.5f, 0.25f, 3f, 0.5f, MiraNumberSuffixes.None)

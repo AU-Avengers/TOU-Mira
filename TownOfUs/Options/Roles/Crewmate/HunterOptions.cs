@@ -28,8 +28,8 @@ public sealed class HunterOptions : AbstractRoleOptionGroup<HunterRole>
         Visible = () => OptionGroupSingleton<HunterOptions>.Instance.StalkUses != -1
     };
 
-    public ModdedEnumOption StalkTriggeredBy { get; set; } = new("TouOptionHunterStalkTriggeredBy",
-        (int)StalkTriggered.Always, typeof(StalkTriggered),
+    public ModdedEnumOption<StalkTriggered> StalkTriggeredBy { get; set; } = new("TouOptionHunterStalkTriggeredBy",
+        StalkTriggered.Always,
         [
             "TouOptionHunterStalkTriggerEnumAlways", "TouOptionHunterStalkTriggerEnumInteraction"
         ]);

@@ -58,7 +58,7 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
 
     public RoleDistribution CurrentRoleDistribution()
     {
-        var roleDist = (RoleSelectionMode)RoleAssignmentType.Value;
+        RoleSelectionMode roleDist = RoleAssignmentType.Value;
         if (CustomGameModeManager.IsHideNSeek() || GameOptionsManager.Instance.CurrentGameOptions.GameMode is AmongUs.GameOptions.GameModes.HideNSeek or AmongUs.GameOptions.GameModes.SeekFools)
         {
             return RoleDistribution.HideAndSeek;
@@ -94,8 +94,8 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
         }
     }
 
-    public ModdedEnumOption RoleAssignmentType { get; } =
-        new("TouOptionRoleAssignmentType", (int)RoleSelectionMode.RoleList, typeof(RoleSelectionMode),
+    public ModdedEnumOption<RoleSelectionMode> RoleAssignmentType { get; } =
+        new("TouOptionRoleAssignmentType", RoleSelectionMode.RoleList,
             [
                 "TouOptionRoleAssignmentTypeEnumVanilla",
                 "TouOptionRoleAssignmentTypeEnumRoleList",
@@ -122,11 +122,10 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
     private static bool IsDraft =>
         OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.Draft;
 
-    public bool RoleListEnabled => RoleAssignmentType.Value is (int)RoleSelectionMode.RoleList;
+    public bool RoleListEnabled => RoleAssignmentType.Value is RoleSelectionMode.RoleList;
 
-    /*public ModdedEnumOption GuaranteedKiller { get; } =
-        new("TouOptionGuaranteedKiller", (int)RequiredKiller.ImpostorOrNeutralKiller,
-            typeof(RequiredKiller),
+    /*public ModdedEnumOption<RequiredKiller> GuaranteedKiller { get; } =
+        new("TouOptionGuaranteedKiller", RequiredKiller.ImpostorOrNeutralKiller,
             [
                 "TouOptionGuaranteedKillerEnumImpostor",
                 "TouOptionGuaranteedKillerEnumNeutralKiller",
