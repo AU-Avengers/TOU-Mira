@@ -3493,4 +3493,13 @@ No pueden matarte.</string>
   <string name="TownOfUsMira.Achievement.SkeldSunday.Name">Domingo de Skeld</string>
   <string name="TownOfUsMira.Achievement.SkeldSunday.Description">Juega en Skeld en Domingo.</string>
   <string name="TownOfUsMira.Achievement.Cheater.Name">Tramposo</string>
+  <string name="TownOfUsMira.Achievement.Cheater.Description">Usa /up para asignarte un rol en la sala.</string>
+  <string name="TownOfUsMira.Achievement.Silence.Name">Silencio</string>
+  <string name="TownOfUsMira.Achievement.Silence.Description">Fuerza el final de una reunión como Anfitrión.</string>
+  <string name="TownOfUsMira.Achievement.Oops.Name">Ups</string>
+  <string name="TownOfUsMira.Achievement.Oops.Description">Cancela una partida como anfitrión.</string>
+  <string name="TouOptionHunterSameRoundKillPunishment">Abandona si mata un tripulante atrapado en la misma ronda</string>
+  <string name="TownOfUsMira.Achievement.IveSeenThePlays.Name">He visto esas jugadas</string>
+  <string name="TownOfUsMira.Achievement.IveSeenThePlays.Description">Acaba con tu vida antes que lo haga otro.</string>
+  <string name="TownOfUsMira.Achievement.GoBuyALotteryTicket.Name">Ve a comprar lotería</string>
 </resources>
