@@ -47,7 +47,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        var mode = (ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value;
+        var mode = OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value;
         if (mode is ReviveType.Sacrifice)
         {
             return false;
@@ -188,7 +188,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
     {
         RevivedInRound = true;
         OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.AltruistRevive", "Revive"));
-        if ((ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value is ReviveType.GroupSacrifice)
+        if (OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value is ReviveType.GroupSacrifice)
         {
             Coroutines.Start(CoSacrifite(PlayerControl.LocalPlayer));
         }

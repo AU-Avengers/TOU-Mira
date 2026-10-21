@@ -909,7 +909,7 @@ public static class TouRoleManagerPatches
     [HarmonyPriority(Priority.First)]
     public static bool SelectRolesPatch(RoleManager __instance)
     {
-        var assignmentType = (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
+        var assignmentType = OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
         Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager} | Assignment type is set to {assignmentType.ToDisplayString()}!");
         GameManager.Instance.LogicOptions.SyncOptions();
         ModifierManager.MiraAssignsModifiers = false;
@@ -1202,7 +1202,7 @@ public static class TouRoleManagerPatches
             return true;
         }
 
-        var assignmentType = (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
+        var assignmentType = OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
 
         if (assignmentType is not RoleSelectionMode.RoleList)
         {

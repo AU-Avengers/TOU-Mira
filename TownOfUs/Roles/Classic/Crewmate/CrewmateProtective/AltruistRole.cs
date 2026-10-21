@@ -26,7 +26,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public static bool IsReviveInProgress { get; private set; }
     public static string ReviveString()
     {
-        return (ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value switch
+        return OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value switch
         {
             ReviveType.Sacrifice => ".Sacrifice",
             ReviveType.GroupSacrifice => ".GroupSacrifice",
@@ -213,7 +213,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                 }
             }
 
-            var opts = (InformedKillers)OptionGroupSingleton<AltruistOptions>.Instance.KillersAlertedAtEnd.Value;
+            var opts = OptionGroupSingleton<AltruistOptions>.Instance.KillersAlertedAtEnd.Value;
             if (opts.ToDisplayString().Contains("Impostors") && PlayerControl.LocalPlayer.IsImpostorAligned() || opts.ToDisplayString().Contains("Neutrals") && PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
             {
                 Player.TryRemoveModifier<AltruistArrowModifier>();
@@ -247,7 +247,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             return;
         }
 
-        var opts = (InformedKillers)OptionGroupSingleton<AltruistOptions>.Instance.KillersAlertedAtStart.Value;
+        var opts = OptionGroupSingleton<AltruistOptions>.Instance.KillersAlertedAtStart.Value;
         if (opts.ToDisplayString().Contains("Impostors") && PlayerControl.LocalPlayer.IsImpostorAligned() || opts.ToDisplayString().Contains("Neutrals") && PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Altruist));

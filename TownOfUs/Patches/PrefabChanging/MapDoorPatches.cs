@@ -22,11 +22,11 @@ public static class MapDoorPatches
         {
             var currentDoorType = MiscUtils.GetCurrentMap switch
             {
-                ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => (MapDoorType)OptionGroupSingleton<BetterSkeldOptions>.Instance.SkeldDoorType.Value,
-                ExpandedMapNames.Polus => (MapDoorType)OptionGroupSingleton<BetterPolusOptions>.Instance.PolusDoorType.Value,
-                ExpandedMapNames.Airship => (MapDoorType)OptionGroupSingleton<BetterAirshipOptions>.Instance.AirshipDoorType.Value,
-                ExpandedMapNames.Fungle => (MapDoorType)OptionGroupSingleton<BetterFungleOptions>.Instance.FungleDoorType.Value,
-                ExpandedMapNames.Submerged => (MapDoorType)OptionGroupSingleton<BetterSubmergedOptions>.Instance.SubmergedDoorType.Value,
+                ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.SkeldDoorType.Value,
+                ExpandedMapNames.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.PolusDoorType.Value,
+                ExpandedMapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.AirshipDoorType.Value,
+                ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.FungleDoorType.Value,
+                ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.SubmergedDoorType.Value,
                 _ => MapDoorType.None
             };
             return currentDoorType is MapDoorType.Random ? RandomDoorType : currentDoorType;
@@ -268,7 +268,7 @@ public static class MapDoorPatches
         {
             return;
         }
-        var doorType = (MapDoorType)OptionGroupSingleton<BetterSkeldOptions>.Instance.SkeldDoorType.Value;
+        var doorType = OptionGroupSingleton<BetterSkeldOptions>.Instance.SkeldDoorType.Value;
         if (doorType is MapDoorType.Random)
         {
             if (TutorialManager.InstanceExists)
@@ -358,7 +358,7 @@ public static class MapDoorPatches
     [HarmonyPostfix]
     public static void PolusDoorPatchPostfix(PolusShipStatus __instance)
     {
-        var doorType = (MapDoorType)OptionGroupSingleton<BetterPolusOptions>.Instance.PolusDoorType.Value;
+        var doorType = OptionGroupSingleton<BetterPolusOptions>.Instance.PolusDoorType.Value;
         if (doorType is MapDoorType.Random)
         {
             if (TutorialManager.InstanceExists)
@@ -446,7 +446,7 @@ public static class MapDoorPatches
     [HarmonyPostfix]
     public static void AirshipDoorPatchPostfix(AirshipStatus __instance)
     {
-        var doorType = (MapDoorType)OptionGroupSingleton<BetterAirshipOptions>.Instance.AirshipDoorType.Value;
+        var doorType = OptionGroupSingleton<BetterAirshipOptions>.Instance.AirshipDoorType.Value;
         if (doorType is MapDoorType.Random)
         {
             if (TutorialManager.InstanceExists)
@@ -534,7 +534,7 @@ public static class MapDoorPatches
     [HarmonyPostfix]
     public static void FungleDoorPatchPostfix(FungleShipStatus __instance)
     {
-        var doorType = (MapDoorType)OptionGroupSingleton<BetterFungleOptions>.Instance.FungleDoorType.Value;
+        var doorType = OptionGroupSingleton<BetterFungleOptions>.Instance.FungleDoorType.Value;
         if (doorType is MapDoorType.Random)
         {
             if (TutorialManager.InstanceExists)
@@ -623,7 +623,7 @@ public static class MapDoorPatches
             return;
         }
 
-        var doorType = (MapDoorType)OptionGroupSingleton<BetterSubmergedOptions>.Instance.SubmergedDoorType.Value;
+        var doorType = OptionGroupSingleton<BetterSubmergedOptions>.Instance.SubmergedDoorType.Value;
         if (doorType is MapDoorType.Random)
         {
             if (TutorialManager.InstanceExists)

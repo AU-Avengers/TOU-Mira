@@ -26,7 +26,7 @@ public sealed class SwooperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
     public CustomRoleConfiguration Configuration => new(this)
     {
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Swooper, "TouMira.Role.Impostor.Swooper", 1.45f),
-        CanUseVent = (SwooperVent)OptionGroupSingleton<SwooperOptions>.Instance.CanVent.Value is not SwooperVent.Never,
+        CanUseVent = OptionGroupSingleton<SwooperOptions>.Instance.CanVent.Value is not SwooperVent.Never,
         Icon = TouRoleIcons.Swooper,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         IntroSound = TouAudio.PhantomIntroSound

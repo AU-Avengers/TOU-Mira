@@ -156,7 +156,7 @@ public static class IntroScenePatches
                 amount == 1 ? StringNames.NumImpostorsS : StringNames.NumImpostorsP, amount);
         __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[FF1919FF]", "<color=#FF1919FF>");
         __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[]", "</color>");
-        var assignmentType = (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
+        var assignmentType = OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
 
         if (assignmentType is not RoleSelectionMode.RoleList)
         {

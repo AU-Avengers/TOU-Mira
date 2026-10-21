@@ -25,7 +25,7 @@ public sealed class BootleggerOptions : AbstractRoleOptionGroup<BootleggerRole>,
     public ModdedNumberOption ForcedPoisonDelay { get; } =
         new("TouOptionBootleggerPoisonDelay", 15f, 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)
         {
-            Visible = () => (PoisonTrigger)OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger.Value is PoisonTrigger.OnDurationEnd
+            Visible = () => OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger.Value is PoisonTrigger.OnDurationEnd
         };
 
     public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>

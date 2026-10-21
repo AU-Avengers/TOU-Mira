@@ -20,7 +20,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
     public override bool AutoStart => true;
     public override bool VisibleToOthers => false;
 
-    public static SwoopTracking CanBeTracked => (SwoopTracking)OptionGroupSingleton<SwooperOptions>.Instance.TrackedMidSwoop.Value;
+    public static SwoopTracking CanBeTracked => OptionGroupSingleton<SwooperOptions>.Instance.TrackedMidSwoop.Value;
     public SwoopProgress AchProgress = SwoopProgress.Nothing;
 
     public bool VisualPriority => true;
@@ -60,7 +60,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
     public override void OnActivate()
     {
         CanSwooperVent =
-            (SwooperVent)OptionGroupSingleton<SwooperOptions>.Instance.CanVent.Value is SwooperVent.Always;
+            OptionGroupSingleton<SwooperOptions>.Instance.CanVent.Value is SwooperVent.Always;
         if (Player.AmOwner)
         {
             TouAudio.PlaySound(TouAudio.SwooperActivateSound);

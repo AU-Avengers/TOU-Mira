@@ -1368,7 +1368,7 @@ public static class TeamChatPatches
         }
         if (!srcPlayer.Object.AmOwner)
         {
-            SoundManager.Instance.PlaySound(__instance.messageSound, false, 1f, null).pitch = 0.5f + (float)srcPlayer.PlayerId / 15f;
+            SoundManager.Instance.PlaySound(__instance.messageSound, false, 1f, null).pitch = 0.5f + srcPlayer.PlayerId / 15f;
         }
 
         return false;
@@ -1430,7 +1430,7 @@ public static class TeamChatPatches
             }
 			if (!flag && !__instance.IsOpenOrOpening)
 			{
-				SoundManager.Instance.PlaySound(__instance.messageSound, false, 1f, null).pitch = 0.5f + (float)sourcePlayer.PlayerId / 15f;
+				SoundManager.Instance.PlaySound(__instance.messageSound, false, 1f, null).pitch = 0.5f + sourcePlayer.PlayerId / 15f;
                 __instance.chatNotification.SetUp(sourcePlayer, chatText);
 			}
 		}

@@ -30,7 +30,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     public void TriggerMeetingAnimation(PlayerControl source, PlayerControl target, PlayerVoteArea targetVoteArea,
         int associatedAnimKey = -1)
     {
-        var revealMode = (DeputyReveal)OptionGroupSingleton<DeputyOptions>.Instance.RevealDeputyUponShot.Value;
+        var revealMode = OptionGroupSingleton<DeputyOptions>.Instance.RevealDeputyUponShot.Value;
         if (revealMode == DeputyReveal.NoReveal)
         {
             Coroutines.Start(CustomTouMurderRpcs.CoAnimateDeath(targetVoteArea, associatedAnimKey));

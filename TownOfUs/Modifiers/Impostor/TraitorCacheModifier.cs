@@ -23,7 +23,7 @@ public sealed class TraitorCacheModifier : BaseModifier, ICachedRole
     public bool Visible => Player.AmOwner || PlayerControl.LocalPlayer.HasDied() ||
                            FairyRole.FairySeesRoleVisibilityFlag(Player);
 
-    public CacheRoleGuess GuessMode => (CacheRoleGuess)OptionGroupSingleton<TraitorOptions>.Instance.TraitorGuess.Value;
+    public CacheRoleGuess GuessMode => OptionGroupSingleton<TraitorOptions>.Instance.TraitorGuess.Value;
 
     public RoleBehaviour CachedRole => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TraitorRole>());
 

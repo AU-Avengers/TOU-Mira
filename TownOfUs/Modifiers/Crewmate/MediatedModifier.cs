@@ -44,7 +44,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
 
         _medium.MediatedPlayers.Add(this);
 
-        switch ((MediumVisibility)OptionGroupSingleton<MediumOptions>.Instance.ArrowVisibility.Value)
+        switch (OptionGroupSingleton<MediumOptions>.Instance.ArrowVisibility.Value)
         {
             case MediumVisibility.Both:
                 var ownerTransform = Player.AmOwner ? _medium.Spirit.transform : Player.transform;
@@ -61,7 +61,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
         }
 
         var hidden =
-            (AppearanceVisibility)OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
+            OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
             AppearanceVisibility.None or AppearanceVisibility.Living;
         if (_mediumPlayer.AmOwner && hidden)
         {
@@ -86,7 +86,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
             CustomButtonSingleton<MediumMediateButton>.Instance.ResetCooldownAndOrEffect();
 
             var hidden =
-                (AppearanceVisibility)OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
+                OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
                 AppearanceVisibility.None or AppearanceVisibility.Living;
 
             if (hidden)

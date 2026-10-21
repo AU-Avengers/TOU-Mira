@@ -345,7 +345,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var colorPlayerNames = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.ColorPlayerNameToggle.Value;
         var localDead = PlayerControl.LocalPlayer.HasDied();
         var localGhost = localDead && genOpt.TheDeadKnow;
-        var sightMode = (NameSight)OptionGroupSingleton<VanillaTweakOptions>.Instance.HideNamesOutOfSight.Value;
+        var sightMode = OptionGroupSingleton<VanillaTweakOptions>.Instance.HideNamesOutOfSight.Value;
         var hideOutOfSight = sightMode is not NameSight.Basic && !localDead && HudManager.InstanceExists && HudManager.Instance.ShadowQuad.gameObject.active;
         var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
                        genOpt is

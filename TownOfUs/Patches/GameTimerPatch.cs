@@ -145,7 +145,7 @@ public static class GameTimerPatch
     {
         GameTimer = OptionGroupSingleton<GameTimerOptions>.Instance.GameTimeLimit.GetFloatData() * 60f;
 
-        if ((GameTimerType)OptionGroupSingleton<GameTimerOptions>.Instance.TimerEndOption.Value is GameTimerType
+        if (OptionGroupSingleton<GameTimerOptions>.Instance.TimerEndOption.Value is GameTimerType
                 .Impostors)
         {
             TimerSprite.sprite = TouAssets.TimerImpSprite;

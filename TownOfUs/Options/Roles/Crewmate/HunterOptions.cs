@@ -37,7 +37,7 @@ public sealed class HunterOptions : AbstractRoleOptionGroup<HunterRole>
     public ModdedToggleOption SeesTypeOfInteraction { get; } = new("TouOptionHunterSeesTypeOfInteraction", true)
     {
         Visible = () =>
-            (StalkTriggered)OptionGroupSingleton<HunterOptions>.Instance.StalkTriggeredBy.Value is StalkTriggered.Always
+            OptionGroupSingleton<HunterOptions>.Instance.StalkTriggeredBy.Value is StalkTriggered.Always
     };
 
     [ModdedToggleOption("TouOptionHunterRetributionOnVote")]

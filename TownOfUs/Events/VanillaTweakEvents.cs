@@ -12,7 +12,7 @@ public static class VanillaTweakEvents
 {
     public static void AdjustAllPetVisibility()
     {
-        var petMode = (PetVisiblity)OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value;
+        var petMode = OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value;
         if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek or TouGamemode.Other || petMode is PetVisiblity.AlwaysVisible)
         {
             return;
@@ -56,7 +56,7 @@ public static class VanillaTweakEvents
 
     public static void AdjustPetVisibility(PlayerControl player, bool? forced = null)
     {
-        var petMode = (PetVisiblity)OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value;
+        var petMode = OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value;
         if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek or TouGamemode.Other || petMode is PetVisiblity.AlwaysVisible || player.AmOwner)
         {
             return;

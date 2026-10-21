@@ -15,15 +15,15 @@ public sealed class InvestigatorOptions : AbstractRoleOptionGroup<InvestigatorRo
     public ModdedNumberOption FootprintIntervalDistance { get; set; } = new("TouOptionInvestigatorFootprintInterval",
         0.5f, 0.25f, 3f, 0.5f, MiraNumberSuffixes.None)
     {
-        Visible = () => (PrintMode)OptionGroupSingleton<InvestigatorOptions>.Instance.FootprintMode.Value is PrintMode.Distance
+        Visible = () => OptionGroupSingleton<InvestigatorOptions>.Instance.FootprintMode.Value is PrintMode.Distance
     };
 
     public ModdedNumberOption FootprintIntervalTime { get; set; } = new("TouOptionInvestigatorFootprintInterval",
         1, 0.5f, 6f, 0.5f, MiraNumberSuffixes.Seconds)
     {
-        Visible = () => (PrintMode)OptionGroupSingleton<InvestigatorOptions>.Instance.FootprintMode.Value is PrintMode.Time
+        Visible = () => OptionGroupSingleton<InvestigatorOptions>.Instance.FootprintMode.Value is PrintMode.Time
     };
-    public float FootprintInterval => (PrintMode)FootprintMode.Value is PrintMode.Distance ? FootprintIntervalDistance.Value : FootprintIntervalTime.Value;
+    public float FootprintInterval => FootprintMode.Value is PrintMode.Distance ? FootprintIntervalDistance.Value : FootprintIntervalTime.Value;
 
     [ModdedNumberOption("TouOptionInvestigatorFootprintSize", 1f, 10f, suffixType: MiraNumberSuffixes.Multiplier)]
     public float FootprintSize { get; set; } = 4f;

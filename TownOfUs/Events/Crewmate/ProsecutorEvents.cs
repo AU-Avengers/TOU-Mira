@@ -103,7 +103,7 @@ public static class ProsecutorEvents
         var prosdata = prosecutor.Player.GetVoteData();
 
         var toVote = prosecutor.ProsecuteVictim;
-        if ((BadProsecuteResult)OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is
+        if (OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is
             BadProsecuteResult.EjectPros && IsBadJudgement(prosecutor.Player, GameData.Instance.GetPlayerById(prosecutor.ProsecuteVictim).Object))
         {
             toVote = prosecutor.Player.PlayerId;
@@ -179,7 +179,7 @@ public static class ProsecutorEvents
                 if (IsBadJudgement(pros.Player, player) && player != pros.Player)
                 {
                     ProsToAnnounceNext = pros.Player;
-                    if ((BadProsecuteResult)OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is BadProsecuteResult.EjectProsAndEjectTarget)
+                    if (OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is BadProsecuteResult.EjectProsAndEjectTarget)
                     {
                         if (pros.Player.TryGetModifier<CelebrityModifier>(out var celeb))
                         {
@@ -209,7 +209,7 @@ public static class ProsecutorEvents
             return;
         }
 
-        if ((BadProsecuteResult)OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is
+        if (OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is
             BadProsecuteResult.EjectProsAndEjectTarget)
         {
             if (ProsToAnnounceNext.AmOwner)

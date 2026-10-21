@@ -105,7 +105,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             return;
         }
         var hidden =
-            (AppearanceVisibility)OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
+            OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
             AppearanceVisibility.None or AppearanceVisibility.Ghosts;
         if (player.AmOwner && hidden)
         {
@@ -159,7 +159,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
 
         var hidden =
-            (AppearanceVisibility)OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
+            OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
             AppearanceVisibility.None or AppearanceVisibility.Ghosts;
         if (player.AmOwner && hidden)
         {

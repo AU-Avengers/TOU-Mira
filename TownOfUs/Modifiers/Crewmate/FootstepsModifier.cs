@@ -35,7 +35,7 @@ public sealed class FootstepsModifier : BaseModifier
         AnonymousPrints = opts.ShowAnonymousFootprints;
         PrintSize = opts.FootprintSize;
         PrintInterval = opts.FootprintInterval;
-        CheckDistance = (PrintMode)opts.FootprintMode.Value is PrintMode.Distance;
+        CheckDistance = opts.FootprintMode.Value is PrintMode.Distance;
         PrintDuration = opts.FootprintDuration;
         PrintOnVents = opts.ShowFootprintVent;
     }

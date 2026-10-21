@@ -279,8 +279,8 @@ AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
         }
 
         var playerIsAssassin = target.HasModifier<AssassinModifier>();
-        var assassinModeImp = (AssassinRemember)opts.AmneTurnImpAssassin.Value;
-        var assassinModeNeut = (AssassinRemember)opts.AmneTurnNeutAssassin.Value;
+        var assassinModeImp = opts.AmneTurnImpAssassin.Value;
+        var assassinModeNeut = opts.AmneTurnNeutAssassin.Value;
         var amneIsAssassin = false;
 
         if ((player.IsImpostor() && (assassinModeImp is AssassinRemember.Always ||

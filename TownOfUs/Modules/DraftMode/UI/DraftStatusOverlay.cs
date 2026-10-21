@@ -482,7 +482,7 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             var col = actualCard.GetComponent<Collider2D>()
-                      ?? (Collider2D)actualCard.GetComponent<BoxCollider2D>();
+                      ?? actualCard.GetComponent<BoxCollider2D>();
             if (col == null)
             {
                 var box = actualCard.gameObject.AddComponent<BoxCollider2D>();

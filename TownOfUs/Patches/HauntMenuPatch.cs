@@ -80,7 +80,7 @@ public static class HauntMenuMinigamePatch
         }
         else
         {
-            var hauntMode = (GhostModeInGame)OptionGroupSingleton<PostmortemOptions>.Instance.DeadCanHaunt.Value;
+            var hauntMode = OptionGroupSingleton<PostmortemOptions>.Instance.DeadCanHaunt.Value;
             var canHaunt = TutorialManager.InstanceExists || PlayerControl.LocalPlayer.Data.Role is SpectatorRole ||
                            hauntMode is GhostModeInGame.Always || (PlayerControl.LocalPlayer.DiedOtherRound() &&
                                                                    hauntMode is GhostModeInGame.DisabledUponDeath);

@@ -68,7 +68,7 @@ public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>, ILegac
             return;
         }
 
-        var targets = (MediateRevealedTargets)OptionGroupSingleton<MediumOptions>.Instance.WhoIsRevealed.Value switch
+        var targets = OptionGroupSingleton<MediumOptions>.Instance.WhoIsRevealed.Value switch
         {
             MediateRevealedTargets.NewestDead => [deadPlayers[0]],
             MediateRevealedTargets.AllDead => deadPlayers,

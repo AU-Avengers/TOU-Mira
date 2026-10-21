@@ -51,7 +51,7 @@ public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, D
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        var mode = (ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value;
+        var mode = OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value;
         if (mode is not ReviveType.Sacrifice)
         {
             return false;

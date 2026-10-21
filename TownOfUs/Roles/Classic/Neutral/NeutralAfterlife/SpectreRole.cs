@@ -144,7 +144,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
 
         if (Player.AmOwner)
         {
-            if ((GhostwalkerVentMode)OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerVentSpawn.Value is
+            if (OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerVentSpawn.Value is
                 GhostwalkerVentMode.Evils or GhostwalkerVentMode.All)
             {
                 Player.VentAtRandomVent();

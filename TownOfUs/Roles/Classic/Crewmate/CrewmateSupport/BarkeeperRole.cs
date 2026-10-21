@@ -109,7 +109,7 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         {
 
             var poisTrigger =
-                (PoisonTrigger)OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger.Value;
+                OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger.Value;
             var progress = PoisonProgress.Begun;
             if (target.TryGetModifier<BootleggerPoisonModifier>(out var bootProgress))
             {

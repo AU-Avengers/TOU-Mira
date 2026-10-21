@@ -2218,7 +2218,7 @@ public static class MiscUtils
                 return false;
             }
 
-            var logLevel = (LoggingLevel)OptionGroupSingleton<HostSpecificOptions>.Instance.BetaLoggingLevel.Value;
+            var logLevel = OptionGroupSingleton<HostSpecificOptions>.Instance.BetaLoggingLevel.Value;
             if (PlayerControl.LocalPlayer.IsHost() && logLevel is LoggingLevel.LogForHost)
             {
                 return true;
@@ -2241,7 +2241,7 @@ public static class MiscUtils
                 return false;
             }
 
-            var logLevel = (LoggingLevel)OptionGroupSingleton<HostSpecificOptions>.Instance.BetaLoggingLevel.Value;
+            var logLevel = OptionGroupSingleton<HostSpecificOptions>.Instance.BetaLoggingLevel.Value;
 
             return logLevel is LoggingLevel.LogForEveryonePostGame;
         }

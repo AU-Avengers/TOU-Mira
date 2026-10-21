@@ -18,7 +18,7 @@ public sealed class GlitchMimicModifier(PlayerControl target) : DisguisedModifie
     public override void OnActivate()
     {
         CanGlitchVent =
-            (GlitchVent)OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is GlitchVent.Always;
+            OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is GlitchVent.Always;
 
         base.OnActivate();
 

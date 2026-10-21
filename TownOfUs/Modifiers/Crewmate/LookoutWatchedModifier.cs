@@ -48,7 +48,7 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
         var title = $"<color=#{TownOfUsColors.Lookout.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.LookoutFeedbackTitle")}</color>";
         var msg = MiraLocaleManager.Get("TownOfUsMira.Role.LookoutNoInteractionFeedback").Replace("<player>", Player.Data.PlayerName);
 
-        var showRoles = (LookoutView)OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Roles;
+        var showRoles = OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Roles;
         if (SeenPlayers.Count != 0)
         {
             var playerList = SeenPlayers.Select(x => x.Key);

@@ -286,7 +286,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         role.ContainedAttackerId = source.PlayerId;
 
         var opt = OptionGroupSingleton<MirrorcasterOptions>.Instance;
-        var attackInfo = (MirrorAttackInfo)opt.AttackInformationGiven.Value;
+        var attackInfo = opt.AttackInformationGiven.Value;
         if (mirrorcaster.AmOwner)
         {
             CustomButtonSingleton<MirrorcasterMagicMirrorButton>.Instance.ResetCooldownAndOrEffect();

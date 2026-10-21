@@ -16,7 +16,7 @@ public sealed class MorphlingMorphModifier(PlayerControl target) : DisguisedModi
     public override void OnActivate()
     {
         CanMorphlingVent =
-            (MorphlingVent)OptionGroupSingleton<MorphlingOptions>.Instance.CanVent.Value is MorphlingVent.Always;
+            OptionGroupSingleton<MorphlingOptions>.Instance.CanVent.Value is MorphlingVent.Always;
 
         base.OnActivate();
 

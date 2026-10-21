@@ -273,7 +273,7 @@ public static class HunterEvents
 
     private static void CheckForHunterStalked(PlayerControl source, bool isInteraction)
     {
-        if (MeetingHud.Instance || ExileController.Instance || !isInteraction && (StalkTriggered)OptionGroupSingleton<HunterOptions>.Instance.StalkTriggeredBy.Value is StalkTriggered.Interactions)
+        if (MeetingHud.Instance || ExileController.Instance || !isInteraction && OptionGroupSingleton<HunterOptions>.Instance.StalkTriggeredBy.Value is StalkTriggered.Interactions)
         {
             return;
         }

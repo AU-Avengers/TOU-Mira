@@ -91,7 +91,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Glitch, "TouMira.Role.Neutral.Glitch", 1.45f),
-        CanUseVent = (GlitchVent)OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is not GlitchVent.Never,
+        CanUseVent = OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is not GlitchVent.Never,
         IntroSound = TouAudio.GlitchSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
         Icon = TouRoleIcons.Glitch,
@@ -118,7 +118,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
     public void OffsetButtons()
     {
         // Because Glitch has multiple buttons, there's no need to offset it without a vent button; it looks weird with a random space - Atony
-        var canVent = (GlitchVent)OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is not GlitchVent.Never;
+        var canVent = OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is not GlitchVent.Never;
         var hack = CustomButtonSingleton<GlitchHackButton>.Instance;
         var mimic = CustomButtonSingleton<GlitchMimicButton>.Instance;
         var kill = CustomButtonSingleton<GlitchKillButton>.Instance;

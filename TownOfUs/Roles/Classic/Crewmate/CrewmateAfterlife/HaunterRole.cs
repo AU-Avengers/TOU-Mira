@@ -122,7 +122,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
         if (Player.AmOwner)
         {
-            if ((GhostwalkerVentMode)OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerVentSpawn.Value is
+            if (OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerVentSpawn.Value is
                 GhostwalkerVentMode.Crewmates or GhostwalkerVentMode.All)
             {
                 Player.VentAtRandomVent();

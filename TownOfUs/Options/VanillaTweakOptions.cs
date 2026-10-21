@@ -55,7 +55,7 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
             ])
         {
             Visible = () =>
-                (PetVisiblity)OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value
+                OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value
                 is not PetVisiblity.WhenAlive
         };
 
@@ -64,9 +64,9 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
                                     Minigame.Instance is not IngameWikiMinigame);
 
     public PetHidden PetVisibilityUponDeath =>
-        ((PetVisiblity)ShowPetsMode.Value is PetVisiblity.WhenAlive)
+        (ShowPetsMode.Value is PetVisiblity.WhenAlive)
             ? PetHidden.Never
-            : (PetHidden)HidePetsOnBodyRemove.Value;
+            : HidePetsOnBodyRemove.Value;
 }
 public enum NameSight
 {

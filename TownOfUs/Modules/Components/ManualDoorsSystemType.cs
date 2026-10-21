@@ -85,7 +85,7 @@ public class ManualDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), B
 
 	public void Deserialize(MessageReader reader, bool initialState)
 	{
-		int num = (int)reader.ReadByte();
+		int num = reader.ReadByte();
 		for (int i = 0; i < num; i++)
 		{
 			SystemTypes key = (SystemTypes)reader.ReadByte();

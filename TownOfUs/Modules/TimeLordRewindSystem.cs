@@ -1198,7 +1198,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        if (!IsRewinding || (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value == RewindRevive.Disabled)
+        if (!IsRewinding || OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value == RewindRevive.Disabled)
         {
             return;
         }
@@ -1431,7 +1431,7 @@ public static class TimeLordRewindSystem
 
         var elapsed = Time.time - _rewindStartTime;
 
-        if ((RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value == RewindRevive.Disabled)
+        if (OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value == RewindRevive.Disabled)
         {
             _hostRevives = null;
         }
@@ -1808,7 +1808,7 @@ return true;*/
     {
         var wasHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
         byte[] pendingHostRevives = [];
-        if (wasHost && (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
+        if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
         {
             var ids = new HashSet<byte>(_hostPendingRewindRevives);
             if (_hostRevives != null)
@@ -1950,7 +1950,7 @@ return true;*/
             ModCompatibility.CheckOutOfBoundsElevator(lp);
         }
 
-        if (wasHost && pendingHostRevives.Length > 0 && (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
+        if (wasHost && pendingHostRevives.Length > 0 && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
         {
             foreach (var victimId in pendingHostRevives)
             {
@@ -2006,7 +2006,7 @@ return true;*/
 
         var wasHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
         byte[] pendingHostRevives = [];
-        if (wasHost && (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
+        if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
         {
             var ids = new HashSet<byte>(_hostPendingRewindRevives);
             if (_hostRevives != null)
@@ -2092,7 +2092,7 @@ return true;*/
 
         lp.moveable = true;
 
-        if (wasHost && pendingHostRevives.Length > 0 && (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
+        if (wasHost && pendingHostRevives.Length > 0 && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
         {
             foreach (var victimId in pendingHostRevives)
             {
@@ -2614,7 +2614,7 @@ return true;*/
         }
         
         var timeLord = SourceTimeLordId != byte.MaxValue ? MiscUtils.PlayerById(SourceTimeLordId) : null;
-        var isTemp = (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value is RewindRevive.UntilNextRound;
+        var isTemp = OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value is RewindRevive.UntilNextRound;
         var revivedText = MiraLocaleManager.Get("TownOfUsMira.Role.TimeLordRevivedNotif", "You were revived thanks to the Time Lord!");
         var successText = string.Empty;
         if (timeLord != null && revived.Data != null && OptionGroupSingleton<TimeLordOptions>.Instance.NotifyOnRevive)

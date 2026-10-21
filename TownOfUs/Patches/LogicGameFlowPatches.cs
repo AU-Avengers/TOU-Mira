@@ -39,7 +39,7 @@ public static class LogicGameFlowPatches
     {
         if (OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled && GameTimerPatch.TriggerEndGame)
         {
-            var timeType = (GameTimerType)OptionGroupSingleton<GameTimerOptions>.Instance.TimerEndOption.Value;
+            var timeType = OptionGroupSingleton<GameTimerOptions>.Instance.TimerEndOption.Value;
             if (timeType is GameTimerType.Impostors)
             {
                 Error($"Game ended from Game Timer for Impostors!");
