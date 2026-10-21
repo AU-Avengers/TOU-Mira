@@ -16,7 +16,7 @@ public sealed class ArsonistDousedModifier(byte arsonistId) : BaseModifier
 
     public override void OnActivate()
     {
-        var arso = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == ArsonistId);
+        var arso = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.PlayerId == ArsonistId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.ArsonistDouse, arso!, Player);
         touAbilityEvent.InvokeEvent();
         Coroutines.Start(ArsonistDouseButton.CoSetDouses());

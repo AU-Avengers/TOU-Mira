@@ -14,7 +14,7 @@ public static class CelebrityMeetingIntroPatch
     [HarmonyPostfix]
     public static void MeetingIntroAnimationPatch(MeetingIntroAnimation __instance)
     {
-        //if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.protectedByGuardianThisRound && !x.HasDied())) return;
+        //if (PlayerControl.AllPlayerControls.Any(x => x.protectedByGuardianThisRound && !x.HasDied())) return;
 
         var celebrity = ModifierUtils.GetActiveModifiers<CelebrityModifier>(x => x.Player.HasDied() && !x.Announced)
             .FirstOrDefault();

@@ -30,8 +30,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     [HideFromIl2Cpp]
     public string GetGuessTally(DoomsayerOptions opts)
     {
-        var playersAlive = PlayerControl.AllPlayerControls.ToArray()
-            .Count(x => !x.HasDied() && !x.IsJailed() && x != Player);
+        var playersAlive = PlayerControl.AllPlayerControls.Count(x => !x.HasDied() && !x.IsJailed() && x != Player);
         var completed = NumberOfGuesses;
         var totalTasks = playersAlive < 3 ? 2 : (int)opts.DoomsayerGuessesToWin;
         var colorbase = Color.yellow;
@@ -270,8 +269,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             return;
         }
 
-        foreach (var player in GameData.Instance.AllPlayers.ToArray()
-                     .Where(x => !x.Object.HasDied() && x.Object.HasModifier<DoomsayerObservedModifier>()))
+        foreach (var player in GameData.Instance.AllPlayers.Where(x => !x.Object.HasDied() && x.Object.HasModifier<DoomsayerObservedModifier>()))
         {
             var role = player.Object.Data.Role;
             var doomableRole = role as IDoomable;
@@ -449,8 +447,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
             meetingMenu?.HideSingle(targetId);
 
-            var playersAlive = PlayerControl.AllPlayerControls.ToArray()
-                .Count(x => !x.HasDied() && !x.IsJailed() && x != Player);
+            var playersAlive = PlayerControl.AllPlayerControls.Count(x => !x.HasDied() && !x.IsJailed() && x != Player);
 
             if (victim == Player)
             {

@@ -28,8 +28,7 @@ public class TownOfPolusMode : AbstractGameMode
         runOriginal = false;
         Il2CppSystem.Collections.Generic.List<ClientData> list = new();
         AmongUsClient.Instance.GetAllClients(list);
-        List<NetworkedPlayerInfo> list2  = list.ToArray()
-            .Where(c => c.Character != null && c.Character.Data != null && !c.Character.Data.Disconnected &&
+        List<NetworkedPlayerInfo> list2  = list.Where(c => c.Character != null && c.Character.Data != null && !c.Character.Data.Disconnected &&
                         !c.Character.Data.IsDead).OrderBy(c => c.Id).Select(c => c.Character.Data)
             .ToList();
         foreach (NetworkedPlayerInfo networkedPlayerInfo in GameData.Instance.AllPlayers)
@@ -52,8 +51,7 @@ public class TownOfPolusMode : AbstractGameMode
         RoleTypes defaultRole)
     {
         int num = 0;
-        var source = RoleManager.Instance.AllRoles.ToArray()
-            .Where(role => role.TeamType == team && !RoleManager.IsGhostRole(role.Role) &&
+        var source = RoleManager.Instance.AllRoles.Where(role => role.TeamType == team && !RoleManager.IsGhostRole(role.Role) &&
                            CustomRoleUtils.CanSpawnOnCurrentMode(role));
         List<RoleTypes> list = new List<RoleTypes>();
         IRoleOptionsCollection roleOptions = opts.RoleOptions;

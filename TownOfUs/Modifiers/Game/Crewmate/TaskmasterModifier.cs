@@ -56,7 +56,7 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
     {
         if (Player.AmOwner && Player.myTasks.Count > 0 && !Player.HasDied() && Player.IsCrewmate())
         {
-            var tasks = Player.myTasks.ToArray().Where(x => x.TryCast<NormalPlayerTask>() != null && !x.IsComplete)
+            var tasks = Player.myTasks.Where(x => x.TryCast<NormalPlayerTask>() != null && !x.IsComplete)
                 .ToList();
 
             if (tasks.Count > 0)

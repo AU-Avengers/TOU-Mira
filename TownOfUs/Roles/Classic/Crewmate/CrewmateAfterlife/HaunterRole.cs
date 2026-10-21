@@ -270,7 +270,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         var dangerLevel2 = 0f;
         var scaryMusicDistance = 55f * GameOptionsManager.Instance.currentNormalGameOptions.PlayerSpeedMod;
         var veryScaryMusicDistance = 15f * GameOptionsManager.Instance.currentNormalGameOptions.PlayerSpeedMod;
-        foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x => x.IsImpostor() || x.IsNeutral()))
+        foreach (var player in PlayerControl.AllPlayerControls.Where(x => x.IsImpostor() || x.IsNeutral()))
         {
             if (player != null)
             {
@@ -504,7 +504,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
         if (player.myTasks != null && player.myTasks.Count > 0)
         {
-            var tasks = player.myTasks.ToArray().Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
+            var tasks = player.myTasks.Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
             foreach (var t in tasks)
             {
                 total++;

@@ -179,7 +179,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         // This must be a coroutine for it to show the arrow to everyone besides the host.
         yield return new WaitForSeconds(0.5f);
-        var allPlayers = PlayerControl.AllPlayerControls.ToArray().ToList();
+        var allPlayers = PlayerControl.AllPlayerControls.ToList();
         allPlayers.Remove(player);
         foreach (var target in targets)
         {

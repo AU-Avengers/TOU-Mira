@@ -1008,8 +1008,7 @@ public static class TimeLordRewindSystem
 
     private static void RecordLocalTaskSteps(PlayerControl lp, int samplesNeeded)
     {
-        var tasks = lp.myTasks.ToArray()
-.Where(t => t != null && t.TryCast<NormalPlayerTask>() != null && !PlayerTask.TaskIsEmergency(t) &&
+        var tasks = lp.myTasks.Where(t => t != null && t.TryCast<NormalPlayerTask>() != null && !PlayerTask.TaskIsEmergency(t) &&
         t.TryCast<ImportantTextTask>() == null)
 .ToList();
 
@@ -2116,7 +2115,7 @@ return true;*/
         for (var i = 0; i < _trackedTaskCount; i++)
         {
             var id = _trackedTaskIds[i];
-            var target = lp.myTasks.ToArray().FirstOrDefault(t => t != null && t.Id == id && t.TryCast<NormalPlayerTask>() != null);
+            var target = lp.myTasks.FirstOrDefault(t => t != null && t.Id == id && t.TryCast<NormalPlayerTask>() != null);
             if (target == null)
             {
                 continue;

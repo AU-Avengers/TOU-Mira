@@ -122,8 +122,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             return MiraLocaleManager.Get("TownOfUsMira.Role.OracleConfessorDied");
         }
 
-        var allPlayers = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => !x.HasDied() && !x.AmOwner && x != player).ToList();
+        var allPlayers = PlayerControl.AllPlayerControls.Where(x => !x.HasDied() && !x.AmOwner && x != player).ToList();
         if (allPlayers.Count < 2)
         {
             return MiraLocaleManager.Get("TownOfUsMira.Role.OracleTooFew");
@@ -131,7 +130,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         var options = OptionGroupSingleton<OracleOptions>.Instance;
 
-        var evilPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.HasDied() &&
+        var evilPlayers = PlayerControl.AllPlayerControls.Where(x => !x.HasDied() &&
                                                                                (x.IsImpostor() ||
                                                                                    (x.Is(RoleAlignment.NeutralOutlier) &&
                                                                                        options.ShowNeutralOutlierAsEvil.Value) ||

@@ -31,7 +31,7 @@ public static class SabotagePatches
         var minimum = (int)options.PlayerCountWhenSabotagesDisable.Value;
         if (minimum > 0)
         {
-            var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
+            var aliveCount = PlayerControl.AllPlayerControls.Count(x => !x.HasDied());
             if (aliveCount <= minimum)
             {
                 return false;

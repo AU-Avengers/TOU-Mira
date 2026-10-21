@@ -184,7 +184,7 @@ public static class EndGamePatches
             }
             else if (playerTeam == ModdedRoleTeams.Crewmate && playerStats.PlayerState != StoredPlayerState.Disconnected)
             {
-                var playerControl = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == playerStats.PlayerId);
+                var playerControl = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.PlayerId == playerStats.PlayerId);
                 if (playerControl != null)
                 {
                     var taskInfo = playerControl.TaskInfo();
@@ -281,7 +281,7 @@ public static class EndGamePatches
             var playerName = new StringBuilder();
             var playerWinner = false;
 
-            if (EndGameResult.CachedWinners.ToArray().Any(x => x.PlayerName == playerStats.PlayerName))
+            if (EndGameResult.CachedWinners.Any(x => x.PlayerName == playerStats.PlayerName))
             {
                 playerName.Append(TownOfUsPlugin.Culture, $"<color=#EFBF04>{playerStats.PlayerName}</color>");
                 playerWinner = true;
@@ -562,7 +562,7 @@ public static class EndGamePatches
                     continue;
                 }
                 var actualRole = RoleManager.Instance.GetRole(realPlayer.RoleWhenAlive);
-                var realDealPlayer = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.CurrentOutfit == realPlayer.Outfit);
+                var realDealPlayer = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.CurrentOutfit == realPlayer.Outfit);
                 if (realDealPlayer != null)
                 {
                     foreach (var role in GameHistory.RoleHistory.Where(x => x.Key == realDealPlayer.PlayerId)

@@ -900,7 +900,7 @@ public static class TouRoleManagerPatches
         GhostRoleSetup();
 
         ModifierManager.AssignModifiers(
-            PlayerControl.AllPlayerControls.ToArray().Where(plr => !plr.Data.IsDead && !plr.Data.Disconnected)
+            PlayerControl.AllPlayerControls.Where(plr => !plr.Data.IsDead && !plr.Data.Disconnected)
                 .ToList());
     }
 
@@ -933,8 +933,7 @@ public static class TouRoleManagerPatches
 
         var random = new System.Random();
 
-        var players = GameData.Instance.AllPlayers.ToArray()
-            .Excluding(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName)).ToList();
+        var players = GameData.Instance.AllPlayers.Excluding(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName)).ToList();
         players.Shuffle();
 
         var impCount = GameOptionsManager.Instance.CurrentGameOptions.GetAdjustedNumImpostors(players.Count);
@@ -1068,8 +1067,7 @@ public static class TouRoleManagerPatches
     [HarmonyPriority(Priority.Low)]
     public static void SetSpectatorsAndModifiers(RoleManager __instance)
     {
-        var spectators = GameData.Instance.AllPlayers.ToArray()
-            .Where(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName));
+        var spectators = GameData.Instance.AllPlayers.Where(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName));
         var specId = (RoleTypes)RoleId.Get<SpectatorRole>();
 
         foreach (var player in spectators)
@@ -1084,8 +1082,7 @@ public static class TouRoleManagerPatches
 
         if (OptionGroupSingleton<InitialRoundOptions>.Instance.RoundOneVictims)
         {
-            var firstDead = GameData.Instance.AllPlayers.ToArray()
-                .Where(x => FirstDeadPatch.FirstRoundPlayerNames.Contains(x.PlayerName) && !spectators.Contains(x));
+            var firstDead = GameData.Instance.AllPlayers.Where(x => FirstDeadPatch.FirstRoundPlayerNames.Contains(x.PlayerName) && !spectators.Contains(x));
 
             foreach (var player in firstDead)
             {

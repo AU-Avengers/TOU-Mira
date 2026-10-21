@@ -77,13 +77,11 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
         }
 
         // Error($"SelectExeTargets");
-        var exes = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => x.IsRole<ExecutionerRole>() && !x.HasDied());
+        var exes = PlayerControl.AllPlayerControls.Where(x => x.IsRole<ExecutionerRole>() && !x.HasDied());
 
         foreach (var exe in exes)
         {
-            var filtered = PlayerControl.AllPlayerControls.ToArray()
-                .Where(x => !x.IsRole<ExecutionerRole>() && !x.HasDied() &&
+            var filtered = PlayerControl.AllPlayerControls.Where(x => !x.IsRole<ExecutionerRole>() && !x.HasDied() &&
                             x.Is(ModdedRoleTeams.Crewmate) &&
                             !x.HasModifier<GuardianAngelTargetModifier>() &&
                             !x.HasModifier<AllianceGameModifier>() &&

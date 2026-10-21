@@ -246,7 +246,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
             }
 
             var deadBodies = UnityEngine.Object.FindObjectsOfType<DeadBody>().ToArray();
-            foreach (var deadPlayer in PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasDied()))
+            foreach (var deadPlayer in PlayerControl.AllPlayerControls.Where(x => x.HasDied()))
             {
                 if (deadBodies.Select(x => x.ParentId).Contains(deadPlayer.PlayerId))
                 {

@@ -362,7 +362,7 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void RoundStartHandler(RoundStartEvent @event)
     {
-        var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
+        var aliveCount = PlayerControl.AllPlayerControls.Count(x => !x.HasDied());
         var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
         AreVentsAllowed = aliveCount > minimum;
         HudManagerHelper.Instance.VentButtonDisabledSprite.SetActive(!AreVentsAllowed);
@@ -785,7 +785,7 @@ public static class TownOfUsEventHandlers
             }
         }
 
-        var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
+        var aliveCount = PlayerControl.AllPlayerControls.Count(x => !x.HasDied());
         var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
         AreVentsAllowed = aliveCount > minimum;
         HudManagerHelper.Instance.VentButtonDisabledSprite.SetActive(!AreVentsAllowed);
@@ -833,7 +833,7 @@ public static class TownOfUsEventHandlers
                 @event.Cancel();
             }
 
-            var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
+            var aliveCount = PlayerControl.AllPlayerControls.Count(x => !x.HasDied());
             var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
 
             if (PlayerControl.LocalPlayer.inVent && aliveCount <= minimum &&

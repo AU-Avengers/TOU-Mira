@@ -58,8 +58,7 @@ public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
             return;
         }
 
-        PlayerControl.AllPlayerControls.ToArray()
-            .ToList().ForEach(plr => plr.TryRemoveModifier<FootstepsModifier>());
+        PlayerControl.AllPlayerControls.ToList().ForEach(plr => plr.TryRemoveModifier<FootstepsModifier>());
     }
 
     public override void OnDeath(DeathReason reason)
@@ -69,7 +68,6 @@ public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
             return;
         }
 
-        PlayerControl.AllPlayerControls.ToArray()
-            .ToList().ForEach(plr => plr.TryRemoveModifier<FootstepsModifier>());
+        PlayerControl.AllPlayerControls.ToList().ForEach(plr => plr.TryRemoveModifier<FootstepsModifier>());
     }
 }

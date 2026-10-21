@@ -17,8 +17,7 @@ public sealed class SpellslingerHexedModifier(PlayerControl spellslinger) : Base
     {
         base.OnActivate();
 
-        var pb = PlayerControl.AllPlayerControls.ToArray()
-            .FirstOrDefault(x => x.IsRole<SpellslingerRole>());
+        var pb = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.IsRole<SpellslingerRole>());
         if (pb != null)
         {
             var touAbilityEvent = new TouAbilityEvent(AbilityType.SpellslingerHex, pb, Player);

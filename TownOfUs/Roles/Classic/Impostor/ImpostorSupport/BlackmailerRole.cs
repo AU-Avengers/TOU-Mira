@@ -93,8 +93,7 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
             MiscUtils.RunAnticheatWarning(source);
             return;
         }
-        var existingBmed = PlayerControl.AllPlayerControls.ToArray()
-            .FirstOrDefault(x => x.GetModifier<BlackmailedModifier>()?.BlackMailerId == source.PlayerId);
+        var existingBmed = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.GetModifier<BlackmailedModifier>()?.BlackMailerId == source.PlayerId);
 
         existingBmed?.RemoveModifier<BlackmailedModifier>();
 

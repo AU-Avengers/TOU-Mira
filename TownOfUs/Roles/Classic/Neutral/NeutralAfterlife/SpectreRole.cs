@@ -38,7 +38,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
 
             if (!isSkipped)
             {
-                var deadNeutral = PlayerControl.AllPlayerControls.ToArray().Where(x =>
+                var deadNeutral = PlayerControl.AllPlayerControls.Where(x =>
                     x.Data.IsDead && x != exiled && x.GetRoleWhenAlive().IsNeutral() &&
                     !x.GetRoleWhenAlive().DidWin(GameOverReason.CrewmatesByVote) &&
                     x.CanGetGhostRole() &&
@@ -427,8 +427,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
         else if (stage is GhostTaskStage.CompletedTasks &&
                  OptionGroupSingleton<SpectreOptions>.Instance.SpectreWin is SpectreWinOptions.Spooks)
         {
-            var allVictims = PlayerControl.AllPlayerControls.ToArray()
-                .Where(x => !x.AmOwner);
+            var allVictims = PlayerControl.AllPlayerControls.Where(x => !x.AmOwner);
 
             if (allVictims.Any())
             {
@@ -459,7 +458,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
 
         if (player.myTasks != null && player.myTasks.Count > 0)
         {
-            var tasks = player.myTasks.ToArray().Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
+            var tasks = player.myTasks.Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
             foreach (var t in tasks)
             {
                 total++;

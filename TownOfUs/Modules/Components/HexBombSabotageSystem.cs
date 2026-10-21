@@ -84,8 +84,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
                 if (spellslinger != null)
                 {
                     TouAchievementEvents.OnHexBombComplete(spellslinger.Player);
-                    foreach (var player in PlayerControl.AllPlayerControls.ToArray()
-                                 .Where(x => !x.HasDied() && !x.IsImpostorAligned()))
+                    foreach (var player in PlayerControl.AllPlayerControls.Where(x => !x.HasDied() && !x.IsImpostorAligned()))
                     {
                         GameHistory.UpdatePlayerDeathData(player, MiraLocaleManager.Get("DiedToSpellslingerHexBomb"), 0, HudManagerHelper.Instance.CurrentRound,
                             DeathHandlerOverride.SetTrue,

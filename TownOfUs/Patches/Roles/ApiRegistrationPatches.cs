@@ -37,7 +37,7 @@ public static class ApiRegistrationPatches
             role.InitialSetup();
         }
 
-        var newList2 = RoleManager.Instance.AllRoles.ToArray().Where(x =>
+        var newList2 = RoleManager.Instance.AllRoles.Where(x =>
             !MiscUtils.IsBasicGhost(x.Role));
         MiscUtils.AllInGameRoles = newList2;
         var newModifiers = new List<TouBaseGameModifier>();

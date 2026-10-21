@@ -65,8 +65,7 @@ public static class ShowVentsPatch
             return;
         }
 
-        var task = PlayerControl.LocalPlayer.myTasks.ToArray()
-            .FirstOrDefault(x => x.TaskType == TaskTypes.VentCleaning);
+        var task = PlayerControl.LocalPlayer.myTasks.FirstOrDefault(x => x.TaskType == TaskTypes.VentCleaning);
         var xPos = MiscUtils.GetCurrentMap is ExpandedMapNames.Dleks ? -1 : 1;
 
         foreach (var vent in ShipStatus.Instance.AllVents)

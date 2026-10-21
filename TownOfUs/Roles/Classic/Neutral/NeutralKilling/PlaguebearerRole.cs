@@ -112,7 +112,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
 
-        var allInfected = PlayerControl.AllPlayerControls.ToArray().Where(x =>
+        var allInfected = PlayerControl.AllPlayerControls.Where(x =>
             !x.HasDied() && x != Player &&
             x.GetModifier<PlaguebearerInfectedModifier>()?.PlagueBearerId == Player.PlayerId);
 
@@ -125,7 +125,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
             }
         }
 
-        var notInfected = PlayerControl.AllPlayerControls.ToArray().Where(x =>
+        var notInfected = PlayerControl.AllPlayerControls.Where(x =>
             !x.HasDied() && x != Player && !x.HasModifier<PlaguebearerInfectedModifier>());
 
         stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.PlaguebearerTabInfectCounter").Replace("<count>", $"{notInfected.Count()}")}</b>");

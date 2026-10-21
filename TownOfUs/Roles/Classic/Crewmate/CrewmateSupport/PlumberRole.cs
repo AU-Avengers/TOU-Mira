@@ -297,7 +297,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public static IEnumerator SeeVenter(PlayerControl plumber)
     {
-        var playersInVent = PlayerControl.AllPlayerControls.ToArray().Where(x => x.inVent);
+        var playersInVent = PlayerControl.AllPlayerControls.Where(x => x.inVent);
 
         foreach (var player in playersInVent)
         {
@@ -339,7 +339,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         var touAbilityEvent = new TouAbilityEvent(AbilityType.PlumberFlush, player);
         touAbilityEvent.InvokeEvent();
 
-        var someoneInVent = PlayerControl.AllPlayerControls.ToArray().Any(x => x.inVent);
+        var someoneInVent = PlayerControl.AllPlayerControls.Any(x => x.inVent);
         if (!someoneInVent)
         {
             return;

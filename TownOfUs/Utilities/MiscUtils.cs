@@ -53,8 +53,7 @@ public static class MiscUtils
     {
         return
         [
-            .. GameData.Instance.AllPlayers.ToArray()
-                .Where(x => !x.IsDead && !x.Disconnected && x.Object && !x.Object.Is(RoleAlignment.NeutralBenign))
+            .. GameData.Instance.AllPlayers.Where(x => !x.IsDead && !x.Disconnected && x.Object && !x.Object.Is(RoleAlignment.NeutralBenign))
                 .Select(x => x.Object)
         ];
     }
@@ -645,7 +644,7 @@ public static class MiscUtils
 
     public static T? GetRole<T>() where T : RoleBehaviour
     {
-        return PlayerControl.AllPlayerControls.ToArray().ToList().Find(x => x.Data.Role is T)?.Data?.Role as T;
+        return PlayerControl.AllPlayerControls.ToList().Find(x => x.Data.Role is T)?.Data?.Role as T;
     }
 
     public static IEnumerable<RoleBehaviour> GetRoles(RoleAlignment alignment)
@@ -1170,8 +1169,7 @@ public static class MiscUtils
 
     public static List<PlayerControl> GetCrewmates(List<PlayerControl> impostors)
     {
-        return PlayerControl.AllPlayerControls.ToArray()
-            .Where(player => impostors.All(imp => imp.PlayerId != player.PlayerId)).ToList();
+        return PlayerControl.AllPlayerControls.Where(player => impostors.All(imp => imp.PlayerId != player.PlayerId)).ToList();
     }
 
     public static List<PlayerControl> GetImpostors(List<NetworkedPlayerInfo> infected)
@@ -1851,9 +1849,8 @@ public static class MiscUtils
 
     public static string TaskInfo(this PlayerControl player)
     {
-        var completed = player.myTasks.ToArray().Count(x => x.IsComplete);
-        var totalTasks = player.myTasks.ToArray()
-            .Count(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
+        var completed = player.myTasks.Count(x => x.IsComplete);
+        var totalTasks = player.myTasks.Count(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
         var colorbase = Color.yellow;
         var color = Color.yellow;
         if (completed <= 0)

@@ -620,7 +620,7 @@ public static class Extensions
     {
         List<Vent> vents;
 
-        var cleanVentTasks = player.myTasks.ToArray().Where(x => x.TaskType == TaskTypes.VentCleaning);
+        var cleanVentTasks = player.myTasks.Where(x => x.TaskType == TaskTypes.VentCleaning);
 
         if (cleanVentTasks != null)
         {
@@ -651,7 +651,7 @@ public static class Extensions
     {
         List<Vent> vents;
 
-        var cleanVentTasks = player.myTasks.ToArray().Where(x => x.TaskType == TaskTypes.VentCleaning).ToList();
+        var cleanVentTasks = player.myTasks.Where(x => x.TaskType == TaskTypes.VentCleaning).ToList();
 
         if (cleanVentTasks != null)
         {
@@ -831,4 +831,46 @@ public static class Extensions
             }
         }
     }
+
+    #region Il2Cpp List LINQ Extensions
+    public static List<T> ToList<T>(this Il2CppSystem.Collections.Generic.List<T> list)
+    {
+        return list.ToArray().ToList();
+    }
+
+    public static IEnumerable<T> Where<T>(this Il2CppSystem.Collections.Generic.List<T> list, Func<T, bool> predicate)
+    {
+        return list.ToArray().Where(predicate);
+    }
+
+    public static bool Any<T>(this Il2CppSystem.Collections.Generic.List<T> list, Func<T, bool> predicate)
+    {
+        return list.ToArray().Any(predicate);
+    }
+
+    public static bool All<T>(this Il2CppSystem.Collections.Generic.List<T> list, Func<T, bool> predicate)
+    {
+        return list.ToArray().All(predicate);
+    }
+
+    public static int Count<T>(this Il2CppSystem.Collections.Generic.List<T> list, Func<T, bool> predicate)
+    {
+        return list.ToArray().Count(predicate);
+    }
+
+    public static T First<T>(this Il2CppSystem.Collections.Generic.List<T> list, Func<T, bool> predicate)
+    {
+        return list.ToArray().First(predicate);
+    }
+
+    public static T? FirstOrDefault<T>(this Il2CppSystem.Collections.Generic.List<T> list, Func<T, bool> predicate)
+    {
+        return list.ToArray().FirstOrDefault(predicate);
+    }
+
+    public static IEnumerable<T> Excluding<T>(this Il2CppSystem.Collections.Generic.List<T> list, Func<T, bool> predicate)
+    {
+        return list.ToArray().Excluding(predicate);
+    }
+    #endregion
 }

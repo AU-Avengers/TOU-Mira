@@ -326,14 +326,14 @@ public static class MiraApiPatches
         __instance.startPage.SetActive(false);
         if (__instance.roleButtonsParent.childCount == 0)
         {
-            foreach (var role in RoleManager.Instance.AllRoles.ToArray().Where(x => !x.IsCustomRole()))
+            foreach (var role in RoleManager.Instance.AllRoles.Where(x => !x.IsCustomRole()))
             {
                 if (!role.IsSimpleRole && role.Role != RoleTypes.CrewmateGhost && role.Role != RoleTypes.ImpostorGhost)
                 {
                     HowToPlayRoleButton component = UnityEngine.Object
                         .Instantiate(__instance.roleButtonPrefab, __instance.roleButtonsParent)
                         .GetComponent<HowToPlayRoleButton>();
-                    Sprite roleIcon = __instance.rolesScenes.ToArray().First(r => r.role == role.Role).roleIcon;
+                    Sprite roleIcon = __instance.rolesScenes.First(r => r.role == role.Role).roleIcon;
                     component.SetRoleInfo(role, roleIcon);
                     component.SetButtonAction((Il2CppSystem.Action)(() => { OpenRolePage(__instance, role.Role); }));
                     __instance.controllerSelectables.Add(component.GetComponent<PassiveButton>());
@@ -358,7 +358,7 @@ public static class MiraApiPatches
     public static void OpenRolePage(HowToPlayScene instance, RoleTypes roleType)
     {
         instance.category = HowToPlayScene.HowToPlayCategory.Roles;
-        var newList = instance.rolesScenes.ToArray().ToList();
+        var newList = instance.rolesScenes.ToList();
         var buttonList = instance.roleButtons;
         instance.sceneIndex = newList.FindIndex(r => r.role == roleType);
         if (roleType != RoleTypes.Crewmate)

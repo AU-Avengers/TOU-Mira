@@ -34,8 +34,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
             return 0;
         }
 
-        var validPlayer = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
+        var validPlayer = PlayerControl.AllPlayerControls.Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
             .OrderBy(obj => FirstDeadPatch.PlayerNames.IndexOf(obj.name)).FirstOrDefault();
 
         return validPlayer != null && OptionGroupSingleton<InitialRoundOptions>.Instance.FirstDeathShield
@@ -50,8 +49,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
             return 0;
         }
 
-        var validPlayer = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
+        var validPlayer = PlayerControl.AllPlayerControls.Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
             .OrderBy(obj => FirstDeadPatch.PlayerNames.IndexOf(obj.name)).FirstOrDefault();
 
         return validPlayer != null && OptionGroupSingleton<InitialRoundOptions>.Instance.FirstDeathShield
@@ -66,8 +64,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
             return false;
         }
 
-        var validPlayer = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
+        var validPlayer = PlayerControl.AllPlayerControls.Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
             .OrderBy(obj => FirstDeadPatch.PlayerNames.IndexOf(obj.name)).FirstOrDefault();
 
         return role.Player == validPlayer;

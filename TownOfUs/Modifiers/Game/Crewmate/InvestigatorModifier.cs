@@ -71,8 +71,7 @@ public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable
             return;
         }
 
-        PlayerControl.AllPlayerControls.ToArray()
-            .ToList().ForEach(plr => plr.TryRemoveModifier<FootstepsModifier>());
+        PlayerControl.AllPlayerControls.ToList().ForEach(plr => plr.TryRemoveModifier<FootstepsModifier>());
     }
 
     public override void OnDeath(DeathReason reason)
@@ -82,7 +81,6 @@ public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable
             return;
         }
 
-        PlayerControl.AllPlayerControls.ToArray()
-            .ToList().ForEach(plr => plr.TryRemoveModifier<FootstepsModifier>());
+        PlayerControl.AllPlayerControls.ToList().ForEach(plr => plr.TryRemoveModifier<FootstepsModifier>());
     }
 }

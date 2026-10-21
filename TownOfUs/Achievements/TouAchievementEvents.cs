@@ -279,7 +279,7 @@ public static class TouAchievementEvents
         _snitchCompletedTasks = true;
 
         // Dead Tell No Tales: every evil the snitch can reveal is already dead.
-        var evils = PlayerControl.AllPlayerControls.ToArray().Where(SnitchRole.IsTargetOfSnitch);
+        var evils = PlayerControl.AllPlayerControls.Where(SnitchRole.IsTargetOfSnitch);
         if (evils.Any() && evils.All(x => x.HasDied()))
         {
             AchievementsAPIHelper.Unlock(TouAchievements.DeadTellNoTales);
@@ -465,7 +465,7 @@ public static class TouAchievementEvents
 
         // Stolen Valor: an Imitator who became the Jailor uses the jailor chat while someone is jailed.
         if (local.Data?.Role is JailorRole && local.HasModifier<ImitatorCacheModifier>() &&
-            PlayerControl.AllPlayerControls.ToArray().Any(x => !x.HasDied() && x.IsJailed()))
+            PlayerControl.AllPlayerControls.Any(x => !x.HasDied() && x.IsJailed()))
         {
             AchievementsAPIHelper.Unlock(TouAchievements.StolenValor);
         }
@@ -600,7 +600,7 @@ public static class TouAchievementEvents
 
             case AbilityType.SonarTrack when @event.Player.AmOwner:
                 {
-                    var tracked = PlayerControl.AllPlayerControls.ToArray().Count(x =>
+                    var tracked = PlayerControl.AllPlayerControls.Count(x =>
                     x.TryGetModifier<SonarArrowTargetModifier>(out var arrowMod) && arrowMod.Owner.AmOwner ||
                     x.TryGetModifier<SonarHeartbeatTargetModifier>(out var pingMod) && pingMod.Owner.AmOwner);
                     if (tracked > 5)
@@ -687,7 +687,7 @@ public static class TouAchievementEvents
                 break;
 
             case AbilityType.PlumberFlush
-                when @event.Player.AmOwner && PlayerControl.AllPlayerControls.ToArray().Any(x => x.inVent):
+                when @event.Player.AmOwner && PlayerControl.AllPlayerControls.Any(x => x.inVent):
                 AchievementsAPIHelper.Unlock(TouAchievements.FlushedOut);
                 break;
 
@@ -711,9 +711,9 @@ public static class TouAchievementEvents
                 }
 
                 // Horsing Around: hysteria triggered while every living non-Impostor is hypnotized.
-                var livingNonImpOthers = PlayerControl.AllPlayerControls.ToArray().Count(x =>
+                var livingNonImpOthers = PlayerControl.AllPlayerControls.Count(x =>
                     !x.AmOwner && !x.HasDied() && !x.Data.Disconnected && !x.IsImpostor());
-                if (livingNonImpOthers >= 3 && PlayerControl.AllPlayerControls.ToArray().All(x =>
+                if (livingNonImpOthers >= 3 && PlayerControl.AllPlayerControls.All(x =>
                         x.AmOwner || x.HasDied() || x.Data.Disconnected || x.IsImpostor() ||
                         HysteriaTargets.Contains(x.PlayerId)))
                 {
@@ -794,7 +794,7 @@ public static class TouAchievementEvents
                         }
                     }
 
-                    if (destination != null && PlayerControl.AllPlayerControls.ToArray().Any(x =>
+                    if (destination != null && PlayerControl.AllPlayerControls.Any(x =>
                             !x.AmOwner && !x.HasDied() && !x.inVent &&
                             destination.roomArea.OverlapPoint(x.GetTruePosition())))
                     {
@@ -852,8 +852,7 @@ public static class TouAchievementEvents
                     }
 
                     // All-Knowing: every living non-impostor other than the local player is exposed.
-                    var alive = PlayerControl.AllPlayerControls.ToArray()
-                    .Where(x => !x.AmOwner && !x.HasDied() && !x.Data.Disconnected);
+                    var alive = PlayerControl.AllPlayerControls.Where(x => !x.AmOwner && !x.HasDied() && !x.Data.Disconnected);
                     var nonImpOthers = alive.Count(x => !x.IsImpostorAligned());
                     var unexposedNonImpOthers = alive.Count(x =>
                     !x.IsImpostorAligned() && !x.HasModifier<HerbalistExposedModifier>());
@@ -887,7 +886,7 @@ public static class TouAchievementEvents
 
             // Public Execution: the Parasite's Overtaken victim was killed with a witness nearby.
             case AbilityType.ParasiteKill when @event.Player.AmOwner && @event.Target is PlayerControl overtaken:
-                if (PlayerControl.AllPlayerControls.ToArray().Any(x =>
+                if (PlayerControl.AllPlayerControls.Any(x =>
                         x.PlayerId != @event.Player.PlayerId && x.PlayerId != overtaken.PlayerId &&
                         !x.HasDied() && !x.Data.Disconnected && !x.inVent &&
                         Vector2.Distance(x.GetTruePosition(), overtaken.GetTruePosition()) <= 3f))
@@ -1328,8 +1327,7 @@ public static class TouAchievementEvents
                 AchievementsAPIHelper.Unlock(TouAchievements.TrickyClown);
             }
 
-            var remaining = PlayerControl.AllPlayerControls.ToArray()
-                .Count(x => !x.Data.IsDead && x.PlayerId != exiled.PlayerId);
+            var remaining = PlayerControl.AllPlayerControls.Count(x => !x.Data.IsDead && x.PlayerId != exiled.PlayerId);
             if (remaining <= 3)
             {
                 AchievementsAPIHelper.Unlock(TouAchievements.FinalAct);
@@ -1581,8 +1579,7 @@ public static class TouAchievementEvents
             yield break;
         }
 
-        var alive = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => !x.HasDied() && !x.Data.Disconnected && x.Data.Role is not SpectatorRole);
+        var alive = PlayerControl.AllPlayerControls.Where(x => !x.HasDied() && !x.Data.Disconnected && x.Data.Role is not SpectatorRole);
         if (alive.Count() == 2 && alive.Any(x => x.Data.Role is JuggernautRole) &&
             alive.Any(x => x.Data.Role is PestilenceRole))
         {
@@ -1630,7 +1627,7 @@ public static class TouAchievementEvents
             return false;
         }
 
-        return EndGameResult.CachedWinners.ToArray().Any(x => x.PlayerName == local.Data.PlayerName);
+        return EndGameResult.CachedWinners.Any(x => x.PlayerName == local.Data.PlayerName);
     }
 
     private static bool IsWinner(PlayerControl? player)
@@ -1640,7 +1637,7 @@ public static class TouAchievementEvents
             return false;
         }
 
-        return EndGameResult.CachedWinners.ToArray().Any(x => x.PlayerName == player.Data.PlayerName);
+        return EndGameResult.CachedWinners.Any(x => x.PlayerName == player.Data.PlayerName);
     }
 
     private static bool IsEvil(PlayerControl player)
@@ -1667,8 +1664,7 @@ public static class TouAchievementEvents
 
     private static List<PlayerControl> AliveOthers()
     {
-        return PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => !x.HasDied() && !x.AmOwner && !x.Data.Disconnected && x.Data.Role is not SpectatorRole)
+        return PlayerControl.AllPlayerControls.Where(x => !x.HasDied() && !x.AmOwner && !x.Data.Disconnected && x.Data.Role is not SpectatorRole)
             .ToList();
     }
 

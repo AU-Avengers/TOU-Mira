@@ -127,7 +127,7 @@ public static class GhostRoleEvents
     {
         yield return new WaitForSeconds(1f);
 
-        var basicGhosts = PlayerControl.AllPlayerControls.ToArray().ToList();
+        var basicGhosts = PlayerControl.AllPlayerControls.ToList();
         
         foreach (var role in MiscUtils.AllTouRoles.OfType<IBasicGhostRole>().OrderBy(x => x.SpawnPriority))
         {

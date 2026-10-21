@@ -127,8 +127,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        var alivePlayers = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => !GameHistory.IsFullyDead(x));
+        var alivePlayers = PlayerControl.AllPlayerControls.Where(x => !GameHistory.IsFullyDead(x));
 
         var hexed = alivePlayers
             .Where(p => p.HasModifier<SpellslingerHexedModifier>())
@@ -163,7 +162,6 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     public static bool EveryoneHexed()
     {
         return PlayerControl.AllPlayerControls
-            .ToArray()
             .Where(p => p.Data.Role is not SpellslingerRole && !p.HasDied() && (!p.IsImpostorAligned() || OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode))
             .All(p => p.HasModifier<SpellslingerHexedModifier>());
     }

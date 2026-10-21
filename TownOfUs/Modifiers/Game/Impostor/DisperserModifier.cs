@@ -157,8 +157,7 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
 
     public static Dictionary<byte, Vector2> GenerateDisperseCoordinates()
     {
-        var targets = PlayerControl.AllPlayerControls.ToArray()
-            .Where(player => !player.Data.IsDead && !player.Data.Disconnected).ToList();
+        var targets = PlayerControl.AllPlayerControls.Where(player => !player.Data.IsDead && !player.Data.Disconnected).ToList();
 
         // players with the ImmovableModifier can't be dispersed
         targets.RemoveAll(x => x.HasModifier<ImmovableModifier>());

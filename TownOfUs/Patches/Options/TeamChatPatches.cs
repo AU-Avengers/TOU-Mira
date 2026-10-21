@@ -1013,8 +1013,7 @@ public static class TeamChatPatches
         [HarmonyPostfix]
         public static void SetNamePostfix(ChatBubble __instance, [HarmonyArgument(0)] string playerName, [HarmonyArgument(3)] Color color)
         {
-            var player = PlayerControl.AllPlayerControls.ToArray()
-                .FirstOrDefault(x => x.Data.PlayerName == playerName);
+            var player = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.Data.PlayerName == playerName);
             if (player == null) return;
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
             if (genOpt.FFAImpostorMode && PlayerControl.LocalPlayer.IsImpostorAligned() && !GameHistory.IsFullyDead(PlayerControl.LocalPlayer) &&

@@ -107,8 +107,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
             return;
         }
 
-        var inquis = PlayerControl.AllPlayerControls.ToArray()
-            .FirstOrDefault(x =>
+        var inquis = PlayerControl.AllPlayerControls.FirstOrDefault(x =>
                 x.IsRole<InquisitorRole>() && !x.HasDied() &&
                 !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName));
 
@@ -121,8 +120,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         }
 
         var required = (int)OptionGroupSingleton<InquisitorOptions>.Instance.AmountOfHeretics;
-        var players = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => x.Data.Role is not InquisitorRole && x.Data.Role is not SpectatorRole).ToList();
+        var players = PlayerControl.AllPlayerControls.Where(x => x.Data.Role is not InquisitorRole && x.Data.Role is not SpectatorRole).ToList();
         var textlog = $"Players in heretic list possible: {players.Count}";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, textlog);
 
@@ -382,8 +380,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
             return;
         }
 
-        foreach (var player in GameData.Instance.AllPlayers.ToArray()
-                     .Where(x => !x.Object.HasDied() && x.Object.HasModifier<InquisitorInquiredModifier>()))
+        foreach (var player in GameData.Instance.AllPlayers.Where(x => !x.Object.HasDied() && x.Object.HasModifier<InquisitorInquiredModifier>()))
         {
             var text = MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorInquiredNonHeretic")
                 .Replace("<player>", player.PlayerName);

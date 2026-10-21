@@ -76,7 +76,7 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
     {
         yield return new WaitForSeconds(7f);
         SeekerBodyType = GameManager.Instance.GetBodyType(Player);
-        var randomHider = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x != Player);
+        var randomHider = PlayerControl.AllPlayerControls.FirstOrDefault(x => x != Player);
         HiderBodyType = randomHider != null ? GameManager.Instance.GetBodyType(randomHider) : PlayerBodyTypes.Normal;
     }
 }

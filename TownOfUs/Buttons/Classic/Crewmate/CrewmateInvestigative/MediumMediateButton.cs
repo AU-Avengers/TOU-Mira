@@ -58,8 +58,7 @@ public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>, ILegac
             return;
         }
 
-        var deadPlayers = PlayerControl.AllPlayerControls.ToArray()
-            .Where(plr => plr.Data.IsDead && !plr.Data.Disconnected &&
+        var deadPlayers = PlayerControl.AllPlayerControls.Where(plr => plr.Data.IsDead && !plr.Data.Disconnected &&
                           Object.FindObjectsOfType<DeadBody>().Any(x => x.ParentId == plr.PlayerId)
                           && !plr.HasModifier<MediatedModifier>()).ToList();
 

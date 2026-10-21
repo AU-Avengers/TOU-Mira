@@ -237,7 +237,7 @@ AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
 
         if (roleWhenAlive is not VampireRole && (roleWhenAlive.MaxCount <= 1 || (roleWhenAlive.MaxCount <= PlayerControl
                 .AllPlayerControls
-                .ToArray().Count(x => x.Data.Role.Role == roleWhenAlive.Role))))
+                .Count(x => x.Data.Role.Role == roleWhenAlive.Role))))
         {
             if (target.IsCrewmate())
             {

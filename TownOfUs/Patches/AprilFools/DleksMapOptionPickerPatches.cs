@@ -16,7 +16,7 @@ public static class DleksMapOptionPickerPatches
     [HarmonyPrefix]
     public static void AddToGameOptionsUI(GameOptionsMapPicker __instance)
     {
-        if (__instance.AllMapIcons.ToArray().Any(x => x.Name == MapNames.Dleks))
+        if (__instance.AllMapIcons.Any(x => x.Name == MapNames.Dleks))
         {
             return;
         }
@@ -38,7 +38,7 @@ public static class DleksMapOptionPickerPatches
         // Seems to throw error on android?
         try
         {
-            if (__instance.AllMapIcons.ToArray().Any(x => x.Name == MapNames.Dleks))
+            if (__instance.AllMapIcons.Any(x => x.Name == MapNames.Dleks))
             {
                 return;
             }
