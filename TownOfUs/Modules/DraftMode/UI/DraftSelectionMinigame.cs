@@ -224,8 +224,8 @@ namespace TownOfUs.Modules.DraftMode
         [HideFromIl2Cpp]
         public void CacheOfferedRoles(ushort[] offeredRoleIds, string[] offeredRoleNames = null!)
         {
-            _offeredRoleIds = offeredRoleIds ?? Array.Empty<ushort>();
-            _offeredRoleNames = offeredRoleNames ?? Array.Empty<string>();
+            _offeredRoleIds = offeredRoleIds ?? [];
+            _offeredRoleNames = offeredRoleNames ?? [];
         }
 
         public static void Show(ushort[] roleIds, string[] roleNames = null!)
@@ -236,8 +236,8 @@ namespace TownOfUs.Modules.DraftMode
             var go = new GameObject("DraftScreenController");
             DontDestroyOnLoad(go);
             Instance = go.AddComponent<DraftScreenController>();
-            Instance._offeredRoleIds = roleIds ?? Array.Empty<ushort>();
-            Instance._offeredRoleNames = roleNames ?? Array.Empty<string>();
+            Instance._offeredRoleIds = roleIds ?? [];
+            Instance._offeredRoleNames = roleNames ?? [];
             Instance._hasPicked = false;
             Instance._cardsReady = false;
             Instance._localTimeLeft = -1f;

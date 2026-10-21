@@ -290,11 +290,11 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
 
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
-        if (CurrentRoleDistribution() == RoleDistribution.Vanilla) { return Enumerable.Empty<string>(); }
+        if (CurrentRoleDistribution() == RoleDistribution.Vanilla) { return []; }
 
         if (HudManagerPatches.RoleListTextComp == null || string.IsNullOrWhiteSpace(HudManagerPatches.RoleListTextComp.text))
         {
-            return Enumerable.Empty<string>();
+            return [];
         }
 
         var lines = HudManagerPatches.RoleListTextComp.text
