@@ -151,24 +151,10 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
         }
 
         var roomId = GetRoomId(position);
-        var selectedRooms = new[]
-        {
-            (SystemTypes)options.Blindspot1Room.Value,
-            (SystemTypes)options.Blindspot2Room.Value,
-            (SystemTypes)options.Blindspot3Room.Value,
-            (SystemTypes)options.Blindspot4Room.Value,
-            (SystemTypes)options.Blindspot5Room.Value,
-            (SystemTypes)options.Blindspot6Room.Value,
-            (SystemTypes)options.Blindspot7Room.Value,
-            (SystemTypes)options.Blindspot8Room.Value,
-            (SystemTypes)options.Blindspot9Room.Value,
-            (SystemTypes)options.Blindspot10Room.Value,
-        };
-
-        var limit = Math.Clamp(count, 0, selectedRooms.Length);
+        var limit = Math.Clamp(count, 0, options.BlindspotsRooms.Count);
         for (var i = 0; i < limit; i++)
         {
-            if (selectedRooms[i] == roomId)
+            if (options.BlindspotsRooms[i] == roomId)
             {
                 return true;
             }
