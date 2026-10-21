@@ -177,7 +177,7 @@ public static class IntroScenePatches
         {
             RoleListOption slotValue = i >= list.Slots.Count
                                        ? (RoleListOption)(-1)
-                                       : list.Slots[i].Value;
+                                       : list.Slots[i];
 
             buckets.Add(slotValue);
         }

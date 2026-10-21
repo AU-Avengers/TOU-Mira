@@ -33,7 +33,7 @@ public sealed class DraftPlan
         var seats = new List<RoleAlignment[]>();
         for (var i = 0; i < Math.Min(players, slots.Count); i++)
         {
-            seats.Add(Alignments(slots[i].Value));
+            seats.Add(Alignments(slots[i]));
         }
 
         while (seats.Count < players)

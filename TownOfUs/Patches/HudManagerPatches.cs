@@ -380,7 +380,7 @@ public static class HudManagerPatches
                     {
                         var slotValue = i >= list.Slots.Count
                             ? (RoleListOption)(-1)
-                            : list.Slots[i].Value;
+                            : list.Slots[i];
 
                         RoleListBuilder.AppendLine(GetRoleForSlot(slotValue));
                     }
@@ -411,7 +411,7 @@ public static class HudManagerPatches
                             {
                                 var slotValue = i >= draftOpts.Slots.Count
                                                 ? (RoleListOption)(-1)
-                                                : draftOpts.Slots[i].Value;
+                                                : draftOpts.Slots[i];
 
                                 RoleListBuilder.AppendLine(GetRoleForSlot(slotValue));
                             }
