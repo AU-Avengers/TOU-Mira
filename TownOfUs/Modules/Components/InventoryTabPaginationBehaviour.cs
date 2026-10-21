@@ -40,7 +40,7 @@ public class InventoryTabPaginationBehaviour(nint cppPtr) : MonoBehaviour(cppPtr
             nextButton.transform.localScale = new Vector3(0.5f, 0.5f, 1);
             nextButton.OnClick = new Button.ButtonClickedEvent();
             nextButton.OnClick.AddListener((UnityAction)NextPage);
-            nextButton.GetComponent<SpriteRenderer>().sprite = MiraAssets.NextButton.LoadAsset();
+            nextButton.GetComponent<SpriteRenderer>().sprite = MiraAssets.NextButton;
         }
 
         if (!backButton)

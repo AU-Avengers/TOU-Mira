@@ -12,7 +12,7 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Taskmaster,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Taskmaster.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Taskmaster,
             "TouMira.Modifier.Crewmate.Taskmaster", 1.45f));
     public override string IdPart => "Taskmaster";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -78,7 +78,7 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Taskmaster.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Modifier.TaskmasterTaskNotif").Replace("<taskName>", taskText)}</b></color>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Taskmaster.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Taskmaster);
                 notif1.AdjustNotification();
             }
         }

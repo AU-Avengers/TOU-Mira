@@ -116,7 +116,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Doomsayer.LoadAsset(), "TouMira.Role.Neutral.Doomsayer", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Doomsayer, "TouMira.Role.Neutral.Doomsayer", 1.45f),
         IntroSound = TouAudio.QuestionSound,
         Icon = TouRoleIcons.Doomsayer,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
@@ -487,7 +487,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                     ? $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerMisguessOne")}</b>"
                     : $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerMisguessMultiple").Replace("<misguessCount>", $"{NumberOfGuesses - AllVictims.Count}")}</b>";
                 var notif1 = Helpers.CreateAndShowNotification(
-                    text, Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());
+                    text, Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer);
 
                 notif1.AdjustNotification();
 

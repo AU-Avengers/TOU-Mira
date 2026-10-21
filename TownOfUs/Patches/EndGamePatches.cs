@@ -467,7 +467,7 @@ public static class EndGamePatches
 
         var GameSummaryButton = Object.Instantiate(exitBtn);
         GameSummaryButton.gameObject.SetActive(true);
-        GameSummaryButton.sprite = TouAssets.GameSummarySprite.LoadAsset();
+        GameSummaryButton.sprite = TouAssets.GameSummarySprite;
         GameSummaryButton.transform.position += Vector3.up * 1.65f;
         if (GameSummaryButton.transform.GetChild(1).TryGetComponent<TextTranslatorTMP>(out var tmp2))
         {

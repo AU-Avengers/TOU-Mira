@@ -42,7 +42,7 @@ public static class CelebrityMeetingIntroPatch
 
         var iconObj = __instance.ProtectedRecently.transform.FindChild("UI_ProtectionIcon");
         var iconSprite = iconObj.GetComponent<SpriteRenderer>();
-        iconSprite.sprite = TouModifierIcons.Celebrity.LoadAsset();
+        iconSprite.sprite = TouModifierIcons.Celebrity;
 
         if (HudManager.InstanceExists)
         {

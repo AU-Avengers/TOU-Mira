@@ -23,13 +23,13 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     public bool CanBeBribed => false;
     public void InitialSetup()
     {
-        TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.BribeSprite.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.BribeSprite,
             "TouMira.Role.Neutral.Mercenary.Ui.Bribe", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.GuardSprite.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.GuardSprite,
             "TouMira.Role.Neutral.Mercenary.Ui.Guard", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.MercBribeBad.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.MercBribeBad,
             "TouMira.Role.Neutral.Mercenary.Ui.Bribe.Bad", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.MercBribeGood.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.MercBribeGood,
             "TouMira.Role.Neutral.Mercenary.Ui.Bribe.Good", 1.45f);
     }
     public override void SpawnTaskHeader(PlayerControl playerControl)
@@ -116,7 +116,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mercenary.LoadAsset(), "TouMira.Role.Neutral.Mercenary", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mercenary, "TouMira.Role.Neutral.Mercenary", 1.45f),
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Mercenary,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

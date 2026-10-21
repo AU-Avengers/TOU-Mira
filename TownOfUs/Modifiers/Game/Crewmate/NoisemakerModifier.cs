@@ -15,7 +15,7 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         new Color32(232, 105, 158, 255),
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Noisemaker.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Noisemaker,
             "AmongUs.Role.Noisemaker", 1.45f));
     public override string IdPart => "Noisemaker";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -100,7 +100,7 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
 
             if (Constants.ShouldPlaySfx())
             {
-                var audio = SoundManager.Instance.PlaySound(TouAudio.NoisemakerDeathSound.LoadAsset(), false, 1,
+                var audio = SoundManager.Instance.PlaySound(TouAudio.NoisemakerDeathSound, false, 1,
                     SoundManager.Instance.SfxChannel);
                 SoundDynamics(player, audio);
                 VibrationManager.Vibrate(1f, PlayerControl.LocalPlayer.GetTruePosition(), 7f, 1.2f);
@@ -162,7 +162,7 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
 
             if (Constants.ShouldPlaySfx())
             {
-                var audio = SoundManager.Instance.PlaySound(TouAudio.NoisemakerDeathSound.LoadAsset(), false, 1,
+                var audio = SoundManager.Instance.PlaySound(TouAudio.NoisemakerDeathSound, false, 1,
                     SoundManager.Instance.SfxChannel);
                 SoundDynamics(player, audio);
                 VibrationManager.Vibrate(1f, PlayerControl.LocalPlayer.GetTruePosition(), 7f, 1.2f);

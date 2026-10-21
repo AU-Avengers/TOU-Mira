@@ -103,7 +103,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
             firstDead?.SetVisible();
 
             var bodySprite = body.transform.GetChild(1).gameObject;
-            var ambushAnim = AnimStore.SpawnFliplessAnimBody(Player, TouAssets.AmbushPrefab.LoadAsset());
+            var ambushAnim = AnimStore.SpawnFliplessAnimBody(Player, TouAssets.AmbushPrefab);
             ambushAnim.name = $"{Player.Data.PlayerName} Ambush Animation";
             ambushAnim.SetActive(false);
 

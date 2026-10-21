@@ -26,7 +26,7 @@ public sealed class FakeVentButton : CustomActionButton, IAurialBypassButton
         Button!.TryCast<AbilityButton>()!
             .commsDown
             .GetComponent<SpriteRenderer>()
-            .sprite = Sprite.LoadAsset();
+            .sprite = Sprite;
 
         SetButtonLocation(ButtonLocation.BottomLeft);
         SetButtonLocation(ButtonLocation.BottomRight);

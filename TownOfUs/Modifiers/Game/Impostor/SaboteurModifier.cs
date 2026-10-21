@@ -9,7 +9,7 @@ public sealed class SaboteurModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Impostor,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Saboteur.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Saboteur,
             "TouMira.Modifier.Impostor.Saboteur", 1.45f));
 public override string IdPart => "Saboteur";
 public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

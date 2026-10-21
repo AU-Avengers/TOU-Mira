@@ -68,9 +68,9 @@ public sealed class GrenadierFlashButton : TownOfUsRoleButton<GrenadierRole>, IA
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.GrenadierFlashNotif")}</color></b>",
             Color.white, new Vector3(0f, 1f, -150f),
-            spr: TouRoleIcons.Grenadier.LoadAsset());
+            spr: TouRoleIcons.Grenadier);
         notif1.AdjustNotification();
 
-        SoundManager.Instance.PlaySound(TouAudio.GrenadeSound.LoadAsset(), false);
+        SoundManager.Instance.PlaySound(TouAudio.GrenadeSound, false);
     }
 }

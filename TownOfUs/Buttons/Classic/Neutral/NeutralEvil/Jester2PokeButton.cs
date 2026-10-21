@@ -42,7 +42,7 @@ public sealed class JesterPokeButton : TownOfUsRoleButton<JesterRole, PlayerCont
 
         var notif1 = Helpers.CreateAndShowNotification(
             MiraLocaleManager.Get("TouNotifJesterPoke").Replace("<player>", $"{TownOfUsColors.Jester.ToTextColor()}{Target.Data.PlayerName}</color>"),
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Jester.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Jester);
 
         notif1.AdjustNotification();
     }

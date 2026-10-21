@@ -13,7 +13,7 @@ public sealed class RoleDraftRoleListOptions : AbstractOptionGroup
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
         TmpSpriteUtils.CreateSpriteAsset(
-            TouAssets.IconDraftMode.LoadAsset(),
+            TouAssets.IconDraftMode,
             "TouMira.Gamemode.DraftMode",
             1.45f));
 

@@ -84,7 +84,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Plumber.LoadAsset(), "TouMira.Role.Crewmate.Plumber", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Plumber, "TouMira.Role.Crewmate.Plumber", 1.45f),
         GetsVentData = true,
         IntroSound = TouAudio.EngineerIntroSound,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
@@ -230,15 +230,15 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
             var classic = LegacyAssets.IsLegacy;
             if (classic)
             {
-                render.sprite = LegacyAssets.BarricadeVentSprite.LoadAsset();
+                render.sprite = LegacyAssets.BarricadeVentSprite;
             }
             else
             {
                 var spriteList = new List<Sprite>
                 {
-                    TouAssets.BarricadeVentSprite.LoadAsset(),
-                    TouAssets.BarricadeVentSprite2.LoadAsset(),
-                    TouAssets.BarricadeVentSprite3.LoadAsset(),
+                    TouAssets.BarricadeVentSprite,
+                    TouAssets.BarricadeVentSprite2,
+                    TouAssets.BarricadeVentSprite3,
                 };
                 var trueBarricade = spriteList.Random();
                 render.sprite = trueBarricade;
@@ -249,7 +249,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
                 case ShipStatus.MapType.Fungle:
                     if (!classic)
                     {
-                        render.sprite = TouAssets.BarricadeFungleSprite.LoadAsset();
+                        render.sprite = TouAssets.BarricadeFungleSprite;
                     }
                     barricade.transform.localPosition = new Vector3(0.03f, -0.107f, -0.001f);
                     break;
@@ -275,7 +275,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
                     case "util-vent3":
                         if (!classic)
                         {
-                            render.sprite = TouAssets.BarricadeFungleSprite.LoadAsset();
+                            render.sprite = TouAssets.BarricadeFungleSprite;
                         }
                         barricade.transform.localPosition = new Vector3(0.03f, -0.107f, -0.001f);
                         break;

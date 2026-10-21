@@ -9,7 +9,7 @@ public sealed class SixthSenseModifier : UniversalGameModifier, IWikiDiscoverabl
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.SixthSense,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.SixthSense.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.SixthSense,
             "TouMira.Modifier.Universal.SixthSense", 1.45f));
     public override string IdPart => "SixthSense";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

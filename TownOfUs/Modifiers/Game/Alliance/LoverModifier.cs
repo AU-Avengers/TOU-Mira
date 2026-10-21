@@ -26,7 +26,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Lover,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Lover.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Lover,
             "TouMira.Modifier.Alliance.Lover", 1.45f));
     public override string IdPart => "Lover";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -175,7 +175,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
         HudManager.Instance.Chat.gameObject.SetActive(true);
         var buttonArray = new []
-            { TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()};
+            { TouChatAssets.LoveChatIdle, TouChatAssets.LoveChatHover, TouChatAssets.LoveChatOpen};
         HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
         HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
         HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = buttonArray[2];
@@ -275,8 +275,8 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
         var buttonArray = new Sprite[]
         {
-            TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(),
-            TouChatAssets.NormalChatOpen.LoadAsset()
+            TouChatAssets.NormalChatIdle, TouChatAssets.NormalChatHover,
+            TouChatAssets.NormalChatOpen
         };
         HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
             buttonArray[0];
@@ -333,7 +333,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
         HudManager.Instance.Chat.SetVisible(true);
         var buttonArray = new []
-                { TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()};
+                { TouChatAssets.LoveChatIdle, TouChatAssets.LoveChatHover, TouChatAssets.LoveChatOpen};
         HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
         HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
         HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = buttonArray[2];

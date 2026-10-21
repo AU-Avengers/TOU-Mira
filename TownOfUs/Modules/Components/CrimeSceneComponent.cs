@@ -20,7 +20,7 @@ public sealed class CrimeSceneComponent(nint cppPtr) : MonoBehaviour(cppPtr)
     public void Awake()
     {
         var render = gameObject.AddComponent<SpriteRenderer>();
-        render.sprite = TouAssets.CrimeSceneSprite.LoadAsset();
+        render.sprite = TouAssets.CrimeSceneSprite;
         var scale = render.transform.localScale;
         scale.x *= 0.5f;
         scale.y *= 0.5f;

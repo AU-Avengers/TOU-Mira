@@ -16,7 +16,7 @@ public sealed class SpyModifier : TouGameModifier, IWikiDiscoverable, IColoredMo
 {
     public override ModifierUiConfiguration Configuration => new(
         new(0.8f, 0.64f, 0.8f, 1f),
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spy.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spy,
             "TouMira.Role.Crewmate.Spy", 1.45f));
     public Color ModifierColor => new(0.8f, 0.64f, 0.8f, 1f);
     public override string IdPart => "Spy";

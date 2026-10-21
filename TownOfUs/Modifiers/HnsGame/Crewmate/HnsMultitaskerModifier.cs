@@ -9,7 +9,7 @@ public sealed class HnsMultitaskerModifier : HnsGameModifier
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Multitasker,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Multitasker.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Multitasker,
             "TouMira.Modifier.HnS.Hider.Multitasker", 1.45f));
     public override string IdPart => "Multitasker";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Multitasker;

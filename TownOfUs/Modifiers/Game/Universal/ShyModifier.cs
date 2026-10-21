@@ -17,7 +17,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Shy,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Shy.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Shy,
             "TouMira.Modifier.Universal.Shy", 1.45f));
     public override string IdPart => "Shy";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

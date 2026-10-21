@@ -19,7 +19,7 @@ public sealed class BetterLevelImpostorOptions : AbstractOptionGroup
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
         TmpSpriteUtils.CreateSpriteAsset(
-            TouAssets.IconLevelImposter.LoadAsset(),
+            TouAssets.IconLevelImposter,
             "AmongUs.Map.LevelImposter",
             1.45f));
 

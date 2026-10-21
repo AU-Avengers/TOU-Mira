@@ -62,7 +62,7 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Veteran.LoadAsset(), "TouMira.Role.Crewmate.Veteran", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Veteran, "TouMira.Role.Crewmate.Veteran", 1.45f),
         Icon = TouRoleIcons.Veteran,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.ImpostorIntroSound
@@ -85,7 +85,7 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         var msg = MiraLocaleManager.Get("TownOfUsMira.Role.VeteranAttackMessage");
 
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{msg}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Veteran.LoadAsset());
+            $"<b>{msg}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Veteran);
 
         notif1.AdjustNotification();
 

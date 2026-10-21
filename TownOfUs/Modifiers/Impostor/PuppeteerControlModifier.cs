@@ -100,7 +100,7 @@ public sealed class PuppeteerControlModifier(PlayerControl controller) : Disable
             _controlledNotification = ControlledFeedbackUtilities.ShowControlledByNotification(
                 controllerName,
                 TownOfUsColors.Impostor,
-                TouRoleIcons.Puppeteer.LoadAsset());
+                TouRoleIcons.Puppeteer);
         }
     }
 

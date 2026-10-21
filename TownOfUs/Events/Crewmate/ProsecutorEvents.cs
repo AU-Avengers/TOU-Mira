@@ -216,7 +216,7 @@ public static class ProsecutorEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Role.Prosecutor.ShameNotificationSelf"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor);
 
                 notif1.AdjustNotification();
             }
@@ -224,7 +224,7 @@ public static class ProsecutorEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Role.Prosecutor.ShameNotification").Replace("<player>", ProsToAnnounceNext.Data.PlayerName),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor);
 
                 notif1.AdjustNotification();
             }
@@ -233,7 +233,7 @@ public static class ProsecutorEvents
         {
             var notif1 = Helpers.CreateAndShowNotification(
                 MiraLocaleManager.Get("TownOfUsMira.Role.Prosecutor.ShameNotificationSelfPrivate"),
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor);
 
             notif1.AdjustNotification();
         }

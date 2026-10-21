@@ -25,13 +25,13 @@ public static class VanillaAssetsPatch
         var useBtn = __instance.UseButton;
         var petBtn = __instance.PetButton;
         var ventBtn = __instance.ImpostorVentButton;
-        killBtn.defaultKillSprite = LegacyVanillaAssets.KillSprite.LoadAsset();
-        killBtn.graphic.sprite = LegacyVanillaAssets.KillSprite.LoadAsset();
-        reportBtn.graphic.sprite = LegacyVanillaAssets.ReportSprite.LoadAsset();
-        saboBtn.graphic.sprite = LegacyVanillaAssets.SabotageSprite.LoadAsset();
-        useBtn.graphic.sprite = LegacyVanillaAssets.UseSprite.LoadAsset();
-        petBtn.graphic.sprite = LegacyVanillaAssets.PetSprite.LoadAsset();
-        ventBtn.graphic.sprite = LegacyVanillaAssets.VentSprite.LoadAsset();
+        killBtn.defaultKillSprite = LegacyVanillaAssets.KillSprite;
+        killBtn.graphic.sprite = LegacyVanillaAssets.KillSprite;
+        reportBtn.graphic.sprite = LegacyVanillaAssets.ReportSprite;
+        saboBtn.graphic.sprite = LegacyVanillaAssets.SabotageSprite;
+        useBtn.graphic.sprite = LegacyVanillaAssets.UseSprite;
+        petBtn.graphic.sprite = LegacyVanillaAssets.PetSprite;
+        ventBtn.graphic.sprite = LegacyVanillaAssets.VentSprite;
         killBtn.RemoveLabel();
         reportBtn.RemoveLabel();
         saboBtn.RemoveLabel();
@@ -57,52 +57,52 @@ public static class VanillaAssetsPatch
         switch (settings.ButtonType)
         {
             case ImageNames.UseButton:
-                sprite = LegacyVanillaAssets.UseSprite.LoadAsset();
+                sprite = LegacyVanillaAssets.UseSprite;
                 break;
             case ImageNames.DoorLogsButton:
-                sprite = LegacyVanillaAssets.DoorlogSprite.LoadAsset();
+                sprite = LegacyVanillaAssets.DoorlogSprite;
                 break;
             case ImageNames.CamsButton:
-                sprite = LegacyVanillaAssets.SecuritySprite.LoadAsset();
+                sprite = LegacyVanillaAssets.SecuritySprite;
                 break;
             case ImageNames.VitalsButton:
-                sprite = LegacyVanillaAssets.VitalsSprite.LoadAsset();
+                sprite = LegacyVanillaAssets.VitalsSprite;
                 break;
             case ImageNames.OptionsButton:
-                sprite = LegacyVanillaAssets.CustomizeSprite.LoadAsset();
+                sprite = LegacyVanillaAssets.CustomizeSprite;
                 break;
             case ImageNames.MIRAAdminButton:
-                sprite = LegacyVanillaAssets.AdminMiraSprite.LoadAsset();
+                sprite = LegacyVanillaAssets.AdminMiraSprite;
                 break;
             case ImageNames.PolusAdminButton:
-                sprite = LegacyVanillaAssets.AdminPolusSprite.LoadAsset();
+                sprite = LegacyVanillaAssets.AdminPolusSprite;
                 break;
             case ImageNames.AirshipAdminButton:
-                sprite = LegacyVanillaAssets.AdminAirshipSprite.LoadAsset();
+                sprite = LegacyVanillaAssets.AdminAirshipSprite;
                 break;
             case ImageNames.AdminMapButton:
-                sprite = LegacyVanillaAssets.AdminSkeldSprite.LoadAsset();
+                sprite = LegacyVanillaAssets.AdminSkeldSprite;
                 /*switch (MiscUtils.GetCurrentMap)
                 {
                     case ExpandedMapNames.Skeld or ExpandedMapNames.Dleks:
-                        sprite = LegacyVanillaAssets.AdminSkeldSprite.LoadAsset();
+                        sprite = LegacyVanillaAssets.AdminSkeldSprite;
                         break;
                     case ExpandedMapNames.MiraHq:
-                        sprite = LegacyVanillaAssets.AdminMiraSprite.LoadAsset();
+                        sprite = LegacyVanillaAssets.AdminMiraSprite;
                         break;
                     case ExpandedMapNames.Polus:
-                        sprite = LegacyVanillaAssets.AdminPolusSprite.LoadAsset();
+                        sprite = LegacyVanillaAssets.AdminPolusSprite;
                         break;
                     case ExpandedMapNames.Airship:
-                        sprite = LegacyVanillaAssets.AdminAirshipSprite.LoadAsset();
+                        sprite = LegacyVanillaAssets.AdminAirshipSprite;
                         break;
                 }*/
                 break;
             /*case ImageNames.PlayAgainButton:
-                sprite = LegacyVanillaAssets.PlayAgainSprite.LoadAsset();
+                sprite = LegacyVanillaAssets.PlayAgainSprite;
                 break;
             case ImageNames.ExitRoomButton:
-                sprite = LegacyVanillaAssets.QuitSprite.LoadAsset();
+                sprite = LegacyVanillaAssets.QuitSprite;
                 break;*/
         }
         __instance.graphic.sprite = sprite;

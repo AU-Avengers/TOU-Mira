@@ -99,7 +99,7 @@ public static class HauntMenuMinigamePatch
                         "TouHauntingWaitNextRound",
                         "You must wait until next round to haunt!");
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectator.LoadAsset());
+                    $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectator);
 
                 notif1.AdjustNotification();
                 return;

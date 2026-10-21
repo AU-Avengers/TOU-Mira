@@ -50,7 +50,7 @@ public abstract class TownOfUsButton : CustomActionButton
         hackedSprite.gameObject.layer = Button!.gameObject.layer;
 
         var render = hackedSprite.AddComponent<SpriteRenderer>();
-        render.sprite = TouAssets.FirstRoundLockSprite.LoadAsset();
+        render.sprite = TouAssets.FirstRoundLockSprite;
         FirstRoundLock = render;
 
         SetRoundLockActive(false);
@@ -153,8 +153,8 @@ public abstract class TownOfUsButton : CustomActionButton
         CreateRoundLockIcon();
 
         Button.usesRemainingSprite.sprite = this is ILegacyCapable && LegacyAssets.IsLegacy || this is ILegacyButton
-            ? TouAssets.BlankSprite.LoadAsset()
-            : TouAssets.AbilityCounterBasicSprite.LoadAsset();
+            ? TouAssets.BlankSprite
+            : TouAssets.AbilityCounterBasicSprite;
 
         TownOfUsColors.UseBasic = false;
         if (TextOutlineColor != Color.clear)
@@ -296,7 +296,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         hackedSprite.gameObject.layer = Button!.gameObject.layer;
 
         var render = hackedSprite.AddComponent<SpriteRenderer>();
-        render.sprite = TouAssets.FirstRoundLockSprite.LoadAsset();
+        render.sprite = TouAssets.FirstRoundLockSprite;
         FirstRoundLock = render;
 
         SetRoundLockActive(false);
@@ -431,16 +431,16 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
 
         if (this is ILegacyCapable && LegacyAssets.IsLegacy || this is ILegacyButton)
         {
-            Button.usesRemainingSprite.sprite = TouAssets.BlankSprite.LoadAsset();
+            Button.usesRemainingSprite.sprite = TouAssets.BlankSprite;
         }
         else
         {
             Button.usesRemainingSprite.sprite = typeof(T) switch
             {
-                Type t when t == typeof(Vent) => TouAssets.AbilityCounterVentSprite.LoadAsset(),
-                Type t when t == typeof(DeadBody) => TouAssets.AbilityCounterBodySprite.LoadAsset(),
-                Type t when t == typeof(PlayerControl) => TouAssets.AbilityCounterPlayerSprite.LoadAsset(),
-                _ => TouAssets.AbilityCounterBasicSprite.LoadAsset(),
+                Type t when t == typeof(Vent) => TouAssets.AbilityCounterVentSprite,
+                Type t when t == typeof(DeadBody) => TouAssets.AbilityCounterBodySprite,
+                Type t when t == typeof(PlayerControl) => TouAssets.AbilityCounterPlayerSprite,
+                _ => TouAssets.AbilityCounterBasicSprite,
             };
         }
 

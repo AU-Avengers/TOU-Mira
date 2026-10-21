@@ -67,7 +67,7 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
         ShowFort = showShieldedEveryone || showShieldedSelf || showShieldedWarden ||
                    (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
 
-        WardenFort = AnimStore.SpawnAnimBody(Player, TouAssets.WardenFort.LoadAsset(), false, -1.1f, -0.35f, 1.5f)!;
+        WardenFort = AnimStore.SpawnAnimBody(Player, TouAssets.WardenFort, false, -1.1f, -0.35f, 1.5f)!;
         WardenFort.GetComponent<SpriteAnim>().SetSpeed(0.75f);
         WardenFort.GetComponentsInChildren<SpriteAnim>().FirstOrDefault()?.SetSpeed(0.75f);
     }

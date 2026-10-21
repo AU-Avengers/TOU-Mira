@@ -88,7 +88,7 @@ internal static class CancelCountdownStart
                         "Draft Mode Recap will display <recap>.")
                     .Replace("<recap>", recapModeText)}</b>";
 
-            var notif = Helpers.CreateAndShowNotification(warningText, Color.white, new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode.LoadAsset());
+            var notif = Helpers.CreateAndShowNotification(warningText, Color.white, new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode);
             notif.AdjustNotification();
         }
         if (AmongUsClient.Instance.AmHost)

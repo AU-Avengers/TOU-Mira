@@ -35,7 +35,7 @@ public static class TouRoleUtils
         var roleImg = GetBasicRoleIcon(role);
         if (role is ICustomRole customRole && customRole.Configuration.Icon != null)
         {
-            roleImg = customRole.Configuration.Icon.LoadAsset();
+            roleImg = customRole.Configuration.Icon;
         }
         else if (role.RoleIconSolid != null)
         {
@@ -55,47 +55,47 @@ public static class TouRoleUtils
         var basicText = role.RoleAlignment.ToString();
         if (basicText.Contains("Impostor"))
         {
-            return TouRoleIcons.Impostor.LoadAsset();
+            return TouRoleIcons.Impostor;
         }
 
         if (basicText.Contains("Crewmate"))
         {
-            return TouRoleIcons.Crewmate.LoadAsset();
+            return TouRoleIcons.Crewmate;
         }
 
-        return TouRoleIcons.Neutral.LoadAsset();
+        return TouRoleIcons.Neutral;
     }
 
     public static Sprite GetBasicRoleIcon(RoleBehaviour role)
     {
         if (role.IsImpostor())
         {
-            return TouRoleIcons.Impostor.LoadAsset();
+            return TouRoleIcons.Impostor;
         }
 
         if (role.IsCrewmate())
         {
-            return TouRoleIcons.Crewmate.LoadAsset();
+            return TouRoleIcons.Crewmate;
         }
 
-        return TouRoleIcons.Neutral.LoadAsset();
+        return TouRoleIcons.Neutral;
     }
 
     public static Sprite? TryGetVanillaRoleIcon(RoleTypes roleType)
     {
         return roleType switch
         {
-            RoleTypes.GuardianAngel => TouRoleIcons.GuardianAngel.LoadAsset(),
-            RoleTypes.Detective => TouRoleIcons.Detective.LoadAsset(),
-            RoleTypes.Tracker => TouRoleIcons.Tracker.LoadAsset(),
-            RoleTypes.Scientist => TouRoleIcons.Scientist.LoadAsset(),
-            RoleTypes.Noisemaker => TouRoleIcons.Noisemaker.LoadAsset(),
-            RoleTypes.Phantom => TouRoleIcons.Phantom.LoadAsset(),
-            RoleTypes.Shapeshifter => TouRoleIcons.Shapeshifter.LoadAsset(),
-            RoleTypes.Engineer => TouRoleIcons.Engineer.LoadAsset(),
-            RoleTypes.Judge => TouRoleIcons.Prosecutor.LoadAsset(),
-            RoleTypes.Viper => TouRoleIcons.Viper.LoadAsset(),
-            RoleTypes.SpiritGuide => TouRoleIcons.Spectator.LoadAsset(),
+            RoleTypes.GuardianAngel => TouRoleIcons.GuardianAngel,
+            RoleTypes.Detective => TouRoleIcons.Detective,
+            RoleTypes.Tracker => TouRoleIcons.Tracker,
+            RoleTypes.Scientist => TouRoleIcons.Scientist,
+            RoleTypes.Noisemaker => TouRoleIcons.Noisemaker,
+            RoleTypes.Phantom => TouRoleIcons.Phantom,
+            RoleTypes.Shapeshifter => TouRoleIcons.Shapeshifter,
+            RoleTypes.Engineer => TouRoleIcons.Engineer,
+            RoleTypes.Judge => TouRoleIcons.Prosecutor,
+            RoleTypes.Viper => TouRoleIcons.Viper,
+            RoleTypes.SpiritGuide => TouRoleIcons.Spectator,
             _ => null
         };
     }

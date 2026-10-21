@@ -24,7 +24,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
     public bool ContinuesGame => Player.IsCrewmate() && !Helpers.GetAlivePlayers().Any(x => x.IsImpostor());
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Impostor,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Crewpostor.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Crewpostor,
             "TouMira.Modifier.Alliance.Crewpostor", 1.45f));
     public override string IdPart => "Crewpostor";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

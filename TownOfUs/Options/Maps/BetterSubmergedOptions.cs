@@ -19,7 +19,7 @@ public sealed class BetterSubmergedOptions : AbstractOptionGroup
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
         TmpSpriteUtils.CreateSpriteAsset(
-            TouAssets.IconSubmerged.LoadAsset(),
+            TouAssets.IconSubmerged,
             "AmongUs.Map.Submerged",
             1.45f));
 

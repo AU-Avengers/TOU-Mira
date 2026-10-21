@@ -38,7 +38,7 @@ public static class GameTimerPatch
         TimerSpriteObj.SetActive(true);
 
         TimerSprite = TimerSpriteObj.AddComponent<SpriteRenderer>();
-        TimerSprite.sprite = TouAssets.TimerDrawSprite.LoadAsset();
+        TimerSprite.sprite = TouAssets.TimerDrawSprite;
 
         var ts = TimeSpan.FromSeconds(GameTimer);
 
@@ -148,11 +148,11 @@ public static class GameTimerPatch
         if ((GameTimerType)OptionGroupSingleton<GameTimerOptions>.Instance.TimerEndOption.Value is GameTimerType
                 .Impostors)
         {
-            TimerSprite.sprite = TouAssets.TimerImpSprite.LoadAsset();
+            TimerSprite.sprite = TouAssets.TimerImpSprite;
         }
         else
         {
-            TimerSprite.sprite = TouAssets.TimerDrawSprite.LoadAsset();
+            TimerSprite.sprite = TouAssets.TimerDrawSprite;
         }
         TriggerEndGame = false;
         Enabled = true;

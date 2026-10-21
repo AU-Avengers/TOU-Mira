@@ -427,13 +427,13 @@ public static class ModCompatibility
         {
             if (isMovingUp)
             {
-                basicRend.sprite = TouAssets.SubmergedFloorUp.LoadAsset();
-                hoverRend.sprite = TouAssets.SubmergedFloorUpHover.LoadAsset();
+                basicRend.sprite = TouAssets.SubmergedFloorUp;
+                hoverRend.sprite = TouAssets.SubmergedFloorUpHover;
             }
             else
             {
-                basicRend.sprite = TouAssets.SubmergedFloorDown.LoadAsset();
-                hoverRend.sprite = TouAssets.SubmergedFloorDownHover.LoadAsset();
+                basicRend.sprite = TouAssets.SubmergedFloorDown;
+                hoverRend.sprite = TouAssets.SubmergedFloorDownHover;
             }
         }
 

@@ -10,7 +10,7 @@ public sealed class GiantModifier : UniversalGameModifier, IWikiDiscoverable, IV
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Giant,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Giant.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Giant,
             "TouMira.Modifier.Universal.Giant", 1.45f));
     public override string IdPart => "Giant";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

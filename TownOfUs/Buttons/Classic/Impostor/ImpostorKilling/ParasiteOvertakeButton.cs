@@ -298,14 +298,14 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 ClearAutoDecayCountdownVisual();
             }
 
-            Button.graphic?.sprite = TouAssets.KillSprite.LoadAsset();
+            Button.graphic?.sprite = TouAssets.KillSprite;
         }
         else
         {
             OverrideName(_infectName);
             ClearAutoDecayCountdownVisual();
 
-            Button.graphic?.sprite = TouImpAssets.OvertakeSprite.LoadAsset();
+            Button.graphic?.sprite = TouImpAssets.OvertakeSprite;
         }
 
         base.FixedUpdate(playerControl);
@@ -356,7 +356,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
 
         if (Button.usesRemainingSprite != null)
         {
-            Button.usesRemainingSprite.sprite = TouAssets.TimerImpSprite.LoadAsset();
+            Button.usesRemainingSprite.sprite = TouAssets.TimerImpSprite;
             Button.usesRemainingSprite.gameObject.SetActive(true);
 
             var endUrgency = Mathf.Clamp01((5f - remainingSeconds) / 5f);

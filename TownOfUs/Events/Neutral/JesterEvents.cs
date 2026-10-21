@@ -50,7 +50,7 @@ public static class JesterEvents
                 }
 
                 var notif1 = Helpers.CreateAndShowNotification(text, Color.white, new Vector3(0f, 1f, -20f),
-                    spr: TouRoleIcons.Jester.LoadAsset());
+                    spr: TouRoleIcons.Jester);
 
                 notif1.AdjustNotification();
                 if (OptionGroupSingleton<JesterOptions>.Instance.JestWin is JestWinOptions.Haunts)
@@ -82,7 +82,7 @@ public static class JesterEvents
                 }
 
                 var notif1 = Helpers.CreateAndShowNotification(text, Color.white, new Vector3(0f, 1f, -20f),
-                    spr: TouRoleIcons.Jester.LoadAsset());
+                    spr: TouRoleIcons.Jester);
                 notif1.AdjustNotification();
             }
         }

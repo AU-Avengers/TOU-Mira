@@ -64,7 +64,7 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
         PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
 
         var notif1 = Helpers.CreateAndShowNotification($"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.OfficerBadKillFeedback")}</b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Officer.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Officer);
 
         notif1.AdjustNotification();
 

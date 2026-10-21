@@ -10,7 +10,7 @@ public sealed class SleuthModifier : UniversalGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Sleuth,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Sleuth.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Sleuth,
             "TouMira.Modifier.Universal.Sleuth", 1.45f));
     public override string IdPart => "Sleuth";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

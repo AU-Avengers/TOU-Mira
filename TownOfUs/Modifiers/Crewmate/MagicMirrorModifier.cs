@@ -38,7 +38,7 @@ public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShield
         ShowShield = Mirrorcaster.AmOwner ||
                      (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
 
-        MedicShield = AnimStore.SpawnAnimBody(Player, TouAssets.MagicMirror.LoadAsset(), false, -1.1f, -0.1f, 1.5f)!;
+        MedicShield = AnimStore.SpawnAnimBody(Player, TouAssets.MagicMirror, false, -1.1f, -0.1f, 1.5f)!;
     }
 
     public override void OnDeactivate()

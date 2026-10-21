@@ -18,7 +18,7 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Impostor,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Disperser.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Disperser,
             "TouMira.Modifier.Impostor.Disperser", 1.45f));
     public override string IdPart => "Disperser";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -81,7 +81,7 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
 
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>", Color.white,
-            new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Disperser.LoadAsset());
+            new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Disperser);
 
         notif1.AdjustNotification();
     }

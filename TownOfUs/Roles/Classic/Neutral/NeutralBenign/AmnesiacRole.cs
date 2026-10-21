@@ -95,7 +95,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Amnesiac.LoadAsset(), "TouMira.Role.Neutral.Amnesiac", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Amnesiac, "TouMira.Role.Neutral.Amnesiac", 1.45f),
         IntroSound = TouAudio.MediumIntroSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
@@ -139,7 +139,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
                 var text = MiraLocaleManager.Get("TownOfUsMira.Role.AmnesiacRememberFailNotif").Replace("<player>", target.Data.PlayerName);
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{text.Replace("<role>", $"{roleWhenAlive.TeamColor.ToTextColor()}{roleWhenAlive.GetRoleName()}</color>")}</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac);
                 notif1.AdjustNotification();
 AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
             }
@@ -153,7 +153,7 @@ AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
             {
                 var text = MiraLocaleManager.Get("TownOfUsMira.Role.AmnesiacRememberFailTargetNotif").Replace("<player>", target.Data.PlayerName);
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
+                    $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac);
                 notif1.AdjustNotification();
 AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
             }
@@ -231,7 +231,7 @@ AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
             var text = MiraLocaleManager.Get("TownOfUsMira.Role.AmnesiacRememberNotif").Replace("<player>", target.Data.PlayerName);
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{text.Replace("<role>", $"{player.Data.Role.TeamColor.ToTextColor()}{player.Data.Role.GetRoleName()}</color>")}</b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac);
             notif1.AdjustNotification();
         }
 

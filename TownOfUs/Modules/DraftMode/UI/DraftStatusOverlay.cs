@@ -404,7 +404,7 @@ namespace TownOfUs.Modules.DraftMode
             var role = DraftUiManager.ResolveRole(roleId);
             string roleName = role ? role.GetRoleName() : $"Role {roleId}";
             string teamName = MiscUtils.GetParsedRoleAlignment(role);
-            Sprite icon = role ? role.GetRoleIcon() : TouRoleIcons.RandomAny.LoadAsset();
+            Sprite icon = role ? role.GetRoleIcon() : TouRoleIcons.RandomAny;
             Color color = role ? role.TeamColor : Color.white;
             string description = DraftUiManager.GetRoleDescription(role);
 

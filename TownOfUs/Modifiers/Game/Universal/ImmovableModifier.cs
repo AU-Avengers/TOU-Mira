@@ -9,7 +9,7 @@ public sealed class ImmovableModifier : UniversalGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Immovable,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Immovable.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Immovable,
             "TouMira.Modifier.Universal.Immovable", 1.45f));
     public override string IdPart => "Immovable";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

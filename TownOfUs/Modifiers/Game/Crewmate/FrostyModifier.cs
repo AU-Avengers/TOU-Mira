@@ -8,7 +8,7 @@ public sealed class FrostyModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Frosty,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Frosty.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Frosty,
             "TouMira.Modifier.Crewmate.Frosty", 1.45f));
     public override string IdPart => "Frosty";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

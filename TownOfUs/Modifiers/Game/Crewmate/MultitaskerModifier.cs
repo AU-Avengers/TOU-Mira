@@ -9,7 +9,7 @@ public sealed class MultitaskerModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Multitasker,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Multitasker.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Multitasker,
             "TouMira.Modifier.Crewmate.Multitasker", 1.45f));
     public override string IdPart => "Multitasker";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

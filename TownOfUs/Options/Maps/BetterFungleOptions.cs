@@ -17,7 +17,7 @@ public sealed class BetterFungleOptions : AbstractOptionGroup
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
         TmpSpriteUtils.CreateSpriteAsset(
-            TouAssets.IconFungle.LoadAsset(),
+            TouAssets.IconFungle,
             "AmongUs.Map.Fungle",
             1.45f));
 

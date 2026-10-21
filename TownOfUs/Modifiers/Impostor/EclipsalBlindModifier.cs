@@ -38,14 +38,14 @@ public sealed class EclipsalBlindModifier(PlayerControl player) : DisabledModifi
             Player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor, Palette.VisorColor);
         }
 
-        EclipseBack = AnimStore.SpawnAnimBody(Player, TouAssets.EclipsedPrefab.LoadAsset(), false, -1.1f)!;
+        EclipseBack = AnimStore.SpawnAnimBody(Player, TouAssets.EclipsedPrefab, false, -1.1f)!;
         EclipseBack.SetActive(false);
         if (Player.AmOwner && !Eclipsal.AmOwner)
         {
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Modifier.EclipsalBlindedNotification")}</color></b>",
                 Color.white,
-                new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Eclipsal.LoadAsset());
+                new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Eclipsal);
 
             notif1.AdjustNotification();
         }

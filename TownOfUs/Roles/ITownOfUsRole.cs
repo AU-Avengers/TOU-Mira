@@ -29,7 +29,7 @@ public interface ITownOfUsRole : ICustomRole
             parent,
             RoleNameLocale,
             $"{RoleName} ({RoleFactionTitle})",
-            Configuration.Icon ?? MiraAssets.IconNeutral.LoadAsset(),
+            Configuration.Icon ?? MiraAssets.IconNeutral,
             RoleWikiDescription,
             abilities);
     }

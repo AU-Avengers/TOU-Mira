@@ -12,7 +12,7 @@ public sealed class RadarModifier : UniversalGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Radar,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Radar.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Radar,
             "TouMira.Modifier.Universal.Radar", 1.45f));
     private ArrowBehaviour _arrow;
     public override string IdPart => "Radar";

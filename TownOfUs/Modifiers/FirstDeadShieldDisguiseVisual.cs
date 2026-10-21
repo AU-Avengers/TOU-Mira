@@ -32,7 +32,7 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
 
     public override void OnActivate()
     {
-        _shield = AnimStore.SpawnAnimBody(Player, TouAssets.FirstRoundShield.LoadAsset(), false, -1.1f, -0.225f, 1.5f)!;
+        _shield = AnimStore.SpawnAnimBody(Player, TouAssets.FirstRoundShield, false, -1.1f, -0.225f, 1.5f)!;
         
         if (_shield && Target != null)
         {

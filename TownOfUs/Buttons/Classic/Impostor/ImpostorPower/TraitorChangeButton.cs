@@ -117,7 +117,7 @@ public sealed class TraitorChangeButton : TownOfUsRoleButton<TraitorRole>
                     $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>",
                     Color.white,
                     new Vector3(0f, 1f, -20f),
-                    spr: TouRoleIcons.Traitor.LoadAsset());
+                    spr: TouRoleIcons.Traitor);
 
                 notif1.AdjustNotification();
                 return;

@@ -40,7 +40,7 @@ public static class HunterEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Role.Hunter.ShameNotificationSelf"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter);
 
                 notif1.AdjustNotification();
             }
@@ -48,7 +48,7 @@ public static class HunterEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Role.Hunter.ShameNotification").Replace("<player>", HunterToAnnounceNext.Data.PlayerName),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter);
 
                 notif1.AdjustNotification();
             }

@@ -204,7 +204,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Haunter.LoadAsset(), "TouMira.Role.Crewmate.Haunter", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Haunter, "TouMira.Role.Crewmate.Haunter", 1.45f),
         Icon = TouRoleIcons.Haunter,
         OptionsScreenshot = TouBanners.HaunterRoleBanner,
         TasksCountForProgress = false,
@@ -415,7 +415,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Haunter.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.HaunterClickableFeedback")}</b></color>",
                     Color.white,
-                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
+                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter);
                 notif1.AdjustNotification();
             }
         }
@@ -439,7 +439,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                 Coroutines.Start(MiscUtils.CoFlash(RoleColor));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Haunter.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.HaunterSelfAlertFeedback")}</b></color>", Color.white,
-                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
+                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter);
                 notif1.AdjustNotification();
             }
             else if (IsTargetOfHaunter(PlayerControl.LocalPlayer) && !PlayerControl.LocalPlayer.HasDied() && !silent)
@@ -447,7 +447,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                 Coroutines.Start(MiscUtils.CoFlash(RoleColor));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Haunter.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.HaunterImpAlertFeedback")}</b></color>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter);
                 notif1.AdjustNotification();
             }
         }
@@ -478,7 +478,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                 Coroutines.Start(MiscUtils.CoFlash(Color.white));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Haunter.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.HaunterSelfRevealFeedback")}</b></color>", Color.white,
-                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
+                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter);
                 notif1.AdjustNotification();
             }
             else if (IsTargetOfHaunter(PlayerControl.LocalPlayer) && !PlayerControl.LocalPlayer.HasDied() && !silent)
@@ -486,7 +486,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                 Coroutines.Start(MiscUtils.CoFlash(Color.white));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Haunter.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.HaunterImpRevealFeedback")}</b></color>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter);
                 notif1.AdjustNotification();
             }
         }

@@ -64,39 +64,39 @@ public static class ApiRegistrationPatches
         RoleManager.Instance.GetRole(RoleTypes.ImpostorGhost).StringName =
             MiraLocaleManager.GetOrCreateLocaleString("Impostor Ghost");
 
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Neutral.LoadAsset(), "AmongUs.Role.Custom",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Neutral, "AmongUs.Role.Custom",
             1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Neutral.LoadAsset(), "AmongUs.Role.Neutral",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Neutral, "AmongUs.Role.Neutral",
             1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Crewmate.LoadAsset(), "AmongUs.Role.Crewmate",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Crewmate, "AmongUs.Role.Crewmate",
             1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Impostor.LoadAsset(), "AmongUs.Role.Impostor",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Impostor, "AmongUs.Role.Impostor",
             1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Scientist.LoadAsset(), "AmongUs.Role.Scientist",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Scientist, "AmongUs.Role.Scientist",
             1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Engineer.LoadAsset(), "AmongUs.Role.Engineer",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Engineer, "AmongUs.Role.Engineer",
             1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.GuardianAngel.LoadAsset(), "AmongUs.Role.GuardianAngel",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.GuardianAngel, "AmongUs.Role.GuardianAngel",
             1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Shapeshifter.LoadAsset(), "AmongUs.Role.Shapeshifter",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Shapeshifter, "AmongUs.Role.Shapeshifter",
             1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Crewmate.LoadAsset(), "AmongUs.Role.CrewmateGhost",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Crewmate, "AmongUs.Role.CrewmateGhost",
             1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Impostor.LoadAsset(), "AmongUs.Role.ImpostorGhost",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Impostor, "AmongUs.Role.ImpostorGhost",
             1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Noisemaker.LoadAsset(), "AmongUs.Role.Noisemaker",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Noisemaker, "AmongUs.Role.Noisemaker",
             1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Phantom.LoadAsset(), "AmongUs.Role.Phantom",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Phantom, "AmongUs.Role.Phantom",
             1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Tracker.LoadAsset(), "AmongUs.Role.Tracker",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Tracker, "AmongUs.Role.Tracker",
             1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Detective.LoadAsset(), "AmongUs.Role.Detective",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Detective, "AmongUs.Role.Detective",
             1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Viper.LoadAsset(), "AmongUs.Role.Viper",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Viper, "AmongUs.Role.Viper",
             1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Prosecutor.LoadAsset(), "AmongUs.Role.Judge",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Prosecutor, "AmongUs.Role.Judge",
             1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spectator.LoadAsset(), "AmongUs.Role.SpiritGuide",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spectator, "AmongUs.Role.SpiritGuide",
             1.45f);
     }
 }

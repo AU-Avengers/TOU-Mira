@@ -26,7 +26,7 @@ public sealed class JesterRole(IntPtr cppPtr)
             : MiraLocaleManager.Get("TownOfUsMira.Role.JesterHauntNotif");
         var notif = Helpers.CreateAndShowNotification(
             $"<b>{text.Replace("<victim>", victim.Data.PlayerName)}</b>",
-            Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Jester.LoadAsset());
+            Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Jester);
         notif.AdjustNotification();
         notif.alphaTimer = 5f;
     }
@@ -96,7 +96,7 @@ public sealed class JesterRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Jester.LoadAsset(), "TouMira.Role.Neutral.Jester", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Jester, "TouMira.Role.Neutral.Jester", 1.45f),
         GetsVentData = OptionGroupSingleton<JesterOptions>.Instance.CanVent.Value,
         IntroSound = TouAudio.NoisemakerIntroSound,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),

@@ -17,7 +17,7 @@ public sealed class BetterMiraHqOptions : AbstractOptionGroup
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
         TmpSpriteUtils.CreateSpriteAsset(
-            TouAssets.IconMira.LoadAsset(),
+            TouAssets.IconMira,
             "AmongUs.Map.Mira",
             1.45f));
 

@@ -162,7 +162,7 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
             _controlledNotification = ControlledFeedbackUtilities.ShowControlledByNotification(
                 controllerName,
                 TownOfUsColors.Impostor,
-                TouRoleIcons.Parasite.LoadAsset())!;
+                TouRoleIcons.Parasite)!;
         }
     }
 

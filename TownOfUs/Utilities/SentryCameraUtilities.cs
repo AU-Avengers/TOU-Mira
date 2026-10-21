@@ -254,8 +254,8 @@ public static class SentryCameraUtilities
 
         try
         {
-            var offAnim = TouAssets.SentryCamOffAnim.LoadAsset();
-            var onAnim = TouAssets.SentryCamOnAnim.LoadAsset();
+            var offAnim = TouAssets.SentryCamOffAnim;
+            var onAnim = TouAssets.SentryCamOnAnim;
             if (offAnim != null)
             {
                 camera.OffAnim = offAnim;

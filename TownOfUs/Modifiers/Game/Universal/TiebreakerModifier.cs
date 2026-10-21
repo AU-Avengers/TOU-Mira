@@ -34,7 +34,7 @@ public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverabl
     }
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Tiebreaker,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Tiebreaker.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Tiebreaker,
             "TouMira.Modifier.Universal.Tiebreaker", 1.45f));
     public override string IdPart => "Tiebreaker";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

@@ -79,7 +79,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Ambassador.LoadAsset(), "TouMira.Role.Impostor.Ambassador", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Ambassador, "TouMira.Role.Impostor.Ambassador", 1.45f),
         MaxRoleCount = 1,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Ambassador
@@ -227,7 +227,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                         .Replace("<requiredKills>", $"{(int)opt.KillsNeeded}");
                 var notif1 =
                     Helpers.CreateAndShowNotification(text, Color.white, new Vector3(0f, 1f, -20f),
-                        spr: TouRoleIcons.Ambassador.LoadAsset());
+                        spr: TouRoleIcons.Ambassador);
 
                 notif1.AdjustNotification();
                 return;
@@ -305,7 +305,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Ambassador.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Ambassador);
 
                 notif1.AdjustNotification();
                 return;
@@ -405,7 +405,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
                 text = text.Replace("<newRole>", newRole.GetRoleName());
                 var notif1 = Helpers.CreateAndShowNotification(text, Color.white, new Vector3(0f, 1f, -20f),
-                    spr: newRole.RoleIconWhite ?? TouRoleIcons.Ambassador.LoadAsset());
+                    spr: newRole.RoleIconWhite ?? TouRoleIcons.Ambassador);
 
                 notif1.AdjustNotification();
             }
@@ -425,7 +425,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             text = text.Replace("<newRole>", newRole.GetRoleName());
 
             var notif1 = Helpers.CreateAndShowNotification(text, Color.white, new Vector3(0f, 1f, -20f),
-                spr: newRole.RoleIconWhite ?? TouRoleIcons.Ambassador.LoadAsset());
+                spr: newRole.RoleIconWhite ?? TouRoleIcons.Ambassador);
 
             notif1.AdjustNotification();
         }
@@ -450,7 +450,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                         .Replace("<player>", ambassador.SelectedPlr.PlayerName);
                 var notif1 =
                     Helpers.CreateAndShowNotification(text, Color.white, new Vector3(0f, 1f, -20f),
-                        spr: TouRoleIcons.Ambassador.LoadAsset());
+                        spr: TouRoleIcons.Ambassador);
 
                 notif1.AdjustNotification();
                 if (ambassador.Player.AmOwner)
@@ -491,7 +491,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             text = text.Replace("<newRole>",
                 $"{TownOfUsColors.ImpSoft.ToTextColor()}{ambassador.SelectedRole.GetRoleName()}</color>");
             var notif1 = Helpers.CreateAndShowNotification(text, Color.white, new Vector3(0f, 1f, -20f),
-                spr: ambassador.SelectedRole.RoleIconWhite ?? TouRoleIcons.Ambassador.LoadAsset());
+                spr: ambassador.SelectedRole.RoleIconWhite ?? TouRoleIcons.Ambassador);
 
             notif1.AdjustNotification();
         }

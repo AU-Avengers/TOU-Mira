@@ -62,7 +62,7 @@ public sealed class DraftShuffleButton : TownOfUsButton
     {
         if (!DraftManager.IsDraftActive) return;
         Helpers.CreateAndShowNotification(MiraLocaleManager.Get("TouDraftShuffledNotif", "Your picks have been Shuffled!"), Color.white,
-                new Vector3(0f, 1f, -80f), spr: TouImpAssets.TraitorSelect.LoadAsset());
+                new Vector3(0f, 1f, -80f), spr: TouImpAssets.TraitorSelect);
         DraftNetworkHelper.RequestShuffle();    
         }
 

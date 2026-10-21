@@ -39,7 +39,7 @@ public abstract class TouBaseGameModifier : GameModifier
             parent,
             ModifierNameLocale,
             $"{ModifierName} ({ModifierCategoryTitle})".TrimStart(),
-            ModifierIcon ?? MiraAssets.IconNeutral.LoadAsset(),
+            ModifierIcon ?? MiraAssets.IconNeutral,
             ModifierWikiDescription,
             abilities);
     }

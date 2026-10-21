@@ -137,7 +137,7 @@ namespace TownOfUs.Modules.DraftMode
             var draftWord = MiraLocaleManager.Get("TouDraftShimmerDraft", "DRAFT").ToUpperInvariant();
             if (!_draftSpriteAssetReady)
             {
-                TmpSpriteUtils.CreateSpriteAsset(TouAssets.IconDraftMode.LoadAsset(), "TouMira.Gamemode.DraftMode", 1.45f);
+                TmpSpriteUtils.CreateSpriteAsset(TouAssets.IconDraftMode, "TouMira.Gamemode.DraftMode", 1.45f);
                 _draftSpriteAssetReady = true;
             }
             var modeWord = MiraLocaleManager.Get("TouDraftShimmerMode", "MODE").ToUpperInvariant();

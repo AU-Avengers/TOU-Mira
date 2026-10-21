@@ -2640,7 +2640,7 @@ return true;*/
             flashColor: TownOfUsColors.TimeLord,
             revivedOwnerNotificationText: revivedText,
             reviverOwnerNotificationText: successText,
-            notificationIcon: TouRoleIcons.TimeLord.LoadAsset());
+            notificationIcon: TouRoleIcons.TimeLord);
 
         Achievements.TouAchievementEvents.OnTimeLordRevive(revived);
 

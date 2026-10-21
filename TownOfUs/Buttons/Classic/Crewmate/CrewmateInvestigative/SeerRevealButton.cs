@@ -78,7 +78,7 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
                 $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{evilRevealText}</color></b>",
                 Color.white,
                 new Vector3(0f, 1f, -20f),
-                spr: TouRoleIcons.Seer.LoadAsset());
+                spr: TouRoleIcons.Seer);
                 
             notif1.AdjustNotification();
 
@@ -158,7 +158,7 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
 
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{Palette.CrewmateBlue.ToTextColor()}{goodRevealText}</color></b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Seer.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Seer);
             notif1.AdjustNotification();
 
             if (!options.ShowNeutralBenignAsRed.Value)

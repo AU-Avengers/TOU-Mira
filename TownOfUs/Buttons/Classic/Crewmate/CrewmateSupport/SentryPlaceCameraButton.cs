@@ -102,7 +102,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
                     $"<b>{TownOfUsColors.Sentry.ToTextColor()}{text}</color></b>",
                     Color.white,
                     new Vector3(0f, 1f, -20f),
-                    spr: TouRoleIcons.Sentry.LoadAsset());
+                    spr: TouRoleIcons.Sentry);
                 notif.AdjustNotification();
                 TouAudio.PlaySound(TouAudio.DenySound, 0.3f);
             }

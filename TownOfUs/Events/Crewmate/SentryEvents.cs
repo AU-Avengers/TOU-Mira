@@ -109,7 +109,7 @@ public static class SentryEvents
                 $"<b>{TownOfUsColors.Sentry.ToTextColor()}{notifText}</color></b>",
                 Color.white,
                 new Vector3(0f, 1f, -150f),
-                spr: TouRoleIcons.Sentry.LoadAsset());
+                spr: TouRoleIcons.Sentry);
             notif.AdjustNotification();
 
             Coroutines.Start(FlashActionButton(CustomButtonSingleton<SentryPortableCameraButton>.Instance.Button));
@@ -156,7 +156,7 @@ public static class SentryEvents
                     $"<b>{TownOfUsColors.Sentry.ToTextColor()}{notifText}</color></b>",
                     Color.white,
                     new Vector3(0f, 1f, -150f),
-                    spr: TouRoleIcons.Sentry.LoadAsset());
+                    spr: TouRoleIcons.Sentry);
                 notif.AdjustNotification();
 
                 Coroutines.Start(FlashActionButton(CustomButtonSingleton<SentryPortableCameraButton>.Instance.Button));

@@ -89,7 +89,7 @@ public static class DeputyEvents
         {
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DeputyCampedKillNotif").Replace("<player>", $"{TownOfUsColors.Deputy.ToTextColor()}{target.Data.PlayerName}</color>")}</b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy);
 
             notif1.AdjustNotification();
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Deputy));
@@ -98,7 +98,7 @@ public static class DeputyEvents
         {
             var notif = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Deputy.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.DeputyKillerWarnNotif")}</color></b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy);
             notif.AdjustNotification();
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Deputy));
         }

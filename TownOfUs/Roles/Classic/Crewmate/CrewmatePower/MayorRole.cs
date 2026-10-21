@@ -52,7 +52,7 @@ public sealed class MayorRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mayor.LoadAsset(), "TouMira.Role.Crewmate.Mayor", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mayor, "TouMira.Role.Crewmate.Mayor", 1.45f),
         Icon = TouRoleIcons.Mayor,
         HideSettings = true,
         MaxRoleCount = 0,

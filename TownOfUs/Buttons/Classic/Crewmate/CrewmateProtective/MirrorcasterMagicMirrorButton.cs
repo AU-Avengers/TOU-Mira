@@ -135,7 +135,7 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
             if (text != string.Empty && !MeetingHud.Instance)
             {
                 var notif1 = Helpers.CreateAndShowNotification(text,
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Mirrorcaster.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Mirrorcaster);
                 notif1.AdjustNotification();
             }
             MirrorcasterRole.RpcClearMagicMirror(PlayerControl.LocalPlayer);

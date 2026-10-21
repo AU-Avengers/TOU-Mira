@@ -30,7 +30,7 @@ public sealed class HunterStalkButton : TownOfUsRoleButton<HunterRole, PlayerCon
 
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.HunterStalkNotif").Replace("<player>", Target.Data.PlayerName)}</b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter);
         notif1.AdjustNotification();
 
         Target.RpcAddModifier<HunterStalkedModifier>(PlayerControl.LocalPlayer);

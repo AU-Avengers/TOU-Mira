@@ -1071,7 +1071,7 @@ public static class MiscUtils
             pooledCos.currentBodySprite.BodySprite.enabled = false;
             var jailedPlayer = Object.Instantiate(pooledCos.visor.gameObject, pooledCos.transform);
             jailedPlayer.GetComponent<VisorLayer>().Destroy();
-            jailedPlayer.GetComponent<SpriteRenderer>().sprite = TouAssets.JailorPlayerSprite.LoadAsset();
+            jailedPlayer.GetComponent<SpriteRenderer>().sprite = TouAssets.JailorPlayerSprite;
             pooledCos.visor.gameObject.SetActive(false);
 
             var clonedCos = clonedBubble.Player.cosmetics;
@@ -1081,7 +1081,7 @@ public static class MiscUtils
             clonedCos.currentBodySprite.BodySprite.enabled = false;
             var jailedPlayer2 = Object.Instantiate(clonedCos.visor.gameObject, clonedCos.transform);
             jailedPlayer2.GetComponent<VisorLayer>().Destroy();
-            jailedPlayer2.GetComponent<SpriteRenderer>().sprite = TouAssets.JailorPlayerSprite.LoadAsset();
+            jailedPlayer2.GetComponent<SpriteRenderer>().sprite = TouAssets.JailorPlayerSprite;
             clonedCos.visor.gameObject.SetActive(false);
         }
         if (blackoutText)
@@ -1147,11 +1147,11 @@ public static class MiscUtils
         sprite.enabled = true;
         var actualSprite = bubbleType switch
         {
-            BubbleType.None => TouChatAssets.NormalBubble.LoadAsset(),
-            BubbleType.Impostor => TouChatAssets.ImpBubble.LoadAsset(),
-            BubbleType.Vampire => TouChatAssets.VampBubble.LoadAsset(),
-            BubbleType.Lover => TouChatAssets.LoveBubble.LoadAsset(),
-            BubbleType.Jailor or BubbleType.Jailed => TouChatAssets.JailBubble.LoadAsset(),
+            BubbleType.None => TouChatAssets.NormalBubble,
+            BubbleType.Impostor => TouChatAssets.ImpBubble,
+            BubbleType.Vampire => TouChatAssets.VampBubble,
+            BubbleType.Lover => TouChatAssets.LoveBubble,
+            BubbleType.Jailor or BubbleType.Jailed => TouChatAssets.JailBubble,
             _ => null,
         };
         if (actualSprite != null)
@@ -1621,7 +1621,7 @@ public static class MiscUtils
 
         Object.Destroy(spherePrimitive.GetComponent<SphereCollider>());
 
-        spherePrimitive.GetComponent<MeshRenderer>().material = AuAvengersAnims.BombMaterial.LoadAsset();
+        spherePrimitive.GetComponent<MeshRenderer>().material = AuAvengersAnims.BombMaterial;
         spherePrimitive.transform.position = location;
 
         return spherePrimitive;
@@ -1653,7 +1653,7 @@ public static class MiscUtils
         };
 
         var renderer = gameObject.AddComponent<SpriteRenderer>();
-        renderer.sprite = TouAssets.ArrowSprite.LoadAsset();
+        renderer.sprite = TouAssets.ArrowSprite;
         renderer.color = color;
 
         var arrow = gameObject.AddComponent<ArrowBehaviour>();
@@ -1674,11 +1674,11 @@ public static class MiscUtils
         };
 
         var renderer = gameObject.AddComponent<SpriteRenderer>();
-        renderer.sprite = TouAssets.ArrowSprite.LoadAsset();
+        renderer.sprite = TouAssets.ArrowSprite;
         renderer.color = color;
         gameObject.AddComponent<Animator>();
         var spriteAnim = gameObject.AddComponent<SpriteAnim>();
-        spriteAnim.Play(TouAssets.HeartbeatAnim.LoadAsset());
+        spriteAnim.Play(TouAssets.HeartbeatAnim);
 
         var arrow = gameObject.AddComponent<PingBehaviour>();
         arrow.image = renderer;
@@ -2502,7 +2502,7 @@ public static class MiscUtils
         var notif1 = Helpers.CreateAndShowNotification(
             MiraLocaleManager.Get(tasksLeftToUnlock > 1 ? "TouUnavailableUtilityNotif" : "TouUnavailableUtilityNotifSingle").Replace("<amount>",
                 $"<size=120%><b>\n{tasksLeftToUnlock.ToString(TownOfUsPlugin.Culture)}</b></size>"),
-            Color.white, new Vector3(0f, 1f, -20f), spr: sprite.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: sprite);
 
         notif1.AdjustNotification();
         return false;

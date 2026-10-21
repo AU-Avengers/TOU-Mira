@@ -14,7 +14,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Celebrity,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Celebrity.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Celebrity,
             "TouMira.Modifier.Crewmate.Celebrity", 1.45f));
     public override string IdPart => "Celebrity";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

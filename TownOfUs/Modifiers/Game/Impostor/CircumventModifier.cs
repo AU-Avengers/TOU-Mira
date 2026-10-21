@@ -11,7 +11,7 @@ public sealed class CircumventModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Impostor,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Circumvent.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Circumvent,
             "TouMira.Modifier.Impostor.Circumvent", 1.45f));
     public int VentsAvailable { get; set; }
     public override string IdPart => "Circumvent";

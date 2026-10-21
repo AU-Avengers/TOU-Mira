@@ -14,7 +14,7 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Overclocker,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Overclocker.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Overclocker,
             "TouMira.Modifier.Assailant.Overclocker", 1.45f));
     public override Color FreeplayFileColor => TownOfUsColors.Overclocker;
 
@@ -158,7 +158,7 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
         {
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.OverclockerUnderclockMeetingNotif").Replace("<multi>", OptionGroupSingleton<OverclockerOptions>.Instance.UnderclockMultiplier.Value.ToString(TownOfUsPlugin.Culture))}</b>", Color.white,
-                new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Overclocker.LoadAsset());
+                new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Overclocker);
             notif1.AdjustNotification();
         }
 
@@ -174,7 +174,7 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
                 CurrentState = ChargeState.Normal;
                 button.OverrideName(
                     MiraLocaleManager.Get("TownOfUsMira.Modifier.OverclockerOverclock", "Overclock"));
-                button.OverrideSprite(TouAssets.OverclockSprite.LoadAsset());
+                button.OverrideSprite(TouAssets.OverclockSprite);
                 break;
         }
     }

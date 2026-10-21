@@ -8,7 +8,7 @@ public sealed class AftermathModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Aftermath,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Aftermath.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Aftermath,
             "TouMira.Modifier.Crewmate.Aftermath", 1.45f));
     public override string IdPart => "Aftermath";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

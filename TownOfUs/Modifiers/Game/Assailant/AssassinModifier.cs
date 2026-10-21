@@ -20,7 +20,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Assassin,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Assassin.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Assassin,
             "TouMira.Modifier.Assailant.Assassin", 1.45f));
     public override Color FreeplayFileColor => TownOfUsColors.Overclocker;
     public int maxKills;
@@ -297,7 +297,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.DoubleShot.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.DoubleShot);
 
                 notif1.AdjustNotification();
 

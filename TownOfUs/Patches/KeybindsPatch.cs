@@ -49,7 +49,7 @@ public static class Bindings
             }
         }
 
-        CreateNotif("HostStartMeetingNotif", TouRoleIcons.Monarch.LoadAsset());
+        CreateNotif("HostStartMeetingNotif", TouRoleIcons.Monarch);
     }
 
     [MethodRpc((uint)TownOfUsRpc.HostEndMeeting)]
@@ -170,7 +170,7 @@ public static class Bindings
             AchievementsAPIHelper.Unlock(TouAchievements.Silence);
         }
 
-        CreateNotif("HostEndMeetingNotif", TouRoleIcons.Prosecutor.LoadAsset());
+        CreateNotif("HostEndMeetingNotif", TouRoleIcons.Prosecutor);
     }
 
     public static void CreateNotif(string IdPart, Sprite icon)

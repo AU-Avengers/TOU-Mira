@@ -94,9 +94,9 @@ public static class HudManagerPatches
         }
 
         ZoomButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
-            Zooming ? TouAssets.ZoomPlus.LoadAsset() : TouAssets.ZoomMinus.LoadAsset();
+            Zooming ? TouAssets.ZoomPlus : TouAssets.ZoomMinus;
         ZoomButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
-            Zooming ? TouAssets.ZoomPlusActive.LoadAsset() : TouAssets.ZoomMinusActive.LoadAsset();
+            Zooming ? TouAssets.ZoomPlusActive : TouAssets.ZoomMinusActive;
 
         RefreshUIAnchors();
     }
@@ -565,11 +565,11 @@ public static class HudManagerPatches
             ZoomButton.name = "ZoomButton";
             var inactive = ZoomButton.transform.Find("Inactive");
                 inactive.GetComponent<SpriteRenderer>().sprite =
-                TouAssets.ZoomMinus.LoadAsset();
+                TouAssets.ZoomMinus;
                 inactive.localPosition = new Vector3(0, 0.021f, -0.1f);
                 var active = ZoomButton.transform.Find("Active");
                 active.GetComponent<SpriteRenderer>().sprite =
-                TouAssets.ZoomMinusActive.LoadAsset();
+                TouAssets.ZoomMinusActive;
                 active.localPosition = new Vector3(0, 0.021f, -0.1f);
             ZoomButton.GetComponentInChildren<AspectPosition>().Destroy();
             MiraApiSettings.SetUpButtonPositions();
@@ -621,11 +621,11 @@ public static class HudManagerPatches
 
             var inactive = WikiButton.transform.Find("Inactive");
             inactive.GetComponent<SpriteRenderer>().sprite =
-                TouAssets.WikiButton.LoadAsset();
+                TouAssets.WikiButton;
             inactive.localPosition = new Vector3(0, 0.021f, -0.1f);
             var active = WikiButton.transform.Find("Active");
             active.GetComponent<SpriteRenderer>().sprite =
-                TouAssets.WikiButtonActive.LoadAsset();
+                TouAssets.WikiButtonActive;
             active.localPosition = new Vector3(0, 0.021f, -0.1f);
 
             WikiButton.GetComponentInChildren<AspectPosition>().Destroy();

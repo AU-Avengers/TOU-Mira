@@ -55,7 +55,7 @@ public sealed class HerbalistProtectionModifier(PlayerControl herbalist) : BaseS
                       (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
 
         ClericBarrier =
-            AnimStore.SpawnAnimBody(Player, TouAssets.ClericBarrier.LoadAsset(), false, -1.1f, -0.35f, 1.5f)!;
+            AnimStore.SpawnAnimBody(Player, TouAssets.ClericBarrier, false, -1.1f, -0.35f, 1.5f)!;
         ClericBarrier.GetComponent<SpriteAnim>().SetSpeed(2f);
 
         new TouAbilityEvent(AbilityType.HerbalistProtect, Herbalist, Player).InvokeEvent();

@@ -9,7 +9,7 @@ public sealed class HnsMiniModifier : HnsGameModifier, IVisualAppearance
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Mini,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Mini.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Mini,
             "TouMira.Modifier.HnS.Hider.Mini", 1.45f));
     public override string IdPart => "Mini";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Mini;

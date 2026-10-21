@@ -65,7 +65,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Snitch.LoadAsset(), "TouMira.Role.Crewmate.Snitch", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Snitch, "TouMira.Role.Crewmate.Snitch", 1.45f),
         Icon = TouRoleIcons.Snitch,
         OptionsScreenshot = TouBanners.SnitchRoleBanner,
         IntroSound = TouAudio.ToppatIntroSound
@@ -191,7 +191,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                     var notif1 = Helpers.CreateAndShowNotification(
                         $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
                         new Vector3(0f, 1f, -20f),
-                        spr: TouRoleIcons.Snitch.LoadAsset());
+                        spr: TouRoleIcons.Snitch);
                     notif1.AdjustNotification();
                 }
             }
@@ -208,7 +208,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                     var notif1 = Helpers.CreateAndShowNotification(
                         $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
                         new Vector3(0f, 1f, -20f),
-                        spr: TouRoleIcons.Snitch.LoadAsset());
+                        spr: TouRoleIcons.Snitch);
                     notif1.AdjustNotification();
                 }
             }
@@ -230,7 +230,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                     var notif1 = Helpers.CreateAndShowNotification(
                         $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
                         new Vector3(0f, 1f, -20f),
-                        spr: TouRoleIcons.Snitch.LoadAsset());
+                        spr: TouRoleIcons.Snitch);
                     notif1.AdjustNotification();
                 }
             }
@@ -246,7 +246,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
                     var notif1 = Helpers.CreateAndShowNotification(
                         $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
-                        new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Snitch.LoadAsset());
+                        new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Snitch);
                     notif1.AdjustNotification();
                 }
             }

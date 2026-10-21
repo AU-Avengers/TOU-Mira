@@ -72,7 +72,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Modifier.GrenadierFlashedNotification")}</color></b>",
                     Color.white,
-                    spr: TouRoleIcons.Grenadier.LoadAsset());
+                    spr: TouRoleIcons.Grenadier);
 
                 notif1.AdjustNotification();
                 notif1.transform.localPosition = new Vector3(0f, 1f, -150f);

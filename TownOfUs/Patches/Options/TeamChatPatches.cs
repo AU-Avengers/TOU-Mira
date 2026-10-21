@@ -529,10 +529,10 @@ public static class TeamChatPatches
                 ChatMessageTitleColor = titleColor,
                 ChatMessageBgColor = msgBgColor,
                 ChatBgColor = bgColor,
-                ChatBubbleSprite = spriteBubble ?? TouChatAssets.NormalBubble.LoadAsset(),
-                ButtonIdleSprite = btnIdle ?? TouChatAssets.NormalChatIdle.LoadAsset(),
-                ButtonHoverSprite = btnHover ?? TouChatAssets.NormalChatHover.LoadAsset(),
-                ButtonOpenSprite = btnOpen ?? TouChatAssets.NormalChatOpen.LoadAsset(),
+                ChatBubbleSprite = spriteBubble ?? TouChatAssets.NormalBubble,
+                ButtonIdleSprite = btnIdle ?? TouChatAssets.NormalChatIdle,
+                ButtonHoverSprite = btnHover ?? TouChatAssets.NormalChatHover,
+                ButtonOpenSprite = btnOpen ?? TouChatAssets.NormalChatOpen,
                 ChatVisible = () => (canSeeChat == null || canSeeChat()),
                 ChatUsable = () => (canSeeChat == null || canSeeChat()) && (canUseChat == null || canUseChat())
             });
@@ -632,11 +632,11 @@ public static class TeamChatPatches
 
         if (HudManager.InstanceExists && HudManager.Instance.Chat != null)
         {
-            Sprite[] buttonArray = [ TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(), TouChatAssets.NormalChatOpen.LoadAsset()];
+            Sprite[] buttonArray = [ TouChatAssets.NormalChatIdle, TouChatAssets.NormalChatHover, TouChatAssets.NormalChatOpen];
             if (PlayerControl.LocalPlayer.IsLover() && !MeetingHud.Instance)
             {
                 buttonArray = 
-                    [ TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()];
+                    [ TouChatAssets.LoveChatIdle, TouChatAssets.LoveChatHover, TouChatAssets.LoveChatOpen];
             }
             HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
             HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
@@ -695,9 +695,9 @@ public static class TeamChatPatches
                 Background.GetComponent<SpriteRenderer>().color = backgroundColor;
             }
 
-            HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatIdle.LoadAsset();
-            HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatHover.LoadAsset();
-            HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatOpen.LoadAsset();
+            HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatIdle;
+            HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatHover;
+            HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatOpen;
 
             if (currentChat != null && _teamText != null)
             {
@@ -755,9 +755,9 @@ public static class TeamChatPatches
         else
         {
             Background?.GetComponent<SpriteRenderer>().color = Color.white;
-            HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatIdle.LoadAsset();
-            HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatHover.LoadAsset();
-            HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatOpen.LoadAsset();
+            HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatIdle;
+            HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatHover;
+            HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatOpen;
         }
     }
 
@@ -774,7 +774,7 @@ public static class TeamChatPatches
         TeamChatButton = Object.Instantiate(BanMenu.gameObject, BanMenu.transform.parent);
         TeamChatButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
         TeamChatButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(ToggleTeamChat));
-        TeamChatButton.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = TouAssets.TeamChatSwitch.LoadAsset();
+        TeamChatButton.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = TouAssets.TeamChatSwitch;
         TeamChatButton.name = "FactionChat";
         var pos = BanMenu.transform.localPosition;
         TeamChatButton.transform.localPosition = new Vector3(pos.x, pos.y + 0.7f, pos.z);

@@ -90,7 +90,7 @@ public sealed class FootstepsModifier : BaseModifier
             }
 
             var sprite = footstep.AddComponent<SpriteRenderer>();
-            sprite.sprite = TouAssets.FootprintSprite.LoadAsset();
+            sprite.sprite = TouAssets.FootprintSprite;
             sprite.color = (AnonymousPrints || HudManagerPatches.CommsSaboActive())
                 ? new Color(0.2f, 0.2f, 0.2f, 1f)
                 : Player.cosmetics.currentBodySprite.BodySprite.material.GetColor(ShaderID.BodyColor);
@@ -137,7 +137,7 @@ public sealed class FootstepsModifier : BaseModifier
             }
 
             var sprite = footstep.AddComponent<SpriteRenderer>();
-            sprite.sprite = TouAssets.FootprintSprite.LoadAsset();
+            sprite.sprite = TouAssets.FootprintSprite;
             sprite.color = (AnonymousPrints || HudManagerPatches.CommsSaboActive())
                 ? new Color(0.2f, 0.2f, 0.2f, 1f)
                 : Player.cosmetics.currentBodySprite.BodySprite.material.GetColor(ShaderID.BodyColor);

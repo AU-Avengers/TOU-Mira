@@ -8,7 +8,7 @@ public sealed class HnsObliviousModifier : HnsGameModifier
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Bait,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Bait.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Bait,
             "TouMira.Modifier.HnS.Hider.Oblivious", 1.45f));
     public override string IdPart => "Oblivious";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Bait;

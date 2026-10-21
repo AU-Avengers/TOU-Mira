@@ -65,7 +65,7 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
             $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>",
             Color.white,
             new Vector3(0f, 1f, -20f),
-            spr: TouRoleIcons.Venerer.LoadAsset());
+            spr: TouRoleIcons.Venerer);
 
         notif1.AdjustNotification();
         }
@@ -97,13 +97,13 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
         switch (ActiveAbility)
         {
             case VenererAbility.Camouflage:
-                SetAbility("Camouflage", LegacyAssets.IsLegacy ? LegacyImpAssets.CamouflageSprite.LoadAsset() : TouImpAssets.CamouflageSprite.LoadAsset());
+                SetAbility("Camouflage", LegacyAssets.IsLegacy ? LegacyImpAssets.CamouflageSprite : TouImpAssets.CamouflageSprite);
                 break;
             case VenererAbility.Sprint:
-                SetAbility("Sprint", LegacyAssets.IsLegacy ? LegacyImpAssets.SprintSprite.LoadAsset() : TouImpAssets.SprintSprite.LoadAsset());
+                SetAbility("Sprint", LegacyAssets.IsLegacy ? LegacyImpAssets.SprintSprite : TouImpAssets.SprintSprite);
                 break;
             case VenererAbility.Freeze:
-                SetAbility("Freeze", LegacyAssets.IsLegacy ? LegacyImpAssets.FreezeSprite.LoadAsset() : TouImpAssets.FreezeSprite.LoadAsset());
+                SetAbility("Freeze", LegacyAssets.IsLegacy ? LegacyImpAssets.FreezeSprite : TouImpAssets.FreezeSprite);
                 break;
         }
 

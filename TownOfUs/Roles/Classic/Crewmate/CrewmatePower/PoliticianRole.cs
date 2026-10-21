@@ -20,7 +20,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 {
     public void InitialSetup()
     {
-        TmpSpriteUtils.CreateSpriteAsset(TouCrewAssets.CampaignButtonSprite.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouCrewAssets.CampaignButtonSprite,
             "TouMira.Role.Crewmate.Politician.Ui.Campaign", 1.45f);
     }
     public bool CanBeTraitor => false;
@@ -87,7 +87,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Politician.LoadAsset(), "TouMira.Role.Crewmate.Politician", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Politician, "TouMira.Role.Crewmate.Politician", 1.45f),
         Icon = TouRoleIcons.Politician,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.PoliticianIntroSound,

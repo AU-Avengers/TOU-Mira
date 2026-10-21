@@ -17,7 +17,7 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
         TmpSpriteUtils.CreateSpriteAsset(
-            TouAssets.IconSkeld.LoadAsset(),
+            TouAssets.IconSkeld,
             "AmongUs.Map.Skeld",
             1.45f));
 

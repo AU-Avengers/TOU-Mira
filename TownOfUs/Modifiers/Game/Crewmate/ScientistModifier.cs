@@ -16,7 +16,7 @@ public sealed class ScientistModifier : TouGameModifier, IWikiDiscoverable, IBut
 {
     public override ModifierUiConfiguration Configuration => new(
         new Color32(0, 199, 105, 255),
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Scientist.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Scientist,
             "AmongUs.Role.Scientist", 1.45f));
     public override string IdPart => "Scientist";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

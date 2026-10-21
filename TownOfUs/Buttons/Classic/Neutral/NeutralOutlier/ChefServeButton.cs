@@ -18,10 +18,10 @@ public sealed class ChefServeButton : TownOfUsRoleButton<ChefRole, PlayerControl
 
     public void UpdateServingType()
     {
-        var sprite = TouNeutAssets.ChefServeSprites[0].LoadAsset();
+        var sprite = TouNeutAssets.ChefServeSprites[0];
         if (PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.Data && PlayerControl.LocalPlayer.Data.Role is ChefRole && Role.StoredBodies.Count > 0)
         {
-            sprite = TouNeutAssets.ChefServeSprites[(int)Role.StoredBodies[0].Value].LoadAsset();
+            sprite = TouNeutAssets.ChefServeSprites[(int)Role.StoredBodies[0].Value];
         }
         OverrideSprite(sprite);
     }

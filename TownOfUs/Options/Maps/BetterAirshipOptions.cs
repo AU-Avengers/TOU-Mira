@@ -18,7 +18,7 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
         TmpSpriteUtils.CreateSpriteAsset(
-            TouAssets.IconAirship.LoadAsset(),
+            TouAssets.IconAirship,
             "AmongUs.Map.Airship",
             1.45f));
 

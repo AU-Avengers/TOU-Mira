@@ -67,7 +67,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
         var text = MiraLocaleManager.Get("TownOfUsMira.Role.SpectreSpookNotif");
         var notif = Helpers.CreateAndShowNotification(
             $"<b>{text.Replace("<victim>", victim.Data.PlayerName)}</b>",
-            Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
+            Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Spectre);
         notif.AdjustNotification();
         notif.alphaTimer = 5f;
     }
@@ -231,7 +231,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
 
     public override CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spectre.LoadAsset(), "TouMira.Role.Neutral.Spectre", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spectre, "TouMira.Role.Neutral.Spectre", 1.45f),
         Icon = TouRoleIcons.Spectre,
         OptionsScreenshot = TouBanners.SpectreRoleBanner,
         HideSettings = false,
@@ -420,7 +420,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Spectre.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.SpectreClickableFeedback")}</b></color>",
                     Color.white,
-                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
+                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre);
                 notif1.AdjustNotification();
             }
         }

@@ -13,7 +13,7 @@ public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         new Color32(0, 179, 179, 255),
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Investigator.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Investigator,
             "TouMira.Role.Crewmate.Investigator", 1.45f));
     public override string IdPart => "Investigator";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");

@@ -90,7 +90,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Glitch.LoadAsset(), "TouMira.Role.Neutral.Glitch", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Glitch, "TouMira.Role.Neutral.Glitch", 1.45f),
         CanUseVent = (GlitchVent)OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is not GlitchVent.Never,
         IntroSound = TouAudio.GlitchSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
@@ -144,7 +144,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
             OffsetButtons();
             if (!LegacyAssets.IsLegacy)
             {
-                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.GlitchVentSprite.LoadAsset();
+                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.GlitchVentSprite;
                 HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Glitch);
             }
             CustomButtonSingleton<FakeVentButton>.Instance.Show = false;
@@ -159,7 +159,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
         {
             if (!LegacyAssets.IsLegacy)
             {
-                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
+                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite;
                 HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
             }
             CustomButtonSingleton<FakeVentButton>.Instance.Show = true;

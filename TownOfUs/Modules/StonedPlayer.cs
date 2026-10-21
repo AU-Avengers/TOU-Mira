@@ -107,7 +107,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
         yield return new WaitForSeconds(1f);
         ProgressStage = StoneStage.Moving;
-        _stoneAnim.Play(TouAssets.MedusaStoneMove.LoadAsset());
+        _stoneAnim.Play(TouAssets.MedusaStoneMove);
         yield return new WaitForSeconds(_stoneAnim.m_currAnim.length);
         if (MeetingHud.Instance || ExileController.Instance)
         {
@@ -119,7 +119,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         yield return new WaitForSeconds(1f);
         ProgressStage = StoneStage.Crack;
         var crackSpeed = 0.25f / otherTime;
-        _stoneAnim.Play(TouAssets.MesudaStoneCrack.LoadAsset(), crackSpeed);
+        _stoneAnim.Play(TouAssets.MesudaStoneCrack, crackSpeed);
         Warning($"Seconds: {otherTime} | Multiplier: {0.25f * crackSpeed}");
         yield return new WaitForSeconds(otherTime);
         if (MeetingHud.Instance || ExileController.Instance)
@@ -131,7 +131,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
         yield return new WaitForSeconds(1f);
         ProgressStage = StoneStage.Visor;
-        _stoneAnim.Play(TouAssets.MesudaStoneVisor.LoadAsset());
+        _stoneAnim.Play(TouAssets.MesudaStoneVisor);
         yield return new WaitForSeconds(_stoneAnim.m_currAnim.length);
         if (MeetingHud.Instance || ExileController.Instance)
         {
@@ -141,7 +141,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         }
 
         yield return new WaitForSeconds(3f);
-        _stoneAnim.Play(TouAssets.MesudaStoneShatter.LoadAsset());
+        _stoneAnim.Play(TouAssets.MesudaStoneShatter);
 
         ProgressStage = StoneStage.Shatter;
     }

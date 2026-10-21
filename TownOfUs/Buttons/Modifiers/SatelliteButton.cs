@@ -40,7 +40,7 @@ public sealed class SatelliteButton : TownOfUsButton, ILegacyCapable
     {
         base.CreateButton(parent);
 
-        Button!.usesRemainingSprite.sprite = LegacyAssets.IsLegacy ? TouAssets.BlankSprite.LoadAsset() : TouAssets.AbilityCounterBodySprite.LoadAsset();
+        Button!.usesRemainingSprite.sprite = LegacyAssets.IsLegacy ? TouAssets.BlankSprite : TouAssets.AbilityCounterBodySprite;
     }
 
     protected override void OnClick()
@@ -58,7 +58,7 @@ public sealed class SatelliteButton : TownOfUsButton, ILegacyCapable
             text = MiraLocaleManager.Get("TownOfUsMira.Modifier.SatellitePluralNotif").Replace("<count>", deadBodies.Count.ToString(TownOfUsPlugin.Culture));
         }
         var notif1 = Helpers.CreateAndShowNotification($"<b>{text}</b>", Color.white,
-            new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Satellite.LoadAsset());
+            new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Satellite);
         notif1.AdjustNotification();
 
         if (OptionGroupSingleton<SatelliteOptions>.Instance.OneUsePerRound)

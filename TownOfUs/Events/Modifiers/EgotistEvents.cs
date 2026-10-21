@@ -29,7 +29,7 @@ public static class EgotistEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Modifier.EgotistIntroMessage").Replace("<modifier>", $"{TownOfUsColors.Egotist.ToTextColor()}{ego.ModifierName}</color>"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist);
 
                 notif1.AdjustNotification();
             }
@@ -46,7 +46,7 @@ public static class EgotistEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Modifier.EgotistVictoryMessageSelf").Replace("<modifier>", $"{TownOfUsColors.Egotist.ToTextColor()}{ego.ModifierName}</color>"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist);
 
                 notif1.AdjustNotification();
             }
@@ -54,7 +54,7 @@ public static class EgotistEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Modifier.EgotistVictoryMessage").Replace("<player>", ego.Player.Data.PlayerName).Replace("<modifier>", $"{TownOfUsColors.Egotist.ToTextColor()}{ego.ModifierName}</color>"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist);
 
                 notif1.AdjustNotification();
             }
@@ -66,7 +66,7 @@ public static class EgotistEvents
             var notif1 = Helpers.CreateAndShowNotification(
                 MiraLocaleManager.Get("TownOfUsMira.Modifier.EgotistDeadMessage").Replace("<modifier>",
                     $"{TownOfUsColors.Egotist.ToTextColor()}{ego.ModifierName}</color>"),
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist);
 
             notif1.AdjustNotification();
         }
@@ -89,7 +89,7 @@ public static class EgotistEvents
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     text.Replace("<newSpeed>", $"{Math.Round(EgotistModifier.SpeedMultiplier, 2)}"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist);
 
                 notif1.AdjustNotification();
             }
@@ -103,7 +103,7 @@ public static class EgotistEvents
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     text,
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist);
 
                 notif1.AdjustNotification();
             }
@@ -117,7 +117,7 @@ public static class EgotistEvents
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     text,
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist);
 
                 notif1.AdjustNotification();
             }

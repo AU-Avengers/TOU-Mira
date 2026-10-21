@@ -50,19 +50,19 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         PlatformAssociations.Clear();
         if (!HasFetchedIcons)
         {
-            TmpSpriteUtils.CreateSpriteAsset(TouAssets.BlankSprite.LoadAsset(),
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.BlankSprite,
                 "Platform.Blank", 1.45f);
-            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformEpic.LoadAsset(),
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformEpic,
                 "Platform.Epic", 1.45f);
-            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformItch.LoadAsset(),
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformItch,
                 "Platform.Itch", 1.45f);
-            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformStarlight.LoadAsset(),
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformStarlight,
                 "Platform.Starlight", 1.45f);
-            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformSteam.LoadAsset(),
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformSteam,
                 "Platform.Steam", 1.45f);
-            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformWindows.LoadAsset(),
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformWindows,
                 "Platform.Windows", 1.45f);
-            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformUnknown.LoadAsset(),
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformUnknown,
                 "Platform.Unknown", 1.45f);
             HasFetchedIcons = true;
         }

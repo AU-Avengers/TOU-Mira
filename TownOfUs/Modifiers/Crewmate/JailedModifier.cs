@@ -62,7 +62,7 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
 
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Jailor.ToTextColor()}{text}</color></b>", Color.white,
-                new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Jailor.LoadAsset());
+                new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Jailor);
 
             notif1.AdjustNotification();
         }
@@ -92,7 +92,7 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
         var jailCellObj = Object.Instantiate(confirmButton, voteArea.transform);
 
         var cellRenderer = jailCellObj.GetComponent<SpriteRenderer>();
-        cellRenderer.sprite = TouAssets.InJailSprite.LoadAsset();
+        cellRenderer.sprite = TouAssets.InJailSprite;
 
         jailCellObj.transform.localPosition = new Vector3(-0.95f, 0f, -2f);
         jailCellObj.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);

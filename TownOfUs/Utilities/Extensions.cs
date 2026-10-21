@@ -332,20 +332,20 @@ public static class Extensions
         roleIcon.gameObject.transform.localScale = new Vector3(0.21f, 0.9f, 1);
         roleIcon.gameObject.transform.localPosition += new Vector3(-0.964f, 0, -2);
 
-        var roleImg = TouRoleIcons.RandomImp.LoadAsset();
+        Sprite roleImg = TouRoleIcons.RandomImp;
 
         if (roleBehaviour.IsCrewmate())
         {
-            roleImg = TouRoleIcons.RandomCrew.LoadAsset();
+            roleImg = TouRoleIcons.RandomCrew;
         }
         else if (roleBehaviour.IsNeutral())
         {
-            roleImg = TouRoleIcons.RandomNeut.LoadAsset();
+            roleImg = TouRoleIcons.RandomNeut;
         }
 
         if (roleBehaviour is ICustomRole customRole3 && customRole3.Configuration.Icon != null)
         {
-            roleImg = customRole3.Configuration.Icon.LoadAsset();
+            roleImg = customRole3.Configuration.Icon;
         }
         else if (roleBehaviour.RoleIconSolid != null)
         {
@@ -404,25 +404,25 @@ public static class Extensions
         roleIcon.gameObject.transform.localScale = new Vector3(0.21f, 0.9f, 1);
         roleIcon.gameObject.transform.localPosition += new Vector3(-0.964f, 0, -2);
 
-        var modImg = TouRoleIcons.RandomAny.LoadAsset();
+        var modImg = TouRoleIcons.RandomAny;
 
         var faction = modifier.GetModifierFaction();
         if (faction.ToDisplayString().Contains("Crewmate"))
         {
-            modImg = TouRoleIcons.RandomCrew.LoadAsset();
+            modImg = TouRoleIcons.RandomCrew;
         }
         else if (faction.ToDisplayString().Contains("Neutral"))
         {
-            modImg = TouRoleIcons.RandomNeut.LoadAsset();
+            modImg = TouRoleIcons.RandomNeut;
         }
         else if (faction.ToDisplayString().Contains("Impostor"))
         {
-            modImg = TouRoleIcons.RandomImp.LoadAsset();
+            modImg = TouRoleIcons.RandomImp;
         }
 
         if (modifier.ModifierIcon != null)
         {
-            modImg = modifier.ModifierIcon.LoadAsset();
+            modImg = modifier.ModifierIcon;
         }
 
         roleIcon.gameObject.GetComponent<SpriteRenderer>().sprite = modImg;
@@ -789,7 +789,7 @@ public static class Extensions
         hackedSprite.gameObject.layer = button.gameObject.layer;
 
         var render = hackedSprite.AddComponent<SpriteRenderer>();
-        render.sprite = LegacyAssets.IsLegacy ? LegacyAssets.Hacked.LoadAsset() : TouAssets.Hacked.LoadAsset();
+        render.sprite = LegacyAssets.IsLegacy ? LegacyAssets.Hacked : TouAssets.Hacked;
 
         hackedSprite.SetHackActive(false);
 
@@ -813,7 +813,7 @@ public static class Extensions
         hackedSprite.gameObject.layer = button.gameObject.layer;
 
         var render = hackedSprite.AddComponent<SpriteRenderer>();
-        render.sprite = TouAssets.DeathDisabledSprite.LoadAsset();
+        render.sprite = TouAssets.DeathDisabledSprite;
 
         hackedSprite.SetActive(false);
 

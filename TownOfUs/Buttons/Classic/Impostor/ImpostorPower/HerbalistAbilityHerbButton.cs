@@ -118,7 +118,7 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
     {
         base.CreateButton(parent);
 
-        Button!.usesRemainingSprite.sprite = TouAssets.AbilityCounterKillSprite.LoadAsset();
+        Button!.usesRemainingSprite.sprite = TouAssets.AbilityCounterKillSprite;
 
         CurrentName = ProtectionText[0];
         OverrideName(CurrentName);
@@ -216,7 +216,7 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
         {
             CurrentAbility = HerbAbilities.Kill;
         }
-        OverrideSprite(HerbButtons[(int)CurrentAbility].LoadAsset());
+        OverrideSprite(HerbButtons[(int)CurrentAbility]);
         OverrideName(ProtectionText[(int)CurrentAbility]);
     }
     public override void OverrideName(string name)

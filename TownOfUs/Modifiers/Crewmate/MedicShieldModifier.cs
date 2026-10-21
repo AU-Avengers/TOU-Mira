@@ -99,7 +99,7 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
         ShowShield = showShieldedEveryone || showShieldedSelf || showShieldedMedic ||
                      (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
 
-        MedicShield = AnimStore.SpawnAnimBody(Player, TouAssets.MedicShield.LoadAsset(), false, -1.1f, -0.1f, 1.5f)!;
+        MedicShield = AnimStore.SpawnAnimBody(Player, TouAssets.MedicShield, false, -1.1f, -0.1f, 1.5f)!;
     }
 
     public override void OnDeactivate()

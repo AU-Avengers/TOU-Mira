@@ -41,7 +41,7 @@ public sealed class WatchButton : TownOfUsRoleButton<LookoutRole, PlayerControl>
         var showRoles = (LookoutView)OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Roles;
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{MiraLocaleManager.Get(showRoles ? "TownOfUsMira.Role.LookoutWatchNotif" : "TownOfUsMira.Role.LookoutWatchAltNotif").Replace("<player>", Target.Data.PlayerName)}</b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Lookout.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Lookout);
         notif1.AdjustNotification();
     }
 }

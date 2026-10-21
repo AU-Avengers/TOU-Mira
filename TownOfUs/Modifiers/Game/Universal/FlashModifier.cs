@@ -10,7 +10,7 @@ public sealed class FlashModifier : UniversalGameModifier, IWikiDiscoverable, IV
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Flash,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Flash.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Flash,
             "TouMira.Modifier.Universal.Flash", 1.45f));
     public override string IdPart => "Flash";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

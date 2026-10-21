@@ -14,7 +14,7 @@ public sealed class OperativeModifier : TouGameModifier, IWikiDiscoverable, IBut
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Operative,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Operative.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Operative,
             "TouMira.Modifier.Crewmate.Operative", 1.45f));
     public override string IdPart => "Operative";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

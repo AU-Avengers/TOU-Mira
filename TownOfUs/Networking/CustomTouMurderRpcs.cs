@@ -1463,14 +1463,14 @@ public static class CustomTouMurderRpcs
 
         var bloodAnim = animation.transform.GetChild(0).GetComponent<SpriteAnim>();
 
-        bloodAnim.Play(trueAnim.Key.LoadAsset(), 1.05f);
-        bodysAnim.Play(trueAnim.Value.LoadAsset(), 1.05f);
+        bloodAnim.Play(trueAnim.Key, 1.05f);
+        bodysAnim.Play(trueAnim.Value, 1.05f);
         var bodyAnimLength = bodysAnim.m_currAnim.length;
-        var isRhm = (bloodAnim.Clip == TouAssets.MeetingDeathBloodAnim4.LoadAsset());
+        var isRhm = (bloodAnim.Clip == TouAssets.MeetingDeathBloodAnim4);
 
         if (isRhm)
         {
-            SoundManager.Instance.PlaySound(TouAudio.LaserKillSound.LoadAsset(), false);
+            SoundManager.Instance.PlaySound(TouAudio.LaserKillSound, false);
             yield return new WaitForSeconds(bodyAnimLength);
         }
         else

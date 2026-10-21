@@ -40,10 +40,10 @@ public sealed class TimeLordRewindButton : TownOfUsRoleButton<TimeLordRole>, ILe
             return;
         }
 
-        var spr = LegacyCrewAssets.RewindSprite.LoadAsset();
+        var spr = LegacyCrewAssets.RewindSprite;
         if (!LegacyAssets.IsLegacy)
         {
-            spr = EffectActive ? TouCrewAssets.RewindingSprite.LoadAsset() : TouCrewAssets.RewindSprite.LoadAsset();
+            spr = EffectActive ? TouCrewAssets.RewindingSprite : TouCrewAssets.RewindSprite;
         }
         if (Button.graphic != null && Button.graphic.sprite != spr)
         {

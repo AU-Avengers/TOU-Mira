@@ -10,7 +10,7 @@ public sealed class TelepathModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Impostor,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Telepath.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Telepath,
             "TouMira.Modifier.Impostor.Telepath", 1.45f));
     public override string IdPart => "Telepath";
     public override string ModifierName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Telepath", "Telepath");

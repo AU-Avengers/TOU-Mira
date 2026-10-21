@@ -98,7 +98,7 @@ public static class ExecutionerEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerWonSelf").Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.GetRoleName()}</color>")}</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Executioner.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Executioner);
 
                 notif1.AdjustNotification();
 
@@ -141,7 +141,7 @@ public static class ExecutionerEvents
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     message.Replace("<player>", exe.Player.Data.PlayerName),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: icon);
 
                 notif1.AdjustNotification();
             }

@@ -29,7 +29,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 {
     public void InitialSetup()
     {
-        TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.ExeTormentSprite.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.ExeTormentSprite,
             "TouMira.Role.Neutral.Executioner.Ui.Target", 1.45f);
     }
     public void AnnounceKill(PlayerControl source, PlayerControl victim)
@@ -39,7 +39,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
             : MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerTormentNotif");
         var notif = Helpers.CreateAndShowNotification(
             $"<b>{text.Replace("<victim>", victim.Data.PlayerName)}</b>",
-            Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Jester.LoadAsset());
+            Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Jester);
         notif.AdjustNotification();
         notif.alphaTimer = 5f;
     }
@@ -163,7 +163,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Executioner.LoadAsset(), "TouMira.Role.Neutral.Executioner", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Executioner, "TouMira.Role.Neutral.Executioner", 1.45f),
         IntroSound = TouAudio.DiscoveredSound,
         Icon = TouRoleIcons.Executioner,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

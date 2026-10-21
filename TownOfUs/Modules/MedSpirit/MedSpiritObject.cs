@@ -255,8 +255,8 @@ public sealed class MedSpiritObject(IntPtr cppPtr) : InnerNetObject(cppPtr)
         /*
         if (AmOwner)
         {
-            SoundManager.Instance.StopSound(TouAudio.EscapistRecallSound.LoadAsset());
-            SoundManager.Instance.PlaySound(TouAudio.EscapistRecallSound.LoadAsset(), false);
+            SoundManager.Instance.StopSound(TouAudio.EscapistRecallSound);
+            SoundManager.Instance.PlaySound(TouAudio.EscapistRecallSound, false);
         }*/
 
         AmongUsClient.Instance.DestroyedObjects.Add(NetId);

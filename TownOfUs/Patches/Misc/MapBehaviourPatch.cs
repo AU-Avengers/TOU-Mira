@@ -33,7 +33,7 @@ public static class ShowVentsPatch
                 {
                     icon = Object.Instantiate(__instance.HerePoint.gameObject, __instance.HerePoint.transform.parent);
                     var renderer = icon.GetComponent<SpriteRenderer>();
-                    renderer.sprite = TouAssets.MapBodySprite.LoadAsset();
+                    renderer.sprite = TouAssets.MapBodySprite;
                     icon.name = $"Satellite Body {deadBody.ParentId} Map Icon";
                     icon.transform.localPosition = location;
                     BodyIcons[deadBody.ParentId] = icon;
@@ -84,7 +84,7 @@ public static class ShowVentsPatch
             {
                 icon = Object.Instantiate(__instance.HerePoint.gameObject, __instance.HerePoint.transform.parent);
                 var renderer = icon.GetComponent<SpriteRenderer>();
-                renderer.sprite = TouAssets.MapVentSprite.LoadAsset();
+                renderer.sprite = TouAssets.MapVentSprite;
                 icon.name = $"Vent {vent.Id} Map Icon";
                 icon.transform.localPosition = location;
                 VentIcons[vent.Id] = icon;

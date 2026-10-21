@@ -102,7 +102,7 @@ public sealed class TraitorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr)
 
             if (role is ICustomRole customRole && customRole.Configuration.Icon != null)
             {
-                roleImg = customRole.Configuration.Icon.LoadAsset();
+                roleImg = customRole.Configuration.Icon;
             }
             else if (role.RoleIconSolid != null)
             {
@@ -116,7 +116,7 @@ public sealed class TraitorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr)
             z++;
         }
 
-        var randomCard = CreateCard(MiraLocaleManager.Get("Random"), MiraLocaleManager.Get("TownOfUsMira.Role.TraitorRandomImpostorCard"), TouRoleIcons.RandomImp.LoadAsset(), z,
+        var randomCard = CreateCard(MiraLocaleManager.Get("Random"), MiraLocaleManager.Get("TownOfUsMira.Role.TraitorRandomImpostorCard"), TouRoleIcons.RandomImp, z,
             TownOfUsColors.Impostor);
         randomCard.OnClick.RemoveAllListeners();
         randomCard.OnClick.AddListener((UnityAction)(() =>

@@ -40,7 +40,7 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Barkeeper.LoadAsset(), "TouMira.Role.Crewmate.Barkeeper", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Barkeeper, "TouMira.Role.Crewmate.Barkeeper", 1.45f),
         Icon = TouRoleIcons.Barkeeper,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.PotionIntro
@@ -152,7 +152,7 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
                 }
                 else
                 {
-                    ShowNotification($"<b>{rbText}</b>", TouRoleIcons.Bootlegger.LoadAsset());
+                    ShowNotification($"<b>{rbText}</b>", TouRoleIcons.Bootlegger);
                 }
             }
         }
@@ -167,7 +167,7 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
             }
             else
             {
-                ShowNotification($"<b>{rbText}</b>", TouRoleIcons.Barkeeper.LoadAsset());
+                ShowNotification($"<b>{rbText}</b>", TouRoleIcons.Barkeeper);
             }
         }
 
@@ -182,12 +182,12 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
 
         if (target.AmOwner)
         {
-            var iconTarget = TouRoleIcons.Barkeeper.LoadAsset();
+            var iconTarget = TouRoleIcons.Barkeeper;
             var msg = immune ? MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperHungover") : MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockedTarget");
             if (poisonPlayer)
             {
                 msg += "\n<color=#D64042>" + MiraLocaleManager.Get("TownOfUsMira.Role.BootleggerImpendingDoom") + "</color>";
-                iconTarget = TouRoleIcons.Bootlegger.LoadAsset();
+                iconTarget = TouRoleIcons.Bootlegger;
             }
                 ShowNotification(msg, iconTarget);
         }

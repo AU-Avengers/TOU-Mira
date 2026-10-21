@@ -77,7 +77,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Altruist.LoadAsset(), "TouMira.Role.Crewmate.Altruist", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Altruist, "TouMira.Role.Crewmate.Altruist", 1.45f),
         IntroSound = TouAudio.AltruistReviveSound,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Altruist
@@ -195,7 +195,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                 flashColor: TownOfUsColors.Altruist,
                 revivedOwnerNotificationText: revivedText,
                 reviverOwnerNotificationText: successText,
-                notificationIcon: TouRoleIcons.Altruist.LoadAsset());
+                notificationIcon: TouRoleIcons.Altruist);
 
             body = FindObjectsOfType<DeadBody>().FirstOrDefault(b => b.ParentId == dead.PlayerId);
             if (!OptionGroupSingleton<AltruistOptions>.Instance.HideAtBeginningOfRevive && body != null)

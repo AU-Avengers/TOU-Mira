@@ -77,7 +77,7 @@ public static class DraftRpcs
         if (!FromHost(sender) || string.IsNullOrEmpty(message)) return;
 
         var notif = Helpers.CreateAndShowNotification(message, Color.white,
-            new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode.LoadAsset());
+            new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode);
         notif?.AdjustNotification();
     }
 

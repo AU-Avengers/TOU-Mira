@@ -17,7 +17,7 @@ public sealed class BetterPolusOptions : AbstractOptionGroup
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
         TmpSpriteUtils.CreateSpriteAsset(
-            TouAssets.IconPolus.LoadAsset(),
+            TouAssets.IconPolus,
             "AmongUs.Map.Polus",
             1.45f));
 

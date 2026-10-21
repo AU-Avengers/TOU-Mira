@@ -13,13 +13,13 @@ public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRol
 {
     private static string _normalRb => MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock");
     private static string _normalRbStart => MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblocking");
-    private static Sprite _normalRbSprite => TouImpAssets.DrinkRoleblockSprite.LoadAsset();
+    private static Sprite _normalRbSprite => TouImpAssets.DrinkRoleblockSprite;
     private static string _sickRb => MiraLocaleManager.Get("TownOfUsMira.Role.BootleggerSicken");
     private static string _sickRbStart => MiraLocaleManager.Get("TownOfUsMira.Role.BootleggerSickening");
-    private static Sprite _sickRbSprite => TouImpAssets.DrinkSickenSprite.LoadAsset();
+    private static Sprite _sickRbSprite => TouImpAssets.DrinkSickenSprite;
     private static string _poisRb => MiraLocaleManager.Get("TownOfUsMira.Role.BootleggerPoison");
     private static string _poisRbStart => MiraLocaleManager.Get("TownOfUsMira.Role.BootleggerPoisoning");
-    private static Sprite _poisRbSprite => TouImpAssets.DrinkPoisonSprite.LoadAsset();
+    private static Sprite _poisRbSprite => TouImpAssets.DrinkPoisonSprite;
 
     private static void GetRb(PlayerControl? player, out Sprite sprite, out string text)
     {
@@ -105,7 +105,7 @@ public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRol
         _roleblockedTarget = Target;
 
         NotifMessage = Helpers.CreateAndShowNotification($"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.BootleggerRoleblockChosen") .Replace("<player>", _roleblockedTarget.CachedPlayerData.PlayerName)}</b>",
-        Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Bootlegger.LoadAsset());
+        Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Bootlegger);
         NotifMessage.Text.SetOutlineThickness(0.35f);
     }
 

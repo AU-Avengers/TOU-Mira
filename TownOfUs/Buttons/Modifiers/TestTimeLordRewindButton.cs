@@ -52,7 +52,7 @@ public sealed class TestTimeLordRewindButton : TownOfUsButton, IAurialBypassButt
             return;
         }
 
-        var spr = EffectActive ? TouCrewAssets.RewindingSprite.LoadAsset() : TouCrewAssets.RewindSprite.LoadAsset();
+        var spr = EffectActive ? TouCrewAssets.RewindingSprite : TouCrewAssets.RewindSprite;
         if (Button.graphic != null && Button.graphic.sprite != spr)
         {
             Button.graphic.sprite = spr;

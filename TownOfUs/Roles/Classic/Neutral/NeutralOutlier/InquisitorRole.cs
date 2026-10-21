@@ -239,7 +239,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Inquisitor.LoadAsset(), "TouMira.Role.Neutral.Inquisitor", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Inquisitor, "TouMira.Role.Neutral.Inquisitor", 1.45f),
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Inquisitor,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

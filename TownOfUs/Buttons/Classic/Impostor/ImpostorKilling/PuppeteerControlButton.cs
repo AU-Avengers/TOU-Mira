@@ -154,7 +154,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
 
                         var notif = Helpers.CreateAndShowNotification(
                             $"<b>{notificationText}</b>",
-                            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Puppeteer.LoadAsset());
+                            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Puppeteer);
                         notif.Text.SetOutlineThickness(0.35f);
                         return;
                     }

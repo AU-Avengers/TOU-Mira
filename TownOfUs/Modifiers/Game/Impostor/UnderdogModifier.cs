@@ -11,7 +11,7 @@ public sealed class UnderdogModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Impostor,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Underdog.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Underdog,
             "TouMira.Modifier.Impostor.Underdog", 1.45f));
     public override string IdPart => "Underdog";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

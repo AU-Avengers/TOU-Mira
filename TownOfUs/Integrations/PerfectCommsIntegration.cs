@@ -250,7 +250,7 @@ internal static class PerfectCommsIntegration
         label.m_enableWordWrapping = false;
 
         var renderer = buttonObject.GetComponent<SpriteRenderer>();
-        renderer.sprite = TouAssets.JailUnmute.LoadAsset();
+        renderer.sprite = TouAssets.JailUnmute;
         renderer.color = Color.white;
 
         label.text = MiraLocaleManager.Get("TownOfUsMira.Role.JailorAllowVoice", "Allow Voice");

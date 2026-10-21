@@ -8,7 +8,7 @@ public sealed class TorchModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Torch,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Torch.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Torch,
             "TouMira.Modifier.Crewmate.Torch", 1.45f));
     public override string IdPart => "Torch";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

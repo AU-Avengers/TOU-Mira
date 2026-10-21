@@ -88,7 +88,7 @@ public static class MedusaEvents
                     AchievementsAPIHelper.GetCurrentValue(TouAchievements.SnakeEyes) == 14);
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Role.MedusaPetrifyNotif").Replace("<player>", $"{TownOfUsColors.Medusa.ToTextColor()}{target.Data.PlayerName}</color>"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Medusa.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Medusa);
 
                 notif1.AdjustNotification();
             }

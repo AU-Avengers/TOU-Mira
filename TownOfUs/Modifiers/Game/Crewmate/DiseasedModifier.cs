@@ -9,7 +9,7 @@ public sealed class DiseasedModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Diseased,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Diseased.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Diseased,
             "TouMira.Modifier.Crewmate.Diseased", 1.45f));
     public override string IdPart => "Diseased";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

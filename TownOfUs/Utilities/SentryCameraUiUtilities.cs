@@ -63,7 +63,7 @@ public static class SentryCameraUiUtilities
         go.SetActive(true);
 
         var sr = go.AddComponent<SpriteRenderer>();
-        sr.sprite = _polusPageArrowSprite ?? MiraAssets.NextButton.LoadAsset();
+        sr.sprite = _polusPageArrowSprite ?? MiraAssets.NextButton;
         sr.enabled = true;
 
         if (closeBtn.TryGetComponent<SpriteRenderer>(out var closeSr))

@@ -21,7 +21,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 {
     public void InitialSetup()
     {
-        TmpSpriteUtils.CreateSpriteAsset(TouCrewAssets.MagicMirrorSprite.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouCrewAssets.MagicMirrorSprite,
             "TouMira.Role.Crewmate.Mirrorcaster.Ui.MagicMirror", 1.45f);
     }
     public override bool IsAffectedByComms => false;
@@ -98,7 +98,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mirrorcaster.LoadAsset(), "TouMira.Role.Crewmate.Mirrorcaster", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mirrorcaster, "TouMira.Role.Crewmate.Mirrorcaster", 1.45f),
         IntroSound = TouAudio.MirrorcasterIntro,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Mirrorcaster
@@ -328,7 +328,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
                     break;
             }
             var notif1 = Helpers.CreateAndShowNotification(text, Color.white, new Vector3(0f, 1f, -20f),
-                spr: TouRoleIcons.Mirrorcaster.LoadAsset());
+                spr: TouRoleIcons.Mirrorcaster);
             notif1.AdjustNotification();
         }
         else if (opt.WhoGetsNotification is MirrorOption.MirrorcasterAndKiller && source.AmOwner)

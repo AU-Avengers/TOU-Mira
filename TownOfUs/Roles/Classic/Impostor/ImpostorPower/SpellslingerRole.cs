@@ -61,7 +61,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spellslinger.LoadAsset(), "TouMira.Role.Impostor.Spellslinger", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spellslinger, "TouMira.Role.Impostor.Spellslinger", 1.45f),
         Icon = TouRoleIcons.Spellslinger,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         MaxRoleCount = 1,

@@ -33,7 +33,7 @@ public sealed class TraitorCacheModifier : BaseModifier, ICachedRole
         {
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You are a new role, and you are only guessable as Traitor now!</color></b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Traitor.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Traitor);
 
             notif1.AdjustNotification();
         }*/

@@ -107,7 +107,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         yield return Effects.Wait(0.083333336f);
         overlay.background.enabled = false;
         var flameSprite = overlay.flameParent.transform.FindChild("BackgroundFlame").GetComponent<SpriteRenderer>();
-        flameSprite.sprite = TouAssets.DeputyRevealBg.LoadAsset();
+        flameSprite.sprite = TouAssets.DeputyRevealBg;
         flameSprite.transform.localPosition = new Vector3(0, -2f);
         if (KillOverlayPatch.material == null)
         {
@@ -126,7 +126,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         anim.gameObject.SetActive(true);
         var sheriffCloseup = anim.transform.GetChild(2);
         var outfit = sheriffCloseup.GetChild(1).GetComponent<SpriteRenderer>();
-        outfit.sprite = TouAssets.DeputyOutfit.LoadAsset();
+        outfit.sprite = TouAssets.DeputyOutfit;
         
         var clonedForeground = Instantiate(anim.impostorForeground, anim.impostorForeground.transform.parent);
         clonedForeground.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
@@ -154,7 +154,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         }));
         if (flameSprite)
         {
-            flameSprite.sprite = TouAssets.KillBG.LoadAsset();
+            flameSprite.sprite = TouAssets.KillBG;
             flameSprite.transform.localPosition = new Vector3(0, 0);
         }
 
@@ -231,7 +231,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Deputy.LoadAsset(), "TouMira.Role.Crewmate.Deputy", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Deputy, "TouMira.Role.Crewmate.Deputy", 1.45f),
         Icon = TouRoleIcons.Deputy,
         OptionsScreenshot = TouBanners.DeputyRoleBanner,
         IntroSound = TouAudio.DeputyIntroSound,
@@ -335,7 +335,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg, false, true);
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Deputy.ToTextColor()}{msg}</b></color>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy);
             notif1.AdjustNotification();
         }
 

@@ -82,7 +82,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Seer.LoadAsset(), "TouMira.Role.Crewmate.Seer", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Seer, "TouMira.Role.Crewmate.Seer", 1.45f),
         Icon = TouRoleIcons.Seer,
         OptionsScreenshot = TouBanners.SeerRoleBanner,
         IntroSound = TouAudio.QuestionSound
@@ -160,7 +160,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         void ShowNotification(string message)
         {
             var notif = Helpers.CreateAndShowNotification(message, Color.white, new Vector3(0f, 1f, -20f),
-                spr: TouRoleIcons.Seer.LoadAsset());
+                spr: TouRoleIcons.Seer);
             notif.AdjustNotification();
         }
 

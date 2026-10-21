@@ -83,7 +83,7 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
             var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
 
-            icon.sprite = TouCrewAssets.InspectSprite.LoadAsset();
+            icon.sprite = TouCrewAssets.InspectSprite;
             icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
             // icon.tileMode = SpriteTileMode.Adaptive;
 
@@ -164,7 +164,7 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Imitator.LoadAsset(), "TouMira.Role.Crewmate.Imitator", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Imitator, "TouMira.Role.Crewmate.Imitator", 1.45f),
         Icon = TouRoleIcons.Imitator,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.SpyIntroSound

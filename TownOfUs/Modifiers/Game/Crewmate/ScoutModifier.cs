@@ -8,7 +8,7 @@ public sealed class ScoutModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Scout,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Scout.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Scout,
             "TouMira.Modifier.Crewmate.Scout", 1.45f));
     public override string IdPart => "Scout";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

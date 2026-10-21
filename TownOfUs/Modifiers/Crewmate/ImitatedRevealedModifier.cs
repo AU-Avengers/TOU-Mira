@@ -69,7 +69,7 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
 
                 if (ShownRole is ICustomRole customRole && customRole.Configuration.Icon != null)
                 {
-                    roleImg = customRole.Configuration.Icon.LoadAsset();
+                    roleImg = customRole.Configuration.Icon;
                 }
                 else if (ShownRole.RoleIconSolid != null)
                 {

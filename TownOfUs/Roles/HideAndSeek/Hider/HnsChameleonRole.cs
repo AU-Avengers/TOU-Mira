@@ -50,7 +50,7 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
     public CustomRoleConfiguration Configuration => new(this)
     {
         AssociatedGameMode = typeof(HideAndSeekMode),
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Chameleon.LoadAsset(), "TouMira.Role.Crewmate.Chameleon", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Chameleon, "TouMira.Role.Crewmate.Chameleon", 1.45f),
         FreeplayFolder = "Hide n Seek",
         Icon = TouRoleIcons.Chameleon,
         RoleHintType = RoleHintType.TaskHint

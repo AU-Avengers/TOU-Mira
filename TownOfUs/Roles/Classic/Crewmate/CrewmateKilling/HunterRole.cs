@@ -83,7 +83,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Hunter.LoadAsset(), "TouMira.Role.Crewmate.Hunter", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Hunter, "TouMira.Role.Crewmate.Hunter", 1.45f),
         Icon = TouRoleIcons.Hunter,
         OptionsScreenshot = TouBanners.HunterRoleBanner,
         IntroSound = TouAudio.OtherIntroSound
@@ -144,7 +144,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{text.Replace("<player>", source.Data.PlayerName)}</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter);
                 notif1.AdjustNotification();
             }
         }

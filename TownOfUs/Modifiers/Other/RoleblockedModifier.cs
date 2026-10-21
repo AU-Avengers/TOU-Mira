@@ -36,7 +36,7 @@ public sealed class RoleblockedModifier(PlayerControl roleblocker, bool invertCo
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.RoleblockedEndNotification")}</b>", Color.white,
-                    spr: TouRoleIcons.Barkeeper.LoadAsset());
+                    spr: TouRoleIcons.Barkeeper);
 
                 notif1.Text.SetOutlineThickness(0.35f);
                 notif1.transform.localPosition = new Vector3(0f, 1f, -20f);

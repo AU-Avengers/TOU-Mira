@@ -86,7 +86,7 @@ public static class SoftWikiEntries
 
             if (role is ICustomRole customRole && customRole.Configuration.Icon != null)
             {
-                roleImg = customRole.Configuration.Icon.LoadAsset();
+                roleImg = customRole.Configuration.Icon;
             }
             else
             {
@@ -121,7 +121,7 @@ public static class SoftWikiEntries
             entry.TeamName = $"{modifier.GetModifierFaction()}";
             entry.EntryColor = Color.grey;
             entry.GetAdvancedDescription = $"{modifier.GetDescription()}{MiscUtils.AppendOptionsText(entry.EntryType)}";
-            entry.Icon = modifier.ModifierIcon?.LoadAsset() ?? TouRoleIcons.RandomAny.LoadAsset();
+            entry.Icon = modifier.ModifierIcon?.LoadAsset() ?? TouRoleIcons.RandomAny;
         }
     }
 }

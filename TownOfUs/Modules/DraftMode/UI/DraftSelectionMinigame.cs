@@ -926,7 +926,7 @@ namespace TownOfUs.Modules.DraftMode
                 notificationText,
                 Color.white,
                 new Vector3(0f, 1f, -20f),
-                spr: TouAssets.IconDraftMode.LoadAsset());
+                spr: TouAssets.IconDraftMode);
 
             notif?.AdjustNotification();
         }

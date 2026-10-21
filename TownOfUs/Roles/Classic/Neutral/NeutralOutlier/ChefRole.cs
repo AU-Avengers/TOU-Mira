@@ -34,19 +34,19 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     }
     public void InitialSetup()
     {
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressNone.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressNone,
             "TouMira.Role.Neutral.Chef.Ui.None", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyNormal.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyNormal,
             "TouMira.Role.Neutral.Chef.Ui.BodyNormal", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyMini.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyMini,
             "TouMira.Role.Neutral.Chef.Ui.BodyMini", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyFlash.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyFlash,
             "TouMira.Role.Neutral.Chef.Ui.BodyFlash", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyGiant.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyGiant,
             "TouMira.Role.Neutral.Chef.Ui.BodyGiant", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressFedUncolored.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressFedUncolored,
             "TouMira.Role.Neutral.Chef.Ui.PlayerUncolored", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressFedRainbow.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressFedRainbow,
             "TouMira.Role.Neutral.Chef.Ui.PlayerRainbow", 1.45f);
     }
     private static string GetIcon(string name)
@@ -199,7 +199,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Chef.LoadAsset(), "TouMira.Role.Neutral.Chef", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Chef, "TouMira.Role.Neutral.Chef", 1.45f),
         IntroSound = TouAudio.ChefSound,
         Icon = TouRoleIcons.Chef,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

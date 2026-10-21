@@ -42,7 +42,7 @@ public static class MeetingShhPatches
             jailCell.gameObject.layer = HudManager.Instance.shhhEmblem!.gameObject.layer;
 
             var render = jailCell.AddComponent<SpriteRenderer>();
-            render.sprite = LegacyAssets.IsLegacy ? LegacyAssets.JailCellSprite.LoadAsset() : TouAssets.JailCellSprite.LoadAsset();
+            render.sprite = LegacyAssets.IsLegacy ? LegacyAssets.JailCellSprite : TouAssets.JailCellSprite;
             jailCell.gameObject.SetActive(true);
             jailCell.GetComponent<SpriteRenderer>().enabled = true;
             if (PlayerControl.LocalPlayer.HasModifier<BlackmailedModifier>())

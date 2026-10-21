@@ -53,7 +53,7 @@ public sealed class MinerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Miner.LoadAsset(), "TouMira.Role.Impostor.Miner", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Miner, "TouMira.Role.Impostor.Miner", 1.45f),
         UseVanillaKillButton = true,
         Icon = TouRoleIcons.Miner,
         OptionsScreenshot = TouBanners.MinerRoleBanner,
@@ -140,7 +140,7 @@ public sealed class MinerRole(IntPtr cppPtr)
 
         vent.numFramesUntilPlayerDisappearsOnEnter = 0;
         vent.numFramesUntilPlayerReappearsOnExit = 0;
-        vent.myRend.sprite = TouAssets.MinerVentSprite.LoadAsset();
+        vent.myRend.sprite = TouAssets.MinerVentSprite;
         vent.name = $"MinerVent-{player.PlayerId}-{ventId}";
 
         Error($"RpcPlaceVent - vent: {vent.name} - {immediate}");
@@ -214,7 +214,7 @@ public sealed class MinerRole(IntPtr cppPtr)
     public IEnumerator CoExplode(Vector3 position)
     {
         var explodeAnim =
-            AnimStore.SpawnAnimAtPlayer(Player, TouAssets.VentExplodePrefab.LoadAsset());
+            AnimStore.SpawnAnimAtPlayer(Player, TouAssets.VentExplodePrefab);
         explodeAnim.transform.position = position;
         yield return new WaitForSeconds(1.166f);
         explodeAnim.Destroy();

@@ -226,7 +226,7 @@ public static class VitalsBodyPatches
     {
         panel.IsDead = true;
         panel.IsDiscon = false;
-        panel.Background.sprite = TouAssets.VitalBgMissin.LoadAsset();
+        panel.Background.sprite = TouAssets.VitalBgMissin;
         panel.Cardio.gameObject.SetActive(false);
     }
 }

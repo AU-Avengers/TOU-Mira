@@ -14,7 +14,7 @@ public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Rotting,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Rotting.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Rotting,
             "TouMira.Modifier.Crewmate.Rotting", 1.45f));
     public override string IdPart => "Rotting";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");

@@ -15,7 +15,7 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Egotist,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Egotist.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Egotist,
             "TouMira.Modifier.Alliance.Egotist", 1.45f));
     public bool LeaveMessageSent { get; set; }
     public bool HasSurvived { get; set; } = true;

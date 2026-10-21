@@ -49,7 +49,7 @@ public static class TraitorEvents
                             $"{TownOfUsColors.Impostor.ToTextColor()}{crewpostor.ModifierName}</color>")
                         .Replace("<role>",
                             $"{TownOfUsColors.Impostor.ToTextColor()}{traitorRole.GetRoleName()}</color>"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Crewpostor.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Crewpostor);
 
                 notif1.AdjustNotification();
             }
