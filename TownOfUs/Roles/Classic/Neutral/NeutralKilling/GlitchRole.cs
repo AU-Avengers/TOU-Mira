@@ -49,23 +49,6 @@ public sealed class GlitchRole(IntPtr cppPtr)
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mimic", "Mimic"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mimic.WikiDescription"),
-                    TouNeutAssets.MimicSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hack", "Hack"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hack.WikiDescription"),
-                    TouNeutAssets.HackSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

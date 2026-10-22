@@ -28,22 +28,6 @@ public sealed class EclipsalRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         Icon = TouRoleIcons.Eclipsal
     };
 
-
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Blind", "Blind"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Blind.WikiDescription"),
-                    TouImpAssets.BlindSprite)
-            ];
-        }
-    }
-
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {

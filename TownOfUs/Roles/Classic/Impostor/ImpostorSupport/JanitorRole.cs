@@ -63,22 +63,6 @@ public sealed class JanitorRole(IntPtr cppPtr)
         IntroSound = TouAudio.JanitorCleanSound
     };
 
-
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Clean", "Clean"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Clean.WikiDescription"),
-                    TouImpAssets.CleanButtonSprite)
-            ];
-        }
-    }
-
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {

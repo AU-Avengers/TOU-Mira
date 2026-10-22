@@ -32,17 +32,6 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities =>
-    [
-        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hex", "Hex"),
-            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hex.WikiDescription"),
-            TouImpAssets.HexSprite),
-        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}HexBomb", "Hex Bomb"),
-            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}HexBomb.WikiDescription"),
-            TouImpAssets.HexBombSprite)
-    ];
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities =>
     [
         new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hex", "Hex"),

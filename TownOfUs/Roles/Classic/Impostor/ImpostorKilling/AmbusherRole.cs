@@ -50,23 +50,6 @@ public sealed class AmbusherRole(IntPtr cppPtr)
     };
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Pursue", "Pursue"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Pursue.WikiDescription"),
-                    TouImpAssets.PursueSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Ambush", "Ambush"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Ambush.WikiDescription"),
-                    TouImpAssets.AmbushSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

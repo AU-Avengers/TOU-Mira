@@ -66,25 +66,6 @@ public sealed class EscapistRole(IntPtr cppPtr)
         CanUseVent = OptionGroupSingleton<EscapistOptions>.Instance.CanVent
     };
 
-
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mark", "Mark"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mark.WikiDescription"),
-                    TouImpAssets.MarkSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Recall", "Recall"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Recall.WikiDescription"),
-                    TouImpAssets.RecallSprite)
-            ];
-        }
-    }
-
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {

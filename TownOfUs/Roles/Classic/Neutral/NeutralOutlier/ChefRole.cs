@@ -159,23 +159,6 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Cook", "Cook"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Cook.WikiDescription"),
-                    TouNeutAssets.ChefCookSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Serve", "Serve"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Serve.WikiDescription"),
-                    TouNeutAssets.ChefServeSprites.AsEnumerable().Random()!),
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

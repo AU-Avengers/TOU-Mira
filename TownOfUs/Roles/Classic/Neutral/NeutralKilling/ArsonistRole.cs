@@ -59,25 +59,6 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Douse", "Douse"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Douse.WikiDescription"),
-                    TouNeutAssets.DouseButtonSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Ignite", "Ignite"),
-                    MiraLocaleManager.Get(OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
-                        ? $"TownOfUsMira.Role.{IdPart}Ignite.WikiDescriptionLegacy"
-                        : $"TownOfUsMira.Role.{IdPart}Ignite.WikiDescription"),
-                    TouNeutAssets.IgniteButtonSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

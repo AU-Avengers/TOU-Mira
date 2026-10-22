@@ -51,20 +51,6 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Remember", "Remember"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Remember.WikiDescription"),
-                    TouNeutAssets.RememberButtonSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

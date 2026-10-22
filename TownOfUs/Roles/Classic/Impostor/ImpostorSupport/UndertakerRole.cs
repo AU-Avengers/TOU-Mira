@@ -60,25 +60,6 @@ public sealed class UndertakerRole(IntPtr cppPtr)
         OptionsScreenshot = TouBanners.UndertakerRoleBanner,
     };
 
-
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Drag", "Drag"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Drag.WikiDescription"),
-                    TouImpAssets.DragSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Drop", "Drop"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Drop.WikiDescription"),
-                    TouImpAssets.DropSprite)
-            ];
-        }
-    }
-
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
