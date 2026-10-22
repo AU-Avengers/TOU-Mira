@@ -733,9 +733,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         {
             DetailScreenItemName.Value.text =
                 $"{touRole.RoleName}\n<size=60%>{touRole.RoleColor.ToTextColor()}{MiscUtils.GetParsedRoleAlignment(touRole.RoleAlignment)}</size></color>";
-            DetailScreenIcon.Value.sprite = touRole.Configuration.Icon != null
-                ? touRole.Configuration.Icon
-                : TouRoleUtils.GetBasicRoleIcon(touRole);
+            DetailScreenIcon.Value.sprite = touRole.Configuration.Icon ?? TouRoleUtils.GetBasicRoleIcon(touRole);
         }
         else if (_selectedItem is BaseModifier baseModifier)
         {
@@ -769,9 +767,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             }
             DetailScreenItemName.Value.text =
                 $"{baseModifier.ModifierName}\n<size=60%>{color.ToTextColor()}{alignment}</size></color>";
-            DetailScreenIcon.Value.sprite = baseModifier.ModifierIcon != null
-                ? baseModifier.ModifierIcon
-                : TouRoleIcons.RandomAny;
+            DetailScreenIcon.Value.sprite = baseModifier.ModifierIcon ?? TouRoleIcons.RandomAny;
         }
         else if (_selectedSoftItem != null)
         {
