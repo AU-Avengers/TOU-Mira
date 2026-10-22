@@ -23,7 +23,11 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class MayorRole(IntPtr cppPtr)
     : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, IUnguessable, ILoyalCrewmate, IVisibleRole
 {
-    public bool? ForceShowRoleOnWiki => MiscUtils.GetPotentialRoles().Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PoliticianRole>())) ? true : null;
+    public string GetAmountText(int amount, int chance, string source)
+    {
+        return $"Transforms from {AppearAs.GetRoleName()} ({source})";
+    }
+    public bool? ForceShowRoleOnWiki => MiscUtils.GetPotentialRoles().Contains(AppearAs) ? true : null;
     public bool CanOtherRoleSee(RoleBehaviour role, out bool consideredTeammates)
     {
         consideredTeammates = false;

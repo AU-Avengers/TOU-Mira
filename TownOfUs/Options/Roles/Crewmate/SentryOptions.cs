@@ -36,6 +36,17 @@ public sealed class SentryOptions : AbstractRoleOptionGroup<SentryRole>, IWikiOp
         ["TouOptionSentryPortableModeEnumAlways", "TouOptionSentryPortableModeEnumAfterTasks", "TouOptionSentryPortableModeEnumCamlessMaps"])]
     public SentryPortableCamerasMode PortableCamerasMode { get; set; } = SentryPortableCamerasMode.OnMapsWithoutCameras;
 
+    [ModdedNumberOption("TouOptionSentryPortableCamsBattery", 0f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
+    public float PortableCamsBattery { get; set; } = 90f;
+
+    public ModdedNumberOption PortableCamsRechargePerTask { get; } = new(
+        "TouOptionSentryPortableCamsRechargePerTask", 10f, 0f, 15f, 1f, "#", "#", MiraNumberSuffixes.Seconds, "0.0", true)
+    {
+        Visible = () =>
+            OptionGroupSingleton<SentryOptions>.Instance.PortableCamerasMode is SentryPortableCamerasMode
+                .OnMapsWithoutCameras or SentryPortableCamerasMode.Immediately
+    };
+
     public ModdedNumberOption InitialCameras { get; } = new("TouOptionSentryInitialCameras", 2f, 0f, 15f, 1f, "∞", "#", MiraNumberSuffixes.None, "0", false);
 
     [ModdedNumberOption("TouOptionSentryCameraRoundsLast", 0f, 15f, 1f, MiraNumberSuffixes.None, "0", true)]
@@ -49,9 +60,6 @@ public sealed class SentryOptions : AbstractRoleOptionGroup<SentryRole>, IWikiOp
 
     [ModdedNumberOption("TouOptionSentryMaxCamerasPlaced", 0f, 20f, 1f, MiraNumberSuffixes.None, "0", true)]
     public float MaxCamerasPlaced { get; set; } = 4f;
-
-    [ModdedNumberOption("TouOptionSentryPortableCamsBattery", 0f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
-    public float PortableCamsBattery { get; set; } = 90f;
 
 
     private static readonly string[] SystemTypeIdParts =

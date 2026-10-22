@@ -4,10 +4,13 @@ using HarmonyLib;
 using MiraAPI;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.Modifiers;
 using MiraAPI.Networking;
+using MiraAPI.Patches;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Modules;
 using TownOfUs.Networking;
 using UnityEngine;
 
@@ -16,6 +19,31 @@ namespace TownOfUs.Patches.Misc;
 [HarmonyPatch]
 public static class MiraApiPatches
 {
+    [HarmonyPatch(typeof(RoleGuidePatches), nameof(RoleGuidePatches.GetActiveRoles))]
+    [HarmonyPrefix]
+    public static bool GetActiveRoles(ref IEnumerable<RoleBehaviour> __result)
+    {
+        IEnumerable<RoleBehaviour> comparisons = [];
+
+        var curRole = PlayerControl.LocalPlayer.Data.Role;
+
+        if (PlayerControl.LocalPlayer.GetModifiers<BaseModifier>().FirstOrDefault(x =>
+                x is ICachedRole cached && cached.CachedRole != curRole) is ICachedRole cachedMod)
+        {
+            comparisons = comparisons.AddItem(cachedMod.CachedRole);
+        }
+
+        comparisons = comparisons.AddItem(curRole);
+
+        if (PlayerControl.LocalPlayer.Data.IsDead &&
+            !comparisons.Contains(PlayerControl.LocalPlayer.GetRoleWhenAlive()))
+        {
+            comparisons = comparisons.AddItem(PlayerControl.LocalPlayer.GetRoleWhenAlive());
+        }
+
+        __result = comparisons;
+        return false;
+    }
     [HarmonyPatch(typeof(Helpers), nameof(Helpers.IsRoleBlacklisted))]
     [HarmonyPrefix]
     public static bool IsRoleBlacklisted(RoleBehaviour role, ref bool __result)

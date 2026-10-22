@@ -44,6 +44,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
+    public override bool ShowModifierAsUnique => true;
     public override int GetAssignmentChance()
     {
         return OptionGroupSingleton<CrewmateModifierOptions>.Instance.CelebrityChance;

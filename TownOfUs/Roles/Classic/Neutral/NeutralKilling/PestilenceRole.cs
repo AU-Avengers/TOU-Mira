@@ -21,7 +21,11 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class PestilenceRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IUnguessable, ICrewVariant
 {
-    public bool? ForceShowRoleOnWiki => MiscUtils.GetPotentialRoles().Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PlaguebearerRole>())) ? true : null;
+    public string GetAmountText(int amount, int chance, string source)
+    {
+        return $"Transforms from {AppearAs.GetRoleName()} ({source})";
+    }
+    public bool? ForceShowRoleOnWiki => MiscUtils.GetPotentialRoles().Contains(AppearAs) ? true : null;
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (!playerControl.AmOwner)
