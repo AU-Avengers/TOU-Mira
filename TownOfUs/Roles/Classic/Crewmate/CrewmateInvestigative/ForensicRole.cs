@@ -126,7 +126,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             text = text.Replace("<deadPlayer>", deadPlayer.Data.PlayerName);
             if (firstAttempt)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.BloodyHands);
+                TouAchievements.BloodyHands.Unlock();
             }
         }
         else

@@ -272,7 +272,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         {
             if (victim == Target && Player.AmOwner && !victim.Data.Disconnected && TouAchievementEvents.IsFirstRound)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.FairlyBadParent);
+                TouAchievements.FairlyBadParent.Unlock();
             }
             var roleType = OptionGroupSingleton<FairyOptions>.Instance.OnTargetDeath switch
             {

@@ -63,7 +63,7 @@ public static class MedusaEvents
 
             if (miraEvent is MiraButtonClickEvent click && click.Button is JesterPokeButton)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.DontPokeTheBear);
+                TouAchievements.DontPokeTheBear.Unlock();
             }
 
             if (TutorialManager.InstanceExists || source.AmOwner)
@@ -84,8 +84,8 @@ public static class MedusaEvents
         {
             if (source.AmOwner)
             {
-                AchievementsAPIHelper.Increment(TouAchievements.SnakeEyes, 1,
-                    AchievementsAPIHelper.GetCurrentValue(TouAchievements.SnakeEyes) == 14);
+                TouAchievements.SnakeEyes.Increment(1,
+                    TouAchievements.SnakeEyes.GetCurrentValue() == 14);
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Role.MedusaPetrifyNotif").Replace("<player>", $"{TownOfUsColors.Medusa.ToTextColor()}{target.Data.PlayerName}</color>"),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Medusa.LoadAsset());

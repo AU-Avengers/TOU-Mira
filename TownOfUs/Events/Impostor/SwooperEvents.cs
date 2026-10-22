@@ -48,8 +48,8 @@ public static class SwooperEvents
             swoopModifier.AchProgress = SwoopProgress.Killed;
         }
 
-        AchievementsAPIHelper.Increment(TouAchievements.Untraceable, 1,
-            AchievementsAPIHelper.GetCurrentValue(TouAchievements.Untraceable) == 14);
+        TouAchievements.Untraceable.Increment(1,
+            TouAchievements.Untraceable.GetCurrentValue() == 14);
     }
 
     [RegisterEvent]
@@ -63,7 +63,7 @@ public static class SwooperEvents
         if (swoopModifier.AchProgress is SwoopProgress.Killed)
         {
             swoopModifier.AchProgress = SwoopProgress.KilledAndVented;
-            AchievementsAPIHelper.Unlock(TouAchievements.Sneakman);
+            TouAchievements.Sneakman.Unlock();
         }
     }
 }

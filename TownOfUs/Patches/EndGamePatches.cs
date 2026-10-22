@@ -332,28 +332,28 @@ public static class EndGamePatches
             case DayOfWeek.Monday:
                 if (map is ExpandedMapNames.MiraHq)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.MiraMonday);
+                    TouAchievements.MiraMonday.Unlock();
                 }
 
                 break;
             case DayOfWeek.Friday:
                 if (map is ExpandedMapNames.Fungle)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.FungleFriday);
+                    TouAchievements.FungleFriday.Unlock();
                 }
 
                 break;
             case DayOfWeek.Saturday:
                 if (map is ExpandedMapNames.Submerged)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.SubmergedSaturday);
+                    TouAchievements.SubmergedSaturday.Unlock();
                 }
 
                 break;
             case DayOfWeek.Sunday:
                 if (map is ExpandedMapNames.Skeld)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.SkeldSunday);
+                    TouAchievements.SkeldSunday.Unlock();
                 }
 
                 break;

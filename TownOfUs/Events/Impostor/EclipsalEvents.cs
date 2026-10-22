@@ -22,8 +22,8 @@ public static class EclipsalEvents
 
         if (source.AmOwner && source.Data.Role is EclipsalRole && source != victim)
         {
-            AchievementsAPIHelper.Increment(TouAchievements.EternalDarkness, 1,
-                AchievementsAPIHelper.GetCurrentValue(TouAchievements.EternalDarkness) == 2);
+            TouAchievements.EternalDarkness.Increment(1,
+                TouAchievements.EternalDarkness.GetCurrentValue() == 2);
         }
 
         victim.RemoveModifier(mod);

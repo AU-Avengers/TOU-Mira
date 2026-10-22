@@ -46,6 +46,6 @@ public static class MorphlingEvents
             return;
         }
 
-        AchievementsAPIHelper.Unlock(TouAchievements.IdentityCrisis);
+        TouAchievements.IdentityCrisis.Unlock();
     }
 }

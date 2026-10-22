@@ -269,7 +269,7 @@ public sealed class MedSpiritObject(IntPtr cppPtr) : InnerNetObject(cppPtr)
     {
         if (Owner != null && Owner.HasDied() && Owner.AmOwner)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Purgatory);
+            TouAchievements.Purgatory.Unlock();
         }
         Moveable = false;
         Rigidbody.isKinematic = true;

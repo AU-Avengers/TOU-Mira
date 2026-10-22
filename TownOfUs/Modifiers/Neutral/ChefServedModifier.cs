@@ -51,7 +51,7 @@ public sealed class ChefServedModifier(PlayerControl chef, int servingType, int 
         if (Chef.AmOwner && ((FoodType is PlatterType.Turkey && othersFed.Any(x => x.FoodType is PlatterType.Cake))
                              || (FoodType is PlatterType.Cake && othersFed.Any(x => x.FoodType is PlatterType.Turkey))))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.FullCourseMeal);
+            TouAchievements.FullCourseMeal.Unlock();
         }
         /*var touAbilityEvent = new TouAbilityEvent(AbilityType.MercenaryBribe, Mercenary, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);*/
