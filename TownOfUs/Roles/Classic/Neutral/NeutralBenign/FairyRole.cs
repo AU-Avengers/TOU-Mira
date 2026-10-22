@@ -213,8 +213,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         {
             var players = ModifierUtils
                 .GetPlayersWithModifier<
-                    GuardianAngelTargetModifier>([HideFromIl2Cpp](x) => x.OwnerId == Player.PlayerId)
-                ;
+                    GuardianAngelTargetModifier>([HideFromIl2Cpp](x) => x.OwnerId == Player.PlayerId);
             players.Do(x => x.RpcRemoveModifier<GuardianAngelTargetModifier>());
         }
 

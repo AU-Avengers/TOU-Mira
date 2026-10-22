@@ -65,8 +65,7 @@ public sealed class VigilanteOptions : AbstractRoleOptionGroup<VigilanteRole>, I
         if (noValid) selected.Add(MiraLocaleManager.Get("TouOptionVigilanteGuessableOutlier"));
 
         var names = selected
-            .Distinct()
-            ;
+            .Distinct();
 
         var newArray2 = new []
             { $"{title}: {string.Join(", ", names)}" };

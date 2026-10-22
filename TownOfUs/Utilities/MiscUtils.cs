@@ -1345,8 +1345,7 @@ public static class MiscUtils
         var relevant = candidates
             .Where(x => x is IExclusiveRole
                         || declaredTypes.Any(t => t.IsInstanceOfType(x))
-                        || RoleExclusionRegistry.RegisteredBuckets.Any(b => b.IsEnabled() && b.Contains(x)))
-            ;
+                        || RoleExclusionRegistry.RegisteredBuckets.Any(b => b.IsEnabled() && b.Contains(x)));
 
         var groups = new List<List<RoleBehaviour>>();
         var visited = new HashSet<RoleBehaviour>();

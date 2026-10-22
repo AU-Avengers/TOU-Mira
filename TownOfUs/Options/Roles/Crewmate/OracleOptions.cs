@@ -59,8 +59,7 @@ public sealed class OracleOptions : AbstractRoleOptionGroup<OracleRole>, IWikiOp
         if (noValid) selected.Add(MiraLocaleManager.Get("TouOptionOracleNeutBadOutlier"));
 
         var names = selected
-            .Distinct()
-            ;
+            .Distinct();
 
         var newArray2 = new []
             { $"{title}: {string.Join(", ", names)}" };

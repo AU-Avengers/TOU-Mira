@@ -455,8 +455,7 @@ public static class TimeLordRewindSystem
         if (_hostTaskStepMap.Count > 128)
         {
             var keysToRemove = _hostTaskStepMap.Keys
-                .Where(k => !HostTaskCompletions.Any(h => h.PlayerId == k.PlayerId && h.TaskId == k.TaskId))
-                ;
+                .Where(k => !HostTaskCompletions.Any(h => h.PlayerId == k.PlayerId && h.TaskId == k.TaskId));
             foreach (var key in keysToRemove)
             {
                 _hostTaskStepMap.Remove(key);

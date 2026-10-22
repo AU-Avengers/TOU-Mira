@@ -890,8 +890,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             }
 
             var modifiers = MiscUtils.AllOverallWikiModifiers
-                .OrderBy(x => x, comparer)
-                ;
+                .OrderBy(x => x, comparer);
 
             ToggleRoles(false);
             if (_modifierEntries.Count == 0)
@@ -994,8 +993,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             /*_activeItems = _activeItems
                 .OrderByDescending(child => child.name.Equals(text, StringComparison.OrdinalIgnoreCase))
                 .ThenByDescending(child => child.name.Contains(text, StringComparison.InvariantCultureIgnoreCase))
-                .ThenBy(child => child.name.ToLowerInvariant())
-                ;*/
+                .ThenBy(child => child.name.ToLowerInvariant());*/
 
             ToggleRoles(true);
             if (_roleEntries.Count == 0)

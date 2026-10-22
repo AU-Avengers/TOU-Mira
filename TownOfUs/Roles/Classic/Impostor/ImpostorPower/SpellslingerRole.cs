@@ -130,12 +130,10 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
         var alivePlayers = PlayerControl.AllPlayerControls.Where(x => !GameHistory.IsFullyDead(x));
 
         var hexed = alivePlayers
-            .Where(p => p.HasModifier<SpellslingerHexedModifier>())
-            ;
+            .Where(p => p.HasModifier<SpellslingerHexedModifier>());
 
         var unhexedNonImpostors = alivePlayers
-            .Where(p => !p.IsImpostorAligned() && !p.HasModifier<SpellslingerHexedModifier>())
-            ;
+            .Where(p => !p.IsImpostorAligned() && !p.HasModifier<SpellslingerHexedModifier>());
 
         if (EveryoneHexed())
         {

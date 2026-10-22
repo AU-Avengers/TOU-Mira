@@ -340,8 +340,7 @@ public static class CustomTouMurderRpcs
                 playKillSound);
         }
 
-        var allSurvivors = PlayerControl.AllPlayerControls.Where(x => survivors.ContainsKey(x.PlayerId))
-            ;
+        var allSurvivors = PlayerControl.AllPlayerControls.Where(x => survivors.ContainsKey(x.PlayerId));
         foreach (var target in allSurvivors)
         {
             source.CustomMurder(

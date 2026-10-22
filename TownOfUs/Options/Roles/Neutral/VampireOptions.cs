@@ -61,8 +61,7 @@ public sealed class VampireOptions : AbstractRoleOptionGroup<VampireRole>, IWiki
         if (noValid) selected.Add(MiraLocaleManager.Get("TouOptionVampireNeutConvertOutlier"));
 
         var names = selected
-            .Distinct()
-            ;
+            .Distinct();
 
         var newArray2 = new []
             { $"{title}: {string.Join(", ", names)}" };

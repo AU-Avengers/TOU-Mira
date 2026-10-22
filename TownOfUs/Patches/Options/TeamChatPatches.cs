@@ -254,8 +254,7 @@ public static class TeamChatPatches
                 }
             }
 
-            return chats.OrderBy(c => c.Priority).ToList()
-                ;
+            return chats.OrderBy(c => c.Priority).ToList();
         }
 
         /// <summary>

@@ -53,8 +53,7 @@ public static class UpCommandRequests
         // Find the role by name or locale key (filtered to current mode to avoid collisions like Classic vs HnS "Snitch").
         // Use the same matching logic as in ChatCommandsPatch to ensure consistency between lobby and in-game.
         var allRoles = MiscUtils.AllRegisteredRoles
-            .Where(r => !r.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(r))
-            ;
+            .Where(r => !r.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(r));
 
         // First try exact match (with and without spaces)
         // If exact match fails, try fuzzy matching (contains)
@@ -113,8 +112,7 @@ public static class UpCommandRequests
         // Find the role by name or locale key (filtered to current mode to avoid collisions like Classic vs HnS "Snitch").
         // Use the same matching logic as in ChatCommandsPatch to ensure consistency between lobby and in-game.
         var allRoles = MiscUtils.AllRegisteredRoles
-            .Where(r => !r.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(r))
-            ;
+            .Where(r => !r.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(r));
 
         // First try exact match (with and without spaces)
         // If exact match fails, try fuzzy matching (contains)

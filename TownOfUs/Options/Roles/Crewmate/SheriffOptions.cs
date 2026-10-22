@@ -58,8 +58,7 @@ public sealed class SheriffOptions : AbstractRoleOptionGroup<SheriffRole>, IWiki
         if (noValid) selected.Add(MiraLocaleManager.Get("TouOptionSheriffNeutShootOutlier"));
 
         var names = selected
-            .Distinct()
-            ;
+            .Distinct();
 
         var newArray2 = new []
             { $"{title}: {string.Join(", ", names)}" };
