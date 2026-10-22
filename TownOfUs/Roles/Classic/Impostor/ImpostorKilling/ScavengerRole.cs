@@ -188,10 +188,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 
     private void RefreshTarget()
     {
-        if (Target != null)
-        {
-            Target.RemoveModifier<ScavengerArrowModifier>();
-        }
+        Target?.RemoveModifier<ScavengerArrowModifier>();
 
         Target = GetNextTarget();
         Target?.AddModifier<ScavengerArrowModifier>(Player, TownOfUsColors.Impostor);

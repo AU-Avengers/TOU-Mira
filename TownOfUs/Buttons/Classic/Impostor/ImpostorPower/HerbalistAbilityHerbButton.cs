@@ -228,13 +228,10 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
             _ => string.Empty
         };
 
-    if (Button != null)
-    {
-        Button.OverrideText(
+    Button?.OverrideText(
             CurrentHerbsLimited
                 ? $"{CurrentName} - {CurrentHerbsText}"
                 : CurrentName);
-    }
 }
     private static Func<HerbalistExposedModifier, bool> ExposedPredicate { get; } =
         msModifier => msModifier.Herbalist.AmOwner;

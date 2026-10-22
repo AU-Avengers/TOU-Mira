@@ -1396,10 +1396,7 @@ public static class CustomTouMurderRpcs
 
         if (isParticipant)
         {
-            if (cam != null)
-            {
-                cam.Locked = true;
-            }
+            cam?.Locked = true;
 
             ConsoleJoystick.SetMode_Task();
             if (PlayerControl.LocalPlayer.AmOwner)
@@ -1420,10 +1417,7 @@ public static class CustomTouMurderRpcs
             yield break;
         }
 
-        if (cam != null)
-        {
-            cam.Locked = false;
-        }
+        cam?.Locked = false;
 
         PlayerControl.LocalPlayer.isKilling = false;
         source.isKilling = false;

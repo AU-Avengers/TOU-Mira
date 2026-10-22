@@ -67,11 +67,8 @@ namespace TownOfUs.Modules.DraftMode
             _animTime += Time.deltaTime;
             float pulse = (Mathf.Sin(_animTime * 1.7f) + 1f) * 0.5f;
 
-            if (_backdropWashRenderer != null)
-            {
-                _backdropWashRenderer.color = new Color(0f, 0.78f, 1f,
+            _backdropWashRenderer?.color = new Color(0f, 0.78f, 1f,
                     0.09f + pulse * 0.07f);
-            }
 
             for (int i = 0; i < _backdropBeamRenderers.Count; i++)
             {
@@ -86,8 +83,7 @@ namespace TownOfUs.Modules.DraftMode
                     beam.transform.localPosition.z);
             }
 
-            if (_backdropHorizonRenderer != null)
-                _backdropHorizonRenderer.color = new Color(0f, 0.95f, 1f, 0.18f + pulse * 0.08f);
+            _backdropHorizonRenderer?.color = new Color(0f, 0.95f, 1f, 0.18f + pulse * 0.08f);
 
             for (int i = 0; i < _backdropParticleRenderers.Count; i++)
             {
@@ -327,14 +323,14 @@ namespace TownOfUs.Modules.DraftMode
                 float t = elapsed / duration;
 
                 float alpha = Mathf.Lerp(from, to, t);
-                if (_headerText != null) _headerText.alpha = alpha;
-                foreach (var row in _rowTexts) if (row != null) row.alpha = alpha;
+                _headerText?.alpha = alpha;
+                foreach (var row in _rowTexts) row?.alpha = alpha;
 
                 yield return null;
             }
             float final = to;
-            if (_headerText != null) _headerText.alpha = final;
-            foreach (var row in _rowTexts) if (row != null) row.alpha = final;
+            _headerText?.alpha = final;
+            foreach (var row in _rowTexts) row?.alpha = final;
         }
 
         private void CleanupUI()

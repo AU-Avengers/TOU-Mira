@@ -197,8 +197,8 @@ namespace TownOfUs.Modules.DraftMode
 
         private void HideTimerProgressLine()
         {
-            if (_timerTrack != null) _timerTrack.SetActive(false);
-            if (_timerFill != null) _timerFill.SetActive(false);
+            _timerTrack?.SetActive(false);
+            _timerFill?.SetActive(false);
         }
 
         private void UpdateTimerProgressLine(float secondsLeft, bool urgent)
@@ -213,12 +213,9 @@ namespace TownOfUs.Modules.DraftMode
             _timerFill.transform.localScale = new Vector3(width, urgent ? 0.075f : 0.055f, 1f);
             _timerFill.transform.localPosition = new Vector3(
                 -TimerProgressWidth * 0.5f + width * 0.5f, -0.32f, -0.01f);
-            if (_timerFillRenderer != null)
-            {
-                _timerFillRenderer.color = urgent
+            _timerFillRenderer?.color = urgent
                     ? new Color(1f, 0.22f, 0.22f, 0.96f)
                     : new Color(1f, 0.82f, 0.12f, 0.92f);
-            }
         }
 
         [HideFromIl2Cpp]
@@ -282,8 +279,7 @@ namespace TownOfUs.Modules.DraftMode
         private void BuildScreen()
         {
             if (HudManager.Instance == null) return;
-            if (HudManager.Instance.FullScreen != null)
-                HudManager.Instance.FullScreen.color = Color.clear;
+            HudManager.Instance.FullScreen?.color = Color.clear;
 
             BuildBottomTimer();
             BuildSelectionBackdrop();
@@ -359,14 +355,14 @@ namespace TownOfUs.Modules.DraftMode
             if (useGrid)
             {
                 var hLayout = rolesHolder?.GetComponent<UnityEngine.UI.HorizontalLayoutGroup>();
-                if (hLayout != null) hLayout.enabled = false;
+                hLayout?.enabled = false;
                 var rt = rolesHolder?.GetComponent<RectTransform>();
-                if (rt != null) rt.sizeDelta = new Vector2(rt.sizeDelta.x, 12f);
+                rt?.sizeDelta = new Vector2(rt.sizeDelta.x, 12f);
             }
             else
             {
                 var layoutGroup = rolesHolder?.GetComponent<UnityEngine.UI.HorizontalLayoutGroup>();
-                if (layoutGroup != null) layoutGroup.spacing = spacing;
+                layoutGroup?.spacing = spacing;
             }
 
             for (int i = 0; i < totalCards; i++)
@@ -682,7 +678,7 @@ namespace TownOfUs.Modules.DraftMode
             roleImage.sprite = icon;
             roleImage.SetSizeLimit(2.8f);
             var cardBgRenderer = actualCard.GetComponent<SpriteRenderer>();
-            if (cardBgRenderer != null) cardBgRenderer.color = color;
+            cardBgRenderer?.color = color;
             roleImage.color = Color.white;
 
             teamText.fontSizeMax = Mathf.Lerp(4f, 2f, Mathf.InverseLerp(3f, 9f, totalCards));
@@ -727,7 +723,7 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             yield return CoWaitForSharedReadyGate(totalCards);
-            if (Instance != null) Instance._cardsReady = true;
+            Instance?._cardsReady = true;
             DraftNetworkHelper.NotifyPickerReady();
         }
 

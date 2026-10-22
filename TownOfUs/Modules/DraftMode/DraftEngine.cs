@@ -601,10 +601,7 @@ public static class DraftEngine
             GameStartManager.Instance.ReallyBegin(false);
         }
 
-        if (GameStartManager.Instance != null)
-        {
-            GameStartManager.Instance.MinPlayers = minPlayers;
-        }
+        GameStartManager.Instance?.MinPlayers = minPlayers;
 
         GameStartPatch.SkipIntercept = false;
         GameStartPatch.PostDraftCountdownActive = false;

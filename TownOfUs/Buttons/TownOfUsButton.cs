@@ -730,10 +730,7 @@ public abstract class TownOfUsVentButton : TownOfUsTargetButton<Vent>
 
     public override void SetOutline(bool active)
     {
-        if (Target != null)
-        {
-            Target.SetOutline(active, true, PlayerControl.LocalPlayer.Data.Role.TeamColor);
-        }
+        Target?.SetOutline(active, true, PlayerControl.LocalPlayer.Data.Role.TeamColor);
     }
     public override Vent? GetTarget()
     {

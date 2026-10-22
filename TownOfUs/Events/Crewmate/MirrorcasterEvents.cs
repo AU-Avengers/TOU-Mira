@@ -130,10 +130,7 @@ public static class MirrorcasterEvents
         if (@event.OldRole is MirrorcasterRole)
         {
             var ownedShield = ModifierUtils.GetActiveModifiers<MagicMirrorModifier>().FirstOrDefault(x => x.Mirrorcaster == @event.Player);
-            if (ownedShield != null)
-            {
-                ownedShield.Player.RemoveModifier(ownedShield);
-            }
+            ownedShield?.Player.RemoveModifier(ownedShield);
         }
     }
 }

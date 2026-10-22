@@ -41,12 +41,10 @@ namespace TownOfUs.Modules.DraftMode
             _cachedTextComponent = null!;
 
             var tmp = HudManagerPatches.RoleListTextComp;
-            if (tmp != null)
-                tmp.text = string.Empty;
+            tmp?.text = string.Empty;
 
             var roleList = HudManagerPatches.RoleList;
-            if (roleList != null)
-                roleList.SetActive(false);
+            roleList?.SetActive(false);
 
             HudManagerPatches.IsHoveringRoleList = false;
 
