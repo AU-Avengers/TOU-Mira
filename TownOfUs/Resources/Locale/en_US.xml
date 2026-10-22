@@ -4038,6 +4038,8 @@ No one can interact with you.</string>
   <string name="TouOptionSentryPortableModeEnumAlways">Always</string>
   <string name="TouOptionSentryPortableModeEnumAfterTasks">After Tasks</string>
   <string name="TouOptionSentryPortableModeEnumCamlessMaps">Only On Cam-less Maps</string>
+    <string name="TouOptionSentryInitialPortableCameraCharge">Initial Portable Cams Charge</string>
+    <string name="TouOptionSentryPortableCamsRechargePerTask">Portable Cams Recharge per Task</string>
   <string name="TouOptionTimeLordReviveEnumDisabled">Disabled</string>
   <string name="TouOptionTimeLordReviveEnumUntilNextRound">Until Next Round</string>
   <string name="TouOptionTimeLordReviveEnumFully">Fully</string>

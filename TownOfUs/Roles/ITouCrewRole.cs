@@ -1,5 +1,6 @@
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
+using MiraAPI.Roles;
 
 namespace TownOfUs.Roles;
 
