@@ -27,7 +27,7 @@ public static class ControlStateEvents
 
         var hunterStalk = CustomButtonSingleton<PuppeteerControlButton>.Instance;
         hunterStalk.ExtraUses = 0;
-        hunterStalk.SetUses((int)OptionGroupSingleton<PuppeteerOptions>.Instance.ControlUses);
+        hunterStalk.SetUses(OptionGroupSingleton<PuppeteerOptions>.Instance.ControlUses);
         if (!hunterStalk.LimitedUses)
         {
             hunterStalk.Button?.usesRemainingText.gameObject.SetActive(false);

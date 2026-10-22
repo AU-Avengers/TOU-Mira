@@ -44,12 +44,12 @@ public sealed class GiantModifier : UniversalGameModifier, IWikiDiscoverable, IV
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.GiantChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.GiantChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.GiantAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.GiantAmount;
     }
 
     public override void OnActivate()

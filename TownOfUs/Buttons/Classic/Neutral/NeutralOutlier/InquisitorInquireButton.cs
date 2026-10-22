@@ -15,7 +15,7 @@ public sealed class InquisitorInquireButton : TownOfUsRoleButton<InquisitorRole,
 {
     public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorInquire", "Inquire");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
-    public override int MaxUses => (int)OptionGroupSingleton<InquisitorOptions>.Instance.MaxUses;
+    public override int MaxUses => OptionGroupSingleton<InquisitorOptions>.Instance.MaxUses;
     public override Color TextOutlineColor => TownOfUsColors.Inquisitor;
 
     public override float Cooldown =>

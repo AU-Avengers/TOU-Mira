@@ -94,7 +94,7 @@ public static class DeputyEvents
             notif1.AdjustNotification();
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Deputy));
         }
-        if (source.AmOwner && OptionGroupSingleton<DeputyOptions>.Instance.WarnKiller.Value)
+        if (source.AmOwner && OptionGroupSingleton<DeputyOptions>.Instance.WarnKiller)
         {
             var notif = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Deputy.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.DeputyKillerWarnNotif")}</color></b>",

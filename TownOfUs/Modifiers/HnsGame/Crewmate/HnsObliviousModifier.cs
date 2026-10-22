@@ -22,11 +22,11 @@ public sealed class HnsObliviousModifier : HnsGameModifier
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.ObliviousChance;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.ObliviousChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.ObliviousAmount;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.ObliviousAmount;
     }
 }

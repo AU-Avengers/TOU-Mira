@@ -15,11 +15,11 @@ public sealed class OverclockButton : TownOfUsButton
     public override Color TextOutlineColor => TownOfUsColors.Overclocker;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<OverclockerOptions>.Instance.OverclockCooldown.Value + MapCooldown, 2.5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<OverclockerOptions>.Instance.OverclockDuration.Value;
-    public override int MaxUses => (int)OptionGroupSingleton<OverclockerOptions>.Instance.OverclockUses.Value;
+    public override int MaxUses => OptionGroupSingleton<OverclockerOptions>.Instance.OverclockUses;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => TouAssets.OverclockSprite;
 
-    public override bool UsableFirstRound => OptionGroupSingleton<OverclockerOptions>.Instance.OverclockRoundOne.Value;
+    public override bool UsableFirstRound => OptionGroupSingleton<OverclockerOptions>.Instance.OverclockRoundOne;
 
     public override bool Enabled(RoleBehaviour? role)
     {

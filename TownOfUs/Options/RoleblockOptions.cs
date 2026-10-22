@@ -26,6 +26,6 @@ public sealed class RoleblockOptions : AbstractOptionGroup
     public ModdedNumberOption HangoverDuration { get; } =
         new("TouOptionRoleblockHangoverDuration", 30f, 15f, 120f, 20f, MiraNumberSuffixes.Seconds)
         {
-            Visible = () => OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value
+            Visible = () => OptionGroupSingleton<RoleblockOptions>.Instance.Hangover
         };
 }

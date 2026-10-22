@@ -17,7 +17,7 @@ public sealed class EngineerVentButton : TownOfUsVentRoleButton<EngineerTouRole>
         Math.Clamp(OptionGroupSingleton<EngineerOptions>.Instance.VentCooldown + MapCooldown, 0.001f, 120f);
 
     public override float EffectDuration => OptionGroupSingleton<EngineerOptions>.Instance.VentDuration;
-    public override int MaxUses => (int)OptionGroupSingleton<EngineerOptions>.Instance.MaxVents;
+    public override int MaxUses => OptionGroupSingleton<EngineerOptions>.Instance.MaxVents;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.VentSprite : TouCrewAssets.EngiVentSprite;
     public override bool ShouldPauseInVent => false;
     public int ExtraUses { get; set; }

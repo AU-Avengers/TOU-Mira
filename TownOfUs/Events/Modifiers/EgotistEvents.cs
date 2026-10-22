@@ -24,7 +24,7 @@ public static class EgotistEvents
         {
             EgotistModifier.CooldownReduction = 0f;
             EgotistModifier.SpeedMultiplier = 1f;
-            EgotistRoundTracker = (int)egoOpts.RoundsToApplyEffects.Value;
+            EgotistRoundTracker = egoOpts.RoundsToApplyEffects;
             if (ego != null && ego.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
@@ -121,7 +121,7 @@ public static class EgotistEvents
 
                 notif1.AdjustNotification();
             }
-            EgotistRoundTracker = (int)egoOpts.RoundsToApplyEffects.Value;
+            EgotistRoundTracker = egoOpts.RoundsToApplyEffects;
         }
     }
 

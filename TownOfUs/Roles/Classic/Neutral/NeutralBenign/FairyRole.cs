@@ -286,7 +286,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
 
             Player.ChangeRole(roleType);
 
-            if ((roleType == RoleId.Get<JesterRole>() && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value) ||
+            if ((roleType == RoleId.Get<JesterRole>() && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn) ||
                 (roleType == RoleId.Get<SurvivorRole>() && OptionGroupSingleton<SurvivorOptions>.Instance.ScatterOn))
             {
                 StartCoroutine(Effects.Lerp(0.2f,

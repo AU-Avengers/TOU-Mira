@@ -23,12 +23,12 @@ public sealed class HnsMultitaskerModifier : HnsGameModifier
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.MultitaskerChance;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.MultitaskerChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.MultitaskerAmount;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.MultitaskerAmount;
     }
 
     public override void Update()

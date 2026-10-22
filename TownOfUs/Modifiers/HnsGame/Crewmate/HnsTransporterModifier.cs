@@ -28,12 +28,12 @@ public sealed class HnsTransporterModifier : HnsGameModifier
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.TransporterChance;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.TransporterChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.TransporterAmount;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.TransporterAmount;
     }
 
     [MethodRpc((uint)TownOfUsRpc.TransportSeeker)]

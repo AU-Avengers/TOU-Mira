@@ -127,7 +127,7 @@ public static class ExecutionerEvents
                 string message;
                 LoadableAsset<Sprite> icon;
 
-                if (OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnonymizeWin.Value)
+                if (OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnonymizeWin)
                 {
                     message = MiraLocaleManager.Get("TouNeutAnonymousVictoryMessage");
                     icon = TouRoleIcons.Neutral;

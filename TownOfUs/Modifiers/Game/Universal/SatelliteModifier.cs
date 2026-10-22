@@ -58,12 +58,12 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.SatelliteChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.SatelliteChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.SatelliteAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.SatelliteAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

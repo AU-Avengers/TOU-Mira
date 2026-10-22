@@ -109,7 +109,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     public string RetrainCdString()
     {
         return RetrainCooldownString.Replace("<roundsLeft>", $"{RoundsCooldown}").Replace("<roundsTotal>",
-            $"{(int)OptionGroupSingleton<AmbassadorOptions>.Instance.RoundCooldown.Value}");
+            $"{(int)OptionGroupSingleton<AmbassadorOptions>.Instance.RoundCooldown}");
     }
 
     public override void Initialize(PlayerControl player)

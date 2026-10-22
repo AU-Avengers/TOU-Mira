@@ -34,12 +34,12 @@ public sealed class SleuthModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.SleuthChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.SleuthChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.SleuthAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.SleuthAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

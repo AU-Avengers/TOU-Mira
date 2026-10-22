@@ -67,7 +67,7 @@ public static class TimeLordEvents
         }
 
         var btn = CustomButtonSingleton<TimeLordRewindButton>.Instance;
-        btn.SetUses((int)OptionGroupSingleton<TimeLordOptions>.Instance.MaxUses.Value);
+        btn.SetUses(OptionGroupSingleton<TimeLordOptions>.Instance.MaxUses);
         if (!btn.LimitedUses)
         {
             btn.Button?.usesRemainingText.gameObject.SetActive(false);
@@ -116,7 +116,7 @@ public static class TimeLordEvents
 
         var opt = OptionGroupSingleton<TimeLordOptions>.Instance;
         var btn = CustomButtonSingleton<TimeLordRewindButton>.Instance;
-        if (btn.LimitedUses && opt.UsesPerTasks.Value != 0 && opt.UsesPerTasks.Value <= ActiveRewindTaskCount)
+        if (btn.LimitedUses && opt.UsesPerTasks != 0 && opt.UsesPerTasks <= ActiveRewindTaskCount)
         {
             ++btn.UsesLeft;
             btn.SetUses(btn.UsesLeft);

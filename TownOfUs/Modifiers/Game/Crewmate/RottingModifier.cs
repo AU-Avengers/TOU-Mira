@@ -41,12 +41,12 @@ public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.RottingChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.RottingChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.RottingAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.RottingAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

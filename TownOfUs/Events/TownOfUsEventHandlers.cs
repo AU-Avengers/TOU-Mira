@@ -363,7 +363,7 @@ public static class TownOfUsEventHandlers
     public static void RoundStartHandler(RoundStartEvent @event)
     {
         var aliveCount = PlayerControl.AllPlayerControls.Count(x => !x.HasDied());
-        var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
+        var minimum = OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable;
         AreVentsAllowed = aliveCount > minimum;
         HudManagerHelper.Instance.VentButtonDisabledSprite.SetActive(!AreVentsAllowed);
         if (!@event.TriggeredByIntro)
@@ -783,7 +783,7 @@ public static class TownOfUsEventHandlers
         }
 
         var aliveCount = PlayerControl.AllPlayerControls.Count(x => !x.HasDied());
-        var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
+        var minimum = OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable;
         AreVentsAllowed = aliveCount > minimum;
         HudManagerHelper.Instance.VentButtonDisabledSprite.SetActive(!AreVentsAllowed);
     }
@@ -831,7 +831,7 @@ public static class TownOfUsEventHandlers
             }
 
             var aliveCount = PlayerControl.AllPlayerControls.Count(x => !x.HasDied());
-            var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
+            var minimum = OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable;
 
             if (PlayerControl.LocalPlayer.inVent && aliveCount <= minimum &&
                 PlayerControl.LocalPlayer.Data.Role is not IGhostRole)
@@ -932,7 +932,7 @@ public static class TownOfUsEventHandlers
             yield break;
         }
 
-        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.ShowRulesOnLobbyJoin.Value)
+        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.ShowRulesOnLobbyJoin)
         {
             yield break;
         }

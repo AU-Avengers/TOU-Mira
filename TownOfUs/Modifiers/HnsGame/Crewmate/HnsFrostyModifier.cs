@@ -16,12 +16,12 @@ public sealed class HnsFrostyModifier : HnsGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.FrostyChance;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.FrostyChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.FrostyAmount;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.FrostyAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

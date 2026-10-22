@@ -79,7 +79,7 @@ internal static class CancelCountdownStart
                 _ => string.Empty
             };
 
-            var warningText = opts.DraftRecap.Value is DraftRecapMode.Nothing
+            var warningText = opts.DraftRecap == DraftRecapMode.Nothing
                 ? $"<b>{MiraLocaleManager.Get(
                     "TouDraftRecapDisabled",
                     "No Draft recap will be displayed.")}</b>"
@@ -93,7 +93,7 @@ internal static class CancelCountdownStart
         }
         if (AmongUsClient.Instance.AmHost)
         {
-            if (OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay.Value)
+            if (OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay)
             {
                 var warningText =
                     $"<color=#FF0000><b>{MiraLocaleManager.Get(

@@ -22,7 +22,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
         Math.Clamp(OptionGroupSingleton<PuppeteerOptions>.Instance.ControlCooldown.Value + MapCooldown, 5f, 120f);
     public override float EffectDuration =>
         OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
-    public override int MaxUses => (int)OptionGroupSingleton<PuppeteerOptions>.Instance.ControlUses.Value;
+    public override int MaxUses => OptionGroupSingleton<PuppeteerOptions>.Instance.ControlUses;
     public int ExtraUses { get; set; }
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.ControlSprite;
     private static PuppeteerKillButton KillButton => CustomButtonSingleton<PuppeteerKillButton>.Instance;

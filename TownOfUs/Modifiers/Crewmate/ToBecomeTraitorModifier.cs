@@ -98,7 +98,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
 
         player.ChangeRole(RoleId.Get<TraitorRole>());
 
-        if (OptionGroupSingleton<TraitorOptions>.Instance.TraitorCanAssassin.Value)
+        if (OptionGroupSingleton<TraitorOptions>.Instance.TraitorCanAssassin)
         {
             player.AddModifier<AssassinModifier>();
         }

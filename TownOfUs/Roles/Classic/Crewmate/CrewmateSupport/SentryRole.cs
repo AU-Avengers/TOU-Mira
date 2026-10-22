@@ -119,7 +119,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         var deployedVis = OptionGroupSingleton<SentryOptions>.Instance.DeployedCamerasVisibility;
         if (deployedVis is SentryDeployedCamerasVisibility.AfterMeeting)
         {
-            var canMove = OptionGroupSingleton<SentryOptions>.Instance.CanMoveWhilePlacingCameras.Value;
+            var canMove = OptionGroupSingleton<SentryOptions>.Instance.CanMoveWhilePlacingCameras;
             if (!canMove)
             {
                 var standStillText = MiraLocaleManager.Get(

@@ -34,12 +34,12 @@ public sealed class MultitaskerModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.MultitaskerChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.MultitaskerChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.MultitaskerAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.MultitaskerAmount;
     }
 
     public override void Update()

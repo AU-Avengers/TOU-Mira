@@ -47,7 +47,7 @@ public sealed class MedusaRole(IntPtr cppPtr)
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Petrify.WikiDescription"),
                     TouNeutAssets.PetrifySprite)
             ];
-            if (OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable.Value)
+            if (OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable)
             {
                 list.Add(new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}StoneGaze", "Stone Gaze"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}StoneGaze.WikiDescription"),
@@ -69,7 +69,7 @@ public sealed class MedusaRole(IntPtr cppPtr)
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Petrify.WikiDescription"),
                     TouNeutAssets.PetrifySprite)
             ];
-            if (OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable.Value)
+            if (OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable)
             {
                 list.Add(new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}StoneGaze", "Stone Gaze"),
                     MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),

@@ -49,18 +49,18 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.ShyChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.ShyChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.ShyAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.ShyAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         var isValid = true;
-        if ((role is JesterRole && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value) ||
+        if ((role is JesterRole && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn) ||
             (role is SurvivorRole && OptionGroupSingleton<SurvivorOptions>.Instance.ScatterOn))
         {
             isValid = false;
@@ -143,7 +143,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
 
             SetVisibility(Player, opacity, true);
         }
-        else if (Player.GetAppearanceType() == TownOfUsAppearances.Camouflage && OptionGroupSingleton<ShyOptions>.Instance.ShyAlwaysVisibleInCamoComms.Value)
+        else if (Player.GetAppearanceType() == TownOfUsAppearances.Camouflage && OptionGroupSingleton<ShyOptions>.Instance.ShyAlwaysVisibleInCamoComms)
         {
             SetVisibility(Player, 1f, true);
         }

@@ -40,12 +40,12 @@ public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.InvestigatorChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.InvestigatorChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.InvestigatorAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.InvestigatorAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

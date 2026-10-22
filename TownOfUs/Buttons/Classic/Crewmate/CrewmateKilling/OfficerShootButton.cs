@@ -32,7 +32,7 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
     public int TotalBullets { get; set; } = -1;
     public int LoadedBullets { get; set; }
     public override bool UsableFirstRound => OptionGroupSingleton<OfficerOptions>.Instance.FirstRoundShooting;
-    public static int MaxLoadedBullets => (int)OptionGroupSingleton<OfficerOptions>.Instance.MaxBulletsAtOnce;
+    public static int MaxLoadedBullets => OptionGroupSingleton<OfficerOptions>.Instance.MaxBulletsAtOnce;
 
     public override bool CanUse()
     {
@@ -134,9 +134,9 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
         var evilOfficer = (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) &&
                             !allyMod.GetsPunished);
 
-        if (options.CanOnlyShootActiveKillers.Value)
+        if (options.CanOnlyShootActiveKillers)
         {
-            if (!evilOfficer && Target.IsCrewmate() && options.CrewKillingAreInnocent.Value || !hasKilled)
+            if (!evilOfficer && Target.IsCrewmate() && options.CrewKillingAreInnocent || !hasKilled)
             {
                 Misfire();
             }
@@ -147,7 +147,7 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
         }
         else if (!(Target.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished))
         {
-            var safeNeutral = options.NonKillingNeutralsAreInnocent.Value &&
+            var safeNeutral = options.NonKillingNeutralsAreInnocent &&
                               alignment is RoleAlignment.NeutralBenign
                                   or RoleAlignment.NeutralEvil or RoleAlignment.NeutralOutlier;
             if (safeNeutral || !evilOfficer && Target.IsCrewmate())
@@ -164,7 +164,7 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
             Shoot();
         }
 
-        if (!OptionGroupSingleton<OfficerOptions>.Instance.CanSelfReport.Value)
+        if (!OptionGroupSingleton<OfficerOptions>.Instance.CanSelfReport)
         {
             Coroutines.Start(CoSetBodyReportable(Target.PlayerId));
         }

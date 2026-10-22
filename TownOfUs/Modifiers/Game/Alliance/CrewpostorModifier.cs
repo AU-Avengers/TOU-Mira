@@ -49,7 +49,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
     public override AlliedFaction TrueFactionType => AlliedFaction.Impostor;
 
     public override bool CountTowardsTrueFaction =>
-        OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor.Value;
+        OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor;
     public override Color FreeplayFileColor => new Color32(220, 220, 220, 255);
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Crewpostor;
 
@@ -67,7 +67,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
         var chance = rnd.Next(1, 101);
 
         if (chance <=
-            (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance)
+            OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance)
         {
             var filtered = PlayerControl.AllPlayerControls.Where(x => x.IsCrewmate() &&
                             !x.HasDied() &&
@@ -84,7 +84,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
             var randomTarget = filtered[rnd.Next(0, filtered.Count)];
 
             var imps = Helpers.GetAlivePlayers().Where(x => x.IsImpostor());
-            if (OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor.Value && imps.Count() > 1)
+            if (OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor && imps.Count() > 1)
             {
                 var textlognotfound = $"Replacing an impostor with a crewmate. Impostors: {imps.Count()}.";
                 MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlognotfound);
@@ -167,7 +167,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
             else
             {
                 var textlognotfound =
-                    $"Could not replace an impostor with a crewmate. | Can Replace: {OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor.Value}, Enough Impostors: {imps.Count() > 1}";
+                    $"Could not replace an impostor with a crewmate. | Can Replace: {OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor}, Enough Impostors: {imps.Count() > 1}";
                 MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlognotfound);
                 RpcSetUpCrewpostor(randomTarget, randomTarget, RoleTypes.Crewmate);
             }
@@ -223,8 +223,8 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
         Player.TryRemoveModifier<ToBecomeTraitorModifier>();
     }
 
-    public override int CustomAmount => (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance.Value != 0 ? 1 : 0;
-    public override int CustomChance => (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance.Value;
+    public override int CustomAmount => OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance != 0 ? 1 : 0;
+    public override int CustomChance => OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance;
 
     public static bool CrewpostorVisibilityFlag(PlayerControl player)
     {

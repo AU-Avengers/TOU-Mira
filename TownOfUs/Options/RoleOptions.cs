@@ -58,7 +58,7 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
 
     public RoleDistribution CurrentRoleDistribution()
     {
-        RoleSelectionMode roleDist = RoleAssignmentType.Value;
+        RoleSelectionMode roleDist = RoleAssignmentType;
         if (CustomGameModeManager.IsHideNSeek() || GameOptionsManager.Instance.CurrentGameOptions.GameMode is AmongUs.GameOptions.GameModes.HideNSeek or AmongUs.GameOptions.GameModes.SeekFools)
         {
             return RoleDistribution.HideAndSeek;

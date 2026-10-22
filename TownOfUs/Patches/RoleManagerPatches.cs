@@ -200,10 +200,10 @@ public static class TouRoleManagerPatches
         bool protectBenign, bool protectEvil, bool protectKilling, bool protectOutlier)
     {
         var roleOptions = OptionGroupSingleton<RoleOptions>.Instance;
-        var minBenign = (int)roleOptions.MinNeutralBenign.Value;
-        var minEvil = (int)roleOptions.MinNeutralEvil.Value;
-        var minKilling = (int)roleOptions.MinNeutralKiller.Value;
-        var minOutlier = (int)roleOptions.MinNeutralOutlier.Value;
+        int minBenign = roleOptions.MinNeutralBenign;
+        int minEvil = roleOptions.MinNeutralEvil;
+        int minKilling = roleOptions.MinNeutralKiller;
+        int minOutlier = roleOptions.MinNeutralOutlier;
 
         // Adjust minimums to protect /up requested categories
         if (protectBenign && minBenign < 1)
@@ -431,14 +431,14 @@ public static class TouRoleManagerPatches
 
         // Calculate neutral role counts
         var roleOptions = OptionGroupSingleton<RoleOptions>.Instance;
-        var nbCount = Random.RandomRange((int)roleOptions.MinNeutralBenign.Value,
-            (int)roleOptions.MaxNeutralBenign.Value + 1);
-        var neCount = Random.RandomRange((int)roleOptions.MinNeutralEvil.Value,
-            (int)roleOptions.MaxNeutralEvil.Value + 1);
-        var nkCount = Random.RandomRange((int)roleOptions.MinNeutralKiller.Value,
-            (int)roleOptions.MaxNeutralKiller.Value + 1);
-        var noCount = Random.RandomRange((int)roleOptions.MinNeutralOutlier.Value,
-            (int)roleOptions.MaxNeutralOutlier.Value + 1);
+        var nbCount = Random.RandomRange(roleOptions.MinNeutralBenign,
+            roleOptions.MaxNeutralBenign + 1);
+        var neCount = Random.RandomRange(roleOptions.MinNeutralEvil,
+            roleOptions.MaxNeutralEvil + 1);
+        var nkCount = Random.RandomRange(roleOptions.MinNeutralKiller,
+            roleOptions.MaxNeutralKiller + 1);
+        var noCount = Random.RandomRange(roleOptions.MinNeutralOutlier,
+            roleOptions.MaxNeutralOutlier + 1);
 
         // Adjust neutral counts for /up requests and ensure crewmates outnumber neutrals
         AdjustNeutralCountsForUpRequests(ref nbCount, ref neCount, ref nkCount, ref noCount, crewmates.Count);

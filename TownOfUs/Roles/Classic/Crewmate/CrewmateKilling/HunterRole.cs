@@ -138,7 +138,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Hunter));
 
                 CustomButtonSingleton<HunterStalkButton>.Instance.ResetCooldownAndOrEffect();
-                var text = playerInteraction && OptionGroupSingleton<HunterOptions>.Instance.SeesTypeOfInteraction.Value
+                var text = playerInteraction && OptionGroupSingleton<HunterOptions>.Instance.SeesTypeOfInteraction
                     ? MiraLocaleManager.Get("TownOfUsMira.Role.HunterCaughtInteractionNotif")
                     : MiraLocaleManager.Get("TownOfUsMira.Role.HunterCaughtAbilityNotif");
 

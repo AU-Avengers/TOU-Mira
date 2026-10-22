@@ -20,7 +20,7 @@ public static class BootleggerEvents
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent @event)
     {
-        var setting = OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger.Value;
+        PoisonTrigger setting = OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger;
         if (!PlayerControl.LocalPlayer.IsHost() || setting is PoisonTrigger.OnMeetingEnd)
         {
             return;
@@ -50,7 +50,7 @@ public static class BootleggerEvents
     [RegisterEvent]
     public static void OnProcessVotesEventHandler(ProcessVotesEvent @event)
     {
-        var setting = OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger.Value;
+        PoisonTrigger setting = OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger;
         foreach (var poison in ModifierUtils.GetActiveModifiers<BootleggerPoisonModifier>())
         {
             if (poison.Player.HasDied())

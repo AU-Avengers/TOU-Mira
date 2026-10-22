@@ -149,10 +149,10 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     {
         RoleBehaviourStubs.Initialize(this, player);
         var mercOpts = OptionGroupSingleton<MercenaryOptions>.Instance;
-        WinsWithNb = mercOpts.WinsWithNeutralBenign.Value;
-        WinsWithNe = mercOpts.WinsWithNeutralEvil.Value;
-        WinsWithNk = mercOpts.WinsWithNeutralKilling.Value;
-        WinsWithNo = mercOpts.WinsWithNeutralOutlier.Value;
+        WinsWithNb = mercOpts.WinsWithNeutralBenign;
+        WinsWithNe = mercOpts.WinsWithNeutralEvil;
+        WinsWithNk = mercOpts.WinsWithNeutralKilling;
+        WinsWithNo = mercOpts.WinsWithNeutralOutlier;
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)
@@ -235,7 +235,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         }
 
         var mercOpts = OptionGroupSingleton<MercenaryOptions>.Instance;
-        if (isMurder && mercOpts.GuardProtection.Value)
+        if (isMurder && mercOpts.GuardProtection)
         {
             mercenary.AddPayment(mercOpts.GoldGivenFromAttack);
         }

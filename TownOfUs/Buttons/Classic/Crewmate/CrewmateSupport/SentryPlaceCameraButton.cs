@@ -26,7 +26,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
                 : 3.001f;
         }
     }
-    public override int MaxUses => (int)OptionGroupSingleton<SentryOptions>.Instance.InitialCameras.Value;
+    public override int MaxUses => OptionGroupSingleton<SentryOptions>.Instance.InitialCameras;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.DeployCamSprite : TouCrewAssets.DeployCamSprite;
     public override bool ZeroIsInfinite { get; set; } = true;
     public int ExtraUses { get; set; }
@@ -144,7 +144,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
 
     private static bool IsInDisabledRoom(Vector3 position, SentryOptions options)
     {
-        var count = (int)options.BlindspotsCount.Value;
+        var count = options.BlindspotsCount;
         if (count <= 0)
         {
             return false;
@@ -189,7 +189,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
     {
         var options = OptionGroupSingleton<SentryOptions>.Instance;
         var afterMeeting = options.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting;
-        var canMove = options.CanMoveWhilePlacingCameras.Value;
+        var canMove = options.CanMoveWhilePlacingCameras;
 
         if (!afterMeeting || canMove)
         {
@@ -248,7 +248,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
 
         var options = OptionGroupSingleton<SentryOptions>.Instance;
         var afterMeeting = options.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting;
-        if (!afterMeeting || options.CanMoveWhilePlacingCameras.Value)
+        if (!afterMeeting || options.CanMoveWhilePlacingCameras)
         {
             return;
         }
@@ -282,7 +282,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
 
         var options = OptionGroupSingleton<SentryOptions>.Instance;
         var afterMeeting = options.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting;
-        if (afterMeeting && !options.CanMoveWhilePlacingCameras.Value)
+        if (afterMeeting && !options.CanMoveWhilePlacingCameras)
         {
             return;
         }

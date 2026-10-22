@@ -33,12 +33,12 @@ public sealed class TorchModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.TorchChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.TorchChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.TorchAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.TorchAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

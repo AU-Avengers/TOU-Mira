@@ -856,7 +856,7 @@ namespace TownOfUs.Modules.DraftMode
             if (_hasPicked) return;
             if (_offeredRoleIds == null || _offeredRoleIds.Length == 0) return;
             bool randomPick = index == _offeredRoleIds.Length &&
-                (OptionGroupSingleton<RoleOptions>.Instance?.ShowRandomOption.Value ?? false);
+                OptionGroupSingleton<RoleOptions>.Instance.ShowRandomOption;
             if (index < 0 || (index >= _offeredRoleIds.Length && !randomPick)) return;
 
             var localPlayer = PlayerControl.LocalPlayer;

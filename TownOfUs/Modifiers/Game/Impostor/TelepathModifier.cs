@@ -53,12 +53,12 @@ public sealed class TelepathModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.TelepathChance;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.TelepathChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.TelepathAmount;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.TelepathAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

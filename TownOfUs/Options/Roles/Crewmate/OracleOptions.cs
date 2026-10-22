@@ -40,10 +40,10 @@ public sealed class OracleOptions : AbstractRoleOptionGroup<OracleRole>, IWikiOp
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
         var title = MiraLocaleManager.Get("TouOptionOracleNeutralsThatShowEvil");
-        var nbValid = ShowNeutralBenignAsEvil.Value;
-        var neValid = ShowNeutralEvilAsEvil.Value;
-        var nkValid = ShowNeutralKillingAsEvil.Value;
-        var noValid = ShowNeutralOutlierAsEvil.Value;
+        var nbValid = ShowNeutralBenignAsEvil;
+        var neValid = ShowNeutralEvilAsEvil;
+        var nkValid = ShowNeutralKillingAsEvil;
+        var noValid = ShowNeutralOutlierAsEvil;
 
         if (!nbValid && !neValid && !nkValid && !noValid)
         {

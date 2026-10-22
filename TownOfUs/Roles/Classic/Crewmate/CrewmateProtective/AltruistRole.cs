@@ -140,8 +140,8 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     {
         IsReviveInProgress = true;
         var roleWhenAlive = dead.GetRoleWhenAlive();
-        var freezeAltruist = OptionGroupSingleton<AltruistOptions>.Instance.FreezeDuringRevive.Value;
-        var killOnStart = OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value;
+        var freezeAltruist = OptionGroupSingleton<AltruistOptions>.Instance.FreezeDuringRevive;
+        var killOnStart = OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive;
 
         //if (roleWhenAlive == null)
         //{

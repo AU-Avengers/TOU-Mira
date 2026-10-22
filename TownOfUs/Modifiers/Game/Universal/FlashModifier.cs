@@ -43,12 +43,12 @@ public sealed class FlashModifier : UniversalGameModifier, IWikiDiscoverable, IV
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.FlashChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.FlashChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.FlashAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.FlashAmount;
     }
 
     public override void OnActivate()

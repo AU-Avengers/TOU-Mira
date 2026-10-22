@@ -42,12 +42,12 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.NoisemakerChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.NoisemakerChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.NoisemakerAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.NoisemakerAmount;
     }
 
     public override void OnMeetingStart()

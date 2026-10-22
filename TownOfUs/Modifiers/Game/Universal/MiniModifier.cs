@@ -43,12 +43,12 @@ public sealed class MiniModifier : UniversalGameModifier, IWikiDiscoverable, IVi
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.MiniChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.MiniChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.MiniAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.MiniAmount;
     }
 
     public override void OnActivate()

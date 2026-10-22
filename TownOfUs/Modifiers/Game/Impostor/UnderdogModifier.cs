@@ -38,12 +38,12 @@ public sealed class UnderdogModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.UnderdogChance;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.UnderdogChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.UnderdogAmount;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.UnderdogAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

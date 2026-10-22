@@ -78,7 +78,7 @@ public static class DoomsayerEvents
                 string message;
                 LoadableAsset<Sprite> icon;
 
-                if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomAnonymizeWin.Value)
+                if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomAnonymizeWin)
                 {
                     message = MiraLocaleManager.Get("TouNeutAnonymousVictoryMessage");
                     icon = TouRoleIcons.Neutral;

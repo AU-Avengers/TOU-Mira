@@ -38,26 +38,26 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
     public override int CustomAmount =>
-        (int)OptionGroupSingleton<AssailantModifierOptions>.Instance.ImpOverclockerAmount +
-        (int)OptionGroupSingleton<AssailantModifierOptions>.Instance.NeutOverclockerAmount;
+        OptionGroupSingleton<AssailantModifierOptions>.Instance.ImpOverclockerAmount +
+        OptionGroupSingleton<AssailantModifierOptions>.Instance.NeutOverclockerAmount;
 
     public override int CustomChance
     {
         get
         {
             var opts = OptionGroupSingleton<AssailantModifierOptions>.Instance;
-            var impChance = (int)opts.ImpOverclockerChance;
-            var neutChance = (int)opts.NeutOverclockerChance;
-            if ((int)opts.ImpOverclockerAmount > 0 && (int)opts.NeutOverclockerAmount > 0)
+            var impChance = opts.ImpOverclockerChance;
+            var neutChance = opts.NeutOverclockerChance;
+            if (opts.ImpOverclockerAmount > 0 && opts.NeutOverclockerAmount > 0)
             {
                 return (impChance + neutChance) / 2;
             }
 
-            if ((int)opts.ImpOverclockerAmount > 0)
+            if (opts.ImpOverclockerAmount > 0)
             {
                 return impChance;
             }
-            else if ((int)opts.NeutOverclockerAmount > 0)
+            else if (opts.NeutOverclockerAmount > 0)
             {
                 return neutChance;
             }
@@ -80,10 +80,10 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
     public static bool ModifierValidCheck(RoleBehaviour role, bool runChecks)
     {
         var opts = OptionGroupSingleton<AssailantModifierOptions>.Instance;
-        var neutCount = (int)opts.NeutOverclockerAmount.Value;
-        var neutChance = Math.Clamp((int)opts.NeutOverclockerChance.Value, 0, 100);
-        var impCount = (int)opts.ImpOverclockerAmount.Value;
-        var impChance = Math.Clamp((int)opts.ImpOverclockerChance.Value, 0, 100);
+        var neutCount = opts.NeutOverclockerAmount;
+        var neutChance = Math.Clamp(opts.NeutOverclockerChance, 0, 100);
+        var impCount = opts.ImpOverclockerAmount;
+        var impChance = Math.Clamp(opts.ImpOverclockerChance, 0, 100);
         if (role.Player.GetModifierComponent().HasModifier<AssassinModifier>(true)
             && !role.Player.GetModifierComponent().HasModifier<TouGameModifier>(true, x => x.PreventsOtherModifiers))
         {

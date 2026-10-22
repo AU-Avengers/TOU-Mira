@@ -40,7 +40,7 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     public List<CustomButtonWikiDescription> Abilities { get; } =
     [
         new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock"),
-            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value
+            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover
                 ? MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
                     OptionGroupSingleton<RoleblockOptions>.Instance.HangoverDuration.Value.ToString(TownOfUsPlugin
                         .Culture))
@@ -55,7 +55,7 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     [
         new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock"),
             MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
-            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value
+            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover
                 ? MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
                     OptionGroupSingleton<RoleblockOptions>.Instance.HangoverDuration.Value.ToString(TownOfUsPlugin
                         .Culture))

@@ -13,7 +13,7 @@ public sealed class RoleblockedModifier(PlayerControl roleblocker, bool invertCo
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Barkeeper;
     public override bool Unique => false;
     public override bool CanUseAbilities => false;
-    public override bool CanUseConsoles => !OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockAffectsConsoles.Value;
+    public override bool CanUseConsoles => !OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockAffectsConsoles;
     public override bool CanOpenMap => CanUseConsoles;
     public override bool CanReport => CanUseConsoles;
     public override float Duration => blockDuration;

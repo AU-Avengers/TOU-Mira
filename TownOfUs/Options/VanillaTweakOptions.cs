@@ -59,14 +59,14 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
                 is not PetVisiblity.WhenAlive
         };
 
-    public bool CanPauseCooldown => !TickCooldownsInMinigame.Value &&
+    public bool CanPauseCooldown => !TickCooldownsInMinigame &&
                                    (Minigame.Instance &&
                                     Minigame.Instance is not IngameWikiMinigame);
 
     public PetHidden PetVisibilityUponDeath =>
         (ShowPetsMode.Value is PetVisiblity.WhenAlive)
             ? PetHidden.Never
-            : HidePetsOnBodyRemove.Value;
+            : HidePetsOnBodyRemove;
 }
 public enum NameSight
 {

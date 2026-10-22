@@ -45,12 +45,12 @@ public sealed class DeadlyQuotaModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.DeadlyQuotaChance;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.DeadlyQuotaChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.DeadlyQuotaAmount;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.DeadlyQuotaAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

@@ -77,7 +77,7 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
             return;
         }
         AttackedRecently = false;
-        if (!OptionGroupSingleton<VeteranOptions>.Instance.KnowWhenAttackedInMeeting.Value || !Player.AmOwner)
+        if (!OptionGroupSingleton<VeteranOptions>.Instance.KnowWhenAttackedInMeeting || !Player.AmOwner)
         {
             return;
         }

@@ -1198,7 +1198,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        if (!IsRewinding || OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value == RewindRevive.Disabled)
+        if (!IsRewinding || OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind == RewindRevive.Disabled)
         {
             return;
         }
@@ -1431,7 +1431,7 @@ public static class TimeLordRewindSystem
 
         var elapsed = Time.time - _rewindStartTime;
 
-        if (OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value == RewindRevive.Disabled)
+        if (OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind == RewindRevive.Disabled)
         {
             _hostRevives = null;
         }
@@ -1808,7 +1808,7 @@ return true;*/
     {
         var wasHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
         byte[] pendingHostRevives = [];
-        if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
+        if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind != RewindRevive.Disabled)
         {
             var ids = new HashSet<byte>(_hostPendingRewindRevives);
             if (_hostRevives != null)
@@ -1950,7 +1950,7 @@ return true;*/
             ModCompatibility.CheckOutOfBoundsElevator(lp);
         }
 
-        if (wasHost && pendingHostRevives.Length > 0 && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
+        if (wasHost && pendingHostRevives.Length > 0 && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind != RewindRevive.Disabled)
         {
             foreach (var victimId in pendingHostRevives)
             {
@@ -2006,7 +2006,7 @@ return true;*/
 
         var wasHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
         byte[] pendingHostRevives = [];
-        if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
+        if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind != RewindRevive.Disabled)
         {
             var ids = new HashSet<byte>(_hostPendingRewindRevives);
             if (_hostRevives != null)
@@ -2092,7 +2092,7 @@ return true;*/
 
         lp.moveable = true;
 
-        if (wasHost && pendingHostRevives.Length > 0 && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
+        if (wasHost && pendingHostRevives.Length > 0 && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind != RewindRevive.Disabled)
         {
             foreach (var victimId in pendingHostRevives)
             {

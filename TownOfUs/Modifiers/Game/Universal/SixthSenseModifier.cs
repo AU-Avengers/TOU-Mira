@@ -32,12 +32,12 @@ public sealed class SixthSenseModifier : UniversalGameModifier, IWikiDiscoverabl
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.SixthSenseChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.SixthSenseChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.SixthSenseAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.SixthSenseAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

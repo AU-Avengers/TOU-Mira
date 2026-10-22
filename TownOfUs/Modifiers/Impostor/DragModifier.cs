@@ -23,7 +23,7 @@ public sealed class DragModifier(byte bodyId) : BaseModifier
 
     public override bool? CanVent()
     {
-        return OptionGroupSingleton<UndertakerOptions>.Instance.CanVentWithBody.Value ? null : false;
+        return OptionGroupSingleton<UndertakerOptions>.Instance.CanVentWithBody ? null : false;
     }
 
     public override void OnActivate()

@@ -62,7 +62,7 @@ public static class HunterEvents
 
         var hunterStalk = CustomButtonSingleton<HunterStalkButton>.Instance;
         hunterStalk.ExtraUses = 0;
-        hunterStalk.SetUses((int)OptionGroupSingleton<HunterOptions>.Instance.StalkUses);
+        hunterStalk.SetUses(OptionGroupSingleton<HunterOptions>.Instance.StalkUses);
         if (!hunterStalk.LimitedUses)
         {
             hunterStalk.Button?.usesRemainingText.gameObject.SetActive(false);

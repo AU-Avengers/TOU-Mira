@@ -33,12 +33,12 @@ public sealed class ScoutModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScoutChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScoutChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScoutAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScoutAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

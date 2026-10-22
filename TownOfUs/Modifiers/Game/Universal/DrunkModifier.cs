@@ -30,11 +30,11 @@ public sealed class DrunkModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.DrunkChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.DrunkChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.DrunkAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.DrunkAmount;
     }
 }

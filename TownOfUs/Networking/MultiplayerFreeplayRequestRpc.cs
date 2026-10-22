@@ -60,7 +60,7 @@ internal sealed class MultiplayerFreeplayRequestRpc(TownOfUsPlugin plugin, uint 
 
         if (TutorialManager.InstanceExists ||
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started ||
-            !OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay.Value)
+            !OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay)
         {
             return;
         }

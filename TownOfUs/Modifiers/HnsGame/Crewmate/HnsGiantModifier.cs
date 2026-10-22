@@ -30,12 +30,12 @@ public sealed class HnsGiantModifier : HnsGameModifier, IVisualAppearance
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.GiantChance;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.GiantChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.GiantAmount;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.GiantAmount;
     }
 
     public override void OnActivate()

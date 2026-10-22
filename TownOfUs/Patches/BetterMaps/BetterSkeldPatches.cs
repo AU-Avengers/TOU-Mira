@@ -45,8 +45,8 @@ public static class BetterSkeldPatches
     public static void AdjustSkeld()
     {
         var options = OptionGroupSingleton<BetterSkeldOptions>.Instance;
-        var ventMode = options.BetterVentNetwork.Value;
-        var themeMode = options.MapTheme.Value;
+        SkeldVentMode ventMode = options.BetterVentNetwork;
+        SkeldTheme themeMode = options.MapTheme;
         if (ventMode is not SkeldVentMode.Normal)
         {
             AdjustVents(ventMode);

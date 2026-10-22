@@ -2218,7 +2218,7 @@ public static class MiscUtils
                 return false;
             }
 
-            var logLevel = OptionGroupSingleton<HostSpecificOptions>.Instance.BetaLoggingLevel.Value;
+            LoggingLevel logLevel = OptionGroupSingleton<HostSpecificOptions>.Instance.BetaLoggingLevel;
             if (PlayerControl.LocalPlayer.IsHost() && logLevel is LoggingLevel.LogForHost)
             {
                 return true;
@@ -2241,7 +2241,7 @@ public static class MiscUtils
                 return false;
             }
 
-            var logLevel = OptionGroupSingleton<HostSpecificOptions>.Instance.BetaLoggingLevel.Value;
+            LoggingLevel logLevel = OptionGroupSingleton<HostSpecificOptions>.Instance.BetaLoggingLevel;
 
             return logLevel is LoggingLevel.LogForEveryonePostGame;
         }
@@ -2466,16 +2466,16 @@ public static class MiscUtils
     public static bool CanUseUtility(GameUtility utility, bool isPortable = false)
     {
         var opts = OptionGroupSingleton<AdvancedUtilityOptions>.Instance;
-        if (isPortable && !opts.TasksOnPortables.Value)
+        if (isPortable && !opts.TasksOnPortables)
         {
             return true;
         }
-        var tasksNeeded = utility switch
+        int tasksNeeded = utility switch
         {
-            GameUtility.Admin => (int)opts.TasksToUseAdmin.Value,
-            GameUtility.Cams => (int)opts.TasksToUseCams.Value,
-            GameUtility.Doorlog => (int)opts.TasksToUseDoorlog.Value,
-            GameUtility.Vitals => (int)opts.TasksToUseVitals.Value,
+            GameUtility.Admin => opts.TasksToUseAdmin,
+            GameUtility.Cams => opts.TasksToUseCams,
+            GameUtility.Doorlog => opts.TasksToUseDoorlog,
+            GameUtility.Vitals => opts.TasksToUseVitals,
             _ => 0,
         };
         var sprite = utility switch

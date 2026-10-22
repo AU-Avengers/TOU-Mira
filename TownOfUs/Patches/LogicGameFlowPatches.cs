@@ -39,7 +39,7 @@ public static class LogicGameFlowPatches
     {
         if (OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled && GameTimerPatch.TriggerEndGame)
         {
-            var timeType = OptionGroupSingleton<GameTimerOptions>.Instance.TimerEndOption.Value;
+            GameTimerType timeType = OptionGroupSingleton<GameTimerOptions>.Instance.TimerEndOption;
             if (timeType is GameTimerType.Impostors)
             {
                 Error($"Game ended from Game Timer for Impostors!");
@@ -170,12 +170,12 @@ public static class LogicGameFlowPatches
     [HarmonyPriority(Priority.First)]
     public static bool CheckEndCriteriaPatch(LogicGameFlowNormal __instance)
     {
-        if (OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay.Value)
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay)
         {
             return false;
         }
 
-        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd.Value && TownOfUsPlugin.IsDevBuild)
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
         {
             return false;
         }

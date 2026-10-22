@@ -35,12 +35,12 @@ public override string IntroInfo => MiraLocaleManager.Get($"TownOfUsMira.Modifie
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.SaboteurChance;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.SaboteurChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.SaboteurAmount;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.SaboteurAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

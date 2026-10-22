@@ -136,14 +136,14 @@ public static class GameTimerPatch
 
     public static void ResetTimer()
     {
-        GameTimer = OptionGroupSingleton<GameTimerOptions>.Instance.GameTimeLimit.GetFloatData() * 60f;
+        GameTimer = OptionGroupSingleton<GameTimerOptions>.Instance.GameTimeLimit.Value * 60f;
         TriggerEndGame = false;
         Enabled = false;
     }
 
     public static void BeginTimer()
     {
-        GameTimer = OptionGroupSingleton<GameTimerOptions>.Instance.GameTimeLimit.GetFloatData() * 60f;
+        GameTimer = OptionGroupSingleton<GameTimerOptions>.Instance.GameTimeLimit.Value * 60f;
 
         if (OptionGroupSingleton<GameTimerOptions>.Instance.TimerEndOption.Value is GameTimerType
                 .Impostors)

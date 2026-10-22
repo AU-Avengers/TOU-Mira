@@ -54,12 +54,12 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.DisperserChance;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.DisperserChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.DisperserAmount;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.DisperserAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

@@ -40,7 +40,7 @@ public sealed class BaitModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.BaitChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.BaitChance;
     }
 
     public override int GetAmountPerGame()

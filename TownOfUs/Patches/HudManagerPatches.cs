@@ -405,7 +405,7 @@ public static class HudManagerPatches
                         var draftNeutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
                         RoleListBuilder.Append(StoredDraftTitle);
                         RoleListBuilder.Append(":</color>\n");
-                        if (list.UseRoleListForPool.Value)
+                        if (list.UseRoleListForPool)
                         {
                             for (var i = 0; i < maxSlots; i++)
                             {
@@ -460,7 +460,7 @@ public static class HudManagerPatches
                             RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                 $"┗ {impSupport}: {draftImpOpts.MaxImpSupport.Value} {StoredMaximum}");
 
-                            if (draftNeutOpts.MaxNeutrals.Value > 0)
+                            if (draftNeutOpts.MaxNeutrals > 0)
                             {
                                 RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                     $"{TownOfUsColors.Neutral.ToTextColor()}{neutrals}</color>: {draftNeutOpts.MaxNeutrals.Value} {StoredMaximum}");

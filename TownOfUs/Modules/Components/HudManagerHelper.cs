@@ -345,7 +345,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var colorPlayerNames = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.ColorPlayerNameToggle.Value;
         var localDead = PlayerControl.LocalPlayer.HasDied();
         var localGhost = localDead && genOpt.TheDeadKnow;
-        var sightMode = OptionGroupSingleton<VanillaTweakOptions>.Instance.HideNamesOutOfSight.Value;
+        NameSight sightMode = OptionGroupSingleton<VanillaTweakOptions>.Instance.HideNamesOutOfSight;
         var hideOutOfSight = sightMode is not NameSight.Basic && !localDead && HudManager.InstanceExists && HudManager.Instance.ShadowQuad.gameObject.active;
         var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
                        genOpt is
@@ -518,7 +518,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
         if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
         {
-            if (!isImpFfa && playerIsImp && !OptionGroupSingleton<GeneralOptions>.Instance.ImpsKnowRoles.Value && !player.AmOwner && !revealed && !localGhost && !localSleuth)
+            if (!isImpFfa && playerIsImp && !OptionGroupSingleton<GeneralOptions>.Instance.ImpsKnowRoles && !player.AmOwner && !revealed && !localGhost && !localSleuth)
             {
                 role = RoleManager.Instance.GetRole(RoleTypes.Impostor);
             }
@@ -621,7 +621,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     topText += $"{progress}\n";
                 }
             }
-            else if ((player.AmOwner || (taskOpt.ShowTaskDead.Value && isVisible && localDead)) &&
+            else if ((player.AmOwner || (taskOpt.ShowTaskDead && isVisible && localDead)) &&
                              player.IsCrewmate())
             {
                 if (HudManagerPatches.RoleIsSmall)

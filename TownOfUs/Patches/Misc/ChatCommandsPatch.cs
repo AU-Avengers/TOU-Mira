@@ -865,7 +865,7 @@ public static class ChatPatches
     [MethodRpc((uint)TownOfUsRpc.SelectSpectator)]
     public static void RpcSelectSpectator(PlayerControl player)
     {
-        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.EnableSpectators.Value)
+        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.EnableSpectators)
         {
             return;
         }

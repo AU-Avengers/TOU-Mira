@@ -46,7 +46,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.CelebrityChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.CelebrityChance;
     }
 
     public override int GetAmountPerGame()

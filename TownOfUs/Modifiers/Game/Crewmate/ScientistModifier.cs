@@ -67,12 +67,12 @@ public sealed class ScientistModifier : TouGameModifier, IWikiDiscoverable, IBut
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

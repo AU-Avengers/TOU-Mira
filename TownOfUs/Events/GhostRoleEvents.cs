@@ -37,7 +37,7 @@ public static class GhostRoleEvents
 
     public static IEnumerator CoRemoveChat()
     {
-        var toHide = OptionGroupSingleton<PostmortemOptions>.Instance.HideChatButton.Value &&
+        var toHide = OptionGroupSingleton<PostmortemOptions>.Instance.HideChatButton &&
                      OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() <
                      RoleDistribution.HideAndSeek;
         
@@ -62,7 +62,7 @@ public static class GhostRoleEvents
     }
     public static bool IsConsoleAllowed(this Console? console)
     {
-        if (OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerFixSabos.Value || console == null)
+        if (OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerFixSabos || console == null)
         {
             return true;
         }

@@ -29,7 +29,7 @@ public sealed class BarkeeperRoleblockButton : TownOfUsRoleButton<BarkeeperRole,
         if (CanClick())
         {
             var opts = OptionGroupSingleton<BarkeeperOptions>.Instance;
-            SelectedDuration = UnityEngine.Random.RandomRange(opts.RoleblockDelayMin.Value, opts.RoleblockDelayMax.Value);
+            SelectedDuration = UnityEngine.Random.RandomRange(opts.RoleblockDelayMin, opts.RoleblockDelayMax);
         }
         base.ClickHandler();
     }

@@ -21,7 +21,7 @@ public sealed class JesterRole(IntPtr cppPtr)
 {
     public void AnnounceKill(PlayerControl source, PlayerControl victim)
     {
-        var text = !OptionGroupSingleton<JesterOptions>.Instance.JestAnnounceWin.Value
+        var text = !OptionGroupSingleton<JesterOptions>.Instance.JestAnnounceWin
             ? MiraLocaleManager.Get("TownOfUsMira.Role.AnonymousVictoryKillNotif").Replace("<source>", source.Data.PlayerName)
             : MiraLocaleManager.Get("TownOfUsMira.Role.JesterHauntNotif");
         var notif = Helpers.CreateAndShowNotification(
@@ -97,7 +97,7 @@ public sealed class JesterRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Jester, "TouMira.Role.Neutral.Jester", 1.45f),
-        GetsVentData = OptionGroupSingleton<JesterOptions>.Instance.CanVent.Value,
+        GetsVentData = OptionGroupSingleton<JesterOptions>.Instance.CanVent,
         IntroSound = TouAudio.NoisemakerIntroSound,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
         OptionsScreenshot = TouBanners.JesterRoleBanner,
@@ -134,12 +134,12 @@ public sealed class JesterRole(IntPtr cppPtr)
 
         if (Player.AmOwner)
         {
-            if (OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value)
+            if (OptionGroupSingleton<JesterOptions>.Instance.ScatterOn)
             {
                 Player.AddModifier<ScatterModifier>(OptionGroupSingleton<JesterOptions>.Instance.ScatterTimer.Value);
             }
 
-            if (OptionGroupSingleton<JesterOptions>.Instance.CanVent.Value)
+            if (OptionGroupSingleton<JesterOptions>.Instance.CanVent)
             {
                 CustomButtonSingleton<FakeVentButton>.Instance.Show = false;
             }
@@ -153,7 +153,7 @@ public sealed class JesterRole(IntPtr cppPtr)
 
         if (Player.AmOwner)
         {
-            if (OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value)
+            if (OptionGroupSingleton<JesterOptions>.Instance.ScatterOn)
             {
                 Player.RemoveModifier<ScatterModifier>();
             }

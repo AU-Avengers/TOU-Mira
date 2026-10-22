@@ -12,7 +12,7 @@ public static class KillOverlayPatch
     public static Material material;
     public static void Prefix(OverlayKillAnimation __instance, KillOverlay parent)
     {
-        var mode = OptionGroupSingleton<GameMechanicOptions>.Instance.KillAnimationBackgroundColor.Value;
+        KillColor mode = OptionGroupSingleton<GameMechanicOptions>.Instance.KillAnimationBackgroundColor;
         var flame = parent.transform.FindChild("QuadParent");
         if (flame != null)
         {

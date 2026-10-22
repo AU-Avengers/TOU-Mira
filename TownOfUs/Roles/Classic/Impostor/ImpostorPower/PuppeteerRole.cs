@@ -252,7 +252,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             CustomButtonSingleton<TownOfUs.Buttons.Impostor.PuppeteerControlButton>.Instance.SetActive(true, this);
             CreateNotification();
         }
-        else if (target.AmOwner && OptionGroupSingleton<PuppeteerOptions>.Instance.VictimSeesControlDirection.Value > 0)
+        else if (target.AmOwner && OptionGroupSingleton<PuppeteerOptions>.Instance.VictimSeesControlDirection > 0)
         {
             puppeteer.AddModifier<PuppeteerHintArrowModifier>(target);
         }

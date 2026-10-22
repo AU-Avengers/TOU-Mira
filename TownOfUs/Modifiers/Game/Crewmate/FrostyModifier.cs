@@ -34,12 +34,12 @@ public sealed class FrostyModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.FrostyChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.FrostyChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.FrostyAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.FrostyAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

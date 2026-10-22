@@ -70,10 +70,10 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     public static bool ModifierValidCheck(RoleBehaviour role, bool runChecks)
     {
         var opts = OptionGroupSingleton<AssassinOptions>.Instance;
-        var neutCount = (int)opts.NumberOfNeutralAssassins.Value;
-        var neutChance = Math.Clamp((int)opts.NeutAssassinChance.Value, 0, 100);
-        var impCount = (int)opts.NumberOfImpostorAssassins.Value;
-        var impChance = Math.Clamp((int)opts.ImpAssassinChance.Value, 0, 100);
+        var neutCount = opts.NumberOfNeutralAssassins;
+        var neutChance = Math.Clamp(opts.NeutAssassinChance, 0, 100);
+        var impCount = opts.NumberOfImpostorAssassins;
+        var impChance = Math.Clamp(opts.ImpAssassinChance, 0, 100);
         if ((!runChecks || NeutralAssassinAttempts < neutCount) && neutChance != 0 && role is ITownOfUsRole { RoleAlignment: RoleAlignment.NeutralKilling })
         {
             if (runChecks)
@@ -123,26 +123,26 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     }
 
     public override int CustomAmount =>
-        (int)OptionGroupSingleton<AssassinOptions>.Instance.NumberOfImpostorAssassins.Value +
-        (int)OptionGroupSingleton<AssassinOptions>.Instance.NumberOfNeutralAssassins.Value;
+        OptionGroupSingleton<AssassinOptions>.Instance.NumberOfImpostorAssassins +
+        OptionGroupSingleton<AssassinOptions>.Instance.NumberOfNeutralAssassins;
 
     public override int CustomChance
     {
         get
         {
             var opt = OptionGroupSingleton<AssassinOptions>.Instance;
-            var impChance = (int)opt.ImpAssassinChance.Value;
-            var neutChance = (int)opt.NeutAssassinChance.Value;
-            if ((int)opt.NumberOfImpostorAssassins.Value > 0 && (int)opt.NumberOfNeutralAssassins.Value > 0)
+            var impChance = opt.ImpAssassinChance;
+            var neutChance = opt.NeutAssassinChance;
+            if (opt.NumberOfImpostorAssassins > 0 && opt.NumberOfNeutralAssassins > 0)
             {
                 return (impChance + neutChance) / 2;
             }
 
-            if ((int)opt.NumberOfImpostorAssassins.Value > 0)
+            if (opt.NumberOfImpostorAssassins > 0)
             {
                 return impChance;
             }
-            else if ((int)opt.NumberOfNeutralAssassins.Value > 0)
+            else if (opt.NumberOfNeutralAssassins > 0)
             {
                 return neutChance;
             }
@@ -156,7 +156,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
         base.OnActivate();
 
         var opts = OptionGroupSingleton<AssassinOptions>.Instance;
-        maxKills = IsImpostorAssassin ? (int)opts.ImpAssassinKills.Value : (int)opts.NeutAssassinKills.Value;
+        maxKills = IsImpostorAssassin ? opts.ImpAssassinKills : opts.NeutAssassinKills;
         defaultKills = maxKills;
 
         //Error($"AssassinModifier.OnActivate maxKills: {maxKills}");
@@ -320,7 +320,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             maxKills--;
 
             var opts = OptionGroupSingleton<AssassinOptions>.Instance;
-            if ((!IsImpostorAssassin && !opts.NeutAssassinMultiKill.Value) || (IsImpostorAssassin && !opts.ImpAssassinMultiKill.Value) || maxKills == 0 || victim == Player)
+            if ((!IsImpostorAssassin && !opts.NeutAssassinMultiKill) || (IsImpostorAssassin && !opts.ImpAssassinMultiKill) || maxKills == 0 || victim == Player)
             {
                 meetingMenu?.HideButtons();
             }
@@ -373,7 +373,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
         if (alignment == RoleAlignment.CrewmateInvestigative)
         {
-            return options.AssassinGuessInvest.Value;
+            return options.AssassinGuessInvest;
         }
 
         if (role.IsCrewmate() && role is ICustomRole)
@@ -381,14 +381,14 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             return true;
         }
 
-        if (role.IsCrewmate() && OptionGroupSingleton<AssassinOptions>.Instance.AssassinCrewmateGuess.Value)
+        if (role.IsCrewmate() && OptionGroupSingleton<AssassinOptions>.Instance.AssassinCrewmateGuess)
         {
             return true;
         }
 
         var assassinAlignment = Player.Data.Role.GetRoleAlignment();
 
-        if (role.IsImpostor() && OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessImpostors.Value &&
+        if (role.IsImpostor() && OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessImpostors &&
             assassinAlignment is RoleAlignment.NeutralKilling or RoleAlignment.NeutralEvil)
         {
             return true;
@@ -396,22 +396,22 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
         if (alignment == RoleAlignment.NeutralBenign)
         {
-            return options.AssassinGuessNeutralBenign.Value;
+            return options.AssassinGuessNeutralBenign;
         }
 
         if (alignment == RoleAlignment.NeutralEvil)
         {
-            return options.AssassinGuessNeutralEvil.Value;
+            return options.AssassinGuessNeutralEvil;
         }
 
         if (alignment == RoleAlignment.NeutralKilling)
         {
-            return options.AssassinGuessNeutralKilling.Value;
+            return options.AssassinGuessNeutralKilling;
         }
 
         if (alignment == RoleAlignment.NeutralOutlier)
         {
-            return options.AssassinGuessNeutralOutlier.Value;
+            return options.AssassinGuessNeutralOutlier;
         }
 
         return false;
@@ -445,15 +445,15 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             return false;
         }
 
-        if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessAlliances.Value &&
+        if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessAlliances &&
             modifier is AllianceGameModifier)
         {
             return true;
         }
 
-        if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessCrewModifiers.Value)
+        if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessCrewModifiers)
         {
-            if (!OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessUtilityModifiers.Value &&
+            if (!OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessUtilityModifiers &&
                 modifier is TouGameModifier touMod2 && touMod2.FactionType == ModifierFaction.CrewmateUtility)
             {
                 return false;
@@ -468,10 +468,10 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
         if (modifier is TouGameModifier touMod4 && touMod4.FactionType.ToDisplayString().Contains("Imp") && !touMod4.FactionType.ToDisplayString().Contains("Non"))
         {
-            return OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessImpostorModifiers.Value;
+            return OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessImpostorModifiers;
         }
 
-        if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessNonCrewModifiers.Value && modifier is TouGameModifier)
+        if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessNonCrewModifiers && modifier is TouGameModifier)
         {
             return true;
         }

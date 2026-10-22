@@ -38,12 +38,12 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.TaskmasterChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.TaskmasterChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.TaskmasterAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.TaskmasterAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

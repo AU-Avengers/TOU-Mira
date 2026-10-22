@@ -17,7 +17,7 @@ public sealed class GeneralOptions : AbstractOptionGroup
 #pragma warning disable S2325 // Make a static property.
     
 #pragma warning disable CA1822 // Member does not access instance data and can be marked as static
-    public bool TheDeadKnow => OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow.Value;
+    public bool TheDeadKnow => OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow;
     public float TempSaveCdReset => OptionGroupSingleton<GameMechanicOptions>.Instance.TempSaveCdReset;
     
 #pragma warning restore CA1822 // Member does not access instance data and can be marked as static

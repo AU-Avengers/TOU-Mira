@@ -44,7 +44,7 @@ public static class DraftRpcs
         DraftAudio.PlayDraftStart();
         DraftSidebarManager.Activate();
         DraftCancelButton.Show();
-        CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
+        CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses(OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer);
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftPickerReady)]
@@ -284,7 +284,7 @@ public static class DraftNetworkHelper
 
     public static void BroadcastPickConfirmed(int slot, ushort roleId, bool timedOut = false)
     {
-        var hideFromOthers = OptionGroupSingleton<RoleOptions>.Instance.DraftSidebarDisplay.Value == DraftRecapMode.Nothing;
+        var hideFromOthers = OptionGroupSingleton<RoleOptions>.Instance.DraftSidebarDisplay == DraftRecapMode.Nothing;
         var picker = DraftManager.GetStateForSlot(slot);
         var pickerClient = picker != null ? AmongUsClient.Instance.GetClient(MiscUtils.PlayerById(picker.PlayerId)?.OwnerId ?? -1) : null;
 

@@ -20,7 +20,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
     public override bool AutoStart => true;
     public override bool VisibleToOthers => false;
 
-    public static SwoopTracking CanBeTracked => OptionGroupSingleton<SwooperOptions>.Instance.TrackedMidSwoop.Value;
+    public static SwoopTracking CanBeTracked => OptionGroupSingleton<SwooperOptions>.Instance.TrackedMidSwoop;
     public SwoopProgress AchProgress = SwoopProgress.Nothing;
 
     public bool VisualPriority => true;

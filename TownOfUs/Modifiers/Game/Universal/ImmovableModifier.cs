@@ -34,12 +34,12 @@ public sealed class ImmovableModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.ImmovableChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.ImmovableChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.ImmovableAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.ImmovableAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

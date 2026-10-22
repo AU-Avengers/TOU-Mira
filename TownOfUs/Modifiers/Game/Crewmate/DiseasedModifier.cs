@@ -35,12 +35,12 @@ public sealed class DiseasedModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.DiseasedChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.DiseasedChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.DiseasedAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.DiseasedAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

@@ -46,10 +46,10 @@ public sealed class VigilanteOptions : AbstractRoleOptionGroup<VigilanteRole>, I
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
         var title = MiraLocaleManager.Get("TouOptionVigilanteGuessableNeutrals");
-        var nbValid = VigilanteGuessNeutralBenign.Value;
-        var neValid = VigilanteGuessNeutralEvil.Value;
-        var nkValid = VigilanteGuessNeutralKilling.Value;
-        var noValid = VigilanteGuessNeutralOutlier.Value;
+        var nbValid = VigilanteGuessNeutralBenign;
+        var neValid = VigilanteGuessNeutralEvil;
+        var nkValid = VigilanteGuessNeutralKilling;
+        var noValid = VigilanteGuessNeutralOutlier;
 
         if (!nbValid && !neValid && !nkValid && !noValid)
         {

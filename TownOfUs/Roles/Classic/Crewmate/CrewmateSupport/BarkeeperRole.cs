@@ -50,7 +50,7 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     public List<CustomButtonWikiDescription> Abilities { get; } =
     [
         new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock"),
-            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value
+            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover
                 ? MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
                     OptionGroupSingleton<RoleblockOptions>.Instance.HangoverDuration.Value.ToString(TownOfUsPlugin
                         .Culture))
@@ -68,7 +68,7 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     [
         new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock"),
             MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
-            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value
+            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover
                 ? MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
                     OptionGroupSingleton<RoleblockOptions>.Instance.HangoverDuration.Value.ToString(TownOfUsPlugin
                         .Culture))
@@ -97,10 +97,10 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     public static void RpcRoleblock(PlayerControl player, PlayerControl target)
     {
         var options = OptionGroupSingleton<RoleblockOptions>.Instance;
-        var roleblockDuration = options.RoleblockDuration.Value;
-        var hangoverDuration = options.HangoverDuration.Value;
-        var applyHangover = options.Hangover.Value;
-        var invertControls = options.InvertControlsOfRoleblocked.Value;
+        var roleblockDuration = options.RoleblockDuration;
+        var hangoverDuration = options.HangoverDuration;
+        var applyHangover = options.Hangover;
+        var invertControls = options.InvertControlsOfRoleblocked;
         var targetName = target.CachedPlayerData.PlayerName;
         var rbText = MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblocked").Replace("<player>", targetName);
         var poisonPlayer = false;
@@ -108,8 +108,8 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         if (player.Data.Role is BootleggerRole)
         {
 
-            var poisTrigger =
-                OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger.Value;
+            PoisonTrigger poisTrigger =
+                OptionGroupSingleton<BootleggerOptions>.Instance.PoisonRoleblockTrigger;
             var progress = PoisonProgress.Begun;
             if (target.TryGetModifier<BootleggerPoisonModifier>(out var bootProgress))
             {

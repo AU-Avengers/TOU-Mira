@@ -59,7 +59,7 @@ public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverab
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.ButtonBarryChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.ButtonBarryChance;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

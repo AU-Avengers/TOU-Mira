@@ -115,7 +115,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
                     break;
 
                 case RoleAlignment.NeutralOutlier:
-                    if (!options.ShootNeutralOutlier.Value)
+                    if (!options.ShootNeutralOutlier)
                     {
                         Misfire();
                     }
@@ -127,7 +127,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
                     break;
 
                 case RoleAlignment.NeutralKilling:
-                    if (!options.ShootNeutralKiller.Value)
+                    if (!options.ShootNeutralKiller)
                     {
                         Misfire();
                     }
@@ -139,7 +139,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
                     break;
 
                 case RoleAlignment.NeutralEvil:
-                    if (!options.ShootNeutralEvil.Value)
+                    if (!options.ShootNeutralEvil)
                     {
                         Misfire();
                     }
@@ -151,7 +151,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
                     break;
 
                 case RoleAlignment.NeutralBenign:
-                    if (!options.ShootNeutralBenign.Value)
+                    if (!options.ShootNeutralBenign)
                     {
                         Misfire();
                     }

@@ -120,7 +120,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
 
             var isHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
             var optionEnabled = OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind;
-            var destroyBody = OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance.Value;
+            BodyVitalsMode destroyBody = OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance;
 
             var shouldRecord = isHost ? optionEnabled : (optionEnabled || TimeLordRewindSystem.MatchHasTimeLord());
 

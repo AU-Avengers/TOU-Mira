@@ -37,7 +37,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
     public bool Visible => Player.AmOwner || PlayerControl.LocalPlayer.HasDied() ||
                            FairyRole.FairySeesRoleVisibilityFlag(Player);
 
-    public CacheRoleGuess GuessMode => OptionGroupSingleton<ImitatorOptions>.Instance.ImitatorGuess.Value;
+    public CacheRoleGuess GuessMode => OptionGroupSingleton<ImitatorOptions>.Instance.ImitatorGuess;
 
     public RoleBehaviour CachedRole => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ImitatorRole>());
 

@@ -26,20 +26,20 @@ public sealed class DraftShuffleButton : TownOfUsButton
     {
         Show();
         CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses(
-            (int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
+            OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer);
     }
 
     public static void HideAndReset()
     {
         Hide();
         CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses(
-            (int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
+            OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer);
     }
 
     public override string Name => MiraLocaleManager.Get("TouDraftShuffleButton", "Shuffle");
     public override float InitialCooldown => 0.001f;
     public override float Cooldown => 0.001f;
-    public override int MaxUses => (int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value;
+    public override int MaxUses => OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer;
     public override bool ZeroIsInfinite { get; set; } = true;
     public override ButtonLocation Location => ButtonLocation.BottomRight;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
@@ -73,7 +73,7 @@ public sealed class DraftShuffleButton : TownOfUsButton
         public static void Postfix()
         {
             Show();
-            CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
+            CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses(OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer);
         }
     }
 

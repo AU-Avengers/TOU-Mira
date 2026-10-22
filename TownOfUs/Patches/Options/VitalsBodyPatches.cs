@@ -53,7 +53,7 @@ public static class VitalsBodyPatches
                         MiscUtils.RemovePet(player, hidePets);
                     }
                 }
-                var result = OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance.Value;
+                BodyVitalsMode result = OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance;
 
                 CrimeSceneComponent.ClearCrimeScene(__instance);
                 if (result is BodyVitalsMode.Disconnected)

@@ -57,12 +57,12 @@ public sealed class CircumventModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.CircumventChance;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.CircumventChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.CircumventAmount;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.CircumventAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

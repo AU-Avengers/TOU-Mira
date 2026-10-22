@@ -68,12 +68,12 @@ public sealed class SpyModifier : TouGameModifier, IWikiDiscoverable, IColoredMo
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.SpyChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.SpyChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.SpyAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.SpyAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

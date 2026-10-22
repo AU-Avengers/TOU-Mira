@@ -16,7 +16,7 @@ public sealed class HunterStalkButton : TownOfUsRoleButton<HunterRole, PlayerCon
     public override Color TextOutlineColor => TownOfUsColors.Hunter;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<HunterOptions>.Instance.HunterStalkCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<HunterOptions>.Instance.HunterStalkDuration;
-    public override int MaxUses => (int)OptionGroupSingleton<HunterOptions>.Instance.StalkUses;
+    public override int MaxUses => OptionGroupSingleton<HunterOptions>.Instance.StalkUses;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.StalkButtonSprite : TouCrewAssets.StalkButtonSprite;
     public int ExtraUses { get; set; }
 

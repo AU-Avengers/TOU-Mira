@@ -29,12 +29,12 @@ public sealed class HnsMiniModifier : HnsGameModifier, IVisualAppearance
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.MiniChance;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.MiniChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.MiniAmount;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.MiniAmount;
     }
 
     public override void OnActivate()

@@ -133,16 +133,16 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         var evilPlayers = PlayerControl.AllPlayerControls.Where(x => !x.HasDied() &&
                                                                                (x.IsImpostor() ||
                                                                                    (x.Is(RoleAlignment.NeutralOutlier) &&
-                                                                                       options.ShowNeutralOutlierAsEvil.Value) ||
+                                                                                       options.ShowNeutralOutlierAsEvil) ||
                                                                                    (x.Is(RoleAlignment
                                                                                            .NeutralKilling) &&
                                                                                        options
-                                                                                           .ShowNeutralKillingAsEvil.Value) ||
+                                                                                           .ShowNeutralKillingAsEvil) ||
                                                                                    (x.Is(RoleAlignment.NeutralEvil) &&
-                                                                                       options.ShowNeutralEvilAsEvil.Value) ||
+                                                                                       options.ShowNeutralEvilAsEvil) ||
                                                                                    (x.Is(RoleAlignment.NeutralBenign) &&
                                                                                        options
-                                                                                           .ShowNeutralBenignAsEvil.Value)))
+                                                                                           .ShowNeutralBenignAsEvil)))
             .ToList();
 
         if (evilPlayers.Count == 0)

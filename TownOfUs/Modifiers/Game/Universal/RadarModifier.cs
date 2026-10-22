@@ -36,12 +36,12 @@ public sealed class RadarModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.RadarChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.RadarChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.RadarAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.RadarAmount;
     }
 
     public override void OnActivate()

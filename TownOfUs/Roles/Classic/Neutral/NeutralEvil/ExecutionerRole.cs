@@ -34,7 +34,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     }
     public void AnnounceKill(PlayerControl source, PlayerControl victim)
     {
-        var text = OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnonymizeWin.Value
+        var text = OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnonymizeWin
             ? MiraLocaleManager.Get("TownOfUsMira.Role.AnonymousVictoryKillNotif").Replace("<source>", source.Data.PlayerName)
             : MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerTormentNotif");
         var notif = Helpers.CreateAndShowNotification(
@@ -279,7 +279,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
             // Error($"OnPlayerDeath - ChangeRole: '{roleType}'");
             Player.ChangeRole(roleType);
 
-            if ((roleType == RoleId.Get<JesterRole>() && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value) ||
+            if ((roleType == RoleId.Get<JesterRole>() && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn) ||
                 (roleType == RoleId.Get<SurvivorRole>() && OptionGroupSingleton<SurvivorOptions>.Instance.ScatterOn))
             {
                 StartCoroutine(Effects.Lerp(0.2f,

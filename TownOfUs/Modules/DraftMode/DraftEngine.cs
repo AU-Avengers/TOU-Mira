@@ -95,7 +95,7 @@ public static class DraftEngine
         if (state is not { IsPickingNow: true, HasPicked: false } || !Offers.TryGetValue(state.SlotNumber, out var offer)) return;
 
         var slot = state.SlotNumber;
-        if (roleId == 0 && index == offer.Count && Opts.ShowRandomOption.Value)
+        if (roleId == 0 && index == offer.Count && Opts.ShowRandomOption)
         {
             var offeredRoles = offer
                 .Select(id => _pool.FirstOrDefault(copy => copy.RoleId == id))
@@ -130,7 +130,7 @@ public static class DraftEngine
         if (state is not { IsPickingNow: true, HasPicked: false }) return;
 
         var slot = state.SlotNumber;
-        if (ShufflesUsed.GetValueOrDefault(slot) >= (int)Opts.ShufflesPerPlayer.Value) return;
+        if (ShufflesUsed.GetValueOrDefault(slot) >= Opts.ShufflesPerPlayer) return;
 
         ShufflesUsed[slot] = ShufflesUsed.GetValueOrDefault(slot) + 1;
         if (DraftManager.TurnDuration <= MinShuffleWindow && DraftManager.TurnTimeLeft < MinShuffleWindow)
@@ -157,7 +157,7 @@ public static class DraftEngine
 
     private static IEnumerator Run(int session)
     {
-        var concurrency = Math.Clamp((int)Opts.ConcurrentPicks.Value, 1, 2);
+        var concurrency = Math.Clamp(Opts.ConcurrentPicks, 1, 2);
         while (Active(session))
         {
             PruneGone();
@@ -367,7 +367,7 @@ public static class DraftEngine
                 .Count(pair => pair.Key != slot &&
                     pair.Value.Faction == spreadOffer.Faction && !Offers.ContainsKey(pair.Key) && IsOpen(pair.Key));
             var maxOptions = Math.Max(1, factionChoices.Count - otherForcedOffers);
-            return Choose(factionChoices, Math.Min((int)Opts.OfferedRolesCount.Value, maxOptions));
+            return Choose(factionChoices, Math.Min(Opts.OfferedRolesCount, maxOptions));
         }
 
         var candidates = legal.Where(copy =>
@@ -445,7 +445,7 @@ public static class DraftEngine
     private static void Offer(int slot)
     {
         var seen = Seen.TryGetValue(slot, out var known) ? known : Seen[slot] = [];
-        var count = Math.Max(1, (int)Opts.OfferedRolesCount.Value);
+        var count = Math.Max(1, Opts.OfferedRolesCount);
 
         var preferred = Offerable(slot);
         var hasSpreadOffer = SpreadOffers.ContainsKey(slot);
@@ -539,7 +539,7 @@ public static class DraftEngine
     private static void Finish()
     {
         _running = false;
-        var mode = Opts.DraftRecap.Value;
+        var mode = Opts.DraftRecap;
         var entries = DraftManager.States.OrderBy(s => s.SlotNumber).Select(s => Recap(s, mode)).ToList();
 
         DraftApplier.StorePendingDraftStates(DraftManager.States);

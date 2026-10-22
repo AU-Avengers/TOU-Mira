@@ -289,7 +289,7 @@ public static class Bindings
             // CTRL to pass through objects in lobby
             if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined &&
                 (TutorialManager.InstanceExists ||
-                 OptionGroupSingleton<HostSpecificOptions>.Instance.LobbyFunMode.Value))
+                 OptionGroupSingleton<HostSpecificOptions>.Instance.LobbyFunMode))
             {
                 var player = PlayerControl.LocalPlayer;
                 if (player != null && player.gameObject != null)

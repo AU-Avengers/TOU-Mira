@@ -39,10 +39,10 @@ public sealed class SheriffOptions : AbstractRoleOptionGroup<SheriffRole>, IWiki
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
         var title = MiraLocaleManager.Get("TouOptionSheriffValidNeutralShots");
-        var nbValid = ShootNeutralBenign.Value;
-        var neValid = ShootNeutralEvil.Value;
-        var nkValid = ShootNeutralKiller.Value;
-        var noValid = ShootNeutralOutlier.Value;
+        var nbValid = ShootNeutralBenign;
+        var neValid = ShootNeutralEvil;
+        var nkValid = ShootNeutralKiller;
+        var noValid = ShootNeutralOutlier;
 
         if (!nbValid && !neValid && !nkValid && !noValid)
         {

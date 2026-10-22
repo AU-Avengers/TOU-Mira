@@ -22,9 +22,9 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
     public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);
     public override float EffectDuration => OptionGroupSingleton<AltruistOptions>.Instance.ReviveDuration.Value;
     public override bool ZeroIsInfinite { get; set; } = true;
-    public override int MaxUses => OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value
+    public override int MaxUses => OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive
         ? 0
-        : (int)OptionGroupSingleton<AltruistOptions>.Instance.MaxRevives;
+        : OptionGroupSingleton<AltruistOptions>.Instance.MaxRevives;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.ReviveSprite : TouCrewAssets.ReviveSprite;
     public override bool UsableInDeath => true;
 
@@ -32,7 +32,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
 
     public override void SetActive(bool visible, RoleBehaviour role)
     {
-        var killOnStart = OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value;
+        var killOnStart = OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive;
         var shouldShowWhenDead = killOnStart && EffectActive;
 
         if (shouldShowWhenDead)
@@ -60,7 +60,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
 
         // If we sacrificed at the start, we become a ghost role.
         // Keep the button alive while the effect is running so the animation can continue as a ghost.
-        if (!EffectActive || !OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value)
+        if (!EffectActive || OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive)
         {
             return false;
         }
@@ -81,7 +81,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
         if (Button == null) return;
         
         // Hide uses counter if KillOnStartRevive is enabled
-        if (OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value)
+        if (OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive)
         {
             Button.usesRemainingText.gameObject.SetActive(false);
             Button.usesRemainingSprite.gameObject.SetActive(false);
@@ -137,7 +137,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
 
     protected override void OnClick()
     {
-        var killOnStart = OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value;
+        var killOnStart = OptionGroupSingleton < AltruistOptions >.Instance.KillOnStartRevive;
 
         var bodiesInRange = Helpers.GetNearestDeadBodies(
             PlayerControl.LocalPlayer.transform.position,
@@ -153,7 +153,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
             var player = MiscUtils.PlayerById(playerId);
             if (player != null)
             {
-                if (player.IsLover() && OptionGroupSingleton<LoversOptions>.Instance.BothLoversDie)
+                if (OptionGroupSingleton<LoversOptions>.Instance.BothLoversDie)
                 {
                     var other = player.GetModifier<LoverModifier>()!.GetOtherLover;
                     if (!playersToRevive.Contains(other()!.PlayerId) && other()!.Data.IsDead)
