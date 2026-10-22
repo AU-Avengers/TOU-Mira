@@ -226,7 +226,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         newButtonObj.layer = 5;
         newButtonObj.transform.parent = confirmButton.transform.parent.parent;
 
-        var buttonText = Object.Instantiate(
+        var buttonText = Instantiate(
             meeting.MeetingAbilityButton.buttonLabelText.gameObject,
             newButtonObj.transform);
         buttonText.transform.localPosition = new Vector3(0, -0.2f, 0f);

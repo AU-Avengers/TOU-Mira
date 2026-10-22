@@ -199,7 +199,7 @@ public static class TimeLordBodyManager
             var dragger = MiscUtils.PlayerById(rec.DraggedByPlayerId.Value);
             if (dragger != null && dragger.Data?.Role is TownOfUs.Roles.Impostor.UndertakerRole)
             {
-                TownOfUs.Roles.Impostor.UndertakerRole.RpcStartDragging(dragger, bodyId);
+                Roles.Impostor.UndertakerRole.RpcStartDragging(dragger, bodyId);
             }
         }
     }

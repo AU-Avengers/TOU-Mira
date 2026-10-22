@@ -1010,7 +1010,7 @@ public static class CustomTouMurderRpcs
         var cooldownAfter = player.killTimer;
         if (Mathf.Abs(cooldownBefore - cooldownAfter) > 0.01f)
         {
-            TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordKillCooldown(player, cooldownBefore, cooldownAfter);
+            Events.Crewmate.TimeLordEventHandlers.RecordKillCooldown(player, cooldownBefore, cooldownAfter);
         }
 
         RecordedKillCooldown = -1f;

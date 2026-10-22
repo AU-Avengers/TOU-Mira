@@ -245,7 +245,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
                 return;
             }
 
-            var deadBodies = UnityEngine.Object.FindObjectsOfType<DeadBody>().ToArray();
+            var deadBodies = FindObjectsOfType<DeadBody>().ToArray();
             foreach (var deadPlayer in PlayerControl.AllPlayerControls.Where(x => x.HasDied()))
             {
                 if (deadBodies.Select(x => x.ParentId).Contains(deadPlayer.PlayerId))
@@ -326,7 +326,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
             var player = MiscUtils.PlayerById(bodyId);
             if (player != null)
             {
-                TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordChefCook(chef, body, platter);
+                Events.Crewmate.TimeLordEventHandlers.RecordChefCook(chef, body, platter);
             }
             var destroyBody = OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance;
 
@@ -335,7 +335,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
                 var bodyPlayer = MiscUtils.PlayerById(bodyId);
                 if (bodyPlayer != null)
                 {
-                    TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(chef, body, body.transform.position,
+                    Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(chef, body, body.transform.position,
                         TimeLordBodyManager.CleanedBodySource.Janitor);
                 }
                 Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));
@@ -376,7 +376,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
 
         target.AddModifier<ChefServedModifier>(chef, (int)platter.Value, platter.Key);
 
-        TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordChefServe(chef, target, (byte)platter.Key, platter.Value);
+        Events.Crewmate.TimeLordEventHandlers.RecordChefServe(chef, target, (byte)platter.Key, platter.Value);
 
         role.StoredBodies.RemoveAt(0);
     }

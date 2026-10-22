@@ -87,7 +87,7 @@ public sealed class AutoOpenMushroomDoor(nint cppPtr) : AutoOpenDoor(cppPtr)
                     SoundManager.Instance.SfxChannel);
                 SoundDynamics(audio);
             }
-            VibrationManager.Vibrate(2.5f, base.transform.position, 3f, 0f, VibrationManager.VibrationFalloff.None, openSound, false);
+            VibrationManager.Vibrate(2.5f, transform.position, 3f, 0f, VibrationManager.VibrationFalloff.None, openSound, false);
             return;
         }
         if (Constants.ShouldPlaySfx()/* && allowAudio*/)
@@ -96,7 +96,7 @@ public sealed class AutoOpenMushroomDoor(nint cppPtr) : AutoOpenDoor(cppPtr)
                 SoundManager.Instance.SfxChannel);
             SoundDynamics(audio);
         }
-        VibrationManager.Vibrate(2.5f, base.transform.position, 3f, 0f, VibrationManager.VibrationFalloff.None, closeSound, false);
+        VibrationManager.Vibrate(2.5f, transform.position, 3f, 0f, VibrationManager.VibrationFalloff.None, closeSound, false);
     }
 
     // Token: 0x06000D37 RID: 3383 RVA: 0x00037C2C File Offset: 0x00035E2C
@@ -107,7 +107,7 @@ public sealed class AutoOpenMushroomDoor(nint cppPtr) : AutoOpenDoor(cppPtr)
             source.volume = 0f;
             return;
         }
-        Vector2 vector = base.transform.position;
+        Vector2 vector = transform.position;
         Vector2 truePosition = PlayerControl.LocalPlayer.GetTruePosition();
         float num = Vector2.Distance(vector, truePosition);
         if (num > 4f)

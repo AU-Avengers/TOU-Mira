@@ -323,7 +323,7 @@ public static class DraftNetworkHelper
 
     public static void BroadcastRecap(List<RecapEntry> entries, DraftRecapMode mode)
     {
-        var recapData = ((int)mode).ToString(System.Globalization.CultureInfo.InvariantCulture);
+        var recapData = ((int)mode).ToString(CultureInfo.InvariantCulture);
         if (mode != DraftRecapMode.Nothing)
         {
             var lines = entries.Select(e =>

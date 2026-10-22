@@ -630,7 +630,7 @@ public static class TimeLordRewindSystem
             flags |= SnapshotState.InvisibleAnim;
         }
 
-        var inMinigame = Minigame.Instance || SpawnInMinigame.Instance;
+        var inMinigame = Minigame.Instance || Minigame.Instance;
         if (inMinigame)
         {
             flags |= SnapshotState.InMinigame;
@@ -997,7 +997,7 @@ public static class TimeLordRewindSystem
 
         if (_lastKillCooldownValue >= 0f && Mathf.Abs(currentCooldown - _lastKillCooldownValue) > 0.1f)
         {
-            TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordKillCooldown(
+            Events.Crewmate.TimeLordEventHandlers.RecordKillCooldown(
                 player, _lastKillCooldownValue, currentCooldown);
         }
 
@@ -1170,7 +1170,7 @@ public static class TimeLordRewindSystem
         ConfigureLocalBodyRestores(duration, history);
 
         // Schedule event-based undos
-        var eventQueue = TownOfUs.Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
+        var eventQueue = Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
         var historySeconds = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 120f);
         _scheduledEventUndos = eventQueue.GetUndoSchedule(Time.time, duration, historySeconds);
 
@@ -1470,7 +1470,7 @@ public static class TimeLordRewindSystem
                 if (elapsed + 0.0001f >= entry.TriggerAtSeconds)
                 {
                     entry.Done = true;
-                    TownOfUs.Roles.Crewmate.TimeLordRole.RpcSetDeadBodyPos(PlayerControl.LocalPlayer, entry.BodyId, entry.Position);
+                    TimeLordRole.RpcSetDeadBodyPos(PlayerControl.LocalPlayer, entry.BodyId, entry.Position);
                 }
             }
         }
@@ -1488,7 +1488,7 @@ public static class TimeLordRewindSystem
                 if (elapsed + 0.0001f >= entry.TriggerAtSeconds)
                 {
                     entry.Done = true;
-                    TownOfUs.Roles.Crewmate.TimeLordRole.RpcUndoTask(PlayerControl.LocalPlayer, entry.PlayerId, entry.TaskId);
+                    TimeLordRole.RpcUndoTask(PlayerControl.LocalPlayer, entry.PlayerId, entry.TaskId);
                 }
             }
         }
@@ -2194,7 +2194,7 @@ return true;*/
             return;
         }
 
-        var eventQueue = TownOfUs.Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
+        var eventQueue = Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
         var rewindWindowStart = _rewindHistoryCutoffTime;
         var rewindWindowEnd = _rewindStartTime; // Time when rewind started
 
@@ -2255,7 +2255,7 @@ return true;*/
     public static TimeLordUndoEvent CreateUndoEvent(TimeLordEvent evt)
     {
         // First, check if an extension has registered a factory for this event type
-        var eventQueue = TownOfUs.Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
+        var eventQueue = Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
         var extensionUndoEvent = eventQueue.CreateUndoEvent(evt);
         if (extensionUndoEvent != null)
         {

@@ -128,7 +128,7 @@ public class PrefabLoader
             yield return handle;
         }
 
-        if (handle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+        if (handle.Status == AsyncOperationStatus.Succeeded)
         {
             shipStatus.Value = handle.Result.GetComponent<T>();
         }

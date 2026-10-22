@@ -431,7 +431,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     private static List<IUsable> GetInteractablesList()
     {
         var result = new List<IUsable>();
-        var allUsables = UnityEngine.Object.FindObjectsOfType<MonoBehaviour>();
+        var allUsables = FindObjectsOfType<MonoBehaviour>();
         foreach (var obj in allUsables)
         {
             if (obj.TryCast<IUsable>() is { } usable && usable.TryCast<Vent>() == null)
@@ -482,7 +482,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             if (player.AmOwner)
             {
                 player.NetTransform.Halt();
-                var minigame = Object.Instantiate(doorConsole.MinigamePrefab, Camera.main.transform);
+                var minigame = Instantiate(doorConsole.MinigamePrefab, Camera.main.transform);
                 minigame.transform.localPosition = new Vector3(0f, 0f, -50f);
 
                 try

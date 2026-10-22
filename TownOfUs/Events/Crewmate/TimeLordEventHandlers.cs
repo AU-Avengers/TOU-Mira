@@ -86,7 +86,7 @@ public static class TimeLordEventHandlers
             return;
         }
 
-        var evt = new TimeLordVentEnterEvent(player, vent, UnityEngine.Time.time);
+        var evt = new TimeLordVentEnterEvent(player, vent, Time.time);
         evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
@@ -101,7 +101,7 @@ public static class TimeLordEventHandlers
             return;
         }
 
-        var evt = new TimeLordVentExitEvent(player, vent, UnityEngine.Time.time);
+        var evt = new TimeLordVentExitEvent(player, vent, Time.time);
         evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
@@ -116,7 +116,7 @@ public static class TimeLordEventHandlers
             return;
         }
 
-        var evt = new TimeLordTaskCompleteEvent(player, task, UnityEngine.Time.time);
+        var evt = new TimeLordTaskCompleteEvent(player, task, Time.time);
         evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
@@ -132,7 +132,7 @@ public static class TimeLordEventHandlers
             return;
         }
 
-        var evt = new TimeLordBodyCleanedEvent(player, body, position, source, UnityEngine.Time.time);
+        var evt = new TimeLordBodyCleanedEvent(player, body, position, source, Time.time);
         evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
 
@@ -149,7 +149,7 @@ public static class TimeLordEventHandlers
             return;
         }
 
-        var evt = new TimeLordKillEvent(killer, victim, UnityEngine.Time.time);
+        var evt = new TimeLordKillEvent(killer, victim, Time.time);
         evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
@@ -164,7 +164,7 @@ public static class TimeLordEventHandlers
             return;
         }
 
-        var evt = new TimeLordChefCookEvent(chef, body, platterType, UnityEngine.Time.time);
+        var evt = new TimeLordChefCookEvent(chef, body, platterType, Time.time);
         evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
@@ -179,7 +179,7 @@ public static class TimeLordEventHandlers
             return;
         }
 
-        var evt = new TimeLordChefServeEvent(chef, target, bodyId, platterType, UnityEngine.Time.time);
+        var evt = new TimeLordChefServeEvent(chef, target, bodyId, platterType, Time.time);
         evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
@@ -194,7 +194,7 @@ public static class TimeLordEventHandlers
             return;
         }
 
-        var evt = new TimeLordKillCooldownEvent(player, cooldownBefore, cooldownAfter, UnityEngine.Time.time);
+        var evt = new TimeLordKillCooldownEvent(player, cooldownBefore, cooldownAfter, Time.time);
         evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
@@ -327,7 +327,7 @@ public static class TimeLordEventHandlers
 
         if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
         {
-            TownOfUs.Roles.Crewmate.TimeLordRole.RpcRewindRevive(victim);
+            Roles.Crewmate.TimeLordRole.RpcRewindRevive(victim);
         }
     }
 
@@ -427,7 +427,7 @@ public static class TimeLordEventHandlers
             {
                 var eventQueue = GetEventQueue();
                 var historySeconds = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 120f);
-                var snapshotTime = UnityEngine.Time.time;
+                var snapshotTime = Time.time;
                 var startTime = snapshotTime - historySeconds;
                 var endTime = snapshotTime;
 

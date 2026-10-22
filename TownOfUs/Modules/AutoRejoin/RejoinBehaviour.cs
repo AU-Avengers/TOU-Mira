@@ -80,7 +80,7 @@ public class RejoinBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     {
         Info("[AutoRejoin] Looking for PlayAgainButton...");
 
-        var buttons = Object.FindObjectsOfType<PassiveButton>();
+        var buttons = FindObjectsOfType<PassiveButton>();
         foreach (var btn in buttons)
         {
             if (btn.gameObject.name == "PlayAgainButton")

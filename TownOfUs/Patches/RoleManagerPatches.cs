@@ -1025,13 +1025,13 @@ public static class TouRoleManagerPatches
         }
 
         var distrib = OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution();
-        if (distrib is RoleDistribution.Draft && TownOfUs.Modules.DraftMode.DraftApplier.PendingDraftStates.Count > 0)
+        if (distrib is RoleDistribution.Draft && Modules.DraftMode.DraftApplier.PendingDraftStates.Count > 0)
         {
-            var draftedPlayers = TownOfUs.Modules.DraftMode.DraftApplier.PendingDraftStates
+            var draftedPlayers = Modules.DraftMode.DraftApplier.PendingDraftStates
                 .Select(state => state.PlayerId)
                 .ToHashSet();
-            TownOfUs.Modules.DraftMode.DraftApplier.ApplyDraftResults(TownOfUs.Modules.DraftMode.DraftApplier.PendingDraftStates);
-            TownOfUs.Modules.DraftMode.DraftApplier.PendingDraftStates.Clear();
+            Modules.DraftMode.DraftApplier.ApplyDraftResults(Modules.DraftMode.DraftApplier.PendingDraftStates);
+            Modules.DraftMode.DraftApplier.PendingDraftStates.Clear();
 
             foreach (var p in PlayerControl.AllPlayerControls)
             {

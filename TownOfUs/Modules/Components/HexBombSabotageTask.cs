@@ -111,7 +111,7 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
                 else
                 {
                     var deathAnim = AnimStore.SpawnAnimBody(PlayerControl.LocalPlayer, TouAssets.HexBombDeathPrefab);
-                    var redBg = Object.Instantiate(HudManager.Instance.FullScreen,
+                    var redBg = Instantiate(HudManager.Instance.FullScreen,
                         deathAnim.transform.GetParent().transform);
                     deathAnim.name = "Disintegrate Animation";
                     redBg.gameObject.name = "Red Background";

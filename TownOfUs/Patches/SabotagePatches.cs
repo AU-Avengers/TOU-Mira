@@ -69,7 +69,7 @@ public static class SabotagePatches
     {
         if (__instance.IsDirty)
         {
-            TownOfUs.Achievements.TouAchievementEvents.OnSabotageStart();
+            Achievements.TouAchievementEvents.OnSabotageStart();
         }
     }
 

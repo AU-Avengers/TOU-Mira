@@ -408,7 +408,7 @@ namespace TownOfUs.Modules.DraftMode
             Color color = role ? role.TeamColor : Color.white;
             string description = DraftUiManager.GetRoleDescription(role);
 
-            _roleCardNewRoleObj = UnityEngine.Object.Instantiate(
+            _roleCardNewRoleObj = Instantiate(
                 _cachedRolePrefab, HudManager.Instance.transform);
             _roleCardNewRoleObj.name = "DraftChosenRoleCard";
 
@@ -525,14 +525,14 @@ namespace TownOfUs.Modules.DraftMode
             try
             {
                 var r = DraftUiManager.ResolveRole(roleId);
-                if (TownOfUs.Patches.HudManagerPatches.UseVanillaWiki)
+                if (Patches.HudManagerPatches.UseVanillaWiki)
                 {
                     if (r == null) return;
 
                     _roleCardNewRoleObj?.SetActive(false);
 
                     MatchInfoGuide.Instance.Open();
-                    Coroutines.Start(TownOfUs.Modules.Components.WikiHyperlink.CoLoadAdvancedWiki(r, null));
+                    Coroutines.Start(Components.WikiHyperlink.CoLoadAdvancedWiki(r, null));
                     Coroutines.Start(CoWaitForGuideClosed());
                     return;
                 }
@@ -546,7 +546,7 @@ namespace TownOfUs.Modules.DraftMode
 
                 _roleCardNewRoleObj?.SetActive(false);
 
-                var wiki = TownOfUs.Modules.Wiki.IngameWikiMinigame.Create();
+                var wiki = IngameWikiMinigame.Create();
                 wiki.Begin(null);
                 wiki.OpenFor(wikiTarget);
 
@@ -901,7 +901,7 @@ namespace TownOfUs.Modules.DraftMode
             _hiddenHudChildren.RemoveAll(go => go == null);
 
             if (_cachedGsm == null)
-                _cachedGsm = UnityEngine.Object.FindObjectOfType<GameStartManager>();
+                _cachedGsm = FindObjectOfType<GameStartManager>();
             if (_cachedGsm != null && _cachedGsm.gameObject.activeSelf)
             {
                 _cachedGsm.gameObject.SetActive(false);
@@ -910,7 +910,7 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             if (_cachedLobbyPane == null)
-                _cachedLobbyPane = UnityEngine.Object.FindObjectOfType<LobbyInfoPane>();
+                _cachedLobbyPane = FindObjectOfType<LobbyInfoPane>();
             if (_cachedLobbyPane != null && _cachedLobbyPane.gameObject.activeSelf)
             {
                 _cachedLobbyPane.gameObject.SetActive(false);

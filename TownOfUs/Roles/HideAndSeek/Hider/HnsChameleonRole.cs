@@ -90,7 +90,7 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
         {
             return;
         }
-        if (base.isActiveAndEnabled && !IsCoolingDown)
+        if (isActiveAndEnabled && !IsCoolingDown)
         {
             inVentTimeRemaining = GetVentTime();
             bool flag3 = localPlayer.inVent && !localPlayer.walkingToVent;
@@ -147,7 +147,7 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
                 HudManager.Instance.AbilityButton.SetFillUp(inVentTimeRemaining, ventTime);
             }
 
-            if ((inVentTimeRemaining < 0f || base.CommsSabotaged) && base.isActiveAndEnabled && currentTarget &&
+            if ((inVentTimeRemaining < 0f || CommsSabotaged) && isActiveAndEnabled && currentTarget &&
                 !isExitVentQueued)
             {
                 Vent.currentVent.SetButtons(false);

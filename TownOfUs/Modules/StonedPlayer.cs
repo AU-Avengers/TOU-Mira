@@ -217,7 +217,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
             var sync = syncs[i];
             if (sync != null)
             {
-                Object.Destroy(sync);
+                Destroy(sync);
             }
         }
 
@@ -289,7 +289,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         }
 
         FakePlayers.Add(this);
-        var stone = Object.Instantiate(TouAssets.MedusaStonedPlayer.LoadAsset(), body.transform);
+        var stone = Instantiate(TouAssets.MedusaStonedPlayer.LoadAsset(), body.transform);
         stone.transform.localPosition = new Vector3(_cosmicInfo.FlipX ? 0.05f : -0.01f, 0.2f);
 
         _stoneAnim = stone.GetComponent<SpriteAnim>();
@@ -375,7 +375,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
     private SpriteRenderer CreateBodyImage(PlayerCosmicInfo info)
     {
-        var spriteRenderer = Object.Instantiate(info.Cosmetics.currentBodySprite.BodySprite, body!.transform);
+        var spriteRenderer = Instantiate(info.Cosmetics.currentBodySprite.BodySprite, body!.transform);
 
         spriteRenderer.flipX = info.FlipX;
         spriteRenderer.transform.localScale = Scale;
@@ -385,7 +385,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
     private CosmeticsLayer CreateCosmetics(SpriteRenderer playerImage, PlayerCosmicInfo info)
     {
-        var cosmeticsLayer = Object.Instantiate(AmongUsClient.Instance.PlayerPrefab.cosmetics, body!.transform);
+        var cosmeticsLayer = Instantiate(AmongUsClient.Instance.PlayerPrefab.cosmetics, body!.transform);
         var basePayerBodySprite = info.Cosmetics.currentBodySprite;
 
         var playerBodySprite = new PlayerBodySprite
@@ -398,7 +398,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
         for (var i = 0; i < info.Cosmetics.currentBodySprite.LongModeParts.Length; ++i)
         {
-            var newSprite = Object.Instantiate(
+            var newSprite = Instantiate(
                 info.Cosmetics.currentBodySprite.LongModeParts[i],
                 cosmeticsLayer.transform);
 
@@ -430,7 +430,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         var emptyPet = body!.transform.Find(DefaultPetName);
         if (emptyPet != null)
         {
-            Object.Destroy(emptyPet.gameObject);
+            Destroy(emptyPet.gameObject);
         }
 
         var petId = cosmicInfo.OutfitInfo.PetId;
@@ -439,7 +439,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         {
             var preBehaviourPrefab = ShipStatus.Instance.CosmeticsCache.GetPet(petId);
 
-            var petBehaviour = Object.Instantiate(preBehaviourPrefab, body.transform);
+            var petBehaviour = Instantiate(preBehaviourPrefab, body.transform);
             petBehaviour.SetCrewmateColor(colorId);
             petBehaviour.transform.localPosition = Vector2.zero +
                                                    (flipX
@@ -497,7 +497,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
         var baseObject = baseParentTrans.gameObject;
 
-        var nameObj = Object.Instantiate(baseObject, parent.transform);
+        var nameObj = Instantiate(baseObject, parent.transform);
         nameObj.transform.localScale = player.gameObject.transform.localScale;
         nameObj.transform.localPosition = baseObject.transform.localPosition;
         nameObj.transform.localPosition -= new Vector3(0f, 0.247f, 0f);
@@ -559,7 +559,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         var info = nameTextObjct.transform.FindChild("Info");
         if (info != null)
         {
-            Object.Destroy(info.gameObject);
+            Destroy(info.gameObject);
         }
     }
 
@@ -595,7 +595,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         var component = obj.GetComponent<T>();
         if (component != null)
         {
-            Object.Destroy(component);
+            Destroy(component);
         }
     }
 

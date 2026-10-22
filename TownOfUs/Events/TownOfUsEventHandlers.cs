@@ -316,9 +316,9 @@ public static class TownOfUsEventHandlers
     public static void StartMeetingEventHandler(StartMeetingEvent _)
     {
         // Reset team chat state when a new meeting starts
-        Patches.Options.TeamChatPatches.TeamChatActive = false;
-        Patches.Options.TeamChatPatches.CurrentChatIndex = -1;
-        Patches.Options.TeamChatPatches.TeamChatManager.ClearAllUnread();
+        TeamChatPatches.TeamChatActive = false;
+        TeamChatPatches.CurrentChatIndex = -1;
+        TeamChatPatches.TeamChatManager.ClearAllUnread();
 
         // Incase the kill animation is stuck somehow
         // HudManager.Instance.KillOverlay.gameObject.SetActive(false);

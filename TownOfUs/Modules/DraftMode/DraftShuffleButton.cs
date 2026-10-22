@@ -84,7 +84,7 @@ public sealed class DraftShuffleButton : TownOfUsButton
         [HarmonyPostfix]
         public static void Postfix()
         {
-            DraftShuffleButton.HideAndReset();
+            HideAndReset();
         }
     }
 
@@ -95,7 +95,7 @@ public sealed class DraftShuffleButton : TownOfUsButton
         [HarmonyPostfix]
         public static void Postfix()
         {
-            DraftShuffleButton.HideAndReset();
+            HideAndReset();
         }
     }
 }

@@ -142,7 +142,7 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
                 $"<link=\"{linkId}\"><i>").Replace(
                 // close italic before link closes
                 $"</link>",
-                $"</i></link>", System.StringComparison.Ordinal);
+                $"</i></link>", StringComparison.Ordinal);
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -216,14 +216,14 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
     {
         if (_tooltipGo != null) return;
 
-        var pingTracker = UnityEngine.Object.FindObjectOfType<PingTracker>(true);
+        var pingTracker = FindObjectOfType<PingTracker>(true);
         if (pingTracker == null) return;
 
-        _tooltipGo = UnityEngine.Object.Instantiate(pingTracker.gameObject, HudManager.Instance.transform);
+        _tooltipGo = Instantiate(pingTracker.gameObject, HudManager.Instance.transform);
         _tooltipGo.name = "BucketTooltipText";
 
         var pt = _tooltipGo.GetComponent<PingTracker>();
-        if (pt != null) UnityEngine.Object.Destroy(pt);
+        if (pt != null) Destroy(pt);
 
         _tooltipAp = _tooltipGo.GetComponent<AspectPosition>();
         _tooltipAp.Alignment = AspectPosition.EdgeAlignments.LeftTop;

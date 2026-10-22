@@ -617,7 +617,7 @@ namespace TownOfUs.Modules.DraftMode
             float spacing = 0f,
             string description = "")
         {
-            var newRoleObj = UnityEngine.Object.Instantiate(rolePrefab, rolesHolder);
+            var newRoleObj = Instantiate(rolePrefab, rolesHolder);
             var actualCard = newRoleObj!.transform.GetChild(0);
             var roleText = actualCard.GetChild(0).GetComponent<TextMeshPro>();
             var roleImage = actualCard.GetChild(1).GetComponent<SpriteRenderer>();

@@ -46,7 +46,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
         var showProtectFairy = PlayerControl.LocalPlayer.PlayerId == ga?.Player.PlayerId &&
                             showProtect is ProtectOptions.Fairy or ProtectOptions.SelfAndFairy;
 
-        var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
+        var body = Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
         var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 

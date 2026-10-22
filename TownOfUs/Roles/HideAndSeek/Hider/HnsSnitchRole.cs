@@ -73,7 +73,7 @@ public sealed class HnsSnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         {
             return;
         }
-        if (base.isActiveAndEnabled && !IsCoolingDown)
+        if (isActiveAndEnabled && !IsCoolingDown)
         {
             inVentTimeRemaining = GetVentTime();
             bool flag3 = localPlayer.inVent && !localPlayer.walkingToVent;
@@ -130,7 +130,7 @@ public sealed class HnsSnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
                 HudManager.Instance.AbilityButton.SetFillUp(inVentTimeRemaining, ventTime);
             }
 
-            if ((inVentTimeRemaining < 0f || base.CommsSabotaged) && base.isActiveAndEnabled && currentTarget &&
+            if ((inVentTimeRemaining < 0f || CommsSabotaged) && isActiveAndEnabled && currentTarget &&
                 !isExitVentQueued)
             {
                 Vent.currentVent.SetButtons(false);
