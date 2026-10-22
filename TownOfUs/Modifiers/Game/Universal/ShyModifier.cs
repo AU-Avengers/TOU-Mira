@@ -126,7 +126,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         {
             LastMoved = DateTime.UtcNow;
         }
-        
+
         if (HexBombSabotageSystem.BombFinished)
         {
             SetVisibility(Player, 1f);

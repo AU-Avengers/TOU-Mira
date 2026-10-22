@@ -53,7 +53,7 @@ public static class TimeLordRewindSystem
     private static readonly TimeLord.TaskStepBuffer TaskBuffer = new(1024, 24);
     private static uint[] _trackedTaskIds = [];
     private static int _trackedTaskCount;
-    
+
 
     private static bool _colliderWasEnabled;
     private static bool _rewindDisabledLocalCollider;
@@ -288,7 +288,7 @@ public static class TimeLordRewindSystem
             }
             catch
             {
-               // ignored
+                // ignored
             }
 
             return null;
@@ -327,7 +327,7 @@ public static class TimeLordRewindSystem
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
 
@@ -356,7 +356,7 @@ public static class TimeLordRewindSystem
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
 
@@ -396,7 +396,7 @@ public static class TimeLordRewindSystem
         {
             var npt = normalTask.Cast<NormalPlayerTask>();
             taskStep = npt.taskStep;
-            
+
             if (taskStep == 0)
             {
                 var taskType = npt.TaskType;
@@ -437,7 +437,7 @@ public static class TimeLordRewindSystem
 
         var now = DateTime.UtcNow;
         HostTaskCompletions.Add(new HostTaskCompletion(player.PlayerId, task.Id, now, taskStep));
-        
+
         // Also store in the step map for immediate use
         _hostTaskStepMap ??= [];
         _hostTaskStepMap[(player.PlayerId, task.Id)] = taskStep;
@@ -450,7 +450,7 @@ public static class TimeLordRewindSystem
                 HostTaskCompletions.RemoveAt(i);
             }
         }
-        
+
         // Clean up old entries from step map
         if (_hostTaskStepMap.Count > 128)
         {
@@ -499,7 +499,7 @@ public static class TimeLordRewindSystem
     {
         var player = MiscUtils.PlayerById(x.PlayerId);
         if (player == null) return false;
-        
+
         foreach (var t in player.myTasks.ToArray())
         {
             if (t == null || t.Id != x.TaskId) continue;
@@ -528,7 +528,7 @@ public static class TimeLordRewindSystem
         // Convert to the format expected by ConfigureHostTaskUndos
         var simpleSchedule = schedule.Select(x => (x.PlayerId, x.TaskId, x.TriggerAtSeconds)).ToList();
         ConfigureHostTaskUndos(simpleSchedule);
-        
+
         // Store task steps for later use in UndoTask
         _hostTaskStepMap ??= [];
         foreach (var (PlayerId, TaskId, _, TaskStep) in schedule)
@@ -571,7 +571,7 @@ public static class TimeLordRewindSystem
         }
 
         var lp = PlayerControl.LocalPlayer;
-        
+
         // Only record snapshots when player is alive (not dead/ghost)
         if (lp.Data.IsDead || lp.Data.Role is IRewindImmune immune && immune.IgnoredByRecording)
         {
@@ -588,7 +588,7 @@ public static class TimeLordRewindSystem
         var countBefore = Buffer.Count;
         Buffer.RemoveOlderThan(retentionCutoff);
         var removedCount = countBefore - Buffer.Count;
-        
+
         if (removedCount > 0)
         {
             TaskBuffer.RemoveCount(removedCount);
@@ -939,7 +939,7 @@ public static class TimeLordRewindSystem
 
             var sample = samples[idx];
             var restoredTimer = sample.Timer;
-            
+
             if (!sample.EffectActive)
             {
                 if (KillButtonCooldownMaxClampedThisRewind.Contains(button))
@@ -964,7 +964,7 @@ public static class TimeLordRewindSystem
                     }
                 }
             }
-            
+
             if (Mathf.Abs(button.Timer - restoredTimer) > 0.01f || button.EffectActive != sample.EffectActive)
             {
                 button.Timer = restoredTimer;
@@ -988,14 +988,14 @@ public static class TimeLordRewindSystem
 
         const float sampleInterval = 0.5f;
         var now = Time.time;
-        
+
         if (now - _lastKillCooldownSampleTime < sampleInterval)
         {
             return;
         }
 
         var currentCooldown = player.killTimer;
-        
+
         if (_lastKillCooldownValue >= 0f && Mathf.Abs(currentCooldown - _lastKillCooldownValue) > 0.1f)
         {
             TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordKillCooldown(
@@ -1114,7 +1114,7 @@ public static class TimeLordRewindSystem
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
 
@@ -1127,15 +1127,15 @@ public static class TimeLordRewindSystem
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
 
         // Exempt ghosts and ghost roles from Time Lord effects
-        var isGhost = PlayerControl.LocalPlayer.Data.IsDead || 
-                      PlayerControl.LocalPlayer.Data.Role is IGhostRole || 
+        var isGhost = PlayerControl.LocalPlayer.Data.IsDead ||
+                      PlayerControl.LocalPlayer.Data.Role is IGhostRole ||
                       PlayerControl.LocalPlayer.Data.Role is IRewindImmune immune && immune.IgnoredByRewind;
-        
+
         if (!isGhost)
         {
             PlayerControl.LocalPlayer.NetTransform.Halt();
@@ -1169,7 +1169,7 @@ public static class TimeLordRewindSystem
         Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.TimeLord, duration, 0.25f));
 
         ConfigureLocalBodyRestores(duration, history);
-        
+
         // Schedule event-based undos
         var eventQueue = TownOfUs.Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
         var historySeconds = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 120f);
@@ -1409,7 +1409,7 @@ public static class TimeLordRewindSystem
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
 
@@ -1506,10 +1506,10 @@ public static class TimeLordRewindSystem
         ProcessHostScheduledRewindActions();
 
         // Exempt ghosts and ghost roles from Time Lord effects - they can move freely
-        var isGhost = PlayerControl.LocalPlayer.Data.IsDead || 
-                      PlayerControl.LocalPlayer.Data.Role is IGhostRole || 
+        var isGhost = PlayerControl.LocalPlayer.Data.IsDead ||
+                      PlayerControl.LocalPlayer.Data.Role is IGhostRole ||
                       PlayerControl.LocalPlayer.Data.Role is IRewindImmune immune && immune.IgnoredByRewind;
-        
+
         if (isGhost)
         {
             if (Time.time >= RewindEndTime)
@@ -1700,7 +1700,7 @@ public static class TimeLordRewindSystem
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
 
@@ -1880,7 +1880,7 @@ return true;*/
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
 
@@ -1890,9 +1890,9 @@ return true;*/
         try { lp.MyPhysics?.ResetAnimState(); } catch { /* ignored */ }
 
         // Only apply final snap position if we're still in a valid game state and the position is valid
-        if (_hasFinalSnapPos && !endedInVent && 
-            AmongUsClient.Instance && 
-            (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started || 
+        if (_hasFinalSnapPos && !endedInVent &&
+            AmongUsClient.Instance &&
+            (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started ||
              AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay) &&
             IsValidSnapshotPos(lp, _finalSnapPos))
         {
@@ -2198,26 +2198,26 @@ return true;*/
         var eventQueue = TownOfUs.Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
         var rewindWindowStart = _rewindHistoryCutoffTime;
         var rewindWindowEnd = _rewindStartTime; // Time when rewind started
-        
+
         var killCooldownEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillCooldownEvent>(rewindWindowStart, rewindWindowEnd);
-        
+
         TownOfUs.Events.TouEvents.TimeLordKillCooldownEvent? mostRecentEvent = null;
         foreach (var kcEvent in killCooldownEvents)
         {
-            if (kcEvent.Player == player && kcEvent.Time <= snapshotTime && 
+            if (kcEvent.Player == player && kcEvent.Time <= snapshotTime &&
                 (mostRecentEvent == null || kcEvent.Time > mostRecentEvent.Time))
             {
                 mostRecentEvent = kcEvent;
             }
         }
-        
+
         if (mostRecentEvent != null)
         {
             var timeSinceEvent = snapshotTime - mostRecentEvent.Time;
             var expectedCooldown = Mathf.Max(0f, mostRecentEvent.CooldownAfter - timeSinceEvent);
-            
+
             var maxKillCooldown = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
-            
+
             if (!LocalKillCooldownMaxClampedThisRewind)
             {
                 var killEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillEvent>(rewindWindowStart, rewindWindowEnd);
@@ -2240,11 +2240,11 @@ return true;*/
             {
                 expectedCooldown = maxKillCooldown;
             }
-            
+
             var maxvalue = expectedCooldown > maxKillCooldown
                 ? expectedCooldown + 1f
                 : maxKillCooldown;
-            
+
             player.killTimer = Mathf.Clamp(expectedCooldown, 0, maxvalue);
             if (HudManager.InstanceExists && HudManager.Instance.KillButton != null)
             {
@@ -2365,7 +2365,7 @@ return true;*/
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
 
@@ -2383,7 +2383,7 @@ return true;*/
             {
                 var n = normal.Cast<NormalPlayerTask>();
                 var taskType = n.TaskType;
-                
+
                 // Exception: Don't undo tasks that consume objects (objects are removed on completion)
                 // These tasks would softlock if undone because the objects can't be restored
                 if (taskType is TaskTypes.PickUpTowels or TaskTypes.SortRecords)
@@ -2409,12 +2409,12 @@ return true;*/
             if (normal != null)
             {
                 var n = normal.Cast<NormalPlayerTask>();
-                
+
                 // Try to restore to the step before completion
                 int restoreStep = 0;
                 bool foundStoredStep = false;
                 int storedStep = 0;
-                
+
                 // First, try to get the stored step from when the task was completed
                 if (_hostTaskStepMap != null && _hostTaskStepMap.TryGetValue((targetPlayerId, taskId), out storedStep))
                 {
@@ -2423,12 +2423,12 @@ return true;*/
                     restoreStep = Math.Max(0, storedStep - 1);
                     foundStoredStep = true;
                 }
-                
+
                 // For tasks excluded from local step tracking, use special handling
                 var taskType = n.TaskType;
-                if (!foundStoredStep || taskType is TaskTypes.InspectSample or TaskTypes.FuelEngines or global::TaskTypes.ExtractFuel 
-                    or TaskTypes.ChartCourse or TaskTypes.UploadData or TaskTypes.SortRecords or TaskTypes.OpenWaterways 
-                    or TaskTypes.EmptyGarbage or TaskTypes.EmptyChute or TaskTypes.SubmitScan or TaskTypes.RebootWifi 
+                if (!foundStoredStep || taskType is TaskTypes.InspectSample or TaskTypes.FuelEngines or global::TaskTypes.ExtractFuel
+                    or TaskTypes.ChartCourse or TaskTypes.UploadData or TaskTypes.SortRecords or TaskTypes.OpenWaterways
+                    or TaskTypes.EmptyGarbage or TaskTypes.EmptyChute or TaskTypes.SubmitScan or TaskTypes.RebootWifi
                     or TaskTypes.WaterPlants or TaskTypes.PickUpTowels or TaskTypes.DevelopPhotos)
                 {
                     // For these special tasks, handle based on task type
@@ -2488,7 +2488,7 @@ return true;*/
                         restoreStep = 0;
                     }
                 }
-                
+
                 n.taskStep = restoreStep;
                 n.Initialize();
                 n.UpdateArrowAndLocation();
@@ -2612,7 +2612,7 @@ return true;*/
         {
             pos = new Vector2(body.TruePosition.x, body.TruePosition.y + 0.3636f);
         }
-        
+
         var timeLord = SourceTimeLordId != byte.MaxValue ? MiscUtils.PlayerById(SourceTimeLordId) : null;
         var isTemp = OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value is RewindRevive.UntilNextRound;
         var revivedText = MiraLocaleManager.Get("TownOfUsMira.Role.TimeLordRevivedNotif", "You were revived thanks to the Time Lord!");

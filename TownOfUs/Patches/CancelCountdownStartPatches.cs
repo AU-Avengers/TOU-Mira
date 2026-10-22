@@ -61,7 +61,7 @@ internal static class CancelCountdownStart
         var opts = OptionGroupSingleton<RoleOptions>.Instance;
         if (opts.CurrentRoleDistribution() is RoleDistribution.Draft)
         {
-            
+
             var recapModeText = opts.DraftRecap.Value switch
             {
                 DraftRecapMode.Role => MiraLocaleManager.Get(

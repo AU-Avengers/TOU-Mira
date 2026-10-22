@@ -351,7 +351,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         {
             return;
         }
-        
+
         _cosmeticsLayer.nameText.color = _cosmeticsLayer.nameText.color.SetAlpha(1f);
 
         _colorBindTextObj.SetActive(false);

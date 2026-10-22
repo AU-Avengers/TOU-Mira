@@ -60,7 +60,7 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
             RemoveSelf();
             return;
         }
-        
+
         var hide = SwoopModifier.CanBeTracked == SwoopTracking.Never &&
                    Player.HasModifier<SwoopModifier>();
 

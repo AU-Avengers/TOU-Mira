@@ -99,52 +99,52 @@ public static class DeathEventHandlers
         var target = murderEvent.Target;
         var stats = GameHistory.PlayerStats[target.PlayerId];
 
-            if (stats.LockDeathInfo)
+        if (stats.LockDeathInfo)
+        {
+            return;
+        }
+
+        stats.PlayerState = StoredPlayerState.Dead;
+        if (target == source)
+        {
+            var role = target.GetRoleWhenAlive();
+            var text = MiraLocaleManager.Get("DiedToSuicide");
+
+            if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS" &&
+                MiraLocaleManager.Get($"DiedToSuicide{touRole.IdPart}") != $"DiedToSuicide{touRole.IdPart}")
             {
-                return;
+                text = MiraLocaleManager.Get($"DiedToSuicide{touRole.IdPart}");
             }
 
-            stats.PlayerState = StoredPlayerState.Dead;
-            if (target == source)
+            stats.DeathString = text;
+            stats.DiedThisRound = !MeetingHud.Instance && !ExileController.Instance;
+            stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
+            stats.LockDeathInfo = true;
+        }
+        else
+        {
+            var role = source.GetRoleWhenAlive();
+            var cod = "Killer";
+
+            var roleToCheck = role is MirrorcasterRole mirror ? mirror.ContainedRole ?? mirror : role;
+            var IdPart = roleToCheck.GetRoleIdPart();
+            if (IdPart != "KEY_MISS" &&
+                MiraLocaleManager.Get($"DiedTo{IdPart}") != $"DiedTo{IdPart}")
             {
-                var role = target.GetRoleWhenAlive();
-                var text = MiraLocaleManager.Get("DiedToSuicide");
-
-                if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS" &&
-                    MiraLocaleManager.Get($"DiedToSuicide{touRole.IdPart}") != $"DiedToSuicide{touRole.IdPart}")
-                {
-                    text = MiraLocaleManager.Get($"DiedToSuicide{touRole.IdPart}");
-                }
-
-                stats.DeathString = text;
-                stats.DiedThisRound = !MeetingHud.Instance && !ExileController.Instance;
-                stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
-                stats.LockDeathInfo = true;
+                cod = IdPart;
             }
-            else
+
+            if (source.Data.Role is IGhostRole && source.Data.Role is ITownOfUsRole touRole)
             {
-                var role = source.GetRoleWhenAlive();
-                var cod = "Killer";
-            
-                var roleToCheck = role is MirrorcasterRole mirror ? mirror.ContainedRole ?? mirror : role;
-                var IdPart = roleToCheck.GetRoleIdPart();
-                if (IdPart != "KEY_MISS" &&
-                    MiraLocaleManager.Get($"DiedTo{IdPart}") != $"DiedTo{IdPart}")
-                {
-                    cod = IdPart;
-                }
-
-                if (source.Data.Role is IGhostRole && source.Data.Role is ITownOfUsRole touRole)
-                {
-                    cod = touRole.IdPart;
-                }
-
-                stats.DeathString = MiraLocaleManager.Get($"DiedTo{cod}");
-                stats.KilledBy =
-                    MiraLocaleManager.Get("DiedByStringBasic").Replace("<player>", source.Data.PlayerName);
-                stats.DiedThisRound = !MeetingHud.Instance && !ExileController.Instance;
-                stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
+                cod = touRole.IdPart;
             }
+
+            stats.DeathString = MiraLocaleManager.Get($"DiedTo{cod}");
+            stats.KilledBy =
+                MiraLocaleManager.Get("DiedByStringBasic").Replace("<player>", source.Data.PlayerName);
+            stats.DiedThisRound = !MeetingHud.Instance && !ExileController.Instance;
+            stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
+        }
     }
 
     [RegisterEvent]

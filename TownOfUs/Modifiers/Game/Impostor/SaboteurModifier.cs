@@ -11,9 +11,9 @@ public sealed class SaboteurModifier : TouGameModifier, IWikiDiscoverable
         TownOfUsColors.Impostor,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Saboteur,
             "TouMira.Modifier.Impostor.Saboteur", 1.45f));
-public override string IdPart => "Saboteur";
-public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
-public override string IntroInfo => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
+    public override string IdPart => "Saboteur";
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
     public override Color FreeplayFileColor => new Color32(255, 25, 25, 255);
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Saboteur;

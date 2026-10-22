@@ -287,7 +287,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
                 try
                 {
                     NetTransformBacklogUtils.FlushBacklog(target);
-                    
+
                     if (target.AmOwner)
                     {
                         target.NetTransform.SnapTo(finalPos);
@@ -386,8 +386,8 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         IUsable? closestInteractable = null;
 
         var cached = ControlledPlayerInteractionPatches.GetCachedInteractables();
-        var interactablesToCheck = cached != null && cached.Count > 0 
-            ? cached 
+        var interactablesToCheck = cached != null && cached.Count > 0
+            ? cached
             : GetInteractablesList();
 
         const float maxCheckDistance = 5f;

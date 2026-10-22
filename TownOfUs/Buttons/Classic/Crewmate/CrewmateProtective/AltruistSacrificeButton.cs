@@ -104,7 +104,7 @@ public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, D
     private void UpdateUsesCounterVisibility()
     {
         if (Button == null) return;
-        
+
         if (OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive)
         {
             Button.usesRemainingText.gameObject.SetActive(false);

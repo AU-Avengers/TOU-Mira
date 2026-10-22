@@ -62,7 +62,7 @@ public static class MapDoorPatches
             ShipStatus.Instance.UpdateSystem(systemType, PlayerControl.LocalPlayer, msgReader);
         }
     }
-    
+
     [HarmonyPatch(typeof(InfectedOverlay), nameof(InfectedOverlay.CanUseDoors), MethodType.Getter)]
     [HarmonyPrefix]
     public static bool CanUseDoors(InfectedOverlay __instance, ref bool __result)
@@ -70,7 +70,7 @@ public static class MapDoorPatches
         __result = ShipStatus.Instance.Type == ShipStatus.MapType.Pb && ActiveDoorType is not MapDoorType.Skeld || !__instance.sabSystem.AnyActive;
         return false;
     }
-    
+
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RpcCloseDoorsOfType))]
     [HarmonyPrefix]
     public static bool RpcCloseDoorsOfType(ShipStatus __instance, SystemTypes type)
@@ -79,7 +79,7 @@ public static class MapDoorPatches
         {
             return true;
         }
-        
+
         if (AmongUsClient.Instance.AmHost)
         {
             __instance.CloseDoorsOfType(type);
@@ -90,7 +90,7 @@ public static class MapDoorPatches
         AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
         return false;
     }
-    
+
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RpcUpdateSystem), typeof(SystemTypes), typeof(byte))]
     [HarmonyPrefix]
     public static bool RpcUpdateSystem(ShipStatus __instance, SystemTypes systemType, byte amount)
@@ -308,7 +308,7 @@ public static class MapDoorPatches
         foreach (var door in doors)
         {
             var autoDoor = door.GetComponent<AutoOpenDoor>();
-            
+
             var animator = door.GetComponent<SpriteAnim>();
             var closeDoorAnim = autoDoor.CloseDoorAnim;
             var closeSound = autoDoor.CloseSound;
@@ -338,7 +338,7 @@ public static class MapDoorPatches
             plainDoor.SetDoorway(plainDoor.Open);
             consoleDoor.MinigamePrefab = doorMinigame;
             consoleDoor.MyDoor = plainDoor;
-            
+
             var vector = plainDoor.myCollider.size;
             plainDoor.size = ((vector.x > vector.y) ? vector.y : vector.x);
             plainDoor.Open = plainDoor.myCollider.isTrigger;

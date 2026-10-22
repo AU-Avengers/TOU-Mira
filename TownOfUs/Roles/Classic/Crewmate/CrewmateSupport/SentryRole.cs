@@ -161,7 +161,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                     var sr = cam.gameObject?.GetComponent<SpriteRenderer>();
                     var isPending = (sr != null && sr.color.a < 0.99f);
 
-                   var remainingText = duration == 0
+                    var remainingText = duration == 0
                     ? string.Empty
                     : MiraLocaleManager.Get("TownOfUsMira.Role.SentryCameraRounds",
                             " (<rounds> rounds)")
@@ -206,7 +206,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                         room = $"({pos.x:0.0}, {pos.y:0.0})";
                     }
                     var placingText = MiraLocaleManager.Get("TownOfUsMira.Role.SentryPlacing", "(Placing...)");
-                    stringB.AppendLine(TownOfUsPlugin.Culture, 
+                    stringB.AppendLine(TownOfUsPlugin.Culture,
                         $"• <color=#BFBFBF>{room} <size=60%>{placingText}</size></color>");
                 }
             }

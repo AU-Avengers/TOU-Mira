@@ -33,7 +33,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
     {
         TimeRemaining -= time;
         _dirtyTimer += time;
-            
+
         if (_dirtyTimer > 2f)
         {
             _dirtyTimer = 0f;
@@ -145,9 +145,9 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
     }
 
     public void MarkClean()
-	{
-		IsDirty = false;
-	}
+    {
+        IsDirty = false;
+    }
 }
 
 public enum HexBombStage

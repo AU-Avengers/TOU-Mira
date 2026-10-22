@@ -58,7 +58,7 @@ public static class TimeLordPatches
         }
 
         var player = __instance.myPlayer;
-        
+
         // Handle rewind for local player (including infected players - they're already recorded in normal snapshots)
         if (PlayerControl.LocalPlayer && player.AmOwner &&
             TimeLordRewindSystem.IsRewinding)

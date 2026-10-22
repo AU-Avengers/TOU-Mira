@@ -82,7 +82,7 @@ public sealed class DrinkSpillComponent(nint cppPtr) : MonoBehaviour(cppPtr)
             }
 
             if (!_affectedPlayers.Contains(player.PlayerId))
-                // Debug.Log(player.name + " contaminated the crime scene");
+            // Debug.Log(player.name + " contaminated the crime scene");
             {
                 if (player.AmOwner && LocalStage == SpillStage.Triggerable)
                 {

@@ -58,7 +58,7 @@ public static class UpCommandRequests
 
         // First try exact match (with and without spaces)
         // If exact match fails, try fuzzy matching (contains)
-        var role = 
+        var role =
             allRoles.FirstOrDefault(r =>
                 r.GetRoleName().Equals(roleName, StringComparison.OrdinalIgnoreCase) ||
                 r.GetRoleName().Replace(" ", "").Equals(roleName.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||

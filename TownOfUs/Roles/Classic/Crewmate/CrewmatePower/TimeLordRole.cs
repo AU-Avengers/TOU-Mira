@@ -96,7 +96,7 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
         var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 1f, 15f);

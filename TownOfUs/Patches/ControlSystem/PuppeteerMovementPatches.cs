@@ -94,7 +94,7 @@ public static class PuppeteerMovementPatches
             }
 
             var victim = puppeteer.Controlled;
-            
+
             if (victim == null || victim.Data == null || victim.HasDied() || victim.Data.Disconnected)
             {
                 return true;
@@ -133,18 +133,18 @@ public static class PuppeteerMovementPatches
                     AdvancedMovementUtilities.ApplyControlledMovement(victim.MyPhysics, dir, stopIfZero: true);
                 }
             }
-            
-            var victimPos = victim.MyPhysics?.body != null 
-                ? victim.MyPhysics.body.position 
+
+            var victimPos = victim.MyPhysics?.body != null
+                ? victim.MyPhysics.body.position
                 : (Vector2)victim.transform.position;
-            var victimVel = victim.MyPhysics?.body != null 
-                ? victim.MyPhysics.body.velocity 
+            var victimVel = victim.MyPhysics?.body != null
+                ? victim.MyPhysics.body.velocity
                 : Vector2.zero;
 
             SendControlledInputIfNeeded(victimId, dir, victimPos, victimVel);
 
             var puppeteerDir = Vector2.zero;
-            
+
             AdvancedMovementUtilities.ApplyControlledMovement(__instance, puppeteerDir, stopIfZero: true);
             return false;
         }
@@ -187,7 +187,7 @@ public static class PuppeteerMovementPatches
             {
                 AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
             }
-            
+
             if (pos != Vector2.zero)
             {
                 var currentPos = __instance.body != null ? __instance.body.position : (Vector2)__instance.myPlayer.transform.position;
@@ -198,12 +198,12 @@ public static class PuppeteerMovementPatches
                     __instance.myPlayer.transform.position = pos;
                 }
             }
-            
+
             if (__instance.body != null && vel != Vector2.zero)
             {
                 __instance.body.velocity = vel;
             }
-            
+
             return false;
         }
 
@@ -228,7 +228,7 @@ public static class PuppeteerMovementPatches
             var dir = PuppeteerControlState.GetDirection(player.PlayerId);
             var pos = PuppeteerControlState.GetPosition(player.PlayerId);
             var vel = PuppeteerControlState.GetVelocity(player.PlayerId);
-            
+
             if (dir == Vector2.zero)
             {
                 AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
@@ -237,7 +237,7 @@ public static class PuppeteerMovementPatches
             {
                 AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
             }
-            
+
             if (pos != Vector2.zero)
             {
                 var currentPos = __instance.body != null ? __instance.body.position : (Vector2)__instance.myPlayer.transform.position;
@@ -248,12 +248,12 @@ public static class PuppeteerMovementPatches
                     __instance.myPlayer.transform.position = pos;
                 }
             }
-            
+
             if (__instance.body != null && vel != Vector2.zero)
             {
                 __instance.body.velocity = vel;
             }
-            
+
             return false;
         }
 

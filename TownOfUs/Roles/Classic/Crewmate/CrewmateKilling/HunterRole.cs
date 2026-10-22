@@ -173,7 +173,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         }
 
         // this sound normally plays on the source only
-            SoundManager.Instance.PlaySound(hunter.KillSfx, false, 0.8f);
+        SoundManager.Instance.PlaySound(hunter.KillSfx, false, 0.8f);
 
         // this kill animations normally plays on the target only
         HudManager.Instance.KillOverlay.ShowKillAnimation(hunter.Data, target.Data);

@@ -105,7 +105,7 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
                 SoundDynamics(player, audio);
                 VibrationManager.Vibrate(1f, PlayerControl.LocalPlayer.GetTruePosition(), 7f, 1.2f);
             }
-            
+
             var deathArrowPrefab =
                 Object.Instantiate(noise.deathArrowPrefab, player.transform.position, Quaternion.identity);
 

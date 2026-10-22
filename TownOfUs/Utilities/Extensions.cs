@@ -530,7 +530,7 @@ public static class Extensions
         player.transform.position = pos;
         player.NetTransform.SnapTo(pos);
         var myPlayer = player.MyPhysics;
-        
+
         var vent = ShipStatus.Instance.AllVents.FirstOrDefault(v => v.Id == id);
         if (vent == null)
         {

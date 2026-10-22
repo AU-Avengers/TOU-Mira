@@ -417,7 +417,7 @@ public static class SentryCameraUiUtilities
             }
             catch
             {
-               // ignored
+                // ignored
             }
 
             if (_polusPageArrowSprite == null)

@@ -28,7 +28,7 @@ public static class ParasiteMovementPatches
     private static readonly Dictionary<byte, Vector2> _lastSentVel = [];
     private static readonly Dictionary<byte, float> _lastSentAt = [];
     private static readonly Dictionary<byte, Vector2> _localDesiredDir = [];
-    
+
     private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir, Vector2 position, Vector2 velocity)
     {
         if (!PlayerControl.LocalPlayer)
@@ -100,7 +100,7 @@ public static class ParasiteMovementPatches
             }
 
             var victim = parasite.Controlled;
-            
+
             if (victim == null || victim.Data == null || victim.HasDied() || victim.Data.Disconnected)
             {
                 return true;
@@ -142,12 +142,12 @@ public static class ParasiteMovementPatches
                     AdvancedMovementUtilities.ApplyControlledMovement(victim.MyPhysics, targetDir, stopIfZero: true);
                 }
             }
-            
-            var victimPos = victim.MyPhysics?.body != null 
-                ? victim.MyPhysics.body.position 
+
+            var victimPos = victim.MyPhysics?.body != null
+                ? victim.MyPhysics.body.position
                 : (Vector2)victim.transform.position;
-            var victimVel = victim.MyPhysics?.body != null 
-                ? victim.MyPhysics.body.velocity 
+            var victimVel = victim.MyPhysics?.body != null
+                ? victim.MyPhysics.body.velocity
                 : Vector2.zero;
 
             SendControlledInputIfNeeded(victimId, targetDir, victimPos, victimVel);
@@ -209,7 +209,7 @@ public static class ParasiteMovementPatches
                 // Apply direction directly - same as victim owner client
                 AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
             }
-            
+
             // Only correct position if there's a large desync (missed RPCs/lag)
             if (pos != Vector2.zero)
             {
@@ -221,13 +221,13 @@ public static class ParasiteMovementPatches
                     __instance.myPlayer.transform.position = pos;
                 }
             }
-            
+
             // Apply velocity directly if provided
             if (__instance.body != null && vel != Vector2.zero)
             {
                 __instance.body.velocity = vel;
             }
-            
+
             return false;
         }
 
@@ -252,7 +252,7 @@ public static class ParasiteMovementPatches
             var dir = ParasiteControlState.GetDirection(player.PlayerId);
             var pos = ParasiteControlState.GetPosition(player.PlayerId);
             var vel = ParasiteControlState.GetVelocity(player.PlayerId);
-            
+
             if (dir == Vector2.zero)
             {
                 AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
@@ -261,7 +261,7 @@ public static class ParasiteMovementPatches
             {
                 AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
             }
-            
+
             if (pos != Vector2.zero)
             {
                 var currentPos = __instance.body != null ? __instance.body.position : (Vector2)__instance.myPlayer.transform.position;
@@ -272,12 +272,12 @@ public static class ParasiteMovementPatches
                     __instance.myPlayer.transform.position = pos;
                 }
             }
-            
+
             if (__instance.body != null && vel != Vector2.zero)
             {
                 __instance.body.velocity = vel;
             }
-            
+
             return false;
         }
 

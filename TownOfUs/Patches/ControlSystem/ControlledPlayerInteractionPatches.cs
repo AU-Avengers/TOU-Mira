@@ -43,7 +43,7 @@ public static class ControlledPlayerInteractionPatches
         if (__instance.Data?.Role is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
         {
             var controlled = puppeteerRole.Controlled;
-            if (controlled != null && !controlled.HasDied() && 
+            if (controlled != null && !controlled.HasDied() &&
                 PuppeteerControlState.IsControlled(controlled.PlayerId, out _))
             {
                 __result = false;
@@ -54,7 +54,7 @@ public static class ControlledPlayerInteractionPatches
         if (__instance.Data?.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
         {
             var controlled = parasiteRole.Controlled;
-            if (controlled != null && !controlled.HasDied() && 
+            if (controlled != null && !controlled.HasDied() &&
                 ParasiteControlState.IsControlled(controlled.PlayerId, out _))
             {
                 __result = false;
@@ -81,7 +81,7 @@ public static class ControlledPlayerInteractionPatches
         if (localPlayer.Data?.Role is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
         {
             var controlled = puppeteerRole.Controlled;
-            if (controlled != null && !controlled.HasDied() && 
+            if (controlled != null && !controlled.HasDied() &&
                 PuppeteerControlState.IsControlled(controlled.PlayerId, out _))
             {
                 var (interactable, interactablePos) = FindClosestInteractable(controlled);
@@ -96,7 +96,7 @@ public static class ControlledPlayerInteractionPatches
         if (localPlayer.Data?.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
         {
             var controlled = parasiteRole.Controlled;
-            if (controlled != null && !controlled.HasDied() && 
+            if (controlled != null && !controlled.HasDied() &&
                 ParasiteControlState.IsControlled(controlled.PlayerId, out _))
             {
                 var (interactable, interactablePos) = FindClosestInteractable(controlled);
@@ -167,7 +167,7 @@ public static class ControlledPlayerInteractionPatches
         if (localPlayer.Data.Role is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
         {
             var controlled = puppeteerRole.Controlled;
-            if (controlled != null && !controlled.HasDied() && 
+            if (controlled != null && !controlled.HasDied() &&
                 PuppeteerControlState.IsControlled(controlled.PlayerId, out _))
             {
                 isControlling = true;
@@ -178,7 +178,7 @@ public static class ControlledPlayerInteractionPatches
         if (localPlayer.Data.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
         {
             var controlled = parasiteRole.Controlled;
-            if (controlled != null && !controlled.HasDied() && 
+            if (controlled != null && !controlled.HasDied() &&
                 ParasiteControlState.IsControlled(controlled.PlayerId, out _))
             {
                 isControlling = true;

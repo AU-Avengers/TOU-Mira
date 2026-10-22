@@ -104,7 +104,7 @@ public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRol
 
         _roleblockedTarget = Target;
 
-        NotifMessage = Helpers.CreateAndShowNotification($"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.BootleggerRoleblockChosen") .Replace("<player>", _roleblockedTarget.CachedPlayerData.PlayerName)}</b>",
+        NotifMessage = Helpers.CreateAndShowNotification($"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.BootleggerRoleblockChosen").Replace("<player>", _roleblockedTarget.CachedPlayerData.PlayerName)}</b>",
         Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Bootlegger);
         NotifMessage.Text.SetOutlineThickness(0.35f);
     }

@@ -14,7 +14,7 @@ public static class SentryCameraUtilities
 {
     private static readonly ManualLogSource Logger = BepInEx.Logging.Logger.CreateLogSource("SentryCameraUtilities");
     private static bool _submergedConsoleSwappedThisRound;
-    
+
     /// <summary>
     /// Reset the Submerged console swap flag on round start.
     /// </summary>
@@ -94,7 +94,7 @@ public static class SentryCameraUtilities
             Logger.LogWarning($"Failed to swap Submerged SecurityConsole to Polus surveillance: {ex.Message}");
         }
     }
-    
+
     public static bool IsMapWithoutCameras(ExpandedMapNames mapId)
     {
         if (ModCompatibility.IsSubmerged() && ShipStatus.Instance)
@@ -138,7 +138,7 @@ public static class SentryCameraUtilities
                 sentryCameraIds.Add(cameraPair.Key.GetInstanceID());
             }
         }
-        
+
         foreach (var cam in allCameras)
         {
             if (cam != null && !sentryCameraIds.Contains(cam.GetInstanceID()))
@@ -146,12 +146,12 @@ public static class SentryCameraUtilities
                 return false;
             }
         }
-        
+
         if (mapId == ExpandedMapNames.Submerged && ModCompatibility.IsSubmerged())
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -264,7 +264,7 @@ public static class SentryCameraUtilities
             {
                 camera.OnAnim = onAnim;
             }
-            
+
             camera.SetAnimation(false);
         }
         catch (System.Exception ex)

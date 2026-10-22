@@ -20,7 +20,7 @@ public static class PlayerRoleTextExtensions
 {
     private static Func<GuardianAngelTargetModifier, bool> GuardianAngelPredicate { get; } =
         gaModifier => gaModifier.OwnerId == PlayerControl.LocalPlayer.PlayerId;
-    
+
     private static Func<MedicShieldModifier, bool> MedicShieldPredicate { get; } =
         msModifier => msModifier.AllMedics.Contains(PlayerControl.LocalPlayer);
 
@@ -32,7 +32,7 @@ public static class PlayerRoleTextExtensions
 
     private static Func<ClericBarrierModifier, bool> ClericBarrierPredicate { get; } =
         cbModifier => cbModifier.Cleric.AmOwner;
-    
+
     private static Func<WardenFortifiedModifier, bool> WardenFortifiedPredicate { get; } =
         wfModifier => wfModifier.Warden.AmOwner;
 
@@ -48,7 +48,7 @@ public static class PlayerRoleTextExtensions
         revealModifier => revealModifier.Visible && revealModifier.RevealRole;
 
     private static Func<PlaguebearerInfectedModifier, bool> PbPredicate1 { get; } =
-        pbModifier => pbModifier.PlagueBearerId == PlayerControl.LocalPlayer.PlayerId 
+        pbModifier => pbModifier.PlagueBearerId == PlayerControl.LocalPlayer.PlayerId
                       && pbModifier.PlagueBearerId != pbModifier.Player.PlayerId;
 
     private static Func<PlaguebearerInfectedModifier, bool> PbPredicate2 { get; } =
@@ -59,7 +59,7 @@ public static class PlayerRoleTextExtensions
 
     private static Func<BlackmailedModifier, bool> BlackmailedPredicate { get; } =
         bmModifier => bmModifier.BlackMailerId == PlayerControl.LocalPlayer.PlayerId;
-    
+
     private static Func<HypnotisedModifier, bool> HypnotisedPredicate { get; } =
         hModifier => hModifier.Hypnotist.AmOwner;
 
@@ -348,7 +348,7 @@ public static class PlayerRoleTextExtensions
         {
             name += "<color=#66AAF3> ☀</color>";
         }
-        
+
         return name;
     }
 }

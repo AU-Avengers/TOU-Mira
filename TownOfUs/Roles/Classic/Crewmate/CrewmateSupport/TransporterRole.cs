@@ -505,12 +505,12 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             // If the transported player is a Puppeteer/Parasite controlling someone, snap camera to the victim instead
             MonoBehaviour? cameraTarget = null;
-            
+
             if (player.Data?.Role is ITransportTrigger triggerRole)
             {
                 cameraTarget = triggerRole.OnTransport();
             }
-            
+
             MiscUtils.SnapPlayerCamera(cameraTarget ?? PlayerControl.LocalPlayer);
         }
     }

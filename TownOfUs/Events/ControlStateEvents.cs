@@ -68,7 +68,7 @@ public static class ControlStateEvents
             }
         }
     }
-    
+
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent _)
     {
@@ -86,7 +86,7 @@ public static class ControlStateEvents
             {
                 mod.RemoveSelf();
             }
-            
+
             if (player.Data.Role is PuppeteerRole puppeteerRole)
             {
                 puppeteerRole.ClearControlLocal();
@@ -116,7 +116,7 @@ public static class ControlStateEvents
             {
                 mod.RemoveSelf();
             }
-            
+
             if (player.Data.Role is PuppeteerRole puppeteerRole)
             {
                 puppeteerRole.ClearControlLocal();

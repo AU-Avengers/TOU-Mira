@@ -24,28 +24,28 @@ public sealed class MercenaryBribedModifier(PlayerControl mercenary) : BaseModif
         touAbilityEvent.InvokeEvent();
     }
 
-public override void OnMeetingStart()
-{
-    if (!Player.AmOwner)
+    public override void OnMeetingStart()
     {
-        return;
-    }
+        if (!Player.AmOwner)
+        {
+            return;
+        }
 
-    if (alerted)
-    {
-        return;
-    }
+        if (alerted)
+        {
+            return;
+        }
 
-    var title =
+        var title =
         $"<color=#{TownOfUsColors.Mercenary.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Modifier.MercenaryBribedFeedbackTitle")}</color>";
 
-    MiscUtils.AddFakeChat(
-        Player.Data,
-        title,
-        MiraLocaleManager.Get("TownOfUsMira.Modifier.MercenaryBribedFeedback"),
-        false,
-        true);
+        MiscUtils.AddFakeChat(
+            Player.Data,
+            title,
+            MiraLocaleManager.Get("TownOfUsMira.Modifier.MercenaryBribedFeedback"),
+            false,
+            true);
 
-    alerted = true;
-}
+        alerted = true;
+    }
 }

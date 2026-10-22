@@ -161,15 +161,15 @@ public static class HudManagerPatches
             switch (deltaMagnitudeDiff)
             {
                 case > 0:
-                {
-                    ScrollZoom(false, 1.05f);
-                    break;
-                }
+                    {
+                        ScrollZoom(false, 1.05f);
+                        break;
+                    }
                 case < 0:
-                {
-                    ScrollZoom(true, 1.05f);
-                    break;
-                }
+                    {
+                        ScrollZoom(true, 1.05f);
+                        break;
+                    }
             }
         }
 
@@ -277,7 +277,7 @@ public static class HudManagerPatches
             }
 
             var playerName = player.Data.PlayerName ?? "Unknown";
-            
+
             var isHost = player.IsHost();
             var isTrackedSpectator = SpectatorRole.TrackedSpectators.Contains(playerName);
 
@@ -304,7 +304,7 @@ public static class HudManagerPatches
                 }
 
                 if (isHost)
-                { 
+                {
                     playerInfoSb.Append("</color>");
                 }
                 playerInfoSb.Append("</size>\n");
@@ -563,13 +563,13 @@ public static class HudManagerPatches
             ZoomButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(ButtonClickZoom));
             ZoomButton.name = "ZoomButton";
             var inactive = ZoomButton.transform.Find("Inactive");
-                inactive.GetComponent<SpriteRenderer>().sprite =
-                TouAssets.ZoomMinus;
-                inactive.localPosition = new Vector3(0, 0.021f, -0.1f);
-                var active = ZoomButton.transform.Find("Active");
-                active.GetComponent<SpriteRenderer>().sprite =
-                TouAssets.ZoomMinusActive;
-                active.localPosition = new Vector3(0, 0.021f, -0.1f);
+            inactive.GetComponent<SpriteRenderer>().sprite =
+            TouAssets.ZoomMinus;
+            inactive.localPosition = new Vector3(0, 0.021f, -0.1f);
+            var active = ZoomButton.transform.Find("Active");
+            active.GetComponent<SpriteRenderer>().sprite =
+            TouAssets.ZoomMinusActive;
+            active.localPosition = new Vector3(0, 0.021f, -0.1f);
             ZoomButton.GetComponentInChildren<AspectPosition>().Destroy();
             MiraApiSettings.SetUpButtonPositions();
         }
@@ -818,7 +818,7 @@ public static class HudManagerPatches
         { RoleListOption.CrewProtective, RoleAlignment.CrewmateProtective },
         { RoleListOption.CrewPower, RoleAlignment.CrewmatePower },
         { RoleListOption.CrewSupport, RoleAlignment.CrewmateSupport },
-                
+
         { RoleListOption.NeutBenign, RoleAlignment.NeutralBenign },
         { RoleListOption.NeutEvil, RoleAlignment.NeutralEvil },
         { RoleListOption.NeutKilling, RoleAlignment.NeutralKilling },

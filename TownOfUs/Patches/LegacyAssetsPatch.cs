@@ -98,12 +98,12 @@ public static class VanillaAssetsPatch
                         break;
                 }*/
                 break;
-            /*case ImageNames.PlayAgainButton:
-                sprite = LegacyVanillaAssets.PlayAgainSprite;
-                break;
-            case ImageNames.ExitRoomButton:
-                sprite = LegacyVanillaAssets.QuitSprite;
-                break;*/
+                /*case ImageNames.PlayAgainButton:
+                    sprite = LegacyVanillaAssets.PlayAgainSprite;
+                    break;
+                case ImageNames.ExitRoomButton:
+                    sprite = LegacyVanillaAssets.QuitSprite;
+                    break;*/
         }
         __instance.graphic.sprite = sprite;
         __instance.graphic.SetCooldownNormalizedUvs();

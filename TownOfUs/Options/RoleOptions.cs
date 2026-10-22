@@ -259,9 +259,9 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
         new(15, i => new($"TouOptionRoleListSlot{i + 1}",
                          i + 2 % 5 == 0 ? RoleListOption.ImpCommon : RoleListOption.CrewCommon,
                          OptionStrings)
-            {
-                Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-            }
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
+        }
         )
         {
             ConfigName = i => $"Slot{i + 1}"

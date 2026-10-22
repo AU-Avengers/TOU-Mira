@@ -69,7 +69,7 @@ public static class ExecutionerEvents
         }
 
         var winOption = OptionGroupSingleton<ExecutionerOptions>.Instance.ExeWin;
-        
+
         var exe = CustomRoleUtils.GetActiveRolesOfType<ExecutionerRole>()
             .FirstOrDefault(x => x.AboutToWin && !x.Player.HasDied());
 

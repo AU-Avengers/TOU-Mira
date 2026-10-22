@@ -189,7 +189,7 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
                 msg += "\n<color=#D64042>" + MiraLocaleManager.Get("TownOfUsMira.Role.BootleggerImpendingDoom") + "</color>";
                 iconTarget = TouRoleIcons.Bootlegger;
             }
-                ShowNotification(msg, iconTarget);
+            ShowNotification(msg, iconTarget);
         }
 
 

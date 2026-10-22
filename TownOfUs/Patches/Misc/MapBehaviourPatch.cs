@@ -103,7 +103,7 @@ public static class ShowVentsPatch
             var network = GetNetworkFor(vent);
             if (network == null)
             {
-                VentNetworks.Add([..vent.NearbyVents.Where(x => x != null), vent]);
+                VentNetworks.Add([.. vent.NearbyVents.Where(x => x != null), vent]);
             }
             else
             {

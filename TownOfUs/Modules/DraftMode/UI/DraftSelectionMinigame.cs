@@ -169,9 +169,9 @@ namespace TownOfUs.Modules.DraftMode
                 ? string.Empty
                 : $"\n<size=68%>{description}</size>";
             string teamcolor = "#BBBBBB";
-            if(teamName.Contains("crewmate", StringComparison.OrdinalIgnoreCase)) teamcolor= "#5BD7E4";
-            if(teamName.Contains("impostor", StringComparison.OrdinalIgnoreCase)) teamcolor= "#FF5050";
-            if(teamName.Contains("neutral", StringComparison.OrdinalIgnoreCase)) teamcolor= "#7c7c7c";
+            if (teamName.Contains("crewmate", StringComparison.OrdinalIgnoreCase)) teamcolor = "#5BD7E4";
+            if (teamName.Contains("impostor", StringComparison.OrdinalIgnoreCase)) teamcolor = "#FF5050";
+            if (teamName.Contains("neutral", StringComparison.OrdinalIgnoreCase)) teamcolor = "#7c7c7c";
             _tooltipText.text =
                 $"<b><color=#{hex}>{roleName}</color></b>  <size=58%><color={teamcolor}>{teamName}</color></size>{desc}";
             _tooltipRoot.SetActive(true);
@@ -179,7 +179,8 @@ namespace TownOfUs.Modules.DraftMode
 
         private void HideTooltip()
         {
-            if (_tooltipText != null) {
+            if (_tooltipText != null)
+            {
                 _tooltipText.text = PickPrompt;
                 _tooltipText.fontSize = 2f;
             }
@@ -293,7 +294,7 @@ namespace TownOfUs.Modules.DraftMode
             }
             catch (Exception ex)
             {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error,$"[DraftScreenController] Bundle load failed: {ex.Message}");
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftScreenController] Bundle load failed: {ex.Message}");
             }
 
             if (prefab == null)
@@ -941,12 +942,12 @@ namespace TownOfUs.Modules.DraftMode
             for (int y = 0; y < size; y++)
             {
                 for (int x = 0; x < size; x++)
-            {
-                float d = Vector2.Distance(new Vector2(x, y), center) / radius;
-                float a = Mathf.Clamp01(1f - d);
-                a = a * a * (3f - 2f * a);
-                px[y * size + x] = new Color(1f, 1f, 1f, a);
-            }
+                {
+                    float d = Vector2.Distance(new Vector2(x, y), center) / radius;
+                    float a = Mathf.Clamp01(1f - d);
+                    a = a * a * (3f - 2f * a);
+                    px[y * size + x] = new Color(1f, 1f, 1f, a);
+                }
             }
             tex.SetPixels(px);
             tex.Apply();

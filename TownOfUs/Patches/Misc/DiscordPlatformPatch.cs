@@ -19,7 +19,7 @@ public static class DiscordPlatformPatch
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -27,9 +27,9 @@ public static class DiscordPlatformPatch
     {
         if (Application.platform == RuntimePlatform.Android)
         {
-            return new List<MethodBase>(); 
+            return new List<MethodBase>();
         }
-        
+
         return new List<MethodBase>
         {
             AccessTools.Method(typeof(DiscordManager), "Start")

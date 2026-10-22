@@ -120,10 +120,10 @@ namespace TownOfUs.Modules.DraftMode
             _bgOverlay.transform.localPosition = new Vector3(0f, 0f, 1f);
 
             var bgSr              = _bgOverlay.AddComponent<SpriteRenderer>();
-            bgSr.sprite           = MakeWhiteSprite();
-            bgSr.color            = new Color(0f, 0f, 0f, 1f);
+            bgSr.sprite = MakeWhiteSprite();
+            bgSr.color = new Color(0f, 0f, 0f, 1f);
             bgSr.sortingLayerName = "UI";
-            bgSr.sortingOrder     = 500;
+            bgSr.sortingOrder = 500;
             _bgOverlay.transform.localScale = new Vector3(camW, camH, 1f);
             _bgOverlay.SetActive(false);
 
@@ -139,11 +139,11 @@ namespace TownOfUs.Modules.DraftMode
 
             _headerText = headerGo.AddComponent<TextMeshPro>();
             CopyFont(_headerText);
-            _headerText.fontSize           = 4f;
-            _headerText.alignment          = TextAlignmentOptions.Center;
+            _headerText.fontSize = 4f;
+            _headerText.alignment = TextAlignmentOptions.Center;
             _headerText.enableWordWrapping = false;
-            _headerText.color              = new Color(0.2f, 0.85f, 1f);
-            _headerText.text               = $"<b>{MiraLocaleManager.Get("TouDraftRecapHeader", "DRAFT RECAP")}</b>";
+            _headerText.color = new Color(0.2f, 0.85f, 1f);
+            _headerText.text = $"<b>{MiraLocaleManager.Get("TouDraftRecapHeader", "DRAFT RECAP")}</b>";
             ApplySortingOrder(_headerText, 520);
 
             _textRoot.SetActive(false);
@@ -210,12 +210,12 @@ namespace TownOfUs.Modules.DraftMode
             var go = new GameObject(name);
             go.transform.SetParent(_backdropArt.transform, false);
             go.transform.localPosition = pos;
-            go.transform.localScale    = scale;
+            go.transform.localScale = scale;
             var sr              = go.AddComponent<SpriteRenderer>();
-            sr.sprite           = sprite;
-            sr.color            = color;
+            sr.sprite = sprite;
+            sr.color = color;
             sr.sortingLayerName = "UI";
-            sr.sortingOrder     = order;
+            sr.sortingOrder = order;
             return sr;
         }
 
@@ -278,8 +278,8 @@ namespace TownOfUs.Modules.DraftMode
 
                 var tmp = rowGo.AddComponent<TextMeshPro>();
                 CopyFont(tmp);
-                tmp.fontSize           = Mathf.Clamp(rowHeight * 3.4f, 1.6f, 2.8f);
-                tmp.alignment          = TextAlignmentOptions.Center;
+                tmp.fontSize = Mathf.Clamp(rowHeight * 3.4f, 1.6f, 2.8f);
+                tmp.alignment = TextAlignmentOptions.Center;
                 tmp.enableWordWrapping = false;
                 tmp.text = $"<color=#CCCCCC>{MiraLocaleManager.Get("TouDraftPlayerLabel", "Player <slot>").Replace("<slot>", slot.ToString(System.Globalization.CultureInfo.InvariantCulture))}</color>  <color=#{colorHex}><b>{label}</b></color>";
                 ApplySortingOrder(tmp, 520);
@@ -340,15 +340,15 @@ namespace TownOfUs.Modules.DraftMode
             _rowTexts.Clear();
 
             if (_backdropArt != null) { MiraAPI.Utilities.Extensions.DeepDestroy(_backdropArt, false); _backdropArt = null!; }
-            if (_bgOverlay   != null) { MiraAPI.Utilities.Extensions.DeepDestroy(_bgOverlay,   false); _bgOverlay   = null!; }
-            if (_textRoot    != null) { MiraAPI.Utilities.Extensions.DeepDestroy(_textRoot,     false); _textRoot    = null!; }
+            if (_bgOverlay != null) { MiraAPI.Utilities.Extensions.DeepDestroy(_bgOverlay, false); _bgOverlay = null!; }
+            if (_textRoot != null) { MiraAPI.Utilities.Extensions.DeepDestroy(_textRoot, false); _textRoot = null!; }
 
             _backdropBeamRenderers.Clear();
             _backdropParticleRenderers.Clear();
             _backdropParticleBasePos.Clear();
-            _backdropWashRenderer    = null!;
+            _backdropWashRenderer = null!;
             _backdropHorizonRenderer = null!;
-            _headerText              = null!;
+            _headerText = null!;
 
             MiraAPI.Utilities.Extensions.ClearGarbageCollector();
         }

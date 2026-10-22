@@ -216,7 +216,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
-       return ITownOfUsRole.SetNewTabText(this);
+        return ITownOfUsRole.SetNewTabText(this);
     }
 
     public string GetAdvancedDescription()

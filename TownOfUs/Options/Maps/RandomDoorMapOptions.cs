@@ -30,7 +30,7 @@ public sealed class RandomDoorMapOptions : AbstractOptionGroup
     {
         Visible = () => ModCompatibility.SubLoaded
     };
-    
+
     public static MapDoorType GetRandomDoorType(MapDoorType defaultDoor)
     {
         int disabledChance = OptionGroupSingleton<RandomDoorMapOptions>.Instance.DisabledDoorChance;

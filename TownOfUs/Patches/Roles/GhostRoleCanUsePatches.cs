@@ -42,7 +42,7 @@ public static class GhostRoleCanUsePatches
         ref bool __state)
     {
         if (__state)
-            // Message($"CanUsePostfixPatch IsDead");
+        // Message($"CanUsePostfixPatch IsDead");
         {
             pc.IsDead = true;
         }

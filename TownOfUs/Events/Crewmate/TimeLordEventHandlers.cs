@@ -124,7 +124,7 @@ public static class TimeLordEventHandlers
     /// <summary>
     /// Records a body cleaning and fires the appropriate event.
     /// </summary>
-    public static void RecordBodyCleaned(PlayerControl player, DeadBody body, Vector3 position, 
+    public static void RecordBodyCleaned(PlayerControl player, DeadBody body, Vector3 position,
         TimeLordBodyManager.CleanedBodySource source)
     {
         if (player == null || body == null || !TimeLordRewindSystem.MatchHasTimeLord())
@@ -135,7 +135,7 @@ public static class TimeLordEventHandlers
         var evt = new TimeLordBodyCleanedEvent(player, body, position, source, UnityEngine.Time.time);
         evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
-        
+
         TimeLordBodyManager.RecordBodyCleaned(body, source);
     }
 
@@ -416,11 +416,11 @@ public static class TimeLordEventHandlers
         }
 
         var cooldownBefore = originalEvent.CooldownBefore;
-        
+
         if (player.Data.Role.CanUseKillButton && GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown > 0f)
         {
             var maxKillCooldown = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
-            
+
             // Only clamp if there was an actual kill in the rewind window, not just a cooldown change
             var hadKillInRewindWindow = false;
             if (TimeLordRewindSystem.IsRewinding)
@@ -430,7 +430,7 @@ public static class TimeLordEventHandlers
                 var snapshotTime = UnityEngine.Time.time;
                 var startTime = snapshotTime - historySeconds;
                 var endTime = snapshotTime;
-                
+
                 var killEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillEvent>(startTime, endTime);
                 foreach (var killEvent in killEvents)
                 {
@@ -441,7 +441,7 @@ public static class TimeLordEventHandlers
                     }
                 }
             }
-            
+
             if (TimeLordRewindSystem.IsRewinding &&
                 !TimeLordRewindSystem.LocalKillCooldownMaxClampedThisRewind &&
                 hadKillInRewindWindow &&
@@ -455,7 +455,7 @@ public static class TimeLordEventHandlers
             {
                 cooldownBefore = maxKillCooldown;
             }
-            
+
             var maxvalue = cooldownBefore > maxKillCooldown
                 ? cooldownBefore + 1f
                 : maxKillCooldown;

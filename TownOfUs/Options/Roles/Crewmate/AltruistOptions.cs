@@ -29,7 +29,7 @@ public sealed class AltruistOptions : AbstractRoleOptionGroup<AltruistRole>
         {
             Visible = () => !OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive
         };
-        
+
     public ModdedToggleOption KillOnStartRevive { get; } =
         new("TouOptionAltruistKillOnStartRevive", false);
 

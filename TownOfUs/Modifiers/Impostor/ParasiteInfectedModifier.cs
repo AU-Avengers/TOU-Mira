@@ -114,7 +114,7 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
 
                 var aspect = _overlayRoot.GetComponent<AspectPosition>();
                 aspect?.enabled = false;
-                
+
                 var borderObj = UnityEngine.Object.Instantiate(TouAssets.ParasiteOverlay.LoadAsset(), _overlayRoot.transform);
                 borderObj.layer = _overlayRoot.layer;
                 borderObj.transform.localPosition = new Vector3(0f, 0f, 0f);

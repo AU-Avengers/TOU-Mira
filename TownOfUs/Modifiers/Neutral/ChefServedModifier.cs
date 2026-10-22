@@ -64,7 +64,7 @@ public sealed class ChefServedModifier(PlayerControl chef, int servingType, int 
         {
             return;
         }
-        
+
         if (TimerActive)
         {
             if (TimeRemaining <= 0.5f)

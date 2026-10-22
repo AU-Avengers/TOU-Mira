@@ -133,7 +133,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
                 var bodyPlayer = MiscUtils.PlayerById(bodyId);
                 if (bodyPlayer != null)
                 {
-                    TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(player, body, body.transform.position, 
+                    TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(player, body, body.transform.position,
                         TimeLordBodyManager.CleanedBodySource.Janitor);
                 }
                 Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));

@@ -95,7 +95,7 @@ public sealed class MedusaRole(IntPtr cppPtr)
     };
 
     public bool HasImpostorVision => true;
-    
+
     public bool WinConditionMet()
     {
         var scCount = CustomRoleUtils.GetActiveRolesOfType<MedusaRole>().Count(x => !x.Player.HasDied());

@@ -58,7 +58,7 @@ public static class MeetingShhPatches
                 HudManager.Instance.shhhEmblem.TextImage.text =
                     MiraLocaleManager.Get("TouJailedShhh");
             }
-                
+
             HudManager.Instance.shhhEmblem.Hand.gameObject.SetActive(false);
         }
         else

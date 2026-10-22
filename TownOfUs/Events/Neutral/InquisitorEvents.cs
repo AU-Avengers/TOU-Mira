@@ -178,7 +178,7 @@ public static class InquisitorEvents
                 }
                 else
                 {
-                    message = $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorWonOther") .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.GetRoleName()}</color>") .Replace("<player>", inquis.Player.Data.PlayerName)}</b>";
+                    message = $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorWonOther").Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.GetRoleName()}</color>").Replace("<player>", inquis.Player.Data.PlayerName)}</b>";
                     icon = TouRoleIcons.Inquisitor;
                 }
 

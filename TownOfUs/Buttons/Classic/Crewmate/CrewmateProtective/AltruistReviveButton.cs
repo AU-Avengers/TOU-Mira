@@ -79,7 +79,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
     private void UpdateUsesCounterVisibility()
     {
         if (Button == null) return;
-        
+
         // Hide uses counter if KillOnStartRevive is enabled
         if (OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive)
         {

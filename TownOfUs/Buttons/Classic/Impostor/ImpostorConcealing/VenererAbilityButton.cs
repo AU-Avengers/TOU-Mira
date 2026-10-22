@@ -40,19 +40,19 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
         if (ability != VenererAbility.None && Role)
         {
             var abilityName = ability switch
-    {
-            VenererAbility.Camouflage => MiraLocaleManager.Get("TownOfUsMira.Role.VenererCamouflage",
+            {
+                VenererAbility.Camouflage => MiraLocaleManager.Get("TownOfUsMira.Role.VenererCamouflage",
                 "Camouflage"),
 
-            VenererAbility.Sprint => MiraLocaleManager.Get("TownOfUsMira.Role.VenererSprint",
+                VenererAbility.Sprint => MiraLocaleManager.Get("TownOfUsMira.Role.VenererSprint",
                 "Sprint"),
 
-            VenererAbility.Freeze => MiraLocaleManager.Get("TownOfUsMira.Role.VenererFreeze",
+                VenererAbility.Freeze => MiraLocaleManager.Get("TownOfUsMira.Role.VenererFreeze",
                 "Freeze"),
 
-            _ => ability.ToString()
-        };
-        var notificationText = MiraLocaleManager.Get(
+                _ => ability.ToString()
+            };
+            var notificationText = MiraLocaleManager.Get(
                 EffectActive
                     ? "TownOfUsMira.Role.VenererAbilityUnlockedWait"
                     : "TownOfUsMira.Role.VenererAbilityUnlocked",
@@ -61,13 +61,13 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
                     : "You have unlocked the <ability> ability for getting a kill.")
             .Replace("<ability>", abilityName);
 
-        var notif1 = Helpers.CreateAndShowNotification(
+            var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>",
             Color.white,
             new Vector3(0f, 1f, -20f),
             spr: TouRoleIcons.Venerer);
 
-        notif1.AdjustNotification();
+            notif1.AdjustNotification();
         }
 
         if (EffectActive)

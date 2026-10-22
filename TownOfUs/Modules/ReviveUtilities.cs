@@ -55,7 +55,7 @@ public static class ReviveUtilities
 
         // Ensure death state is properly synced before revive to prevent desyncs
         // Wait a small amount to ensure any pending death syncs complete
-        Coroutines.Start(CoEnsureDeathStateSyncedBeforeRevive(revived, inMeetingOrExile, position, roleWhenAlive, flashColor, 
+        Coroutines.Start(CoEnsureDeathStateSyncedBeforeRevive(revived, inMeetingOrExile, position, roleWhenAlive, flashColor,
             revivedOwnerNotificationText, reviverOwnerNotificationText, notificationIcon, reviver));
     }
 

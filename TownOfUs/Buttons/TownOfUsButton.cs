@@ -95,7 +95,7 @@ public abstract class TownOfUsButton : CustomActionButton
         if (Timer >= 0)
         {
             var shouldPauseInVent = ShouldPauseInVent && PlayerControl.LocalPlayer.inVent && !EffectActive;
-            
+
             if (!TimerPaused && !OptionGroupSingleton<VanillaTweakOptions>.Instance.CanPauseCooldown && (!shouldPauseInVent || EffectActive))
             {
                 Timer -= Time.deltaTime;
@@ -341,7 +341,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         if (Timer >= 0)
         {
             var shouldPauseInVent = ShouldPauseInVent && PlayerControl.LocalPlayer.inVent && !EffectActive;
-            
+
             if (!TimerPaused && !OptionGroupSingleton<VanillaTweakOptions>.Instance.CanPauseCooldown && (!shouldPauseInVent || EffectActive))
             {
                 Timer -= Time.deltaTime;

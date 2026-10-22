@@ -151,10 +151,10 @@ public static class ChatPatches
                 ClearChat(__instance);
                 return false;
             }
-    
+
             string targetName = textRegular[6..].Trim();
             var target = PlayerControl.AllPlayerControls.FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
-    
+
             if (target == null)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -162,7 +162,7 @@ public static class ChatPatches
                 ClearChat(__instance);
                 return false;
             }
-    
+
             if (target.AmOwner)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -170,7 +170,7 @@ public static class ChatPatches
                 ClearChat(__instance);
                 return false;
             }
-    
+
             var clientId = target.OwnerId;
             if (clientId == -1)
             {
@@ -179,16 +179,16 @@ public static class ChatPatches
                 ClearChat(__instance);
                 return false;
             }
-    
+
             AmongUsClient.Instance.KickPlayer(clientId, false);
-    
+
             MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                 $"Kicked <color=#FFA500>{target.Data.PlayerName}</color>.");
-    
+
             ClearChat(__instance);
             return false;
         }
-    
+
         // Adds /ban
         if (textRegular.StartsWith("/ban ", StringComparison.OrdinalIgnoreCase))
         {
@@ -199,10 +199,10 @@ public static class ChatPatches
                 ClearChat(__instance);
                 return false;
             }
-    
+
             string targetName = textRegular[5..].Trim();
             var target = PlayerControl.AllPlayerControls.FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
-    
+
             if (target == null)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -210,7 +210,7 @@ public static class ChatPatches
                 ClearChat(__instance);
                 return false;
             }
-    
+
             if (target.AmOwner)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -227,12 +227,12 @@ public static class ChatPatches
                 ClearChat(__instance);
                 return false;
             }
-    
+
             AmongUsClient.Instance.KickPlayer(clientId, true);
-    
+
             MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                 $"Banned <color=#FFA500>{target.Data.PlayerName}</color>.");
-    
+
             ClearChat(__instance);
             return false;
         }
@@ -899,7 +899,7 @@ public static class ChatPatches
             SpectatorRole.TrackedSpectators.Remove(player.Data.PlayerName);
         }
     }
-    
+
     private static void ClearChat(ChatController chat)
     {
         chat.freeChatField.Clear();

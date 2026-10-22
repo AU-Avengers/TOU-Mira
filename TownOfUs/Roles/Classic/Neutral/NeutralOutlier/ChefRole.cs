@@ -335,7 +335,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
                 var bodyPlayer = MiscUtils.PlayerById(bodyId);
                 if (bodyPlayer != null)
                 {
-                    TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(chef, body, body.transform.position, 
+                    TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(chef, body, body.transform.position,
                         TimeLordBodyManager.CleanedBodySource.Janitor);
                 }
                 Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));

@@ -307,7 +307,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public static void DangerAnimNonMedic()
     {
-        Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields ? TownOfUsColors.NeutralWiki :new Color(0f, 0.5f, 0f, 1f)));
+        Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields ? TownOfUsColors.NeutralWiki : new Color(0f, 0.5f, 0f, 1f)));
     }
 
     public void LobbyStart()
@@ -390,7 +390,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         }
 
         if (source.AmOwner)
-        { 
+        {
             DangerAnimNonMedic();
         }
 

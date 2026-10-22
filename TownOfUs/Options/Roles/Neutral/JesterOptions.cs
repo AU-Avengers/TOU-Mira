@@ -17,24 +17,24 @@ public sealed class JesterOptions : AbstractRoleOptionGroup<JesterRole>, IWikiOp
 
     public ModdedNumberOption VentCooldown { get; } =
         new("TouOptionJesterVentCooldown", 15f, 0f, 25f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")
-    {
-        Visible = () => OptionGroupSingleton<JesterOptions>.Instance.CanVent
-    };
+        {
+            Visible = () => OptionGroupSingleton<JesterOptions>.Instance.CanVent
+        };
 
     public ModdedNumberOption VentDuration { get; } =
         new("TouOptionJesterVentDuration", 45f, 0f, 60f, 2.5f, MiraNumberSuffixes.Seconds, "0.0", zeroInfinity: true)
-    {
-        Visible = () => OptionGroupSingleton<JesterOptions>.Instance.CanVent
-    };
+        {
+            Visible = () => OptionGroupSingleton<JesterOptions>.Instance.CanVent
+        };
 
     public ModdedToggleOption CanPoke { get; } =
         new("TouOptionJesterCanPoke", true);
 
     public ModdedNumberOption PokeCooldown { get; } =
         new("TouOptionJesterPokeCooldown", 25f, 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")
-    {
-        Visible = () => OptionGroupSingleton<JesterOptions>.Instance.CanPoke
-    };
+        {
+            Visible = () => OptionGroupSingleton<JesterOptions>.Instance.CanPoke
+        };
 
     [ModdedToggleOption("TouOptionJesterImpVision")]
     public bool ImpostorVision { get; set; } = true;
@@ -53,9 +53,9 @@ public sealed class JesterOptions : AbstractRoleOptionGroup<JesterRole>, IWikiOp
 
     public ModdedToggleOption JestAnnounceWin { get; set; } =
         new("TouOptionJesterNotifyWin", true)
-    {
-        Visible = () => OptionGroupSingleton<JesterOptions>.Instance.JestWin is not JestWinOptions.EndsGame
-    };
+        {
+            Visible = () => OptionGroupSingleton<JesterOptions>.Instance.JestWin is not JestWinOptions.EndsGame
+        };
 
     public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
         new HashSet<StringNames>

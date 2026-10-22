@@ -54,7 +54,7 @@ public static class ChefEvents
             }
         }
     }
-    
+
     [RegisterEvent]
     public static void EjectionEventHandler(EjectionEvent _)
     {
@@ -133,7 +133,7 @@ public static class ChefEvents
             {
                 string message;
                 LoadableAsset<Sprite> icon;
-                
+
                 if (OptionGroupSingleton<ChefOptions>.Instance.ChefAnonymizeWin)
                 {
                     message = MiraLocaleManager.Get("TouNeutAnonymousVictoryMessage");

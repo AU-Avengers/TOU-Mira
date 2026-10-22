@@ -235,7 +235,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             gavel.localPosition += new Vector3(newStart + t, 0f, 0f);
             killBg.localScale = new Vector3(2f, 1.1f - t, 1f);
         }));
-        
+
         Destroy(prosAnim);
     }
 }

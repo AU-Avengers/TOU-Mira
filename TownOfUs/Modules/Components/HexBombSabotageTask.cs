@@ -54,7 +54,7 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
         _ogShakeAmt = HudManager.Instance.PlayerCam.shakeAmount;
         _ogShakePeriod = HudManager.Instance.PlayerCam.shakePeriod;
         DataManager.Settings.Gameplay.ScreenShake = true;
-        
+
         var text = MiraLocaleManager.Get("TownOfUsMira.Role.SpellslingerWarningNotif").Replace("<role>", $"{TownOfUsColors.ImpSoft.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.Spellslinger")}</color>");
 
         var notif1 = Helpers.CreateAndShowNotification(

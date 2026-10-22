@@ -34,7 +34,7 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
             HudManagerPatches.IsHoveringRoleList = false;
             return;
         }
-        
+
         if (TextTarget == null || !TextTarget.gameObject.activeSelf)
         {
             HideTooltip();
@@ -302,7 +302,7 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
     private void ShowTooltipForSlot(int slotIndex, int hoveredLine)
     {
         var roleList = OptionGroupSingleton<RoleOptions>.Instance;
-            var distribution = roleList.CurrentRoleDistribution();
+        var distribution = roleList.CurrentRoleDistribution();
         if (distribution > RoleDistribution.Draft || distribution is RoleDistribution.Vanilla)
         {
             return;

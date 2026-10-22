@@ -65,7 +65,7 @@ public sealed class SentryOptions : AbstractRoleOptionGroup<SentryRole>, IWikiOp
     private static readonly string[] SystemTypeIdParts =
         Enum.GetNames<SystemTypes>().Select(n => $"TouSystemType_{n}").ToArray();
 
-    private static readonly SystemTypes[] BlindspotDefaults = 
+    private static readonly SystemTypes[] BlindspotDefaults =
         [SystemTypes.Hallway,    SystemTypes.Outside,  SystemTypes.Cafeteria, SystemTypes.Storage, SystemTypes.Admin,
          SystemTypes.Electrical, SystemTypes.Security, SystemTypes.MedBay,    SystemTypes.Weapons, SystemTypes.Comms];
 
@@ -74,9 +74,9 @@ public sealed class SentryOptions : AbstractRoleOptionGroup<SentryRole>, IWikiOp
 
     public ModdedOptionList<ModdedEnumOption<SystemTypes>> BlindspotsRooms { get; } =
         new(10, i => new($"TouOptionSentryBlindspot{i + 1}Room", BlindspotDefaults[i], SystemTypeIdParts)
-            {
-                Visible = () => OptionGroupSingleton<SentryOptions>.Instance.BlindspotsCount.Value >= (i + 1)
-            }
+        {
+            Visible = () => OptionGroupSingleton<SentryOptions>.Instance.BlindspotsCount.Value >= (i + 1)
+        }
         )
         {
             ConfigName = i => $"Blindspot{i + 1}Room"

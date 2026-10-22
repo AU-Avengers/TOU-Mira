@@ -19,7 +19,7 @@ public static class HnsGamemodeEvents
     public static IEnumerator CoChangeImpostorRole(IntroCutscene cutscene)
     {
         yield return new WaitForSeconds(0.01f);
-        
+
         var seeker = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.IsImpostor());
         if (seeker != null)
         {

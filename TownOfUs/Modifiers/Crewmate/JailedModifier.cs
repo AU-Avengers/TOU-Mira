@@ -66,7 +66,7 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
 
             notif1.AdjustNotification();
         }
-        
+
         foreach (var voteArea in meeting.playerStates)
         {
             if (Player.PlayerId == voteArea.PlayerId)

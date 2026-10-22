@@ -48,14 +48,14 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
                 switch (CurrentAbility)
                 {
                     case HerbAbilities.Expose:
-                         ExposeUsesLeft--;
-                         break;
+                        ExposeUsesLeft--;
+                        break;
                     case HerbAbilities.Confuse:
-                         ConfuseUsesLeft--;
-                         break;
+                        ConfuseUsesLeft--;
+                        break;
                     case HerbAbilities.Protect:
-                         ProtectUsesLeft--;
-                         break;
+                        ProtectUsesLeft--;
+                        break;
                 }
                 Warning($"Expose Uses: {ExposeUsesLeft} | Confuse Uses: {ConfuseUsesLeft} | Protect Uses: {ProtectUsesLeft}");
             }
@@ -228,17 +228,17 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
             _ => string.Empty
         };
 
-    Button?.OverrideText(
-            CurrentHerbsLimited
-                ? $"{CurrentName} - {CurrentHerbsText}"
-                : CurrentName);
-}
+        Button?.OverrideText(
+                CurrentHerbsLimited
+                    ? $"{CurrentName} - {CurrentHerbsText}"
+                    : CurrentName);
+    }
     private static Func<HerbalistExposedModifier, bool> ExposedPredicate { get; } =
         msModifier => msModifier.Herbalist.AmOwner;
-    
+
     private static Func<HerbalistConfusedModifier, bool> ConfusedPredicate { get; } =
         msModifier => msModifier.Herbalist.AmOwner;
-    
+
     private static Func<HerbalistProtectionModifier, bool> ProtectedPredicate { get; } =
         msModifier => msModifier.Herbalist.AmOwner;
 

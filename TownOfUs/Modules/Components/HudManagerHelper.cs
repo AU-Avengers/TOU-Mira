@@ -206,7 +206,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         {
             return;
         }
-        
+
         if (!PlayerControl.LocalPlayer.Data.Role ||
             !ShipStatus.Instance ||
             (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
@@ -262,8 +262,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
             HudManagerPatches.UpdateSubmergedButtons(instance, ghostRole);
         }
     }
-    #pragma warning restore CA1822
-    #pragma warning restore S2325
+#pragma warning restore CA1822
+#pragma warning restore S2325
     public static void UpdateCamouflageComms()
     {
         var isActive = HudManagerPatches.CommsSaboActive();
@@ -349,7 +349,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var hideOutOfSight = sightMode is not NameSight.Basic && !localDead && HudManager.InstanceExists && HudManager.Instance.ShadowQuad.gameObject.active;
         var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
                        genOpt is
-                           { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
+                       { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
         var localVamp = PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole;
         var useMiraApiChecks =
             !localDead && (!PlayerControl.LocalPlayer.IsImpostorAligned() || !genOpt.FFAImpostorMode);

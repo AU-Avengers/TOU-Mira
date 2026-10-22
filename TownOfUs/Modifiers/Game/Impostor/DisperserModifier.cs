@@ -119,7 +119,7 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
         {
             var player = MiscUtils.PlayerById(key)!;
             player.transform.position = value;
-            
+
             if (player.Data?.Role is ITransportTrigger triggerRole)
             {
                 triggerRole.OnTransport();

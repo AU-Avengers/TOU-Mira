@@ -198,7 +198,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
         if (Target == null)
         {
             Target = ModifierUtils
-                .GetPlayersWithModifier<ExecutionerTargetModifier>([HideFromIl2Cpp](x) => x.OwnerId == Player.PlayerId)
+                .GetPlayersWithModifier<ExecutionerTargetModifier>([HideFromIl2Cpp] (x) => x.OwnerId == Player.PlayerId)
                 .FirstOrDefault();
         }
 

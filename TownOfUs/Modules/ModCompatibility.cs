@@ -550,7 +550,7 @@ public static class ModCompatibility
             lockInfo: DeathHandlerOverride.SetTrue);
     }
 
-public static string SelectedRoleName;
+    public static string SelectedRoleName;
     public static bool SelectedRoleStatus = true;
     public static void AdjustRoleBehaviour(object __instance, ref bool __state)
     {

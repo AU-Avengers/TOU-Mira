@@ -10,6 +10,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace TownOfUs.Buttons.Crewmate;
+
 [MiraIgnore]
 public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<SentryRole>
 {
@@ -331,7 +332,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
         PlayerControl.LocalPlayer.NetTransform.Halt();
 
         var mapId = MiscUtils.GetCurrentMap;
-        
+
         var mapWithoutCameras = SentryCameraUtilities.IsMapWithoutCameras(mapId);
         SystemConsole? basicCams = null;
 
@@ -393,7 +394,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
             SentryCameraMinigameUtilities.SwapAllCamerasForNonSentry(_securityMinigame);
             SentryCameraMinigameUtilities.AddSentryCameras(_securityMinigame);
-            
+
             if (!_reportedInUse && PlayerControl.LocalPlayer)
             {
                 _reportedInUse = true;

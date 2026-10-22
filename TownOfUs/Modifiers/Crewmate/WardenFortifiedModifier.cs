@@ -14,7 +14,7 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
 {
     public override string ModifierName => MiraLocaleManager.Get("TouOptionWardenFortEnumSelf", "Fortified");
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Warden;
-    public override string ShieldDescription => 
+    public override string ShieldDescription =>
         MiraLocaleManager.Get(
             "TownOfUsMira.Modifier.WardenFortifiedDescription",
             "You are fortified by a Warden!\nNo one can interact with you.");
@@ -62,7 +62,7 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
+        var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
         ShowFort = showShieldedEveryone || showShieldedSelf || showShieldedWarden ||
                    (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);

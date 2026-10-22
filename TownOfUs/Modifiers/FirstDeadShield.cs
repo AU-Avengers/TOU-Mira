@@ -72,7 +72,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
 
     public override string GetDescription()
     {
-            return !HideOnUi ? MiraLocaleManager.Get("TouFirstDeathShieldDescription") : string.Empty;
+        return !HideOnUi ? MiraLocaleManager.Get("TouFirstDeathShieldDescription") : string.Empty;
     }
 
     public override void OnActivate()

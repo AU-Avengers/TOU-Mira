@@ -57,7 +57,7 @@ public sealed class CrimeSceneComponent(nint cppPtr) : MonoBehaviour(cppPtr)
             }
 
             if (!_scenePlayers.Contains(player.PlayerId))
-                // Debug.Log(player.name + " contaminated the crime scene");
+            // Debug.Log(player.name + " contaminated the crime scene");
             {
                 _scenePlayers.Add(player.PlayerId);
             }

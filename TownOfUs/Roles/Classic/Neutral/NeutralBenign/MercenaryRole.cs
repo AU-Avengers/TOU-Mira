@@ -128,7 +128,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
         var players = ModifierUtils.GetPlayersWithModifier<MercenaryBribedModifier>();
-        
+
         stringB.Append(TownOfUsPlugin.Culture, $"\n<b><sprite name=\"TouMira.Role.Neutral.Mercenary.Ui.Bribe\">{MiraLocaleManager.Get("TownOfUsMira.Role.MercenaryTabGoldCounter").Replace("<count>", $"{Gold}")}</b>");
 
         var playerControls = players as PlayerControl[] ?? [.. players];
@@ -161,7 +161,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         TouRoleUtils.ClearTaskHeader(Player);
 
         if (!Player.HasModifier<BasicGhostModifier>() && ModifierUtils
-                .GetActiveModifiers<MercenaryBribedModifier>([HideFromIl2Cpp](x) => x.Mercenary == Player).Any())
+                .GetActiveModifiers<MercenaryBribedModifier>([HideFromIl2Cpp] (x) => x.Mercenary == Player).Any())
         {
             Player.AddModifier<BasicGhostModifier>();
         }

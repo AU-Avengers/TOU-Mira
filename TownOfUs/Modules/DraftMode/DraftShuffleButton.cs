@@ -49,13 +49,13 @@ public sealed class DraftShuffleButton : TownOfUsButton
     public override bool Disabled { get; set; } = true;
     public override bool Enabled(RoleBehaviour? role)
     {
-        return DraftManager.IsDraftActive && !Disabled && MaxUses > 0 ;
+        return DraftManager.IsDraftActive && !Disabled && MaxUses > 0;
     }
 
     public override bool CanUse()
     {
         var state = DraftManager.GetStateForPlayer(PlayerControl.LocalPlayer.PlayerId);
-        return state != null && state.IsPickingNow && DraftManager.IsDraftActive && !Disabled && MaxUses > 0 && UsesLeft>0;
+        return state != null && state.IsPickingNow && DraftManager.IsDraftActive && !Disabled && MaxUses > 0 && UsesLeft > 0;
     }
 
     protected override void OnClick()
@@ -63,8 +63,8 @@ public sealed class DraftShuffleButton : TownOfUsButton
         if (!DraftManager.IsDraftActive) return;
         Helpers.CreateAndShowNotification(MiraLocaleManager.Get("TouDraftShuffledNotif", "Your picks have been Shuffled!"), Color.white,
                 new Vector3(0f, 1f, -80f), spr: TouImpAssets.TraitorSelect);
-        DraftNetworkHelper.RequestShuffle();    
-        }
+        DraftNetworkHelper.RequestShuffle();
+    }
 
     [HarmonyPatch(typeof(DraftRpcs), nameof(DraftRpcs.RpcStartDraft))]
     public static class ShowDraftShuffleButtonOnDraftStart

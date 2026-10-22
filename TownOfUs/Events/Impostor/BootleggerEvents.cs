@@ -32,7 +32,7 @@ public static class BootleggerEvents
     private static IEnumerator CoWaitForPois()
     {
         yield return new WaitForSeconds(8f);
-        
+
         foreach (var poison in ModifierUtils.GetActiveModifiers<BootleggerPoisonModifier>())
         {
             if (poison.Player.HasDied())

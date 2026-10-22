@@ -247,36 +247,36 @@ public static class EndGamePatches
 
             playerRoleStringShort.Append(playerRoleString);
 
-                var hasExtendedCauseOfDeath = !string.IsNullOrEmpty(playerStats.ExtendedCauseOfDeath);
-                var causeOfDeath = hasExtendedCauseOfDeath
+            var hasExtendedCauseOfDeath = !string.IsNullOrEmpty(playerStats.ExtendedCauseOfDeath);
+            var causeOfDeath = hasExtendedCauseOfDeath
                     ? playerStats.ExtendedCauseOfDeath
                     : playerStats.DeathString;
 
+            playerRoleString.Append(TownOfUsPlugin.Culture,
+                $" | {Color.yellow.ToTextColor()}{causeOfDeath}</color>");
+            playerRoleStringShort.Append(TownOfUsPlugin.Culture,
+                $" | {Color.yellow.ToTextColor()}{playerStats.DeathString}</color>");
+            summaryCod.Append(TownOfUsPlugin.Culture,
+                $"{Color.yellow.ToTextColor()}{causeOfDeath}</color>");
+            if (!hasExtendedCauseOfDeath && playerStats.KilledBy != string.Empty)
+            {
                 playerRoleString.Append(TownOfUsPlugin.Culture,
-                    $" | {Color.yellow.ToTextColor()}{causeOfDeath}</color>");
-                playerRoleStringShort.Append(TownOfUsPlugin.Culture,
-                    $" | {Color.yellow.ToTextColor()}{playerStats.DeathString}</color>");
+                    $" {playerStats.KilledBy}");
                 summaryCod.Append(TownOfUsPlugin.Culture,
-                    $"{Color.yellow.ToTextColor()}{causeOfDeath}</color>");
-                if (!hasExtendedCauseOfDeath && playerStats.KilledBy != string.Empty)
-                {
-                    playerRoleString.Append(TownOfUsPlugin.Culture,
-                        $" {playerStats.KilledBy}");
-                    summaryCod.Append(TownOfUsPlugin.Culture,
-                        $" {playerStats.KilledBy}");
-                }
+                    $" {playerStats.KilledBy}");
+            }
 
-                if (playerStats.RoundOfDeath != -1)
-                {
-                    playerRoleString.Append(TownOfUsPlugin.Culture,
-                        $" ({MiraLocaleManager.Get("RoundOfDeath").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
+            if (playerStats.RoundOfDeath != -1)
+            {
+                playerRoleString.Append(TownOfUsPlugin.Culture,
+                    $" ({MiraLocaleManager.Get("RoundOfDeath").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
 
-                    playerRoleStringShort.Append(TownOfUsPlugin.Culture,
-                        $" ({MiraLocaleManager.Get("RoundOfDeath").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
+                playerRoleStringShort.Append(TownOfUsPlugin.Culture,
+                    $" ({MiraLocaleManager.Get("RoundOfDeath").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
 
-                    summaryCod.Append(TownOfUsPlugin.Culture,
-                        $" ({MiraLocaleManager.Get("RoundOfDeathLong").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
-                }
+                summaryCod.Append(TownOfUsPlugin.Culture,
+                    $" ({MiraLocaleManager.Get("RoundOfDeathLong").Replace("<count>", $"{playerStats.RoundOfDeath}")})");
+            }
 
             var playerName = new StringBuilder();
             var playerWinner = false;
@@ -760,7 +760,7 @@ public static class EndGamePatches
             var localGhost = localDead && genOpt.TheDeadKnow;
             var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
                            genOpt is
-                               { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
+                           { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
             var localVamp = PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole;
             var useMiraApiChecks =
                 !localDead && (!PlayerControl.LocalPlayer.IsImpostorAligned() || !genOpt.FFAImpostorMode);

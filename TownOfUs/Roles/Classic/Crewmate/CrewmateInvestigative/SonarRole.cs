@@ -108,7 +108,7 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         }
 
         players =
-            ModifierUtils.GetPlayersWithModifier<SonarHeartbeatTargetModifier>([HideFromIl2Cpp](x) => x.Owner == Player);
+            ModifierUtils.GetPlayersWithModifier<SonarHeartbeatTargetModifier>([HideFromIl2Cpp] (x) => x.Owner == Player);
 
         foreach (var player in players)
         {

@@ -79,7 +79,7 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
                 Color.white,
                 new Vector3(0f, 1f, -20f),
                 spr: TouRoleIcons.Seer);
-                
+
             notif1.AdjustNotification();
 
             if (options.ShowCrewmateKillingAsRed)

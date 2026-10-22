@@ -59,7 +59,7 @@ public class InventoryTabPaginationBehaviour(nint cppPtr) : MonoBehaviour(cppPtr
             title.GetComponent<TextTranslatorTMP>().DestroyImmediate();
             title.text = GetTextFunction();
             title.alignment = TextAlignmentOptions.Center;
-            title.transform.localPosition =  new Vector3(0.86f, -0.23f, -55f);
+            title.transform.localPosition = new Vector3(0.86f, -0.23f, -55f);
             title.fontSize = title.fontSizeMax = 6;
             title.rectTransform.sizeDelta = new Vector2(3.5f, 1f);
         }

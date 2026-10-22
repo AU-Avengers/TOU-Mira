@@ -45,7 +45,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     private const float PipBaseMarginXAspectFactor = 0.04f;
     private const float PipBaseWidthAspectFactor = 0.3f;
     private const float PipSnapDurationSeconds = 0.12f;
-    
+
     private LobbyNotificationMessage? controllerNotification;
 
     public DoomableType DoomHintType => DoomableType.Perception;
@@ -553,10 +553,10 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        if (target.IsInTargetingAnimState() || 
-            target.inVent || 
-            target.inMovingPlat || 
-            target.onLadder || 
+        if (target.IsInTargetingAnimState() ||
+            target.inVent ||
+            target.inMovingPlat ||
+            target.onLadder ||
             target.walkingToVent)
         {
             _killPendingFromTimer = true;
@@ -623,7 +623,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         _pipSnapping = false;
         _pipManualMovedThisSession = false;
         _pipSettingsDirty = true;
-        
+
         DestroyCamera();
         ClearNotifications();
     }
@@ -775,7 +775,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
                 {
                     // Flush CNT backlog first
                     NetTransformBacklogUtils.FlushBacklog(target);
-                    
+
                     // Then snap to current authoritative position
                     if (target.AmOwner)
                     {
@@ -889,8 +889,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         // Use cached interactables from ControlledPlayerInteractionPatches if available, otherwise scan
         var cached = ControlledPlayerInteractionPatches.GetCachedInteractables();
-        var interactablesToCheck = cached != null && cached.Count > 0 
-            ? cached 
+        var interactablesToCheck = cached != null && cached.Count > 0
+            ? cached
             : GetInteractablesList();
 
         const float maxCheckDistance = 5f; // Most interactables have UsableDistance <= 3f

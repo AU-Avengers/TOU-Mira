@@ -27,7 +27,7 @@ public sealed class OracleOptions : AbstractRoleOptionGroup<OracleRole>, IWikiOp
     public ModdedToggleOption ShowNeutralKillingAsEvil { get; set; } = new("TouOptionOracleNeutralKillingShowEvil", true);
 
     public ModdedToggleOption ShowNeutralOutlierAsEvil { get; set; } = new("TouOptionOracleNeutralOutlierShowEvil", true);
-    
+
     public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
         new HashSet<StringNames>
         {

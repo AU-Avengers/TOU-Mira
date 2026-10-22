@@ -35,9 +35,9 @@ public sealed class DoomsayerOptions : AbstractRoleOptionGroup<DoomsayerRole>
 
     public ModdedToggleOption DoomAnonymizeWin { get; set; } =
         new("TouOptionNeutAnonymousVictoryWin", false)
-    {
-        Visible = () => OptionGroupSingleton<DoomsayerOptions>.Instance.DoomWin is not DoomWinOptions.EndsGame
-    };
+        {
+            Visible = () => OptionGroupSingleton<DoomsayerOptions>.Instance.DoomWin is not DoomWinOptions.EndsGame
+        };
 
     public ModdedToggleOption DoomContinuesGame { get; set; } = new("TouOptionDoomsayerContinuesGame", true);
 }

@@ -75,7 +75,7 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
         {
             return;
         }
-        
+
         if (meetingInstance.state != MeetingHud.MeetingStates.Animating && !ShookAlready)
         {
             ShookAlready = true;
@@ -95,7 +95,7 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
         }
     }
 
-        private IEnumerator CoRandomizeVote()
+    private IEnumerator CoRandomizeVote()
     {
         var meetingInstance = MeetingHud.Instance;
         var logicOptionsNormal = GameManager.Instance.LogicOptions.TryCast<LogicOptionsNormal>();

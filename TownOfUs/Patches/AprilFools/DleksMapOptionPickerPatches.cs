@@ -11,7 +11,7 @@ public static class DleksMapOptionPickerPatches
 {
     public static StringNames DleksName { get; } = MiraLocaleManager.GetOrCreateLocaleString("ReverseSkeldMapName");
     public static StringNames DleksTooltip { get; } = MiraLocaleManager.GetOrCreateLocaleString("ReverseSkeldMapTooltip");
-    
+
     [HarmonyPatch(typeof(GameOptionsMapPicker), nameof(GameOptionsMapPicker.SetupMapButtons))]
     [HarmonyPrefix]
     public static void AddToGameOptionsUI(GameOptionsMapPicker __instance)

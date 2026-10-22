@@ -54,7 +54,7 @@ public static class MedicEvents
         }
     }
 
-    
+
     [RegisterEvent(-900)]
     public static void BeforeMurderEventHandler(BeforeMurderEvent @event)
     {

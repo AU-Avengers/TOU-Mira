@@ -317,7 +317,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         {
             var newTargets = new Dictionary<PlayerControl, RoleBehaviour>();
             foreach (var heretic in ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>()
-                         .Where(x => x.Player != player).OrderBy([HideFromIl2Cpp](x) => x.TargetRole.GetRoleName()))
+                         .Where(x => x.Player != player).OrderBy([HideFromIl2Cpp] (x) => x.TargetRole.GetRoleName()))
             {
                 newTargets.Add(heretic.Player, heretic.TargetRole);
             }
@@ -458,7 +458,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         }
 
         if (Targets.All(x => x.Key.HasDied() || x.Key == exiled))
-            // Error($"CheckTargetEjection - exiled: {exiled.Data.PlayerName}");
+        // Error($"CheckTargetEjection - exiled: {exiled.Data.PlayerName}");
         {
             InquisitorWin(Player);
         }

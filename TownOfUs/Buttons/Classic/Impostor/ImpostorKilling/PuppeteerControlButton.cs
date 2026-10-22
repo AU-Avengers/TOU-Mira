@@ -71,7 +71,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
             }
             return base.CanUse();
         }
-        
+
         if (TimeLordRewindSystem.IsRewinding)
         {
             return false;

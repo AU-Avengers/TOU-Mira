@@ -99,7 +99,7 @@ public static class BucketTooltipData
         }
         else if (_allRoles.ContainsKey(bucket))
         {
-            buckets = [ bucket ];
+            buckets = [bucket];
         }
         else
         {

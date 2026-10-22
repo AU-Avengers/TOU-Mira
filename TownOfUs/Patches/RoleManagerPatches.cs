@@ -692,12 +692,12 @@ public static class TouRoleManagerPatches
 
         commonImpRoles.UnionWith(impSupportRoles);
 
-        impRoles.AddFromBucket(buckets, impKillingRoles, takenRoles, 
+        impRoles.AddFromBucket(buckets, impKillingRoles, takenRoles,
             RoleListOption.ImpKilling, RoleListOption.ImpSpecial);
 
         var specialImpRoles = impKillingRoles;
 
-        impRoles.AddFromBucket(buckets, impPowerRoles, takenRoles, 
+        impRoles.AddFromBucket(buckets, impPowerRoles, takenRoles,
             RoleListOption.ImpPower, RoleListOption.ImpSpecial);
 
         specialImpRoles.UnionWith(impPowerRoles);

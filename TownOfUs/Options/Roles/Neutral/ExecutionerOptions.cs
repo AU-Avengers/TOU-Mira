@@ -20,9 +20,9 @@ public sealed class ExecutionerOptions : AbstractRoleOptionGroup<ExecutionerRole
 
     public ModdedToggleOption ExeAnonymizeWin { get; set; } =
         new("TouOptionNeutAnonymousVictoryWin", false)
-    {
-        Visible = () => OptionGroupSingleton<ExecutionerOptions>.Instance.ExeWin is not ExeWinOptions.EndsGame
-    };
+        {
+            Visible = () => OptionGroupSingleton<ExecutionerOptions>.Instance.ExeWin is not ExeWinOptions.EndsGame
+        };
 }
 
 public enum ExeWinOptions

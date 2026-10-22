@@ -237,7 +237,7 @@ public static class TeamChatPatches
 
             // Get all handlers (built-in + extensions)
             var allHandlers = ExtensionTeamChatRegistry.GetAllAvailableHandlers();
-            
+
             foreach (var handler in allHandlers)
             {
                 if (handler.SendMessage != null && (includeForced || !handler.IsForced))
@@ -381,10 +381,10 @@ public static class TeamChatPatches
             }
 
             // Check if we're currently on a forced chat
-            var currentChat = CurrentChatIndex >= 0 && CurrentChatIndex < chats.Count 
-                ? chats[CurrentChatIndex] 
+            var currentChat = CurrentChatIndex >= 0 && CurrentChatIndex < chats.Count
+                ? chats[CurrentChatIndex]
                 : null;
-            
+
             var isOnForcedChat = currentChat != null && currentChat.IsForced;
 
             // If we're on a forced chat, we can only cycle back to normal chat (not to other team chats)
@@ -579,7 +579,7 @@ public static class TeamChatPatches
         TeamChatManager.RegisterBuiltInChats();
 
         var availableChats = TeamChatManager.GetAllAvailableChats();
-        
+
         if (availableChats.Count == 0)
         {
             // No chats available, just toggle off
@@ -635,8 +635,8 @@ public static class TeamChatPatches
             Sprite[] buttonArray = [ TouChatAssets.NormalChatIdle, TouChatAssets.NormalChatHover, TouChatAssets.NormalChatOpen];
             if (PlayerControl.LocalPlayer.IsLover() && !MeetingHud.Instance)
             {
-                buttonArray = 
-                    [ TouChatAssets.LoveChatIdle, TouChatAssets.LoveChatHover, TouChatAssets.LoveChatOpen];
+                buttonArray =
+                    [TouChatAssets.LoveChatIdle, TouChatAssets.LoveChatHover, TouChatAssets.LoveChatOpen];
             }
             HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
             HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
@@ -666,7 +666,7 @@ public static class TeamChatPatches
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         _teamText.text = string.Empty;
-        
+
         if (GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow &&
             (genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true } || genOpt.VampireChat ||
              Helpers.GetAlivePlayers().Any(x => x.Data.Role is JailorRole)))
@@ -713,18 +713,18 @@ public static class TeamChatPatches
                     var nonForcedChats = availableChats.Where(c => !c.IsForced).ToList();
                     if (nonForcedChats.Count > 1)
                     {
-                    var currentIndexInNonForced = nonForcedChats.FindIndex(c =>
+                        var currentIndexInNonForced = nonForcedChats.FindIndex(c =>
                         c.Priority == currentChat.Priority &&
                         c.DisplayName == currentChat.DisplayName);
 
-                    var chatNumber = currentIndexInNonForced >= 0
+                        var chatNumber = currentIndexInNonForced >= 0
                         ? currentIndexInNonForced + 1
                         : 1;
 
-                    _teamText.text = MiraLocaleManager.Get("TouTeamChatActiveCycle")
-                        .Replace("<chat>", currentChat.DisplayName)
-                        .Replace("<current>", chatNumber.ToString(TownOfUsPlugin.Culture))
-                        .Replace("<total>", nonForcedChats.Count.ToString(TownOfUsPlugin.Culture));
+                        _teamText.text = MiraLocaleManager.Get("TouTeamChatActiveCycle")
+                            .Replace("<chat>", currentChat.DisplayName)
+                            .Replace("<current>", chatNumber.ToString(TownOfUsPlugin.Culture))
+                            .Replace("<total>", nonForcedChats.Count.ToString(TownOfUsPlugin.Culture));
                     }
                     else
                     {
@@ -1376,50 +1376,50 @@ public static class TeamChatPatches
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
-	public static bool AddChat(ChatController __instance, PlayerControl sourcePlayer, string chatText, bool censor = true)
-	{
-		if (!sourcePlayer || !PlayerControl.LocalPlayer)
-		{
+    public static bool AddChat(ChatController __instance, PlayerControl sourcePlayer, string chatText, bool censor = true)
+    {
+        if (!sourcePlayer || !PlayerControl.LocalPlayer)
+        {
             return false;
-		}
-		NetworkedPlayerInfo data = PlayerControl.LocalPlayer.Data;
-		NetworkedPlayerInfo data2 = sourcePlayer.Data;
-		if (data2 == null || data == null || (data2.IsDead && !data.IsDead))
-		{
-			return false;
-		}
-		ChatBubble pooledBubble = __instance.GetPooledBubble();
+        }
+        NetworkedPlayerInfo data = PlayerControl.LocalPlayer.Data;
+        NetworkedPlayerInfo data2 = sourcePlayer.Data;
+        if (data2 == null || data == null || (data2.IsDead && !data.IsDead))
+        {
+            return false;
+        }
+        ChatBubble pooledBubble = __instance.GetPooledBubble();
         var clonedBubble = __instance.GetPooledBubble();
         clonedBubble.gameObject.name = PublicBubbleName;
-		try
-		{
-			pooledBubble.transform.SetParent(PublicChatItems);
+        try
+        {
+            pooledBubble.transform.SetParent(PublicChatItems);
             clonedBubble.transform.SetParent(MergedChatItems);
-			pooledBubble.transform.localScale = Vector3.one;
+            pooledBubble.transform.localScale = Vector3.one;
             clonedBubble.transform.localScale = Vector3.one;
-			bool flag = sourcePlayer.AmOwner;
-			if (flag)
-			{
-				pooledBubble.SetRight();
+            bool flag = sourcePlayer.AmOwner;
+            if (flag)
+            {
+                pooledBubble.SetRight();
                 clonedBubble.SetRight();
-			}
-			else
-			{
-				pooledBubble.SetLeft();
+            }
+            else
+            {
+                pooledBubble.SetLeft();
                 clonedBubble.SetLeft();
-			}
-			bool didVote = MeetingHud.Instance && MeetingHud.Instance.DidVote(sourcePlayer.PlayerId);
-			pooledBubble.SetCosmetics(data2);
+            }
+            bool didVote = MeetingHud.Instance && MeetingHud.Instance.DidVote(sourcePlayer.PlayerId);
+            pooledBubble.SetCosmetics(data2);
             __instance.SetChatBubbleName(pooledBubble, data2, data2.IsDead, didVote, PlayerNameColor.Get(data2), null);
             clonedBubble.SetCosmetics(data2);
             __instance.SetChatBubbleName(clonedBubble, data2, data2.IsDead, didVote, PlayerNameColor.Get(data2), null);
-			if (censor && DataManager.Settings.Multiplayer.CensorChat)
-			{
-				chatText = BlockedWords.CensorWords(chatText, false);
-			}
-			pooledBubble.SetText(chatText);
+            if (censor && DataManager.Settings.Multiplayer.CensorChat)
+            {
+                chatText = BlockedWords.CensorWords(chatText, false);
+            }
+            pooledBubble.SetText(chatText);
             clonedBubble.SetText(chatText);
-			pooledBubble.AlignChildren();
+            pooledBubble.AlignChildren();
             clonedBubble.AlignChildren();
             PublicChatBubbles.Add(pooledBubble);
             MergedChatBubbles.Add(new MergedBubble(clonedBubble, true));
@@ -1428,39 +1428,39 @@ public static class TeamChatPatches
             {
                 __instance.notificationRoutine = __instance.StartCoroutine(__instance.BounceDot());
             }
-			if (!flag && !__instance.IsOpenOrOpening)
-			{
-				SoundManager.Instance.PlaySound(__instance.messageSound, false, 1f, null).pitch = 0.5f + sourcePlayer.PlayerId / 15f;
+            if (!flag && !__instance.IsOpenOrOpening)
+            {
+                SoundManager.Instance.PlaySound(__instance.messageSound, false, 1f, null).pitch = 0.5f + sourcePlayer.PlayerId / 15f;
                 __instance.chatNotification.SetUp(sourcePlayer, chatText);
-			}
-		}
-		catch (Exception message)
-		{
-			ChatController.Logger.Error(message.ToString());
+            }
+        }
+        catch (Exception message)
+        {
+            ChatController.Logger.Error(message.ToString());
             __instance.chatBubblePool.Reclaim(pooledBubble);
             clonedBubble.gameObject.DeepDestroy();
-		}
+        }
         return false;
-	}
+    }
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatWarning))]
-	public static bool AddChatWarning(ChatController __instance, string warningText)
-	{
-		ChatBubble pooledBubble = __instance.GetPooledBubble();
+    public static bool AddChatWarning(ChatController __instance, string warningText)
+    {
+        ChatBubble pooledBubble = __instance.GetPooledBubble();
         var clonedBubble = __instance.GetPooledBubble();
         clonedBubble.gameObject.name = PublicBubbleName;
-		try
-		{
-			pooledBubble.transform.SetParent(PublicChatItems);
+        try
+        {
+            pooledBubble.transform.SetParent(PublicChatItems);
             clonedBubble.transform.SetParent(MergedChatItems);
-			pooledBubble.transform.localScale = Vector3.one;
+            pooledBubble.transform.localScale = Vector3.one;
             clonedBubble.transform.localScale = Vector3.one;
-			pooledBubble.SetRight();
-			pooledBubble.SetWarning(warningText);
+            pooledBubble.SetRight();
+            pooledBubble.SetWarning(warningText);
             clonedBubble.SetRight();
             clonedBubble.SetWarning(warningText);
-			pooledBubble.AlignChildren();
+            pooledBubble.AlignChildren();
             clonedBubble.AlignChildren();
             PublicChatBubbles.Add(pooledBubble);
             MergedChatBubbles.Add(new MergedBubble(clonedBubble, true));
@@ -1469,16 +1469,16 @@ public static class TeamChatPatches
             {
                 __instance.notificationRoutine = __instance.StartCoroutine(__instance.BounceDot());
             }
-			SoundManager.Instance.PlaySound(__instance.warningSound, false, 1f, null);
-		}
-		catch (Exception message)
-		{
-			ChatController.Logger.Error(message.ToString());
+            SoundManager.Instance.PlaySound(__instance.warningSound, false, 1f, null);
+        }
+        catch (Exception message)
+        {
+            ChatController.Logger.Error(message.ToString());
             __instance.chatBubblePool.Reclaim(pooledBubble);
             clonedBubble.gameObject.DeepDestroy();
-		}
+        }
         return false;
-	}
+    }
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Awake))]

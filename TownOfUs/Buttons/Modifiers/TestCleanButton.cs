@@ -71,7 +71,7 @@ public sealed class TestCleanButton : TownOfUsTargetButton<DeadBody>, IAurialByp
             var bodyPlayer = MiscUtils.PlayerById(body.ParentId);
             if (bodyPlayer != null)
             {
-                TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(PlayerControl.LocalPlayer, body, body.transform.position, 
+                TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(PlayerControl.LocalPlayer, body, body.transform.position,
                     TimeLordBodyManager.CleanedBodySource.Janitor);
             }
             Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));

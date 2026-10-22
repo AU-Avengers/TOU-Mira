@@ -198,7 +198,7 @@ public sealed class MinerRole(IntPtr cppPtr)
         miner.Vents.Add(vent);
         if (player.AmOwner || immediate)
         {
-            Coroutines.Start(miner.CoExplode(new Vector3(position.x, position.y + 1.33f , zAxis - 0.0001f)));
+            Coroutines.Start(miner.CoExplode(new Vector3(position.x, position.y + 1.33f, zAxis - 0.0001f)));
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MinerPlaceVent, player, vent);

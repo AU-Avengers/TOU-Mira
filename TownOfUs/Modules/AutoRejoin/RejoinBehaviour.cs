@@ -136,9 +136,9 @@ public class RejoinBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     public static void CancelRejoin()
     {
         Instance?.Cancel();
-        PendingRejoin         = false;
-        SavedGameId           = -1;
+        PendingRejoin = false;
+        SavedGameId = -1;
         CurrentEndGameManager = null;
-        ScreenText            = "";
+        ScreenText = "";
     }
 }

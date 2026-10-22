@@ -33,7 +33,7 @@ public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShield
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
+        var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
         ShowShield = Mirrorcaster.AmOwner ||
                      (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);

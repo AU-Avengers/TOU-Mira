@@ -40,7 +40,7 @@ public static class GhostRoleEvents
         var toHide = OptionGroupSingleton<PostmortemOptions>.Instance.HideChatButton &&
                      OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() <
                      RoleDistribution.HideAndSeek;
-        
+
         if (toHide)
         {
             HudManager.Instance.Chat.SetVisible(false);
@@ -53,7 +53,7 @@ public static class GhostRoleEvents
             HudManager.Instance.Chat.gameObject.SetActive(false);
         }
         yield return new WaitForSeconds(0.1f);
-        
+
         if (toHide)
         {
             HudManager.Instance.Chat.SetVisible(false);
@@ -93,7 +93,7 @@ public static class GhostRoleEvents
             player.AddModifier<BasicGhostModifier>();
         }
     }
-    
+
     [RegisterEvent]
     public static void PlayerCanUseEventHandler(PlayerCanUseEvent @event)
     {
@@ -128,7 +128,7 @@ public static class GhostRoleEvents
         yield return new WaitForSeconds(1f);
 
         var basicGhosts = PlayerControl.AllPlayerControls.ToList();
-        
+
         foreach (var role in MiscUtils.AllTouRoles.OfType<IBasicGhostRole>().OrderBy(x => x.SpawnPriority))
         {
             basicGhosts = role.GetAvailableGhosts(basicGhosts, exiled);

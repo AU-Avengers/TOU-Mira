@@ -83,7 +83,7 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
             "TownOfUsMira.BetterMaps.Option.MapsThemeEnumBirthday", "TownOfUsMira.BetterMaps.Option.MapsThemeEnumHalloween",
             "TownOfUsMira.BetterMaps.Option.MapsThemeEnumTvShow"
         ]);
-    
+
     [ModdedToggleOption("TownOfUsMira.BetterMaps.Option.MapsChangeSaboTimers")]
     public bool ChangeSaboTimers { get; set; } = true;
 

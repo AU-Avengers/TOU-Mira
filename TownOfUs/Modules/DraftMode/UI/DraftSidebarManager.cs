@@ -34,9 +34,9 @@ namespace TownOfUs.Modules.DraftMode
             if (!_active) return;
             _active = false;
             _cachedStaticContent = null!;
-            _cachedPickedCount   = -1;
+            _cachedPickedCount = -1;
             _cachedDisconnectedCount = -1;
-            _cachedDraftActive   = false;
+            _cachedDraftActive = false;
             _cachedRenderedContent = null!;
             _cachedTextComponent = null!;
 
@@ -54,17 +54,17 @@ namespace TownOfUs.Modules.DraftMode
         public static void InvalidateCache()
         {
             _cachedStaticContent = null!;
-            _cachedPickedCount   = -1;
+            _cachedPickedCount = -1;
             _cachedDisconnectedCount = -1;
-            _cachedDraftActive   = false;
+            _cachedDraftActive = false;
             _cachedRenderedContent = null!;
             _cachedTextComponent = null!;
         }
         public static void DrawSidebar(TextMeshPro tmp)
         {
-            tmp.fontSize           = 3f;
-            tmp.fontSizeMin        = 0.5f;
-            tmp.fontSizeMax        = 3f;
+            tmp.fontSize = 3f;
+            tmp.fontSizeMin = 0.5f;
+            tmp.fontSizeMax = 3f;
             tmp.enableWordWrapping = false;
             var content = AnimatedTitle() + GetStaticContent();
             if (tmp != _cachedTextComponent || content != _cachedRenderedContent || tmp.text != content)
@@ -83,8 +83,8 @@ namespace TownOfUs.Modules.DraftMode
             {
                 if (_cachedDraftActive == draftActive && _cachedStaticContent != null)
                     return _cachedStaticContent;
-                _cachedDraftActive   = draftActive;
-                _cachedPickedCount   = -1;
+                _cachedDraftActive = draftActive;
+                _cachedPickedCount = -1;
                 _cachedDisconnectedCount = -1;
                 _cachedStaticContent = $"\n\n<color=#7A8089><i>{MiraLocaleManager.Get("TouDraftWaitingToStart", "Waiting to start...")}</i></color>";
                 return _cachedStaticContent;
@@ -143,7 +143,7 @@ namespace TownOfUs.Modules.DraftMode
             sb.Append(Shimmer(draftWord, new Color(1f, 0.31f, 0.31f), t, 0));
             sb.Append(' ');
             sb.Append(Shimmer(modeWord, new Color(1f, 0.31f, 0.31f), t, draftWord.Length + 1));
-            sb.Append("</b></size>"); 
+            sb.Append("</b></size>");
             sb.Append(' ');
             sb.Append($"<sprite name=\"TouMira.Gamemode.DraftMode\">");
             return sb.ToString();
@@ -221,20 +221,21 @@ namespace TownOfUs.Modules.DraftMode
                 DraftRecapMode.Faction   => $"{faction.ToUpperInvariant()} <sprite name=\"AmongUs.Role.{actualFaction}\">",
                 _   => MiraLocaleManager.Get("TouDraftARoleLabel", "a role"),
             };
-            if(displayMode == DraftRecapMode.Nothing)
+            if (displayMode == DraftRecapMode.Nothing)
             {
                 colorHex = "#f7f7f7";
 
-            } else if(displayMode == DraftRecapMode.Role)
+            }
+            else if (displayMode == DraftRecapMode.Role)
             {
                 colorHex = "#" + role.TeamColor.ToHtmlStringRGBA();
-            } 
+            }
             else
             {
-                colorHex ="#" + MiscUtils.GetRoleFactionColor(role).ToHtmlStringRGBA();
+                colorHex = "#" + MiscUtils.GetRoleFactionColor(role).ToHtmlStringRGBA();
             }
             return (text, colorHex);
-    }
+        }
     }
 
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnDisconnected))]

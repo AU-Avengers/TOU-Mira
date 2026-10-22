@@ -107,7 +107,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         TouRoleUtils.ClearTaskHeader(Player);
 
-        Player.GetModifiers<AmnesiacArrowModifier>().Do([HideFromIl2Cpp](x) => x.RemoveSelf());
+        Player.GetModifiers<AmnesiacArrowModifier>().Do([HideFromIl2Cpp] (x) => x.RemoveSelf());
     }
 
     public override bool DidWin(GameOverReason gameOverReason)
@@ -141,7 +141,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
                     $"<b>{text.Replace("<role>", $"{roleWhenAlive.TeamColor.ToTextColor()}{roleWhenAlive.GetRoleName()}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac);
                 notif1.AdjustNotification();
-AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
+                AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
             }
 
             return;
@@ -155,7 +155,7 @@ AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac);
                 notif1.AdjustNotification();
-AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
+                AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
             }
 
             return;
@@ -169,7 +169,7 @@ AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
         {
             var newTargets = new Dictionary<PlayerControl, RoleBehaviour>();
             foreach (var heretic in ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>()
-                         .Where(x => x.Player != player).OrderBy([HideFromIl2Cpp](x) => x.TargetRole.GetRoleName()))
+                         .Where(x => x.Player != player).OrderBy([HideFromIl2Cpp] (x) => x.TargetRole.GetRoleName()))
             {
                 newTargets.Add(heretic.Player, heretic.TargetRole);
             }

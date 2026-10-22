@@ -39,7 +39,7 @@ public sealed class ArsonistDouseButton : TownOfUsRoleButton<ArsonistRole, Playe
     public static IEnumerator CoSetDouses()
     {
         yield return new WaitForSeconds(0.01f);
-        
+
         ArsonistRole.SetDouseUses();
     }
 
