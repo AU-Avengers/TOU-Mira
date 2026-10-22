@@ -265,37 +265,19 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return false;
         }
 
-        if (role.IsCrewmate())
+        if (role.IsCrewmate() || role.IsImpostor())
         {
             return true;
         }
 
-        if (role.IsImpostor())
+        return alignment switch
         {
-            return true;
-        }
-
-        if (alignment == RoleAlignment.NeutralBenign)
-        {
-            return options.VigilanteGuessNeutralBenign.Value;
-        }
-
-        if (alignment == RoleAlignment.NeutralEvil)
-        {
-            return options.VigilanteGuessNeutralEvil.Value;
-        }
-
-        if (alignment == RoleAlignment.NeutralKilling)
-        {
-            return options.VigilanteGuessNeutralKilling.Value;
-        }
-
-        if (alignment == RoleAlignment.NeutralOutlier)
-        {
-            return options.VigilanteGuessNeutralOutlier.Value;
-        }
-
-        return false;
+            RoleAlignment.NeutralBenign  => options.VigilanteGuessNeutralBenign,
+            RoleAlignment.NeutralEvil    => options.VigilanteGuessNeutralEvil,
+            RoleAlignment.NeutralKilling => options.VigilanteGuessNeutralKilling,
+            RoleAlignment.NeutralOutlier => options.VigilanteGuessNeutralOutlier,
+            _ => false
+        };
     }
 
     private static bool IsModifierValid(BaseModifier baseModifier)
