@@ -98,3 +98,6 @@ dotnet_diagnostic.S1144.severity = none
 
 # S2437: Unnecessary bit operations should not be performed
 dotnet_diagnostic.S2437.severity = none
+
+# S2365: Properties should not make collection or array copies
+dotnet_diagnostic.S2365.severity = suggestion
