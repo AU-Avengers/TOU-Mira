@@ -142,6 +142,11 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
         }
     }
 
+    public static void BumpCharge()
+    {
+        _availableCharge = Mathf.Clamp(_availableCharge + OptionGroupSingleton<SentryOptions>.Instance.PortableCamsRechargePerTask.Value, 0, 100);
+    }
+
     public static void HandleMinigameClosedStatic(Minigame closing)
     {
         try
