@@ -328,8 +328,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         {
             player = disguise.Target;
         }
-        var mod = player.GetModifier<BaseRevealModifier>(
-            x => x.Visible && x is FirstRoundIndicator && x.ExtraNameText != string.Empty);
+        var mod = player.GetModifier<FirstRoundIndicator>(
+            x => x.Visible && x.ExtraNameText != string.Empty);
         return mod?.ExtraNameText ?? string.Empty;
     }
 
