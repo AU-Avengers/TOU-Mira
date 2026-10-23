@@ -28,21 +28,6 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fix", "Fix"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fix.WikiDescription").Replace("<engiMaxFixes>",
-                        $"{(int)OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes}"),
-                    TouCrewAssets.FixButtonSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

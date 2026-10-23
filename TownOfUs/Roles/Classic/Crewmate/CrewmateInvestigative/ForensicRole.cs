@@ -32,23 +32,6 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Inspect", "Inspect"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Inspect.WikiDescription"),
-                    TouCrewAssets.InspectSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Examine", "Examine"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Examine.WikiDescription"),
-                    TouCrewAssets.ExamineSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get
@@ -126,7 +109,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             text = text.Replace("<deadPlayer>", deadPlayer.Data.PlayerName);
             if (firstAttempt)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.BloodyHands);
+                TouAchievements.BloodyHands.Unlock();
             }
         }
         else

@@ -106,7 +106,7 @@ public sealed record BodyReport
             }
             else
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.RightOnTime);
+                TouAchievements.RightOnTime.Unlock();
 
                 if (br.KillAge < OptionGroupSingleton<ForensicOptions>.Instance.ForensicRoleDuration * 1000)
                 {

@@ -31,24 +31,6 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bless", "Bless"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bless.WikiDescription"),
-                    TouCrewAssets.BlessSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Confess", "Confess"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Confess.WikiDescription").Replace("<revealAccuracy>",
-                        $"{OptionGroupSingleton<OracleOptions>.Instance.RevealAccuracyPercentage}"),
-                    TouCrewAssets.ConfessSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

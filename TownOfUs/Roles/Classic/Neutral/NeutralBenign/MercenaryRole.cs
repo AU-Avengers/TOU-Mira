@@ -64,23 +64,6 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Guard", "Guard"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Guard.WikiDescription"),
-                    TouNeutAssets.GuardSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bribe", "Bribe"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bribe.WikiDescription"),
-                    TouNeutAssets.BribeSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

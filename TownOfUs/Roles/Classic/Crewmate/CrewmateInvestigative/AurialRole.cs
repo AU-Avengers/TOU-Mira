@@ -69,13 +69,13 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         {
             if (!willColor)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.StrangerDanger);
+                TouAchievements.StrangerDanger.Unlock();
             }
             yield break;
         }
 
-        AchievementsAPIHelper.Increment(TouAchievements.ForceBeWithYou, 1,
-            AchievementsAPIHelper.GetCurrentValue(TouAchievements.ForceBeWithYou) == 4);
+        TouAchievements.ForceBeWithYou.Increment(1,
+            TouAchievements.ForceBeWithYou.GetCurrentValue() == 4);
 
         var position = player.transform.position;
         var colorID = player.Data.DefaultOutfit.ColorId;

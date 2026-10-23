@@ -42,7 +42,7 @@ public static class KnightedEvents
             knight.Announced = true;
             if (knight.Player.Data.Role is MayorRole mayor && mayor.Revealed)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.RiggedVotes);
+                TouAchievements.RiggedVotes.Unlock();
             }
 
             var message = MiraLocaleManager.Get("TownOfUsMira.Role.MonarchKnightedFeedback").Replace("<role>", role).Replace("<votes>", votes);

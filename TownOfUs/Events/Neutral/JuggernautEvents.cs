@@ -24,7 +24,7 @@ public static class JuggernautEvents
         button.ResetCooldownAndOrEffect();
         if (button.Cooldown == 0)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Ballistic);
+            TouAchievements.Ballistic.Unlock();
         }
     }
 }

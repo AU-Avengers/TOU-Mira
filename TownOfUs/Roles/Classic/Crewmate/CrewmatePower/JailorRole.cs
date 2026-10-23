@@ -292,7 +292,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                     text = MiraLocaleManager.Get("TownOfUsMira.Role.JailorExecutedEvil");
                     if (!HasSpokenThisMeeting)
                     {
-                        AchievementsAPIHelper.Unlock(TouAchievements.NoChances);
+                        TouAchievements.NoChances.Unlock();
                     }
                 }
 
@@ -301,7 +301,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             }
             else
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.ToKillAGod);
+                TouAchievements.ToKillAGod.Unlock();
             }
             text = text.Replace("<player>", Jailed.Data.PlayerName);
 

@@ -43,20 +43,6 @@ public sealed class WarlockRole(IntPtr cppPtr)
     };
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}BurstKill", "Burst Kill"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Kill.WikiDescription"),
-                    TouAssets.KillSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

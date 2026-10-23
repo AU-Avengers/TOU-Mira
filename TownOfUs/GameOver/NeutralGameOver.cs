@@ -62,7 +62,7 @@ public sealed class NeutralGameOver : CustomGameOver
         text.transform.localScale = new Vector3(1f, 1f, 1f);
         if (_role is PlaguebearerRole && _role.Player.AmOwner)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.CommonCold);
+            TouAchievements.CommonCold.Unlock();
         }
 
         text.transform.position = pos;

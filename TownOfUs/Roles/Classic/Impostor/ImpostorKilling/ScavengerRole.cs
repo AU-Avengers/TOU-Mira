@@ -129,8 +129,6 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         return stringB;
     }
 
-    [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
     public override void OnDeath(DeathReason reason)
     {
         RoleBehaviourStubs.OnDeath(this, reason);

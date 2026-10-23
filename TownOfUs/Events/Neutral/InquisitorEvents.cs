@@ -35,7 +35,7 @@ public static class InquisitorEvents
                 stats.CorrectKills += 1;
                 if (source.AmOwner && stats.CorrectKills == (int)OptionGroupSingleton<InquisitorOptions>.Instance.AmountOfHeretics.Value)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.SpanishInquisition);
+                    TouAchievements.SpanishInquisition.Unlock();
                 }
             }
             else if (source != victim)

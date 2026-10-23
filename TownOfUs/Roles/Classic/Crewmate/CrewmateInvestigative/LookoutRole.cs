@@ -37,22 +37,6 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         IntroSound = TouAudio.SuspenseIntro,
     };
 
-
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Watch", "Watch"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Watch.WikiDescription"),
-                    TouCrewAssets.WatchSprite)
-            ];
-        }
-    }
-
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {

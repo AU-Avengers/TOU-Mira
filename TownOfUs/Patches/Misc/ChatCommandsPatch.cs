@@ -548,7 +548,7 @@ public static class ChatPatches
                                 var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.IdPart : matchingRole.GetRoleName();
                                 RpcForcePlayerRole(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer);
                                 UpCommandRequests.SetRequest(targetName, roleIdentifier);
-                                AchievementsAPIHelper.Unlock(TouAchievements.Cheater);
+                                TouAchievements.Cheater.Unlock();
                                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                                     MiraLocaleManager.Get("UpCommandSuccess").Replace("<role>", MiscUtils.GetReliableHyperlinkText(matchingRole)));
                             }

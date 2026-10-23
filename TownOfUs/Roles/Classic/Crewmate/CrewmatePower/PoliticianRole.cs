@@ -123,7 +123,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         }
         if (Helpers.GetAlivePlayers().Count == 2)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.DeathByDemocracy);
+            TouAchievements.DeathByDemocracy.Unlock();
         }
 
         // All living crewmates excluding the Politician
