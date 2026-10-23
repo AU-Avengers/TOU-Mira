@@ -24,6 +24,8 @@ namespace TownOfUs.Roles.Impostor;
 
 public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
+    public static readonly ControlState ControlState = new();
+
     [HideFromIl2Cpp] public PlayerControl? Controlled { get; set; }
     private float _overtakeKillLockoutUntil;
     private bool _killPendingFromTimer;
@@ -699,7 +701,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         Controlled = target;
         _overtakeKillLockoutUntil = Time.time + OptionGroupSingleton<ParasiteOptions>.Instance.OvertakeKillCooldown;
 
-        ParasiteControlState.SetControl(target.PlayerId, parasite.PlayerId);
+        ParasiteRole.ControlState.SetControl(target.PlayerId, parasite.PlayerId);
         if (!target.HasModifier<ParasiteInfectedModifier>())
         {
             target.AddModifier<ParasiteInfectedModifier>(parasite);
@@ -760,7 +762,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         if (target != null)
         {
-            ParasiteControlState.ClearControl(target.PlayerId);
+            ParasiteRole.ControlState.ClearControl(target.PlayerId);
             if (target.TryGetModifier<ParasiteInfectedModifier>(out var mod))
             {
                 target.RemoveModifier(mod);
@@ -864,7 +866,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        if (role.Controlled != controlled || !ParasiteControlState.IsControlled(controlled.PlayerId, out _))
+        if (role.Controlled != controlled || !ParasiteRole.ControlState.IsControlled(controlled.PlayerId, out _))
         {
             return;
         }
@@ -1040,7 +1042,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     public void LobbyStart()
     {
-        ParasiteControlState.ClearAll();
+        ParasiteRole.ControlState.ClearAll();
 
         foreach (var parasiteMod in ModifierUtils.GetActiveModifiers<ParasiteInfectedModifier>())
         {

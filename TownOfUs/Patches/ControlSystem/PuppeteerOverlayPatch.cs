@@ -1,6 +1,6 @@
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules.ControlSystem;
+using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Patches.ControlSystem;
 
@@ -11,7 +11,7 @@ public static class PuppeteerOverlayPatch
         var local = PlayerControl.LocalPlayer;
 
         var hasModifier = local.TryGetModifier<PuppeteerControlModifier>(out var mod);
-        var isControlled = PuppeteerControlState.IsControlled(local.PlayerId, out var controllerId);
+        var isControlled = PuppeteerRole.ControlState.IsControlled(local.PlayerId, out var controllerId);
 
         if (hasModifier && !isControlled)
         {
@@ -44,7 +44,7 @@ public static class PuppeteerOverlayPatch
                 mod?.ClearNotification();
                 if (mod != null)
                 {
-                    PuppeteerControlState.ClearControl(local.PlayerId);
+                    PuppeteerRole.ControlState.ClearControl(local.PlayerId);
                     local.RemoveModifier(mod);
                 }
             }

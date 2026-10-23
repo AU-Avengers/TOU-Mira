@@ -72,8 +72,8 @@ public static class ControlStateEvents
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent _)
     {
-        ParasiteControlState.ClearAll();
-        PuppeteerControlState.ClearAll();
+        ParasiteRole.ControlState.ClearAll();
+        PuppeteerRole.ControlState.ClearAll();
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
@@ -102,8 +102,8 @@ public static class ControlStateEvents
     [RegisterEvent]
     public static void ClientGameEndEventHandler(ClientGameEndEvent _)
     {
-        ParasiteControlState.ClearAll();
-        PuppeteerControlState.ClearAll();
+        ParasiteRole.ControlState.ClearAll();
+        PuppeteerRole.ControlState.ClearAll();
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {

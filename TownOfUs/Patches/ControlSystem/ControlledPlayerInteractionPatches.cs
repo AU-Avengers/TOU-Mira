@@ -44,7 +44,7 @@ public static class ControlledPlayerInteractionPatches
         {
             var controlled = puppeteerRole.Controlled;
             if (controlled != null && !controlled.HasDied() && 
-                PuppeteerControlState.IsControlled(controlled.PlayerId, out _))
+                PuppeteerRole.ControlState.IsControlled(controlled.PlayerId, out _))
             {
                 __result = false;
                 return false;
@@ -55,7 +55,7 @@ public static class ControlledPlayerInteractionPatches
         {
             var controlled = parasiteRole.Controlled;
             if (controlled != null && !controlled.HasDied() && 
-                ParasiteControlState.IsControlled(controlled.PlayerId, out _))
+                ParasiteRole.ControlState.IsControlled(controlled.PlayerId, out _))
             {
                 __result = false;
                 return false;
@@ -82,7 +82,7 @@ public static class ControlledPlayerInteractionPatches
         {
             var controlled = puppeteerRole.Controlled;
             if (controlled != null && !controlled.HasDied() && 
-                PuppeteerControlState.IsControlled(controlled.PlayerId, out _))
+                PuppeteerRole.ControlState.IsControlled(controlled.PlayerId, out _))
             {
                 var (interactable, interactablePos) = FindClosestInteractable(controlled);
                 if (interactable != null)
@@ -97,7 +97,7 @@ public static class ControlledPlayerInteractionPatches
         {
             var controlled = parasiteRole.Controlled;
             if (controlled != null && !controlled.HasDied() && 
-                ParasiteControlState.IsControlled(controlled.PlayerId, out _))
+                ParasiteRole.ControlState.IsControlled(controlled.PlayerId, out _))
             {
                 var (interactable, interactablePos) = FindClosestInteractable(controlled);
                 if (interactable != null)
@@ -168,7 +168,7 @@ public static class ControlledPlayerInteractionPatches
         {
             var controlled = puppeteerRole.Controlled;
             if (controlled != null && !controlled.HasDied() && 
-                PuppeteerControlState.IsControlled(controlled.PlayerId, out _))
+                PuppeteerRole.ControlState.IsControlled(controlled.PlayerId, out _))
             {
                 isControlling = true;
                 controlledPlayer = controlled;
@@ -179,7 +179,7 @@ public static class ControlledPlayerInteractionPatches
         {
             var controlled = parasiteRole.Controlled;
             if (controlled != null && !controlled.HasDied() && 
-                ParasiteControlState.IsControlled(controlled.PlayerId, out _))
+                ParasiteRole.ControlState.IsControlled(controlled.PlayerId, out _))
             {
                 isControlling = true;
                 controlledPlayer = controlled;

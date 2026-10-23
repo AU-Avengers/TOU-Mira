@@ -4,7 +4,6 @@ using MiraAPI.Modifiers;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
@@ -130,7 +129,7 @@ public static class ParasiteMovementPatches
             return false;
         }
 
-        if (ParasiteControlState.IsControlled(player.PlayerId, out _))
+        if (ParasiteRole.ControlState.IsControlled(player.PlayerId, out _))
         {
             if (TimeLordRewindSystem.IsRewinding)
             {
@@ -167,10 +166,10 @@ public static class ParasiteMovementPatches
 
     private static void ApplyAllDataTo(PlayerPhysics __instance, byte controlledId)
     {
-        Vector2 dir = ParasiteControlState.GetDirection(controlledId);
-        Vector2 pos = ParasiteControlState.GetPosition(controlledId);
-        Vector2 vel = ParasiteControlState.GetVelocity(controlledId);
-        bool inAnim = ParasiteControlState.IsInAnim(controlledId);
+        Vector2 dir = ParasiteRole.ControlState.GetDirection(controlledId);
+        Vector2 pos = ParasiteRole.ControlState.GetPosition(controlledId);
+        Vector2 vel = ParasiteRole.ControlState.GetVelocity(controlledId);
+        bool inAnim = ParasiteRole.ControlState.IsInAnim(controlledId);
 
         __instance.HandleAnimation(__instance.myPlayer.Data.IsDead);
 
@@ -214,9 +213,9 @@ public static class ParasiteMovementPatches
             return true;
         }
 
-        if (player.AmOwner && ParasiteControlState.IsControlled(player.PlayerId, out _))
+        if (player.AmOwner && ParasiteRole.ControlState.IsControlled(player.PlayerId, out _))
         {
-            direction = ParasiteControlState.GetDirection(player.PlayerId);
+            direction = ParasiteRole.ControlState.GetDirection(player.PlayerId);
         }
 
         return true;
@@ -232,7 +231,7 @@ public static class ParasiteMovementPatches
         }
 
         var player = __instance.myPlayer;
-        if (!ParasiteControlState.IsControlled(player.PlayerId, out _))
+        if (!ParasiteRole.ControlState.IsControlled(player.PlayerId, out _))
         {
             return true;
         }

@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
@@ -117,7 +116,7 @@ public static class PuppeteerMovementPatches
             return false;
         }
 
-        if (PuppeteerControlState.IsControlled(player.PlayerId, out _))
+        if (PuppeteerRole.ControlState.IsControlled(player.PlayerId, out _))
         {
             if (TimeLordRewindSystem.IsRewinding)
             {
@@ -154,10 +153,10 @@ public static class PuppeteerMovementPatches
 
     private static void ApplyAllDataTo(PlayerPhysics __instance, byte controlledId)
     {
-        Vector2 dir = PuppeteerControlState.GetDirection(controlledId);
-        Vector2 pos = PuppeteerControlState.GetPosition(controlledId);
-        Vector2 vel = PuppeteerControlState.GetVelocity(controlledId);
-        bool inAnim = PuppeteerControlState.IsInAnim(controlledId);
+        Vector2 dir = PuppeteerRole.ControlState.GetDirection(controlledId);
+        Vector2 pos = PuppeteerRole.ControlState.GetPosition(controlledId);
+        Vector2 vel = PuppeteerRole.ControlState.GetVelocity(controlledId);
+        bool inAnim = PuppeteerRole.ControlState.IsInAnim(controlledId);
 
         __instance.HandleAnimation(__instance.myPlayer.Data.IsDead);
 
@@ -201,9 +200,9 @@ public static class PuppeteerMovementPatches
             return true;
         }
 
-        if (player.AmOwner && PuppeteerControlState.IsControlled(player.PlayerId, out _))
+        if (player.AmOwner && PuppeteerRole.ControlState.IsControlled(player.PlayerId, out _))
         {
-            direction = PuppeteerControlState.GetDirection(player.PlayerId);
+            direction = PuppeteerRole.ControlState.GetDirection(player.PlayerId);
         }
 
         return true;
@@ -219,7 +218,7 @@ public static class PuppeteerMovementPatches
         }
 
         var player = __instance.myPlayer;
-        if (!PuppeteerControlState.IsControlled(player.PlayerId, out _))
+        if (!PuppeteerRole.ControlState.IsControlled(player.PlayerId, out _))
         {
             return true;
         }

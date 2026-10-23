@@ -3,24 +3,24 @@
 namespace TownOfUs.Modules.ControlSystem;
 
 /// <summary>
-/// Per-client state for Puppeteer control. This is intentionally client-local:
-/// - The Puppeteer sends the desired direction for a controlled player via RPC.
+/// Per-client state for cross-player-control. This is intentionally client-local:
+/// - The controller sends the desired direction for a controlled player via RPC.
 /// - The controlled player's owner applies that direction inside a movement patch.
 /// </summary>
-public static class PuppeteerControlState
+public class ControlState
 {
     // After initial control begins, different clients may briefly disagree on transform state.
     // During this grace window we avoid applying any victim movement input to prevent desync.
     public const float InitialControlSyncGraceSeconds = 1.0f;
 
-    private static readonly Dictionary<byte, byte> ControlledBy = [];
-    private static readonly Dictionary<byte, Vector2> ControlledDirection = [];
-    private static readonly Dictionary<byte, Vector2> ControlledPosition = [];
-    private static readonly Dictionary<byte, Vector2> ControlledVelocity = [];
-    private static readonly Dictionary<byte, bool> ControlledInAnim = [];
-    private static readonly Dictionary<byte, float> ControlledSince = [];
+    private readonly Dictionary<byte, byte> ControlledBy = [];
+    private readonly Dictionary<byte, Vector2> ControlledDirection = [];
+    private readonly Dictionary<byte, Vector2> ControlledPosition = [];
+    private readonly Dictionary<byte, Vector2> ControlledVelocity = [];
+    private readonly Dictionary<byte, bool> ControlledInAnim = [];
+    private readonly Dictionary<byte, float> ControlledSince = [];
 
-    public static void SetControl(byte controlledId, byte controllerId)
+    public virtual void SetControl(byte controlledId, byte controllerId)
     {
         ControlledBy[controlledId] = controllerId;
         ControlledDirection[controlledId] = Vector2.zero;
@@ -30,7 +30,7 @@ public static class PuppeteerControlState
         ControlledSince[controlledId] = Time.time;
     }
 
-    public static void ClearControl(byte controlledId)
+    public virtual void ClearControl(byte controlledId)
     {
         ControlledBy.Remove(controlledId);
         ControlledDirection.Remove(controlledId);
@@ -40,54 +40,59 @@ public static class PuppeteerControlState
         ControlledSince.Remove(controlledId);
     }
 
-    public static bool IsControlled(byte controlledId, out byte controllerId)
+    public bool IsControlled(byte controlledId, out byte controllerId)
     {
         return ControlledBy.TryGetValue(controlledId, out controllerId);
     }
 
-    public static void SetDirection(byte controlledId, Vector2 direction)
+    public void SetForcedDirection(byte controlledId, Vector2 direction)
     {
         ControlledDirection[controlledId] = direction;
     }
 
-    public static Vector2 GetDirection(byte controlledId)
+    public Vector2 GetForcedDirection(byte controlledId)
     {
         return ControlledDirection.TryGetValue(controlledId, out var dir) ? dir : Vector2.zero;
     }
 
-    public static void SetMovementState(byte controlledId, Vector2 position, bool inAnim, Vector2 velocity)
+    public virtual Vector2 GetDirection(byte playerId)
+    {
+        return GetForcedDirection(playerId);
+    }
+
+    public void SetMovementState(byte controlledId, Vector2 position, bool inAnim, Vector2 velocity)
     {
         ControlledPosition[controlledId] = position;
         ControlledInAnim[controlledId] = inAnim;
         ControlledVelocity[controlledId] = velocity;
     }
 
-    public static Vector2 GetPosition(byte controlledId)
+    public Vector2 GetPosition(byte controlledId)
     {
         return ControlledPosition.TryGetValue(controlledId, out var pos) ? pos : Vector2.zero;
     }
 
-    public static bool IsInAnim(byte controlledId)
+    public bool IsInAnim(byte controlledId)
     {
         return ControlledInAnim.TryGetValue(controlledId, out var val) && val;
     }
 
-    public static Vector2 GetVelocity(byte controlledId)
+    public Vector2 GetVelocity(byte controlledId)
     {
         return ControlledVelocity.TryGetValue(controlledId, out var vel) ? vel : Vector2.zero;
     }
 
-    public static float GetControlElapsedSeconds(byte controlledId)
+    public float GetControlElapsedSeconds(byte controlledId)
     {
         return ControlledSince.TryGetValue(controlledId, out var since) ? Mathf.Max(0f, Time.time - since) : float.PositiveInfinity;
     }
 
-    public static bool IsInInitialGrace(byte controlledId)
+    public bool IsInInitialGrace(byte controlledId)
     {
         return GetControlElapsedSeconds(controlledId) < InitialControlSyncGraceSeconds;
     }
 
-    public static void ClearAll()
+    public virtual void ClearAll()
     {
         ControlledBy.Clear();
         ControlledDirection.Clear();

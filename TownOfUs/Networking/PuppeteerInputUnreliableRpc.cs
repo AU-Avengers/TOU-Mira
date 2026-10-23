@@ -3,7 +3,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Networking.Extensions;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modules;
-using TownOfUs.Modules.ControlSystem;
+using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Networking;
@@ -51,13 +51,13 @@ internal sealed class PuppeteerInputUnreliableRpc(TownOfUsPlugin plugin, uint id
         }
 
         if (sender == null ||
-            !PuppeteerControlState.IsControlled(data.ControlledId, out var controllerId) ||
+            !PuppeteerRole.ControlState.IsControlled(data.ControlledId, out var controllerId) ||
             controllerId != sender.PlayerId)
         {
             return;
         }
 
-        PuppeteerControlState.SetDirection(data.ControlledId, data.Direction);
-        PuppeteerControlState.SetMovementState(data.ControlledId, data.Position, data.InAnim, data.Velocity);
+        PuppeteerRole.ControlState.SetForcedDirection(data.ControlledId, data.Direction);
+        PuppeteerRole.ControlState.SetMovementState(data.ControlledId, data.Position, data.InAnim, data.Velocity);
     }
 }

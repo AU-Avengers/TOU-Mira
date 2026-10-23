@@ -98,7 +98,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 controlled.Data == null ||
                 controlled.HasDied() ||
                 controlled.Data.Disconnected ||
-                !ParasiteControlState.IsControlled(controlled.PlayerId, out _))
+                !ParasiteRole.ControlState.IsControlled(controlled.PlayerId, out _))
             {
                 if (controlled != null)
                 {
@@ -228,8 +228,8 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
         TimerPaused = false;
         var localRole = PlayerControl.LocalPlayer?.Data?.Role as ParasiteRole;
         if (localRole?.Controlled != null &&
-            ParasiteControlState.IsControlled(localRole.Controlled.PlayerId, out _) &&
-            ParasiteControlState.IsInInitialGrace(localRole.Controlled.PlayerId))
+            ParasiteRole.ControlState.IsControlled(localRole.Controlled.PlayerId, out _) &&
+            ParasiteRole.ControlState.IsInInitialGrace(localRole.Controlled.PlayerId))
         {
             TimerPaused = true;
         }
@@ -477,7 +477,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             pr.Controlled.Data != null &&
             !pr.Controlled.HasDied() &&
             !pr.Controlled.Data.Disconnected &&
-            ParasiteControlState.IsControlled(pr.Controlled.PlayerId, out _))
+            ParasiteRole.ControlState.IsControlled(pr.Controlled.PlayerId, out _))
         {
             if (pr.GetOvertakeKillLockoutRemainingSeconds() > 0f)
             {
