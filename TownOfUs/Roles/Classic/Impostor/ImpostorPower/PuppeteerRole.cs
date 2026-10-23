@@ -377,6 +377,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
 
         ControlledPlayerInteractionPatches.TriggerInteractionAsPlayer(controlled, interactable);
+        ControlledPlayerInteractionPatches.SetStateForController(puppeteer, interactable);
     }
 
     public void LobbyStart()

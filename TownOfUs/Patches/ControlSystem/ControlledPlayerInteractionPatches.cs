@@ -346,4 +346,39 @@ public static class ControlledPlayerInteractionPatches
             deconControl.OnUse.Invoke();
         }
     }
+
+    public static void SetStateForController(PlayerControl controller, IUsable interactable)
+    {
+        if (controller == null || interactable == null)
+        {
+            return;
+        }
+
+        if (!controller.AmOwner)
+        {
+            return;
+        }
+
+        if (interactable.TryCast<Ladder>() is { } ladder)
+        {
+            if (ladder.IsCoolingDown())
+            {
+                return;
+            }
+            ladder.CoolDown = ladder.MaxCoolDown;
+        }
+        else if (interactable.TryCast<ZiplineConsole>() is { } zipline)
+        {
+            if (zipline.IsCoolingDown())
+            {
+                return;
+            }
+            zipline.CoolDown = zipline.MaxCoolDown;
+            zipline.zipline.lastUsedConsole = zipline;
+        }
+        else if (interactable.TryCast<DeconControl>() is { } decon)
+        {
+            decon.cooldown = 6f;
+        }
+    }
 }

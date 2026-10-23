@@ -879,6 +879,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         // Trigger the interaction as the controlled player
         ControlledPlayerInteractionPatches.TriggerInteractionAsPlayer(controlled, interactable);
+        ControlledPlayerInteractionPatches.SetStateForController(parasite, interactable);
     }
 
     public void LobbyStart()
