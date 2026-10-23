@@ -156,6 +156,14 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         }
     }
 
+    public static bool LoverSeesRoleVisibilityFlag(PlayerControl player)
+    {
+        var loverKnowsOtherRole = OptionGroupSingleton<LoversOptions>.Instance.LoverKnowsOthersRole &&
+                                  PlayerControl.LocalPlayer.IsLoverWithPlayer(player);
+
+        return loverKnowsOtherRole;
+    }
+
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
     public override int GetAmountPerGame()

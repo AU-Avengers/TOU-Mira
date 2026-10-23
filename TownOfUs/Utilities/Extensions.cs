@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using AmongUs.GameOptions;
 using LibCpp2IL;
 using MiraAPI.Events;
@@ -67,9 +68,21 @@ public static class Extensions
         return player?.HasModifier<LoverModifier>() == true;
     }
 
+    public static bool IsLoverWith(this PlayerControl player, [NotNullWhen(true)] out PlayerControl? with)
+    {
+        with = null;
+        if (player?.TryGetModifier<LoverModifier>(out var loveMod) == true &&
+            loveMod.OtherLover?.HasModifier<LoverModifier>(lm => lm.OtherLover == player) == true)
+        {
+            with = loveMod.OtherLover;
+        }
+
+        return with != null;
+    }
+
     public static bool IsLoverWithPlayer(this PlayerControl player, PlayerControl player2)
     {
-        return player?.TryGetModifier<LoverModifier>(out var love) == true && love.OtherLover == player2;
+        return player.IsLoverWith(out var love) && love == player2;
     }
 
     public static bool IsImpostorAligned(this PlayerControl player)
