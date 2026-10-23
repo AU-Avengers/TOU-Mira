@@ -370,80 +370,13 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             return;
         }
 
-        var interactable = FindInteractableAtPosition(interactablePosition, controlled);
+        var interactable = ControlledPlayerInteractionPatches.FindClosestInteractable(controlled, interactablePosition);
         if (interactable == null)
         {
             return;
         }
 
         TriggerInteractionAsPlayer(controlled, interactable);
-    }
-
-    private static IUsable? FindInteractableAtPosition(Vector2 position, PlayerControl player)
-    {
-        if (player == null)
-        {
-            return null;
-        }
-
-        var closestDistance = float.MaxValue;
-        IUsable? closestInteractable = null;
-
-        var cached = ControlledPlayerInteractionPatches.GetCachedInteractables();
-        var interactablesToCheck = cached != null && cached.Count > 0 
-            ? cached 
-            : GetInteractablesList();
-
-        const float maxCheckDistance = 5f;
-
-        foreach (var usable in interactablesToCheck)
-        {
-            if (usable == null)
-            {
-                continue;
-            }
-
-            var obj = usable.TryCast<MonoBehaviour>();
-            if (obj == null)
-            {
-                continue;
-            }
-
-            var objPos = (Vector2)obj.transform.position;
-            var distance = Vector2.Distance(position, objPos);
-            if (distance > maxCheckDistance || distance > usable.UsableDistance)
-            {
-                continue;
-            }
-
-            usable.CanUse(player.Data, out bool canUse, out _);
-            if (!canUse)
-            {
-                continue;
-            }
-
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestInteractable = usable;
-            }
-        }
-
-        return closestInteractable;
-    }
-
-    private static List<IUsable> GetInteractablesList()
-    {
-        var result = new List<IUsable>();
-        var allUsables = FindObjectsOfType<MonoBehaviour>();
-        foreach (var obj in allUsables)
-        {
-            if (obj.TryCast<IUsable>() is { } usable && usable.TryCast<Vent>() == null)
-            {
-                result.Add(usable);
-            }
-        }
-        return result;
     }
 
     private static void TriggerInteractionAsPlayer(PlayerControl player, IUsable interactable)
