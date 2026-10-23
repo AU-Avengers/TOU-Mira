@@ -705,7 +705,7 @@ narzuć Bariery by całkowicie powstrzymać wszelkie interakcje</string>
   <string name="TownOfUsMira.Role.Deputy.WikiDescription">Zastępca to Załogant Zabijający który kampi innych graczy. Gdy kampiony gracz umrze, Zastępca dostanie o tym powiadomienie. Na następnym spotkaniu będzie mógł spróbować zastrzelić zabójcę zmarłego gracza. Jeżeli trafi - morderca ginie, a jeżeli nie to nic się nie dzieje.</string>
   <string name="TownOfUsMira.Role.DeputyCamp">Kamp</string>
   <string name="TownOfUsMira.Role.DeputyCamp.WikiDescription">Kamp gracza dostając powiadomienie gdy umrze. Po jego śmierci, możesz spróbować zastrzelić jego mordercę. Jeżeli Ci się uda, zabójca umrze, a jeżeli nie, nic się nie stanie.</string>
-  <string name="TownOfUsMira.Role.DeputyRevealedText"> (Odstrzelony)</string>
+  <string name="TownOfUsMira.Role.DeputyRevealedText"> (Strzelił)</string>
   <string name="TownOfUsMira.Role.DeputyCampNotif">Zaczekaj aż [player] umrze abyś mógł zastrzelić jego mordercę podczas spotkania.</string>
   <string name="TownOfUsMira.Role.DeputyCampedKillNotif">Twój kampiony cel, [player], umarł! Pomścij go podczas spotkania.</string>
   <string name="TownOfUsMira.Role.DeputyKillerWarnNotif">Zastępca kampił twoją ofiarę, uważaj! </string>
@@ -1337,4 +1337,70 @@ Nie można z tobą wchodzić w interakcję.</string>
   <string name="TownOfUsMira.TownOfPolus.Role.Engineer.IntroBlurb">Dbaj o placówkę</string>
   <string name="TownOfUsMira.TownOfPolus.Role.Engineer.TabDescription">Ukończ swoje zadania.[nl]Możesz naprawić 1 sabotaż.</string>
   <string name="TownOfUsMira.TownOfPolus.Role.Engineer.WikiDescription">Inżynier jest Załogantem potrafiącym naprawić jeden sabotaż na grę, niezależnie od tego gdzie się znajduje.</string>
+  <string name="UseVanillaRoleGuide">Korzystaj z Wiki z Vanilli</string>
+  <string name="ShowFpsCounter">Pokaż Licznik FPS</string>
+  <string name="FrenzyKillerTaskHeader">Pozbądź się pozostałych drużyn w jakikolwiek sposób.</string>
+  <string name="ExclusiveRolesList">Nie Mogą Pojawić Się Razem</string>
+  <string name="FrenzyKiller">Szalony Zabójca</string>
+  <string name="NeutralBenign.Colored">[color=#999999FF]Neutralny[/color] Nieszkodliwy</string>
+  <string name="NeutralEvil.Colored">[color=#999999FF]Neutralny[/color] Szkodliwy</string>
+  <string name="NeutralOutlier.Colored">[color=#999999FF]Neutralny[/color] Odrzutek</string>
+  <string name="NeutralKilling.Colored">[color=#999999FF]Neutralny[/color] Zabijający</string>
+  <string name="CommonCrew.Colored">Regularny [color=#66FFFFFF]Załogant[/color]</string>
+  <string name="SpecialCrew.Colored">Specjalny [color=#66FFFFFF]Załogant[/color]</string>
+  <string name="RandomCrew.Colored">Losowy [color=#66FFFFFF]Załogant[/color]</string>
+  <string name="CommonNeutral.Colored">Regularny [color=#999999FF]Neutralny[/color]</string>
+  <string name="SpecialNeutral.Colored">Specjalny [color=#999999FF]Neutralny[/color]</string>
+  <string name="WildcardNeutral.Colored">Dziki [color=#999999FF]Neutralny[/color]</string>
+  <string name="RandomNeutral.Colored">Losowy [color=#999999FF]Neutralny[/color]</string>
+  <string name="NonImp.Colored">Nie-[color=#FF0000FF]Intruz[/color]</string>
+  <string name="CommonImp.Colored">Regularny [color=#FF0000FF]Intruz[/color]</string>
+  <string name="SpecialImp.Colored">Specjalny [color=#FF0000FF]Intruz[/color]</string>
+  <string name="RandomImp.Colored">Losowy [color=#FF0000FF]Intruz[/color]</string>
+  <string name="CrewInvestigative.Colored">[color=#66FFFFFF]Zał[/color] Śledczy</string>
+  <string name="CrewKilling.Colored">[color=#66FFFFFF]Zał[/color] Zabijający</string>
+  <string name="CrewPower.Colored">[color=#66FFFFFF]Zał[/color] Wpływowy</string>
+  <string name="CrewProtective.Colored">[color=#66FFFFFF]Zał[/color] Ochronny</string>
+  <string name="CrewSupport.Colored">[color=#66FFFFFF]Zał[/color] Wsparcia</string>
+  <string name="ImpConcealing.Colored">[color=#FF0000FF]Int[/color] Skrywający</string>
+  <string name="ImpKilling.Colored">[color=#FF0000FF]Int[/color] Zabijający</string>
+  <string name="ImpPower.Colored">[color=#FF0000FF]Int[/color] Silny</string>
+  <string name="ImpSupport.Colored">[color=#FF0000FF]Int[/color] Wsparcia</string>
+  <string name="Revived">Odrodzony</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.TabText">Rola: [roleName][nl][description]</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.FakeTaskTabText">Fałszywe Zadania:</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.CrewDescription">Ukończ swoje zadania.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.CrewDescriptionDead">Nie żyjesz, ukończ swoje zadania.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.NeutDescription">Wykonaj swój cel.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.NeutDescriptionDead">Nie żyjesz.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.ImpDescription">Sabotuj i zabij załogę.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.ImpDescriptionDead">Nie żyjesz.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper">Niewidek</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.IntroBlurb">Znikasz korzystając ze swojej umiejętności</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.TabDescription">Sabotuj i zabij załogę.[nl]Znikasz korzystając ze swojej umiejętności.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.MedDescription">Stań się niewidzialnym kiedykolwiek aby uciec, bądź się ukryć.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.Swooper.WikiDescription">Niewidek to Intruz który może stać się niewidzialny kiedy tylko będzie chciał, żeby uciec od zabójstw, albo się schować. Nie może on korzystać z wentów.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller">Seryjny Morderca</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.IntroBlurb">Zabij wszystkich</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.TabDescription">Zabij wszystkich.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.MedDescription">Zabij każdego kto stanie w twojej drodze.</string>
+  <string name="TownOfUsMira.TownOfPolus.Role.SerialKiller.WikiDescription">Seryjny Morderca to rola Neutralna której celem jest zabicie wszystkich żywych graczy. Jeśli nie zabije on minimum graczy, przegra.</string>
+  <string name="TownOfUsMira.Role.Spectator.MedDescription">Obserwuj jak rozwija się gra.</string>
+  <string name="TownOfUsMira.Role.Outcast">Wyrzutek</string>
+  <string name="TownOfUsMira.Role.Outcast.IntroBlurb">Walcz z tymi co mają moce.</string>
+  <string name="TownOfUsMira.Role.Outcast.TabDescription">Korzystaj ze zwiększonej wizji i wentów, aby zdobyć przewagę.</string>
+  <string name="TownOfUsMira.Role.Outcast.MedDescription">Wentuj i wykorzystaj swoją zwiększoną wizję, aby wyeliminować resztę.</string>
+  <string name="TownOfUsMira.Role.Outcast.WikiDescription">Wyrzutek to podstawowy zabójca który może korzystać z wentów, oraz widzi dużo dalej niż inni.</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Chameleon.MedDescription">Ukryj się przed szukającym, aby się obronić.</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Mystic.MedDescription">Dostajesz informację o tym gdzie umrą inni.</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Snitch.MedDescription">Skróć czas szybciej robiąc zadania, ale ryzykujesz tym swoją lokalizację.</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Noisemaker.MedDescription">Ostrzeż innych o swojej śmierci.</string>
+  <string name="TownOfUsMira.HideAndSeek.Role.Camouflager.MedDescription">Wtop się w chowających.
+Spraw, że będą wierzyć w to co nie prawdziwe.</string>
+  <string name="TownOfUsMira.Cultist.Role.Necromancer.MedDescription">Odródź tych którzy wierzą w kult, aby stali się jego częścią.</string>
+  <string name="TownOfUsMira.Role.DeputyShoot">Strzał</string>
+  <string name="TownOfUsMira.Role.DeputyShoot.WikiDescription">Strzel w gracza podczas spotkania. Gracz zostanie zabity jeśli był zabójcą, i nie jest nieśmiertelny.</string>
+  <string name="TownOfUsMira.Role.Medium">Medium</string>
+  <string name="TownOfUsMira.Role.Medium.IntroBlurb">Stań się jednym z duchami</string>
+  <string name="TownOfUsMira.Role.Medium.MedDescription">Tymczasowo opuść swoje ciało aby stać się jednym z duchów.</string>
 </resources>
