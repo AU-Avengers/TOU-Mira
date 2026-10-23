@@ -328,9 +328,13 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         {
             player = disguise.Target;
         }
-        var mod = player.GetModifier<FirstRoundIndicator>(
-            x => x.Visible && x.ExtraNameText != string.Empty);
-        return mod?.ExtraNameText ?? string.Empty;
+
+        if (player.TryGetModifier<FirstRoundIndicator>(out var mod, x => x.Visible))
+        {
+            return mod.ExtraNameText;
+        }
+
+        return string.Empty;
     }
 
     public static bool HasSetMeetingColorText;
