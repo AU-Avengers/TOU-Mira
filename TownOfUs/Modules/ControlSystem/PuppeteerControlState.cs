@@ -87,12 +87,6 @@ public static class PuppeteerControlState
         return GetControlElapsedSeconds(controlledId) < InitialControlSyncGraceSeconds;
     }
 
-    public static void ClearMovementState(byte controlledId)
-    {
-        ControlledPosition[controlledId] = Vector2.zero;
-        ControlledVelocity[controlledId] = Vector2.zero;
-    }
-
     public static void ClearAll()
     {
         ControlledBy.Clear();

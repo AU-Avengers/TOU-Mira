@@ -27,7 +27,6 @@ public static class ParasiteMovementPatches
     private static readonly Dictionary<byte, Vector2> _lastSentPos = [];
     private static readonly Dictionary<byte, Vector2> _lastSentVel = [];
     private static readonly Dictionary<byte, float> _lastSentAt = [];
-    private static readonly Dictionary<byte, Vector2> _localDesiredDir = [];
     
     private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir, Vector2 position, bool inAnim, Vector2 velocity)
     {
@@ -106,60 +105,27 @@ public static class ParasiteMovementPatches
                 return true;
             }
 
-            var shouldMove = !Minigame.Instance && !player.inVent && !player.inMovingPlat && !player.onLadder && !player.walkingToVent;
             var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
 
-            var victimId = victim.PlayerId;
+            Vector2 dir = canMoveIndependently ? GetSecondaryDirection() : GetNormalDirection();
+
             var victimInAnim = victim.IsInTargetingAnimState() || victim.inVent;
 
-            Vector2 targetDir = canMoveIndependently ? GetSecondaryDirection() : GetNormalDirection();
-            _localDesiredDir[victimId] = targetDir;
-
-            if (victim.MyPhysics != null)
-            {
-                if (victimInAnim)
-                {
-                    victim.MyPhysics.HandleAnimation(false);
-                }
-                else if (targetDir == Vector2.zero)
-                {
-                    var cachedDir = _localDesiredDir.TryGetValue(victimId, out var cached) ? cached : Vector2.zero;
-                    if (cachedDir != Vector2.zero)
-                    {
-                        AdvancedMovementUtilities.ApplyControlledMovement(victim.MyPhysics, cachedDir);
-                    }
-                    else
-                    {
-                        AdvancedMovementUtilities.ApplyControlledMovement(victim.MyPhysics, Vector2.zero, stopIfZero: true);
-                    }
-                }
-                else
-                {
-                    AdvancedMovementUtilities.ApplyControlledMovement(victim.MyPhysics, targetDir, stopIfZero: true);
-                }
-            }
-            
-            var victimPos = victim.MyPhysics?.body != null 
-                ? victim.MyPhysics.body.position 
-                : (Vector2)victim.transform.position;
-            var victimVel = victim.MyPhysics?.body != null 
-                ? victim.MyPhysics.body.velocity 
+            var victimVel = victimInAnim && victim.MyPhysics?.body != null
+                ? victim.MyPhysics.body.velocity
                 : Vector2.zero;
+            var victimPos = victim.MyPhysics?.body.position ?? victim.transform.position;
 
-            SendControlledInputIfNeeded(victimId, targetDir, victimPos, victimInAnim, victimVel);
+            SendControlledInputIfNeeded(victim.PlayerId, dir, victimPos, victimInAnim, victimVel);
 
-            if (!shouldMove)
+            // TODO: apply movement to controller
+            if (Minigame.Instance || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
             {
                 return true;
             }
 
-            if (!canMoveIndependently)
-            {
-                AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
-                return false;
-            }
+            var parasiteDir = canMoveIndependently ? GetPrimaryDirection() : Vector2.zero;
 
-            var parasiteDir = GetPrimaryDirection();
             AdvancedMovementUtilities.ApplyControlledMovement(__instance, parasiteDir, stopIfZero: true);
             return false;
         }
@@ -171,59 +137,12 @@ public static class ParasiteMovementPatches
                 return true;
             }
 
-            if (player.onLadder || player.inMovingPlat)
-            {
-                ParasiteControlState.ClearMovementState(player.PlayerId);
-                return true;
-            }
-
-            if (player.IsInTargetingAnimState() || player.inVent || player.walkingToVent)
+            if (player.IsInTargetingAnimState() || player.inVent)
             {
                 return true;
             }
 
-            var dir = ParasiteControlState.GetDirection(player.PlayerId);
-            var pos = ParasiteControlState.GetPosition(player.PlayerId);
-            var vel = ParasiteControlState.GetVelocity(player.PlayerId);
-
-            // AUTHORITATIVE CONTROL: Apply movement the SAME way on ALL clients
-            // Use direction directly (controller is authoritative), position/velocity only for correction
-            if (dir == Vector2.zero)
-            {
-                var cachedDir = _localDesiredDir.TryGetValue(player.PlayerId, out var cached) ? cached : Vector2.zero;
-                if (cachedDir != Vector2.zero)
-                {
-                    AdvancedMovementUtilities.ApplyControlledMovement(__instance, cachedDir);
-                }
-                else
-                {
-                    AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
-                }
-            }
-            else
-            {
-                // Apply direction directly - same as victim owner client
-                AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
-            }
-            
-            // Only correct position if there's a large desync (missed RPCs/lag)
-            if (pos != Vector2.zero)
-            {
-                var currentPos = __instance.body != null ? __instance.body.position : (Vector2)__instance.myPlayer.transform.position;
-                var delta = pos - currentPos;
-                if (delta.magnitude > 0.5f) // Only correct if significantly off
-                {
-                    __instance.body?.position = pos;
-                    __instance.myPlayer.transform.position = pos;
-                }
-            }
-            
-            // Apply velocity directly if provided
-            if (__instance.body != null && vel != Vector2.zero)
-            {
-                __instance.body.velocity = vel;
-            }
-            
+            ApplyAllDataTo(__instance, player.PlayerId);
             return false;
         }
 
@@ -234,50 +153,50 @@ public static class ParasiteMovementPatches
                 return true;
             }
 
-            if (player.onLadder || player.inMovingPlat)
-            {
-                ParasiteControlState.ClearMovementState(player.PlayerId);
-                return true;
-            }
-
-            if (player.IsInTargetingAnimState() || player.inVent || player.walkingToVent)
+            if (player.IsInTargetingAnimState() || player.inVent)
             {
                 return true;
             }
 
-            var dir = ParasiteControlState.GetDirection(player.PlayerId);
-            var pos = ParasiteControlState.GetPosition(player.PlayerId);
-            var vel = ParasiteControlState.GetVelocity(player.PlayerId);
-            
-            if (dir == Vector2.zero)
-            {
-                AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
-            }
-            else
-            {
-                AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
-            }
-            
-            if (pos != Vector2.zero)
-            {
-                var currentPos = __instance.body != null ? __instance.body.position : (Vector2)__instance.myPlayer.transform.position;
-                var delta = pos - currentPos;
-                if (delta.magnitude > 0.5f)
-                {
-                    __instance.body?.position = pos;
-                    __instance.myPlayer.transform.position = pos;
-                }
-            }
-            
-            if (__instance.body != null && vel != Vector2.zero)
-            {
-                __instance.body.velocity = vel;
-            }
-            
+            ApplyAllDataTo(__instance, player.PlayerId);
             return false;
         }
 
         return true;
+    }
+
+    private static void ApplyAllDataTo(PlayerPhysics __instance, byte controlledId)
+    {
+        Vector2 dir = ParasiteControlState.GetDirection(controlledId);
+        Vector2 pos = ParasiteControlState.GetPosition(controlledId);
+        Vector2 vel = ParasiteControlState.GetVelocity(controlledId);
+        bool inAnim = ParasiteControlState.IsInAnim(controlledId);
+
+        __instance.HandleAnimation(__instance.myPlayer.Data.IsDead);
+
+        if (__instance.body != null)
+        {
+            if (inAnim)
+            {
+                __instance.body.velocity = vel;
+            }
+            else
+            {
+                __instance.SetNormalizedVelocity(dir);
+                // __instance.body.velocity = dir * __instance.TrueSpeed;
+            }
+        }
+
+        if (pos != Vector2.zero)
+        {
+            var currentPos = __instance.body != null ? __instance.body.position : (Vector2)__instance.myPlayer.transform.position;
+            var delta = pos - currentPos;
+            if (delta.magnitude > 0.5f)
+            {
+                __instance.myPlayer.transform.position = pos;
+                __instance.body?.position = pos;
+            }
+        }
     }
 
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.SetNormalizedVelocity))]
