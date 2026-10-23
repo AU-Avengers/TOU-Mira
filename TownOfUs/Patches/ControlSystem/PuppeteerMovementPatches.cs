@@ -23,7 +23,7 @@ public static class PuppeteerMovementPatches
     private static readonly Dictionary<byte, float> _lastSentAt = [];
     private static readonly Dictionary<byte, Vector2> _localDesiredDir = [];
 
-    private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir, Vector2 position, Vector2 velocity)
+    private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir, Vector2 position, bool inAnim, Vector2 velocity)
     {
         if (!PlayerControl.LocalPlayer)
         {
@@ -57,7 +57,7 @@ public static class PuppeteerMovementPatches
 
         Rpc<PuppeteerInputUnreliableRpc>.Instance.Send(
             PlayerControl.LocalPlayer,
-            new PuppeteerInputPacket(controlledId, dir, position, velocity));
+            new PuppeteerInputPacket(controlledId, dir, position, inAnim, velocity));
     }
 
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.FixedUpdate))]
@@ -95,17 +95,13 @@ public static class PuppeteerMovementPatches
 
             var victim = puppeteer.Controlled;
             
-            if (victim == null || victim.Data == null || victim.HasDied() || victim.Data.Disconnected)
+            if (victim.Data == null || victim.HasDied() || victim.Data.Disconnected)
             {
                 return true;
             }
 
             var victimId = victim.PlayerId;
-            var victimInAnim = victim.IsInTargetingAnimState() ||
-                               victim.inVent ||
-                               victim.inMovingPlat ||
-                               victim.onLadder ||
-                               victim.walkingToVent;
+            var victimInAnim = victim.IsInTargetingAnimState() || victim.inVent;
 
             var dir = GetNormalDirection();
             _localDesiredDir[victimId] = dir;
@@ -141,7 +137,7 @@ public static class PuppeteerMovementPatches
                 ? victim.MyPhysics.body.velocity 
                 : Vector2.zero;
 
-            SendControlledInputIfNeeded(victimId, dir, victimPos, victimVel);
+            SendControlledInputIfNeeded(victimId, dir, victimPos, victimInAnim, victimVel);
 
             var puppeteerDir = Vector2.zero;
             

@@ -17,6 +17,7 @@ public static class PuppeteerControlState
     private static readonly Dictionary<byte, Vector2> ControlledDirection = [];
     private static readonly Dictionary<byte, Vector2> ControlledPosition = [];
     private static readonly Dictionary<byte, Vector2> ControlledVelocity = [];
+    private static readonly Dictionary<byte, bool> ControlledInAnim = [];
     private static readonly Dictionary<byte, float> ControlledSince = [];
 
     public static void SetControl(byte controlledId, byte controllerId)
@@ -25,6 +26,7 @@ public static class PuppeteerControlState
         ControlledDirection[controlledId] = Vector2.zero;
         ControlledPosition[controlledId] = Vector2.zero;
         ControlledVelocity[controlledId] = Vector2.zero;
+        ControlledInAnim[controlledId] = false;
         ControlledSince[controlledId] = Time.time;
     }
 
@@ -34,6 +36,7 @@ public static class PuppeteerControlState
         ControlledDirection.Remove(controlledId);
         ControlledPosition.Remove(controlledId);
         ControlledVelocity.Remove(controlledId);
+        ControlledInAnim.Remove(controlledId);
         ControlledSince.Remove(controlledId);
     }
 
@@ -52,15 +55,21 @@ public static class PuppeteerControlState
         return ControlledDirection.TryGetValue(controlledId, out var dir) ? dir : Vector2.zero;
     }
 
-    public static void SetMovementState(byte controlledId, Vector2 position, Vector2 velocity)
+    public static void SetMovementState(byte controlledId, Vector2 position, bool inAnim, Vector2 velocity)
     {
         ControlledPosition[controlledId] = position;
+        ControlledInAnim[controlledId] = inAnim;
         ControlledVelocity[controlledId] = velocity;
     }
 
     public static Vector2 GetPosition(byte controlledId)
     {
         return ControlledPosition.TryGetValue(controlledId, out var pos) ? pos : Vector2.zero;
+    }
+
+    public static bool IsInAnim(byte controlledId)
+    {
+        return ControlledInAnim.TryGetValue(controlledId, out var val) && val;
     }
 
     public static Vector2 GetVelocity(byte controlledId)
@@ -90,6 +99,7 @@ public static class PuppeteerControlState
         ControlledDirection.Clear();
         ControlledPosition.Clear();
         ControlledVelocity.Clear();
+        ControlledInAnim.Clear();
         ControlledSince.Clear();
     }
 }
