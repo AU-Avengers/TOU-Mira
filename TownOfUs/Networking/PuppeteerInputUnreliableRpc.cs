@@ -8,13 +8,7 @@ using UnityEngine;
 
 namespace TownOfUs.Networking;
 
-internal readonly struct PuppeteerInputPacket(byte controlledId, Vector2 direction, Vector2 position, Vector2 velocity)
-{
-    public byte ControlledId { get; } = controlledId;
-    public Vector2 Direction { get; } = direction;
-    public Vector2 Position { get; } = position;
-    public Vector2 Velocity { get; } = velocity;
-}
+internal readonly record struct PuppeteerInputPacket(byte ControlledId, Vector2 Direction, Vector2 Position, Vector2 Velocity);
 
 [RegisterCustomRpc((uint)TownOfUsRpc.PuppeteerInputUnreliable)]
 internal sealed class PuppeteerInputUnreliableRpc(TownOfUsPlugin plugin, uint id)
