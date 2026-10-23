@@ -14,55 +14,6 @@ public static class ControlledPlayerInteractionPatches
     private static List<IUsable>? _cachedInteractables;
     private static float _lastCacheRefresh;
     private const float CacheRefreshInterval = 10f;
-    private const float UpdateThrottle = 0.1f;
-    private static float _lastUpdateTime;
-
-    private static void RefreshInteractablesCache()
-    {
-        _cachedInteractables = [];
-        var allUsables = UnityObject.FindObjectsOfType<MonoBehaviour>();
-        foreach (var obj in allUsables)
-        {
-            if (obj.TryCast<IUsable>() is { } usable && usable.TryCast<Vent>() == null)
-            {
-                _cachedInteractables.Add(usable);
-            }
-        }
-        _lastCacheRefresh = Time.time;
-    }
-
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CanPet))]
-    [HarmonyPrefix]
-    public static bool PetButtonCanPetPrefix(PlayerControl __instance, ref bool __result)
-    {
-        if (LobbyBehaviour.Instance)
-        {
-            return true;
-        }
-        if (__instance.Data?.Role is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
-        {
-            var controlled = puppeteerRole.Controlled;
-            if (controlled != null && !controlled.HasDied() && 
-                PuppeteerRole.ControlState.IsControlled(controlled.PlayerId, out _))
-            {
-                __result = false;
-                return false;
-            }
-        }
-
-        if (__instance.Data?.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
-        {
-            var controlled = parasiteRole.Controlled;
-            if (controlled != null && !controlled.HasDied() && 
-                ParasiteRole.ControlState.IsControlled(controlled.PlayerId, out _))
-            {
-                __result = false;
-                return false;
-            }
-        }
-
-        return true;
-    }
 
     /// <summary>
     /// Allow UseButton to work for puppeteer/parasite when controlling someone
@@ -81,7 +32,8 @@ public static class ControlledPlayerInteractionPatches
         {
             var controlled = puppeteerRole.Controlled;
             if (controlled != null && !controlled.HasDied() && 
-                PuppeteerRole.ControlState.IsControlled(controlled.PlayerId, out _))
+                PuppeteerRole.ControlState.IsControlled(controlled.PlayerId, out _) &&
+                !__instance.isCoolingDown)
             {
                 var (interactable, interactablePos) = FindClosestInteractable(controlled);
                 if (interactable != null)
@@ -96,7 +48,8 @@ public static class ControlledPlayerInteractionPatches
         {
             var controlled = parasiteRole.Controlled;
             if (controlled != null && !controlled.HasDied() && 
-                ParasiteRole.ControlState.IsControlled(controlled.PlayerId, out _))
+                ParasiteRole.ControlState.IsControlled(controlled.PlayerId, out _) &&
+                !__instance.isCoolingDown)
             {
                 var (interactable, interactablePos) = FindClosestInteractable(controlled);
                 if (interactable != null)
@@ -104,6 +57,39 @@ public static class ControlledPlayerInteractionPatches
                     ParasiteRole.RpcParasiteTriggerInteraction(PlayerControl.LocalPlayer, controlled, interactablePos);
                     return false;
                 }
+            }
+        }
+
+        return true;
+    }
+
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CanPet))]
+    [HarmonyPrefix]
+    public static bool PetButtonCanPetPrefix(PlayerControl __instance, ref bool __result)
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            return true;
+        }
+        if (__instance.Data?.Role is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
+        {
+            var controlled = puppeteerRole.Controlled;
+            if (controlled != null && !controlled.HasDied() &&
+                PuppeteerRole.ControlState.IsControlled(controlled.PlayerId, out _))
+            {
+                __result = false;
+                return false;
+            }
+        }
+
+        if (__instance.Data?.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+        {
+            var controlled = parasiteRole.Controlled;
+            if (controlled != null && !controlled.HasDied() &&
+                ParasiteRole.ControlState.IsControlled(controlled.PlayerId, out _))
+            {
+                __result = false;
+                return false;
             }
         }
 
@@ -131,25 +117,6 @@ public static class ControlledPlayerInteractionPatches
     {
         _cachedInteractables = null;
         _lastCacheRefresh = 0f;
-    }
-
-    /// <summary>
-    /// Also patch HudManager Update to continuously check for interactables near controlled player
-    /// Throttled to avoid performance issues
-    /// </summary>
-    public static void UpdateControlledUseButton(HudManager __instance)
-    {
-        var now = Time.time;
-        if (now - _lastUpdateTime < UpdateThrottle)
-        {
-            return;
-        }
-        _lastUpdateTime = now;
-
-        if (__instance.UseButton)
-        {
-            UpdateUseButtonTarget(__instance.UseButton);
-        }
     }
 
     private static void UpdateUseButtonTarget(UseButton useButton)
@@ -191,63 +158,55 @@ public static class ControlledPlayerInteractionPatches
         }
 
         var (usable, _) = FindClosestInteractable(controlledPlayer);
+        useButton.currentTarget = usable;
         if (usable != null)
         {
-            useButton.currentTarget = usable;
             useButton.SetEnabled();
-            ForceUseButtonVisualEnabled(useButton);
+            
+            if (usable.TryCast<IUsableCoolDown>() is { } usableCoolDown)
+            {
+                useButton.SetCoolDown(usableCoolDown.CoolDown, usableCoolDown.MaxCoolDown);
+            }
+            else
+            {
+                useButton.ResetCoolDown();
+            }
+            useButton.SetCooldownFill(usable.PercentCool);
         }
         else
         {
-            useButton.currentTarget = null;
             useButton.SetDisabled();
+            useButton.ResetCoolDown();
         }
     }
 
-
-    private static void ForceUseButtonVisualEnabled(UseButton useButton)
+    /// <summary>
+	/// Find the closest interactable object near a player
+	/// Uses cached interactables list to avoid expensive FindObjectsOfType every call
+	/// </summary>
+	public static IUsable? FindClosestInteractable(PlayerControl player, Vector2 position)
     {
-        try
-        {
-            var renderers = useButton.GetComponentsInChildren<SpriteRenderer>(true);
-            foreach (var sr in renderers)
-            {
-                if (sr == null) continue;
-                sr.color = Palette.EnabledColor;
-                sr.material?.SetFloat("_Desat", 0f);
-            }
-
-            var tmps = useButton.GetComponentsInChildren<TMPro.TMP_Text>(true);
-            foreach (var tmp in tmps)
-            {
-                if (tmp == null) continue;
-                tmp.color = Palette.EnabledColor;
-            }
-        }
-        catch
-        {
-            // Ignore
-        }
+        return FindClosestInteractable(player, position, false).interactable;
     }
 
     /// <summary>
     /// Find the closest interactable object near a player
     /// Uses cached interactables list to avoid expensive FindObjectsOfType every call
     /// </summary>
-    private static (IUsable? interactable, Vector2 position) FindClosestInteractable(PlayerControl player)
+    private static (IUsable? interactable, Vector2 position) FindClosestInteractable(
+        PlayerControl player,
+        Vector2? position = null,
+        bool setOutlines = false
+        )
     {
         if (player == null || player.Collider == null)
         {
             return (null, Vector2.zero);
         }
 
-        // Refresh cache periodically or if it's null
-        if (_cachedInteractables == null || Time.time - _lastCacheRefresh > CacheRefreshInterval)
-        {
-            RefreshInteractablesCache();
-        }
+        var cachedInteractables = GetCachedInteractables();
 
-        if (_cachedInteractables == null || _cachedInteractables.Count == 0)
+        if (cachedInteractables == null || cachedInteractables.Count == 0)
         {
             return (null, Vector2.zero);
         }
@@ -255,11 +214,9 @@ public static class ControlledPlayerInteractionPatches
         var closestDistance = float.MaxValue;
         IUsable? closestInteractable = null;
         Vector2 closestPosition = Vector2.zero;
-        var playerPos = (Vector2)player.transform.position;
+        var playerPos = position ?? (Vector2)player.transform.position;
 
-        const float maxCheckDistance = 5f;
-
-        foreach (var usable in _cachedInteractables)
+        foreach (var usable in cachedInteractables)
         {
             if (usable == null)
             {
@@ -274,14 +231,15 @@ public static class ControlledPlayerInteractionPatches
 
             var objPos = (Vector2)obj.transform.position;
             var distance = Vector2.Distance(playerPos, objPos);
-            if (distance > maxCheckDistance || distance > usable.UsableDistance)
+
+            usable.CanUse(player.Data, out bool canUse, out bool couldUse);
+
+            if (setOutlines)
             {
-                continue;
+                usable.SetOutline(couldUse && distance <= player.MaxReportDistance, false);
             }
 
-            // Check if player can use this
-            usable.CanUse(player.Data, out bool canUse, out _);
-            if (!canUse)
+            if (!canUse || distance > player.MaxReportDistance || distance > usable.UsableDistance)
             {
                 continue;
             }
@@ -294,18 +252,40 @@ public static class ControlledPlayerInteractionPatches
             }
         }
 
+        if (setOutlines)
+        {
+            closestInteractable?.SetOutline(true, true);
+        }
+
         return (closestInteractable, closestPosition);
     }
 
     /// <summary>
     /// Public accessor for cached interactables (used by PuppeteerRole/ParasiteRole RPC handlers)
-    /// </summary>
-    public static List<IUsable>? GetCachedInteractables()
+	/// </summary>
+	public static List<IUsable> GetCachedInteractables()
     {
         if (_cachedInteractables == null || Time.time - _lastCacheRefresh > CacheRefreshInterval)
         {
-            RefreshInteractablesCache();
+            _cachedInteractables = GetInteractablesList();
+            _lastCacheRefresh = Time.time;
         }
-        return _cachedInteractables;
+        return _cachedInteractables!;
+    }
+
+    public static List<IUsable> GetInteractablesList()
+    {
+        List<IUsable> interactables = [];
+        var allUsables = UnityObject.FindObjectsOfType<MonoBehaviour>();
+        foreach (var obj in allUsables)
+        {
+            if (obj.TryCast<IUsable>() is { } usable &&
+                usable.TryCast<Vent>() == null &&
+                !obj.name.Contains("Vent"))
+            {
+                interactables.Add(usable);
+            }
+        }
+        return interactables;
     }
 }
