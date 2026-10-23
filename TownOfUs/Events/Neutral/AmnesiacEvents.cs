@@ -1,17 +1,17 @@
-﻿using System.Collections;
-using MiraAPI.Events;
+﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Utilities;
+using System.Collections;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using Color = UnityEngine.Color;
+using Object = UnityEngine.Object;
 
 namespace TownOfUs.Events.Neutral;
 
@@ -36,12 +36,7 @@ public static class AmnesiacEvents
     [RegisterEvent]
     public static void JanitorCleanEventHandler(TouAbilityEvent @event)
     {
-        if (@event.AbilityType != AbilityType.JanitorClean)
-        {
-            return;
-        }
-
-        if (@event.Target is not DeadBody cleanedBody)
+        if (@event is not { AbilityType: AbilityType.JanitorClean, Target: DeadBody { ParentId: var parentId } })
         {
             return;
         }
@@ -54,7 +49,7 @@ public static class AmnesiacEvents
                 continue;
             }
 
-            var arrowModifiers = amne.GetModifiers<AmnesiacArrowModifier>(x => x.DeadBody?.ParentId == cleanedBody.ParentId);
+            var arrowModifiers = amne.GetModifiers<AmnesiacArrowModifier>(x => x.DeadBody?.ParentId == parentId);
             foreach (var arrowMod in arrowModifiers)
             {
                 arrowMod.RemoveSelf();

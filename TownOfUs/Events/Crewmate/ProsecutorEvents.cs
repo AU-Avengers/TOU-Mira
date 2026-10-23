@@ -49,7 +49,7 @@ public static class ProsecutorEvents
             return;
         }
 
-        if (PlayerControl.LocalPlayer.Data.Role is not ProsecutorRole prosecutor)
+        if (PlayerControl.LocalPlayer.Data.Role is not ProsecutorRole { WantsToPros: var wantPros })
         {
             return;
         }
@@ -60,7 +60,7 @@ public static class ProsecutorEvents
             return;
         }
 
-        if (voteArea != MeetingHud.Instance.SkipVoteButton && prosecutor.WantsToPros is ProsecuteToggleMode.ToggledOn)
+        if (voteArea != MeetingHud.Instance.SkipVoteButton && wantPros is ProsecuteToggleMode.ToggledOn)
         {
             ProsecutorRole.RpcProsecute(PlayerControl.LocalPlayer, voteArea.PlayerId);
             @event.Cancel();

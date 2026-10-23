@@ -80,7 +80,7 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         return base.IsModifierValidOn(role) && role.IsCrewmate() && !role.Player.HasModifier<ToBecomeTraitorModifier>() &&
-            (role is not ILoyalCrewmate loyalCrew || loyalCrew.CanBeEgotist);
+            (role is not ILoyalCrewmate { CanBeEgotist: false });
     }
 
     public override bool? DidWin(GameOverReason reason)

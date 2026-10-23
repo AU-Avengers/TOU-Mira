@@ -38,7 +38,7 @@ public static class VisionPatch
 
         var impVision = player.Role.IsImpostor || player._object.HasModifier<CrewpostorModifier>() &&
                         OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorVision ||
-                        (player._object.Data.Role is ITownOfUsRole touRole && touRole.HasImpostorVision);
+                        (player._object.Data.Role is ITownOfUsRole { HasImpostorVision: true });
 
         if (impVision)
         {

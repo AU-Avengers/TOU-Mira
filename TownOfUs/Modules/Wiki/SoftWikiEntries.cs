@@ -79,14 +79,14 @@ public static class SoftWikiEntries
             var teamName = $"{role.GetRoleAlignment()}";
 
             entry.TeamName = teamName;
-            entry.EntryColor = role is ICustomRole miraRole2 ? miraRole2.RoleColor : role.TeamColor;
+            entry.EntryColor = role is ICustomRole { RoleColor: var roleColor } ? roleColor : role.TeamColor;
             entry.GetAdvancedDescription = $"{role.BlurbLong}{MiscUtils.AppendOptionsText(entry.EntryType)}";
 
             var roleImg = TouRoleUtils.GetBasicRoleIcon(role);
 
-            if (role is ICustomRole customRole && customRole.Configuration.Icon != null)
+            if (role is ICustomRole { Configuration.Icon: { } icon })
             {
-                roleImg = customRole.Configuration.Icon;
+                roleImg = icon;
             }
             else
             {

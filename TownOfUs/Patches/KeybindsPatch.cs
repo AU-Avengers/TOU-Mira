@@ -254,8 +254,8 @@ public static class Bindings
                     if (impostorRoles.Count > 0)
                     {
                         var randomRole = impostorRoles[Random.Range(0, impostorRoles.Count)];
-                        var roleIdentifier = randomRole is ITownOfUsRole touRole
-                            ? touRole.IdPart
+                        var roleIdentifier = randomRole is ITownOfUsRole { IdPart: var idPart }
+                            ? idPart
                             : randomRole.GetRoleName();
                         var playerName = PlayerControl.LocalPlayer.Data.PlayerName;
                         UpCommandRequests.SetRequest(playerName, roleIdentifier);
@@ -277,8 +277,8 @@ public static class Bindings
                     if (neutralKillerRoles.Count > 0)
                     {
                         var randomRole = neutralKillerRoles[Random.Range(0, neutralKillerRoles.Count)];
-                        var roleIdentifier = randomRole is ITownOfUsRole touRole
-                            ? touRole.IdPart
+                        var roleIdentifier = randomRole is ITownOfUsRole { IdPart: var idPart }
+                            ? idPart
                             : randomRole.GetRoleName();
                         var playerName = PlayerControl.LocalPlayer.Data.PlayerName;
                         UpCommandRequests.SetRequest(playerName, roleIdentifier);

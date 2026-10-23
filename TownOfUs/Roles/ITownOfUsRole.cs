@@ -13,9 +13,9 @@ public interface ITownOfUsRole : ICustomRole
     GameObject ICustomRole.GetAdvancedWiki(MatchInfoGuide guide, TextMeshPro titleText, SpriteRenderer titleIcon, Scroller parent)
     {
         var abilities = WikiAbilities;
-        if (abilities.Count == 0 && this is IWikiDiscoverable { Abilities.Count: > 0 } wiki)
+        if (abilities.Count == 0 && this is IWikiDiscoverable { Abilities: { Count: > 0 } wiki })
         {
-            abilities = wiki.Abilities.Select(a => new AdvancedWikiAbilityDescription(
+            abilities = wiki.Select(a => new AdvancedWikiAbilityDescription(
                 a.Name,
                 MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
                 a.Description,

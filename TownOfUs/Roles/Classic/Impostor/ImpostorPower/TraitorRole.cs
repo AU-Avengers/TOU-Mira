@@ -18,7 +18,7 @@ public sealed class TraitorRole(IntPtr cppPtr)
 
     // This is so the role can be guessed without requiring it to be enabled normally
     public bool CanBeGuessed =>
-        RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TraitorRole>()) is ICustomRole customRole &&
+        RoleManager.Instance.GetRole(RoleId.GetType<TraitorRole>()) is ICustomRole customRole &&
         customRole.GetCount()! > 0 && customRole.GetChance()! > 0 ||
         OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance > 0;
     public bool? ForceShowRoleOnWiki => CanBeGuessed ? true : null;

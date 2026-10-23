@@ -72,7 +72,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
             var filtered = PlayerControl.AllPlayerControls.Where(x => x.IsCrewmate() &&
                             !x.HasDied() &&
                             !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName) &&
-                            (x.Data.Role is not ILoyalCrewmate loyalCrew || loyalCrew.CanBeCrewpostor) &&
+                            (x.Data.Role is not ILoyalCrewmate { CanBeCrewpostor: false }) &&
                             !x.HasModifier<AllianceGameModifier>() &&
                             !x.HasModifier<ExecutionerTargetModifier>()).ToList();
 
@@ -237,7 +237,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         return base.IsModifierValidOn(role) && role.IsCrewmate() &&
-               (role is not ILoyalCrewmate loyalCrew || loyalCrew.CanBeCrewpostor);
+               (role is not ILoyalCrewmate { CanBeCrewpostor: false });
     }
 
     public override bool? DidWin(GameOverReason reason)

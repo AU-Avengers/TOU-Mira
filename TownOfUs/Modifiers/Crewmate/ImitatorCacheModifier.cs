@@ -25,7 +25,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
     public bool ContinuesGame =>
         !Player.HasDied() && Player.IsCrewmate() && (MiscUtils.NKillersAliveCount > 0 || MiscUtils.ImpAliveCount > 0) &&
         MiscUtils.CrewKillersAliveCount == 0 && PlayerControl.AllPlayerControls.Any(x =>
-            x.Data.IsDead && x.GetRoleWhenAlive() is ITouCrewRole crewRole && crewRole.IsPowerCrew) &&
+            x.Data.IsDead && x.GetRoleWhenAlive() is ITouCrewRole { IsPowerCrew: true }) &&
         Helpers.GetAlivePlayers().Count > 1;
     private MeetingMenu? _meetingMenu;
     private NetworkedPlayerInfo? _selectedPlr;
@@ -140,7 +140,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
         }
         var playerRole = player.Object.GetRoleWhenAlive();
         var playerRoleId = playerRole.Role;
-        var crewRole = (playerRole is ICrewVariant crewVariant) ? crewVariant.CrewVariant : playerRole;
+        var crewRole = playerRole is ICrewVariant { CrewVariant: var crewVariant } ? crewVariant : playerRole;
         var otherPlayersWithPowerRole = PlayerControl.AllPlayerControls.Count(x => x.Data.Role.Role == playerRoleId && x != player.Object && !x.AmOwner) > 1;
         var otherImitatorsExist = Helpers.GetAlivePlayers()
             .Any(x => x.HasModifier<ImitatorCacheModifier>() && x.IsCrewmate() && !x.AmOwner);
@@ -211,9 +211,9 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
         }
 
         var roleWhenAlive = _selectedPlr.Object.GetRoleWhenAlive();
-        if (roleWhenAlive is ICrewVariant crewType)
+        if (roleWhenAlive is ICrewVariant { CrewVariant: var crewVariant })
         {
-            roleWhenAlive = crewType.CrewVariant;
+            roleWhenAlive = crewVariant;
         }
 
         if (roleWhenAlive is ImitatorRole || roleWhenAlive is SurvivorRole || roleWhenAlive.IsSimpleRole)

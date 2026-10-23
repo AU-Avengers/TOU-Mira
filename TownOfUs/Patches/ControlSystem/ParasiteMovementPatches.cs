@@ -91,17 +91,14 @@ public static class ParasiteMovementPatches
 
         if (player.AmOwner &&
             PlayerControl.LocalPlayer &&
-            PlayerControl.LocalPlayer.Data?.Role is ParasiteRole parasite &&
-            parasite.Controlled != null)
+            PlayerControl.LocalPlayer.Data?.Role is ParasiteRole { Controlled: { } victim })
         {
             if (TimeLordRewindSystem.IsRewinding)
             {
                 return true;
             }
 
-            var victim = parasite.Controlled;
-
-            if (victim == null || victim.Data == null || victim.HasDied() || victim.Data.Disconnected)
+            if (victim.Data == null || victim.HasDied() || victim.Data.Disconnected)
             {
                 return true;
             }

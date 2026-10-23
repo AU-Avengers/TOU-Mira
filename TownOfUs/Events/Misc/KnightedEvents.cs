@@ -40,7 +40,7 @@ public static class KnightedEvents
         foreach (var knight in knights)
         {
             knight.Announced = true;
-            if (knight.Player.Data.Role is MayorRole mayor && mayor.Revealed)
+            if (knight.Player.Data.Role is MayorRole { Revealed: true })
             {
                 AchievementsAPIHelper.Unlock(TouAchievements.RiggedVotes);
             }
@@ -76,7 +76,7 @@ public static class KnightedEvents
 
             var totalBonusVotes = knightModifiers.Count() * baseExtraVotes;
 
-            if (player.Data.Role is MayorRole mayor && mayor.Revealed)
+            if (player.Data.Role is MayorRole { Revealed: true })
             {
                 totalBonusVotes--;
             }
@@ -102,7 +102,7 @@ public static class KnightedEvents
         @event.VoteData.SetRemainingVotes(0);
 
         var extraVotes = TotalVotes;
-        if (@event.VoteData.Owner.Data.Role is MayorRole mayor && mayor.Revealed)
+        if (@event.VoteData.Owner.Data.Role is MayorRole { Revealed: true })
         {
             extraVotes--;
         }

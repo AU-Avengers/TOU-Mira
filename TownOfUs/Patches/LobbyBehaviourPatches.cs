@@ -28,7 +28,7 @@ public static class LobbyBehaviourPatches
         GameTimerPatch.ResetTimer();
         foreach (var role in GameHistory.AllRoles)
         {
-            if (!role || role is not ITownOfUsRole touRole)
+            if (role is not ITownOfUsRole touRole)
             {
                 continue;
             }

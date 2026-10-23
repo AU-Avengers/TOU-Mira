@@ -191,7 +191,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             return;
         }
 
-        if (target == null || target.Data == null || target.HasDied())
+        if (target?.Data == null || target.HasDied())
         {
             return;
         }
@@ -350,18 +350,18 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             MiscUtils.RunAnticheatWarning(puppeteer);
             return;
         }
-        if (puppeteer.Data.Role is not PuppeteerRole role)
+        if (puppeteer.Data.Role is not PuppeteerRole { Controlled: { } puppet })
         {
             Error("RpcPuppeteerTriggerInteraction - Invalid puppeteer");
             return;
         }
 
-        if (controlled == null || controlled.Data == null || controlled.HasDied())
+        if (controlled?.Data == null || controlled.HasDied())
         {
             return;
         }
 
-        if (role.Controlled != controlled || !PuppeteerControlState.IsControlled(controlled.PlayerId, out _))
+        if (puppet != controlled || !PuppeteerControlState.IsControlled(controlled.PlayerId, out _))
         {
             return;
         }

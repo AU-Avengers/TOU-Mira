@@ -30,7 +30,7 @@ public static class JesterEvents
             return;
         }
 
-        if (@event.Player.GetRoleWhenAlive() is JesterRole jester && jester.AboutToWin)
+        if (@event.Player.GetRoleWhenAlive() is JesterRole { AboutToWin: true } jester)
         {
             jester.Voted = true;
 
@@ -130,7 +130,7 @@ public static class JesterEvents
     {
         var exiled = @event.ExileController?.initData?.networkedPlayer?.Object;
 
-        if (exiled == null || exiled.Data.Role is not JesterRole jest)
+        if (exiled?.Data.Role is not JesterRole jest)
         {
             return;
         }

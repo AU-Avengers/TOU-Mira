@@ -893,7 +893,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             {
                 foreach (var modifier in modifiers)
                 {
-                    if ((modifier is not IWikiDiscoverable wikiMod || wikiMod.IsHiddenFromList) &&
+                    if ((modifier is not IWikiDiscoverable { IsHiddenFromList: false }) &&
                         !SoftWikiEntries.ModifierEntries.ContainsKey(modifier))
                     {
                         continue;
@@ -981,8 +981,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             if (_roleList.Count == 0)
             {
                 _roleList = MiscUtils.AllRegisteredRoles.Excluding(role =>
-                    !SoftWikiEntries.RoleEntries.ContainsKey(role) && role is not IWikiDiscoverable ||
-                    role is IWikiDiscoverable wikiMod && wikiMod.IsHiddenFromList).ToList();
+                    !SoftWikiEntries.RoleEntries.ContainsKey(role) && role is not IWikiDiscoverable { IsHiddenFromList: false }).ToList();
             }
 
             var roles = _roleList.OrderBy(x => x, comparer);

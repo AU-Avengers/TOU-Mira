@@ -187,9 +187,9 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     {
         var role = player.GetRoleWhenAlive();
         var alignment = role.GetRoleAlignment();
-        if (role is IUnbribable bribable)
+        if (role is IUnbribable { CanBeBribed: var bribable })
         {
-            return bribable.CanBeBribed;
+            return bribable;
         }
         if (!role.IsNeutral())
         {

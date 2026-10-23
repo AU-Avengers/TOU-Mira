@@ -27,7 +27,7 @@ public class PolusGhostCrewRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             }
 
             var role = Player.GetRoleWhenAlive();
-            return role is PolusBaseCrewRole polusRole ? polusRole.RoleDescriptionDead : role.BlurbLong;
+            return role is PolusBaseCrewRole { RoleDescriptionDead: var deadDesc } ? deadDesc : role.BlurbLong;
         }
     }
     public override void SpawnTaskHeader(PlayerControl playerControl)

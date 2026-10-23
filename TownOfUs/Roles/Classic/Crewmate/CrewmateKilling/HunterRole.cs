@@ -122,16 +122,16 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             MiscUtils.RunAnticheatWarning(source);
             return;
         }
-        if (hunter.Data.Role is not HunterRole role)
+        if (hunter.Data.Role is not HunterRole { CaughtPlayers: var players, CaughtRounds: var rounds })
         {
             Error("RpcCatchPlayer - Invalid hunter");
             return;
         }
 
-        if (!role.CaughtPlayers.Contains(source))
+        if (!players.Contains(source))
         {
-            role.CaughtPlayers.Add(source);
-            role.CaughtRounds[source.PlayerId] = HudManagerHelper.Instance.CurrentRound;
+            players.Add(source);
+            rounds[source.PlayerId] = HudManagerHelper.Instance.CurrentRound;
 
             if (hunter.AmOwner)
             {

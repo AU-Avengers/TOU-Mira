@@ -40,7 +40,7 @@ public static class Extensions
 {
     public static bool IsGhostDead(this NetworkedPlayerInfo data)
     {
-        return data.Role is IGhostRole ghostRole ? !ghostRole.GhostActive : data.IsDead;
+        return data.Role is IGhostRole { GhostActive: var active } ? !active : data.IsDead;
     }
 
     public static ITownOfUsRole? GetTownOfUsRole(this PlayerControl player)
@@ -86,8 +86,8 @@ public static class Extensions
 
     public static bool IsImpostor(this RoleBehaviour role)
     {
-        return role is ICustomRole customRole
-            ? customRole.Team is ModdedRoleTeams.Impostor
+        return role is ICustomRole { Team: var roleTeam } 
+            ? roleTeam is ModdedRoleTeams.Impostor
             : role.TeamType is RoleTeamTypes.Impostor;
     }
 
@@ -110,8 +110,8 @@ public static class Extensions
 
     public static bool IsCrewmate(this RoleBehaviour role)
     {
-        return role is ICustomRole customRole
-            ? customRole.Team == ModdedRoleTeams.Crewmate
+        return role is ICustomRole { Team: var roleTeam }
+            ? roleTeam == ModdedRoleTeams.Crewmate
             : role.TeamType == RoleTeamTypes.Crewmate;
     }
 
@@ -142,7 +142,7 @@ public static class Extensions
 
     public static bool Is(this PlayerControl player, ModdedRoleTeams team)
     {
-        if (player.Data.Role is ITownOfUsRole role && role.Team == team)
+        if (player.Data.Role is ITownOfUsRole { Team: var roleTeam } && roleTeam == team)
         {
             return true;
         }
@@ -341,9 +341,9 @@ public static class Extensions
             roleImg = TouRoleIcons.RandomNeut;
         }
 
-        if (roleBehaviour is ICustomRole customRole3 && customRole3.Configuration.Icon != null)
+        if (roleBehaviour is ICustomRole { Configuration.Icon: { } icon })
         {
-            roleImg = customRole3.Configuration.Icon;
+            roleImg = icon;
         }
         else if (roleBehaviour.RoleIconSolid != null)
         {
@@ -353,7 +353,7 @@ public static class Extensions
         roleIcon.gameObject.GetComponent<SpriteRenderer>().sprite = roleImg;
         roleIcon.gameObject.SetActive(true);
 
-        var color = roleBehaviour is ICustomRole customRole ? customRole.RoleColor : roleBehaviour.TeamColor;
+        var color = roleBehaviour is ICustomRole { RoleColor: var roleColor } ? roleColor : roleBehaviour.TeamColor;
 
         var alignment = MiscUtils.GetParsedRoleAlignment(roleBehaviour, true);
 

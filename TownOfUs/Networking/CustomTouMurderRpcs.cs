@@ -308,9 +308,9 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
+        else if (role is ITownOfUsRole { IdPart: not "KEY_MISS" and var idPart })
         {
-            cod = touRole.IdPart;
+            cod = idPart;
         }
 
         var murderResultFlagsGood = MurderResultFlags.DecisionByHost | MurderResultFlags.Succeeded;
@@ -398,9 +398,9 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
+        else if (role is ITownOfUsRole { IdPart: not "KEY_MISS" and var idPart })
         {
-            cod = touRole.IdPart;
+            cod = idPart;
         }
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
@@ -575,9 +575,9 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
+        else if (role is ITownOfUsRole { IdPart: not "KEY_MISS" and var idPart })
         {
-            cod = touRole.IdPart;
+            cod = idPart;
         }
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
@@ -755,9 +755,9 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
+        else if (role is ITownOfUsRole { IdPart: not "KEY_MISS" and var idPart })
         {
-            cod = touRole.IdPart;
+            cod = idPart;
         }
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
@@ -962,9 +962,9 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
+        else if (role is ITownOfUsRole { IdPart: not "KEY_MISS" and var idPart })
         {
-            cod = touRole.IdPart;
+            cod = idPart;
         }
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
@@ -1043,7 +1043,7 @@ public static class CustomTouMurderRpcs
             role = source.Data.Role;
         }
 
-        if (role is not ITownOfUsRole touRole || (touRole.RoleAlignment is not RoleAlignment.NeutralAfterlife && touRole.RoleAlignment is not RoleAlignment.NeutralEvil))
+        if (role is not ITownOfUsRole { RoleAlignment: RoleAlignment.NeutralAfterlife or RoleAlignment.NeutralEvil, IdPart: var idPart })
         {
             return;
         }
@@ -1054,9 +1054,9 @@ public static class CustomTouMurderRpcs
         }
 
         var cod = "Killer";
-        if (touRole.IdPart != "KEY_MISS")
+        if (idPart != "KEY_MISS")
         {
-            cod = touRole.IdPart;
+            cod = idPart;
         }
 
         GameHistory.UpdatePlayerDeathData(target.PlayerId, MiraLocaleManager.Get($"DiedTo{cod}"), 0,
@@ -1184,9 +1184,9 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
+        else if (role is ITownOfUsRole { IdPart: not "KEY_MISS" and var idPart })
         {
-            cod = touRole.IdPart;
+            cod = idPart;
         }
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;

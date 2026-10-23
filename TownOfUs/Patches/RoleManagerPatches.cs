@@ -107,7 +107,7 @@ public static class TouRoleManagerPatches
 
         foreach (var role in MiscUtils.AllTouRoles)
         {
-            if (role is not IBasicGhostRole ghostRole || ghostRole.ApplyImmediatelyAfterDeath)
+            if (role is not IBasicGhostRole { ApplyImmediatelyAfterDeath: false } ghostRole)
             {
                 continue;
             }

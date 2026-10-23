@@ -380,13 +380,13 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
             MiscUtils.RunAnticheatWarning(player);
             return;
         }
-        if (player.Data.Role is not PlumberRole plumber)
+        if (player.Data.Role is not PlumberRole { FutureBlocks: var blocks })
         {
             Error("RpcPlumberBlockVent - Invalid Plumber");
             return;
         }
 
-        plumber.FutureBlocks.Add(ventId);
+        blocks.Add(ventId);
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.PlumberBlock, player, Helpers.GetVentById(ventId));
         touAbilityEvent.InvokeEvent();

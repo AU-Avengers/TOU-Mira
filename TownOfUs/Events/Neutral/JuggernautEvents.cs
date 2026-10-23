@@ -12,8 +12,7 @@ public static class JuggernautEvents
     [RegisterEvent]
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
-        var source = @event.Source;
-        if (!source.AmOwner || source.Data.Role is not JuggernautRole juggernaut || MeetingHud.Instance)
+        if (@event.Source is not { AmOwner: true, Data.Role: JuggernautRole juggernaut } || MeetingHud.Instance)
         {
             return;
         }

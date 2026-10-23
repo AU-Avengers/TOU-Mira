@@ -230,7 +230,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
     {
         return voteArea?.PlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true ||
-               (voteArea.GetPlayer()?.Data.Role is MayorRole mayor && mayor.Revealed) ||
+               voteArea.GetPlayer()?.Data.Role is MayorRole { Revealed: true } ||
                voteArea.GetPlayer()?.IsRevealed() == true ||
                voteArea.GetPlayer()?.IsImpostorAligned() == true && Player.IsImpostorAligned() && !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode ||
                (Player.IsLover() && voteArea.GetPlayer()?.IsLover() == true);
@@ -299,7 +299,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
     private static bool IsModifierValid(BaseModifier baseModifier)
     {
-        if (baseModifier is not TouBaseGameModifier modifier)
+        if (baseModifier is not TouBaseGameModifier { CustomAmount: > 0, CustomChance: > 0 } modifier)
         {
             return false;
         }
@@ -309,13 +309,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return false;
         }
 
-        // This will remove modifiers that alter their chance/amount
-        if (modifier.CustomAmount <= 0 || modifier.CustomChance <= 0)
-        {
-            return false;
-        }
-
-        if (modifier is TouGameModifier touMod3 && touMod3.HideFromGuessing)
+        if (modifier is TouGameModifier { HideFromGuessing: true })
         {
             return false;
         }
@@ -326,10 +320,10 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return true;
         }
 
-        if (modifier is TouGameModifier impMod &&
-            (impMod.FactionType.ToDisplayString().Contains("Imp") ||
-             impMod.FactionType.ToDisplayString().Contains("Killer")) &&
-            !impMod.FactionType.ToDisplayString().Contains("Non"))
+        if (modifier is TouGameModifier { FactionType: var impFaction } &&
+            (impFaction.ToDisplayString().Contains("Imp") ||
+             impFaction.ToDisplayString().Contains("Killer")) &&
+            !impFaction.ToDisplayString().Contains("Non"))
         {
             return OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteGuessKillerMods;
         }

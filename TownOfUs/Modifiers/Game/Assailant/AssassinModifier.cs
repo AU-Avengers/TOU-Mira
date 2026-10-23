@@ -373,7 +373,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
                (Player.IsImpostorAligned() && votePlayer?.IsImpostorAligned() == true &&
                 !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode) ||
                (Player.Data.Role is VampireRole && votePlayer?.Data.Role is VampireRole) ||
-               (votePlayer?.Data.Role is MayorRole mayor && mayor.Revealed) ||
+               (votePlayer?.Data.Role is MayorRole { Revealed: true }) ||
                votePlayer.IsRevealed() ||
                (Player.IsLover() && votePlayer?.IsLover() == true) ||
                votePlayer?.HasModifier<JailedModifier>() == true;
@@ -454,7 +454,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     private static bool IsModifierValid(BaseModifier modifier)
     {
         // This will remove modifiers that alter their chance/amount
-        if (modifier is TouBaseGameModifier touMod && (touMod.CustomAmount <= 0 || touMod.CustomChance <= 0))
+        if (modifier is TouBaseGameModifier { CustomAmount: <= 0, CustomChance: <= 0 })
         {
             return false;
         }
@@ -474,7 +474,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             return false;
         }
 
-        if (modifier is TouGameModifier touMod3 && touMod3.HideFromGuessing)
+        if (modifier is TouGameModifier { HideFromGuessing: true })
         {
             return false;
         }
@@ -488,19 +488,20 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
         if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessCrewModifiers)
         {
             if (!OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessUtilityModifiers &&
-                modifier is TouGameModifier touMod2 && touMod2.FactionType == ModifierFaction.CrewmateUtility)
+                modifier is TouGameModifier { FactionType: ModifierFaction.CrewmateUtility })
             {
                 return false;
             }
 
-            if (modifier is TouGameModifier crewMod && crewMod.FactionType.ToDisplayString().Contains("Crew") &&
-                !crewMod.FactionType.ToDisplayString().Contains("Non"))
+            if (modifier is TouGameModifier { FactionType: var factionType } && factionType.ToDisplayString().Contains("Crew") &&
+                !factionType.ToDisplayString().Contains("Non"))
             {
                 return true;
             }
         }
 
-        if (modifier is TouGameModifier touMod4 && touMod4.FactionType.ToDisplayString().Contains("Imp") && !touMod4.FactionType.ToDisplayString().Contains("Non"))
+        if (modifier is TouGameModifier { FactionType: var factionType2 } && factionType2.ToDisplayString().Contains("Imp") &&
+            !factionType2.ToDisplayString().Contains("Non"))
         {
             return OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessImpostorModifiers;
         }

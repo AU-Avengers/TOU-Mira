@@ -506,12 +506,12 @@ public static class ChatPatches
                             allRoles.FirstOrDefault(role =>
                                 role.GetRoleName().Equals(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
                                 role.GetRoleName().Replace(" ", "").Equals(roleNameInput.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
-                                (role is ITownOfUsRole touRole && touRole.IdPart.Equals(roleNameInput, StringComparison.OrdinalIgnoreCase)))
+                                (role is ITownOfUsRole { IdPart: var idPart } && idPart.Equals(roleNameInput, StringComparison.OrdinalIgnoreCase)))
                             ?? allRoles.FirstOrDefault(role =>
                                 role.GetRoleName().Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
                                 roleNameInput.Contains(role.GetRoleName(), StringComparison.OrdinalIgnoreCase) ||
-                                (role is ITownOfUsRole touRole2 && (touRole2.IdPart.Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
-                                                                    roleNameInput.Contains(touRole2.IdPart, StringComparison.OrdinalIgnoreCase))));
+                                (role is ITownOfUsRole { IdPart: var idPart } && (idPart.Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
+                                                                    roleNameInput.Contains(idPart, StringComparison.OrdinalIgnoreCase))));
                         if (matchingRole == null)
                         {
                             MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -533,7 +533,7 @@ public static class ChatPatches
                                 else
                                 {
                                     targetName = targetPlayer.Data.PlayerName;
-                                    var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.IdPart : matchingRole.GetRoleName();
+                                    var roleIdentifier = matchingRole is ITownOfUsRole { IdPart: var idPart } ? idPart : matchingRole.GetRoleName();
                                     RpcForcePlayerRole(PlayerControl.LocalPlayer, targetPlayer);
                                     UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -544,7 +544,7 @@ public static class ChatPatches
                             {
                                 // Request for self
                                 targetName = PlayerControl.LocalPlayer.Data.PlayerName;
-                                var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.IdPart : matchingRole.GetRoleName();
+                                var roleIdentifier = matchingRole is ITownOfUsRole { IdPart: var idPart } ? idPart : matchingRole.GetRoleName();
                                 RpcForcePlayerRole(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer);
                                 UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                 AchievementsAPIHelper.Unlock(TouAchievements.Cheater);
@@ -595,7 +595,7 @@ public static class ChatPatches
 
             foreach (var role in ghostRoles)
             {
-                if (role is ICustomRole custom && custom.Configuration.HideSettings)
+                if (role is ICustomRole { Configuration.HideSettings: true })
                 {
                     continue;
                 }

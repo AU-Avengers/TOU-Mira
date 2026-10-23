@@ -385,7 +385,7 @@ public static class TownOfUsEventHandlers
                     continue;
                 }
 
-                if (button is TownOfUsButton touButton && !touButton.UsableFirstRound)
+                if (button is TownOfUsButton { UsableFirstRound: false } touButton)
                 {
                     touButton.SetRoundLockActive(false);
                 }
@@ -469,7 +469,7 @@ public static class TownOfUsEventHandlers
 
             if (!TutorialManager.InstanceExists)
             {
-                if (button is TownOfUsButton touButton && !touButton.UsableFirstRound)
+                if (button is TownOfUsButton { UsableFirstRound: false } touButton)
                 {
                     touButton.SetRoundLockActive(true);
                 }
@@ -531,15 +531,15 @@ public static class TownOfUsEventHandlers
             return;
         }
 
-        if (player.Data.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+        if (player.Data.Role is ParasiteRole { Controlled: { } controlled })
         {
-            ParasiteRole.RpcParasiteEndControl(player, parasiteRole.Controlled, parasiteRole.Controlled.transform.position, false);
+            ParasiteRole.RpcParasiteEndControl(player, controlled, controlled.transform.position, false);
         }
 
         if (ParasiteControlState.IsControlled(player.PlayerId, out var controllerId))
         {
             var controller = MiscUtils.PlayerById(controllerId);
-            if (controller?.Data?.Role is ParasiteRole controllerRole && controllerRole.Controlled == player)
+            if (controller?.Data?.Role is ParasiteRole { Controlled: var control } && control == player)
             {
                 ParasiteRole.RpcParasiteEndControl(controller, player, player.transform.position, false);
             }
@@ -1064,7 +1064,7 @@ public static class TownOfUsEventHandlers
             Minigame.Instance.Close();
         }
 
-        if (target.GetRoleWhenAlive() is MayorRole mayor && mayor.Revealed)
+        if (target.GetRoleWhenAlive() is MayorRole { Revealed: true })
         {
             MayorRole.DestroyReveal(targetVoteArea);
         }

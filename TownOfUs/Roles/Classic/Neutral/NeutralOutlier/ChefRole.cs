@@ -291,7 +291,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
             MiscUtils.RunAnticheatWarning(chef);
             return;
         }
-        if (chef.Data.Role is not ChefRole role)
+        if (chef.Data.Role is not ChefRole { StoredBodies: var bodies })
         {
             Error("RpcCookBody - Invalid chef");
             return;
@@ -314,7 +314,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
                 platter = PlatterType.Burger;
             }
         }
-        role.StoredBodies.Add(new KeyValuePair<int, PlatterType>(bodyId, platter));
+        bodies.Add(new KeyValuePair<int, PlatterType>(bodyId, platter));
 
         if (body == null)
         {

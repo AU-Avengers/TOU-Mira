@@ -228,13 +228,13 @@ public sealed class MinerRole(IntPtr cppPtr)
             MiscUtils.RunAnticheatWarning(player);
             return;
         }
-        if (player.Data.Role is not MinerRole miner)
+        if (player.Data.Role is not MinerRole { Vents: var vents })
         {
             Error("RpcShowVent - Invalid miner");
             return;
         }
 
-        var vent = miner.Vents.FirstOrDefault(x => x.Id == ventId);
+        var vent = vents.FirstOrDefault(x => x.Id == ventId);
 
         if (vent != null)
         {

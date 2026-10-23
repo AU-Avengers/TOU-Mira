@@ -110,7 +110,7 @@ public static class TraitorEvents
     {
         var player = @event.Player;
 
-        if (!PlayerControl.LocalPlayer || player == null || (@event.NewRole is not ILoyalCrewmate loyal || loyal.CanBeTraitor))
+        if (!PlayerControl.LocalPlayer || player == null || @event.NewRole is not ILoyalCrewmate { CanBeTraitor: false })
         {
             return;
         }
@@ -126,8 +126,7 @@ public static class TraitorEvents
         var player = @event.Player;
 
         if (!PlayerControl.LocalPlayer || player == null ||
-            (RoleManager.Instance.AllRoles.First(x => x.Role == @event.Role) is not ILoyalCrewmate loyal ||
-             loyal.CanBeTraitor))
+            RoleManager.Instance.AllRoles.First(x => x.Role == @event.Role) is not ILoyalCrewmate { CanBeTraitor: false })
         {
             return;
         }

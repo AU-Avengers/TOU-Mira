@@ -100,9 +100,9 @@ public sealed class TraitorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr)
             var roleName = role.GetRoleName();
             var roleImg = TouRoleUtils.GetBasicRoleIcon(role);
 
-            if (role is ICustomRole customRole && customRole.Configuration.Icon != null)
+            if (role is ICustomRole { Configuration.Icon: { } icon })
             {
-                roleImg = customRole.Configuration.Icon;
+                roleImg = icon;
             }
             else if (role.RoleIconSolid != null)
             {

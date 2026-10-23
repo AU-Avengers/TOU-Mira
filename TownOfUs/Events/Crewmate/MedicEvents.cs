@@ -143,15 +143,12 @@ public static class MedicEvents
     [RegisterEvent]
     public static void ReportBodyEventHandler(ReportBodyEvent @event)
     {
-        if (@event.Target == null)
+        if (@event is not { Target: not null, Reporter:{ AmOwner: false, Data.Role: MedicRole medic } })
         {
             return;
         }
 
-        if (@event.Reporter.Data.Role is MedicRole medic && @event.Reporter.AmOwner)
-        {
-            medic.Report(@event.Target.PlayerId);
-        }
+        medic.Report(@event.Target.PlayerId);
     }
 
     private static bool CheckForMedicShield(MiraCancelableEvent @event, PlayerControl source, PlayerControl target)

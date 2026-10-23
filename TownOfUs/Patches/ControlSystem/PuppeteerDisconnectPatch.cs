@@ -33,9 +33,9 @@ public static class PuppeteerDisconnectPatch
             }
         }
 
-        if (player.Data?.Role is PuppeteerRole role && role.Controlled != null)
+        if (player.Data?.Role is PuppeteerRole { Controlled: { } controlled })
         {
-            PuppeteerRole.RpcPuppeteerEndControl(player, role.Controlled, player.transform.position);
+            PuppeteerRole.RpcPuppeteerEndControl(player, controlled, player.transform.position);
         }
 
         player.TryRemoveModifier<PuppeteerControlModifier>();

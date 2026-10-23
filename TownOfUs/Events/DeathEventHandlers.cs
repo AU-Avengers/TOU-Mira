@@ -110,10 +110,10 @@ public static class DeathEventHandlers
             var role = target.GetRoleWhenAlive();
             var text = MiraLocaleManager.Get("DiedToSuicide");
 
-            if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS" &&
-                MiraLocaleManager.Get($"DiedToSuicide{touRole.IdPart}") != $"DiedToSuicide{touRole.IdPart}")
+            if (role is ITownOfUsRole { IdPart: not "KEY_MISS" and var idPart } &&
+                MiraLocaleManager.Get($"DiedToSuicide{idPart}") != $"DiedToSuicide{idPart}")
             {
-                text = MiraLocaleManager.Get($"DiedToSuicide{touRole.IdPart}");
+                text = MiraLocaleManager.Get($"DiedToSuicide{idPart}");
             }
 
             stats.DeathString = text;
@@ -134,7 +134,7 @@ public static class DeathEventHandlers
                 cod = IdPart;
             }
 
-            if (source.Data.Role is IGhostRole && source.Data.Role is ITownOfUsRole touRole)
+            if (source.Data.Role is IGhostRole and ITownOfUsRole touRole)
             {
                 cod = touRole.IdPart;
             }

@@ -54,7 +54,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
                             !x.HasModifier<ExecutionerTargetModifier>() &&
                             !x.HasModifier<EgotistModifier>() &&
                             !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName) &&
-                            (x.Data.Role is not ILoyalCrewmate loyalCrew || loyalCrew.CanBeTraitor)).ToList();
+                            x.Data.Role is not ILoyalCrewmate { CanBeTraitor: false }).ToList();
 
             if (filtered.Count == 0)
             {

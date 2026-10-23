@@ -61,7 +61,7 @@ public static class MedusaEvents
             }
             miraEvent.Cancel();
 
-            if (miraEvent is MiraButtonClickEvent click && click.Button is JesterPokeButton)
+            if (miraEvent is MiraButtonClickEvent { Button: JesterPokeButton })
             {
                 AchievementsAPIHelper.Unlock(TouAchievements.DontPokeTheBear);
             }

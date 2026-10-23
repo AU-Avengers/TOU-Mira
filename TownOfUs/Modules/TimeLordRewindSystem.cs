@@ -572,7 +572,7 @@ public static class TimeLordRewindSystem
         var lp = PlayerControl.LocalPlayer;
 
         // Only record snapshots when player is alive (not dead/ghost)
-        if (lp.Data.IsDead || lp.Data.Role is IRewindImmune immune && immune.IgnoredByRecording)
+        if (lp.Data.IsDead || lp.Data.Role is IRewindImmune { IgnoredByRecording: true })
         {
             return;
         }
@@ -1133,7 +1133,7 @@ public static class TimeLordRewindSystem
         // Exempt ghosts and ghost roles from Time Lord effects
         var isGhost = PlayerControl.LocalPlayer.Data.IsDead ||
                       PlayerControl.LocalPlayer.Data.Role is IGhostRole ||
-                      PlayerControl.LocalPlayer.Data.Role is IRewindImmune immune && immune.IgnoredByRewind;
+                      PlayerControl.LocalPlayer.Data.Role is IRewindImmune { IgnoredByRewind: true };
 
         if (!isGhost)
         {
@@ -1507,7 +1507,7 @@ public static class TimeLordRewindSystem
         // Exempt ghosts and ghost roles from Time Lord effects - they can move freely
         var isGhost = PlayerControl.LocalPlayer.Data.IsDead ||
                       PlayerControl.LocalPlayer.Data.Role is IGhostRole ||
-                      PlayerControl.LocalPlayer.Data.Role is IRewindImmune immune && immune.IgnoredByRewind;
+                      PlayerControl.LocalPlayer.Data.Role is IRewindImmune { IgnoredByRewind: true };
 
         if (isGhost)
         {

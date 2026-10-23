@@ -31,8 +31,7 @@ public static class LaunchpadReloadedPatches
             return true;
         }
 
-        if (ModCompatibility.LaunchpadLoaded && role is ICustomRole custom &&
-            custom.ParentMod.MiraPlugin.OptionsTitleText is "Launchpad")
+        if (ModCompatibility.LaunchpadLoaded && role is ICustomRole { ParentMod.MiraPlugin.OptionsTitleText: "Launchpad" } custom)
         {
             switch (custom.RoleName)
             {
@@ -55,8 +54,7 @@ public static class LaunchpadReloadedPatches
             return true;
         }
 
-        if (ModCompatibility.LaunchpadLoaded && role is ICustomRole custom &&
-            custom.ParentMod.MiraPlugin.OptionsTitleText is "Launchpad")
+        if (ModCompatibility.LaunchpadLoaded && role is ICustomRole { ParentMod.MiraPlugin.OptionsTitleText: "Launchpad" } custom)
         {
             switch (custom.RoleName)
             {

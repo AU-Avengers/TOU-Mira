@@ -33,9 +33,9 @@ public static class ParasiteDisconnectPatch
             }
         }
 
-        if (player.Data?.Role is ParasiteRole role && role.Controlled != null)
+        if (player.Data?.Role is ParasiteRole { Controlled: { } controlled })
         {
-            ParasiteRole.RpcParasiteEndControl(player, role.Controlled, role.Controlled.transform.position, false);
+            ParasiteRole.RpcParasiteEndControl(player, controlled, controlled.transform.position, false);
         }
 
         player.TryRemoveModifier<ParasiteInfectedModifier>();

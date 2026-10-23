@@ -103,10 +103,7 @@ public static class MultiplayerFreeplayDebugState
                         continue;
                     }
 
-                    if (Activator.CreateInstance(modType) is BaseModifier instance)
-                    {
-                        modComp.AddModifier(instance);
-                    }
+                    modComp.AddModifier(modType);
                 }
             }
 

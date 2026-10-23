@@ -355,8 +355,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             return;
         }
 
-        if (ambassadorRole.SelectedPlr == null || ambassadorRole.SelectedRole == null ||
-            ambassadorRole.Player.Data.IsDead || ambassadorRole.SelectedPlr.IsDead)
+        if (ambassadorRole is not { SelectedPlr.IsDead: false, SelectedRole: not null, Player.Data.IsDead: false })
         {
             ambassadorRole.Clear();
             Error("RpcRetrainConfirm - A player or role check failed");

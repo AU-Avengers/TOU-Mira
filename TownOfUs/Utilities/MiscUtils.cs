@@ -158,9 +158,9 @@ public static class MiscUtils
 
     public static RoleAlignment GetRoleAlignment(this ICustomRole role)
     {
-        if (role is ITownOfUsRole touRole)
+        if (role is ITownOfUsRole { RoleAlignment: var touAlign })
         {
-            return touRole.RoleAlignment;
+            return touAlign;
         }
 
         var alignments = Enum.GetValues<RoleAlignment>();
@@ -192,21 +192,19 @@ public static class MiscUtils
 
     public static RoleAlignment GetRoleAlignment(this RoleBehaviour role)
     {
-        if (role is ITownOfUsRole touRole)
+        if (role is ITownOfUsRole { RoleAlignment: var touAlign })
         {
-            return touRole.RoleAlignment;
+            return touAlign;
         }
-        if (role is ICustomRole customRole)
+        if (role is ICustomRole { RoleOptionsGroup.Name: var groupName })
         {
-            var alignments = Enum.GetValues<RoleAlignment>();
-            foreach (var alignment in alignments)
+            foreach (var alignment in Enum.GetValues<RoleAlignment>())
             {
-                var roleAlignment = alignment;
-                if (customRole.RoleOptionsGroup.Name.Replace(" Roles", "") == roleAlignment.ToDisplayString() ||
-                    customRole.RoleOptionsGroup.Name.Replace($" {MiraLocaleManager.Get("Roles")}", "") ==
-                    roleAlignment.ToDisplayString())
+                if (groupName.Replace(" Roles", "") == alignment.ToDisplayString() ||
+                    groupName.Replace($" {MiraLocaleManager.Get("Roles")}", "") ==
+                    alignment.ToDisplayString())
                 {
-                    return roleAlignment;
+                    return alignment;
                 }
             }
         }

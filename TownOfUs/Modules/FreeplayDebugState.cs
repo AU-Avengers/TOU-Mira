@@ -89,10 +89,7 @@ public static class FreeplayDebugState
                             continue;
                         }
 
-                        if (Activator.CreateInstance(modType) is BaseModifier instance)
-                        {
-                            modComp.AddModifier(instance);
-                        }
+                        modComp.AddModifier(modType);
                     }
                 }
             }

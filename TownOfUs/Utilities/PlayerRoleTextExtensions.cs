@@ -166,7 +166,7 @@ public static class PlayerRoleTextExtensions
             name += "<color=#29AB87> &</color>";
         }
 
-        if (PlayerControl.LocalPlayer.Data.Role is HunterRole hunter && hunter.CaughtPlayers.Contains(player))
+        if (PlayerControl.LocalPlayer.Data.Role is HunterRole { CaughtPlayers: var caught } && caught.Contains(player))
         {
             name += "<color=#21453B> &</color>";
         }

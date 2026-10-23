@@ -301,12 +301,12 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             MiscUtils.RunAnticheatWarning(player);
             return;
         }
-        if (player.Data.Role is not SentryRole sentry)
+        if (player.Data.Role is not SentryRole { FutureCameras: var cameras })
         {
             return;
         }
 
-        sentry.FutureCameras.Add(position);
+        cameras.Add(position);
     }
 
     [MethodRpc((uint)TownOfUsRpc.SentryRevealCamera)]
@@ -317,17 +317,17 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             MiscUtils.RunAnticheatWarning(player);
             return;
         }
-        if (player.Data.Role is not SentryRole sentry)
+        if (player.Data.Role is not SentryRole { FutureCameras: var cameras })
         {
             return;
         }
 
-        if (!sentry.FutureCameras.Contains(position))
+        if (!cameras.Contains(position))
         {
             return;
         }
 
-        sentry.FutureCameras.Remove(position);
+        cameras.Remove(position);
 
         var newPos = new Vector3(position.x, position.y, zAxis);
         var camera = SentryCameraUtilities.CreateCameraAtPosition(newPos, player);

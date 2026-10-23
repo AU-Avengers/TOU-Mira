@@ -211,7 +211,7 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             var faction = DraftUiManager.GetTeamLabel(role);
-            var actualFaction = role is ICustomRole custom ? custom.Team.ToString() : role.TeamType.ToString();
+            var actualFaction = role is ICustomRole { Team: var custom } ? custom.ToString() : role.TeamType.ToString();
             string colorHex = "";
             var displayMode = OptionGroupSingleton<RoleOptions>.Instance.DraftSidebarDisplay.Value;
             string text = displayMode switch

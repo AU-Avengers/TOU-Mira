@@ -68,7 +68,7 @@ public sealed class CircumventModifier : TouGameModifier, IWikiDiscoverable
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         return base.IsModifierValidOn(role) && role.IsImpostor() &&
-               (role is not ICustomRole custom || custom.Configuration.CanUseVent) &&
+               role is not ICustomRole { Configuration.CanUseVent: false } &&
                role is not MinerRole;
     }
 

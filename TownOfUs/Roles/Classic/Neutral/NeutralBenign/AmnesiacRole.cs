@@ -249,9 +249,9 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
                 target.ChangeRole((ushort)RoleTypes.Impostor);
                 target.ChangeRole((ushort)RoleTypes.ImpostorGhost, false);
             }
-            /*else if (target.IsNeutral() && player.Data.Role is ITownOfUsRole touRole)
+            /*else if (target.IsNeutral() && player.Data.Role is ITownOfUsRole { RoleAlignment: var alignment })
             {
-                switch (touRole.RoleAlignment)
+                switch (alignment)
                 {
                     default:
                         target.ChangeRole(RoleId.Get<SurvivorRole>());

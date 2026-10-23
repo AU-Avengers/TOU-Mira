@@ -33,9 +33,9 @@ public static class TouRoleUtils
     public static Sprite GetRoleIcon(this RoleBehaviour role)
     {
         var roleImg = GetBasicRoleIcon(role);
-        if (role is ICustomRole customRole && customRole.Configuration.Icon != null)
+        if (role is ICustomRole { Configuration.Icon: { } icon })
         {
-            roleImg = customRole.Configuration.Icon;
+            roleImg = icon;
         }
         else if (role.RoleIconSolid != null)
         {
@@ -131,9 +131,9 @@ public static class TouRoleUtils
 
     public static string GetRoleIdPart(this RoleBehaviour role)
     {
-        if (role is ICustomRole touRole && touRole.IdPart != "KEY_MISS")
+        if (role is ICustomRole { IdPart: not "KEY_MISS" and var idPart })
         {
-            return touRole.IdPart;
+            return idPart;
         }
 
         if (!role.IsCustomRole())
@@ -146,7 +146,7 @@ public static class TouRoleUtils
 
     public static bool IsRevealed(this PlayerControl? player) =>
         player?.HasModifier<BaseRevealModifier>(x => x.Visible && x.RevealRole) == true ||
-        player?.Data?.Role is MayorRole mayor && mayor.Revealed;
+        player?.Data?.Role is MayorRole { Revealed: true };
 
     public static StringBuilder SetTabText(ICustomRole role)
     {

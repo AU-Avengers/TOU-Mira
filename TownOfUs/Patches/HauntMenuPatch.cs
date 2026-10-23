@@ -142,7 +142,7 @@ public static class HauntMenuMinigamePatch
 
             var name = role.GetRoleName();
 
-            var rColor = role is ICustomRole custom ? custom.RoleColor : role.TeamColor;
+            var rColor = role is ICustomRole { RoleColor: var custom } ? custom : role.TeamColor;
 
             if (!OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow && !TutorialManager.InstanceExists)
             {

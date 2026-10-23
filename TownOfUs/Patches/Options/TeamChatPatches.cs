@@ -1035,7 +1035,7 @@ public static class TeamChatPatches
 
             if (shouldRevealRole && (showIcon || showColor))
             {
-                var roleColor = (role is ICustomRole custom) ? custom.RoleColor : role.TeamColor;
+                var roleColor = (role is ICustomRole { RoleColor: var custom }) ? custom : role.TeamColor;
                 __instance.NameText.color = showColor ? roleColor : color;
 
                 var icon = MiscUtils.GetMaskedRoleTmpIcon(role);

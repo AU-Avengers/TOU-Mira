@@ -38,8 +38,9 @@ public class ProsecutorToggleButton : MeetingActionButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return role is ProsecutorRole pros && !pros.HideProsButton && pros.WantsToPros is not ProsecuteToggleMode.NoToggle && !pros.HasProsecuted && pros.ProsecutionsCompleted <
-            OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
+        return role is ProsecutorRole
+            { HideProsButton: false, WantsToPros: not ProsecuteToggleMode.NoToggle, HasProsecuted: false, } pros  &&
+            pros.ProsecutionsCompleted < OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
     }
 
     public override bool CanUse()

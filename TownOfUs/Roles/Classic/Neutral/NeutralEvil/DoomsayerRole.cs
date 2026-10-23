@@ -305,17 +305,17 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 reportBuilder.AppendLine(TownOfUsPlugin.Culture, $"{hint.Replace("<player>", player.PlayerName)}\n");
             }
 
-            var roles = MiscUtils.GetPotentialRoles().Where(x => (x is IDoomable doomRole && doomRole.DoomHintType == DoomableType.Default &&
-                x is not IUnguessable || x is not IDoomable) && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).ToList();
+            var roles = MiscUtils.GetPotentialRoles().Where(x => (x is not IDoomable { DoomHintType: not DoomableType.Default } ||
+                x is not IUnguessable) && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).ToList();
 
-            var allRoles = MiscUtils.AllRoles.Where(x => (x is IDoomable doomRole && doomRole.DoomHintType == DoomableType.Default &&
-                x is not IUnguessable || x is not IDoomable) && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).Where(x => x is IGuessable && !roles.Contains(x));
+            var allRoles = MiscUtils.AllRoles.Where(x => (x is not IDoomable { DoomHintType: not DoomableType.Default } ||
+                x is not IUnguessable) && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).Where(x => x is IGuessable && !roles.Contains(x));
 
             if (allRoles.Any())
             {
                 foreach (var addedRole in allRoles)
                 {
-                    if (addedRole is IGuessable guessable && guessable.CanBeGuessed)
+                    if (addedRole is IGuessable { CanBeGuessed: true })
                     {
                         roles.Add(addedRole);
                     }
@@ -326,16 +326,16 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
             if (hintType != DoomableType.Default)
             {
-                roles = MiscUtils.GetPotentialRoles().Where(x => x is IDoomable doomRole && doomRole.DoomHintType == hintType &&
+                roles = MiscUtils.GetPotentialRoles().Where(x => x is IDoomable { DoomHintType: var doomHint } && doomHint == hintType &&
                     x is not IUnguessable && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).ToList();
 
-                allRoles = MiscUtils.AllRoles.Where(x => x is IDoomable doomRole && doomRole.DoomHintType == hintType &&
+                allRoles = MiscUtils.AllRoles.Where(x => x is IDoomable { DoomHintType: var doomHint } && doomHint == hintType &&
                                                                x is not IUnguessable && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).Where(x => x is IGuessable && !roles.Contains(x));
                 if (allRoles.Any())
                 {
                     foreach (var addedRole in allRoles)
                     {
-                        if (addedRole is IGuessable guessable && guessable.CanBeGuessed)
+                        if (addedRole is IGuessable { CanBeGuessed: true })
                         {
                             roles.Add(addedRole);
                         }
@@ -552,7 +552,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         return voteArea.PlayerId == Player.PlayerId ||
                Player.Data.IsDead || voteArea.AmDead ||
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true ||
-               (voteArea.GetPlayer()?.Data.Role is MayorRole mayor && mayor.Revealed) ||
+               voteArea.GetPlayer()?.Data.Role is MayorRole { Revealed: true } ||
                voteArea.GetPlayer()?.IsRevealed() == true ||
                (Player.IsLover() && voteArea.GetPlayer()?.IsLover() == true);
     }

@@ -256,14 +256,13 @@ public static class HunterEvents
 
         var exiled = @event.ExileController?.initData?.networkedPlayer?.Object;
 
-        if (exiled == null || exiled.Data.Role is not HunterRole hunter)
+        if (exiled?.Data.Role is not HunterRole hunter)
         {
             return;
         }
 
         var target = hunter.LastVoted!;
-        var pros = CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>().FirstOrDefault();
-        if (pros != null && pros.HasProsecuted)
+        if (CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>().FirstOrDefault() is { HasProsecuted: true } pros)
         {
             target = pros.Player;
         }

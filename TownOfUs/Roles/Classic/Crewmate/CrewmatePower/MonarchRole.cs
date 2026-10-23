@@ -151,7 +151,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
         if (target.AmOwner && !OptionGroupSingleton<MonarchOptions>.Instance.RevealAtMeeting)
         {
-            if (target.Data.Role is MayorRole mayor && mayor.Revealed)
+            if (target.Data.Role is MayorRole { Revealed: true })
             {
                 AchievementsAPIHelper.Unlock(TouAchievements.RiggedVotes);
             }

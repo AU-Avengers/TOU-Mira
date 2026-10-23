@@ -96,7 +96,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
             var players = PlayerControl.AllPlayerControls.Where(x => !x.HasDied() && !x.HasModifier<ExecutionerTargetModifier>() &&
                             !x.HasModifier<AllianceGameModifier>() &&
                             !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName) &&
-                            (x.Data.Role is not IUnlovable unlovable || !unlovable.IsUnlovable) && (loveOpt.NeutralLovers || !x.IsNeutral())).ToList();
+                            (x.Data.Role is not IUnlovable { IsUnlovable: true }) && (loveOpt.NeutralLovers || !x.IsNeutral())).ToList();
             players.Shuffle();
 
             Random rndIndex1 = new();
@@ -192,7 +192,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         var impTargetPercent = (int)OptionGroupSingleton<LoversOptions>.Instance.LovingImpPercent;
 
         var players = PlayerControl.AllPlayerControls.Where(x => !x.HasDied() && !x.HasModifier<ExecutionerTargetModifier>() &&
-                        (x.Data.Role is not IUnlovable unlovable || !unlovable.IsUnlovable)).ToList();
+                        (x.Data.Role is not IUnlovable { IsUnlovable: true })).ToList();
         players.Shuffle();
 
         players.Remove(localPlr);

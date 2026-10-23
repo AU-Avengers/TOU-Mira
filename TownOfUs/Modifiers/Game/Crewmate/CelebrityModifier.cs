@@ -108,7 +108,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
                 cod = IdPart;
             }
 
-            if (source.Data.Role is IGhostRole && source.Data.Role is ITownOfUsRole touRole)
+            if (source.Data.Role is IGhostRole and ITownOfUsRole touRole)
             {
                 cod = touRole.IdPart;
             }

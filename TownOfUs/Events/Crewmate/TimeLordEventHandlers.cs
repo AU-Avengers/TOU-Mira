@@ -205,14 +205,7 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleVentEnterUndo(TimeLordVentEnterUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordVentEnterEvent originalEvent)
-        {
-            return;
-        }
-        var player = originalEvent.Player;
-        var vent = originalEvent.Vent;
-
-        if (player == null || vent == null || !player.AmOwner)
+        if (@event.OriginalEvent is not TimeLordVentEnterEvent { Player: { AmOwner: true } player, Vent: { } vent })
         {
             return;
         }
@@ -244,14 +237,7 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleVentExitUndo(TimeLordVentExitUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordVentExitEvent originalEvent)
-        {
-            return;
-        }
-        var player = originalEvent.Player;
-        var vent = originalEvent.Vent;
-
-        if (player == null || vent == null || !player.AmOwner)
+        if (@event.OriginalEvent is not TimeLordVentExitEvent { Player: { AmOwner: true } player, Vent: { } vent })
         {
             return;
         }
@@ -278,14 +264,7 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleTaskCompleteUndo(TimeLordTaskCompleteUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordTaskCompleteEvent originalEvent)
-        {
-            return;
-        }
-        var player = originalEvent.Player;
-        var taskId = originalEvent.TaskId;
-
-        if (player == null || !player.AmOwner)
+        if (@event.OriginalEvent is not TimeLordTaskCompleteEvent { Player: { AmOwner: true } player, TaskId: var taskId })
         {
             return;
         }
@@ -299,11 +278,10 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleBodyCleanedUndo(TimeLordBodyCleanedUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordBodyCleanedEvent originalEvent)
+        if (@event.OriginalEvent is not TimeLordBodyCleanedEvent { BodyId: var bodyId })
         {
             return;
         }
-        var bodyId = originalEvent.BodyId;
 
         TimeLordBodyManager.RestoreCleanedBody(bodyId);
     }
@@ -314,13 +292,7 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleKillUndo(TimeLordKillUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordKillEvent originalEvent)
-        {
-            return;
-        }
-        var victim = originalEvent.Victim;
-
-        if (victim == null || !victim.Data.IsDead)
+        if (@event.OriginalEvent is not TimeLordKillEvent { Victim: { Data.IsDead: true } victim })
         {
             return;
         }
@@ -337,15 +309,13 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleChefCookUndo(TimeLordChefCookUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordChefCookEvent originalEvent)
+        if (@event.OriginalEvent is not TimeLordChefCookEvent { BodyId: var bodyId, Player: var chef })
         {
             return;
         }
-        var bodyId = originalEvent.BodyId;
 
         TimeLordBodyManager.RestoreCleanedBody(bodyId);
 
-        var chef = originalEvent.Player;
         if (chef != null && chef.Data?.Role is TownOfUs.Roles.Neutral.ChefRole chefRole)
         {
             var idx = chefRole.StoredBodies.FindIndex(x => x.Key == bodyId);
@@ -374,13 +344,8 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleChefServeUndo(TimeLordChefServeUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordChefServeEvent originalEvent)
-        {
-            return;
-        }
-        var target = originalEvent.Target;
-
-        if (target == null)
+        if (@event.OriginalEvent is not TimeLordChefServeEvent 
+            { Target: { } target, Player: var chef, BodyId: var bodyId, PlatterType: var platterType })
         {
             return;
         }
@@ -389,11 +354,10 @@ public static class TimeLordEventHandlers
         target.TryRemoveModifier<TownOfUs.Modifiers.Neutral.ChefServedModifier>();
 
         // Add the body back to Chef's stored bodies
-        var chef = originalEvent.Player;
         if (chef != null && chef.Data?.Role is TownOfUs.Roles.Neutral.ChefRole chefRole)
         {
             chefRole.StoredBodies.Insert(0, new KeyValuePair<int, TownOfUs.Roles.Neutral.PlatterType>(
-                originalEvent.BodyId, originalEvent.PlatterType));
+                bodyId, platterType));
             chefRole.BodiesServed = Math.Max(0, chefRole.BodiesServed - 1);
         }
     }
@@ -404,18 +368,11 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleKillCooldownUndo(TimeLordKillCooldownUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordKillCooldownEvent originalEvent)
+        if (@event.OriginalEvent is not TimeLordKillCooldownEvent
+            { Player: { AmOwner: true } player, CooldownBefore: var cooldownBefore , CooldownAfter: var cooldownAfter })
         {
             return;
         }
-
-        var player = originalEvent.Player;
-        if (player == null || !player.AmOwner)
-        {
-            return;
-        }
-
-        var cooldownBefore = originalEvent.CooldownBefore;
 
         if (player.Data.Role.CanUseKillButton && GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown > 0f)
         {
@@ -446,7 +403,7 @@ public static class TimeLordEventHandlers
                 !TimeLordRewindSystem.LocalKillCooldownMaxClampedThisRewind &&
                 hadKillInRewindWindow &&
                 (cooldownBefore <= 0f || cooldownBefore < 0.1f) &&
-                originalEvent.CooldownAfter > 0.1f)
+                cooldownAfter > 0.1f)
             {
                 TimeLordRewindSystem.LocalKillCooldownMaxClampedThisRewind = true;
             }

@@ -74,10 +74,8 @@ public static class TimeLordPatches
     public static void PlayerFlipXRewindPrefix(PlayerPhysics __instance, ref bool value)
     {
         if (TimeLordRewindSystem.IsRewinding &&
-    __instance != null &&
-    __instance.myPlayer != null &&
-    __instance.myPlayer.AmOwner &&
-    (PlayerControl.LocalPlayer.Data.Role is not IRewindImmune immune || !immune.IgnoredByRewind))
+            __instance is { myPlayer.AmOwner: true } &&
+            PlayerControl.LocalPlayer.Data.Role is not IRewindImmune { IgnoredByRewind: true })
         {
             value = !value;
         }

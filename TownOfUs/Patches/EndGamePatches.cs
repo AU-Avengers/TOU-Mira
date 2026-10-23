@@ -112,9 +112,9 @@ public static class EndGamePatches
             }
             var playerTeam = ModdedRoleTeams.Crewmate;
 
-            if (lastRole is ITownOfUsRole touRole)
+            if (lastRole is ITownOfUsRole { Team: var team })
             {
-                playerTeam = touRole.Team;
+                playerTeam = team;
             }
             else if (lastRole.IsImpostor)
             {
@@ -122,7 +122,7 @@ public static class EndGamePatches
             }
 
             var modifiers = playerStats.LastKnownModifiers
-                .Where(x => x is TouGameModifier touMod && touMod.AppearsInSummary || x is UniversalGameModifier);
+                .Where(x => x is TouGameModifier { AppearsInSummary: true } or UniversalGameModifier);
             var modifierCount = modifiers.Count();
             if (modifierCount != 0)
             {
@@ -146,7 +146,7 @@ public static class EndGamePatches
             }
             var modifierHolder = new StringBuilder();
             var modifiersAlt = playerStats.LastKnownModifiers
-                .Where(x => x is TouGameModifier touMod && touMod.AppearsInSummary || x is UniversalGameModifier || x is AllianceGameModifier);
+                .Where(x => x is TouGameModifier { AppearsInSummary: true } or UniversalGameModifier or AllianceGameModifier);
             var modifierCountAlt = modifiersAlt.Count();
             if (modifierCountAlt != 0)
             {

@@ -615,7 +615,7 @@ public static class ModCompatibility
             return;
         }
 
-        if (PlayerControl.LocalPlayer.Data.Role is IGhostRole ghost && !ghost.Caught)
+        if (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: false } ghost)
         {
             var startingVent =
                 ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
@@ -643,7 +643,7 @@ public static class ModCompatibility
         {
             var player = __instance.myPlayer;
 
-            if (player.Data.Role is IGhostRole ghost && ghost.GhostActive)
+            if (player.Data.Role is IGhostRole { GhostActive: true })
             {
                 if (player.AmOwner)
                 {

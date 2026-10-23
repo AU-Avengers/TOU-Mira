@@ -50,8 +50,8 @@ public class FrenzyGhostRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsRo
     {
         TasksCountForProgress = false,
         HideSettings = true,
-        RoleHintType = Player != null && Player.GetRoleWhenAlive() is ICustomRole custom
-            ? custom.Configuration.RoleHintType
+        RoleHintType = Player != null && Player.GetRoleWhenAlive() is ICustomRole { Configuration.RoleHintType: var hintType }
+            ? hintType
             : RoleHintType.None
     };
 

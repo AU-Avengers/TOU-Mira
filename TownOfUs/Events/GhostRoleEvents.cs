@@ -97,14 +97,13 @@ public static class GhostRoleEvents
     [RegisterEvent]
     public static void PlayerCanUseEventHandler(PlayerCanUseEvent @event)
     {
-        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
-            !PlayerControl.LocalPlayer.Data.Role || PlayerControl.LocalPlayer.Data.Role is not IGhostRole ghostwalker)
+        if (PlayerControl.LocalPlayer?.Data?.Role is not IGhostRole { GhostActive: true })
         {
             return;
         }
 
         var console = @event.Usable.TryCast<Console>();
-        if (!console || console.IsConsoleAllowed() || !ghostwalker.GhostActive)
+        if (!console || console.IsConsoleAllowed())
         {
             return;
         }

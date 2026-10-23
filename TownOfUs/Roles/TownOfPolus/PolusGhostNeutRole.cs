@@ -27,7 +27,7 @@ public class PolusGhostNeutRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfU
             }
 
             var role = Player.GetRoleWhenAlive();
-            return role is PolusBaseNeutRole polusRole ? polusRole.RoleDescriptionDead : role.BlurbLong;
+            return role is PolusBaseNeutRole { RoleDescriptionDead: var deadDesc } ? deadDesc : role.BlurbLong;
         }
     }
     public override void SpawnTaskHeader(PlayerControl playerControl)

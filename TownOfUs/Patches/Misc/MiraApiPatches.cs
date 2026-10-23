@@ -27,8 +27,7 @@ public static class MiraApiPatches
 
         var curRole = PlayerControl.LocalPlayer.Data.Role;
 
-        if (PlayerControl.LocalPlayer.GetModifiers<BaseModifier>().FirstOrDefault(x =>
-                x is ICachedRole cached && cached.CachedRole != curRole) is ICachedRole cachedMod)
+        if (PlayerControl.LocalPlayer.TryGetModifierOfType<ICachedRole>(out var cachedMod, x => x.CachedRole != curRole))
         {
             comparisons = comparisons.AddItem(cachedMod.CachedRole);
         }

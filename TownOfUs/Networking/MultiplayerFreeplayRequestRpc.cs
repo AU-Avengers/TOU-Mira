@@ -176,10 +176,7 @@ internal sealed class MultiplayerFreeplayRequestRpc(TownOfUsPlugin plugin, uint 
             return;
         }
 
-        if (Activator.CreateInstance(modifierType) is BaseModifier instance)
-        {
-            comp.AddModifier(instance);
-        }
+        comp.AddModifier(modifierType);
     }
 
     private static void HandleSetLovers(byte loverAId, byte loverBId)

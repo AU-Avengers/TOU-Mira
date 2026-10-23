@@ -26,7 +26,7 @@ public sealed class GuesserMenu : CustomPaginableMenu
             var roles = MiscUtils.GetPotentialRoles().Where(roleMatch);
 
             var guessableRoles = MiscUtils.AllRoles.Where(roleMatch)
-                                .Where(x => x is IGuessable guessable && !roles.Contains(x) && guessable.CanBeGuessed);
+                                .Where(x => x is IGuessable { CanBeGuessed: true } && !roles.Contains(x));
 
             var newRoleList = roles.Concat(guessableRoles).OrderBy(x =>
             LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.SortGuessingByAlignmentToggle.Value

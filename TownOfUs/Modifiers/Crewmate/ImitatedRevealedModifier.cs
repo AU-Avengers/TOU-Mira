@@ -22,9 +22,9 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
     {
         base.OnActivate();
         var roleWhenAlive = Player.GetRoleWhenAlive();
-        if (roleWhenAlive is ICrewVariant crewType)
+        if (roleWhenAlive is ICrewVariant { CrewVariant: var crewVariant })
         {
-            roleWhenAlive = crewType.CrewVariant;
+            roleWhenAlive = crewVariant;
         }
 
         if (roleWhenAlive is ImitatorRole || roleWhenAlive is SurvivorRole || roleWhenAlive.IsSimpleRole)
@@ -42,9 +42,9 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
             return;
         }
         var roleWhenAlive = Player.GetRoleWhenAlive();
-        if (roleWhenAlive is ICrewVariant crewType)
+        if (roleWhenAlive is ICrewVariant { CrewVariant: var crewVariant })
         {
-            roleWhenAlive = crewType.CrewVariant;
+            roleWhenAlive = crewVariant;
         }
 
         if (roleWhenAlive is ImitatorRole || roleWhenAlive is SurvivorRole || roleWhenAlive.IsSimpleRole)
@@ -67,9 +67,9 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
             {
                 Sprite? roleImg = null;
 
-                if (ShownRole is ICustomRole customRole && customRole.Configuration.Icon != null)
+                if (ShownRole is ICustomRole { Configuration.Icon: { } icon })
                 {
-                    roleImg = customRole.Configuration.Icon;
+                    roleImg = icon;
                 }
                 else if (ShownRole.RoleIconSolid != null)
                 {

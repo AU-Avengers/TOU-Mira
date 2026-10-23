@@ -680,7 +680,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        if (target == null || target.Data == null || target.HasDied())
+        if (target?.Data == null || target.HasDied())
         {
             return;
         }
@@ -850,18 +850,18 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             MiscUtils.RunAnticheatWarning(parasite);
             return;
         }
-        if (parasite.Data.Role is not ParasiteRole role)
+        if (parasite.Data.Role is not ParasiteRole { Controlled: var infected })
         {
             Error("RpcParasiteTriggerInteraction - Invalid parasite");
             return;
         }
 
-        if (controlled == null || controlled.Data == null || controlled.HasDied())
+        if (controlled?.Data == null || controlled.HasDied())
         {
             return;
         }
 
-        if (role.Controlled != controlled || !ParasiteControlState.IsControlled(controlled.PlayerId, out _))
+        if (infected != controlled || !ParasiteControlState.IsControlled(controlled.PlayerId, out _))
         {
             return;
         }
