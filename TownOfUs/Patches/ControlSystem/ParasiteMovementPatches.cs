@@ -218,7 +218,7 @@ public static class ParasiteMovementPatches
             return true;
         }
 
-        if (player.IsInTargetingAnimState() || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
+        if (player.IsInTargetingAnimState() || player.inVent)
         {
             return true;
         }
