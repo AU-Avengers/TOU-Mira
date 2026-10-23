@@ -16,7 +16,6 @@ using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches.ControlSystem;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Impostor;
 
@@ -214,7 +213,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.PuppeteerControl, puppeteer, target));
 
-        PuppeteerRole.ControlState.SetControl(target.PlayerId, puppeteer.PlayerId);
+        ControlState.SetControl(target.PlayerId, puppeteer.PlayerId);
         if (!target.HasModifier<PuppeteerControlModifier>())
         {
             target.AddModifier<PuppeteerControlModifier>(puppeteer);
@@ -275,7 +274,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         if (target != null)
         {
-            PuppeteerRole.ControlState.ClearControl(target.PlayerId);
+            ControlState.ClearControl(target.PlayerId);
             if (target.TryGetModifier<PuppeteerControlModifier>(out var mod))
             {
                 target.RemoveModifier(mod);
@@ -366,7 +365,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             return;
         }
 
-        if (role.Controlled != controlled || !PuppeteerRole.ControlState.IsControlled(controlled.PlayerId, out _))
+        if (role.Controlled != controlled || !ControlState.IsControlled(controlled.PlayerId, out _))
         {
             return;
         }
@@ -436,7 +435,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     private static List<IUsable> GetInteractablesList()
     {
         var result = new List<IUsable>();
-        var allUsables = UnityEngine.Object.FindObjectsOfType<MonoBehaviour>();
+        var allUsables = FindObjectsOfType<MonoBehaviour>();
         foreach (var obj in allUsables)
         {
             if (obj.TryCast<IUsable>() is { } usable && usable.TryCast<Vent>() == null)
@@ -487,7 +486,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             if (player.AmOwner)
             {
                 player.NetTransform.Halt();
-                var minigame = Object.Instantiate(doorConsole.MinigamePrefab, Camera.main.transform);
+                var minigame = Instantiate(doorConsole.MinigamePrefab, Camera.main.transform);
                 minigame.transform.localPosition = new Vector3(0f, 0f, -50f);
 
                 try
@@ -536,7 +535,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public void LobbyStart()
     {
-        PuppeteerRole.ControlState.ClearAll();
+        ControlState.ClearAll();
 
         foreach (var puppetMod in ModifierUtils.GetActiveModifiers<PuppeteerControlModifier>())
         {

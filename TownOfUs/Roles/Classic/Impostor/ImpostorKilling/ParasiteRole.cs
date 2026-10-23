@@ -18,7 +18,6 @@ using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches.ControlSystem;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Impostor;
 
@@ -577,7 +576,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         MarkPiPSettingsDirty(resetManualThisSession: true);
 
-        parasiteCam = UnityEngine.Object.Instantiate(Camera.main);
+        parasiteCam = Instantiate(Camera.main);
         parasiteCam.name = "TOU-ParasiteCam";
         parasiteCam.orthographicSize = 1.5f;
         parasiteCam.transform.DestroyChildren();
@@ -701,7 +700,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         Controlled = target;
         _overtakeKillLockoutUntil = Time.time + OptionGroupSingleton<ParasiteOptions>.Instance.OvertakeKillCooldown;
 
-        ParasiteRole.ControlState.SetControl(target.PlayerId, parasite.PlayerId);
+        ControlState.SetControl(target.PlayerId, parasite.PlayerId);
         if (!target.HasModifier<ParasiteInfectedModifier>())
         {
             target.AddModifier<ParasiteInfectedModifier>(parasite);
@@ -762,7 +761,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         if (target != null)
         {
-            ParasiteRole.ControlState.ClearControl(target.PlayerId);
+            ControlState.ClearControl(target.PlayerId);
             if (target.TryGetModifier<ParasiteInfectedModifier>(out var mod))
             {
                 target.RemoveModifier(mod);
@@ -866,7 +865,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        if (role.Controlled != controlled || !ParasiteRole.ControlState.IsControlled(controlled.PlayerId, out _))
+        if (role.Controlled != controlled || !ControlState.IsControlled(controlled.PlayerId, out _))
         {
             return;
         }
@@ -942,7 +941,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     private static List<IUsable> GetInteractablesList()
     {
         var result = new List<IUsable>();
-        var allUsables = UnityEngine.Object.FindObjectsOfType<MonoBehaviour>();
+        var allUsables = FindObjectsOfType<MonoBehaviour>();
         foreach (var obj in allUsables)
         {
             if (obj.TryCast<IUsable>() is { } usable && usable.TryCast<Vent>() == null)
@@ -993,7 +992,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             if (player.AmOwner)
             {
                 player.NetTransform.Halt();
-                var minigame = Object.Instantiate(doorConsole.MinigamePrefab, Camera.main.transform);
+                var minigame = Instantiate(doorConsole.MinigamePrefab, Camera.main.transform);
                 minigame.transform.localPosition = new Vector3(0f, 0f, -50f);
 
                 try
@@ -1042,7 +1041,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     public void LobbyStart()
     {
-        ParasiteRole.ControlState.ClearAll();
+        ControlState.ClearAll();
 
         foreach (var parasiteMod in ModifierUtils.GetActiveModifiers<ParasiteInfectedModifier>())
         {

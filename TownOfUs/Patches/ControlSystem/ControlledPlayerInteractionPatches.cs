@@ -1,5 +1,4 @@
 using HarmonyLib;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
 using UnityObject = UnityEngine.Object;
