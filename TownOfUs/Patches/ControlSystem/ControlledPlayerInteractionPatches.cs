@@ -288,4 +288,62 @@ public static class ControlledPlayerInteractionPatches
         }
         return interactables;
     }
+
+    public static void TriggerInteractionAsPlayer(PlayerControl player, IUsable interactable)
+    {
+        if (player == null || interactable == null)
+        {
+            return;
+        }
+
+        if (!player.AmOwner)
+        {
+            return;
+        }
+
+        if (interactable.TryCast<Ladder>() is { } ladder)
+        {
+            if (ladder.IsCoolingDown())
+            {
+                return;
+            }
+            player.MyPhysics.RpcClimbLadder(ladder);
+            ladder.CoolDown = ladder.MaxCoolDown;
+        }
+        else if (interactable.TryCast<ZiplineConsole>() is { } ziplineConsole)
+        {
+            if (ziplineConsole.IsCoolingDown())
+            {
+                return;
+            }
+            ziplineConsole.zipline.Use(ziplineConsole.atTop, ziplineConsole);
+            ziplineConsole.CoolDown = ziplineConsole.MaxCoolDown;
+        }
+        else if (interactable.TryCast<OpenDoorConsole>() is { } openDoorConsole)
+        {
+            ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Doors, (byte)(openDoorConsole.myDoor.Id | 0x40));
+            openDoorConsole.myDoor.SetDoorway(true);
+        }
+        else if (interactable.TryCast<DoorConsole>() is { } doorConsole)
+        {
+            player.NetTransform.Halt();
+            var minigame = UnityObject.Instantiate(doorConsole.MinigamePrefab, Camera.main.transform);
+            minigame.transform.localPosition = new Vector3(0f, 0f, -50f);
+            minigame.TryCast<IDoorMinigame>()?.SetDoor(doorConsole.MyDoor);
+            minigame.Begin(null);
+        }
+        else if (interactable.TryCast<PlatformConsole>() is { } platformConsole)
+        {
+            platformConsole.Platform.Use();
+        }
+        else if (interactable.TryCast<DeconControl>() is { } deconControl)
+        {
+            deconControl.cooldown = 6f;
+            if (Constants.ShouldPlaySfx())
+            {
+                SoundManager.Instance.PlaySound(deconControl.UseSound, false);
+            }
+            deconControl.OnUse.Invoke();
+        }
+    }
 }
