@@ -124,7 +124,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         overlay.flameParent.transform.localScale = new Vector3(1f, 1f, 1f);
         overlay.flameParent.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
         anim.gameObject.SetActive(true);
-        var sheriffCloseup = anim.transform.GetChild(2);
+        var sheriffCloseup = anim.transform.FindChild("Sheriff Closeup");
         var outfit = sheriffCloseup.GetChild(1).GetComponent<SpriteRenderer>();
         outfit.sprite = TouAssets.DeputyOutfit.LoadAsset();
         

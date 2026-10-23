@@ -3833,6 +3833,8 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Achievement.ExtraSecure.Description">Place a camera in Security.</string>
   <string name="TownOfUsMira.Achievement.PotatoTomato.Name">Potato Tomato</string>
   <string name="TownOfUsMira.Achievement.PotatoTomato.Description">Transport two dead bodies with one another.</string>
+    <string name="TownOfUsMira.Achievement.Heavyweight.Name">Heavyweight</string>
+    <string name="TownOfUsMira.Achievement.Heavyweight.Description">Attempt to transport a Stoned player or an Immovable player.</string>
   <string name="TownOfUsMira.Achievement.StolenValor.Name">Stolen Valor</string>
   <string name="TownOfUsMira.Achievement.StolenValor.Description">Talk with a Jailed player whilst imitating a Jailor.</string>
   <string name="TownOfUsMira.Achievement.Undercover.Name">Undercover</string>
