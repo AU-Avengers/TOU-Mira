@@ -159,10 +159,7 @@ public sealed class FreeplaySetModifiersButton : TownOfUsButton, IAurialBypassBu
             return;
         }
 
-        if (Activator.CreateInstance(modifierType) is BaseModifier instance)
-        {
-            comp.AddModifier(instance);
-        }
+        comp.AddModifier(modifierType);
     }
 
     private static void OpenLoversPicker(PlayerControl loverA)
