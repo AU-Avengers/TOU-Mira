@@ -33,7 +33,7 @@ public static class SheriffEvents
             return;
         }
 
-        if (source.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished)
+        if (source.HasModifier<AllianceGameModifier>(allyMod2 => !allyMod2.GetsPunished))
         {
             return;
         }
@@ -44,8 +44,7 @@ public static class SheriffEvents
         if (GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
         {
             if (target.IsImpostor() ||
-                (target.IsCrewmate() && target.TryGetModifier<AllianceGameModifier>(out var allyMod) &&
-                 !allyMod.GetsPunished) ||
+                (target.IsCrewmate() && target.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished)) ||
                 (target.Is(RoleAlignment.NeutralOutlier) && options.ShootNeutralOutlier) ||
                 (target.Is(RoleAlignment.NeutralEvil) && options.ShootNeutralEvil) ||
                 (target.Is(RoleAlignment.NeutralKilling) && options.ShootNeutralKiller) ||

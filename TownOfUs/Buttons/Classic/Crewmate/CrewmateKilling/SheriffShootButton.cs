@@ -100,9 +100,8 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
         var alignment = Target.Data.Role.GetRoleAlignment();
         var options = OptionGroupSingleton<SheriffOptions>.Instance;
 
-        if (!(PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) &&
-              !allyMod.GetsPunished) &&
-            !(Target.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished))
+        if (!(PlayerControl.LocalPlayer.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished)) &&
+            !(Target.HasModifier<AllianceGameModifier>(allyMod2 => !allyMod2.GetsPunished)))
         {
             switch (alignment)
             {

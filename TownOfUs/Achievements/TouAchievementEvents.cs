@@ -199,7 +199,7 @@ public static class TouAchievementEvents
         }
 
         // Nullified Protection: the Warden's fortified player died anyway.
-        if (victim.TryGetModifier<WardenFortifiedModifier>(out var fortifiedMod) && fortifiedMod.Warden.AmOwner)
+        if (victim.HasModifier<WardenFortifiedModifier>(fortifiedMod => fortifiedMod.Warden.AmOwner))
         {
             AchievementsAPIHelper.Unlock(TouAchievements.NullifiedProtection);
         }
@@ -597,8 +597,8 @@ public static class TouAchievementEvents
             case AbilityType.SonarTrack when @event.Player.AmOwner:
                 {
                     var tracked = PlayerControl.AllPlayerControls.Count(x =>
-                    x.TryGetModifier<SonarArrowTargetModifier>(out var arrowMod) && arrowMod.Owner.AmOwner ||
-                    x.TryGetModifier<SonarHeartbeatTargetModifier>(out var pingMod) && pingMod.Owner.AmOwner);
+                    x.HasModifier<SonarArrowTargetModifier>(arrowMod => arrowMod.Owner.AmOwner) ||
+                    x.HasModifier<SonarHeartbeatTargetModifier>(pingMod => pingMod.Owner.AmOwner));
                     if (tracked > 5)
                     {
                         AchievementsAPIHelper.Unlock(TouAchievements.Hyperfocused);
@@ -1036,8 +1036,7 @@ public static class TouAchievementEvents
         }
 
         // Become the Hunted: the Hunter is killed by their stalked player.
-        if (target.AmOwner && target.TryGetModifier<HunterStalkedModifier>(out var stalkedMod) &&
-            stalkedMod.Hunter == source)
+        if (target.AmOwner && target.HasModifier<HunterStalkedModifier>(stalkedMod => stalkedMod.Hunter == source))
         {
             AchievementsAPIHelper.Unlock(TouAchievements.BecomeTheHunted);
         }
@@ -1168,8 +1167,8 @@ public static class TouAchievementEvents
         }
 
         // Homewrecker: the puppet killed their own lover.
-        if (source.TryGetModifier<PuppeteerControlModifier>(out var controlMod) && controlMod.Controller.AmOwner &&
-            target.TryGetModifier<LoverModifier>(out var victimLover) && victimLover.OtherLover == source)
+        if (source.HasModifier<PuppeteerControlModifier>(controlMod => controlMod.Controller.AmOwner) &&
+            target.HasModifier<LoverModifier>(victimLover => victimLover.OtherLover == source))
         {
             AchievementsAPIHelper.Unlock(TouAchievements.Homewrecker);
         }

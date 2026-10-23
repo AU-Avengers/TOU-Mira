@@ -186,7 +186,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             mercenary!.AddPayment();
         }
 
-        if (play1.TryGetModifier<InvulnerabilityModifier>(out var invic) && invic.AttackAllInteractions)
+        if (play1.HasModifier<InvulnerabilityModifier>(invic => invic.AttackAllInteractions))
         {
             if (transporter.AmOwner)
             {
@@ -196,7 +196,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             return;
         }
 
-        if (play2.TryGetModifier<InvulnerabilityModifier>(out var invic2) && invic2.AttackAllInteractions)
+        if (play2.HasModifier<InvulnerabilityModifier>(invic2 => invic2.AttackAllInteractions))
         {
             if (transporter.AmOwner)
             {

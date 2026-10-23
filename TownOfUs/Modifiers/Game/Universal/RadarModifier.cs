@@ -70,8 +70,7 @@ public sealed class RadarModifier : UniversalGameModifier, IWikiDiscoverable
         var target = Helpers.GetClosestPlayers(Player, float.MaxValue)
             .FirstOrDefault(playerInfo => !playerInfo.Data.Disconnected &&
                                           playerInfo.PlayerId != Player.PlayerId &&
-                                          (!playerInfo.TryGetModifier<DisabledModifier>(out var mod) ||
-                                           mod.IsConsideredAlive) &&
+                                          !playerInfo.HasModifier<DisabledModifier>(mod => !mod.IsConsideredAlive) &&
                                           (SwoopModifier.CanBeTracked == SwoopTracking.Always ||
                                            !playerInfo.HasModifier<SwoopModifier>()) &&
                                           !playerInfo.Data.IsDead);

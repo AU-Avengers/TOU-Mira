@@ -66,7 +66,7 @@ public static class MiscUtils
     public static int KillersAliveCount => Helpers.GetAlivePlayers().Count(x => x.IsImpostor() ||
         x.Is(RoleAlignment.NeutralKilling) ||
         (x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
-         !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
+         !(x.HasModifier<AllianceGameModifier>(allyMod => !allyMod.CrewContinuesGame)) &&
          OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue));
 
     public static int RealKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
@@ -78,7 +78,7 @@ public static class MiscUtils
     public static int NonImpKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.Is(RoleAlignment.NeutralKilling) ||
         (x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
-         !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
+         !(x.HasModifier<AllianceGameModifier>(allyMod => !allyMod.CrewContinuesGame)) &&
          OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue));
 
     public static int ImpAliveCount => Helpers.GetAlivePlayers().Count(x =>
@@ -89,7 +89,7 @@ public static class MiscUtils
 
     public static int CrewKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
-        !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
+        !(x.HasModifier<AllianceGameModifier>(allyMod => !allyMod.CrewContinuesGame)) &&
         OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue);
 
     /// <summary>
@@ -1958,7 +1958,7 @@ public static class MiscUtils
     public static bool IsConcealed(this PlayerControl player)
     {
         if (player.HasModifier<ConcealedModifier>() || !player.Visible ||
-            (player.TryGetModifier<DisabledModifier>(out var mod) && !mod.IsConsideredAlive))
+            (player.HasModifier<DisabledModifier>(mod => !mod.IsConsideredAlive)))
         {
             return true;
         }

@@ -203,7 +203,7 @@ public static class PlayerRoleTextExtensions
              PlayerControl.LocalPlayer.IsRole<MedicRole>())
             || (player.HasModifier<MedicShieldModifier>() &&
                 (isDead
-                 || (player.AmOwner && player.TryGetModifier<MedicShieldModifier>(out var med) && med.VisibleSymbol))))
+                 || (player.AmOwner && player.HasModifier<MedicShieldModifier>(med => med.VisibleSymbol)))))
         {
             name += "<color=#006600> +</color>";
         }
@@ -220,7 +220,7 @@ public static class PlayerRoleTextExtensions
              PlayerControl.LocalPlayer.IsRole<MirrorcasterRole>())
             || (player.HasModifier<MagicMirrorModifier>() &&
                 (isDead
-                 || (player.AmOwner && player.TryGetModifier<MagicMirrorModifier>(out var mm) && mm.VisibleSymbol))))
+                 || (player.AmOwner && player.HasModifier<MagicMirrorModifier>(mm => mm.VisibleSymbol)))))
         {
             name += "<color=#90A2C3>〚〛</color>";
         }
@@ -229,8 +229,7 @@ public static class PlayerRoleTextExtensions
              PlayerControl.LocalPlayer.IsRole<ClericRole>())
             || (player.HasModifier<ClericBarrierModifier>() &&
                 (isDead
-                 || (player.AmOwner && player.TryGetModifier<ClericBarrierModifier>(out var cleric) &&
-                     cleric.VisibleSymbol))))
+                 || (player.AmOwner && player.HasModifier<ClericBarrierModifier>(cleric => cleric.VisibleSymbol)))))
         {
             name += "<color=#00FFB3> Ω</color>";
         }
@@ -239,8 +238,7 @@ public static class PlayerRoleTextExtensions
              PlayerControl.LocalPlayer.IsRole<HerbalistRole>())
             || (player.HasModifier<HerbalistProtectionModifier>() &&
                 (isDead
-                 || (player.AmOwner && player.TryGetModifier<HerbalistProtectionModifier>(out var herbalist) &&
-                     herbalist.VisibleSymbol))))
+                 || (player.AmOwner && player.HasModifier<HerbalistProtectionModifier>(herbalist => herbalist.VisibleSymbol)))))
         {
             name += "<color=#00FFB3> Ω</color>";
         }
@@ -249,8 +247,7 @@ public static class PlayerRoleTextExtensions
              PlayerControl.LocalPlayer.IsRole<WardenRole>())
             || (player.HasModifier<WardenFortifiedModifier>() &&
                 (isDead
-                 || (player.AmOwner && player.TryGetModifier<WardenFortifiedModifier>(out var warden) &&
-                     warden.VisibleSymbol))))
+                 || (player.AmOwner && player.HasModifier<WardenFortifiedModifier>(warden => warden.VisibleSymbol)))))
         {
             name += "<color=#9900FF> π</color>";
         }

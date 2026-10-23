@@ -73,7 +73,7 @@ public static class VeteranEvents
             return;
         }
 
-        if (source.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        if (source.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished))
         {
             return;
         }
@@ -83,7 +83,7 @@ public static class VeteranEvents
         if (GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
         {
             if (!target.IsCrewmate() ||
-                (target.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished))
+                (target.HasModifier<AllianceGameModifier>(allyMod2 => !allyMod2.GetsPunished)))
             {
                 stats.CorrectKills += 1;
             }

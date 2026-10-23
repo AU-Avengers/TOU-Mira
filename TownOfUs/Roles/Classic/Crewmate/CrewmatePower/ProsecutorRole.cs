@@ -92,7 +92,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     public StringBuilder SetTabText()
     {
         var text = ITownOfUsRole.SetNewTabText(this);
-        if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        if (PlayerControl.LocalPlayer.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished))
         {
             text.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}CanProsecuteCrew")}");
         }

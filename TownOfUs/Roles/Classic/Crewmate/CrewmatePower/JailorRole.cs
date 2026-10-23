@@ -41,7 +41,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public DoomableType DoomHintType => DoomableType.Relentless;
     public string IdPart => "Jailor";
-    public string RoleLongDescription => PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished ? MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescriptionEvil") : MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
+    public string RoleLongDescription => PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished) ? MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescriptionEvil") : MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
@@ -109,7 +109,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        if (PlayerControl.LocalPlayer.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished))
         {
             stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get("TownOfUsMira.Role.JailorEvilTabInfo")}");
         }
@@ -274,9 +274,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             if (!Jailed.HasModifier<InvulnerabilityModifier>())
             {
                 if (Jailed.Is(ModdedRoleTeams.Crewmate) &&
-                    !(PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) &&
-                      !allyMod.GetsPunished) && !(Jailed.TryGetModifier<AllianceGameModifier>(out var allyMod2) &&
-                                                  !allyMod2.GetsPunished))
+                    !(PlayerControl.LocalPlayer.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished)) && !(Jailed.HasModifier<AllianceGameModifier>(allyMod2 => !allyMod2.GetsPunished)))
                 {
                     Executes = 0;
 

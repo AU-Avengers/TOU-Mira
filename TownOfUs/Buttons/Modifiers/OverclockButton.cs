@@ -30,12 +30,12 @@ public sealed class OverclockButton : TownOfUsButton
 
     public override bool CanUse()
     {
-        return base.CanUse() && PlayerControl.LocalPlayer.TryGetModifier<OverclockerModifier>(out var modifier) && modifier.CurrentState < ChargeState.UnderclockedBegin || EffectActive;
+        return base.CanUse() && PlayerControl.LocalPlayer.HasModifier<OverclockerModifier>(modifier => modifier.CurrentState < ChargeState.UnderclockedBegin) || EffectActive;
     }
 
     public override bool CanClick()
     {
-        return base.CanClick() && PlayerControl.LocalPlayer.TryGetModifier<OverclockerModifier>(out var modifier) && modifier.CurrentState is ChargeState.Normal;
+        return base.CanClick() && PlayerControl.LocalPlayer.HasModifier<OverclockerModifier>(modifier => modifier.CurrentState is ChargeState.Normal);
     }
 
     protected override void OnClick()

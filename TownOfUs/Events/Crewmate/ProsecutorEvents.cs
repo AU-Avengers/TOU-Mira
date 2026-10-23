@@ -24,12 +24,12 @@ public static class ProsecutorEvents
     public static PlayerControl ProsToAnnounceNext;
     public static bool IsBadJudgement(PlayerControl pros, PlayerControl victim)
     {
-        if (pros.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        if (pros.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished))
         {
             return false;
         }
 
-        if (victim.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished)
+        if (victim.HasModifier<AllianceGameModifier>(allyMod2 => !allyMod2.GetsPunished))
         {
             return false;
         }
@@ -43,7 +43,7 @@ public static class ProsecutorEvents
         var voteArea = @event.VoteArea;
         var votedPlayer = voteArea.GetPlayer();
         if (PlayerControl.LocalPlayer.HasDied() || (votedPlayer != null && votedPlayer.HasDied()) ||
-            PlayerControl.LocalPlayer.TryGetModifier<BlackmailedModifier>(out var bm) && bm.IsVoteReady && !bm.AboutToVote)
+            PlayerControl.LocalPlayer.HasModifier<BlackmailedModifier>(bm => bm.IsVoteReady && !bm.AboutToVote))
         {
             @event.Cancel();
             return;

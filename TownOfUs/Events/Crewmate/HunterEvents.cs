@@ -165,12 +165,12 @@ public static class HunterEvents
 
     private static bool IsIncorrectKill(PlayerControl hunter, PlayerControl target)
     {
-        if (hunter.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        if (hunter.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished))
         {
             return false;
         }
 
-        if (target.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished)
+        if (target.HasModifier<AllianceGameModifier>(allyMod2 => !allyMod2.GetsPunished))
         {
             return false;
         }

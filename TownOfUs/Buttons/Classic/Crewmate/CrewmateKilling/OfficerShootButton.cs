@@ -131,8 +131,7 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
         {
             hasKilled = true;
         }
-        var evilOfficer = (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) &&
-                            !allyMod.GetsPunished);
+        var evilOfficer = (PlayerControl.LocalPlayer.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished));
 
         if (options.CanOnlyShootActiveKillers)
         {
@@ -145,7 +144,7 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
                 Shoot();
             }
         }
-        else if (!(Target.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished))
+        else if (!(Target.HasModifier<AllianceGameModifier>(allyMod2 => !allyMod2.GetsPunished)))
         {
             var safeNeutral = options.NonKillingNeutralsAreInnocent &&
                               alignment is RoleAlignment.NeutralBenign

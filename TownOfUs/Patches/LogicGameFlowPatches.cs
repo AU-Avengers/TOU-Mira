@@ -133,7 +133,7 @@ public static class LogicGameFlowPatches
             var excludedByAlliance = false;
             try
             {
-                excludedByAlliance = player.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.DoesTasks;
+                excludedByAlliance = player.HasModifier<AllianceGameModifier>(allyMod => !allyMod.DoesTasks);
             }
             catch
             {

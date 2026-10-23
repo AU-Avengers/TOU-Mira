@@ -40,7 +40,7 @@ public static class MorphlingEvents
     {
         var source = @event.Source;
         var victim = @event.Target;
-        if (!source.AmOwner || source == victim || !source.TryGetModifier<MorphlingMorphModifier>(out var mod) || mod.Target != source)
+        if (!source.AmOwner || source == victim || !source.HasModifier<MorphlingMorphModifier>(mod => mod.Target == source))
         {
             return;
         }

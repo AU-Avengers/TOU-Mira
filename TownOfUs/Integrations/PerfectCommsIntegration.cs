@@ -168,8 +168,7 @@ internal static class PerfectCommsIntegration
             foreach (byte jaileeId in JailVoiceAllowedPlayers)
             {
                 var jailee = MiscUtils.PlayerById(jaileeId);
-                if (jailee == null || jailee.HasDied() || !jailee.TryGetModifier<JailedModifier>(out var jail) ||
-                    !IsLivingJailor(jail.JailorId))
+                if (jailee == null || jailee.HasDied() || !jailee.HasModifier<JailedModifier>(jail => IsLivingJailor(jail.JailorId)))
                 {
                     ScratchPlayerIds.Add(jaileeId);
                 }

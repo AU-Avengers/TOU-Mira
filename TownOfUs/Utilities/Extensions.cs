@@ -770,7 +770,7 @@ public static class Extensions
         var filteredPlayers = Helpers.GetClosestPlayers(playerControl, distance, ignoreColliders)
             .Where(playerInfo => !playerInfo.Data.Disconnected &&
                                  playerInfo.PlayerId != playerControl.PlayerId &&
-                                 ((playerInfo.TryGetModifier<DisabledModifier>(out var mod) && mod.IsConsideredAlive) ||
+                                 ((playerInfo.HasModifier<DisabledModifier>(mod => mod.IsConsideredAlive)) ||
                                   !playerInfo.HasModifier<DisabledModifier>()) &&
                                  !playerInfo.Data.IsDead &&
                                  (includeImpostors || !playerInfo.IsImpostorAligned()))

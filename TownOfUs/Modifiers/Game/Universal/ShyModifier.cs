@@ -135,7 +135,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         {
             var opacity = 0f;
 
-            if (Player.TryGetModifier<HypnotistHysteriaModifier>(out var hypnoMod) && hypnoMod.AppearanceType > 1 || (PlayerControl.LocalPlayer.IsImpostorAligned() && Player.Data.Role is SwooperRole) ||
+            if (Player.HasModifier<HypnotistHysteriaModifier>(hypnoMod => hypnoMod.AppearanceType > 1) || (PlayerControl.LocalPlayer.IsImpostorAligned() && Player.Data.Role is SwooperRole) ||
                 (Player.AmOwner && Player.Data.Role is SwooperRole))
             {
                 opacity = 0.1f;
