@@ -198,29 +198,6 @@ public static class ParasiteMovementPatches
         }
     }
 
-    [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.SetNormalizedVelocity))]
-    [HarmonyPrefix]
-    public static bool SetNormalizedVelocityPrefix(PlayerPhysics __instance, ref Vector2 direction)
-    {
-        var player = __instance.myPlayer;
-        if (player == null || !player.HasModifier<ParasiteInfectedModifier>())
-        {
-            return true;
-        }
-
-        if (TimeLordRewindSystem.IsRewinding)
-        {
-            return true;
-        }
-
-        if (player.AmOwner && ParasiteRole.ControlState.IsControlled(player.PlayerId, out _))
-        {
-            direction = ParasiteRole.ControlState.GetDirection(player.PlayerId);
-        }
-
-        return true;
-    }
-
     [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.FixedUpdate))]
     [HarmonyPrefix]
     public static bool CustomNetworkTransformFixedUpdatePrefix(CustomNetworkTransform __instance)

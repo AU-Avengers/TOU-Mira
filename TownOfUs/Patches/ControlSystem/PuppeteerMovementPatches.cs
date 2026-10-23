@@ -185,29 +185,6 @@ public static class PuppeteerMovementPatches
         }
     }
 
-    [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.SetNormalizedVelocity))]
-    [HarmonyPrefix]
-    public static bool SetNormalizedVelocityPrefix(PlayerPhysics __instance, ref Vector2 direction)
-    {
-        var player = __instance.myPlayer;
-        if (player == null || !player.HasModifier<PuppeteerControlModifier>())
-        {
-            return true;
-        }
-
-        if (TimeLordRewindSystem.IsRewinding)
-        {
-            return true;
-        }
-
-        if (player.AmOwner && PuppeteerRole.ControlState.IsControlled(player.PlayerId, out _))
-        {
-            direction = PuppeteerRole.ControlState.GetDirection(player.PlayerId);
-        }
-
-        return true;
-    }
-
     [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.FixedUpdate))]
     [HarmonyPrefix]
     public static bool CustomNetworkTransformFixedUpdatePrefix(CustomNetworkTransform __instance)
