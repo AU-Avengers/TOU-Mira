@@ -1,7 +1,11 @@
 ﻿using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes;
+using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
@@ -84,5 +88,67 @@ public static class ControllerOverlayPatch
         }
 
         return true;
+    }
+
+    [HarmonyPatch]
+    public static class ClimbLadderPatch
+    {
+        public static MethodBase TargetMethod()
+        {
+            return Helpers.GetStateMachineMoveNext<PlayerPhysics>(nameof(PlayerPhysics.CoClimbLadder))!;
+        }
+
+        public static void Postfix(Il2CppObjectBase __instance, bool __result)
+        {
+            var wrapper = new StateMachineWrapper<PlayerPhysics>(__instance);
+
+            if (__result)
+            {
+                return;
+            }
+
+            var instance = wrapper.Instance;
+            var player = instance.myPlayer;
+            var source = wrapper.GetParameter<Ladder>("source");
+
+            if (player.HasModifier<ParasiteInfectedModifier>(x => x.Controller.AmOwner) &&
+                ParasiteRole.ControlState.IsControlled(player.PlayerId, out _) ||
+                player.HasModifier<PuppeteerControlModifier>(x => x.Controller.AmOwner) &&
+                PuppeteerRole.ControlState.IsControlled(player.PlayerId, out _))
+            {
+                source.SetDestinationCooldown();
+            }
+        }
+    }
+
+    [HarmonyPatch]
+    public static class UseZiplinePatch
+    {
+        public static MethodBase TargetMethod()
+        {
+            return Helpers.GetStateMachineMoveNext<ZiplineBehaviour>(nameof(ZiplineBehaviour.CoUseZipline))!;
+        }
+
+        public static void Postfix(Il2CppObjectBase __instance, bool __result)
+        {
+            var wrapper = new StateMachineWrapper<ZiplineBehaviour>(__instance);
+
+            if (__result)
+            {
+                return;
+            }
+
+            var instance = wrapper.Instance;
+            var player = wrapper.GetParameter<PlayerControl>("player");
+
+            if ((player.HasModifier<ParasiteInfectedModifier>(x => x.Controller.AmOwner) &&
+                 ParasiteRole.ControlState.IsControlled(player.PlayerId, out _) ||
+                 player.HasModifier<PuppeteerControlModifier>(x => x.Controller.AmOwner) &&
+                 PuppeteerRole.ControlState.IsControlled(player.PlayerId, out _)
+                ) && instance.lastUsedConsole)
+            {
+                instance.lastUsedConsole.SetDestinationCooldown();
+            }
+        }
     }
 }
