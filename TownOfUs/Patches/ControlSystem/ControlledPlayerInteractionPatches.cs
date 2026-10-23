@@ -157,7 +157,7 @@ public static class ControlledPlayerInteractionPatches
             return;
         }
 
-        var (usable, _) = FindClosestInteractable(controlledPlayer);
+        var (usable, _) = FindClosestInteractable(controlledPlayer, setOutlines: true);
         useButton.currentTarget = usable;
         if (usable != null)
         {
