@@ -487,7 +487,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
             localGhost = isVisible;
         }
 
-        var revealMods = player.GetModifiers<BaseRevealModifier>();
+        var revealMods = player.GetModifiers<BaseRevealModifier>(x => x.Visible);
 
         var playerName = player.GetAppearance().PlayerName ?? "Unknown";
         var playerColor = Color.white;
@@ -514,7 +514,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var playerIsImp = player.IsImpostorAligned();
         var impostorBuddy = localImp && playerIsImp;
         var vampBuddy = localVamp && role is VampireRole;
-        var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
+        var revealed = revealMods.Any(x => x.RevealRole);
         var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
         if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
         {
@@ -534,7 +534,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 roleName = $"<size={roleNameSize}>{MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{TranslationController.Instance.GetString(StringNames.SpiritGuideRole)}</color></size>";
             }
 
-            var revealedRole = revealMods.FirstOrDefault(x => x.Visible && x.RevealRole && x.ShownRole != null);
+            var revealedRole = revealMods.FirstOrDefault(x => x.RevealRole && x.ShownRole != null);
             if (revealedRole != null)
             {
                 color = revealedRole.ShownRole!.TeamColor;
@@ -579,14 +579,14 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
             topText += "<cod>\n";
         }
 
-        var revealedColorMod = revealMods.FirstOrDefault(x => x.Visible && x.NameColor != null);
+        var revealedColorMod = revealMods.FirstOrDefault(x => x.NameColor != null);
         if (revealedColorMod != null)
         {
             playerColor = (Color)revealedColorMod.NameColor!;
             playerName = $"{playerColor.ToTextColor()}{playerName}</color>";
         }
 
-        var addedRoleNameText = revealMods.FirstOrDefault(x => x.Visible && x.ExtraRoleText != string.Empty);
+        var addedRoleNameText = revealMods.FirstOrDefault(x => x.ExtraRoleText != string.Empty);
         if (addedRoleNameText != null)
         {
             roleName += $"<size={roleNameSize}>{addedRoleNameText.ExtraRoleText}</size>";
@@ -668,7 +668,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         }
 
         var addedPlayerNameText = revealMods.FirstOrDefault(x =>
-            x.Visible && x.ExtraNameText != string.Empty && x is not FirstRoundIndicator);
+            x.ExtraNameText != string.Empty && x is not FirstRoundIndicator);
         if (addedPlayerNameText != null)
         {
             playerName += addedPlayerNameText.ExtraNameText;
