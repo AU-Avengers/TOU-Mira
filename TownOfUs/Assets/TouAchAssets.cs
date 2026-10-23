@@ -30,6 +30,10 @@ public static class TouAchAssets
         new LoadableResourceAsset($"{ShortPath}.FailedAmbush.png");
     public static LoadableAsset<Sprite> PublicExecution { get; } =
         new LoadableResourceAsset($"{ShortPath}.PublicExecution.png");
+    public static LoadableAsset<Sprite> Delusional { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Delusional.png");
+    public static LoadableAsset<Sprite> Spotless { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Spotless.png");
 
     // Neutrals
     public static LoadableAsset<Sprite> FairlyBadParent { get; } =
