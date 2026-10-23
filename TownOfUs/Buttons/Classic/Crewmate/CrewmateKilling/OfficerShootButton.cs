@@ -124,7 +124,7 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
                             x.KillerId == Target.PlayerId && x.VictimId != Target.PlayerId);
 
         var targetRole = Target.Data.Role;
-        var hasProsecuted = targetRole is ProsecutorRole pros && pros.ProsecutionsCompleted > 0;
+        var hasProsecuted = targetRole is ProsecutorRole { ProsecutionsCompleted: > 0 };
 
         // Prosecutor Imitator *technically* already completed their prosecutes
         if (hasProsecuted && !Target.HasModifier<ImitatorCacheModifier>())

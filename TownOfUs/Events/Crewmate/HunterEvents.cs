@@ -133,7 +133,7 @@ public static class HunterEvents
             return;
         }
 
-        if (source.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        if (source.HasModifier<AllianceGameModifier>(x => !x.GetsPunished))
         {
             return;
         }
@@ -143,7 +143,7 @@ public static class HunterEvents
         if (GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
         {
             if (!target.IsCrewmate() ||
-                (target.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished))
+                target.HasModifier<AllianceGameModifier>(x => !x.GetsPunished))
             {
                 stats.CorrectKills += 1;
             }

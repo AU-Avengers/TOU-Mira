@@ -583,17 +583,13 @@ public static class TouAchievementEvents
                         AchievementsAPIHelper.Increment(TouAchievements.TownOfHatred, 1);
                     }
                 }
-                else
-                {
-                    var roleA = seerA.GetRoleWhenAlive();
-                    var roleB = seerB.GetRoleWhenAlive();
-                    if (!seerA.IsCrewmate() && !seerB.IsCrewmate() && roleA != null && roleB != null &&
+                else if (!seerA.IsCrewmate() && !seerB.IsCrewmate() &&
+                        seerA.GetRoleWhenAlive() is { } roleA && seerB.GetRoleWhenAlive() is { } roleB &&
                         (roleA.Role == roleB.Role ||
                          roleA is ITownOfUsRole touA && roleB is ITownOfUsRole touB &&
                          touA.RoleAlignment == touB.RoleAlignment))
-                    {
-                        AchievementsAPIHelper.Unlock(TouAchievements.RoleTwins);
-                    }
+                {
+                    AchievementsAPIHelper.Unlock(TouAchievements.RoleTwins);
                 }
 
                 break;
@@ -649,9 +645,9 @@ public static class TouAchievementEvents
                 PendingAltruistRevives.Add(revived.PlayerId);
                 break;
 
-            case AbilityType.SentryPlaceCam when @event.Player.AmOwner && @event.Target is SurvCamera camera:
+            case AbilityType.SentryPlaceCam
+                when @event.Player.AmOwner && @event.Target is SurvCamera { transform.position: var camPos }:
                 {
-                    var camPos = camera.transform.position;
                     var inSecurity = false;
                     foreach (var room in ShipStatus.Instance.FastRooms.Values)
                     {
@@ -678,7 +674,7 @@ public static class TouAchievementEvents
                 break;
 
             case AbilityType.BlackmailerBlackmail
-                when @event.Target is PlayerControl bmTarget && bmTarget.AmOwner && _snitchRevealedLastMeeting:
+                when @event.Target is PlayerControl { AmOwner: true } && _snitchRevealedLastMeeting:
                 AchievementsAPIHelper.Unlock(TouAchievements.SeeSomethingSayNothing);
                 break;
 
@@ -1074,7 +1070,7 @@ public static class TouAchievementEvents
                 AchievementsAPIHelper.Increment(TouAchievements.TheDarkKnight, 1);
 
                 // Shot in the Dark: a correct guess after all safe shots are gone.
-                if (source.Data.Role is VigilanteRole vig && vig.SafeShotsLeft == 0 &&
+                if (source.Data.Role is VigilanteRole { SafeShotsLeft: 0 } &&
                     OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots > 0)
                 {
                     AchievementsAPIHelper.Unlock(TouAchievements.ShotInTheDark);
@@ -1129,8 +1125,8 @@ public static class TouAchievementEvents
         }
 
         // Are you stupid?: the ambushed player is the one being pursued.
-        if (source.AmOwner && source.Data.Role is AmbusherRole { Pursued: not null } ambusher &&
-            ambusher.Pursued == target)
+        if (source.AmOwner && source.Data.Role is AmbusherRole { Pursued: { } pursued } &&
+            pursued == target)
         {
             AchievementsAPIHelper.Unlock(TouAchievements.AreYouStupid);
         }
@@ -1281,10 +1277,10 @@ public static class TouAchievementEvents
         }
 
         // Switched Fate: the swapper redirected a crew vote onto an impostor.
-        if (local.Data?.Role is SwapperRole { Swap1: not null, Swap2: not null } swapper)
+        if (local.Data?.Role is SwapperRole { Swap1: { } swap1, Swap2: { } swap2 })
         {
-            var first = MiscUtils.PlayerById(swapper.Swap1.PlayerId);
-            var second = MiscUtils.PlayerById(swapper.Swap2.PlayerId);
+            var first = MiscUtils.PlayerById(swap1.PlayerId);
+            var second = MiscUtils.PlayerById(swap2.PlayerId);
             var other = exiled.PlayerId == first?.PlayerId ? second : first;
 
             if ((exiled.PlayerId == first?.PlayerId || exiled.PlayerId == second?.PlayerId) &&
@@ -1670,8 +1666,7 @@ public static class TouAchievementEvents
 
     private static bool IsLoverOf(MonoBehaviour? target, PlayerControl lover)
     {
-        return target is PlayerControl player && player.TryGetModifier<LoverModifier>(out var loverMod) &&
-               loverMod.OtherLover == lover;
+        return target is PlayerControl player && player.HasModifier<LoverModifier>(x => x.OtherLover == lover);
     }
 
     [RegisterEvent]
@@ -1770,7 +1765,7 @@ public static class TouAchievementEvents
         Imitations.Add((@event.NewRole.GetType(), @event.NewRole.IsCrewmate()));
 
         // Powerless: the Imitator copied a Crewmate Power role.
-        if (@event.NewRole is ITownOfUsRole imitatedRole && imitatedRole.RoleAlignment is RoleAlignment.CrewmatePower)
+        if (@event.NewRole is ITownOfUsRole { RoleAlignment: RoleAlignment.CrewmatePower })
         {
             AchievementsAPIHelper.Unlock(TouAchievements.Powerless);
         }

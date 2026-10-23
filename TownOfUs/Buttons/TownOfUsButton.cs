@@ -568,14 +568,10 @@ public abstract class TownOfUsRoleButton<TRole, TTarget> : TownOfUsTargetButton<
 
     public override bool IsTargetValid(TTarget? target)
     {
-        if (target is PlayerControl playerTarget)
-        {
-            return base.IsTargetValid(target) && !playerTarget.inVent &&
-                   !playerTarget.HasModifier<DisabledModifier>(mod => !mod.CanBeInteractedWith) &&
-                   !SpectatorRole.TrackedSpectators.Contains(playerTarget.Data.PlayerName);
-        }
-
-        return base.IsTargetValid(target);
+        return base.IsTargetValid(target) &&
+               (target is not PlayerControl { inVent: true } playerTarget ||
+                !playerTarget.HasModifier<DisabledModifier>(mod => !mod.CanBeInteractedWith) &&
+                !SpectatorRole.TrackedSpectators.Contains(playerTarget.Data.PlayerName));
     }
 }
 

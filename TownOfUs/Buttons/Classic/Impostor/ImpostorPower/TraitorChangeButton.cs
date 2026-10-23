@@ -52,7 +52,7 @@ public sealed class TraitorChangeButton : TownOfUsRoleButton<TraitorRole>
                 .Select(x => x.RoleType).ToList();
 
             var roleList = MiscUtils.GetPotentialRoles()
-                .Where(role => role is not ITraitorIgnore ignore || !ignore.IsIgnored)
+                .Where(role => role is not ITraitorIgnore { IsIgnored: true })
                 .Where(role => impRoles.Contains((ushort)role.Role))
                 .Where(role => role is not TraitorRole)
                 .ToList();
@@ -63,7 +63,7 @@ public sealed class TraitorChangeButton : TownOfUsRoleButton<TraitorRole>
                     .Where(x => !excluded.Contains(x.Role))
                     .Select(x => (ushort)x.Role).ToList();
                 roleList = MiscUtils.AllRegisteredRoles
-                    .Where(role => role is not ITraitorIgnore ignore || !ignore.IsIgnored)
+                    .Where(role => role is not ITraitorIgnore { IsIgnored: true })
                     .Where(role => impRoles.Contains((ushort)role.Role))
                     .Where(role => role is not TraitorRole)
                     .ToList();

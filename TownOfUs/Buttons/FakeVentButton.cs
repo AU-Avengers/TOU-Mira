@@ -34,10 +34,11 @@ public sealed class FakeVentButton : CustomActionButton, IAurialBypassButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.Data && role != null &&
+        return PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.Data &&
                LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.OffsetButtonsToggle.Value && Show &&
                HudManager.InstanceExists && !MeetingHud.Instance &&
-               !role.IsImpostor && (!role.CanVent || (role is ICustomRole customRole && !customRole.Configuration.CanUseVent));
+               role is { IsImpostor: false } &&
+               (!role.CanVent || role is ICustomRole { Configuration.CanUseVent: false });
     }
 
     protected override void OnClick()

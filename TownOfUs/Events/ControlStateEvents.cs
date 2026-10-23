@@ -77,25 +77,13 @@ public static class ControlStateEvents
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
-            if (player.Data.Role is ParasiteRole parasiteRole)
-            {
-                parasiteRole.ClearControlLocal();
-            }
+            (player.Data.Role as ParasiteRole)?.ClearControlLocal();
 
-            if (player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
-            {
-                mod.RemoveSelf();
-            }
+            player.TryRemoveModifier<ParasiteInfectedModifier>();
 
-            if (player.Data.Role is PuppeteerRole puppeteerRole)
-            {
-                puppeteerRole.ClearControlLocal();
-            }
+            (player.Data.Role as PuppeteerRole)?.ClearControlLocal();
 
-            if (player.TryGetModifier<PuppeteerControlModifier>(out var mod2))
-            {
-                mod2.RemoveSelf();
-            }
+            player.TryRemoveModifier<PuppeteerControlModifier>();
         }
     }
 
@@ -107,25 +95,13 @@ public static class ControlStateEvents
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
-            if (player.Data.Role is ParasiteRole parasiteRole)
-            {
-                parasiteRole.ClearControlLocal();
-            }
+            (player.Data.Role as ParasiteRole)?.ClearControlLocal();
 
-            if (player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
-            {
-                mod.RemoveSelf();
-            }
+            player.TryRemoveModifier<ParasiteInfectedModifier>();
 
-            if (player.Data.Role is PuppeteerRole puppeteerRole)
-            {
-                puppeteerRole.ClearControlLocal();
-            }
+            (player.Data.Role as PuppeteerRole)?.ClearControlLocal();
 
-            if (player.TryGetModifier<PuppeteerControlModifier>(out var mod2))
-            {
-                mod2.RemoveSelf();
-            }
+            player.TryRemoveModifier<PuppeteerControlModifier>();
         }
     }
 }

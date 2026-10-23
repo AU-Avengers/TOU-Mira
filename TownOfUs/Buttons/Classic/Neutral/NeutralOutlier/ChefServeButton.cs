@@ -35,11 +35,11 @@ public sealed class ChefServeButton : TownOfUsRoleButton<ChefRole, PlayerControl
 
     protected override void FixedUpdate(PlayerControl playerControl)
     {
-        if (playerControl.Data.Role is ChefRole chefRole)
+        if (playerControl.Data.Role is ChefRole { StoredBodies.Count: var bodies })
         {
             Button?.usesRemainingText.gameObject.SetActive(true);
             Button?.usesRemainingSprite.gameObject.SetActive(true);
-            Button!.usesRemainingText.text = $"{chefRole.StoredBodies.Count}";
+            Button!.usesRemainingText.text = $"{bodies}";
         }
     }
 

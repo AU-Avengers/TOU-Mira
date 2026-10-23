@@ -78,12 +78,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             _ => sentryRole.CompletedAllTasks
         };
 
-        if (!unlocked)
-        {
-            return false;
-        }
-
-        return ShouldBeVisible(sentryRole);
+        return unlocked && ShouldBeVisible(sentryRole);
     }
 
     public override void ClickHandler()
@@ -300,18 +295,12 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             _ => sentryRole.CompletedAllTasks
         };
 
-        if (!unlocked)
+        if (!unlocked || !ShouldBeVisible(sentryRole))
         {
             return false;
         }
 
-        if (!ShouldBeVisible(sentryRole))
-        {
-            return false;
-        }
-
-        var allCams = ShipStatus.Instance ? ShipStatus.Instance.AllCameras : null;
-        if (allCams == null || allCams.Length == 0)
+        if (ShipStatus.Instance?.AllCameras is not { Length: > 0 })
         {
             return false;
         }
