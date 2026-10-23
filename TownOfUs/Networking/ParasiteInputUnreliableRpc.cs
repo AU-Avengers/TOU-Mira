@@ -3,18 +3,12 @@ using Reactor.Networking.Attributes;
 using Reactor.Networking.Extensions;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modules;
-using TownOfUs.Modules.ControlSystem;
+using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Networking;
 
-internal readonly struct ParasiteInputPacket(byte controlledId, Vector2 direction, Vector2 position, Vector2 velocity)
-{
-    public byte ControlledId { get; } = controlledId;
-    public Vector2 Direction { get; } = direction;
-    public Vector2 Position { get; } = position;
-    public Vector2 Velocity { get; } = velocity;
-}
+internal readonly record struct ParasiteInputPacket(byte ControlledId, Vector2 Direction, Vector2 Position, bool InAnim, Vector2 Velocity);
 
 [RegisterCustomRpc((uint)TownOfUsRpc.ParasiteInputUnreliable)]
 internal sealed class ParasiteInputUnreliableRpc(TownOfUsPlugin plugin, uint id)
@@ -28,6 +22,7 @@ internal sealed class ParasiteInputUnreliableRpc(TownOfUsPlugin plugin, uint id)
         writer.Write(data.ControlledId);
         writer.Write(data.Direction);
         writer.Write(data.Position);
+        writer.Write(data.InAnim);
         writer.Write(data.Velocity);
     }
 
@@ -36,8 +31,9 @@ internal sealed class ParasiteInputUnreliableRpc(TownOfUsPlugin plugin, uint id)
         var controlledId = reader.ReadByte();
         var dir = reader.ReadVector2();
         var pos = reader.ReadVector2();
+        var ani = reader.ReadBoolean();
         var vel = reader.ReadVector2();
-        return new ParasiteInputPacket(controlledId, dir, pos, vel);
+        return new ParasiteInputPacket(controlledId, dir, pos, ani, vel);
     }
 
     public override void Handle(PlayerControl sender, ParasiteInputPacket data)
@@ -55,13 +51,13 @@ internal sealed class ParasiteInputUnreliableRpc(TownOfUsPlugin plugin, uint id)
         }
 
         if (sender == null ||
-            !ParasiteControlState.IsControlled(data.ControlledId, out var controllerId) ||
+            !ParasiteRole.ControlState.IsControlled(data.ControlledId, out var controllerId) ||
             controllerId != sender.PlayerId)
         {
             return;
         }
 
-        ParasiteControlState.SetDirection(data.ControlledId, data.Direction);
-        ParasiteControlState.SetMovementState(data.ControlledId, data.Position, data.Velocity);
+        ParasiteRole.ControlState.SetForcedDirection(data.ControlledId, data.Direction);
+        ParasiteRole.ControlState.SetMovementState(data.ControlledId, data.Position, data.InAnim, data.Velocity);
     }
 }

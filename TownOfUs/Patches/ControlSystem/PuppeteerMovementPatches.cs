@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
@@ -21,9 +20,8 @@ public static class PuppeteerMovementPatches
     private static readonly Dictionary<byte, Vector2> _lastSentPos = [];
     private static readonly Dictionary<byte, Vector2> _lastSentVel = [];
     private static readonly Dictionary<byte, float> _lastSentAt = [];
-    private static readonly Dictionary<byte, Vector2> _localDesiredDir = [];
 
-    private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir, Vector2 position, Vector2 velocity)
+    private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir, Vector2 position, bool inAnim, Vector2 velocity)
     {
         if (!PlayerControl.LocalPlayer)
         {
@@ -57,7 +55,7 @@ public static class PuppeteerMovementPatches
 
         Rpc<PuppeteerInputUnreliableRpc>.Instance.Send(
             PlayerControl.LocalPlayer,
-            new PuppeteerInputPacket(controlledId, dir, position, velocity));
+            new PuppeteerInputPacket(controlledId, dir, position, inAnim, velocity));
     }
 
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.FixedUpdate))]
@@ -95,115 +93,42 @@ public static class PuppeteerMovementPatches
 
             var victim = puppeteer.Controlled;
             
-            if (victim == null || victim.Data == null || victim.HasDied() || victim.Data.Disconnected)
+            if (victim.Data == null || victim.HasDied() || victim.Data.Disconnected)
             {
                 return true;
             }
 
-            var victimId = victim.PlayerId;
-            var victimInAnim = victim.IsInTargetingAnimState() ||
-                               victim.inVent ||
-                               victim.inMovingPlat ||
-                               victim.onLadder ||
-                               victim.walkingToVent;
-
             var dir = GetNormalDirection();
-            _localDesiredDir[victimId] = dir;
 
-            if (victim.MyPhysics != null)
-            {
-                if (victimInAnim)
-                {
-                    victim.MyPhysics.HandleAnimation(false);
-                }
-                else if (dir == Vector2.zero)
-                {
-                    var cachedDir = _localDesiredDir.TryGetValue(victimId, out var cached) ? cached : Vector2.zero;
-                    if (cachedDir != Vector2.zero)
-                    {
-                        AdvancedMovementUtilities.ApplyControlledMovement(victim.MyPhysics, cachedDir);
-                    }
-                    else
-                    {
-                        AdvancedMovementUtilities.ApplyControlledMovement(victim.MyPhysics, Vector2.zero, stopIfZero: true);
-                    }
-                }
-                else
-                {
-                    AdvancedMovementUtilities.ApplyControlledMovement(victim.MyPhysics, dir, stopIfZero: true);
-                }
-            }
-            
-            var victimPos = victim.MyPhysics?.body != null 
-                ? victim.MyPhysics.body.position 
-                : (Vector2)victim.transform.position;
-            var victimVel = victim.MyPhysics?.body != null 
-                ? victim.MyPhysics.body.velocity 
+            var victimInAnim = victim.IsInTargetingAnimState() || victim.inVent;
+
+            var victimVel = victimInAnim && victim.MyPhysics?.body != null
+                ? victim.MyPhysics.body.velocity
                 : Vector2.zero;
+            var victimPos = victim.MyPhysics?.body.position ?? victim.transform.position;
 
-            SendControlledInputIfNeeded(victimId, dir, victimPos, victimVel);
+            SendControlledInputIfNeeded(victim.PlayerId, dir, victimPos, victimInAnim, victimVel);
 
+            // TODO: apply movement to controller
             var puppeteerDir = Vector2.zero;
-            
+
             AdvancedMovementUtilities.ApplyControlledMovement(__instance, puppeteerDir, stopIfZero: true);
             return false;
         }
 
-        if (PuppeteerControlState.IsControlled(player.PlayerId, out _))
+        if (PuppeteerRole.ControlState.IsControlled(player.PlayerId, out _))
         {
             if (TimeLordRewindSystem.IsRewinding)
             {
                 return true;
             }
 
-            if (player.onLadder || player.inMovingPlat)
-            {
-                PuppeteerControlState.ClearMovementState(player.PlayerId);
-                return true;
-            }
-
-            if (player.IsInTargetingAnimState() || player.inVent || player.walkingToVent)
+            if (player.IsInTargetingAnimState() || player.inVent)
             {
                 return true;
             }
 
-            var dir = PuppeteerControlState.GetDirection(player.PlayerId);
-            var pos = PuppeteerControlState.GetPosition(player.PlayerId);
-            var vel = PuppeteerControlState.GetVelocity(player.PlayerId);
-
-            if (dir == Vector2.zero)
-            {
-                var cachedDir = _localDesiredDir.TryGetValue(player.PlayerId, out var cached) ? cached : Vector2.zero;
-                if (cachedDir != Vector2.zero)
-                {
-                    AdvancedMovementUtilities.ApplyControlledMovement(__instance, cachedDir);
-                }
-                else
-                {
-                    AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
-                }
-            }
-            else
-            {
-                AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
-            }
-            
-            if (pos != Vector2.zero)
-            {
-                var currentPos = __instance.body != null ? __instance.body.position : (Vector2)__instance.myPlayer.transform.position;
-                var delta = pos - currentPos;
-                if (delta.magnitude > 0.5f)
-                {
-                    __instance.body?.position = pos;
-                    __instance.myPlayer.transform.position = pos;
-                }
-            }
-            
-            if (__instance.body != null && vel != Vector2.zero)
-            {
-                __instance.body.velocity = vel;
-            }
-            
+            ApplyAllDataTo(__instance, player.PlayerId);
             return false;
         }
 
@@ -214,73 +139,50 @@ public static class PuppeteerMovementPatches
                 return true;
             }
 
-            if (player.onLadder || player.inMovingPlat)
-            {
-                PuppeteerControlState.ClearMovementState(player.PlayerId);
-                return true;
-            }
-
-            if (player.IsInTargetingAnimState() || player.inVent || player.walkingToVent)
+            if (player.IsInTargetingAnimState() || player.inVent)
             {
                 return true;
             }
 
-            var dir = PuppeteerControlState.GetDirection(player.PlayerId);
-            var pos = PuppeteerControlState.GetPosition(player.PlayerId);
-            var vel = PuppeteerControlState.GetVelocity(player.PlayerId);
-            
-            if (dir == Vector2.zero)
-            {
-                AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
-            }
-            else
-            {
-                AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
-            }
-            
-            if (pos != Vector2.zero)
-            {
-                var currentPos = __instance.body != null ? __instance.body.position : (Vector2)__instance.myPlayer.transform.position;
-                var delta = pos - currentPos;
-                if (delta.magnitude > 0.5f)
-                {
-                    __instance.body?.position = pos;
-                    __instance.myPlayer.transform.position = pos;
-                }
-            }
-            
-            if (__instance.body != null && vel != Vector2.zero)
-            {
-                __instance.body.velocity = vel;
-            }
-            
+            ApplyAllDataTo(__instance, player.PlayerId);
             return false;
         }
 
         return true;
     }
 
-    [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.SetNormalizedVelocity))]
-    [HarmonyPrefix]
-    public static bool SetNormalizedVelocityPrefix(PlayerPhysics __instance, ref Vector2 direction)
+    private static void ApplyAllDataTo(PlayerPhysics __instance, byte controlledId)
     {
-        var player = __instance.myPlayer;
-        if (player == null || !player.HasModifier<PuppeteerControlModifier>())
+        Vector2 dir = PuppeteerRole.ControlState.GetDirection(controlledId);
+        Vector2 pos = PuppeteerRole.ControlState.GetPosition(controlledId);
+        Vector2 vel = PuppeteerRole.ControlState.GetVelocity(controlledId);
+        bool inAnim = PuppeteerRole.ControlState.IsInAnim(controlledId);
+
+        __instance.HandleAnimation(__instance.myPlayer.Data.IsDead);
+
+        if (__instance.body != null)
         {
-            return true;
+            if (inAnim)
+            {
+                __instance.body.velocity = vel;
+            }
+            else
+            {
+                __instance.SetNormalizedVelocity(dir);
+                // __instance.body.velocity = dir * __instance.TrueSpeed;
+            }
         }
 
-        if (TimeLordRewindSystem.IsRewinding)
+        if (pos != Vector2.zero)
         {
-            return true;
+            var currentPos = __instance.body != null ? __instance.body.position : (Vector2)__instance.myPlayer.transform.position;
+            var delta = pos - currentPos;
+            if (delta.magnitude > 0.5f)
+            {
+                __instance.myPlayer.transform.position = pos;
+                __instance.body?.position = pos;
+            }
         }
-
-        if (player.AmOwner && PuppeteerControlState.IsControlled(player.PlayerId, out _))
-        {
-            direction = PuppeteerControlState.GetDirection(player.PlayerId);
-        }
-
-        return true;
     }
 
     [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.FixedUpdate))]
@@ -293,7 +195,7 @@ public static class PuppeteerMovementPatches
         }
 
         var player = __instance.myPlayer;
-        if (!PuppeteerControlState.IsControlled(player.PlayerId, out _))
+        if (!PuppeteerRole.ControlState.IsControlled(player.PlayerId, out _))
         {
             return true;
         }
@@ -303,7 +205,7 @@ public static class PuppeteerMovementPatches
             return true;
         }
 
-        if (player.IsInTargetingAnimState() || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
+        if (player.IsInTargetingAnimState() || player.inVent)
         {
             return true;
         }
