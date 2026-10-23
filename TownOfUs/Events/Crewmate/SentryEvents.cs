@@ -137,6 +137,12 @@ public static class SentryEvents
                 ActiveCameraTaskCount = 0;
             }
 
+            if (OptionGroupSingleton<SentryOptions>.Instance.PortableCamerasMode is SentryPortableCamerasMode
+                    .OnMapsWithoutCameras or SentryPortableCamerasMode.Immediately)
+            {
+                SentryPortableCameraButtonBase.BumpCharge();
+            }
+
             if (sentryRole.CompletedAllTasks && !sentryRole.PortableCamsUnlockedNotified)
             {
                 if (!ShouldUnlockPortableCameras(sentryRole))

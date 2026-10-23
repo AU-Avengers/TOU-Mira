@@ -17,6 +17,11 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
         ChangedEvent = x =>
         {
             var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.ButtonBarryChance;
+            if (!opt.ShowNotification)
+            {
+                return;
+            }
+
             opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
                 opt.StringName,
                 MiraLocaleManager.Get("TownOfUsMira.Modifier.ButtonBarry"),
@@ -32,6 +37,11 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
         ChangedEvent = x =>
         {
             var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.TiebreakerChance;
+            if (!opt.ShowNotification)
+            {
+                return;
+            }
+
             opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
                 opt.StringName,
                 MiraLocaleManager.Get("TownOfUsMira.Modifier.Tiebreaker"),
@@ -194,6 +204,11 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.DrunkAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.DrunkChance;
+        if (!opt.ShowNotification)
+        {
+            return;
+        }
+
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
             MiraLocaleManager.Get("TownOfUsMira.Modifier.Drunk"),
@@ -266,6 +281,11 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
 
     private static void RunNotif(AmountChanceOption opt, AmountChanceOption optAmount, string title)
     {
+        if (!opt.ShowNotification)
+        {
+            return;
+        }
+
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
             MiraLocaleManager.Get(title),

@@ -54,6 +54,10 @@ public abstract class TouBaseGameModifier : GameModifier
 
     public virtual int CustomAmount => GetAmountPerGame();
     public virtual int CustomChance => GetAssignmentChance();
+    public override string GetAmountText(int amount, int chance, string source)
+    {
+        return base.GetAmountText(CustomAmount, CustomChance, source);
+    }
 
     public override bool HideOnUi => false;
 

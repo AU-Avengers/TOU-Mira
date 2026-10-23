@@ -55,6 +55,7 @@ public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverabl
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
+    public override bool ShowModifierAsUnique => true;
     public override int GetAmountPerGame()
     {
         return 1;
