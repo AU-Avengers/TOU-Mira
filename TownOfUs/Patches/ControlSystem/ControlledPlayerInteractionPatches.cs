@@ -119,6 +119,18 @@ public static class ControlledPlayerInteractionPatches
         _lastCacheRefresh = 0f;
     }
 
+    /// <summary>
+    /// Also patch HudManager Update to continuously check for interactables near controlled player
+    /// Throttled to avoid performance issues
+    /// </summary>
+    public static void UpdateControlledUseButton(HudManager __instance)
+    {
+        if (__instance.UseButton)
+        {
+            UpdateUseButtonTarget(__instance.UseButton);
+        }
+    }
+
     private static void UpdateUseButtonTarget(UseButton useButton)
     {
         var localPlayer = PlayerControl.LocalPlayer;
