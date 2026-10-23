@@ -362,6 +362,67 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
+    public static void ReportBodyEventHandler(ReportBodyEvent @event)
+    {
+        if (@event.Target == null)
+        {
+            return;
+        }
+
+        if (@event.Reporter.Data.Role is not IBaseBodyReport { ReportEnabled: true } report || !@event.Reporter.AmOwner)
+        {
+            return;
+        }
+
+        var deadPlayerId = @event.Target.PlayerId;
+
+        var matches = GameHistory.KilledPlayers.Where(x => x.VictimId == deadPlayerId).ToArray();
+
+        DeadPlayer? killer = null;
+
+        if (matches.Length > 0)
+        {
+            killer = matches[0];
+        }
+
+        if (killer == null)
+        {
+            return;
+        }
+
+        // Message($"CmdReportDeadBody");
+        var br = new BodyReport
+        {
+            Killer = MiscUtils.PlayerById(killer.KillerId),
+            Reporter = report.Player,
+            Body = MiscUtils.PlayerById(killer.VictimId),
+            KillAge = (float)(DateTime.UtcNow - killer.KillTime).TotalMilliseconds
+        };
+
+        if (report is IBodyReport reporter)
+        {
+            reporter.ReportBody(br);
+        }
+        else if (report is IBodyReportChat chat)
+        {
+            var reportMsg = chat.ParseReport(br);
+
+            if (string.IsNullOrWhiteSpace(reportMsg))
+            {
+                return;
+            }
+
+            var reported = report.Player;
+            if (br.Body != null)
+            {
+                reported = br.Body;
+            }
+
+            MiscUtils.AddFakeChat(reported.Data, chat.BodyReportTitle, reportMsg, false, true);
+        }
+    }
+
+    [RegisterEvent]
     public static void RoundStartHandler(RoundStartEvent @event)
     {
         var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
