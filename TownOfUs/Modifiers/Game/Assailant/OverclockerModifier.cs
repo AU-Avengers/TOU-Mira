@@ -1,4 +1,5 @@
-﻿using MiraAPI.GameOptions;
+﻿using System.Globalization;
+using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
@@ -75,6 +76,39 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
         Rng = new System.Random();
         ImpostorOverclockerAttempts = 0;
         NeutralOverclockerAttempts = 0;
+    }
+    public override string GetAmountText(int amount, int chance, string source)
+    {
+        var opts = OptionGroupSingleton<AssailantModifierOptions>.Instance;
+        var neutCount = (int)opts.NeutOverclockerAmount.Value;
+        var neutChance = Math.Clamp((int)opts.NeutOverclockerChance.Value, 0, 100);
+        if (neutCount == 0)
+        {
+            neutChance = 0;
+        }
+        if (neutChance == 0)
+        {
+            neutCount = 0;
+        }
+        var impCount = (int)opts.ImpOverclockerAmount.Value;
+        var impChance = Math.Clamp((int)opts.ImpOverclockerChance.Value, 0, 100);
+        if (impCount == 0)
+        {
+            impChance = 0;
+        }
+        if (impChance == 0)
+        {
+            impCount = 0;
+        }
+
+        return string.Format(
+            CultureInfo.InvariantCulture,
+            "Neuts: {0} at {1}% ({2})\nImps: {3} at {4}%",
+            neutCount.ToString(CultureInfo.InvariantCulture),
+            neutChance.ToString(CultureInfo.InvariantCulture),
+            source,
+            impCount.ToString(CultureInfo.InvariantCulture),
+            impChance.ToString(CultureInfo.InvariantCulture));
     }
 
     public static bool ModifierValidCheck(RoleBehaviour role, bool runChecks)

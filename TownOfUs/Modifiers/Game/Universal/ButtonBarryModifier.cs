@@ -52,6 +52,7 @@ public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverab
         }
     }
 
+    public override bool ShowModifierAsUnique => true;
     public override int GetAmountPerGame()
     {
         return 1;

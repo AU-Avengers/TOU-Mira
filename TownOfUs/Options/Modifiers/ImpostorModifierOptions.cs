@@ -146,6 +146,11 @@ public sealed class ImpostorModifierOptions : AbstractOptionGroup
 
     private static void RunNotif(AmountChanceOption opt, AmountChanceOption optAmount, string title)
     {
+        if (!opt.ShowNotification)
+        {
+            return;
+        }
+
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
             MiraLocaleManager.Get(title),
