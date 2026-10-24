@@ -99,6 +99,32 @@ public static class GhostRoleEvents
     }
     
     [RegisterEvent]
+    public static void PlayerZiplineUseEventHandler(PlayerUseEvent @event)
+    {
+        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
+            !PlayerControl.LocalPlayer.Data.Role || PlayerControl.LocalPlayer.Data.Role is not IGhostRole ghostwalker)
+        {
+            return;
+        }
+
+        var console = @event.Usable.TryCast<ZiplineConsole>();
+        if (console == null || !ghostwalker.GhostActive || console.IsCoolingDown())
+        {
+            return;
+        }
+
+        console.CanUse(PlayerControl.LocalPlayer.Data, out var flag, out _);
+        if (!flag)
+        {
+            return;
+        }
+        console.zipline.Use(console.atTop, console);
+        console.CoolDown = console.MaxCoolDown;
+
+        @event.Cancel();
+    }
+    
+    [RegisterEvent]
     public static void PlayerCanUseEventHandler(PlayerCanUseEvent @event)
     {
         if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
@@ -112,6 +138,7 @@ public static class GhostRoleEvents
         {
             return;
         }
+        Warning("You're not allowed to use this console!");
 
         @event.Cancel();
     }
