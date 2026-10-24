@@ -212,7 +212,6 @@ namespace TownOfUs.Modules.DraftMode
 
             var faction = DraftUiManager.GetTeamLabel(role);
             var actualFaction = role is ICustomRole { Team: var custom } ? custom.ToString() : role.TeamType.ToString();
-            string colorHex = "";
             var displayMode = OptionGroupSingleton<RoleOptions>.Instance.DraftSidebarDisplay.Value;
             string text = displayMode switch
             {
@@ -221,6 +220,7 @@ namespace TownOfUs.Modules.DraftMode
                 DraftRecapMode.Faction   => $"{faction.ToUpperInvariant()} <sprite name=\"AmongUs.Role.{actualFaction}\">",
                 _   => MiraLocaleManager.Get("TouDraftARoleLabel", "a role"),
             };
+            string colorHex;
             if (displayMode == DraftRecapMode.Nothing)
             {
                 colorHex = "#f7f7f7";
