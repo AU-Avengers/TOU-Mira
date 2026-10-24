@@ -35,7 +35,7 @@ public sealed class ForensicInspectButton : TownOfUsRoleButton<ForensicRole, Cri
         Role.InvestigatedPlayers.AddRange(Target.GetScenePlayers());
         var notif1 = Helpers.CreateAndShowNotification(
             $"{MiraLocaleManager.Get("TownOfUsMira.Role.ForensicInspectNotif").Replace("<player>", $"{TownOfUsColors.Forensic.ToTextColor()}{Target.DeadPlayer!.Data.PlayerName}</color>")}",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Forensic.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Forensic);
         notif1.AdjustNotification();
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using TownOfUs.Events;
 using TownOfUs.Modifiers.Game.Alliance;
@@ -19,6 +19,7 @@ public static class LobbyBehaviourPatches
     [HarmonyPatch(typeof(LobbyBehaviour), nameof(LobbyBehaviour.Start))]
     [HarmonyPatch(typeof(TutorialManager), nameof(TutorialManager.Awake))]
     [HarmonyPostfix]
+    [SuppressMessage("Critical Code Smell", "S1215:\"GC.Collect\" should not be called", Justification = "Used to prevent lag.")]
     public static void LobbyStartPatch()
     {
         NoisemakerModifier.ActiveNoisemakerTriggers.Clear();
@@ -27,7 +28,7 @@ public static class LobbyBehaviourPatches
         GameTimerPatch.ResetTimer();
         foreach (var role in GameHistory.AllRoles)
         {
-            if (!role || role is not ITownOfUsRole touRole)
+            if (role is not ITownOfUsRole touRole)
             {
                 continue;
             }

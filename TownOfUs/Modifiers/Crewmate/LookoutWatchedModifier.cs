@@ -6,7 +6,6 @@ using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Achievements;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -26,7 +25,7 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
         base.OnActivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.LookoutWatch, Lookout, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void FixedUpdate()
@@ -49,11 +48,11 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
         var title = $"<color=#{TownOfUsColors.Lookout.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.LookoutFeedbackTitle")}</color>";
         var msg = MiraLocaleManager.Get("TownOfUsMira.Role.LookoutNoInteractionFeedback").Replace("<player>", Player.Data.PlayerName);
 
-        var showRoles = (LookoutView)OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Roles;
+        var showRoles = OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Roles;
         if (SeenPlayers.Count != 0)
         {
-            var playerList = SeenPlayers.Select(x => x.Key).ToList();
-            var roleList = SeenPlayers.Select(x => x.Value).ToList();
+            var playerList = SeenPlayers.Select(x => x.Key);
+            var roleList = SeenPlayers.Select(x => x.Value);
             var message = new StringBuilder($"{MiraLocaleManager.Get(showRoles ? "TownOfUsMira.Role.LookoutInteractionFeedback" : "TownOfUsMira.Role.LookoutAltInteractionFeedback").Replace("<player>", Player.Data.PlayerName)}:\n");
 
             playerList.Shuffle();

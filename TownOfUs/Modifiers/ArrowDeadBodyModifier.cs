@@ -32,7 +32,7 @@ public abstract class ArrowDeadBodyModifier(DeadBody deadBody, Color color, floa
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeactivate()
@@ -48,7 +48,7 @@ public abstract class ArrowDeadBodyModifier(DeadBody deadBody, Color color, floa
     {
         if (DeadBody == null || DeadBody.gameObject == null || !DeadBody.gameObject.activeSelf)
         {
-            ModifierComponent!.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 

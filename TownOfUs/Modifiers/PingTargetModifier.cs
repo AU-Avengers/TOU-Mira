@@ -37,7 +37,7 @@ public abstract class PingTargetModifier(PlayerControl owner, Color color, float
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeactivate()
@@ -56,7 +56,7 @@ public abstract class PingTargetModifier(PlayerControl owner, Color color, float
         base.FixedUpdate();
         if (!Player)
         {
-            ModifierComponent!.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 

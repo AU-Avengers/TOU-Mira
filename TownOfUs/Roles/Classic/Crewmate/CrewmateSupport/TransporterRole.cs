@@ -71,7 +71,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Transporter.LoadAsset(), "TouMira.Role.Crewmate.Transporter", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Transporter, "TouMira.Role.Crewmate.Transporter", 1.45f),
         Icon = TouRoleIcons.Transporter,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.TimeLordIntroSound
@@ -154,10 +154,9 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             return;
         }
 
-        var infectedtrans = transporter.GetModifier<PlaguebearerInfectedModifier>();
         var infectedplayer1 = play1.GetModifier<PlaguebearerInfectedModifier>();
         var infectedplayer2 = play2.GetModifier<PlaguebearerInfectedModifier>();
-        if (infectedtrans != null)
+        if (transporter.TryGetModifier<PlaguebearerInfectedModifier>(out var infectedtrans))
         {
             if (infectedplayer1 == null)
             {
@@ -169,11 +168,11 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 play2.AddModifier<PlaguebearerInfectedModifier>(infectedtrans.PlagueBearerId);
             }
         }
-        else if (infectedtrans == null && infectedplayer1 != null)
+        else if (infectedplayer1 != null)
         {
             transporter.AddModifier<PlaguebearerInfectedModifier>(infectedplayer1.PlagueBearerId);
         }
-        else if (infectedtrans == null && infectedplayer2 != null)
+        else if (infectedplayer2 != null)
         {
             transporter.AddModifier<PlaguebearerInfectedModifier>(infectedplayer2.PlagueBearerId);
         }
@@ -187,7 +186,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             mercenary!.AddPayment();
         }
 
-        if (play1.TryGetModifier<InvulnerabilityModifier>(out var invic) && invic.AttackAllInteractions)
+        if (play1.HasModifier<InvulnerabilityModifier>(invic => invic.AttackAllInteractions))
         {
             if (transporter.AmOwner)
             {
@@ -197,7 +196,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             return;
         }
 
-        if (play2.TryGetModifier<InvulnerabilityModifier>(out var invic2) && invic2.AttackAllInteractions)
+        if (play2.HasModifier<InvulnerabilityModifier>(invic2 => invic2.AttackAllInteractions))
         {
             if (transporter.AmOwner)
             {
@@ -261,7 +260,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         Transport(t1, positions.Item2);
         Transport(t2, positions.Item1);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.TransporterTransport, transporter, t1, t2);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (transporter.AmOwner)
         {
@@ -284,7 +283,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Transporter.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.TransporterTransportNotif")}</color></b>", Color.white,
-                new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Transporter.LoadAsset());
+                new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Transporter);
 
             notif1.AdjustNotification();
 
@@ -321,12 +320,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 return null;
             }
 
-            if (pc.HasModifier<NoTransportModifier>())
-            {
-                return null;
-            }
-
-            if (pc.GetModifiers<BaseModifier>().Any(x => x is IUntransportable))
+            if (pc.HasModifierOfType<IUntransportable>())
             {
                 return null;
             }
@@ -366,14 +360,14 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                     dragMod.DeadBody!.transform.position = dropPos;
 
                     var touAbilityEvent2 = new TouAbilityEvent(AbilityType.UndertakerDrop, mod.Player, dragMod.DeadBody);
-                    MiraEventManager.InvokeEvent(touAbilityEvent2);
+                    touAbilityEvent2.InvokeEvent();
 
                     if (mod.Player.AmOwner)
                     {
                         CustomButtonSingleton<UndertakerDragDropButton>.Instance.SetDrag();
                     }
 
-                    mod.Player.RemoveModifier(dragMod);
+                    dragMod.RemoveSelf();
                 }
             }
         }
@@ -511,12 +505,12 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             // If the transported player is a Puppeteer/Parasite controlling someone, snap camera to the victim instead
             MonoBehaviour? cameraTarget = null;
-            
+
             if (player.Data?.Role is ITransportTrigger triggerRole)
             {
                 cameraTarget = triggerRole.OnTransport();
             }
-            
+
             MiscUtils.SnapPlayerCamera(cameraTarget ?? PlayerControl.LocalPlayer);
         }
     }

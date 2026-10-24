@@ -26,7 +26,7 @@ public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Investigator.LoadAsset(), "TouMira.Role.Crewmate.Investigator", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Investigator, "TouMira.Role.Crewmate.Investigator", 1.45f),
         Icon = TouRoleIcons.Investigator,
         OptionsScreenshot = TouBanners.InvestigatorRoleBanner,
         IntroSound = TouAudio.SpyIntroSound
@@ -46,7 +46,7 @@ public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
         }
 
         Helpers.GetAlivePlayers().Where(plr => !plr.HasModifier<FootstepsModifier>())
-            .ToList().ForEach(plr => plr.GetModifierComponent().AddModifier<FootstepsModifier>());
+            .ToList().ForEach(plr => plr.AddModifier<FootstepsModifier>());
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)
@@ -58,8 +58,7 @@ public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
             return;
         }
 
-        PlayerControl.AllPlayerControls.ToArray().Where(plr => plr.HasModifier<FootstepsModifier>())
-            .ToList().ForEach(plr => plr.GetModifierComponent().RemoveModifier<FootstepsModifier>());
+        PlayerControl.AllPlayerControls.ToList().ForEach(plr => plr.TryRemoveModifier<FootstepsModifier>());
     }
 
     public override void OnDeath(DeathReason reason)
@@ -69,7 +68,6 @@ public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
             return;
         }
 
-        PlayerControl.AllPlayerControls.ToArray().Where(plr => plr.HasModifier<FootstepsModifier>())
-            .ToList().ForEach(plr => plr.GetModifierComponent().RemoveModifier<FootstepsModifier>());
+        PlayerControl.AllPlayerControls.ToList().ForEach(plr => plr.TryRemoveModifier<FootstepsModifier>());
     }
 }

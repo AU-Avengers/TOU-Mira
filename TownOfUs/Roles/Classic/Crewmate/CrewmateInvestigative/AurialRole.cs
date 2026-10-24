@@ -6,7 +6,6 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Achievements;
-using TownOfUs.Modules;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
@@ -33,7 +32,7 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Aurial.LoadAsset(), "TouMira.Role.Crewmate.Aurial", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Aurial, "TouMira.Role.Crewmate.Aurial", 1.45f),
         Icon = TouRoleIcons.Aurial,
         OptionsScreenshot = TouBanners.AurialRoleBanner,
         IntroSound = TouAudio.MediumIntroSound

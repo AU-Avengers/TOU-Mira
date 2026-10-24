@@ -1,5 +1,4 @@
-﻿using AchievementsAPI.API;
-using AmongUs.GameOptions;
+﻿using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
@@ -96,7 +95,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Amnesiac.LoadAsset(), "TouMira.Role.Neutral.Amnesiac", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Amnesiac, "TouMira.Role.Neutral.Amnesiac", 1.45f),
         IntroSound = TouAudio.MediumIntroSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
@@ -108,12 +107,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         TouRoleUtils.ClearTaskHeader(Player);
 
-        if (Player.HasModifier<AmnesiacArrowModifier>())
-        {
-            var mods = Player.GetModifiers<AmnesiacArrowModifier>();
-
-            mods.Do([HideFromIl2Cpp](x) => Player.RemoveModifier(x.UniqueId));
-        }
+        Player.GetModifiers<AmnesiacArrowModifier>().Do([HideFromIl2Cpp] (x) => x.RemoveSelf());
     }
 
     public override bool DidWin(GameOverReason gameOverReason)
@@ -145,37 +139,37 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
                 var text = MiraLocaleManager.Get("TownOfUsMira.Role.AmnesiacRememberFailNotif").Replace("<player>", target.Data.PlayerName);
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{text.Replace("<role>", $"{roleWhenAlive.TeamColor.ToTextColor()}{roleWhenAlive.GetRoleName()}</color>")}</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac);
                 notif1.AdjustNotification();
-AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
+                AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
             }
 
             return;
         }
 
-        if (player.GetModifiers<PlayerTargetModifier>().Any(x => x.OwnerId == target.PlayerId))
+        if (player.HasModifier<PlayerTargetModifier>(x => x.OwnerId == target.PlayerId))
         {
             if (player.AmOwner)
             {
                 var text = MiraLocaleManager.Get("TownOfUsMira.Role.AmnesiacRememberFailTargetNotif").Replace("<player>", target.Data.PlayerName);
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
+                    $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac);
                 notif1.AdjustNotification();
-AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
+                AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
             }
 
             return;
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.AmnesiacPreRemember, player, target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         player.ChangeRole((ushort)roleWhenAlive.Role);
         if (player.Data.Role is InquisitorRole inquis)
         {
             var newTargets = new Dictionary<PlayerControl, RoleBehaviour>();
             foreach (var heretic in ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>()
-                         .Where(x => x.Player != player).OrderBy([HideFromIl2Cpp](x) => x.TargetRole.GetRoleName()))
+                         .Where(x => x.Player != player).OrderBy([HideFromIl2Cpp] (x) => x.TargetRole.GetRoleName()))
             {
                 newTargets.Add(heretic.Player, heretic.TargetRole);
             }
@@ -185,12 +179,12 @@ AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
         else if (player.Data.Role is PlaguebearerRole || player.Data.Role is PestilenceRole)
         {
             ModifierUtils.GetActiveModifiers<PlaguebearerInfectedModifier>()
-                .Do(x => x.ModifierComponent?.RemoveModifier(x));
+                .Do(x => x.RemoveSelf());
             player.AddModifier<PlaguebearerInfectedModifier>(player.PlayerId);
         }
         else if (player.Data.Role is ArsonistRole)
         {
-            ModifierUtils.GetActiveModifiers<ArsonistDousedModifier>().Do(x => x.ModifierComponent?.RemoveModifier(x));
+            ModifierUtils.GetActiveModifiers<ArsonistDousedModifier>().Do(x => x.RemoveSelf());
         }
         else if (player.Data.Role is MayorRole mayor)
         {
@@ -237,13 +231,13 @@ AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
             var text = MiraLocaleManager.Get("TownOfUsMira.Role.AmnesiacRememberNotif").Replace("<player>", target.Data.PlayerName);
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{text.Replace("<role>", $"{player.Data.Role.TeamColor.ToTextColor()}{player.Data.Role.GetRoleName()}</color>")}</b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac);
             notif1.AdjustNotification();
         }
 
         if (roleWhenAlive is not VampireRole && (roleWhenAlive.MaxCount <= 1 || (roleWhenAlive.MaxCount <= PlayerControl
                 .AllPlayerControls
-                .ToArray().Count(x => x.Data.Role.Role == roleWhenAlive.Role))))
+                .Count(x => x.Data.Role.Role == roleWhenAlive.Role))))
         {
             if (target.IsCrewmate())
             {
@@ -255,9 +249,9 @@ AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
                 target.ChangeRole((ushort)RoleTypes.Impostor);
                 target.ChangeRole((ushort)RoleTypes.ImpostorGhost, false);
             }
-            /*else if (target.IsNeutral() && player.Data.Role is ITownOfUsRole touRole)
+            /*else if (target.IsNeutral() && player.Data.Role is ITownOfUsRole { RoleAlignment: var alignment })
             {
-                switch (touRole.RoleAlignment)
+                switch (alignment)
                 {
                     default:
                         target.ChangeRole(RoleId.Get<SurvivorRole>());
@@ -285,8 +279,8 @@ AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
         }
 
         var playerIsAssassin = target.HasModifier<AssassinModifier>();
-        var assassinModeImp = (AssassinRemember)opts.AmneTurnImpAssassin.Value;
-        var assassinModeNeut = (AssassinRemember)opts.AmneTurnNeutAssassin.Value;
+        var assassinModeImp = opts.AmneTurnImpAssassin.Value;
+        var assassinModeNeut = opts.AmneTurnNeutAssassin.Value;
         var amneIsAssassin = false;
 
         if ((player.IsImpostor() && (assassinModeImp is AssassinRemember.Always ||
@@ -301,14 +295,14 @@ AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
         }
 
         // Doesn't give Double Shot if Assassin isn't available
-        var modifier = target.GetModifiers<TouGameModifier>().FirstOrDefault(x => x is not AssassinModifier &&
-            (x is not DoubleShotModifier || amneIsAssassin));
-        if (opts.InheritFactionModifier && modifier != null)
+        if (opts.InheritFactionModifier &&
+            target.TryGetModifier<TouGameModifier>(out var modifier, x => x is not AssassinModifier &&
+                (x is not DoubleShotModifier || amneIsAssassin)))
         {
             player.AddModifier(modifier.GetType());
         }
 
         var touAbilityEvent2 = new TouAbilityEvent(AbilityType.AmnesiacPostRemember, player, target);
-        MiraEventManager.InvokeEvent(touAbilityEvent2);
+        touAbilityEvent2.InvokeEvent();
     }
 }

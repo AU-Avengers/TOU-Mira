@@ -34,7 +34,7 @@ public static class ExecutionerEvents
             }
 
             var exe = GameData.Instance.GetPlayerById(exeMod.OwnerId).Object;
-            if (exe != null && !exe.HasDied() && exe.Data.Role is ExecutionerRole exeRole && exeRole.AboutToWin)
+            if (exe != null && !exe.HasDied() && exe.Data.Role is ExecutionerRole { AboutToWin: true } exeRole)
             {
                 if (victim.IsCrewmate())
                 {
@@ -69,7 +69,7 @@ public static class ExecutionerEvents
         }
 
         var winOption = OptionGroupSingleton<ExecutionerOptions>.Instance.ExeWin;
-        
+
         var exe = CustomRoleUtils.GetActiveRolesOfType<ExecutionerRole>()
             .FirstOrDefault(x => x.AboutToWin && !x.Player.HasDied());
 
@@ -98,7 +98,7 @@ public static class ExecutionerEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerWonSelf").Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.GetRoleName()}</color>")}</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Executioner.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Executioner);
 
                 notif1.AdjustNotification();
 
@@ -127,7 +127,7 @@ public static class ExecutionerEvents
                 string message;
                 LoadableAsset<Sprite> icon;
 
-                if (OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnonymizeWin.Value)
+                if (OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnonymizeWin)
                 {
                     message = MiraLocaleManager.Get("TouNeutAnonymousVictoryMessage");
                     icon = TouRoleIcons.Neutral;
@@ -141,7 +141,7 @@ public static class ExecutionerEvents
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     message.Replace("<player>", exe.Player.Data.PlayerName),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: icon);
 
                 notif1.AdjustNotification();
             }
@@ -153,7 +153,7 @@ public static class ExecutionerEvents
     {
         var states = MeetingHudGetVotesPatch.States;
         var exes = CustomRoleUtils.GetActiveRolesOfType<ExecutionerRole>();
-        if (!exes.HasAny())
+        if (!exes.Any())
         {
             return;
         }
@@ -207,10 +207,9 @@ public static class ExecutionerEvents
 
             if (exe.AmOwner && winOption is ExeWinOptions.Torments)
             {
-                var allVoters = PlayerControl.AllPlayerControls.ToArray()
-                    .Where(x => exeRole.Voters.Contains(x.PlayerId) && !x.AmOwner);
+                var allVoters = PlayerControl.AllPlayerControls.Where(x => exeRole.Voters.Contains(x.PlayerId) && !x.AmOwner);
 
-                if (!allVoters.HasAny())
+                if (!allVoters.Any())
                 {
                     return;
                 }

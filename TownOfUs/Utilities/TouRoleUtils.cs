@@ -21,7 +21,7 @@ public static class TouRoleUtils
             return;
         }
 
-        var playerTask = playerControl.myTasks.ToArray().FirstOrDefault(x => x is ImportantTextTask);
+        var playerTask = playerControl.myTasks.FirstOrDefault(x => x is ImportantTextTask);
 
         if (playerTask != null)
         {
@@ -33,9 +33,9 @@ public static class TouRoleUtils
     public static Sprite GetRoleIcon(this RoleBehaviour role)
     {
         var roleImg = GetBasicRoleIcon(role);
-        if (role is ICustomRole customRole && customRole.Configuration.Icon != null)
+        if (role is ICustomRole { Configuration.Icon: { } icon })
         {
-            roleImg = customRole.Configuration.Icon.LoadAsset();
+            roleImg = icon;
         }
         else if (role.RoleIconSolid != null)
         {
@@ -55,57 +55,56 @@ public static class TouRoleUtils
         var basicText = role.RoleAlignment.ToString();
         if (basicText.Contains("Impostor"))
         {
-            return TouRoleIcons.Impostor.LoadAsset();
+            return TouRoleIcons.Impostor;
         }
 
         if (basicText.Contains("Crewmate"))
         {
-            return TouRoleIcons.Crewmate.LoadAsset();
+            return TouRoleIcons.Crewmate;
         }
 
-        return TouRoleIcons.Neutral.LoadAsset();
+        return TouRoleIcons.Neutral;
     }
 
     public static Sprite GetBasicRoleIcon(RoleBehaviour role)
     {
         if (role.IsImpostor())
         {
-            return TouRoleIcons.Impostor.LoadAsset();
+            return TouRoleIcons.Impostor;
         }
 
         if (role.IsCrewmate())
         {
-            return TouRoleIcons.Crewmate.LoadAsset();
+            return TouRoleIcons.Crewmate;
         }
 
-        return TouRoleIcons.Neutral.LoadAsset();
+        return TouRoleIcons.Neutral;
     }
 
     public static Sprite? TryGetVanillaRoleIcon(RoleTypes roleType)
     {
         return roleType switch
         {
-            RoleTypes.GuardianAngel => TouRoleIcons.GuardianAngel.LoadAsset(),
-            RoleTypes.Detective => TouRoleIcons.Detective.LoadAsset(),
-            RoleTypes.Tracker => TouRoleIcons.Tracker.LoadAsset(),
-            RoleTypes.Scientist => TouRoleIcons.Scientist.LoadAsset(),
-            RoleTypes.Noisemaker => TouRoleIcons.Noisemaker.LoadAsset(),
-            RoleTypes.Phantom => TouRoleIcons.Phantom.LoadAsset(),
-            RoleTypes.Shapeshifter => TouRoleIcons.Shapeshifter.LoadAsset(),
-            RoleTypes.Engineer => TouRoleIcons.Engineer.LoadAsset(),
-            RoleTypes.Judge => TouRoleIcons.Prosecutor.LoadAsset(),
-            RoleTypes.Viper => TouRoleIcons.Viper.LoadAsset(),
-            RoleTypes.SpiritGuide => TouRoleIcons.Spectator.LoadAsset(),
-            _ => null
+            RoleTypes.GuardianAngel => TouRoleIcons.GuardianAngel,
+            RoleTypes.Detective => TouRoleIcons.Detective,
+            RoleTypes.Tracker => TouRoleIcons.Tracker,
+            RoleTypes.Scientist => TouRoleIcons.Scientist,
+            RoleTypes.Noisemaker => TouRoleIcons.Noisemaker,
+            RoleTypes.Phantom => TouRoleIcons.Phantom,
+            RoleTypes.Shapeshifter => TouRoleIcons.Shapeshifter,
+            RoleTypes.Engineer => TouRoleIcons.Engineer,
+            RoleTypes.Judge => TouRoleIcons.Prosecutor,
+            RoleTypes.Viper => TouRoleIcons.Viper,
+            RoleTypes.SpiritGuide => TouRoleIcons.Spectator,
+            _ => null!,
         };
     }
 
     public static bool CanGetGhostRole(this PlayerControl player)
     {
         return !player.HasModifier<BasicGhostModifier>()
-               && player.Data.Role is not SpectatorRole
-               && player.Data.Role is not GuardianAngelRole
-               && player.Data.Role is not IGhostRole;
+               && player.Data.Role is not SpectatorRole and not IGhostRole
+               && player.Data.Role.Role is not RoleTypes.GuardianAngel and not RoleTypes.SpiritGuide;
     }
 
     public static bool AreTeammates(PlayerControl player, PlayerControl other, bool impFfa, bool impsSeeRole, out bool canSeeRoles, out bool canSeeColor)
@@ -132,9 +131,9 @@ public static class TouRoleUtils
 
     public static string GetRoleIdPart(this RoleBehaviour role)
     {
-        if (role is ICustomRole touRole && touRole.IdPart != "KEY_MISS")
+        if (role is ICustomRole { IdPart: not "KEY_MISS" and var idPart })
         {
-            return touRole.IdPart;
+            return idPart;
         }
 
         if (!role.IsCustomRole())
@@ -146,8 +145,8 @@ public static class TouRoleUtils
     }
 
     public static bool IsRevealed(this PlayerControl? player) =>
-        player?.GetModifiers<BaseRevealModifier>().Any(x => x.Visible && x.RevealRole) == true ||
-        player?.Data?.Role is MayorRole mayor && mayor.Revealed;
+        player?.HasModifier<BaseRevealModifier>(x => x.Visible && x.RevealRole) == true ||
+        player?.Data?.Role is MayorRole { Revealed: true };
 
     public static StringBuilder SetTabText(ICustomRole role)
     {

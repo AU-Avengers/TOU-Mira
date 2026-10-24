@@ -12,15 +12,12 @@ public static class DetectiveEvents
     [RegisterEvent]
     public static void ReportBodyEventHandler(ReportBodyEvent @event)
     {
-        if (@event.Target == null)
+        if (@event is not { Target: not null, Reporter: { AmOwner: true, Data.Role: ForensicRole detective } })
         {
             return;
         }
 
-        if (@event.Reporter.Data.Role is ForensicRole detective && @event.Reporter.AmOwner)
-        {
-            detective.Report(@event.Target.PlayerId);
-        }
+        detective.Report(@event.Target.PlayerId);
     }
 
     [RegisterEvent]

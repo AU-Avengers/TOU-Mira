@@ -99,7 +99,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Plaguebearer.LoadAsset(), "TouMira.Role.Neutral.Plaguebearer", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Plaguebearer, "TouMira.Role.Neutral.Plaguebearer", 1.45f),
         IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.Plaguebearer,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
@@ -112,11 +112,11 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
 
-        var allInfected = PlayerControl.AllPlayerControls.ToArray().Where(x =>
+        var allInfected = PlayerControl.AllPlayerControls.Where(x =>
             !x.HasDied() && x != Player &&
-            x.GetModifier<PlaguebearerInfectedModifier>()?.PlagueBearerId == Player.PlayerId);
+            x.HasModifier<PlaguebearerInfectedModifier>(x => x.PlagueBearerId == Player.PlayerId));
 
-        if (allInfected.HasAny())
+        if (allInfected.Any())
         {
             stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.PlaguebearerTabInfectedInfo")}</b>");
             foreach (var plr in allInfected)
@@ -125,7 +125,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
             }
         }
 
-        var notInfected = PlayerControl.AllPlayerControls.ToArray().Where(x =>
+        var notInfected = PlayerControl.AllPlayerControls.Where(x =>
             !x.HasDied() && x != Player && !x.HasModifier<PlaguebearerInfectedModifier>());
 
         stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.PlaguebearerTabInfectCounter").Replace("<count>", $"{notInfected.Count()}")}</b>");
@@ -143,9 +143,9 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
     public void ClearNonCurrentInfections()
     {
         // If these aren't cleared, then the plaguebearer will be unable to transform properly.
-        var badInfections = ModifierUtils.GetActiveModifiers<PlaguebearerInfectedModifier>().Where(x => x.PlagueBearerId != Player.PlayerId).ToList();
+        var badInfections = ModifierUtils.GetActiveModifiers<PlaguebearerInfectedModifier>().Where(x => x.PlagueBearerId != Player.PlayerId);
 
-        if (badInfections.Count == 0)
+        if (badInfections.Any())
         {
             return;
         }

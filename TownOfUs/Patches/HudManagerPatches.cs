@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI;
@@ -95,9 +94,9 @@ public static class HudManagerPatches
         }
 
         ZoomButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
-            Zooming ? TouAssets.ZoomPlus.LoadAsset() : TouAssets.ZoomMinus.LoadAsset();
+            Zooming ? TouAssets.ZoomPlus : TouAssets.ZoomMinus;
         ZoomButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
-            Zooming ? TouAssets.ZoomPlusActive.LoadAsset() : TouAssets.ZoomMinusActive.LoadAsset();
+            Zooming ? TouAssets.ZoomPlusActive : TouAssets.ZoomMinusActive;
 
         RefreshUIAnchors();
     }
@@ -162,15 +161,15 @@ public static class HudManagerPatches
             switch (deltaMagnitudeDiff)
             {
                 case > 0:
-                {
-                    ScrollZoom(false, 1.05f);
-                    break;
-                }
+                    {
+                        ScrollZoom(false, 1.05f);
+                        break;
+                    }
                 case < 0:
-                {
-                    ScrollZoom(true, 1.05f);
-                    break;
-                }
+                    {
+                        ScrollZoom(true, 1.05f);
+                        break;
+                    }
             }
         }
 
@@ -278,7 +277,7 @@ public static class HudManagerPatches
             }
 
             var playerName = player.Data.PlayerName ?? "Unknown";
-            
+
             var isHost = player.IsHost();
             var isTrackedSpectator = SpectatorRole.TrackedSpectators.Contains(playerName);
 
@@ -305,7 +304,7 @@ public static class HudManagerPatches
                 }
 
                 if (isHost)
-                { 
+                {
                     playerInfoSb.Append("</color>");
                 }
                 playerInfoSb.Append("</size>\n");
@@ -368,8 +367,7 @@ public static class HudManagerPatches
             var players = GameData.Instance.PlayerCount - SpectatorRole.TrackedSpectators.Count;
 
             var list = OptionGroupSingleton<RoleOptions>.Instance;
-            var maxCount = list.Slot.Count;
-            var maxSlots = players < maxCount ? players : maxCount;
+            var maxSlots = Math.Min(players, list.Slots.Count);
             DisplayedRoleListSlots = maxSlots;
 
             switch (roleAssignmentType)
@@ -380,9 +378,9 @@ public static class HudManagerPatches
                     RoleListBuilder.Append(":</color>\n");
                     for (var i = 0; i < maxSlots; i++)
                     {
-                        var slotValue = i >= list.Slot.Count
+                        var slotValue = i >= list.Slots.Count
                             ? (RoleListOption)(-1)
-                            : list.Slot[i].Value;
+                            : list.Slots[i];
 
                         RoleListBuilder.AppendLine(GetRoleForSlot(slotValue));
                     }
@@ -407,13 +405,13 @@ public static class HudManagerPatches
                         var draftNeutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
                         RoleListBuilder.Append(StoredDraftTitle);
                         RoleListBuilder.Append(":</color>\n");
-                        if (list.UseRoleListForPool.Value)
+                        if (list.UseRoleListForPool)
                         {
                             for (var i = 0; i < maxSlots; i++)
                             {
-                                var slotValue = i >= draftOpts.Slot.Count
+                                var slotValue = i >= draftOpts.Slots.Count
                                                 ? (RoleListOption)(-1)
-                                                : draftOpts.Slot[i].Value;
+                                                : draftOpts.Slots[i];
 
                                 RoleListBuilder.AppendLine(GetRoleForSlot(slotValue));
                             }
@@ -462,7 +460,7 @@ public static class HudManagerPatches
                             RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                 $"┗ {impSupport}: {draftImpOpts.MaxImpSupport.Value} {StoredMaximum}");
 
-                            if (draftNeutOpts.MaxNeutrals.Value > 0)
+                            if (draftNeutOpts.MaxNeutrals > 0)
                             {
                                 RoleListBuilder.AppendLine(TownOfUsPlugin.Culture,
                                     $"{TownOfUsColors.Neutral.ToTextColor()}{neutrals}</color>: {draftNeutOpts.MaxNeutrals.Value} {StoredMaximum}");
@@ -565,13 +563,13 @@ public static class HudManagerPatches
             ZoomButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(ButtonClickZoom));
             ZoomButton.name = "ZoomButton";
             var inactive = ZoomButton.transform.Find("Inactive");
-                inactive.GetComponent<SpriteRenderer>().sprite =
-                TouAssets.ZoomMinus.LoadAsset();
-                inactive.localPosition = new Vector3(0, 0.021f, -0.1f);
-                var active = ZoomButton.transform.Find("Active");
-                active.GetComponent<SpriteRenderer>().sprite =
-                TouAssets.ZoomMinusActive.LoadAsset();
-                active.localPosition = new Vector3(0, 0.021f, -0.1f);
+            inactive.GetComponent<SpriteRenderer>().sprite =
+            TouAssets.ZoomMinus;
+            inactive.localPosition = new Vector3(0, 0.021f, -0.1f);
+            var active = ZoomButton.transform.Find("Active");
+            active.GetComponent<SpriteRenderer>().sprite =
+            TouAssets.ZoomMinusActive;
+            active.localPosition = new Vector3(0, 0.021f, -0.1f);
             ZoomButton.GetComponentInChildren<AspectPosition>().Destroy();
             MiraApiSettings.SetUpButtonPositions();
         }
@@ -622,11 +620,11 @@ public static class HudManagerPatches
 
             var inactive = WikiButton.transform.Find("Inactive");
             inactive.GetComponent<SpriteRenderer>().sprite =
-                TouAssets.WikiButton.LoadAsset();
+                TouAssets.WikiButton;
             inactive.localPosition = new Vector3(0, 0.021f, -0.1f);
             var active = WikiButton.transform.Find("Active");
             active.GetComponent<SpriteRenderer>().sprite =
-                TouAssets.WikiButtonActive.LoadAsset();
+                TouAssets.WikiButtonActive;
             active.localPosition = new Vector3(0, 0.021f, -0.1f);
 
             WikiButton.GetComponentInChildren<AspectPosition>().Destroy();
@@ -780,7 +778,7 @@ public static class HudManagerPatches
         {
             var modifiers = MiscUtils.AllModifiers.Where(x =>
                 x.ParentMod != MiraPluginManager.GetPluginByGuid("auavengers.tou.mira") && x is GameModifier &&
-                x is not IWikiDiscoverable).ToList();
+                x is not IWikiDiscoverable);
             foreach (var modifier in modifiers)
             {
                 SoftWikiEntries.RegisterModifierEntry(modifier);
@@ -794,7 +792,7 @@ public static class HudManagerPatches
         BucketTooltipData.AllRoles.Clear();
         foreach (var pair in TooltipAlignments)
         {
-            var allRoles = MiscUtils.GetRegisteredRoles(pair.Value).ToList();
+            var allRoles = MiscUtils.GetRegisteredRoles(pair.Value);
             BucketTooltipData.RoleEntry[] roleEntry = [];
             foreach (var role in allRoles)
             {
@@ -820,7 +818,7 @@ public static class HudManagerPatches
         { RoleListOption.CrewProtective, RoleAlignment.CrewmateProtective },
         { RoleListOption.CrewPower, RoleAlignment.CrewmatePower },
         { RoleListOption.CrewSupport, RoleAlignment.CrewmateSupport },
-                
+
         { RoleListOption.NeutBenign, RoleAlignment.NeutralBenign },
         { RoleListOption.NeutEvil, RoleAlignment.NeutralEvil },
         { RoleListOption.NeutKilling, RoleAlignment.NeutralKilling },

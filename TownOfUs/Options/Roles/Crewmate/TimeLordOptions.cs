@@ -29,7 +29,7 @@ public sealed class TimeLordOptions : AbstractRoleOptionGroup<TimeLordRole>
 
     [ModdedToggleOption("TouOptionTimeLordCanUseVitals")]
     public bool CanUseVitals { get; set; } = false;
-    public ModdedEnumOption ReviveOnRewind { get; } = new("TouOptionTimeLordReviveOnRewind", (int)RewindRevive.UntilNextRound, typeof(RewindRevive), ["TouOptionTimeLordReviveEnumDisabled", "TouOptionTimeLordReviveEnumUntilNextRound", "TouOptionTimeLordReviveEnumFully"]);
+    public ModdedEnumOption<RewindRevive> ReviveOnRewind { get; } = new("TouOptionTimeLordReviveOnRewind", RewindRevive.UntilNextRound, ["TouOptionTimeLordReviveEnumDisabled", "TouOptionTimeLordReviveEnumUntilNextRound", "TouOptionTimeLordReviveEnumFully"]);
 
     [ModdedToggleOption("TouOptionTimeLordUndoTasksOnRewind")]
     public bool UndoTasksOnRewind { get; set; } = true;

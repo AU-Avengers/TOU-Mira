@@ -30,13 +30,13 @@ public static class ImpostorKillTimerPatch
                 ? time + 1f
                 : cdDefault;
             var cooldownAfter = Mathf.Clamp(time, 0, maxvalue);
-            
+
             // Only record if the cooldown actually changed
             if (Mathf.Abs(cooldownBefore - cooldownAfter) > 0.01f)
             {
                 TimeLordEventHandlers.RecordKillCooldown(__instance, cooldownBefore, cooldownAfter);
             }
-            
+
             __instance.killTimer = cooldownAfter;
             if (HudManager.InstanceExists && HudManager.Instance.KillButton != null)
             {

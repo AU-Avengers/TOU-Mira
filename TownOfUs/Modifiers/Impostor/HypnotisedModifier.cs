@@ -20,14 +20,14 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnActivate()
     {
         base.OnActivate();
         var touAbilityEvent = new TouAbilityEvent(AbilityType.HypnotistHypno, Hypnotist, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void OnDeactivate()
@@ -44,7 +44,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.HypnotistHysteria, Hypnotist, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
         if (!Player.AmOwner)
         {
             return;
@@ -56,7 +56,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
         }
 
         // Message($"HypnotisedModifier.Hysteria - {Player.Data.PlayerName}");
-        var players = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.HasDied() && x != Player).ToList();
+        var players = PlayerControl.AllPlayerControls.Where(x => !x.HasDied() && x != Player);
 
         var bodyType = Random.RandomRangeInt(0, 10);
         var bodyShape = PlayerBodyTypes.Normal;
@@ -101,7 +101,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Modifier.MassHysteriaNotification")}</color></b>",
                 Color.white,
-                new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hypnotist.LoadAsset());
+                new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hypnotist);
 
             notif1.AdjustNotification();
         }

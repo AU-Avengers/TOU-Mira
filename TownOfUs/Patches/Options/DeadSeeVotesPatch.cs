@@ -19,7 +19,7 @@ public static class DeadSeeVoteColorsPatch
         {
             PlayerMaterial.SetColors(voterPlayer.DefaultOutfit.ColorId, spriteRenderer);
         }
-        else if (player != null && player.Data.Role is ProsecutorRole pros && pros.HasProsecuted &&
+        else if (player?.Data.Role is ProsecutorRole { HasProsecuted: true } &&
                  !PlayerControl.LocalPlayer.Data.IsDead)
         {
             PlayerMaterial.SetColors(Palette.DisabledGrey, spriteRenderer);

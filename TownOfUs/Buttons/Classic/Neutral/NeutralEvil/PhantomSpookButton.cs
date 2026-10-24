@@ -21,7 +21,7 @@ public sealed class PhantomSpookButton : TownOfUsButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return Show && ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().HasAny();
+        return Show && ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().Any();
     }
 
     protected override void OnClick()
@@ -43,12 +43,12 @@ public sealed class PhantomSpookButton : TownOfUsButton
             {
                 playerMenu.ForceClose();
 
-                if (plr != null && ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().HasAny())
+                if (plr != null && ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().Any())
                 {
                     PlayerControl.LocalPlayer.RpcGhostRoleMurder(plr);
                     foreach (var mod in ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>())
                     {
-                        mod.ModifierComponent?.RemoveModifier(mod);
+                        mod.RemoveSelf();
                     }
 
                     Show = false;
@@ -63,6 +63,6 @@ public sealed class PhantomSpookButton : TownOfUsButton
             return false;
         }
 
-        return ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().HasAny();
+        return ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().Any();
     }
 }

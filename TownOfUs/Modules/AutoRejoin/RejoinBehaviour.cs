@@ -3,7 +3,6 @@ using AmongUs.Data;
 using InnerNet;
 using Reactor.Utilities.Attributes;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modules.AutoRejoin;
 
@@ -80,7 +79,7 @@ public class RejoinBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     {
         Info("[AutoRejoin] Looking for PlayAgainButton...");
 
-        var buttons = Object.FindObjectsOfType<PassiveButton>();
+        var buttons = FindObjectsOfType<PassiveButton>();
         foreach (var btn in buttons)
         {
             if (btn.gameObject.name == "PlayAgainButton")
@@ -91,7 +90,7 @@ public class RejoinBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
                     btn.OnClick.Invoke();
                     Info("[AutoRejoin] Clicked! Waiting for host...");
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     Warning($"[AutoRejoin] Click failed: {ex.Message}");
                     // Fallback
@@ -124,7 +123,7 @@ public class RejoinBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
                 Instance = go.AddComponent<RejoinBehaviour>();
                 Info("[AutoRejoin] RejoinBehaviour created.");
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Error($"[AutoRejoin] Failed to create RejoinBehaviour: {ex.Message}");
                 return;
@@ -136,9 +135,9 @@ public class RejoinBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     public static void CancelRejoin()
     {
         Instance?.Cancel();
-        PendingRejoin         = false;
-        SavedGameId           = -1;
+        PendingRejoin = false;
+        SavedGameId = -1;
         CurrentEndGameManager = null;
-        ScreenText            = "";
+        ScreenText = "";
     }
 }

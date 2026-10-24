@@ -97,7 +97,7 @@ public static class GuardianAngelEvents
             return false;
         }
 
-        if (!target.HasModifier<GuardianAngelProtectModifier>() ||
+        if (!target.TryGetModifier<GuardianAngelProtectModifier>(out var mod) ||
             source.PlayerId == target.PlayerId ||
             @event is BeforeMurderEvent { IgnoreDefense: true } ||
             @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
@@ -108,11 +108,11 @@ public static class GuardianAngelEvents
         @event.Cancel();
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a ga shield, stopping an attack from {source.Data.PlayerName}!");
 
-        var fairy = target.GetModifier<GuardianAngelProtectModifier>()?.Guardian;
+        var fairy = mod.Guardian;
         if (fairy != null)
         {
             var touAbilityEvent = new TouAbilityEvent(AbilityType.FairyProtected, fairy, target);
-            MiraEventManager.InvokeEvent(touAbilityEvent);
+            touAbilityEvent.InvokeEvent();
         }
 
         return true;

@@ -25,7 +25,7 @@ public sealed class HangoverModifier(float duration, bool startTimer) : TimedMod
         {
             var notif = Helpers.CreateAndShowNotification(
                     $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.HangoverStartNotification")}</color></b>", Color.white,
-                    spr: TouRoleIcons.Barkeeper.LoadAsset());
+                    spr: TouRoleIcons.Barkeeper);
 
             notif.Text.SetOutlineThickness(0.35f);
             notif.transform.localPosition = new Vector3(0f, 1f, -20f);
@@ -38,7 +38,7 @@ public sealed class HangoverModifier(float duration, bool startTimer) : TimedMod
         {
             var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.HangoverEndNotification")}</color></b>", Color.white,
-            spr: TouRoleIcons.Barkeeper.LoadAsset());
+            spr: TouRoleIcons.Barkeeper);
 
             notif1.Text.SetOutlineThickness(0.35f);
             notif1.transform.localPosition = new Vector3(0f, 1f, -20f);

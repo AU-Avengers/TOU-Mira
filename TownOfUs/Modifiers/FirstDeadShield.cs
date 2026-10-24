@@ -34,8 +34,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
             return 0;
         }
 
-        var validPlayer = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
+        var validPlayer = PlayerControl.AllPlayerControls.Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
             .OrderBy(obj => FirstDeadPatch.PlayerNames.IndexOf(obj.name)).FirstOrDefault();
 
         return validPlayer != null && OptionGroupSingleton<InitialRoundOptions>.Instance.FirstDeathShield
@@ -50,8 +49,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
             return 0;
         }
 
-        var validPlayer = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
+        var validPlayer = PlayerControl.AllPlayerControls.Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
             .OrderBy(obj => FirstDeadPatch.PlayerNames.IndexOf(obj.name)).FirstOrDefault();
 
         return validPlayer != null && OptionGroupSingleton<InitialRoundOptions>.Instance.FirstDeathShield
@@ -66,8 +64,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
             return false;
         }
 
-        var validPlayer = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
+        var validPlayer = PlayerControl.AllPlayerControls.Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
             .OrderBy(obj => FirstDeadPatch.PlayerNames.IndexOf(obj.name)).FirstOrDefault();
 
         return role.Player == validPlayer;
@@ -75,13 +72,13 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
 
     public override string GetDescription()
     {
-            return !HideOnUi ? MiraLocaleManager.Get("TouFirstDeathShieldDescription") : string.Empty;
+        return !HideOnUi ? MiraLocaleManager.Get("TouFirstDeathShieldDescription") : string.Empty;
     }
 
     public override void OnActivate()
     {
         FirstRoundShield =
-            AnimStore.SpawnAnimBody(Player, TouAssets.FirstRoundShield.LoadAsset(), false, -1.1f, -0.225f, 1.5f)!;
+            AnimStore.SpawnAnimBody(Player, TouAssets.FirstRoundShield, false, -1.1f, -0.225f, 1.5f)!;
     }
 
     public override void OnDeath(DeathReason reason)
@@ -89,7 +86,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
         base.OnDeath(reason);
 
         FirstRoundShield?.SetActive(false);
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeactivate()
@@ -120,7 +117,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
         else if (MeetingHud.Instance)
         {
             FirstRoundShield?.SetActive(false);
-            ModifierComponent!.RemoveModifier(this);
+            RemoveSelf();
         }
     }
 }

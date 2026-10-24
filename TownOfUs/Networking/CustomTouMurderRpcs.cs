@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using AmongUs.Data;
 using Assets.CoreScripts;
 using BepInEx.Unity.IL2CPP.Utils;
@@ -173,11 +174,11 @@ public static class CustomTouMurderRpcs
         var firstTarget = true;
         var victims = new Dictionary<byte, string>();
         var survivors = new Dictionary<byte, string>();
-        var allPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => targets.ContainsKey(x.PlayerId)).ToList();
+        var allPlayers = PlayerControl.AllPlayerControls.Where(x => targets.ContainsKey(x.PlayerId));
         foreach (var target in allPlayers)
         {
             var beforeMurderEvent = new BeforeMurderEvent(source, target, isIndirect, ignoreShields, inMeeting);
-            MiraEventManager.InvokeEvent(beforeMurderEvent);
+            beforeMurderEvent.InvokeEvent();
             var defenseFlag = beforeMurderEvent.IgnoreDefense;
             var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
             if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) ||
@@ -213,7 +214,7 @@ public static class CustomTouMurderRpcs
             firstTarget = false;
         }
 
-        if (victims.HasAny() && source.AmOwner)
+        if (victims.Count != 0 && source.AmOwner)
         {
             source.isKilling = true;
         }
@@ -307,15 +308,15 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
+        else if (role is ITownOfUsRole { IdPart: not "KEY_MISS" and var idPart })
         {
-            cod = touRole.IdPart;
+            cod = idPart;
         }
 
         var murderResultFlagsGood = MurderResultFlags.DecisionByHost | MurderResultFlags.Succeeded;
         var murderResultFlagsBad = MurderResultFlags.DecisionByHost | MurderResultFlags.FailedError;
 
-        var allVictims = PlayerControl.AllPlayerControls.ToArray().Where(x => victims.ContainsKey(x.PlayerId)).ToList();
+        var allVictims = PlayerControl.AllPlayerControls.Where(x => victims.ContainsKey(x.PlayerId));
         foreach (var target in allVictims)
         {
             GameHistory.UpdatePlayerDeathData(target.PlayerId, MiraLocaleManager.Get($"DiedTo{cod}"), 0,
@@ -339,8 +340,7 @@ public static class CustomTouMurderRpcs
                 playKillSound);
         }
 
-        var allSurvivors = PlayerControl.AllPlayerControls.ToArray().Where(x => survivors.ContainsKey(x.PlayerId))
-            .ToList();
+        var allSurvivors = PlayerControl.AllPlayerControls.Where(x => survivors.ContainsKey(x.PlayerId));
         foreach (var target in allSurvivors)
         {
             source.CustomMurder(
@@ -398,14 +398,14 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
+        else if (role is ITownOfUsRole { IdPart: not "KEY_MISS" and var idPart })
         {
-            cod = touRole.IdPart;
+            cod = idPart;
         }
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
 
-        var allPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => targets.ContainsKey(x.PlayerId)).ToList();
+        var allPlayers = PlayerControl.AllPlayerControls.Where(x => targets.ContainsKey(x.PlayerId));
         foreach (var target in allPlayers)
         {
             if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
@@ -492,7 +492,7 @@ public static class CustomTouMurderRpcs
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, true, ignoreShield, MeetingCheck.OutsideMeeting);
-        MiraEventManager.InvokeEvent(beforeMurderEvent);
+        beforeMurderEvent.InvokeEvent();
         var defenseFlag = beforeMurderEvent.IgnoreDefense;
 
         var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
@@ -575,9 +575,9 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
+        else if (role is ITownOfUsRole { IdPart: not "KEY_MISS" and var idPart })
         {
-            cod = touRole.IdPart;
+            cod = idPart;
         }
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
@@ -665,7 +665,7 @@ public static class CustomTouMurderRpcs
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, true, ignoreShield, MeetingCheck.OutsideMeeting);
-        MiraEventManager.InvokeEvent(beforeMurderEvent);
+        beforeMurderEvent.InvokeEvent();
         var defenseFlag = beforeMurderEvent.IgnoreDefense;
 
         var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
@@ -755,9 +755,9 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
+        else if (role is ITownOfUsRole { IdPart: not "KEY_MISS" and var idPart })
         {
-            cod = touRole.IdPart;
+            cod = idPart;
         }
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
@@ -876,7 +876,7 @@ public static class CustomTouMurderRpcs
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, isIndirect, ignoreShield, inMeeting);
-        MiraEventManager.InvokeEvent(beforeMurderEvent);
+        beforeMurderEvent.InvokeEvent();
         var defenseFlag = beforeMurderEvent.IgnoreDefense;
         var indirectFlag = beforeMurderEvent.IsIndirectAttack;
         var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
@@ -962,9 +962,9 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
+        else if (role is ITownOfUsRole { IdPart: not "KEY_MISS" and var idPart })
         {
-            cod = touRole.IdPart;
+            cod = idPart;
         }
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
@@ -1010,7 +1010,7 @@ public static class CustomTouMurderRpcs
         var cooldownAfter = player.killTimer;
         if (Mathf.Abs(cooldownBefore - cooldownAfter) > 0.01f)
         {
-            TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordKillCooldown(player, cooldownBefore, cooldownAfter);
+            Events.Crewmate.TimeLordEventHandlers.RecordKillCooldown(player, cooldownBefore, cooldownAfter);
         }
 
         RecordedKillCooldown = -1f;
@@ -1043,7 +1043,7 @@ public static class CustomTouMurderRpcs
             role = source.Data.Role;
         }
 
-        if (role is not ITownOfUsRole touRole || (touRole.RoleAlignment is not RoleAlignment.NeutralAfterlife && touRole.RoleAlignment is not RoleAlignment.NeutralEvil))
+        if (role is not ITownOfUsRole { RoleAlignment: RoleAlignment.NeutralAfterlife or RoleAlignment.NeutralEvil, IdPart: var idPart })
         {
             return;
         }
@@ -1054,9 +1054,9 @@ public static class CustomTouMurderRpcs
         }
 
         var cod = "Killer";
-        if (touRole.IdPart != "KEY_MISS")
+        if (idPart != "KEY_MISS")
         {
-            cod = touRole.IdPart;
+            cod = idPart;
         }
 
         GameHistory.UpdatePlayerDeathData(target.PlayerId, MiraLocaleManager.Get($"DiedTo{cod}"), 0,
@@ -1125,7 +1125,7 @@ public static class CustomTouMurderRpcs
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, true, true, MeetingCheck.ForMeeting);
-        MiraEventManager.InvokeEvent(beforeMurderEvent);
+        beforeMurderEvent.InvokeEvent();
         if (!MeetingHud.Instance && !ExileController.Instance)
         {
             beforeMurderEvent.Cancel();
@@ -1184,9 +1184,9 @@ public static class CustomTouMurderRpcs
         {
             cod = causeOfDeath;
         }
-        else if (role is ITownOfUsRole touRole && touRole.IdPart != "KEY_MISS")
+        else if (role is ITownOfUsRole { IdPart: not "KEY_MISS" and var idPart })
         {
-            cod = touRole.IdPart;
+            cod = idPart;
         }
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
@@ -1333,12 +1333,14 @@ public static class CustomTouMurderRpcs
         source.MyPhysics.StartCoroutine(CoPerformMeetingKill(source, target));
     }
 
+    [SuppressMessage("Minor Code Smell", "S2386:Mutable fields should not be \"public static\"", Justification = "Intentional.")]
     public static OverlayKillAnimation[] StoredKillAnimations = [];
+
     public static void TriggerKillAnimation(this KillOverlay overlay, NetworkedPlayerInfo killer,
         NetworkedPlayerInfo victim, ExtendedKillAnimType animType)
     {
         OverlayKillAnimation killAnimation;
-        if (!StoredKillAnimations.HasAny())
+        if (StoredKillAnimations.Length == 0)
         {
             OverlayKillAnimation[] self = overlay.KillAnims;
             StoredKillAnimations = self.AddRangeToArray(overlay.CustomKillAnimations);
@@ -1393,10 +1395,7 @@ public static class CustomTouMurderRpcs
 
         if (isParticipant)
         {
-            if (cam != null)
-            {
-                cam.Locked = true;
-            }
+            cam?.Locked = true;
 
             ConsoleJoystick.SetMode_Task();
             if (PlayerControl.LocalPlayer.AmOwner)
@@ -1410,17 +1409,14 @@ public static class CustomTouMurderRpcs
         KillAnimation.SetMovement(target, true);
 
         var afterMurderEvent = new AfterMurderEvent(source, target, null);
-        MiraEventManager.InvokeEvent(afterMurderEvent);
+        afterMurderEvent.InvokeEvent();
 
         if (!isParticipant)
         {
             yield break;
         }
 
-        if (cam != null)
-        {
-            cam.Locked = false;
-        }
+        cam?.Locked = false;
 
         PlayerControl.LocalPlayer.isKilling = false;
         source.isKilling = false;
@@ -1463,14 +1459,14 @@ public static class CustomTouMurderRpcs
 
         var bloodAnim = animation.transform.GetChild(0).GetComponent<SpriteAnim>();
 
-        bloodAnim.Play(trueAnim.Key.LoadAsset(), 1.05f);
-        bodysAnim.Play(trueAnim.Value.LoadAsset(), 1.05f);
+        bloodAnim.Play(trueAnim.Key, 1.05f);
+        bodysAnim.Play(trueAnim.Value, 1.05f);
         var bodyAnimLength = bodysAnim.m_currAnim.length;
-        var isRhm = (bloodAnim.Clip == TouAssets.MeetingDeathBloodAnim4.LoadAsset());
+        var isRhm = (bloodAnim.Clip == TouAssets.MeetingDeathBloodAnim4);
 
         if (isRhm)
         {
-            SoundManager.Instance.PlaySound(TouAudio.LaserKillSound.LoadAsset(), false);
+            SoundManager.Instance.PlaySound(TouAudio.LaserKillSound, false);
             yield return new WaitForSeconds(bodyAnimLength);
         }
         else

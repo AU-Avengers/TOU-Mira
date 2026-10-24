@@ -18,7 +18,7 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Impostor,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Disperser.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Disperser,
             "TouMira.Modifier.Impostor.Disperser", 1.45f));
     public override string IdPart => "Disperser";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -54,12 +54,12 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.DisperserChance;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.DisperserChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.DisperserAmount;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.DisperserAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)
@@ -81,7 +81,7 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
 
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>", Color.white,
-            new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Disperser.LoadAsset());
+            new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Disperser);
 
         notif1.AdjustNotification();
     }
@@ -119,7 +119,7 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
         {
             var player = MiscUtils.PlayerById(key)!;
             player.transform.position = value;
-            
+
             if (player.Data?.Role is ITransportTrigger triggerRole)
             {
                 triggerRole.OnTransport();
@@ -157,8 +157,7 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
 
     public static Dictionary<byte, Vector2> GenerateDisperseCoordinates()
     {
-        var targets = PlayerControl.AllPlayerControls.ToArray()
-            .Where(player => !player.Data.IsDead && !player.Data.Disconnected).ToList();
+        var targets = PlayerControl.AllPlayerControls.Where(player => !player.Data.IsDead && !player.Data.Disconnected).ToList();
 
         // players with the ImmovableModifier can't be dispersed
         targets.RemoveAll(x => x.HasModifier<ImmovableModifier>());
