@@ -49,8 +49,8 @@ public static class TimeLordRewindSystem
     }
 
     // Snapshot, CircularBuffer, TaskStepBuffer, and BodyPosBuffer moved to TimeLordSnapshotBuffer helper
-    private static readonly TimeLord.CircularBuffer Buffer = new(1024);
-    private static readonly TimeLord.TaskStepBuffer TaskBuffer = new(1024, 24);
+    private static readonly CircularBuffer Buffer = new(1024);
+    private static readonly TaskStepBuffer TaskBuffer = new(1024, 24);
     private static uint[] _trackedTaskIds = [];
     private static int _trackedTaskCount;
 
@@ -117,7 +117,7 @@ public static class TimeLordRewindSystem
     private static readonly HashSet<CustomActionButton> KillButtonCooldownMaxClampedThisRewind =
         new(ReferenceEqualityComparer<CustomActionButton>.Instance);
 
-    private static readonly Dictionary<byte, TimeLord.BodyPosBuffer> HostBodyPosHistory = [];
+    private static readonly Dictionary<byte, BodyPosBuffer> HostBodyPosHistory = [];
     private static List<ScheduledBodyPos>? _hostBodyPlacements;
 
     private readonly record struct HostTaskCompletion(byte PlayerId, uint TaskId, DateTime TimeUtc, int TaskStep);
@@ -408,7 +408,7 @@ public static class TimeLordRewindSystem
                 {
                     taskStep = 3;
                 }
-                else if (taskType is TaskTypes.FuelEngines or global::TaskTypes.ExtractFuel)
+                else if (taskType is TaskTypes.FuelEngines or TaskTypes.ExtractFuel)
                 {
                     taskStep = 2;
                 }
@@ -661,7 +661,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        Buffer.Add(new TimeLord.Snapshot(Time.time, pos, (TimeLord.SpecialAnim)anim, (TimeLord.SnapshotState)flags, ventId));
+        Buffer.Add(new Snapshot(Time.time, pos, (TimeLord.SpecialAnim)anim, (TimeLord.SnapshotState)flags, ventId));
         _lastRecordedPos = pos;
         _hasLastRecordedPos = true;
 
@@ -1247,7 +1247,7 @@ public static class TimeLordRewindSystem
 
             if (!HostBodyPosHistory.TryGetValue(id, out var buf))
             {
-                buf = new TimeLord.BodyPosBuffer(cap);
+                buf = new BodyPosBuffer(cap);
                 HostBodyPosHistory[id] = buf;
             }
 
@@ -1360,7 +1360,7 @@ public static class TimeLordRewindSystem
         }
     }
 
-    private static void ApplyVentSnapshotState(PlayerControl lp, TimeLord.Snapshot snap)
+    private static void ApplyVentSnapshotState(PlayerControl lp, Snapshot snap)
     {
         var wantInVent = (snap.Flags & (TimeLord.SnapshotState)SnapshotState.InVent) != 0;
 
@@ -1644,8 +1644,8 @@ public static class TimeLordRewindSystem
             return true;
         }
 
-        TimeLord.Snapshot snap = default;
-        TimeLord.TaskStepSnapshot taskSnap = default;
+        Snapshot snap = default;
+        TaskStepSnapshot taskSnap = default;
         var hitHistoryCutoff = false;
         for (var i = 0; i < popsThisTick; i++)
         {
@@ -2104,7 +2104,7 @@ return true;*/
         }
     }
 
-    private static void ApplyLocalTaskSteps(PlayerControl lp, TimeLord.TaskStepSnapshot snap)
+    private static void ApplyLocalTaskSteps(PlayerControl lp, TaskStepSnapshot snap)
     {
         if (lp.AmOwner && Minigame.Instance)
         {
@@ -2121,7 +2121,7 @@ return true;*/
             }
 
             var npt = target.Cast<NormalPlayerTask>();
-            if (npt.TaskType is TaskTypes.InspectSample or TaskTypes.FuelEngines or global::TaskTypes.ExtractFuel or TaskTypes.ChartCourse or TaskTypes.UploadData or TaskTypes.SortRecords or TaskTypes.OpenWaterways or TaskTypes.EmptyGarbage or TaskTypes.EmptyChute or TaskTypes.SubmitScan or TaskTypes.RebootWifi or TaskTypes.WaterPlants or TaskTypes.PickUpTowels or TaskTypes.DevelopPhotos)
+            if (npt.TaskType is TaskTypes.InspectSample or TaskTypes.FuelEngines or TaskTypes.ExtractFuel or TaskTypes.ChartCourse or TaskTypes.UploadData or TaskTypes.SortRecords or TaskTypes.OpenWaterways or TaskTypes.EmptyGarbage or TaskTypes.EmptyChute or TaskTypes.SubmitScan or TaskTypes.RebootWifi or TaskTypes.WaterPlants or TaskTypes.PickUpTowels or TaskTypes.DevelopPhotos)
             {
                 continue;
             }
@@ -2198,9 +2198,9 @@ return true;*/
         var rewindWindowStart = _rewindHistoryCutoffTime;
         var rewindWindowEnd = _rewindStartTime; // Time when rewind started
 
-        var killCooldownEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillCooldownEvent>(rewindWindowStart, rewindWindowEnd);
+        var killCooldownEvents = eventQueue.GetEvents<TimeLordKillCooldownEvent>(rewindWindowStart, rewindWindowEnd);
 
-        TownOfUs.Events.TouEvents.TimeLordKillCooldownEvent? mostRecentEvent = null;
+        TimeLordKillCooldownEvent? mostRecentEvent = null;
         foreach (var kcEvent in killCooldownEvents)
         {
             if (kcEvent.Player == player && kcEvent.Time <= snapshotTime &&
@@ -2219,7 +2219,7 @@ return true;*/
 
             if (!LocalKillCooldownMaxClampedThisRewind)
             {
-                var killEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillEvent>(rewindWindowStart, rewindWindowEnd);
+                var killEvents = eventQueue.GetEvents<TimeLordKillEvent>(rewindWindowStart, rewindWindowEnd);
                 foreach (var killEvent in killEvents)
                 {
                     if (killEvent.Player != player)
@@ -2425,7 +2425,7 @@ return true;*/
 
                 // For tasks excluded from local step tracking, use special handling
                 var taskType = n.TaskType;
-                if (!foundStoredStep || taskType is TaskTypes.InspectSample or TaskTypes.FuelEngines or global::TaskTypes.ExtractFuel
+                if (!foundStoredStep || taskType is TaskTypes.InspectSample or TaskTypes.FuelEngines or TaskTypes.ExtractFuel
                     or TaskTypes.ChartCourse or TaskTypes.UploadData or TaskTypes.SortRecords or TaskTypes.OpenWaterways
                     or TaskTypes.EmptyGarbage or TaskTypes.EmptyChute or TaskTypes.SubmitScan or TaskTypes.RebootWifi
                     or TaskTypes.WaterPlants or TaskTypes.PickUpTowels or TaskTypes.DevelopPhotos)
@@ -2446,7 +2446,7 @@ return true;*/
                         // Waterwheels: if at 3/3, restore to 2/3
                         restoreStep = foundStoredStep ? Math.Max(2, storedStep - 1) : 2;
                     }
-                    else if (taskType is TaskTypes.FuelEngines or global::TaskTypes.ExtractFuel)
+                    else if (taskType is TaskTypes.FuelEngines or TaskTypes.ExtractFuel)
                     {
                         // Fuel tasks: restore to step 1 (first part done, second part pending)
                         restoreStep = foundStoredStep ? Math.Max(1, storedStep - 1) : 1;

@@ -111,7 +111,7 @@ public static class IntroScenePatches
         int num2 = (i + 1) / 2;
         float num3 = (i == 0) ? -8 : -1;
         PoolablePlayer poolablePlayer =
-            UnityEngine.Object.Instantiate<PoolablePlayer>(__instance.PlayerPrefab, __instance.transform);
+            UnityEngine.Object.Instantiate(__instance.PlayerPrefab, __instance.transform);
         poolablePlayer.name = pData.PlayerName + "Dummy";
         poolablePlayer.SetFlipX(i % 2 == 0);
         if (impostorPositioning)

@@ -146,7 +146,7 @@ public sealed class ScientistButton : TownOfUsButton, ILegacyCapable
             PlayerControl.LocalPlayer.NetTransform.Halt();
         }
 
-        vitals = Object.Instantiate<VitalsMinigame>(RoleManager.Instance.GetRole(RoleTypes.Scientist)
+        vitals = Object.Instantiate(RoleManager.Instance.GetRole(RoleTypes.Scientist)
             .Cast<ScientistRole>().VitalsPrefab);
         vitals.transform.SetParent(Camera.main.transform, false);
         vitals.transform.localPosition = new Vector3(0f, 0f, -50f);

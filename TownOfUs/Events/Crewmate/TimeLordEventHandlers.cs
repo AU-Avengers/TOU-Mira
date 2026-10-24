@@ -157,7 +157,7 @@ public static class TimeLordEventHandlers
     /// <summary>
     /// Records a Chef cook action and fires the appropriate event.
     /// </summary>
-    public static void RecordChefCook(PlayerControl chef, DeadBody body, TownOfUs.Roles.Neutral.PlatterType platterType)
+    public static void RecordChefCook(PlayerControl chef, DeadBody body, Roles.Neutral.PlatterType platterType)
     {
         if (chef == null || body == null || !TimeLordRewindSystem.MatchHasTimeLord())
         {
@@ -172,7 +172,7 @@ public static class TimeLordEventHandlers
     /// <summary>
     /// Records a Chef serve action and fires the appropriate event.
     /// </summary>
-    public static void RecordChefServe(PlayerControl chef, PlayerControl target, byte bodyId, TownOfUs.Roles.Neutral.PlatterType platterType)
+    public static void RecordChefServe(PlayerControl chef, PlayerControl target, byte bodyId, Roles.Neutral.PlatterType platterType)
     {
         if (chef == null || target == null || !TimeLordRewindSystem.MatchHasTimeLord())
         {
@@ -316,7 +316,7 @@ public static class TimeLordEventHandlers
 
         TimeLordBodyManager.RestoreCleanedBody(bodyId);
 
-        if (chef != null && chef.Data?.Role is TownOfUs.Roles.Neutral.ChefRole chefRole)
+        if (chef != null && chef.Data?.Role is Roles.Neutral.ChefRole chefRole)
         {
             var idx = chefRole.StoredBodies.FindIndex(x => x.Key == bodyId);
             if (idx >= 0)
@@ -354,9 +354,9 @@ public static class TimeLordEventHandlers
         target.TryRemoveModifier<TownOfUs.Modifiers.Neutral.ChefServedModifier>();
 
         // Add the body back to Chef's stored bodies
-        if (chef != null && chef.Data?.Role is TownOfUs.Roles.Neutral.ChefRole chefRole)
+        if (chef != null && chef.Data?.Role is Roles.Neutral.ChefRole chefRole)
         {
-            chefRole.StoredBodies.Insert(0, new KeyValuePair<int, TownOfUs.Roles.Neutral.PlatterType>(
+            chefRole.StoredBodies.Insert(0, new KeyValuePair<int, Roles.Neutral.PlatterType>(
                 bodyId, platterType));
             chefRole.BodiesServed = Math.Max(0, chefRole.BodiesServed - 1);
         }
@@ -388,7 +388,7 @@ public static class TimeLordEventHandlers
                 var startTime = snapshotTime - historySeconds;
                 var endTime = snapshotTime;
 
-                var killEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillEvent>(startTime, endTime);
+                var killEvents = eventQueue.GetEvents<TimeLordKillEvent>(startTime, endTime);
                 foreach (var killEvent in killEvents)
                 {
                     if (killEvent.Player == player && killEvent.Time <= snapshotTime)

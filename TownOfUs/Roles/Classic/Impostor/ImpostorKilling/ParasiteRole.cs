@@ -736,7 +736,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         if (parasite.AmOwner)
         {
             EnsureCamera();
-            var btn = CustomButtonSingleton<TownOfUs.Buttons.Impostor.ParasiteOvertakeButton>.Instance;
+            var btn = CustomButtonSingleton<Buttons.Impostor.ParasiteOvertakeButton>.Instance;
             btn.SetActive(true, this);
             btn.StartControlEffectIfEnabled();
             CreateNotification();
@@ -826,7 +826,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             {
                 parasite.walkingToVent = false;
 
-                var btn = CustomButtonSingleton<TownOfUs.Buttons.Impostor.ParasiteOvertakeButton>.Instance;
+                var btn = CustomButtonSingleton<Buttons.Impostor.ParasiteOvertakeButton>.Instance;
                 btn.SetActive(true, role);
                 btn.StopControlEffectAndApplyCooldown();
             }

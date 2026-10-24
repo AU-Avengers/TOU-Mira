@@ -465,7 +465,7 @@ namespace TownOfUs.Modules.DraftMode
 
             roleText?.color = color;
 
-            foreach (var tmp in _roleCardNewRoleObj.GetComponentsInChildren<TMPro.TMP_Text>())
+            foreach (var tmp in _roleCardNewRoleObj.GetComponentsInChildren<TMP_Text>())
             {
                 var r = tmp.GetComponent<Renderer>();
                 if (r != null)
@@ -537,7 +537,7 @@ namespace TownOfUs.Modules.DraftMode
                     return;
                 }
 
-                if (r is not TownOfUs.Modules.Wiki.IWikiDiscoverable wikiTarget)
+                if (r is not IWikiDiscoverable wikiTarget)
                 {
                     MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
                         $"[DraftStatusOverlay] Role {roleId} not IWikiDiscoverable");
@@ -561,7 +561,7 @@ namespace TownOfUs.Modules.DraftMode
         }
 
         [HideFromIl2Cpp]
-        private IEnumerator CoWaitForWikiDestroyed(TownOfUs.Modules.Wiki.IngameWikiMinigame wiki)
+        private IEnumerator CoWaitForWikiDestroyed(IngameWikiMinigame wiki)
         {
             while (wiki != null)
                 yield return null;

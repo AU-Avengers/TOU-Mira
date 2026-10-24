@@ -818,7 +818,7 @@ public static class Extensions
         return hackedSprite;
     }
 
-    public static void FillWhere<T>(this List<T> source, List<T> destination, System.Predicate<T> match)
+    public static void FillWhere<T>(this List<T> source, List<T> destination, Predicate<T> match)
     {
         destination.Clear(); // Clear the reusable list
         for (int i = 0; i < source.Count; i++)

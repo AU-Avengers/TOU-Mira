@@ -89,7 +89,7 @@ public static class SentryCameraUtilities
             _submergedConsoleSwappedThisRound = true;
             Logger.LogInfo($"[Submerged] Swapped {submergedConsoles.Length} SecurityConsole(s) to use Polus Surv_Panel minigame (SentryCams={SentryRole.Cameras.Count})");
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Logger.LogWarning($"Failed to swap Submerged SecurityConsole to Polus surveillance: {ex.Message}");
         }
@@ -267,7 +267,7 @@ public static class SentryCameraUtilities
 
             camera.SetAnimation(false);
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Logger.LogWarning($"Failed to set sentry camera animations: {ex.Message}");
         }

@@ -697,7 +697,7 @@ namespace TownOfUs.Modules.DraftMode
 
             foreach (var sr in newRoleObj.GetComponentsInChildren<SpriteRenderer>(true))
             { sr.sortingLayerName = "UI"; sr.sortingOrder = 70; }
-            foreach (var tmp in newRoleObj.GetComponentsInChildren<TMPro.TMP_Text>(true))
+            foreach (var tmp in newRoleObj.GetComponentsInChildren<TMP_Text>(true))
             {
                 var rr = tmp.GetComponent<Renderer>();
                 if (rr != null) { rr.sortingLayerName = "UI"; rr.sortingOrder = 74; }

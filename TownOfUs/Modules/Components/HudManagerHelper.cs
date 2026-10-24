@@ -176,7 +176,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     }
                 }));
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Error($"Failed to create custom button {button.GetType().Name}: {e}");
             }

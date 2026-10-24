@@ -90,7 +90,7 @@ public class RejoinBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
                     btn.OnClick.Invoke();
                     Info("[AutoRejoin] Clicked! Waiting for host...");
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     Warning($"[AutoRejoin] Click failed: {ex.Message}");
                     // Fallback
@@ -123,7 +123,7 @@ public class RejoinBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
                 Instance = go.AddComponent<RejoinBehaviour>();
                 Info("[AutoRejoin] RejoinBehaviour created.");
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Error($"[AutoRejoin] Failed to create RejoinBehaviour: {ex.Message}");
                 return;

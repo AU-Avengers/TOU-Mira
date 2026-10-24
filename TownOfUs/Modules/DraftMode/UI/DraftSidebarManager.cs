@@ -112,7 +112,7 @@ namespace TownOfUs.Modules.DraftMode
 
         private static string BuildStaticRows(int total, int picked)
         {
-            var sb = new System.Text.StringBuilder();
+            var sb = new StringBuilder();
             sb.AppendLine();
             sb.Append(System.Globalization.CultureInfo.InvariantCulture, $"<size=64%><color=#6B7178>{picked} / {total}  {MiraLocaleManager.Get("TouDraftRolesPickedLabel", "ROLES PICKED")}</color></size>\n");
             sb.AppendLine();

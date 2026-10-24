@@ -73,7 +73,7 @@ public static class TimeLordBodyManager
 
         // Check if body was being dragged by Undertaker
         byte? draggedBy = null;
-        foreach (var drag in MiraAPI.Modifiers.ModifierUtils.GetActiveModifiers<TownOfUs.Modifiers.Impostor.DragModifier>())
+        foreach (var drag in MiraAPI.Modifiers.ModifierUtils.GetActiveModifiers<Modifiers.Impostor.DragModifier>())
         {
             if (drag.BodyId == body.ParentId)
             {
@@ -197,7 +197,7 @@ public static class TimeLordBodyManager
         if (rec.DraggedByPlayerId.HasValue && !body.Reported)
         {
             var dragger = MiscUtils.PlayerById(rec.DraggedByPlayerId.Value);
-            if (dragger != null && dragger.Data?.Role is TownOfUs.Roles.Impostor.UndertakerRole)
+            if (dragger != null && dragger.Data?.Role is Roles.Impostor.UndertakerRole)
             {
                 Roles.Impostor.UndertakerRole.RpcStartDragging(dragger, bodyId);
             }
