@@ -501,6 +501,7 @@ You may disable this message through your option menu.</string>
   <string name="DiedToSheriff">Shot</string>
   <string name="DiedToOfficer">Wounded</string>
   <string name="DiedToDeputy">Blasted</string>
+  <string name="DiedToHunter">Gunned Down</string>
   <string name="DiedToSwapper">Swapped</string>
   <string name="DiedToMarshal">Tribunal</string>
   <string name="DiedToVeteran">Attacked</string>
@@ -520,13 +521,14 @@ You may disable this message through your option menu.</string>
   <string name="DiedToSpectre">Spooked</string>
   <string name="DiedToInquisitor">Vanquished</string>
   <string name="DiedToAmbusherAmbush">Ambushed</string>
-  <string name="DiedToBomberBomb">Bombed</string>
+  <string name="DiedToBomberBomb">Blown Up</string>
   <string name="DiedToSpellslingerHexBomb">Disintegrated</string>
   <string name="DiedToViper">Dissolved</string>
   <string name="DiedToParasite">Overtaken</string>
   <string name="DiedToPuppetControl">Targeted</string>
   <string name="DiedToPoison">Poisoned</string>
   <string name="DiedToTempRevive">Temporarily Revived</string>
+  <string name="DiedToWraith">Terrified</string>
   <!-- Status Effects -->
     <string name="TouFirstDeathShield">First Death Shield</string>
   <string name="TouClericBarrier">Cleric Barrier</string>
