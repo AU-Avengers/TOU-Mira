@@ -20,7 +20,6 @@ using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 using UnityEngine.UI;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Crewmate;
 

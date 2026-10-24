@@ -12,7 +12,6 @@ using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Neutral;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace TownOfUs.Modules;

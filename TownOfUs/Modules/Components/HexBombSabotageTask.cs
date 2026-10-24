@@ -10,7 +10,6 @@ using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Roles.Impostor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modules.Components;
 

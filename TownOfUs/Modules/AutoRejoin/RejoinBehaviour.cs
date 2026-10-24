@@ -3,7 +3,6 @@ using AmongUs.Data;
 using InnerNet;
 using Reactor.Utilities.Attributes;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modules.AutoRejoin;
 

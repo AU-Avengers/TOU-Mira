@@ -18,7 +18,6 @@ using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches.ControlSystem;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Impostor;
 
