@@ -170,6 +170,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
     public override void OnActivate()
     {
+        base.OnActivate();
         if (!Player.AmOwner)
         {
             return;
