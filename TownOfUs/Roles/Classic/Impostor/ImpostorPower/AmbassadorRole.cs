@@ -151,7 +151,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
         }
 
         if (HudManagerHelper.Instance.CurrentRound <
-            (int)OptionGroupSingleton<AmbassadorOptions>.Instance.RoundWhenAvailable)
+            OptionGroupSingleton<AmbassadorOptions>.Instance.RoundWhenAvailable)
         {
             return;
         }

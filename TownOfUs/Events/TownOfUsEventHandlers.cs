@@ -1033,7 +1033,7 @@ public static class TownOfUsEventHandlers
             return;
         }
 
-        var timer = (int)OptionGroupSingleton<GeneralOptions>.Instance.AddedMeetingDeathTimer;
+        var timer = OptionGroupSingleton<GeneralOptions>.Instance.AddedMeetingDeathTimer;
         if (timer > 0 && timer <= 15)
         {
             instance.discussionTimer -= timer;

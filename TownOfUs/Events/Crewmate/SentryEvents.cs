@@ -188,7 +188,7 @@ public static class SentryEvents
             }
         }
 
-        if ((int)OptionGroupSingleton<SentryOptions>.Instance.CameraRoundsLast > 0)
+        if (OptionGroupSingleton<SentryOptions>.Instance.CameraRoundsLast > 0)
         {
             var cameraList = new List<KeyValuePair<SurvCamera, int>>();
             if (SentryRole.Cameras.Count > 0)

@@ -20,7 +20,7 @@ public static class SwooperEvents
         var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
         button.SetUses((int)OptionGroupSingleton<SwooperOptions>.Instance.MaxSwoops);
 
-        if ((int)OptionGroupSingleton<SwooperOptions>.Instance.MaxSwoops == 0)
+        if (OptionGroupSingleton<SwooperOptions>.Instance.MaxSwoops == 0)
         {
             button.Button?.usesRemainingText.gameObject.SetActive(false);
             button.Button?.usesRemainingSprite.gameObject.SetActive(false);

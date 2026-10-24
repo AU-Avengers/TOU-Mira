@@ -57,7 +57,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteEvilTabInfo")}");
         }
 
-        if ((int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots > 0)
+        if (OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots > 0)
         {
             var newText = SafeShotsLeft == 0
                 ? MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteNoSafeShots")

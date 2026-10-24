@@ -22,7 +22,7 @@ namespace TownOfUs.Modifiers.Crewmate;
 public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableTargets, IContinuesGame
 {
     public bool ContinuesGame => !Player.HasDied() && Helpers.GetAlivePlayers().Count >
-                                 (int)OptionGroupSingleton<TraitorOptions>.Instance.LatestSpawn - 1;
+                                 OptionGroupSingleton<TraitorOptions>.Instance.LatestSpawn - 1;
     public override string ModifierName => "Possible Traitor";
     public override bool HideOnUi => true;
 

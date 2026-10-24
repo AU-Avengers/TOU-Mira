@@ -353,7 +353,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
         GetTaskCounts(Player, out var completedTasks, out var totalTasks);
         var tasksRemaining = totalTasks - completedTasks;
 
-        var clickableAt = (int)OptionGroupSingleton<SpectreOptions>.Instance.NumTasksLeftBeforeClickable;
+        var clickableAt = OptionGroupSingleton<SpectreOptions>.Instance.NumTasksLeftBeforeClickable;
         GhostTaskStage newStage;
         if (totalTasks > 0 && completedTasks == totalTasks)
         {

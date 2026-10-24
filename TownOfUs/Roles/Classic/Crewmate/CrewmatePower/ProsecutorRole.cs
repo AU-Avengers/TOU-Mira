@@ -76,7 +76,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
     public bool IsPowerCrew =>
         ProsecutionsCompleted <
-        (int)OptionGroupSingleton<ProsecutorOptions>.Instance
+        OptionGroupSingleton<ProsecutorOptions>.Instance
             .MaxProsecutions; // Disable end game checks if prosecutes are available
 
     public CustomRoleConfiguration Configuration => new(this)
@@ -97,7 +97,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             text.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}CanProsecuteCrew")}");
         }
 
-        var total = (int)OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
+        var total = OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
         var prosecutes = total - ProsecutionsCompleted;
         text.AppendLine(TownOfUsPlugin.Culture,
             $"{MiraLocaleManager.Get("TownOfUsMira.Role.ProsecutorProsecutionsRemaining").Replace("<count>", prosecutes.ToString(TownOfUsPlugin.Culture)).Replace("<total>", total.ToString(TownOfUsPlugin.Culture))}");

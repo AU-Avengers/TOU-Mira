@@ -17,7 +17,7 @@ public static class KnightedEvents
 {
     public static List<CustomVote> ExtraKnightVotes { get; } = [];
     public static bool ShowVotes => OptionGroupSingleton<MonarchOptions>.Instance.ShowKnightedVotes;
-    public static int TotalVotes => (int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight + 1;
+    public static int TotalVotes => (int)(OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight + 1);
 
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent _)

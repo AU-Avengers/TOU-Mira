@@ -19,7 +19,7 @@ public sealed class KnightedModifier : BaseModifier
         return MiraLocaleManager.Get("TownOfUsMira.Modifier.KnightedDescription")
             .Replace(
                 "<votes>",
-                ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight)
+                (OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight)
                 .ToString(TownOfUsPlugin.Culture));
     }
 }

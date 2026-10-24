@@ -53,7 +53,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         var textlog = $"Selecting Fairy Targets.";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
 
-        var evilTargetPercent = (int)OptionGroupSingleton<FairyOptions>.Instance.EvilTargetPercent;
+        var evilTargetPercent = OptionGroupSingleton<FairyOptions>.Instance.EvilTargetPercent;
 
         var gas = PlayerControl.AllPlayerControls.Where(x => x.IsRole<FairyRole>() && !x.HasDied());
 

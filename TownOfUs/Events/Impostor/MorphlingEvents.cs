@@ -23,7 +23,7 @@ public static class MorphlingEvents
         var button = CustomButtonSingleton<MorphlingMorphButton>.Instance;
         button.SetUses((int)OptionGroupSingleton<MorphlingOptions>.Instance.MaxMorphs);
 
-        if ((int)OptionGroupSingleton<MorphlingOptions>.Instance.MaxMorphs == 0)
+        if (OptionGroupSingleton<MorphlingOptions>.Instance.MaxMorphs == 0)
         {
             button.Button?.usesRemainingText.gameObject.SetActive(false);
             button.Button?.usesRemainingSprite.gameObject.SetActive(false);

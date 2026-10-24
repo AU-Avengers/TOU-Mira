@@ -17,7 +17,7 @@ public sealed class ArsonistDouseButton : TownOfUsRoleButton<ArsonistRole, Playe
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Arsonist;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<ArsonistOptions>.Instance.DouseCooldown + MapCooldown, 5f, 120f);
-    public override int MaxUses => (int)OptionGroupSingleton<ArsonistOptions>.Instance.DouseUses.Value;
+    public override int MaxUses => OptionGroupSingleton<ArsonistOptions>.Instance.DouseUses;
     public override bool ZeroIsInfinite => true;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyNeutAssets.DouseButtonSprite : TouNeutAssets.DouseButtonSprite;
 
