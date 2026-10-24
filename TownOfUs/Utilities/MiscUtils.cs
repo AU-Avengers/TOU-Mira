@@ -572,10 +572,10 @@ public static class MiscUtils
             case RoleAlignment.CrewmateInvestigative:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Tracker));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Detective));
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Scientist));
                 break;
             case RoleAlignment.CrewmateSupport:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Crewmate));
-                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Scientist));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Noisemaker));
                 // registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Engineer));
                 break;
