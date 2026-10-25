@@ -2278,4 +2278,26 @@ aumenta a tua visão, e usa as ventilações temporariamente</string>
   <string name="TownOfUsMira.Role.WerewolfRampage">Modo Besta</string>
   <string name="TownOfUsMira.Role.WerewolfRampage.WikiDescription">Entra no Modo Besta, ganhando a habilidade de matar e visão de Impostor. Durante o Modo Besta o teu tempo de recarga para matar é significativamente mais baixo.</string>
   <string name="TouOptionWerewolfRampageCooldown">Tempo De Recarga Do Modo Besta</string>
+  <string name="TouOptionWerewolfRampageDuration">Tempo De Duração Do Modo Besta</string>
+  <string name="TouOptionWerewolfKillCooldown">Tempo De Recarga Para Matar No Modo Besta</string>
+  <string name="TouOptionWerewolfCanVent">Lobisomem Pode Usar Ventilação No Modo Besta</string>
+  <string name="TownOfUsMira.Modifier.Crewpostor">Tripostor</string>
+  <string name="TownOfUsMira.Modifier.CrewpostorShortName">Imp</string>
+  <string name="TownOfUsMira.Modifier.Crewpostor.IntroBlurb">Ajuda os [color=#FF0000FF]Impostores[/color]</string>
+  <string name="TownOfUsMira.Modifier.Crewpostor.TabDescription">Trai os tripulantes sendo um Impostor.</string>
+  <string name="TownOfUsMira.Modifier.Crewpostor.WikiDescription">O Tripostor é um Modificador Aliança, que força um tripulante a trabalhar para a fação dos impostores. Se todos os impostores morreram, viras um Traidor.</string>
+  <string name="TownOfUsMira.Modifier.CrewpostorIntroMessage">És o [modifier]. Só podes vencer com os Impostores, e viras o [role] na sua morte.</string>
+  <string name="TownOfUsMira.Modifier.Egotist">Egotista</string>
+  <string name="TownOfUsMira.Modifier.EgotistShortName">Ego</string>
+  <string name="TownOfUsMira.Modifier.Egotist.IntroBlurb">Trai a tripulação para alimentares o teu ego</string>
+  <string name="TownOfUsMira.Modifier.Egotist.TabDescription">Desafia a tripulação, ganha com os assassinos.</string>
+  <string name="TownOfUsMira.Modifier.Egotist.WikiDescription">O Egotista é um Modificador Tripulante Aliança (mostrado por [symbol]). Sendo o Egotista, só podes ganhar se os Tripulantes perderem, mesmo enquanto morto. Se nenhum tripulante restar depois de ume reunião acabar, vais sair em vitória, mas o jogo vai continuar.</string>
+  <string name="TownOfUsMira.Modifier.EgotistIntroMessage">És o [modifier]. Só podes ganhar se os Tripulantes perderem.</string>
+  <string name="TownOfUsMira.Modifier.EgotistVictoryMessage">O [modifier], [player], ganhou com sucesso, já que não há nenhum tripulante restante!</string>
+  <string name="TownOfUsMira.Modifier.EgotistVictoryMessageSelf">Ganhaste com sucesso sendo o [modifier], pois não há mais tripulantes vivos!</string>
+  <string name="TownOfUsMira.Modifier.EgotistSpeedChangeMessage">A adrenalina do [modifier] tornou-se mais forte. Jogadores são [newSpeed] vezes mais rápidos!</string>
+  <string name="TownOfUsMira.Modifier.EgotistCooldownChangeMessage">A adrenalina do [modifier] tornou-se mais forte. Tempos de Recarga são agora [newOffset] segundos mais baixos!</string>
+  <string name="TownOfUsMira.Modifier.EgotistCooldownSpeedChangeMessage">A adrenalina do [modifier] tornou-se mais forte. Tempos de Recarga são agora [newOffset] segundos mais rápidos, e jogadores são [newSpeed] vezes mais rápidos!</string>
+  <string name="TownOfUsMira.Modifier.EgotistDeadMessage">O [modifier] pereceu, e a sua adrenalina diminuiu!</string>
+  <string name="TownOfUsMira.Modifier.Lover">Amante</string>
 </resources>
