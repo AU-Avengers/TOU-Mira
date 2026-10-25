@@ -99,29 +99,44 @@ public static class GhostRoleEvents
     }
     
     [RegisterEvent]
-    public static void PlayerZiplineUseEventHandler(PlayerUseEvent @event)
+    public static void PlayerZiplineAndLadderUseEventHandler(PlayerUseEvent @event)
     {
         if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
-            !PlayerControl.LocalPlayer.Data.Role || PlayerControl.LocalPlayer.Data.Role is not IGhostRole ghostwalker)
+            !PlayerControl.LocalPlayer.Data.Role || PlayerControl.LocalPlayer.Data.Role is not IGhostRole ghostwalker || !ghostwalker.GhostActive)
         {
             return;
         }
 
-        var console = @event.Usable.TryCast<ZiplineConsole>();
-        if (console == null || !ghostwalker.GhostActive || console.IsCoolingDown())
+        var cancel = false;
+        var zipConsole = @event.Usable.TryCast<ZiplineConsole>();
+        var ladderConsole = @event.Usable.TryCast<Ladder>();
+        if (zipConsole != null && !zipConsole.IsCoolingDown())
         {
-            return;
+            zipConsole.CanUse(PlayerControl.LocalPlayer.Data, out var flag, out _);
+            if (!flag)
+            {
+                return;
+            }
+            zipConsole.zipline.Use(zipConsole.atTop, zipConsole);
+            zipConsole.CoolDown = zipConsole.MaxCoolDown;
+            cancel = true;
+        }
+        if (ladderConsole != null && !ladderConsole.IsCoolingDown())
+        {
+            ladderConsole.CanUse(PlayerControl.LocalPlayer.Data, out var flag, out _);
+            if (!flag)
+            {
+                return;
+            }
+            PlayerControl.LocalPlayer.MyPhysics.RpcClimbLadder(ladderConsole);
+            ladderConsole.CoolDown = ladderConsole.MaxCoolDown;
+            cancel = true;
         }
 
-        console.CanUse(PlayerControl.LocalPlayer.Data, out var flag, out _);
-        if (!flag)
+        if (cancel)
         {
-            return;
+            @event.Cancel();
         }
-        console.zipline.Use(console.atTop, console);
-        console.CoolDown = console.MaxCoolDown;
-
-        @event.Cancel();
     }
     
     [RegisterEvent]
@@ -138,7 +153,6 @@ public static class GhostRoleEvents
         {
             return;
         }
-        Warning("You're not allowed to use this console!");
 
         @event.Cancel();
     }
