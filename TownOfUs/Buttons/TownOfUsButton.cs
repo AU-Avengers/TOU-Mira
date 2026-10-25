@@ -572,6 +572,7 @@ public abstract class TownOfUsRoleButton<TRole, TTarget> : TownOfUsTargetButton<
                (target is not PlayerControl { inVent: true } playerTarget ||
                 !playerTarget.HasModifier<DisabledModifier>(mod => !mod.CanBeInteractedWith) &&
                 !SpectatorRole.TrackedSpectators.Contains(playerTarget.GetBestPlayerDenomination()));
+    }
 }
 
 public interface IAftermathablePlayerButton : IAftermathableButton
