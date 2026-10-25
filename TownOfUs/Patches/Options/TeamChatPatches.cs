@@ -9,6 +9,7 @@ using TMPro;
 using TownOfUs.Achievements;
 using TownOfUs.Modules;
 using TownOfUs.Options;
+using TownOfUs.Patches.Misc;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -1292,6 +1293,7 @@ public static class TeamChatPatches
         }
 
         instance.chatText.text = text;
+        instance.chatText.text = WikiHyperLinkPatches.CheckForTags(text, instance.chatText);
     }
 
     [HarmonyPrefix]

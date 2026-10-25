@@ -89,7 +89,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
                             !x.HasModifier<AllianceGameModifier>() &&
                             !x.Is(RoleAlignment.CrewmatePower) &&
                             x.Data.Role is not VigilanteRole &&
-                            !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName)).ToList();
+                            !SpectatorRole.TrackedSpectators.Contains(x.GetBestPlayerDenomination())).ToList();
 
             if (filtered.Count > 0)
             {

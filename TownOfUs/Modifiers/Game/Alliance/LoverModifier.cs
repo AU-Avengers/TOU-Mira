@@ -97,7 +97,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
             var players = PlayerControl.AllPlayerControls.ToArray()
                 .Where(x => !x.HasDied() && !x.HasModifier<ExecutionerTargetModifier>() &&
                             !x.HasModifier<AllianceGameModifier>() &&
-                            !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName) &&
+                            !SpectatorRole.TrackedSpectators.Contains(x.GetBestPlayerDenomination()) &&
                             (x.Data.Role is not IUnlovable unlovable || !unlovable.IsUnlovable) && (loveOpt.NeutralLovers || !x.IsNeutral())).ToList();
             players.Shuffle();
 
@@ -170,6 +170,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
     public override void OnActivate()
     {
+        base.OnActivate();
         if (!Player.AmOwner)
         {
             return;

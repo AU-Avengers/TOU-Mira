@@ -29,6 +29,7 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class SpectreRole(IntPtr cppPtr)
     : NeutralGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable, IProgressTally, IAnnounceableKill
 {
+    public bool? ForceShowRoleOnWiki => null;
     public List<PlayerControl> GetAvailableGhosts(List<PlayerControl> basicGhosts, PlayerControl? exiled)
     {
         var spectreData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<SpectreRole>());

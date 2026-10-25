@@ -99,6 +99,47 @@ public static class GhostRoleEvents
     }
     
     [RegisterEvent]
+    public static void PlayerZiplineAndLadderUseEventHandler(PlayerUseEvent @event)
+    {
+        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
+            !PlayerControl.LocalPlayer.Data.Role || PlayerControl.LocalPlayer.Data.Role is not IGhostRole ghostwalker || !ghostwalker.GhostActive)
+        {
+            return;
+        }
+
+        var cancel = false;
+        var zipConsole = @event.Usable.TryCast<ZiplineConsole>();
+        var ladderConsole = @event.Usable.TryCast<Ladder>();
+        if (zipConsole != null && !zipConsole.IsCoolingDown())
+        {
+            zipConsole.CanUse(PlayerControl.LocalPlayer.Data, out var flag, out _);
+            if (!flag)
+            {
+                return;
+            }
+            zipConsole.zipline.Use(zipConsole.atTop, zipConsole);
+            zipConsole.CoolDown = zipConsole.MaxCoolDown;
+            cancel = true;
+        }
+        if (ladderConsole != null && !ladderConsole.IsCoolingDown())
+        {
+            ladderConsole.CanUse(PlayerControl.LocalPlayer.Data, out var flag, out _);
+            if (!flag)
+            {
+                return;
+            }
+            PlayerControl.LocalPlayer.MyPhysics.RpcClimbLadder(ladderConsole);
+            ladderConsole.CoolDown = ladderConsole.MaxCoolDown;
+            cancel = true;
+        }
+
+        if (cancel)
+        {
+            @event.Cancel();
+        }
+    }
+    
+    [RegisterEvent]
     public static void PlayerCanUseEventHandler(PlayerCanUseEvent @event)
     {
         if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
