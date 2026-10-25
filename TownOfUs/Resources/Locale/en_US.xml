@@ -507,7 +507,7 @@ You may disable this message through your option menu.</string>
   <string name="DiedToVeteran">Attacked</string>
   <string name="DiedToJailor">Executed</string>
   <string name="DiedToProsecutor">Prosecuted</string>
-  <string name="DiedToArsonist">Ignited</string>
+  <string name="DiedToArsonist">Incinerated</string>
   <string name="DiedToGlitch">Bugged</string>
   <string name="DiedToJuggernaut">Destroyed</string>
   <string name="DiedToPestilence">Obliterated</string>
