@@ -6,6 +6,7 @@ using MiraAPI.Utilities;
 using Reactor.Utilities;
 using System.Collections;
 using AmongUs.GameOptions;
+using HarmonyLib;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
@@ -183,9 +184,14 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         if (Player.AmOwner)
         {
             HudManager.Instance.AbilityButton.SetEnabled();
+            ModifierUtils.GetActiveModifiers<HaunterArrowModifier>().Do(x => x.RemoveSelf());
+        }
+        else
+        {
+
+            Player.RemoveModifier<HaunterArrowModifier>();
         }
 
-        Player.RemoveModifier<HaunterArrowModifier>();
         GameHistory.PlayerStats[Player.PlayerId].DiedThisRound = false;
     }
 
