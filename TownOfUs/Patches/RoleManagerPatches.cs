@@ -935,7 +935,7 @@ public static class TouRoleManagerPatches
         var random = new System.Random();
 
         var players = GameData.Instance.AllPlayers.ToArray()
-            .Excluding(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName)).ToList();
+            .Excluding(x => SpectatorRole.TrackedSpectators.Contains(x.GetBestPlayerDenomination())).ToList();
         players.Shuffle();
 
         var impCount = GameOptionsManager.Instance.CurrentGameOptions.GetAdjustedNumImpostors(players.Count);
@@ -1070,7 +1070,7 @@ public static class TouRoleManagerPatches
     public static void SetSpectatorsAndModifiers(RoleManager __instance)
     {
         var spectators = GameData.Instance.AllPlayers.ToArray()
-            .Where(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName)).ToList();
+            .Where(x => SpectatorRole.TrackedSpectators.Contains(x.GetBestPlayerDenomination())).ToList();
         var specId = (RoleTypes)RoleId.Get<SpectatorRole>();
 
         foreach (var player in spectators)

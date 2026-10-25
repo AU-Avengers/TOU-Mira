@@ -65,7 +65,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
             var filtered = PlayerControl.AllPlayerControls.ToArray()
                 .Where(x => !x.IsRole<FairyRole>() && !x.Is(RoleAlignment.NeutralOutlier) && !x.HasDied() &&
                             !x.HasModifier<ExecutionerTargetModifier>() && !x.HasModifier<AllianceGameModifier>() &&
-                            !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName))
+                            !SpectatorRole.TrackedSpectators.Contains(x.GetBestPlayerDenomination()))
                 .ToList();
 
             if (evilTargetPercent > 0f)

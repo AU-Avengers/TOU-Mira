@@ -2,9 +2,12 @@ using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
+using Reactor.Networking.Rpc;
+using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Patches.PrefabChanging;
+using TownOfUs.Roles.Other;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -93,6 +96,14 @@ internal static class CancelCountdownStart
         }
         if (AmongUsClient.Instance.AmHost)
         {
+            var fakeDictionary = new Dictionary<byte, string>();
+            byte specByte = 0;
+            foreach (var name in SpectatorRole.TrackedSpectators)
+            {
+                fakeDictionary.Add(specByte, name);
+                specByte++;
+            }
+            Rpc<SetSpectatorListRpc>.Instance.Send(PlayerControl.LocalPlayer, fakeDictionary);
             if (OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay.Value)
             {
                 var warningText =

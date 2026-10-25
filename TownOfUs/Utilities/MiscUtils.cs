@@ -17,6 +17,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using InnerNet;
 using MiraAPI.GameModes;
 using PowerTools;
 using TMPro;
@@ -561,6 +562,20 @@ public static class MiscUtils
         return TownOfUsColors.Neutral;
     }
 
+    // Until we can get better testing, only the player name will be used.
+    // This currently breaks with multiple clients which we'd like to avoid breaking.
+    public static string GetBestPlayerDenomination(this ClientData client)
+    {
+        return /*client.ProductUserId.Length > 0 ? client.ProductUserId : */client.PlayerName;
+    }
+    public static string GetBestPlayerDenomination(this PlayerControl client)
+    {
+        return /*client.Puid.Length > 0 ? client.Puid : */client.Data.PlayerName;
+    }
+    public static string GetBestPlayerDenomination(this NetworkedPlayerInfo client)
+    {
+        return /*client.Puid.Length > 0 ? client.Puid : */client.PlayerName;
+    }
     public static IEnumerable<RoleBehaviour> GetRegisteredRoles(RoleAlignment alignment)
     {
         var roles = AllInGameRoles.Where(x => x.GetRoleAlignment() == alignment);

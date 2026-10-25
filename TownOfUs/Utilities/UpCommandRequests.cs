@@ -86,7 +86,7 @@ public static class UpCommandRequests
     public static bool TryGetRequest(NetworkedPlayerInfo playerInfo, out RoleTypes roleType)
     {
         // Exclude spectators from /up requests
-        if (SpectatorRole.TrackedSpectators.Contains(playerInfo.PlayerName))
+        if (SpectatorRole.TrackedSpectators.Contains(playerInfo.GetBestPlayerDenomination()))
         {
             roleType = RoleTypes.Crewmate;
             return false;
