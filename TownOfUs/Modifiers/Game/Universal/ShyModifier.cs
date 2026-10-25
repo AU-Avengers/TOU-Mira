@@ -213,12 +213,12 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
             }
         }
 
-        foreach (var animation in player.transform.GetChild(2).GetComponentsInParent<SpriteRenderer>())
+        foreach (var animation in player.cosmetics.GetComponentsInParent<SpriteRenderer>())
         {
             animation.color = animation.color.SetAlpha(transparency);
         }
 
-        foreach (var animation in player.transform.GetChild(2).GetComponentsInChildren<SpriteRenderer>())
+        foreach (var animation in player.cosmetics.GetComponentsInChildren<SpriteRenderer>())
         {
             animation.color = animation.color.SetAlpha(transparency);
         }

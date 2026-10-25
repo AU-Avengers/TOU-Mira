@@ -207,9 +207,8 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
     public static void InitList()
     {
         foreach (var player in PlayerControl.AllPlayerControls)
-
         {
-            if (!TrackedSpectators.Contains(player.Data.PlayerName))
+            if (!TrackedSpectators.Contains(player.GetBestPlayerDenomination()))
             {
                 TrackedPlayers.Add(player);
             }

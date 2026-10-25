@@ -58,7 +58,7 @@ namespace TownOfUs.Patches.DraftMode
 
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[GameStartPatch] DRAFT MODE DETECTED - Starting draft");
 
-            var players = PlayerControl.AllPlayerControls.Where(p => p != null && !p.Data.Disconnected && !SpectatorRole.TrackedSpectators.Contains(p.Data.PlayerName))
+            var players = PlayerControl.AllPlayerControls.Where(p => p != null && !p.Data.Disconnected && !SpectatorRole.TrackedSpectators.Contains(p.GetBestPlayerDenomination()))
                 .ToList();
 
             if (players.Count == 0)

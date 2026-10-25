@@ -115,7 +115,7 @@ public static class ChatPatches
                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                         MiraLocaleManager.Get("SpectatorDraftError"));
                 }
-                else if (SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.Data.PlayerName))
+                else if (SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.GetBestPlayerDenomination()))
                 {
                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                         MiraLocaleManager.Get("SpectatorToggleOff"));
@@ -870,10 +870,8 @@ public static class ChatPatches
             return;
         }
 
-        if (!SpectatorRole.TrackedSpectators.Contains(player.Data.PlayerName))
-        {
-            SpectatorRole.TrackedSpectators.Add(player.Data.PlayerName);
-        }
+        var bestFit = player.GetBestPlayerDenomination();
+        SpectatorRole.TrackedSpectators.Add(bestFit);
     }
 
     public static void SetSpectatorList(Dictionary<byte, string> list)
@@ -894,10 +892,8 @@ public static class ChatPatches
     [MethodRpc((uint)TownOfUsRpc.RemoveSpectator)]
     public static void RpcRemoveSpectator(PlayerControl player)
     {
-        if (SpectatorRole.TrackedSpectators.Contains(player.Data.PlayerName))
-        {
-            SpectatorRole.TrackedSpectators.Remove(player.Data.PlayerName);
-        }
+        var bestFit = player.GetBestPlayerDenomination();
+        SpectatorRole.TrackedSpectators.Remove(bestFit);
     }
 
     private static void ClearChat(ChatController chat)

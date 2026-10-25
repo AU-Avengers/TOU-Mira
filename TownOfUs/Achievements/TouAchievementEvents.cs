@@ -19,6 +19,7 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Assailant;
+using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Impostor.Herbalist;
 using TownOfUs.Modifiers.Neutral;
@@ -669,6 +670,18 @@ public static class TouAchievementEvents
                 if (@event.Target is DeadBody && @event.Target2 is DeadBody)
                 {
                     AchievementsAPIHelper.Unlock(TouAchievements.PotatoTomato);
+                }
+
+                if (@event.Target is StonedPlayer stone1 && stone1.ProgressStage > StoneStage.Frozen ||
+                    @event.Target2 is StonedPlayer stone2 && stone2.ProgressStage > StoneStage.Frozen ||
+                    @event.Target is PlayerControl player1 && player1.HasModifier<ImmovableModifier>() ||
+                    @event.Target2 is PlayerControl player2 && player2.HasModifier<ImmovableModifier>() ||
+                    @event.Target is DeadBody body1 &&
+                    MiscUtils.PlayerById(body1.ParentId)?.HasModifier<ImmovableModifier>() == true ||
+                    @event.Target2 is DeadBody body2 &&
+                    MiscUtils.PlayerById(body2.ParentId)?.HasModifier<ImmovableModifier>() == true)
+                {
+                    AchievementsAPIHelper.Unlock(TouAchievements.Heavyweight);
                 }
 
                 break;

@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using HarmonyLib;
 using TownOfUs.Roles;
+using UnityEngine;
+using Object = System.Object;
 
 namespace TownOfUs.Patches.Roles;
 
@@ -20,7 +22,7 @@ public static class GhostRoleCanUsePatches
 
     [HarmonyPriority(Priority.Last)]
     [HarmonyPrefix]
-    public static bool CanUsePrefixPatch(Object __instance, [HarmonyArgument(0)] NetworkedPlayerInfo pc,
+    public static bool CanUsePrefixPatch(MonoBehaviour __instance, [HarmonyArgument(0)] NetworkedPlayerInfo pc,
         ref bool __state)
     {
         __state = false;

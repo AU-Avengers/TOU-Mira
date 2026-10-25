@@ -109,7 +109,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
         var inquis = PlayerControl.AllPlayerControls.FirstOrDefault(x =>
                 x.IsRole<InquisitorRole>() && !x.HasDied() &&
-                !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName));
+                !SpectatorRole.TrackedSpectators.Contains(x.GetBestPlayerDenomination()));
 
         if (inquis == null)
         {

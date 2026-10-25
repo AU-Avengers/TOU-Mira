@@ -279,7 +279,7 @@ public static class HudManagerPatches
             var playerName = player.Data.PlayerName ?? "Unknown";
 
             var isHost = player.IsHost();
-            var isTrackedSpectator = SpectatorRole.TrackedSpectators.Contains(playerName);
+            var isTrackedSpectator = SpectatorRole.TrackedSpectators.Contains(player.GetBestPlayerDenomination());
 
             if (isHost || isTrackedSpectator)
             {

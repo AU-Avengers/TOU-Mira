@@ -813,7 +813,7 @@ namespace TownOfUs.Modules.DraftMode
 
             string mySlotText = mySlot > 0 ? mySlot.ToString(CultureInfo.InvariantCulture) : "?";
             string mySlotLabelText = MiraLocaleManager.Get("TouDraftYourNumberLabel", "YOUR NUMBER:");
-            bool isSpectating = SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.Data.PlayerName);
+            bool isSpectating = SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.GetBestPlayerDenomination());
             if (isSpectating)
             {
                 mySlotLabelText = MiraLocaleManager.Get("TouDraftYouAreLabel", "YOU ARE");

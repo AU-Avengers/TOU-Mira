@@ -20,7 +20,7 @@ public static class IntroScenePatches
         {
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (SpectatorRole.TrackedSpectators.Contains(player.Data.PlayerName))
+                if (SpectatorRole.TrackedSpectators.Contains(player.GetBestPlayerDenomination()))
                 {
                     teamToDisplay.Remove(player);
                 }
@@ -84,7 +84,7 @@ public static class IntroScenePatches
 
         foreach (var spec in PlayerControl.AllPlayerControls)
         {
-            if (!spec || !SpectatorRole.TrackedSpectators.Contains(spec.Data.PlayerName))
+            if (!spec || !SpectatorRole.TrackedSpectators.Contains(spec.GetBestPlayerDenomination()))
             {
                 continue;
             }

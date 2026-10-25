@@ -71,7 +71,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
         {
             var filtered = PlayerControl.AllPlayerControls.Where(x => x.IsCrewmate() &&
                             !x.HasDied() &&
-                            !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName) &&
+                            !SpectatorRole.TrackedSpectators.Contains(x.GetBestPlayerDenomination()) &&
                             (x.Data.Role is not ILoyalCrewmate { CanBeCrewpostor: false }) &&
                             !x.HasModifier<AllianceGameModifier>() &&
                             !x.HasModifier<ExecutionerTargetModifier>()).ToList();

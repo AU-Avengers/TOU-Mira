@@ -280,7 +280,7 @@ public static class ModCompatibility
     public static string StarlightPath => Environment.GetEnvironmentVariable("STAR_DATA_PATH")!;
 
     public static string BasePath { get; } = Path.Combine(
-        OperatingSystem.IsAndroid() ? StarlightPath : Paths.GameRootPath,
+        TownOfUsPlugin.IsMobile ? StarlightPath : Paths.GameRootPath,
         "CorsacCosmetics"
     );
 
