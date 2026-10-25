@@ -572,188 +572,192 @@ public abstract class TownOfUsRoleButton<TRole, TTarget> : TownOfUsTargetButton<
                (target is not PlayerControl { inVent: true } playerTarget ||
                 !playerTarget.HasModifier<DisabledModifier>(mod => !mod.CanBeInteractedWith) &&
                 !SpectatorRole.TrackedSpectators.Contains(playerTarget.GetBestPlayerDenomination()));
-}
-
-public interface IAftermathablePlayerButton : IAftermathableButton
-{
-    PlayerControl? Target { get; set; }
-}
-
-public interface IAftermathableBodyButton : IAftermathableButton
-{
-    DeadBody? Target { get; set; }
-}
-
-public interface IAftermathableButton
-{
-    void AftermathHandler();
-}
-
-public interface IDiseaseableButton
-{
-    void SetDiseasedTimer(float multiplier);
-}
-
-public interface IKillButton
-{
-}
-
-public interface IAurialBypassButton
-{
-}
-
-public interface ILegacyCapable
-{
-}
-
-public interface ILegacyButton
-{
-}
-
-/// <summary>
-/// Base class for role buttons that need kill cooldown tracking.
-/// Buttons implementing IKillButton or IDiseaseableButton should inherit from this.
-/// </summary>
-[MiraIgnore]
-public abstract class TownOfUsKillRoleButton<TRole> : TownOfUsRoleButton<TRole> where TRole : RoleBehaviour
-{
-    protected override bool ShouldTrackKillCooldown()
-    {
-        return true;
-    }
-}
-
-/// <summary>
-/// Base class for role buttons with targets that need kill cooldown tracking.
-/// Buttons implementing IKillButton or IDiseaseableButton should inherit from this.
-/// </summary>
-[MiraIgnore]
-public abstract class TownOfUsKillRoleButton<TRole, TTarget> : TownOfUsRoleButton<TRole, TTarget>
-    where TTarget : MonoBehaviour where TRole : RoleBehaviour
-{
-    protected override bool ShouldTrackKillCooldown()
-    {
-        return true;
-    }
-}
-
-/// <summary>
-/// Base class for role buttons with Vent targets that do not use <see cref="VentButton"/> 
-/// or <see cref="HudManager.ImpostorVentButton"/> as a base.
-/// <para/>
-/// Utilizies the vanilla system for getting its Vent targets, as well as handling outlines.
-/// </summary>
-[MiraIgnore]
-public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, Vent> where TRole : RoleBehaviour
-{
-    public GameObject DisableSprite;
-    public override void CreateButton(Transform parent)
-    {
-        base.CreateButton(parent);
-        DisableSprite = Button!.CreateDeathDisabledSprite();
     }
 
-    public override void FixedUpdateHandler(PlayerControl playerControl)
+    public interface IAftermathablePlayerButton : IAftermathableButton
     {
-        base.FixedUpdateHandler(playerControl);
-        if (DisableSprite)
+        PlayerControl? Target { get; set; }
+    }
+
+    public interface IAftermathableBodyButton : IAftermathableButton
+    {
+        DeadBody? Target { get; set; }
+    }
+
+    public interface IAftermathableButton
+    {
+        void AftermathHandler();
+    }
+
+    public interface IDiseaseableButton
+    {
+        void SetDiseasedTimer(float multiplier);
+    }
+
+    public interface IKillButton
+    {
+    }
+
+    public interface IAurialBypassButton
+    {
+    }
+
+    public interface ILegacyCapable
+    {
+    }
+
+    public interface ILegacyButton
+    {
+    }
+
+    /// <summary>
+    /// Base class for role buttons that need kill cooldown tracking.
+    /// Buttons implementing IKillButton or IDiseaseableButton should inherit from this.
+    /// </summary>
+    [MiraIgnore]
+    public abstract class TownOfUsKillRoleButton<TRole> : TownOfUsRoleButton<TRole> where TRole : RoleBehaviour
+    {
+        protected override bool ShouldTrackKillCooldown()
         {
-            DisableSprite.SetActive(!TownOfUsEventHandlers.AreVentsAllowed);
+            return true;
         }
     }
 
-
-    public override Vent? GetTarget()
+    /// <summary>
+    /// Base class for role buttons with targets that need kill cooldown tracking.
+    /// Buttons implementing IKillButton or IDiseaseableButton should inherit from this.
+    /// </summary>
+    [MiraIgnore]
+    public abstract class TownOfUsKillRoleButton<TRole, TTarget> : TownOfUsRoleButton<TRole, TTarget>
+        where TTarget : MonoBehaviour where TRole : RoleBehaviour
     {
-        return HudManager.Instance.ImpostorVentButton.currentTarget;
-    }
-
-    public override bool CanUse()
-    {
-        if (TimeLordRewindSystem.IsRewinding)
+        protected override bool ShouldTrackKillCooldown()
         {
-            return false;
-        }
-
-        if (PlayerControl.LocalPlayer.HasDied())
-        {
-            return false;
-        }
-
-        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
-        {
-            return false;
-        }
-
-        if (PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
-        {
-            return false;
-        }
-
-        var newTarget = GetTarget();
-        Target = IsTargetValid(newTarget) ? newTarget : null;
-
-        return (PlayerControl.LocalPlayer.inVent || Timer <= 0 && Target != null) &&
-            (!LimitedUses || UsesLeft > 0);
-    }
-}
-
-/// <summary>
-/// Base class for regular buttons with Vent targets that do not use <see cref="VentButton"/> 
-/// or <see cref="HudManager.ImpostorVentButton"/> as a base.
-/// <para/>
-/// Utilizies the vanilla system for getting its Vent targets, as well as handling outlines.
-/// </summary>
-[MiraIgnore]
-public abstract class TownOfUsVentButton : TownOfUsTargetButton<Vent>
-{
-    public GameObject DisableSprite;
-    public override void CreateButton(Transform parent)
-    {
-        base.CreateButton(parent);
-        DisableSprite = Button!.CreateDeathDisabledSprite();
-    }
-
-    public override void FixedUpdateHandler(PlayerControl playerControl)
-    {
-        base.FixedUpdateHandler(playerControl);
-        if (DisableSprite)
-        {
-            DisableSprite.SetActive(!TownOfUsEventHandlers.AreVentsAllowed);
+            return true;
         }
     }
 
-    public override void SetOutline(bool active)
+    /// <summary>
+    /// Base class for role buttons with Vent targets that do not use <see cref="VentButton"/> 
+    /// or <see cref="HudManager.ImpostorVentButton"/> as a base.
+    /// <para/>
+    /// Utilizies the vanilla system for getting its Vent targets, as well as handling outlines.
+    /// </summary>
+    [MiraIgnore]
+    public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, Vent> where TRole : RoleBehaviour
     {
-        Target?.SetOutline(active, true, PlayerControl.LocalPlayer.Data.Role.TeamColor);
+        public GameObject DisableSprite;
+
+        public override void CreateButton(Transform parent)
+        {
+            base.CreateButton(parent);
+            DisableSprite = Button!.CreateDeathDisabledSprite();
+        }
+
+        public override void FixedUpdateHandler(PlayerControl playerControl)
+        {
+            base.FixedUpdateHandler(playerControl);
+            if (DisableSprite)
+            {
+                DisableSprite.SetActive(!TownOfUsEventHandlers.AreVentsAllowed);
+            }
+        }
+
+
+        public override Vent? GetTarget()
+        {
+            return HudManager.Instance.ImpostorVentButton.currentTarget;
+        }
+
+        public override bool CanUse()
+        {
+            if (TimeLordRewindSystem.IsRewinding)
+            {
+                return false;
+            }
+
+            if (PlayerControl.LocalPlayer.HasDied())
+            {
+                return false;
+            }
+
+            if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+            {
+                return false;
+            }
+
+            if (PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
+            {
+                return false;
+            }
+
+            var newTarget = GetTarget();
+            Target = IsTargetValid(newTarget) ? newTarget : null;
+
+            return (PlayerControl.LocalPlayer.inVent || Timer <= 0 && Target != null) &&
+                   (!LimitedUses || UsesLeft > 0);
+        }
     }
-    public override Vent? GetTarget()
+
+    /// <summary>
+    /// Base class for regular buttons with Vent targets that do not use <see cref="VentButton"/> 
+    /// or <see cref="HudManager.ImpostorVentButton"/> as a base.
+    /// <para/>
+    /// Utilizies the vanilla system for getting its Vent targets, as well as handling outlines.
+    /// </summary>
+    [MiraIgnore]
+    public abstract class TownOfUsVentButton : TownOfUsTargetButton<Vent>
     {
-        return HudManager.Instance.ImpostorVentButton.currentTarget ?? Vent.currentVent;
-    }
+        public GameObject DisableSprite;
 
-    public override bool CanUse()
-    {
-        if (TimeLordRewindSystem.IsRewinding)
+        public override void CreateButton(Transform parent)
         {
-            return false;
+            base.CreateButton(parent);
+            DisableSprite = Button!.CreateDeathDisabledSprite();
         }
 
-        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        public override void FixedUpdateHandler(PlayerControl playerControl)
         {
-            return false;
+            base.FixedUpdateHandler(playerControl);
+            if (DisableSprite)
+            {
+                DisableSprite.SetActive(!TownOfUsEventHandlers.AreVentsAllowed);
+            }
         }
 
-        if (PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
+        public override void SetOutline(bool active)
         {
-            return false;
+            Target?.SetOutline(active, true, PlayerControl.LocalPlayer.Data.Role.TeamColor);
         }
 
-        var newTarget = GetTarget();
-        Target = IsTargetValid(newTarget) ? newTarget : null;
+        public override Vent? GetTarget()
+        {
+            return HudManager.Instance.ImpostorVentButton.currentTarget ?? Vent.currentVent;
+        }
 
-        return (PlayerControl.LocalPlayer.inVent || Timer <= 0 && Target != null) &&
-               (!LimitedUses || UsesLeft > 0);
+        public override bool CanUse()
+        {
+            if (TimeLordRewindSystem.IsRewinding)
+            {
+                return false;
+            }
+
+            if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+            {
+                return false;
+            }
+
+            if (PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
+            {
+                return false;
+            }
+
+            var newTarget = GetTarget();
+            Target = IsTargetValid(newTarget) ? newTarget : null;
+
+            return (PlayerControl.LocalPlayer.inVent || Timer <= 0 && Target != null) &&
+                   (!LimitedUses || UsesLeft > 0);
+        }
     }
 }
 #pragma warning restore S3060
