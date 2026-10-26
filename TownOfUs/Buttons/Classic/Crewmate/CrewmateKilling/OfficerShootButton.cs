@@ -32,7 +32,7 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
     public int TotalBullets { get; set; } = -1;
     public int LoadedBullets { get; set; }
     public override bool UsableFirstRound => OptionGroupSingleton<OfficerOptions>.Instance.FirstRoundShooting;
-    public static int MaxLoadedBullets => (int)OptionGroupSingleton<OfficerOptions>.Instance.MaxBulletsAtOnce;
+    public static int MaxLoadedBullets => OptionGroupSingleton<OfficerOptions>.Instance.MaxBulletsAtOnce;
 
     public override bool CanUse()
     {
@@ -64,7 +64,7 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
         PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
 
         var notif1 = Helpers.CreateAndShowNotification($"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.OfficerBadKillFeedback")}</b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Officer.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Officer);
 
         notif1.AdjustNotification();
 
@@ -124,19 +124,18 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
                             x.KillerId == Target.PlayerId && x.VictimId != Target.PlayerId);
 
         var targetRole = Target.Data.Role;
-        var hasProsecuted = targetRole is ProsecutorRole pros && pros.ProsecutionsCompleted > 0;
+        var hasProsecuted = targetRole is ProsecutorRole { ProsecutionsCompleted: > 0 };
 
         // Prosecutor Imitator *technically* already completed their prosecutes
         if (hasProsecuted && !Target.HasModifier<ImitatorCacheModifier>())
         {
             hasKilled = true;
         }
-        var evilOfficer = (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) &&
-                            !allyMod.GetsPunished);
+        var evilOfficer = (PlayerControl.LocalPlayer.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished));
 
-        if (options.CanOnlyShootActiveKillers.Value)
+        if (options.CanOnlyShootActiveKillers)
         {
-            if (!evilOfficer && Target.IsCrewmate() && options.CrewKillingAreInnocent.Value || !hasKilled)
+            if (!evilOfficer && Target.IsCrewmate() && options.CrewKillingAreInnocent || !hasKilled)
             {
                 Misfire();
             }
@@ -145,9 +144,9 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
                 Shoot();
             }
         }
-        else if (!(Target.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished))
+        else if (!(Target.HasModifier<AllianceGameModifier>(allyMod2 => !allyMod2.GetsPunished)))
         {
-            var safeNeutral = options.NonKillingNeutralsAreInnocent.Value &&
+            var safeNeutral = options.NonKillingNeutralsAreInnocent &&
                               alignment is RoleAlignment.NeutralBenign
                                   or RoleAlignment.NeutralEvil or RoleAlignment.NeutralOutlier;
             if (safeNeutral || !evilOfficer && Target.IsCrewmate())
@@ -164,7 +163,7 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
             Shoot();
         }
 
-        if (!OptionGroupSingleton<OfficerOptions>.Instance.CanSelfReport.Value)
+        if (!OptionGroupSingleton<OfficerOptions>.Instance.CanSelfReport)
         {
             Coroutines.Start(CoSetBodyReportable(Target.PlayerId));
         }

@@ -26,20 +26,20 @@ public sealed class DraftShuffleButton : TownOfUsButton
     {
         Show();
         CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses(
-            (int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
+            OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer);
     }
 
     public static void HideAndReset()
     {
         Hide();
         CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses(
-            (int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
+            OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer);
     }
 
     public override string Name => MiraLocaleManager.Get("TouDraftShuffleButton", "Shuffle");
     public override float InitialCooldown => 0.001f;
     public override float Cooldown => 0.001f;
-    public override int MaxUses => (int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value;
+    public override int MaxUses => OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer;
     public override bool ZeroIsInfinite { get; set; } = true;
     public override ButtonLocation Location => ButtonLocation.BottomRight;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
@@ -49,22 +49,22 @@ public sealed class DraftShuffleButton : TownOfUsButton
     public override bool Disabled { get; set; } = true;
     public override bool Enabled(RoleBehaviour? role)
     {
-        return DraftManager.IsDraftActive && !Disabled && MaxUses > 0 ;
+        return DraftManager.IsDraftActive && !Disabled && MaxUses > 0;
     }
 
     public override bool CanUse()
     {
         var state = DraftManager.GetStateForPlayer(PlayerControl.LocalPlayer.PlayerId);
-        return state != null && state.IsPickingNow && DraftManager.IsDraftActive && !Disabled && MaxUses > 0 && UsesLeft>0;
+        return state != null && state.IsPickingNow && DraftManager.IsDraftActive && !Disabled && MaxUses > 0 && UsesLeft > 0;
     }
 
     protected override void OnClick()
     {
         if (!DraftManager.IsDraftActive) return;
         Helpers.CreateAndShowNotification(MiraLocaleManager.Get("TouDraftShuffledNotif", "Your picks have been Shuffled!"), Color.white,
-                new Vector3(0f, 1f, -80f), spr: TouImpAssets.TraitorSelect.LoadAsset());
-        DraftNetworkHelper.RequestShuffle();    
-        }
+                new Vector3(0f, 1f, -80f), spr: TouImpAssets.TraitorSelect);
+        DraftNetworkHelper.RequestShuffle();
+    }
 
     [HarmonyPatch(typeof(DraftRpcs), nameof(DraftRpcs.RpcStartDraft))]
     public static class ShowDraftShuffleButtonOnDraftStart
@@ -73,7 +73,7 @@ public sealed class DraftShuffleButton : TownOfUsButton
         public static void Postfix()
         {
             Show();
-            CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
+            CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses(OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer);
         }
     }
 
@@ -84,7 +84,7 @@ public sealed class DraftShuffleButton : TownOfUsButton
         [HarmonyPostfix]
         public static void Postfix()
         {
-            DraftShuffleButton.HideAndReset();
+            HideAndReset();
         }
     }
 
@@ -95,7 +95,7 @@ public sealed class DraftShuffleButton : TownOfUsButton
         [HarmonyPostfix]
         public static void Postfix()
         {
-            DraftShuffleButton.HideAndReset();
+            HideAndReset();
         }
     }
 }

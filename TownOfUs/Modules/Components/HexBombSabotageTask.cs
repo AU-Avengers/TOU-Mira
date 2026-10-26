@@ -10,7 +10,6 @@ using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Roles.Impostor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modules.Components;
 
@@ -54,12 +53,12 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
         _ogShakeAmt = HudManager.Instance.PlayerCam.shakeAmount;
         _ogShakePeriod = HudManager.Instance.PlayerCam.shakePeriod;
         DataManager.Settings.Gameplay.ScreenShake = true;
-        
+
         var text = MiraLocaleManager.Get("TownOfUsMira.Role.SpellslingerWarningNotif").Replace("<role>", $"{TownOfUsColors.ImpSoft.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.Spellslinger")}</color>");
 
         var notif1 = Helpers.CreateAndShowNotification(
             text.Replace("<time>", $"{(int)OptionGroupSingleton<SpellslingerOptions>.Instance.HexBombDuration}"),
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spellslinger.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spellslinger);
         notif1.AdjustNotification();
     }
 
@@ -81,8 +80,8 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
                 playSound = !playSound;
                 if (playSound && !disableBlare)
                 {
-                    SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound.LoadAsset());
-                    SoundManager.Instance.PlaySound(TouAudio.HexBombAlarmSound.LoadAsset(), false, 3f);
+                    SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound);
+                    SoundManager.Instance.PlaySound(TouAudio.HexBombAlarmSound, false, 3f);
                 }
             }
             else if (_sabotage.Stage == HexBombStage.SpellslingerDead)
@@ -97,8 +96,8 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
                     playSound = !playSound;
                     if (playSound)
                     {
-                        SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound.LoadAsset());
-                        SoundManager.Instance.PlaySound(TouAudio.HexBombAlarmSound.LoadAsset(), false, 0.1f);
+                        SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound);
+                        SoundManager.Instance.PlaySound(TouAudio.HexBombAlarmSound, false, 0.1f);
                     }
                 }
             }
@@ -110,8 +109,8 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
                 }
                 else
                 {
-                    var deathAnim = AnimStore.SpawnAnimBody(PlayerControl.LocalPlayer, TouAssets.HexBombDeathPrefab.LoadAsset());
-                    var redBg = Object.Instantiate(HudManager.Instance.FullScreen,
+                    var deathAnim = AnimStore.SpawnAnimBody(PlayerControl.LocalPlayer, TouAssets.HexBombDeathPrefab);
+                    var redBg = Instantiate(HudManager.Instance.FullScreen,
                         deathAnim.transform.GetParent().transform);
                     deathAnim.name = "Disintegrate Animation";
                     redBg.gameObject.name = "Red Background";
@@ -130,8 +129,8 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
                     {
                         deathAnim.transform.localPosition += new Vector3(0f, -0.05f, 0f);
                     }
-                    SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound.LoadAsset());
-                    SoundManager.Instance.PlaySound(TouAudio.HexBombDetonateSound.LoadAsset(), false, 1f);
+                    SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound);
+                    SoundManager.Instance.PlaySound(TouAudio.HexBombDetonateSound, false, 1f);
                     HudManager.Instance.FullScreen.gameObject.SetActive(true);
                     HudManager.Instance.FullScreen.color = new Color(1f, 0f, 0f, 0.37254903f);
                     deathAnim.SetActive(true);
@@ -147,8 +146,8 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
                 HudManager.Instance.FullScreen.color = new Color(1f, 0f, 0f, 0.37254903f);
                 if (!HudManager.Instance.FullScreen.gameObject.activeSelf && !disableBlare)
                 {
-                    SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound.LoadAsset());
-                    SoundManager.Instance.PlaySound(TouAudio.HexBombAlarmSound.LoadAsset(), false, 3f);
+                    SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound);
+                    SoundManager.Instance.PlaySound(TouAudio.HexBombAlarmSound, false, 3f);
                 }
                 HudManager.Instance.FullScreen.gameObject.SetActive(!HudManager.Instance.FullScreen.gameObject.activeSelf);
             }
@@ -190,7 +189,7 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
             HudManager.Instance.StopCoroutine(_flash);
             _flash = null;
             HudManager.Instance.FullScreen.gameObject.SetActive(false);
-            SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound.LoadAsset());
+            SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound);
         }
         DataManager.Settings.Gameplay.ScreenShake = _ogShakeEnabled;
         HudManager.Instance.PlayerCam.shakeAmount = _ogShakeAmt;

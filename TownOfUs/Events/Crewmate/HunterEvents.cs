@@ -40,7 +40,7 @@ public static class HunterEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Role.Hunter.ShameNotificationSelf"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter);
 
                 notif1.AdjustNotification();
             }
@@ -48,7 +48,7 @@ public static class HunterEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Role.Hunter.ShameNotification").Replace("<player>", HunterToAnnounceNext.Data.PlayerName),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter);
 
                 notif1.AdjustNotification();
             }
@@ -62,7 +62,7 @@ public static class HunterEvents
 
         var hunterStalk = CustomButtonSingleton<HunterStalkButton>.Instance;
         hunterStalk.ExtraUses = 0;
-        hunterStalk.SetUses((int)OptionGroupSingleton<HunterOptions>.Instance.StalkUses);
+        hunterStalk.SetUses(OptionGroupSingleton<HunterOptions>.Instance.StalkUses);
         if (!hunterStalk.LimitedUses)
         {
             hunterStalk.Button?.usesRemainingText.gameObject.SetActive(false);
@@ -133,7 +133,7 @@ public static class HunterEvents
             return;
         }
 
-        if (source.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        if (source.HasModifier<AllianceGameModifier>(x => !x.GetsPunished))
         {
             return;
         }
@@ -143,7 +143,7 @@ public static class HunterEvents
         if (GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
         {
             if (!target.IsCrewmate() ||
-                (target.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished))
+                target.HasModifier<AllianceGameModifier>(x => !x.GetsPunished))
             {
                 stats.CorrectKills += 1;
             }
@@ -165,12 +165,12 @@ public static class HunterEvents
 
     private static bool IsIncorrectKill(PlayerControl hunter, PlayerControl target)
     {
-        if (hunter.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        if (hunter.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished))
         {
             return false;
         }
 
-        if (target.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished)
+        if (target.HasModifier<AllianceGameModifier>(allyMod2 => !allyMod2.GetsPunished))
         {
             return false;
         }
@@ -224,7 +224,7 @@ public static class HunterEvents
         }
         var states = MeetingHudGetVotesPatch.States;
         var hunters = CustomRoleUtils.GetActiveRolesOfType<HunterRole>();
-        if (!hunters.HasAny())
+        if (!hunters.Any())
         {
             return;
         }
@@ -256,14 +256,13 @@ public static class HunterEvents
 
         var exiled = @event.ExileController?.initData?.networkedPlayer?.Object;
 
-        if (exiled == null || exiled.Data.Role is not HunterRole hunter)
+        if (exiled?.Data.Role is not HunterRole hunter)
         {
             return;
         }
 
         var target = hunter.LastVoted!;
-        var pros = CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>().FirstOrDefault();
-        if (pros != null && pros.HasProsecuted)
+        if (CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>().FirstOrDefault() is { HasProsecuted: true } pros)
         {
             target = pros.Player;
         }
@@ -273,19 +272,17 @@ public static class HunterEvents
 
     private static void CheckForHunterStalked(PlayerControl source, bool isInteraction)
     {
-        if (MeetingHud.Instance || ExileController.Instance || !isInteraction && (StalkTriggered)OptionGroupSingleton<HunterOptions>.Instance.StalkTriggeredBy.Value is StalkTriggered.Interactions)
+        if (MeetingHud.Instance || ExileController.Instance || !isInteraction && OptionGroupSingleton<HunterOptions>.Instance.StalkTriggeredBy.Value is StalkTriggered.Interactions)
         {
             return;
         }
 
-        if (!source.HasModifier<HunterStalkedModifier>())
+        if (!source.TryGetModifier<HunterStalkedModifier>(out var mod))
         {
             return;
         }
 
-        var mod = source.GetModifier<HunterStalkedModifier>();
-
-        if (mod?.Hunter == null || !(TutorialManager.InstanceExists || source.AmOwner))
+        if (mod.Hunter == null || !(TutorialManager.InstanceExists || source.AmOwner))
         {
             return;
         }

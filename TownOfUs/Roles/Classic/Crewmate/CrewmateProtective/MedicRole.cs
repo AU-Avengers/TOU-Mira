@@ -20,7 +20,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IBodyReportChat
 {
     private MeetingMenu meetingMenu;
     public override bool IsAffectedByComms => false;
@@ -54,20 +54,6 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Shield", "Shield"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Shield.WikiDescription"),
-                    TouCrewAssets.MedicSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get
@@ -88,7 +74,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Medic.LoadAsset(), "TouMira.Role.Crewmate.Medic", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Medic, "TouMira.Role.Crewmate.Medic", 1.45f),
         IntroSound = TouAudio.ScientistIntroSound,
         OptionsScreenshot = TouBanners.MedicRoleBanner,
         Icon = TouRoleIcons.Medic
@@ -171,8 +157,8 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
                 renderer.sprite = colorType switch
                 {
-                    "lighter" => TouAssets.LighterSprite.LoadAsset(),
-                    _ => TouAssets.DarkerSprite.LoadAsset()
+                    "lighter" => TouAssets.LighterSprite,
+                    _ => TouAssets.DarkerSprite
                 };
             }
         }
@@ -246,53 +232,39 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         }
     }
 
-    public void Report(byte deadPlayerId)
+    public bool ReportEnabled => OptionGroupSingleton<MedicOptions>.Instance.ShowReports;
+
+    public string BodyReportTitle => $"<color=#{TownOfUsColors.Medic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.MedicMessageTitle")}</color>";
+
+    public string ParseReport(BodyReport br)
     {
-        var areReportsEnabled = OptionGroupSingleton<MedicOptions>.Instance.ShowReports;
-
-        if (!areReportsEnabled)
+        var reportColorDuration = OptionGroupSingleton<MedicOptions>.Instance.MedicReportColorDuration;
+        var reportNameDuration = OptionGroupSingleton<MedicOptions>.Instance.MedicReportNameDuration;
+        var text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodyError");
+        if (br.Killer != null)
         {
-            return;
+            if (br.KillAge > reportColorDuration * 1000 && reportColorDuration > 0)
+            {
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodyOld");
+            }
+            else if (br.Killer.PlayerId == br.Body?.PlayerId)
+            {
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodySuicide");
+            }
+            else if (br.KillAge < reportNameDuration * 1000)
+            {
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodyKillerName").Replace("<player>", br.Killer.Data.PlayerName);
+            }
+            else
+            {
+                var typeOfColor = GetColorTypeForPlayer(br.Killer.Data.DefaultOutfit.ColorId);
+                text = MiraLocaleManager.Get((typeOfColor == "lighter") ? "TownOfUsMira.Role.MedicBodyKillerLightColor" : "TownOfUsMira.Role.MedicBodyKillerDarkColor");
+            }
         }
 
-        var matches = GameHistory.KilledPlayers.Where(x => x.VictimId == deadPlayerId).ToArray();
+        text = text.Replace("<time>", Math.Round(br.KillAge / 1000).ToString(TownOfUsPlugin.Culture));
 
-        DeadPlayer? killer = null;
-
-        if (matches.Length > 0)
-        {
-            killer = matches[0];
-        }
-
-        if (killer == null)
-        {
-            return;
-        }
-
-        // Message($"CmdReportDeadBody");
-        var br = new BodyReport
-        {
-            Killer = MiscUtils.PlayerById(killer.KillerId),
-            Reporter = Player,
-            Body = MiscUtils.PlayerById(killer.VictimId),
-            KillAge = (float)(DateTime.UtcNow - killer.KillTime).TotalMilliseconds
-        };
-
-        var reportMsg = BodyReport.ParseMedicReport(br);
-
-        if (string.IsNullOrWhiteSpace(reportMsg))
-        {
-            return;
-        }
-
-        var title = $"<color=#{TownOfUsColors.Medic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.MedicMessageTitle")}</color>";
-        var reported = Player;
-        if (br.Body != null)
-        {
-            reported = br.Body;
-        }
-
-        MiscUtils.AddFakeChat(reported.Data, title, reportMsg, false, true);
+        return text;
     }
 
     public static string GetColorTypeForPlayer(int colorId)
@@ -307,7 +279,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public static void DangerAnimNonMedic()
     {
-        Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields ? TownOfUsColors.NeutralWiki :new Color(0f, 0.5f, 0f, 1f)));
+        Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields ? TownOfUsColors.NeutralWiki : new Color(0f, 0.5f, 0f, 1f)));
     }
 
     public void LobbyStart()
@@ -390,7 +362,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         }
 
         if (source.AmOwner)
-        { 
+        {
             DangerAnimNonMedic();
         }
 
@@ -400,7 +372,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MedicShieldProtect, !role.ProtectedAttackedThisRound ? "New Attack" : "Already Attacked", medic, shielded);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
         role.ProtectedAttackedThisRound = true;
 
         var shieldBreaks = OptionGroupSingleton<MedicOptions>.Instance.ShieldBreaks;

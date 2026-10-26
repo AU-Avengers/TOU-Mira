@@ -1,5 +1,6 @@
 ﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -13,7 +14,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IBodyReportChat
 {
     public override bool IsAffectedByComms => false;
 
@@ -29,23 +30,6 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         return
             MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Inspect", "Inspect"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Inspect.WikiDescription"),
-                    TouCrewAssets.InspectSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Examine", "Examine"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Examine.WikiDescription"),
-                    TouCrewAssets.ExamineSprite)
-            ];
-        }
     }
 
     [HideFromIl2Cpp]
@@ -73,7 +57,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Forensic.LoadAsset(), "TouMira.Role.Crewmate.Forensic", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Forensic, "TouMira.Role.Crewmate.Forensic", 1.45f),
         Icon = TouRoleIcons.Forensic,
         OptionsScreenshot = TouBanners.ForensicRoleBanner,
         IntroSound = TouAudio.QuestionSound
@@ -98,7 +82,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
         foreach (var scene in CrimeSceneComponent._crimeScenes)
         {
-            if (scene == null || scene.gameObject == null || !scene.gameObject)
+            if (scene?.gameObject == null || !scene.gameObject)
             {
                 continue;
             }
@@ -118,15 +102,14 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public void ExaminePlayer(PlayerControl player, bool firstAttempt)
     {
         var text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicAtScene").Replace("<player>", $"{TownOfUsColors.Forensic.ToTextColor()}{player.Data.PlayerName}</color>");
-        if (InvestigatedPlayers.Contains(player.PlayerId) && InvestigatingScene != null && InvestigatingScene.DeadPlayer != null)
+        if (InvestigatedPlayers.Contains(player.PlayerId) && InvestigatingScene?.DeadPlayer is { Data.PlayerName: var deadName } )
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.red));
 
-            var deadPlayer = InvestigatingScene.DeadPlayer;
-            text = text.Replace("<deadPlayer>", deadPlayer.Data.PlayerName);
+            text = text.Replace("<deadPlayer>", deadName);
             if (firstAttempt)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.BloodyHands);
+                TouAchievements.BloodyHands.Unlock();
             }
         }
         else
@@ -135,56 +118,61 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicNotAtScene").Replace("<player>", $"{TownOfUsColors.Forensic.ToTextColor()}{player.Data.PlayerName}</color>");
         }
         var notif1 = Helpers.CreateAndShowNotification(text,
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Forensic.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Forensic);
         notif1.AdjustNotification();
     }
 
-    public void Report(byte deadPlayerId)
+    public bool ReportEnabled => OptionGroupSingleton<ForensicOptions>.Instance.ForensicReportOn;
+
+    public string BodyReportTitle => $"<color=#{TownOfUsColors.Forensic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.ForensicMessageTitle")}</color>";
+
+    public string ParseReport(BodyReport br)
     {
-        var areReportsEnabled = OptionGroupSingleton<ForensicOptions>.Instance.ForensicReportOn;
-
-        if (!areReportsEnabled)
+        string text;
+        if (br.Killer is not { } killer)
         {
-            return;
+            text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyError");
+        }
+        else if (br.KillAge > OptionGroupSingleton<ForensicOptions>.Instance.ForensicFactionDuration * 1000 &&
+            OptionGroupSingleton<ForensicOptions>.Instance.ForensicFactionDuration > 0)
+        {
+            text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyOld");
+        }
+        else if (killer.PlayerId == br.Body!.PlayerId)
+        {
+            text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodySuicide");
+        }
+        else
+        {
+            TouAchievements.RightOnTime.Unlock();
+
+            if (br.KillAge < OptionGroupSingleton<ForensicOptions>.Instance.ForensicRoleDuration * 1000)
+            {
+                // if the killer died, they would still appear correctly here
+                var role = killer.GetModifierOfType<ICachedRole>()?.CachedRole
+                    ?? killer.GetRoleWhenAlive();
+
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerRole").Replace("<role>",
+                    MiscUtils.GetReliableHyperlinkText(role));
+            }
+
+            else if (killer.IsNeutral())
+            {
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerNeutral");
+            }
+
+            else if (killer.IsCrewmate())
+            {
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerCrewmate");
+            }
+            else
+            {
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerImpostor");
+            }
         }
 
-        var matches = GameHistory.KilledPlayers.Where(x => x.VictimId == deadPlayerId).ToArray();
+        text = text.Replace("<time>", Math.Round(br.KillAge / 1000).ToString(TownOfUsPlugin.Culture));
 
-        DeadPlayer? killer = null;
-
-        if (matches.Length > 0)
-        {
-            killer = matches[0];
-        }
-
-        if (killer == null)
-        {
-            return;
-        }
-
-        var br = new BodyReport
-        {
-            Killer = MiscUtils.PlayerById(killer.KillerId),
-            Reporter = Player,
-            Body = MiscUtils.PlayerById(killer.VictimId),
-            KillAge = (float)(DateTime.UtcNow - killer.KillTime).TotalMilliseconds
-        };
-
-        var reportMsg = BodyReport.ParseForensicReport(br);
-
-        if (string.IsNullOrWhiteSpace(reportMsg))
-        {
-            return;
-        }
-
-        // Send the message through chat only visible to the forensic
-        var title = $"<color=#{TownOfUsColors.Forensic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.ForensicMessageTitle")}</color>";
-        var reported = Player;
-        if (br.Body != null)
-        {
-            reported = br.Body;
-        }
-
-        MiscUtils.AddFakeChat(reported.Data, title, reportMsg, false, true);
+        return text;
     }
 }

@@ -78,7 +78,7 @@ public sealed class FrenzyJuggernautRole(IntPtr cppPtr) : FrenzyRole(cppPtr), IT
         RoleBehaviourStubs.Initialize(this, player);
         if (Player.AmOwner)
         {
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.JuggVentSprite.LoadAsset();
+            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.JuggVentSprite;
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Juggernaut);
         }
     }
@@ -89,7 +89,7 @@ public sealed class FrenzyJuggernautRole(IntPtr cppPtr) : FrenzyRole(cppPtr), IT
         TouRoleUtils.ClearTaskHeader(Player);
         if (Player.AmOwner)
         {
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
+            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite;
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
         }
     }

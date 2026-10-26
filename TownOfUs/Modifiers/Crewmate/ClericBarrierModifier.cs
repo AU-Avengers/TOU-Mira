@@ -43,7 +43,7 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
     public override void OnActivate()
     {
         var touAbilityEvent = new TouAbilityEvent(AbilityType.ClericBarrier, Cleric, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
 
@@ -57,7 +57,7 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
                       (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
 
         ClericBarrier =
-            AnimStore.SpawnAnimBody(Player, TouAssets.ClericBarrier.LoadAsset(), false, -1.1f, -0.35f, 1.5f)!;
+            AnimStore.SpawnAnimBody(Player, TouAssets.ClericBarrier, false, -1.1f, -0.35f, 1.5f)!;
         ClericBarrier.GetComponent<SpriteAnim>().SetSpeed(2f);
     }
 
@@ -65,7 +65,7 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
     {
         if (!Player || Cleric == null)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 
@@ -77,12 +77,12 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnMeetingStart()
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeactivate()

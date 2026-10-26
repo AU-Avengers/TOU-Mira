@@ -264,7 +264,7 @@ public static class SentryCameraSurveillancePatch
             }
             catch
             {
-               // ignored
+                // ignored
             }
 
             SentryCameraPortablePatch.ApplyPortableBlinkState();

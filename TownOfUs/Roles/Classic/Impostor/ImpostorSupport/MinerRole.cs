@@ -33,9 +33,7 @@ public sealed class MinerRole(IntPtr cppPtr)
         }
 
         HudManager.Instance.KillButton.ToggleVisible(OptionGroupSingleton<MinerOptions>.Instance.MinerKill ||
-                                                     (Player != null && Player.GetModifiers<BaseModifier>()
-                                                         .Any(x => x is ICachedRole)) ||
-                                                     (Player != null && MiscUtils.ImpAliveCount == 1));
+                                                     Player != null && (Player.HasModifierOfType<ICachedRole>() || MiscUtils.ImpAliveCount == 1));
     }
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PlumberRole>());
@@ -55,7 +53,7 @@ public sealed class MinerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Miner.LoadAsset(), "TouMira.Role.Impostor.Miner", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Miner, "TouMira.Role.Impostor.Miner", 1.45f),
         UseVanillaKillButton = true,
         Icon = TouRoleIcons.Miner,
         OptionsScreenshot = TouBanners.MinerRoleBanner,
@@ -74,20 +72,6 @@ public sealed class MinerRole(IntPtr cppPtr)
         }
 
         return stringB;
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mine", "Mine"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mine.WikiDescription"),
-                    TouImpAssets.MineSprite)
-            ];
-        }
     }
 
     [HideFromIl2Cpp]
@@ -142,7 +126,7 @@ public sealed class MinerRole(IntPtr cppPtr)
 
         vent.numFramesUntilPlayerDisappearsOnEnter = 0;
         vent.numFramesUntilPlayerReappearsOnExit = 0;
-        vent.myRend.sprite = TouAssets.MinerVentSprite.LoadAsset();
+        vent.myRend.sprite = TouAssets.MinerVentSprite;
         vent.name = $"MinerVent-{player.PlayerId}-{ventId}";
 
         Error($"RpcPlaceVent - vent: {vent.name} - {immediate}");
@@ -179,7 +163,7 @@ public sealed class MinerRole(IntPtr cppPtr)
             return;
         }
 
-        if (miner.Vents.HasAny())
+        if (miner.Vents.Count != 0)
         {
             var leftVent = miner.Vents[^1];
             vent.Left = leftVent;
@@ -200,15 +184,15 @@ public sealed class MinerRole(IntPtr cppPtr)
         miner.Vents.Add(vent);
         if (player.AmOwner || immediate)
         {
-            Coroutines.Start(miner.CoExplode(new Vector3(position.x, position.y + 1.33f , zAxis - 0.0001f)));
+            Coroutines.Start(miner.CoExplode(new Vector3(position.x, position.y + 1.33f, zAxis - 0.0001f)));
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MinerPlaceVent, player, vent);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
         if (immediate)
         {
             var touAbilityEvent2 = new TouAbilityEvent(AbilityType.MinerRevealVent, player, vent);
-            MiraEventManager.InvokeEvent(touAbilityEvent2);
+            touAbilityEvent2.InvokeEvent();
         }
     }
 
@@ -216,7 +200,7 @@ public sealed class MinerRole(IntPtr cppPtr)
     public IEnumerator CoExplode(Vector3 position)
     {
         var explodeAnim =
-            AnimStore.SpawnAnimAtPlayer(Player, TouAssets.VentExplodePrefab.LoadAsset());
+            AnimStore.SpawnAnimAtPlayer(Player, TouAssets.VentExplodePrefab);
         explodeAnim.transform.position = position;
         yield return new WaitForSeconds(1.166f);
         explodeAnim.Destroy();
@@ -230,20 +214,20 @@ public sealed class MinerRole(IntPtr cppPtr)
             MiscUtils.RunAnticheatWarning(player);
             return;
         }
-        if (player.Data.Role is not MinerRole miner)
+        if (player.Data.Role is not MinerRole { Vents: var vents })
         {
             Error("RpcShowVent - Invalid miner");
             return;
         }
 
-        var vent = miner.Vents.FirstOrDefault(x => x.Id == ventId);
+        var vent = vents.FirstOrDefault(x => x.Id == ventId);
 
         if (vent != null)
         {
             vent.gameObject.SetActive(true);
 
             var touAbilityEvent = new TouAbilityEvent(AbilityType.MinerRevealVent, player, vent);
-            MiraEventManager.InvokeEvent(touAbilityEvent);
+            touAbilityEvent.InvokeEvent();
         }
     }
 }

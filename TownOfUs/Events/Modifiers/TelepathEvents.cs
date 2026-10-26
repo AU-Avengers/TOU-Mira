@@ -29,7 +29,7 @@ public static class TelepathEvents
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.ImpSoft, alpha: 0.4f));
                 var text = MiraLocaleManager.Get("TownOfUsMira.Modifier.TelepathFailedGuess").Replace("<player>", victim.Data.PlayerName).Replace("<target>", assassin.LastAttemptedVictim!.Data.PlayerName).Replace("<guess>", assassin.LastGuessedItem);
                 var notif1 = Helpers.CreateAndShowNotification($"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f),
-                spr: TouModifierIcons.Telepath.LoadAsset());
+                spr: TouModifierIcons.Telepath);
                 notif1.AdjustNotification();
             }
             else if (source.IsImpostorAligned() && source != victim && options.KnowCorrectGuess && MeetingHud.Instance)
@@ -38,7 +38,7 @@ public static class TelepathEvents
                 var text = MiraLocaleManager.Get("TownOfUsMira.Modifier.TelepathCorrectGuess").Replace("<player>", source.Data.PlayerName).Replace("<target>", victim.Data.PlayerName).Replace("<role>", victim.GetRoleWhenAlive().GetRoleName());
 
                 var notif1 = Helpers.CreateAndShowNotification($"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{text}</color></b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Telepath.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Telepath);
                 notif1.AdjustNotification();
             }
             else if (source.IsImpostorAligned() && source != victim)
@@ -46,7 +46,7 @@ public static class TelepathEvents
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.ImpSoft, alpha: 0.05f));
                 var text = MiraLocaleManager.Get("TownOfUsMira.Modifier.TelepathKill").Replace("<player>", source.Data.PlayerName);
                 var notif1 = Helpers.CreateAndShowNotification($"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{text}</color></b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Telepath.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Telepath);
                 notif1.AdjustNotification();
                 if (options.KnowKillLocation)
                 {
@@ -58,7 +58,7 @@ public static class TelepathEvents
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.ImpSoft, alpha: 0.4f));
                 var text = MiraLocaleManager.Get("TownOfUsMira.Modifier.TelepathDeath").Replace("<player>", victim.Data.PlayerName);
                 var notif1 = Helpers.CreateAndShowNotification($"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{text}</color></b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Telepath.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Telepath);
                 notif1.AdjustNotification();
                 if (options.KnowDeathLocation)
                 {

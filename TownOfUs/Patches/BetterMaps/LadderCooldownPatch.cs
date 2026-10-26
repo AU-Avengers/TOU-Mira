@@ -15,7 +15,7 @@ public static class MapLadderCooldownPatch
         }
 
         var ladders = Object.FindObjectsOfType<Ladder>();
-        
+
         foreach (var ladder in ladders)
         {
             ladder?.CoolDown = 0f;

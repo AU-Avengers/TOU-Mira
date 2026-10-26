@@ -24,12 +24,12 @@ public static class ProsecutorEvents
     public static PlayerControl ProsToAnnounceNext;
     public static bool IsBadJudgement(PlayerControl pros, PlayerControl victim)
     {
-        if (pros.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        if (pros.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished))
         {
             return false;
         }
 
-        if (victim.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished)
+        if (victim.HasModifier<AllianceGameModifier>(allyMod2 => !allyMod2.GetsPunished))
         {
             return false;
         }
@@ -43,13 +43,13 @@ public static class ProsecutorEvents
         var voteArea = @event.VoteArea;
         var votedPlayer = voteArea.GetPlayer();
         if (PlayerControl.LocalPlayer.HasDied() || (votedPlayer != null && votedPlayer.HasDied()) ||
-            PlayerControl.LocalPlayer.TryGetModifier<BlackmailedModifier>(out var bm) && bm.IsVoteReady && !bm.AboutToVote)
+            PlayerControl.LocalPlayer.HasModifier<BlackmailedModifier>(bm => bm.IsVoteReady && !bm.AboutToVote))
         {
             @event.Cancel();
             return;
         }
 
-        if (PlayerControl.LocalPlayer.Data.Role is not ProsecutorRole prosecutor)
+        if (PlayerControl.LocalPlayer.Data.Role is not ProsecutorRole { WantsToPros: var wantPros })
         {
             return;
         }
@@ -60,7 +60,7 @@ public static class ProsecutorEvents
             return;
         }
 
-        if (voteArea != MeetingHud.Instance.SkipVoteButton && prosecutor.WantsToPros is ProsecuteToggleMode.ToggledOn)
+        if (voteArea != MeetingHud.Instance.SkipVoteButton && wantPros is ProsecuteToggleMode.ToggledOn)
         {
             ProsecutorRole.RpcProsecute(PlayerControl.LocalPlayer, voteArea.PlayerId);
             @event.Cancel();
@@ -103,7 +103,7 @@ public static class ProsecutorEvents
         var prosdata = prosecutor.Player.GetVoteData();
 
         var toVote = prosecutor.ProsecuteVictim;
-        if ((BadProsecuteResult)OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is
+        if (OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is
             BadProsecuteResult.EjectPros && IsBadJudgement(prosecutor.Player, GameData.Instance.GetPlayerById(prosecutor.ProsecuteVictim).Object))
         {
             toVote = prosecutor.Player.PlayerId;
@@ -179,7 +179,7 @@ public static class ProsecutorEvents
                 if (IsBadJudgement(pros.Player, player) && player != pros.Player)
                 {
                     ProsToAnnounceNext = pros.Player;
-                    if ((BadProsecuteResult)OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is BadProsecuteResult.EjectProsAndEjectTarget)
+                    if (OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is BadProsecuteResult.EjectProsAndEjectTarget)
                     {
                         if (pros.Player.TryGetModifier<CelebrityModifier>(out var celeb))
                         {
@@ -209,14 +209,14 @@ public static class ProsecutorEvents
             return;
         }
 
-        if ((BadProsecuteResult)OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is
+        if (OptionGroupSingleton<ProsecutorOptions>.Instance.WrongfulProsecutionResult.Value is
             BadProsecuteResult.EjectProsAndEjectTarget)
         {
             if (ProsToAnnounceNext.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Role.Prosecutor.ShameNotificationSelf"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor);
 
                 notif1.AdjustNotification();
             }
@@ -224,7 +224,7 @@ public static class ProsecutorEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Role.Prosecutor.ShameNotification").Replace("<player>", ProsToAnnounceNext.Data.PlayerName),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor);
 
                 notif1.AdjustNotification();
             }
@@ -233,7 +233,7 @@ public static class ProsecutorEvents
         {
             var notif1 = Helpers.CreateAndShowNotification(
                 MiraLocaleManager.Get("TownOfUsMira.Role.Prosecutor.ShameNotificationSelfPrivate"),
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Prosecutor);
 
             notif1.AdjustNotification();
         }

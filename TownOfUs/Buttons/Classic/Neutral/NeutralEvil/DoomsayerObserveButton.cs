@@ -42,7 +42,7 @@ public sealed class DoomsayerObserveButton : TownOfUsRoleButton<DoomsayerRole, P
 
         var notif1 = Helpers.CreateAndShowNotification(
             MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerObserveNotif").Replace("<player>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{Target.Data.PlayerName}</color>"),
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer);
 
         notif1.AdjustNotification();
     }

@@ -49,23 +49,6 @@ public sealed class GlitchRole(IntPtr cppPtr)
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mimic", "Mimic"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mimic.WikiDescription"),
-                    TouNeutAssets.MimicSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hack", "Hack"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hack.WikiDescription"),
-                    TouNeutAssets.HackSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get
@@ -90,8 +73,8 @@ public sealed class GlitchRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Glitch.LoadAsset(), "TouMira.Role.Neutral.Glitch", 1.45f),
-        CanUseVent = (GlitchVent)OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is not GlitchVent.Never,
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Glitch, "TouMira.Role.Neutral.Glitch", 1.45f),
+        CanUseVent = OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is not GlitchVent.Never,
         IntroSound = TouAudio.GlitchSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
         Icon = TouRoleIcons.Glitch,
@@ -118,7 +101,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
     public void OffsetButtons()
     {
         // Because Glitch has multiple buttons, there's no need to offset it without a vent button; it looks weird with a random space - Atony
-        var canVent = (GlitchVent)OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is not GlitchVent.Never;
+        var canVent = OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is not GlitchVent.Never;
         var hack = CustomButtonSingleton<GlitchHackButton>.Instance;
         var mimic = CustomButtonSingleton<GlitchMimicButton>.Instance;
         var kill = CustomButtonSingleton<GlitchKillButton>.Instance;
@@ -144,7 +127,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
             OffsetButtons();
             if (!LegacyAssets.IsLegacy)
             {
-                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.GlitchVentSprite.LoadAsset();
+                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.GlitchVentSprite;
                 HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Glitch);
             }
             CustomButtonSingleton<FakeVentButton>.Instance.Show = false;
@@ -159,7 +142,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
         {
             if (!LegacyAssets.IsLegacy)
             {
-                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
+                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite;
                 HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
             }
             CustomButtonSingleton<FakeVentButton>.Instance.Show = true;
@@ -194,7 +177,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
         {
             if (fullRemoval)
             {
-                victim.RemoveModifier(hackMod);
+                hackMod.RemoveSelf();
             }
             else
             {

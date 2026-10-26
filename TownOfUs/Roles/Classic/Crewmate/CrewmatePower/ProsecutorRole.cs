@@ -76,12 +76,12 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
     public bool IsPowerCrew =>
         ProsecutionsCompleted <
-        (int)OptionGroupSingleton<ProsecutorOptions>.Instance
+        OptionGroupSingleton<ProsecutorOptions>.Instance
             .MaxProsecutions; // Disable end game checks if prosecutes are available
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Prosecutor.LoadAsset(), "TouMira.Role.Crewmate.Prosecutor", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Prosecutor, "TouMira.Role.Crewmate.Prosecutor", 1.45f),
         MaxRoleCount = 1,
         Icon = TouRoleIcons.Prosecutor,
         OptionsScreenshot = TouBanners.ProsecutorRoleBanner,
@@ -92,12 +92,12 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     public StringBuilder SetTabText()
     {
         var text = ITownOfUsRole.SetNewTabText(this);
-        if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        if (PlayerControl.LocalPlayer.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished))
         {
             text.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}CanProsecuteCrew")}");
         }
 
-        var total = (int)OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
+        var total = OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
         var prosecutes = total - ProsecutionsCompleted;
         text.AppendLine(TownOfUsPlugin.Culture,
             $"{MiraLocaleManager.Get("TownOfUsMira.Role.ProsecutorProsecutionsRemaining").Replace("<count>", prosecutes.ToString(TownOfUsPlugin.Culture)).Replace("<total>", total.ToString(TownOfUsPlugin.Culture))}");
@@ -152,7 +152,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         prosecutorRole.ProsecuteVictim = Victim;
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.ProsecutorProsecutes, plr, MiscUtils.PlayerById(Victim));
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         VotingUtils.CustomCastVote(plr.PlayerId, Victim);
     }
@@ -235,7 +235,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             gavel.localPosition += new Vector3(newStart + t, 0f, 0f);
             killBg.localScale = new Vector3(2f, 1.1f - t, 1f);
         }));
-        
+
         Destroy(prosAnim);
     }
 }

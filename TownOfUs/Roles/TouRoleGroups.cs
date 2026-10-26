@@ -5,7 +5,7 @@ namespace TownOfUs.Roles;
 
 public static class TouRoleGroups
 {
-   public static RoleOptionsGroup CrewHider { get; } = new(MiraLocaleManager.Get("TouRoleGroupCrewHider", "Hiders (Hide and Seek)"), TownOfUsColors.Crewmate, -10);
+    public static RoleOptionsGroup CrewHider { get; } = new(MiraLocaleManager.Get("TouRoleGroupCrewHider", "Hiders (Hide and Seek)"), TownOfUsColors.Crewmate, -10);
     public static RoleOptionsGroup ImpSeeker { get; } = new(MiraLocaleManager.Get("TouRoleGroupImpSeeker", "Seekers (Hide and Seek)"), TownOfUsColors.ImpSoft, -9);
     public static RoleOptionsGroup CrewBeliever { get; } = new(MiraLocaleManager.Get("TouRoleGroupCrewBeliever", "Crewmate Believer Roles (Cultist)"), TownOfUsColors.Crewmate, -8);
     public static RoleOptionsGroup CrewObstinate { get; } = new(MiraLocaleManager.Get("TouRoleGroupCrewObstinate", "Crewmate Obstinate Roles (Cultist)"), TownOfUsColors.Crewmate, -7);

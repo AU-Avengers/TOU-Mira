@@ -20,7 +20,7 @@ public sealed class BarkeeperSpillButton : TownOfUsRoleButton<BarkeeperRole>
     protected override void OnClick()
     {
         var message = MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperSpillNotification") .Replace("<time>", EffectDuration.ToString(TownOfUsPlugin.Culture));
-        NotifMessage = Helpers.CreateAndShowNotification($"<b>{message}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper.LoadAsset());
+        NotifMessage = Helpers.CreateAndShowNotification($"<b>{message}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper);
         NotifMessage.Text.SetOutlineThickness(0.35f);
         CustomButtonSingleton<BarkeeperRoleblockButton>.Instance.ResetCooldownAndOrEffect();
         var pos = PlayerControl.LocalPlayer.transform.position;

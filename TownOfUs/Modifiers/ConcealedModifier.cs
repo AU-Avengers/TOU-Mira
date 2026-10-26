@@ -24,7 +24,7 @@ public abstract class ConcealedModifier : TimedModifier
     {
         base.OnDeath(reason);
 
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnMeetingStart()
@@ -32,7 +32,7 @@ public abstract class ConcealedModifier : TimedModifier
         base.OnMeetingStart();
         if (!CarriesIntoMeetings)
         {
-            ModifierComponent!.RemoveModifier(this);
+            RemoveSelf();
         }
     }
 }

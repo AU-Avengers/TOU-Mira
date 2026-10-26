@@ -23,13 +23,13 @@ public abstract class DisabledModifier : TimedModifier
 
     public override string GetDescription()
     {
-        return  "You are disabled!";
+        return "You are disabled!";
     }
 
     public override void OnDeath(DeathReason reason)
     {
         base.OnDeath(reason);
 
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

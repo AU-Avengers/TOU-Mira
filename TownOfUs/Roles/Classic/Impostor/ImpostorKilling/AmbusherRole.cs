@@ -42,29 +42,12 @@ public sealed class AmbusherRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Ambusher.LoadAsset(), "TouMira.Role.Impostor.Ambusher", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Ambusher, "TouMira.Role.Impostor.Ambusher", 1.45f),
         Icon = TouRoleIcons.Ambusher,
         IntroSound = TouAudio.SneakyIntro,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         CanUseVent = OptionGroupSingleton<AmbusherOptions>.Instance.CanVent
     };
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Pursue", "Pursue"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Pursue.WikiDescription"),
-                    TouImpAssets.PursueSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Ambush", "Ambush"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Ambush.WikiDescription"),
-                    TouImpAssets.AmbushSprite)
-            ];
-        }
-    }
 
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
@@ -155,7 +138,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
         var murderResultFlags = MurderResultFlags.Succeeded;
 
         var beforeMurderEvent = new BeforeMurderEvent(ambusher, target, true);
-        MiraEventManager.InvokeEvent(beforeMurderEvent);
+        beforeMurderEvent.InvokeEvent();
 
         if (beforeMurderEvent.IsCancelled)
         {

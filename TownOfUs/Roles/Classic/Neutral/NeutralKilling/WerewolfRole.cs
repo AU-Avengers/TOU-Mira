@@ -48,20 +48,6 @@ public sealed class WerewolfRole(IntPtr cppPtr)
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Rampage", "Rampage"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Rampage.WikiDescription"),
-                    TouNeutAssets.RampageSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get
@@ -82,7 +68,7 @@ public sealed class WerewolfRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Werewolf.LoadAsset(), "TouMira.Role.Neutral.Werewolf", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Werewolf, "TouMira.Role.Neutral.Werewolf", 1.45f),
         CanUseVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent /* && (Rampaging || Player.inVent)*/,
         IntroSound = TouAudio.WerewolfRampageSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
@@ -123,7 +109,7 @@ public sealed class WerewolfRole(IntPtr cppPtr)
             OffsetButtons();
             if (!LegacyAssets.IsLegacy)
             {
-                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.WerewolfVentSprite.LoadAsset();
+                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.WerewolfVentSprite;
                 HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Werewolf);
             }
         }
@@ -135,7 +121,7 @@ public sealed class WerewolfRole(IntPtr cppPtr)
         TouRoleUtils.ClearTaskHeader(Player);
         if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
+            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite;
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
         }
     }

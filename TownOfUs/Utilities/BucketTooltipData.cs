@@ -17,7 +17,7 @@ public static class BucketTooltipData
         public Color Col = col;
     }
 
-    public readonly struct TooltipInfo(BucketTooltipData.RoleEntry[] roles)
+    public readonly struct TooltipInfo(RoleEntry[] roles)
     {
         internal readonly RoleEntry[] Roles = roles;
     }
@@ -99,7 +99,7 @@ public static class BucketTooltipData
         }
         else if (_allRoles.ContainsKey(bucket))
         {
-            buckets = [ bucket ];
+            buckets = [bucket];
         }
         else
         {
@@ -121,7 +121,7 @@ public static class BucketTooltipData
                 Error($"All Roles doesn't contain alignment: {b.ToDisplayString()}!");
                 continue;
             }
-            var allRoles = MiscUtils.GetRegisteredRoles(alignment).ToList();
+            var allRoles = MiscUtils.GetRegisteredRoles(alignment);
             foreach (var role in allRoles)
             {
                 var entry = entries.FirstOrDefault(x => x.RoleId == role.Role);

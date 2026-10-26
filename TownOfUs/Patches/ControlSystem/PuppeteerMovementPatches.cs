@@ -83,16 +83,13 @@ public static class PuppeteerMovementPatches
 
         if (player.AmOwner &&
             PlayerControl.LocalPlayer &&
-            PlayerControl.LocalPlayer.Data?.Role is PuppeteerRole puppeteer &&
-            puppeteer.Controlled != null)
+            PlayerControl.LocalPlayer.Data?.Role is PuppeteerRole { Controlled: { } victim })
         {
             if (TimeLordRewindSystem.IsRewinding)
             {
                 return true;
             }
 
-            var victim = puppeteer.Controlled;
-            
             if (victim.Data == null || victim.HasDied() || victim.Data.Disconnected)
             {
                 return true;

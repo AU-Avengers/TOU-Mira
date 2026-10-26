@@ -25,7 +25,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
 
     public override void OnMeetingStart()
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnActivate()
@@ -35,16 +35,16 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
 
         if (_mediumPlayer == null || _medium == null || !Player.Data.IsDead || _medium.Spirit == null)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MediumMediate, _mediumPlayer, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         _medium.MediatedPlayers.Add(this);
 
-        switch ((MediumVisibility)OptionGroupSingleton<MediumOptions>.Instance.ArrowVisibility.Value)
+        switch (OptionGroupSingleton<MediumOptions>.Instance.ArrowVisibility.Value)
         {
             case MediumVisibility.Both:
                 var ownerTransform = Player.AmOwner ? _medium.Spirit.transform : Player.transform;
@@ -61,7 +61,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
         }
 
         var hidden =
-            (AppearanceVisibility)OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
+            OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
             AppearanceVisibility.None or AppearanceVisibility.Living;
         if (_mediumPlayer.AmOwner && hidden)
         {
@@ -86,7 +86,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
             CustomButtonSingleton<MediumMediateButton>.Instance.ResetCooldownAndOrEffect();
 
             var hidden =
-                (AppearanceVisibility)OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
+                OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
                 AppearanceVisibility.None or AppearanceVisibility.Living;
 
             if (hidden)
@@ -102,7 +102,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
     {
         if (!Player.Data.IsDead)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 

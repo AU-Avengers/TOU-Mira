@@ -12,7 +12,7 @@ public sealed class RadarModifier : UniversalGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Radar,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Radar.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Radar,
             "TouMira.Modifier.Universal.Radar", 1.45f));
     private ArrowBehaviour _arrow;
     public override string IdPart => "Radar";
@@ -36,12 +36,12 @@ public sealed class RadarModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.RadarChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.RadarChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.RadarAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.RadarAmount;
     }
 
     public override void OnActivate()
@@ -70,8 +70,7 @@ public sealed class RadarModifier : UniversalGameModifier, IWikiDiscoverable
         var target = Helpers.GetClosestPlayers(Player, float.MaxValue)
             .FirstOrDefault(playerInfo => !playerInfo.Data.Disconnected &&
                                           playerInfo.PlayerId != Player.PlayerId &&
-                                          (!playerInfo.TryGetModifier<DisabledModifier>(out var mod) ||
-                                           mod.IsConsideredAlive) &&
+                                          !playerInfo.HasModifier<DisabledModifier>(mod => !mod.IsConsideredAlive) &&
                                           (SwoopModifier.CanBeTracked == SwoopTracking.Always ||
                                            !playerInfo.HasModifier<SwoopModifier>()) &&
                                           !playerInfo.Data.IsDead);

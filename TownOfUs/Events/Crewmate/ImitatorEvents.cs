@@ -20,32 +20,24 @@ public static class ImitatorEvents
 
         var imitatorRoles = CustomRoleUtils.GetActiveRolesOfType<ImitatorRole>();
 
-        if (imitatorRoles.HasAny())
+        if (imitatorRoles.Any())
         {
-            foreach (var imitatorPlayer in imitatorRoles)
+            foreach (var imitatorPlayer in imitatorRoles.Where(x => !x.Player.HasModifier<ImitatorCacheModifier>()))
             {
-                if (imitatorPlayer.Player.HasModifier<ImitatorCacheModifier>())
-                {
-                    continue;
-                }
-
                 imitatorPlayer.Player.AddModifier<ImitatorCacheModifier>();
             }
         }
 
         var imitators = ModifierUtils.GetActiveModifiers<ImitatorCacheModifier>(x => !x.Player.HasDied() && x.Player.IsCrewmate());
 
-        if (!imitators.HasAny())
+        if (!imitators.Any())
         {
             return;
         }
 
-        foreach (var mod in imitators)
+        foreach (var mod in imitators.Where(x => x.Player.AmOwner))
         {
-            if (mod.Player.AmOwner)
-            {
-                mod.UpdateRole();
-            }
+            mod.UpdateRole();
         }
     }
 
@@ -59,12 +51,10 @@ public static class ImitatorEvents
 
         var player = @event.Player;
 
-        if (player.HasModifier<ImitatorCacheModifier>() && !@event.NewRole.IsCrewmate())
+        if (player.TryRemoveModifier<ImitatorCacheModifier>() && !@event.NewRole.IsCrewmate())
         {
             var text = "Removed Imitator Cache Modifier On Role Change";
             MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, text);
-
-            player.RemoveModifier<ImitatorCacheModifier>();
         }
     }
 }

@@ -47,7 +47,7 @@ public sealed class AmbusherPursueButton : TownOfUsRoleButton<AmbusherRole, Play
 
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Ambusher.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Ambusher);
         notif1.AdjustNotification();
 
         CustomButtonSingleton<AmbusherAmbushButton>.Instance.SetActive(true, Role);

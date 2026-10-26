@@ -49,7 +49,7 @@ public static class TraitorEvents
                             $"{TownOfUsColors.Impostor.ToTextColor()}{crewpostor.ModifierName}</color>")
                         .Replace("<role>",
                             $"{TownOfUsColors.Impostor.ToTextColor()}{traitorRole.GetRoleName()}</color>"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Crewpostor.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Crewpostor);
 
                 notif1.AdjustNotification();
             }
@@ -60,7 +60,7 @@ public static class TraitorEvents
         {
             return;
         }
-        var alives = Helpers.GetAlivePlayers().ToList();
+        var alives = Helpers.GetAlivePlayers();
         if (crewpostor != null)
         {
             if (crewpostor.Player.HasDied() || alives.Any(x => x.IsImpostor()))
@@ -95,7 +95,7 @@ public static class TraitorEvents
             }
 
             var otherTraitors = Helpers.GetAlivePlayers()
-                .Where(x => x.HasModifier<ToBecomeTraitorModifier>() && x != traitorPlayer).ToList();
+                .Where(x => x.HasModifier<ToBecomeTraitorModifier>() && x != traitorPlayer);
             foreach (var faker in otherTraitors)
             {
                 faker.RpcRemoveModifier<ToBecomeTraitorModifier>();
@@ -110,7 +110,7 @@ public static class TraitorEvents
     {
         var player = @event.Player;
 
-        if (!PlayerControl.LocalPlayer || player == null || (@event.NewRole is not ILoyalCrewmate loyal || loyal.CanBeTraitor))
+        if (!PlayerControl.LocalPlayer || player == null || @event.NewRole is not ILoyalCrewmate { CanBeTraitor: false })
         {
             return;
         }
@@ -126,8 +126,7 @@ public static class TraitorEvents
         var player = @event.Player;
 
         if (!PlayerControl.LocalPlayer || player == null ||
-            (RoleManager.Instance.AllRoles.ToArray().First(x => x.Role == @event.Role) is not ILoyalCrewmate loyal ||
-             loyal.CanBeTraitor))
+            RoleManager.Instance.AllRoles.First(x => x.Role == @event.Role) is not ILoyalCrewmate { CanBeTraitor: false })
         {
             return;
         }

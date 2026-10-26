@@ -29,11 +29,11 @@ public sealed class DraftPlan
 
     private static DraftPlan FromRoleList(int players)
     {
-        var slots = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance.Slot;
+        var slots = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance.Slots;
         var seats = new List<RoleAlignment[]>();
         for (var i = 0; i < Math.Min(players, slots.Count); i++)
         {
-            seats.Add(Alignments(slots[i].Value));
+            seats.Add(Alignments(slots[i]));
         }
 
         while (seats.Count < players)
@@ -56,23 +56,23 @@ public sealed class DraftPlan
 
         var caps = new Dictionary<RoleAlignment, int>
         {
-            [RoleAlignment.CrewmateInvestigative] = (int)crew.MaxCrewInvestigative.Value,
-            [RoleAlignment.CrewmateKilling] = (int)crew.MaxCrewKilling.Value,
-            [RoleAlignment.CrewmatePower] = (int)crew.MaxCrewPower.Value,
-            [RoleAlignment.CrewmateProtective] = (int)crew.MaxCrewProtective.Value,
-            [RoleAlignment.CrewmateSupport] = (int)crew.MaxCrewSupport.Value,
-            [RoleAlignment.ImpostorConcealing] = (int)imp.MaxImpConcealing.Value,
-            [RoleAlignment.ImpostorKilling] = (int)imp.MaxImpKilling.Value,
-            [RoleAlignment.ImpostorPower] = (int)imp.MaxImpPower.Value,
-            [RoleAlignment.ImpostorSupport] = (int)imp.MaxImpSupport.Value,
-            [RoleAlignment.NeutralBenign] = (int)neut.MaxNeutBenign.Value,
-            [RoleAlignment.NeutralEvil] = (int)neut.MaxNeutEvil.Value,
-            [RoleAlignment.NeutralKilling] = (int)neut.MaxNeutKilling.Value,
-            [RoleAlignment.NeutralOutlier] = (int)neut.MaxNeutOutlier.Value
+            [RoleAlignment.CrewmateInvestigative] = crew.MaxCrewInvestigative,
+            [RoleAlignment.CrewmateKilling] = crew.MaxCrewKilling,
+            [RoleAlignment.CrewmatePower] = crew.MaxCrewPower,
+            [RoleAlignment.CrewmateProtective] = crew.MaxCrewProtective,
+            [RoleAlignment.CrewmateSupport] = crew.MaxCrewSupport,
+            [RoleAlignment.ImpostorConcealing] = imp.MaxImpConcealing,
+            [RoleAlignment.ImpostorKilling] = imp.MaxImpKilling,
+            [RoleAlignment.ImpostorPower] = imp.MaxImpPower,
+            [RoleAlignment.ImpostorSupport] = imp.MaxImpSupport,
+            [RoleAlignment.NeutralBenign] = neut.MaxNeutBenign,
+            [RoleAlignment.NeutralEvil] = neut.MaxNeutEvil,
+            [RoleAlignment.NeutralKilling] = neut.MaxNeutKilling,
+            [RoleAlignment.NeutralOutlier] = neut.MaxNeutOutlier
         };
 
-        var impSeats = Math.Min((int)imp.MaxImpostors.Value, Capacity(DraftRolePool.Impostor, caps, pool));
-        var neutSeats = Math.Min((int)neut.MaxNeutrals.Value, Capacity(DraftRolePool.Neutral, caps, pool));
+        var impSeats = Math.Min(imp.MaxImpostors, Capacity(DraftRolePool.Impostor, caps, pool));
+        var neutSeats = Math.Min(neut.MaxNeutrals, Capacity(DraftRolePool.Neutral, caps, pool));
         impSeats = Math.Clamp(impSeats, 0, Math.Max(0, players - 1));
         neutSeats = Math.Clamp(neutSeats, 0, Math.Max(0, players - impSeats - 1));
         var crewSeats = players - impSeats - neutSeats;
@@ -105,7 +105,7 @@ public sealed class DraftPlan
             [DraftFaction.Neutral] = RequiredSeats(DraftFaction.Neutral) -
                 picks.Where(x => IsFaction(x.Alignment, DraftFaction.Neutral)).Sum(x => x.Weight)
         };
-        foreach (var faction in deficits.Keys.ToList())
+        foreach (var faction in deficits.Keys)
         {
             deficits[faction] = Math.Max(0, deficits[faction]);
         }
@@ -247,7 +247,7 @@ public sealed class DraftPlan
     public bool DropSeat(IReadOnlyList<DraftCopy> picks)
     {
         var picked = picks.SelectMany(x => Enumerable.Repeat(x.Alignment, x.Weight)).ToList();
-        foreach (var seat in _seats.OrderByDescending(x => x.Length).ToList())
+        foreach (var seat in _seats.OrderByDescending(x => x.Length))
         {
             var index = _seats.IndexOf(seat);
             var rest = _seats.Where((_, i) => i != index).ToList();

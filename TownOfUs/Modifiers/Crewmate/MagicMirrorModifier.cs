@@ -27,18 +27,18 @@ public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShield
     public override void OnActivate()
     {
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MagicMirror, Mirrorcaster, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
+        var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
         ShowShield = Mirrorcaster.AmOwner ||
                      (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
 
-        MedicShield = AnimStore.SpawnAnimBody(Player, TouAssets.MagicMirror.LoadAsset(), false, -1.1f, -0.1f, 1.5f)!;
+        MedicShield = AnimStore.SpawnAnimBody(Player, TouAssets.MagicMirror, false, -1.1f, -0.1f, 1.5f)!;
     }
 
     public override void OnDeactivate()
@@ -53,7 +53,7 @@ public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShield
     {
         if (!Player || Mirrorcaster == null)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 
@@ -65,11 +65,11 @@ public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShield
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnMeetingStart()
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 }

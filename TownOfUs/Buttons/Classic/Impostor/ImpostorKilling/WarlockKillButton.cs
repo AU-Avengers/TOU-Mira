@@ -42,7 +42,7 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
     {
         Warning("Marked Players are reset!");
         MarkedPlayers.Clear();
-        foreach (var mod in ModifierUtils.GetActiveModifiers<WarlockMarkedModifier>().ToList())
+        foreach (var mod in ModifierUtils.GetActiveModifiers<WarlockMarkedModifier>())
         {
             mod.Player.RemoveModifier(mod);
         }

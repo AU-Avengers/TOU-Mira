@@ -39,6 +39,20 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: github.ref_type != 'tag'
         with:
+          name: TownOfUsMira-Android.dll
+          path: TownOfUs/bin/Release/TownOfUsMira-Android.dll
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        if: github.ref_type != 'tag'
+        with:
+          name: TownOfUsMira-iOS.dll
+          path: TownOfUs/bin/Release/TownOfUsMira-iOS.dll
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        if: github.ref_type != 'tag'
+        with:
           name: TownOfUsMira.nupkg
           path: TownOfUs/bin/Release/TownOfUsMira.*.nupkg
           retention-days: 7
@@ -53,6 +67,20 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: github.ref_type == 'tag'
         with:
+          name: TownOfUsMira-Android.dll
+          path: TownOfUs/bin/Publish/TownOfUsMira-Android.dll
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        if: github.ref_type == 'tag'
+        with:
+          name: TownOfUsMira-iOS.dll
+          path: TownOfUs/bin/Publish/TownOfUsMira-iOS.dll
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        if: github.ref_type == 'tag'
+        with:
           name: TownOfUsMira.nupkg
           path: TownOfUs/bin/Publish/TownOfUsMira.*.nupkg
           retention-days: 7
@@ -61,7 +89,10 @@ jobs:
         if: github.ref_type == 'tag'
         with:
           draft: true
-          files: TownOfUs/bin/Publish/TownOfUsMira.dll
+          files: |
+            TownOfUs/bin/Publish/TownOfUsMira.dll
+            TownOfUs/bin/Publish/TownOfUsMira-Android.dll
+            TownOfUs/bin/Publish/TownOfUsMira-iOS.dll
           
       - name: Push NuGet CI
         if: github.ref == 'refs/heads/dev'

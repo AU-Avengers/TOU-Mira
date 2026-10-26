@@ -14,10 +14,10 @@ public static class TouAssets
     private static string BetaIdentifier => TownOfUsPlugin.IsDevBuild ? "Beta" : string.Empty;
 
     public static readonly AssetBundle MainBundle = AssetBundleManager.Load("tou-assets");
-    public static LoadableBundleSubAssetHolder MeetingAbilityHolder { get; } = new ("MeetingAbilitySprites", MainBundle);
-    public static LoadableBundleSubAssetHolder AbilityHolder { get; } = new ("AbilitySprites", MainBundle);
-    public static LoadableBundleSubAssetHolder RoleBannerHolder { get; } = new ("RoleBannerSprites", MainBundle);
-    public static LoadableBundleSubAssetHolder UiSpriteHolder { get; } = new ("UiSprites", MainBundle);
+    public static LoadableBundleSubAssetHolder MeetingAbilityHolder { get; } = new("MeetingAbilitySprites", MainBundle);
+    public static LoadableBundleSubAssetHolder AbilityHolder { get; } = new("AbilitySprites", MainBundle);
+    public static LoadableBundleSubAssetHolder RoleBannerHolder { get; } = new("RoleBannerSprites", MainBundle);
+    public static LoadableBundleSubAssetHolder UiSpriteHolder { get; } = new("UiSprites", MainBundle);
 
     public static LoadableAsset<Sprite> Banner => TownOfUsPlugin.LegacyMode.Value is LegacyVisuals.Disabled ? new LoadableResourceAsset($"{ShortPath}.Banner{BetaIdentifier}.png") : LegacyAssets.Banner;
     public static LoadableAsset<Sprite> BannerDark { get; } = new LoadableResourceAsset($"{ShortPath}.BannerDark.png");
@@ -58,9 +58,9 @@ public static class TouAssets
             case LegacyVisuals.Art:
                 sprite = LegacyArt;
                 break;
-            /*case LegacyVisuals.Full:
-                sprite = LegacyFull;
-                break;*/
+                /*case LegacyVisuals.Full:
+                    sprite = LegacyFull;
+                    break;*/
         }
 
         return sprite;
@@ -368,9 +368,9 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> TribunalSprite { get; } =
         new LoadableBundleSubAsset("Tribunal", MeetingAbilityHolder);
-    
+
     public static LoadableAsset<Sprite> TribunalClearSprite { get; } = TribunalSprite;
-  
+
     public static LoadableAsset<Sprite> BarricadeVentSprite { get; } =
         new LoadableBundleAsset<Sprite>("BarricadeVent1.png", MainBundle);
 
@@ -506,31 +506,31 @@ public static class TouAssets
 
     public static LoadableAsset<AnimationClip> MesudaStoneShatter { get; } =
         new LoadableBundleAsset<AnimationClip>("MedusaStoneShatterAnim", MainBundle);
-    
+
     public static LoadableAsset<Sprite> IconSkeld { get; } =
         new LoadableResourceAsset($"{SettingIconPath}.Skeld.png");
-    
+
     public static LoadableAsset<Sprite> IconMira { get; } =
         new LoadableResourceAsset($"{SettingIconPath}.Mira.png");
-    
+
     public static LoadableAsset<Sprite> IconPolus { get; } =
         new LoadableResourceAsset($"{SettingIconPath}.Polus.png");
-    
+
     public static LoadableAsset<Sprite> IconDleks { get; } =
         new LoadableResourceAsset($"{SettingIconPath}.Dleks.png");
-    
+
     public static LoadableAsset<Sprite> IconAirship { get; } =
         new LoadableResourceAsset($"{SettingIconPath}.Airship.png");
-    
+
     public static LoadableAsset<Sprite> IconFungle { get; } =
         new LoadableResourceAsset($"{SettingIconPath}.Fungle.png");
-    
+
     public static LoadableAsset<Sprite> IconLevelImposter { get; } =
         new LoadableResourceAsset($"{SettingIconPath}.LevelImposter.png");
-    
+
     public static LoadableAsset<Sprite> IconSubmerged { get; } =
         new LoadableResourceAsset($"{SettingIconPath}.Submerged.png");
-    
+
     public static LoadableAsset<Sprite> IconTownOfPolus { get; } =
         new LoadableResourceAsset($"{SettingIconPath}.TownOfPolus.png", 200f);
 
@@ -539,46 +539,46 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> ChefProgressFedRainbow { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.ChefFedRainbow.png");
-    
+
     public static LoadableAsset<Sprite> ChefProgressFedUncolored { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.ChefFedUncolored.png");
-    
+
     public static LoadableAsset<Sprite> ChefProgressBodyFlash { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.ChefBodyFlash.png");
-    
+
     public static LoadableAsset<Sprite> ChefProgressBodyGiant { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.ChefBodyGiant.png");
-    
+
     public static LoadableAsset<Sprite> ChefProgressBodyMini { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.ChefBodyMini.png");
-    
+
     public static LoadableAsset<Sprite> ChefProgressBodyNormal { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.ChefBodyNormal.png");
-    
+
     public static LoadableAsset<Sprite> ChefProgressNone { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.ChefNone.png");
-    
+
     public static LoadableAsset<Sprite> MercBribeGood { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.BribeGood.png");
-    
+
     public static LoadableAsset<Sprite> MercBribeBad { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.BribeBad.png");
-    
+
     public static LoadableAsset<Sprite> PlatformEpic { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.PlatformEpic.png");
-    
+
     public static LoadableAsset<Sprite> PlatformItch { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.PlatformItch.png");
-    
+
     public static LoadableAsset<Sprite> PlatformStarlight { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.PlatformStarlight.png");
-    
+
     public static LoadableAsset<Sprite> PlatformSteam { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.PlatformSteam.png");
-    
+
     public static LoadableAsset<Sprite> PlatformWindows { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.PlatformWindows.png");
-    
+
     public static LoadableAsset<Sprite> PlatformUnknown { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.PlatformUnknown.png");
 

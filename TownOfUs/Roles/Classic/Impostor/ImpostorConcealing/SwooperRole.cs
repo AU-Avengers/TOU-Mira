@@ -25,31 +25,12 @@ public sealed class SwooperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Swooper.LoadAsset(), "TouMira.Role.Impostor.Swooper", 1.45f),
-        CanUseVent = (SwooperVent)OptionGroupSingleton<SwooperOptions>.Instance.CanVent.Value is not SwooperVent.Never,
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Swooper, "TouMira.Role.Impostor.Swooper", 1.45f),
+        CanUseVent = OptionGroupSingleton<SwooperOptions>.Instance.CanVent.Value is not SwooperVent.Never,
         Icon = TouRoleIcons.Swooper,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         IntroSound = TouAudio.PhantomIntroSound
     };
-
-
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Swoop", "Swoop"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Swoop.WikiDescription"),
-                    TouImpAssets.SwoopSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Unswoop", "Unswoop"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Unswoop.WikiDescription"),
-                    TouImpAssets.UnswoopSprite)
-            ];
-        }
-    }
 
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities

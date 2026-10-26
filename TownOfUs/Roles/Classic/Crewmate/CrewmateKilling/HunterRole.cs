@@ -83,7 +83,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Hunter.LoadAsset(), "TouMira.Role.Crewmate.Hunter", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Hunter, "TouMira.Role.Crewmate.Hunter", 1.45f),
         Icon = TouRoleIcons.Hunter,
         OptionsScreenshot = TouBanners.HunterRoleBanner,
         IntroSound = TouAudio.OtherIntroSound
@@ -122,37 +122,34 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             MiscUtils.RunAnticheatWarning(source);
             return;
         }
-        if (hunter.Data.Role is not HunterRole role)
+        if (hunter.Data.Role is not HunterRole { CaughtPlayers: var players, CaughtRounds: var rounds })
         {
             Error("RpcCatchPlayer - Invalid hunter");
             return;
         }
 
-        if (!role.CaughtPlayers.Contains(source))
+        if (!players.Contains(source))
         {
-            role.CaughtPlayers.Add(source);
-            role.CaughtRounds[source.PlayerId] = HudManagerHelper.Instance.CurrentRound;
+            players.Add(source);
+            rounds[source.PlayerId] = HudManagerHelper.Instance.CurrentRound;
 
             if (hunter.AmOwner)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Hunter));
 
                 CustomButtonSingleton<HunterStalkButton>.Instance.ResetCooldownAndOrEffect();
-                var text = playerInteraction && OptionGroupSingleton<HunterOptions>.Instance.SeesTypeOfInteraction.Value
+                var text = playerInteraction && OptionGroupSingleton<HunterOptions>.Instance.SeesTypeOfInteraction
                     ? MiraLocaleManager.Get("TownOfUsMira.Role.HunterCaughtInteractionNotif")
                     : MiraLocaleManager.Get("TownOfUsMira.Role.HunterCaughtAbilityNotif");
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{text.Replace("<player>", source.Data.PlayerName)}</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter);
                 notif1.AdjustNotification();
             }
         }
 
-        if (source.TryGetModifier<HunterStalkedModifier>(out var modifier))
-        {
-            source.RemoveModifier(modifier);
-        }
+        source.TryRemoveModifier<HunterStalkedModifier>();
     }
 
     public static void Retribution(PlayerControl hunter, PlayerControl target)
@@ -176,12 +173,12 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         }
 
         // this sound normally plays on the source only
-            SoundManager.Instance.PlaySound(hunter.KillSfx, false, 0.8f);
+        SoundManager.Instance.PlaySound(hunter.KillSfx, false, 0.8f);
 
         // this kill animations normally plays on the target only
         HudManager.Instance.KillOverlay.ShowKillAnimation(hunter.Data, target.Data);
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.HunterRetribution, hunter, target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 }
