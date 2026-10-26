@@ -8,7 +8,7 @@ public static class LegacyAssets
     public static bool IsLegacy =>
         TownOfUsPlugin.LegacyMode.Value is LegacyVisuals.Art/* or LegacyVisuals.Full*/;
     public static readonly AssetBundle MainBundle = AssetBundleManager.Load("legacy-assets");
-    public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{TouAssets.ShortPath}.BannerLegacy.png", 34f);
+    public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{TouAssets.ShortPath}.BannerLegacy.png", TownOfUsPlugin.TouAssembly, 34f);
     public static LoadableAsset<Sprite> BroadcastSprite { get; } =
         new LoadableBundleAsset<Sprite>("Detect", MainBundle);
 

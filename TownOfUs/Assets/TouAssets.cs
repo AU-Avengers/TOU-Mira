@@ -19,14 +19,14 @@ public static class TouAssets
     public static LoadableBundleSubAssetHolder RoleBannerHolder { get; } = new("RoleBannerSprites", MainBundle);
     public static LoadableBundleSubAssetHolder UiSpriteHolder { get; } = new("UiSprites", MainBundle);
 
-    public static LoadableAsset<Sprite> Banner => TownOfUsPlugin.LegacyMode.Value is LegacyVisuals.Disabled ? new LoadableResourceAsset($"{ShortPath}.Banner{BetaIdentifier}.png") : LegacyAssets.Banner;
-    public static LoadableAsset<Sprite> BannerDark { get; } = new LoadableResourceAsset($"{ShortPath}.BannerDark.png");
+    public static LoadableAsset<Sprite> Banner => TownOfUsPlugin.LegacyMode.Value is LegacyVisuals.Disabled ? new LoadableResourceAsset($"{ShortPath}.Banner{BetaIdentifier}.png", TownOfUsPlugin.TouAssembly) : LegacyAssets.Banner;
+    public static LoadableAsset<Sprite> BannerDark { get; } = new LoadableResourceAsset($"{ShortPath}.BannerDark.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> BarkeeperDrinkSpill { get; } =
-        new LoadableResourceAsset($"{ShortPath}.BarkeeperDrinkSpill.png", 200f);
+        new LoadableResourceAsset($"{ShortPath}.BarkeeperDrinkSpill.png", TownOfUsPlugin.TouAssembly, 200f);
 
     public static LoadableAsset<Sprite> TouMiraIcon { get; } =
-        new LoadableResourceAsset($"{ShortPath}.TouMiraIcon.png", 600);
+        new LoadableResourceAsset($"{ShortPath}.TouMiraIcon.png", TownOfUsPlugin.TouAssembly, 600);
 
     public static LoadableAsset<Sprite> FoolsMenuSprite(int value)
     {
@@ -66,84 +66,84 @@ public static class TouAssets
         return sprite;
     }
     public static LoadableAsset<Sprite> DleksBanner { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Menus.DleksBanner.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.DleksBanner.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> DleksText { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Menus.DleksText.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.DleksText.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> DleksTextAlt { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Menus.DleksText.png", 155f);
+        new LoadableResourceAsset($"{ShortPath}.Menus.DleksText.png", TownOfUsPlugin.TouAssembly, 155f);
 
     public static LoadableAsset<Sprite> DleksIcon { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Menus.DleksIcon.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.DleksIcon.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> LegacyDisabled { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyDisabled.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyDisabled.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> LegacyPlayers { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyPlayers.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyPlayers.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> LegacyArt { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyArt.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyArt.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> LegacyFull { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyFull.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyFull.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> FoolsNormal { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Menus.Normal.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.Normal.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> FoolsHorse { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Menus.Horse.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.Horse.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> FoolsLong { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Menus.Long.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.Long.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> FoolsLongHorse { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Menus.LongHorse.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.LongHorse.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> DiscordServer { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Menus.DiscordServer.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.DiscordServer.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> SourceCode { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Menus.SourceCode.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.SourceCode.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> BlankSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.BlankSprite.png");
+        new LoadableResourceAsset($"{ShortPath}.BlankSprite.png", TownOfUsPlugin.TouAssembly);
 
-    public static LoadableAsset<Sprite> RangeSprite { get; } = new LoadableResourceAsset($"{ShortPath}.Range.png");
+    public static LoadableAsset<Sprite> RangeSprite { get; } = new LoadableResourceAsset($"{ShortPath}.Range.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> CircleSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Circle.png", 512);
+        new LoadableResourceAsset($"{ShortPath}.Circle.png", TownOfUsPlugin.TouAssembly, 512);
 
     public static LoadableAsset<Sprite> AuAvengersSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AuAvengers.png", 290);
+        new LoadableResourceAsset($"{ShortPath}.AuAvengers.png", TownOfUsPlugin.TouAssembly, 290);
 
     public static LoadableAsset<Sprite> AuAvengersLogo { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AuAvengersLogo.png", 200);
+        new LoadableResourceAsset($"{ShortPath}.AuAvengersLogo.png", TownOfUsPlugin.TouAssembly, 200);
 
     public static LoadableAsset<Sprite> AbilityCounterHerbsSprite { get; } =
-        new LoadableResourceAsset($"{CounterPath}.Herbs.png");
+        new LoadableResourceAsset($"{CounterPath}.Herbs.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> AbilityCounterKillSprite { get; } =
-        new LoadableResourceAsset($"{CounterPath}.Kill.png");
+        new LoadableResourceAsset($"{CounterPath}.Kill.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> AbilityCounterPlayerSprite { get; } =
-        new LoadableResourceAsset($"{CounterPath}.Player.png");
+        new LoadableResourceAsset($"{CounterPath}.Player.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> AbilityCounterVentSprite { get; } =
-        new LoadableResourceAsset($"{CounterPath}.Vent.png");
+        new LoadableResourceAsset($"{CounterPath}.Vent.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> AbilityCounterBodySprite { get; } =
-        new LoadableResourceAsset($"{CounterPath}.Body.png");
+        new LoadableResourceAsset($"{CounterPath}.Body.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> AbilityCounterClickSprite { get; } =
-        new LoadableResourceAsset($"{CounterPath}.MouseClick.png", 120f);
+        new LoadableResourceAsset($"{CounterPath}.MouseClick.png", TownOfUsPlugin.TouAssembly, 120f);
 
     public static LoadableAsset<Sprite> AbilityCounterBasicSprite { get; } =
-        new LoadableResourceAsset($"{CounterPath}.Basic.png");
+        new LoadableResourceAsset($"{CounterPath}.Basic.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> FirstRoundLockSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.RoundOneLock.png");
+        new LoadableResourceAsset($"{ShortPath}.RoundOneLock.png", TownOfUsPlugin.TouAssembly);
 
     public static readonly LoadableAsset<GameObject> RoleSelectionGame =
         new LoadableBundleAsset<GameObject>("SelectRoleGame", MainBundle);
@@ -268,7 +268,7 @@ public static class TouAssets
         new LoadableBundleSubAsset("MinusActive", UiSpriteHolder);
 
     public static LoadableAsset<Sprite> TeamChatSwitch { get; } =
-        new LoadableResourceAsset($"{ShortPath}.TeamChatSwitch.png", 105f);
+        new LoadableResourceAsset($"{ShortPath}.TeamChatSwitch.png", TownOfUsPlugin.TouAssembly, 105f);
 
     public static LoadableAsset<Sprite> BarryButtonSprite { get; } =
         new LoadableBundleSubAsset("BarryButton", AbilityHolder);
@@ -316,12 +316,12 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> ShootMeetingSprite { get; } =
         new LoadableBundleSubAsset("Shoot", MeetingAbilityHolder);
-    public static LoadableAsset<Sprite> ToggleDisabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ToggleDisabled.png");
-    public static LoadableAsset<Sprite> ToggleEnabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ToggleEnabled.png");
-    public static LoadableAsset<Sprite> DeathDisabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.DeathDisabledSprite.png");
+    public static LoadableAsset<Sprite> ToggleDisabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ToggleDisabled.png", TownOfUsPlugin.TouAssembly);
+    public static LoadableAsset<Sprite> ToggleEnabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ToggleEnabled.png", TownOfUsPlugin.TouAssembly);
+    public static LoadableAsset<Sprite> DeathDisabledSprite { get; } = new LoadableResourceAsset($"{ShortPath}.DeathDisabledSprite.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> ProsecuteMeetingSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.ProsecuteSprite.png");
+        new LoadableResourceAsset($"{ShortPath}.ProsecuteSprite.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> BlackmailLetterSprite { get; } =
         new LoadableBundleAsset<Sprite>("BlackmailLetter", MainBundle);
@@ -437,7 +437,7 @@ public static class TouAssets
     public static LoadableAsset<Sprite> GhostwalkerVentSprite { get; } = new LoadableBundleSubAsset("GhostwalkerVentSprite", AbilityHolder);
 
     public static LoadableAsset<Sprite> VitalBgMissin { get; } =
-        new LoadableResourceAsset($"{ShortPath}.VitalBgMissin.png");
+        new LoadableResourceAsset($"{ShortPath}.VitalBgMissin.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> RetributionBG { get; } =
         new LoadableBundleAsset<Sprite>("RetributionBackground", MainBundle);
@@ -466,22 +466,22 @@ public static class TouAssets
         new LoadableBundleAsset<Sprite>("Action", MainBundle);
 
     public static LoadableAsset<Sprite> JailUnmute { get; } =
-        new LoadableResourceAsset($"{ShortPath}.JailUnmute.png", 900f);
+        new LoadableResourceAsset($"{ShortPath}.JailUnmute.png", TownOfUsPlugin.TouAssembly, 900f);
 
     public static LoadableAsset<Sprite> MayorPet { get; } =
-        new LoadableResourceAsset($"{ShortPath}.MayorPet.png", 500f);
+        new LoadableResourceAsset($"{ShortPath}.MayorPet.png", TownOfUsPlugin.TouAssembly, 500f);
 
     public static LoadableAsset<Sprite> SubmergedFloorDown { get; } =
-        new LoadableResourceAsset($"{SubmergedPath}.FloorDown.png");
+        new LoadableResourceAsset($"{SubmergedPath}.FloorDown.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> SubmergedFloorDownHover { get; } =
-        new LoadableResourceAsset($"{SubmergedPath}.FloorDownHover.png");
+        new LoadableResourceAsset($"{SubmergedPath}.FloorDownHover.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> SubmergedFloorUp { get; } =
-        new LoadableResourceAsset($"{SubmergedPath}.FloorUp.png");
+        new LoadableResourceAsset($"{SubmergedPath}.FloorUp.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> SubmergedFloorUpHover { get; } =
-        new LoadableResourceAsset($"{SubmergedPath}.FloorUpHover.png");
+        new LoadableResourceAsset($"{SubmergedPath}.FloorUpHover.png", TownOfUsPlugin.TouAssembly);
 
     public static readonly LoadableAsset<GameObject> ProsecuteAnimation =
         new LoadableBundleAsset<GameObject>("ProsecuteAnimation", MainBundle);
@@ -508,97 +508,97 @@ public static class TouAssets
         new LoadableBundleAsset<AnimationClip>("MedusaStoneShatterAnim", MainBundle);
 
     public static LoadableAsset<Sprite> IconSkeld { get; } =
-        new LoadableResourceAsset($"{SettingIconPath}.Skeld.png");
+        new LoadableResourceAsset($"{SettingIconPath}.Skeld.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> IconMira { get; } =
-        new LoadableResourceAsset($"{SettingIconPath}.Mira.png");
+        new LoadableResourceAsset($"{SettingIconPath}.Mira.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> IconPolus { get; } =
-        new LoadableResourceAsset($"{SettingIconPath}.Polus.png");
+        new LoadableResourceAsset($"{SettingIconPath}.Polus.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> IconDleks { get; } =
-        new LoadableResourceAsset($"{SettingIconPath}.Dleks.png");
+        new LoadableResourceAsset($"{SettingIconPath}.Dleks.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> IconAirship { get; } =
-        new LoadableResourceAsset($"{SettingIconPath}.Airship.png");
+        new LoadableResourceAsset($"{SettingIconPath}.Airship.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> IconFungle { get; } =
-        new LoadableResourceAsset($"{SettingIconPath}.Fungle.png");
+        new LoadableResourceAsset($"{SettingIconPath}.Fungle.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> IconLevelImposter { get; } =
-        new LoadableResourceAsset($"{SettingIconPath}.LevelImposter.png");
+        new LoadableResourceAsset($"{SettingIconPath}.LevelImposter.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> IconSubmerged { get; } =
-        new LoadableResourceAsset($"{SettingIconPath}.Submerged.png");
+        new LoadableResourceAsset($"{SettingIconPath}.Submerged.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> IconTownOfPolus { get; } =
-        new LoadableResourceAsset($"{SettingIconPath}.TownOfPolus.png", 200f);
+        new LoadableResourceAsset($"{SettingIconPath}.TownOfPolus.png", TownOfUsPlugin.TouAssembly, 200f);
 
     public static LoadableAsset<Sprite> IconDraftMode { get; } =
-        new LoadableResourceAsset($"{SettingIconPath}.Draft.png", 345f);
+        new LoadableResourceAsset($"{SettingIconPath}.Draft.png", TownOfUsPlugin.TouAssembly, 345f);
 
     public static LoadableAsset<Sprite> ChefProgressFedRainbow { get; } =
-        new LoadableResourceAsset($"{ElementIconPath}.ChefFedRainbow.png");
+        new LoadableResourceAsset($"{ElementIconPath}.ChefFedRainbow.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> ChefProgressFedUncolored { get; } =
-        new LoadableResourceAsset($"{ElementIconPath}.ChefFedUncolored.png");
+        new LoadableResourceAsset($"{ElementIconPath}.ChefFedUncolored.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> ChefProgressBodyFlash { get; } =
-        new LoadableResourceAsset($"{ElementIconPath}.ChefBodyFlash.png");
+        new LoadableResourceAsset($"{ElementIconPath}.ChefBodyFlash.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> ChefProgressBodyGiant { get; } =
-        new LoadableResourceAsset($"{ElementIconPath}.ChefBodyGiant.png");
+        new LoadableResourceAsset($"{ElementIconPath}.ChefBodyGiant.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> ChefProgressBodyMini { get; } =
-        new LoadableResourceAsset($"{ElementIconPath}.ChefBodyMini.png");
+        new LoadableResourceAsset($"{ElementIconPath}.ChefBodyMini.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> ChefProgressBodyNormal { get; } =
-        new LoadableResourceAsset($"{ElementIconPath}.ChefBodyNormal.png");
+        new LoadableResourceAsset($"{ElementIconPath}.ChefBodyNormal.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> ChefProgressNone { get; } =
-        new LoadableResourceAsset($"{ElementIconPath}.ChefNone.png");
+        new LoadableResourceAsset($"{ElementIconPath}.ChefNone.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> MercBribeGood { get; } =
-        new LoadableResourceAsset($"{ElementIconPath}.BribeGood.png");
+        new LoadableResourceAsset($"{ElementIconPath}.BribeGood.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> MercBribeBad { get; } =
-        new LoadableResourceAsset($"{ElementIconPath}.BribeBad.png");
+        new LoadableResourceAsset($"{ElementIconPath}.BribeBad.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> PlatformEpic { get; } =
-        new LoadableResourceAsset($"{ElementIconPath}.PlatformEpic.png");
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformEpic.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> PlatformItch { get; } =
-        new LoadableResourceAsset($"{ElementIconPath}.PlatformItch.png");
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformItch.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> PlatformStarlight { get; } =
-        new LoadableResourceAsset($"{ElementIconPath}.PlatformStarlight.png");
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformStarlight.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> PlatformSteam { get; } =
-        new LoadableResourceAsset($"{ElementIconPath}.PlatformSteam.png");
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformSteam.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> PlatformWindows { get; } =
-        new LoadableResourceAsset($"{ElementIconPath}.PlatformWindows.png");
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformWindows.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> PlatformUnknown { get; } =
-        new LoadableResourceAsset($"{ElementIconPath}.PlatformUnknown.png");
+        new LoadableResourceAsset($"{ElementIconPath}.PlatformUnknown.png", TownOfUsPlugin.TouAssembly);
 
     public static LoadableAsset<Sprite> LocalActions { get; } =
-        new LoadableResourceAsset($"{LocalTabsPath}.Actions.png", 175f);
+        new LoadableResourceAsset($"{LocalTabsPath}.Actions.png", TownOfUsPlugin.TouAssembly, 175f);
 
     public static LoadableAsset<Sprite> LocalButtons { get; } =
-        new LoadableResourceAsset($"{LocalTabsPath}.Buttons.png", 175f);
+        new LoadableResourceAsset($"{LocalTabsPath}.Buttons.png", TownOfUsPlugin.TouAssembly, 175f);
 
     public static LoadableAsset<Sprite> LocalLobby { get; } =
-        new LoadableResourceAsset($"{LocalTabsPath}.Lobby.png", 175f);
+        new LoadableResourceAsset($"{LocalTabsPath}.Lobby.png", TownOfUsPlugin.TouAssembly, 175f);
 
     public static LoadableAsset<Sprite> LocalPlayers { get; } =
-        new LoadableResourceAsset($"{LocalTabsPath}.Players.png", 175f);
+        new LoadableResourceAsset($"{LocalTabsPath}.Players.png", TownOfUsPlugin.TouAssembly, 175f);
 
     public static LoadableAsset<Sprite> LocalPreferences { get; } =
-        new LoadableResourceAsset($"{LocalTabsPath}.Preferences.png", 175f);
+        new LoadableResourceAsset($"{LocalTabsPath}.Preferences.png", TownOfUsPlugin.TouAssembly, 175f);
 
     public static LoadableAsset<Sprite> LocalGameplay { get; } =
-        new LoadableResourceAsset($"{LocalTabsPath}.Gameplay.png", 175f);
+        new LoadableResourceAsset($"{LocalTabsPath}.Gameplay.png", TownOfUsPlugin.TouAssembly, 175f);
 
     public static void Initialize()
     {
