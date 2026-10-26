@@ -2,7 +2,6 @@ using System.Collections;
 using System.Text;
 
 using AmongUs.GameOptions;
-using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
@@ -166,7 +165,7 @@ public sealed class MayorRole(IntPtr cppPtr)
         // hide meeting menu buttons (such as for guessers) for everyone but the mayor
         if (voteArea.PlayerId != PlayerControl.LocalPlayer.PlayerId)
         {
-            MeetingMenu.Instances.Do(x => x.HideSingle(voteArea.PlayerId));
+            MeetingMenu.HideSingleForAll(voteArea.PlayerId);
         }
 
         MayorPlayer = Instantiate(TouAssets.MayorRevealPrefab.LoadAsset(), voteArea.transform);

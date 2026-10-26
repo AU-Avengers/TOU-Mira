@@ -8,6 +8,6 @@ public static class MeetingMenuUpdatePatch
 {
     public static void Postfix()
     {
-        MeetingMenu.Instances.Do(x => x.Update());
+        MeetingMenu.UpdateAll();
     }
 }

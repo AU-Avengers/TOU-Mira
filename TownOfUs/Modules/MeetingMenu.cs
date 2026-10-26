@@ -99,6 +99,11 @@ public sealed class MeetingMenu : IDisposable
         ButtonSprites.Clear();
     }
 
+    public static void HideButtonsForAll()
+    {
+        Instances.Do(x => x.HideButtons());
+    }
+
     public void HideSingle(byte targetId)
     {
         Actives[targetId] = false;
@@ -112,6 +117,11 @@ public sealed class MeetingMenu : IDisposable
         button.Destroy();
         Buttons[targetId] = null!;
         ButtonSprites[targetId] = null!;
+    }
+
+    public static void HideSingleForAll(byte targetId)
+    {
+        Instances.Do(x => x.HideSingle(targetId));
     }
 
     private void GenButton(PlayerVoteArea voteArea, MeetingHud __instance)
@@ -198,6 +208,11 @@ public sealed class MeetingMenu : IDisposable
             pair.Value.sprite = (Actives[pair.Key] ? ActiveSprite : DisabledSprite);
             pair.Value.color = Actives[pair.Key] ? ActiveColor : DisabledColor;
         }
+    }
+
+    public static void UpdateAll()
+    {
+        Instances.Do(x => x.Update());
     }
 
     public static void ClearAll()

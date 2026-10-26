@@ -1031,7 +1031,7 @@ public static class TownOfUsEventHandlers
         pva.XMark.gameObject.SetActive(false);
         pva.XMark.transform.localScale = Vector3.one;
 
-        MeetingMenu.Instances.Do(x => x.HideSingle(player.PlayerId));
+        MeetingMenu.HideSingleForAll(player.PlayerId);
     }
 
     private static IEnumerator CoHideHud()
@@ -1053,13 +1053,13 @@ public static class TownOfUsEventHandlers
         {
             if (target.AmOwner)
             {
-                MeetingMenu.Instances.Do(x => x.HideButtons());
+                MeetingMenu.HideButtonsForAll();
                 Coroutines.Start(CoHideHud());
             }
             // hide meeting menu button for victim
             else if (!source.AmOwner && !target.AmOwner)
             {
-                MeetingMenu.Instances.Do(x => x.HideSingle(target.PlayerId));
+                MeetingMenu.HideSingleForAll(target.PlayerId);
             }
 
             var targetVoteAreaEarly = instance.playerStates.First(x => x.PlayerId == target.PlayerId);
@@ -1114,13 +1114,13 @@ public static class TownOfUsEventHandlers
         // hide meeting menu buttons on the victim's screen
         if (target.AmOwner)
         {
-            MeetingMenu.Instances.Do(x => x.HideButtons());
+            MeetingMenu.HideButtonsForAll();
             Coroutines.Start(CoHideHud());
         }
         // hide meeting menu button for victim
         else if (!source.AmOwner && !target.AmOwner)
         {
-            MeetingMenu.Instances.Do(x => x.HideSingle(target.PlayerId));
+            MeetingMenu.HideSingleForAll(target.PlayerId);
             if (PlayerControl.LocalPlayer.Data.Role is SwapperRole swapperRole)
             {
                 if (swapperRole.Swap1 == targetVoteArea)
