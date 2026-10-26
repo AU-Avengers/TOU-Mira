@@ -374,16 +374,9 @@ public static class TownOfUsEventHandlers
 
         var deadPlayerId = @event.Target.PlayerId;
 
-        var matches = GameHistory.KilledPlayers.Where(x => x.VictimId == deadPlayerId).ToArray();
+        var matches = GameHistory.KilledPlayers.Where(x => x.VictimId == deadPlayerId);
 
-        DeadPlayer? killer = null;
-
-        if (matches.Length > 0)
-        {
-            killer = matches[0];
-        }
-
-        if (killer == null)
+        if (matches.FirstOrDefault() is not { } killer)
         {
             return;
         }
