@@ -82,7 +82,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
         foreach (var scene in CrimeSceneComponent._crimeScenes)
         {
-            if (scene == null || scene.gameObject == null || !scene.gameObject)
+            if (scene?.gameObject == null || !scene.gameObject)
             {
                 continue;
             }
