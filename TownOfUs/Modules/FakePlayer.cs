@@ -467,15 +467,6 @@ public sealed class FakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     public void OnDestroy()
     {
         DataManager.Settings.Accessibility.OnChangedEvent -= new Action(SwitchColorName);
-        if (_colorBindTextObj)
-        {
-            Destroy(_colorBindTextObj);
-        }
-
-        if (_rend)
-        {
-            Destroy(_rend);
-        }
     }
 
     private struct PlayerCosmicInfo
