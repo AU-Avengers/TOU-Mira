@@ -69,6 +69,31 @@ public sealed class MeetingMenu : IDisposable
         Instances.Add(this);
     }
 
+    public MeetingMenu(
+        RoleBehaviour owner,
+        LoadableAsset<Sprite> activeSprite,
+        LoadableAsset<Sprite> disabledSprite = null!,
+        Exemption exemption = null!,
+        Color? activeColor = null!,
+        Color? disabledColor = null!,
+        Color? hoverColor = null!,
+        Vector3? position = null!)
+    {
+        Owner = owner;
+        Click = (_, _) => { };
+        IsExempt = exemption;
+        ActiveSprite = activeSprite;
+        DisabledSprite = disabledSprite;
+        ActiveColor = activeColor ?? Color.white;
+        DisabledColor = disabledColor ?? Color.white;
+        HoverColor = hoverColor ?? Color.white;
+        Type = MeetingAbilityType.None;
+        Position = position ?? new Vector3(-0.95f, 0.03f, -3f);
+        AbilityName = string.Empty;
+
+        Instances.Add(this);
+    }
+
     public static List<MeetingMenu> Instances { get; set; } = [];
 
     public RoleBehaviour Owner { get; }
@@ -143,12 +168,11 @@ public sealed class MeetingMenu : IDisposable
         targetBox.transform.localPosition = Position;
         var renderer = targetBox.GetComponent<SpriteRenderer>();
 
-        if (Type == MeetingAbilityType.Toggle && StartActive?.Invoke(voteArea) == true)
+        if (Type != MeetingAbilityType.Click && StartActive?.Invoke(voteArea) == true)
         {
             Actives[voteArea.PlayerId] = true;
 
             renderer.sprite = ActiveSprite;
-            renderer.color = ActiveColor;
         }
         else
         {
@@ -159,7 +183,7 @@ public sealed class MeetingMenu : IDisposable
         button.OverrideOnClickListeners(() => Click(voteArea, __instance));
         button.OverrideOnMouseOverListeners(() => renderer.color = HoverColor);
         button.OverrideOnMouseOutListeners(() => renderer.color =
-            Type == MeetingAbilityType.Toggle && Actives[voteArea.PlayerId]
+            Type != MeetingAbilityType.Click && Actives[voteArea.PlayerId]
                 ? ActiveColor
                 : DisabledColor);
         var collider = targetBox.GetComponent<BoxCollider2D>();
@@ -236,6 +260,7 @@ public sealed class MeetingMenu : IDisposable
 
 public enum MeetingAbilityType : byte
 {
+    None,
     Toggle,
     Click
 }

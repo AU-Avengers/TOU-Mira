@@ -104,8 +104,6 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         {
             meetingMenu = new MeetingMenu(
                 this,
-                (_, _) => { },
-                MeetingAbilityType.Click,
                 TouAssets.LighterSprite,
                 null!,
                 IsExempt,
