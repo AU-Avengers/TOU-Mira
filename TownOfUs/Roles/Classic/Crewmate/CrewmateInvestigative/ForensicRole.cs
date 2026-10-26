@@ -102,12 +102,11 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public void ExaminePlayer(PlayerControl player, bool firstAttempt)
     {
         var text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicAtScene").Replace("<player>", $"{TownOfUsColors.Forensic.ToTextColor()}{player.Data.PlayerName}</color>");
-        if (InvestigatedPlayers.Contains(player.PlayerId) && InvestigatingScene != null && InvestigatingScene.DeadPlayer != null)
+        if (InvestigatedPlayers.Contains(player.PlayerId) && InvestigatingScene?.DeadPlayer is { Data.PlayerName: var deadName } )
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.red));
 
-            var deadPlayer = InvestigatingScene.DeadPlayer;
-            text = text.Replace("<deadPlayer>", deadPlayer.Data.PlayerName);
+            text = text.Replace("<deadPlayer>", deadName);
             if (firstAttempt)
             {
                 TouAchievements.BloodyHands.Unlock();
