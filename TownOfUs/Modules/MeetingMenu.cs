@@ -212,7 +212,7 @@ public sealed class MeetingMenu : IDisposable
         ButtonSetup?.Invoke(voteArea, targetBox);
     }
 
-    public void GenButtons(MeetingHud meeting, bool usable)
+    public void GenButtons(MeetingHud meeting, bool usable = true)
     {
         if (meeting == null)
         {

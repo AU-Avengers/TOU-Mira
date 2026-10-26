@@ -132,7 +132,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         var meeting = MeetingHud.Instance;
         if (Player.AmOwner && meeting != null)
         {
-            meetingMenu.GenButtons(meeting, true);
+            meetingMenu.GenButtons(meeting);
         }
     }
 
