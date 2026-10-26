@@ -1,19 +1,17 @@
-﻿using System.Collections;
-using HarmonyLib;
+﻿using HarmonyLib;
 using InnerNet;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
+using Reactor.Utilities.Attributes;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modules;
 
-// Code Review: Should be using a MonoBehaviour
-public sealed class Trap : IDisposable
+[RegisterInIl2Cpp]
+public sealed class Trap(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 {
     public static readonly List<Trap> _traps = [];
 
@@ -22,21 +20,6 @@ public sealed class Trap : IDisposable
     public Transform? _transform;
     private static float TrapSize => OptionGroupSingleton<TrapperOptions>.Instance.TrapSize;
     private static float MinAmountOfTimeInTrap => OptionGroupSingleton<TrapperOptions>.Instance.MinAmountOfTimeInTrap;
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    public IEnumerator FrameTimer()
-    {
-        while (_transform != null)
-        {
-            yield return 0;
-            Update();
-        }
-    }
 
     public void Update()
     {
@@ -93,17 +76,13 @@ public sealed class Trap : IDisposable
         var trapPref = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         trapPref.name = "Trap";
         trapPref.transform.localScale = new Vector3(trapSize, trapSize, trapSize);
-        Object.Destroy(trapPref.GetComponent<SphereCollider>());
+        Destroy(trapPref.GetComponent<SphereCollider>());
         trapPref.GetComponent<MeshRenderer>().material = AuAvengersAnims.TrapMaterial;
         trapPref.transform.position = location;
 
-        var trap = new Trap
-        {
-            _owner = player,
-            _transform = trapPref.transform
-        };
-
-        Coroutines.Start(trap.FrameTimer());
+        var trap = trapPref.AddComponent<Trap>();
+        trap._owner = player;
+        trap._transform = trapPref.transform;
 
         _traps.Add(trap);
     }
@@ -116,19 +95,9 @@ public sealed class Trap : IDisposable
 
     public void Destroy()
     {
-        Dispose();
-    }
-
-    private void Dispose(bool disposing)
-    {
-        if (disposing)
+        if (_transform != null && _transform.gameObject != null)
         {
-            if (_transform != null && _transform.gameObject != null)
-            {
-                Object.Destroy(_transform.gameObject);
-            }
-
-            Coroutines.Stop(FrameTimer());
+            Destroy(_transform.gameObject);
         }
     }
 }
