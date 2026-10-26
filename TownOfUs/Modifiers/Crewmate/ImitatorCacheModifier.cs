@@ -57,7 +57,8 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
                 IsExempt,
                 Color.white)
             {
-                Position = new Vector3(-0.40f, 0f, -3f)
+                Position = new Vector3(-0.40f, 0f, -3f),
+                StartActive = voteArea => voteArea.PlayerId == _selectedPlr?.PlayerId,
             };
         }
     }
@@ -77,16 +78,11 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             return;
         }
 
-        var meeting = MeetingHud.Instance;
-        if (Player.AmOwner && meeting != null)
+        if (Player.AmOwner)
         {
             // _selectedPlr = null;
-            _meetingMenu!.GenButtons(meeting,
+            _meetingMenu!.GenButtons(MeetingHud.Instance,
                 Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
-            if (_selectedPlr != null)
-            {
-                _meetingMenu!.Actives[_selectedPlr.PlayerId] = true;
-            }
         }
     }
 
