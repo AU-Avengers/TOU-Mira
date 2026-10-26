@@ -27,7 +27,7 @@ public static class TimeLordPatches
     }
     public static void RecordTimeLordSnapshot(HudManager __instance)
     {
-        var inMinigame = Minigame.Instance || Minigame.Instance;
+        var inMinigame = Minigame.Instance;
         if (!inMinigame)
         {
             return;

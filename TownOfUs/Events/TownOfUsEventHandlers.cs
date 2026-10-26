@@ -887,6 +887,11 @@ public static class TownOfUsEventHandlers
                 AreVentsAllowed = false;
                 @event.Cancel();
             }
+
+            if (!HudManagerHelper.Instance.VentButtonDisabledSprite)
+            {
+                HudManagerHelper.Instance.VentButtonDisabledSprite = HudManager.Instance.ImpostorVentButton.CreateDeathDisabledSprite();
+            }
             HudManagerHelper.Instance.VentButtonDisabledSprite.SetActive(!AreVentsAllowed);
         }
     }

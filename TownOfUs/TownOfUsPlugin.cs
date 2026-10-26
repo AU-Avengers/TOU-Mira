@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Reflection;
 using AmongUs.Data;
 using AmongUs.Data.Player;
 using AmongUs.Data.Settings;
@@ -69,6 +70,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     public static ConfigEntry<LegacyVisuals> LegacyMode { get; private set; }
 
     public static ConfigEntry<bool> AutoDownloadCosmetics { get; private set; }
+    public static Assembly TouAssembly { get; private set; }
 
     /// <inheritdoc />
     public ConfigFile GetConfigFile()
@@ -78,6 +80,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
 
     public TownOfUsPlugin()
     {
+        TouAssembly = typeof(TownOfUsPlugin).Assembly;
         LocalizationManager.Register(new TouLocalizationProvider());
     }
 
@@ -92,7 +95,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
             "If enabled, cosmetics will automatically be downloaded for Corsac Cosmetics.");
         ReactorCredits.Register("Town Of Us: Mira", Version, IsDevBuild, ReactorCredits.AlwaysShow);
         LocalizationManager.Register(new TaskProvider());
-        MiraLocaleManager.Register("auavengers.tou.mira", "TownOfUs");
+        MiraLocaleManager.Register("auavengers.tou.mira", "TownOfUs", TouAssembly);
 
         TouAssets.Initialize();
         AchievementsAPIHelper.RegisterTouAchievements();
