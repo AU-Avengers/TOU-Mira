@@ -143,7 +143,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             }
             else
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.RightOnTime);
+                TouAchievements.RightOnTime.Unlock();
 
                 if (br.KillAge < OptionGroupSingleton<ForensicOptions>.Instance.ForensicRoleDuration * 1000)
                 {
