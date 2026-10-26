@@ -16,8 +16,8 @@ public sealed class Trap(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     public static readonly List<Trap> _traps = [];
 
     public readonly Dictionary<byte, float> _players = [];
-    public TrapperRole? _owner;
-    public Transform? _transform;
+    public TrapperRole _owner;
+    public Transform _transform;
     private static float TrapSize => OptionGroupSingleton<TrapperOptions>.Instance.TrapSize;
     private static float MinAmountOfTimeInTrap => OptionGroupSingleton<TrapperOptions>.Instance.MinAmountOfTimeInTrap;
 
@@ -59,7 +59,7 @@ public sealed class Trap(IntPtr cppPtr) : MonoBehaviour(cppPtr)
                 }
 
                 // Error($"player with byte {entry.PlayerId} is logged with time {_players[entry.PlayerId]}");
-                if (_players[entry.PlayerId] > MinAmountOfTimeInTrap && !_owner!.TrappedPlayers.Contains(role) &&
+                if (_players[entry.PlayerId] > MinAmountOfTimeInTrap && !_owner.TrappedPlayers.Contains(role) &&
                     entry != _owner.Player)
                 // Error($"Trap.Updated add role: {role.GetRoleName()}");
                 {
@@ -95,7 +95,7 @@ public sealed class Trap(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
     public void Destroy()
     {
-        if (_transform != null && _transform.gameObject != null)
+        if (_transform.gameObject != null)
         {
             Destroy(_transform.gameObject);
         }
