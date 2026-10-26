@@ -105,17 +105,27 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
             meetingMenu = new MeetingMenu(
                 this,
                 TouAssets.LighterSprite,
-                null!,
-                IsExempt,
-                hoverColor: Color.white)
+                TouAssets.DarkerSprite,
+                IsExempt)
             {
-                Position = new Vector3(1.1f, -0.18f, -3f)
+                Position = new Vector3(1.1f, -0.18f, -3f),
+                StartActive = PlayerIsLighter
             };
         }
     }
     public static bool IsExempt(PlayerVoteArea voteArea)
     {
         return false;
+    }
+    public static bool PlayerIsLighter(PlayerVoteArea voteArea)
+    {
+        if (MiscUtils.PlayerById(voteArea.PlayerId) is not { } player)
+        {
+            return true;
+        }
+
+        var colorType = GetColorTypeForPlayer(player.Data.DefaultOutfit.ColorId);
+        return colorType == "lighter";
     }
 
     public override void OnMeetingStart()
@@ -136,28 +146,6 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
                 }
 
                 button.Value.transform.localScale *= 0.8f;
-
-                var player = MiscUtils.PlayerById(button.Key);
-
-                if (player == null)
-                {
-                    continue;
-                }
-
-                var colorType = GetColorTypeForPlayer(player.Data.DefaultOutfit.ColorId);
-
-                var renderer = button.Value.GetComponent<SpriteRenderer>();
-
-                if (renderer == null)
-                {
-                    continue;
-                }
-
-                renderer.sprite = colorType switch
-                {
-                    "lighter" => TouAssets.LighterSprite,
-                    _ => TouAssets.DarkerSprite
-                };
             }
         }
     }
