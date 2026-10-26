@@ -390,17 +390,17 @@ public static class TownOfUsEventHandlers
                     touButton.SetRoundLockActive(false);
                 }
 
-                if (button is TownOfUsTargetButton<Vent> touButton2 && !touButton2.UsableFirstRound)
+                if (button is TownOfUsTargetButton<Vent> { UsableFirstRound: false } touButton2)
                 {
                     touButton2.SetRoundLockActive(false);
                 }
 
-                if (button is TownOfUsTargetButton<DeadBody> touButton3 && !touButton3.UsableFirstRound)
+                if (button is TownOfUsTargetButton<DeadBody> { UsableFirstRound: false } touButton3)
                 {
                     touButton3.SetRoundLockActive(false);
                 }
 
-                if (button is TownOfUsTargetButton<PlayerControl> touButton4 && !touButton4.UsableFirstRound)
+                if (button is TownOfUsTargetButton<PlayerControl> { UsableFirstRound: false } touButton4)
                 {
                     touButton4.SetRoundLockActive(false);
                 }
@@ -474,17 +474,17 @@ public static class TownOfUsEventHandlers
                     touButton.SetRoundLockActive(true);
                 }
 
-                if (button is TownOfUsTargetButton<Vent> touButton2 && !touButton2.UsableFirstRound)
+                if (button is TownOfUsTargetButton<Vent> { UsableFirstRound: false } touButton2)
                 {
                     touButton2.SetRoundLockActive(true);
                 }
 
-                if (button is TownOfUsTargetButton<DeadBody> touButton3 && !touButton3.UsableFirstRound)
+                if (button is TownOfUsTargetButton<DeadBody> { UsableFirstRound: false } touButton3)
                 {
                     touButton3.SetRoundLockActive(true);
                 }
 
-                if (button is TownOfUsTargetButton<PlayerControl> touButton4 && !touButton4.UsableFirstRound)
+                if (button is TownOfUsTargetButton<PlayerControl> { UsableFirstRound: false } touButton4)
                 {
                     touButton4.SetRoundLockActive(true);
                 }
