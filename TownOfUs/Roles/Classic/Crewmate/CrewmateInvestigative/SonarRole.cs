@@ -22,20 +22,6 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Track", "Track"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Track.WikiDescription"),
-                    TouCrewAssets.TrackSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

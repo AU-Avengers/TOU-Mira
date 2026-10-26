@@ -75,20 +75,6 @@ public sealed class MinerRole(IntPtr cppPtr)
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mine", "Mine"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Mine.WikiDescription"),
-                    TouImpAssets.MineSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

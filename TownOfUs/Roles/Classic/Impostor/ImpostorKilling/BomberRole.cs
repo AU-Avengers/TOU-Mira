@@ -54,23 +54,6 @@ public sealed class BomberRole(IntPtr cppPtr)
         CanUseVent = OptionGroupSingleton<BomberOptions>.Instance.CanVent
     };
 
-
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Place", "Place"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Place.WikiDescription").Replace("<maxKills>",
-                        $"{(int)OptionGroupSingleton<BomberOptions>.Instance.MaxKillsInDetonation}"),
-                    TouImpAssets.PlaceSprite)
-            ];
-        }
-    }
-
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {

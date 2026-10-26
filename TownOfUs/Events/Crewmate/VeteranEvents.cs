@@ -135,7 +135,7 @@ public static class VeteranEvents
 
             if (miraEvent is MiraButtonClickEvent { Button: JesterPokeButton })
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.DontPokeTheBear);
+                TouAchievements.DontPokeTheBear.Unlock();
             }
 
             if (source.HasModifier<InvulnerabilityModifier>() || source.HasModifier<VeteranAlertModifier>())

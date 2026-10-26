@@ -47,23 +47,6 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     };
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock"),
-            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover
-                ? MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
-                    OptionGroupSingleton<RoleblockOptions>.Instance.HangoverDuration.Value.ToString(TownOfUsPlugin
-                        .Culture))
-                : MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock.WikiDescription")).Replace("<blockTime>",
-                OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value
-                    .ToString(TownOfUsPlugin.Culture)),
-            TouCrewAssets.RoleblockSprite),
-        new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperSpill"),
-            MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperSpill.WikiDescription"),
-            TouCrewAssets.SpillSprite)
-    ];
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities { get; } =
     [
         new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock"),

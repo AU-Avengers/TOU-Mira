@@ -43,23 +43,6 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Flush", "Flush"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Flush.WikiDescription"),
-                    TouCrewAssets.FlushSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Block", "Block"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Block.WikiDescription"),
-                    TouCrewAssets.BlockSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

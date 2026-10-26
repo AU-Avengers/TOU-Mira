@@ -25,25 +25,6 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            var abilities = new List<CustomButtonWikiDescription>
-            {
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}PlaceCamera", "Deploy"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}PlaceCamera.WikiDescription"),
-                    TouCrewAssets.DeployCamSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}PortableCamera", "View"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}PortableCamera.WikiDescription"),
-                    TouAssets.CameraSprite)
-            };
-
-            return abilities;
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

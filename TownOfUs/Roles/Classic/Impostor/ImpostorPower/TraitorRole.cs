@@ -61,20 +61,6 @@ public sealed class TraitorRole(IntPtr cppPtr)
     };
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ChangeRole", "Change Role"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ChangeRole.WikiDescription"),
-                    TouImpAssets.TraitorSelect)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

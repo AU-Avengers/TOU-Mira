@@ -70,17 +70,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     };
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities =>
-    [
-        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Overtake", "Overtake"),
-            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Overtake.WikiDescription"),
-            TouImpAssets.OvertakeSprite),
-        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Decay", "Kill"),
-            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Decay.WikiDescription"),
-            TouAssets.KillSprite)
-    ];
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities =>
     [
         new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Overtake", "Overtake"),

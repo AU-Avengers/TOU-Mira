@@ -48,20 +48,6 @@ public sealed class WerewolfRole(IntPtr cppPtr)
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Rampage", "Rampage"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Rampage.WikiDescription"),
-                    TouNeutAssets.RampageSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

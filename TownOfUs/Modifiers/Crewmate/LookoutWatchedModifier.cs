@@ -75,7 +75,7 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
 
             if (SeenPlayers.Count > 4)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.SearchParty);
+                TouAchievements.SearchParty.Unlock();
             }
 
             message = message.Remove(message.Length - 2, 2);
@@ -91,7 +91,7 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
         }
         else if (Player.HasDied())
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.ParanormalActivity);
+            TouAchievements.ParanormalActivity.Unlock();
         }
 
         MiscUtils.AddFakeChat(Player.Data, title, msg, false, true);

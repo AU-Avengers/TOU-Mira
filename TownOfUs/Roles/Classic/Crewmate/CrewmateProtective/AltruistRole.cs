@@ -43,20 +43,6 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Revive", "Revive"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Revive{ReviveString()}.WikiDescription"),
-                    TouCrewAssets.ReviveSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

@@ -32,25 +32,6 @@ public sealed class SwooperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
         IntroSound = TouAudio.PhantomIntroSound
     };
 
-
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Swoop", "Swoop"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Swoop.WikiDescription"),
-                    TouImpAssets.SwoopSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Unswoop", "Unswoop"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Unswoop.WikiDescription"),
-                    TouImpAssets.UnswoopSprite)
-            ];
-        }
-    }
-
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {

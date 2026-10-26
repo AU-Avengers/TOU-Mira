@@ -53,25 +53,6 @@ public sealed class HypnotistRole(IntPtr cppPtr)
         Icon = TouRoleIcons.Hypnotist
     };
 
-
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hypnotize", "Hypnotize"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hypnotize.WikiDescription"),
-                    TouImpAssets.HypnotiseButtonSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteriaWiki", "Mass Hysteria (Meeting)"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteria.WikiDescription"),
-                    TouAssets.HysteriaSprite)
-            ];
-        }
-    }
-
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {

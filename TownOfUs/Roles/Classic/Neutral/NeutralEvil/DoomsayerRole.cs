@@ -159,20 +159,6 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Observe", "Observe"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Observe.WikiDescription"),
-                    TouNeutAssets.Observe)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

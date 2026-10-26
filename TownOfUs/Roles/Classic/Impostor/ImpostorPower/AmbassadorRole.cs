@@ -34,20 +34,6 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}RetrainWiki", "Retrain (Meeting)"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Retrain.WikiDescription"),
-                    TouAssets.RetrainCleanSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

@@ -33,14 +33,6 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities =>
-    [
-        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Rewind", "Rewind"),
-            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Rewind.WikiDescription"),
-            TouCrewAssets.RewindSprite)
-    ];
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities =>
     [
         new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Rewind", "Rewind"),

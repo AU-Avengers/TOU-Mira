@@ -37,27 +37,6 @@ public sealed class MedusaRole(IntPtr cppPtr)
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            List<CustomButtonWikiDescription> list =
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Petrify", "Petrify"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Petrify.WikiDescription"),
-                    TouNeutAssets.PetrifySprite)
-            ];
-            if (OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable)
-            {
-                list.Add(new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}StoneGaze", "Stone Gaze"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}StoneGaze.WikiDescription"),
-                    TouNeutAssets.StoneGazeSprite));
-            }
-            return list;
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

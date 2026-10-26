@@ -54,14 +54,6 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     };
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities =>
-    [
-        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Control", "Control"),
-            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Control.WikiDescription"),
-            TouImpAssets.ControlSprite),
-    ];
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities =>
     [
         new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Control", "Control"),

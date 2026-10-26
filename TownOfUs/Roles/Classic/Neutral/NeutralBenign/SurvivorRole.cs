@@ -38,20 +38,6 @@ public sealed class SurvivorRole(IntPtr cppPtr)
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Safeguard", "Safeguard"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Safeguard.WikiDescription"),
-                    TouNeutAssets.VestSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

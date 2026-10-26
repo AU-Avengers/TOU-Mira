@@ -105,71 +105,16 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
         {
             switch (alignment)
             {
-                case RoleAlignment.CrewmateInvestigative:
-                case RoleAlignment.CrewmateKilling:
-                case RoleAlignment.CrewmateProtective:
-                case RoleAlignment.CrewmatePower:
-                case RoleAlignment.CrewmateSupport:
-                    Misfire();
+                case RoleAlignment.NeutralOutlier when options.ShootNeutralOutlier:
+                case RoleAlignment.NeutralKilling when options.ShootNeutralKiller:
+                case RoleAlignment.NeutralEvil when options.ShootNeutralEvil:
+                case RoleAlignment.NeutralBenign when options.ShootNeutralBenign:
+                case var _ when Target.IsImpostor() || Target.IsNeutral():
+                    PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
                     break;
 
-                case RoleAlignment.NeutralOutlier:
-                    if (!options.ShootNeutralOutlier)
-                    {
-                        Misfire();
-                    }
-                    else
-                    {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
-                    }
-
-                    break;
-
-                case RoleAlignment.NeutralKilling:
-                    if (!options.ShootNeutralKiller)
-                    {
-                        Misfire();
-                    }
-                    else
-                    {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
-                    }
-
-                    break;
-
-                case RoleAlignment.NeutralEvil:
-                    if (!options.ShootNeutralEvil)
-                    {
-                        Misfire();
-                    }
-                    else
-                    {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
-                    }
-
-                    break;
-
-                case RoleAlignment.NeutralBenign:
-                    if (!options.ShootNeutralBenign)
-                    {
-                        Misfire();
-                    }
-                    else
-                    {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
-                    }
-
-                    break;
                 default:
-                    if (Target.IsImpostor() || Target.IsNeutral())
-                    {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
-                    }
-                    else
-                    {
-                        Misfire();
-                    }
-
+                    Misfire();
                     break;
             }
         }

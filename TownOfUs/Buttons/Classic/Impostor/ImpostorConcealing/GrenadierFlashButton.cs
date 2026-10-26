@@ -53,7 +53,7 @@ public sealed class GrenadierFlashButton : TownOfUsRoleButton<GrenadierRole>, IA
                     Role.PlayersFlashedInARow[player.PlayerId]++;
                     if (Role.PlayersFlashedInARow[player.PlayerId] == 3)
                     {
-                        AchievementsAPIHelper.Unlock(TouAchievements.BlindFoEva);
+                        TouAchievements.BlindFoEva.Unlock();
                     }
                 }
                 else

@@ -238,14 +238,8 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
     private static bool IsRoleValid(RoleBehaviour role)
     {
-        if (role.IsDead)
-        {
-            return false;
-        }
-
-        var options = OptionGroupSingleton<VigilanteOptions>.Instance;
-
-        if (role is IUnguessable { IsGuessable: false })
+        if (role.IsDead ||
+            role is IUnguessable { IsGuessable: false })
         {
             return false;
         }
@@ -264,37 +258,20 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return false;
         }
 
-        if (role.IsCrewmate())
+        if (role.IsCrewmate() || role.IsImpostor())
         {
             return true;
         }
 
-        if (role.IsImpostor())
+        var options = OptionGroupSingleton<VigilanteOptions>.Instance;
+        return alignment switch
         {
-            return true;
-        }
-
-        if (alignment == RoleAlignment.NeutralBenign)
-        {
-            return options.VigilanteGuessNeutralBenign;
-        }
-
-        if (alignment == RoleAlignment.NeutralEvil)
-        {
-            return options.VigilanteGuessNeutralEvil;
-        }
-
-        if (alignment == RoleAlignment.NeutralKilling)
-        {
-            return options.VigilanteGuessNeutralKilling;
-        }
-
-        if (alignment == RoleAlignment.NeutralOutlier)
-        {
-            return options.VigilanteGuessNeutralOutlier;
-        }
-
-        return false;
+            RoleAlignment.NeutralBenign  => options.VigilanteGuessNeutralBenign,
+            RoleAlignment.NeutralEvil    => options.VigilanteGuessNeutralEvil,
+            RoleAlignment.NeutralKilling => options.VigilanteGuessNeutralKilling,
+            RoleAlignment.NeutralOutlier => options.VigilanteGuessNeutralOutlier,
+            _ => false
+        };
     }
 
     private static bool IsModifierValid(BaseModifier baseModifier)

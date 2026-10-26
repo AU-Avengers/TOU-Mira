@@ -176,7 +176,7 @@ public static class AchievementsAPIHelper
     /// <summary>
     /// Unlocks an achievement. No-op if it isn't registered or the API is missing.
     /// </summary>
-    public static void Unlock(AchievementSpec achievement, bool needsToMeetRequirements = true)
+    public static void Unlock(this AchievementSpec achievement, bool needsToMeetRequirements = true)
     {
         if (!IsLoaded || !CanAchievementsBeGranted && needsToMeetRequirements)
         {
@@ -189,7 +189,7 @@ public static class AchievementsAPIHelper
     /// <summary>
     /// Returns whether an achievement is currently unlocked (false when the API is missing).
     /// </summary>
-    public static bool IsUnlocked(AchievementSpec achievement)
+    public static bool IsUnlocked(this AchievementSpec achievement)
     {
         return IsLoaded && AchievementsAPIBridge.IsUnlocked(achievement);
     }
@@ -199,9 +199,9 @@ public static class AchievementsAPIHelper
     /// so a Time Lord rewind or a host abort can roll it back with <see cref="ResetTentative"/>.
     /// Call <see cref="ClearTentative"/> at round/meeting boundaries to make them permanent.
     /// </summary>
-    public static void UnlockTentative(AchievementSpec achievement)
+    public static void UnlockTentative(this AchievementSpec achievement)
     {
-        if (!IsLoaded || IsUnlocked(achievement))
+        if (!IsLoaded || achievement.IsUnlocked())
         {
             return;
         }
@@ -240,7 +240,7 @@ public static class AchievementsAPIHelper
     /// <summary>
     /// Returns the current progress value of a count achievement (0 when unavailable).
     /// </summary>
-    public static int GetCurrentValue(AchievementSpec achievement)
+    public static int GetCurrentValue(this AchievementSpec achievement)
     {
         return IsLoaded ? AchievementsAPIBridge.GetCurrentValue(achievement) : 0;
     }
@@ -251,7 +251,7 @@ public static class AchievementsAPIHelper
     /// <param name="achievement">The achievement to advance.</param>
     /// <param name="amount">Amount to increment by.</param>
     /// <param name="showOnUI">Whether to show a toast/progress popup.</param>
-    public static void Increment(AchievementSpec achievement, int amount = 1, bool showOnUI = true)
+    public static void Increment(this AchievementSpec achievement, int amount = 1, bool showOnUI = true)
     {
         if (!IsLoaded)
         {
@@ -264,7 +264,7 @@ public static class AchievementsAPIHelper
     /// <summary>
     /// Sets a count achievement's progress value directly.
     /// </summary>
-    public static void SetValue(AchievementSpec achievement, int value, bool showOnUI = true)
+    public static void SetValue(this AchievementSpec achievement, int value, bool showOnUI = true)
     {
         if (!IsLoaded)
         {
@@ -277,7 +277,7 @@ public static class AchievementsAPIHelper
     /// <summary>
     /// Resets an achievement back to its locked, unprogressed state.
     /// </summary>
-    public static void Reset(AchievementSpec achievement)
+    public static void Reset(this AchievementSpec achievement)
     {
         if (!IsLoaded)
         {

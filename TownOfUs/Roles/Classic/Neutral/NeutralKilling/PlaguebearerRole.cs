@@ -65,20 +65,6 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Infect", "Infect"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Infect.WikiDescription"),
-                    TouNeutAssets.InfectSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get

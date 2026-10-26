@@ -50,20 +50,6 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Remember", "Remember"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Remember.WikiDescription"),
-                    TouNeutAssets.RememberButtonSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get
@@ -141,7 +127,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
                     $"<b>{text.Replace("<role>", $"{roleWhenAlive.TeamColor.ToTextColor()}{roleWhenAlive.GetRoleName()}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac);
                 notif1.AdjustNotification();
-                AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
+                TouAchievements.AmnesiaSquared.Unlock();
             }
 
             return;
@@ -155,7 +141,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac);
                 notif1.AdjustNotification();
-                AchievementsAPIHelper.Unlock(TouAchievements.AmnesiaSquared);
+                TouAchievements.AmnesiaSquared.Unlock();
             }
 
             return;

@@ -82,7 +82,7 @@ public sealed class GlitchHackedModifier(byte glitchId) : DisabledModifier
         {
             if (Player.Data.Role is GlitchRole)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.Anomaly);
+                TouAchievements.Anomaly.Unlock();
             }
             TouAudio.PlaySound(TouAudio.HackedSound);
 

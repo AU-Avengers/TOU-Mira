@@ -157,20 +157,6 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Protect", "Protect"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Protect.WikiDescription"),
-                    TouNeutAssets.ProtectSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get
@@ -267,7 +253,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         {
             if (victim == Target && Player.AmOwner && !victim.Data.Disconnected && TouAchievementEvents.IsFirstRound)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.FairlyBadParent);
+                TouAchievements.FairlyBadParent.Unlock();
             }
             var roleType = OptionGroupSingleton<FairyOptions>.Instance.OnTargetDeath switch
             {

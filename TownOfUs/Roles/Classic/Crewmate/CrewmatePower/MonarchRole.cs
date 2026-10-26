@@ -84,21 +84,6 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Knight", "Knight"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}KnightDescription").Replace("<amount>",
-                        (OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)),
-                    TouCrewAssets.KnightSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get
@@ -153,7 +138,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         {
             if (target.Data.Role is MayorRole { Revealed: true })
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.RiggedVotes);
+                TouAchievements.RiggedVotes.Unlock();
             }
             ShowNotification(MiraLocaleManager.Get("TownOfUsMira.Role.MonarchKnightedFeedback").Replace("<role>", $"{TownOfUsColors.Monarch.ToTextColor()}{monarch.GetRoleName()}</color>").Replace("<votes>", ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)));
         }

@@ -32,10 +32,6 @@ public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
         IntroSound = TouAudio.SpyIntroSound
     };
 
-
-
-    [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);

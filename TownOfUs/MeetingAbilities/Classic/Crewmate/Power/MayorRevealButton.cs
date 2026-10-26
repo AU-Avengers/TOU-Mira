@@ -45,7 +45,7 @@ public class MayorRevealButton : MeetingActionButton
         {
             if (Helpers.GetAlivePlayers().Count == 2)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.DeathByDemocracy);
+                TouAchievements.DeathByDemocracy.Unlock();
             }
             MayorRole.RpcAnimateNewReveal(PlayerControl.LocalPlayer);
         }
@@ -53,7 +53,7 @@ public class MayorRevealButton : MeetingActionButton
         {
             if (Helpers.GetAlivePlayers().Count == 2)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.DeathByDemocracy);
+                TouAchievements.DeathByDemocracy.Unlock();
             }
             poli.AttemptReveal();
         }

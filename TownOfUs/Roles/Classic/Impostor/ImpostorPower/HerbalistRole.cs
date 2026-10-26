@@ -91,23 +91,6 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     };
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities =>
-    [
-        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Expose", "Expose"),
-            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Expose.WikiDescription"),
-            TouImpAssets.HerbExposeSprite),
-        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Confuse", "Confuse"),
-            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Confuse.WikiDescription"),
-            TouImpAssets.HerbConfuseSprite),
-        /*new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Glamour", "Glamour"),
-            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Glamour.WikiDescription"),
-            TouImpAssets.FlashSprite),*/
-        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Protect", "Protect"),
-            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Protect.WikiDescription"),
-            TouImpAssets.HerbProtectSprite)
-    ];
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities =>
     [
         new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Expose", "Expose"),

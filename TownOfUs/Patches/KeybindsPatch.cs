@@ -167,7 +167,7 @@ public static class Bindings
             }
 
             hud.RpcVotingComplete(voterStates, exiled, tie, processEvent.OverruledVote, processEvent.OverruledNonce);
-            AchievementsAPIHelper.Unlock(TouAchievements.Silence);
+            TouAchievements.Silence.Unlock();
         }
 
         CreateNotif("HostEndMeetingNotif", TouRoleIcons.Prosecutor);
@@ -210,7 +210,7 @@ public static class Bindings
                     if (settings.SelfKillBindToggle.Value && !PlayerControl.LocalPlayer.HasDied() &&
                         Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.T) && Input.GetKey(KeyCode.LeftShift))
                     {
-                        AchievementsAPIHelper.Unlock(TouAchievements.IveSeenThePlays);
+                        TouAchievements.IveSeenThePlays.Unlock();
                         PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
                     }
 
@@ -221,7 +221,7 @@ public static class Bindings
                         var gameFlow = GameManager.Instance.LogicFlow.Cast<LogicGameFlowNormal>();
                         if (gameFlow != null)
                         {
-                            AchievementsAPIHelper.Unlock(TouAchievements.Oops);
+                            TouAchievements.Oops.Unlock();
                             CustomGameOver.Trigger<HostGameOver>([]);
                         }
                     }

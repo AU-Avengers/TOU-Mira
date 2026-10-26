@@ -35,27 +35,6 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            var sprite = TouCrewAssets.SeerSprite;
-            var abilityName = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Reveal", "Reveal");
-            var abilityDesc = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Reveal.WikiDescription");
-            if (OptionGroupSingleton<SeerOptions>.Instance.SalemSeer)
-            {
-                abilityName = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Compare", "Compare");
-                abilityDesc = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Compare.WikiDescription");
-                sprite = TouCrewAssets.SeerButtonSprites.AsEnumerable().Random()!;
-            }
-            return
-            [
-                new(abilityName, abilityDesc, sprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get
