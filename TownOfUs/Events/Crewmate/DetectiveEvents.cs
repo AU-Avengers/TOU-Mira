@@ -1,6 +1,5 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
-using MiraAPI.Events.Vanilla.Meeting;
 using TownOfUs.Modules.Components;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
@@ -9,17 +8,6 @@ namespace TownOfUs.Events.Crewmate;
 
 public static class DetectiveEvents
 {
-    [RegisterEvent]
-    public static void ReportBodyEventHandler(ReportBodyEvent @event)
-    {
-        if (@event is not { Target: not null, Reporter: { AmOwner: true, Data.Role: ForensicRole detective } })
-        {
-            return;
-        }
-
-        detective.Report(@event.Target.PlayerId);
-    }
-
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
