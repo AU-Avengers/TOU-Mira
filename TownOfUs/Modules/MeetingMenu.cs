@@ -74,6 +74,7 @@ public sealed class MeetingMenu : IDisposable
     public RoleBehaviour Owner { get; }
     public OnClick Click { get; }
     public Exemption IsExempt { get; }
+    public Exemption StartActive { get; init; }
     public LoadableAsset<Sprite> ActiveSprite { get; }
     public LoadableAsset<Sprite> DisabledSprite { get; }
     public string AbilityName { get; }
@@ -141,7 +142,19 @@ public sealed class MeetingMenu : IDisposable
         targetBox.name = $"MeetingButton{Owner.GetRoleName().Replace(" ", "")}{voteArea.PlayerId}";
         targetBox.transform.localPosition = Position;
         var renderer = targetBox.GetComponent<SpriteRenderer>();
-        renderer.sprite = (Type == MeetingAbilityType.Toggle ? DisabledSprite : ActiveSprite);
+
+        if (Type == MeetingAbilityType.Toggle && StartActive(voteArea))
+        {
+            Actives[voteArea.PlayerId] = true;
+
+            renderer.sprite = ActiveSprite;
+            renderer.color = ActiveColor;
+        }
+        else
+        {
+            renderer.sprite = (Type == MeetingAbilityType.Toggle ? DisabledSprite : ActiveSprite);
+        }
+
         var button = targetBox.GetComponent<PassiveButton>();
         button.OverrideOnClickListeners(() => Click(voteArea, __instance));
         button.OverrideOnMouseOverListeners(() => renderer.color = HoverColor);
