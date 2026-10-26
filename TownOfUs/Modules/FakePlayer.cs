@@ -5,6 +5,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using PowerTools;
 using Reactor.Utilities;
+using Reactor.Utilities.Attributes;
 using TMPro;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Modifiers.Universal;
@@ -14,19 +15,19 @@ using Random = UnityEngine.Random;
 
 namespace TownOfUs.Modules;
 
-// Code Review: Should be using a MonoBehaviour
-public sealed class FakePlayer : IDisposable
+[RegisterInIl2Cpp]
+public sealed class FakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 {
     private const string DefaultPetName = "EmptyPet(Clone)";
     private const string NameTextObjName = "NameText_TMP";
     private const string ColorBindTextName = "ColorblindName_TMP";
     public static readonly List<FakePlayer> FakePlayers = [];
-    private readonly CosmeticsLayer _cosmeticsLayer;
+    private CosmeticsLayer _cosmeticsLayer { get; set; }
 
-    private readonly PlayerCosmicInfo _cosmicInfo;
-    private readonly SpriteRenderer _rend;
+    private PlayerCosmicInfo _cosmicInfo { get; set; }
+    private SpriteRenderer _rend { get; set; }
 
-    public readonly GameObject body;
+    public GameObject body { get; private set; }
     private TextMeshPro _colorBindText;
     private GameObject _colorBindTextObj;
     private TextMeshPro _nameTextMaster;
@@ -34,8 +35,22 @@ public sealed class FakePlayer : IDisposable
     public bool InCamo;
     public PlayerControl OriginalPlayer;
 
-    public FakePlayer(PlayerControl player)
+    public static FakePlayer CreateFakePlayer(PlayerControl player)
     {
+        var obj = new GameObject($"Fake {player.gameObject.name}")
+        {
+            layer = LayerMask.NameToLayer("Players")
+        };
+        var fake = obj.AddComponent<FakePlayer>();
+        fake.PlayerId = player.PlayerId;
+        fake.OriginalPlayer = player;
+        fake.body = obj;
+        return fake;
+    }
+
+    public void Start()
+    {
+        var player = OriginalPlayer;
         var playerOutfit = player.Data.DefaultOutfit;
 
         _cosmicInfo = new PlayerCosmicInfo
@@ -54,12 +69,6 @@ public sealed class FakePlayer : IDisposable
             _cosmicInfo.Cosmetics.SetSkin("skin_None", _cosmicInfo.ColorInfo);
             _cosmicInfo.OutfitInfo.SkinId = "skin_None";
         }
-
-        body = new GameObject($"Fake {player.gameObject.name}");
-        PlayerId = player.PlayerId;
-        OriginalPlayer = player;
-
-        body.layer = LayerMask.NameToLayer("Players");
 
         CreateNameTextParentObj(player, body, _cosmicInfo);
 
@@ -450,34 +459,23 @@ public sealed class FakePlayer : IDisposable
 
     public void Destroy()
     {
-        DataManager.Settings.Accessibility.OnChangedEvent -= new Action(SwitchColorName);
-
-        Dispose();
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-    }
-
-    public void Dispose(bool disposing)
-    {
-        if (disposing)
+        if (body)
         {
-            if (body)
-            {
-                Object.Destroy(body);
-            }
+            Object.Destroy(body);
+        }
+    }
 
-            if (_colorBindTextObj)
-            {
-                Object.Destroy(_colorBindTextObj);
-            }
+    public void OnDestroy()
+    {
+        DataManager.Settings.Accessibility.OnChangedEvent -= new Action(SwitchColorName);
+        if (_colorBindTextObj)
+        {
+            Object.Destroy(_colorBindTextObj);
+        }
 
-            if (_rend)
-            {
-                Object.Destroy(_rend);
-            }
+        if (_rend)
+        {
+            Object.Destroy(_rend);
         }
     }
 
