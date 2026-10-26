@@ -154,7 +154,7 @@ public sealed class MeetingMenu : IDisposable
     {
         Actives.Add(voteArea.PlayerId, false);
 
-        if (IsExempt(voteArea))
+        if (IsExempt?.Invoke(voteArea) == true)
         {
             Buttons.Add(voteArea.PlayerId, null!);
             ButtonSprites.Add(voteArea.PlayerId, null!);

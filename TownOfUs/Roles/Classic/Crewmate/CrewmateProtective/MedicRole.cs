@@ -105,18 +105,14 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
             meetingMenu = new MeetingMenu(
                 this,
                 TouAssets.LighterSprite,
-                TouAssets.DarkerSprite,
-                IsExempt)
+                TouAssets.DarkerSprite)
             {
                 Position = new Vector3(1.1f, -0.18f, -3f),
                 StartActive = PlayerIsLighter
             };
         }
     }
-    public static bool IsExempt(PlayerVoteArea voteArea)
-    {
-        return false;
-    }
+
     public static bool PlayerIsLighter(PlayerVoteArea voteArea)
     {
         if (MiscUtils.PlayerById(voteArea.PlayerId) is not { } player)
