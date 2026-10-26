@@ -26,10 +26,8 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
             return;
         }
 
-        HudManager.Instance.KillButton.ToggleVisible(
-            OptionGroupSingleton<BlackmailerOptions>.Instance.BlackmailerKill ||
-            (Player != null && Player.GetModifiers<BaseModifier>().Any(x => x is ICachedRole)) ||
-            (Player != null && MiscUtils.ImpAliveCount == 1));
+        HudManager.Instance.KillButton.ToggleVisible(OptionGroupSingleton<BlackmailerOptions>.Instance.BlackmailerKill ||
+                                                     Player != null && (Player.HasModifierOfType<ICachedRole>() || MiscUtils.ImpAliveCount == 1));
     }
 
     public DoomableType DoomHintType => DoomableType.Insight;
@@ -42,7 +40,7 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Blackmailer.LoadAsset(), "TouMira.Role.Impostor.Blackmailer", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Blackmailer, "TouMira.Role.Impostor.Blackmailer", 1.45f),
         UseVanillaKillButton = true,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Blackmailer
@@ -95,14 +93,13 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
             MiscUtils.RunAnticheatWarning(source);
             return;
         }
-        var existingBmed = PlayerControl.AllPlayerControls.ToArray()
-            .FirstOrDefault(x => x.GetModifier<BlackmailedModifier>()?.BlackMailerId == source.PlayerId);
+        var existingBmed = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.HasModifier<BlackmailedModifier>(x => x.BlackMailerId == source.PlayerId));
 
         existingBmed?.RemoveModifier<BlackmailedModifier>();
 
         var modifier = new BlackmailedModifier(source.PlayerId);
         target.AddModifier(modifier);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.BlackmailerBlackmail, source, target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 }

@@ -108,7 +108,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Scavenger.LoadAsset(), "TouMira.Role.Impostor.Scavenger", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Scavenger, "TouMira.Role.Impostor.Scavenger", 1.45f),
         Icon = TouRoleIcons.Scavenger,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         UseVanillaKillButton = false,
@@ -188,10 +188,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 
     private void RefreshTarget()
     {
-        if (Target != null)
-        {
-            Target.RemoveModifier<ScavengerArrowModifier>();
-        }
+        Target?.RemoveModifier<ScavengerArrowModifier>();
 
         Target = GetNextTarget();
         Target?.AddModifier<ScavengerArrowModifier>(Player, TownOfUsColors.Impostor);
@@ -228,7 +225,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         if (victim == Target)
         {
             var touAbilityEvent = new TouAbilityEvent(AbilityType.ScavengerCorrectKill, Player, victim);
-            MiraEventManager.InvokeEvent(touAbilityEvent);
+            touAbilityEvent.InvokeEvent();
 
             TimeRemaining = Mathf.Max(0f,
                 TimeRemaining + OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeIncreaseDuration);
@@ -239,7 +236,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
             return;
         }
 
-        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.ScavengerIncorrectKill, Player, victim));
+        new TouAbilityEvent(AbilityType.ScavengerIncorrectKill, Player, victim).InvokeEvent();
 
         var baseCooldown = killButton.Cooldown > 0f ? killButton.Cooldown : PlayerControl.LocalPlayer.GetKillCooldown();
         killButton.SetTimer(baseCooldown * OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeIncorrectKillCooldown);

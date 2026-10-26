@@ -61,7 +61,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spellslinger.LoadAsset(), "TouMira.Role.Impostor.Spellslinger", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spellslinger, "TouMira.Role.Impostor.Spellslinger", 1.45f),
         Icon = TouRoleIcons.Spellslinger,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         MaxRoleCount = 1,
@@ -127,16 +127,13 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        var alivePlayers = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => !GameHistory.IsFullyDead(x)).ToList();
+        var alivePlayers = PlayerControl.AllPlayerControls.Where(x => !GameHistory.IsFullyDead(x));
 
         var hexed = alivePlayers
-            .Where(p => p.HasModifier<SpellslingerHexedModifier>())
-            .ToList();
+            .Where(p => p.HasModifier<SpellslingerHexedModifier>());
 
         var unhexedNonImpostors = alivePlayers
-            .Where(p => !p.IsImpostorAligned() && !p.HasModifier<SpellslingerHexedModifier>())
-            .ToList();
+            .Where(p => !p.IsImpostorAligned() && !p.HasModifier<SpellslingerHexedModifier>());
 
         if (EveryoneHexed())
         {
@@ -144,7 +141,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
         }
         else
         {
-            if (hexed.Count > 0)
+            if (hexed.Any())
             {
                 stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.SpellslingerTabHexedInfo")}</b>");
                 foreach (var player in hexed)
@@ -154,7 +151,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
                 }
             }
 
-            stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.SpellslingerTabHexCounter").Replace("<count>", $"{unhexedNonImpostors.Count}")}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>{MiraLocaleManager.Get("TownOfUsMira.Role.SpellslingerTabHexCounter").Replace("<count>", $"{unhexedNonImpostors.Count()}")}</b>");
         }
 
         return stringB;
@@ -163,7 +160,6 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     public static bool EveryoneHexed()
     {
         return PlayerControl.AllPlayerControls
-            .ToArray()
             .Where(p => p.Data.Role is not SpellslingerRole && !p.HasDied() && (!p.IsImpostorAligned() || OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode))
             .All(p => p.HasModifier<SpellslingerHexedModifier>());
     }

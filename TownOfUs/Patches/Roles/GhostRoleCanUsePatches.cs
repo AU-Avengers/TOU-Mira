@@ -28,7 +28,7 @@ public static class GhostRoleCanUsePatches
         __state = false;
         var playerControl = pc.Object;
 
-        if (playerControl.Data.Role is IGhostRole ghost && ghost.GhostActive && pc.IsDead)
+        if (playerControl.Data.Role is IGhostRole { GhostActive: true } && pc.IsDead)
         {
             // Message($"CanUsePrefixPatch IsDead");
             pc.IsDead = false; // TODO: find a better way
@@ -44,7 +44,7 @@ public static class GhostRoleCanUsePatches
         ref bool __state)
     {
         if (__state)
-            // Message($"CanUsePostfixPatch IsDead");
+        // Message($"CanUsePostfixPatch IsDead");
         {
             pc.IsDead = true;
         }

@@ -65,7 +65,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Snitch.LoadAsset(), "TouMira.Role.Crewmate.Snitch", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Snitch, "TouMira.Role.Crewmate.Snitch", 1.45f),
         Icon = TouRoleIcons.Snitch,
         OptionsScreenshot = TouBanners.SnitchRoleBanner,
         IntroSound = TouAudio.ToppatIntroSound
@@ -175,6 +175,8 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         var textlog = $"Snitch Stage for '{Player.Data.PlayerName}': {stage.ToDisplayString()}";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
 
+        var isEgotist = Player.HasModifier<EgotistModifier>();
+
         if (stage is TaskStage.Revealed)
         {
             if (Player.AmOwner)
@@ -182,14 +184,14 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 if (!silent)
                 {
                     Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
-                    var text = Player.HasModifier<EgotistModifier>()
+                    var text = isEgotist
                         ? MiraLocaleManager.Get("TownOfUsMira.Role.SnitchSelfRevealedEgoFeedback")
                         : MiraLocaleManager.Get("TownOfUsMira.Role.SnitchSelfRevealedFeedback");
 
                     var notif1 = Helpers.CreateAndShowNotification(
                         $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
                         new Vector3(0f, 1f, -20f),
-                        spr: TouRoleIcons.Snitch.LoadAsset());
+                        spr: TouRoleIcons.Snitch);
                     notif1.AdjustNotification();
                 }
             }
@@ -199,14 +201,14 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 if (!silent)
                 {
                     Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
-                    var text = Player.HasModifier<EgotistModifier>()
+                    var text = isEgotist
                         ? MiraLocaleManager.Get("TownOfUsMira.Role.SnitchImpRevealedEgoFeedback")
                         : MiraLocaleManager.Get("TownOfUsMira.Role.SnitchImpRevealedFeedback");
 
                     var notif1 = Helpers.CreateAndShowNotification(
                         $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
                         new Vector3(0f, 1f, -20f),
-                        spr: TouRoleIcons.Snitch.LoadAsset());
+                        spr: TouRoleIcons.Snitch);
                     notif1.AdjustNotification();
                 }
             }
@@ -221,14 +223,14 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 CreateSnitchArrows(silent);
                 if (!silent)
                 {
-                    var text = Player.HasModifier<EgotistModifier>()
+                    var text = isEgotist
                         ? MiraLocaleManager.Get("TownOfUsMira.Role.SnitchSelfCompletedEgoFeedback")
                         : MiraLocaleManager.Get("TownOfUsMira.Role.SnitchSelfCompletedFeedback");
 
                     var notif1 = Helpers.CreateAndShowNotification(
                         $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
                         new Vector3(0f, 1f, -20f),
-                        spr: TouRoleIcons.Snitch.LoadAsset());
+                        spr: TouRoleIcons.Snitch);
                     notif1.AdjustNotification();
                 }
             }
@@ -238,13 +240,13 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 if (!silent)
                 {
                     Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
-                    var text = Player.HasModifier<EgotistModifier>()
+                    var text = isEgotist
                         ? MiraLocaleManager.Get("TownOfUsMira.Role.SnitchImpCompletedEgoFeedback")
                         : MiraLocaleManager.Get("TownOfUsMira.Role.SnitchImpCompletedFeedback");
 
                     var notif1 = Helpers.CreateAndShowNotification(
                         $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
-                        new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Snitch.LoadAsset());
+                        new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Snitch);
                     notif1.AdjustNotification();
                 }
             }
@@ -263,7 +265,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         if (player.myTasks != null && player.myTasks.Count > 0)
         {
-            var tasks = player.myTasks.ToArray().Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
+            var tasks = player.myTasks.Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
             foreach (var t in tasks)
             {
                 total++;
@@ -346,16 +348,16 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 continue;
             }
 
-            var modifiers = player.GetModifiers<SnitchImpostorRevealModifier>().ToList();
+            var modifiers = player.GetModifiers<SnitchImpostorRevealModifier>();
             foreach (var mod in modifiers)
             {
-                player.GetModifierComponent()?.RemoveModifier(mod);
+                mod.RemoveSelf();
             }
 
-            var playerMods = player.GetModifiers<SnitchPlayerRevealModifier>().ToList();
+            var playerMods = player.GetModifiers<SnitchPlayerRevealModifier>();
             foreach (var mod in playerMods)
             {
-                player.GetModifierComponent()?.RemoveModifier(mod);
+                mod.RemoveSelf();
             }
         }
     }

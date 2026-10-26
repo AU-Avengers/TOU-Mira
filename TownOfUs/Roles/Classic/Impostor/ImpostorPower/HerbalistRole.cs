@@ -52,15 +52,15 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             var opts = OptionGroupSingleton<HerbalistOptions>.Instance;
             if (herbs.ExposeUsesLeft == -2)
             {
-                herbs.ExposeUsesLeft = (int)opts.MaxExposeUses.Value == 0 ? -1 : (int)opts.MaxExposeUses.Value;
+                herbs.ExposeUsesLeft = opts.MaxExposeUses == 0 ? -1 : opts.MaxExposeUses;
             }
             if (herbs.ConfuseUsesLeft == -2)
             {
-                herbs.ConfuseUsesLeft = (int)opts.MaxConfuseUses.Value == 0 ? -1 : (int)opts.MaxConfuseUses.Value;
+                herbs.ConfuseUsesLeft = opts.MaxConfuseUses == 0 ? -1 : opts.MaxConfuseUses;
             }
             if (herbs.ProtectUsesLeft == -2)
             {
-                herbs.ProtectUsesLeft = (int)opts.MaxProtectUses.Value == 0 ? -1 : (int)opts.MaxProtectUses.Value;
+                herbs.ProtectUsesLeft = opts.MaxProtectUses == 0 ? -1 : opts.MaxProtectUses;
             }
         }
     }
@@ -83,7 +83,7 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Herbalist.LoadAsset(), "TouMira.Role.Impostor.Herbalist", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Herbalist, "TouMira.Role.Impostor.Herbalist", 1.45f),
         UseVanillaKillButton = false,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         MaxRoleCount = 1,

@@ -40,7 +40,7 @@ public static class Extensions
 {
     public static bool IsGhostDead(this NetworkedPlayerInfo data)
     {
-        return data.Role is IGhostRole ghostRole ? !ghostRole.GhostActive : data.IsDead;
+        return data.Role is IGhostRole { GhostActive: var active } ? !active : data.IsDead;
     }
 
     public static ITownOfUsRole? GetTownOfUsRole(this PlayerControl player)
@@ -75,7 +75,7 @@ public static class Extensions
     public static bool IsImpostorAligned(this PlayerControl player)
     {
         return player?.Data && player?.Data?.Role && (player?.Data?.Role.IsImpostor() == true ||
-                                                      player?.GetModifiers<AllianceGameModifier>().Any(x =>
+                                                      player?.HasModifier<AllianceGameModifier>(x =>
                                                           x.TrueFactionType is AlliedFaction.Impostor) == true);
     }
 
@@ -86,8 +86,8 @@ public static class Extensions
 
     public static bool IsImpostor(this RoleBehaviour role)
     {
-        return role is ICustomRole customRole
-            ? customRole.Team is ModdedRoleTeams.Impostor
+        return role is ICustomRole { Team: var roleTeam } 
+            ? roleTeam is ModdedRoleTeams.Impostor
             : role.TeamType is RoleTeamTypes.Impostor;
     }
 
@@ -99,7 +99,7 @@ public static class Extensions
         }
 
         return (player.HasModifier<TraitorCacheModifier>() || player.Data.Role is TraitorRole) ||
-               (OptionGroupSingleton<CrewpostorOptions>.Instance.ShowsAsImpostor.Value &&
+               (OptionGroupSingleton<CrewpostorOptions>.Instance.ShowsAsImpostor &&
                 player.HasModifier<CrewpostorModifier>());
     }
 
@@ -110,8 +110,8 @@ public static class Extensions
 
     public static bool IsCrewmate(this RoleBehaviour role)
     {
-        return role is ICustomRole customRole
-            ? customRole.Team == ModdedRoleTeams.Crewmate
+        return role is ICustomRole { Team: var roleTeam }
+            ? roleTeam == ModdedRoleTeams.Crewmate
             : role.TeamType == RoleTeamTypes.Crewmate;
     }
 
@@ -142,7 +142,7 @@ public static class Extensions
 
     public static bool Is(this PlayerControl player, ModdedRoleTeams team)
     {
-        if (player.Data.Role is ITownOfUsRole role && role.Team == team)
+        if (player.Data.Role is ITownOfUsRole { Team: var roleTeam } && roleTeam == team)
         {
             return true;
         }
@@ -167,9 +167,7 @@ public static class Extensions
 
     public static bool IsHysteria(this PlayerControl player)
     {
-        var mod = player.GetModifier<HypnotisedModifier>();
-
-        return mod?.HysteriaActive == true;
+        return player.HasModifier<HypnotisedModifier>(x => x.HysteriaActive);
     }
 
     public static bool HasDied(this PlayerControl player)
@@ -332,20 +330,20 @@ public static class Extensions
         roleIcon.gameObject.transform.localScale = new Vector3(0.21f, 0.9f, 1);
         roleIcon.gameObject.transform.localPosition += new Vector3(-0.964f, 0, -2);
 
-        var roleImg = TouRoleIcons.RandomImp.LoadAsset();
+        Sprite roleImg = TouRoleIcons.RandomImp;
 
         if (roleBehaviour.IsCrewmate())
         {
-            roleImg = TouRoleIcons.RandomCrew.LoadAsset();
+            roleImg = TouRoleIcons.RandomCrew;
         }
         else if (roleBehaviour.IsNeutral())
         {
-            roleImg = TouRoleIcons.RandomNeut.LoadAsset();
+            roleImg = TouRoleIcons.RandomNeut;
         }
 
-        if (roleBehaviour is ICustomRole customRole3 && customRole3.Configuration.Icon != null)
+        if (roleBehaviour is ICustomRole { Configuration.Icon: { } icon })
         {
-            roleImg = customRole3.Configuration.Icon.LoadAsset();
+            roleImg = icon;
         }
         else if (roleBehaviour.RoleIconSolid != null)
         {
@@ -355,7 +353,7 @@ public static class Extensions
         roleIcon.gameObject.GetComponent<SpriteRenderer>().sprite = roleImg;
         roleIcon.gameObject.SetActive(true);
 
-        var color = roleBehaviour is ICustomRole customRole ? customRole.RoleColor : roleBehaviour.TeamColor;
+        var color = roleBehaviour is ICustomRole { RoleColor: var roleColor } ? roleColor : roleBehaviour.TeamColor;
 
         var alignment = MiscUtils.GetParsedRoleAlignment(roleBehaviour, true);
 
@@ -404,25 +402,25 @@ public static class Extensions
         roleIcon.gameObject.transform.localScale = new Vector3(0.21f, 0.9f, 1);
         roleIcon.gameObject.transform.localPosition += new Vector3(-0.964f, 0, -2);
 
-        var modImg = TouRoleIcons.RandomAny.LoadAsset();
+        var modImg = TouRoleIcons.RandomAny;
 
         var faction = modifier.GetModifierFaction();
         if (faction.ToDisplayString().Contains("Crewmate"))
         {
-            modImg = TouRoleIcons.RandomCrew.LoadAsset();
+            modImg = TouRoleIcons.RandomCrew;
         }
         else if (faction.ToDisplayString().Contains("Neutral"))
         {
-            modImg = TouRoleIcons.RandomNeut.LoadAsset();
+            modImg = TouRoleIcons.RandomNeut;
         }
         else if (faction.ToDisplayString().Contains("Impostor"))
         {
-            modImg = TouRoleIcons.RandomImp.LoadAsset();
+            modImg = TouRoleIcons.RandomImp;
         }
 
         if (modifier.ModifierIcon != null)
         {
-            modImg = modifier.ModifierIcon.LoadAsset();
+            modImg = modifier.ModifierIcon;
         }
 
         roleIcon.gameObject.GetComponent<SpriteRenderer>().sprite = modImg;
@@ -505,7 +503,7 @@ public static class Extensions
         }
 
         var changeRoleEvent = new ChangeRoleEvent(player, oldRole, newRole);
-        MiraEventManager.InvokeEvent(changeRoleEvent);
+        changeRoleEvent.InvokeEvent();
     }
 
     [MethodRpc((uint)TownOfUsRpc.PlayerExile)]
@@ -532,7 +530,7 @@ public static class Extensions
         player.transform.position = pos;
         player.NetTransform.SnapTo(pos);
         var myPlayer = player.MyPhysics;
-        
+
         var vent = ShipStatus.Instance.AllVents.FirstOrDefault(v => v.Id == id);
         if (vent == null)
         {
@@ -620,7 +618,7 @@ public static class Extensions
     {
         List<Vent> vents;
 
-        var cleanVentTasks = player.myTasks.ToArray().Where(x => x.TaskType == TaskTypes.VentCleaning).ToList();
+        var cleanVentTasks = player.myTasks.Where(x => x.TaskType == TaskTypes.VentCleaning);
 
         if (cleanVentTasks != null)
         {
@@ -651,7 +649,7 @@ public static class Extensions
     {
         List<Vent> vents;
 
-        var cleanVentTasks = player.myTasks.ToArray().Where(x => x.TaskType == TaskTypes.VentCleaning).ToList();
+        var cleanVentTasks = player.myTasks.Where(x => x.TaskType == TaskTypes.VentCleaning).ToList();
 
         if (cleanVentTasks != null)
         {
@@ -772,7 +770,7 @@ public static class Extensions
         var filteredPlayers = Helpers.GetClosestPlayers(playerControl, distance, ignoreColliders)
             .Where(playerInfo => !playerInfo.Data.Disconnected &&
                                  playerInfo.PlayerId != playerControl.PlayerId &&
-                                 ((playerInfo.TryGetModifier<DisabledModifier>(out var mod) && mod.IsConsideredAlive) ||
+                                 ((playerInfo.HasModifier<DisabledModifier>(mod => mod.IsConsideredAlive)) ||
                                   !playerInfo.HasModifier<DisabledModifier>()) &&
                                  !playerInfo.Data.IsDead &&
                                  (includeImpostors || !playerInfo.IsImpostorAligned()))
@@ -789,7 +787,7 @@ public static class Extensions
         hackedSprite.gameObject.layer = button.gameObject.layer;
 
         var render = hackedSprite.AddComponent<SpriteRenderer>();
-        render.sprite = LegacyAssets.IsLegacy ? LegacyAssets.Hacked.LoadAsset() : TouAssets.Hacked.LoadAsset();
+        render.sprite = LegacyAssets.IsLegacy ? LegacyAssets.Hacked : TouAssets.Hacked;
 
         hackedSprite.SetHackActive(false);
 
@@ -813,14 +811,14 @@ public static class Extensions
         hackedSprite.gameObject.layer = button.gameObject.layer;
 
         var render = hackedSprite.AddComponent<SpriteRenderer>();
-        render.sprite = TouAssets.DeathDisabledSprite.LoadAsset();
+        render.sprite = TouAssets.DeathDisabledSprite;
 
         hackedSprite.SetActive(false);
 
         return hackedSprite;
     }
 
-    public static void FillWhere<T>(this List<T> source, List<T> destination, System.Predicate<T> match)
+    public static void FillWhere<T>(this List<T> source, List<T> destination, Predicate<T> match)
     {
         destination.Clear(); // Clear the reusable list
         for (int i = 0; i < source.Count; i++)
@@ -832,33 +830,45 @@ public static class Extensions
         }
     }
 
-    public static bool HasAny<T>(this T[] list, System.Predicate<T> match)
+    #region Il2Cpp List LINQ Extensions
+    public static List<T> ToList<T>(this Il2CppSystem.Collections.Generic.List<T> list)
     {
-        if (list.Length < 1) return false;
-
-        for (int i = 0; i < list.Length; i++)
-        {
-            if (match(list[i])) return true;
-        }
-
-        return false;
+        return list.ToArray().ToList();
     }
 
-    public static bool HasAny<T>(this T[] list)
+    public static IEnumerable<T> Where<T>(this Il2CppSystem.Collections.Generic.List<T> list, Func<T, bool> predicate)
     {
-        if (list.Length > 0) return true;
-
-        return false;
+        return list.ToArray().Where(predicate);
     }
 
-#pragma warning disable CA1827
-#pragma warning disable S1155
-    public static bool HasAny<T>(this IEnumerable<T> list)
+    public static bool Any<T>(this Il2CppSystem.Collections.Generic.List<T> list, Func<T, bool> predicate)
     {
-        if (list.Count() > 0) return true;
-
-        return false;
+        return list.ToArray().Any(predicate);
     }
-#pragma warning restore S1155
-#pragma warning restore CA1827
+
+    public static bool All<T>(this Il2CppSystem.Collections.Generic.List<T> list, Func<T, bool> predicate)
+    {
+        return list.ToArray().All(predicate);
+    }
+
+    public static int Count<T>(this Il2CppSystem.Collections.Generic.List<T> list, Func<T, bool> predicate)
+    {
+        return list.ToArray().Count(predicate);
+    }
+
+    public static T First<T>(this Il2CppSystem.Collections.Generic.List<T> list, Func<T, bool> predicate)
+    {
+        return list.ToArray().First(predicate);
+    }
+
+    public static T? FirstOrDefault<T>(this Il2CppSystem.Collections.Generic.List<T> list, Func<T, bool> predicate)
+    {
+        return list.ToArray().FirstOrDefault(predicate);
+    }
+
+    public static IEnumerable<T> Excluding<T>(this Il2CppSystem.Collections.Generic.List<T> list, Func<T, bool> predicate)
+    {
+        return list.ToArray().Excluding(predicate);
+    }
+    #endregion
 }

@@ -23,13 +23,13 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     public bool CanBeBribed => false;
     public void InitialSetup()
     {
-        TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.BribeSprite.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.BribeSprite,
             "TouMira.Role.Neutral.Mercenary.Ui.Bribe", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.GuardSprite.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.GuardSprite,
             "TouMira.Role.Neutral.Mercenary.Ui.Guard", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.MercBribeBad.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.MercBribeBad,
             "TouMira.Role.Neutral.Mercenary.Ui.Bribe.Bad", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.MercBribeGood.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.MercBribeGood,
             "TouMira.Role.Neutral.Mercenary.Ui.Bribe.Good", 1.45f);
     }
     public override void SpawnTaskHeader(PlayerControl playerControl)
@@ -116,7 +116,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mercenary.LoadAsset(), "TouMira.Role.Neutral.Mercenary", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mercenary, "TouMira.Role.Neutral.Mercenary", 1.45f),
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Mercenary,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
@@ -128,7 +128,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
         var players = ModifierUtils.GetPlayersWithModifier<MercenaryBribedModifier>();
-        
+
         stringB.Append(TownOfUsPlugin.Culture, $"\n<b><sprite name=\"TouMira.Role.Neutral.Mercenary.Ui.Bribe\">{MiraLocaleManager.Get("TownOfUsMira.Role.MercenaryTabGoldCounter").Replace("<count>", $"{Gold}")}</b>");
 
         var playerControls = players as PlayerControl[] ?? [.. players];
@@ -149,10 +149,10 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     {
         RoleBehaviourStubs.Initialize(this, player);
         var mercOpts = OptionGroupSingleton<MercenaryOptions>.Instance;
-        WinsWithNb = mercOpts.WinsWithNeutralBenign.Value;
-        WinsWithNe = mercOpts.WinsWithNeutralEvil.Value;
-        WinsWithNk = mercOpts.WinsWithNeutralKilling.Value;
-        WinsWithNo = mercOpts.WinsWithNeutralOutlier.Value;
+        WinsWithNb = mercOpts.WinsWithNeutralBenign;
+        WinsWithNe = mercOpts.WinsWithNeutralEvil;
+        WinsWithNk = mercOpts.WinsWithNeutralKilling;
+        WinsWithNo = mercOpts.WinsWithNeutralOutlier;
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)
@@ -161,13 +161,13 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         TouRoleUtils.ClearTaskHeader(Player);
 
         if (!Player.HasModifier<BasicGhostModifier>() && ModifierUtils
-                .GetActiveModifiers<MercenaryBribedModifier>([HideFromIl2Cpp](x) => x.Mercenary == Player).HasAny())
+                .GetActiveModifiers<MercenaryBribedModifier>([HideFromIl2Cpp] (x) => x.Mercenary == Player).Any())
         {
             Player.AddModifier<BasicGhostModifier>();
         }
 
-        var guardedMods = ModifierUtils.GetActiveModifiers<MercenaryGuardModifier>().ToList();
-        if (!guardedMods.HasAny())
+        var guardedMods = ModifierUtils.GetActiveModifiers<MercenaryGuardModifier>();
+        if (!guardedMods.Any())
         {
             return;
         }
@@ -179,7 +179,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
                 continue;
             }
 
-            guarded.Player.RemoveModifier(guarded);
+            guarded.RemoveSelf();
         }
     }
 
@@ -187,9 +187,9 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     {
         var role = player.GetRoleWhenAlive();
         var alignment = role.GetRoleAlignment();
-        if (role is IUnbribable bribable)
+        if (role is IUnbribable { CanBeBribed: var bribable })
         {
-            return bribable.CanBeBribed;
+            return bribable;
         }
         if (!role.IsNeutral())
         {
@@ -207,7 +207,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
 
         return bribed.Any(x =>
             x.Data.Role.DidWin(gameOverReason) ||
-            x.GetModifiers<GameModifier>().Any(x => x.DidWin(gameOverReason) == true));
+            x.HasModifier<GameModifier>(x => x.DidWin(gameOverReason) == true));
     }
 
     public void AddPayment(int gold = 1)
@@ -235,7 +235,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         }
 
         var mercOpts = OptionGroupSingleton<MercenaryOptions>.Instance;
-        if (isMurder && mercOpts.GuardProtection.Value)
+        if (isMurder && mercOpts.GuardProtection)
         {
             mercenary.AddPayment(mercOpts.GoldGivenFromAttack);
         }

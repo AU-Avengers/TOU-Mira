@@ -24,11 +24,11 @@ public static class HauntMenuMinigamePatch
             var target = __instance.HauntTarget;
             __instance.FilterText.text = string.Empty;
 
-            var modifiers = target.GetModifiers<GameModifier>().Where(x => x is not ExcludedGameModifier)
-                .OrderBy(x => x.ModifierName).ToList();
+            var modifiers = target.GetModifiers<GameModifier>(x => x is not ExcludedGameModifier)
+                .OrderBy(x => x.ModifierName);
             __instance.FilterText.text =
                 $"<color=#FFFFFF><size=100%>({MiraLocaleManager.Get("PlayerHasNoModifiers")})</size></color>";
-            if (modifiers.Count != 0)
+            if (modifiers.Any())
             {
                 var modifierTextBuilder = new StringBuilder("<color=#FFFFFF><size=100%>(");
                 var first = true;
@@ -80,7 +80,7 @@ public static class HauntMenuMinigamePatch
         }
         else
         {
-            var hauntMode = (GhostModeInGame)OptionGroupSingleton<PostmortemOptions>.Instance.DeadCanHaunt.Value;
+            GhostModeInGame hauntMode = OptionGroupSingleton<PostmortemOptions>.Instance.DeadCanHaunt;
             var canHaunt = TutorialManager.InstanceExists || PlayerControl.LocalPlayer.Data.Role is SpectatorRole ||
                            hauntMode is GhostModeInGame.Always || (PlayerControl.LocalPlayer.DiedOtherRound() &&
                                                                    hauntMode is GhostModeInGame.DisabledUponDeath);
@@ -99,7 +99,7 @@ public static class HauntMenuMinigamePatch
                         "TouHauntingWaitNextRound",
                         "You must wait until next round to haunt!");
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectator.LoadAsset());
+                    $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectator);
 
                 notif1.AdjustNotification();
                 return;
@@ -108,11 +108,11 @@ public static class HauntMenuMinigamePatch
             var target = __instance.HauntTarget;
             __instance.FilterText.text = string.Empty;
 
-            var modifiers = target.GetModifiers<GameModifier>().Where(x => x is not ExcludedGameModifier)
-                .OrderBy(x => x.ModifierName).ToList();
+            var modifiers = target.GetModifiers<GameModifier>(x => x is not ExcludedGameModifier)
+                .OrderBy(x => x.ModifierName);
             __instance.FilterText.text =
                 $"<color=#FFFFFF><size=100%>({MiraLocaleManager.Get("PlayerHasNoModifiers")})</size></color>";
-            if (modifiers.Count != 0)
+            if (modifiers.Any())
             {
                 var modifierTextBuilder = new StringBuilder("<color=#FFFFFF><size=100%>(");
                 var first = true;
@@ -142,7 +142,7 @@ public static class HauntMenuMinigamePatch
 
             var name = role.GetRoleName();
 
-            var rColor = role is ICustomRole custom ? custom.RoleColor : role.TeamColor;
+            var rColor = role is ICustomRole { RoleColor: var custom } ? custom : role.TeamColor;
 
             if (!OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow && !TutorialManager.InstanceExists)
             {

@@ -42,7 +42,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Vigilante.LoadAsset(), "TouMira.Role.Crewmate.Vigilante", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Vigilante, "TouMira.Role.Crewmate.Vigilante", 1.45f),
         Icon = TouRoleIcons.Vigilante,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.ImpostorIntroSound
@@ -52,12 +52,12 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        if (PlayerControl.LocalPlayer.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished))
         {
             stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteEvilTabInfo")}");
         }
 
-        if ((int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots > 0)
+        if (OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots > 0)
         {
             var newText = SafeShotsLeft == 0
                 ? MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteNoSafeShots")
@@ -147,7 +147,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
 
             var pickVictim = role.Role == realRole.Role;
-            if (player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
+            if (player.TryGetModifierOfType<ICachedRole>(out var cachedMod))
             {
                 pickVictim = cachedMod.GuessMode switch
                 {
@@ -204,7 +204,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Vigilante.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteMultiShotFeedback").Replace("<count>", SafeShotsLeft.ToString(TownOfUsPlugin.Culture))}</color></b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Vigilante.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Vigilante);
 
                 notif1.AdjustNotification();
 
@@ -230,7 +230,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
     {
         return voteArea?.PlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true ||
-               (voteArea.GetPlayer()?.Data.Role is MayorRole mayor && mayor.Revealed) ||
+               voteArea.GetPlayer()?.Data.Role is MayorRole { Revealed: true } ||
                voteArea.GetPlayer()?.IsRevealed() == true ||
                voteArea.GetPlayer()?.IsImpostorAligned() == true && Player.IsImpostorAligned() && !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode ||
                (Player.IsLover() && voteArea.GetPlayer()?.IsLover() == true);
@@ -250,8 +250,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return false;
         }
 
-        if (role.IsCrewmate() && !(PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) &&
-                                   !allyMod.GetsPunished))
+        if (role.IsCrewmate() && !(PlayerControl.LocalPlayer.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished)))
         {
             return false;
         }
@@ -259,7 +258,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
         var alignment = role.GetRoleAlignment();
 
         // If Vigilante is Egotist, then guessing investigative roles is based off assassin settings
-        if (!OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessInvest.Value &&
+        if (!OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessInvest &&
             alignment == RoleAlignment.CrewmateInvestigative)
         {
             return false;
@@ -277,22 +276,22 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
         if (alignment == RoleAlignment.NeutralBenign)
         {
-            return options.VigilanteGuessNeutralBenign.Value;
+            return options.VigilanteGuessNeutralBenign;
         }
 
         if (alignment == RoleAlignment.NeutralEvil)
         {
-            return options.VigilanteGuessNeutralEvil.Value;
+            return options.VigilanteGuessNeutralEvil;
         }
 
         if (alignment == RoleAlignment.NeutralKilling)
         {
-            return options.VigilanteGuessNeutralKilling.Value;
+            return options.VigilanteGuessNeutralKilling;
         }
 
         if (alignment == RoleAlignment.NeutralOutlier)
         {
-            return options.VigilanteGuessNeutralOutlier.Value;
+            return options.VigilanteGuessNeutralOutlier;
         }
 
         return false;
@@ -300,7 +299,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
     private static bool IsModifierValid(BaseModifier baseModifier)
     {
-        if (baseModifier is not TouBaseGameModifier modifier)
+        if (baseModifier is not TouBaseGameModifier { CustomAmount: > 0, CustomChance: > 0 } modifier)
         {
             return false;
         }
@@ -310,13 +309,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return false;
         }
 
-        // This will remove modifiers that alter their chance/amount
-        if (modifier.CustomAmount <= 0 || modifier.CustomChance <= 0)
-        {
-            return false;
-        }
-
-        if (modifier is TouGameModifier touMod3 && touMod3.HideFromGuessing)
+        if (modifier is TouGameModifier { HideFromGuessing: true })
         {
             return false;
         }
@@ -327,10 +320,10 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return true;
         }
 
-        if (modifier is TouGameModifier impMod &&
-            (impMod.FactionType.ToDisplayString().Contains("Imp") ||
-             impMod.FactionType.ToDisplayString().Contains("Killer")) &&
-            !impMod.FactionType.ToDisplayString().Contains("Non"))
+        if (modifier is TouGameModifier { FactionType: var impFaction } &&
+            (impFaction.ToDisplayString().Contains("Imp") ||
+             impFaction.ToDisplayString().Contains("Killer")) &&
+            !impFaction.ToDisplayString().Contains("Non"))
         {
             return OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteGuessKillerMods;
         }

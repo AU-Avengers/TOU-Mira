@@ -37,6 +37,6 @@ public sealed class RoleExclusionBucket(string id, Func<bool> isEnabled)
     {
         return VanillaRoles.Contains(role.Role)
                || Roles.Any(t => t.IsInstanceOfType(role))
-               || role is IExclusiveRole exclusive && exclusive.ExclusionBuckets.Contains(Id, StringComparer.OrdinalIgnoreCase);
+               || role is IExclusiveRole { ExclusionBuckets: var buckets } && buckets.Contains(Id, StringComparer.OrdinalIgnoreCase);
     }
 }

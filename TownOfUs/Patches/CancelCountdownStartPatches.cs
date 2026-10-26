@@ -64,7 +64,7 @@ internal static class CancelCountdownStart
         var opts = OptionGroupSingleton<RoleOptions>.Instance;
         if (opts.CurrentRoleDistribution() is RoleDistribution.Draft)
         {
-            
+
             var recapModeText = opts.DraftRecap.Value switch
             {
                 DraftRecapMode.Role => MiraLocaleManager.Get(
@@ -82,7 +82,7 @@ internal static class CancelCountdownStart
                 _ => string.Empty
             };
 
-            var warningText = opts.DraftRecap.Value is DraftRecapMode.Nothing
+            var warningText = opts.DraftRecap == DraftRecapMode.Nothing
                 ? $"<b>{MiraLocaleManager.Get(
                     "TouDraftRecapDisabled",
                     "No Draft recap will be displayed.")}</b>"
@@ -91,7 +91,7 @@ internal static class CancelCountdownStart
                         "Draft Mode Recap will display <recap>.")
                     .Replace("<recap>", recapModeText)}</b>";
 
-            var notif = Helpers.CreateAndShowNotification(warningText, Color.white, new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode.LoadAsset());
+            var notif = Helpers.CreateAndShowNotification(warningText, Color.white, new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode);
             notif.AdjustNotification();
         }
         if (AmongUsClient.Instance.AmHost)

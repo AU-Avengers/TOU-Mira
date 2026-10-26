@@ -33,7 +33,7 @@ public sealed class MercenaryGuardButton : TownOfUsRoleButton<MercenaryRole, Pla
         Target.RpcAddModifier<MercenaryGuardModifier>(PlayerControl.LocalPlayer);
         var notif1 = Helpers.CreateAndShowNotification(
             MiraLocaleManager.Get("TownOfUsMira.Role.MercenaryGuardNotif").Replace("<player>", $"{TownOfUsColors.Mercenary.ToTextColor()}{Target.Data.PlayerName}</color>"), Color.white,
-            new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Mercenary.LoadAsset());
+            new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Mercenary);
         notif1.AdjustNotification();
     }
 

@@ -1,6 +1,6 @@
 namespace TownOfUs.Modifiers;
 
-public sealed class FirstRoundIndicator: BaseRevealModifier
+public sealed class FirstRoundIndicator : BaseRevealModifier
 {
     public override string ModifierName => MiraLocaleManager.Get("TouFirstRoundDeathIndicator", "First Round Death Indicator");
     public override bool HideOnUi => true;

@@ -70,7 +70,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Sentry.LoadAsset(), "TouMira.Role.Crewmate.Sentry", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Sentry, "TouMira.Role.Crewmate.Sentry", 1.45f),
         Icon = TouRoleIcons.Sentry,
         OptionsScreenshot = TouBanners.SentryRoleBanner,
         IntroSound = TouAudio.SentryIntro,
@@ -119,7 +119,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         var deployedVis = OptionGroupSingleton<SentryOptions>.Instance.DeployedCamerasVisibility;
         if (deployedVis is SentryDeployedCamerasVisibility.AfterMeeting)
         {
-            var canMove = OptionGroupSingleton<SentryOptions>.Instance.CanMoveWhilePlacingCameras.Value;
+            var canMove = OptionGroupSingleton<SentryOptions>.Instance.CanMoveWhilePlacingCameras;
             if (!canMove)
             {
                 var standStillText = MiraLocaleManager.Get(
@@ -161,7 +161,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                     var sr = cam.gameObject?.GetComponent<SpriteRenderer>();
                     var isPending = (sr != null && sr.color.a < 0.99f);
 
-                   var remainingText = duration == 0
+                    var remainingText = duration == 0
                     ? string.Empty
                     : MiraLocaleManager.Get("TownOfUsMira.Role.SentryCameraRounds",
                             " (<rounds> rounds)")
@@ -206,7 +206,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                         room = $"({pos.x:0.0}, {pos.y:0.0})";
                     }
                     var placingText = MiraLocaleManager.Get("TownOfUsMira.Role.SentryPlacing", "(Placing...)");
-                    stringB.AppendLine(TownOfUsPlugin.Culture, 
+                    stringB.AppendLine(TownOfUsPlugin.Culture,
                         $"• <color=#BFBFBF>{room} <size=60%>{placingText}</size></color>");
                 }
             }
@@ -301,12 +301,12 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             MiscUtils.RunAnticheatWarning(player);
             return;
         }
-        if (player.Data.Role is not SentryRole sentry)
+        if (player.Data.Role is not SentryRole { FutureCameras: var cameras })
         {
             return;
         }
 
-        sentry.FutureCameras.Add(position);
+        cameras.Add(position);
     }
 
     [MethodRpc((uint)TownOfUsRpc.SentryRevealCamera)]
@@ -317,17 +317,17 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             MiscUtils.RunAnticheatWarning(player);
             return;
         }
-        if (player.Data.Role is not SentryRole sentry)
+        if (player.Data.Role is not SentryRole { FutureCameras: var cameras })
         {
             return;
         }
 
-        if (!sentry.FutureCameras.Contains(position))
+        if (!cameras.Contains(position))
         {
             return;
         }
 
-        sentry.FutureCameras.Remove(position);
+        cameras.Remove(position);
 
         var newPos = new Vector3(position.x, position.y, zAxis);
         var camera = SentryCameraUtilities.CreateCameraAtPosition(newPos, player);
@@ -342,7 +342,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         SentryCameraUtilities.EnsureSubmergedUsesPolusSurveillanceIfSentryCamsExist();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SentryPlaceCam, player, camera);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         SentryCameraPortablePatch.ApplyPortableBlinkState();
     }
@@ -359,7 +359,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         if (player.myTasks != null && player.myTasks.Count > 0)
         {
-            var tasks = player.myTasks.ToArray().Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
+            var tasks = player.myTasks.Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
             foreach (var t in tasks)
             {
                 total++;

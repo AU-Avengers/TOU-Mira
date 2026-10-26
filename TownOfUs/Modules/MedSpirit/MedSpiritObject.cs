@@ -11,7 +11,6 @@ using Reactor.Utilities.Attributes;
 using TownOfUs.Achievements;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -256,8 +255,8 @@ public sealed class MedSpiritObject(IntPtr cppPtr) : InnerNetObject(cppPtr)
         /*
         if (AmOwner)
         {
-            SoundManager.Instance.StopSound(TouAudio.EscapistRecallSound.LoadAsset());
-            SoundManager.Instance.PlaySound(TouAudio.EscapistRecallSound.LoadAsset(), false);
+            SoundManager.Instance.StopSound(TouAudio.EscapistRecallSound);
+            SoundManager.Instance.PlaySound(TouAudio.EscapistRecallSound, false);
         }*/
 
         AmongUsClient.Instance.DestroyedObjects.Add(NetId);

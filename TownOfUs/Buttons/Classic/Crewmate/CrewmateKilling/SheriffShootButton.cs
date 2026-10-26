@@ -58,7 +58,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
         FailedShot = true;
 
         var notif1 = Helpers.CreateAndShowNotification($"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.SheriffMisfireFeedback")}</b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Sheriff.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Sheriff);
 
         notif1.AdjustNotification();
 
@@ -100,9 +100,8 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
         var alignment = Target.Data.Role.GetRoleAlignment();
         var options = OptionGroupSingleton<SheriffOptions>.Instance;
 
-        if (!(PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) &&
-              !allyMod.GetsPunished) &&
-            !(Target.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished))
+        if (!(PlayerControl.LocalPlayer.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished)) &&
+            !(Target.HasModifier<AllianceGameModifier>(allyMod2 => !allyMod2.GetsPunished)))
         {
             switch (alignment)
             {
@@ -115,7 +114,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
                     break;
 
                 case RoleAlignment.NeutralOutlier:
-                    if (!options.ShootNeutralOutlier.Value)
+                    if (!options.ShootNeutralOutlier)
                     {
                         Misfire();
                     }
@@ -127,7 +126,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
                     break;
 
                 case RoleAlignment.NeutralKilling:
-                    if (!options.ShootNeutralKiller.Value)
+                    if (!options.ShootNeutralKiller)
                     {
                         Misfire();
                     }
@@ -139,7 +138,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
                     break;
 
                 case RoleAlignment.NeutralEvil:
-                    if (!options.ShootNeutralEvil.Value)
+                    if (!options.ShootNeutralEvil)
                     {
                         Misfire();
                     }
@@ -151,7 +150,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
                     break;
 
                 case RoleAlignment.NeutralBenign:
-                    if (!options.ShootNeutralBenign.Value)
+                    if (!options.ShootNeutralBenign)
                     {
                         Misfire();
                     }

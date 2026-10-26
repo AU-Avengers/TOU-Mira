@@ -9,8 +9,8 @@ public sealed class ProsecutorOptions : AbstractRoleOptionGroup<ProsecutorRole>
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Prosecutor", "Prosecutor");
 
-    public ModdedEnumOption WrongfulProsecutionResult { get; } =
-        new("TouOptionProsecutorWrongfulProsecutionResult", (int)BadProsecuteResult.EjectPros, typeof(BadProsecuteResult),
+    public ModdedEnumOption<BadProsecuteResult> WrongfulProsecutionResult { get; } =
+        new("TouOptionProsecutorWrongfulProsecutionResult", BadProsecuteResult.EjectPros,
             ["TouOptionProsecutorWrongProsEnumPros", "TouOptionProsecutorWrongProsEnumTarget", "TouOptionProsecutorWrongProsEnumProsTarget"]);
 
     [ModdedNumberOption("TouOptionProsecutorMaxProsecutions", 1, 5)]

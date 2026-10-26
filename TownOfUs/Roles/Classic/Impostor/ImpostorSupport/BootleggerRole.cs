@@ -30,7 +30,7 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Bootlegger.LoadAsset(), "TouMira.Role.Impostor.Bootlegger", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Bootlegger, "TouMira.Role.Impostor.Bootlegger", 1.45f),
         Icon = TouRoleIcons.Bootlegger,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         IntroSound = TouAudio.PotionIntro
@@ -40,7 +40,7 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     public List<CustomButtonWikiDescription> Abilities { get; } =
     [
         new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock"),
-            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value
+            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover
                 ? MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
                     OptionGroupSingleton<RoleblockOptions>.Instance.HangoverDuration.Value.ToString(TownOfUsPlugin
                         .Culture))
@@ -55,7 +55,7 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     [
         new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock"),
             MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
-            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value
+            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover
                 ? MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
                     OptionGroupSingleton<RoleblockOptions>.Instance.HangoverDuration.Value.ToString(TownOfUsPlugin
                         .Culture))

@@ -21,7 +21,7 @@ public sealed class MysticRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mystic.LoadAsset(), "TouMira.Role.Crewmate.Mystic", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mystic, "TouMira.Role.Crewmate.Mystic", 1.45f),
         Icon = TouRoleIcons.Mystic,
         OptionsScreenshot = TouBanners.MysticRoleBanner,
         IntroSound = TouAudio.MediumIntroSound

@@ -33,7 +33,7 @@ public sealed class VigilanteOptions : AbstractRoleOptionGroup<VigilanteRole>, I
 
     [ModdedNumberOption("TouOptionVigilanteSafeShotsAvailable", 0f, 3f, 1f, MiraNumberSuffixes.None, "0")]
     public float MultiShots { get; set; } = 3;
-    
+
     public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
         new HashSet<StringNames>
         {
@@ -46,10 +46,10 @@ public sealed class VigilanteOptions : AbstractRoleOptionGroup<VigilanteRole>, I
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
         var title = MiraLocaleManager.Get("TouOptionVigilanteGuessableNeutrals");
-        var nbValid = VigilanteGuessNeutralBenign.Value;
-        var neValid = VigilanteGuessNeutralEvil.Value;
-        var nkValid = VigilanteGuessNeutralKilling.Value;
-        var noValid = VigilanteGuessNeutralOutlier.Value;
+        var nbValid = VigilanteGuessNeutralBenign;
+        var neValid = VigilanteGuessNeutralEvil;
+        var nkValid = VigilanteGuessNeutralKilling;
+        var noValid = VigilanteGuessNeutralOutlier;
 
         if (!nbValid && !neValid && !nkValid && !noValid)
         {
@@ -65,8 +65,7 @@ public sealed class VigilanteOptions : AbstractRoleOptionGroup<VigilanteRole>, I
         if (noValid) selected.Add(MiraLocaleManager.Get("TouOptionVigilanteGuessableOutlier"));
 
         var names = selected
-            .Distinct()
-            .ToList();
+            .Distinct();
 
         var newArray2 = new []
             { $"{title}: {string.Join(", ", names)}" };

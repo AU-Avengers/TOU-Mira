@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
@@ -17,7 +16,6 @@ using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
@@ -55,15 +53,13 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         var textlog = $"Selecting Fairy Targets.";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
 
-        var evilTargetPercent = (int)OptionGroupSingleton<FairyOptions>.Instance.EvilTargetPercent;
+        var evilTargetPercent = OptionGroupSingleton<FairyOptions>.Instance.EvilTargetPercent;
 
-        var gas = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => x.IsRole<FairyRole>() && !x.HasDied());
+        var gas = PlayerControl.AllPlayerControls.Where(x => x.IsRole<FairyRole>() && !x.HasDied());
 
         foreach (var ga in gas)
         {
-            var filtered = PlayerControl.AllPlayerControls.ToArray()
-                .Where(x => !x.IsRole<FairyRole>() && !x.Is(RoleAlignment.NeutralOutlier) && !x.HasDied() &&
+            var filtered = PlayerControl.AllPlayerControls.Where(x => !x.IsRole<FairyRole>() && !x.Is(RoleAlignment.NeutralOutlier) && !x.HasDied() &&
                             !x.HasModifier<ExecutionerTargetModifier>() && !x.HasModifier<AllianceGameModifier>() &&
                             !SpectatorRole.TrackedSpectators.Contains(x.GetBestPlayerDenomination()))
                 .ToList();
@@ -130,7 +126,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Fairy.LoadAsset(), "TouMira.Role.Neutral.Fairy", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Fairy, "TouMira.Role.Neutral.Fairy", 1.45f),
         Icon = TouRoleIcons.Fairy,
         IntroSound = TouAudio.GuardianAngelSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
@@ -216,8 +212,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         {
             var players = ModifierUtils
                 .GetPlayersWithModifier<
-                    GuardianAngelTargetModifier>([HideFromIl2Cpp](x) => x.OwnerId == Player.PlayerId)
-                .ToList();
+                    GuardianAngelTargetModifier>([HideFromIl2Cpp](x) => x.OwnerId == Player.PlayerId);
             players.Do(x => x.RpcRemoveModifier<GuardianAngelTargetModifier>());
         }
 
@@ -237,13 +232,13 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         }
 
         return gaMod.Player.Data.Role.DidWin(gameOverReason) ||
-               gaMod.Player.GetModifiers<GameModifier>().Any(x => x.DidWin(gameOverReason) == true);
+               gaMod.Player.HasModifier<GameModifier>(x => x.DidWin(gameOverReason) == true);
     }
 
     public static bool FairySeesRoleVisibilityFlag(PlayerControl player)
     {
         var gaKnowsTargetRole = OptionGroupSingleton<FairyOptions>.Instance.FairyKnowsTargetRole &&
-                                PlayerControl.LocalPlayer.Data.Role is FairyRole fairy && fairy.Target == player;
+                                PlayerControl.LocalPlayer.Data.Role is FairyRole { Target: var target } && target == player;
 
         return gaKnowsTargetRole;
     }
@@ -254,7 +249,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
             OptionGroupSingleton<FairyOptions>.Instance.ShowProtect is ProtectOptions.SelfAndFairy &&
             player.HasModifier<GuardianAngelTargetModifier>();
 
-        var gaKnowsTargetRole = PlayerControl.LocalPlayer.Data.Role is FairyRole fairy && fairy.Target == player;
+        var gaKnowsTargetRole = PlayerControl.LocalPlayer.Data.Role is FairyRole { Target: var target } && target == player;
 
         return gaTargetKnows || gaKnowsTargetRole;
     }
@@ -289,7 +284,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
 
             Player.ChangeRole(roleType);
 
-            if ((roleType == RoleId.Get<JesterRole>() && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value) ||
+            if ((roleType == RoleId.Get<JesterRole>() && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn) ||
                 (roleType == RoleId.Get<SurvivorRole>() && OptionGroupSingleton<SurvivorOptions>.Instance.ScatterOn))
             {
                 StartCoroutine(Effects.Lerp(0.2f,

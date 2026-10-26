@@ -23,15 +23,15 @@ public static class SabotagePatches
 
         var options = OptionGroupSingleton<GameMechanicOptions>.Instance;
 
-        if (localPlayer.HasDied() && !options.CanSabotageWhenDead.Value)
+        if (localPlayer.HasDied() && !options.CanSabotageWhenDead)
         {
             return false;
         }
 
-        var minimum = (int)options.PlayerCountWhenSabotagesDisable.Value;
+        var minimum = options.PlayerCountWhenSabotagesDisable;
         if (minimum > 0)
         {
-            var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
+            var aliveCount = PlayerControl.AllPlayerControls.Count(x => !x.HasDied());
             if (aliveCount <= minimum)
             {
                 return false;
@@ -69,7 +69,7 @@ public static class SabotagePatches
     {
         if (__instance.IsDirty)
         {
-            TownOfUs.Achievements.TouAchievementEvents.OnSabotageStart();
+            Achievements.TouAchievementEvents.OnSabotageStart();
         }
     }
 

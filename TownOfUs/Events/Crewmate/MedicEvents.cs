@@ -30,7 +30,7 @@ public static class MedicEvents
 
         var medicShields = ModifierUtils.GetActiveModifiers<MedicShieldModifier>();
 
-        if (!medicShields.HasAny())
+        if (!medicShields.Any())
         {
             return;
         }
@@ -54,7 +54,7 @@ public static class MedicEvents
         }
     }
 
-    
+
     [RegisterEvent(-900)]
     public static void BeforeMurderEventHandler(BeforeMurderEvent @event)
     {
@@ -143,15 +143,12 @@ public static class MedicEvents
     [RegisterEvent]
     public static void ReportBodyEventHandler(ReportBodyEvent @event)
     {
-        if (@event.Target == null)
+        if (@event is not { Target: not null, Reporter:{ AmOwner: false, Data.Role: MedicRole medic } })
         {
             return;
         }
 
-        if (@event.Reporter.Data.Role is MedicRole medic && @event.Reporter.AmOwner)
-        {
-            medic.Report(@event.Target.PlayerId);
-        }
+        medic.Report(@event.Target.PlayerId);
     }
 
     private static bool CheckForMedicShield(MiraCancelableEvent @event, PlayerControl source, PlayerControl target)
@@ -161,7 +158,7 @@ public static class MedicEvents
             return false;
         }
 
-        if (!target.HasModifier<MedicShieldModifier>() ||
+        if (!target.TryGetModifier<MedicShieldModifier>(out var mod) ||
             target.PlayerId == source.PlayerId ||
             @event is BeforeMurderEvent { IgnoreDefense: true } ||
             @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
@@ -172,7 +169,7 @@ public static class MedicEvents
         @event.Cancel();
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a medic shield, stopping an attack from {source.Data.PlayerName}!");
 
-        var medic = target.GetModifier<MedicShieldModifier>()?.Medic.GetRole<MedicRole>();
+        var medic = mod.Medic.GetRole<MedicRole>();
 
         if (medic != null && (TutorialManager.InstanceExists || source.AmOwner))
         {

@@ -8,6 +8,6 @@ public sealed class AltruistArrowModifier(PlayerControl owner, Color color) : Ar
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 }

@@ -47,7 +47,7 @@ public sealed class MedusaRole(IntPtr cppPtr)
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Petrify.WikiDescription"),
                     TouNeutAssets.PetrifySprite)
             ];
-            if (OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable.Value)
+            if (OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable)
             {
                 list.Add(new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}StoneGaze", "Stone Gaze"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}StoneGaze.WikiDescription"),
@@ -69,7 +69,7 @@ public sealed class MedusaRole(IntPtr cppPtr)
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Petrify.WikiDescription"),
                     TouNeutAssets.PetrifySprite)
             ];
-            if (OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable.Value)
+            if (OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable)
             {
                 list.Add(new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}StoneGaze", "Stone Gaze"),
                     MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
@@ -86,7 +86,7 @@ public sealed class MedusaRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Medusa.LoadAsset(), "TouMira.Role.Neutral.Medusa", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Medusa, "TouMira.Role.Neutral.Medusa", 1.45f),
         CanUseVent = OptionGroupSingleton<MedusaOptions>.Instance.CanVent,
         IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.Medusa,
@@ -95,7 +95,7 @@ public sealed class MedusaRole(IntPtr cppPtr)
     };
 
     public bool HasImpostorVision => true;
-    
+
     public bool WinConditionMet()
     {
         var scCount = CustomRoleUtils.GetActiveRolesOfType<MedusaRole>().Count(x => !x.Player.HasDied());
@@ -115,7 +115,7 @@ public sealed class MedusaRole(IntPtr cppPtr)
         RoleBehaviourStubs.Initialize(this, player);
         if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.MedusaVentSprite.LoadAsset();
+            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.MedusaVentSprite;
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Medusa);
         }
     }
@@ -126,7 +126,7 @@ public sealed class MedusaRole(IntPtr cppPtr)
         TouRoleUtils.ClearTaskHeader(Player);
         if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
+            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite;
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
         }
     }

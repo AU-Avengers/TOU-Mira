@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Achievements;
-using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -47,14 +46,14 @@ public sealed class ChefServedModifier(PlayerControl chef, int servingType, int 
                     break;
             }
         }
-        var othersFed = ModifierUtils.GetActiveModifiers<ChefServedModifier>().ToList();
+        var othersFed = ModifierUtils.GetActiveModifiers<ChefServedModifier>();
         if (Chef.AmOwner && ((FoodType is PlatterType.Turkey && othersFed.Any(x => x.FoodType is PlatterType.Cake))
                              || (FoodType is PlatterType.Cake && othersFed.Any(x => x.FoodType is PlatterType.Turkey))))
         {
             AchievementsAPIHelper.Unlock(TouAchievements.FullCourseMeal);
         }
         /*var touAbilityEvent = new TouAbilityEvent(AbilityType.MercenaryBribe, Mercenary, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);*/
+        touAbilityEvent.InvokeEvent();*/
     }
 
     public override void FixedUpdate()
@@ -65,7 +64,7 @@ public sealed class ChefServedModifier(PlayerControl chef, int servingType, int 
         {
             return;
         }
-        
+
         if (TimerActive)
         {
             if (TimeRemaining <= 0.5f)
@@ -91,7 +90,7 @@ public sealed class ChefServedModifier(PlayerControl chef, int servingType, int 
     {
         if (Chef.HasDied())
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 
