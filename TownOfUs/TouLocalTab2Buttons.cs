@@ -5,7 +5,6 @@ using MiraAPI.Hud;
 using MiraAPI.LocalSettings.Attributes;
 using TownOfUs.Buttons;
 using TownOfUs.DebugTools;
-using TownOfUs.Modules.Components;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.Options;

@@ -11,7 +11,7 @@ public static class GameOptionsMapModPatch
     public static bool Prefix(CreateGameMapPicker __instance, int maskLayer)
     {
         var id = (int)GameOptionsManager.Instance.GameHostOptions.MapId;
-        
+
         // If Submerged is not loaded, and you were previously using Submerged, hosting a game shouldn't softlock
         // The same deal with Level Impostor
         if ((id == (byte)ModCompatibility.SubmergedMapType && !ModCompatibility.SubLoaded)

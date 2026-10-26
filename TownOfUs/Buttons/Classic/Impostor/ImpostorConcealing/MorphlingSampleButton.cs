@@ -39,7 +39,7 @@ public sealed class MorphlingSampleButton : TownOfUsRoleButton<MorphlingRole, Pl
             .Replace(
                 "<player>",
                 $"{TownOfUsColors.ImpSoft.ToTextColor()}{player.Data.PlayerName}</color>"),
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Morphling.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Morphling);
         notif1.AdjustNotification();
 
         CustomButtonSingleton<MorphlingMorphButton>.Instance.SetActive(true, Role);
@@ -62,7 +62,7 @@ public sealed class MorphlingSampleButton : TownOfUsRoleButton<MorphlingRole, Pl
 
         var notif1 = Helpers.CreateAndShowNotification(
             MiraLocaleManager.Get("TownOfUsMira.Role.MorphlingSampleNotif").Replace("<player>", $"{TownOfUsColors.ImpSoft.ToTextColor()}{Target.Data.PlayerName}</color>"),
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Morphling.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Morphling);
         notif1.AdjustNotification();
 
         CustomButtonSingleton<MorphlingMorphButton>.Instance.SetActive(true, Role);

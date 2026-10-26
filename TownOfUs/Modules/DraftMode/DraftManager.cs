@@ -102,7 +102,7 @@ public static class DraftManager
     public static void NotifyPickerReady(byte playerId)
     {
         var state = GetStateForPlayer(playerId);
-        if (state != null) state.IsPickerReady = true;
+        state?.IsPickerReady = true;
     }
 
     public static int GetSlotForPlayer(byte playerId) => GetStateForPlayer(playerId)?.SlotNumber ?? -1;
@@ -163,8 +163,7 @@ public static class DraftManager
         DraftStatusOverlay.SetState(OverlayState.Hidden);
         DraftSidebarManager.InvalidateCache();
 
-        if (GameStartManager.Instance != null)
-            GameStartManager.Instance.ResetStartState();
+        GameStartManager.Instance?.ResetStartState();
     }
 }
 

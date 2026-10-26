@@ -14,7 +14,7 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
 {
     public override string ModifierName => MiraLocaleManager.Get("TouOptionWardenFortEnumSelf", "Fortified");
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Warden;
-    public override string ShieldDescription => 
+    public override string ShieldDescription =>
         MiraLocaleManager.Get(
             "TownOfUsMira.Modifier.WardenFortifiedDescription",
             "You are fortified by a Warden!\nNo one can interact with you.");
@@ -49,7 +49,7 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
     {
         base.OnActivate();
         var touAbilityEvent = new TouAbilityEvent(AbilityType.WardenFortify, Warden, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         var show = OptionGroupSingleton<WardenOptions>.Instance.ShowFortified;
@@ -62,12 +62,12 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
+        var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
         ShowFort = showShieldedEveryone || showShieldedSelf || showShieldedWarden ||
                    (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
 
-        WardenFort = AnimStore.SpawnAnimBody(Player, TouAssets.WardenFort.LoadAsset(), false, -1.1f, -0.35f, 1.5f)!;
+        WardenFort = AnimStore.SpawnAnimBody(Player, TouAssets.WardenFort, false, -1.1f, -0.35f, 1.5f)!;
         WardenFort.GetComponent<SpriteAnim>().SetSpeed(0.75f);
         WardenFort.GetComponentsInChildren<SpriteAnim>().FirstOrDefault()?.SetSpeed(0.75f);
     }
@@ -84,7 +84,7 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
     {
         if (!Player || Warden == null)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 

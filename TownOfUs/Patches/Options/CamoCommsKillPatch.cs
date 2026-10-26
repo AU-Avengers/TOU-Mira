@@ -7,6 +7,7 @@ using UnityEngine;
 using Action = Il2CppSystem.Action;
 
 namespace TownOfUs.Patches.Options;
+
 [HarmonyPriority(Priority.Last)]
 [HarmonyPatch(typeof(OverlayKillAnimation), nameof(OverlayKillAnimation.Initialize))]
 public static class KillOverlayPatch

@@ -20,7 +20,7 @@ public static class WinConditionRegistry
         {
             lock (LockObject)
             {
-                return Conditions.ToList().AsReadOnly();
+                return Conditions.AsReadOnly();
             }
         }
     }
@@ -66,7 +66,7 @@ public static class WinConditionRegistry
 
             condition.TriggerGameOver(instance);
 
-            if (condition is IWinConditionWithBlocking block && block.BlocksOthers)
+            if (condition is IWinConditionWithBlocking { BlocksOthers: true })
             {
                 return true;
             }

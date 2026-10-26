@@ -14,7 +14,7 @@ public static class ZoomEvents
     {
         if (@event.TriggeredByIntro)
         {
-            if (SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.Data.PlayerName))
+            if (SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.GetBestPlayerDenomination()))
             {
                 HudManagerPatches.ZoomButton.SetActive(true);
             }

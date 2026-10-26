@@ -29,14 +29,14 @@ public static class LotteryAchievementRoller
     {
         while (true)
         {
-            if (AchievementsAPIHelper.IsUnlocked(TouAchievements.GoBuyALotteryTicket))
+            if (TouAchievements.GoBuyALotteryTicket.IsUnlocked())
             {
                 yield break;
             }
 
             if (System.Random.Shared.NextInt64(Odds) == 0)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.GoBuyALotteryTicket, needsToMeetRequirements: false);
+                TouAchievements.GoBuyALotteryTicket.Unlock(needsToMeetRequirements: false);
                 yield break;
             }
 

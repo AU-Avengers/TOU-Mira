@@ -17,7 +17,7 @@ public static class MeetingShhPatches
     {
         if (PlayerControl.LocalPlayer && !PlayerControl.LocalPlayer.Data.IsDead &&
             (PlayerControl.LocalPlayer.HasModifier<BlackmailedModifier>() ||
-             PlayerControl.LocalPlayer.TryGetModifier<JailedModifier>(out var jailMod) && jailMod.IsJailorValid))
+             PlayerControl.LocalPlayer.HasModifier<JailedModifier>(jailMod => jailMod.IsJailorValid)))
         {
             Coroutines.Start(MeetingShhh());
         }
@@ -33,7 +33,7 @@ public static class MeetingShhPatches
             HudManager.Instance.shhhEmblem.transform.localPosition.y,
             HudManager.Instance.FullScreen.transform.position.z + 1f);
         var jailCell = new GameObject("jailCell");
-        if (PlayerControl.LocalPlayer.TryGetModifier<JailedModifier>(out var jailMod) && jailMod.IsJailorValid)
+        if (PlayerControl.LocalPlayer.HasModifier<JailedModifier>(jailMod => jailMod.IsJailorValid))
         {
             jailCell.transform.SetParent(HudManager.Instance.shhhEmblem!.transform);
             jailCell.transform.localPosition =
@@ -42,7 +42,7 @@ public static class MeetingShhPatches
             jailCell.gameObject.layer = HudManager.Instance.shhhEmblem!.gameObject.layer;
 
             var render = jailCell.AddComponent<SpriteRenderer>();
-            render.sprite = LegacyAssets.IsLegacy ? LegacyAssets.JailCellSprite.LoadAsset() : TouAssets.JailCellSprite.LoadAsset();
+            render.sprite = LegacyAssets.IsLegacy ? LegacyAssets.JailCellSprite : TouAssets.JailCellSprite;
             jailCell.gameObject.SetActive(true);
             jailCell.GetComponent<SpriteRenderer>().enabled = true;
             if (PlayerControl.LocalPlayer.HasModifier<BlackmailedModifier>())
@@ -58,7 +58,7 @@ public static class MeetingShhPatches
                 HudManager.Instance.shhhEmblem.TextImage.text =
                     MiraLocaleManager.Get("TouJailedShhh");
             }
-                
+
             HudManager.Instance.shhhEmblem.Hand.gameObject.SetActive(false);
         }
         else

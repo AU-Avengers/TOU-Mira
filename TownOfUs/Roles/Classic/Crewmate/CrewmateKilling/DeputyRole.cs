@@ -30,7 +30,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     public void TriggerMeetingAnimation(PlayerControl source, PlayerControl target, PlayerVoteArea targetVoteArea,
         int associatedAnimKey = -1)
     {
-        var revealMode = (DeputyReveal)OptionGroupSingleton<DeputyOptions>.Instance.RevealDeputyUponShot.Value;
+        var revealMode = OptionGroupSingleton<DeputyOptions>.Instance.RevealDeputyUponShot.Value;
         if (revealMode == DeputyReveal.NoReveal)
         {
             Coroutines.Start(CustomTouMurderRpcs.CoAnimateDeath(targetVoteArea, associatedAnimKey));
@@ -55,13 +55,13 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         NetworkedPlayerInfo victim, PlayerVoteArea targetVoteArea)
     {
         OverlayKillAnimation killAnimation;
-        if (!CustomTouMurderRpcs.StoredKillAnimations.HasAny())
+        if (CustomTouMurderRpcs.StoredKillAnimations.Length == 0)
         {
             OverlayKillAnimation[] self = overlay.KillAnims;
             CustomTouMurderRpcs.StoredKillAnimations = self.AddRangeToArray(overlay.CustomKillAnimations);
         }
         killAnimation = overlay.HorseWrangleAnims.Random()!;
-        Coroutines.Start(CoShowAnim(overlay, (killAnimation.TryCast<HorseWrangleOverlay>())!,
+        Coroutines.Start(CoShowAnim(overlay, killAnimation.TryCast<HorseWrangleOverlay>()!,
             new KillOverlayInitData(killer, victim), targetVoteArea));
     }
 
@@ -107,7 +107,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         yield return Effects.Wait(0.083333336f);
         overlay.background.enabled = false;
         var flameSprite = overlay.flameParent.transform.FindChild("BackgroundFlame").GetComponent<SpriteRenderer>();
-        flameSprite.sprite = TouAssets.DeputyRevealBg.LoadAsset();
+        flameSprite.sprite = TouAssets.DeputyRevealBg;
         flameSprite.transform.localPosition = new Vector3(0, -2f);
         if (KillOverlayPatch.material == null)
         {
@@ -124,10 +124,10 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         overlay.flameParent.transform.localScale = new Vector3(1f, 1f, 1f);
         overlay.flameParent.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
         anim.gameObject.SetActive(true);
-        var sheriffCloseup = anim.transform.GetChild(2);
+        var sheriffCloseup = anim.transform.FindChild("Sheriff Closeup");
         var outfit = sheriffCloseup.GetChild(1).GetComponent<SpriteRenderer>();
-        outfit.sprite = TouAssets.DeputyOutfit.LoadAsset();
-        
+        outfit.sprite = TouAssets.DeputyOutfit;
+
         var clonedForeground = Instantiate(anim.impostorForeground, anim.impostorForeground.transform.parent);
         clonedForeground.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
         var clonedHand = Instantiate(anim.impostorHand, anim.impostorHand.transform.parent);
@@ -154,7 +154,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         }));
         if (flameSprite)
         {
-            flameSprite.sprite = TouAssets.KillBG.LoadAsset();
+            flameSprite.sprite = TouAssets.KillBG;
             flameSprite.transform.localPosition = new Vector3(0, 0);
         }
 
@@ -227,11 +227,11 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public bool IsPowerCrew =>
         Killer || ModifierUtils.GetActiveModifiers<DeputyCampedModifier>()
-            .HasAny(); // Only stop end game checks if the deputy can actually kill someone
+            .Any(); // Only stop end game checks if the deputy can actually kill someone
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Deputy.LoadAsset(), "TouMira.Role.Crewmate.Deputy", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Deputy, "TouMira.Role.Crewmate.Deputy", 1.45f),
         Icon = TouRoleIcons.Deputy,
         OptionsScreenshot = TouBanners.DeputyRoleBanner,
         IntroSound = TouAudio.DeputyIntroSound,
@@ -335,7 +335,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg, false, true);
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Deputy.ToTextColor()}{msg}</b></color>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy);
             notif1.AdjustNotification();
         }
 

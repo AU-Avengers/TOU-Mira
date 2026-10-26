@@ -296,7 +296,7 @@ public static class ParasitePiPUtilities
         {
             var touch = Input.GetTouch(0);
             currentInputPos = touch.position;
-            
+
             if (touch.phase == TouchPhase.Began)
             {
                 inputDown = true;

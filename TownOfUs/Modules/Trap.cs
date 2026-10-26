@@ -70,7 +70,7 @@ public sealed class Trap : IDisposable
 
                 var role = entry.Data.Role;
 
-                if (entry.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
+                if (entry.TryGetModifierOfType<ICachedRole>(out var cachedMod))
                 {
                     role = cachedMod.CachedRole;
                 }
@@ -78,7 +78,7 @@ public sealed class Trap : IDisposable
                 // Error($"player with byte {entry.PlayerId} is logged with time {_players[entry.PlayerId]}");
                 if (_players[entry.PlayerId] > MinAmountOfTimeInTrap && !_owner!.TrappedPlayers.Contains(role) &&
                     entry != _owner.Player)
-                    // Error($"Trap.Updated add role: {role.GetRoleName()}");
+                // Error($"Trap.Updated add role: {role.GetRoleName()}");
                 {
                     _owner.TrappedPlayers.Add(role);
                 }
@@ -94,7 +94,7 @@ public sealed class Trap : IDisposable
         trapPref.name = "Trap";
         trapPref.transform.localScale = new Vector3(trapSize, trapSize, trapSize);
         Object.Destroy(trapPref.GetComponent<SphereCollider>());
-        trapPref.GetComponent<MeshRenderer>().material = AuAvengersAnims.TrapMaterial.LoadAsset();
+        trapPref.GetComponent<MeshRenderer>().material = AuAvengersAnims.TrapMaterial;
         trapPref.transform.position = location;
 
         var trap = new Trap

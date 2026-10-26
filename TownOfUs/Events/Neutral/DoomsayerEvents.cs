@@ -69,7 +69,7 @@ public static class DoomsayerEvents
                 PlayerControl.LocalPlayer.DelayExile();
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerWonSelf").Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.GetRoleName()}</color>")}</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer);
 
                 notif1.AdjustNotification();
             }
@@ -78,7 +78,7 @@ public static class DoomsayerEvents
                 string message;
                 LoadableAsset<Sprite> icon;
 
-                if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomAnonymizeWin.Value)
+                if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomAnonymizeWin)
                 {
                     message = MiraLocaleManager.Get("TouNeutAnonymousVictoryMessage");
                     icon = TouRoleIcons.Neutral;
@@ -92,7 +92,7 @@ public static class DoomsayerEvents
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     message.Replace("<player>", doom.Player.Data.PlayerName),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: icon);
 
                 notif1.AdjustNotification();
             }

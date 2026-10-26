@@ -11,12 +11,8 @@ using MiraAPI.Roles;
 using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
-using TownOfUs.Modifiers.Game;
-using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Crewmate;
-using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
 namespace TownOfUs.Events;
@@ -41,10 +37,10 @@ public static class GhostRoleEvents
 
     public static IEnumerator CoRemoveChat()
     {
-        var toHide = OptionGroupSingleton<PostmortemOptions>.Instance.HideChatButton.Value &&
+        var toHide = OptionGroupSingleton<PostmortemOptions>.Instance.HideChatButton &&
                      OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() <
                      RoleDistribution.HideAndSeek;
-        
+
         if (toHide)
         {
             HudManager.Instance.Chat.SetVisible(false);
@@ -57,7 +53,7 @@ public static class GhostRoleEvents
             HudManager.Instance.Chat.gameObject.SetActive(false);
         }
         yield return new WaitForSeconds(0.1f);
-        
+
         if (toHide)
         {
             HudManager.Instance.Chat.SetVisible(false);
@@ -66,7 +62,7 @@ public static class GhostRoleEvents
     }
     public static bool IsConsoleAllowed(this Console? console)
     {
-        if (OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerFixSabos.Value || console == null)
+        if (OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerFixSabos || console == null)
         {
             return true;
         }
@@ -97,18 +93,58 @@ public static class GhostRoleEvents
             player.AddModifier<BasicGhostModifier>();
         }
     }
+
+    [RegisterEvent]
+    public static void PlayerZiplineAndLadderUseEventHandler(PlayerUseEvent @event)
+    {
+        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
+            !PlayerControl.LocalPlayer.Data.Role || PlayerControl.LocalPlayer.Data.Role is not IGhostRole ghostwalker || !ghostwalker.GhostActive)
+        {
+            return;
+        }
+
+        var cancel = false;
+        var zipConsole = @event.Usable.TryCast<ZiplineConsole>();
+        var ladderConsole = @event.Usable.TryCast<Ladder>();
+        if (zipConsole != null && !zipConsole.IsCoolingDown())
+        {
+            zipConsole.CanUse(PlayerControl.LocalPlayer.Data, out var flag, out _);
+            if (!flag)
+            {
+                return;
+            }
+            zipConsole.zipline.Use(zipConsole.atTop, zipConsole);
+            zipConsole.CoolDown = zipConsole.MaxCoolDown;
+            cancel = true;
+        }
+        if (ladderConsole != null && !ladderConsole.IsCoolingDown())
+        {
+            ladderConsole.CanUse(PlayerControl.LocalPlayer.Data, out var flag, out _);
+            if (!flag)
+            {
+                return;
+            }
+            PlayerControl.LocalPlayer.MyPhysics.RpcClimbLadder(ladderConsole);
+            ladderConsole.CoolDown = ladderConsole.MaxCoolDown;
+            cancel = true;
+        }
+
+        if (cancel)
+        {
+            @event.Cancel();
+        }
+    }
     
     [RegisterEvent]
     public static void PlayerCanUseEventHandler(PlayerCanUseEvent @event)
     {
-        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
-            !PlayerControl.LocalPlayer.Data.Role || PlayerControl.LocalPlayer.Data.Role is not IGhostRole ghostwalker)
+        if (PlayerControl.LocalPlayer?.Data?.Role is not IGhostRole { GhostActive: true })
         {
             return;
         }
 
         var console = @event.Usable.TryCast<Console>();
-        if (!console || console.IsConsoleAllowed() || !ghostwalker.GhostActive)
+        if (!console || console.IsConsoleAllowed())
         {
             return;
         }
@@ -131,8 +167,8 @@ public static class GhostRoleEvents
     {
         yield return new WaitForSeconds(1f);
 
-        var basicGhosts = PlayerControl.AllPlayerControls.ToArray().ToList();
-        
+        var basicGhosts = PlayerControl.AllPlayerControls.ToList();
+
         foreach (var role in MiscUtils.AllTouRoles.OfType<IBasicGhostRole>().OrderBy(x => x.SpawnPriority))
         {
             basicGhosts = role.GetAvailableGhosts(basicGhosts, exiled);

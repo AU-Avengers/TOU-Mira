@@ -69,7 +69,7 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
         RoleTeam.text = MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorRandomImpostorOption");
         RoleTeam.gameObject.SetActive(false);
 
-        RoleIcon.sprite = TouRoleIcons.RandomImp.LoadAsset();
+        RoleIcon.sprite = TouRoleIcons.RandomImp;
         RoleIcon.gameObject.SetActive(false);
         RedRing.SetActive(false);
         WarpRing.SetActive(false);
@@ -139,9 +139,9 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
             var roleName = role.GetRoleName();
             var roleImg = TouRoleUtils.GetBasicRoleIcon(role);
 
-            if (role is ICustomRole customRole && customRole.Configuration.Icon != null)
+            if (role is ICustomRole { Configuration.Icon: { } icon })
             {
-                roleImg = customRole.Configuration.Icon.LoadAsset();
+                roleImg = icon;
             }
             else
             {
@@ -157,7 +157,7 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
             isOut = !isOut;
         }
 
-        var randomCard = CreateCard(MiraLocaleManager.Get("Random"), MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorRandomImpostorOption"), TouRoleIcons.RandomImp.LoadAsset(),
+        var randomCard = CreateCard(MiraLocaleManager.Get("Random"), MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorRandomImpostorOption"), TouRoleIcons.RandomImp,
             TownOfUsColors.Impostor, isOut);
         randomCard.OnClick.RemoveAllListeners();
         randomCard.OnClick.AddListener((UnityAction)(() =>
@@ -208,7 +208,7 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
         roleText.text = roleName;
         teamText.text = teamName;
 
-        roleImage.sprite = sprite ?? TouRoleIcons.Impostor.LoadAsset();
+        roleImage.sprite = sprite ?? TouRoleIcons.Impostor;
         roleImage.SetSizeLimit(2.8f);
 
         buttonRollover.OverColor = color;

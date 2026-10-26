@@ -35,7 +35,7 @@ public static class SwapperEvents
         var swap1 = swapper.Swap1.PlayerId;
         var swap2 = swapper.Swap2.PlayerId;
 
-        var originalVoteList = @event.Votes.ToList();
+        var originalVoteList = @event.Votes;
 
         if (TiebreakerEvents.TiebreakingVote.HasValue)
         {
@@ -73,7 +73,7 @@ public static class SwapperEvents
     [RegisterEvent]
     public static void VotingCompleteEventHandler(VotingCompleteEvent _)
     {
-        if (!CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().HasAny())
+        if (!CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().Any())
         {
             return;
         }
@@ -108,7 +108,7 @@ public static class SwapperEvents
         var swap1 = swapper.Swap1.PlayerId;
         var swap2 = swapper.Swap2.PlayerId;
 
-        var originalVoteList = @event.Votes.ToList();
+        var originalVoteList = @event.Votes;
         @event.Votes.Clear();
 
         foreach (var vote in originalVoteList)
@@ -130,9 +130,9 @@ public static class SwapperEvents
 
     private static IEnumerator PerformSwaps()
     {
-        var swapperRoles = CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().ToList();
+        var swapperRoles = CustomRoleUtils.GetActiveRolesOfType<SwapperRole>();
 
-        var duration = 4f / (swapperRoles.Count + 1);
+        var duration = 4f / (swapperRoles.Count() + 1);
 
         foreach (var role in swapperRoles)
         {

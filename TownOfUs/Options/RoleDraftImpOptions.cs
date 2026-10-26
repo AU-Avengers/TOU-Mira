@@ -7,7 +7,7 @@ namespace TownOfUs.Options;
 
 public sealed class RoleDraftImpOptions : AbstractOptionGroup
 {
-    private static bool HasImps => (int)OptionGroupSingleton<RoleDraftImpOptions>.Instance.MaxImpostors.Value > 0;
+    private static bool HasImps => OptionGroupSingleton<RoleDraftImpOptions>.Instance.MaxImpostors > 0;
 
     public override Func<bool> GroupVisible => () =>
         OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.Draft &&
@@ -17,7 +17,7 @@ public sealed class RoleDraftImpOptions : AbstractOptionGroup
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
         TmpSpriteUtils.CreateSpriteAsset(
-            TouAssets.IconDraftMode.LoadAsset(),
+            TouAssets.IconDraftMode,
             "TouMira.Gamemode.DraftMode",
             1.45f));
 

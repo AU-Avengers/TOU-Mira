@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Achievements;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
@@ -54,7 +53,7 @@ public sealed class GrenadierFlashButton : TownOfUsRoleButton<GrenadierRole>, IA
                     Role.PlayersFlashedInARow[player.PlayerId]++;
                     if (Role.PlayersFlashedInARow[player.PlayerId] == 3)
                     {
-                        AchievementsAPIHelper.Unlock(TouAchievements.BlindFoEva);
+                        TouAchievements.BlindFoEva.Unlock();
                     }
                 }
                 else
@@ -69,9 +68,9 @@ public sealed class GrenadierFlashButton : TownOfUsRoleButton<GrenadierRole>, IA
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.GrenadierFlashNotif")}</color></b>",
             Color.white, new Vector3(0f, 1f, -150f),
-            spr: TouRoleIcons.Grenadier.LoadAsset());
+            spr: TouRoleIcons.Grenadier);
         notif1.AdjustNotification();
 
-        SoundManager.Instance.PlaySound(TouAudio.GrenadeSound.LoadAsset(), false);
+        SoundManager.Instance.PlaySound(TouAudio.GrenadeSound, false);
     }
 }

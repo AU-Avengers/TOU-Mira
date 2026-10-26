@@ -29,20 +29,6 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Trap", "Trap"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Trap.WikiDescription"),
-                    TouCrewAssets.TrapSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get
@@ -63,7 +49,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Trapper.LoadAsset(), "TouMira.Role.Crewmate.Trapper", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Trapper, "TouMira.Role.Crewmate.Trapper", 1.45f),
         Icon = TouRoleIcons.Trapper,
         OptionsScreenshot = TouBanners.TrapperRoleBanner,
         IntroSound = TouAudio.SuspenseIntro,

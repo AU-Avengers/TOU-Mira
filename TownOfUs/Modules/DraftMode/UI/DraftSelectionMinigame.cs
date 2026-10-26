@@ -169,9 +169,9 @@ namespace TownOfUs.Modules.DraftMode
                 ? string.Empty
                 : $"\n<size=68%>{description}</size>";
             string teamcolor = "#BBBBBB";
-            if(teamName.Contains("crewmate", StringComparison.OrdinalIgnoreCase)) teamcolor= "#5BD7E4";
-            if(teamName.Contains("impostor", StringComparison.OrdinalIgnoreCase)) teamcolor= "#FF5050";
-            if(teamName.Contains("neutral", StringComparison.OrdinalIgnoreCase)) teamcolor= "#7c7c7c";
+            if (teamName.Contains("crewmate", StringComparison.OrdinalIgnoreCase)) teamcolor = "#5BD7E4";
+            if (teamName.Contains("impostor", StringComparison.OrdinalIgnoreCase)) teamcolor = "#FF5050";
+            if (teamName.Contains("neutral", StringComparison.OrdinalIgnoreCase)) teamcolor = "#7c7c7c";
             _tooltipText.text =
                 $"<b><color=#{hex}>{roleName}</color></b>  <size=58%><color={teamcolor}>{teamName}</color></size>{desc}";
             _tooltipRoot.SetActive(true);
@@ -179,7 +179,8 @@ namespace TownOfUs.Modules.DraftMode
 
         private void HideTooltip()
         {
-            if (_tooltipText != null) {
+            if (_tooltipText != null)
+            {
                 _tooltipText.text = PickPrompt;
                 _tooltipText.fontSize = 2f;
             }
@@ -197,8 +198,8 @@ namespace TownOfUs.Modules.DraftMode
 
         private void HideTimerProgressLine()
         {
-            if (_timerTrack != null) _timerTrack.SetActive(false);
-            if (_timerFill != null) _timerFill.SetActive(false);
+            _timerTrack?.SetActive(false);
+            _timerFill?.SetActive(false);
         }
 
         private void UpdateTimerProgressLine(float secondsLeft, bool urgent)
@@ -213,19 +214,16 @@ namespace TownOfUs.Modules.DraftMode
             _timerFill.transform.localScale = new Vector3(width, urgent ? 0.075f : 0.055f, 1f);
             _timerFill.transform.localPosition = new Vector3(
                 -TimerProgressWidth * 0.5f + width * 0.5f, -0.32f, -0.01f);
-            if (_timerFillRenderer != null)
-            {
-                _timerFillRenderer.color = urgent
+            _timerFillRenderer?.color = urgent
                     ? new Color(1f, 0.22f, 0.22f, 0.96f)
                     : new Color(1f, 0.82f, 0.12f, 0.92f);
-            }
         }
 
         [HideFromIl2Cpp]
         public void CacheOfferedRoles(ushort[] offeredRoleIds, string[] offeredRoleNames = null!)
         {
-            _offeredRoleIds = offeredRoleIds ?? Array.Empty<ushort>();
-            _offeredRoleNames = offeredRoleNames ?? Array.Empty<string>();
+            _offeredRoleIds = offeredRoleIds ?? [];
+            _offeredRoleNames = offeredRoleNames ?? [];
         }
 
         public static void Show(ushort[] roleIds, string[] roleNames = null!)
@@ -236,8 +234,8 @@ namespace TownOfUs.Modules.DraftMode
             var go = new GameObject("DraftScreenController");
             DontDestroyOnLoad(go);
             Instance = go.AddComponent<DraftScreenController>();
-            Instance._offeredRoleIds = roleIds ?? Array.Empty<ushort>();
-            Instance._offeredRoleNames = roleNames ?? Array.Empty<string>();
+            Instance._offeredRoleIds = roleIds ?? [];
+            Instance._offeredRoleNames = roleNames ?? [];
             Instance._hasPicked = false;
             Instance._cardsReady = false;
             Instance._localTimeLeft = -1f;
@@ -282,8 +280,7 @@ namespace TownOfUs.Modules.DraftMode
         private void BuildScreen()
         {
             if (HudManager.Instance == null) return;
-            if (HudManager.Instance.FullScreen != null)
-                HudManager.Instance.FullScreen.color = Color.clear;
+            HudManager.Instance.FullScreen?.color = Color.clear;
 
             BuildBottomTimer();
             BuildSelectionBackdrop();
@@ -297,7 +294,7 @@ namespace TownOfUs.Modules.DraftMode
             }
             catch (Exception ex)
             {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error,$"[DraftScreenController] Bundle load failed: {ex.Message}");
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftScreenController] Bundle load failed: {ex.Message}");
             }
 
             if (prefab == null)
@@ -359,14 +356,14 @@ namespace TownOfUs.Modules.DraftMode
             if (useGrid)
             {
                 var hLayout = rolesHolder?.GetComponent<UnityEngine.UI.HorizontalLayoutGroup>();
-                if (hLayout != null) hLayout.enabled = false;
+                hLayout?.enabled = false;
                 var rt = rolesHolder?.GetComponent<RectTransform>();
-                if (rt != null) rt.sizeDelta = new Vector2(rt.sizeDelta.x, 12f);
+                rt?.sizeDelta = new Vector2(rt.sizeDelta.x, 12f);
             }
             else
             {
                 var layoutGroup = rolesHolder?.GetComponent<UnityEngine.UI.HorizontalLayoutGroup>();
-                if (layoutGroup != null) layoutGroup.spacing = spacing;
+                layoutGroup?.spacing = spacing;
             }
 
             for (int i = 0; i < totalCards; i++)
@@ -620,7 +617,7 @@ namespace TownOfUs.Modules.DraftMode
             float spacing = 0f,
             string description = "")
         {
-            var newRoleObj = UnityEngine.Object.Instantiate(rolePrefab, rolesHolder);
+            var newRoleObj = Instantiate(rolePrefab, rolesHolder);
             var actualCard = newRoleObj!.transform.GetChild(0);
             var roleText = actualCard.GetChild(0).GetComponent<TextMeshPro>();
             var roleImage = actualCard.GetChild(1).GetComponent<SpriteRenderer>();
@@ -682,7 +679,7 @@ namespace TownOfUs.Modules.DraftMode
             roleImage.sprite = icon;
             roleImage.SetSizeLimit(2.8f);
             var cardBgRenderer = actualCard.GetComponent<SpriteRenderer>();
-            if (cardBgRenderer != null) cardBgRenderer.color = color;
+            cardBgRenderer?.color = color;
             roleImage.color = Color.white;
 
             teamText.fontSizeMax = Mathf.Lerp(4f, 2f, Mathf.InverseLerp(3f, 9f, totalCards));
@@ -700,7 +697,7 @@ namespace TownOfUs.Modules.DraftMode
 
             foreach (var sr in newRoleObj.GetComponentsInChildren<SpriteRenderer>(true))
             { sr.sortingLayerName = "UI"; sr.sortingOrder = 70; }
-            foreach (var tmp in newRoleObj.GetComponentsInChildren<TMPro.TMP_Text>(true))
+            foreach (var tmp in newRoleObj.GetComponentsInChildren<TMP_Text>(true))
             {
                 var rr = tmp.GetComponent<Renderer>();
                 if (rr != null) { rr.sortingLayerName = "UI"; rr.sortingOrder = 74; }
@@ -727,7 +724,7 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             yield return CoWaitForSharedReadyGate(totalCards);
-            if (Instance != null) Instance._cardsReady = true;
+            Instance?._cardsReady = true;
             DraftNetworkHelper.NotifyPickerReady();
         }
 
@@ -860,7 +857,7 @@ namespace TownOfUs.Modules.DraftMode
             if (_hasPicked) return;
             if (_offeredRoleIds == null || _offeredRoleIds.Length == 0) return;
             bool randomPick = index == _offeredRoleIds.Length &&
-                (OptionGroupSingleton<RoleOptions>.Instance?.ShowRandomOption.Value ?? false);
+                OptionGroupSingleton<RoleOptions>.Instance.ShowRandomOption;
             if (index < 0 || (index >= _offeredRoleIds.Length && !randomPick)) return;
 
             var localPlayer = PlayerControl.LocalPlayer;
@@ -926,7 +923,7 @@ namespace TownOfUs.Modules.DraftMode
                 notificationText,
                 Color.white,
                 new Vector3(0f, 1f, -20f),
-                spr: TouAssets.IconDraftMode.LoadAsset());
+                spr: TouAssets.IconDraftMode);
 
             notif?.AdjustNotification();
         }
@@ -945,12 +942,12 @@ namespace TownOfUs.Modules.DraftMode
             for (int y = 0; y < size; y++)
             {
                 for (int x = 0; x < size; x++)
-            {
-                float d = Vector2.Distance(new Vector2(x, y), center) / radius;
-                float a = Mathf.Clamp01(1f - d);
-                a = a * a * (3f - 2f * a);
-                px[y * size + x] = new Color(1f, 1f, 1f, a);
-            }
+                {
+                    float d = Vector2.Distance(new Vector2(x, y), center) / radius;
+                    float a = Mathf.Clamp01(1f - d);
+                    a = a * a * (3f - 2f * a);
+                    px[y * size + x] = new Color(1f, 1f, 1f, a);
+                }
             }
             tex.SetPixels(px);
             tex.Apply();

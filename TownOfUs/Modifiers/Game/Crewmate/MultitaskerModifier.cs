@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
-using TownOfUs.Modules.Components;
 using TownOfUs.Options.Modifiers;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ public sealed class MultitaskerModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Multitasker,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Multitasker.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Multitasker,
             "TouMira.Modifier.Crewmate.Multitasker", 1.45f));
     public override string IdPart => "Multitasker";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -35,12 +34,12 @@ public sealed class MultitaskerModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.MultitaskerChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.MultitaskerChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.MultitaskerAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.MultitaskerAmount;
     }
 
     public override void Update()

@@ -3,7 +3,6 @@ using MiraAPI.GameOptions;
 using TownOfUs.Modules.DraftMode;
 using TownOfUs.Options;
 using TownOfUs.Roles.Other;
-using UnityEngine;
 
 namespace TownOfUs.Patches.DraftMode
 {
@@ -59,8 +58,7 @@ namespace TownOfUs.Patches.DraftMode
 
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[GameStartPatch] DRAFT MODE DETECTED - Starting draft");
 
-            var players = PlayerControl.AllPlayerControls.ToArray()
-                .Where(p => p != null && !p.Data.Disconnected && !SpectatorRole.TrackedSpectators.Contains(p.Data.PlayerName))
+            var players = PlayerControl.AllPlayerControls.Where(p => p != null && !p.Data.Disconnected && !SpectatorRole.TrackedSpectators.Contains(p.GetBestPlayerDenomination()))
                 .ToList();
 
             if (players.Count == 0)

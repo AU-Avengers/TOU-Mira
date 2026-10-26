@@ -3,7 +3,6 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Modifiers;
 using TownOfUs.Achievements;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules;
 using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Events.Impostor;
@@ -15,17 +14,15 @@ public static class EclipsalEvents
     {
         var source = @event.Source;
         var victim = @event.Target;
-        if (!victim.TryGetModifier<EclipsalBlindModifier>(out var mod))
+        if (!victim.TryRemoveModifier<EclipsalBlindModifier>())
         {
             return;
         }
 
         if (source.AmOwner && source.Data.Role is EclipsalRole && source != victim)
         {
-            AchievementsAPIHelper.Increment(TouAchievements.EternalDarkness, 1,
-                AchievementsAPIHelper.GetCurrentValue(TouAchievements.EternalDarkness) == 2);
+            TouAchievements.EternalDarkness.Increment(1,
+                TouAchievements.EternalDarkness.GetCurrentValue() == 2);
         }
-
-        victim.RemoveModifier(mod);
     }
 }

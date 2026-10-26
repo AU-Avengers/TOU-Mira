@@ -22,7 +22,7 @@ namespace TownOfUs.Modifiers.Crewmate;
 public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableTargets, IContinuesGame
 {
     public bool ContinuesGame => !Player.HasDied() && Helpers.GetAlivePlayers().Count >
-                                 (int)OptionGroupSingleton<TraitorOptions>.Instance.LatestSpawn - 1;
+                                 OptionGroupSingleton<TraitorOptions>.Instance.LatestSpawn - 1;
     public override string ModifierName => "Possible Traitor";
     public override bool HideOnUi => true;
 
@@ -37,7 +37,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
         }
 
         if (GameOptionsManager.Instance.CurrentGameOptions.RoleOptions
-                .GetNumPerGame((RoleTypes)RoleId.Get<TraitorRole>()) == 0 || ModifierUtils.GetActiveModifiers<CrewpostorModifier>().HasAny())
+                .GetNumPerGame((RoleTypes)RoleId.Get<TraitorRole>()) == 0 || ModifierUtils.GetActiveModifiers<CrewpostorModifier>().Any())
         {
             return;
         }
@@ -49,13 +49,12 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
             GameOptionsManager.Instance.CurrentGameOptions.RoleOptions.GetChancePerGame(
                 (RoleTypes)RoleId.Get<TraitorRole>()))
         {
-            var filtered = PlayerControl.AllPlayerControls.ToArray()
-                .Where(x => x.IsCrewmate() &&
+            var filtered = PlayerControl.AllPlayerControls.Where(x => x.IsCrewmate() &&
                             !x.HasDied() &&
                             !x.HasModifier<ExecutionerTargetModifier>() &&
                             !x.HasModifier<EgotistModifier>() &&
-                            !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName) &&
-                            (x.Data.Role is not ILoyalCrewmate loyalCrew || loyalCrew.CanBeTraitor)).ToList();
+                            !SpectatorRole.TrackedSpectators.Contains(x.GetBestPlayerDenomination()) &&
+                            x.Data.Role is not ILoyalCrewmate { CanBeTraitor: false }).ToList();
 
             if (filtered.Count == 0)
             {
@@ -81,7 +80,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
     public void Clear()
     {
         AssignTargets();
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     [MethodRpc((uint)TownOfUsRpc.SetTraitor)]
@@ -92,18 +91,14 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
             MiscUtils.RunAnticheatWarning(player);
             return;
         }
-        if (!player.HasModifier<ToBecomeTraitorModifier>() && !player.HasModifier<CrewpostorModifier>())
+        if (!player.TryRemoveModifier<ToBecomeTraitorModifier>() && !player.HasModifier<CrewpostorModifier>())
         {
             return;
         }
 
         player.ChangeRole(RoleId.Get<TraitorRole>());
-        if (player.HasModifier<ToBecomeTraitorModifier>())
-        {
-            player.RemoveModifier<ToBecomeTraitorModifier>();
-        }
 
-        if (OptionGroupSingleton<TraitorOptions>.Instance.TraitorCanAssassin.Value)
+        if (OptionGroupSingleton<TraitorOptions>.Instance.TraitorCanAssassin)
         {
             player.AddModifier<AssassinModifier>();
         }
