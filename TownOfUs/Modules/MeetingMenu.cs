@@ -143,7 +143,7 @@ public sealed class MeetingMenu : IDisposable
         targetBox.transform.localPosition = Position;
         var renderer = targetBox.GetComponent<SpriteRenderer>();
 
-        if (Type == MeetingAbilityType.Toggle && StartActive(voteArea))
+        if (Type == MeetingAbilityType.Toggle && StartActive?.Invoke(voteArea) == true)
         {
             Actives[voteArea.PlayerId] = true;
 
