@@ -168,11 +168,13 @@ public sealed class MeetingMenu : IDisposable
         targetBox.transform.localPosition = Position;
         var renderer = targetBox.GetComponent<SpriteRenderer>();
 
-        if (Type != MeetingAbilityType.Click && StartActive?.Invoke(voteArea) == true)
+        if (Type != MeetingAbilityType.Click && StartActive != null)
         {
-            Actives[voteArea.PlayerId] = true;
+            var active = StartActive(voteArea);
 
-            renderer.sprite = ActiveSprite;
+            Actives[voteArea.PlayerId] = active;
+
+            renderer.sprite = active ? ActiveSprite : DisabledSprite;
         }
         else
         {
