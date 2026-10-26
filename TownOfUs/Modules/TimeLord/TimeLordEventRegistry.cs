@@ -59,7 +59,7 @@ public sealed class TimeLordEventRegistry
         }
 
         _events.Add(new QueuedEvent(evt, evt.Time));
-        
+
         // Keep only events within the rewind history window
         var cutoff = Time.time - 120f; // Max 120 seconds history
         _events.RemoveAll(e => e.Time < cutoff);
@@ -90,7 +90,7 @@ public sealed class TimeLordEventRegistry
             // Older events are undone later in the rewind
             var age = rewindStartTime - queued.Time;
             var undoAt = rewindDuration * (age / historySeconds);
-            
+
             schedule.Add((queued.Event, undoAt));
         }
 
@@ -108,7 +108,7 @@ public sealed class TimeLordEventRegistry
     public void ProcessUndoEvent(TimeLordUndoEvent undoEvent)
     {
         var originalType = undoEvent.OriginalEvent.GetType();
-        
+
         if (_undoHandlers.TryGetValue(originalType, out var handler))
         {
             handler(undoEvent.OriginalEvent);

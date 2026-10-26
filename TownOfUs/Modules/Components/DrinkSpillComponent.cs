@@ -27,7 +27,7 @@ public sealed class DrinkSpillComponent(nint cppPtr) : MonoBehaviour(cppPtr)
     public void Awake()
     {
         Renderer = gameObject.AddComponent<SpriteRenderer>();
-        Renderer.sprite = TouAssets.BarkeeperDrinkSpill.LoadAsset();
+        Renderer.sprite = TouAssets.BarkeeperDrinkSpill;
         Renderer.color = new(1, 1, 1, 0);
         Collider = gameObject.AddComponent<BoxCollider2D>();
         Collider.size = new Vector2(Renderer.size.x / 4f, Renderer.size.y / 4f);
@@ -82,7 +82,7 @@ public sealed class DrinkSpillComponent(nint cppPtr) : MonoBehaviour(cppPtr)
             }
 
             if (!_affectedPlayers.Contains(player.PlayerId))
-                // Debug.Log(player.name + " contaminated the crime scene");
+            // Debug.Log(player.name + " contaminated the crime scene");
             {
                 if (player.AmOwner && LocalStage == SpillStage.Triggerable)
                 {
@@ -148,7 +148,7 @@ public sealed class DrinkSpillComponent(nint cppPtr) : MonoBehaviour(cppPtr)
         PlayerControl.LocalPlayer.RpcAddModifier<BarkeeperSpillEffectModifier>(isBuff);
         var notif = Helpers.CreateAndShowNotification(
             $"<b>{MiraLocaleManager.Get(msg)}</b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper);
         notif.Text.SetOutlineThickness(0.35f);
     }
 

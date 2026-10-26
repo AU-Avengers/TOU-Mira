@@ -51,24 +51,6 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Barrier", "Barrier"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Barrier.WikiDescription").Replace("<BarrierCooldown>",
-                        $"{OptionGroupSingleton<ClericOptions>.Instance.BarrierCooldown}"),
-                    TouCrewAssets.BarrierSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Cleanse", "Cleanse"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Cleanse.WikiDescription"),
-                    TouCrewAssets.CleanseSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get
@@ -94,7 +76,7 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Cleric.LoadAsset(), "TouMira.Role.Crewmate.Cleric", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Cleric, "TouMira.Role.Crewmate.Cleric", 1.45f),
         IntroSound = TouAudio.PotionIntro,
         OptionsScreenshot = TouBanners.ClericRoleBanner,
         Icon = TouRoleIcons.Cleric
@@ -115,7 +97,7 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.ClericBarrier, "Blocked", cleric, shielded);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (source.AmOwner ||
             (cleric.AmOwner &&

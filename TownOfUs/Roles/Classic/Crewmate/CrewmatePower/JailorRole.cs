@@ -16,12 +16,10 @@ using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
-using TownOfUs.Modules;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 using UnityEngine.UI;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Crewmate;
 
@@ -38,12 +36,11 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public int Executes { get; set; } = (int)OptionGroupSingleton<JailorOptions>.Instance.MaxExecutes;
 
-    public PlayerControl Jailed => PlayerControl.AllPlayerControls.ToArray()
-        .FirstOrDefault(x => x.GetModifier<JailedModifier>()?.JailorId == Player.PlayerId)!;
+    public PlayerControl Jailed => PlayerControl.AllPlayerControls.FirstOrDefault(x => x.HasModifier<JailedModifier>(x => x.JailorId == Player.PlayerId))!;
 
     public DoomableType DoomHintType => DoomableType.Relentless;
     public string IdPart => "Jailor";
-    public string RoleLongDescription => PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished ? MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescriptionEvil") : MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
+    public string RoleLongDescription => PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished) ? MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescriptionEvil") : MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.TabDescription");
 
     public string GetAdvancedDescription()
     {
@@ -95,7 +92,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Jailor.LoadAsset(), "TouMira.Role.Crewmate.Jailor", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Jailor, "TouMira.Role.Crewmate.Jailor", 1.45f),
         MaxRoleCount = 1,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Jailor,
@@ -111,7 +108,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        if (PlayerControl.LocalPlayer.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished))
         {
             stringB.AppendLine(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get("TownOfUsMira.Role.JailorEvilTabInfo")}");
         }
@@ -209,7 +206,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         foreach (var voteArea in __instance.playerStates)
         {
             if (Jailed?.PlayerId == voteArea.PlayerId)
-                // if (!(jailorRole.Jailed.IsLover() && PlayerControl.LocalPlayer.IsLover()))
+            // if (!(jailorRole.Jailed.IsLover() && PlayerControl.LocalPlayer.IsLover()))
             {
                 GenButton(voteArea, __instance);
             }
@@ -228,7 +225,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         newButtonObj.layer = 5;
         newButtonObj.transform.parent = confirmButton.transform.parent.parent;
 
-        var buttonText = Object.Instantiate(
+        var buttonText = Instantiate(
             meeting.MeetingAbilityButton.buttonLabelText.gameObject,
             newButtonObj.transform);
         buttonText.transform.localPosition = new Vector3(0, -0.2f, 0f);
@@ -245,7 +242,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         executeButton = newButtonObj;
 
         var renderer = newButtonObj.GetComponent<SpriteRenderer>();
-        renderer.sprite = classic ? LegacyAssets.ExecuteSprite.LoadAsset() : TouAssets.ExecuteCleanSprite.LoadAsset();
+        renderer.sprite = classic ? LegacyAssets.ExecuteSprite : TouAssets.ExecuteCleanSprite;
 
         var passive = newButtonObj.GetComponent<PassiveButton>();
         passive.OnClick = new Button.ButtonClickedEvent();
@@ -276,9 +273,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             if (!Jailed.HasModifier<InvulnerabilityModifier>())
             {
                 if (Jailed.Is(ModdedRoleTeams.Crewmate) &&
-                    !(PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) &&
-                      !allyMod.GetsPunished) && !(Jailed.TryGetModifier<AllianceGameModifier>(out var allyMod2) &&
-                                                  !allyMod2.GetsPunished))
+                    !(PlayerControl.LocalPlayer.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished)) && !(Jailed.HasModifier<AllianceGameModifier>(allyMod2 => !allyMod2.GetsPunished)))
                 {
                     Executes = 0;
 
@@ -292,7 +287,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                     text = MiraLocaleManager.Get("TownOfUsMira.Role.JailorExecutedEvil");
                     if (!HasSpokenThisMeeting)
                     {
-                        AchievementsAPIHelper.Unlock(TouAchievements.NoChances);
+                        TouAchievements.NoChances.Unlock();
                     }
                 }
 
@@ -301,12 +296,12 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             }
             else
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.ToKillAGod);
+                TouAchievements.ToKillAGod.Unlock();
             }
             text = text.Replace("<player>", Jailed.Data.PlayerName);
 
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{text}</b>", color, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Jailor.LoadAsset());
+                $"<b>{text}</b>", color, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Jailor);
 
             notif1.AdjustNotification();
         }

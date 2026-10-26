@@ -30,18 +30,18 @@ public sealed class RandomDoorMapOptions : AbstractOptionGroup
     {
         Visible = () => ModCompatibility.SubLoaded
     };
-    
+
     public static MapDoorType GetRandomDoorType(MapDoorType defaultDoor)
     {
-        var disabledChance = OptionGroupSingleton<RandomDoorMapOptions>.Instance.DisabledDoorChance.Value;
-        var skeldChance = OptionGroupSingleton<RandomDoorMapOptions>.Instance.SkeldDoorChance.Value;
-        var polusChance = OptionGroupSingleton<RandomDoorMapOptions>.Instance.PolusDoorChance.Value;
-        var airshipChance = OptionGroupSingleton<RandomDoorMapOptions>.Instance.AirshipDoorChance.Value;
-        var fungleChance = OptionGroupSingleton<RandomDoorMapOptions>.Instance.FungleDoorChance.Value;
-        var submergedChance = OptionGroupSingleton<RandomDoorMapOptions>.Instance.SubmergedDoorChance.Value;
+        int disabledChance = OptionGroupSingleton<RandomDoorMapOptions>.Instance.DisabledDoorChance;
+        int skeldChance = OptionGroupSingleton<RandomDoorMapOptions>.Instance.SkeldDoorChance;
+        int polusChance = OptionGroupSingleton<RandomDoorMapOptions>.Instance.PolusDoorChance;
+        int airshipChance = OptionGroupSingleton<RandomDoorMapOptions>.Instance.AirshipDoorChance;
+        int fungleChance = OptionGroupSingleton<RandomDoorMapOptions>.Instance.FungleDoorChance;
+        int submergedChance = OptionGroupSingleton<RandomDoorMapOptions>.Instance.SubmergedDoorChance;
 
         Random rnd = new();
-        float totalWeight = 0;
+        int totalWeight = 0;
 
         totalWeight += skeldChance;
         totalWeight += polusChance;
@@ -51,12 +51,12 @@ public sealed class RandomDoorMapOptions : AbstractOptionGroup
 
         totalWeight += ModCompatibility.SubLoaded ? submergedChance : 0;
 
-        if ((int)totalWeight == 0)
+        if (totalWeight == 0)
         {
             return defaultDoor;
         }
 
-        float randomNumber = rnd.Next(0, (int)totalWeight);
+        float randomNumber = rnd.Next(0, totalWeight);
 
         if (randomNumber < skeldChance)
         {

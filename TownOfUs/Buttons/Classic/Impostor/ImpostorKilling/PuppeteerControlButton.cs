@@ -6,7 +6,6 @@ using Reactor.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
@@ -22,7 +21,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
         Math.Clamp(OptionGroupSingleton<PuppeteerOptions>.Instance.ControlCooldown.Value + MapCooldown, 5f, 120f);
     public override float EffectDuration =>
         OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
-    public override int MaxUses => (int)OptionGroupSingleton<PuppeteerOptions>.Instance.ControlUses.Value;
+    public override int MaxUses => OptionGroupSingleton<PuppeteerOptions>.Instance.ControlUses;
     public int ExtraUses { get; set; }
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.ControlSprite;
     private static PuppeteerKillButton KillButton => CustomButtonSingleton<PuppeteerKillButton>.Instance;
@@ -35,10 +34,9 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
     public override void FixedUpdateHandler(PlayerControl playerControl)
     {
         TimerPaused = false;
-        if (PlayerControl.LocalPlayer?.Data?.Role is PuppeteerRole pr &&
-            pr.Controlled != null &&
-            PuppeteerRole.ControlState.IsControlled(pr.Controlled.PlayerId, out _) &&
-            PuppeteerRole.ControlState.IsInInitialGrace(pr.Controlled.PlayerId))
+        if (PlayerControl.LocalPlayer?.Data?.Role is PuppeteerRole { Controlled.PlayerId: var controlledId } &&
+            PuppeteerRole.ControlState.IsControlled(controlledId, out _) &&
+            PuppeteerRole.ControlState.IsInInitialGrace(controlledId))
         {
             TimerPaused = true;
         }
@@ -54,24 +52,24 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
 
     public override bool CanUse()
     {
-        if (PlayerControl.LocalPlayer.Data?.Role is not PuppeteerRole pr)
+        if (PlayerControl.LocalPlayer.Data?.Role is not PuppeteerRole { Controlled: var controlled })
         {
             return false;
         }
 
-        if (pr.Controlled != null)
+        if (controlled != null)
         {
-            if (pr.Controlled.Data == null ||
-                pr.Controlled.HasDied() ||
-                pr.Controlled.Data.Disconnected ||
-                !PuppeteerRole.ControlState.IsControlled(pr.Controlled.PlayerId, out _))
+            if (controlled.Data == null ||
+                controlled.HasDied() ||
+                controlled.Data.Disconnected ||
+                !PuppeteerRole.ControlState.IsControlled(controlled.PlayerId, out _))
             {
-                PuppeteerRole.RpcPuppeteerEndControl(PlayerControl.LocalPlayer, pr.Controlled, pr.Controlled.transform.position);
+                PuppeteerRole.RpcPuppeteerEndControl(PlayerControl.LocalPlayer, controlled, controlled.transform.position);
                 return false;
             }
             return base.CanUse();
         }
-        
+
         if (TimeLordRewindSystem.IsRewinding)
         {
             return false;
@@ -88,7 +86,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
         }
 
         if (!PlayerControl.LocalPlayer.CanMove ||
-            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+            PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -116,12 +114,12 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
     protected override void OnClick()
     {
         Info("Checking control button");
-        if (PlayerControl.LocalPlayer.Data?.Role is not PuppeteerRole pr)
+        if (PlayerControl.LocalPlayer.Data?.Role is not PuppeteerRole { Controlled: var controlled })
         {
             return;
         }
         Info("Role is valid");
-        if (pr.Controlled == null)
+        if (controlled == null)
         {
             Info("No player is being controlled, opening menu.");
             var playerMenu = CustomPlayerMenu.Create();
@@ -133,9 +131,8 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
             playerMenu.Begin(
                 plr => !plr.HasDied() && !plr.AmOwner &&
                        !plr.IsInTargetingAnimState() &&
-                       !plr.GetModifiers<BaseModifier>().Any(x => x is IUncontrollable) &&
-                       ((plr.TryGetModifier<DisabledModifier>(out var mod) && mod.CanBeInteractedWith &&
-                         mod.IsConsideredAlive) ||
+                       !plr.HasModifierOfType<IUncontrollable>() &&
+                       (plr.HasModifier<DisabledModifier>(mod => mod.CanBeInteractedWith && mod.IsConsideredAlive) ||
                         !plr.HasModifier<DisabledModifier>()),
                 plr =>
                 {
@@ -154,7 +151,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
 
                         var notif = Helpers.CreateAndShowNotification(
                             $"<b>{notificationText}</b>",
-                            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Puppeteer.LoadAsset());
+                            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Puppeteer);
                         notif.Text.SetOutlineThickness(0.35f);
                         return;
                     }

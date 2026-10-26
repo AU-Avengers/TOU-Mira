@@ -35,26 +35,12 @@ public sealed class WarlockRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Warlock.LoadAsset(), "TouMira.Role.Impostor.Warlock", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Warlock, "TouMira.Role.Impostor.Warlock", 1.45f),
         UseVanillaKillButton = false,
         IntroSound = TouAudio.WarlockIntroSound,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Warlock
     };
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}BurstKill", "Burst Kill"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Kill.WikiDescription"),
-                    TouAssets.KillSprite)
-            ];
-        }
-    }
 
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities

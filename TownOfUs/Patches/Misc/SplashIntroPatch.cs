@@ -70,7 +70,7 @@ internal static class SplashIntroPatch
         PewLogo = instance.logoAnimFinish.transform.Find("LogoRoot/PEWLogo").gameObject;
         PewLogo.GetComponent<ConditionalHide>().Destroy();
         PewLogo.active = true;
-        PewLogo.GetComponent<SpriteRenderer>().sprite = TouAssets.AuAvengersLogo.LoadAsset();
+        PewLogo.GetComponent<SpriteRenderer>().sprite = TouAssets.AuAvengersLogo;
         SlothLogo.transform.localPosition -= new Vector3(4f, 0f, 0f);
         PewLogo.transform.localPosition -= new Vector3(0.5f, 0f, 0f);
 

@@ -29,17 +29,17 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 {
     public void InitialSetup()
     {
-        TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.ExeTormentSprite.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouNeutAssets.ExeTormentSprite,
             "TouMira.Role.Neutral.Executioner.Ui.Target", 1.45f);
     }
     public void AnnounceKill(PlayerControl source, PlayerControl victim)
     {
-        var text = OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnonymizeWin.Value
+        var text = OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnonymizeWin
             ? MiraLocaleManager.Get("TownOfUsMira.Role.AnonymousVictoryKillNotif").Replace("<source>", source.Data.PlayerName)
             : MiraLocaleManager.Get("TownOfUsMira.Role.ExecutionerTormentNotif");
         var notif = Helpers.CreateAndShowNotification(
             $"<b>{text.Replace("<victim>", victim.Data.PlayerName)}</b>",
-            Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Jester.LoadAsset());
+            Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Jester);
         notif.AdjustNotification();
         notif.alphaTimer = 5f;
     }
@@ -77,13 +77,11 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
         }
 
         // Error($"SelectExeTargets");
-        var exes = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => x.IsRole<ExecutionerRole>() && !x.HasDied());
+        var exes = PlayerControl.AllPlayerControls.Where(x => x.IsRole<ExecutionerRole>() && !x.HasDied());
 
         foreach (var exe in exes)
         {
-            var filtered = PlayerControl.AllPlayerControls.ToArray()
-                .Where(x => !x.IsRole<ExecutionerRole>() && !x.HasDied() &&
+            var filtered = PlayerControl.AllPlayerControls.Where(x => !x.IsRole<ExecutionerRole>() && !x.HasDied() &&
                             x.Is(ModdedRoleTeams.Crewmate) &&
                             !x.HasModifier<GuardianAngelTargetModifier>() &&
                             !x.HasModifier<AllianceGameModifier>() &&
@@ -163,7 +161,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Executioner.LoadAsset(), "TouMira.Role.Neutral.Executioner", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Executioner, "TouMira.Role.Neutral.Executioner", 1.45f),
         IntroSound = TouAudio.DiscoveredSound,
         Icon = TouRoleIcons.Executioner,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
@@ -200,7 +198,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
         if (Target == null)
         {
             Target = ModifierUtils
-                .GetPlayersWithModifier<ExecutionerTargetModifier>([HideFromIl2Cpp](x) => x.OwnerId == Player.PlayerId)
+                .GetPlayersWithModifier<ExecutionerTargetModifier>([HideFromIl2Cpp] (x) => x.OwnerId == Player.PlayerId)
                 .FirstOrDefault();
         }
 
@@ -224,8 +222,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
         if (TutorialManager.InstanceExists && Player.AmOwner)
         {
             var players = ModifierUtils
-                .GetPlayersWithModifier<ExecutionerTargetModifier>([HideFromIl2Cpp](x) => x.OwnerId == Player.PlayerId)
-                .ToList();
+                .GetPlayersWithModifier<ExecutionerTargetModifier>([HideFromIl2Cpp](x) => x.OwnerId == Player.PlayerId);
             players.Do(x => x.RpcRemoveModifier<ExecutionerTargetModifier>());
         }
 
@@ -281,7 +278,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
             // Error($"OnPlayerDeath - ChangeRole: '{roleType}'");
             Player.ChangeRole(roleType);
 
-            if ((roleType == RoleId.Get<JesterRole>() && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value) ||
+            if ((roleType == RoleId.Get<JesterRole>() && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn) ||
                 (roleType == RoleId.Get<SurvivorRole>() && OptionGroupSingleton<SurvivorOptions>.Instance.ScatterOn))
             {
                 StartCoroutine(Effects.Lerp(0.2f,

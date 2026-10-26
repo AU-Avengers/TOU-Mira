@@ -48,14 +48,14 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
                 switch (CurrentAbility)
                 {
                     case HerbAbilities.Expose:
-                         ExposeUsesLeft--;
-                         break;
+                        ExposeUsesLeft--;
+                        break;
                     case HerbAbilities.Confuse:
-                         ConfuseUsesLeft--;
-                         break;
+                        ConfuseUsesLeft--;
+                        break;
                     case HerbAbilities.Protect:
-                         ProtectUsesLeft--;
-                         break;
+                        ProtectUsesLeft--;
+                        break;
                 }
                 Warning($"Expose Uses: {ExposeUsesLeft} | Confuse Uses: {ConfuseUsesLeft} | Protect Uses: {ProtectUsesLeft}");
             }
@@ -118,7 +118,7 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
     {
         base.CreateButton(parent);
 
-        Button!.usesRemainingSprite.sprite = TouAssets.AbilityCounterKillSprite.LoadAsset();
+        Button!.usesRemainingSprite.sprite = TouAssets.AbilityCounterKillSprite;
 
         CurrentName = ProtectionText[0];
         OverrideName(CurrentName);
@@ -216,7 +216,7 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
         {
             CurrentAbility = HerbAbilities.Kill;
         }
-        OverrideSprite(HerbButtons[(int)CurrentAbility].LoadAsset());
+        OverrideSprite(HerbButtons[(int)CurrentAbility]);
         OverrideName(ProtectionText[(int)CurrentAbility]);
     }
     public override void OverrideName(string name)
@@ -228,20 +228,17 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
             _ => string.Empty
         };
 
-    if (Button != null)
-    {
-        Button.OverrideText(
-            CurrentHerbsLimited
-                ? $"{CurrentName} - {CurrentHerbsText}"
-                : CurrentName);
+        Button?.OverrideText(
+                CurrentHerbsLimited
+                    ? $"{CurrentName} - {CurrentHerbsText}"
+                    : CurrentName);
     }
-}
     private static Func<HerbalistExposedModifier, bool> ExposedPredicate { get; } =
         msModifier => msModifier.Herbalist.AmOwner;
-    
+
     private static Func<HerbalistConfusedModifier, bool> ConfusedPredicate { get; } =
         msModifier => msModifier.Herbalist.AmOwner;
-    
+
     private static Func<HerbalistProtectionModifier, bool> ProtectedPredicate { get; } =
         msModifier => msModifier.Herbalist.AmOwner;
 

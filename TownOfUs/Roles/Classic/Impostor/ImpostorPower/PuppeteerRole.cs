@@ -47,21 +47,13 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Puppeteer.LoadAsset(), "TouMira.Role.Impostor.Puppeteer", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Puppeteer, "TouMira.Role.Impostor.Puppeteer", 1.45f),
         UseVanillaKillButton = false,
         Icon = TouRoleIcons.Puppeteer,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         MaxRoleCount = 1,
         CanUseVent = OptionGroupSingleton<PuppeteerOptions>.Instance.CanVent
     };
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities =>
-    [
-        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Control", "Control"),
-            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Control.WikiDescription"),
-            TouImpAssets.ControlSprite),
-    ];
 
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities =>
@@ -163,7 +155,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             var controllerText = MiraLocaleManager.Get("TownOfUsMira.Role.PuppeteerControlNotifSelf");
             controllerNotification = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Impostor.ToTextColor()}{controllerText.Replace("<player>", Controlled.Data.PlayerName)}</color></b>",
-                Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Puppeteer.LoadAsset());
+                Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Puppeteer);
             controllerNotification.AdjustNotification();
             controllerNotification.alphaTimer = OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
         }
@@ -192,7 +184,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             return;
         }
 
-        if (target == null || target.Data == null || target.HasDied())
+        if (target?.Data == null || target.HasDied())
         {
             return;
         }
@@ -211,7 +203,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         Controlled = target;
         ControlTimer = OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
 
-        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.PuppeteerControl, puppeteer, target));
+        new TouAbilityEvent(AbilityType.PuppeteerControl, puppeteer, target).InvokeEvent();
 
         ControlState.SetControl(target.PlayerId, puppeteer.PlayerId);
         if (!target.HasModifier<PuppeteerControlModifier>())
@@ -250,10 +242,10 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         if (puppeteer.AmOwner)
         {
-            CustomButtonSingleton<TownOfUs.Buttons.Impostor.PuppeteerControlButton>.Instance.SetActive(true, this);
+            CustomButtonSingleton<Buttons.Impostor.PuppeteerControlButton>.Instance.SetActive(true, this);
             CreateNotification();
         }
-        else if (target.AmOwner && OptionGroupSingleton<PuppeteerOptions>.Instance.VictimSeesControlDirection.Value > 0)
+        else if (target.AmOwner && OptionGroupSingleton<PuppeteerOptions>.Instance.VictimSeesControlDirection > 0)
         {
             puppeteer.AddModifier<PuppeteerHintArrowModifier>(target);
         }
@@ -275,10 +267,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         if (target != null)
         {
             ControlState.ClearControl(target.PlayerId);
-            if (target.TryGetModifier<PuppeteerControlModifier>(out var mod))
-            {
-                target.RemoveModifier(mod);
-            }
+            target.TryRemoveModifier<PuppeteerControlModifier>();
 
             if (target.MyPhysics != null)
             {
@@ -291,7 +280,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
                 try
                 {
                     NetTransformBacklogUtils.FlushBacklog(target);
-                    
+
                     if (target.AmOwner)
                     {
                         target.NetTransform.SnapTo(finalPos);
@@ -338,7 +327,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
             if (puppeteer.AmOwner)
             {
-                var btn = CustomButtonSingleton<TownOfUs.Buttons.Impostor.PuppeteerControlButton>.Instance;
+                var btn = CustomButtonSingleton<Buttons.Impostor.PuppeteerControlButton>.Instance;
                 btn.ResetCooldownAndOrEffect();
             }
         }
@@ -354,18 +343,18 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             MiscUtils.RunAnticheatWarning(puppeteer);
             return;
         }
-        if (puppeteer.Data.Role is not PuppeteerRole role)
+        if (puppeteer.Data.Role is not PuppeteerRole { Controlled: { } puppet })
         {
             Error("RpcPuppeteerTriggerInteraction - Invalid puppeteer");
             return;
         }
 
-        if (controlled == null || controlled.Data == null || controlled.HasDied())
+        if (controlled?.Data == null || controlled.HasDied())
         {
             return;
         }
 
-        if (role.Controlled != controlled || !ControlState.IsControlled(controlled.PlayerId, out _))
+        if (puppet != controlled || !ControlState.IsControlled(controlled.PlayerId, out _))
         {
             return;
         }

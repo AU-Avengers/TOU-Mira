@@ -33,7 +33,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
     {
         TimeRemaining -= time;
         _dirtyTimer += time;
-            
+
         if (_dirtyTimer > 2f)
         {
             _dirtyTimer = 0f;
@@ -84,8 +84,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
                 if (spellslinger != null)
                 {
                     TouAchievementEvents.OnHexBombComplete(spellslinger.Player);
-                    foreach (var player in PlayerControl.AllPlayerControls.ToArray()
-                                 .Where(x => !x.HasDied() && !x.IsImpostorAligned()))
+                    foreach (var player in PlayerControl.AllPlayerControls.Where(x => !x.HasDied() && !x.IsImpostorAligned()))
                     {
                         GameHistory.UpdatePlayerDeathData(player, MiraLocaleManager.Get("DiedToSpellslingerHexBomb"), 0, HudManagerHelper.Instance.CurrentRound,
                             DeathHandlerOverride.SetTrue,
@@ -115,7 +114,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
                 BombFinished = true;
             }
         }
-        else if (Stage == HexBombStage.Countdown && !CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().HasAny())
+        else if (Stage == HexBombStage.Countdown && !CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().Any())
         {
             Stage = HexBombStage.SpellslingerDead;
             TimeRemaining = 3f;
@@ -146,9 +145,9 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
     }
 
     public void MarkClean()
-	{
-		IsDirty = false;
-	}
+    {
+        IsDirty = false;
+    }
 }
 
 public enum HexBombStage

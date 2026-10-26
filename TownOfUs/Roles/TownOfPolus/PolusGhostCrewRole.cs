@@ -27,7 +27,7 @@ public class PolusGhostCrewRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             }
 
             var role = Player.GetRoleWhenAlive();
-            return role is PolusBaseCrewRole polusRole ? polusRole.RoleDescriptionDead : role.BlurbLong;
+            return role is PolusBaseCrewRole { RoleDescriptionDead: var deadDesc } ? deadDesc : role.BlurbLong;
         }
     }
     public override void SpawnTaskHeader(PlayerControl playerControl)
@@ -64,7 +64,7 @@ public class PolusGhostCrewRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         ShowInFreeplay = false,
         AssociatedGameMode = typeof(TownOfPolusMode),
         FreeplayFolder = "Town of Polus",
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconCrewmate.LoadAsset(), "TownOfPolus.Role.Crewmate.Crewmate", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconCrewmate, "TownOfPolus.Role.Crewmate.Crewmate", 1.45f),
         Icon = PolusGgAssets.IconCrewmate
     };
     public override bool IsDead => true; // needed because we inherit from RoleBehaviour

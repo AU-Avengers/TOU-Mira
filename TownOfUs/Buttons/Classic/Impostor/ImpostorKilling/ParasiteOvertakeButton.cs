@@ -7,7 +7,6 @@ using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
@@ -149,7 +148,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -165,9 +164,9 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             return false;
         }
 
-        if (target.HasModifier<MedicShieldModifier>() && target.PlayerId != local.PlayerId)
+        if (target.TryGetModifier<MedicShieldModifier>(out var medicMod) && target.PlayerId != local.PlayerId)
         {
-            var medic = target.GetModifier<MedicShieldModifier>()?.Medic.GetRole<MedicRole>();
+            var medic = medicMod.Medic.GetRole<MedicRole>();
             if (medic != null && (TutorialManager.InstanceExists || local.AmOwner))
             {
                 MedicRole.RpcMedicShieldAttacked(local, medic.Player, target);
@@ -195,19 +194,19 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             return true;
         }
 
-        return target.GetModifiers<BaseShieldModifier>().HasAny();
+        return target.HasModifier<BaseShieldModifier>();
     }
 
     public override PlayerControl? GetTarget()
     {
-        if (PlayerControl.LocalPlayer.Data?.Role is not ParasiteRole pr)
+        if (PlayerControl.LocalPlayer.Data?.Role is not ParasiteRole { Controlled: var controlled })
         {
             return null;
         }
 
-        if (pr.Controlled != null)
+        if (controlled != null)
         {
-            return pr.Controlled;
+            return controlled;
         }
 
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(
@@ -219,7 +218,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 !plr.HasDied() &&
                 !plr.IsImpostorAligned() &&
                 !plr.IsInTargetingAnimState() &&
-                !plr.GetModifiers<BaseModifier>().Any(x => x is IUncontrollable) &&
+                !plr.HasModifierOfType<IUncontrollable>() &&
                 !plr.HasModifier<TownOfUs.Modifiers.Impostor.ParasiteInfectedModifier>());
     }
 
@@ -281,7 +280,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
         }
 
         var local = PlayerControl.LocalPlayer;
-        if (local?.Data?.Role is ParasiteRole pr && pr.Controlled != null)
+        if (local?.Data?.Role is ParasiteRole { Controlled: not null })
         {
             var duration = OptionGroupSingleton<ParasiteOptions>.Instance.ControlDuration;
             if (duration > 0f)
@@ -298,14 +297,14 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 ClearAutoDecayCountdownVisual();
             }
 
-            Button.graphic?.sprite = TouAssets.KillSprite.LoadAsset();
+            Button.graphic?.sprite = TouAssets.KillSprite;
         }
         else
         {
             OverrideName(_infectName);
             ClearAutoDecayCountdownVisual();
 
-            Button.graphic?.sprite = TouImpAssets.OvertakeSprite.LoadAsset();
+            Button.graphic?.sprite = TouImpAssets.OvertakeSprite;
         }
 
         base.FixedUpdate(playerControl);
@@ -341,7 +340,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
 
     public override void OnEffectEnd()
     {
-        if (PlayerControl.LocalPlayer?.Data?.Role is ParasiteRole pr && pr.Controlled != null)
+        if (PlayerControl.LocalPlayer?.Data?.Role is ParasiteRole { Controlled: not null } pr)
         {
             pr.KillControlledFromTimer();
         }
@@ -356,7 +355,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
 
         if (Button.usesRemainingSprite != null)
         {
-            Button.usesRemainingSprite.sprite = TouAssets.TimerImpSprite.LoadAsset();
+            Button.usesRemainingSprite.sprite = TouAssets.TimerImpSprite;
             Button.usesRemainingSprite.gameObject.SetActive(true);
 
             var endUrgency = Mathf.Clamp01((5f - remainingSeconds) / 5f);
@@ -473,35 +472,28 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             return;
         }
 
-        if (pr.Controlled != null &&
-            pr.Controlled.Data != null &&
-            !pr.Controlled.HasDied() &&
-            !pr.Controlled.Data.Disconnected &&
-            ParasiteRole.ControlState.IsControlled(pr.Controlled.PlayerId, out _))
+        var controlled = pr.Controlled;
+        if (controlled != null)
         {
-            if (pr.GetOvertakeKillLockoutRemainingSeconds() > 0f)
+            var toKill = controlled.Data != null &&
+                         !controlled.HasDied() &&
+                         !controlled.Data.Disconnected &&
+                         ParasiteRole.ControlState.IsControlled(controlled.PlayerId, out _);
+
+            if (toKill)
             {
-                return;
+                if (pr.GetOvertakeKillLockoutRemainingSeconds() > 0f)
+                {
+                    return;
+                }
+
+                if (controlled.IsInTargetingAnimState() || controlled.inVent)
+                {
+                    return;
+                }
             }
 
-            if (pr.Controlled.IsInTargetingAnimState() || 
-                pr.Controlled.inVent || 
-                pr.Controlled.inMovingPlat || 
-                pr.Controlled.onLadder || 
-                pr.Controlled.walkingToVent)
-            {
-                return;
-            }
-
-            var target = pr.Controlled;
-
-            ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position, !target.HasDied());
-            return;
-        }
-
-        if (pr.Controlled != null)
-        {
-            ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, pr.Controlled, pr.Controlled.transform.position, false);
+            ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, controlled, controlled.transform.position, toKill);
             return;
         }
 

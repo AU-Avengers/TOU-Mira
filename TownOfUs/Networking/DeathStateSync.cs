@@ -52,7 +52,7 @@ public static class DeathStateSync
             return;
         }
 
-        if (target.Data.Role is IGhostRole ghostRole && ghostRole.GhostActive)
+        if (target.Data.Role is IGhostRole { GhostActive: true })
         {
             return;
         }
@@ -113,7 +113,7 @@ public static class DeathStateSync
                 continue;
             }
 
-            if (player.Data.Role is IGhostRole ghostRole && ghostRole.GhostActive)
+            if (player.Data.Role is IGhostRole { GhostActive: true })
             {
                 continue;
             }

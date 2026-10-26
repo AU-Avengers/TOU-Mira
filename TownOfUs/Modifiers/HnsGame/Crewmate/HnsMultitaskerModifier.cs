@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
-using TownOfUs.Modules.Components;
 using TownOfUs.Options.Modifiers;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ public sealed class HnsMultitaskerModifier : HnsGameModifier
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Multitasker,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Multitasker.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Multitasker,
             "TouMira.Modifier.HnS.Hider.Multitasker", 1.45f));
     public override string IdPart => "Multitasker";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Multitasker;
@@ -24,12 +23,12 @@ public sealed class HnsMultitaskerModifier : HnsGameModifier
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.MultitaskerChance;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.MultitaskerChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.MultitaskerAmount;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.MultitaskerAmount;
     }
 
     public override void Update()

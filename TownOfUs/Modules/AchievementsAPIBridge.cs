@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using AchievementsAPI;
 using AchievementsAPI.API;
 using Reactor.Localization.Utilities;
 using TownOfUs.Achievements;
-using TownOfUs.Assets;
 using UnityEngine;
 
 namespace TownOfUs.Modules;
@@ -49,10 +46,10 @@ internal static class AchievementsAPIBridge
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static void RegisterTouCategoryIcons()
     {
-        AchievementsManager.GetCategory(AchievementCategories.General)?.SetDefaultIcon(() => TouRoleIcons.Mayor.LoadAsset());
-        AchievementsManager.GetCategory(AchievementCategories.Crewmate)?.SetDefaultIcon(() => TouRoleIcons.Crewmate.LoadAsset());
-        AchievementsManager.GetCategory(AchievementCategories.Impostor)?.SetDefaultIcon(() => TouRoleIcons.Impostor.LoadAsset());
-        AchievementsManager.GetCategory(AchievementCategories.Neutral)?.SetDefaultIcon(() => TouRoleIcons.Neutral.LoadAsset());
+        AchievementsManager.GetCategory(AchievementCategories.General)?.SetDefaultIcon(() => TouRoleIcons.Mayor);
+        AchievementsManager.GetCategory(AchievementCategories.Crewmate)?.SetDefaultIcon(() => TouRoleIcons.Crewmate);
+        AchievementsManager.GetCategory(AchievementCategories.Impostor)?.SetDefaultIcon(() => TouRoleIcons.Impostor);
+        AchievementsManager.GetCategory(AchievementCategories.Neutral)?.SetDefaultIcon(() => TouRoleIcons.Neutral);
     }
 
     /// <summary>
@@ -179,10 +176,10 @@ internal static class AchievementsAPIBridge
 
     private static void ApplyArt(BaseAchievement achievement, AchievementSpec spec, AchievementArt? art)
     {
-        Func<Sprite?> iconProvider = () => spec.Icon.LoadAsset();
-        var subIconProvider = spec.SubIcon != null ? () => spec.SubIcon.LoadAsset() : (Func<Sprite?>?)null;
-        var menuBgProvider = art?.MenuBg != null ? () => art.MenuBg.LoadAsset() : (Func<Sprite?>?)null;
-        var toastBgProvider = art?.ToastBg != null ? () => art.ToastBg.LoadAsset() : (Func<Sprite?>?)null;
+        Func<Sprite?> iconProvider = () => spec.Icon;
+        var subIconProvider = spec.SubIcon != null ? () => spec.SubIcon : (Func<Sprite?>?)null;
+        var menuBgProvider = art?.MenuBg != null ? () => art.MenuBg : (Func<Sprite?>?)null;
+        var toastBgProvider = art?.ToastBg != null ? () => art.ToastBg : (Func<Sprite?>?)null;
         var tooltip = spec.SubIconTooltip;
         var subIconTooltipProvider = tooltip != null
             ? (Func<string?>)(() => MiraLocaleManager.Get(tooltip, tooltip))

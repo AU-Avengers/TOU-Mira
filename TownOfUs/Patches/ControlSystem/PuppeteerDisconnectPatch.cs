@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Patches.ControlSystem;
@@ -29,21 +28,15 @@ public static class PuppeteerDisconnectPatch
             {
                 PuppeteerRole.ControlState.ClearControl(player.PlayerId);
 
-                if (player.TryGetModifier<PuppeteerControlModifier>(out var mod))
-                {
-                    player.RemoveModifier(mod);
-                }
+                player.TryRemoveModifier<PuppeteerControlModifier>();
             }
         }
 
-        if (player.Data?.Role is PuppeteerRole role && role.Controlled != null)
+        if (player.Data?.Role is PuppeteerRole { Controlled: { } controlled })
         {
-            PuppeteerRole.RpcPuppeteerEndControl(player, role.Controlled, player.transform.position);
+            PuppeteerRole.RpcPuppeteerEndControl(player, controlled, player.transform.position);
         }
 
-        if (player.TryGetModifier<PuppeteerControlModifier>(out var mod2))
-        {
-            player.RemoveModifier(mod2);
-        }
+        player.TryRemoveModifier<PuppeteerControlModifier>();
     }
 }

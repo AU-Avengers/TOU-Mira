@@ -213,7 +213,7 @@ public static class SentryCameraMinigameUtilities
 
         var original = ShipStatus.Instance.AllCameras;
         var isLocalDead = PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.Data && PlayerControl.LocalPlayer.Data.IsDead;
-        
+
         var sentryCameraIds = new HashSet<int>();
         foreach (var cameraPair in SentryRole.Cameras)
         {
@@ -222,8 +222,8 @@ public static class SentryCameraMinigameUtilities
                 sentryCameraIds.Add(cameraPair.Key.GetInstanceID());
             }
         }
-        
-        var filtered = original.Where(c => 
+
+        var filtered = original.Where(c =>
         {
             if (c == null) return false;
             if (isLocalDead && sentryCameraIds.Contains(c.GetInstanceID()) && !IsPendingCamera(c))
@@ -232,7 +232,7 @@ public static class SentryCameraMinigameUtilities
             }
             return !IsPendingCamera(c);
         }).ToArray();
-        
+
         OriginalAllCamerasByMinigameId[id] = original;
         ShipStatus.Instance.AllCameras = filtered;
     }
@@ -271,5 +271,5 @@ public static class SentryCameraMinigameUtilities
         }
     }
 
-    private static readonly System.Collections.Generic.Dictionary<int, SurvCamera[]?> OriginalAllCamerasByMinigameId = [];
+    private static readonly Dictionary<int, SurvCamera[]?> OriginalAllCamerasByMinigameId = [];
 }

@@ -15,7 +15,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
     public override float Duration => OptionGroupSingleton<FairyOptions>.Instance.ProtectDuration;
     public override string ModifierName => "Protected";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Fairy;
-  public override string ShieldDescription => MiraLocaleManager.Get("TownOfUsMira.Modifier.GuardianAngelProtectedDescription");
+    public override string ShieldDescription => MiraLocaleManager.Get("TownOfUsMira.Modifier.GuardianAngelProtectedDescription");
     public override bool AutoStart => true;
     public PlayerControl Guardian => guardianAngel;
 
@@ -33,7 +33,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
     public override void OnActivate()
     {
         var touAbilityEvent = new TouAbilityEvent(AbilityType.FairyProtect, Guardian, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         var showProtect = OptionGroupSingleton<FairyOptions>.Instance.ShowProtect;
@@ -46,9 +46,9 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
         var showProtectFairy = PlayerControl.LocalPlayer.PlayerId == ga?.Player.PlayerId &&
                             showProtect is ProtectOptions.Fairy or ProtectOptions.SelfAndFairy;
 
-        var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
+        var body = Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
+        var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
         if (showProtectEveryone || showProtectSelf || showProtectFairy || (PlayerControl.LocalPlayer.HasDied() &&
                                                                         genOpt.TheDeadKnow && !body &&
@@ -79,11 +79,11 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
 
     public override void OnMeetingStart()
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 }

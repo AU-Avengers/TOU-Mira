@@ -14,7 +14,6 @@ using MiraAPI.Patches.Stubs;
 using TownOfUs.Achievements;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Game.Alliance;
-using TownOfUs.Modules;
 
 namespace TownOfUs.Roles.Crewmate;
 
@@ -50,7 +49,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Monarch.LoadAsset(), "TouMira.Role.Crewmate.Monarch", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Monarch, "TouMira.Role.Crewmate.Monarch", 1.45f),
         Icon = TouRoleIcons.Monarch,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.ToppatIntroSound,
@@ -85,21 +84,6 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Knight", "Knight"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}KnightDescription").Replace("<amount>",
-                        ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)),
-                    TouCrewAssets.KnightSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get
@@ -109,7 +93,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
                 new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Knight", "Knight"),
                     MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
                     MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}KnightDescription").Replace("<amount>",
-                        ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)),
+                        (OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)),
                     TouCrewAssets.KnightSprite)
             ];
         }
@@ -129,7 +113,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
             return;
         }
         var targetName = target.CachedPlayerData.PlayerName;
-        var icon = TouRoleIcons.Monarch.LoadAsset();
+        var icon = TouRoleIcons.Monarch;
 
         if (target.HasDied())
         {
@@ -143,7 +127,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         target.AddModifier<KnightedModifier>();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MonarchKnight, player, target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (player.AmOwner)
         {
@@ -152,9 +136,9 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
         if (target.AmOwner && !OptionGroupSingleton<MonarchOptions>.Instance.RevealAtMeeting)
         {
-            if (target.Data.Role is MayorRole mayor && mayor.Revealed)
+            if (target.Data.Role is MayorRole { Revealed: true })
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.RiggedVotes);
+                TouAchievements.RiggedVotes.Unlock();
             }
             ShowNotification(MiraLocaleManager.Get("TownOfUsMira.Role.MonarchKnightedFeedback").Replace("<role>", $"{TownOfUsColors.Monarch.ToTextColor()}{monarch.GetRoleName()}</color>").Replace("<votes>", ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)));
         }

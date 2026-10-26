@@ -1,10 +1,10 @@
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using BepInEx;
 using BepInEx.Unity.IL2CPP;
-using CorsacCosmetics.Cosmetics;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using MiraAPI;
@@ -153,6 +153,7 @@ public static class ModCompatibility
         InternalModList = sBuilder.ToString();
     }
 
+    [SuppressMessage("Major Code Smell", "S3011:Reflection should not be used to increase accessibility of classes, methods, or fields", Justification = "It is safe.")]
     private static void InitApiExposing()
     {
         if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(MiraApiPlugin.Id, out var value))
@@ -307,11 +308,11 @@ public static class ModCompatibility
     ];
 
     public static readonly CorsacUtils.QuickPetMetadata[] Pets =
-    {
+    [
         new ("Black Minipostor", "BlackMinipostorPet.prefab", false),
         new ("Flopster", "FlopsterPet.prefab", false),
         new ("Tortellini", "TortelliniPet.prefab", false)
-    };
+    ];
     public static void InitCorsac()
     {
         if (TownOfUsPlugin.AutoDownloadCosmetics.Value)
@@ -386,7 +387,7 @@ public static class ModCompatibility
 
         SubmarineSurvillanceMinigameType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSurvillanceMinigame")!;
         SubmarineSecuritySabotageSystemType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSecuritySabotageSystem")!;
-        
+
         var floorButtonPatch = SubTypes.First(t => t.Name == "ChangeFloorButtonPatches");
         var floorButtonStyleMethod = AccessTools.Method(floorButtonPatch, "SetButtonStyle", [typeof(bool)]);
 
@@ -399,7 +400,7 @@ public static class ModCompatibility
             types,
             null
         );
-            
+
         var compatType = typeof(ModCompatibility);
         var harmony = new Harmony("tou.submerged.patch");
 
@@ -428,13 +429,13 @@ public static class ModCompatibility
         {
             if (isMovingUp)
             {
-                basicRend.sprite = TouAssets.SubmergedFloorUp.LoadAsset();
-                hoverRend.sprite = TouAssets.SubmergedFloorUpHover.LoadAsset();
+                basicRend.sprite = TouAssets.SubmergedFloorUp;
+                hoverRend.sprite = TouAssets.SubmergedFloorUpHover;
             }
             else
             {
-                basicRend.sprite = TouAssets.SubmergedFloorDown.LoadAsset();
-                hoverRend.sprite = TouAssets.SubmergedFloorDownHover.LoadAsset();
+                basicRend.sprite = TouAssets.SubmergedFloorDown;
+                hoverRend.sprite = TouAssets.SubmergedFloorDownHover;
             }
         }
 
@@ -549,7 +550,7 @@ public static class ModCompatibility
             lockInfo: DeathHandlerOverride.SetTrue);
     }
 
-public static string SelectedRoleName;
+    public static string SelectedRoleName;
     public static bool SelectedRoleStatus = true;
     public static void AdjustRoleBehaviour(object __instance, ref bool __state)
     {
@@ -614,7 +615,7 @@ public static string SelectedRoleName;
             return;
         }
 
-        if (PlayerControl.LocalPlayer.Data.Role is IGhostRole ghost && !ghost.Caught)
+        if (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: false } ghost)
         {
             var startingVent =
                 ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
@@ -642,7 +643,7 @@ public static string SelectedRoleName;
         {
             var player = __instance.myPlayer;
 
-            if (player.Data.Role is IGhostRole ghost && ghost.GhostActive)
+            if (player.Data.Role is IGhostRole { GhostActive: true })
             {
                 if (player.AmOwner)
                 {

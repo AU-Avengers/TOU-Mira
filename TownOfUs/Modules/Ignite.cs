@@ -19,7 +19,7 @@ public sealed class Ignite
         var igniteRadius = OptionGroupSingleton<ArsonistOptions>.Instance.IgniteRadius.Value;
 
         var gameObject = MiscUtils.CreateSpherePrimitive(location, igniteRadius);
-        gameObject.GetComponent<MeshRenderer>().material = AuAvengersAnims.IgniteMaterial.LoadAsset();
+        gameObject.GetComponent<MeshRenderer>().material = AuAvengersAnims.IgniteMaterial;
 
         var ignite = new Ignite
         {

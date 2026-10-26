@@ -15,7 +15,7 @@ public sealed class InquisitorInquireButton : TownOfUsRoleButton<InquisitorRole,
 {
     public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorInquire", "Inquire");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
-    public override int MaxUses => (int)OptionGroupSingleton<InquisitorOptions>.Instance.MaxUses;
+    public override int MaxUses => OptionGroupSingleton<InquisitorOptions>.Instance.MaxUses;
     public override Color TextOutlineColor => TownOfUsColors.Inquisitor;
 
     public override float Cooldown =>
@@ -41,7 +41,7 @@ public sealed class InquisitorInquireButton : TownOfUsRoleButton<InquisitorRole,
             return;
         }
 
-        if (ModifierUtils.GetActiveModifiers<InquisitorInquiredModifier>().HasAny())
+        if (ModifierUtils.GetActiveModifiers<InquisitorInquiredModifier>().Any())
         {
             ++UsesLeft;
             SetUses(UsesLeft);
@@ -52,11 +52,11 @@ public sealed class InquisitorInquireButton : TownOfUsRoleButton<InquisitorRole,
 
         Target.AddModifier<InquisitorInquiredModifier>();
 
-        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.InquisitorInquire, PlayerControl.LocalPlayer, Target));
+        new TouAbilityEvent(AbilityType.InquisitorInquire, PlayerControl.LocalPlayer, Target).InvokeEvent();
 
         var notif1 = Helpers.CreateAndShowNotification(
             MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorInquireNotif").Replace("<player>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{Target.Data.PlayerName}</color>"),
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor);
 
         notif1.AdjustNotification();
     }

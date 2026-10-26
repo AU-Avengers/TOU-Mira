@@ -60,7 +60,7 @@ internal sealed class MultiplayerFreeplayRequestRpc(TownOfUsPlugin plugin, uint 
 
         if (TutorialManager.InstanceExists ||
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started ||
-            !OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay.Value)
+            !OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay)
         {
             return;
         }
@@ -160,12 +160,12 @@ internal sealed class MultiplayerFreeplayRequestRpc(TownOfUsPlugin plugin, uint 
             return;
         }
 
-        var existing = target.GetModifiers<BaseModifier>().Where(x => x.GetType() == modifierType).ToList();
-        if (existing.Count > 0)
+        var existing = target.GetModifiers<BaseModifier>(x => x.GetType() == modifierType);
+        if (existing.Any())
         {
             foreach (var mod in existing)
             {
-                comp.RemoveModifier(mod);
+                mod.RemoveSelf();
             }
 
             return;
@@ -176,10 +176,7 @@ internal sealed class MultiplayerFreeplayRequestRpc(TownOfUsPlugin plugin, uint 
             return;
         }
 
-        if (Activator.CreateInstance(modifierType) is BaseModifier instance)
-        {
-            comp.AddModifier(instance);
-        }
+        comp.AddModifier(modifierType);
     }
 
     private static void HandleSetLovers(byte loverAId, byte loverBId)

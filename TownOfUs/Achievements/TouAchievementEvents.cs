@@ -132,7 +132,7 @@ public static class TouAchievementEvents
     public static void OnEngineerCriticalFix(PlayerControl engineer)
     {
         if (!AchievementsAPIHelper.IsLoaded || !engineer.AmOwner ||
-            AchievementsAPIHelper.IsUnlocked(TouAchievements.HeroHour))
+            TouAchievements.HeroHour.IsUnlocked())
         {
             return;
         }
@@ -141,7 +141,7 @@ public static class TouAchievementEvents
         {
             if (system.TryCast<ICriticalSabotage>() is { IsActive: true, Countdown: <= 5f })
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.HeroHour);
+                TouAchievements.HeroHour.Unlock();
                 break;
             }
         }
@@ -157,7 +157,7 @@ public static class TouAchievementEvents
             return;
         }
 
-        AchievementsAPIHelper.Unlock(TouAchievements.MassResurrection);
+        TouAchievements.MassResurrection.Unlock();
     }
 
     /// <summary>
@@ -170,7 +170,7 @@ public static class TouAchievementEvents
             return;
         }
 
-        AchievementsAPIHelper.Unlock(TouAchievements.FailedAmbush);
+        TouAchievements.FailedAmbush.Unlock();
     }
 
     [RegisterEvent]
@@ -184,7 +184,7 @@ public static class TouAchievementEvents
         // Failed Ambush: die while mid-ambush (has AmbusherConcealedModifier)
         if (@event.Player.AmOwner && @event.Player.HasModifier<AmbusherConcealedModifier>())
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.FailedAmbush);
+            TouAchievements.FailedAmbush.Unlock();
         }
 
         var victim = @event.Player;
@@ -196,13 +196,13 @@ public static class TouAchievementEvents
         // Lost Cause: a player the local Altruist revived dies again.
         if (AltruistRevivedIds.Remove(victim.PlayerId))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.LostCause);
+            TouAchievements.LostCause.Unlock();
         }
 
         // Nullified Protection: the Warden's fortified player died anyway.
-        if (victim.TryGetModifier<WardenFortifiedModifier>(out var fortifiedMod) && fortifiedMod.Warden.AmOwner)
+        if (victim.HasModifier<WardenFortifiedModifier>(fortifiedMod => fortifiedMod.Warden.AmOwner))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.NullifiedProtection);
+            TouAchievements.NullifiedProtection.Unlock();
         }
 
         if (!victim.AmOwner || local == null)
@@ -213,7 +213,7 @@ public static class TouAchievementEvents
         // Too Slow: the Snitch died after being revealed to the evils.
         if (@event.DeathReason != DeathReason.Exile && victim.GetRoleWhenAlive() is SnitchRole { OnLastTask: true })
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.TooSlow);
+            TouAchievements.TooSlow.Unlock();
         }
 
         // Cultural Discharge: the Spellslinger died while their Hex Bomb is running.
@@ -222,7 +222,7 @@ public static class TouAchievementEvents
                 out var hexBombSystem) &&
             hexBombSystem.TryCast<HexBombSabotageSystem>() is { IsActive: true })
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.CulturalDischarge);
+            TouAchievements.CulturalDischarge.Unlock();
         }
 
         // Off-The-Glock: the Spy died while using the Admin Table.
@@ -231,7 +231,7 @@ public static class TouAchievementEvents
               MapBehaviour.Instance.countOverlay.gameObject.activeSelf) ||
              UnityEngine.Object.FindObjectOfType<MapCountOverlay>()?.gameObject.activeSelf == true))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.OffTheGlock);
+            TouAchievements.OffTheGlock.Unlock();
         }
     }
 
@@ -246,7 +246,7 @@ public static class TouAchievementEvents
         }
 
         _hexBombCompleted = true;
-        AchievementsAPIHelper.Unlock(TouAchievements.Detonation);
+        TouAchievements.Detonation.Unlock();
     }
 
     /// <summary>
@@ -280,10 +280,10 @@ public static class TouAchievementEvents
         _snitchCompletedTasks = true;
 
         // Dead Tell No Tales: every evil the snitch can reveal is already dead.
-        var evils = PlayerControl.AllPlayerControls.ToArray().Where(SnitchRole.IsTargetOfSnitch).ToList();
-        if (evils.Count != 0 && evils.All(x => x.HasDied()))
+        var evils = PlayerControl.AllPlayerControls.Where(SnitchRole.IsTargetOfSnitch);
+        if (evils.Any() && evils.All(x => x.HasDied()))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.DeadTellNoTales);
+            TouAchievements.DeadTellNoTales.Unlock();
         }
     }
 
@@ -299,7 +299,7 @@ public static class TouAchievementEvents
 
         if (roleCount >= 5)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.RoleCollector);
+            TouAchievements.RoleCollector.Unlock();
         }
     }
 
@@ -315,7 +315,7 @@ public static class TouAchievementEvents
 
         if (target.PlayerId == attackerId)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.ReturnToSender);
+            TouAchievements.ReturnToSender.Unlock();
         }
     }
 
@@ -329,7 +329,7 @@ public static class TouAchievementEvents
             return;
         }
 
-        AchievementsAPIHelper.Unlock(TouAchievements.HolyBlessing);
+        TouAchievements.HolyBlessing.Unlock();
     }
 
     /// <summary>
@@ -342,7 +342,7 @@ public static class TouAchievementEvents
             return;
         }
 
-        AchievementsAPIHelper.Unlock(TouAchievements.NoConfessions);
+        TouAchievements.NoConfessions.Unlock();
     }
 
     /// <summary>
@@ -381,7 +381,7 @@ public static class TouAchievementEvents
         // No You: the local player served a drink back to someone who served them this round.
         if (ServedLocalIds.Contains(target.PlayerId))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.PartyOfTwo);
+            TouAchievements.PartyOfTwo.Unlock();
         }
 
         if (server.Data.Role is not BootleggerRole)
@@ -402,7 +402,7 @@ public static class TouAchievementEvents
 
         if (_bootlegServeCount >= 3)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Blackout);
+            TouAchievements.Blackout.Unlock();
         }
     }
 
@@ -416,7 +416,7 @@ public static class TouAchievementEvents
             return;
         }
 
-        AchievementsAPIHelper.Unlock(TouAchievements.Poisoner);
+        TouAchievements.Poisoner.Unlock();
     }
 
     /// <summary>
@@ -429,7 +429,7 @@ public static class TouAchievementEvents
             return;
         }
 
-        AchievementsAPIHelper.Unlock(TouAchievements.Fireproof);
+        TouAchievements.Fireproof.Unlock();
     }
 
     /// <summary>
@@ -448,7 +448,7 @@ public static class TouAchievementEvents
         // All Bark No Bite: the rampage ran out naturally without any kills.
         if (_rampageKills == 0 && !MeetingHud.Instance && !ExileController.Instance)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.AllBarkNoBite);
+            TouAchievements.AllBarkNoBite.Unlock();
         }
     }
 
@@ -466,9 +466,9 @@ public static class TouAchievementEvents
 
         // Stolen Valor: an Imitator who became the Jailor uses the jailor chat while someone is jailed.
         if (local.Data?.Role is JailorRole && local.HasModifier<ImitatorCacheModifier>() &&
-            PlayerControl.AllPlayerControls.ToArray().Any(x => !x.HasDied() && x.IsJailed()))
+            PlayerControl.AllPlayerControls.Any(x => !x.HasDied() && x.IsJailed()))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.StolenValor);
+            TouAchievements.StolenValor.Unlock();
         }
     }
 
@@ -500,7 +500,7 @@ public static class TouAchievementEvents
         if (DoomsayerObservedRoleLists.TryGetValue(targetId, out var listedRoles) &&
             !listedRoles.Contains(guessedRole))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.BlindFaith);
+            TouAchievements.BlindFaith.Unlock();
         }
     }
 
@@ -514,7 +514,7 @@ public static class TouAchievementEvents
             return;
         }
 
-        AchievementsAPIHelper.Unlock(TouAchievements.Evolution);
+        TouAchievements.Evolution.Unlock();
     }
 
     /// <summary>
@@ -543,32 +543,32 @@ public static class TouAchievementEvents
             case AbilityType.ClericCleanse when @event.Player.AmOwner:
                 if (@event.Target is PlayerControl cleansed && cleansed.HasModifier<SpellslingerHexedModifier>())
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.Exorcist);
+                    TouAchievements.Exorcist.Unlock();
                 }
 
                 if (int.TryParse(@event.Result, out var cleansedEffects) && cleansedEffects >= 3)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.HowDidWeGetHere);
+                    TouAchievements.HowDidWeGetHere.Unlock();
                 }
 
                 break;
 
             case AbilityType.ClericBarrier when @event.Player.AmOwner && @event.Result == "Blocked" &&
                                                IsLoverOf(@event.Target, PlayerControl.LocalPlayer):
-                AchievementsAPIHelper.Unlock(TouAchievements.YoureSafeWithMe);
+                TouAchievements.YoureSafeWithMe.Unlock();
                 break;
 
             case AbilityType.WardenProtect when @event.Player.AmOwner &&
                                                IsLoverOf(@event.Target, PlayerControl.LocalPlayer):
-                AchievementsAPIHelper.Unlock(TouAchievements.YoureSafeWithMe);
+                TouAchievements.YoureSafeWithMe.Unlock();
                 break;
 
             // Divine Protector: the Fairy's protection fended off an attacker.
             case AbilityType.FairyProtected when @event.Player.AmOwner:
-                AchievementsAPIHelper.Unlock(TouAchievements.DivineProtector);
+                TouAchievements.DivineProtector.Unlock();
                 if (IsLoverOf(@event.Target, PlayerControl.LocalPlayer))
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.YoureSafeWithMe);
+                    TouAchievements.YoureSafeWithMe.Unlock();
                 }
 
                 break;
@@ -581,36 +581,32 @@ public static class TouAchievementEvents
                     var pairKey = Math.Min(seerA.PlayerId, seerB.PlayerId) * 256 + Math.Max(seerA.PlayerId, seerB.PlayerId);
                     if (SeerEnemyPairs.Add(pairKey))
                     {
-                        AchievementsAPIHelper.Increment(TouAchievements.TownOfHatred, 1);
+                        TouAchievements.TownOfHatred.Increment(1);
                     }
                 }
-                else
-                {
-                    var roleA = seerA.GetRoleWhenAlive();
-                    var roleB = seerB.GetRoleWhenAlive();
-                    if (!seerA.IsCrewmate() && !seerB.IsCrewmate() && roleA != null && roleB != null &&
+                else if (!seerA.IsCrewmate() && !seerB.IsCrewmate() &&
+                        seerA.GetRoleWhenAlive() is { } roleA && seerB.GetRoleWhenAlive() is { } roleB &&
                         (roleA.Role == roleB.Role ||
                          roleA is ITownOfUsRole touA && roleB is ITownOfUsRole touB &&
                          touA.RoleAlignment == touB.RoleAlignment))
-                    {
-                        AchievementsAPIHelper.Unlock(TouAchievements.RoleTwins);
-                    }
+                {
+                    TouAchievements.RoleTwins.Unlock();
                 }
 
                 break;
 
             case AbilityType.SonarTrack when @event.Player.AmOwner:
-            {
-                var tracked = PlayerControl.AllPlayerControls.ToArray().Count(x =>
-                    x.TryGetModifier<SonarArrowTargetModifier>(out var arrowMod) && arrowMod.Owner.AmOwner ||
-                    x.TryGetModifier<SonarHeartbeatTargetModifier>(out var pingMod) && pingMod.Owner.AmOwner);
-                if (tracked > 5)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.Hyperfocused);
-                }
+                    var tracked = PlayerControl.AllPlayerControls.Count(x =>
+                        x.HasModifier<SonarArrowTargetModifier>(arrowMod => arrowMod.Owner.AmOwner) ||
+                        x.HasModifier<SonarHeartbeatTargetModifier>(pingMod => pingMod.Owner.AmOwner));
+                    if (tracked > 5)
+                    {
+                        TouAchievements.Hyperfocused.Unlock();
+                    }
 
-                break;
-            }
+                    break;
+                }
 
             case AbilityType.HunterStalk when @event.Player.AmOwner && @event.Target is PlayerControl stalked:
                 HunterStalkedIds.Add(stalked.PlayerId);
@@ -619,12 +615,12 @@ public static class TouAchievementEvents
             case AbilityType.HunterRetribution when @event.Player.AmOwner && @event.Target is PlayerControl retTarget:
                 if (IsEvil(retTarget))
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.Punisher);
+                    TouAchievements.Punisher.Unlock();
                 }
 
                 if (HunterStalkedIds.Contains(retTarget.PlayerId))
                 {
-                    AchievementsAPIHelper.Increment(TouAchievements.HuntingSeason, 1);
+                    TouAchievements.HuntingSeason.Increment(1);
                 }
 
                 break;
@@ -633,7 +629,7 @@ public static class TouAchievementEvents
                 _prosecutions++;
                 if (_prosecutions >= 2)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.TheFinalSay);
+                    TouAchievements.TheFinalSay.Unlock();
                 }
 
                 break;
@@ -641,7 +637,7 @@ public static class TouAchievementEvents
             case AbilityType.EngineerFix when @event.Player.AmOwner && @event.Result != "Critical":
                 if (Time.time - _sabotageStartTime <= 5f)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.Mechanic);
+                    TouAchievements.Mechanic.Unlock();
                 }
 
                 break;
@@ -650,30 +646,30 @@ public static class TouAchievementEvents
                 PendingAltruistRevives.Add(revived.PlayerId);
                 break;
 
-            case AbilityType.SentryPlaceCam when @event.Player.AmOwner && @event.Target is SurvCamera camera:
-            {
-                var camPos = camera.transform.position;
-                var inSecurity = false;
-                foreach (var room in ShipStatus.Instance.FastRooms.Values)
+            case AbilityType.SentryPlaceCam
+                when @event.Player.AmOwner && @event.Target is SurvCamera { transform.position: var camPos }:
                 {
-                    if (room.RoomId == SystemTypes.Security && room.roomArea && room.roomArea.OverlapPoint(camPos))
+                    var inSecurity = false;
+                    foreach (var room in ShipStatus.Instance.FastRooms.Values)
                     {
-                        inSecurity = true;
-                        break;
+                        if (room.RoomId == SystemTypes.Security && room.roomArea && room.roomArea.OverlapPoint(camPos))
+                        {
+                            inSecurity = true;
+                            break;
+                        }
                     }
-                }
-                if (inSecurity)
-                {
-                    AchievementsAPIHelper.Unlock(TouAchievements.ExtraSecure);
-                }
+                    if (inSecurity)
+                    {
+                        TouAchievements.ExtraSecure.Unlock();
+                    }
 
-                break;
-            }
+                    break;
+                }
 
             case AbilityType.TransporterTransport when @event.Player.AmOwner:
                 if (@event.Target is DeadBody && @event.Target2 is DeadBody)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.PotatoTomato);
+                    TouAchievements.PotatoTomato.Unlock();
                 }
 
                 if (@event.Target is StonedPlayer stone1 && stone1.ProgressStage > StoneStage.Frozen ||
@@ -691,8 +687,8 @@ public static class TouAchievementEvents
                 break;
 
             case AbilityType.BlackmailerBlackmail
-                when @event.Target is PlayerControl bmTarget && bmTarget.AmOwner && _snitchRevealedLastMeeting:
-                AchievementsAPIHelper.Unlock(TouAchievements.SeeSomethingSayNothing);
+                when @event.Target is PlayerControl { AmOwner: true } && _snitchRevealedLastMeeting:
+                TouAchievements.SeeSomethingSayNothing.Unlock();
                 break;
 
             case AbilityType.VeteranAlert when @event.Player.AmOwner:
@@ -700,14 +696,14 @@ public static class TouAchievementEvents
                 break;
 
             case AbilityType.PlumberFlush
-                when @event.Player.AmOwner && PlayerControl.AllPlayerControls.ToArray().Any(x => x.inVent):
-                AchievementsAPIHelper.Unlock(TouAchievements.FlushedOut);
+                when @event.Player.AmOwner && PlayerControl.AllPlayerControls.Any(x => x.inVent):
+                TouAchievements.FlushedOut.Unlock();
                 break;
 
             case AbilityType.BlackmailerBlackmail
                 when @event.Player.AmOwner && @event.Target is PlayerControl blackmailed &&
                      blackmailed.PlayerId == _meetingReporterId:
-                AchievementsAPIHelper.Unlock(TouAchievements.HushMoney);
+                TouAchievements.HushMoney.Unlock();
                 break;
 
             case AbilityType.HypnotistHysteria when @event.Player.AmOwner && @event.Target is PlayerControl hypnotised:
@@ -720,42 +716,42 @@ public static class TouAchievementEvents
                 HysteriaTargets.Add(hypnotised.PlayerId);
                 if (HysteriaTargets.Count >= 4)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.MassHysteria);
+                    TouAchievements.MassHysteria.Unlock();
                 }
 
                 // Horsing Around: hysteria triggered while every living non-Impostor is hypnotized.
-                var livingNonImpOthers = PlayerControl.AllPlayerControls.ToArray().Count(x =>
+                var livingNonImpOthers = PlayerControl.AllPlayerControls.Count(x =>
                     !x.AmOwner && !x.HasDied() && !x.Data.Disconnected && !x.IsImpostor());
-                if (livingNonImpOthers >= 3 && PlayerControl.AllPlayerControls.ToArray().All(x =>
+                if (livingNonImpOthers >= 3 && PlayerControl.AllPlayerControls.All(x =>
                         x.AmOwner || x.HasDied() || x.Data.Disconnected || x.IsImpostor() ||
                         HysteriaTargets.Contains(x.PlayerId)))
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.HorsingAround);
+                    TouAchievements.HorsingAround.Unlock();
                 }
 
                 break;
 
             case AbilityType.JanitorClean when @event.Player.AmOwner:
-                AchievementsAPIHelper.Increment(TouAchievements.Spotless, 1);
+                TouAchievements.Spotless.Increment(1);
                 break;
 
             case AbilityType.MinerPlaceVent when @event.Player.AmOwner:
-                AchievementsAPIHelper.Increment(TouAchievements.SubwaySystem, 1);
+                TouAchievements.SubwaySystem.Increment(1);
                 break;
 
             case AbilityType.VampireBite when @event.Player.AmOwner:
-                AchievementsAPIHelper.Increment(TouAchievements.Nosferatu, 1);
+                TouAchievements.Nosferatu.Increment(1);
 
                 // Change of Heart: a conversion with fewer than 5 players alive.
                 if (AliveOthers().Count + 1 < 5)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.ChangeOfHeart);
+                    TouAchievements.ChangeOfHeart.Unlock();
                 }
 
                 break;
 
             case AbilityType.PlaguebearerInfect when @event.Player.AmOwner:
-                AchievementsAPIHelper.Increment(TouAchievements.PatientZero, 1);
+                TouAchievements.PatientZero.Increment(1);
                 break;
 
             case AbilityType.MonarchKnight when @event.Target is PlayerControl knight:
@@ -769,7 +765,7 @@ public static class TouAchievementEvents
                 // Your Majesty: another Monarch knighted the local player.
                 if (knight.AmOwner && !@event.Player.AmOwner)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.YourMajesty);
+                    TouAchievements.YourMajesty.Unlock();
                 }
 
                 break;
@@ -778,7 +774,7 @@ public static class TouAchievementEvents
                 _medicShieldAttacked = true;
                 if (@event.Result == "New Attack")
                 {
-                    AchievementsAPIHelper.Increment(TouAchievements.IronWall, 1);
+                    TouAchievements.IronWall.Increment(1);
                 }
 
                 break;
@@ -788,41 +784,41 @@ public static class TouAchievementEvents
                 if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Electrical, out var electrical) &&
                     electrical.TryCast<SwitchSystem>() is { IsActive: true })
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.TrueDarkness);
+                    TouAchievements.TrueDarkness.Unlock();
                 }
 
                 break;
 
             // Oh, Henry!: recall into a room another player is standing in.
             case AbilityType.EscapistRecall when @event.Player.AmOwner:
-            {
-                var recallPos = @event.Player.GetTruePosition();
-                PlainShipRoom? destination = null;
-                foreach (var room in ShipStatus.Instance.FastRooms.Values)
                 {
-                    if (room.roomArea && room.roomArea.OverlapPoint(recallPos))
+                    var recallPos = @event.Player.GetTruePosition();
+                    PlainShipRoom? destination = null;
+                    foreach (var room in ShipStatus.Instance.FastRooms.Values)
                     {
-                        destination = room;
-                        break;
+                        if (room.roomArea && room.roomArea.OverlapPoint(recallPos))
+                        {
+                            destination = room;
+                            break;
+                        }
                     }
-                }
 
-                if (destination != null && PlayerControl.AllPlayerControls.ToArray().Any(x =>
-                        !x.AmOwner && !x.HasDied() && !x.inVent &&
-                        destination.roomArea.OverlapPoint(x.GetTruePosition())))
-                {
-                    AchievementsAPIHelper.Unlock(TouAchievements.OhHenry);
-                }
+                    if (destination != null && PlayerControl.AllPlayerControls.Any(x =>
+                            !x.AmOwner && !x.HasDied() && !x.inVent &&
+                            destination.roomArea.OverlapPoint(x.GetTruePosition())))
+                    {
+                        TouAchievements.OhHenry.Unlock();
+                    }
 
-                break;
-            }
+                    break;
+                }
 
             // Introvert / Under the Radar: swoop tracking for the local Swooper.
             case AbilityType.SwooperSwoop when @event.Player.AmOwner && @event.Player.Data.Role is SwooperRole:
                 _swoopsThisRound++;
                 if (_swoopsThisRound >= 3)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.Introvert);
+                    TouAchievements.Introvert.Unlock();
                 }
 
                 if (!_swoopScanActive)
@@ -837,7 +833,7 @@ public static class TouAchievementEvents
                 _scavengerStreak++;
                 if (_scavengerStreak >= 3)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.UavInbound);
+                    TouAchievements.UavInbound.Unlock();
                 }
 
                 break;
@@ -851,61 +847,58 @@ public static class TouAchievementEvents
                 RetrainedIds.Add(retrained.PlayerId);
                 if (RetrainedIds.Count >= 2 && RetrainedIds.Contains(@event.Player.PlayerId))
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.DoubleTrouble);
+                    TouAchievements.DoubleTrouble.Unlock();
                 }
 
                 break;
 
             case AbilityType.HerbalistExpose when @event.Player.AmOwner:
-            {
-                AchievementsAPIHelper.Increment(TouAchievements.Strategist, 1);
+                TouAchievements.Strategist.Increment(1);
                 if (@event.Target is PlayerControl exposed)
                 {
                     ExposedThisRoundIds.Add(exposed.PlayerId);
                 }
 
                 // All-Knowing: every living non-impostor other than the local player is exposed.
-                var alive = PlayerControl.AllPlayerControls.ToArray()
-                    .Where(x => !x.AmOwner && !x.HasDied() && !x.Data.Disconnected).ToList();
+                var alive = PlayerControl.AllPlayerControls.Where(x => !x.AmOwner && !x.HasDied() && !x.Data.Disconnected);
                 var nonImpOthers = alive.Count(x => !x.IsImpostorAligned());
                 var unexposedNonImpOthers = alive.Count(x =>
-                    !x.IsImpostorAligned() && !x.HasModifier<HerbalistExposedModifier>());
+                !x.IsImpostorAligned() && !x.HasModifier<HerbalistExposedModifier>());
                 if (unexposedNonImpOthers == 0 && nonImpOthers >= 2)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.AllKnowing);
+                    TouAchievements.AllKnowing.Unlock();
                 }
 
                 break;
-            }
 
             case AbilityType.HerbalistConfuse when @event.Player.AmOwner:
             case AbilityType.HerbalistProtect when @event.Player.AmOwner:
-                AchievementsAPIHelper.Increment(TouAchievements.Strategist, 1);
+                TouAchievements.Strategist.Increment(1);
                 break;
 
             case AbilityType.PuppeteerControl when @event.Player.AmOwner && @event.Target is PlayerControl puppet:
                 PuppeteerControlCounts[puppet.PlayerId] = PuppeteerControlCounts.GetValueOrDefault(puppet.PlayerId) + 1;
                 if (PuppeteerControlCounts[puppet.PlayerId] >= 2)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.DoubleDipping);
+                    TouAchievements.DoubleDipping.Unlock();
                 }
 
                 // Fratricide: the Puppeteer controlled a fellow Impostor.
                 if (puppet.IsImpostorAligned())
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.Fratricide);
+                    TouAchievements.Fratricide.Unlock();
                 }
 
                 break;
 
             // Public Execution: the Parasite's Overtaken victim was killed with a witness nearby.
             case AbilityType.ParasiteKill when @event.Player.AmOwner && @event.Target is PlayerControl overtaken:
-                if (PlayerControl.AllPlayerControls.ToArray().Any(x =>
+                if (PlayerControl.AllPlayerControls.Any(x =>
                         x.PlayerId != @event.Player.PlayerId && x.PlayerId != overtaken.PlayerId &&
                         !x.HasDied() && !x.Data.Disconnected && !x.inVent &&
                         Vector2.Distance(x.GetTruePosition(), overtaken.GetTruePosition()) <= 3f))
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.PublicExecution);
+                    TouAchievements.PublicExecution.Unlock();
                 }
 
                 break;
@@ -918,7 +911,7 @@ public static class TouAchievementEvents
             case AbilityType.BlackmailerBlackmail
                 when @event.Player.AmOwner && @event.Target is PlayerControl jailed &&
                      jailed.HasModifier<JailedModifier>():
-                AchievementsAPIHelper.Unlock(TouAchievements.UselessJail);
+                TouAchievements.UselessJail.Unlock();
                 break;
 
             case AbilityType.UndertakerDrag when @event.Player.AmOwner && @event.Target is DeadBody draggedBody:
@@ -930,7 +923,7 @@ public static class TouAchievementEvents
                 MercenaryBribedIds.Add(bribed.PlayerId);
                 if (MercenaryBribedIds.Count >= 2)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.DoABarrelroll);
+                    TouAchievements.DoABarrelroll.Unlock();
                 }
 
                 break;
@@ -947,7 +940,7 @@ public static class TouAchievementEvents
                 break;
 
             case AbilityType.ChefWin when @event.Player.AmOwner:
-                AchievementsAPIHelper.Unlock(TouAchievements.HappyCustomers);
+                TouAchievements.HappyCustomers.Unlock();
                 break;
 
             case AbilityType.UndertakerDrop when @event.Player.AmOwner && @event.Target is DeadBody droppedBody:
@@ -968,7 +961,7 @@ public static class TouAchievementEvents
                 _rewindRevives++;
                 if (_rewindRevives >= 2)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.Undo);
+                    TouAchievements.Undo.Unlock();
                 }
 
                 break;
@@ -995,14 +988,14 @@ public static class TouAchievementEvents
         // Justice Served: shoot the killer of a body the sheriff reported.
         if (source.AmOwner && source.Data.Role is SheriffRole && target.PlayerId == _reportedKillerId)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.JusticeServed);
+            TouAchievements.JusticeServed.Unlock();
         }
 
         // Knight in Shining Armor: a knighted crewmate kills an evil.
         if (local.Data?.Role is MonarchRole && KnightedIds.Contains(source.PlayerId) && source.IsCrewmate() &&
             (target.IsImpostor() || target.Is(RoleAlignment.NeutralKilling)))
         {
-            AchievementsAPIHelper.UnlockTentative(TouAchievements.KnightInShiningArmor);
+            TouAchievements.KnightInShiningArmor.UnlockTentative();
         }
 
         // Too Close for Comfort: two kills during a single Alert.
@@ -1011,19 +1004,19 @@ public static class TouAchievementEvents
             _vetKillsThisAlert++;
             if (_vetKillsThisAlert >= 2)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.TooCloseForComfort);
+                TouAchievements.TooCloseForComfort.Unlock();
             }
 
             // Bloodshed: four or more evils killed while on Alert.
             if (IsEvil(target))
             {
-                AchievementsAPIHelper.Increment(TouAchievements.Bloodshed, 1);
+                TouAchievements.Bloodshed.Increment(1);
             }
 
             // Go Fetch: a Werewolf killed while on Alert.
             if (target.GetRoleWhenAlive() is WerewolfRole)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.GoFetch);
+                TouAchievements.GoFetch.Unlock();
             }
         }
 
@@ -1043,41 +1036,40 @@ public static class TouAchievementEvents
             (local.Data?.Role is OfficerRole || local.Data?.Role is SheriffRole) &&
             target.IsCrewmate() && !target.Is(RoleAlignment.CrewmateKilling))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Injustice);
+            TouAchievements.Injustice.Unlock();
         }
 
         // Caught Ghostly-Handed: the Medium saw a player die while Mediating.
         if (!target.AmOwner && local.Data?.Role is MediumRole && IsNearLocal(target) &&
-            ModifierUtils.GetPlayersWithModifier<MediatedModifier>(x => x.MediumId == local.PlayerId).HasAny())
+            ModifierUtils.GetPlayersWithModifier<MediatedModifier>(x => x.MediumId == local.PlayerId).Any())
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.CaughtGhostlyHanded);
+            TouAchievements.CaughtGhostlyHanded.Unlock();
         }
 
         // Become the Hunted: the Hunter is killed by their stalked player.
-        if (target.AmOwner && target.TryGetModifier<HunterStalkedModifier>(out var stalkedMod) &&
-            stalkedMod.Hunter == source)
+        if (target.AmOwner && target.HasModifier<HunterStalkedModifier>(stalkedMod => stalkedMod.Hunter == source))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.BecomeTheHunted);
+            TouAchievements.BecomeTheHunted.Unlock();
         }
 
         // Hunting Season: the Hunter kills a player they stalked.
         if (source.AmOwner && source.Data.Role is HunterRole && target.PlayerId != source.PlayerId &&
             HunterStalkedIds.Contains(target.PlayerId))
         {
-            AchievementsAPIHelper.Increment(TouAchievements.HuntingSeason, 1);
+            TouAchievements.HuntingSeason.Increment(1);
         }
 
         // Avenger: the Sheriff shoots the killer of someone who died nearby.
         if (source.AmOwner && source.Data.Role is SheriffRole && NearbyKillerIds.Contains(target.PlayerId))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Avenger);
+            TouAchievements.Avenger.Unlock();
         }
 
         // Time Cop: the Officer shoots their killer after a Time Lord revive.
         if (source.AmOwner && source.Data.Role is OfficerRole && LocalKillerIds.Contains(target.PlayerId) &&
             TimeLordRevivedIds.Contains(source.PlayerId))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.TimeCop);
+            TouAchievements.TimeCop.Unlock();
         }
 
         // Meeting guesses: a successful guess murders the victim, a misguess kills the guesser.
@@ -1085,47 +1077,47 @@ public static class TouAchievementEvents
         {
             if (source.Data.Role is VigilanteRole)
             {
-                AchievementsAPIHelper.Increment(TouAchievements.TheDarkKnight, 1);
+                TouAchievements.TheDarkKnight.Increment(1);
 
                 // Shot in the Dark: a correct guess after all safe shots are gone.
-                if (source.Data.Role is VigilanteRole vig && vig.SafeShotsLeft == 0 &&
+                if (source.Data.Role is VigilanteRole { SafeShotsLeft: 0 } &&
                     OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots > 0)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.ShotInTheDark);
+                    TouAchievements.ShotInTheDark.Unlock();
                 }
 
                 if (++_vigilanteGuesses >= 2)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.DoubleTap);
+                    TouAchievements.DoubleTap.Unlock();
                 }
             }
 
             // Sharpshooter: a Deputy blast within 30 seconds of the meeting starting.
             if (source.Data.Role is DeputyRole && Time.time - _lastMeetingStartTime <= 30f)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.Sharpshooter);
+                TouAchievements.Sharpshooter.Unlock();
             }
 
             // This Town Ain't Big Enough: a Deputy blasts an Assassin.
             if (source.Data.Role is DeputyRole && target.HasModifier<AssassinModifier>())
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.ThisTownAintBigEnough);
+                TouAchievements.ThisTownAintBigEnough.Unlock();
             }
 
             if (source.Data.Role is DoomsayerRole && ++_doomsayerGuesses >= 3)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.Nostradamus);
+                TouAchievements.Nostradamus.Unlock();
             }
 
             // Role-Eater: the Doomsayer met their win condition within 3 meetings.
             if (source.Data.Role is DoomsayerRole doomsayer && doomsayer.WinConditionMet() && _meetingsSeen <= 3)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.RoleEater);
+                TouAchievements.RoleEater.Unlock();
             }
 
             if (source.HasModifier<AssassinModifier>() && ++_assassinGuesses >= 2)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.Hitman);
+                TouAchievements.Hitman.Unlock();
             }
         }
 
@@ -1139,14 +1131,14 @@ public static class TouAchievementEvents
         // Full Moon: kills made by the local Werewolf.
         if (source.AmOwner && source.Data.Role is WerewolfRole && target.PlayerId != source.PlayerId)
         {
-            AchievementsAPIHelper.Increment(TouAchievements.FullMoon, 1);
+            TouAchievements.FullMoon.Increment(1);
         }
 
         // Are you stupid?: the ambushed player is the one being pursued.
-        if (source.AmOwner && source.Data.Role is AmbusherRole { Pursued: not null } ambusher &&
-            ambusher.Pursued == target)
+        if (source.AmOwner && source.Data.Role is AmbusherRole { Pursued: { } pursued } &&
+            pursued == target)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.AreYouStupid);
+            TouAchievements.AreYouStupid.Unlock();
         }
 
         // Burst Fire: WarlockEvents (priority 0) already incremented Kills for this kill.
@@ -1155,20 +1147,20 @@ public static class TouAchievementEvents
             var warlockButton = CustomButtonSingleton<WarlockKillButton>.Instance;
             if (warlockButton is { BurstActive: true, Kills: >= 2 })
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.BurstFire);
+                TouAchievements.BurstFire.Unlock();
             }
         }
 
         // Fireworks: victims from the bomb's target list that actually died.
         if (source.AmOwner && PendingBombVictims.Remove(target.PlayerId) && ++_bombKills >= 3)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Fireworks);
+            TouAchievements.Fireworks.Unlock();
         }
 
         // Boogeyman: kills made while concealed as an ambushed body.
         if (source.AmOwner && source.HasModifier<AmbusherConcealedModifier>() && target.PlayerId != source.PlayerId)
         {
-            AchievementsAPIHelper.Increment(TouAchievements.Boogeyman, 1);
+            TouAchievements.Boogeyman.Increment(1);
         }
 
         // Framer: remember who the local Morphling was disguised as during a kill.
@@ -1182,14 +1174,14 @@ public static class TouAchievementEvents
         if (source.AmOwner && source.Data.Role is HerbalistRole && ExposedThisRoundIds.Contains(target.PlayerId) &&
             (target.Is(RoleAlignment.NeutralKilling) || target.Is(RoleAlignment.CrewmateKilling)))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.ThreatEliminated);
+            TouAchievements.ThreatEliminated.Unlock();
         }
 
         // Homewrecker: the puppet killed their own lover.
-        if (source.TryGetModifier<PuppeteerControlModifier>(out var controlMod) && controlMod.Controller.AmOwner &&
-            target.TryGetModifier<LoverModifier>(out var victimLover) && victimLover.OtherLover == source)
+        if (source.HasModifier<PuppeteerControlModifier>(controlMod => controlMod.Controller.AmOwner) &&
+            target.HasModifier<LoverModifier>(victimLover => victimLover.OtherLover == source))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Homewrecker);
+            TouAchievements.Homewrecker.Unlock();
         }
 
         // Blood Moon: kills made while the local Werewolf is rampaging.
@@ -1202,7 +1194,7 @@ public static class TouAchievementEvents
         // Bad Staring Contest: the local player was killed by a gazing Medusa.
         if (target.AmOwner && source.Data.Role is MedusaRole && source.HasModifier<MedusaGazingModifier>())
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.BadStaringContest);
+            TouAchievements.BadStaringContest.Unlock();
         }
 
         // Lazybones: the local Inquisitor used Vanquish.
@@ -1229,7 +1221,7 @@ public static class TouAchievementEvents
         if (@event.Reporter != null && !@event.Reporter.AmOwner && @event.Body != null &&
             DraggedBodies.Contains(@event.Body.ParentId))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.FalseEvidence);
+            TouAchievements.FalseEvidence.Unlock();
         }
 
         if (@event.Reporter == null || !@event.Reporter.AmOwner)
@@ -1248,7 +1240,7 @@ public static class TouAchievementEvents
         if (@event.Body != null && @event.Body.ParentId == _mysticSensedId &&
             Time.time - _mysticSenseTime <= 15f)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.SixthSense);
+            TouAchievements.SixthSense.Unlock();
         }
     }
 
@@ -1275,13 +1267,13 @@ public static class TouAchievementEvents
         // Lost Cause: a player the local Altruist revived dies again.
         if (AltruistRevivedIds.Remove(exiled.PlayerId))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.LostCause);
+            TouAchievements.LostCause.Unlock();
         }
 
         // Boston Tea Party: the Monarch was voted out by their own Knight.
         if (exiled.AmOwner && BetrayedMonarchIds.Contains(exiled.PlayerId))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.BostonTeaParty);
+            TouAchievements.BostonTeaParty.Unlock();
         }
 
         // Sike: the other swap target got ejected after the Swapper swapped votes on themself.
@@ -1290,62 +1282,61 @@ public static class TouAchievementEvents
             var selfSwapper = MiscUtils.PlayerById(swapperId);
             if (selfSwapper != null && selfSwapper.AmOwner && exiled.PlayerId == otherId)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.Sike);
+                TouAchievements.Sike.Unlock();
             }
         }
 
         // Switched Fate: the swapper redirected a crew vote onto an impostor.
-        if (local.Data?.Role is SwapperRole { Swap1: not null, Swap2: not null } swapper)
+        if (local.Data?.Role is SwapperRole { Swap1: { } swap1, Swap2: { } swap2 })
         {
-            var first = MiscUtils.PlayerById(swapper.Swap1.PlayerId);
-            var second = MiscUtils.PlayerById(swapper.Swap2.PlayerId);
+            var first = MiscUtils.PlayerById(swap1.PlayerId);
+            var second = MiscUtils.PlayerById(swap2.PlayerId);
             var other = exiled.PlayerId == first?.PlayerId ? second : first;
 
             if ((exiled.PlayerId == first?.PlayerId || exiled.PlayerId == second?.PlayerId) &&
                 exiled.IsImpostor() && other != null && other.IsCrewmate())
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.SwitchedFate);
+                TouAchievements.SwitchedFate.Unlock();
             }
         }
 
         // Framer: a player the local Morphling killed while disguised as got voted out.
         if (FramedIds.Contains(exiled.PlayerId))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Framer);
+            TouAchievements.Framer.Unlock();
         }
 
         // Spotlight: an impostor ejected in the meeting right after the Snitch reveal.
         if (_snitchRevealed && exiled.IsImpostor())
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Spotlight);
+            TouAchievements.Spotlight.Unlock();
         }
 
         // Open and Shut: the prosecuted player was an impostor and got ejected.
         if (local.Data?.Role is ProsecutorRole { HasProsecuted: true } prosecutor &&
             prosecutor.ProsecuteVictim == exiled.PlayerId && exiled.IsImpostor())
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.OpenAndShut);
+            TouAchievements.OpenAndShut.Unlock();
         }
 
         // Hangman: the executioner's target got ejected within 3 meetings.
         if (local.Data?.Role is ExecutionerRole && _meetingsSeen <= 3 &&
-            exiled.GetModifiers<ExecutionerTargetModifier>().Any(mod => mod.OwnerId == local.PlayerId))
+            exiled.HasModifier<ExecutionerTargetModifier>(mod => mod.OwnerId == local.PlayerId))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Hangman);
+            TouAchievements.Hangman.Unlock();
         }
 
         if (exiled.PlayerId == local.PlayerId && local.Data?.Role is JesterRole)
         {
             if (_meetingsSeen <= 3)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.TrickyClown);
+                TouAchievements.TrickyClown.Unlock();
             }
 
-            var remaining = PlayerControl.AllPlayerControls.ToArray()
-                .Count(x => !x.Data.IsDead && x.PlayerId != exiled.PlayerId);
+            var remaining = PlayerControl.AllPlayerControls.Count(x => !x.Data.IsDead && x.PlayerId != exiled.PlayerId);
             if (remaining <= 3)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.FinalAct);
+                TouAchievements.FinalAct.Unlock();
             }
         }
 
@@ -1375,7 +1366,7 @@ public static class TouAchievementEvents
         // Poltergeist: the Haunter's reveal happens when the meeting starts.
         if (PlayerControl.LocalPlayer.Data?.Role is HaunterRole { CompletedAllTasks: true, Caught: false })
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Poltergeist);
+            TouAchievements.Poltergeist.Unlock();
         }
     }
 
@@ -1459,7 +1450,7 @@ public static class TouAchievementEvents
             !otherLover.HasDied() && _reviveTimes.TryGetValue(otherLover.PlayerId, out var loverReviveTime) &&
             Mathf.Abs(Time.time - loverReviveTime) <= 3f && (revived.AmOwner || otherLover.AmOwner))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.ButItRefused);
+            TouAchievements.ButItRefused.Unlock();
         }
     }
 
@@ -1480,16 +1471,16 @@ public static class TouAchievementEvents
         // Last Crew Standing: the game ended right after the Mystic sensed a death.
         if (local.GetRoleWhenAlive() is MysticRole && !local.HasDied() && Time.time - _mysticSenseTime <= 5f)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.LastCrewStanding);
+            TouAchievements.LastCrewStanding.Unlock();
         }
 
         // Fallen Knights: the Monarch wins and survives while all of their knights are dead.
         if (local.Data.Role is MonarchRole && LocalWon() && !local.HasDied())
         {
-            var ownKnights = KnightToMonarch.Where(kv => kv.Value == local.PlayerId).Select(kv => kv.Key).ToList();
-            if (ownKnights.Count != 0 && ownKnights.All(id => MiscUtils.PlayerById(id)?.HasDied() != false))
+            var ownKnights = KnightToMonarch.Where(kv => kv.Value == local.PlayerId).Select(kv => kv.Key);
+            if (ownKnights.Any() && ownKnights.All(id => MiscUtils.PlayerById(id)?.HasDied() != false))
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.FallenKnights);
+                TouAchievements.FallenKnights.Unlock();
             }
         }
 
@@ -1498,44 +1489,44 @@ public static class TouAchievementEvents
                 kv.Value == local.PlayerId && IsWinner(MiscUtils.PlayerById(kv.Key)) &&
                 MiscUtils.PlayerById(kv.Key)?.GetRoleWhenAlive() is JesterRole))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.CircusPerformer);
+            TouAchievements.CircusPerformer.Unlock();
         }
 
         // Judgement Day: the game ended with the local Prosecutor's prosecution.
         if (_prosecutionEjected && LocalWon())
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.JudgementDay);
+            TouAchievements.JudgementDay.Unlock();
         }
 
         // Intact: the Medic's shielded player survived to the end without ever being attacked.
         if (local.GetRoleWhenAlive() is MedicRole && !_medicShieldAttacked && _meetingsSeen >= 1 &&
-            ModifierUtils.GetPlayersWithModifier<MedicShieldModifier>(x => x.Medic.AmOwner && !x.Player.HasDied()).HasAny())
+            ModifierUtils.GetPlayersWithModifier<MedicShieldModifier>(x => x.Medic.AmOwner && !x.Player.HasDied()).Any())
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Intact);
+            TouAchievements.Intact.Unlock();
         }
 
         // Mimicry: the Imitator only imitated non-Crewmates, imitating at least twice.
         if (Imitations.Count >= 2 && Imitations.All(x => !x.IsCrewmate))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Mimicry);
+            TouAchievements.Mimicry.Unlock();
         }
 
         // Undercover: a living Crewpostor who never became the Traitor won.
         if (local.HasModifier<CrewpostorModifier>() && !local.HasDied() && LocalWon() && !_becameTraitor)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Undercover);
+            TouAchievements.Undercover.Unlock();
         }
 
         // World-Ender: the Spellslinger's Hex Bomb finished and they won the game.
         if (_hexBombCompleted && local.GetRoleWhenAlive() is SpellslingerRole && LocalWon())
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.WorldEnder);
+            TouAchievements.WorldEnder.Unlock();
         }
 
         // Deadly Delusion: the Traitor won within two rounds of becoming the Traitor.
         if (_becameTraitor && LocalWon() && _meetingsSeen - _meetingsWhenTraitor <= 1)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.DeadlyDelusion);
+            TouAchievements.DeadlyDelusion.Unlock();
         }
 
         // Win-Win Situation: the Mercenary won with at least two-thirds of the living bribed.
@@ -1543,10 +1534,10 @@ public static class TouAchievementEvents
         {
             var others = AliveOthers();
             var bribed = others.Count(x =>
-                x.GetModifiers<MercenaryBribedModifier>().Any(mod => mod.Mercenary.AmOwner));
+                x.HasModifier<MercenaryBribedModifier>(mod => mod.Mercenary.AmOwner));
             if (others.Count >= 2 && bribed * 3 >= others.Count * 2)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.WinWinSituation);
+                TouAchievements.WinWinSituation.Unlock();
             }
         }
 
@@ -1554,33 +1545,33 @@ public static class TouAchievementEvents
         if (local.GetRoleWhenAlive() is SurvivorRole && LocalWon() &&
             EndGameResult.CachedWinners.Count == 1)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.SurvivalOfTheFittest);
+            TouAchievements.SurvivalOfTheFittest.Unlock();
         }
 
         // Third-Wheel: the Survivor won alongside the Lovers.
         if (local.GetRoleWhenAlive() is SurvivorRole && LocalWon() &&
             EndGameResult.CachedGameOverReason == CustomGameOver.GameOverReason<LoverGameOver>())
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.ThirdWheel);
+            TouAchievements.ThirdWheel.Unlock();
         }
 
         // Carrier: the Plaguebearer won without ever transforming into Pestilence.
         if (local.GetRoleWhenAlive() is PlaguebearerRole && LocalWon())
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.CommonCold);
+            TouAchievements.CommonCold.Unlock();
         }
 
         // Blood Moon: the Werewolf killed every other living player in a single Rampage.
         if (local.GetRoleWhenAlive() is WerewolfRole && LocalWon() && _rampageActive &&
             _rampageKills >= 2 && _rampageKills >= _rampageAliveOthers && _rampageAliveOthers > 0)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.BloodMoon);
+            TouAchievements.BloodMoon.Unlock();
         }
 
         // Lazybones: the Inquisitor won without inquiring or vanquishing.
         if (local.GetRoleWhenAlive() is InquisitorRole && LocalWon() && !_inquisitorUsedAbility)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Lazybones);
+            TouAchievements.Lazybones.Unlock();
         }
     }
 
@@ -1589,17 +1580,16 @@ public static class TouAchievementEvents
         // Defer a frame so the dying/ejected player's death state has been applied.
         yield return null;
 
-        if (!AchievementsAPIHelper.IsLoaded || AchievementsAPIHelper.IsUnlocked(TouAchievements.Endgame))
+        if (!AchievementsAPIHelper.IsLoaded || TouAchievements.Endgame.IsUnlocked())
         {
             yield break;
         }
 
-        var alive = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => !x.HasDied() && !x.Data.Disconnected && x.Data.Role is not SpectatorRole).ToList();
-        if (alive.Count == 2 && alive.Any(x => x.Data.Role is JuggernautRole) &&
+        var alive = PlayerControl.AllPlayerControls.Where(x => !x.HasDied() && !x.Data.Disconnected && x.Data.Role is not SpectatorRole);
+        if (alive.Count() == 2 && alive.Any(x => x.Data.Role is JuggernautRole) &&
             alive.Any(x => x.Data.Role is PestilenceRole))
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Endgame);
+            TouAchievements.Endgame.Unlock();
         }
     }
 
@@ -1625,7 +1615,7 @@ public static class TouAchievementEvents
 
             if (SwoopNearbyIds.Count >= 3)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.UnderTheRadar);
+                TouAchievements.UnderTheRadar.Unlock();
                 break;
             }
 
@@ -1643,7 +1633,7 @@ public static class TouAchievementEvents
             return false;
         }
 
-        return EndGameResult.CachedWinners.ToArray().Any(x => x.PlayerName == local.Data.PlayerName);
+        return EndGameResult.CachedWinners.Any(x => x.PlayerName == local.Data.PlayerName);
     }
 
     private static bool IsWinner(PlayerControl? player)
@@ -1653,7 +1643,7 @@ public static class TouAchievementEvents
             return false;
         }
 
-        return EndGameResult.CachedWinners.ToArray().Any(x => x.PlayerName == player.Data.PlayerName);
+        return EndGameResult.CachedWinners.Any(x => x.PlayerName == player.Data.PlayerName);
     }
 
     private static bool IsEvil(PlayerControl player)
@@ -1680,15 +1670,13 @@ public static class TouAchievementEvents
 
     private static List<PlayerControl> AliveOthers()
     {
-        return PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => !x.HasDied() && !x.AmOwner && !x.Data.Disconnected && x.Data.Role is not SpectatorRole)
+        return PlayerControl.AllPlayerControls.Where(x => !x.HasDied() && !x.AmOwner && !x.Data.Disconnected && x.Data.Role is not SpectatorRole)
             .ToList();
     }
 
     private static bool IsLoverOf(MonoBehaviour? target, PlayerControl lover)
     {
-        return target is PlayerControl player && player.TryGetModifier<LoverModifier>(out var loverMod) &&
-               loverMod.OtherLover == lover;
+        return target is PlayerControl player && player.HasModifier<LoverModifier>(x => x.OtherLover == lover);
     }
 
     [RegisterEvent]
@@ -1716,7 +1704,7 @@ public static class TouAchievementEvents
             _hysteriaRounds++;
             if (_hysteriaRounds >= 3)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.Delusional);
+                TouAchievements.Delusional.Unlock();
             }
         }
 
@@ -1787,17 +1775,17 @@ public static class TouAchievementEvents
         Imitations.Add((@event.NewRole.GetType(), @event.NewRole.IsCrewmate()));
 
         // Powerless: the Imitator copied a Crewmate Power role.
-        if (@event.NewRole is ITownOfUsRole imitatedRole && imitatedRole.RoleAlignment is RoleAlignment.CrewmatePower)
+        if (@event.NewRole is ITownOfUsRole { RoleAlignment: RoleAlignment.CrewmatePower })
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.Powerless);
+            TouAchievements.Powerless.Unlock();
         }
 
-        if (!AchievementsAPIHelper.IsUnlocked(TouAchievements.MethodActor))
+        if (!TouAchievements.MethodActor.IsUnlocked())
         {
             ImitatedRoles.Add(@event.NewRole.GetType());
             if (ImitatedRoles.Count >= 3)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.MethodActor);
+                TouAchievements.MethodActor.Unlock();
             }
         }
     }

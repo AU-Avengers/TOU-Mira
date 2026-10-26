@@ -84,7 +84,7 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
             // Suicide Keybind (ENTER + T + Left Shift)
             if (!PlayerControl.LocalPlayer.HasDied() && type is BindActionType.SelfKill)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.IveSeenThePlays);
+                TouAchievements.IveSeenThePlays.Unlock();
                 PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
             }
 
@@ -94,7 +94,7 @@ public class TouLocalTabActions(ConfigFile config) : LocalSettingsTab(config)
                 var gameFlow = GameManager.Instance.LogicFlow.Cast<LogicGameFlowNormal>();
                 if (gameFlow != null)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.Oops);
+                    TouAchievements.Oops.Unlock();
                     CustomGameOver.Trigger<HostGameOver>([]);
                 }
             }

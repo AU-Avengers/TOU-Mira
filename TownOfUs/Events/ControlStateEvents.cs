@@ -6,7 +6,6 @@ using MiraAPI.Modifiers;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 
@@ -27,7 +26,7 @@ public static class ControlStateEvents
 
         var hunterStalk = CustomButtonSingleton<PuppeteerControlButton>.Instance;
         hunterStalk.ExtraUses = 0;
-        hunterStalk.SetUses((int)OptionGroupSingleton<PuppeteerOptions>.Instance.ControlUses);
+        hunterStalk.SetUses(OptionGroupSingleton<PuppeteerOptions>.Instance.ControlUses);
         if (!hunterStalk.LimitedUses)
         {
             hunterStalk.Button?.usesRemainingText.gameObject.SetActive(false);
@@ -68,7 +67,7 @@ public static class ControlStateEvents
             }
         }
     }
-    
+
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent _)
     {
@@ -77,25 +76,13 @@ public static class ControlStateEvents
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
-            if (player.Data.Role is ParasiteRole parasiteRole)
-            {
-                parasiteRole.ClearControlLocal();
-            }
+            (player.Data.Role as ParasiteRole)?.ClearControlLocal();
 
-            if (player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
-            {
-                player.RemoveModifier(mod);
-            }
-            
-            if (player.Data.Role is PuppeteerRole puppeteerRole)
-            {
-                puppeteerRole.ClearControlLocal();
-            }
+            player.TryRemoveModifier<ParasiteInfectedModifier>();
 
-            if (player.TryGetModifier<PuppeteerControlModifier>(out var mod2))
-            {
-                player.RemoveModifier(mod2);
-            }
+            (player.Data.Role as PuppeteerRole)?.ClearControlLocal();
+
+            player.TryRemoveModifier<PuppeteerControlModifier>();
         }
     }
 
@@ -107,25 +94,13 @@ public static class ControlStateEvents
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
-            if (player.Data.Role is ParasiteRole parasiteRole)
-            {
-                parasiteRole.ClearControlLocal();
-            }
+            (player.Data.Role as ParasiteRole)?.ClearControlLocal();
 
-            if (player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
-            {
-                player.RemoveModifier(mod);
-            }
-            
-            if (player.Data.Role is PuppeteerRole puppeteerRole)
-            {
-                puppeteerRole.ClearControlLocal();
-            }
+            player.TryRemoveModifier<ParasiteInfectedModifier>();
 
-            if (player.TryGetModifier<PuppeteerControlModifier>(out var mod2))
-            {
-                player.RemoveModifier(mod2);
-            }
+            (player.Data.Role as PuppeteerRole)?.ClearControlLocal();
+
+            player.TryRemoveModifier<PuppeteerControlModifier>();
         }
     }
 }

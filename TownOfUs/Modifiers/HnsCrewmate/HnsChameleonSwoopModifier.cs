@@ -62,11 +62,11 @@ public sealed class HnsChameleonSwoopModifier : ConcealedModifier, IVisualAppear
         Player.cosmetics.ToggleNameVisible(false);
 
         var button = CustomButtonSingleton<ChameleonSwoopButton>.Instance;
-        button.OverrideSprite(TouCrewAssets.CrewUnswoopSprite.LoadAsset());
+        button.OverrideSprite(TouCrewAssets.CrewUnswoopSprite);
         button.OverrideName(MiraLocaleManager.Get("TownOfUsMira.HideAndSeek.Role.ChameleonUnswoop", "Unswoop"));
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SwooperSwoop, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void FixedUpdate()
@@ -88,7 +88,7 @@ public sealed class HnsChameleonSwoopModifier : ConcealedModifier, IVisualAppear
         if (Player.AmOwner)
         {
             var button = CustomButtonSingleton<ChameleonSwoopButton>.Instance;
-            button.OverrideSprite(TouCrewAssets.CrewSwoopSprite.LoadAsset());
+            button.OverrideSprite(TouCrewAssets.CrewSwoopSprite);
             button.OverrideName(MiraLocaleManager.Get("TownOfUsMira.HideAndSeek.Role.ChameleonSwoop", "Swoop"));
             if (!MeetingHud.Instance)
             {
@@ -107,7 +107,7 @@ public sealed class HnsChameleonSwoopModifier : ConcealedModifier, IVisualAppear
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SwooperUnswoop, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public static void MushroomMixUp(MushroomMixupSabotageSystem instance, PlayerControl player)

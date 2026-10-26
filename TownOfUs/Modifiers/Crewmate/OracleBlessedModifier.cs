@@ -15,11 +15,11 @@ public sealed class OracleBlessedModifier(PlayerControl oracle) : BaseModifier
     public override void OnActivate()
     {
         var touAbilityEvent = new TouAbilityEvent(AbilityType.OracleBless, Oracle, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

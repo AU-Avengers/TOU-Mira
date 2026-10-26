@@ -123,7 +123,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
         if (Player.AmOwner)
         {
-            if ((GhostwalkerVentMode)OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerVentSpawn.Value is
+            if (OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerVentSpawn.Value is
                 GhostwalkerVentMode.Crewmates or GhostwalkerVentMode.All)
             {
                 Player.VentAtRandomVent();
@@ -210,7 +210,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Haunter.LoadAsset(), "TouMira.Role.Crewmate.Haunter", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Haunter, "TouMira.Role.Crewmate.Haunter", 1.45f),
         Icon = TouRoleIcons.Haunter,
         OptionsScreenshot = TouBanners.HaunterRoleBanner,
         TasksCountForProgress = false,
@@ -276,7 +276,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         var dangerLevel2 = 0f;
         var scaryMusicDistance = 55f * GameOptionsManager.Instance.currentNormalGameOptions.PlayerSpeedMod;
         var veryScaryMusicDistance = 15f * GameOptionsManager.Instance.currentNormalGameOptions.PlayerSpeedMod;
-        foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x => x.IsImpostor() || x.IsNeutral()))
+        foreach (var player in PlayerControl.AllPlayerControls.Where(x => x.IsImpostor() || x.IsNeutral()))
         {
             if (player != null)
             {
@@ -396,13 +396,10 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                         continue;
                     }
 
-                    var modifiers = p.GetModifiers<HaunterArrowModifier>().ToList();
+                    var modifiers = p.GetModifiers<HaunterArrowModifier>(mod => mod.Owner == Player || mod.Player == Player);
                     foreach (var mod in modifiers)
                     {
-                        if (mod.Owner == Player || mod.Player == Player)
-                        {
-                            p.RemoveModifier(mod);
-                        }
+                        mod.RemoveSelf();
                     }
                 }
             }
@@ -424,7 +421,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Haunter.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.HaunterClickableFeedback")}</b></color>",
                     Color.white,
-                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
+                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter);
                 notif1.AdjustNotification();
             }
         }
@@ -448,7 +445,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                 Coroutines.Start(MiscUtils.CoFlash(RoleColor));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Haunter.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.HaunterSelfAlertFeedback")}</b></color>", Color.white,
-                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
+                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter);
                 notif1.AdjustNotification();
             }
             else if (IsTargetOfHaunter(PlayerControl.LocalPlayer) && !PlayerControl.LocalPlayer.HasDied() && !silent)
@@ -456,7 +453,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                 Coroutines.Start(MiscUtils.CoFlash(RoleColor));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Haunter.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.HaunterImpAlertFeedback")}</b></color>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter);
                 notif1.AdjustNotification();
             }
         }
@@ -487,7 +484,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                 Coroutines.Start(MiscUtils.CoFlash(Color.white));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Haunter.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.HaunterSelfRevealFeedback")}</b></color>", Color.white,
-                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
+                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter);
                 notif1.AdjustNotification();
             }
             else if (IsTargetOfHaunter(PlayerControl.LocalPlayer) && !PlayerControl.LocalPlayer.HasDied() && !silent)
@@ -495,7 +492,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                 Coroutines.Start(MiscUtils.CoFlash(Color.white));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Haunter.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.HaunterImpRevealFeedback")}</b></color>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter);
                 notif1.AdjustNotification();
             }
         }
@@ -513,7 +510,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
         if (player.myTasks != null && player.myTasks.Count > 0)
         {
-            var tasks = player.myTasks.ToArray().Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
+            var tasks = player.myTasks.Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
             foreach (var t in tasks)
             {
                 total++;

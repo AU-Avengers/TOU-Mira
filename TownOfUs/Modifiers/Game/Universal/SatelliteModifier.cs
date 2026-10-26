@@ -17,7 +17,7 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Satellite,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Satellite.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Satellite,
             "TouMira.Modifier.Universal.Satellite", 1.45f));
     private readonly List<SpriteRenderer> CastedIcons = [];
     private readonly List<PlayerControl> CastedPlayers = [];
@@ -58,12 +58,12 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.SatelliteChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.SatelliteChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.SatelliteAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.SatelliteAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

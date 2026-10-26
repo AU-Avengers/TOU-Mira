@@ -53,7 +53,7 @@ public static class VitalsBodyPatches
                         MiscUtils.RemovePet(player, hidePets);
                     }
                 }
-                var result = (BodyVitalsMode)OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance.Value;
+                BodyVitalsMode result = OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance;
 
                 CrimeSceneComponent.ClearCrimeScene(__instance);
                 if (result is BodyVitalsMode.Disconnected)
@@ -226,7 +226,7 @@ public static class VitalsBodyPatches
     {
         panel.IsDead = true;
         panel.IsDiscon = false;
-        panel.Background.sprite = TouAssets.VitalBgMissin.LoadAsset();
+        panel.Background.sprite = TouAssets.VitalBgMissin;
         panel.Cardio.gameObject.SetActive(false);
     }
 }

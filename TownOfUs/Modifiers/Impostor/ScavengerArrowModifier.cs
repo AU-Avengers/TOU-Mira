@@ -24,6 +24,6 @@ public sealed class ScavengerArrowModifier(PlayerControl owner, Color color) : A
     public override void OnMeetingStart()
     {
         base.OnMeetingStart();
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

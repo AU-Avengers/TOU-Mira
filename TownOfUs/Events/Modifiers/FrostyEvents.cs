@@ -27,7 +27,7 @@ public static class FrostyEvents
 
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{text.Replace("<time>", Math.Round(OptionGroupSingleton<FrostyOptions>.Instance.ChillDuration, 2).ToString(TownOfUsPlugin.Culture))}</b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Frosty.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Frosty);
 
             notif1.AdjustNotification();
         }

@@ -20,6 +20,7 @@ using System.Runtime.CompilerServices;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules.Components;
+using MiraAPI.Events;
 
 namespace TownOfUs.Modules;
 
@@ -48,11 +49,11 @@ public static class TimeLordRewindSystem
     }
 
     // Snapshot, CircularBuffer, TaskStepBuffer, and BodyPosBuffer moved to TimeLordSnapshotBuffer helper
-    private static readonly TimeLord.CircularBuffer Buffer = new(1024);
-    private static readonly TimeLord.TaskStepBuffer TaskBuffer = new(1024, 24);
+    private static readonly CircularBuffer Buffer = new(1024);
+    private static readonly TaskStepBuffer TaskBuffer = new(1024, 24);
     private static uint[] _trackedTaskIds = [];
     private static int _trackedTaskCount;
-    
+
 
     private static bool _colliderWasEnabled;
     private static bool _rewindDisabledLocalCollider;
@@ -116,7 +117,7 @@ public static class TimeLordRewindSystem
     private static readonly HashSet<CustomActionButton> KillButtonCooldownMaxClampedThisRewind =
         new(ReferenceEqualityComparer<CustomActionButton>.Instance);
 
-    private static readonly Dictionary<byte, TimeLord.BodyPosBuffer> HostBodyPosHistory = [];
+    private static readonly Dictionary<byte, BodyPosBuffer> HostBodyPosHistory = [];
     private static List<ScheduledBodyPos>? _hostBodyPlacements;
 
     private readonly record struct HostTaskCompletion(byte PlayerId, uint TaskId, DateTime TimeUtc, int TaskStep);
@@ -287,7 +288,7 @@ public static class TimeLordRewindSystem
             }
             catch
             {
-               // ignored
+                // ignored
             }
 
             return null;
@@ -326,7 +327,7 @@ public static class TimeLordRewindSystem
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
 
@@ -355,7 +356,7 @@ public static class TimeLordRewindSystem
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
 
@@ -395,7 +396,7 @@ public static class TimeLordRewindSystem
         {
             var npt = normalTask.Cast<NormalPlayerTask>();
             taskStep = npt.taskStep;
-            
+
             if (taskStep == 0)
             {
                 var taskType = npt.TaskType;
@@ -407,7 +408,7 @@ public static class TimeLordRewindSystem
                 {
                     taskStep = 3;
                 }
-                else if (taskType is TaskTypes.FuelEngines or global::TaskTypes.ExtractFuel)
+                else if (taskType is TaskTypes.FuelEngines or TaskTypes.ExtractFuel)
                 {
                     taskStep = 2;
                 }
@@ -436,7 +437,7 @@ public static class TimeLordRewindSystem
 
         var now = DateTime.UtcNow;
         HostTaskCompletions.Add(new HostTaskCompletion(player.PlayerId, task.Id, now, taskStep));
-        
+
         // Also store in the step map for immediate use
         _hostTaskStepMap ??= [];
         _hostTaskStepMap[(player.PlayerId, task.Id)] = taskStep;
@@ -449,13 +450,12 @@ public static class TimeLordRewindSystem
                 HostTaskCompletions.RemoveAt(i);
             }
         }
-        
+
         // Clean up old entries from step map
         if (_hostTaskStepMap.Count > 128)
         {
             var keysToRemove = _hostTaskStepMap.Keys
-                .Where(k => !HostTaskCompletions.Any(h => h.PlayerId == k.PlayerId && h.TaskId == k.TaskId))
-                .ToList();
+                .Where(k => !HostTaskCompletions.Any(h => h.PlayerId == k.PlayerId && h.TaskId == k.TaskId));
             foreach (var key in keysToRemove)
             {
                 _hostTaskStepMap.Remove(key);
@@ -498,7 +498,7 @@ public static class TimeLordRewindSystem
     {
         var player = MiscUtils.PlayerById(x.PlayerId);
         if (player == null) return false;
-        
+
         foreach (var t in player.myTasks.ToArray())
         {
             if (t == null || t.Id != x.TaskId) continue;
@@ -522,13 +522,12 @@ public static class TimeLordRewindSystem
         var age = (float)(now - x.TimeUtc).TotalSeconds;
         var triggerAt = durationSeconds * (age / historySeconds);
         return (x.PlayerId, x.TaskId, TriggerAtSeconds: triggerAt, x.TaskStep);
-    })
-    .ToList();
+    });
 
         // Convert to the format expected by ConfigureHostTaskUndos
         var simpleSchedule = schedule.Select(x => (x.PlayerId, x.TaskId, x.TriggerAtSeconds)).ToList();
         ConfigureHostTaskUndos(simpleSchedule);
-        
+
         // Store task steps for later use in UndoTask
         _hostTaskStepMap ??= [];
         foreach (var (PlayerId, TaskId, _, TaskStep) in schedule)
@@ -571,9 +570,9 @@ public static class TimeLordRewindSystem
         }
 
         var lp = PlayerControl.LocalPlayer;
-        
+
         // Only record snapshots when player is alive (not dead/ghost)
-        if (lp.Data.IsDead || lp.Data.Role is IRewindImmune immune && immune.IgnoredByRecording)
+        if (lp.Data.IsDead || lp.Data.Role is IRewindImmune { IgnoredByRecording: true })
         {
             return;
         }
@@ -588,7 +587,7 @@ public static class TimeLordRewindSystem
         var countBefore = Buffer.Count;
         Buffer.RemoveOlderThan(retentionCutoff);
         var removedCount = countBefore - Buffer.Count;
-        
+
         if (removedCount > 0)
         {
             TaskBuffer.RemoveCount(removedCount);
@@ -631,7 +630,7 @@ public static class TimeLordRewindSystem
             flags |= SnapshotState.InvisibleAnim;
         }
 
-        var inMinigame = Minigame.Instance || SpawnInMinigame.Instance;
+        var inMinigame = Minigame.Instance;
         if (inMinigame)
         {
             flags |= SnapshotState.InMinigame;
@@ -662,7 +661,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        Buffer.Add(new TimeLord.Snapshot(Time.time, pos, (TimeLord.SpecialAnim)anim, (TimeLord.SnapshotState)flags, ventId));
+        Buffer.Add(new Snapshot(Time.time, pos, (TimeLord.SpecialAnim)anim, (TimeLord.SnapshotState)flags, ventId));
         _lastRecordedPos = pos;
         _hasLastRecordedPos = true;
 
@@ -939,7 +938,7 @@ public static class TimeLordRewindSystem
 
             var sample = samples[idx];
             var restoredTimer = sample.Timer;
-            
+
             if (!sample.EffectActive)
             {
                 if (KillButtonCooldownMaxClampedThisRewind.Contains(button))
@@ -964,7 +963,7 @@ public static class TimeLordRewindSystem
                     }
                 }
             }
-            
+
             if (Mathf.Abs(button.Timer - restoredTimer) > 0.01f || button.EffectActive != sample.EffectActive)
             {
                 button.Timer = restoredTimer;
@@ -988,17 +987,17 @@ public static class TimeLordRewindSystem
 
         const float sampleInterval = 0.5f;
         var now = Time.time;
-        
+
         if (now - _lastKillCooldownSampleTime < sampleInterval)
         {
             return;
         }
 
         var currentCooldown = player.killTimer;
-        
+
         if (_lastKillCooldownValue >= 0f && Mathf.Abs(currentCooldown - _lastKillCooldownValue) > 0.1f)
         {
-            TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordKillCooldown(
+            Events.Crewmate.TimeLordEventHandlers.RecordKillCooldown(
                 player, _lastKillCooldownValue, currentCooldown);
         }
 
@@ -1008,8 +1007,7 @@ public static class TimeLordRewindSystem
 
     private static void RecordLocalTaskSteps(PlayerControl lp, int samplesNeeded)
     {
-        var tasks = lp.myTasks.ToArray()
-.Where(t => t != null && t.TryCast<NormalPlayerTask>() != null && !PlayerTask.TaskIsEmergency(t) &&
+        var tasks = lp.myTasks.Where(t => t != null && t.TryCast<NormalPlayerTask>() != null && !PlayerTask.TaskIsEmergency(t) &&
         t.TryCast<ImportantTextTask>() == null)
 .ToList();
 
@@ -1115,7 +1113,7 @@ public static class TimeLordRewindSystem
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
 
@@ -1128,15 +1126,15 @@ public static class TimeLordRewindSystem
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
 
         // Exempt ghosts and ghost roles from Time Lord effects
-        var isGhost = PlayerControl.LocalPlayer.Data.IsDead || 
-                      PlayerControl.LocalPlayer.Data.Role is IGhostRole || 
-                      PlayerControl.LocalPlayer.Data.Role is IRewindImmune immune && immune.IgnoredByRewind;
-        
+        var isGhost = PlayerControl.LocalPlayer.Data.IsDead ||
+                      PlayerControl.LocalPlayer.Data.Role is IGhostRole ||
+                      PlayerControl.LocalPlayer.Data.Role is IRewindImmune { IgnoredByRewind: true };
+
         if (!isGhost)
         {
             PlayerControl.LocalPlayer.NetTransform.Halt();
@@ -1170,9 +1168,9 @@ public static class TimeLordRewindSystem
         Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.TimeLord, duration, 0.25f));
 
         ConfigureLocalBodyRestores(duration, history);
-        
+
         // Schedule event-based undos
-        var eventQueue = TownOfUs.Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
+        var eventQueue = Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
         var historySeconds = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 120f);
         _scheduledEventUndos = eventQueue.GetUndoSchedule(Time.time, duration, historySeconds);
 
@@ -1199,7 +1197,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        if (!IsRewinding || (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value == RewindRevive.Disabled)
+        if (!IsRewinding || OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind == RewindRevive.Disabled)
         {
             return;
         }
@@ -1249,7 +1247,7 @@ public static class TimeLordRewindSystem
 
             if (!HostBodyPosHistory.TryGetValue(id, out var buf))
             {
-                buf = new TimeLord.BodyPosBuffer(cap);
+                buf = new BodyPosBuffer(cap);
                 HostBodyPosHistory[id] = buf;
             }
 
@@ -1263,7 +1261,7 @@ public static class TimeLordRewindSystem
             buf.Add(pos);
         }
 
-        var keys = HostBodyPosHistory.Keys.ToList();
+        var keys = HostBodyPosHistory.Keys;
         foreach (var k in keys)
         {
             if (!seen.Contains(k))
@@ -1362,7 +1360,7 @@ public static class TimeLordRewindSystem
         }
     }
 
-    private static void ApplyVentSnapshotState(PlayerControl lp, TimeLord.Snapshot snap)
+    private static void ApplyVentSnapshotState(PlayerControl lp, Snapshot snap)
     {
         var wantInVent = (snap.Flags & (TimeLord.SnapshotState)SnapshotState.InVent) != 0;
 
@@ -1410,7 +1408,7 @@ public static class TimeLordRewindSystem
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
 
@@ -1432,7 +1430,7 @@ public static class TimeLordRewindSystem
 
         var elapsed = Time.time - _rewindStartTime;
 
-        if ((RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value == RewindRevive.Disabled)
+        if (OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind == RewindRevive.Disabled)
         {
             _hostRevives = null;
         }
@@ -1472,7 +1470,7 @@ public static class TimeLordRewindSystem
                 if (elapsed + 0.0001f >= entry.TriggerAtSeconds)
                 {
                     entry.Done = true;
-                    TownOfUs.Roles.Crewmate.TimeLordRole.RpcSetDeadBodyPos(PlayerControl.LocalPlayer, entry.BodyId, entry.Position);
+                    TimeLordRole.RpcSetDeadBodyPos(PlayerControl.LocalPlayer, entry.BodyId, entry.Position);
                 }
             }
         }
@@ -1490,7 +1488,7 @@ public static class TimeLordRewindSystem
                 if (elapsed + 0.0001f >= entry.TriggerAtSeconds)
                 {
                     entry.Done = true;
-                    TownOfUs.Roles.Crewmate.TimeLordRole.RpcUndoTask(PlayerControl.LocalPlayer, entry.PlayerId, entry.TaskId);
+                    TimeLordRole.RpcUndoTask(PlayerControl.LocalPlayer, entry.PlayerId, entry.TaskId);
                 }
             }
         }
@@ -1507,10 +1505,10 @@ public static class TimeLordRewindSystem
         ProcessHostScheduledRewindActions();
 
         // Exempt ghosts and ghost roles from Time Lord effects - they can move freely
-        var isGhost = PlayerControl.LocalPlayer.Data.IsDead || 
-                      PlayerControl.LocalPlayer.Data.Role is IGhostRole || 
-                      PlayerControl.LocalPlayer.Data.Role is IRewindImmune immune && immune.IgnoredByRewind;
-        
+        var isGhost = PlayerControl.LocalPlayer.Data.IsDead ||
+                      PlayerControl.LocalPlayer.Data.Role is IGhostRole ||
+                      PlayerControl.LocalPlayer.Data.Role is IRewindImmune { IgnoredByRewind: true };
+
         if (isGhost)
         {
             if (Time.time >= RewindEndTime)
@@ -1607,7 +1605,7 @@ public static class TimeLordRewindSystem
                 {
                     // Fire the undo event through MiraEventManager
                     var undoEvent = CreateUndoEvent(evt);
-                    MiraAPI.Events.MiraEventManager.InvokeEvent(undoEvent);
+                    undoEvent.InvokeEvent();
                     _scheduledEventUndos.RemoveAt(i);
                 }
             }
@@ -1646,8 +1644,8 @@ public static class TimeLordRewindSystem
             return true;
         }
 
-        TimeLord.Snapshot snap = default;
-        TimeLord.TaskStepSnapshot taskSnap = default;
+        Snapshot snap = default;
+        TaskStepSnapshot taskSnap = default;
         var hitHistoryCutoff = false;
         for (var i = 0; i < popsThisTick; i++)
         {
@@ -1701,7 +1699,7 @@ public static class TimeLordRewindSystem
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
 
@@ -1809,7 +1807,7 @@ return true;*/
     {
         var wasHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
         byte[] pendingHostRevives = [];
-        if (wasHost && (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
+        if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind != RewindRevive.Disabled)
         {
             var ids = new HashSet<byte>(_hostPendingRewindRevives);
             if (_hostRevives != null)
@@ -1881,7 +1879,7 @@ return true;*/
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
 
@@ -1891,9 +1889,9 @@ return true;*/
         try { lp.MyPhysics?.ResetAnimState(); } catch { /* ignored */ }
 
         // Only apply final snap position if we're still in a valid game state and the position is valid
-        if (_hasFinalSnapPos && !endedInVent && 
-            AmongUsClient.Instance && 
-            (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started || 
+        if (_hasFinalSnapPos && !endedInVent &&
+            AmongUsClient.Instance &&
+            (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started ||
              AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay) &&
             IsValidSnapshotPos(lp, _finalSnapPos))
         {
@@ -1951,7 +1949,7 @@ return true;*/
             ModCompatibility.CheckOutOfBoundsElevator(lp);
         }
 
-        if (wasHost && pendingHostRevives.Length > 0 && (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
+        if (wasHost && pendingHostRevives.Length > 0 && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind != RewindRevive.Disabled)
         {
             foreach (var victimId in pendingHostRevives)
             {
@@ -1978,7 +1976,7 @@ return true;*/
             return;
         }
 
-        foreach (var rec in TimeLordBodyManager.GetCleanedBodiesRestoredThisRewind().ToList())
+        foreach (var rec in TimeLordBodyManager.GetCleanedBodiesRestoredThisRewind())
         {
             if (rec == null ||
                 !rec.RestoredThisRewind ||
@@ -2007,7 +2005,7 @@ return true;*/
 
         var wasHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
         byte[] pendingHostRevives = [];
-        if (wasHost && (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
+        if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind != RewindRevive.Disabled)
         {
             var ids = new HashSet<byte>(_hostPendingRewindRevives);
             if (_hostRevives != null)
@@ -2093,7 +2091,7 @@ return true;*/
 
         lp.moveable = true;
 
-        if (wasHost && pendingHostRevives.Length > 0 && (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value != RewindRevive.Disabled)
+        if (wasHost && pendingHostRevives.Length > 0 && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind != RewindRevive.Disabled)
         {
             foreach (var victimId in pendingHostRevives)
             {
@@ -2106,7 +2104,7 @@ return true;*/
         }
     }
 
-    private static void ApplyLocalTaskSteps(PlayerControl lp, TimeLord.TaskStepSnapshot snap)
+    private static void ApplyLocalTaskSteps(PlayerControl lp, TaskStepSnapshot snap)
     {
         if (lp.AmOwner && Minigame.Instance)
         {
@@ -2116,14 +2114,14 @@ return true;*/
         for (var i = 0; i < _trackedTaskCount; i++)
         {
             var id = _trackedTaskIds[i];
-            var target = lp.myTasks.ToArray().FirstOrDefault(t => t != null && t.Id == id && t.TryCast<NormalPlayerTask>() != null);
+            var target = lp.myTasks.FirstOrDefault(t => t != null && t.Id == id && t.TryCast<NormalPlayerTask>() != null);
             if (target == null)
             {
                 continue;
             }
 
             var npt = target.Cast<NormalPlayerTask>();
-            if (npt.TaskType is TaskTypes.InspectSample or TaskTypes.FuelEngines or global::TaskTypes.ExtractFuel or TaskTypes.ChartCourse or TaskTypes.UploadData or TaskTypes.SortRecords or TaskTypes.OpenWaterways or TaskTypes.EmptyGarbage or TaskTypes.EmptyChute or TaskTypes.SubmitScan or TaskTypes.RebootWifi or TaskTypes.WaterPlants or TaskTypes.PickUpTowels or TaskTypes.DevelopPhotos)
+            if (npt.TaskType is TaskTypes.InspectSample or TaskTypes.FuelEngines or TaskTypes.ExtractFuel or TaskTypes.ChartCourse or TaskTypes.UploadData or TaskTypes.SortRecords or TaskTypes.OpenWaterways or TaskTypes.EmptyGarbage or TaskTypes.EmptyChute or TaskTypes.SubmitScan or TaskTypes.RebootWifi or TaskTypes.WaterPlants or TaskTypes.PickUpTowels or TaskTypes.DevelopPhotos)
             {
                 continue;
             }
@@ -2196,32 +2194,32 @@ return true;*/
             return;
         }
 
-        var eventQueue = TownOfUs.Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
+        var eventQueue = Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
         var rewindWindowStart = _rewindHistoryCutoffTime;
         var rewindWindowEnd = _rewindStartTime; // Time when rewind started
-        
-        var killCooldownEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillCooldownEvent>(rewindWindowStart, rewindWindowEnd);
-        
-        TownOfUs.Events.TouEvents.TimeLordKillCooldownEvent? mostRecentEvent = null;
+
+        var killCooldownEvents = eventQueue.GetEvents<TimeLordKillCooldownEvent>(rewindWindowStart, rewindWindowEnd);
+
+        TimeLordKillCooldownEvent? mostRecentEvent = null;
         foreach (var kcEvent in killCooldownEvents)
         {
-            if (kcEvent.Player == player && kcEvent.Time <= snapshotTime && 
+            if (kcEvent.Player == player && kcEvent.Time <= snapshotTime &&
                 (mostRecentEvent == null || kcEvent.Time > mostRecentEvent.Time))
             {
                 mostRecentEvent = kcEvent;
             }
         }
-        
+
         if (mostRecentEvent != null)
         {
             var timeSinceEvent = snapshotTime - mostRecentEvent.Time;
             var expectedCooldown = Mathf.Max(0f, mostRecentEvent.CooldownAfter - timeSinceEvent);
-            
+
             var maxKillCooldown = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
-            
+
             if (!LocalKillCooldownMaxClampedThisRewind)
             {
-                var killEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillEvent>(rewindWindowStart, rewindWindowEnd);
+                var killEvents = eventQueue.GetEvents<TimeLordKillEvent>(rewindWindowStart, rewindWindowEnd);
                 foreach (var killEvent in killEvents)
                 {
                     if (killEvent.Player != player)
@@ -2241,11 +2239,11 @@ return true;*/
             {
                 expectedCooldown = maxKillCooldown;
             }
-            
+
             var maxvalue = expectedCooldown > maxKillCooldown
                 ? expectedCooldown + 1f
                 : maxKillCooldown;
-            
+
             player.killTimer = Mathf.Clamp(expectedCooldown, 0, maxvalue);
             if (HudManager.InstanceExists && HudManager.Instance.KillButton != null)
             {
@@ -2257,7 +2255,7 @@ return true;*/
     public static TimeLordUndoEvent CreateUndoEvent(TimeLordEvent evt)
     {
         // First, check if an extension has registered a factory for this event type
-        var eventQueue = TownOfUs.Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
+        var eventQueue = Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
         var extensionUndoEvent = eventQueue.CreateUndoEvent(evt);
         if (extensionUndoEvent != null)
         {
@@ -2366,7 +2364,7 @@ return true;*/
             }
             catch
             {
-               // ignored
+                // ignored
             }
         }
 
@@ -2384,7 +2382,7 @@ return true;*/
             {
                 var n = normal.Cast<NormalPlayerTask>();
                 var taskType = n.TaskType;
-                
+
                 // Exception: Don't undo tasks that consume objects (objects are removed on completion)
                 // These tasks would softlock if undone because the objects can't be restored
                 if (taskType is TaskTypes.PickUpTowels or TaskTypes.SortRecords)
@@ -2410,12 +2408,12 @@ return true;*/
             if (normal != null)
             {
                 var n = normal.Cast<NormalPlayerTask>();
-                
+
                 // Try to restore to the step before completion
                 int restoreStep = 0;
                 bool foundStoredStep = false;
                 int storedStep = 0;
-                
+
                 // First, try to get the stored step from when the task was completed
                 if (_hostTaskStepMap != null && _hostTaskStepMap.TryGetValue((targetPlayerId, taskId), out storedStep))
                 {
@@ -2424,12 +2422,12 @@ return true;*/
                     restoreStep = Math.Max(0, storedStep - 1);
                     foundStoredStep = true;
                 }
-                
+
                 // For tasks excluded from local step tracking, use special handling
                 var taskType = n.TaskType;
-                if (!foundStoredStep || taskType is TaskTypes.InspectSample or TaskTypes.FuelEngines or global::TaskTypes.ExtractFuel 
-                    or TaskTypes.ChartCourse or TaskTypes.UploadData or TaskTypes.SortRecords or TaskTypes.OpenWaterways 
-                    or TaskTypes.EmptyGarbage or TaskTypes.EmptyChute or TaskTypes.SubmitScan or TaskTypes.RebootWifi 
+                if (!foundStoredStep || taskType is TaskTypes.InspectSample or TaskTypes.FuelEngines or TaskTypes.ExtractFuel
+                    or TaskTypes.ChartCourse or TaskTypes.UploadData or TaskTypes.SortRecords or TaskTypes.OpenWaterways
+                    or TaskTypes.EmptyGarbage or TaskTypes.EmptyChute or TaskTypes.SubmitScan or TaskTypes.RebootWifi
                     or TaskTypes.WaterPlants or TaskTypes.PickUpTowels or TaskTypes.DevelopPhotos)
                 {
                     // For these special tasks, handle based on task type
@@ -2448,7 +2446,7 @@ return true;*/
                         // Waterwheels: if at 3/3, restore to 2/3
                         restoreStep = foundStoredStep ? Math.Max(2, storedStep - 1) : 2;
                     }
-                    else if (taskType is TaskTypes.FuelEngines or global::TaskTypes.ExtractFuel)
+                    else if (taskType is TaskTypes.FuelEngines or TaskTypes.ExtractFuel)
                     {
                         // Fuel tasks: restore to step 1 (first part done, second part pending)
                         restoreStep = foundStoredStep ? Math.Max(1, storedStep - 1) : 1;
@@ -2489,7 +2487,7 @@ return true;*/
                         restoreStep = 0;
                     }
                 }
-                
+
                 n.taskStep = restoreStep;
                 n.Initialize();
                 n.UpdateArrowAndLocation();
@@ -2574,11 +2572,11 @@ return true;*/
             return;
         }
 
-        foreach (var drag in ModifierUtils.GetActiveModifiers<DragModifier>().ToList())
+        foreach (var drag in ModifierUtils.GetActiveModifiers<DragModifier>())
         {
             if (drag.BodyId == revived.PlayerId)
             {
-                drag.Player.GetModifierComponent()?.RemoveModifier(drag);
+                drag.RemoveSelf();
                 if (drag.Player.AmOwner && drag.Player.Data.Role is UndertakerRole)
                 {
                     CustomButtonSingleton<UndertakerDragDropButton>.Instance.SetDrag();
@@ -2613,9 +2611,9 @@ return true;*/
         {
             pos = new Vector2(body.TruePosition.x, body.TruePosition.y + 0.3636f);
         }
-        
+
         var timeLord = SourceTimeLordId != byte.MaxValue ? MiscUtils.PlayerById(SourceTimeLordId) : null;
-        var isTemp = (RewindRevive)OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value is RewindRevive.UntilNextRound;
+        var isTemp = OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind.Value is RewindRevive.UntilNextRound;
         var revivedText = MiraLocaleManager.Get("TownOfUsMira.Role.TimeLordRevivedNotif", "You were revived thanks to the Time Lord!");
         var successText = string.Empty;
         if (timeLord != null && revived.Data != null && OptionGroupSingleton<TimeLordOptions>.Instance.NotifyOnRevive)
@@ -2640,7 +2638,7 @@ return true;*/
             flashColor: TownOfUsColors.TimeLord,
             revivedOwnerNotificationText: revivedText,
             reviverOwnerNotificationText: successText,
-            notificationIcon: TouRoleIcons.TimeLord.LoadAsset());
+            notificationIcon: TouRoleIcons.TimeLord);
 
         Achievements.TouAchievementEvents.OnTimeLordRevive(revived);
 

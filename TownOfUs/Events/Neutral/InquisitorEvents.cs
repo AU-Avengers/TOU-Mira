@@ -9,7 +9,6 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Achievements;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
@@ -27,15 +26,17 @@ public static class InquisitorEvents
         var source = @event.Source;
         var victim = @event.Target;
 
+        var victimIsHeretic = victim.HasModifier<InquisitorHereticModifier>();
+
         if (source.Data.Role is InquisitorRole inquis &&
             GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
         {
-            if (victim.HasModifier<InquisitorHereticModifier>())
+            if (victimIsHeretic)
             {
                 stats.CorrectKills += 1;
-                if (source.AmOwner && stats.CorrectKills == (int)OptionGroupSingleton<InquisitorOptions>.Instance.AmountOfHeretics.Value)
+                if (source.AmOwner && stats.CorrectKills == OptionGroupSingleton<InquisitorOptions>.Instance.AmountOfHeretics)
                 {
-                    AchievementsAPIHelper.Unlock(TouAchievements.SpanishInquisition);
+                    TouAchievements.SpanishInquisition.Unlock();
                 }
             }
             else if (source != victim)
@@ -47,29 +48,29 @@ public static class InquisitorEvents
 
         if (PlayerControl.LocalPlayer.Data.Role is InquisitorRole && !victim.AmOwner)
         {
-            if (victim.HasModifier<InquisitorHereticModifier>() && !source.AmOwner)
+            if (victimIsHeretic && !source.AmOwner)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Inquisitor, alpha: 0.1f));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorHereticPerished")}</b></color>", Color.white,
                     new Vector3(0f, 1f, -20f),
-                    spr: TouRoleIcons.Inquisitor.LoadAsset());
+                    spr: TouRoleIcons.Inquisitor);
                 notif1.AdjustNotification();
             }
-            else if (!victim.HasModifier<InquisitorHereticModifier>() && source.AmOwner)
+            else if (!victimIsHeretic && source.AmOwner)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Inquisitor, alpha: 0.4f));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorWrongTarget") .Replace("<player>", victim.Data.PlayerName)}</b></color>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor);
                 notif1.AdjustNotification();
             }
-            else if (victim.HasModifier<InquisitorHereticModifier>() && source.AmOwner)
+            else if (victimIsHeretic && source.AmOwner)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Doomsayer, alpha: 0.4f));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorCorrectTarget") .Replace("<player>", victim.Data.PlayerName)}</b></color>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor);
                 notif1.AdjustNotification();
             }
         }
@@ -107,7 +108,7 @@ public static class InquisitorEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorVictoryMessageSelf").Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.GetRoleName()}</color>"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor);
 
                 notif1.AdjustNotification();
             }
@@ -130,7 +131,7 @@ public static class InquisitorEvents
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     message.Replace("<player>", inquis.Player.Data.PlayerName),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: icon);
 
                 notif1.AdjustNotification();
             }
@@ -160,7 +161,7 @@ public static class InquisitorEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorWonSelf") .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.GetRoleName()}</color>")}</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor);
 
                 notif1.AdjustNotification();
             }
@@ -177,12 +178,12 @@ public static class InquisitorEvents
                 }
                 else
                 {
-                    message = $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorWonOther") .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.GetRoleName()}</color>") .Replace("<player>", inquis.Player.Data.PlayerName)}</b>";
+                    message = $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorWonOther").Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.GetRoleName()}</color>").Replace("<player>", inquis.Player.Data.PlayerName)}</b>";
                     icon = TouRoleIcons.Inquisitor;
                 }
 
                 var notif1 = Helpers.CreateAndShowNotification(
-                    message, Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
+                    message, Color.white, new Vector3(0f, 1f, -20f), spr: icon);
 
                 notif1.AdjustNotification();
             }

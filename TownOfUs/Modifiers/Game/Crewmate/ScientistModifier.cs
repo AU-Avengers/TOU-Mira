@@ -16,7 +16,7 @@ public sealed class ScientistModifier : TouGameModifier, IWikiDiscoverable, IBut
 {
     public override ModifierUiConfiguration Configuration => new(
         new Color32(0, 199, 105, 255),
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Scientist.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Scientist,
             "AmongUs.Role.Scientist", 1.45f));
     public override string IdPart => "Scientist";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -67,12 +67,12 @@ public sealed class ScientistModifier : TouGameModifier, IWikiDiscoverable, IBut
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)
