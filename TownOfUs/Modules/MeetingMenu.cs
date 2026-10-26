@@ -25,20 +25,9 @@ public sealed class MeetingMenu : IDisposable
         Color? disabledColor = null!,
         Color? hoverColor = null!,
         Vector3? position = null!)
+        : this(owner, onClick, string.Empty, abilityType, activeSprite, disabledSprite, exemption,
+              activeColor, disabledColor, hoverColor, position)
     {
-        Owner = owner;
-        Click = onClick ?? throw new ArgumentException("onClick should exist");
-        IsExempt = exemption;
-        ActiveSprite = activeSprite;
-        DisabledSprite = disabledSprite;
-        ActiveColor = activeColor ?? Color.green;
-        DisabledColor = disabledColor ?? Color.white;
-        HoverColor = hoverColor ?? Color.red;
-        Type = abilityType;
-        Position = position ?? new Vector3(-0.95f, 0.03f, -3f);
-        AbilityName = string.Empty;
-
-        Instances.Add(this);
     }
 
     public MeetingMenu(
@@ -78,20 +67,9 @@ public sealed class MeetingMenu : IDisposable
         Color? disabledColor = null!,
         Color? hoverColor = null!,
         Vector3? position = null!)
+        : this(owner, (_, _) => { }, string.Empty, MeetingAbilityType.None, activeSprite, disabledSprite, exemption,
+              activeColor ?? Color.white, disabledColor, hoverColor ?? Color.white, position)
     {
-        Owner = owner;
-        Click = (_, _) => { };
-        IsExempt = exemption;
-        ActiveSprite = activeSprite;
-        DisabledSprite = disabledSprite;
-        ActiveColor = activeColor ?? Color.white;
-        DisabledColor = disabledColor ?? Color.white;
-        HoverColor = hoverColor ?? Color.white;
-        Type = MeetingAbilityType.None;
-        Position = position ?? new Vector3(-0.95f, 0.03f, -3f);
-        AbilityName = string.Empty;
-
-        Instances.Add(this);
     }
 
     public static List<MeetingMenu> Instances { get; set; } = [];
