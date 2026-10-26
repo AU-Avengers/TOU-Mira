@@ -362,20 +362,13 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void ReportBodyEventHandler(ReportBodyEvent @event)
     {
-        if (@event.Target == null)
+        if (@event is not { Target.PlayerId: var deadPlayerId,
+            Reporter: { AmOwner: true, Data.Role: IBaseBodyReport { ReportEnabled: true } report } })
         {
             return;
         }
-
-        if (@event.Reporter.Data.Role is not IBaseBodyReport { ReportEnabled: true } report || !@event.Reporter.AmOwner)
-        {
-            return;
-        }
-
-        var deadPlayerId = @event.Target.PlayerId;
 
         var matches = GameHistory.KilledPlayers.Where(x => x.VictimId == deadPlayerId);
-
         if (matches.FirstOrDefault() is not { } killer)
         {
             return;
