@@ -107,7 +107,7 @@ public sealed class MeetingMenu : IDisposable
     private Color DisabledColor { get; }
     private Color HoverColor { get; }
     public MeetingAbilityType Type { get; }
-    public Vector3 Position { get; set; }
+    public Vector3 Position { get; init; }
     public Dictionary<byte, bool> Actives { get; } = [];
     public Dictionary<byte, GameObject> Buttons { get; } = [];
     private Dictionary<byte, SpriteRenderer> ButtonSprites { get; } = [];
