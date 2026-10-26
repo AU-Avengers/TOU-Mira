@@ -72,7 +72,7 @@ public sealed class MeetingMenu : IDisposable
     {
     }
 
-    public static List<MeetingMenu> Instances { get; set; } = [];
+    public static List<MeetingMenu> Instances { get; } = [];
 
     public RoleBehaviour Owner { get; }
     public OnClick Click { get; }
