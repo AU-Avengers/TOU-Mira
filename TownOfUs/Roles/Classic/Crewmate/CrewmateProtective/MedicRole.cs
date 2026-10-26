@@ -108,7 +108,8 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
                 TouAssets.DarkerSprite)
             {
                 Position = new Vector3(1.1f, -0.18f, -3f),
-                StartActive = PlayerIsLighter
+                StartActive = PlayerIsLighter,
+                ButtonSetup = (_, button) => button.transform.localScale *= 0.8f
             };
         }
     }
@@ -131,18 +132,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         var meeting = MeetingHud.Instance;
         if (Player.AmOwner && meeting != null)
         {
-            meetingMenu.GenButtons(meeting,
-                true);
-
-            foreach (var button in meetingMenu.Buttons)
-            {
-                if (button.Value == null)
-                {
-                    continue;
-                }
-
-                button.Value.transform.localScale *= 0.8f;
-            }
+            meetingMenu.GenButtons(meeting, true);
         }
     }
 

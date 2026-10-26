@@ -100,6 +100,7 @@ public sealed class MeetingMenu : IDisposable
     public OnClick Click { get; }
     public Exemption IsExempt { get; }
     public Exemption StartActive { get; init; }
+    public Action<PlayerVoteArea, GameObject>? ButtonSetup { get; init; }
     public LoadableAsset<Sprite> ActiveSprite { get; }
     public LoadableAsset<Sprite> DisabledSprite { get; }
     public string AbilityName { get; }
@@ -207,6 +208,8 @@ public sealed class MeetingMenu : IDisposable
         tmpText.m_enableWordWrapping = false;
         Buttons.Add(voteArea.PlayerId, targetBox);
         ButtonSprites.Add(voteArea.PlayerId, renderer);
+
+        ButtonSetup?.Invoke(voteArea, targetBox);
     }
 
     public void GenButtons(MeetingHud meeting, bool usable)
