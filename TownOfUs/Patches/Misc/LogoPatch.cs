@@ -60,6 +60,12 @@ public static class LogoPatch
             SoftWikiEntries.RegisterVanillaRoleEntry(rolePair.Key, rolePair.Value);
         }
 
+        // i hate myself
+        foreach (var modifier in MiscUtils.AllBaseGameModifiers)
+        {
+            _ = modifier.Configuration.PopUpIconTmp;
+        }
+
         var newLogo = GameObject.Find("LOGO-AU");
         var sizer = GameObject.Find("Sizer");
         if (newLogo != null)
