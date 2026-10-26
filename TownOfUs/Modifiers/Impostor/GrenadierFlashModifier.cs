@@ -11,7 +11,7 @@ using Color = UnityEngine.Color;
 
 namespace TownOfUs.Modifiers.Impostor;
 
-public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledModifier, IDisposable
+public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledModifier
 {
     public static Color blindVision = new(0.83f, 0.83f, 0.83f, 1f);
     private readonly Color dimVision = new(0.83f, 0.83f, 0.83f, 0.2f);
@@ -30,11 +30,6 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
     public override bool CanOpenMap => Player.IsImpostorAligned();
     public override bool CanReport => false;
     public PlayerControl Grenadier => grenadier;
-
-    public void Dispose()
-    {
-        flash?.Destroy();
-    }
 
     public static void SetColor()
     {
