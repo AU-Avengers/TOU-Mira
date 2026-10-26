@@ -396,12 +396,7 @@ public static class TownOfUsEventHandlers
                 return;
             }
 
-            var reported = report.Player;
-            if (br.Body != null)
-            {
-                reported = br.Body;
-            }
-
+            var reported = br.Body ?? report.Player;
             MiscUtils.AddFakeChat(reported.Data, chat.BodyReportTitle, reportMsg, false, true);
         }
     }
