@@ -22,7 +22,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Seer";
-    public static string ReworkString => OptionGroupSingleton<SeerOptions>.Instance.SalemSeer.Value ? "Alt" : string.Empty;
+    public static string ReworkString => OptionGroupSingleton<SeerOptions>.Instance.SalemSeer ? "Alt" : string.Empty;
     public string RoleDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.{ReworkString}IntroBlurb");
     public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.{ReworkString}TabDescription");
     public List<string> ComparisonList = [];
@@ -42,7 +42,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
             var sprite = TouCrewAssets.SeerSprite;
             var abilityName = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Reveal", "Reveal");
             var abilityDesc = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Reveal.WikiDescription");
-            if (OptionGroupSingleton<SeerOptions>.Instance.SalemSeer.Value)
+            if (OptionGroupSingleton<SeerOptions>.Instance.SalemSeer)
             {
                 abilityName = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Compare", "Compare");
                 abilityDesc = MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Compare.WikiDescription");
@@ -61,7 +61,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Seer.LoadAsset(), "TouMira.Role.Crewmate.Seer", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Seer, "TouMira.Role.Crewmate.Seer", 1.45f),
         Icon = TouRoleIcons.Seer,
         OptionsScreenshot = TouBanners.SeerRoleBanner,
         IntroSound = TouAudio.QuestionSound
@@ -139,7 +139,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         void ShowNotification(string message)
         {
             var notif = Helpers.CreateAndShowNotification(message, Color.white, new Vector3(0f, 1f, -20f),
-                spr: TouRoleIcons.Seer.LoadAsset());
+                spr: TouRoleIcons.Seer);
             notif.AdjustNotification();
         }
 
@@ -174,7 +174,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         var players = new [] {playerA, playerB}.OrderBy(x => x.ToLowerInvariant()).ToArray();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SeerComparisonResult, enemies ? "Enemies" : "Friends", seer, GazeTarget, IntuitTarget);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (enemies)
         {

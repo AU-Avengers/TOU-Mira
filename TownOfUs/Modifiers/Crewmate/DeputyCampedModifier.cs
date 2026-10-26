@@ -17,7 +17,7 @@ public sealed class DeputyCampedModifier(PlayerControl deputy) : BaseModifier
         base.OnActivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.DeputyCamp, Deputy, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void FixedUpdate()
@@ -25,7 +25,7 @@ public sealed class DeputyCampedModifier(PlayerControl deputy) : BaseModifier
         base.FixedUpdate();
         if (!Player || Deputy == null)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 

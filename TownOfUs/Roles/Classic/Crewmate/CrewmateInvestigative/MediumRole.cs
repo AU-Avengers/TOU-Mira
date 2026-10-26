@@ -56,7 +56,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Medium.LoadAsset(), "TouMira.Role.Crewmate.Medium", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Medium, "TouMira.Role.Crewmate.Medium", 1.45f),
         Icon = TouRoleIcons.Medium,
         OptionsScreenshot = TouBanners.MediumRoleBanner,
         IntroSound = TouAudio.MediumIntroSound
@@ -91,7 +91,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             return;
         }
         var hidden =
-            (AppearanceVisibility)OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
+            OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
             AppearanceVisibility.None or AppearanceVisibility.Ghosts;
         if (player.AmOwner && hidden)
         {
@@ -145,7 +145,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
 
         var hidden =
-            (AppearanceVisibility)OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
+            OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
             AppearanceVisibility.None or AppearanceVisibility.Ghosts;
         if (player.AmOwner && hidden)
         {
@@ -165,7 +165,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         // This must be a coroutine for it to show the arrow to everyone besides the host.
         yield return new WaitForSeconds(0.5f);
-        var allPlayers = PlayerControl.AllPlayerControls.ToArray().ToList();
+        var allPlayers = PlayerControl.AllPlayerControls.ToList();
         allPlayers.Remove(player);
         foreach (var target in targets)
         {

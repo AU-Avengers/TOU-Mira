@@ -14,7 +14,7 @@ public sealed class DeadlyQuotaModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Impostor,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.DeadlyQuota.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.DeadlyQuota,
             "TouMira.Modifier.Impostor.DeadlyQuota", 1.45f));
     public int KillCount { get; set; }
     public int KillQuota { get; private set; }
@@ -45,12 +45,12 @@ public sealed class DeadlyQuotaModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.DeadlyQuotaChance;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.DeadlyQuotaChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.DeadlyQuotaAmount;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.DeadlyQuotaAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)
@@ -89,7 +89,7 @@ public sealed class DeadlyQuotaModifier : TouGameModifier, IWikiDiscoverable
                 $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.DeadlyQuotaWarningNotif").Replace("<amount>", KillQuota.ToString(TownOfUsPlugin.Culture))}</b>",
                 Color.white,
                 new Vector3(0f, 1f, -20f),
-                spr: TouModifierIcons.DeadlyQuota.LoadAsset());
+                spr: TouModifierIcons.DeadlyQuota);
 
 
             notif1.Text.SetOutlineThickness(0.4f);

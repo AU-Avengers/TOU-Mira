@@ -107,10 +107,9 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
             return;
         }
 
-        var inquis = PlayerControl.AllPlayerControls.ToArray()
-            .FirstOrDefault(x =>
+        var inquis = PlayerControl.AllPlayerControls.FirstOrDefault(x =>
                 x.IsRole<InquisitorRole>() && !x.HasDied() &&
-                !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName));
+                !SpectatorRole.TrackedSpectators.Contains(x.GetBestPlayerDenomination()));
 
         if (inquis == null)
         {
@@ -120,9 +119,8 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
             return;
         }
 
-        var required = (int)OptionGroupSingleton<InquisitorOptions>.Instance.AmountOfHeretics;
-        var players = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => x.Data.Role is not InquisitorRole && x.Data.Role is not SpectatorRole).ToList();
+        int required = OptionGroupSingleton<InquisitorOptions>.Instance.AmountOfHeretics;
+        var players = PlayerControl.AllPlayerControls.Where(x => x.Data.Role is not InquisitorRole && x.Data.Role is not SpectatorRole).ToList();
         var textlog = $"Players in heretic list possible: {players.Count}";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, textlog);
 
@@ -222,7 +220,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Inquisitor.LoadAsset(), "TouMira.Role.Neutral.Inquisitor", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Inquisitor, "TouMira.Role.Neutral.Inquisitor", 1.45f),
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Inquisitor,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
@@ -302,7 +300,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         {
             var newTargets = new Dictionary<PlayerControl, RoleBehaviour>();
             foreach (var heretic in ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>()
-                         .Where(x => x.Player != player).OrderBy([HideFromIl2Cpp](x) => x.TargetRole.GetRoleName()))
+                         .Where(x => x.Player != player).OrderBy([HideFromIl2Cpp] (x) => x.TargetRole.GetRoleName()))
             {
                 newTargets.Add(heretic.Player, heretic.TargetRole);
             }
@@ -329,7 +327,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         TouRoleUtils.ClearTaskHeader(Player);
         if (TutorialManager.InstanceExists && Player.AmOwner)
         {
-            var players = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>().ToList();
+            var players = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>();
             players.Do(x => x.RpcRemoveModifier<InquisitorHereticModifier>());
         }
 
@@ -365,8 +363,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
             return;
         }
 
-        foreach (var player in GameData.Instance.AllPlayers.ToArray()
-                     .Where(x => !x.Object.HasDied() && x.Object.HasModifier<InquisitorInquiredModifier>()))
+        foreach (var player in GameData.Instance.AllPlayers.Where(x => !x.Object.HasDied() && x.Object.HasModifier<InquisitorInquiredModifier>()))
         {
             var text = MiraLocaleManager.Get("TownOfUsMira.Role.InquisitorInquiredNonHeretic")
                 .Replace("<player>", player.PlayerName);
@@ -444,7 +441,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         }
 
         if (Targets.All(x => x.Key.HasDied() || x.Key == exiled))
-            // Error($"CheckTargetEjection - exiled: {exiled.Data.PlayerName}");
+        // Error($"CheckTargetEjection - exiled: {exiled.Data.PlayerName}");
         {
             InquisitorWin(Player);
         }

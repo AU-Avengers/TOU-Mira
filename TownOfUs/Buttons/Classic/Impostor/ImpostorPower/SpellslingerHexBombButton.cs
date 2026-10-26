@@ -43,7 +43,7 @@ public sealed class SpellslingerHexBombButton : TownOfUsRoleButton<SpellslingerR
 
             sabo.ClearSabotage();
         }
-        
+
         ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Sabotage, HexBombSabotageSystem.SabotageId);
     }
 }

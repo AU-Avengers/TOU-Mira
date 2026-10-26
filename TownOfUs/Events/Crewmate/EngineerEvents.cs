@@ -28,7 +28,7 @@ public static class EngineerEvents
 
         var engiVent = CustomButtonSingleton<EngineerVentButton>.Instance;
         engiVent.ExtraUses = 0;
-        engiVent.SetUses((int)OptionGroupSingleton<EngineerOptions>.Instance.MaxVents);
+        engiVent.SetUses(OptionGroupSingleton<EngineerOptions>.Instance.MaxVents);
         if (!engiVent.LimitedUses)
         {
             engiVent.Button?.usesRemainingText.gameObject.SetActive(false);
@@ -42,7 +42,7 @@ public static class EngineerEvents
 
         var engiFix = CustomButtonSingleton<EngineerFixButton>.Instance;
         engiFix.ExtraUses = 0;
-        engiFix.SetUses((int)OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes);
+        engiFix.SetUses(OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes);
         if (!engiFix.LimitedUses)
         {
             engiFix.Button?.usesRemainingText.gameObject.SetActive(false);

@@ -20,7 +20,7 @@ public sealed class CrimeSceneComponent(nint cppPtr) : MonoBehaviour(cppPtr)
     public void Awake()
     {
         var render = gameObject.AddComponent<SpriteRenderer>();
-        render.sprite = TouAssets.CrimeSceneSprite.LoadAsset();
+        render.sprite = TouAssets.CrimeSceneSprite;
         var scale = render.transform.localScale;
         scale.x *= 0.5f;
         scale.y *= 0.5f;
@@ -57,7 +57,7 @@ public sealed class CrimeSceneComponent(nint cppPtr) : MonoBehaviour(cppPtr)
             }
 
             if (!_scenePlayers.Contains(player.PlayerId))
-                // Debug.Log(player.name + " contaminated the crime scene");
+            // Debug.Log(player.name + " contaminated the crime scene");
             {
                 _scenePlayers.Add(player.PlayerId);
             }

@@ -112,8 +112,7 @@ public sealed record BodyReport
                 {
                     // if the killer died, they would still appear correctly here
                     var role = br.Killer.GetRoleWhenAlive();
-                    if (br.Killer.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole
-                        cacheMod)
+                    if (br.Killer.TryGetModifierOfType<ICachedRole>(out var cacheMod))
                     {
                         role = cacheMod.CachedRole;
                     }

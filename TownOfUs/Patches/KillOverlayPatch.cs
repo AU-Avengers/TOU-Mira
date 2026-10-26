@@ -12,20 +12,20 @@ public static class KillOverlayPatch
     public static Material material;
     public static void Prefix(OverlayKillAnimation __instance, KillOverlay parent)
     {
-        var mode = (KillColor)OptionGroupSingleton<GameMechanicOptions>.Instance.KillAnimationBackgroundColor.Value;
+        KillColor mode = OptionGroupSingleton<GameMechanicOptions>.Instance.KillAnimationBackgroundColor;
         var flame = parent.transform.FindChild("QuadParent");
         if (flame != null)
         {
             flame.transform.localPosition = new Vector3(0f, 0f);
             if (flame.transform.FindChild("BackgroundFlame").TryGetComponent<SpriteRenderer>(out var flameSprite))
             {
-                flameSprite.sprite = TouAssets.KillBG.LoadAsset();
+                flameSprite.sprite = TouAssets.KillBG;
                 if (material == null)
                 {
                     material = new Material(flameSprite.material);
                 }
                 flameSprite.material = material;
-                var killer = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.Data.PlayerName == __instance.initData.killerOutfit.PlayerName);
+                var killer = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.Data.PlayerName == __instance.initData.killerOutfit.PlayerName);
                 Color color = TownOfUsColors.Impostor;
 
                 switch (mode)
@@ -35,16 +35,16 @@ public static class KillOverlayPatch
                         {
                             if (killer.IsNeutral())
                             {
-                                flameSprite.sprite = TouAssets.NeutKillBg.LoadAsset();
+                                flameSprite.sprite = TouAssets.NeutKillBg;
                             }
                             else if (killer.IsCrewmate())
                             {
-                                flameSprite.sprite = TouAssets.CrewKillBg.LoadAsset();
+                                flameSprite.sprite = TouAssets.CrewKillBg;
                             }
                         }
                         break;
                     case KillColor.RoleColor:
-                        flameSprite.sprite = TouAssets.ColorKillBg.LoadAsset();
+                        flameSprite.sprite = TouAssets.ColorKillBg;
                         flameSprite.material = __instance.killerParts.cosmetics.currentBodySprite.BodySprite.material;
                         if (killer != null)
                         {
@@ -65,7 +65,7 @@ public static class KillOverlayPatch
                 flame.transform.localPosition = new Vector3(0, -1.5f);
                 if (flame.transform.FindChild("BackgroundFlame").TryGetComponent<SpriteRenderer>(out var flameSprite))
                 {
-                    flameSprite.sprite = TouAssets.RetributionBG.LoadAsset();
+                    flameSprite.sprite = TouAssets.RetributionBG;
                     if (material == null)
                     {
                         material = new Material(flameSprite.material);

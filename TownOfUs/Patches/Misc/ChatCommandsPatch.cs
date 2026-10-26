@@ -115,7 +115,7 @@ public static class ChatPatches
                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                         MiraLocaleManager.Get("SpectatorDraftError"));
                 }
-                else if (SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.Data.PlayerName))
+                else if (SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.GetBestPlayerDenomination()))
                 {
                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                         MiraLocaleManager.Get("SpectatorToggleOff"));
@@ -151,10 +151,10 @@ public static class ChatPatches
                 ClearChat(__instance);
                 return false;
             }
-    
+
             string targetName = textRegular[6..].Trim();
-            var target = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
-    
+            var target = PlayerControl.AllPlayerControls.FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
+
             if (target == null)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -162,7 +162,7 @@ public static class ChatPatches
                 ClearChat(__instance);
                 return false;
             }
-    
+
             if (target.AmOwner)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -170,7 +170,7 @@ public static class ChatPatches
                 ClearChat(__instance);
                 return false;
             }
-    
+
             var clientId = target.OwnerId;
             if (clientId == -1)
             {
@@ -179,16 +179,16 @@ public static class ChatPatches
                 ClearChat(__instance);
                 return false;
             }
-    
+
             AmongUsClient.Instance.KickPlayer(clientId, false);
-    
+
             MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                 $"Kicked <color=#FFA500>{target.Data.PlayerName}</color>.");
-    
+
             ClearChat(__instance);
             return false;
         }
-    
+
         // Adds /ban
         if (textRegular.StartsWith("/ban ", StringComparison.OrdinalIgnoreCase))
         {
@@ -199,10 +199,10 @@ public static class ChatPatches
                 ClearChat(__instance);
                 return false;
             }
-    
+
             string targetName = textRegular[5..].Trim();
-            var target = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
-    
+            var target = PlayerControl.AllPlayerControls.FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
+
             if (target == null)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -210,7 +210,7 @@ public static class ChatPatches
                 ClearChat(__instance);
                 return false;
             }
-    
+
             if (target.AmOwner)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -227,12 +227,12 @@ public static class ChatPatches
                 ClearChat(__instance);
                 return false;
             }
-    
+
             AmongUsClient.Instance.KickPlayer(clientId, true);
-    
+
             MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                 $"Banned <color=#FFA500>{target.Data.PlayerName}</color>.");
-    
+
             ClearChat(__instance);
             return false;
         }
@@ -427,7 +427,7 @@ public static class ChatPatches
                 {
                     msg = MiraLocaleManager.Get("SetNameRequirementError");
                 }
-                else if (PlayerControl.AllPlayerControls.ToArray().Any(x =>
+                else if (PlayerControl.AllPlayerControls.Any(x =>
                              x.Data.PlayerName.ToLower(TownOfUsPlugin.Culture).Trim() ==
                              textRegular.ToLower(TownOfUsPlugin.Culture).Trim() &&
                              !x.AmOwner))
@@ -501,17 +501,17 @@ public static class ChatPatches
                             targetPlayerName = string.Join(" ", parts.Skip(1));
                         }
 
-                        var allRoles = MiscUtils.SpawnableRoles.ToList();
+                        var allRoles = MiscUtils.SpawnableRoles;
                         var matchingRole =
                             allRoles.FirstOrDefault(role =>
                                 role.GetRoleName().Equals(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
                                 role.GetRoleName().Replace(" ", "").Equals(roleNameInput.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
-                                (role is ITownOfUsRole touRole && touRole.IdPart.Equals(roleNameInput, StringComparison.OrdinalIgnoreCase)))
+                                (role is ITownOfUsRole { IdPart: var idPart } && idPart.Equals(roleNameInput, StringComparison.OrdinalIgnoreCase)))
                             ?? allRoles.FirstOrDefault(role =>
                                 role.GetRoleName().Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
                                 roleNameInput.Contains(role.GetRoleName(), StringComparison.OrdinalIgnoreCase) ||
-                                (role is ITownOfUsRole touRole2 && (touRole2.IdPart.Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
-                                                                    roleNameInput.Contains(touRole2.IdPart, StringComparison.OrdinalIgnoreCase))));
+                                (role is ITownOfUsRole { IdPart: var idPart } && (idPart.Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
+                                                                    roleNameInput.Contains(idPart, StringComparison.OrdinalIgnoreCase))));
                         if (matchingRole == null)
                         {
                             MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -522,8 +522,7 @@ public static class ChatPatches
                             string targetName;
                             if (targetPlayerName != null)
                             {
-                                var targetPlayer = PlayerControl.AllPlayerControls.ToArray()
-                                    .FirstOrDefault(p => p.Data.PlayerName.Equals(targetPlayerName, StringComparison.OrdinalIgnoreCase) ||
+                                var targetPlayer = PlayerControl.AllPlayerControls.FirstOrDefault(p => p.Data.PlayerName.Equals(targetPlayerName, StringComparison.OrdinalIgnoreCase) ||
                                                          p.Data.PlayerName.Contains(targetPlayerName, StringComparison.OrdinalIgnoreCase));
 
                                 if (targetPlayer == null)
@@ -534,7 +533,7 @@ public static class ChatPatches
                                 else
                                 {
                                     targetName = targetPlayer.Data.PlayerName;
-                                    var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.IdPart : matchingRole.GetRoleName();
+                                    var roleIdentifier = matchingRole is ITownOfUsRole { IdPart: var idPart } ? idPart : matchingRole.GetRoleName();
                                     RpcForcePlayerRole(PlayerControl.LocalPlayer, targetPlayer);
                                     UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                     MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -545,7 +544,7 @@ public static class ChatPatches
                             {
                                 // Request for self
                                 targetName = PlayerControl.LocalPlayer.Data.PlayerName;
-                                var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.IdPart : matchingRole.GetRoleName();
+                                var roleIdentifier = matchingRole is ITownOfUsRole { IdPart: var idPart } ? idPart : matchingRole.GetRoleName();
                                 RpcForcePlayerRole(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer);
                                 UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                 TouAchievements.Cheater.Unlock();
@@ -569,8 +568,8 @@ public static class ChatPatches
             var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
             var roleOptions = currentGameOptions.RoleOptions;
 
-            var allRoles = MiscUtils.AllRegisteredRoles.Where(role => !role.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(role) && roleOptions.GetNumPerGame(role.Role) > 0).OrderBy(x => x.GetRoleName()).ToList();
-            var ghostRoles = MiscUtils.GetRegisteredGhostRoles().Where(role => CustomRoleUtils.CanSpawnOnCurrentMode(role) && roleOptions.GetNumPerGame(role.Role) > 0).OrderBy(x => x.GetRoleName()).ToList();
+            var allRoles = MiscUtils.AllRegisteredRoles.Where(role => !role.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(role) && roleOptions.GetNumPerGame(role.Role) > 0).OrderBy(x => x.GetRoleName());
+            var ghostRoles = MiscUtils.GetRegisteredGhostRoles().Where(role => CustomRoleUtils.CanSpawnOnCurrentMode(role) && roleOptions.GetNumPerGame(role.Role) > 0).OrderBy(x => x.GetRoleName());
 
             var crewmateRoles = new List<RoleBehaviour>();
             var impostorRoles = new List<RoleBehaviour>();
@@ -596,7 +595,7 @@ public static class ChatPatches
 
             foreach (var role in ghostRoles)
             {
-                if (role is ICustomRole custom && custom.Configuration.HideSettings)
+                if (role is ICustomRole { Configuration.HideSettings: true })
                 {
                     continue;
                 }
@@ -866,15 +865,13 @@ public static class ChatPatches
     [MethodRpc((uint)TownOfUsRpc.SelectSpectator)]
     public static void RpcSelectSpectator(PlayerControl player)
     {
-        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.EnableSpectators.Value)
+        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.EnableSpectators)
         {
             return;
         }
 
-        if (!SpectatorRole.TrackedSpectators.Contains(player.Data.PlayerName))
-        {
-            SpectatorRole.TrackedSpectators.Add(player.Data.PlayerName);
-        }
+        var bestFit = player.GetBestPlayerDenomination();
+        SpectatorRole.TrackedSpectators.Add(bestFit);
     }
 
     public static void SetSpectatorList(Dictionary<byte, string> list)
@@ -895,12 +892,10 @@ public static class ChatPatches
     [MethodRpc((uint)TownOfUsRpc.RemoveSpectator)]
     public static void RpcRemoveSpectator(PlayerControl player)
     {
-        if (SpectatorRole.TrackedSpectators.Contains(player.Data.PlayerName))
-        {
-            SpectatorRole.TrackedSpectators.Remove(player.Data.PlayerName);
-        }
+        var bestFit = player.GetBestPlayerDenomination();
+        SpectatorRole.TrackedSpectators.Remove(bestFit);
     }
-    
+
     private static void ClearChat(ChatController chat)
     {
         chat.freeChatField.Clear();

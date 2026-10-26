@@ -15,7 +15,7 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
     {
         return $"{TrackedSpectators.Count} Active";
     }
-    public bool? ForceShowRoleOnWiki => TrackedSpectators.HasAny() ? true : null;
+    public bool? ForceShowRoleOnWiki => TrackedSpectators.Count != 0 ? true : null;
     private Minigame _hauntMenu = null!;
 
     public static readonly HashSet<string> TrackedSpectators = [];
@@ -75,7 +75,7 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spectator.LoadAsset(), "TouMira.Role.Game.Spectator", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spectator, "TouMira.Role.Game.Spectator", 1.45f),
         TasksCountForProgress = false,
         IntroSound = TouAudio.NoisemakerIntroSound,
         Icon = TouRoleIcons.Spectator,
@@ -207,9 +207,8 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
     public static void InitList()
     {
         foreach (var player in PlayerControl.AllPlayerControls)
-
         {
-            if (!TrackedSpectators.Contains(player.Data.PlayerName))
+            if (!TrackedSpectators.Contains(player.GetBestPlayerDenomination()))
             {
                 TrackedPlayers.Add(player);
             }

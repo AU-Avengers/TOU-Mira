@@ -16,9 +16,8 @@ public sealed class PostmortemOptions : AbstractOptionGroup
     public ModdedToggleOption DeadSeeVotes { get; set; } =
         new("TouOptionDeadSeeVotes", true);
 
-    public ModdedEnumOption DeadSeePrivateChat { get; set; } =
-        new("TouOptionDeadSeePrivateChat", (int)GhostModeGlobal.DisabledUponDeath,
-            typeof(GhostModeGlobal),
+    public ModdedEnumOption<GhostModeGlobal> DeadSeePrivateChat { get; set; } =
+        new("TouOptionDeadSeePrivateChat", GhostModeGlobal.DisabledUponDeath,
             [
                 "TouOptionDeadSeePrivateChatEnumDisabled",
                 "TouOptionDeadSeePrivateChatEnumDisabledUponDeath",
@@ -26,9 +25,8 @@ public sealed class PostmortemOptions : AbstractOptionGroup
                 "TouOptionDeadSeePrivateChatEnumAlways"
             ]);
 
-    public ModdedEnumOption DeadCanHaunt { get; set; } =
-        new("TouOptionDeadCanHaunt", (int)GhostModeInGame.DisabledUponDeath,
-            typeof(GhostModeInGame),
+    public ModdedEnumOption<GhostModeInGame> DeadCanHaunt { get; set; } =
+        new("TouOptionDeadCanHaunt", GhostModeInGame.DisabledUponDeath,
             [
                 "TouOptionDeadCanHauntEnumDisabled",
                 "TouOptionDeadCanHauntEnumDisabledUponDeath",

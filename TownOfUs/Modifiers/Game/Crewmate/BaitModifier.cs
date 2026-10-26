@@ -12,7 +12,7 @@ public sealed class BaitModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Bait,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Bait.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Bait,
             "TouMira.Modifier.Crewmate.Bait", 1.45f));
     public override string IdPart => "Bait";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -41,7 +41,7 @@ public sealed class BaitModifier : TouGameModifier, IWikiDiscoverable
     public override bool ShowModifierAsUnique => true;
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.BaitChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.BaitChance;
     }
 
     public override int GetAmountPerGame()
@@ -76,7 +76,7 @@ public sealed class BaitModifier : TouGameModifier, IWikiDiscoverable
 
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{text.Replace("<modifier>", $"{TownOfUsColors.Bait.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Modifier.Bait")}</color>")}</b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Bait.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Bait);
 
             notif1.AdjustNotification();
         }

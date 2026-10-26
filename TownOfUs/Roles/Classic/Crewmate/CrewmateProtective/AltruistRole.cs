@@ -26,7 +26,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public static bool IsReviveInProgress { get; private set; }
     public static string ReviveString()
     {
-        return (ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value switch
+        return OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value switch
         {
             ReviveType.Sacrifice => ".Sacrifice",
             ReviveType.GroupSacrifice => ".GroupSacrifice",
@@ -63,7 +63,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Altruist.LoadAsset(), "TouMira.Role.Crewmate.Altruist", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Altruist, "TouMira.Role.Crewmate.Altruist", 1.45f),
         IntroSound = TouAudio.AltruistReviveSound,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Altruist
@@ -99,7 +99,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
 
         ClearArrows();
-        
+
         // Reset RevivedInRound when role is deinitialized to fix edge case
         CustomButtonSingleton<AltruistReviveButton>.Instance.RevivedInRound = false;
         CustomButtonSingleton<AltruistSacrificeButton>.Instance.RevivedInRound = false;
@@ -126,8 +126,8 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     {
         IsReviveInProgress = true;
         var roleWhenAlive = dead.GetRoleWhenAlive();
-        var freezeAltruist = OptionGroupSingleton<AltruistOptions>.Instance.FreezeDuringRevive.Value;
-        var killOnStart = OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value;
+        var freezeAltruist = OptionGroupSingleton<AltruistOptions>.Instance.FreezeDuringRevive;
+        var killOnStart = OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive;
 
         //if (roleWhenAlive == null)
         //{
@@ -181,7 +181,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                 flashColor: TownOfUsColors.Altruist,
                 revivedOwnerNotificationText: revivedText,
                 reviverOwnerNotificationText: successText,
-                notificationIcon: TouRoleIcons.Altruist.LoadAsset());
+                notificationIcon: TouRoleIcons.Altruist);
 
             body = FindObjectsOfType<DeadBody>().FirstOrDefault(b => b.ParentId == dead.PlayerId);
             if (!OptionGroupSingleton<AltruistOptions>.Instance.HideAtBeginningOfRevive && body != null)
@@ -199,13 +199,10 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                 }
             }
 
-            var opts = (InformedKillers)OptionGroupSingleton<AltruistOptions>.Instance.KillersAlertedAtEnd.Value;
+            var opts = OptionGroupSingleton<AltruistOptions>.Instance.KillersAlertedAtEnd.Value;
             if (opts.ToDisplayString().Contains("Impostors") && PlayerControl.LocalPlayer.IsImpostorAligned() || opts.ToDisplayString().Contains("Neutrals") && PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
             {
-                if (Player.HasModifier<AltruistArrowModifier>())
-                {
-                    Player.RemoveModifier<AltruistArrowModifier>();
-                }
+                Player.TryRemoveModifier<AltruistArrowModifier>();
 
                 if (!dead.HasModifier<AltruistArrowModifier>() && !dead.AmOwner)
                 {
@@ -236,7 +233,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             return;
         }
 
-        var opts = (InformedKillers)OptionGroupSingleton<AltruistOptions>.Instance.KillersAlertedAtStart.Value;
+        var opts = OptionGroupSingleton<AltruistOptions>.Instance.KillersAlertedAtStart.Value;
         if (opts.ToDisplayString().Contains("Impostors") && PlayerControl.LocalPlayer.IsImpostorAligned() || opts.ToDisplayString().Contains("Neutrals") && PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Altruist));
@@ -248,7 +245,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.AltruistRevive, alt, target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         Coroutines.Start(role.CoRevivePlayer(target));
     }

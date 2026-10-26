@@ -31,16 +31,14 @@ public static class VisionPatch
 
         var visionFactor = 1f;
 
-        if (player.Object.HasModifier<EclipsalBlindModifier>())
+        if (player.Object.TryGetModifier<EclipsalBlindModifier>(out var mod))
         {
-            var mod = player.Object.GetModifier<EclipsalBlindModifier>()!;
-
             visionFactor = mod.VisionPerc;
         }
 
         var impVision = player.Role.IsImpostor || player._object.HasModifier<CrewpostorModifier>() &&
-                        OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorVision.Value ||
-                        (player._object.Data.Role is ITownOfUsRole touRole && touRole.HasImpostorVision);
+                        OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorVision ||
+                        (player._object.Data.Role is ITownOfUsRole { HasImpostorVision: true });
 
         if (impVision)
         {

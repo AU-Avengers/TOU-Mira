@@ -20,7 +20,7 @@ public static class PlayerRoleTextExtensions
 {
     private static Func<GuardianAngelTargetModifier, bool> GuardianAngelPredicate { get; } =
         gaModifier => gaModifier.OwnerId == PlayerControl.LocalPlayer.PlayerId;
-    
+
     private static Func<MedicShieldModifier, bool> MedicShieldPredicate { get; } =
         msModifier => msModifier.AllMedics.Contains(PlayerControl.LocalPlayer);
 
@@ -32,7 +32,7 @@ public static class PlayerRoleTextExtensions
 
     private static Func<ClericBarrierModifier, bool> ClericBarrierPredicate { get; } =
         cbModifier => cbModifier.Cleric.AmOwner;
-    
+
     private static Func<WardenFortifiedModifier, bool> WardenFortifiedPredicate { get; } =
         wfModifier => wfModifier.Warden.AmOwner;
 
@@ -48,7 +48,7 @@ public static class PlayerRoleTextExtensions
         revealModifier => revealModifier.Visible && revealModifier.RevealRole;
 
     private static Func<PlaguebearerInfectedModifier, bool> PbPredicate1 { get; } =
-        pbModifier => pbModifier.PlagueBearerId == PlayerControl.LocalPlayer.PlayerId 
+        pbModifier => pbModifier.PlagueBearerId == PlayerControl.LocalPlayer.PlayerId
                       && pbModifier.PlagueBearerId != pbModifier.Player.PlayerId;
 
     private static Func<PlaguebearerInfectedModifier, bool> PbPredicate2 { get; } =
@@ -59,7 +59,7 @@ public static class PlayerRoleTextExtensions
 
     private static Func<BlackmailedModifier, bool> BlackmailedPredicate { get; } =
         bmModifier => bmModifier.BlackMailerId == PlayerControl.LocalPlayer.PlayerId;
-    
+
     private static Func<HypnotisedModifier, bool> HypnotisedPredicate { get; } =
         hModifier => hModifier.Hypnotist.AmOwner;
 
@@ -166,7 +166,7 @@ public static class PlayerRoleTextExtensions
             name += "<color=#29AB87> &</color>";
         }
 
-        if (PlayerControl.LocalPlayer.Data.Role is HunterRole hunter && hunter.CaughtPlayers.Contains(player))
+        if (PlayerControl.LocalPlayer.Data.Role is HunterRole { CaughtPlayers: var caught } && caught.Contains(player))
         {
             name += "<color=#21453B> &</color>";
         }
@@ -203,7 +203,7 @@ public static class PlayerRoleTextExtensions
              PlayerControl.LocalPlayer.IsRole<MedicRole>())
             || (player.HasModifier<MedicShieldModifier>() &&
                 (isDead
-                 || (player.AmOwner && player.TryGetModifier<MedicShieldModifier>(out var med) && med.VisibleSymbol))))
+                 || (player.AmOwner && player.HasModifier<MedicShieldModifier>(med => med.VisibleSymbol)))))
         {
             name += "<color=#006600> +</color>";
         }
@@ -220,7 +220,7 @@ public static class PlayerRoleTextExtensions
              PlayerControl.LocalPlayer.IsRole<MirrorcasterRole>())
             || (player.HasModifier<MagicMirrorModifier>() &&
                 (isDead
-                 || (player.AmOwner && player.TryGetModifier<MagicMirrorModifier>(out var mm) && mm.VisibleSymbol))))
+                 || (player.AmOwner && player.HasModifier<MagicMirrorModifier>(mm => mm.VisibleSymbol)))))
         {
             name += "<color=#90A2C3>〚〛</color>";
         }
@@ -229,8 +229,7 @@ public static class PlayerRoleTextExtensions
              PlayerControl.LocalPlayer.IsRole<ClericRole>())
             || (player.HasModifier<ClericBarrierModifier>() &&
                 (isDead
-                 || (player.AmOwner && player.TryGetModifier<ClericBarrierModifier>(out var cleric) &&
-                     cleric.VisibleSymbol))))
+                 || (player.AmOwner && player.HasModifier<ClericBarrierModifier>(cleric => cleric.VisibleSymbol)))))
         {
             name += "<color=#00FFB3> Ω</color>";
         }
@@ -239,8 +238,7 @@ public static class PlayerRoleTextExtensions
              PlayerControl.LocalPlayer.IsRole<HerbalistRole>())
             || (player.HasModifier<HerbalistProtectionModifier>() &&
                 (isDead
-                 || (player.AmOwner && player.TryGetModifier<HerbalistProtectionModifier>(out var herbalist) &&
-                     herbalist.VisibleSymbol))))
+                 || (player.AmOwner && player.HasModifier<HerbalistProtectionModifier>(herbalist => herbalist.VisibleSymbol)))))
         {
             name += "<color=#00FFB3> Ω</color>";
         }
@@ -249,8 +247,7 @@ public static class PlayerRoleTextExtensions
              PlayerControl.LocalPlayer.IsRole<WardenRole>())
             || (player.HasModifier<WardenFortifiedModifier>() &&
                 (isDead
-                 || (player.AmOwner && player.TryGetModifier<WardenFortifiedModifier>(out var warden) &&
-                     warden.VisibleSymbol))))
+                 || (player.AmOwner && player.HasModifier<WardenFortifiedModifier>(warden => warden.VisibleSymbol)))))
         {
             name += "<color=#9900FF> π</color>";
         }
@@ -276,7 +273,7 @@ public static class PlayerRoleTextExtensions
 
         if (player.IsCrewmate() && player.TryGetModifier<EgotistModifier>(out var egoMod) && (player.AmOwner ||
                 (EgotistModifier.EgoVisibilityFlag(player) &&
-                 (player.GetModifiers<BaseRevealModifier>().Any(RevealVisibleRolePredicate))) || isDead))
+                 (player.HasModifier(RevealVisibleRolePredicate))) || isDead))
         {
             name += $"<color=#FFFFFF> (<color=#669966>{egoMod.ShortName}</color>)</color>";
         }
@@ -348,7 +345,7 @@ public static class PlayerRoleTextExtensions
         {
             name += "<color=#66AAF3> ☀</color>";
         }
-        
+
         return name;
     }
 }

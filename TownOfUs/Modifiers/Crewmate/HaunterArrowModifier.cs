@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TownOfUs.Roles.Crewmate;
+using UnityEngine;
 
 namespace TownOfUs.Modifiers.Crewmate;
 
@@ -34,7 +35,7 @@ public sealed class HaunterArrowModifier(PlayerControl owner, Color color) : Arr
 
     private bool ShouldShowArrow()
     {
-        if (Owner == null || Owner.Data == null || !PlayerControl.LocalPlayer || Player.HasDied() || Owner.HasDied())
+        if (Owner == null || Owner.Data == null || !PlayerControl.LocalPlayer || Player.HasDied() || Owner.Data.Role is not HaunterRole && Owner.HasDied())
         {
             return false;
         }

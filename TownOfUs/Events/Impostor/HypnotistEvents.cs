@@ -19,7 +19,7 @@ public static class HypnotistEvents
             if (mod.Hypnotist == exiled || mod.Hypnotist == null || mod.Hypnotist.HasDied() ||
                 mod.Hypnotist.Data.Role is not HypnotistRole)
             {
-                mod.ModifierComponent?.RemoveModifier(mod);
+                mod.RemoveSelf();
             }
         }
 

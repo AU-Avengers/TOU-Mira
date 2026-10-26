@@ -90,7 +90,7 @@ public static class PlayerJoinPatch
         byte modByte = 1;
         foreach (var mod in mods)
         {
-            modDictionary.Add(modByte, $"{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}"); 
+            modDictionary.Add(modByte, $"{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}");
             modByte++;
         }
 

@@ -8,6 +8,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using TownOfUs.Options;
 using TownOfUs.Patches;
+using System.Globalization;
 
 
 namespace TownOfUs.Modules.DraftMode;
@@ -35,7 +36,7 @@ public static class DraftRpcs
         {
             var playerSlots = slots.Split(',', StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => x.Split(':'))
-                .ToDictionary(x => byte.Parse(x[0]), x => int.Parse(x[1]));
+                .ToDictionary(x => byte.Parse(x[0], NumberFormatInfo.InvariantInfo), x => int.Parse(x[1], NumberFormatInfo.InvariantInfo));
             DraftManager.Begin(playerSlots);
         }
 
@@ -43,7 +44,7 @@ public static class DraftRpcs
         DraftAudio.PlayDraftStart();
         DraftSidebarManager.Activate();
         DraftCancelButton.Show();
-        CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
+        CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses(OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer);
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftPickerReady)]
@@ -77,7 +78,7 @@ public static class DraftRpcs
         if (!FromHost(sender) || string.IsNullOrEmpty(message)) return;
 
         var notif = Helpers.CreateAndShowNotification(message, Color.white,
-            new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode.LoadAsset());
+            new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode);
         notif?.AdjustNotification();
     }
 
@@ -138,9 +139,9 @@ public sealed class DraftAnnounceTurnRpc(TownOfUsPlugin plugin, uint id)
         writer.Write(data.Slot);
         writer.Write(data.PickerId);
         writer.Write((byte)data.RoleIds.Count);
-        foreach (var id in data.RoleIds)
+        foreach (var roleId in data.RoleIds)
         {
-            writer.Write((int)id);
+            writer.Write((int)roleId);
         }
     }
 
@@ -283,7 +284,7 @@ public static class DraftNetworkHelper
 
     public static void BroadcastPickConfirmed(int slot, ushort roleId, bool timedOut = false)
     {
-        var hideFromOthers = OptionGroupSingleton<RoleOptions>.Instance.DraftSidebarDisplay.Value == DraftRecapMode.Nothing;
+        var hideFromOthers = OptionGroupSingleton<RoleOptions>.Instance.DraftSidebarDisplay == DraftRecapMode.Nothing;
         var picker = DraftManager.GetStateForSlot(slot);
         var pickerClient = picker != null ? AmongUsClient.Instance.GetClient(MiscUtils.PlayerById(picker.PlayerId)?.OwnerId ?? -1) : null;
 
@@ -322,7 +323,7 @@ public static class DraftNetworkHelper
 
     public static void BroadcastRecap(List<RecapEntry> entries, DraftRecapMode mode)
     {
-        var recapData = ((int)mode).ToString(System.Globalization.CultureInfo.InvariantCulture);
+        var recapData = ((int)mode).ToString(CultureInfo.InvariantCulture);
         if (mode != DraftRecapMode.Nothing)
         {
             var lines = entries.Select(e =>

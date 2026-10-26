@@ -54,7 +54,7 @@ public static class AprilFoolsPatches
         }
         if (__instance.newsButton != null)
         {
-            var legacytoggle = __instance.newsButton.CloneMenuItem("LegacyModeButton", new Vector2(0.815f, 0.775f), TouAssets.LegacyMenuSprite(TownOfUsPlugin.LegacyMode.Value).LoadAsset(), $"LegacyTheme{TownOfUsPlugin.LegacyMode.Value}", "Legacy Theming");
+            var legacytoggle = __instance.newsButton.CloneMenuItem("LegacyModeButton", new Vector2(0.815f, 0.775f), TouAssets.LegacyMenuSprite(TownOfUsPlugin.LegacyMode.Value), $"LegacyTheme{TownOfUsPlugin.LegacyMode.Value}", "Legacy Theming");
 
             var legacyHighlightObj = legacytoggle.transform.GetChild(1).gameObject;
             var legacyBaseObj = legacytoggle.transform.GetChild(2).gameObject;
@@ -70,14 +70,14 @@ public static class AprilFoolsPatches
                 var next = TownOfUsPlugin.LegacyMode.Value + 1;
                 var value = !Enum.IsDefined(next) ? LegacyVisuals.Disabled : next;
                 TownOfUsPlugin.LegacyMode.Value = value;
-                legacySprite.sprite = TouAssets.LegacyMenuSprite(TownOfUsPlugin.LegacyMode.Value).LoadAsset();
-                legacySprite2.sprite = TouAssets.LegacyMenuSprite(TownOfUsPlugin.LegacyMode.Value).LoadAsset();
+                legacySprite.sprite = TouAssets.LegacyMenuSprite(TownOfUsPlugin.LegacyMode.Value);
+                legacySprite2.sprite = TouAssets.LegacyMenuSprite(TownOfUsPlugin.LegacyMode.Value);
                 translator.stringName = $"LegacyTheme{TownOfUsPlugin.LegacyMode.Value}";
                 translator.ResetText();
-                LogoPatch.GameLogo.sprite = TouAssets.Banner.LoadAsset();
+                LogoPatch.GameLogo.sprite = TouAssets.Banner;
                 // AprilFoolsMode.IsAprilFoolsModeToggledOn = value is LegacyVisuals.Players or LegacyVisuals.Full;
             }));
-            /*var aprilfoolstoggle = __instance.newsButton.CloneMenuItem("AprilFoolsButton", new Vector2(0.815f, 0.775f), TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset(), "FoolsMode", "Fools Mode");
+            /*var aprilfoolstoggle = __instance.newsButton.CloneMenuItem("AprilFoolsButton", new Vector2(0.815f, 0.775f), TouAssets.FoolsMenuSprite(CurrentMode), "FoolsMode", "Fools Mode");
 
             var foolsHighlightObj = aprilfoolstoggle.transform.GetChild(1).gameObject;
             var foolsBaseObj = aprilfoolstoggle.transform.GetChild(2).gameObject;
@@ -91,11 +91,11 @@ public static class AprilFoolsPatches
             {
                 var num = CurrentMode + 1;
                 CurrentMode = num > 3 ? 0 : num;
-                foolsSprite.sprite = TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset();
-                foolsSprite2.sprite = TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset();
+                foolsSprite.sprite = TouAssets.FoolsMenuSprite(CurrentMode);
+                foolsSprite2.sprite = TouAssets.FoolsMenuSprite(CurrentMode);
             }));*/
 
-            var discordButton = __instance.newsButton.CloneMenuItem("DiscordJoinButton", new Vector2(0.815f, 0.69f), TouAssets.DiscordServer.LoadAsset(), "DiscordServer", "Discord Server");
+            var discordButton = __instance.newsButton.CloneMenuItem("DiscordJoinButton", new Vector2(0.815f, 0.69f), TouAssets.DiscordServer, "DiscordServer", "Discord Server");
 
             var discordPassive = discordButton.GetComponent<PassiveButton>();
             discordPassive.OnClick = new Button.ButtonClickedEvent();
@@ -105,7 +105,7 @@ public static class AprilFoolsPatches
                 Constants.OpenURL(DiscordServerUrl);
             }));
 
-            var githubButton = __instance.newsButton.CloneMenuItem("GithubCodeButton", new Vector2(0.815f, 0.605f), TouAssets.SourceCode.LoadAsset(), "SourceCode", "Source Code");
+            var githubButton = __instance.newsButton.CloneMenuItem("GithubCodeButton", new Vector2(0.815f, 0.605f), TouAssets.SourceCode, "SourceCode", "Source Code");
 
             var githubPassive = githubButton.GetComponent<PassiveButton>();
             githubPassive.OnClick = new Button.ButtonClickedEvent();
@@ -191,9 +191,9 @@ public static class AprilFoolsPatches
 
         var highlightObj = obj.transform.GetChild(1).gameObject;
         var baseObj = obj.transform.GetChild(2).gameObject;
-        highlightObj.GetComponent<SpriteRenderer>().sprite = TouAssets.MenuOptionActive.LoadAsset();
+        highlightObj.GetComponent<SpriteRenderer>().sprite = TouAssets.MenuOptionActive;
         highlightObj.transform.localScale = new Vector3(0.48f, 0.96f, 1f);
-        baseObj.GetComponent<SpriteRenderer>().sprite = TouAssets.MenuOption.LoadAsset();
+        baseObj.GetComponent<SpriteRenderer>().sprite = TouAssets.MenuOption;
         baseObj.transform.localScale = new Vector3(0.48f, 0.96f, 1f);
         obj.GetComponent<BoxCollider2D>().size = new Vector2(1.9f, 0.5205f);
         obj.transform.GetChild(0).GetChild(0).transform.localPosition =

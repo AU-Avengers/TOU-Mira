@@ -22,7 +22,7 @@ public sealed class MorphlingOptions : AbstractRoleOptionGroup<MorphlingRole>
     [ModdedNumberOption("TouOptionMorphlingMorphDuration", 5f, 45f, 1f, MiraNumberSuffixes.Seconds)]
     public float MorphlingDuration { get; set; } = 10f;
 
-    public ModdedEnumOption CanVent { get; set; } = new("TouOptionMorphlingCanVent", (int)MorphlingVent.Always, typeof(MorphlingVent),
+    public ModdedEnumOption<MorphlingVent> CanVent { get; set; } = new("TouOptionMorphlingCanVent", MorphlingVent.Always,
         ["TouOptionMorphlingCanVentEnumNever", "TouOptionMorphlingCanVentEnumUnlessMorphed", "TouOptionMorphlingCanVentEnumAlways"]);
 }
 

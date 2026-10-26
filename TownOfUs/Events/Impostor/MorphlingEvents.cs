@@ -9,7 +9,6 @@ using MiraAPI.Roles;
 using TownOfUs.Achievements;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 
@@ -24,7 +23,7 @@ public static class MorphlingEvents
         var button = CustomButtonSingleton<MorphlingMorphButton>.Instance;
         button.SetUses((int)OptionGroupSingleton<MorphlingOptions>.Instance.MaxMorphs);
 
-        if ((int)OptionGroupSingleton<MorphlingOptions>.Instance.MaxMorphs == 0)
+        if (OptionGroupSingleton<MorphlingOptions>.Instance.MaxMorphs == 0)
         {
             button.Button?.usesRemainingText.gameObject.SetActive(false);
             button.Button?.usesRemainingSprite.gameObject.SetActive(false);
@@ -41,7 +40,7 @@ public static class MorphlingEvents
     {
         var source = @event.Source;
         var victim = @event.Target;
-        if (!source.AmOwner || source == victim || !source.TryGetModifier<MorphlingMorphModifier>(out var mod) || mod.Target != source)
+        if (!source.AmOwner || source == victim || !source.HasModifier<MorphlingMorphModifier>(mod => mod.Target == source))
         {
             return;
         }

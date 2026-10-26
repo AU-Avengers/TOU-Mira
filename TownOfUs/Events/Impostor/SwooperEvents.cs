@@ -8,7 +8,6 @@ using MiraAPI.Modifiers;
 using TownOfUs.Achievements;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 
 namespace TownOfUs.Events.Impostor;
@@ -21,7 +20,7 @@ public static class SwooperEvents
         var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
         button.SetUses((int)OptionGroupSingleton<SwooperOptions>.Instance.MaxSwoops);
 
-        if ((int)OptionGroupSingleton<SwooperOptions>.Instance.MaxSwoops == 0)
+        if (OptionGroupSingleton<SwooperOptions>.Instance.MaxSwoops == 0)
         {
             button.Button?.usesRemainingText.gameObject.SetActive(false);
             button.Button?.usesRemainingSprite.gameObject.SetActive(false);

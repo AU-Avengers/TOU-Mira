@@ -61,7 +61,7 @@ public static class MedusaEvents
             }
             miraEvent.Cancel();
 
-            if (miraEvent is MiraButtonClickEvent click && click.Button is JesterPokeButton)
+            if (miraEvent is MiraButtonClickEvent { Button: JesterPokeButton })
             {
                 TouAchievements.DontPokeTheBear.Unlock();
             }
@@ -79,8 +79,8 @@ public static class MedusaEvents
         var target = @event.Target;
 
         if (MedusaRole.AutoPlaceFakePlayers && source.IsRole<MedusaRole>() && !MeetingHud.Instance)
-            // leave behind standing body
-            // Message($"Leaving behind soulless player '{target.Data.PlayerName}'");
+        // leave behind standing body
+        // Message($"Leaving behind soulless player '{target.Data.PlayerName}'");
         {
             if (source.AmOwner)
             {
@@ -88,7 +88,7 @@ public static class MedusaEvents
                     TouAchievements.SnakeEyes.GetCurrentValue() == 14);
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Role.MedusaPetrifyNotif").Replace("<player>", $"{TownOfUsColors.Medusa.ToTextColor()}{target.Data.PlayerName}</color>"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Medusa.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Medusa);
 
                 notif1.AdjustNotification();
             }
@@ -100,7 +100,7 @@ public static class MedusaEvents
     public static void ReviveEventHandler(PlayerReviveEvent @event)
     {
         var player = @event.Player;
-        
+
         var stonedPlayer = StonedPlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == player.PlayerId && x.ProgressStage is not StoneStage.Permanent and not StoneStage.Petrified);
         if (stonedPlayer != null)
         {
@@ -111,7 +111,7 @@ public static class MedusaEvents
             }
             stonedPlayer.Destroy();
         }
-        
+
         var fakePlayer = MiscUtils.GetFakePlayer(player.PlayerId);
         if (fakePlayer != null)
         {

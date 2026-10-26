@@ -82,7 +82,7 @@ public static class LoverEvents
                 MiraLocaleManager.Get("TownOfUsMira.Modifier.LoverIntroMessage")
                     .Replace("<modifier>", $"{TownOfUsColors.Lover.ToTextColor()}{lover.ModifierName}</color>")
                     .Replace("<player>", $"{TownOfUsColors.Lover.ToTextColor()}{lover.OtherLover.Data.PlayerName}</color>"),
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Lover.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Lover);
 
             notif1.AdjustNotification();
         }

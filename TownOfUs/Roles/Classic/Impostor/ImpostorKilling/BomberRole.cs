@@ -47,7 +47,7 @@ public sealed class BomberRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Bomber.LoadAsset(), "TouMira.Role.Impostor.Bomber", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Bomber, "TouMira.Role.Impostor.Bomber", 1.45f),
         Icon = TouRoleIcons.Bomber,
         IntroSound = TouAudio.ExplodeIntro,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
@@ -85,7 +85,7 @@ public sealed class BomberRole(IntPtr cppPtr)
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.BomberPlant, player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (player.AmOwner)
         {

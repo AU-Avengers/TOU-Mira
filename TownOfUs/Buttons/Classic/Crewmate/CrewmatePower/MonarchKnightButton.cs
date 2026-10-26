@@ -48,7 +48,7 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
         }
 
         if (!PlayerControl.LocalPlayer.CanMove ||
-            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+            PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -114,7 +114,7 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
         {
             var notif2 = Helpers.CreateAndShowNotification(
                 $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.MonarchKnightCancelled")}</b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Monarch.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Monarch);
             notif2.Text.SetOutlineThickness(0.35f);
             _knightedTarget = null;
             ResetCooldownAndOrEffect();
@@ -133,7 +133,7 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
         _knightedTarget = Target;
         var notif = Helpers.CreateAndShowNotification(
             $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.MonarchKnightChosen") .Replace("<player>", _knightedTarget.CachedPlayerData.PlayerName) .Replace("<seconds>", OptionGroupSingleton<MonarchOptions>.Instance.KnightDelay.ToString(TownOfUsPlugin.Culture))}</b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Monarch.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Monarch);
         notif.Text.SetOutlineThickness(0.35f);
 
         if (HasEffect)

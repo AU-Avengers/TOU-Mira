@@ -37,10 +37,7 @@ public abstract class DisguisedModifier(PlayerControl target) : ConcealedModifie
 
     public override void OnDeactivate()
     {
-        if (Player.HasModifier<FirstDeadShieldDisguiseVisual>())
-        {
-            Player.RemoveModifier<FirstDeadShieldDisguiseVisual>();
-        }
+        Player.TryRemoveModifier<FirstDeadShieldDisguiseVisual>();
 
         Player.ResetAppearance();
 

@@ -8,7 +8,7 @@ public sealed class DrunkModifier : UniversalGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Drunk,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Drunk.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Drunk,
             "TouMira.Modifier.Universal.Drunk", 1.45f));
     public override string IdPart => "Drunk";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -30,11 +30,11 @@ public sealed class DrunkModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.DrunkChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.DrunkChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.DrunkAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.DrunkAmount;
     }
 }

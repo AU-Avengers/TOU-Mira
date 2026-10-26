@@ -44,7 +44,7 @@ public interface IWikiDiscoverable
                 var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
                 var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
 
-                icon.sprite = ability.Icon.LoadAsset();
+                icon.sprite = ability.Icon;
                 icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
                 // icon.tileMode = SpriteTileMode.Adaptive;
 

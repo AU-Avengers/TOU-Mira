@@ -5,7 +5,6 @@ using MiraAPI.Hud;
 using TownOfUs.Achievements;
 using TownOfUs.Buttons;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -31,9 +30,9 @@ public sealed class GlitchHackedModifier(byte glitchId) : DisabledModifier
 
     public override void OnActivate()
     {
-        var glitch = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == GlitchId);
+        var glitch = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.PlayerId == GlitchId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchInitialHack, glitch!, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
         if (Player.AmOwner)
         {
             ReportButtonHackedSprite = HudManager.Instance.ReportButton.CreateHackedIcon();
@@ -56,12 +55,12 @@ public sealed class GlitchHackedModifier(byte glitchId) : DisabledModifier
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnMeetingStart()
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public void ShowHacked()
@@ -75,9 +74,9 @@ public sealed class GlitchHackedModifier(byte glitchId) : DisabledModifier
         // TimedModifier removes itself locally, so every client that received the trigger
         // must run the timer. Otherwise observers retain a stale hacked modifier forever.
         StartTimer();
-        var glitch = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == GlitchId);
+        var glitch = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.PlayerId == GlitchId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchHackTrigger, glitch!, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (Player.AmOwner)
         {

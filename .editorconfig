@@ -101,3 +101,9 @@ dotnet_diagnostic.S2437.severity = none
 
 # S2365: Properties should not make collection or array copies
 dotnet_diagnostic.S2365.severity = suggestion
+
+# IDE0079: Remove unnecessary suppression
+dotnet_diagnostic.IDE0079.severity = none
+
+# S3060: "is" should not be used with "this"
+dotnet_diagnostic.S3060.severity = none

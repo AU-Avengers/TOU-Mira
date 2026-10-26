@@ -59,7 +59,7 @@ public interface IAltWinConRole
 
             var selfNotif = Helpers.CreateAndShowNotification(
                 $"<b>{MiraLocaleManager.Get(OwnerVictoryString).Replace("<role>", roleTag)}</b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: WinIcon.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: WinIcon);
             selfNotif.AdjustNotification();
 
             if (EffectiveWinOutcome == AltWinResult.KillsOnePlayer)
@@ -90,7 +90,7 @@ public interface IAltWinConRole
 
             var notif1 = Helpers.CreateAndShowNotification(
                 message.Replace("<player>", player.Data.PlayerName),
-                Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: icon);
 
             notif1.AdjustNotification();
         }

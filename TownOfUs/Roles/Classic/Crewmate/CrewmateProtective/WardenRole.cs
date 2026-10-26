@@ -68,7 +68,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Warden.LoadAsset(), "TouMira.Role.Crewmate.Warden", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Warden, "TouMira.Role.Crewmate.Warden", 1.45f),
         IntroSound = TouAudio.SpyIntroSound,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Warden
@@ -188,7 +188,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.WardenProtect, player, target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         // Error("RpcWardenNotify");
         if (source.AmOwner || player.AmOwner)

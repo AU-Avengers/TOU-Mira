@@ -11,7 +11,6 @@ using TownOfUs.Achievements;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
@@ -21,7 +20,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 {
     public void InitialSetup()
     {
-        TmpSpriteUtils.CreateSpriteAsset(TouCrewAssets.CampaignButtonSprite.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouCrewAssets.CampaignButtonSprite,
             "TouMira.Role.Crewmate.Politician.Ui.Campaign", 1.45f);
     }
     public bool CanBeTraitor => false;
@@ -88,7 +87,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Politician.LoadAsset(), "TouMira.Role.Crewmate.Politician", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Politician, "TouMira.Role.Crewmate.Politician", 1.45f),
         Icon = TouRoleIcons.Politician,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.PoliticianIntroSound,
@@ -127,21 +126,20 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         }
 
         // All living crewmates excluding the Politician
-        var aliveCrew = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => !x.HasDied() && x.IsCrewmate() && x.Data.Role is not PoliticianRole).ToList();
+        var aliveCrew = PlayerControl.AllPlayerControls.Where(x => !x.HasDied() && x.IsCrewmate() && x.Data.Role is not PoliticianRole);
         // All living crewmates excluding the Politician that are campaigned
         var aliveCampaigned = aliveCrew.Count(x => x.HasModifier<PoliticianCampaignedModifier>(y => y.Politician.AmOwner));
         var hasMajority =
-            aliveCampaigned >= (aliveCrew.Count / 2f);
-        if (aliveCrew.Count == 0)
+            aliveCampaigned >= (aliveCrew.Count() / 2f);
+        if (aliveCrew.Any())
         {
             hasMajority = true; // if all crew are dead, politician can reveal
         }
 
         if (hasMajority)
         {
-            var campaigned = Helpers.GetAlivePlayers().Where(x => x.HasModifier<PoliticianCampaignedModifier>(y => y.Politician.AmOwner)).ToList();
-            if (campaigned.All(x => x.IsCrewmate()) && campaigned.Count > 0)
+            var campaigned = Helpers.GetAlivePlayers().Where(x => x.HasModifier<PoliticianCampaignedModifier>(y => y.Politician.AmOwner));
+            if (campaigned.All(x => x.IsCrewmate()) && campaigned.Any())
             {
                 TouAchievementLifecycle.UnlockTentative(TouAchievements.CrewmatesUnite);
             }

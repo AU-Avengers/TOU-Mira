@@ -17,14 +17,9 @@ public static class HiderMysticEvents
         var seeker = @event.Source;
         var victim = @event.Target;
 
-        if (victim.TryGetModifier<HnsGlobalCamouflageModifier>(out var camoMod))
+        if (victim.TryRemoveModifier<HnsGlobalCamouflageModifier>() && victim.AmOwner)
         {
-            victim.RemoveModifier(camoMod);
-
-            if (victim.AmOwner && seeker.TryGetModifier<HnsGlobalCamouflageModifier>(out var camoMod2))
-            {
-                seeker.RemoveModifier(camoMod2);
-            }
+            seeker.TryRemoveModifier<HnsGlobalCamouflageModifier>();
         }
     }
 }

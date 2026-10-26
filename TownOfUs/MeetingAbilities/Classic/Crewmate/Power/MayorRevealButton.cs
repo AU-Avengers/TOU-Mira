@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Achievements;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modules;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
 

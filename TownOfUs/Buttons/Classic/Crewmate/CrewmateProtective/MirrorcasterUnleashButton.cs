@@ -59,8 +59,7 @@ public sealed class MirrorcasterUnleashButton : TownOfUsKillRoleButton<Mirrorcas
 
         var isValid = base.IsTargetValid(target);
 
-        if (isValid && target != null && target.TryGetModifier<MagicMirrorModifier>(out var mirrorMod) &&
-            mirrorMod.Mirrorcaster.AmOwner)
+        if (isValid && target != null && target.HasModifier<MagicMirrorModifier>(mirrorMod => mirrorMod.Mirrorcaster.AmOwner))
         {
             isValid = false;
         }

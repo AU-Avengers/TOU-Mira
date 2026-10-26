@@ -20,7 +20,7 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
     public override bool AutoStart => true;
     public override bool RemoveOnComplete => false;
 
-     public bool IsVisible { get; set; } = true;
+    public bool IsVisible { get; set; } = true;
 
     public PlayerControl Target { get; } = target;
 
@@ -32,12 +32,12 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
 
     public override void OnActivate()
     {
-        _shield = AnimStore.SpawnAnimBody(Player, TouAssets.FirstRoundShield.LoadAsset(), false, -1.1f, -0.225f, 1.5f)!;
-        
+        _shield = AnimStore.SpawnAnimBody(Player, TouAssets.FirstRoundShield, false, -1.1f, -0.225f, 1.5f)!;
+
         if (_shield && Target != null)
         {
             var currentScale = _shield.transform.localScale;
-            
+
             if (Player.HasModifier<GiantModifier>())
             {
                 currentScale *= 0.7f;
@@ -46,7 +46,7 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
             {
                 currentScale /= 0.7f;
             }
-            
+
             if (Target.HasModifier<GiantModifier>())
             {
                 currentScale /= 0.7f;
@@ -55,7 +55,7 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
             {
                 currentScale *= 0.7f;
             }
-            
+
             _shield.transform.localScale = currentScale;
         }
     }
@@ -63,7 +63,7 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
     public override void OnDeath(DeathReason reason)
     {
         base.OnDeath(reason);
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeactivate()
@@ -78,16 +78,16 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
     {
         if (!Player || Target == null)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 
         if (!MeetingHud.Instance && _shield)
         {
-             // Show only while the target *actually* has the shield.
-             // Morph/Mimic are implemented as ConcealedModifier, but they are still visible to others.
-             // Only hide the shield for "true conceal" (e.g. swoop/invis), vents, disabled, etc.
-             _shield.SetActive(Player.IsVisibleToOthers() && IsVisible && Target.HasModifier<FirstDeadShield>());
+            // Show only while the target *actually* has the shield.
+            // Morph/Mimic are implemented as ConcealedModifier, but they are still visible to others.
+            // Only hide the shield for "true conceal" (e.g. swoop/invis), vents, disabled, etc.
+            _shield.SetActive(Player.IsVisibleToOthers() && IsVisible && Target.HasModifier<FirstDeadShield>());
         }
         else if (MeetingHud.Instance)
         {
@@ -96,7 +96,7 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
                 _shield.SetActive(false);
             }
 
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
         }
     }
 }

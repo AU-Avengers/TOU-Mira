@@ -37,6 +37,18 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
+          name: TownOfUsMira-Android.dll
+          path: TownOfUs/bin/Release/TownOfUsMira-Android.dll
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TownOfUsMira-iOS.dll
+          path: TownOfUs/bin/Release/TownOfUsMira-iOS.dll
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        with:
           name: TownOfUsMira.nupkg
           path: TownOfUs/bin/Release/TownOfUsMira.*.nupkg
           retention-days: 7
