@@ -148,11 +148,8 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                 if (br.KillAge < OptionGroupSingleton<ForensicOptions>.Instance.ForensicRoleDuration * 1000)
                 {
                     // if the killer died, they would still appear correctly here
-                    var role = br.Killer.GetRoleWhenAlive();
-                    if (br.Killer.TryGetModifierOfType<ICachedRole>(out var cacheMod))
-                    {
-                        role = cacheMod.CachedRole;
-                    }
+                    var role = br.Killer.GetModifierOfType<ICachedRole>()?.CachedRole
+                        ?? br.Killer.GetRoleWhenAlive();
 
                     text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerRole").Replace("<role>",
                         MiscUtils.GetReliableHyperlinkText(role));
