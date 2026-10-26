@@ -10,7 +10,6 @@ using TMPro;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Modifiers.Universal;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace TownOfUs.Modules;
@@ -85,7 +84,7 @@ public sealed class FakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
             var sync = syncs[i];
             if (sync != null)
             {
-                Object.Destroy(sync);
+                Destroy(sync);
             }
         }
 
@@ -220,7 +219,7 @@ public sealed class FakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
     private SpriteRenderer CreateBodyImage(PlayerCosmicInfo info)
     {
-        var spriteRenderer = Object.Instantiate(info.Cosmetics.currentBodySprite.BodySprite, body!.transform);
+        var spriteRenderer = Instantiate(info.Cosmetics.currentBodySprite.BodySprite, body!.transform);
 
         spriteRenderer.flipX = info.FlipX;
         spriteRenderer.transform.localScale = Scale;
@@ -230,7 +229,7 @@ public sealed class FakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
     private CosmeticsLayer CreateCosmetics(SpriteRenderer playerImage, PlayerCosmicInfo info)
     {
-        var cosmeticsLayer = Object.Instantiate(AmongUsClient.Instance.PlayerPrefab.cosmetics, body!.transform);
+        var cosmeticsLayer = Instantiate(AmongUsClient.Instance.PlayerPrefab.cosmetics, body!.transform);
         var basePayerBodySprite = info.Cosmetics.currentBodySprite;
 
         var playerBodySprite = new PlayerBodySprite
@@ -243,7 +242,7 @@ public sealed class FakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
         for (var i = 0; i < info.Cosmetics.currentBodySprite.LongModeParts.Length; ++i)
         {
-            var newSprite = Object.Instantiate(
+            var newSprite = Instantiate(
                 info.Cosmetics.currentBodySprite.LongModeParts[i],
                 cosmeticsLayer.transform);
 
@@ -275,7 +274,7 @@ public sealed class FakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         var emptyPet = body!.transform.Find(DefaultPetName);
         if (emptyPet != null)
         {
-            Object.Destroy(emptyPet.gameObject);
+            Destroy(emptyPet.gameObject);
         }
 
         var petId = cosmicInfo.OutfitInfo.PetId;
@@ -284,7 +283,7 @@ public sealed class FakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         {
             var preBehaviourPrefab = ShipStatus.Instance.CosmeticsCache.GetPet(petId);
 
-            var petBehaviour = Object.Instantiate(preBehaviourPrefab, body.transform);
+            var petBehaviour = Instantiate(preBehaviourPrefab, body.transform);
             petBehaviour.SetCrewmateColor(colorId);
             petBehaviour.transform.localPosition = Vector2.zero +
                                                    (flipX
@@ -342,7 +341,7 @@ public sealed class FakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
         var baseObject = baseParentTrans.gameObject;
 
-        var nameObj = Object.Instantiate(baseObject, parent.transform);
+        var nameObj = Instantiate(baseObject, parent.transform);
         nameObj.transform.localScale = player.gameObject.transform.localScale;
         nameObj.transform.localPosition = baseObject.transform.localPosition;
         nameObj.transform.localPosition -= new Vector3(0f, 0.247f, 0f);
@@ -404,7 +403,7 @@ public sealed class FakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         var info = nameTextObjct.transform.FindChild("Info");
         if (info != null)
         {
-            Object.Destroy(info.gameObject);
+            Destroy(info.gameObject);
         }
     }
 
@@ -440,7 +439,7 @@ public sealed class FakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         var component = obj.GetComponent<T>();
         if (component != null)
         {
-            Object.Destroy(component);
+            Destroy(component);
         }
     }
 
@@ -461,7 +460,7 @@ public sealed class FakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     {
         if (body)
         {
-            Object.Destroy(body);
+            Destroy(body);
         }
     }
 
@@ -470,12 +469,12 @@ public sealed class FakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         DataManager.Settings.Accessibility.OnChangedEvent -= new Action(SwitchColorName);
         if (_colorBindTextObj)
         {
-            Object.Destroy(_colorBindTextObj);
+            Destroy(_colorBindTextObj);
         }
 
         if (_rend)
         {
-            Object.Destroy(_rend);
+            Destroy(_rend);
         }
     }
 
