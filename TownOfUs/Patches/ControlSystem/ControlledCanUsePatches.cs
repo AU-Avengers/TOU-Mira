@@ -2,7 +2,7 @@ using System.Reflection;
 using HarmonyLib;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules.ControlSystem;
+using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Patches.ControlSystem;
 
@@ -36,9 +36,9 @@ public static class ControlledCanUsePatches
         var player = pc.Object;
 
         var isPuppet = player.HasModifier<PuppeteerControlModifier>() &&
-                       PuppeteerControlState.IsControlled(player.PlayerId, out _);
+                       PuppeteerRole.ControlState.IsControlled(player.PlayerId, out _);
         var isParasite = player.HasModifier<ParasiteInfectedModifier>() &&
-                         ParasiteControlState.IsControlled(player.PlayerId, out _);
+                         ParasiteRole.ControlState.IsControlled(player.PlayerId, out _);
 
         if (!isPuppet && !isParasite)
         {

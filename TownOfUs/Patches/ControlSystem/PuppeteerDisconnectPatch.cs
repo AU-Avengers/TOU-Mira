@@ -18,7 +18,7 @@ public static class PuppeteerDisconnectPatch
             return;
         }
 
-        if (PuppeteerControlState.IsControlled(player.PlayerId, out var controllerId))
+        if (PuppeteerRole.ControlState.IsControlled(player.PlayerId, out var controllerId))
         {
             var controller = MiscUtils.PlayerById(controllerId);
             if (controller != null)
@@ -27,7 +27,7 @@ public static class PuppeteerDisconnectPatch
             }
             else
             {
-                PuppeteerControlState.ClearControl(player.PlayerId);
+                PuppeteerRole.ControlState.ClearControl(player.PlayerId);
 
                 if (player.TryGetModifier<PuppeteerControlModifier>(out var mod))
                 {

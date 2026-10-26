@@ -37,8 +37,8 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
         TimerPaused = false;
         if (PlayerControl.LocalPlayer?.Data?.Role is PuppeteerRole pr &&
             pr.Controlled != null &&
-            PuppeteerControlState.IsControlled(pr.Controlled.PlayerId, out _) &&
-            PuppeteerControlState.IsInInitialGrace(pr.Controlled.PlayerId))
+            PuppeteerRole.ControlState.IsControlled(pr.Controlled.PlayerId, out _) &&
+            PuppeteerRole.ControlState.IsInInitialGrace(pr.Controlled.PlayerId))
         {
             TimerPaused = true;
         }
@@ -64,7 +64,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
             if (pr.Controlled.Data == null ||
                 pr.Controlled.HasDied() ||
                 pr.Controlled.Data.Disconnected ||
-                !PuppeteerControlState.IsControlled(pr.Controlled.PlayerId, out _))
+                !PuppeteerRole.ControlState.IsControlled(pr.Controlled.PlayerId, out _))
             {
                 PuppeteerRole.RpcPuppeteerEndControl(PlayerControl.LocalPlayer, pr.Controlled, pr.Controlled.transform.position);
                 return false;
