@@ -360,6 +360,48 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
+    public static void ReportBodyEventHandler(ReportBodyEvent @event)
+    {
+        if (@event is not { Target.PlayerId: var deadPlayerId,
+            Reporter: { AmOwner: true, Data.Role: IBaseBodyReport { ReportEnabled: true } report } })
+        {
+            return;
+        }
+
+        var matches = GameHistory.KilledPlayers.Where(x => x.VictimId == deadPlayerId);
+        if (matches.FirstOrDefault() is not { } killer)
+        {
+            return;
+        }
+
+        // Message($"CmdReportDeadBody");
+        var br = new BodyReport
+        {
+            Killer = MiscUtils.PlayerById(killer.KillerId),
+            Reporter = report.Player,
+            Body = MiscUtils.PlayerById(killer.VictimId),
+            KillAge = (float)(DateTime.UtcNow - killer.KillTime).TotalMilliseconds
+        };
+
+        if (report is IBodyReport reporter)
+        {
+            reporter.ReportBody(br);
+        }
+        else if (report is IBodyReportChat chat)
+        {
+            var reportMsg = chat.ParseReport(br);
+
+            if (string.IsNullOrWhiteSpace(reportMsg))
+            {
+                return;
+            }
+
+            var reported = br.Body ?? report.Player;
+            MiscUtils.AddFakeChat(reported.Data, chat.BodyReportTitle, reportMsg, false, true);
+        }
+    }
+
+    [RegisterEvent]
     public static void RoundStartHandler(RoundStartEvent @event)
     {
         var aliveCount = PlayerControl.AllPlayerControls.Count(x => !x.HasDied());

@@ -20,7 +20,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IBodyReportChat
 {
     private MeetingMenu meetingMenu;
     public override bool IsAffectedByComms => false;
@@ -232,53 +232,39 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         }
     }
 
-    public void Report(byte deadPlayerId)
+    public bool ReportEnabled => OptionGroupSingleton<MedicOptions>.Instance.ShowReports;
+
+    public string BodyReportTitle => $"<color=#{TownOfUsColors.Medic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.MedicMessageTitle")}</color>";
+
+    public string ParseReport(BodyReport br)
     {
-        var areReportsEnabled = OptionGroupSingleton<MedicOptions>.Instance.ShowReports;
-
-        if (!areReportsEnabled)
+        var reportColorDuration = OptionGroupSingleton<MedicOptions>.Instance.MedicReportColorDuration;
+        var reportNameDuration = OptionGroupSingleton<MedicOptions>.Instance.MedicReportNameDuration;
+        var text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodyError");
+        if (br.Killer != null)
         {
-            return;
+            if (br.KillAge > reportColorDuration * 1000 && reportColorDuration > 0)
+            {
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodyOld");
+            }
+            else if (br.Killer.PlayerId == br.Body?.PlayerId)
+            {
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodySuicide");
+            }
+            else if (br.KillAge < reportNameDuration * 1000)
+            {
+                text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodyKillerName").Replace("<player>", br.Killer.Data.PlayerName);
+            }
+            else
+            {
+                var typeOfColor = GetColorTypeForPlayer(br.Killer.Data.DefaultOutfit.ColorId);
+                text = MiraLocaleManager.Get((typeOfColor == "lighter") ? "TownOfUsMira.Role.MedicBodyKillerLightColor" : "TownOfUsMira.Role.MedicBodyKillerDarkColor");
+            }
         }
 
-        var matches = GameHistory.KilledPlayers.Where(x => x.VictimId == deadPlayerId).ToArray();
+        text = text.Replace("<time>", Math.Round(br.KillAge / 1000).ToString(TownOfUsPlugin.Culture));
 
-        DeadPlayer? killer = null;
-
-        if (matches.Length > 0)
-        {
-            killer = matches[0];
-        }
-
-        if (killer == null)
-        {
-            return;
-        }
-
-        // Message($"CmdReportDeadBody");
-        var br = new BodyReport
-        {
-            Killer = MiscUtils.PlayerById(killer.KillerId),
-            Reporter = Player,
-            Body = MiscUtils.PlayerById(killer.VictimId),
-            KillAge = (float)(DateTime.UtcNow - killer.KillTime).TotalMilliseconds
-        };
-
-        var reportMsg = BodyReport.ParseMedicReport(br);
-
-        if (string.IsNullOrWhiteSpace(reportMsg))
-        {
-            return;
-        }
-
-        var title = $"<color=#{TownOfUsColors.Medic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.MedicMessageTitle")}</color>";
-        var reported = Player;
-        if (br.Body != null)
-        {
-            reported = br.Body;
-        }
-
-        MiscUtils.AddFakeChat(reported.Data, title, reportMsg, false, true);
+        return text;
     }
 
     public static string GetColorTypeForPlayer(int colorId)

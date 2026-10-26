@@ -140,17 +140,6 @@ public static class MedicEvents
         }
     }
 
-    [RegisterEvent]
-    public static void ReportBodyEventHandler(ReportBodyEvent @event)
-    {
-        if (@event is not { Target: not null, Reporter:{ AmOwner: false, Data.Role: MedicRole medic } })
-        {
-            return;
-        }
-
-        medic.Report(@event.Target.PlayerId);
-    }
-
     private static bool CheckForMedicShield(MiraCancelableEvent @event, PlayerControl source, PlayerControl target)
     {
         if (MeetingHud.Instance || ExileController.Instance)
