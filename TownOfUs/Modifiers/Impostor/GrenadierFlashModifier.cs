@@ -33,7 +33,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
 
     public void Dispose()
     {
-        flash?.Dispose();
+        flash?.Destroy();
     }
 
     public static void SetColor()
@@ -62,7 +62,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
         var touAbilityEvent = new TouAbilityEvent(AbilityType.GrenadierFlash, Grenadier, Player);
         touAbilityEvent.InvokeEvent();
 
-        flash = new ScreenFlash();
+        flash = ScreenFlash.CreateFlash();
         SetColor();
 
         if (Player.AmOwner)
