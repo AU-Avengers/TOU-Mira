@@ -11,15 +11,7 @@ public sealed class FakePlayer(IntPtr cppPtr) : BaseFakePlayer(cppPtr)
 
     public static FakePlayer CreateFakePlayer(PlayerControl player)
     {
-        var obj = new GameObject($"Fake {player.gameObject.name}")
-        {
-            layer = LayerMask.NameToLayer("Players")
-        };
-        var fake = obj.AddComponent<FakePlayer>();
-        fake.PlayerId = player.PlayerId;
-        fake.OriginalPlayer = player;
-        fake.body = obj;
-        return fake;
+        return BaseFakePlayerExt.CreateBaseFake<FakePlayer>(player);
     }
 
     public override void Start()

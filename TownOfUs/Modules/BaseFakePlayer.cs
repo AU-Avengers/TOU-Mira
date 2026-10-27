@@ -22,7 +22,7 @@ public abstract class BaseFakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     protected PlayerCosmicInfo _cosmicInfo { get; set; }
     protected SpriteRenderer _rend { get; set; }
 
-    public GameObject body { get; protected set; }
+    public GameObject body { get; internal set; }
     protected TextMeshPro _colorBindText;
     protected GameObject _colorBindTextObj;
     protected TextMeshPro _nameTextMaster;
@@ -460,5 +460,21 @@ public abstract class BaseFakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         public bool FlipX;
 
         public int ColorInfo;
+    }
+}
+
+public static class BaseFakePlayerExt
+{
+    public static TFake CreateBaseFake<TFake>(PlayerControl player) where TFake : BaseFakePlayer
+    {
+        var obj = new GameObject($"Fake {player.gameObject.name}")
+        {
+            layer = LayerMask.NameToLayer("Players")
+        };
+        var fake = obj.AddComponent<TFake>();
+        fake.PlayerId = player.PlayerId;
+        fake.OriginalPlayer = player;
+        fake.body = obj;
+        return fake;
     }
 }

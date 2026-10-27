@@ -154,13 +154,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : BaseFakePlayer(cppPtr)
 
     public static StonedPlayer CreateStone(PlayerControl player)
     {
-        var obj = new GameObject($"Fake {player.gameObject.name}");
-        obj.layer = LayerMask.NameToLayer("Players");
-        var stone = obj.AddComponent<StonedPlayer>();
-        stone.PlayerId = player.PlayerId;
-        stone.OriginalPlayer = player;
-        stone.body = obj;
-        return stone;
+        return BaseFakePlayerExt.CreateBaseFake<StonedPlayer>(player);
     }
 
     public override void Start()
