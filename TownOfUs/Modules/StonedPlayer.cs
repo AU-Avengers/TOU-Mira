@@ -15,8 +15,6 @@ namespace TownOfUs.Modules;
 [RegisterInIl2Cpp]
 public sealed class StonedPlayer(IntPtr cppPtr) : BaseFakePlayer(cppPtr)
 {
-    public static readonly List<StonedPlayer> FakePlayers = [];
-
     private SpriteRenderer _stoneRend { get; set; }
     private SpriteAnim _stoneAnim { get; set; }
 
@@ -160,7 +158,6 @@ public sealed class StonedPlayer(IntPtr cppPtr) : BaseFakePlayer(cppPtr)
     {
         base.Start();
 
-        FakePlayers.Add(this);
         var stone = Instantiate(TouAssets.MedusaStonedPlayer.LoadAsset(), body.transform);
         stone.transform.localPosition = new Vector3(_cosmicInfo.FlipX ? 0.05f : -0.01f, 0.2f);
 
@@ -169,11 +166,6 @@ public sealed class StonedPlayer(IntPtr cppPtr) : BaseFakePlayer(cppPtr)
         _stoneRend.color = new Color(1, 1, 1, 0);
         _stoneRend.flipX = _cosmicInfo.FlipX;
         CurrentCoroutine = Coroutines.Start(CoStartStone());
-    }
-
-    public static void UpdateFakePlayerText(bool waitForRole = false)
-    {
-        UpdateFakePlayerText(waitForRole, FakePlayers);
     }
 
     protected override bool HandleCamo()
@@ -195,34 +187,25 @@ public sealed class StonedPlayer(IntPtr cppPtr) : BaseFakePlayer(cppPtr)
         _nameTextMaster.color = Color.grey;
     }
 
-    public static void ClearAll(bool fullClear = false)
+    public override bool Destroy(bool fullClear = false)
     {
-        if (fullClear)
+        if (fullClear || ProgressStage is StoneStage.Shatter)
         {
-            FakePlayers.ProcessAndClear(x => x.Destroy());
-            return;
+            return base.Destroy(fullClear);
         }
-        var validStones = FakePlayers.Where(x => x.ProgressStage is not StoneStage.Shatter);
-        foreach (var stone in validStones)
+
+        if (CurrentCoroutine != null)
         {
-            if (stone.CurrentCoroutine != null)
-            {
-                Coroutines.Stop(stone.CurrentCoroutine);
-            }
-            // This forces any players not fully stoned to get the stoned sprite immediately.
-            if (stone.ProgressStage is StoneStage.Frozen or StoneStage.Petrified)
-            {
-                stone.ForceStone();
-            }
-            stone.ProgressStage = StoneStage.Permanent;
-            stone.SetStonedName();
-            FakePlayers.Remove(stone);
+            Coroutines.Stop(CurrentCoroutine);
         }
-        FakePlayers.ProcessAndClear(x => x.Destroy());
-        foreach (var stone in validStones)
+        // This forces any players not fully stoned to get the stoned sprite immediately.
+        if (ProgressStage is StoneStage.Frozen or StoneStage.Petrified)
         {
-            FakePlayers.Add(stone);
+            ForceStone();
         }
+        ProgressStage = StoneStage.Permanent;
+        SetStonedName();
+        return false;
     }
 
     public override void OnDestroy()
@@ -232,7 +215,6 @@ public sealed class StonedPlayer(IntPtr cppPtr) : BaseFakePlayer(cppPtr)
         {
             Coroutines.Stop(CurrentCoroutine);
         }
-        FakePlayers.Remove(this);
     }
 }
 

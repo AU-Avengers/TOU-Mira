@@ -1902,7 +1902,7 @@ public static class MiscUtils
     /// <returns>A <see cref="StonedPlayer"/> or <see langword="null"/> if its not found.</returns>
     public static StonedPlayer? GetStonedPlayerById(byte id)
     {
-        var result = StonedPlayer.FakePlayers.FirstOrDefault(body => body.PlayerId == id);
+        var result = BaseFakePlayer.FakePlayers.OfType<StonedPlayer>().FirstOrDefault(body => body.PlayerId == id);
         return result;
     }
 
@@ -1929,7 +1929,7 @@ public static class MiscUtils
     /// <returns>A fake player or null if its not found.</returns>
     public static FakePlayer? GetFakePlayer(PlayerControl player)
     {
-        return FakePlayer.FakePlayers.FirstOrDefault(x => x.body?.name == $"Fake {player.gameObject.name}");
+        return BaseFakePlayer.FakePlayers.OfType<FakePlayer>().FirstOrDefault(x => x.body?.name == $"Fake {player.gameObject.name}");
     }
 
     /// <summary>
@@ -1939,7 +1939,7 @@ public static class MiscUtils
     /// <returns>A fake player or null if its not found.</returns>
     public static FakePlayer? GetFakePlayer(int playerId)
     {
-        return FakePlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == playerId && x.body);
+        return BaseFakePlayer.FakePlayers.OfType<FakePlayer>().FirstOrDefault(x => x.PlayerId == playerId && x.body);
     }
 
     /// <summary>
@@ -1949,7 +1949,7 @@ public static class MiscUtils
     /// <returns>A fake player or null if its not found.</returns>
     public static FakePlayer? GetFakePlayer(string playerName)
     {
-        return FakePlayer.FakePlayers.FirstOrDefault(x => x.body?.name == $"Fake {playerName}");
+        return BaseFakePlayer.FakePlayers.OfType<FakePlayer>().FirstOrDefault(x => x.body?.name == $"Fake {playerName}");
     }
 
     public static void SetForcedBodyType(this PlayerPhysics player, PlayerBodyTypes bodyType)

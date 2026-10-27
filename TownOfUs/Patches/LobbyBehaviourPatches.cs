@@ -49,8 +49,7 @@ public static class LobbyBehaviourPatches
         // Clear Time Lord snapshot data to prevent stale positions from previous games
         TimeLordRewindSystem.Reset();
         MiraAPI.Utilities.Extensions.ClearGarbageCollector();
-        FakePlayer.ClearAll();
-        StonedPlayer.ClearAll(true);
+        BaseFakePlayer.ClearAll(true);
         if (TutorialManager.InstanceExists)
         {
             foreach (var mod in MiscUtils.AllBaseGameModifiers)

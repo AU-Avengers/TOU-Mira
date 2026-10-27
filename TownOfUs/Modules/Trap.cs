@@ -1,5 +1,4 @@
-﻿using HarmonyLib;
-using InnerNet;
+﻿using InnerNet;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;

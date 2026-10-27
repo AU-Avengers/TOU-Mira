@@ -646,8 +646,7 @@ public static class TownOfUsEventHandlers
             player.MyPhysics.ResetMoveState();
         }
 
-        FakePlayer.ClearAll();
-        StonedPlayer.ClearAll();
+        BaseFakePlayer.ClearAll();
         VitalsBodyPatches.ClearMissingPlayers();
     }
 
@@ -662,8 +661,7 @@ public static class TownOfUsEventHandlers
             player.MyPhysics.ResetMoveState();
         }
 
-        FakePlayer.ClearAll();
-        StonedPlayer.ClearAll();
+        BaseFakePlayer.ClearAll();
         VitalsBodyPatches.ClearMissingPlayers();
     }
 

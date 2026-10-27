@@ -18,6 +18,7 @@ public abstract class BaseFakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     private const string NameTextObjName = "NameText_TMP";
     private const string ColorBindTextName = "ColorblindName_TMP";
 
+    public static readonly List<BaseFakePlayer> FakePlayers = [];
     protected CosmeticsLayer _cosmeticsLayer { get; set; }
 
     protected PlayerCosmicInfo _cosmicInfo { get; set; }
@@ -139,6 +140,8 @@ public abstract class BaseFakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
             cosmeticsObj.transform.GetChild(4).gameObject.SetActive(false);
             cosmeticsObj.transform.GetChild(5).gameObject.SetActive(false);
         }
+
+        FakePlayers.Add(this);
     }
 
     private static Vector3 Scale => new(0.35f, 0.35f, 0.35f);
@@ -149,19 +152,19 @@ public abstract class BaseFakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         _colorBindTextObj?.SetActive(DataManager.Settings.Accessibility.ColorBlindMode);
     }
 
-    protected static void UpdateFakePlayerText(bool waitForRole, IEnumerable<BaseFakePlayer> fakePlayers)
+    public static void UpdateFakePlayerText(bool waitForRole = false)
     {
-        Coroutines.Start(CyclePlayerNames(waitForRole, fakePlayers));
+        Coroutines.Start(CyclePlayerNames(waitForRole));
     }
 
-    private static IEnumerator CyclePlayerNames(bool waitForRole, IEnumerable<BaseFakePlayer> fakePlayers)
+    private static IEnumerator CyclePlayerNames(bool waitForRole)
     {
         if (waitForRole)
         {
             yield return new WaitForSeconds(0.05f);
         }
         yield return new WaitForEndOfFrame();
-        foreach (var fake in fakePlayers)
+        foreach (var fake in FakePlayers)
         {
             if (!fake._nameTextMaster || !fake.HandleCamo() || fake.InCamo) continue;
             if (fake.OriginalPlayer)
@@ -392,7 +395,7 @@ public abstract class BaseFakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         var info = nameTextObjct.transform.FindChild("Info");
         if (info != null)
         {
-            Destroy(info.gameObject);
+            UnityEngine.Object.Destroy(info.gameObject);
         }
     }
 
@@ -428,7 +431,7 @@ public abstract class BaseFakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         var component = obj.GetComponent<T>();
         if (component != null)
         {
-            Destroy(component);
+            UnityEngine.Object.Destroy(component);
         }
     }
 
@@ -439,12 +442,20 @@ public abstract class BaseFakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         a.fontSize = a.fontSizeMax = a.fontSizeMin = b.fontSizeMax = b.fontSizeMin = b.fontSize;
     }
 
-    public void Destroy()
+    public static void ClearAll(bool fullClear = false)
+    {
+        FakePlayers.ProcessAndClear(x => x.Destroy(fullClear));
+    }
+
+    public virtual bool Destroy(bool fullClear = false)
     {
         if (body)
         {
             DestroyObject(body);
         }
+        FakePlayers.Remove(this);
+        // Do not try to remove the item from the list again.
+        return false;
     }
 
     public virtual void OnDestroy()
