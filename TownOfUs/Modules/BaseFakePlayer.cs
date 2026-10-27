@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using AmongUs.Data;
+using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using PowerTools;
@@ -195,6 +196,11 @@ public abstract class BaseFakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         _colorBindText.color = Color.clear;
     }
 
+    public static void CamoAll()
+    {
+        FakePlayers.Do(x => x.Camo());
+    }
+
     public void UnCamo()
     {
         InCamo = false;
@@ -207,6 +213,11 @@ public abstract class BaseFakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
         _nameTextMaster.color = Color.white;
         _colorBindText.color = Color.white;
+    }
+
+    public static void UnCamoAll()
+    {
+        FakePlayers.Do(x => x.UnCamo());
     }
 
     private SpriteRenderer CreateBodyImage(PlayerCosmicInfo info)

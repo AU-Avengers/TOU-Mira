@@ -300,7 +300,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         if (isActive)
         {
             HudManagerPatches.CamouflageCommsEnabled = true;
-            BaseFakePlayer.FakePlayers.Do(x => x.Camo());
+            BaseFakePlayer.CamoAll();
 
             return;
         }
@@ -308,7 +308,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         if (HudManagerPatches.CamouflageCommsEnabled)
         {
             HudManagerPatches.CamouflageCommsEnabled = false;
-            BaseFakePlayer.FakePlayers.Do(x => x.UnCamo());
+            BaseFakePlayer.UnCamoAll();
         }
     }
 

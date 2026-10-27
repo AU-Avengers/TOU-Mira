@@ -1902,8 +1902,7 @@ public static class MiscUtils
     /// <returns>A <see cref="StonedPlayer"/> or <see langword="null"/> if its not found.</returns>
     public static StonedPlayer? GetStonedPlayerById(byte id)
     {
-        var result = BaseFakePlayer.FakePlayers.OfType<StonedPlayer>().FirstOrDefault(body => body.PlayerId == id);
-        return result;
+        return BaseFakePlayer.FakePlayers.OfType<StonedPlayer>().FirstOrDefault(body => body.PlayerId == id);
     }
 
     /// <summary>
@@ -1923,33 +1922,43 @@ public static class MiscUtils
     }
 
     /// <summary>
-    ///     Gets a FakePlayer by comparing PlayerControl.
+    ///     Gets a <see cref="FakePlayer"/> by comparing <see cref="PlayerControl"/>.
     /// </summary>
     /// <param name="player">The player themselves.</param>
-    /// <returns>A fake player or null if its not found.</returns>
+    /// <returns>A fake player or <see langword="null"/> if its not found.</returns>
     public static FakePlayer? GetFakePlayer(PlayerControl player)
     {
-        return BaseFakePlayer.FakePlayers.OfType<FakePlayer>().FirstOrDefault(x => x.body?.name == $"Fake {player.gameObject.name}");
+        return GetFakePlayer(player.gameObject.name);
     }
 
     /// <summary>
-    ///     Gets a FakePlayer by comparing a player id.
+    ///     Gets a <see cref="FakePlayer"/> by comparing a player id.
     /// </summary>
     /// <param name="playerId">The player id.</param>
-    /// <returns>A fake player or null if its not found.</returns>
+    /// <returns>A fake player or <see langword="null"/> if its not found.</returns>
     public static FakePlayer? GetFakePlayer(int playerId)
     {
-        return BaseFakePlayer.FakePlayers.OfType<FakePlayer>().FirstOrDefault(x => x.PlayerId == playerId && x.body);
+        return GetFakePlayer(x => x.PlayerId == playerId);
     }
 
     /// <summary>
-    ///     Gets a FakePlayer by comparing a string.
+    ///     Gets a <see cref="FakePlayer"/> by comparing a string.
     /// </summary>
     /// <param name="playerName">The player's name.</param>
-    /// <returns>A fake player or null if its not found.</returns>
+    /// <returns>A fake player or <see langword="null"/> if its not found.</returns>
     public static FakePlayer? GetFakePlayer(string playerName)
     {
-        return BaseFakePlayer.FakePlayers.OfType<FakePlayer>().FirstOrDefault(x => x.body?.name == $"Fake {playerName}");
+        return GetFakePlayer(x => x.body.name == $"Fake {playerName}");
+    }
+
+    /// <summary>
+    ///     Gets a <see cref="FakePlayer"/> by comparing a predicate.
+    /// </summary>
+    /// <param name="predicate">The predicate to compare.</param>
+    /// <returns>A fake player or <see langword="null"/> if its not found.</returns>
+    public static FakePlayer? GetFakePlayer(Func<FakePlayer, bool> predicate)
+    {
+        return BaseFakePlayer.FakePlayers.OfType<FakePlayer>().FirstOrDefault(x => x.body && predicate(x));
     }
 
     public static void SetForcedBodyType(this PlayerPhysics player, PlayerBodyTypes bodyType)
