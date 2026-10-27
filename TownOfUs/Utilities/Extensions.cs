@@ -830,6 +830,23 @@ public static class Extensions
         }
     }
 
+    /// <summary>
+    /// Process a <see cref="List{T}"/> backwards and clear it.
+    /// <para/>
+    /// The provided <see cref="Action{T}"/> can perform the removal itself.
+    /// </summary>
+    /// <typeparam name="T">The type of item.</typeparam>
+    /// <param name="source">The list to process and clear.</param>
+    /// <param name="action">The processor action. Can remove the item from the list.</param>
+    public static void ProcessAndClear<T>(this List<T> source, Action<T> action)
+    {
+        for (int i = source.Count - 1; i >= 0; i--)
+        {
+            action(source[i]);
+            source.RemoveAt(i);
+        }
+    }
+
     #region Il2Cpp List LINQ Extensions
     public static List<T> ToList<T>(this Il2CppSystem.Collections.Generic.List<T> list)
     {
