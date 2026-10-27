@@ -25,20 +25,9 @@ public sealed class MeetingMenu : IDisposable
         Color? disabledColor = null!,
         Color? hoverColor = null!,
         Vector3? position = null!)
+        : this(owner, onClick, string.Empty, abilityType, activeSprite, disabledSprite, exemption,
+              activeColor, disabledColor, hoverColor, position)
     {
-        Owner = owner;
-        Click = onClick ?? throw new ArgumentException("onClick should exist");
-        IsExempt = exemption;
-        ActiveSprite = activeSprite;
-        DisabledSprite = disabledSprite;
-        ActiveColor = activeColor ?? Color.green;
-        DisabledColor = disabledColor ?? Color.white;
-        HoverColor = hoverColor ?? Color.red;
-        Type = abilityType;
-        Position = position ?? new Vector3(-0.95f, 0.03f, -3f);
-        AbilityName = string.Empty;
-
-        Instances.Add(this);
     }
 
     public MeetingMenu(
@@ -69,11 +58,27 @@ public sealed class MeetingMenu : IDisposable
         Instances.Add(this);
     }
 
-    public static List<MeetingMenu> Instances { get; set; } = [];
+    public MeetingMenu(
+        RoleBehaviour owner,
+        LoadableAsset<Sprite> activeSprite,
+        LoadableAsset<Sprite> disabledSprite = null!,
+        Exemption exemption = null!,
+        Color? activeColor = null!,
+        Color? disabledColor = null!,
+        Color? hoverColor = null!,
+        Vector3? position = null!)
+        : this(owner, (_, _) => { }, string.Empty, MeetingAbilityType.None, activeSprite, disabledSprite, exemption,
+              activeColor ?? Color.white, disabledColor, hoverColor ?? Color.white, position)
+    {
+    }
+
+    public static List<MeetingMenu> Instances { get; } = [];
 
     public RoleBehaviour Owner { get; }
     public OnClick Click { get; }
     public Exemption IsExempt { get; }
+    public Exemption StartActive { get; init; }
+    public Action<PlayerVoteArea, GameObject>? ButtonSetup { get; init; }
     public LoadableAsset<Sprite> ActiveSprite { get; }
     public LoadableAsset<Sprite> DisabledSprite { get; }
     public string AbilityName { get; }
@@ -81,7 +86,7 @@ public sealed class MeetingMenu : IDisposable
     private Color DisabledColor { get; }
     private Color HoverColor { get; }
     public MeetingAbilityType Type { get; }
-    public Vector3 Position { get; set; }
+    public Vector3 Position { get; init; }
     public Dictionary<byte, bool> Actives { get; } = [];
     public Dictionary<byte, GameObject> Buttons { get; } = [];
     private Dictionary<byte, SpriteRenderer> ButtonSprites { get; } = [];
@@ -99,6 +104,11 @@ public sealed class MeetingMenu : IDisposable
         ButtonSprites.Clear();
     }
 
+    public static void HideButtonsForAll()
+    {
+        Instances.Do(x => x.HideButtons());
+    }
+
     public void HideSingle(byte targetId)
     {
         Actives[targetId] = false;
@@ -114,11 +124,16 @@ public sealed class MeetingMenu : IDisposable
         ButtonSprites[targetId] = null!;
     }
 
+    public static void HideSingleForAll(byte targetId)
+    {
+        Instances.Do(x => x.HideSingle(targetId));
+    }
+
     private void GenButton(PlayerVoteArea voteArea, MeetingHud __instance)
     {
         Actives.Add(voteArea.PlayerId, false);
 
-        if (IsExempt(voteArea))
+        if (IsExempt?.Invoke(voteArea) == true)
         {
             Buttons.Add(voteArea.PlayerId, null!);
             ButtonSprites.Add(voteArea.PlayerId, null!);
@@ -131,12 +146,25 @@ public sealed class MeetingMenu : IDisposable
         targetBox.name = $"MeetingButton{Owner.GetRoleName().Replace(" ", "")}{voteArea.PlayerId}";
         targetBox.transform.localPosition = Position;
         var renderer = targetBox.GetComponent<SpriteRenderer>();
-        renderer.sprite = (Type == MeetingAbilityType.Toggle ? DisabledSprite : ActiveSprite);
+
+        if (Type != MeetingAbilityType.Click && StartActive != null)
+        {
+            var active = StartActive(voteArea);
+
+            Actives[voteArea.PlayerId] = active;
+
+            renderer.sprite = active ? ActiveSprite : DisabledSprite;
+        }
+        else
+        {
+            renderer.sprite = (Type == MeetingAbilityType.Toggle ? DisabledSprite : ActiveSprite);
+        }
+
         var button = targetBox.GetComponent<PassiveButton>();
         button.OverrideOnClickListeners(() => Click(voteArea, __instance));
         button.OverrideOnMouseOverListeners(() => renderer.color = HoverColor);
         button.OverrideOnMouseOutListeners(() => renderer.color =
-            Type == MeetingAbilityType.Toggle && Actives[voteArea.PlayerId]
+            Type != MeetingAbilityType.Click && Actives[voteArea.PlayerId]
                 ? ActiveColor
                 : DisabledColor);
         var collider = targetBox.GetComponent<BoxCollider2D>();
@@ -158,9 +186,11 @@ public sealed class MeetingMenu : IDisposable
         tmpText.m_enableWordWrapping = false;
         Buttons.Add(voteArea.PlayerId, targetBox);
         ButtonSprites.Add(voteArea.PlayerId, renderer);
+
+        ButtonSetup?.Invoke(voteArea, targetBox);
     }
 
-    public void GenButtons(MeetingHud meeting, bool usable)
+    public void GenButtons(MeetingHud meeting, bool usable = true)
     {
         if (meeting == null)
         {
@@ -200,6 +230,11 @@ public sealed class MeetingMenu : IDisposable
         }
     }
 
+    public static void UpdateAll()
+    {
+        Instances.Do(x => x.Update());
+    }
+
     public static void ClearAll()
     {
         Instances.Do(x => x.Dispose());
@@ -208,6 +243,7 @@ public sealed class MeetingMenu : IDisposable
 
 public enum MeetingAbilityType : byte
 {
+    None,
     Toggle,
     Click
 }
