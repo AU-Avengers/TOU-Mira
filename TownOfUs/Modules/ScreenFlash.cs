@@ -1,4 +1,3 @@
-using HarmonyLib;
 using Reactor.Utilities.Attributes;
 using UnityEngine;
 
@@ -30,8 +29,7 @@ public sealed class ScreenFlash(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
     public static void Clear()
     {
-        _screenFlashes.Do(x => x.Destroy());
-        _screenFlashes.Clear();
+        _screenFlashes.ProcessAndClear(x => x.Destroy());
     }
 
     public bool IsActive()
@@ -65,5 +63,6 @@ public sealed class ScreenFlash(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         {
             Destroy(_renderer.gameObject);
         }
+        _screenFlashes.Remove(this);
     }
 }

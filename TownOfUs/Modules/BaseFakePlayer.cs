@@ -17,6 +17,7 @@ public abstract class BaseFakePlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     private const string DefaultPetName = "EmptyPet(Clone)";
     private const string NameTextObjName = "NameText_TMP";
     private const string ColorBindTextName = "ColorblindName_TMP";
+
     protected CosmeticsLayer _cosmeticsLayer { get; set; }
 
     protected PlayerCosmicInfo _cosmicInfo { get; set; }

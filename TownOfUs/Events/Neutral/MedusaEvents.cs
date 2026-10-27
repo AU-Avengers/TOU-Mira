@@ -1,4 +1,5 @@
-﻿using MiraAPI.Events;
+﻿using InnerNet;
+using MiraAPI.Events;
 using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Hud;
@@ -104,18 +105,12 @@ public static class MedusaEvents
         var stonedPlayer = StonedPlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == player.PlayerId && x.ProgressStage is not StoneStage.Permanent and not StoneStage.Petrified);
         if (stonedPlayer != null)
         {
-            StonedPlayer.FakePlayers.Remove(stonedPlayer);
-            if (stonedPlayer.CurrentCoroutine != null)
-            {
-                Coroutines.Stop(stonedPlayer.CurrentCoroutine);
-            }
             stonedPlayer.Destroy();
         }
 
-        var fakePlayer = MiscUtils.GetFakePlayer(player.PlayerId);
+        var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == player.PlayerId && x.body);
         if (fakePlayer != null)
         {
-            FakePlayer.FakePlayers.Remove(fakePlayer);
             fakePlayer.Destroy();
         }
     }

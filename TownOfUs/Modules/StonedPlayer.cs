@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using AmongUs.Data;
-using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -200,8 +199,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : BaseFakePlayer(cppPtr)
     {
         if (fullClear)
         {
-            FakePlayers.Do(x => x.Destroy());
-            FakePlayers.Clear();
+            FakePlayers.ProcessAndClear(x => x.Destroy());
             return;
         }
         var validStones = FakePlayers.Where(x => x.ProgressStage is not StoneStage.Shatter);
@@ -220,8 +218,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : BaseFakePlayer(cppPtr)
             stone.SetStonedName();
             FakePlayers.Remove(stone);
         }
-        FakePlayers.Do(x => x.Destroy());
-        FakePlayers.Clear();
+        FakePlayers.ProcessAndClear(x => x.Destroy());
         foreach (var stone in validStones)
         {
             FakePlayers.Add(stone);
@@ -235,6 +232,7 @@ public sealed class StonedPlayer(IntPtr cppPtr) : BaseFakePlayer(cppPtr)
         {
             Coroutines.Stop(CurrentCoroutine);
         }
+        FakePlayers.Remove(this);
     }
 }
 

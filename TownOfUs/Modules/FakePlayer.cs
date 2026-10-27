@@ -1,5 +1,4 @@
-﻿using HarmonyLib;
-using Reactor.Utilities.Attributes;
+﻿using Reactor.Utilities.Attributes;
 
 namespace TownOfUs.Modules;
 
@@ -27,7 +26,12 @@ public sealed class FakePlayer(IntPtr cppPtr) : BaseFakePlayer(cppPtr)
 
     public static void ClearAll()
     {
-        FakePlayers.Do(x => x.Destroy());
-        FakePlayers.Clear();
+        FakePlayers.ProcessAndClear(x => x.Destroy());
+    }
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        FakePlayers.Remove(this);
     }
 }

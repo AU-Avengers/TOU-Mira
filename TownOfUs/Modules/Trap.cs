@@ -89,8 +89,7 @@ public sealed class Trap(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
     public static void Clear()
     {
-        _traps.Do(x => x.Destroy());
-        _traps.Clear();
+        _traps.ProcessAndClear(trap => trap.Destroy());
     }
 
     public void Destroy()
@@ -99,5 +98,6 @@ public sealed class Trap(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         {
             Destroy(_transform.gameObject);
         }
+        _traps.Remove(this);
     }
 }
