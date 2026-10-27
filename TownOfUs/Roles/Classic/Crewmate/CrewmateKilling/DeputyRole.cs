@@ -248,16 +248,14 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
         if (Player.AmOwner)
         {
-            meetingMenu = new MeetingMenu(
+            meetingMenu = MeetingMenu.CreateMenu(
                 this,
                 ClickGuess,
                 MeetingAbilityType.Click,
                 LegacyAssets.IsLegacy ? LegacyAssets.ShootMeetingSprite : TouAssets.ShootMeetingSprite,
                 null!,
-                IsExempt)
-            {
-                Position = new Vector3(-0.40f, 0f, -3f)
-            };
+                IsExempt,
+                position: new Vector3(-0.40f, 0f, -3f));
         }
     }
 
@@ -301,7 +299,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
         if (Player.AmOwner)
         {
-            meetingMenu?.Dispose();
+            meetingMenu?.Destroy();
             meetingMenu = null!;
         }
     }

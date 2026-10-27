@@ -48,19 +48,22 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
         if (Player.AmOwner)
         {
             var classic = LegacyAssets.IsLegacy;
-            _meetingMenu = new MeetingMenu(
+            _meetingMenu = MeetingMenu.CreateMenu(
                 Player.Data.Role,
                 Click,
                 MeetingAbilityType.Toggle,
                 classic ? LegacyAssets.ImitateSelectSprite : TouAssets.ImitateSelectSprite,
                 classic ? LegacyAssets.ImitateDeselectSprite : TouAssets.ImitateDeselectSprite,
                 IsExempt,
-                Color.white)
-            {
-                Position = new Vector3(-0.40f, 0f, -3f),
-                StartActive = voteArea => voteArea.PlayerId == _selectedPlr?.PlayerId,
-            };
+                Color.white,
+                position: new Vector3(-0.40f, 0f, -3f),
+                startActive: StartSelected);
         }
+    }
+
+    public bool StartSelected(PlayerVoteArea voteArea)
+    {
+        return voteArea.PlayerId == _selectedPlr?.PlayerId;
     }
 
     public override void OnMeetingStart()
@@ -100,7 +103,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
 
         if (Player.AmOwner && _meetingMenu != null)
         {
-            _meetingMenu?.Dispose();
+            _meetingMenu?.Destroy();
             _meetingMenu = null!;
         }
     }

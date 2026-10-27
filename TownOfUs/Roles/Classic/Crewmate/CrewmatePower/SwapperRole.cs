@@ -84,11 +84,8 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
 
         if (Player.AmOwner)
         {
-            meetingMenu = new MeetingMenu(this, SetActive, MeetingAbilityType.Toggle, LegacyAssets.IsLegacy ? LegacyAssets.SwapActive : TouAssets.SwapActive,
-                LegacyAssets.IsLegacy ? LegacyAssets.SwapInactive : TouAssets.SwapInactive, IsExempt)
-            {
-                Position = new Vector3(-0.40f, 0f, -3f)
-            };
+            meetingMenu = MeetingMenu.CreateMenu(this, SetActive, MeetingAbilityType.Toggle, LegacyAssets.IsLegacy ? LegacyAssets.SwapActive : TouAssets.SwapActive,
+                LegacyAssets.IsLegacy ? LegacyAssets.SwapInactive : TouAssets.SwapInactive, IsExempt, position: new Vector3(-0.40f, 0f, -3f));
         }
 
         if (!OptionGroupSingleton<SwapperOptions>.Instance.CanButton)
@@ -125,7 +122,7 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
 
         if (Player.AmOwner)
         {
-            meetingMenu?.Dispose();
+            meetingMenu?.Destroy();
             meetingMenu = null!;
         }
     }

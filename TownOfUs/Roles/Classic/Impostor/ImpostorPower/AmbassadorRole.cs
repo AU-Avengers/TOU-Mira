@@ -112,7 +112,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
         if (Player.AmOwner)
         {
-            meetingMenu = new MeetingMenu(
+            meetingMenu = MeetingMenu.CreateMenu(
                 this,
                 Click,
                 MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorRetrain"),
@@ -120,10 +120,8 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                 TouAssets.RetrainCleanSprite,
                 TouAssets.RetrainCleanSprite,
                 IsExempt,
-                activeColor: new Color32(200, 80, 80, 255))
-            {
-                Position = new Vector3(-0.40f, 0f, -3f),
-            };
+                activeColor: new Color32(200, 80, 80, 255),
+                position: new Vector3(-0.40f, 0f, -3f));
         }
     }
 
@@ -174,7 +172,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
         if (Player.AmOwner)
         {
-            meetingMenu?.Dispose();
+            meetingMenu?.Destroy();
             meetingMenu = null!;
         }
     }

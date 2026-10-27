@@ -102,15 +102,13 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         if (Player.AmOwner)
         {
-            meetingMenu = new MeetingMenu(
+            meetingMenu = MeetingMenu.CreateMenu(
                 this,
                 TouAssets.LighterSprite,
-                TouAssets.DarkerSprite)
-            {
-                Position = new Vector3(1.1f, -0.18f, -3f),
-                StartActive = PlayerIsLighter,
-                ButtonSetup = (_, button) => button.transform.localScale *= 0.8f
-            };
+                TouAssets.DarkerSprite,
+                position: new Vector3(1.1f, -0.18f, -3f),
+                startActive: PlayerIsLighter,
+                buttonSetup: (_, button) => button.transform.localScale *= 0.8f);
         }
     }
 
@@ -177,7 +175,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         if (Player.AmOwner)
         {
-            meetingMenu?.Dispose();
+            meetingMenu?.Destroy();
             meetingMenu = null!;
         }
     }

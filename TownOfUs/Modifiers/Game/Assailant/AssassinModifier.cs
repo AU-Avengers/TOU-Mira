@@ -195,7 +195,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
         //Error($"AssassinModifier.OnActivate maxKills: {maxKills}");
         if (Player.AmOwner)
         {
-            meetingMenu = new MeetingMenu(
+            meetingMenu = MeetingMenu.CreateMenu(
                 Player.Data.Role,
                 ClickGuess,
                 MeetingAbilityType.Click,
@@ -220,7 +220,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     {
         if (Player.AmOwner)
         {
-            meetingMenu?.Dispose();
+            meetingMenu?.Destroy();
         }
     }
 
@@ -228,7 +228,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     {
         if (Player.AmOwner)
         {
-            meetingMenu?.Dispose();
+            meetingMenu?.Destroy();
             meetingMenu = null!;
         }
     }

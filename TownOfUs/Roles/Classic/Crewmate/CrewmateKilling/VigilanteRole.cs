@@ -80,7 +80,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
         if (Player.AmOwner)
         {
-            meetingMenu = new MeetingMenu(
+            meetingMenu = MeetingMenu.CreateMenu(
                 this,
                 ClickGuess,
                 MeetingAbilityType.Click,
@@ -118,7 +118,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
         if (Player.AmOwner)
         {
-            meetingMenu.Dispose();
+            meetingMenu.Destroy();
             meetingMenu = null!;
         }
     }

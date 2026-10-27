@@ -1,20 +1,22 @@
 using HarmonyLib;
 using MiraAPI.Utilities;
+using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using UnityEngine;
-using UObject = UnityEngine.Object;
 
 namespace TownOfUs.Modules;
 
-// Code Review: This works, and isn't too bad but could definitely be improved by yet again using a MonoBehaviour.
-public sealed class MeetingMenu : IDisposable
+[RegisterInIl2Cpp]
+public sealed class MeetingMenu(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 {
     public delegate bool Exemption(PlayerVoteArea voteArea);
 
     public delegate void OnClick(PlayerVoteArea voteArea, MeetingHud meeting);
 
-    public MeetingMenu(
+    public delegate void ButtonSetupAction(PlayerVoteArea voteArea, GameObject button);
+
+    public static MeetingMenu CreateMenu(
         RoleBehaviour owner,
         OnClick onClick,
         MeetingAbilityType abilityType,
@@ -24,13 +26,15 @@ public sealed class MeetingMenu : IDisposable
         Color? activeColor = null!,
         Color? disabledColor = null!,
         Color? hoverColor = null!,
-        Vector3? position = null!)
-        : this(owner, onClick, string.Empty, abilityType, activeSprite, disabledSprite, exemption,
-              activeColor, disabledColor, hoverColor, position)
+        Vector3? position = null!,
+        Exemption startActive = null!,
+        ButtonSetupAction buttonSetup = null!)
     {
+        return CreateMenu(owner, onClick, string.Empty, abilityType, activeSprite, disabledSprite, exemption,
+              activeColor, disabledColor, hoverColor, position, startActive, buttonSetup);
     }
 
-    public MeetingMenu(
+    public static MeetingMenu CreateMenu(
         RoleBehaviour owner,
         OnClick onClick,
         string abilityName,
@@ -41,24 +45,34 @@ public sealed class MeetingMenu : IDisposable
         Color? activeColor = null!,
         Color? disabledColor = null!,
         Color? hoverColor = null!,
-        Vector3? position = null!)
+        Vector3? position = null!,
+        Exemption startActive = null!,
+        ButtonSetupAction buttonSetup = null!)
     {
-        Owner = owner;
-        Click = onClick ?? throw new ArgumentException("onClick should exist");
-        IsExempt = exemption;
-        ActiveSprite = activeSprite;
-        DisabledSprite = disabledSprite;
-        ActiveColor = activeColor ?? Color.green;
-        DisabledColor = disabledColor ?? Color.white;
-        HoverColor = hoverColor ?? Color.red;
-        Type = abilityType;
-        Position = position ?? new Vector3(-0.95f, 0.03f, -3f);
-        AbilityName = abilityName;
+        var obj = new GameObject();
+        var menu = obj.AddComponent<MeetingMenu>();
 
-        Instances.Add(this);
+        menu._obj = obj;
+        menu.Owner = owner;
+        menu.Click = onClick ?? throw new ArgumentException("onClick should exist");
+        menu.IsExempt = exemption;
+        menu.ActiveSprite = activeSprite;
+        menu.DisabledSprite = disabledSprite;
+        menu.ActiveColor = activeColor ?? Color.green;
+        menu.DisabledColor = disabledColor ?? Color.white;
+        menu.HoverColor = hoverColor ?? Color.red;
+        menu.Type = abilityType;
+        menu.Position = position ?? new Vector3(-0.95f, 0.03f, -3f);
+        menu.AbilityName = abilityName;
+        menu.StartActive = startActive;
+        menu.ButtonSetup = buttonSetup;
+
+        Instances.Add(menu);
+
+        return menu;
     }
 
-    public MeetingMenu(
+    public static MeetingMenu CreateMenu(
         RoleBehaviour owner,
         LoadableAsset<Sprite> activeSprite,
         LoadableAsset<Sprite> disabledSprite = null!,
@@ -66,34 +80,43 @@ public sealed class MeetingMenu : IDisposable
         Color? activeColor = null!,
         Color? disabledColor = null!,
         Color? hoverColor = null!,
-        Vector3? position = null!)
-        : this(owner, (_, _) => { }, string.Empty, MeetingAbilityType.None, activeSprite, disabledSprite, exemption,
-              activeColor ?? Color.white, disabledColor, hoverColor ?? Color.white, position)
+        Vector3? position = null!,
+        Exemption startActive = null!,
+        ButtonSetupAction buttonSetup = null!)
     {
+        return CreateMenu(owner, (_, _) => { }, string.Empty, MeetingAbilityType.None, activeSprite, disabledSprite, exemption,
+              activeColor ?? Color.white, disabledColor, hoverColor ?? Color.white, position, startActive, buttonSetup);
     }
 
     public static List<MeetingMenu> Instances { get; } = [];
 
-    public RoleBehaviour Owner { get; }
-    public OnClick Click { get; }
-    public Exemption IsExempt { get; }
-    public Exemption StartActive { get; init; }
-    public Action<PlayerVoteArea, GameObject>? ButtonSetup { get; init; }
-    public LoadableAsset<Sprite> ActiveSprite { get; }
-    public LoadableAsset<Sprite> DisabledSprite { get; }
-    public string AbilityName { get; }
-    private Color ActiveColor { get; }
-    private Color DisabledColor { get; }
-    private Color HoverColor { get; }
-    public MeetingAbilityType Type { get; }
-    public Vector3 Position { get; init; }
+    private GameObject _obj;
+
+    public RoleBehaviour Owner { get; private set; }
+    public OnClick Click { get; private set; }
+    public Exemption IsExempt { get; private set; }
+    public Exemption StartActive { get; private set; }
+    public ButtonSetupAction ButtonSetup { get; private set; }
+    public LoadableAsset<Sprite> ActiveSprite { get; private set; }
+    public LoadableAsset<Sprite> DisabledSprite { get; private set; }
+    public string AbilityName { get; private set; }
+    private Color ActiveColor { get; set; }
+    private Color DisabledColor { get; set; }
+    private Color HoverColor { get; set; }
+    public MeetingAbilityType Type { get; private set; }
+    public Vector3 Position { get; private set; }
     public Dictionary<byte, bool> Actives { get; } = [];
     public Dictionary<byte, GameObject> Buttons { get; } = [];
     private Dictionary<byte, SpriteRenderer> ButtonSprites { get; } = [];
 
-    public void Dispose()
+    public void Destroy()
     {
         HideButtons();
+        if (_obj)
+        {
+            Destroy(_obj);
+        }
+        Instances.Remove(this);
     }
 
     public void HideButtons()
@@ -140,7 +163,7 @@ public sealed class MeetingMenu : IDisposable
             return;
         }
 
-        var targetBox = UObject.Instantiate(
+        var targetBox = Instantiate(
             voteArea.Buttons.transform.Find("CancelButton").gameObject,
             voteArea.transform);
         targetBox.name = $"MeetingButton{Owner.GetRoleName().Replace(" ", "")}{voteArea.PlayerId}";
@@ -172,7 +195,7 @@ public sealed class MeetingMenu : IDisposable
         collider.offset = Vector2.zero;
         targetBox.transform.GetChild(0).gameObject.DeepDestroy();
 
-        var buttonText = UObject.Instantiate(
+        var buttonText = Instantiate(
             __instance.MeetingAbilityButton.buttonLabelText.gameObject,
             targetBox.transform);
         buttonText.transform.localPosition = new Vector3(0, -0.2f, 0f);
@@ -230,14 +253,9 @@ public sealed class MeetingMenu : IDisposable
         }
     }
 
-    public static void UpdateAll()
-    {
-        Instances.Do(x => x.Update());
-    }
-
     public static void ClearAll()
     {
-        Instances.Do(x => x.Dispose());
+        Instances.ProcessAndClear(x => x.Destroy());
     }
 }
 
