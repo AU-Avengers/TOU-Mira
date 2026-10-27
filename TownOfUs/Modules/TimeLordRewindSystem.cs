@@ -630,7 +630,7 @@ public static class TimeLordRewindSystem
             flags |= SnapshotState.InvisibleAnim;
         }
 
-        var inMinigame = Minigame.Instance || Minigame.Instance;
+        var inMinigame = Minigame.Instance;
         if (inMinigame)
         {
             flags |= SnapshotState.InMinigame;
