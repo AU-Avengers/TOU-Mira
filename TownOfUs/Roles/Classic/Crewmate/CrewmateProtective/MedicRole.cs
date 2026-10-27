@@ -127,10 +127,9 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
-        var meeting = MeetingHud.Instance;
-        if (Player.AmOwner && meeting != null)
+        if (Player.AmOwner)
         {
-            meetingMenu.GenButtons(meeting);
+            meetingMenu.GenButtons(MeetingHud.Instance);
         }
     }
 

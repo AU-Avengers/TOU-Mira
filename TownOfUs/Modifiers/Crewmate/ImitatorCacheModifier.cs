@@ -101,7 +101,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
     {
         _selectedPlr = null;
 
-        if (Player.AmOwner && _meetingMenu != null)
+        if (Player.AmOwner)
         {
             _meetingMenu?.Destroy();
             _meetingMenu = null!;

@@ -98,10 +98,9 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
-        var meeting = MeetingHud.Instance;
-        if (Player.AmOwner && meeting != null)
+        if (Player.AmOwner)
         {
-            meetingMenu.GenButtons(meeting,
+            meetingMenu.GenButtons(MeetingHud.Instance,
                 Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
         }
     }

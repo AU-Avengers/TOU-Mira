@@ -145,10 +145,9 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             return;
         }
 
-        var meeting = MeetingHud.Instance;
-        if (Player.AmOwner && meeting != null)
+        if (Player.AmOwner)
         {
-            meetingMenu?.GenButtons(meeting,
+            meetingMenu?.GenButtons(MeetingHud.Instance,
                 Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
         }
     }

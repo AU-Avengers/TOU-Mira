@@ -94,10 +94,9 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
-        var meeting = MeetingHud.Instance;
-        if (Player.AmOwner && meeting != null)
+        if (Player.AmOwner)
         {
-            meetingMenu.GenButtons(meeting,
+            meetingMenu.GenButtons(MeetingHud.Instance,
                 Player.AmOwner && !Player.HasDied() && MaxKills > 0 && !Player.HasModifier<JailedModifier>());
         }
     }
@@ -118,7 +117,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
         if (Player.AmOwner)
         {
-            meetingMenu.Destroy();
+            meetingMenu?.Destroy();
             meetingMenu = null!;
         }
     }

@@ -264,10 +264,9 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         RoleBehaviourStubs.OnMeetingStart(this);
 
         ShotThisMeeting = false;
-        var meeting = MeetingHud.Instance;
-        if (Player.AmOwner && meeting != null)
+        if (Player.AmOwner)
         {
-            meetingMenu.GenButtons(meeting,
+            meetingMenu.GenButtons(MeetingHud.Instance,
                 Player.AmOwner && !Player.HasDied() && Killer != null && !Player.HasModifier<JailedModifier>());
         }
     }
