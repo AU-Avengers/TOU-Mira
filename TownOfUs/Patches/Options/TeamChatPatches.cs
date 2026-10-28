@@ -23,6 +23,9 @@ public static class TeamChatPatches
 {
     public static bool SplitChats =>
         LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.SeparateChatBubbles.Value;
+    public static bool DeadCanViewTeamChats =>
+        MeetingHud.Instance && GameHistory.IsFullyDead(PlayerControl.LocalPlayer) &&
+        OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow;
     public static GameObject TeamChatButton;
     private static TextMeshPro? _teamText;
     public static bool TeamChatActive; // True if any team chat is active
@@ -582,8 +585,7 @@ public static class TeamChatPatches
 
         if (availableChats.Count == 0)
         {
-            // No chats available, just toggle off
-            TeamChatActive = false;
+            TeamChatActive = DeadCanViewTeamChats && !TeamChatActive;
             CurrentChatIndex = -1;
         }
         else if (!TeamChatActive)
