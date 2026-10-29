@@ -28,12 +28,19 @@ public static class LobbyBehaviourPatches
         GameTimerPatch.ResetTimer();
         foreach (var role in GameHistory.AllRoles)
         {
-            if (role is not ITownOfUsRole touRole)
+            if (!role || role is not ITownOfUsRole touRole) //This code will shit absolute bricks if this is removed
             {
                 continue;
             }
 
-            touRole.LobbyStart();
+            try
+            {
+                touRole.LobbyStart();
+            }
+            catch (Exception e)
+            {
+                Error($"LobbyStart failed for role {role.GetType().Name}: {e}");
+            }
         }
 
         TeamChatPatches.CleanUpChats();

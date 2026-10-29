@@ -188,7 +188,7 @@ public static class HudManagerPatches
         TeamChatPatches.TeamChatManager.RegisterBuiltInChats();
 
         var availableChats = TeamChatPatches.TeamChatManager.GetAllAvailableChats();
-        var isValid = MeetingHud.Instance && availableChats.Count > 0;
+        var isValid = MeetingHud.Instance && (availableChats.Count > 0 || TeamChatPatches.LocalPlayerDeadKnows);
 
         if (!TeamChatPatches.TeamChatButton)
         {
