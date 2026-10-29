@@ -55,7 +55,9 @@ public class DemolitionistPlantButton : TownOfUsButton
         if (DemolitionistSabotageState.IsActive) return false;
         if (DemolitionistNumpad.Controller.InProgress) return false;
         if (_isPlanting || EffectActive) return false;
-        if (!DemolitionistUtilityConsoles.TryGetClosest(player, out _, out _, forDemolitionistPlant: true)) return false;
+        if (!DemolitionistUtilityConsoles.TryGetClosest(player, out var pos, out var kind, forDemolitionistPlant: true)) return false;
+        if (DemolitionistSabotageState.IsUtilityDisabled(DemolitionistUtilityConsoles.GetStableId(kind, pos), kind))
+            return false;
 
         return base.CanUse();
     }
