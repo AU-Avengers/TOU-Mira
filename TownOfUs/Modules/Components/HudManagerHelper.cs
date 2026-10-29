@@ -39,6 +39,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 {
     internal static Dictionary<int, string> PlatformAssociations = new();
     private static bool HasFetchedIcons;
+    private static ZiplineBehaviour[] Ziplines = [];
 
     public static HudManagerHelper Instance { get; private set; }
     public float DeathTimer;
@@ -311,6 +312,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 fakePlayer.Camo();
             }
 
+            CamouflageZiplineHands();
+
             return;
         }
 
@@ -319,6 +322,36 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
             HudManagerPatches.CamouflageCommsEnabled = false;
             FakePlayer.FakePlayers.Do(x => x.UnCamo());
             StonedPlayer.FakePlayers.Do(x => x.UnCamo());
+        }
+    }
+
+    private static void CamouflageZiplineHands()
+    {
+        if (MiscUtils.GetCurrentMap != ExpandedMapNames.Fungle)
+        {
+            return;
+        }
+
+        if (Ziplines.Length == 0 || !Ziplines[0])
+        {
+            Ziplines = UnityEngine.Object.FindObjectsOfType<ZiplineBehaviour>();
+        }
+
+        foreach (var zipline in Ziplines)
+        {
+            foreach (var entry in zipline.playerIdHands)
+            {
+                var player = MiscUtils.PlayerById(entry.Key);
+                if (!entry.Value || !player || player.GetAppearanceType() != TownOfUsAppearances.Camouflage)
+                {
+                    continue;
+                }
+
+                foreach (var rend in entry.Value.GetComponentsInChildren<SpriteRenderer>())
+                {
+                    PlayerMaterial.SetColors(Color.grey, rend);
+                }
+            }
         }
     }
 

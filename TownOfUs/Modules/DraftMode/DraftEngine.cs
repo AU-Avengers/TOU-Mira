@@ -169,8 +169,8 @@ public static class DraftEngine
             var forcedCrewSlots = pending
                 .TakeLast(Math.Min(_doubleDraftCrewSlotsRemaining, pending.Count()))
                 .ToHashSet();
-            var scheduledSlots = pending.Where(slot => !forcedCrewSlots.Contains(slot)).ToList();
-            var spreadOffers = _plan.AssignSpreadOffers(Picked.Values.ToList(), scheduledSlots.Count);
+            var scheduledBatchSlots = batch.Where(slot => !forcedCrewSlots.Contains(slot)).ToList();
+            var spreadOffers = _plan.AssignSpreadOffers(Picked.Values.ToList(), scheduledBatchSlots.Count);
             for (var i = 0; i < batch.Count; i++)
             {
                 var slot = batch[i];
@@ -179,7 +179,7 @@ public static class DraftEngine
                 {
                     SpreadOffers[slot] = new DraftSpreadOffer(DraftFaction.Crewmate, true);
                 }
-                else if (spreadOffers[scheduledSlots.IndexOf(slot)] is { } spreadOffer)
+                else if (spreadOffers[scheduledBatchSlots.IndexOf(slot)] is { } spreadOffer)
                 {
                     SpreadOffers[slot] = spreadOffer;
                 }
@@ -311,28 +311,9 @@ public static class DraftEngine
         }
     }
 
-    private static bool IsLegal(DraftCopy copy, List<DraftCopy> picks, List<ushort> concurrent)
+    private static bool IsLegal(DraftCopy copy, List<DraftCopy> picks)
     {
-        if (!_plan.CanComplete([.. picks, copy], Without(copy)))
-        {
-            return false;
-        }
-
-        foreach (var id in concurrent.Where(id => id != copy.RoleId))
-        {
-            var other = _pool.FirstOrDefault(x => x.RoleId == id);
-            if (other == null)
-            {
-                continue;
-            }
-
-            if (Clashes(copy.RoleId, id) || !_plan.CanComplete([.. picks, copy, other], Without(copy, other)))
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return _plan.CanComplete([.. picks, copy], Without(copy));
     }
 
     private static List<DraftCopy> Legal(int slot, bool respectReserved)
@@ -342,7 +323,7 @@ public static class DraftEngine
         return _pool.GroupBy(x => x.RoleId)
             .Where(g => !respectReserved || g.Count() > concurrent.Count(id => id == g.Key))
             .Select(g => g.First())
-            .Where(c => IsLegal(c, picks, concurrent))
+            .Where(c => IsLegal(c, picks))
             .ToList();
     }
 
