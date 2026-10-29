@@ -1,5 +1,4 @@
-﻿using HarmonyLib;
-using MiraAPI.Modifiers.Types;
+﻿using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using TownOfUs.Modules;
 using UnityEngine;
@@ -27,7 +26,7 @@ public abstract class RevealModifier(int roleChangeResult, bool revealRole, Role
             var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.PlayerId == Player.PlayerId);
             if (targetVoteArea.PlayerId != PlayerControl.LocalPlayer.PlayerId)
             {
-                MeetingMenu.Instances.Do(x => x.HideSingle(targetVoteArea.PlayerId));
+                MeetingMenu.HideSingleForAll(targetVoteArea.PlayerId);
             }
         }
     }
@@ -77,7 +76,7 @@ public abstract class BaseRevealModifier : TimedModifier
             var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.PlayerId == Player.PlayerId);
             if (targetVoteArea.PlayerId != PlayerControl.LocalPlayer.PlayerId)
             {
-                MeetingMenu.Instances.Do(x => x.HideSingle(targetVoteArea.PlayerId));
+                MeetingMenu.HideSingleForAll(targetVoteArea.PlayerId);
             }
         }
     }

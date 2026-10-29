@@ -2591,18 +2591,9 @@ return true;*/
 
         var roleWhenAlive = revived.GetRoleWhenAlive();
 
-        var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == revived.PlayerId);
-        if (fakePlayer != null)
+        if (BaseFakePlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == revived.PlayerId) is { } fakePlayer)
         {
             fakePlayer.Destroy();
-            FakePlayer.FakePlayers.Remove(fakePlayer);
-        }
-
-        var stonedPlayer = StonedPlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == revived.PlayerId);
-        if (stonedPlayer != null)
-        {
-            stonedPlayer.Destroy();
-            StonedPlayer.FakePlayers.Remove(stonedPlayer);
         }
 
         var body = Object.FindObjectsOfType<DeadBody>().FirstOrDefault(b => b.ParentId == revived.PlayerId);

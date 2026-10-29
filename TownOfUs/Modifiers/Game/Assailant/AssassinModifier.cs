@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -196,7 +195,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
         //Error($"AssassinModifier.OnActivate maxKills: {maxKills}");
         if (Player.AmOwner)
         {
-            meetingMenu = new MeetingMenu(
+            meetingMenu = MeetingMenu.CreateMenu(
                 Player.Data.Role,
                 ClickGuess,
                 MeetingAbilityType.Click,
@@ -209,10 +208,9 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     public override void OnMeetingStart()
     {
         //Error($"AssassinModifier.OnMeetingStart maxKills: {maxKills}");
-        var meeting = MeetingHud.Instance;
-        if (Player.AmOwner && meeting != null)
+        if (Player.AmOwner)
         {
-            meetingMenu.GenButtons(meeting,
+            meetingMenu.GenButtons(MeetingHud.Instance,
                 Player.AmOwner && !Player.HasDied() && maxKills > 0 && !Player.HasModifier<JailedModifier>());
         }
     }
@@ -221,7 +219,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     {
         if (Player.AmOwner)
         {
-            meetingMenu?.Dispose();
+            meetingMenu?.HideButtons();
         }
     }
 
@@ -229,7 +227,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     {
         if (Player.AmOwner)
         {
-            meetingMenu?.Dispose();
+            meetingMenu?.Destroy();
             meetingMenu = null!;
         }
     }
@@ -310,7 +308,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             {
                 OracleRole.RpcOracleBlessNotify(PlayerControl.LocalPlayer, oracleMod.Oracle, victim);
 
-                MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
+                MeetingMenu.HideSingleForAll(victim.PlayerId);
 
                 shapeMenu.Close();
                 LastGuessedItem = string.Empty;
@@ -348,7 +346,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             {
                 LastGuessedItem = string.Empty;
                 LastAttemptedVictim = null;
-                MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
+                MeetingMenu.HideSingleForAll(victim.PlayerId);
             }
 
             maxKills--;

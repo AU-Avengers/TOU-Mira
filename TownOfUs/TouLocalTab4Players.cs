@@ -17,8 +17,7 @@ public class TouLocalTabPlayers(ConfigFile config) : LocalSettingsTab(config)
         if (configEntry == RoleNameStyle)
         {
             HudManagerPatches.RoleNameStyle = RoleNameStyle.Value;
-            FakePlayer.UpdateFakePlayerText();
-            StonedPlayer.UpdateFakePlayerText();
+            BaseFakePlayer.UpdateFakePlayerText();
         }
         else if (configEntry == DisplayPlayerProgress)
         {
@@ -30,8 +29,7 @@ public class TouLocalTabPlayers(ConfigFile config) : LocalSettingsTab(config)
         }
         else if (configEntry == ColorPlayerNameToggle)
         {
-            FakePlayer.UpdateFakePlayerText();
-            StonedPlayer.UpdateFakePlayerText();
+            BaseFakePlayer.UpdateFakePlayerText();
         }
     }
 
