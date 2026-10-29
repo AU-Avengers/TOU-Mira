@@ -48,9 +48,14 @@ public static class TouRoleManagerPatches
         {
             var ghostText = $"GhostRoleSetup - ghostRoles role NiceName: {role.GetRoleName()}";
 
-            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, ghostText);
-
+            if (role is IBasicGhostRole { ApplyImmediatelyAfterDeath: false })
+            {
+                ghostText = $"{role.GetRoleName()} will not be assigned immediately.";
+                MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, ghostText);
+                continue;
+            }
             var data = MiscUtils.GetAssignData(role.Role);
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, ghostText);
 
             switch (data.Chance)
             {
@@ -102,27 +107,6 @@ public static class TouRoleManagerPatches
 
                         break;
                     }
-            }
-        }
-
-        foreach (var role in MiscUtils.AllTouRoles)
-        {
-            if (role is not IBasicGhostRole { ApplyImmediatelyAfterDeath: false } ghostRole)
-            {
-                continue;
-            }
-
-            switch (role.Team)
-            {
-                case ModdedRoleTeams.Crewmate:
-                    CrewmateGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get(ghostRole.GetType()));
-                    break;
-                case ModdedRoleTeams.Impostor:
-                    ImpostorGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get(ghostRole.GetType()));
-                    break;
-                default:
-                    CustomGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get(ghostRole.GetType()));
-                    break;
             }
         }
     }
