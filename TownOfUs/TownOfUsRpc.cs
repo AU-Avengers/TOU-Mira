@@ -111,6 +111,7 @@ public enum TownOfUsRpc : uint
     ParasiteEndControl,
     PuppeteerControl,
     PuppeteerEndControl,
+    ControllerEndControl,
     ControllerTrigerInteraction,
     ControllerSetInteractionState,
     TimeLordRewind,

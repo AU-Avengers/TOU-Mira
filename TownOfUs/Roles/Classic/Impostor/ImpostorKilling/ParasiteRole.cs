@@ -17,6 +17,7 @@ using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Utilities.ControlSystem;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -749,84 +750,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        if (parasite == null || target == null)
-        {
-            return;
-        }
-
-        if (parasite.Data.Role is not ParasiteRole role)
-        {
-            return;
-        }
-
-        ControlState.ClearControl(target.PlayerId);
-        target.TryRemoveModifier<ParasiteInfectedModifier>();
-
-        if (target.MyPhysics != null)
-        {
-            target.MyPhysics.body?.velocity = Vector2.zero;
-            target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
-        }
-
-        if (target.NetTransform != null)
-        {
-            try
-            {
-                var finalPos = (Vector2)target.transform.position;
-
-                NetTransformBacklogUtils.FlushBacklog(target);
-
-                if (target.AmOwner)
-                {
-                    target.NetTransform.SnapTo(finalPos);
-                }
-                else if (parasite.AmOwner)
-                {
-                    NetTransformBacklogUtils.FlushAndSnap(target);
-                }
-                else
-                {
-                    NetTransformBacklogUtils.FlushBacklog(target);
-                }
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        role.ClearControlLocal();
-
-        if (parasite.AmOwner)
-        {
-            var pos = (Vector2)parasite.transform.position;
-            if (parasite.NetTransform != null)
-            {
-                try
-                {
-                    parasite.NetTransform.SnapTo(pos);
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-        }
-        else
-        {
-            NetTransformBacklogUtils.FlushBacklog(parasite);
-        }
-
-        if (parasite.AmOwner)
-        {
-            parasite.walkingToVent = false;
-
-            var btn = CustomButtonSingleton<Buttons.Impostor.ParasiteOvertakeButton>.Instance;
-            btn.SetActive(true, role);
-            btn.StopControlEffectAndApplyCooldown();
-        }
-
-        role.ClearNotification();
+        RemoteControlUtilities.ControllerEndControl(parasite, target);
 
         if (toKillPlayer)
         {
@@ -834,5 +758,14 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             CustomTouMurderRpcs.Indirect(parasite, target, MeetingCheck.Ignore, true, true, true,
                 true, !MeetingHud.Instance, false, !MeetingHud.Instance, !MeetingHud.Instance, "Parasite");
         }
+    }
+
+    public void SetupLocalOnClear(PlayerControl controller)
+    {
+        controller.walkingToVent = false;
+
+        var btn = CustomButtonSingleton<Buttons.Impostor.ParasiteOvertakeButton>.Instance;
+        btn.SetActive(true, controller.Data.Role);
+        btn.StopControlEffectAndApplyCooldown();
     }
 }

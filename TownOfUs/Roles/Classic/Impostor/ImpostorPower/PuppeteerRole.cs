@@ -14,6 +14,7 @@ using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Utilities.ControlSystem;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -261,80 +262,12 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             return;
         }
 
-        if (puppeteer == null || target == null)
-        {
-            return;
-        }
+        RemoteControlUtilities.ControllerEndControl(puppeteer, target);
+    }
 
-        if (puppeteer.Data.Role is not PuppeteerRole role)
-        {
-            return;
-        }
-
-        ControlState.ClearControl(target.PlayerId);
-        target.TryRemoveModifier<PuppeteerControlModifier>();
-
-        if (target.MyPhysics != null)
-        {
-            target.MyPhysics.body?.velocity = Vector2.zero;
-            target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
-        }
-
-        if (target.NetTransform != null)
-        {
-            try
-            {
-                var finalPos = (Vector2)target.transform.position;
-
-                NetTransformBacklogUtils.FlushBacklog(target);
-
-                if (target.AmOwner)
-                {
-                    target.NetTransform.SnapTo(finalPos);
-                }
-                else if (puppeteer.AmOwner)
-                {
-                    NetTransformBacklogUtils.FlushAndSnap(target);
-                }
-                else
-                {
-                    NetTransformBacklogUtils.FlushBacklog(target);
-                }
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        role.ClearControlLocal();
-
-        if (puppeteer.AmOwner)
-        {
-            var pos = (Vector2)puppeteer.transform.position;
-            if (puppeteer.NetTransform != null)
-            {
-                try
-                {
-                    puppeteer.NetTransform.SnapTo(pos);
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-        }
-        else
-        {
-            NetTransformBacklogUtils.FlushBacklog(puppeteer);
-        }
-
-        if (puppeteer.AmOwner)
-        {
-            var btn = CustomButtonSingleton<Buttons.Impostor.PuppeteerControlButton>.Instance;
-            btn.ResetCooldownAndOrEffect();
-        }
-
-        role.ClearNotification();
+    public void SetupLocalOnClear(PlayerControl controller)
+    {
+        var btn = CustomButtonSingleton<Buttons.Impostor.PuppeteerControlButton>.Instance;
+        btn.ResetCooldownAndOrEffect();
     }
 }

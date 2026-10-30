@@ -16,6 +16,11 @@ public interface ITownOfUsControlRole : ITownOfUsRole
 public interface ITownOfUsLocalControlRole : ITownOfUsControlRole, IController
 {
     void ClearControlLocal();
+
+    void IController.ClearOnEnd()
+    {
+        ClearControlLocal();
+    }
 }
 
 
@@ -59,9 +64,7 @@ public interface IControlledModifier : IRemoteControl, IUncontrollable
 
     void RemoveSelf();
 
-    void UpdateOverlayLayout()
-    {
-    }
+    void UpdateOverlayLayout() { }
 }
 
 /// <summary>
@@ -74,7 +77,13 @@ public interface IController : IRemoteControl
     /// </summary>
     PlayerControl? Controlled { get; }
 
-    void UpdateOverlay()
-    {
-    }
+    void UpdateOverlay() { }
+
+    void ClearOnEnd();
+
+    /// <summary>
+    /// Called only on the <paramref name="controller"/>'s client ( <c>controller.AmOwner</c> )
+    /// to configure their local state when remote control interaction ends.
+    /// </summary>
+    void SetupLocalOnClear(PlayerControl controller) { }
 }
