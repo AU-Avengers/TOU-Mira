@@ -192,6 +192,11 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         // Border follows the camera rect; TickPiP() also calls UpdateCameraBorderLayout() every frame.
     }
 
+    public void UpdateOverlay()
+    {
+        TickPiP();
+    }
+
     /// <summary>
     /// Called every frame while controlling someone to:
     /// - Apply local PiP settings (location/size)

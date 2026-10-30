@@ -253,8 +253,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
         var role = PlayerControl.LocalPlayer.Data.Role;
         var ghostRole = role as IGhostRole;
-        PuppeteerOverlayPatch.RunPuppetOverlay();
-        ParasiteOverlayPatch.RunOvertakeOverlay();
+        ControlOverlayPatch.RunControlOverlay();
         ControlledPlayerInteractionPatches.UpdateControlledUseButton(instance);
         SentryCameraPortablePatch.ApplyPortableBlinkState();
         TimeLordPatches.RecordTimeLordSnapshot(instance);

@@ -56,6 +56,12 @@ public interface IControlledModifier : IRemoteControl, IUncontrollable
     bool? ControllerIsDead => false;
 
     void RemoveSelf();
+
+    void ClearNotification();
+
+    void UpdateOverlayLayout()
+    {
+    }
 }
 
 /// <summary>
@@ -67,4 +73,8 @@ public interface IController : IRemoteControl
     /// The <see cref="PlayerControl"/> being remote-controlled, if any.
     /// </summary>
     PlayerControl? Controlled { get; }
+
+    void UpdateOverlay()
+    {
+    }
 }
