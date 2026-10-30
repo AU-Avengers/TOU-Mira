@@ -37,8 +37,7 @@ public static class ControlOverlayPatch
         if (!shouldClear)
         {
             var controller = MiscUtils.PlayerById(controllerId);
-            if (controller == null || controller.Data == null || controller.Data.Disconnected || 
-                (mod.ControllerIsDead is { } isDead && controller.HasDied() != isDead))
+            if (controller == null || controller.Data == null || controller.Data.Disconnected || !mod.ControllerDeadCheck())
             {
                 shouldClear = true;
             }

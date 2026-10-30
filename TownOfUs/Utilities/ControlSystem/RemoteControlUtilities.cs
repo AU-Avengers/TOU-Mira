@@ -29,6 +29,16 @@ public static class RemoteControlUtilities
         }
     }
 
+    public static bool ControllerDeadCheck(this IControlledModifier controlled)
+    {
+        if (controlled.ControllerIsDead is not { } isDead)
+        {
+            return true;
+        }
+
+        return controlled.Controller.HasDied() == isDead;
+    }
+
     [MethodRpc((uint)TownOfUsRpc.ControllerEndControl)]
     public static void RpcControllerEndControl(PlayerControl controller, PlayerControl target)
     {
@@ -125,6 +135,6 @@ public static class RemoteControlUtilities
 
         control.ClearNotification();
 
-        // Post setup
+        // TODO: Post setup
     }
 }

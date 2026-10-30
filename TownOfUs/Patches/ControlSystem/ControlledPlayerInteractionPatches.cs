@@ -34,8 +34,7 @@ public static class ControlledPlayerInteractionPatches
         if (localPlayer.TryGetModifierOfType<IControlledModifier>(out var mod))
         {
             var controller = mod.Controller;
-            if (controller != null &&
-                (mod.ControllerIsDead is not { } isDead || controller.HasDied() == isDead) &&
+            if (controller != null && mod.ControllerDeadCheck() &&
                 mod.State.IsControlling(controller.PlayerId, out _))
             {
                 if (mod.State.HasControl(localPlayer.PlayerId) &&
@@ -76,8 +75,7 @@ public static class ControlledPlayerInteractionPatches
         if (__instance.TryGetModifierOfType<IControlledModifier>(out var mod))
         {
             var controller = mod.Controller;
-            if (controller != null &&
-                (mod.ControllerIsDead is not { } isDead || controller.HasDied() == isDead) &&
+            if (controller != null && mod.ControllerDeadCheck() &&
                 mod.State.IsControlling(controller.PlayerId, out _))
             {
                 return (__result = false);
@@ -143,8 +141,7 @@ public static class ControlledPlayerInteractionPatches
         if (localPlayer.TryGetModifierOfType<IControlledModifier>(out var mod))
         {
             var controller = mod.Controller;
-            if (controller != null &&
-                (mod.ControllerIsDead is not { } isDead || controller.HasDied() == isDead) &&
+            if (controller != null && mod.ControllerDeadCheck() &&
                 mod.State.IsFullyControlling(controller.PlayerId))
             {
                 useButton.currentTarget = null;
