@@ -252,12 +252,11 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         }
 
         var role = PlayerControl.LocalPlayer.Data.Role;
-        var ghostRole = role as IGhostRole;
         ControlOverlayPatch.RunControlOverlay();
         ControlledPlayerInteractionPatches.UpdateControlledUseButton(instance);
         SentryCameraPortablePatch.ApplyPortableBlinkState();
         TimeLordPatches.RecordTimeLordSnapshot(instance);
-        if (PlayerControl.LocalPlayer.Data.IsDead && ghostRole != null)
+        if (PlayerControl.LocalPlayer.Data.IsDead && role is IGhostRole ghostRole)
         {
             HudManagerPatches.UpdateSubmergedButtons(instance, ghostRole);
         }
