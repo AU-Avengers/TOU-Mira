@@ -53,9 +53,9 @@ public static class PuppeteerMovementPatches
         _lastSentVel[controlledId] = velocity;
         _lastSentAt[controlledId] = now;
 
-        Rpc<PuppeteerInputUnreliableRpc>.Instance.Send(
+        Rpc<FullControlInputUnreliableRpc>.Instance.Send(
             PlayerControl.LocalPlayer,
-            new PuppeteerInputPacket(controlledId, dir, position, inAnim, velocity));
+            new FullControlInputPacket(controlledId, dir, position, inAnim, velocity));
     }
 
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.FixedUpdate))]

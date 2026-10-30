@@ -59,9 +59,9 @@ public static class ParasiteMovementPatches
         _lastSentVel[controlledId] = velocity;
         _lastSentAt[controlledId] = now;
 
-        Rpc<ParasiteInputUnreliableRpc>.Instance.Send(
+        Rpc<FullControlInputUnreliableRpc>.Instance.Send(
             PlayerControl.LocalPlayer,
-            new ParasiteInputPacket(controlledId, dir, position, inAnim, velocity));
+            new FullControlInputPacket(controlledId, dir, position, inAnim, velocity));
     }
 
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.FixedUpdate))]
