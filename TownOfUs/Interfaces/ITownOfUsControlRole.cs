@@ -35,6 +35,8 @@ public interface IRemoteControl
     /// The <see cref="ControlState"/> the interation should use.
     /// </summary>
     ControlState State { get; }
+    
+    void ClearNotification();
 }
 
 /// <summary>
@@ -56,8 +58,6 @@ public interface IControlledModifier : IRemoteControl, IUncontrollable
     bool? ControllerIsDead => false;
 
     void RemoveSelf();
-
-    void ClearNotification();
 
     void UpdateOverlayLayout()
     {

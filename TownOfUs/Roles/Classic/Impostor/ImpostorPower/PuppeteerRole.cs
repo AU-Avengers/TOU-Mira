@@ -141,7 +141,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     {
         Controlled = null;
         ControlTimer = 0f;
-        ClearNotifications();
+        ClearNotification();
     }
 
     private void CreateNotification()
@@ -162,7 +162,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
     }
 
-    private void ClearNotifications()
+    public void ClearNotification()
     {
         if (controllerNotification != null && controllerNotification.gameObject != null)
         {
@@ -335,6 +335,6 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             }
         }
 
-        role.ClearNotifications();
+        role.ClearNotification();
     }
 }

@@ -620,7 +620,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         _pipSettingsDirty = true;
 
         DestroyCamera();
-        ClearNotifications();
+        ClearNotification();
     }
 
     public float GetOvertakeKillLockoutRemainingSeconds()
@@ -651,7 +651,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
     }
 
-    private void ClearNotifications()
+    public void ClearNotification()
     {
         if (controllerNotification != null && controllerNotification.gameObject != null)
         {
@@ -830,7 +830,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             }
         }
 
-        role.ClearNotifications();
+        role.ClearNotification();
         if (toKillPlayer && parasite != null && target != null)
         {
             new TouAbilityEvent(AbilityType.ParasiteKill, parasite, target).InvokeEvent();
