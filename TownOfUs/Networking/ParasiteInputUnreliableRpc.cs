@@ -1,12 +1,12 @@
 using Hazel;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Extensions;
-using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Networking;
 
-internal readonly record struct ParasiteInputPacket(byte TargetId, Vector2 Direction, Vector2 Position, bool InAnim, Vector2 Velocity) : ITargetDataPacket;
+internal readonly record struct ParasiteInputPacket(byte TargetId, Vector2 Direction, Vector2 Position, bool InAnim, Vector2 Velocity)
+    : IMovementStateDataPacket, IDirectionDataPacket;
 
 [RegisterCustomRpc((uint)TownOfUsRpc.ParasiteInputUnreliable)]
 internal sealed class ParasiteInputUnreliableRpc(TownOfUsPlugin plugin, uint id)
@@ -29,16 +29,5 @@ internal sealed class ParasiteInputUnreliableRpc(TownOfUsPlugin plugin, uint id)
         var ani = reader.ReadBoolean();
         var vel = reader.ReadVector2();
         return new ParasiteInputPacket(controlledId, dir, pos, ani, vel);
-    }
-
-    protected override void Store(bool isControlled, ParasiteInputPacket data)
-    {
-        if (!isControlled)
-        {
-            return;
-        }
-
-        ParasiteRole.ControlState.SetForcedDirection(data.TargetId, data.Direction);
-        ParasiteRole.ControlState.SetMovementState(data.TargetId, data.Position, data.InAnim, data.Velocity);
     }
 }

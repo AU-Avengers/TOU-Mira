@@ -2,12 +2,30 @@
 using Reactor.Networking.Rpc;
 using TownOfUs.Modules;
 using TownOfUs.Modules.ControlSystem;
+using UnityEngine;
 
 namespace TownOfUs.Networking;
 
 public interface ITargetDataPacket
 {
     byte TargetId { get; }
+}
+
+public interface IMovementStateDataPacket : ITargetDataPacket
+{
+    Vector2 Position { get; }
+    bool InAnim { get; }
+    Vector2 Velocity { get; }
+}
+
+public interface IDirectionDataPacket : ITargetDataPacket
+{
+    Vector2 Direction { get; }
+}
+
+public interface IBidirectionalDataPacket : IDirectionDataPacket
+{
+    bool FromVictim { get; }
 }
 
 public abstract class ControlDataUnreliableRpc<TPlugin, TData>(TPlugin plugin, uint id)
@@ -36,14 +54,27 @@ public abstract class ControlDataUnreliableRpc<TPlugin, TData>(TPlugin plugin, u
             return;
         }
 
-        if (!ControlState.IsUsingAnyState(data.TargetId, out var otherId, out var isControlled, out _) ||
+        if (!ControlState.IsUsingAnyState(data.TargetId, out var otherId, out var isControlled, out var controlState) ||
             otherId != sender.PlayerId)
         {
             return;
         }
 
-        Store(isControlled, data);
-    }
+        if (data is IMovementStateDataPacket moveState && isControlled)
+        {
+            controlState.SetMovementState(data.TargetId, moveState.Position, moveState.InAnim, moveState.Velocity);
+        }
 
-    protected abstract void Store(bool isControlled, TData data);
+        if (data is IDirectionDataPacket dirData)
+        {
+            if (dirData is IBidirectionalDataPacket { FromVictim: true } && !isControlled)
+            {
+                // controlState.SetSelfDirection(data.TargetId, dirData.Direction);
+            }
+            else if (isControlled)
+            {
+                controlState.SetForcedDirection(data.TargetId, dirData.Direction);
+            }
+        }
+    }
 }

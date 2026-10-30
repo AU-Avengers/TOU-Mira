@@ -1,12 +1,12 @@
 using Hazel;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Extensions;
-using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Networking;
 
-internal readonly record struct PuppeteerInputPacket(byte TargetId, Vector2 Direction, Vector2 Position, bool InAnim, Vector2 Velocity) : ITargetDataPacket;
+internal readonly record struct PuppeteerInputPacket(byte TargetId, Vector2 Direction, Vector2 Position, bool InAnim, Vector2 Velocity)
+    : IMovementStateDataPacket, IDirectionDataPacket;
 
 [RegisterCustomRpc((uint)TownOfUsRpc.PuppeteerInputUnreliable)]
 internal sealed class PuppeteerInputUnreliableRpc(TownOfUsPlugin plugin, uint id)
@@ -29,16 +29,5 @@ internal sealed class PuppeteerInputUnreliableRpc(TownOfUsPlugin plugin, uint id
         var ani = reader.ReadBoolean();
         var vel = reader.ReadVector2();
         return new PuppeteerInputPacket(controlledId, dir, pos, ani, vel);
-    }
-
-    protected override void Store(bool isControlled, PuppeteerInputPacket data)
-    {
-        if (!isControlled)
-        {
-            return;
-        }
-
-        PuppeteerRole.ControlState.SetForcedDirection(data.TargetId, data.Direction);
-        PuppeteerRole.ControlState.SetMovementState(data.TargetId, data.Position, data.InAnim, data.Velocity);
     }
 }
