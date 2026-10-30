@@ -24,7 +24,7 @@ internal sealed class PuppeteerInputUnreliableRpc(TownOfUsPlugin plugin, uint id
     public override PuppeteerInputPacket Read(MessageReader reader)
     {
         var controlledId = reader.ReadByte();
-        var dir = reader.ReadVector2();
+        var dir = reader.ReadVector2().ApplyDeadzone();
         var pos = reader.ReadVector2();
         var ani = reader.ReadBoolean();
         var vel = reader.ReadVector2();

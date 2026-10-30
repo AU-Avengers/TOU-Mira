@@ -735,6 +735,13 @@ public static class Extensions
         vent.myRend.material.SetColor(ShaderID.AddColor, mainTarget ? color : Color.clear);
     }
 
+    public const float DirectionDeadzone = 0.125f;
+
+    public static Vector2 ApplyDeadzone(this Vector2 v)
+    {
+        return v.sqrMagnitude < DirectionDeadzone * DirectionDeadzone ? Vector2.zero : v;
+    }
+
     public static float GetKillCooldown(this PlayerControl player)
     {
         return Math.Clamp(UnderdogModifier.GetKillCooldown(player) + TownOfUsMapOptions.GetMapBasedCooldownDifference(),
