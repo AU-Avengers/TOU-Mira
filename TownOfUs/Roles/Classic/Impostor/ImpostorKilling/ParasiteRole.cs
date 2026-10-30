@@ -26,6 +26,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 {
     public static ControlState ControlState { get; } = new(typeof(ParasiteRole));
 
+    public ControlState State => ControlState;
+
     [HideFromIl2Cpp] public PlayerControl? Controlled { get; set; }
     private float _overtakeKillLockoutUntil;
     private bool _killPendingFromTimer;

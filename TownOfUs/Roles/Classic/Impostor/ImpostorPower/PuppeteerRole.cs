@@ -23,6 +23,8 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 {
     public static ControlState ControlState { get; } = new(typeof(PuppeteerRole));
 
+    public ControlState State => ControlState;
+
     [HideFromIl2Cpp]
     public MonoBehaviour? OnTransport()
     {
