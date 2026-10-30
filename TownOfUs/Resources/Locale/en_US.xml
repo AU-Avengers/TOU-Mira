@@ -1837,6 +1837,17 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Role.AmbassadorYouHaveAccepted">You have accepted your retraining into the [newRole]!</string>
   <string name="TownOfUsMira.Role.AmbassadorPlayerHasBeenRetrained">[player] has now been retrained into [newRole]!</string>
   <string name="TownOfUsMira.Role.AmbassadorNeedKills">You or the impostor you are trying to retrain must have at least [requiredKills] kills.</string>
+    <!-- Wraith - Impostor Afterlife -->
+    <!-- Wraith Wiki / Description -->
+    <string name="TownOfUsMira.Role.Wraith">Wraith</string>
+    <string name="TownOfUsMira.Role.Wraith.MedDescription">Scare the Crewmates to death beyond the grave.</string>
+    <string name="TownOfUsMira.Role.Wraith.IntroBlurb">Scare the Crewmates to death!</string>
+    <string name="TownOfUsMira.Role.Wraith.TabDescription">Scare a group of Crewmates [amount] times to kill them slowly!</string>
+    <string name="TownOfUsMira.Role.Wraith.TabDetails">Rounds Remaining: [roundCount]
+Successful Scares: [scareCount]/[scareTotal]</string>
+    <string name="TownOfUsMira.Role.Wraith.WikiDescription">The Wraith is an Impostor Ghost that can aid their teammates after death if they are killed by means other than a vote or suicide. They will only exist for a set amount of rounds or after they scare enough players. Once a player is scared enough times, they will be consumed by fear and die at the end of some meeting.</string>
+    <string name="TownOfUsMira.Role.Wraith.Scare">Scare</string>
+    <string name="TownOfUsMira.Role.Wraith.Scare.Description">Scare a group of players to try and install enough fear to mark them for death.</string>
   <!-- Ambusher Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Ambusher">Ambusher</string>
   <string name="TownOfUsMira.Role.Ambusher.IntroBlurb">Kidnap Crewmates into the shadows</string>
