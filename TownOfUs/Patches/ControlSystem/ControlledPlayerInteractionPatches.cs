@@ -1,5 +1,8 @@
 using HarmonyLib;
+using MiraAPI.Modifiers;
+using TownOfUs.Interfaces;
 using TownOfUs.Roles.Impostor;
+using TownOfUs.Utilities.ControlSystem;
 using UnityEngine;
 using UnityObject = UnityEngine.Object;
 
@@ -27,6 +30,8 @@ public static class ControlledPlayerInteractionPatches
         {
             return true;
         }
+
+        // TODO: be able to abstractly call rpc
 
         if (localPlayer.Data?.Role is PuppeteerRole { Controlled: { } puppet } &&
             !puppet.HasDied() &&
@@ -65,25 +70,25 @@ public static class ControlledPlayerInteractionPatches
         {
             return true;
         }
-        if (__instance.Data?.Role is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
+
+        if (__instance.TryGetModifierOfType<IControlledModifier>(out var mod))
         {
-            var controlled = puppeteerRole.Controlled;
-            if (controlled != null && !controlled.HasDied() &&
-                PuppeteerRole.ControlState.IsControlled(controlled.PlayerId, out _))
+            var controller = mod.Controller;
+            if (controller != null &&
+                (mod.ControllerIsDead is not { } isDead || controller.HasDied() == isDead) &&
+                mod.State.IsControlling(controller.PlayerId, out _))
             {
-                __result = false;
-                return false;
+                return (__result = false);
             }
         }
 
-        if (__instance.Data?.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+        if (__instance.GetRemoteControl<IController>() is { Controlled: not null } control)
         {
-            var controlled = parasiteRole.Controlled;
-            if (controlled != null && !controlled.HasDied() &&
-                ParasiteRole.ControlState.IsControlled(controlled.PlayerId, out _))
+            var controlled = control.Controlled;
+            if (!controlled.HasDied() &&
+                control.State.IsControlled(controlled.PlayerId, out _))
             {
-                __result = false;
-                return false;
+                return (__result = false);
             }
         }
 
@@ -133,23 +138,30 @@ public static class ControlledPlayerInteractionPatches
             return;
         }
 
-        var isControlling = false;
-        PlayerControl? controlledPlayer = null;
-
-        if (localPlayer.Data.Role is PuppeteerRole { Controlled: { } puppet } &&
-            !puppet.HasDied() &&
-            PuppeteerRole.ControlState.IsControlled(puppet.PlayerId, out _))
+        if (localPlayer.TryGetModifierOfType<IControlledModifier>(out var mod))
         {
-            isControlling = true;
-            controlledPlayer = puppet;
+            var controller = mod.Controller;
+            if (controller != null &&
+                (mod.ControllerIsDead is not { } isDead || controller.HasDied() == isDead) &&
+                mod.State.IsFullyControlling(controller.PlayerId))
+            {
+                useButton.currentTarget = null;
+                useButton.SetDisabled();
+            }
+            return;
         }
 
-        if (localPlayer.Data.Role is ParasiteRole { Controlled: { } infected } &&
-            !infected.HasDied() &&
-            ParasiteRole.ControlState.IsControlled(infected.PlayerId, out _))
+        var isControlling = false;
+        var isActionable = false;
+        PlayerControl? controlledPlayer = null;
+
+        if (localPlayer.GetRemoteControl<IController>() is { Controlled: not null } control &&
+            !control.Controlled.HasDied() &&
+            control.State.IsControlling(localPlayer.PlayerId, out _))
         {
             isControlling = true;
-            controlledPlayer = infected;
+            isActionable = control.State.HasControl(localPlayer.PlayerId);
+            controlledPlayer = control.Controlled;
         }
 
         if (!isControlling || controlledPlayer == null)
@@ -161,8 +173,15 @@ public static class ControlledPlayerInteractionPatches
         useButton.currentTarget = usable;
         if (usable != null)
         {
-            useButton.SetEnabled();
-            
+            if (isActionable)
+            {
+                useButton.SetEnabled();
+            }
+            else
+            {
+                useButton.SetDisabled();
+            }
+
             if (usable.TryCast<IUsableCoolDown>() is { } usableCoolDown)
             {
                 useButton.SetCoolDown(usableCoolDown.CoolDown, usableCoolDown.MaxCoolDown);
