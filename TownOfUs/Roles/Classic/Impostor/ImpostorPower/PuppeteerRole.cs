@@ -375,7 +375,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         foreach (var puppetMod in ModifierUtils.GetActiveModifiers<PuppeteerControlModifier>())
         {
-            puppetMod.Player.RemoveModifier(puppetMod);
+            puppetMod.RemoveSelf();
         }
     }
 }

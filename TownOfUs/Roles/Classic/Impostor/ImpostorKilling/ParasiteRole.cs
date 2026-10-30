@@ -874,7 +874,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         foreach (var parasiteMod in ModifierUtils.GetActiveModifiers<ParasiteInfectedModifier>())
         {
-            parasiteMod.Player.RemoveModifier(parasiteMod);
+            parasiteMod.RemoveSelf();
         }
     }
 }
