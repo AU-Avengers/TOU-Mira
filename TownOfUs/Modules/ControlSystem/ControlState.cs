@@ -14,6 +14,8 @@ public class ControlState
     public const float InitialControlSyncGraceSeconds = 1.0f;
 
     private readonly Dictionary<byte, byte> ControlledBy = [];
+    private readonly Dictionary<byte, byte> Controlling = [];
+    protected readonly Dictionary<byte, bool> InControl = [];
     private readonly Dictionary<byte, Vector2> ControlledDirection = [];
     private readonly Dictionary<byte, Vector2> ControlledPosition = [];
     private readonly Dictionary<byte, Vector2> ControlledVelocity = [];
@@ -23,6 +25,11 @@ public class ControlState
     public virtual void SetControl(byte controlledId, byte controllerId)
     {
         ControlledBy[controlledId] = controllerId;
+        Controlling[controllerId] = controlledId;
+
+        InControl[controlledId] = false;
+        InControl[controllerId] = true;
+
         ControlledDirection[controlledId] = Vector2.zero;
         ControlledPosition[controlledId] = Vector2.zero;
         ControlledVelocity[controlledId] = Vector2.zero;
@@ -32,7 +39,12 @@ public class ControlState
 
     public virtual void ClearControl(byte controlledId)
     {
-        ControlledBy.Remove(controlledId);
+        ControlledBy.Remove(controlledId, out var controllerId);
+        Controlling.Remove(controllerId);
+
+        InControl.Remove(controlledId);
+        InControl.Remove(controllerId);
+
         ControlledDirection.Remove(controlledId);
         ControlledPosition.Remove(controlledId);
         ControlledVelocity.Remove(controlledId);
@@ -43,6 +55,32 @@ public class ControlState
     public bool IsControlled(byte controlledId, out byte controllerId)
     {
         return ControlledBy.TryGetValue(controlledId, out controllerId);
+    }
+
+    public bool IsControlling(byte controllerId, out byte controlledId)
+    {
+        return Controlling.TryGetValue(controllerId, out controlledId);
+    }
+
+    public bool IsUsingState(byte playerId, out byte withId, out bool isControlled)
+    {
+        isControlled = IsControlled(playerId, out withId);
+        return isControlled || IsControlling(playerId, out withId);
+    }
+
+    public bool HasControl(byte playerId)
+    {
+        return InControl.TryGetValue(playerId, out bool has) && has;
+    }
+
+    public bool IsFullyControlling(byte playerId)
+    {
+        return IsControlling(playerId, out byte otherId) && !HasControl(otherId);
+    }
+
+    public bool IsControllingActionable(byte playerId)
+    {
+        return IsControlling(playerId, out _) && HasControl(playerId);
     }
 
     public void SetForcedDirection(byte controlledId, Vector2 direction)
@@ -95,6 +133,8 @@ public class ControlState
     public virtual void ClearAll()
     {
         ControlledBy.Clear();
+        Controlling.Clear();
+        InControl.Clear();
         ControlledDirection.Clear();
         ControlledPosition.Clear();
         ControlledVelocity.Clear();
