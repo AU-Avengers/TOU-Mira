@@ -161,7 +161,7 @@ public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
     {
         if (!Caught && Setup)
         {
-            Player.WraithGhostFade(AlwaysShowRobe, RobeAnim && HandsAnim && HandsAnim.Playing, out var color);
+            Player.WraithGhostFade(AlwaysShowRobe, RobeSprite && RobeAnim && RobeAnim.Playing, out var color);
             if (RobeSprite)
             {
                 RobeSprite.color = color;
@@ -252,6 +252,14 @@ public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
                 SoundManager.Instance.SfxChannel);
             NoisemakerModifier.SoundDynamics(Player, audio);
             VibrationManager.Vibrate(1f, PlayerControl.LocalPlayer.GetTruePosition(), 7f, 1.2f);
+        }
+        var radius = OptionGroupSingleton<BomberOptions>.Instance.DetonateRadius * ShipStatus.Instance.MaxLightRadius;
+
+        var affected = Helpers.GetClosestPlayers(Player.transform.position, radius);
+        foreach (var victim in affected)
+        {
+            Vector2 direction = (victim.transform.position - Player.transform.position).normalized;
+            victim.rigidbody2D.AddForce(direction * 10f, ForceMode2D.Force);
         }
         yield return new WaitForSeconds(0.9f);
         while (HandsAnim.Playing)
