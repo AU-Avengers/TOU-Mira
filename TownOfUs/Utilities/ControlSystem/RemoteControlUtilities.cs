@@ -1,5 +1,6 @@
 ﻿using MiraAPI.Modifiers;
 using Reactor.Networking.Attributes;
+using System.Diagnostics.CodeAnalysis;
 using TownOfUs.Interfaces;
 using UnityEngine;
 
@@ -19,6 +20,13 @@ public static class RemoteControlUtilities
             return mod;
         }
         return null;
+    }
+
+    public static bool TryGetRemoteControl<TControl>(this PlayerControl player, [NotNullWhen(true)] out TControl? control, Func<TControl, bool> predicate = null!)
+        where TControl : class, IRemoteControl
+    {
+        control = player.GetRemoteControl(predicate);
+        return control != null;
     }
 
     public static void EnsureControlRole(Type type)
