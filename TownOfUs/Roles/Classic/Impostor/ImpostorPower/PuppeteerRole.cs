@@ -19,7 +19,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ITransportTrigger
+public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsLocalControlRole, IWikiDiscoverable, IDoomable, ITransportTrigger
 {
     public static ControlState ControlState { get; } = new(typeof(PuppeteerRole));
 
@@ -373,8 +373,6 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public void LobbyStart()
     {
-        ControlState.ClearAll();
-
         foreach (var puppetMod in ModifierUtils.GetActiveModifiers<PuppeteerControlModifier>())
         {
             puppetMod.RemoveSelf();

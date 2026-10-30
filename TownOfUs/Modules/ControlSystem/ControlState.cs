@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TownOfUs.Interfaces;
+using UnityEngine;
 
 namespace TownOfUs.Modules.ControlSystem;
 
@@ -13,6 +14,10 @@ public class ControlState
 
     public ControlState(Type type)
     {
+        if (!typeof(ITownOfUsControlRole).IsAssignableFrom(type))
+        {
+            throw new ArgumentException("Type must implement " + nameof(ITownOfUsControlRole), nameof(type));
+        }
         Instances.Add(type, this);
     }
 

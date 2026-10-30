@@ -12,6 +12,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
@@ -21,7 +22,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsLocalControlRole, IWikiDiscoverable, IDoomable
 {
     public static ControlState ControlState { get; } = new(typeof(ParasiteRole));
 
@@ -856,22 +857,18 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        // Find the interactable at the position
         var interactable = ControlledPlayerInteractionPatches.FindClosestInteractable(controlled, interactablePosition);
         if (interactable == null)
         {
             return;
         }
 
-        // Trigger the interaction as the controlled player
         ControlledPlayerInteractionPatches.TriggerInteractionAsPlayer(controlled, interactable);
         ControlledPlayerInteractionPatches.SetStateForController(parasite, interactable);
     }
 
     public void LobbyStart()
     {
-        ControlState.ClearAll();
-
         foreach (var parasiteMod in ModifierUtils.GetActiveModifiers<ParasiteInfectedModifier>())
         {
             parasiteMod.RemoveSelf();

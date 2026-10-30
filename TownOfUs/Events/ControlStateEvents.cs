@@ -5,7 +5,7 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Interfaces;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
@@ -76,11 +76,9 @@ public static class ControlStateEvents
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
-            (player.Data.Role as ParasiteRole)?.ClearControlLocal();
+            (player.Data.Role as ITownOfUsLocalControlRole)?.ClearControlLocal();
 
             player.TryRemoveModifier<ParasiteInfectedModifier>();
-
-            (player.Data.Role as PuppeteerRole)?.ClearControlLocal();
 
             player.TryRemoveModifier<PuppeteerControlModifier>();
         }
@@ -93,11 +91,9 @@ public static class ControlStateEvents
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
-            (player.Data.Role as ParasiteRole)?.ClearControlLocal();
+            (player.Data.Role as ITownOfUsLocalControlRole)?.ClearControlLocal();
 
             player.TryRemoveModifier<ParasiteInfectedModifier>();
-
-            (player.Data.Role as PuppeteerRole)?.ClearControlLocal();
 
             player.TryRemoveModifier<PuppeteerControlModifier>();
         }

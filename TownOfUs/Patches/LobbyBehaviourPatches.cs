@@ -5,6 +5,7 @@ using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
+using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Modules.DraftMode;
 using TownOfUs.Networking;
 using TownOfUs.Patches.Options;
@@ -40,6 +41,11 @@ public static class LobbyBehaviourPatches
             catch (Exception e)
             {
                 Error($"LobbyStart failed for role {role.GetType().Name}: {e}");
+            }
+
+            if (ControlState.Instances.TryGetValue(touRole.GetType(), out var state))
+            {
+                state.ClearAll();
             }
         }
 
