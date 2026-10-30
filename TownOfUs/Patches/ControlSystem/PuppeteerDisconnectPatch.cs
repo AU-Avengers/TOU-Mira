@@ -22,7 +22,7 @@ public static class PuppeteerDisconnectPatch
             var controller = MiscUtils.PlayerById(controllerId);
             if (controller != null)
             {
-                PuppeteerRole.RpcPuppeteerEndControl(controller, player, player.transform.position);
+                PuppeteerRole.RpcPuppeteerEndControl(controller, player);
             }
             else
             {
@@ -34,7 +34,7 @@ public static class PuppeteerDisconnectPatch
 
         if (player.Data?.Role is PuppeteerRole { Controlled: { } controlled })
         {
-            PuppeteerRole.RpcPuppeteerEndControl(player, controlled, player.transform.position);
+            PuppeteerRole.RpcPuppeteerEndControl(player, controlled);
         }
 
         player.TryRemoveModifier<PuppeteerControlModifier>();

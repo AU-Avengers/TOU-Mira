@@ -101,7 +101,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             {
                 if (controlled != null)
                 {
-                    ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, controlled, controlled.transform.position, false);
+                    ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, controlled);
                 }
                 return false;
             }
@@ -493,7 +493,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 }
             }
 
-            ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, controlled, controlled.transform.position, toKill);
+            ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, controlled, toKill);
             return;
         }
 

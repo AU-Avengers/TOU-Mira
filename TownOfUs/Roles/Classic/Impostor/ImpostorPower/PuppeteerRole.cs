@@ -83,7 +83,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         if (Player.AmOwner && Controlled != null)
         {
-            RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled, Controlled.transform.position);
+            RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled);
         }
     }
 
@@ -97,7 +97,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             return;
         }
 
-        RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled, Controlled.transform.position);
+        RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled);
     }
 
     public void FixedUpdate()
@@ -114,7 +114,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         if (Controlled.Data == null || Controlled.HasDied() || Controlled.Data.Disconnected || Player.HasDied())
         {
-            RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled, Controlled.transform.position);
+            RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled);
             return;
         }
 
@@ -130,7 +130,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
             if (ControlTimer <= 0f && Controlled != null)
             {
-                RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled, Controlled.transform.position);
+                RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled);
             }
         }
     }
@@ -252,7 +252,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     }
 
     [MethodRpc((uint)TownOfUsRpc.PuppeteerEndControl)]
-    public static void RpcPuppeteerEndControl(PlayerControl puppeteer, PlayerControl target, Vector2 finalPos)
+    public static void RpcPuppeteerEndControl(PlayerControl puppeteer, PlayerControl target)
     {
         if (LobbyBehaviour.Instance)
         {
@@ -279,6 +279,8 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             {
                 try
                 {
+                    var finalPos = (Vector2)target.transform.position;
+
                     NetTransformBacklogUtils.FlushBacklog(target);
 
                     if (target.AmOwner)
