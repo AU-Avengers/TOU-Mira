@@ -48,6 +48,8 @@ public interface IControlledModifier : IRemoteControl, IUncontrollable
     /// The <see cref="PlayerControl"/> remote-controlling the modifier's player.
     /// </summary>
     PlayerControl Controller { get; }
+
+    void RemoveSelf();
 }
 
 /// <summary>
