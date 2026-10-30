@@ -6,6 +6,7 @@ using MiraAPI.Utilities;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using TownOfUs.Interfaces;
+using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Utilities.ControlSystem;
 using UnityEngine;
 
@@ -36,7 +37,7 @@ public static class ControllerOverlayPatch
             return;
         }
 
-        if (!GetImageToOutline(__instance, out SpriteRenderer? image, out Color color, out float onVal))
+        if (!GetImageToOutline(__instance, control.State, out SpriteRenderer? image, out Color color, out float onVal))
         {
             return;
         }
@@ -46,7 +47,7 @@ public static class ControllerOverlayPatch
         image.material.SetColor(ShaderID.AddColor, mainTarget ? color : Color.clear);
     }
 
-    private static bool GetImageToOutline(MonoBehaviour __instance, [NotNullWhen(true)] out SpriteRenderer? image, out Color color, out float onVal)
+    private static bool GetImageToOutline(MonoBehaviour __instance, ControlState controlState, [NotNullWhen(true)] out SpriteRenderer? image, out Color color, out float onVal)
     {
         onVal = 1f;
         color = Color.white;
@@ -83,6 +84,12 @@ public static class ControllerOverlayPatch
         {
             image = null;
             return false;
+        }
+
+        if (!controlState.HasControl(PlayerControl.LocalPlayer.PlayerId))
+        {
+            color = Palette.DisabledGrey;
+            onVal = 0.3f;
         }
 
         return true;
