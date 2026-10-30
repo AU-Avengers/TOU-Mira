@@ -22,8 +22,7 @@ public static class ControlOverlayPatch
 
         if (!mod.State.IsControlled(local.PlayerId, out var controllerId))
         {
-            mod.ClearNotification();
-            mod.RemoveSelf();
+            mod.ClearControlled();
             return;
         }
 
@@ -45,12 +44,17 @@ public static class ControlOverlayPatch
 
         if (shouldClear)
         {
-            mod.ClearNotification();
-            mod.State.ClearControl(local.PlayerId);
-            mod.RemoveSelf();
+            mod.ClearControlled();
             return;
         }
 
         mod.UpdateOverlayLayout();
+    }
+
+    private static void ClearControlled(this IControlledModifier mod)
+    {
+        mod.ClearNotification();
+        mod.State.ClearControl(PlayerControl.LocalPlayer.PlayerId);
+        mod.RemoveSelf();
     }
 }
