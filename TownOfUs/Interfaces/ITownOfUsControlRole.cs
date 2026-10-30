@@ -13,7 +13,7 @@ public interface ITownOfUsControlRole : ITownOfUsRole
 /// <summary>
 /// Interface for roles that interact with a <see cref="ControlState"/> and locally track their own control, too.
 /// </summary>
-public interface ITownOfUsLocalControlRole : ITownOfUsControlRole, IRemoteControl
+public interface ITownOfUsLocalControlRole : ITownOfUsControlRole, IController
 {
     void ClearControlLocal();
 }
@@ -26,7 +26,7 @@ public interface ITownOfUsLocalControlRole : ITownOfUsControlRole, IRemoteContro
 /// </summary>
 public interface IRemoteControl
 {
-/// <summary>
+    /// <summary>
     /// The current <see cref="PlayerControl"/> in the remote control interaction.
     /// </summary>
     PlayerControl Player { get; }
@@ -48,4 +48,15 @@ public interface IControlledModifier : IRemoteControl, IUncontrollable
     /// The <see cref="PlayerControl"/> remote-controlling the modifier's player.
     /// </summary>
     PlayerControl Controller { get; }
+}
+
+/// <summary>
+/// Interface for classes that master the remote-control interaction.
+/// </summary>
+public interface IController : IRemoteControl
+{
+    /// <summary>
+    /// The <see cref="PlayerControl"/> being remote-controlled, if any.
+    /// </summary>
+    PlayerControl? Controlled { get; }
 }
