@@ -23,7 +23,7 @@ namespace TownOfUs.Roles.Impostor;
 
 public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
-    public static readonly ControlState ControlState = new();
+    public static ControlState ControlState { get; } = new(typeof(ParasiteRole));
 
     [HideFromIl2Cpp] public PlayerControl? Controlled { get; set; }
     private float _overtakeKillLockoutUntil;

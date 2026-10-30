@@ -21,7 +21,7 @@ namespace TownOfUs.Roles.Impostor;
 
 public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ITransportTrigger
 {
-    public static readonly ControlState ControlState = new();
+    public static ControlState ControlState { get; } = new(typeof(PuppeteerRole));
 
     [HideFromIl2Cpp]
     public MonoBehaviour? OnTransport()

@@ -9,6 +9,13 @@ namespace TownOfUs.Modules.ControlSystem;
 /// </summary>
 public class ControlState
 {
+    public static readonly Dictionary<Type, ControlState> Instances = [];
+
+    public ControlState(Type type)
+    {
+        Instances.Add(type, this);
+    }
+
     // After initial control begins, different clients may briefly disagree on transform state.
     // During this grace window we avoid applying any victim movement input to prevent desync.
     public const float InitialControlSyncGraceSeconds = 1.0f;
@@ -128,6 +135,14 @@ public class ControlState
     public bool IsInInitialGrace(byte controlledId)
     {
         return GetControlElapsedSeconds(controlledId) < InitialControlSyncGraceSeconds;
+    }
+
+    public static void ClearAllInstances()
+    {
+        foreach (var instance in Instances.Values)
+        {
+            instance.ClearAll();
+        }
     }
 
     public virtual void ClearAll()

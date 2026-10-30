@@ -6,6 +6,7 @@ using MiraAPI.Modifiers;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 
@@ -71,8 +72,7 @@ public static class ControlStateEvents
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent _)
     {
-        ParasiteRole.ControlState.ClearAll();
-        PuppeteerRole.ControlState.ClearAll();
+        ControlState.ClearAllInstances();
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
@@ -89,8 +89,7 @@ public static class ControlStateEvents
     [RegisterEvent]
     public static void ClientGameEndEventHandler(ClientGameEndEvent _)
     {
-        ParasiteRole.ControlState.ClearAll();
-        PuppeteerRole.ControlState.ClearAll();
+        ControlState.ClearAllInstances();
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
