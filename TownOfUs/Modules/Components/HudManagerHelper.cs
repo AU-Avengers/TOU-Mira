@@ -37,7 +37,7 @@ namespace TownOfUs.Modules.Components;
 [RegisterInIl2Cpp]
 public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 {
-    internal static Dictionary<int, string> PlatformAssociations = new();
+    internal static Dictionary<int, string> PlatformAssociations = [];
     private static bool HasFetchedIcons;
     private static ZiplineBehaviour[] Ziplines = [];
 
