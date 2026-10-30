@@ -69,7 +69,7 @@ public abstract class ControlDataUnreliableRpc<TPlugin, TData>(TPlugin plugin, u
         {
             if (dirData is IBidirectionalDataPacket { FromVictim: true } && !isControlled)
             {
-                // controlState.SetSelfDirection(data.TargetId, dirData.Direction);
+                controlState.SetSelfDirection(data.TargetId, dirData.Direction);
             }
             else if (isControlled)
             {

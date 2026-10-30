@@ -26,10 +26,14 @@ public class ControlState
     private readonly Dictionary<byte, byte> ControlledBy = [];
     private readonly Dictionary<byte, byte> Controlling = [];
     protected readonly Dictionary<byte, bool> InControl = [];
+
     private readonly Dictionary<byte, Vector2> ControlledDirection = [];
+    private readonly Dictionary<byte, Vector2> SelfDirection = [];
+
     private readonly Dictionary<byte, Vector2> ControlledPosition = [];
     private readonly Dictionary<byte, Vector2> ControlledVelocity = [];
     private readonly Dictionary<byte, bool> ControlledInAnim = [];
+
     private readonly Dictionary<byte, float> ControlledSince = [];
 
     public virtual void SetControl(byte controlledId, byte controllerId)
@@ -41,6 +45,8 @@ public class ControlState
         InControl[controllerId] = true;
 
         ControlledDirection[controlledId] = Vector2.zero;
+        SelfDirection[controllerId] = Vector2.zero;
+
         ControlledPosition[controlledId] = Vector2.zero;
         ControlledVelocity[controlledId] = Vector2.zero;
         ControlledInAnim[controlledId] = false;
@@ -56,6 +62,8 @@ public class ControlState
         InControl.Remove(controllerId);
 
         ControlledDirection.Remove(controlledId);
+        SelfDirection.Remove(controllerId);
+
         ControlledPosition.Remove(controlledId);
         ControlledVelocity.Remove(controlledId);
         ControlledInAnim.Remove(controlledId);
@@ -98,14 +106,41 @@ public class ControlState
         ControlledDirection[controlledId] = direction;
     }
 
+    public void SetSelfDirection(byte controllerId, Vector2 direction)
+    {
+        SelfDirection[controllerId] = direction;
+    }
+
     public Vector2 GetForcedDirection(byte controlledId)
     {
         return ControlledDirection.TryGetValue(controlledId, out var dir) ? dir : Vector2.zero;
     }
 
-    public virtual Vector2 GetDirection(byte playerId)
+    public Vector2 GetSelfDirection(byte controllerId)
     {
-        return GetForcedDirection(playerId);
+        return SelfDirection.TryGetValue(controllerId, out var dir) ? dir : Vector2.zero;
+    }
+
+    public Vector2 GetDirection(byte playerId)
+    {
+        if (IsControlled(playerId, out var controllerId))
+        {
+            return GetDirection(controllerId, playerId);
+        }
+        if (IsControlling(playerId, out var controlledId))
+        {
+            return GetDirection(playerId, controlledId);
+        }
+        return Vector2.zero;
+    }
+
+    public virtual Vector2 GetDirection(byte controllerId, byte controlledId)
+    {
+        if (HasControl(controllerId))
+        {
+            return GetForcedDirection(controlledId);
+        }
+        return GetSelfDirection(controllerId);
     }
 
     public void SetMovementState(byte controlledId, Vector2 position, bool inAnim, Vector2 velocity)
