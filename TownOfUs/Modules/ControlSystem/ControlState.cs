@@ -140,31 +140,15 @@ public class ControlState
         return GetControlElapsedSeconds(controlledId) < InitialControlSyncGraceSeconds;
     }
 
-    public static bool IsControlledByFirst(byte controlledId, out byte controllerId, [NotNullWhen(true)] out ControlState? controlState)
+    public static bool IsUsingAnyState(byte playerId, out byte otherId, out bool isControlled, [NotNullWhen(true)] out ControlState? controlState)
     {
-        controllerId = default;
+        otherId = default;
+        isControlled = false;
         controlState = null;
 
         foreach (var state in Instances.Values)
         {
-            if (state.IsControlled(controlledId, out controllerId))
-            {
-                controlState = state;
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static bool IsControllingFirst(byte controllerId, out byte controlledId, [NotNullWhen(true)] out ControlState? controlState)
-    {
-        controlledId = default;
-        controlState = null;
-        
-        foreach (var state in Instances.Values)
-        {
-            if (state.IsControlling(controllerId, out controlledId))
+            if (state.IsUsingState(playerId, out otherId, out isControlled))
             {
                 controlState = state;
                 return true;

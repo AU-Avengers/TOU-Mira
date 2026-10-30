@@ -18,7 +18,8 @@ public static class ControlDisconnectPatch
             return;
         }
 
-        if (ControlState.IsControlledByFirst(player.PlayerId, out var controllerId, out var controlState))
+        if (ControlState.IsUsingAnyState(player.PlayerId, out var controllerId, out var isControlled, out var controlState) &&
+            isControlled)
         {
             var controller = MiscUtils.PlayerById(controllerId);
             if (controller != null)
