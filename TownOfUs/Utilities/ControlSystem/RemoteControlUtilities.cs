@@ -1,5 +1,7 @@
 ﻿using MiraAPI.Modifiers;
+using System.Reflection;
 using TownOfUs.Interfaces;
+using TownOfUs.Modules.ControlSystem;
 
 namespace TownOfUs.Utilities.ControlSystem;
 
@@ -17,5 +19,13 @@ public static class RemoteControlUtilities
             return mod;
         }
         return null;
+    }
+
+    public static void EnsureControlRole(Type type)
+    {
+        if (!typeof(ITownOfUsControlRole).IsAssignableFrom(type) || !type.IsClass)
+        {
+            throw new ArgumentException("Type must be class and implement " + nameof(ITownOfUsControlRole), nameof(type));
+        }
     }
 }
