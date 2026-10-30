@@ -1,25 +1,20 @@
 using Hazel;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Extensions;
-using Reactor.Networking.Rpc;
-using TownOfUs.Modules;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Networking;
 
-internal readonly record struct PuppeteerInputPacket(byte ControlledId, Vector2 Direction, Vector2 Position, bool InAnim, Vector2 Velocity);
+internal readonly record struct PuppeteerInputPacket(byte TargetId, Vector2 Direction, Vector2 Position, bool InAnim, Vector2 Velocity) : ITargetDataPacket;
 
 [RegisterCustomRpc((uint)TownOfUsRpc.PuppeteerInputUnreliable)]
 internal sealed class PuppeteerInputUnreliableRpc(TownOfUsPlugin plugin, uint id)
-    : PlayerCustomRpc<TownOfUsPlugin, PuppeteerInputPacket>(plugin, id)
+    : ControlDataUnreliableRpc<TownOfUsPlugin, PuppeteerInputPacket>(plugin, id)
 {
-    public override RpcLocalHandling LocalHandling => RpcLocalHandling.Before;
-    public override SendOption SendOption => (SendOption)1;
-
     public override void Write(MessageWriter writer, PuppeteerInputPacket data)
     {
-        writer.Write(data.ControlledId);
+        writer.Write(data.TargetId);
         writer.Write(data.Direction);
         writer.Write(data.Position);
         writer.Write(data.InAnim);
@@ -36,28 +31,15 @@ internal sealed class PuppeteerInputUnreliableRpc(TownOfUsPlugin plugin, uint id
         return new PuppeteerInputPacket(controlledId, dir, pos, ani, vel);
     }
 
-    public override void Handle(PlayerControl sender, PuppeteerInputPacket data)
+    protected override void Store(PlayerControl sender, PuppeteerInputPacket data)
     {
-        var controlledPlayerInfo = GameData.Instance?.GetPlayerById(data.ControlledId);
-        var controlled = controlledPlayerInfo?.Object;
-        if (controlled == null)
-        {
-            return;
-        }
-
-        if (TimeLordRewindSystem.IsRewinding)
-        {
-            return;
-        }
-
-        if (sender == null ||
-            !PuppeteerRole.ControlState.IsControlled(data.ControlledId, out var controllerId) ||
+        if (!PuppeteerRole.ControlState.IsControlled(data.TargetId, out var controllerId) ||
             controllerId != sender.PlayerId)
         {
             return;
         }
 
-        PuppeteerRole.ControlState.SetForcedDirection(data.ControlledId, data.Direction);
-        PuppeteerRole.ControlState.SetMovementState(data.ControlledId, data.Position, data.InAnim, data.Velocity);
+        PuppeteerRole.ControlState.SetForcedDirection(data.TargetId, data.Direction);
+        PuppeteerRole.ControlState.SetMovementState(data.TargetId, data.Position, data.InAnim, data.Velocity);
     }
 }
