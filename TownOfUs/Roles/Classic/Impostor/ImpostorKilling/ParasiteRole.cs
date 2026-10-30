@@ -748,46 +748,63 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             MiscUtils.RunAnticheatWarning(parasite);
             return;
         }
+
+        if (parasite == null || target == null)
+        {
+            return;
+        }
+
         if (parasite.Data.Role is not ParasiteRole role)
         {
             return;
         }
 
-        if (target != null)
+        ControlState.ClearControl(target.PlayerId);
+        target.TryRemoveModifier<ParasiteInfectedModifier>();
+
+        if (target.MyPhysics != null)
         {
-            ControlState.ClearControl(target.PlayerId);
-            target.TryRemoveModifier<ParasiteInfectedModifier>();
+            target.MyPhysics.body?.velocity = Vector2.zero;
+            target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
+        }
 
-            if (target.MyPhysics != null)
+        if (target.NetTransform != null)
+        {
+            try
             {
-                target.MyPhysics.body?.velocity = Vector2.zero;
-                target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
-            }
+                var finalPos = (Vector2)target.transform.position;
 
-            if (target.NetTransform != null)
+                NetTransformBacklogUtils.FlushBacklog(target);
+
+                if (target.AmOwner)
+                {
+                    target.NetTransform.SnapTo(finalPos);
+                }
+                else if (parasite.AmOwner)
+                {
+                    NetTransformBacklogUtils.FlushAndSnap(target);
+                }
+                else
+                {
+                    NetTransformBacklogUtils.FlushBacklog(target);
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        role.ClearControlLocal();
+
+        if (parasite.AmOwner)
+        {
+            var pos = (Vector2)parasite.transform.position;
+            if (parasite.NetTransform != null)
             {
                 try
                 {
-                    var finalPos = (Vector2)target.transform.position;
-
-                    // Flush CNT backlog first
-                    NetTransformBacklogUtils.FlushBacklog(target);
-
-                    // Then snap to current authoritative position
-                    if (target.AmOwner)
-                    {
-                        target.NetTransform.SnapTo(finalPos);
-                    }
-                    else if (parasite != null && parasite.AmOwner)
-                    {
-                        // Controller can snap on behalf of victim
-                        NetTransformBacklogUtils.FlushAndSnap(target);
-                    }
-                    else
-                    {
-                        // Other clients just flush
-                        NetTransformBacklogUtils.FlushBacklog(target);
-                    }
+                    parasite.NetTransform.SnapTo(pos);
                 }
                 catch
                 {
@@ -795,43 +812,23 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
                 }
             }
         }
-
-        role.ClearControlLocal();
-
-        if (parasite != null)
+        else
         {
-            if (parasite.AmOwner)
-            {
-                var pos = (Vector2)parasite.transform.position;
-                if (parasite.NetTransform != null)
-                {
-                    try
-                    {
-                        parasite.NetTransform.SnapTo(pos);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
-            }
-            else
-            {
-                NetTransformBacklogUtils.FlushBacklog(parasite);
-            }
+            NetTransformBacklogUtils.FlushBacklog(parasite);
+        }
 
-            if (parasite.AmOwner)
-            {
-                parasite.walkingToVent = false;
+        if (parasite.AmOwner)
+        {
+            parasite.walkingToVent = false;
 
-                var btn = CustomButtonSingleton<Buttons.Impostor.ParasiteOvertakeButton>.Instance;
-                btn.SetActive(true, role);
-                btn.StopControlEffectAndApplyCooldown();
-            }
+            var btn = CustomButtonSingleton<Buttons.Impostor.ParasiteOvertakeButton>.Instance;
+            btn.SetActive(true, role);
+            btn.StopControlEffectAndApplyCooldown();
         }
 
         role.ClearNotification();
-        if (toKillPlayer && parasite != null && target != null)
+
+        if (toKillPlayer)
         {
             new TouAbilityEvent(AbilityType.ParasiteKill, parasite, target).InvokeEvent();
             CustomTouMurderRpcs.Indirect(parasite, target, MeetingCheck.Ignore, true, true, true,

@@ -260,42 +260,63 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             MiscUtils.RunAnticheatWarning(puppeteer);
             return;
         }
+
+        if (puppeteer == null || target == null)
+        {
+            return;
+        }
+
         if (puppeteer.Data.Role is not PuppeteerRole role)
         {
             return;
         }
 
-        if (target != null)
+        ControlState.ClearControl(target.PlayerId);
+        target.TryRemoveModifier<PuppeteerControlModifier>();
+
+        if (target.MyPhysics != null)
         {
-            ControlState.ClearControl(target.PlayerId);
-            target.TryRemoveModifier<PuppeteerControlModifier>();
+            target.MyPhysics.body?.velocity = Vector2.zero;
+            target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
+        }
 
-            if (target.MyPhysics != null)
+        if (target.NetTransform != null)
+        {
+            try
             {
-                target.MyPhysics.body?.velocity = Vector2.zero;
-                target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
-            }
+                var finalPos = (Vector2)target.transform.position;
 
-            if (target.NetTransform != null)
+                NetTransformBacklogUtils.FlushBacklog(target);
+
+                if (target.AmOwner)
+                {
+                    target.NetTransform.SnapTo(finalPos);
+                }
+                else if (puppeteer.AmOwner)
+                {
+                    NetTransformBacklogUtils.FlushAndSnap(target);
+                }
+                else
+                {
+                    NetTransformBacklogUtils.FlushBacklog(target);
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        role.ClearControlLocal();
+
+        if (puppeteer.AmOwner)
+        {
+            var pos = (Vector2)puppeteer.transform.position;
+            if (puppeteer.NetTransform != null)
             {
                 try
                 {
-                    var finalPos = (Vector2)target.transform.position;
-
-                    NetTransformBacklogUtils.FlushBacklog(target);
-
-                    if (target.AmOwner)
-                    {
-                        target.NetTransform.SnapTo(finalPos);
-                    }
-                    else if (puppeteer != null && puppeteer.AmOwner)
-                    {
-                        NetTransformBacklogUtils.FlushAndSnap(target);
-                    }
-                    else
-                    {
-                        NetTransformBacklogUtils.FlushBacklog(target);
-                    }
+                    puppeteer.NetTransform.SnapTo(pos);
                 }
                 catch
                 {
@@ -303,36 +324,15 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
                 }
             }
         }
-
-        role.ClearControlLocal();
-
-        if (puppeteer != null)
+        else
         {
-            if (puppeteer.AmOwner)
-            {
-                var pos = (Vector2)puppeteer.transform.position;
-                if (puppeteer.NetTransform != null)
-                {
-                    try
-                    {
-                        puppeteer.NetTransform.SnapTo(pos);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
-            }
-            else
-            {
-                NetTransformBacklogUtils.FlushBacklog(puppeteer);
-            }
+            NetTransformBacklogUtils.FlushBacklog(puppeteer);
+        }
 
-            if (puppeteer.AmOwner)
-            {
-                var btn = CustomButtonSingleton<Buttons.Impostor.PuppeteerControlButton>.Instance;
-                btn.ResetCooldownAndOrEffect();
-            }
+        if (puppeteer.AmOwner)
+        {
+            var btn = CustomButtonSingleton<Buttons.Impostor.PuppeteerControlButton>.Instance;
+            btn.ResetCooldownAndOrEffect();
         }
 
         role.ClearNotification();
