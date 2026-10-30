@@ -833,12 +833,4 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
                 true, !MeetingHud.Instance, false, !MeetingHud.Instance, !MeetingHud.Instance, "Parasite");
         }
     }
-
-    public void LobbyStart()
-    {
-        foreach (var parasiteMod in ModifierUtils.GetActiveModifiers<ParasiteInfectedModifier>())
-        {
-            parasiteMod.RemoveSelf();
-        }
-    }
 }

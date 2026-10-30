@@ -337,12 +337,4 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         role.ClearNotifications();
     }
-
-    public void LobbyStart()
-    {
-        foreach (var puppetMod in ModifierUtils.GetActiveModifiers<PuppeteerControlModifier>())
-        {
-            puppetMod.RemoveSelf();
-        }
-    }
 }

@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
+using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.Types;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game.Alliance;
@@ -47,6 +49,11 @@ public static class LobbyBehaviourPatches
             {
                 controlRole.State.ClearAll();
             }
+        }
+
+        foreach (var controlMod in ModifierUtils.GetActiveModifiers<TimedModifier>(x => x is IControlledModifier))
+        {
+            controlMod.RemoveSelf();
         }
 
         TeamChatPatches.CleanUpChats();
