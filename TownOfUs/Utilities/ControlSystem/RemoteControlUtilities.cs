@@ -79,54 +79,13 @@ public static class RemoteControlUtilities
             }
         }
 
-        if (target.NetTransform != null)
-        {
-            try
-            {
-                var finalPos = (Vector2)target.transform.position;
+        NetTransformBacklogUtils.FlushBacklog(target);
 
-                NetTransformBacklogUtils.FlushBacklog(target);
-
-                if (target.AmOwner)
-                {
-                    target.NetTransform.SnapTo(finalPos);
-                }
-                else if (controller.AmOwner)
-                {
-                    NetTransformBacklogUtils.FlushAndSnap(target);
-                }
-                else
-                {
-                    NetTransformBacklogUtils.FlushBacklog(target);
-                }
-            }
-            catch
-            {
-                // ignored
-            }
-        }
+        SnapControlTarget(target, controller);
 
         control.ClearOnEnd();
 
-        if (controller.AmOwner)
-        {
-            var pos = (Vector2)controller.transform.position;
-            if (controller.NetTransform != null)
-            {
-                try
-                {
-                    controller.NetTransform.SnapTo(pos);
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-        }
-        else
-        {
-            NetTransformBacklogUtils.FlushBacklog(controller);
-        }
+        SnapControlTarget(controller);
 
         if (controller.AmOwner)
         {
@@ -136,5 +95,29 @@ public static class RemoteControlUtilities
         control.ClearNotification();
 
         control.PostEndClear();
+    }
+
+    public static void SnapControlTarget(PlayerControl target, PlayerControl? other = null)
+    {
+        if (target.AmOwner)
+        {
+            var pos = (Vector2)target.transform.position;
+            try
+            {
+                target.NetTransform?.SnapTo(pos);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+        else if (other != null && other.AmOwner)
+        {
+            NetTransformBacklogUtils.FlushAndSnap(target);
+        }
+        else
+        {
+            NetTransformBacklogUtils.FlushBacklog(target);
+        }
     }
 }

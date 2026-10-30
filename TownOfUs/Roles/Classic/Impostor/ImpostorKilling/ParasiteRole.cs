@@ -706,29 +706,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             target.MyPhysics.ExitAllVents();
         }
 
-        if (target.AmOwner)
-        {
-            var pos = (Vector2)target.transform.position;
-            if (target.NetTransform != null)
-            {
-                try
-                {
-                    target.NetTransform.SnapTo(pos);
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-        }
-        else if (parasite.AmOwner)
-        {
-            NetTransformBacklogUtils.FlushAndSnap(target);
-        }
-        else
-        {
-            NetTransformBacklogUtils.FlushBacklog(target);
-        }
+        RemoteControlUtilities.SnapControlTarget(target, parasite);
 
         if (parasite.AmOwner)
         {

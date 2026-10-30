@@ -218,29 +218,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             target.MyPhysics.ExitAllVents();
         }
 
-        if (target.AmOwner)
-        {
-            var pos = (Vector2)target.transform.position;
-            if (target.NetTransform != null)
-            {
-                try
-                {
-                    target.NetTransform.SnapTo(pos);
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-        }
-        else if (puppeteer.AmOwner)
-        {
-            NetTransformBacklogUtils.FlushAndSnap(target);
-        }
-        else
-        {
-            NetTransformBacklogUtils.FlushBacklog(target);
-        }
+        RemoteControlUtilities.SnapControlTarget(target, puppeteer);
 
         if (puppeteer.AmOwner)
         {
