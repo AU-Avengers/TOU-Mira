@@ -6,9 +6,11 @@ using System.Collections;
 using AmongUs.GameOptions;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
+using PowerTools;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options;
@@ -97,7 +99,9 @@ public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
     public GameObject PlayerRobe { get; set; }
     public SpriteRenderer RobeSprite { get; set; }
     public SpriteRenderer HandSprites { get; set; }
-    public bool ShowRobe { get; set; }
+    public SpriteAnim RobeAnim { get; set; }
+    public SpriteAnim HandsAnim { get; set; }
+    public bool AlwaysShowRobe { get; set; }
 
     public bool CanCatch()
     {
@@ -157,7 +161,7 @@ public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
     {
         if (!Caught && Setup)
         {
-            Player.WraithGhostFade(out var color);
+            Player.WraithGhostFade(AlwaysShowRobe, RobeAnim && HandsAnim && HandsAnim.Playing, out var color);
             if (RobeSprite)
             {
                 RobeSprite.color = color;
@@ -190,7 +194,7 @@ public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
 
         if (!MeetingHud.Instance && PlayerRobe)
         {
-            PlayerRobe.SetActive(ShowRobe);
+            PlayerRobe.SetActive(true);
         }
 
         FadeUpdate();
@@ -222,6 +226,41 @@ public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
         ShowInFreeplay = true
     };
 
+    public static void RpcWraithScare(PlayerControl player)
+    {
+        if (player.Data.Role is not WraithRole wraithRole)
+        {
+            Error("RpcWraithScare - Invalid Wraith");
+            return;
+        }
+
+        Coroutines.Start(wraithRole.CoPlayScareAnim());
+    }
+
+    public IEnumerator CoPlayScareAnim()
+    {
+        if (!RobeAnim || !HandsAnim)
+        {
+            yield break;
+        }
+        RobeAnim.Play(TouAssets.WraithScareRobeAnim);
+        HandsAnim.Play(TouAssets.WraithScareHandsAnim);
+        yield return new WaitForSeconds(0.1f);
+        if (Constants.ShouldPlaySfx())
+        {
+            var audio = SoundManager.Instance.PlaySound(TouAudio.WraithScream, false, 1,
+                SoundManager.Instance.SfxChannel);
+            NoisemakerModifier.SoundDynamics(Player, audio);
+            VibrationManager.Vibrate(1f, PlayerControl.LocalPlayer.GetTruePosition(), 7f, 1.2f);
+        }
+        yield return new WaitForSeconds(0.9f);
+        while (HandsAnim.Playing)
+        {
+            yield return null;
+        }
+        HandsAnim.Play(TouAssets.WraithHandsAnim);
+    }
+
     public override void UseAbility()
     {
         if (GhostActive)
@@ -243,12 +282,20 @@ public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
         var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
             x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
 
-        ShowRobe = Player.AmOwner || PlayerControl.LocalPlayer.IsImpostorAligned() && !genOpt.FFAImpostorMode ||
-                   (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
+        AlwaysShowRobe = Player.AmOwner || PlayerControl.LocalPlayer.IsImpostorAligned() && !genOpt.FFAImpostorMode ||
+                         (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
 
         PlayerRobe = AnimStore.SpawnAnimBody(Player, TouAssets.WraithRobe.LoadAsset(), false, -1.1f, -0.1f, 1.5f)!;
         RobeSprite = PlayerRobe.transform.GetChild(0).GetComponent<SpriteRenderer>();
         HandSprites = PlayerRobe.transform.GetChild(1).GetComponent<SpriteRenderer>();
+        RobeAnim = PlayerRobe.transform.GetChild(0).GetComponent<SpriteAnim>();
+        HandsAnim = PlayerRobe.transform.GetChild(1).GetComponent<SpriteAnim>();
+
+        var cMat = AnimStore.SetSpriteColourMatch(player, AnimStore.PlayerMat);
+        var newMat = new Material(cMat);
+        HandSprites.material = newMat;
+
+        PlayerMaterial.SetColors(TownOfUsPlayerColors.DryRed.ColorId, HandSprites);
 
         var opts = OptionGroupSingleton<WraithOptions>.Instance;
         ScaresAvailable = (int)opts.ScareUses.Value;

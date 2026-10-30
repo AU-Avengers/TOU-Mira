@@ -202,6 +202,12 @@ public static class TouAudio
 
     public static LoadableAsset<AudioClip> DeputyReveal { get; } =
         new LoadableBundleAsset<AudioClip>("DeputyReveal", TouAssets.MainBundle);
+    public static LoadableAsset<AudioClip> ErrorOne { get; } =
+        new LoadableBundleAsset<AudioClip>("Error1", TouAssets.MainBundle);
+    public static LoadableAsset<AudioClip> ErrorTwo { get; } =
+        new LoadableBundleAsset<AudioClip>("Error2", TouAssets.MainBundle);
+    public static LoadableAsset<AudioClip> WraithScream { get; } =
+        new LoadableBundleAsset<AudioClip>("WraithScream", TouAssets.MainBundle);
 
     public static void PlaySound(LoadableAsset<AudioClip> clip, float vol = 1f)
     {

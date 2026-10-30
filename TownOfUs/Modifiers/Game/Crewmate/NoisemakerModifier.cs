@@ -56,7 +56,7 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
         ActiveNoisemakerTriggers.Clear();
     }
 
-    private static void SoundDynamics(PlayerControl player, AudioSource source)
+    public static void SoundDynamics(PlayerControl player, AudioSource source)
     {
         if (!PlayerControl.LocalPlayer)
         {

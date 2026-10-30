@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using AmongUs.GameOptions;
 using LibCpp2IL;
+using MiraAPI.Colors;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -622,7 +623,7 @@ public static class Extensions
         }
     }
 
-    public static void WraithGhostFade(this PlayerControl player, out Color color)
+    public static void WraithGhostFade(this PlayerControl player, bool alwaysShowRobe, bool displayFully, out Color color)
     {
         player.Visible = true;
         color = new Color(1f, 1f, 1f, 0f);
@@ -635,19 +636,27 @@ public static class Extensions
             return;
         }
 
-        var distance = (PlayerControl.LocalPlayer.GetTruePosition() - player.GetTruePosition()).magnitude;
+        if (displayFully)
+        {
+            color.a = 1;
+        }
+        else
+        {
+            var distance = (PlayerControl.LocalPlayer.GetTruePosition() - player.GetTruePosition()).magnitude;
 
-        var distPercent = distance / maxDistance;
-        distPercent = Mathf.Max(0, distPercent - 1);
+            var distPercent = distance / maxDistance;
+            distPercent = Mathf.Max(0, distPercent - 1);
 
-        var velocity = player.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude;
-        color.a = 0.17f + velocity / player.MyPhysics.GhostSpeed * 0.73f;
-        color.a = Mathf.Lerp(color.a, 0, distPercent);
+            var velocity = player.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude;
+            color.a = (alwaysShowRobe ? 0.17f : 0f) + velocity / player.MyPhysics.GhostSpeed * 0.73f;
+            color.a = Mathf.Lerp(color.a, 0, distPercent);
+        }
 
         if (player.GetAppearanceType() != TownOfUsAppearances.PlayerOnly)
         {
             var fade = new VisualAppearance(player.GetDefaultModifiedAppearance(), TownOfUsAppearances.PlayerOnly)
             {
+                ColorId = TownOfUsPlayerColors.DryRed.ColorId,
                 HatId = "hat_NoHat",
                 SkinId = "skin_None",
                 VisorId = "visor_EmptyVisor",

@@ -21,7 +21,7 @@ public sealed class WraithScareButton : TownOfUsRoleButton<WraithRole, PlayerCon
 
     protected override void OnClick()
     {
-        // ignored
+        WraithRole.RpcWraithScare(PlayerControl.LocalPlayer);
     }
 
     public override PlayerControl? GetTarget()
