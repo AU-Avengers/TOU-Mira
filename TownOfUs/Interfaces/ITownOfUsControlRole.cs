@@ -86,4 +86,16 @@ public interface IController : IRemoteControl
     /// to configure their local state when remote control interaction ends.
     /// </summary>
     void SetupLocalOnClear(PlayerControl controller) { }
+
+    /// <summary>
+    /// Called to clear the <see cref="Controlled"/>'s physics state if they are found
+    /// within a vent ( <c>Controlled.inVent</c> ) when the remote control interaction ends.
+    /// </summary>
+    void ClearTargetInVent() { }
+
+    /// <summary>
+    /// Called after all other cleanup is done when the remote control interaction ends,
+    /// to handle anything the base method did not already handle.
+    /// </summary>
+    void PostEndClear() { }
 }

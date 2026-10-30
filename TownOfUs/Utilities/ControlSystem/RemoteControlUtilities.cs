@@ -70,7 +70,7 @@ public static class RemoteControlUtilities
         {
             if (target.inVent)
             {
-                // TODO: vent cleanup
+                control.ClearTargetInVent();
             }
             else
             {
@@ -135,6 +135,6 @@ public static class RemoteControlUtilities
 
         control.ClearNotification();
 
-        // TODO: Post setup
+        control.PostEndClear();
     }
 }
