@@ -12,7 +12,7 @@ namespace TownOfUs.Modifiers.Impostor;
 /// - Forces their appearance to match the Puppeteer (visible to others).
 /// Movement/input suppression is handled by Harmony patches while this modifier is present.
 /// </summary>
-public sealed class PuppeteerControlModifier(PlayerControl controller) : DisabledModifier, IUncontrollable
+public sealed class PuppeteerControlModifier(PlayerControl controller) : DisabledModifier, IControlledModifier
 {
     public override string ModifierName => "Puppeteer Controlled";
     public override bool HideOnUi => true;

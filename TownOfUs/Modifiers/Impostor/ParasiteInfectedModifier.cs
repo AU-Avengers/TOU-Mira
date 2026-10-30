@@ -15,7 +15,7 @@ namespace TownOfUs.Modifiers.Impostor;
 /// - Forces their appearance to match the Parasite (visible to others).
 /// Movement/input suppression is handled by Harmony patches while this modifier is present.
 /// </summary>
-public sealed class ParasiteInfectedModifier(PlayerControl controller) : DisabledModifier, IVisualAppearance, IUncontrollable
+public sealed class ParasiteInfectedModifier(PlayerControl controller) : DisabledModifier, IVisualAppearance, IControlledModifier
 {
     public override string ModifierName => "Parasite Infected";
     public override bool HideOnUi => true;

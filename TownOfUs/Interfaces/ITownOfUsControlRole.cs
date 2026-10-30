@@ -17,3 +17,16 @@ public interface ITownOfUsLocalControlRole : ITownOfUsControlRole
 {
     void ClearControlLocal();
 }
+
+/// <summary>
+/// Interface for modifiers related to roles implementing <see cref="ITownOfUsControlRole"/>.
+/// <para/>
+/// Used specifically only for modifiers given to the victim of control.
+/// </summary>
+public interface IControlledModifier : IUncontrollable
+{
+    /// <summary>
+    /// The <see cref="PlayerControl"/> remote-controlling the modifier's player.
+    /// </summary>
+    PlayerControl Controller { get; }
+}

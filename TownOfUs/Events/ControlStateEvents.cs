@@ -3,6 +3,7 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.Types;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
@@ -78,9 +79,7 @@ public static class ControlStateEvents
         {
             (player.Data.Role as ITownOfUsLocalControlRole)?.ClearControlLocal();
 
-            player.TryRemoveModifier<ParasiteInfectedModifier>();
-
-            player.TryRemoveModifier<PuppeteerControlModifier>();
+            player.TryRemoveModifier<TimedModifier>(x => x is IControlledModifier);
         }
     }
 
@@ -93,9 +92,7 @@ public static class ControlStateEvents
         {
             (player.Data.Role as ITownOfUsLocalControlRole)?.ClearControlLocal();
 
-            player.TryRemoveModifier<ParasiteInfectedModifier>();
-
-            player.TryRemoveModifier<PuppeteerControlModifier>();
+            player.TryRemoveModifier<TimedModifier>(x => x is IControlledModifier);
         }
     }
 }
