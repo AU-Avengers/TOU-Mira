@@ -1,4 +1,5 @@
-﻿using TownOfUs.Utilities.ControlSystem;
+﻿using System.Diagnostics.CodeAnalysis;
+using TownOfUs.Utilities.ControlSystem;
 using UnityEngine;
 
 namespace TownOfUs.Modules.ControlSystem;
@@ -137,6 +138,40 @@ public class ControlState
     public bool IsInInitialGrace(byte controlledId)
     {
         return GetControlElapsedSeconds(controlledId) < InitialControlSyncGraceSeconds;
+    }
+
+    public static bool IsControlledByFirst(byte controlledId, out byte controllerId, [NotNullWhen(true)] out ControlState? controlState)
+    {
+        controllerId = default;
+        controlState = null;
+
+        foreach (var state in Instances.Values)
+        {
+            if (state.IsControlled(controlledId, out controllerId))
+            {
+                controlState = state;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static bool IsControllingFirst(byte controllerId, out byte controlledId, [NotNullWhen(true)] out ControlState? controlState)
+    {
+        controlledId = default;
+        controlState = null;
+        
+        foreach (var state in Instances.Values)
+        {
+            if (state.IsControlling(controllerId, out controlledId))
+            {
+                controlState = state;
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static void ClearAllInstances()
