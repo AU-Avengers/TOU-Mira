@@ -5,8 +5,8 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Roles.Impostor;
+using TownOfUs.Interfaces;
+using TownOfUs.Utilities.ControlSystem;
 using UnityEngine;
 
 namespace TownOfUs.Patches.ControlSystem;
@@ -30,10 +30,8 @@ public static class ControllerOverlayPatch
             return;
         }
 
-        if (PlayerControl.LocalPlayer.Data.Role is not PuppeteerRole { Controlled: not null } puppeteer ||
-            !PuppeteerRole.ControlState.IsControlled(puppeteer.Controlled.PlayerId, out _) ||
-            PlayerControl.LocalPlayer.Data.Role is not ParasiteRole { Controlled: not null } parasite ||
-            !ParasiteRole.ControlState.IsControlled(parasite.Controlled.PlayerId, out _))
+        if (PlayerControl.LocalPlayer.GetRemoteControl<IRemoteControl>() is not { } control ||
+            !control.State.IsUsingState(control.Player.PlayerId, out _, out _))
         {
             return;
         }
@@ -111,10 +109,8 @@ public static class ControllerOverlayPatch
             var player = instance.myPlayer;
             var source = wrapper.GetParameter<Ladder>("source");
 
-            if (player.HasModifier<ParasiteInfectedModifier>(x => x.Controller.AmOwner) &&
-                ParasiteRole.ControlState.IsControlled(player.PlayerId, out _) ||
-                player.HasModifier<PuppeteerControlModifier>(x => x.Controller.AmOwner) &&
-                PuppeteerRole.ControlState.IsControlled(player.PlayerId, out _))
+            if (player.TryGetModifierOfType<IControlledModifier>(out var mod, x => x.Controller.AmOwner) &&
+                mod.State.IsControlled(player.PlayerId, out _))
             {
                 source.SetDestinationCooldown();
             }
@@ -141,11 +137,8 @@ public static class ControllerOverlayPatch
             var instance = wrapper.Instance;
             var player = wrapper.GetParameter<PlayerControl>("player");
 
-            if ((player.HasModifier<ParasiteInfectedModifier>(x => x.Controller.AmOwner) &&
-                 ParasiteRole.ControlState.IsControlled(player.PlayerId, out _) ||
-                 player.HasModifier<PuppeteerControlModifier>(x => x.Controller.AmOwner) &&
-                 PuppeteerRole.ControlState.IsControlled(player.PlayerId, out _)
-                ) && instance.lastUsedConsole)
+            if (player.TryGetModifierOfType<IControlledModifier>(out var mod, x => x.Controller.AmOwner) &&
+                mod.State.IsControlled(player.PlayerId, out _) && instance.lastUsedConsole)
             {
                 instance.lastUsedConsole.SetDestinationCooldown();
             }
