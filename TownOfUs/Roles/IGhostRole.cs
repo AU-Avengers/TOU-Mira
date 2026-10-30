@@ -15,6 +15,7 @@ public interface IBasicGhostRole
 public interface IGhostRole : IBasicGhostRole
 {
     bool IBasicGhostRole.ApplyImmediatelyAfterDeath => false;
+    virtual bool ShouldUseLivingBody => true;
     bool Setup { get; set; }
     bool Caught { get; set; }
     bool Faded { get; set; }

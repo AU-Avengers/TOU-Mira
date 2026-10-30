@@ -71,7 +71,7 @@ public static class GhostRolePatches
             return;
         }
 
-        if (__instance.myPlayer.Data.Role is IGhostRole { GhostActive: var active })
+        if (__instance.myPlayer.Data.Role is IGhostRole { ShouldUseLivingBody: true, GhostActive: var active})
         {
             amDead = !active;
         }
@@ -115,7 +115,25 @@ public static class GhostRolePatches
         __instance.myPlayer.FootSteps.loop = false;
         __instance.myPlayer.cosmetics.SetHatAndVisorIdle(__instance.myPlayer.CurrentOutfit.ColorId);
         NetworkedPlayerInfo data = __instance.myPlayer.Data;
-        if (data == null || !data.IsDead || data.Role is IGhostRole { GhostActive: false })
+        if (data?.Role is IGhostRole { GhostActive: false } ghostwalker)
+        {
+            if (ghostwalker.ShouldUseLivingBody)
+            {
+                Warning("Using living body.");
+                __instance.myPlayer.cosmetics.AnimateSkinIdle();
+                __instance.Animations.PlayIdleAnimation();
+            }
+            else
+            {
+                Warning("Using ghost body.");
+                __instance.myPlayer.cosmetics.SetGhost();
+                __instance.Animations.PlayGhostIdleAnimation();
+            }
+            __instance.myPlayer.Visible = true;
+            __instance.myPlayer.SetHatAndVisorAlpha(0);
+            return false;
+        }
+        if (data == null || !data.IsDead)
         {
             __instance.myPlayer.cosmetics.AnimateSkinIdle();
             __instance.Animations.PlayIdleAnimation();

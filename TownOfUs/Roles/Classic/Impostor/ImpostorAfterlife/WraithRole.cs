@@ -3,8 +3,12 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Utilities;
 using System.Collections;
+using AmongUs.GameOptions;
 using MiraAPI.GameOptions;
+using MiraAPI.Utilities;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options;
@@ -20,7 +24,55 @@ namespace TownOfUs.Roles.Impostor;
 
 public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable
 {
+    public bool ShouldUseLivingBody => false;
 
+    public List<PlayerControl> GetAvailableGhosts(List<PlayerControl> basicGhosts, PlayerControl? exiled)
+    {
+        var wraithData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<WraithRole>());
+
+        var livingImps = Helpers.GetAlivePlayers().Count(x => x.IsImpostorAligned() && x != exiled);
+        if (CustomRoleUtils.GetActiveRoles().OfType<WraithRole>().Count() < wraithData.Count && livingImps > 0)
+        {
+            var isSkipped = wraithData.Chance < 100 && HashRandom.Next(101) > wraithData.Chance;
+
+            if (!isSkipped)
+            {
+                var deadImps = basicGhosts.Where(x =>
+                    (x.Data.IsDead && x != exiled && x.IsImpostorAligned() && !x.HasModifier<AllianceGameModifier>() &&
+                    x.CanGetGhostRole() &&
+                    x.Data.Role)).ToList();
+                var validImps = new List<PlayerControl>();
+                foreach (var dead in deadImps)
+                {
+                    if (!GameHistory.DeathHistory.Exists(x => x.Item1 == dead.PlayerId))
+                    {
+                        continue;
+                    }
+                    var deathInfo = GameHistory.DeathHistory.FirstOrDefault(x => x.Item1 == dead.PlayerId).Item2;
+                    if (deathInfo is DeathReason.Exile)
+                    {
+                        continue;
+                    }
+                    validImps.Add(dead);
+                }
+
+                if (validImps.Count > 0)
+                {
+                    validImps.Shuffle();
+
+                    var player = validImps.TakeFirst();
+
+                    if (player != null)
+                    {
+                        player.RpcChangeRole(RoleId.Get<WraithRole>());
+                        basicGhosts.Remove(player);
+                    }
+                }
+            }
+        }
+
+        return basicGhosts;
+    }
     public bool Setup { get; set; }
     public bool Caught { get; set; }
     public bool Faded { get; set; }
@@ -43,6 +95,8 @@ public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
     public List<byte> UniqueClicks;
     public bool ClicksQuotaMet => UniqueClicks.Count >= (int)OptionGroupSingleton<WraithOptions>.Instance.ScaresRequiredToClick.Value;
     public GameObject PlayerRobe { get; set; }
+    public SpriteRenderer RobeSprite { get; set; }
+    public SpriteRenderer HandSprites { get; set; }
     public bool ShowRobe { get; set; }
 
     public bool CanCatch()
@@ -94,13 +148,24 @@ public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
             HudManager.Instance.AbilityButton.SetDisabled();
             HudManagerPatches.ResetZoom();
         }
+        Player.cosmetics.SetGhost();
+        Player.MyPhysics.Animations.PlayGhostIdleAnimation();
     }
+    public override bool IsDead => true;
 
     public void FadeUpdate()
     {
         if (!Caught && Setup)
         {
-            Player.GhostFade();
+            Player.WraithGhostFade(out var color);
+            if (RobeSprite)
+            {
+                RobeSprite.color = color;
+            }
+            if (HandSprites)
+            {
+                HandSprites.color = color;
+            }
             Faded = true;
         }
         else if (Faded)
@@ -142,21 +207,12 @@ public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
         }
     }
 
-    public string LocaleKey => "Wraith";
-    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
-
-    public string GetAdvancedDescription()
-    {
-        return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
-            MiscUtils.AppendOptionsText(GetType());
-    }
+    public string IdPart => "Wraith";
 
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
     public RoleAlignment RoleAlignment => RoleAlignment.ImpostorAfterlife;
+    public string RoleLongDescription => MiraLocaleManager.Get("TownOfUsMira.Role.Wraith.TabDescription").Replace("<amount>", "idfk");
 
     public CustomRoleConfiguration Configuration => new(this)
     {
@@ -191,6 +247,8 @@ public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
                    (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
 
         PlayerRobe = AnimStore.SpawnAnimBody(Player, TouAssets.WraithRobe.LoadAsset(), false, -1.1f, -0.1f, 1.5f)!;
+        RobeSprite = PlayerRobe.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        HandSprites = PlayerRobe.transform.GetChild(1).GetComponent<SpriteRenderer>();
 
         var opts = OptionGroupSingleton<WraithOptions>.Instance;
         ScaresAvailable = (int)opts.ScareUses.Value;
@@ -238,7 +296,7 @@ public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         if (PlayerRobe)
         {
-            PlayerRobe.DeepDestroy();
+            PlayerRobe.Destroy();
         }
         if (TutorialManager.InstanceExists)
         {

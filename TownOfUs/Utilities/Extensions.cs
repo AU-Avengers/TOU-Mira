@@ -549,9 +549,17 @@ public static class Extensions
         player.inVent = true;
         DebugAnalytics.Instance.Analytics.VentUsed(player.Data);
         vent.EnterVent(player);
-        player.cosmetics.AnimateSkinEnterVent();
-        player.cosmetics.AnimateSkinIdle();
-        myPlayer.Animations.PlayIdleAnimation();
+        if (player.Data.Role is IGhostRole { ShouldUseLivingBody: false })
+        {
+            player.cosmetics.SetGhost();
+            myPlayer.Animations.PlayGhostIdleAnimation();
+        }
+        else
+        {
+            player.cosmetics.AnimateSkinEnterVent();
+            player.cosmetics.AnimateSkinIdle();
+            myPlayer.Animations.PlayIdleAnimation();
+        }
         player.Visible = false;
         player.walkingToVent = false;
         foreach (var anim in player.currentRoleAnimations)
@@ -602,7 +610,56 @@ public static class Extensions
                 NameVisible = false
             };
 
-            player?.RawSetAppearance(fade);
+            player.RawSetAppearance(fade);
+        }
+
+        player!.cosmetics.currentBodySprite.BodySprite.color = color;
+        if (player.cosmetics.GetLongBoi() != null)
+        {
+            player.cosmetics.GetLongBoi().headSprite.color = color;
+            player.cosmetics.GetLongBoi().neckSprite.color = color;
+            player.cosmetics.GetLongBoi().foregroundNeckSprite.color = color;
+        }
+    }
+
+    public static void WraithGhostFade(this PlayerControl player, out Color color)
+    {
+        player.Visible = true;
+        color = new Color(1f, 1f, 1f, 0f);
+
+        var maxDistance = ShipStatus.Instance.MaxLightRadius *
+                          GameOptionsManager.Instance.currentNormalGameOptions.CrewLightMod;
+
+        if (!PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+
+        var distance = (PlayerControl.LocalPlayer.GetTruePosition() - player.GetTruePosition()).magnitude;
+
+        var distPercent = distance / maxDistance;
+        distPercent = Mathf.Max(0, distPercent - 1);
+
+        var velocity = player.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude;
+        color.a = 0.17f + velocity / player.MyPhysics.GhostSpeed * 0.73f;
+        color.a = Mathf.Lerp(color.a, 0, distPercent);
+
+        if (player.GetAppearanceType() != TownOfUsAppearances.PlayerOnly)
+        {
+            var fade = new VisualAppearance(player.GetDefaultModifiedAppearance(), TownOfUsAppearances.PlayerOnly)
+            {
+                HatId = "hat_NoHat",
+                SkinId = "skin_None",
+                VisorId = "visor_EmptyVisor",
+                PlayerName = string.Empty,
+                PetId = "pet_EmptyPet",
+                RendererColor = color,
+                NameColor = Color.clear,
+                ColorBlindTextColor = Color.clear,
+                NameVisible = false
+            };
+
+            player.RawSetAppearance(fade);
         }
 
         player!.cosmetics.currentBodySprite.BodySprite.color = color;
