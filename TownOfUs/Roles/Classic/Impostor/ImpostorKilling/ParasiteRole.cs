@@ -17,7 +17,6 @@ using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Patches.ControlSystem;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -833,40 +832,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             CustomTouMurderRpcs.Indirect(parasite, target, MeetingCheck.Ignore, true, true, true,
                 true, !MeetingHud.Instance, false, !MeetingHud.Instance, !MeetingHud.Instance, "Parasite");
         }
-    }
-
-    [MethodRpc((uint)TownOfUsRpc.ParasiteTriggerInteraction)]
-    public static void RpcParasiteTriggerInteraction(PlayerControl parasite, PlayerControl controlled, Vector2 interactablePosition)
-    {
-        if (LobbyBehaviour.Instance)
-        {
-            MiscUtils.RunAnticheatWarning(parasite);
-            return;
-        }
-        if (parasite.Data.Role is not ParasiteRole { Controlled: var infected })
-        {
-            Error("RpcParasiteTriggerInteraction - Invalid parasite");
-            return;
-        }
-
-        if (controlled?.Data == null || controlled.HasDied())
-        {
-            return;
-        }
-
-        if (infected != controlled || !ControlState.IsControlled(controlled.PlayerId, out _))
-        {
-            return;
-        }
-
-        var interactable = ControlledPlayerInteractionPatches.FindClosestInteractable(controlled, interactablePosition);
-        if (interactable == null)
-        {
-            return;
-        }
-
-        ControlledPlayerInteractionPatches.TriggerInteractionAsPlayer(controlled, interactable);
-        ControlledPlayerInteractionPatches.SetStateForController(parasite, interactable);
     }
 
     public void LobbyStart()

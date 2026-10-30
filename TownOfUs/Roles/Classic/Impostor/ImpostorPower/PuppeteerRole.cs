@@ -14,7 +14,6 @@ using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Patches.ControlSystem;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -337,40 +336,6 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
 
         role.ClearNotifications();
-    }
-
-    [MethodRpc((uint)TownOfUsRpc.PuppeteerTriggerInteraction)]
-    public static void RpcPuppeteerTriggerInteraction(PlayerControl puppeteer, PlayerControl controlled, Vector2 interactablePosition)
-    {
-        if (LobbyBehaviour.Instance)
-        {
-            MiscUtils.RunAnticheatWarning(puppeteer);
-            return;
-        }
-        if (puppeteer.Data.Role is not PuppeteerRole { Controlled: { } puppet })
-        {
-            Error("RpcPuppeteerTriggerInteraction - Invalid puppeteer");
-            return;
-        }
-
-        if (controlled?.Data == null || controlled.HasDied())
-        {
-            return;
-        }
-
-        if (puppet != controlled || !ControlState.IsControlled(controlled.PlayerId, out _))
-        {
-            return;
-        }
-
-        var interactable = ControlledPlayerInteractionPatches.FindClosestInteractable(controlled, interactablePosition);
-        if (interactable == null)
-        {
-            return;
-        }
-
-        ControlledPlayerInteractionPatches.TriggerInteractionAsPlayer(controlled, interactable);
-        ControlledPlayerInteractionPatches.SetStateForController(puppeteer, interactable);
     }
 
     public void LobbyStart()
