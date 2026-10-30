@@ -31,10 +31,9 @@ internal sealed class PuppeteerInputUnreliableRpc(TownOfUsPlugin plugin, uint id
         return new PuppeteerInputPacket(controlledId, dir, pos, ani, vel);
     }
 
-    protected override void Store(PlayerControl sender, PuppeteerInputPacket data)
+    protected override void Store(bool isControlled, PuppeteerInputPacket data)
     {
-        if (!PuppeteerRole.ControlState.IsControlled(data.TargetId, out var controllerId) ||
-            controllerId != sender.PlayerId)
+        if (!isControlled)
         {
             return;
         }

@@ -1,6 +1,7 @@
 ﻿using BepInEx.Unity.IL2CPP;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modules;
+using TownOfUs.Modules.ControlSystem;
 
 namespace TownOfUs.Networking;
 
@@ -35,8 +36,14 @@ public abstract class ControlDataUnreliableRpc<TPlugin, TData>(TPlugin plugin, u
             return;
         }
 
-        Store(sender, data);
+        if (!ControlState.IsUsingAnyState(data.TargetId, out var otherId, out var isControlled, out _) ||
+            otherId != sender.PlayerId)
+        {
+            return;
+        }
+
+        Store(isControlled, data);
     }
 
-    protected abstract void Store(PlayerControl sender, TData data);
+    protected abstract void Store(bool isControlled, TData data);
 }

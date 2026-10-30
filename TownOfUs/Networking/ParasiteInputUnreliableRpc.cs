@@ -31,10 +31,9 @@ internal sealed class ParasiteInputUnreliableRpc(TownOfUsPlugin plugin, uint id)
         return new ParasiteInputPacket(controlledId, dir, pos, ani, vel);
     }
 
-    protected override void Store(PlayerControl sender, ParasiteInputPacket data)
+    protected override void Store(bool isControlled, ParasiteInputPacket data)
     {
-        if (!ParasiteRole.ControlState.IsControlled(data.TargetId, out var controllerId) ||
-            controllerId != sender.PlayerId)
+        if (!isControlled)
         {
             return;
         }
