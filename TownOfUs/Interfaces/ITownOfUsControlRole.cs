@@ -49,6 +49,12 @@ public interface IControlledModifier : IRemoteControl, IUncontrollable
     /// </summary>
     PlayerControl Controller { get; }
 
+    /// <summary>
+    /// Whether the <see cref="Controller"/> is dead while controlling.
+    /// Return <see langword="null"/> if they can be either alive or dead.
+    /// </summary>
+    bool? ControllerIsDead => false;
+
     void RemoveSelf();
 }
 
