@@ -165,11 +165,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public void ClearNotification()
     {
-        if (controllerNotification != null && controllerNotification.gameObject != null)
-        {
-            controllerNotification.gameObject.DeepDestroy();
-            controllerNotification = null;
-        }
+        ControlledFeedbackUtilities.ClearNotification(ref controllerNotification);
     }
 
     [MethodRpc((uint)TownOfUsRpc.PuppeteerControl)]

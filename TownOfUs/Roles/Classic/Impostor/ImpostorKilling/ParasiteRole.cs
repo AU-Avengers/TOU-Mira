@@ -654,11 +654,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     public void ClearNotification()
     {
-        if (controllerNotification != null && controllerNotification.gameObject != null)
-        {
-            controllerNotification.gameObject.DeepDestroy();
-            controllerNotification = null;
-        }
+        ControlledFeedbackUtilities.ClearNotification(ref controllerNotification);
     }
 
 
