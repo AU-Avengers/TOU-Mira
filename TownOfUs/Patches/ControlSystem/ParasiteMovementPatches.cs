@@ -67,7 +67,7 @@ public static class ParasiteMovementPatches
             SendControlledInputIfNeeded(victim.PlayerId, dir, victimPos, victimInAnim, victimVel);
 
             // TODO: apply movement to controller
-            if (Minigame.Instance || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
+            if (Minigame.Instance || player.IsInTargetingAnimState() || player.inVent)
             {
                 return true;
             }
