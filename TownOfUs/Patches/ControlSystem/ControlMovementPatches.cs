@@ -174,6 +174,7 @@ public static class ControlMovementPatches
 
         var player = __instance.myPlayer;
 
+        // TODO: only do this for those forced to move.
         if (!ControlState.IsUsingAnyState(player.PlayerId, out _, out _, out _))
         {
             return true;
