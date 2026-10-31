@@ -25,11 +25,8 @@ public class ControlState
 
     private readonly Dictionary<byte, byte> ControlledBy = [];
     private readonly Dictionary<byte, byte> Controlling = [];
-    protected readonly Dictionary<byte, bool> Actionable = [];
-
+    
     private readonly Dictionary<byte, Vector2> ControlledDirection = [];
-    private readonly Dictionary<byte, Vector2> SelfDirection = [];
-
     private readonly Dictionary<byte, Vector2> ControlledPosition = [];
     private readonly Dictionary<byte, Vector2> ControlledVelocity = [];
     private readonly Dictionary<byte, bool> ControlledInAnim = [];
@@ -41,12 +38,7 @@ public class ControlState
         ControlledBy[controlledId] = controllerId;
         Controlling[controllerId] = controlledId;
 
-        Actionable[controlledId] = false;
-        Actionable[controllerId] = true;
-
         ControlledDirection[controlledId] = Vector2.zero;
-        SelfDirection[controllerId] = Vector2.zero;
-
         ControlledPosition[controlledId] = Vector2.zero;
         ControlledVelocity[controlledId] = Vector2.zero;
         ControlledInAnim[controlledId] = false;
@@ -63,12 +55,7 @@ public class ControlState
     {
         Controlling.Remove(controllerId);
 
-        Actionable.Remove(controlledId);
-        Actionable.Remove(controllerId);
-
         ControlledDirection.Remove(controlledId);
-        SelfDirection.Remove(controllerId);
-
         ControlledPosition.Remove(controlledId);
         ControlledVelocity.Remove(controlledId);
         ControlledInAnim.Remove(controlledId);
@@ -91,9 +78,9 @@ public class ControlState
         return isControlled || IsControlling(playerId, out withId);
     }
 
-    public bool IsActionable(byte playerId)
+    public virtual bool IsActionable(byte playerId)
     {
-        return Actionable.TryGetValue(playerId, out bool has) && has;
+        return IsControlling(playerId, out _);
     }
 
     public bool IsFullyControlling(byte playerId)
@@ -111,41 +98,14 @@ public class ControlState
         ControlledDirection[controlledId] = direction;
     }
 
-    public void SetSelfDirection(byte controllerId, Vector2 direction)
-    {
-        SelfDirection[controllerId] = direction;
-    }
-
     public Vector2 GetForcedDirection(byte controlledId)
     {
         return ControlledDirection.TryGetValue(controlledId, out var dir) ? dir : Vector2.zero;
     }
 
-    public Vector2 GetSelfDirection(byte controllerId)
+    public virtual Vector2 GetDirection(byte playerId)
     {
-        return SelfDirection.TryGetValue(controllerId, out var dir) ? dir : Vector2.zero;
-    }
-
-    public Vector2 GetDirection(byte playerId)
-    {
-        if (IsControlled(playerId, out var controllerId))
-        {
-            return GetDirection(controllerId, playerId);
-        }
-        if (IsControlling(playerId, out var controlledId))
-        {
-            return GetDirection(playerId, controlledId);
-        }
-        return Vector2.zero;
-    }
-
-    public virtual Vector2 GetDirection(byte controllerId, byte controlledId)
-    {
-        if (IsActionable(controllerId))
-        {
-            return GetForcedDirection(controlledId);
-        }
-        return GetSelfDirection(controllerId);
+        return GetForcedDirection(playerId);
     }
 
     public void SetMovementState(byte controlledId, Vector2 position, bool inAnim, Vector2 velocity)
@@ -210,11 +170,87 @@ public class ControlState
     {
         ControlledBy.Clear();
         Controlling.Clear();
-        Actionable.Clear();
         ControlledDirection.Clear();
         ControlledPosition.Clear();
         ControlledVelocity.Clear();
         ControlledInAnim.Clear();
         ControlledSince.Clear();
+    }
+}
+
+public abstract class DualControlState(Type type) : ControlState(type)
+{
+    public abstract bool CanShareControl { get; }
+
+    protected readonly Dictionary<byte, bool> Actionable = [];
+    private readonly Dictionary<byte, Vector2> SelfDirection = [];
+
+    public override void SetControl(byte controlledId, byte controllerId)
+    {
+        base.SetControl(controlledId, controllerId);
+
+        Actionable[controlledId] = CanShareControl;
+        Actionable[controllerId] = true;
+
+        SelfDirection[controllerId] = Vector2.zero;
+    }
+
+    protected override void ClearControl(byte controlledId, byte controllerId)
+    {
+        base.ClearControl(controlledId, controllerId);
+
+        Actionable.Remove(controlledId);
+        Actionable.Remove(controllerId);
+
+        SelfDirection.Remove(controllerId);
+    }
+
+    public override bool IsActionable(byte playerId)
+    {
+        return Actionable.TryGetValue(playerId, out bool has) && has;
+    }
+
+    public void SetSelfDirection(byte controllerId, Vector2 direction)
+    {
+        SelfDirection[controllerId] = direction;
+    }
+
+    public Vector2 GetSelfDirection(byte controllerId)
+    {
+        return SelfDirection.TryGetValue(controllerId, out var dir) ? dir : Vector2.zero;
+    }
+
+    public override Vector2 GetDirection(byte playerId)
+    {
+        if (IsControlled(playerId, out var controllerId))
+        {
+            return GetDirection(controllerId, playerId);
+        }
+        if (IsControlling(playerId, out var controlledId))
+        {
+            return GetDirection(playerId, controlledId);
+        }
+        return Vector2.zero;
+    }
+
+    private Vector2 GetDirection(byte controllerId, byte controlledId)
+    {
+        if (CanShareControl)
+        {
+            return Vector2.ClampMagnitude(GetSelfDirection(controllerId) + GetForcedDirection(controlledId), 1f);
+        }
+        if (IsActionable(controllerId))
+        {
+            return GetForcedDirection(controlledId);
+        }
+        return GetSelfDirection(controllerId);
+    }
+
+    public override void ClearAll()
+    {
+        base.ClearAll();
+
+        Actionable.Clear();
+        SelfDirection.Clear();
     }
 }
