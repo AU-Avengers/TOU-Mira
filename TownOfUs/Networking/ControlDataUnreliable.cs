@@ -60,6 +60,11 @@ public abstract class ControlDataUnreliableRpc<TPlugin, TData>(TPlugin plugin, u
             return;
         }
 
+        if (controlState is not DualControlState && !isControlled)
+        {
+            return;
+        }
+
         if (data is IMovementStateDataPacket moveState && isControlled)
         {
             controlState.SetMovementState(data.TargetId, moveState.Position, moveState.InAnim, moveState.Velocity);
