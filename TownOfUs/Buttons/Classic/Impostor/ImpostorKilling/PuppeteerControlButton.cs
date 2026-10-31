@@ -6,7 +6,6 @@ using Reactor.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
@@ -36,8 +35,8 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
     {
         TimerPaused = false;
         if (PlayerControl.LocalPlayer?.Data?.Role is PuppeteerRole { Controlled.PlayerId: var controlledId } &&
-            PuppeteerControlState.IsControlled(controlledId, out _) &&
-            PuppeteerControlState.IsInInitialGrace(controlledId))
+            PuppeteerRole.ControlState.IsControlled(controlledId, out _) &&
+            PuppeteerRole.ControlState.IsInInitialGrace(controlledId))
         {
             TimerPaused = true;
         }
@@ -63,9 +62,9 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
             if (controlled.Data == null ||
                 controlled.HasDied() ||
                 controlled.Data.Disconnected ||
-                !PuppeteerControlState.IsControlled(controlled.PlayerId, out _))
+                !PuppeteerRole.ControlState.IsControlled(controlled.PlayerId, out _))
             {
-                PuppeteerRole.RpcPuppeteerEndControl(PlayerControl.LocalPlayer, controlled, controlled.transform.position);
+                PuppeteerRole.RpcPuppeteerEndControl(PlayerControl.LocalPlayer, controlled);
                 return false;
             }
             return base.CanUse();

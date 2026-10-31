@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
+using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.Types;
 using TownOfUs.Events;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modules;
@@ -41,6 +44,16 @@ public static class LobbyBehaviourPatches
             {
                 Error($"LobbyStart failed for role {role.GetType().Name}: {e}");
             }
+
+            if (touRole is ITownOfUsLocalControlRole controlRole)
+            {
+                controlRole.State.ClearAll();
+            }
+        }
+
+        foreach (var controlMod in ModifierUtils.GetActiveModifiers<TimedModifier>(x => x is IControlledModifier))
+        {
+            controlMod.RemoveSelf();
         }
 
         TeamChatPatches.CleanUpChats();

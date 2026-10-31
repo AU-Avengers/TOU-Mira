@@ -3,8 +3,7 @@
 public enum TownOfUsRpc : uint
 {
     SendClientModInfo,
-    ParasiteInputUnreliable,
-    PuppeteerInputUnreliable,
+    FullControlInputUnreliable,
     GhostRoleMurder,
     SpecialMurder,
     ConfirmSpecialMurder,
@@ -111,8 +110,9 @@ public enum TownOfUsRpc : uint
     ParasiteEndControl,
     PuppeteerControl,
     PuppeteerEndControl,
-    PuppeteerTriggerInteraction,
-    ParasiteTriggerInteraction,
+    ControllerEndControl,
+    ControllerTrigerInteraction,
+    ControllerSetInteractionState,
     TimeLordRewind,
     TimeLordRewindRevive,
     TimeLordUndoTask,

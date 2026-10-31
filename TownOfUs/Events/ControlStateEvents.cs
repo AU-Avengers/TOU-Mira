@@ -3,9 +3,10 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.Types;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Interfaces;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
@@ -72,36 +73,26 @@ public static class ControlStateEvents
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent _)
     {
-        ParasiteControlState.ClearAll();
-        PuppeteerControlState.ClearAll();
+        ControlState.ClearAllInstances();
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
-            (player.Data.Role as ParasiteRole)?.ClearControlLocal();
+            (player.Data.Role as ITownOfUsLocalControlRole)?.ClearControlLocal();
 
-            player.TryRemoveModifier<ParasiteInfectedModifier>();
-
-            (player.Data.Role as PuppeteerRole)?.ClearControlLocal();
-
-            player.TryRemoveModifier<PuppeteerControlModifier>();
+            player.TryRemoveModifier<TimedModifier>(x => x is IControlledModifier);
         }
     }
 
     [RegisterEvent]
     public static void ClientGameEndEventHandler(ClientGameEndEvent _)
     {
-        ParasiteControlState.ClearAll();
-        PuppeteerControlState.ClearAll();
+        ControlState.ClearAllInstances();
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
-            (player.Data.Role as ParasiteRole)?.ClearControlLocal();
+            (player.Data.Role as ITownOfUsLocalControlRole)?.ClearControlLocal();
 
-            player.TryRemoveModifier<ParasiteInfectedModifier>();
-
-            (player.Data.Role as PuppeteerRole)?.ClearControlLocal();
-
-            player.TryRemoveModifier<PuppeteerControlModifier>();
+            player.TryRemoveModifier<TimedModifier>(x => x is IControlledModifier);
         }
     }
 }

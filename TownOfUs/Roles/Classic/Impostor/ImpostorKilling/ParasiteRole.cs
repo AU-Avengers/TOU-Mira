@@ -12,17 +12,22 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Patches.ControlSystem;
+using TownOfUs.Utilities.ControlSystem;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsLocalControlRole, IWikiDiscoverable, IDoomable
 {
+    public static ControlState ControlState { get; } = new(typeof(ParasiteRole));
+
+    public ControlState State => ControlState;
+
     [HideFromIl2Cpp] public PlayerControl? Controlled { get; set; }
     private float _overtakeKillLockoutUntil;
     private bool _killPendingFromTimer;
@@ -111,8 +116,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         if (Player.AmOwner && target != null)
         {
 
-            RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position,
-                !OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfMeetingCalled && !target.HasDied());
+            RpcParasiteEndControl(PlayerControl.LocalPlayer, target, !OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfMeetingCalled && !target.HasDied());
         }
     }
 
@@ -127,8 +131,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position,
-            !OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfParasiteDies && !target.HasDied());
+        RpcParasiteEndControl(PlayerControl.LocalPlayer, target, !OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfParasiteDies && !target.HasDied());
     }
 
     public void FixedUpdate()
@@ -148,14 +151,14 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         if (target.Data == null || target.HasDied() || target.Data.Disconnected)
         {
-            RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position, false);
+            RpcParasiteEndControl(PlayerControl.LocalPlayer, target, false);
             _killPendingFromTimer = false;
             return;
         }
 
         if (Player.HasDied() && OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfParasiteDies)
         {
-            RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position, false);
+            RpcParasiteEndControl(PlayerControl.LocalPlayer, target, false);
             _killPendingFromTimer = false;
             return;
         }
@@ -171,7 +174,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
             if (PlayerControl.LocalPlayer)
             {
-                RpcParasiteEndControl(PlayerControl.LocalPlayer, target, target.transform.position, true);
+                RpcParasiteEndControl(PlayerControl.LocalPlayer, target, true);
             }
         }
     }
@@ -188,6 +191,11 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         parasiteCam.transform.position = new Vector3(pos.x, pos.y, parasiteCam.transform.position.z);
 
         // Border follows the camera rect; TickPiP() also calls UpdateCameraBorderLayout() every frame.
+    }
+
+    public void UpdateOverlay()
+    {
+        TickPiP();
     }
 
     /// <summary>
@@ -537,7 +545,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         if (target.HasDied())
         {
-            RpcParasiteEndControl(local, target, target.transform.position, false);
+            RpcParasiteEndControl(local, target, false);
             return;
         }
 
@@ -551,7 +559,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        RpcParasiteEndControl(local, target, target.transform.position, true);
+        RpcParasiteEndControl(local, target, true);
     }
 
     private void EnsureCamera()
@@ -613,7 +621,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         _pipSettingsDirty = true;
 
         DestroyCamera();
-        ClearNotifications();
+        ClearNotification();
     }
 
     public float GetOvertakeKillLockoutRemainingSeconds()
@@ -644,13 +652,9 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
     }
 
-    private void ClearNotifications()
+    public void ClearNotification()
     {
-        if (controllerNotification != null && controllerNotification.gameObject != null)
-        {
-            controllerNotification.gameObject.DeepDestroy();
-            controllerNotification = null;
-        }
+        ControlledFeedbackUtilities.ClearNotification(ref controllerNotification);
     }
 
 
@@ -687,7 +691,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         Controlled = target;
         _overtakeKillLockoutUntil = Time.time + OptionGroupSingleton<ParasiteOptions>.Instance.OvertakeKillCooldown;
 
-        ParasiteControlState.SetControl(target.PlayerId, parasite.PlayerId);
+        ControlState.SetControl(target.PlayerId, parasite.PlayerId);
         if (!target.HasModifier<ParasiteInfectedModifier>())
         {
             target.AddModifier<ParasiteInfectedModifier>(parasite);
@@ -698,29 +702,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             target.MyPhysics.ExitAllVents();
         }
 
-        if (target.AmOwner)
-        {
-            var pos = (Vector2)target.transform.position;
-            if (target.NetTransform != null)
-            {
-                try
-                {
-                    target.NetTransform.SnapTo(pos);
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-        }
-        else if (parasite.AmOwner)
-        {
-            NetTransformBacklogUtils.FlushAndSnap(target);
-        }
-        else
-        {
-            NetTransformBacklogUtils.FlushBacklog(target);
-        }
+        RemoteControlUtilities.SnapControlTarget(target, parasite);
 
         if (parasite.AmOwner)
         {
@@ -734,95 +716,17 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     }
 
     [MethodRpc((uint)TownOfUsRpc.ParasiteEndControl)]
-    public static void RpcParasiteEndControl(PlayerControl parasite, PlayerControl target, Vector2 finalPos, bool toKillPlayer)
+    public static void RpcParasiteEndControl(PlayerControl parasite, PlayerControl target, bool toKillPlayer = false)
     {
         if (LobbyBehaviour.Instance)
         {
             MiscUtils.RunAnticheatWarning(parasite);
             return;
         }
-        if (parasite.Data.Role is not ParasiteRole role)
-        {
-            return;
-        }
 
-        if (target != null)
-        {
-            ParasiteControlState.ClearControl(target.PlayerId);
-            target.TryRemoveModifier<ParasiteInfectedModifier>();
+        RemoteControlUtilities.ControllerEndControl(parasite, target);
 
-            if (target.MyPhysics != null)
-            {
-                target.MyPhysics.body?.velocity = Vector2.zero;
-                target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
-            }
-
-            if (target.NetTransform != null)
-            {
-                try
-                {
-                    // Flush CNT backlog first
-                    NetTransformBacklogUtils.FlushBacklog(target);
-
-                    // Then snap to current authoritative position
-                    if (target.AmOwner)
-                    {
-                        target.NetTransform.SnapTo(finalPos);
-                    }
-                    else if (parasite != null && parasite.AmOwner)
-                    {
-                        // Controller can snap on behalf of victim
-                        NetTransformBacklogUtils.FlushAndSnap(target);
-                    }
-                    else
-                    {
-                        // Other clients just flush
-                        NetTransformBacklogUtils.FlushBacklog(target);
-                    }
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-        }
-
-        role.ClearControlLocal();
-
-        if (parasite != null)
-        {
-            if (parasite.AmOwner)
-            {
-                var pos = (Vector2)parasite.transform.position;
-                if (parasite.NetTransform != null)
-                {
-                    try
-                    {
-                        parasite.NetTransform.SnapTo(pos);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
-            }
-            else
-            {
-                NetTransformBacklogUtils.FlushBacklog(parasite);
-            }
-
-            if (parasite.AmOwner)
-            {
-                parasite.walkingToVent = false;
-
-                var btn = CustomButtonSingleton<Buttons.Impostor.ParasiteOvertakeButton>.Instance;
-                btn.SetActive(true, role);
-                btn.StopControlEffectAndApplyCooldown();
-            }
-        }
-
-        role.ClearNotifications();
-        if (toKillPlayer && parasite != null && target != null)
+        if (toKillPlayer)
         {
             new TouAbilityEvent(AbilityType.ParasiteKill, parasite, target).InvokeEvent();
             CustomTouMurderRpcs.Indirect(parasite, target, MeetingCheck.Ignore, true, true, true,
@@ -830,206 +734,12 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.ParasiteTriggerInteraction)]
-    public static void RpcParasiteTriggerInteraction(PlayerControl parasite, PlayerControl controlled, Vector2 interactablePosition)
+    public void SetupLocalOnClear(PlayerControl controller)
     {
-        if (LobbyBehaviour.Instance)
-        {
-            MiscUtils.RunAnticheatWarning(parasite);
-            return;
-        }
-        if (parasite.Data.Role is not ParasiteRole { Controlled: var infected })
-        {
-            Error("RpcParasiteTriggerInteraction - Invalid parasite");
-            return;
-        }
+        controller.walkingToVent = false;
 
-        if (controlled?.Data == null || controlled.HasDied())
-        {
-            return;
-        }
-
-        if (infected != controlled || !ParasiteControlState.IsControlled(controlled.PlayerId, out _))
-        {
-            return;
-        }
-
-        // Find the interactable at the position
-        var interactable = FindInteractableAtPosition(interactablePosition, controlled);
-        if (interactable == null)
-        {
-            return;
-        }
-
-        // Trigger the interaction as the controlled player
-        TriggerInteractionAsPlayer(controlled, interactable);
-    }
-
-    private static IUsable? FindInteractableAtPosition(Vector2 position, PlayerControl player)
-    {
-        if (player == null)
-        {
-            return null;
-        }
-
-        var closestDistance = float.MaxValue;
-        IUsable? closestInteractable = null;
-
-        // Use cached interactables from ControlledPlayerInteractionPatches if available, otherwise scan
-        var cached = ControlledPlayerInteractionPatches.GetCachedInteractables();
-        var interactablesToCheck = cached != null && cached.Count > 0
-            ? cached
-            : GetInteractablesList();
-
-        const float maxCheckDistance = 5f; // Most interactables have UsableDistance <= 3f
-
-        foreach (var usable in interactablesToCheck)
-        {
-            if (usable == null)
-            {
-                continue;
-            }
-
-            // Get the MonoBehaviour to access transform
-            var obj = usable.TryCast<MonoBehaviour>();
-            if (obj == null)
-            {
-                continue;
-            }
-
-            // Quick distance check before expensive CanUse check
-            var objPos = (Vector2)obj.transform.position;
-            var distance = Vector2.Distance(position, objPos);
-            if (distance > maxCheckDistance || distance > usable.UsableDistance)
-            {
-                continue;
-            }
-
-            // Check if player can use this
-            usable.CanUse(player.Data, out bool canUse, out _);
-            if (!canUse)
-            {
-                continue;
-            }
-
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestInteractable = usable;
-            }
-        }
-
-        return closestInteractable;
-    }
-
-    private static List<IUsable> GetInteractablesList()
-    {
-        var result = new List<IUsable>();
-        var allUsables = FindObjectsOfType<MonoBehaviour>();
-        foreach (var obj in allUsables)
-        {
-            if (obj.TryCast<IUsable>() is { } usable && usable.TryCast<Vent>() == null)
-            {
-                result.Add(usable);
-            }
-        }
-        return result;
-    }
-
-    private static void TriggerInteractionAsPlayer(PlayerControl player, IUsable interactable)
-    {
-        if (player == null || interactable == null)
-        {
-            return;
-        }
-
-        if (interactable.TryCast<Ladder>() is { } ladder)
-        {
-            if (!player.AmOwner)
-            {
-                return;
-            }
-            player.MyPhysics.RpcClimbLadder(ladder);
-            ladder.CoolDown = ladder.MaxCoolDown;
-        }
-        else if (interactable.TryCast<ZiplineConsole>() is { } ziplineConsole)
-        {
-            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
-            {
-                return;
-            }
-            if (ziplineConsole.zipline != null)
-            {
-                player.CheckUseZipline(player, ziplineConsole.zipline, ziplineConsole.atTop);
-            }
-        }
-        else if (interactable.TryCast<OpenDoorConsole>() is { } openDoorConsole)
-        {
-            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
-            {
-                return;
-            }
-            openDoorConsole.myDoor.SetDoorway(true);
-        }
-        else if (interactable.TryCast<DoorConsole>() is { } doorConsole)
-        {
-            if (player.AmOwner)
-            {
-                player.NetTransform.Halt();
-                var minigame = Instantiate(doorConsole.MinigamePrefab, Camera.main.transform);
-                minigame.transform.localPosition = new Vector3(0f, 0f, -50f);
-
-                try
-                {
-                    minigame.Cast<IDoorMinigame>().SetDoor(doorConsole.MyDoor);
-                }
-                catch (InvalidCastException)
-                {
-                    /* ignored */
-                }
-
-                minigame.Begin(null);
-            }
-        }
-        else if (interactable.TryCast<PlatformConsole>() is { } platformConsole)
-        {
-            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
-            {
-                return;
-            }
-            var platform = platformConsole.Platform;
-            if (platform != null)
-            {
-                var vector = platform.transform.position - player.transform.position;
-                if (!platform.Target && vector.magnitude <= 3f)
-                {
-                    platform.IsDirty = true;
-                    platform.StartCoroutine(platform.UsePlatform(player));
-                }
-            }
-        }
-        else if (interactable.TryCast<DeconControl>() is { } deconControl)
-        {
-            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
-            {
-                return;
-            }
-            deconControl.cooldown = 6f;
-            if (Constants.ShouldPlaySfx())
-            {
-                SoundManager.Instance.PlaySound(deconControl.UseSound, false);
-            }
-            deconControl.OnUse.Invoke();
-        }
-    }
-
-    public void LobbyStart()
-    {
-        ParasiteControlState.ClearAll();
-
-        foreach (var parasiteMod in ModifierUtils.GetActiveModifiers<ParasiteInfectedModifier>())
-        {
-            parasiteMod.Player.RemoveModifier(parasiteMod);
-        }
+        var btn = CustomButtonSingleton<Buttons.Impostor.ParasiteOvertakeButton>.Instance;
+        btn.SetActive(true, controller.Data.Role);
+        btn.StopControlEffectAndApplyCooldown();
     }
 }

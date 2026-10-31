@@ -7,7 +7,6 @@ using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
@@ -98,11 +97,11 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 controlled.Data == null ||
                 controlled.HasDied() ||
                 controlled.Data.Disconnected ||
-                !ParasiteControlState.IsControlled(controlled.PlayerId, out _))
+                !ParasiteRole.ControlState.IsControlled(controlled.PlayerId, out _))
             {
                 if (controlled != null)
                 {
-                    ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, controlled, controlled.transform.position, false);
+                    ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, controlled);
                 }
                 return false;
             }
@@ -228,8 +227,8 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
         TimerPaused = false;
         var localRole = PlayerControl.LocalPlayer?.Data?.Role as ParasiteRole;
         if (localRole?.Controlled != null &&
-            ParasiteControlState.IsControlled(localRole.Controlled.PlayerId, out _) &&
-            ParasiteControlState.IsInInitialGrace(localRole.Controlled.PlayerId))
+            ParasiteRole.ControlState.IsControlled(localRole.Controlled.PlayerId, out _) &&
+            ParasiteRole.ControlState.IsInInitialGrace(localRole.Controlled.PlayerId))
         {
             TimerPaused = true;
         }
@@ -479,7 +478,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             var toKill = controlled.Data != null &&
                          !controlled.HasDied() &&
                          !controlled.Data.Disconnected &&
-                         ParasiteControlState.IsControlled(controlled.PlayerId, out _);
+                         ParasiteRole.ControlState.IsControlled(controlled.PlayerId, out _);
 
             if (toKill)
             {
@@ -494,7 +493,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 }
             }
 
-            ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, controlled, controlled.transform.position, toKill);
+            ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, controlled, toKill);
             return;
         }
 

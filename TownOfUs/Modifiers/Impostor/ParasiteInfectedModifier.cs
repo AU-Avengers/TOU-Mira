@@ -1,9 +1,11 @@
 ﻿using MiraAPI.GameOptions;
 using TMPro;
 using TownOfUs.Interfaces;
+using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities.ControlSystem;
+using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities.Appearances;
+using TownOfUs.Utilities.ControlSystem;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -15,8 +17,10 @@ namespace TownOfUs.Modifiers.Impostor;
 /// - Forces their appearance to match the Parasite (visible to others).
 /// Movement/input suppression is handled by Harmony patches while this modifier is present.
 /// </summary>
-public sealed class ParasiteInfectedModifier(PlayerControl controller) : DisabledModifier, IVisualAppearance, IUncontrollable
+public sealed class ParasiteInfectedModifier(PlayerControl controller) : DisabledModifier, IVisualAppearance, IControlledModifier
 {
+    public ControlState State => ParasiteRole.ControlState;
+
     public override string ModifierName => "Parasite Infected";
     public override bool HideOnUi => true;
     public override bool AutoStart => true;
