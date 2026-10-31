@@ -10,7 +10,7 @@ public sealed class HerbalistAbilitySwapButton : TownOfUsRoleButton<HerbalistRol
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 0.0001f;
-    public override LoadableAsset<Sprite> Sprite => TouImpAssets.TraitorSelect;
+    public override LoadableAsset<Sprite> Sprite => HerbalistAbilityHerbButton.NextHerbButtons[0];
     public static HerbalistAbilityHerbButton OtherHerbButton => CustomButtonSingleton<HerbalistAbilityHerbButton>.Instance;
     public override bool CanUse()
     {

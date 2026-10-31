@@ -1,5 +1,6 @@
 using System.Globalization;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Impostor.Herbalist;
@@ -104,6 +105,14 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
         TouImpAssets.HerbExposeSprite,
         TouImpAssets.HerbConfuseSprite,
         TouImpAssets.HerbProtectSprite,
+    ];
+
+    public static List<LoadableAsset<Sprite>> NextHerbButtons { get; set; } =
+    [
+        TouImpAssets.HerbExposeNextSprite,
+        TouImpAssets.HerbConfuseNextSprite,
+        TouImpAssets.HerbProtectNextSprite,
+        TouImpAssets.HerbKillNextSprite,
     ];
 
     public static List<string> ProtectionText =>
@@ -217,6 +226,7 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
             CurrentAbility = HerbAbilities.Kill;
         }
         OverrideSprite(HerbButtons[(int)CurrentAbility]);
+        CustomButtonSingleton<HerbalistAbilitySwapButton>.Instance.OverrideSprite(NextHerbButtons[(int)CurrentAbility]);
         OverrideName(ProtectionText[(int)CurrentAbility]);
     }
     public override void OverrideName(string name)
