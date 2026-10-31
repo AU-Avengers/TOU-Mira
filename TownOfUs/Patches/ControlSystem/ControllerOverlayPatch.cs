@@ -86,7 +86,7 @@ public static class ControllerOverlayPatch
             return false;
         }
 
-        if (!controlState.HasControl(PlayerControl.LocalPlayer.PlayerId))
+        if (!controlState.IsActionable(PlayerControl.LocalPlayer.PlayerId))
         {
             color = Palette.DisabledGrey;
             onVal = 0.3f;

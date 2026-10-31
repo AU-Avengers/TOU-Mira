@@ -25,7 +25,7 @@ public class ControlState
 
     private readonly Dictionary<byte, byte> ControlledBy = [];
     private readonly Dictionary<byte, byte> Controlling = [];
-    protected readonly Dictionary<byte, bool> InControl = [];
+    protected readonly Dictionary<byte, bool> Actionable = [];
 
     private readonly Dictionary<byte, Vector2> ControlledDirection = [];
     private readonly Dictionary<byte, Vector2> SelfDirection = [];
@@ -41,8 +41,8 @@ public class ControlState
         ControlledBy[controlledId] = controllerId;
         Controlling[controllerId] = controlledId;
 
-        InControl[controlledId] = false;
-        InControl[controllerId] = true;
+        Actionable[controlledId] = false;
+        Actionable[controllerId] = true;
 
         ControlledDirection[controlledId] = Vector2.zero;
         SelfDirection[controllerId] = Vector2.zero;
@@ -58,8 +58,8 @@ public class ControlState
         ControlledBy.Remove(controlledId, out var controllerId);
         Controlling.Remove(controllerId);
 
-        InControl.Remove(controlledId);
-        InControl.Remove(controllerId);
+        Actionable.Remove(controlledId);
+        Actionable.Remove(controllerId);
 
         ControlledDirection.Remove(controlledId);
         SelfDirection.Remove(controllerId);
@@ -86,19 +86,19 @@ public class ControlState
         return isControlled || IsControlling(playerId, out withId);
     }
 
-    public bool HasControl(byte playerId)
+    public bool IsActionable(byte playerId)
     {
-        return InControl.TryGetValue(playerId, out bool has) && has;
+        return Actionable.TryGetValue(playerId, out bool has) && has;
     }
 
     public bool IsFullyControlling(byte playerId)
     {
-        return IsControlling(playerId, out byte otherId) && !HasControl(otherId);
+        return IsControlling(playerId, out byte otherId) && !IsActionable(otherId);
     }
 
     public bool IsControllingActionable(byte playerId)
     {
-        return IsControlling(playerId, out _) && HasControl(playerId);
+        return IsControlling(playerId, out _) && IsActionable(playerId);
     }
 
     public void SetForcedDirection(byte controlledId, Vector2 direction)
@@ -136,7 +136,7 @@ public class ControlState
 
     public virtual Vector2 GetDirection(byte controllerId, byte controlledId)
     {
-        if (HasControl(controllerId))
+        if (IsActionable(controllerId))
         {
             return GetForcedDirection(controlledId);
         }
@@ -205,7 +205,7 @@ public class ControlState
     {
         ControlledBy.Clear();
         Controlling.Clear();
-        InControl.Clear();
+        Actionable.Clear();
         ControlledDirection.Clear();
         ControlledPosition.Clear();
         ControlledVelocity.Clear();

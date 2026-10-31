@@ -37,7 +37,7 @@ public static class ControlledPlayerInteractionPatches
             if (controller != null && mod.ControllerDeadCheck() &&
                 mod.State.IsControlling(controller.PlayerId, out _))
             {
-                if (mod.State.HasControl(localPlayer.PlayerId) &&
+                if (mod.State.IsActionable(localPlayer.PlayerId) &&
                     __instance.currentTarget.TryCast<MonoBehaviour>() is { } obj)
                 {
                     RpcSetStateForController(controller, localPlayer, obj.transform.position);
@@ -159,7 +159,7 @@ public static class ControlledPlayerInteractionPatches
             control.State.IsControlling(localPlayer.PlayerId, out _))
         {
             isControlling = true;
-            isActionable = control.State.HasControl(localPlayer.PlayerId);
+            isActionable = control.State.IsActionable(localPlayer.PlayerId);
             controlledPlayer = control.Controlled;
         }
 
