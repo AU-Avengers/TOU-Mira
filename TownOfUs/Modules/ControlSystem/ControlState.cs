@@ -53,9 +53,14 @@ public class ControlState
         ControlledSince[controlledId] = Time.time;
     }
 
-    public virtual void ClearControl(byte controlledId)
+    public void ClearControl(byte controlledId)
     {
         ControlledBy.Remove(controlledId, out var controllerId);
+        ClearControl(controlledId, controllerId);
+    }
+
+    protected virtual void ClearControl(byte controlledId, byte controllerId)
+    {
         Controlling.Remove(controllerId);
 
         Actionable.Remove(controlledId);
