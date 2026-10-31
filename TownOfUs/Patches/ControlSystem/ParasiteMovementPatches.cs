@@ -74,7 +74,7 @@ public static class ParasiteMovementPatches
 
             var parasiteDir = canMoveIndependently ? GetPrimaryDirection() : Vector2.zero;
 
-            AdvancedMovementUtilities.ApplyControlledMovement(__instance, parasiteDir, stopIfZero: true);
+            AdvancedMovementUtilities.ApplyControlledMovement(__instance, parasiteDir);
             return false;
         }
 

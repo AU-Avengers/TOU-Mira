@@ -65,7 +65,7 @@ public static class PuppeteerMovementPatches
             // TODO: apply movement to controller
             var puppeteerDir = Vector2.zero;
 
-            AdvancedMovementUtilities.ApplyControlledMovement(__instance, puppeteerDir, stopIfZero: true);
+            AdvancedMovementUtilities.ApplyControlledMovement(__instance, puppeteerDir);
             return false;
         }
 
