@@ -1,7 +1,10 @@
 ﻿using MiraAPI.Modifiers;
 using Reactor.Networking.Attributes;
+using Reactor.Utilities;
+using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using TownOfUs.Interfaces;
+using TownOfUs.Modules.ControlSystem;
 using UnityEngine;
 
 namespace TownOfUs.Utilities.ControlSystem;
@@ -47,6 +50,71 @@ public static class RemoteControlUtilities
         return controlled.Controller.HasDied() == isDead;
     }
 
+    public static void RpcStartRemoteControl(PlayerControl controller, PlayerControl target)
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(controller);
+            return;
+        }
+
+        if (!controller.TryGetRemoteControl<IControlStarter>(out var starter))
+        {
+            Error("RpcStartControl - Invalid controller");
+            return;
+        }
+
+        if (target?.Data == null || target.HasDied())
+        {
+            return;
+        }
+
+        if (!starter.IsValidTarget(target))
+        {
+            return;
+        }
+
+        Coroutines.Start(starter.CoFinishControl(target));
+    }
+
+    public static IEnumerator CoFinishControl(this IControlStarter starter, PlayerControl target)
+    {
+        var controller = starter.Player;
+        while (target.IsInTargetingAnimState())
+        {
+            yield return null;
+        }
+
+        IController control = starter.SetupController(target);
+
+        starter.State.SetControl(target.PlayerId, controller.PlayerId);
+
+        starter.SetupTarget(target);
+
+        if (target.inVent)
+        {
+            control.ClearTargetInVent(false);
+        }
+
+        SnapControlTarget(target, controller);
+
+        if (starter.State is DualControlState { ApplyToController: true })
+        {
+            controller.NetTransform?.SnapTo(target.transform.position);
+        }
+
+        if (controller.AmOwner)
+        {
+            starter.CreateNotification();
+            control.SetupLocal(controller, false);
+        }
+        else if (target.AmOwner)
+        {
+            control.SetupTargetLocal(false);
+        }
+    }
+
+
     [MethodRpc((uint)TownOfUsRpc.ControllerEndControl)]
     public static void RpcControllerEndControl(PlayerControl controller, PlayerControl target)
     {
@@ -78,7 +146,7 @@ public static class RemoteControlUtilities
         {
             if (target.inVent)
             {
-                control.ClearTargetInVent();
+                control.ClearTargetInVent(true);
             }
             else
             {
@@ -97,7 +165,11 @@ public static class RemoteControlUtilities
 
         if (controller.AmOwner)
         {
-            control.SetupLocalOnClear(controller);
+            control.SetupLocal(controller, true);
+        }
+        else if (target.AmOwner)
+        {
+            control.SetupTargetLocal(true);
         }
 
         control.ClearNotification();

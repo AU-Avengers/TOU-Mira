@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -634,7 +633,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         return Mathf.Max(0f, _overtakeKillLockoutUntil - Time.time);
     }
 
-    private void CreateNotification()
+    public void CreateNotification()
     {
         if (Controlled == null || !PlayerControl.LocalPlayer || !Player.AmOwner)
         {
@@ -657,7 +656,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         ControlledFeedbackUtilities.ClearNotification(ref controllerNotification);
     }
 
-
+    
     [MethodRpc((uint)TownOfUsRpc.ParasiteControl)]
     public static void RpcParasiteControl(PlayerControl parasite, PlayerControl target)
     {
@@ -679,39 +678,20 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         Coroutines.Start(role.CoFinishControl(target));
     }
-
-    public IEnumerator CoFinishControl(PlayerControl target)
+    
+    public IController SetupController(PlayerControl target)
     {
-        var parasite = Player;
-        while (target.IsInTargetingAnimState())
-        {
-            yield return null;
-        }
-
         Controlled = target;
         _overtakeKillLockoutUntil = Time.time + OptionGroupSingleton<ParasiteOptions>.Instance.OvertakeKillCooldown;
 
-        ControlState.SetControl(target.PlayerId, parasite.PlayerId);
+        return this;
+    }
+
+    public void SetupTarget(PlayerControl target)
+    {
         if (!target.HasModifier<ParasiteInfectedModifier>())
         {
-            target.AddModifier<ParasiteInfectedModifier>(parasite);
-        }
-
-        if (target.inVent)
-        {
-            target.MyPhysics.ExitAllVents();
-        }
-
-        RemoteControlUtilities.SnapControlTarget(target, parasite);
-
-        if (parasite.AmOwner)
-        {
-            EnsureCamera();
-            var btn = CustomButtonSingleton<Buttons.Impostor.ParasiteOvertakeButton>.Instance;
-            btn.SetActive(true, this);
-            btn.StartControlEffectIfEnabled();
-            CreateNotification();
-            AdvancedMovementUtilities.ResizeMobileJoystick();
+            target.AddModifier<ParasiteInfectedModifier>(Player);
         }
     }
 
@@ -734,12 +714,22 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
     }
 
-    public void SetupLocalOnClear(PlayerControl controller)
+    public void SetupLocal(PlayerControl controller, bool onEnd)
     {
-        controller.walkingToVent = false;
-
         var btn = CustomButtonSingleton<Buttons.Impostor.ParasiteOvertakeButton>.Instance;
-        btn.SetActive(true, controller.Data.Role);
-        btn.StopControlEffectAndApplyCooldown();
+
+        btn.SetActive(true, this);
+        if (onEnd)
+        {
+            controller.walkingToVent = false;
+
+            btn.StopControlEffectAndApplyCooldown();
+        }
+        else
+        {
+            EnsureCamera();
+            btn.StartControlEffectIfEnabled();
+            AdvancedMovementUtilities.ResizeMobileJoystick();
+        }
     }
 }

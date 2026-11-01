@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -145,7 +144,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         ClearNotification();
     }
 
-    private void CreateNotification()
+    public void CreateNotification()
     {
         if (Controlled == null || !PlayerControl.LocalPlayer || !Player.AmOwner)
         {
@@ -189,41 +188,22 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         Coroutines.Start(role.CoFinishControl(target));
     }
-
-    public IEnumerator CoFinishControl(PlayerControl target)
+    
+    public IController SetupController(PlayerControl target)
     {
-        var puppeteer = Player;
-        while (target.IsInTargetingAnimState())
-        {
-            yield return null;
-        }
-
         Controlled = target;
         ControlTimer = OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
 
-        new TouAbilityEvent(AbilityType.PuppeteerControl, puppeteer, target).InvokeEvent();
+        new TouAbilityEvent(AbilityType.PuppeteerControl, Player, target).InvokeEvent();
 
-        ControlState.SetControl(target.PlayerId, puppeteer.PlayerId);
+        return this;
+    }
+
+    public void SetupTarget(PlayerControl target)
+    {
         if (!target.HasModifier<PuppeteerControlModifier>())
         {
-            target.AddModifier<PuppeteerControlModifier>(puppeteer);
-        }
-
-        if (target.inVent)
-        {
-            target.MyPhysics.ExitAllVents();
-        }
-
-        RemoteControlUtilities.SnapControlTarget(target, puppeteer);
-
-        if (puppeteer.AmOwner)
-        {
-            CustomButtonSingleton<Buttons.Impostor.PuppeteerControlButton>.Instance.SetActive(true, this);
-            CreateNotification();
-        }
-        else if (target.AmOwner && OptionGroupSingleton<PuppeteerOptions>.Instance.VictimSeesControlDirection > 0)
-        {
-            puppeteer.AddModifier<PuppeteerHintArrowModifier>(target);
+            target.AddModifier<PuppeteerControlModifier>(Player);
         }
     }
 
@@ -239,9 +219,26 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         RemoteControlUtilities.ControllerEndControl(puppeteer, target);
     }
 
-    public void SetupLocalOnClear(PlayerControl controller)
+    public void SetupLocal(PlayerControl controller, bool onEnd)
     {
         var btn = CustomButtonSingleton<Buttons.Impostor.PuppeteerControlButton>.Instance;
-        btn.ResetCooldownAndOrEffect();
+        if (onEnd)
+        {
+            btn.ResetCooldownAndOrEffect();
+        }
+        else
+        {
+            btn.SetActive(true, this);
+        }
+    }
+
+    public void SetupTargetLocal(bool onEnd)
+    {
+        if (!onEnd || OptionGroupSingleton<PuppeteerOptions>.Instance.VictimSeesControlDirection <= 0)
+        {
+            return;
+        }
+
+        Player.AddModifier<PuppeteerHintArrowModifier>(Controlled!);
     }
 }

@@ -31,7 +31,7 @@ public static class ControllerOverlayPatch
             return;
         }
 
-        if (PlayerControl.LocalPlayer.GetRemoteControl<IRemoteControl>() is not { } control ||
+        if (PlayerControl.LocalPlayer.GetRemoteControl<IRemoteControlActive>() is not { } control ||
             !control.State.IsUsingState(control.Player.PlayerId, out _, out _))
         {
             return;

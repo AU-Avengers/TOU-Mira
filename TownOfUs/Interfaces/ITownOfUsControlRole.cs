@@ -13,7 +13,7 @@ public interface ITownOfUsControlRole : ITownOfUsRole
 /// <summary>
 /// Interface for roles that interact with a <see cref="ControlState"/> and locally track their own control, too.
 /// </summary>
-public interface ITownOfUsLocalControlRole : ITownOfUsControlRole, IController
+public interface ITownOfUsLocalControlRole : ITownOfUsControlRole, IController, IControlStarter
 {
     void ClearControlLocal();
 
@@ -40,7 +40,30 @@ public interface IRemoteControl
     /// The <see cref="ControlState"/> the interation should use.
     /// </summary>
     ControlState State { get; }
-    
+}
+
+/// <summary>
+/// Interface for classes that can initiate a remote-control interaction.
+/// </summary>
+public interface IControlStarter : IRemoteControl
+{
+    bool IsValidTarget(PlayerControl target)
+    {
+        return true;
+    }
+
+    IController SetupController(PlayerControl target);
+
+    void SetupTarget(PlayerControl target);
+
+    void CreateNotification();
+}
+
+/// <summary>
+/// Interface for classes related to an already active remote-control interaction.
+/// </summary>
+public interface IRemoteControlActive : IRemoteControl
+{
     void ClearNotification();
 }
 
@@ -49,7 +72,7 @@ public interface IRemoteControl
 /// <para/>
 /// Used specifically only for modifiers given to the victim of control.
 /// </summary>
-public interface IControlledModifier : IRemoteControl, IUncontrollable
+public interface IControlledModifier : IRemoteControlActive, IUncontrollable
 {
     /// <summary>
     /// The <see cref="PlayerControl"/> remote-controlling the modifier's player.
@@ -70,7 +93,7 @@ public interface IControlledModifier : IRemoteControl, IUncontrollable
 /// <summary>
 /// Interface for classes that master the remote-control interaction.
 /// </summary>
-public interface IController : IRemoteControl
+public interface IController : IRemoteControlActive
 {
     /// <summary>
     /// The <see cref="PlayerControl"/> being remote-controlled, if any.
@@ -83,15 +106,25 @@ public interface IController : IRemoteControl
 
     /// <summary>
     /// Called only on the <paramref name="controller"/>'s client ( <c>controller.AmOwner</c> )
-    /// to configure their local state when remote control interaction ends.
+    /// to configure their local state when remote control interaction start or ends.
     /// </summary>
-    void SetupLocalOnClear(PlayerControl controller) { }
+    void SetupLocal(PlayerControl controller, bool onEnd) { }
+
+    /// <summary>
+    /// Called only on the <see cref="Controlled"/>'s client ( <c>Controlled.AmOwner</c> )
+    /// to configure their local state when remote control interaction start or ends.
+    /// </summary>
+    /// <param name="onEnd"></param>
+    void SetupTargetLocal(bool onEnd) { }
 
     /// <summary>
     /// Called to clear the <see cref="Controlled"/>'s physics state if they are found
-    /// within a vent ( <c>Controlled.inVent</c> ) when the remote control interaction ends.
+    /// within a vent ( <c>Controlled.inVent</c> ) when the remote control interaction starts or ends.
     /// </summary>
-    void ClearTargetInVent() { }
+    void ClearTargetInVent(bool onEnd)
+    {
+        Controlled?.MyPhysics.ExitAllVents();
+    }
 
     /// <summary>
     /// Called after all other cleanup is done when the remote control interaction ends,
