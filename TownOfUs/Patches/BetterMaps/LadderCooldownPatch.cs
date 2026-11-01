@@ -49,36 +49,6 @@ public static class MapLadderCooldownPatch
     }
 }
 
-[HarmonyPatch(typeof(Ladder), "get_MaxCoolDown")]
-public static class MapLadderMaxCooldownPatch
-{
-    [HarmonyPrefix]
-    public static bool Prefix(ref float __result)
-    {
-        if (!TownOfUsMapOptions.AreLadderCooldownsDisabled())
-        {
-            return true;
-        }
-
-        __result = 0.01f;
-        return false;
-    }
-}
-
-[HarmonyPatch(typeof(Ladder), "set_CoolDown")]
-public static class MapLadderSetCooldownPatch
-{
-    [HarmonyPrefix]
-    public static void Prefix(ref float value)
-    {
-        if (!TownOfUsMapOptions.AreLadderCooldownsDisabled())
-        {
-            return;
-        }
-
-        value = 0f;
-    }
-}
 
 [HarmonyPatch(typeof(Ladder), "CanUse")]
 public static class MapLadderCanUseCooldownPatch
