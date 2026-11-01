@@ -182,6 +182,8 @@ public abstract class DualControlState(Type type) : ControlState(type)
 {
     public abstract bool CanShareControl { get; }
 
+    public abstract bool ApplyToController { get; }
+
     protected readonly Dictionary<byte, bool> Actionable = [];
     private readonly Dictionary<byte, Vector2> SelfDirection = [];
 

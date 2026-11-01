@@ -89,9 +89,15 @@ public static class ControlMovementPatches
             return true;
         }
         
-        if (!ControlState.IsUsingAnyState(player.PlayerId, out _, out var isControlled, out var controlState))
+        if (!ControlState.IsUsingAnyState(player.PlayerId, out var otherId, out var isControlled, out var controlState))
         {
             return true;
+        }
+
+        if (controlState is DualControlState { ApplyToController: true } && !isControlled)
+        {
+            ApplyAllDataTo(__instance, otherId, controlState);
+            return false;
         }
 
         if (isControlled)
