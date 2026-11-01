@@ -140,6 +140,8 @@ public enum TownOfUsRpc : uint
     OfficerSyncBullets,
     SetUpCrewpostor,
     MisguessSummary,
+    ReapPlayers,
+    CollectSoul,
     // Frenzy Killers
     FrenzyRecall,
     FrenzyMarkLocation,
