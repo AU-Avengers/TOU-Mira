@@ -28,6 +28,7 @@ using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities.Appearances;
+using TownOfUs.Utilities.ControlSystem;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -453,12 +454,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         {
             HasSetMeetingColorText = false;
             var isVisible = TutorialManager.InstanceExists || PlayerControl.LocalPlayer.DiedOtherRound();
-            var controlledViewpoint = PlayerControl.LocalPlayer.Data.Role switch
-            {
-                PuppeteerRole puppeteerRole => puppeteerRole.Controlled,
-                ParasiteRole parasiteRole => parasiteRole.Controlled,
-                _ => null
-            };
+
+            var controlledViewpoint = PlayerControl.LocalPlayer.GetRemoteControl<IController>()?.Controlled;
 
             foreach (var player in PlayerControl.AllPlayerControls)
             {
