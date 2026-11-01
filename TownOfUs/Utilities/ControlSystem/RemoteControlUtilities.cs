@@ -50,6 +50,7 @@ public static class RemoteControlUtilities
         return controlled.Controller.HasDied() == isDead;
     }
 
+    [MethodRpc((uint)TownOfUsRpc.StartRemoteControl)]
     public static void RpcStartRemoteControl(PlayerControl controller, PlayerControl target)
     {
         if (LobbyBehaviour.Instance)

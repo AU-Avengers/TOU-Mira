@@ -9,6 +9,7 @@ using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
+using TownOfUs.Utilities.ControlSystem;
 
 namespace TownOfUs.Buttons.Impostor;
 
@@ -156,7 +157,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
                         return;
                     }
 
-                    PuppeteerRole.RpcPuppeteerControl(PlayerControl.LocalPlayer, plr);
+                    RemoteControlUtilities.RpcStartRemoteControl(PlayerControl.LocalPlayer, plr);
                     EffectActive = true;
                     Timer = EffectDuration;
                     KillButton.ToggleControlText(true);

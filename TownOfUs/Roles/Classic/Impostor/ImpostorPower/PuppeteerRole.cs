@@ -7,7 +7,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Impostor;
@@ -165,28 +164,6 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     public void ClearNotification()
     {
         ControlledFeedbackUtilities.ClearNotification(ref controllerNotification);
-    }
-
-    [MethodRpc((uint)TownOfUsRpc.PuppeteerControl)]
-    public static void RpcPuppeteerControl(PlayerControl puppeteer, PlayerControl target)
-    {
-        if (LobbyBehaviour.Instance)
-        {
-            MiscUtils.RunAnticheatWarning(puppeteer);
-            return;
-        }
-        if (puppeteer.Data.Role is not PuppeteerRole role)
-        {
-            Error("RpcPuppeteerControl - Invalid puppeteer");
-            return;
-        }
-
-        if (target?.Data == null || target.HasDied())
-        {
-            return;
-        }
-
-        Coroutines.Start(role.CoFinishControl(target));
     }
     
     public IController SetupController(PlayerControl target)

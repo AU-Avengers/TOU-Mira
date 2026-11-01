@@ -11,6 +11,7 @@ using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
+using TownOfUs.Utilities.ControlSystem;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
@@ -508,6 +509,6 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             return;
         }
 
-        ParasiteRole.RpcParasiteControl(PlayerControl.LocalPlayer, Target);
+        RemoteControlUtilities.RpcStartRemoteControl(PlayerControl.LocalPlayer, Target);
     }
 }

@@ -8,7 +8,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
@@ -654,29 +653,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     public void ClearNotification()
     {
         ControlledFeedbackUtilities.ClearNotification(ref controllerNotification);
-    }
-
-    
-    [MethodRpc((uint)TownOfUsRpc.ParasiteControl)]
-    public static void RpcParasiteControl(PlayerControl parasite, PlayerControl target)
-    {
-        if (LobbyBehaviour.Instance)
-        {
-            MiscUtils.RunAnticheatWarning(parasite);
-            return;
-        }
-        if (parasite.Data.Role is not ParasiteRole role)
-        {
-            Error("RpcParasiteControl - Invalid parasite");
-            return;
-        }
-
-        if (target?.Data == null || target.HasDied())
-        {
-            return;
-        }
-
-        Coroutines.Start(role.CoFinishControl(target));
     }
     
     public IController SetupController(PlayerControl target)
