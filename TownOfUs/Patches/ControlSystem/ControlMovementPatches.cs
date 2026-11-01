@@ -102,11 +102,6 @@ public static class ControlMovementPatches
 
         if (isControlled)
         {
-            if (TimeLordRewindSystem.IsRewinding)
-            {
-                return true;
-            }
-
             if (player.IsInTargetingAnimState() || player.inVent)
             {
                 return true;
@@ -118,11 +113,6 @@ public static class ControlMovementPatches
 
         if (player.HasModifierOfType<IControlledModifier>() && player.GetComponent<DummyBehaviour>() != null)
         {
-            if (TimeLordRewindSystem.IsRewinding)
-            {
-                return true;
-            }
-
             if (player.IsInTargetingAnimState() || player.inVent)
             {
                 return true;
