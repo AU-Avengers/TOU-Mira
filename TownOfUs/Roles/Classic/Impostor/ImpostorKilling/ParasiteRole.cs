@@ -26,6 +26,9 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     public ControlState State => ControlState;
 
+    public bool ControllerCouldMove => true;
+    public bool ControllerCanMove => OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
+
     [HideFromIl2Cpp] public PlayerControl? Controlled { get; set; }
     private float _overtakeKillLockoutUntil;
     private bool _killPendingFromTimer;

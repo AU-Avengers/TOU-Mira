@@ -3,6 +3,8 @@
 public enum TownOfUsRpc : uint
 {
     SendClientModInfo,
+    ControlDirectionUnreliable,
+    ControlStateUnreliable,
     FullControlInputUnreliable,
     GhostRoleMurder,
     SpecialMurder,

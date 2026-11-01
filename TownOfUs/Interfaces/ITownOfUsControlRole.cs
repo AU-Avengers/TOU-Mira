@@ -75,6 +75,10 @@ public interface IRemoteControlActive : IRemoteControl
     /// The <see cref="PlayerControl"/> being remote-controlled, if any.
     /// </summary>
     PlayerControl? Controlled { get; }
+
+    bool ControllerCouldMove => false;
+
+    bool ControllerCanMove => false;
 }
 
 /// <summary>
