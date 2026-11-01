@@ -4,7 +4,7 @@ using TownOfUs.Modules;
 using TownOfUs.Modules.ControlSystem;
 using UnityEngine;
 
-namespace TownOfUs.Networking;
+namespace TownOfUs.Networking.ControlSystem;
 
 public interface ITargetDataPacket
 {

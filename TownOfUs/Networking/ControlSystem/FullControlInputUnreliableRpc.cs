@@ -3,7 +3,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Networking.Extensions;
 using UnityEngine;
 
-namespace TownOfUs.Networking;
+namespace TownOfUs.Networking.ControlSystem;
 
 internal readonly record struct FullControlInputPacket(byte TargetId, Vector2 Direction, Vector2 Position, bool InAnim, Vector2 Velocity)
     : IMovementStateDataPacket, IDirectionDataPacket;

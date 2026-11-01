@@ -2,7 +2,7 @@
 using MiraAPI.GameOptions;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modules;
-using TownOfUs.Networking;
+using TownOfUs.Networking.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;

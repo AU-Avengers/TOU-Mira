@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modules;
-using TownOfUs.Networking;
+using TownOfUs.Networking.ControlSystem;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
 using static TownOfUs.Patches.ControlSystem.ControlMovementPatches;
