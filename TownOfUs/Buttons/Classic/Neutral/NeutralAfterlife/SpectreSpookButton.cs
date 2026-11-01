@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class PhantomSpookButton : TownOfUsButton
+public sealed class SpectreSpookButton : TownOfUsButton
 {
     public override string Name => MiraLocaleManager.Get("TownOfUsMira.Role.SpectreSpook", "Spook");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;

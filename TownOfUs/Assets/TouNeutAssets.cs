@@ -38,6 +38,12 @@ public static class TouNeutAssets
     public static LoadableAsset<Sprite> JesterVentSprite { get; } =
         new LoadableBundleSubAsset("JesterVentButton", TouAssets.AbilityHolder);
 
+    public static LoadableAsset<Sprite> CollectEmptySprite { get; } =
+        new LoadableBundleSubAsset("CollectEmptyButton", TouAssets.AbilityHolder);
+
+    public static LoadableAsset<Sprite> CollectSprite { get; } =
+        new LoadableBundleSubAsset("CollectButton", TouAssets.AbilityHolder);
+
     public static LoadableAsset<Sprite> PhantomSpookSprite { get; } =
         new LoadableBundleSubAsset("PhantomSpookButton", TouAssets.AbilityHolder);
 

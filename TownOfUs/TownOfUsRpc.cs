@@ -146,6 +146,8 @@ public enum TownOfUsRpc : uint
     DuelistResolveDuel,
     DuelistStartDuel,
     DuelistStrike,
+    ReapPlayers,
+    CollectSoul,
     // Frenzy Killers
     FrenzyRecall,
     FrenzyMarkLocation,

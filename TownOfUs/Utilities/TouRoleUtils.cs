@@ -103,7 +103,7 @@ public static class TouRoleUtils
     public static bool CanGetGhostRole(this PlayerControl player)
     {
         return !player.HasModifier<BasicGhostModifier>()
-               && player.Data.Role is not SpectatorRole and not IGhostRole
+               && player.Data.Role is not SpectatorRole and not IBasicGhostRole
                && player.Data.Role.Role is not RoleTypes.GuardianAngel and not RoleTypes.SpiritGuide;
     }
 

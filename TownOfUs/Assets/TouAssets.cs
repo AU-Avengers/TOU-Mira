@@ -172,8 +172,20 @@ public static class TouAssets
     public static LoadableAsset<GameObject> WraithRobe { get; } =
         new LoadableBundleAsset<GameObject>("WraithCosmetic", MainBundle);
 
+    public static LoadableAsset<AnimationClip> WraithScareRobeAnim { get; } =
+        new LoadableBundleAsset<AnimationClip>("WraithScareRobeAnim", MainBundle);
+
+    public static LoadableAsset<AnimationClip> WraithScareHandsAnim { get; } =
+        new LoadableBundleAsset<AnimationClip>("WraithScareHandsAnim", MainBundle);
+
+    public static LoadableAsset<AnimationClip> WraithHandsAnim { get; } =
+        new LoadableBundleAsset<AnimationClip>("WraithHandsAnim", MainBundle);
+
     public static LoadableAsset<Sprite> JailorPlayerSprite { get; } =
         new LoadableBundleAsset<Sprite>("JailorPlayer", MainBundle);
+
+    public static LoadableAsset<Sprite> SpellslingerPlayerSprite { get; } =
+        new LoadableBundleAsset<Sprite>("SpellslingerPlayer", MainBundle);
 
     public static LoadableAsset<GameObject> ParasiteOverlay { get; } =
         new LoadableBundleAsset<GameObject>("ParasiteOverlayObj", MainBundle);

@@ -180,6 +180,7 @@
   <string name="Violet">Violet</string>
   <string name="Denim">Denim</string>
   <string name="CottonCandy">Cotton Candy</string>
+    <string name="DryRed">Dry Red</string>
   <string name="Rainbow">Rainbow</string>
   <!-- Terms used in-game and in the wiki -->
     <string name="BackButtonText">Back</string>
@@ -1839,6 +1840,18 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Role.AmbassadorYouHaveAccepted">You have accepted your retraining into the [newRole]!</string>
   <string name="TownOfUsMira.Role.AmbassadorPlayerHasBeenRetrained">[player] has now been retrained into [newRole]!</string>
   <string name="TownOfUsMira.Role.AmbassadorNeedKills">You or the impostor you are trying to retrain must have at least [requiredKills] kills.</string>
+    <!-- Wraith - Impostor Afterlife -->
+    <!-- Wraith Wiki / Description -->
+    <string name="TownOfUsMira.Role.Wraith">Wraith</string>
+    <string name="TownOfUsMira.Role.Wraith.MedDescription">Scare the Crewmates to death beyond the grave.</string>
+    <string name="TownOfUsMira.Role.Wraith.IntroBlurb">Scare the Crewmates to death!</string>
+    <string name="TownOfUsMira.Role.Wraith.TabDescription">Scare a group of Crewmates [amount] times to kill them slowly!
+Once all impostors die, you will become clickable.</string>
+    <string name="TownOfUsMira.Role.Wraith.TabDetails">Rounds Remaining: [roundCount]
+Successful Scares: [scareCount]/[scareTotal]</string>
+    <string name="TownOfUsMira.Role.Wraith.WikiDescription">The Wraith is an Impostor Ghost that can aid their teammates after death if they are killed by means other than a vote. They will only exist for a set amount of rounds or after they scare enough players. Once a player is scared enough times, they will be consumed by fear and die at the end of some meeting.</string>
+    <string name="TownOfUsMira.Role.Wraith.Scare">Scare</string>
+    <string name="TownOfUsMira.Role.Wraith.Scare.Description">Scare a group of players to try and install enough fear to mark them for death.</string>
   <!-- Ambusher Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Ambusher">Ambusher</string>
   <string name="TownOfUsMira.Role.Ambusher.IntroBlurb">Kidnap Crewmates into the shadows</string>
@@ -2617,9 +2630,34 @@ then bribe the winners!</string>
   <string name="TouOptionPlaguebearerAnnounceTransformation">Announce Pestilence Transformation</string>
   <string name="TouOptionPlaguebearerPestilenceKillCooldown">Pestilence Kill Cooldown</string>
   <string name="TouOptionPlaguebearerPestilenceCanVent">Pestilence Can Vent</string>
+    <!-- Soul Collector -->
+    <!-- Soul Collector Wiki / Abilities -->
+    <string name="TownOfUsMira.Role.SoulCollector">Soul Collector</string>
+    <string name="TownOfUsMira.Role.SoulCollector.IntroBlurb">Collect souls to become [color=#4C4C54FF]Death[/color]</string>
+    <string name="TownOfUsMira.Role.SoulCollector.MedDescription">Reap and collect souls to become Death itself.</string>
+    <string name="TownOfUsMira.Role.SoulCollector.TabDescription">Reap and collect souls of Crewmates to become [color=#4C4C54FF]Death[/color]</string>
+    <string name="TownOfUsMira.Role.SoulCollectorTabSoulCounter">Collected Souls: [count]/[total]</string>
+    <string name="TownOfUsMira.Role.SoulCollectorTabReapInfo">Players Reaped This Round:</string>
+    <string name="TownOfUsMira.Role.SoulCollector.WikiDescription">The Soul Collector is a Neutral Evil role that reaps players to eventually collect their souls and become Death.</string>
+    <string name="TownOfUsMira.Role.SoulCollectorReap">Reap</string>
+    <string name="TownOfUsMira.Role.SoulCollectorReap.WikiDescription">Reap multiple players close to you to retrieve their souls later. If a certain amount of reaped players are alive, a passive soul is granted.</string>
+    <string name="TownOfUsMira.Role.SoulCollectorCollect">Collect</string>
+    <string name="TownOfUsMira.Role.SoulCollectorCollect.WikiDescription">Collect the soul out of a dead body if they were previously reaped.</string>
+    <!-- Death -->
+    <!-- Death Wiki / Description -->
+    <string name="TownOfUsMira.Role.Death">Death</string>
+    <string name="TownOfUsMira.Role.Death.IntroBlurb">Horseman of the Apocalypse!</string>
+    <string name="TownOfUsMira.Role.Death.TabDescription">Survive long enough to collect the souls of the living.</string>
+    <string name="TownOfUsMira.Role.DeathYouAreText">You Are</string>
+    <string name="TownOfUsMira.Role.Death.WikiDescription">The Death is a Neutral Evil role that must survive one single meeting after transforming in order to win.</string>
+    <string name="TownOfUsMira.Role.DeathMessageTitle">Death Warning</string>
+    <string name="TownOfUsMira.Role.DeathAnnounceMessage">The dead have been strained of their souls.
+[role], Horseman of the Apocalypse, has transformed!</string>
+    <string name="TownOfUsMira.Role.DeathAnnounceMessage.InstaWin">If they survive this meeting, everyone will suffer the consequences and perish.</string>
+    <string name="TownOfUsMira.Role.DeathAnnounceMessage.OneRoundWin">If they survive this meeting, they will leave and win solo after the next meeting.</string>
+    <string name="TownOfUsMira.Role.DeathAnnounceMessage.MultiRoundWin">If they survive this meeting, they will leave and win solo after the next [amount] meetings.</string>
   <!-- Medusa -->
     <!-- Medusa Wiki / Abilities -->
-    <string name="TownOfUsMira.Role.SoulCollector">Soul Collector</string>
   <string name="TownOfUsMira.Role.Medusa">Medusa</string>
   <string name="TownOfUsMira.Role.Medusa.IntroBlurb">Petrify the Crewmates into stone.</string>
   <string name="TownOfUsMira.Role.Medusa.TabDescription">Stone players into permanent statues.</string>

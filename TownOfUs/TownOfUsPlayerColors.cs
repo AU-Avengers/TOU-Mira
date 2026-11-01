@@ -239,6 +239,13 @@ public static class TownOfUsPlayerColors
         ColorBrightness = CustomColorBrightness.Lighter
     };
 
+    public static CustomColor DryRed { get; } = new("DryRed",
+        new Color32(60, 0, 10, byte.MaxValue),
+        new Color32(31, 0, 15, byte.MaxValue))
+    {
+        ColorBrightness = CustomColorBrightness.Darker
+    };
+
     public static VariableColor Rainbow { get; } = new("Rainbow", t => new HsbColor(MathUtilities.PingPong(t, 1f, 0.2f), 1f, 1f), null, new Color32(20, 140, 20, 255), new Color32(30, 120, 50, 255))
     {
         ColorBrightness = CustomColorBrightness.Lighter,

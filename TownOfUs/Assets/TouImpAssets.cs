@@ -103,6 +103,18 @@ public static class TouImpAssets
     public static LoadableAsset<Sprite> HerbProtectSprite { get; } =
         new LoadableBundleSubAsset("HerbProtectButton", TouAssets.AbilityHolder);
 
+    public static LoadableAsset<Sprite> HerbConfuseNextSprite { get; } =
+        new LoadableBundleSubAsset("HerbConfuseNextButton", TouAssets.AbilityHolder);
+
+    public static LoadableAsset<Sprite> HerbExposeNextSprite { get; } =
+        new LoadableBundleSubAsset("HerbExposeNextButton", TouAssets.AbilityHolder);
+
+    public static LoadableAsset<Sprite> HerbProtectNextSprite { get; } =
+        new LoadableBundleSubAsset("HerbProtectNextButton", TouAssets.AbilityHolder);
+
+    public static LoadableAsset<Sprite> HerbKillNextSprite { get; } =
+        new LoadableBundleSubAsset("HerbKillNextButton", TouAssets.AbilityHolder);
+
     public static LoadableAsset<Sprite> DrinkRoleblockSprite { get; } =
         new LoadableBundleSubAsset("WineRoleblockButton", TouAssets.AbilityHolder);
 
