@@ -13,9 +13,6 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Options;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Crewmate;
-using TownOfUs.Roles.Impostor;
-using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
 namespace TownOfUs.Events;

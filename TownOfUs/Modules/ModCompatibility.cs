@@ -127,9 +127,21 @@ public static class ModCompatibility
     public static BasePlugin ApiPlugin { get; private set; }
     public static Assembly ApiAssembly { get; private set; }
     public static Type[] ApiTypes { get; private set; }
+    const string GcFix = "Il2CppInteropGcFix";
 
     public static void Initialize()
     {
+        if (!TownOfUsPlugin.IsMobile && AppDomain.CurrentDomain.GetAssemblies().All(assembly => assembly.GetName().Name != GcFix))
+        {
+            var text =
+                $"{GcFix} is missing from the directory \"BepInEx/patchers/\"! Expect UI and gameplay to potentially break, if not outright crash.";
+            Error(text);
+            Warning(text);
+            Error(text);
+            Warning(text);
+            Error(text);
+            Warning(text);
+        }
         InitApiExposing();
         InitBetterAmongUs();
         InitSubmerged();

@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
@@ -9,7 +8,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class WraithScareButton : TownOfUsRoleButton<WraithRole, PlayerControl>
 {
-    public override string Name => TouLocale.GetParsed("TouRoleWraithScare", "Scare");
+    public override string Name => MiraLocaleManager.Get("TouRoleWraithScare", "Scare");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => OptionGroupSingleton<WraithOptions>.Instance.ScareCooldown.Value;

@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class WraithOptions : AbstractOptionGroup<WraithRole>
 {
-    public override string GroupName => TouLocale.Get("TouRoleWraith", "Wraith");
+    public override string GroupName => MiraLocaleManager.Get("TouRoleWraith", "Wraith");
 
     public ModdedNumberOption ScareUses { get; } =
         new($"Scare Uses", 10, 3, 15, 1f, "#", "∞", MiraNumberSuffixes.None, "0")
