@@ -690,14 +690,14 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
     }
 
-    public void SetupLocal(PlayerControl controller, bool onEnd)
+    public void SetupLocal(bool onEnd)
     {
         var btn = CustomButtonSingleton<Buttons.Impostor.ParasiteOvertakeButton>.Instance;
 
         btn.SetActive(true, this);
         if (onEnd)
         {
-            controller.walkingToVent = false;
+            Player.walkingToVent = false;
 
             btn.StopControlEffectAndApplyCooldown();
         }

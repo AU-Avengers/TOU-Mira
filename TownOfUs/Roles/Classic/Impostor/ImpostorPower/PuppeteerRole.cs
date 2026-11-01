@@ -196,7 +196,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         RemoteControlUtilities.ControllerEndControl(puppeteer, target);
     }
 
-    public void SetupLocal(PlayerControl controller, bool onEnd)
+    public void SetupLocal(bool onEnd)
     {
         var btn = CustomButtonSingleton<Buttons.Impostor.PuppeteerControlButton>.Instance;
         if (onEnd)

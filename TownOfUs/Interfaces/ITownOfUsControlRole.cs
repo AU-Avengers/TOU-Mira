@@ -65,6 +65,16 @@ public interface IControlStarter : IRemoteControl
 public interface IRemoteControlActive : IRemoteControl
 {
     void ClearNotification();
+
+    /// <summary>
+    /// The <see cref="PlayerControl"/> remote-controlling the modifier's player.
+    /// </summary>
+    PlayerControl Controller { get; }
+
+    /// <summary>
+    /// The <see cref="PlayerControl"/> being remote-controlled, if any.
+    /// </summary>
+    PlayerControl? Controlled { get; }
 }
 
 /// <summary>
@@ -74,10 +84,7 @@ public interface IRemoteControlActive : IRemoteControl
 /// </summary>
 public interface IControlledModifier : IRemoteControlActive, IUncontrollable
 {
-    /// <summary>
-    /// The <see cref="PlayerControl"/> remote-controlling the modifier's player.
-    /// </summary>
-    PlayerControl Controller { get; }
+    PlayerControl? IRemoteControlActive.Controlled => Player;
 
     /// <summary>
     /// Whether the <see cref="Controller"/> is dead while controlling.
@@ -95,30 +102,27 @@ public interface IControlledModifier : IRemoteControlActive, IUncontrollable
 /// </summary>
 public interface IController : IRemoteControlActive
 {
-    /// <summary>
-    /// The <see cref="PlayerControl"/> being remote-controlled, if any.
-    /// </summary>
-    PlayerControl? Controlled { get; }
+    PlayerControl IRemoteControlActive.Controller => Player;
 
     void UpdateOverlay() { }
 
     void ClearOnEnd();
 
     /// <summary>
-    /// Called only on the <paramref name="controller"/>'s client ( <c>controller.AmOwner</c> )
+    /// Called only on the <see cref="IRemoteControlActive.Controller"/>'s client ( <c>Controller.AmOwner</c> )
     /// to configure their local state when remote control interaction start or ends.
     /// </summary>
-    void SetupLocal(PlayerControl controller, bool onEnd) { }
+    void SetupLocal(bool onEnd) { }
 
     /// <summary>
-    /// Called only on the <see cref="Controlled"/>'s client ( <c>Controlled.AmOwner</c> )
+    /// Called only on the <see cref="IRemoteControlActive.Controlled"/>'s client ( <c>Controlled.AmOwner</c> )
     /// to configure their local state when remote control interaction start or ends.
     /// </summary>
     /// <param name="onEnd"></param>
     void SetupTargetLocal(bool onEnd) { }
 
     /// <summary>
-    /// Called to clear the <see cref="Controlled"/>'s physics state if they are found
+    /// Called to clear the <see cref="IRemoteControlActive.Controlled"/>'s physics state if they are found
     /// within a vent ( <c>Controlled.inVent</c> ) when the remote control interaction starts or ends.
     /// </summary>
     void ClearTargetInVent(bool onEnd)

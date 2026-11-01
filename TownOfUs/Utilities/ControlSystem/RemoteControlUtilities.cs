@@ -107,7 +107,7 @@ public static class RemoteControlUtilities
         if (controller.AmOwner)
         {
             starter.CreateNotification();
-            control.SetupLocal(controller, false);
+            control.SetupLocal(false);
         }
         else if (target.AmOwner)
         {
@@ -166,7 +166,7 @@ public static class RemoteControlUtilities
 
         if (controller.AmOwner)
         {
-            control.SetupLocal(controller, true);
+            control.SetupLocal(true);
         }
         else if (target.AmOwner)
         {
