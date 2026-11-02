@@ -189,7 +189,7 @@ Fałszywe Zadania:</string>
   <string name="CrewmateAlliance">Sojusz Załoganta</string>
   <string name="CrewmateUtility">Załoganta Użytkowy</string>
   <string name="CrewmateVisibility">Załoganta Widoczny</string>
-  <string name="CrewmatePostmortem"></string>
+  <string name="CrewmatePostmortem"/>
   <string name="CrewmatePassive">Załoganta Pasywny</string>
   <string name="ReverseSkeldMapName">dlekS</string>
   <string name="ReverseSkeldMapTooltip">ehT dlekS: rozmiarowo średni statek który znasz i (może) uwielbiasz, ale odwrócony!</string>
@@ -870,7 +870,7 @@ zobaczyć czy byli przy zabójstwie.</string>
   <string name="GameOutlier">Odrzutek Gry</string>
   <string name="NeutralUtility">Neutralny Użytkowy</string>
   <string name="NeutralVisibility">Neutralny Widoczny</string>
-  <string name="NeutralPostmortem"></string>
+  <string name="NeutralPostmortem"/>
   <string name="TownOfUsMira.Role.Bootlegger">Szmugler</string>
   <string name="TownOfUsMira.Role.Bootlegger.IntroBlurb">Upij Załogę aby ich zatrzymać.</string>
   <string name="TownOfUsMira.Role.Bootlegger.TabDescription">Upij załoganta, aby zablokować jego umiejętności na [blockTime]s.
@@ -1406,7 +1406,7 @@ Spraw, że będą wierzyć w to co nie prawdziwe.</string>
   <string name="ImpostorAlliance">Sojusz Intruza</string>
   <string name="ImpostorUtility">Intruza Użytkowy</string>
   <string name="ImpostorVisibility">Intruza Widoczny</string>
-  <string name="ImpostorPostmortem"></string>
+  <string name="ImpostorPostmortem"/>
   <string name="ImpostorPassive">Intruza Pasywny</string>
   <string name="TownOfUsMira.Role.Hunter.MedDescription">Śledź innych by móc ich zabić jeśli użyją umiejętności w danym czasie.</string>
   <string name="TownOfUsMira.Role.Hunter.ShameNotification">Łowca [player] odszedł w hańbie przez zabicie jednego z Załogantów.</string>
@@ -1570,4 +1570,66 @@ Przynajmniej połowa niewinnych graczy musi być w kampanii, aby móc się ujawn
   <string name="TownOfUsMira.Role.PoliticianFailedRevealCanCampaign">Musisz dodać więcej Załogi do swojej kampanii! Nie możesz ujawnić się ponownie na tym spotkaniu.</string>
   <string name="TownOfUsMira.Role.PoliticianFailedRevealCannotCampaign">Musisz dodać więcej Załogi do swojej kampanii! Jednak przez nieudane ujawnienie, nie możesz prowadzić kampanii w następnej rundzie.</string>
   <string name="TownOfUsMira.Role.PoliticianFeedbackText">Informacja Polityka</string>
+  <string name="TownOfUsMira.Role.AmbassadorNoRolesAvailable">Brak dostępnych ról dla tego gracza.</string>
+  <string name="TownOfUsMira.Role.AmbusherPursueNotif">Nękasz [player]. Osacz kogokolwiek blisko niego kiedy tylko zechcesz.</string>
+  <string name="TouOptionBootleggerPoisonTriggersOn">Wywołanie Trucizny Po</string>
+  <string name="TouOptionBootleggerPoisonTriggerEnumDelayEnd">Opóźnieniu</string>
+  <string name="TouOptionBootleggerPoisonTriggerEnumMeetingStart">Początku Spotkania</string>
+  <string name="TouOptionBootleggerPoisonTriggerEnumMeetingEnd">Końcu Spotkania</string>
+  <string name="TouOptionBootleggerPoisonDelay">Opóźnienie Trucizny</string>
+  <string name="TownOfUsMira.Achievement.HappyCustomers.Description">Umrzyj wygranym po dokonaniu swojego celu jako Kuchcik.</string>
+  <string name="TouPerfectCommsMuffleBlindedOrFlashedHearingDescription">Tłumi wszelkie głosy podczas zadań dla graczy zamroczonych przez Zaćmieniacza bądź oślepionych przez Grenadiera.</string>
+  <string name="TownOfUsMira.Role.ExecutionerTormentNotif">Kat zadręczył [victim] aż do grobu!</string>
+  <string name="TownOfUsMira.Modifier.GuardianAngelProtectedDescription">Jesteś chroniony przez twoją Wróżkę!
+Nie można cię zabić.</string>
+  <string name="TownOfUsMira.Role.Glitch.MedDescription">Hakuj Załogantów by wyłączyć ich umiejętności.
+Imituj się w innych aby ich wrobić.</string>
+  <string name="TownOfUsMira.Achievement.Anomaly.Description">Zostań zhakowany jako Glicz.</string>
+  <string name="TouOptionGlitchCanVentEnumNever">Nigdy</string>
+  <string name="TouOptionGlitchCanVentEnumUnlessMimicking">O Ile Nie Imituje</string>
+  <string name="TouOptionGlitchCanVentEnumAlways">Zawsze</string>
+  <string name="TouPerfectCommsMuteGlitchHackedDescription">Uniemożliwia osobie wydawanie dźwięków podczas bycia Hakowanym przez Glicza.</string>
+  <string name="TouOptionGrenadierAllowFlashingDuringSabotage">Oślepianie Podczas Sabotaży</string>
+  <string name="TownOfUsMira.Achievement.Poltergeist.Description">Ujawnij złoli jako Nawiedzacz.</string>
+  <string name="TouOptionHerbalistHerbCooldown">Cooldown Zioła</string>
+  <string name="TouOptionHerbalistMaxExposeUses">Maks Ilość Użyć Ujawnień</string>
+  <string name="TouOptionHerbalistMaxConfuseUses">Maks Ilość Użyć Zmyleń</string>
+  <string name="TouOptionHerbalistMaxProtectUses">Maks Ilość Użyć Ochron</string>
+  <string name="TouOptionHerbalistConfuseDelay">Opóźnienie Zmylenia</string>
+  <string name="TouOptionHerbalistConfuseDuration">Czas Trwania Zmylenia</string>
+  <string name="TouOptionHerbalistProtectDuration">Czas Trwania Ochrony</string>
+  <string name="TouOptionHerbalistNotifyUponAttack">Powiadom Herbaliste O Ataku</string>
+  <string name="TownOfUsMira.Role.HypnotistMassHysteriaLong">Masowa Histeria</string>
+  <string name="TownOfUsMira.Role.Inquisitor.MedDescription">Znajdź osoby posiadające dane ci role.
+W ostateczności pokonaj ich aby wygrać.</string>
+  <string name="TownOfUsMira.Role.Inquisitor.TabDescription">Pokonaj swoich Heretyków bądź spraw aby umarli.
+Wygrasz jeżeli każdy heretyk umrze.
+Jeżeli będą oni martwi po skończonym spotkaniu,
+umrzesz i ogłosisz swoją wygraną</string>
+  <string name="TownOfUsMira.Role.InquisitorTabAddition">Role twoich Heretyków:</string>
+  <string name="TownOfUsMira.Role.Inquisitor.WikiDescription">Inkwizytor jest Neutralnym Odrzutkiem wygrywającym gdy jego cele (Heretycy) umrą. Jedyne dane mu informacje to ich role, i to Inkwizytor musi rozpoznać tych graczy (oznaczonych symbolem [symbol] dla martwych) i za wszelką cenę się ich pozbyć.</string>
+  <string name="TownOfUsMira.Role.InquisitorInquireNotif">Będziesz wiedział czy [player] jest heretykiem na następnym spotkaniu.</string>
+  <string name="TownOfUsMira.Role.InquisitorMessageTitle">Raport Inkwizytora</string>
+  <string name="TownOfUsMira.Role.InquisitorInquiredHeretic">Twoja analiza ujawniła że [player] jest heretykiem!</string>
+  <string name="TownOfUsMira.Role.InquisitorInquiredNonHeretic">Twoja analiza ujawniła że [player] nie jest heretykiem!</string>
+  <string name="TownOfUsMira.Role.InquisitorVictoryMessage">[role], [player], wygrał grę, gdyż wszyscy Heretycy umarli!</string>
+  <string name="TownOfUsMira.Role.InquisitorVictoryMessageSelf">Udało ci się wygrać jako [role], gdyż wszyscy Heretycy umarli!</string>
+  <string name="TownOfUsMira.Role.InquisitorInquire">Analizuj</string>
+  <string name="TownOfUsMira.Role.InquisitorInquire.WikiDescription">Przeanalizuj gracza, co na spotkaniu powie ci czy jest on jednym z twoich celów.</string>
+  <string name="TouOptionInquisitorCantInquire">Inkwizytor Nie Może Analizować</string>
+  <string name="TouOptionInquisitorInquireCooldown">Cooldown Analizowania</string>
+  <string name="TouOptionInquisitorMaxInquiries">Maks Ilość Analizowań</string>
+  <string name="TownOfUsMira.Role.InquisitorVanquish">Pokonaj</string>
+  <string name="TownOfUsMira.Role.InquisitorVanquish.WikiDescription">Pokonaj gracza by go zabić. Jeżeli będzie heretykiem, dowiesz się o tym i będziesz mógł pokonywać dalej. Jednakże jeżeli ofiara okaże się nie być heretykiem, stracisz możliwość pokonywania do końca gry.</string>
+  <string name="TouOptionInquisitorVanquishCooldown">Cooldown Pokonywania</string>
+  <string name="TouOptionInquisitorRoundOneVanquish">Pozwalaj Na Pokonywanie w Pierwszej Rundzie</string>
+  <string name="TouOptionInquisitorContinuesGame">Inkwizytor Kontynuuje Grę W Finalnej 3</string>
+  <string name="TouOptionInquisitorHereticAmount">Ilość Potrzebnych Heretyków</string>
+  <string name="TownOfUsMira.Role.InquisitorHereticPerished">Heretyk umarł!</string>
+  <string name="TownOfUsMira.Role.InquisitorWrongTarget">[player] nie był heretykiem!
+Nie możesz już pokonywać graczy.</string>
+  <string name="TownOfUsMira.Role.InquisitorCorrectTarget">[player] był heretykiem!</string>
+  <string name="TownOfUsMira.Role.InquisitorWonSelf">Udało ci się wygrać jako [role], gdyż wszyscy Heretycy umarli!</string>
+  <string name="TownOfUsMira.Role.InquisitorWonOther">[role], [player], wygrał grę, gdyż wszyscy Heretycy umarli!</string>
+  <string name="TownOfUsMira.Achievement.Lazybones.Description">Wygraj jako Inkwizytor nie używając żadnych umiejętności.</string>
 </resources>
