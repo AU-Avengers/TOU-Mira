@@ -1,4 +1,5 @@
-﻿using MiraAPI.Modifiers;
+﻿using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Modifiers;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using System.Collections;
@@ -78,6 +79,7 @@ public static class RemoteControlUtilities
         Coroutines.Start(starter.CoFinishControl(target));
     }
 
+    [HideFromIl2Cpp]
     public static IEnumerator CoFinishControl(this IControlStarter starter, PlayerControl target)
     {
         var controller = starter.Player;
