@@ -6,6 +6,7 @@ jobs:
   build:
     permissions:
       id-token: write  # enable GitHub OIDC token issuance for this job
+      contents: read    # allows action to read repository?
     runs-on: ubuntu-22.04
     steps:
 
