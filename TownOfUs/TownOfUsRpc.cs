@@ -162,6 +162,7 @@ public enum TownOfUsRpc : uint
     DraftEnd,
     DraftCreateNotif,
     DraftBroadcastRecap,
+    DraftShuffleLimitedNotification,
 }
 
 internal enum TownOfUsInternalRpc : uint

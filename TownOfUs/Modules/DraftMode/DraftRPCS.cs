@@ -258,6 +258,27 @@ public sealed class DraftPickConfirmedRpc(TownOfUsPlugin plugin, uint id)
     }
 }
 
+[RegisterCustomRpc((uint)TownOfUsRpc.DraftShuffleLimitedNotification)]
+public sealed class DraftShuffleLimitedNotificationRpc(TownOfUsPlugin plugin, uint id)
+    : PlayerCustomRpc<TownOfUsPlugin, byte>(plugin, id)
+{
+    public override RpcLocalHandling LocalHandling => RpcLocalHandling.Before;
+
+    public override void Write(MessageWriter writer, byte data)
+    {
+        writer.Write(data);
+    }
+
+    public override byte Read(MessageReader reader) => reader.ReadByte();
+
+    public override void Handle(PlayerControl innerNetObject, byte data)
+    {
+        if (innerNetObject == null || innerNetObject.OwnerId != AmongUsClient.Instance.HostId) return;
+
+        DraftNetworkHelper.ShowShuffleLimitedNotification();
+    }
+}
+
 public static class DraftNetworkHelper
 {
     public static void BroadcastStart(Dictionary<byte, int> playerSlots)
@@ -314,6 +335,37 @@ public static class DraftNetworkHelper
             DraftEngine.RequestShuffle(PlayerControl.LocalPlayer.PlayerId);
         else
             DraftRpcs.RpcRequestShuffle(PlayerControl.LocalPlayer);
+    }
+
+    public static void NotifyShuffleLimited(byte playerId)
+    {
+        if (playerId == PlayerControl.LocalPlayer.PlayerId)
+        {
+            ShowShuffleLimitedNotification();
+            return;
+        }
+
+        var player = MiscUtils.PlayerById(playerId);
+        var client = player != null ? AmongUsClient.Instance.GetClient(player.OwnerId) : null;
+        if (client == null)
+        {
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                $"[DraftEngine] Could not notify picker {playerId} that their shuffle was limited");
+            return;
+        }
+
+        Rpc<DraftShuffleLimitedNotificationRpc>.Instance.SendTo(
+            PlayerControl.LocalPlayer, client.Id, 0);
+    }
+
+    public static void ShowShuffleLimitedNotification()
+    {
+        var message = MiraLocaleManager.Get(
+            "TouDraftShuffleLimitedNotif",
+            "Not all picks could be replaced because there aren't enough new roles available.");
+        var notification = Helpers.CreateAndShowNotification(message, Color.white,
+            new Vector3(0f, 1f, -80f), spr: TouImpAssets.TraitorSelect);
+        notification?.AdjustNotification();
     }
 
     public static void BroadcastCancelDraft()

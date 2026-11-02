@@ -126,6 +126,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public string BodyReportTitle => $"<color=#{TownOfUsColors.Forensic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.ForensicMessageTitle")}</color>";
 
+    [HideFromIl2Cpp]
     public string ParseReport(BodyReport br)
     {
         string text;

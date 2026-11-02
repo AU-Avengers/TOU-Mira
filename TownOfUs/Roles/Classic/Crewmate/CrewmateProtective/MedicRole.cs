@@ -236,6 +236,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public string BodyReportTitle => $"<color=#{TownOfUsColors.Medic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.MedicMessageTitle")}</color>";
 
+    [HideFromIl2Cpp]
     public string ParseReport(BodyReport br)
     {
         var reportColorDuration = OptionGroupSingleton<MedicOptions>.Instance.MedicReportColorDuration;
