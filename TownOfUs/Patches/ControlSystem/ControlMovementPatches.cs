@@ -122,7 +122,7 @@ public static class ControlMovementPatches
 
     public static void GetControlledMovementState(this PlayerControl player, out Vector2 position, out bool inAnim, out Vector2 velocity)
     {
-        inAnim = player.IsInTargetingAnimState() || player.inVent;
+        inAnim = player.IsInAnimState();
 
         velocity = inAnim && player.MyPhysics?.body != null
             ? player.MyPhysics.body.velocity
@@ -192,7 +192,7 @@ public static class ControlMovementPatches
 
                 if (!applyToController)
                 {
-                    if (couldMoveIndependently && (Minigame.Instance || player.IsInTargetingAnimState() || player.inVent))
+                    if (couldMoveIndependently && (Minigame.Instance || player.IsInAnimState()))
                     {
                         return true;
                     }
@@ -213,7 +213,7 @@ public static class ControlMovementPatches
 
         if (isControlled)
         {
-            if (player.IsInTargetingAnimState() || player.inVent)
+            if (player.IsInAnimState())
             {
                 return true;
             }
@@ -224,7 +224,7 @@ public static class ControlMovementPatches
 
         if (player.HasModifierOfType<IControlledModifier>() && player.GetComponent<DummyBehaviour>() != null)
         {
-            if (player.IsInTargetingAnimState() || player.inVent)
+            if (player.IsInAnimState())
             {
                 return true;
             }
@@ -296,7 +296,7 @@ public static class ControlMovementPatches
             return true;
         }
 
-        if (player.IsInTargetingAnimState() || player.inVent)
+        if (player.IsInAnimState())
         {
             return true;
         }

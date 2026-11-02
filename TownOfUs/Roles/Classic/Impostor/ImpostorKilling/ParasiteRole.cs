@@ -550,11 +550,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        if (target.IsInTargetingAnimState() ||
-            target.inVent ||
-            target.inMovingPlat ||
-            target.onLadder ||
-            target.walkingToVent)
+        if (target.IsInAnimState())
         {
             _killPendingFromTimer = true;
             return;
