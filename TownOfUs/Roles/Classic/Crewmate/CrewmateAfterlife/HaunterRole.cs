@@ -19,6 +19,7 @@ using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using UnityEngine.UI;
+using Il2CppInterop.Runtime.Attributes;
 
 // using Reactor.Utilities.Extensions;
 
@@ -26,6 +27,7 @@ namespace TownOfUs.Roles.Crewmate;
 
 public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable
 {
+    [HideFromIl2Cpp]
     public List<PlayerControl> GetAvailableGhosts(List<PlayerControl> basicGhosts, PlayerControl? exiled)
     {
         var haunterData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<HaunterRole>());
@@ -396,7 +398,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                         continue;
                     }
 
-                    var modifiers = p.GetModifiers<HaunterArrowModifier>(mod => mod.Owner == Player || mod.Player == Player);
+                    var modifiers = p.GetModifiers<HaunterArrowModifier>([HideFromIl2Cpp] (mod) => mod.Owner == Player || mod.Player == Player);
                     foreach (var mod in modifiers)
                     {
                         mod.RemoveSelf();

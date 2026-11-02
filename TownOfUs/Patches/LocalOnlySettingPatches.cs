@@ -2,11 +2,9 @@ using HarmonyLib;
 using InnerNet;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
-using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
 namespace TownOfUs.Patches;

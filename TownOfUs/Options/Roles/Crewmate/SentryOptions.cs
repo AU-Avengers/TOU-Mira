@@ -82,11 +82,26 @@ public sealed class SentryOptions : AbstractRoleOptionGroup<SentryRole>, IWikiOp
             ConfigName = i => $"Blindspot{i + 1}Room"
         };
 
-    public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
-        new HashSet<StringNames>(BlindspotsRooms.Select(room => room.StringName))
+    // This was randomly throwing an EntryPointNotFoundException, and changing it this way fixed it.
+    // Still have no idea how or why it started happening.
+    // - Az
+    public IReadOnlySet<StringNames> WikiHiddenOptionKeys
+    {
+        get
         {
-            BlindspotsCount.StringName,
-        };
+            var keys = new HashSet<StringNames>
+            {
+                BlindspotsCount.StringName
+            };
+
+            for (int i = 0; i < BlindspotsRooms.Count; i++)
+            {
+                keys.Add(BlindspotsRooms[i].StringName);
+            }
+
+            return keys;
+        }
+    }
 
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {

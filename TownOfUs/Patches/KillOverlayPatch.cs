@@ -51,7 +51,7 @@ public static class KillOverlayPatch
                             color = killer.Data.Role.TeamColor;
                         }
                         flameSprite.material.SetColor(ShaderID.BodyColor, color);
-                        flameSprite.material.SetColor(ShaderID.BackColor, color.LightenColor(.35f));
+                        flameSprite.material.SetColor(ShaderID.BackColor, color.LightenAbsolute(.35f));
                         flameSprite.material.SetColor(ShaderID.VisorColor, Color.white);
                         break;
                 }
