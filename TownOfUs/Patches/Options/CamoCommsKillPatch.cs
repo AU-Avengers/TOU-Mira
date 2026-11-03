@@ -1,7 +1,10 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
+using TownOfUs.Modules;
+using TownOfUs.Options;
 using TownOfUs.Options.Maps;
+using TownOfUs.Roles;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using Action = Il2CppSystem.Action;
@@ -9,12 +12,29 @@ using Action = Il2CppSystem.Action;
 namespace TownOfUs.Patches.Options;
 
 [HarmonyPriority(Priority.Last)]
-[HarmonyPatch(typeof(OverlayKillAnimation), nameof(OverlayKillAnimation.Initialize))]
+[HarmonyPatch]
 public static class KillOverlayPatch
 {
-    public static bool Prefix(OverlayKillAnimation __instance, KillOverlayInitData initData)
+    private static PlayerControl _lastKiller;
+    [HarmonyPrefix, HarmonyPatch(typeof(KillOverlay), nameof(KillOverlay.ShowKillAnimation), typeof(NetworkedPlayerInfo), typeof(NetworkedPlayerInfo))]
+    public static void ShowKillAnimation(NetworkedPlayerInfo killer, NetworkedPlayerInfo victim)
     {
-        if (HudManagerPatches.CamouflageCommsEnabled && OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamoKillScreens)
+        _lastKiller = killer.Object;
+    }
+    
+    [HarmonyPrefix, HarmonyPatch(typeof(OverlayKillAnimation), nameof(OverlayKillAnimation.Initialize))]
+    public static bool KillAnimationPrefix(OverlayKillAnimation __instance, KillOverlayInitData initData)
+    {
+        var obscureAnim = HudManagerPatches.CamouflageCommsEnabled &&
+                          OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamoKillScreens;
+        if (_lastKiller && _lastKiller.GetSignificantRole() is ICustomKillAnimRole customAnimRole &&
+            customAnimRole.ShouldOverrideKillAnim(__instance, initData, obscureAnim,
+                OptionGroupSingleton<GameMechanicOptions>.Instance.ShowInfoSensitiveKillAnimations.Value))
+        {
+            return false;
+        }
+
+        if (obscureAnim)
         {
             __instance.initData = initData;
             var outfit = new VisualAppearance(PlayerControl.LocalPlayer.GetDefaultAppearance(),

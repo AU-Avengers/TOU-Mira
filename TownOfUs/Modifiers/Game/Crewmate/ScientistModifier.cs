@@ -1,4 +1,5 @@
-﻿using MiraAPI.GameOptions;
+﻿using AmongUs.GameOptions;
+using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
@@ -82,7 +83,7 @@ public sealed class ScientistModifier : TouGameModifier, IWikiDiscoverable, IBut
             return false;
         }
 
-        return base.IsModifierValidOn(role) && role.IsCrewmate() && role is not ScientistRole &&
+        return base.IsModifierValidOn(role) && role.IsCrewmate() && role.Role is not RoleTypes.Scientist &&
                !role.Player.GetModifierComponent().HasModifier<GameModifier>(true, x => x is IButtonModifier);
     }
 }

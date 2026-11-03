@@ -678,6 +678,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         Coroutines.Start(role.CoFinishControl(target));
     }
 
+    [HideFromIl2Cpp]
     public IEnumerator CoFinishControl(PlayerControl target)
     {
         var parasite = Player;

@@ -138,7 +138,7 @@ public static class DraftEngine
             DraftManager.TurnTimeLeft = MinShuffleWindow;
         }
 
-        Offer(slot);
+        Offer(slot, isShuffle: true);
     }
 
     private static void Stop()
@@ -428,7 +428,7 @@ public static class DraftEngine
         return Legal(slot, respectReserved).Where(x => DraftRolePool.Crew.Contains(x.Alignment)).ToList();
     }
 
-    private static void Offer(int slot)
+    private static void Offer(int slot, bool isShuffle = false)
     {
         var seen = Seen.TryGetValue(slot, out var known) ? known : Seen[slot] = [];
         var count = Math.Max(1, Opts.OfferedRolesCount);
@@ -448,6 +448,15 @@ public static class DraftEngine
         {
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
                 $"[DraftEngine] Only {chosen.Count}/{count} legal roles exist for slot {slot}");
+        }
+
+        if (isShuffle && chosen.Count(x => !seen.Contains(x.RoleId)) < count)
+        {
+            var state = DraftManager.GetStateForSlot(slot);
+            if (state != null)
+            {
+                DraftNetworkHelper.NotifyShuffleLimited(state.PlayerId);
+            }
         }
 
         seen.UnionWith(chosen.Select(x => x.RoleId));

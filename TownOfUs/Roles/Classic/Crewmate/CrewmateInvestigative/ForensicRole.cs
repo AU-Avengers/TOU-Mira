@@ -82,7 +82,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
         foreach (var scene in CrimeSceneComponent._crimeScenes)
         {
-            if (scene?.gameObject == null || !scene.gameObject)
+            if (scene == null || scene.gameObject == null || !scene.gameObject)
             {
                 continue;
             }
@@ -126,6 +126,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public string BodyReportTitle => $"<color=#{TownOfUsColors.Forensic.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.ForensicMessageTitle")}</color>";
 
+    [HideFromIl2Cpp]
     public string ParseReport(BodyReport br)
     {
         string text;
