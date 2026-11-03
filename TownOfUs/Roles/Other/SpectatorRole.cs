@@ -92,7 +92,7 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
             Player.AddModifier<BasicGhostModifier>();
         }
 
-        var stats = GameHistory.PlayerStats[Player.PlayerId];
+        var stats = GameHistory.GetPlayerStats(Player);
         stats.DeathString = MiraLocaleManager.Get("Spectating");
         stats.RoundOfDeath = 0;
         stats.DiedThisRound = false;

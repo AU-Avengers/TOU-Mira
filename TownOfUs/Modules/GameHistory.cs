@@ -18,6 +18,7 @@ public record DeadPlayer(byte KillerId, byte VictimId, DateTime KillTime);
 
 public sealed record PlayerStats(string Name, byte PlayerId, NetworkedPlayerInfo PlayerInfo, StoredPlayerState State = StoredPlayerState.Alive)
 {
+    public bool HasFullyLoaded { get; set; }
     public string PlayerName { get; private set; } = Name;
     public byte PlayerId { get; private set; } = PlayerId;
     public NetworkedPlayerInfo PlayerInfo { get; private set; } = PlayerInfo;
@@ -170,6 +171,22 @@ public static class GameHistory
             stats.LockDeathInfo = lockInfo is DeathHandlerOverride.SetTrue;
         }
     }
+
+    public static PlayerStats GetPlayerStats(PlayerControl player)
+    {
+        if (!PlayerStats.TryGetValue(player.PlayerId, out var stats))
+        {
+            PlayerStats.Add(player.PlayerId,
+                new PlayerStats(player.Data.PlayerName, player.PlayerId, player.CachedPlayerData,
+                    (player.Data && player.Data.Role && player.Data.Role.IsDead)
+                        ? StoredPlayerState.Dead
+                        : StoredPlayerState.Alive));
+            stats = PlayerStats[player.PlayerId];
+        }
+
+        return stats;
+    }
+
     public static bool IsFullyDead(PlayerControl player)
     {
         if (!player.HasDied() || !PlayerStats.TryGetValue(player.PlayerId, out var stats))
@@ -188,6 +205,13 @@ public static class GameHistory
                 new PlayerStats(player.Data.PlayerName, player.PlayerId, player.CachedPlayerData,
                     role.IsDead ? StoredPlayerState.Dead : StoredPlayerState.Alive));
             stats = PlayerStats[player.PlayerId];
+            stats.HasFullyLoaded = true;
+            Info($"Added stats for {player.Data.PlayerName}");
+        }
+        else if (!stats.HasFullyLoaded)
+        {
+            stats.PlayerState = role.IsDead ? StoredPlayerState.Dead : StoredPlayerState.Alive;
+            stats.HasFullyLoaded = true;
             Info($"Added stats for {player.Data.PlayerName}");
         }
 

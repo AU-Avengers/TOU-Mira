@@ -742,7 +742,7 @@ public static class EndGamePatches
             {
                 return;
             }
-            var state = GameHistory.PlayerStats[player.PlayerId];
+            var state = GameHistory.GetPlayerStats(player);
 
             Warning($"Added Meeting Record for {player.Data.PlayerName}");
 

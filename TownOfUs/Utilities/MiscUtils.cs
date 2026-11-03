@@ -2054,7 +2054,7 @@ public static class MiscUtils
 
         if (player.HasDied())
         {
-            var state = GameHistory.PlayerStats[player.PlayerId];
+            var state = GameHistory.GetPlayerStats(player);
             return !state.DiedThisRound;
         }
 
