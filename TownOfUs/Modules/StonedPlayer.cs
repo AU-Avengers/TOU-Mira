@@ -613,7 +613,8 @@ public sealed class StonedPlayer(IntPtr cppPtr) : MonoBehaviour(cppPtr)
             FakePlayers.Clear();
             return;
         }
-        var validStones = FakePlayers.Where(x => x.ProgressStage is not StoneStage.Shatter);
+        // Do not make this different. It MUST be a list or you will get a list modified error.
+        var validStones = FakePlayers.Where(x => x.ProgressStage is not StoneStage.Shatter).ToList();
         foreach (var stone in validStones)
         {
             if (stone.CurrentCoroutine != null)
