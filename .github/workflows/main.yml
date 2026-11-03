@@ -6,14 +6,9 @@ jobs:
   build:
     permissions:
       id-token: write  # enable GitHub OIDC token issuance for this job
+      contents: read    # allows action to read repository?
     runs-on: ubuntu-22.04
     steps:
-      # Get a short-lived NuGet API key
-      - name: NuGet login (OIDC → temp API key)
-        uses: NuGet/login@v1
-        id: login
-        with:
-          user: ${{ secrets.NUGET_USER }}
 
       - uses: actions/checkout@v4
         with:
@@ -102,6 +97,14 @@ jobs:
             TownOfUs/bin/Publish/TownOfUsMira.dll
             TownOfUs/bin/Publish/TownOfUsMira-Android.dll
             TownOfUs/bin/Publish/TownOfUsMira-iOS.dll
+
+      # Get a short-lived NuGet API key
+      - name: NuGet login (OIDC → temp API key)
+        if: github.ref == 'refs/heads/dev' || github.ref_type == 'tag'
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
           
       - name: Push NuGet CI
         if: github.ref == 'refs/heads/dev'
