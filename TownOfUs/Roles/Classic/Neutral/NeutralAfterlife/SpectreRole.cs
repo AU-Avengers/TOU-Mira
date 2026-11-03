@@ -29,6 +29,8 @@ public sealed class SpectreRole(IntPtr cppPtr)
     : NeutralGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable, IProgressTally, IAnnounceableKill
 {
     public bool? ForceShowRoleOnWiki => null;
+
+    [HideFromIl2Cpp]
     public List<PlayerControl> GetAvailableGhosts(List<PlayerControl> basicGhosts, PlayerControl? exiled)
     {
         var spectreData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<SpectreRole>());

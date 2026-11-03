@@ -190,6 +190,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         Coroutines.Start(role.CoFinishControl(target));
     }
 
+    [HideFromIl2Cpp]
     public IEnumerator CoFinishControl(PlayerControl target)
     {
         var puppeteer = Player;
