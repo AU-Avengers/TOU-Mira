@@ -176,11 +176,17 @@ public static class GameHistory
     {
         if (!PlayerStats.TryGetValue(player.PlayerId, out var stats))
         {
+            var data = (player.Data && player.Data.Role && player.Data.Role.IsDead)
+                ? StoredPlayerState.Dead
+                : StoredPlayerState.Alive;
+            if (player.Data.Disconnected)
+            {
+                data = StoredPlayerState.Disconnected;
+            }
+
             PlayerStats.Add(player.PlayerId,
                 new PlayerStats(player.Data.PlayerName, player.PlayerId, player.CachedPlayerData,
-                    (player.Data && player.Data.Role && player.Data.Role.IsDead)
-                        ? StoredPlayerState.Dead
-                        : StoredPlayerState.Alive));
+                    data));
             stats = PlayerStats[player.PlayerId];
         }
 
