@@ -37,6 +37,9 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
                 "TouOptionKillAnimationBackgroundColorEnumRoleColor"
             ]);
 
+    public ModdedToggleOption ShowInfoSensitiveKillAnimations { get; set; } =
+        new("TouOptionShowInfoSensitiveKillAnimations", true);
+
     public ModdedNumberOption PlayerCountWhenSabotagesDisable { get; set; } =
         new("TouOptionPlayerCountWhenSabotagesDisable",
             2f, 1f, 15f, 1f, MiraNumberSuffixes.None, "0.#");

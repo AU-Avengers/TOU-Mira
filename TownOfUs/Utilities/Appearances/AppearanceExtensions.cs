@@ -196,6 +196,81 @@ public static class AppearanceExtensions
         VanillaTweakEvents.AdjustPetVisibility(player);
     }
 
+    public static void RawSetAppearance(this PoolablePlayer player, VisualAppearance appearance)
+    {
+        player.SetName(appearance.PlayerName);
+        player.SetBodyColor(appearance.ColorId);
+        player.SetHat(appearance.HatId, appearance.ColorId);
+        player.SetSkin(appearance.SkinId, appearance.ColorId);
+        player.SetVisor(appearance.VisorId, appearance.ColorId);
+        // player.SetPet(appearance.PetId, appearance.ColorId);
+
+        player.cosmetics.currentBodySprite.BodySprite.color = appearance.RendererColor;
+        if (player.cosmetics.GetLongBoi() != null)
+        {
+            player.cosmetics.GetLongBoi().headSprite.color = appearance.RendererColor;
+            player.cosmetics.GetLongBoi().neckSprite.color = appearance.RendererColor;
+            player.cosmetics.GetLongBoi().foregroundNeckSprite.color = appearance.RendererColor;
+        }
+
+        if (appearance.PlayerMaterialColor != null)
+        {
+            PlayerMaterial.SetColors((Color)appearance.PlayerMaterialColor,
+                player.cosmetics.currentBodySprite.BodySprite);
+            if (player.cosmetics.GetLongBoi() != null)
+            {
+                PlayerMaterial.SetColors((Color)appearance.PlayerMaterialColor,
+                    player.cosmetics.GetLongBoi().headSprite);
+                PlayerMaterial.SetColors((Color)appearance.PlayerMaterialColor,
+                    player.cosmetics.GetLongBoi().neckSprite);
+                PlayerMaterial.SetColors((Color)appearance.PlayerMaterialColor,
+                    player.cosmetics.GetLongBoi().foregroundNeckSprite);
+            }
+        }
+
+        if (appearance.PlayerMaterialBackColor != null)
+        {
+            // Ensure we're using instance materials to prevent shared material issues
+            var bodyMaterial = player.cosmetics.currentBodySprite.BodySprite.material;
+            bodyMaterial.SetColor(ShaderID.BackColor, (Color)appearance.PlayerMaterialBackColor);
+            if (player.cosmetics.GetLongBoi() != null)
+            {
+                var headMaterial = player.cosmetics.GetLongBoi().headSprite.material;
+                var neckMaterial = player.cosmetics.GetLongBoi().neckSprite.material;
+                var foregroundNeckMaterial = player.cosmetics.GetLongBoi().foregroundNeckSprite.material;
+                headMaterial.SetColor(ShaderID.BackColor, (Color)appearance.PlayerMaterialBackColor);
+                neckMaterial.SetColor(ShaderID.BackColor, (Color)appearance.PlayerMaterialBackColor);
+                foregroundNeckMaterial.SetColor(ShaderID.BackColor, (Color)appearance.PlayerMaterialBackColor);
+            }
+        }
+
+        if (appearance.PlayerMaterialVisorColor != null)
+        {
+            player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor,
+                (Color)appearance.PlayerMaterialVisorColor);
+            if (player.cosmetics.GetLongBoi() != null)
+            {
+                player.cosmetics.GetLongBoi().headSprite.material.SetColor(ShaderID.VisorColor,
+                    (Color)appearance.PlayerMaterialVisorColor);
+                player.cosmetics.GetLongBoi().neckSprite.material.SetColor(ShaderID.VisorColor,
+                    (Color)appearance.PlayerMaterialVisorColor);
+                player.cosmetics.GetLongBoi().foregroundNeckSprite.material.SetColor(ShaderID.VisorColor,
+                    (Color)appearance.PlayerMaterialVisorColor);
+            }
+        }
+
+        if (appearance.NameColor != null)
+        {
+            player.cosmetics.nameText.color = (Color)appearance.NameColor;
+        }
+
+        player.cosmetics.ToggleNameVisible(appearance.NameVisible);
+
+        player.cosmetics.colorBlindText.color = appearance.ColorBlindTextColor;
+
+        player.transform.localScale = appearance.Size;
+    }
+
     public static TownOfUsAppearances GetAppearanceType(this PlayerControl player)
     {
         return (TownOfUsAppearances)player.CurrentOutfitType;
