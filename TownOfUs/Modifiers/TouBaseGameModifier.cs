@@ -69,13 +69,13 @@ public abstract class TouBaseGameModifier : GameModifier
     public override void OnActivate()
     {
         base.OnActivate();
-        AddModifierToStats(GameHistory.PlayerStats[Player.PlayerId]);
+        AddModifierToStats(GameHistory.GetPlayerStats(Player));
     }
 
     public override void OnDeactivate()
     {
         base.OnDeactivate();
-        RemoveModifierFromStats(GameHistory.PlayerStats[Player.PlayerId]);
+        RemoveModifierFromStats(GameHistory.GetPlayerStats(Player));
     }
 
     public virtual void AddModifierToStats(PlayerStats stats)

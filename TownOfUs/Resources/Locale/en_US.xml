@@ -3027,6 +3027,7 @@ when the lights are sabotaged.</string>
   <string name="TouOptionKillAnimationBackgroundColorEnumRed">Red</string>
   <string name="TouOptionKillAnimationBackgroundColorEnumFaction">Faction</string>
   <string name="TouOptionKillAnimationBackgroundColorEnumRoleColor">Role Color</string>
+    <string name="TouOptionShowInfoSensitiveKillAnimations">Show Info-Sensitive Kill Animations</string>
   <string name="TouOptionPlayerCountWhenVentsDisable">Max Players Alive When Vents Disable</string>
   <string name="TouOptionGhostwalkerFixSabos">Ghostwalkers Can Fix Sabotages</string>
   <string name="TouOptionPlayerCountWhenSabotagesDisable">Max Players Alive When Sabotages Disable</string>

@@ -58,7 +58,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
     private IEnumerator CoSetBodyReportable()
     {
         var ogPos = Player.transform.position;
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.11f);
         if (!Target.HasDied() || MeetingHud.Instance || Player.HasDied())
         {
             Player.RemoveModifier(this);

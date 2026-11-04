@@ -10,7 +10,7 @@ namespace TownOfUs.Modifiers.PolusImpostor;
 
 public sealed class PolusSwoopModifier : ConcealedModifier, IVisualAppearance
 {
-    public override string ModifierName => "Swooped";
+    public override string ModifierName => "Polus Swooped";
     public override float Duration => OptionGroupSingleton<PolusSwooperOptions>.Instance.SwoopDuration;
     public override bool HideOnUi => true;
     public override bool AutoStart => true;
