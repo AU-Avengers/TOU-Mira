@@ -195,6 +195,6 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return base.IsModifierValidOn(role) && role.IsCrewmate() && role is not NoisemakerRole && role is not AltruistRole;
+        return base.IsModifierValidOn(role) && role.IsCrewmate() && role.Role is not RoleTypes.Noisemaker && role is not AltruistRole;
     }
 }
