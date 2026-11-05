@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using System.Collections.ObjectModel;
+using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -647,6 +648,7 @@ public abstract class TownOfUsKillRoleButton<TRole, TTarget> : TownOfUsRoleButto
 [MiraIgnore]
 public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, Vent> where TRole : RoleBehaviour
 {
+
     public GameObject DisableSprite;
     public override void CreateButton(Transform parent)
     {
@@ -660,6 +662,22 @@ public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, 
         if (DisableSprite)
         {
             DisableSprite.SetActive(!TownOfUsEventHandlers.AreVentsAllowed);
+        }
+
+        if (PlayerControl.LocalPlayer && EffectActive && HasEffect && !PlayerControl.LocalPlayer.inVent &&
+            !PlayerControl.LocalPlayer.walkingToVent)
+        {
+            if (Timer != 0)
+            {
+                UsesLeft--;
+                if (LimitedUses)
+                {
+                    Button?.SetUsesRemaining(UsesLeft);
+                }
+            }
+
+            EffectActive = false;
+            Timer = Cooldown;
         }
     }
 
@@ -721,6 +739,22 @@ public abstract class TownOfUsVentButton : TownOfUsTargetButton<Vent>
         if (DisableSprite)
         {
             DisableSprite.SetActive(!TownOfUsEventHandlers.AreVentsAllowed);
+        }
+
+        if (PlayerControl.LocalPlayer && EffectActive && HasEffect && !PlayerControl.LocalPlayer.inVent &&
+            !PlayerControl.LocalPlayer.walkingToVent)
+        {
+            if (Timer != 0)
+            {
+                UsesLeft--;
+                if (LimitedUses)
+                {
+                    Button?.SetUsesRemaining(UsesLeft);
+                }
+            }
+
+            EffectActive = false;
+            Timer = Cooldown;
         }
     }
 
