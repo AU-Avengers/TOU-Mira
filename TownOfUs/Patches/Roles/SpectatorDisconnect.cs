@@ -10,6 +10,12 @@ public static class DisconnectHandler2
     [HarmonyPatch(nameof(GameData.HandleDisconnect), typeof(PlayerControl), typeof(DisconnectReasons))]
     public static void Prefix([HarmonyArgument(0)] PlayerControl player)
     {
+        if (!player)
+        {
+            return;
+        }
+
         SpectatorRole.TrackedSpectators.Remove(player.GetBestPlayerDenomination());
+        SpectatorRole.TrackedPlayers.Remove(player);
     }
 }
