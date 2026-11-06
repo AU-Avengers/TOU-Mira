@@ -4,6 +4,7 @@ using MiraAPI.GameOptions;
 using Reactor.Utilities;
 using TownOfUs.Options;
 using TownOfUs.Patches.DraftMode;
+using TownOfUs.Roles.Other;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -52,6 +53,11 @@ public static class DraftEngine
     public static void Start(List<PlayerControl> players)
     {
         if (!AmongUsClient.Instance.AmHost) return;
+
+        players = players
+            .Where(p => p != null && p.Data != null && !p.Data.Disconnected &&
+                       !SpectatorRole.TrackedSpectators.Contains(p.GetBestPlayerDenomination()))
+            .ToList();
 
         Stop();
         _basePool = DraftRolePool.Build();
