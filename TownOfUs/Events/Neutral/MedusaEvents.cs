@@ -5,7 +5,6 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using TownOfUs.Achievements;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Classic.Neutral.NeutralEvil;
@@ -101,21 +100,11 @@ public static class MedusaEvents
     {
         var player = @event.Player;
 
-        var stonedPlayer = StonedPlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == player.PlayerId && x.ProgressStage is not StoneStage.Permanent and not StoneStage.Petrified);
-        if (stonedPlayer != null)
+        if (BaseFakePlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == player.PlayerId &&
+            (x is StonedPlayer { ProgressStage: not StoneStage.Permanent and not StoneStage.Petrified } ||
+             x is FakePlayer { body: not null }))
+            is { } fakePlayer)
         {
-            StonedPlayer.FakePlayers.Remove(stonedPlayer);
-            if (stonedPlayer.CurrentCoroutine != null)
-            {
-                Coroutines.Stop(stonedPlayer.CurrentCoroutine);
-            }
-            stonedPlayer.Destroy();
-        }
-
-        var fakePlayer = MiscUtils.GetFakePlayer(player.PlayerId);
-        if (fakePlayer != null)
-        {
-            FakePlayer.FakePlayers.Remove(fakePlayer);
             fakePlayer.Destroy();
         }
     }
@@ -124,14 +113,12 @@ public static class MedusaEvents
     [RegisterEvent]
     public static void RoleChangeEventHandler(SetRoleEvent _)
     {
-        StonedPlayer.UpdateFakePlayerText(true);
-        FakePlayer.UpdateFakePlayerText(true);
+        BaseFakePlayer.UpdateFakePlayerText(true);
     }
 
     [RegisterEvent]
     public static void ChangeRoleEventHandler(ChangeRoleEvent _)
     {
-        StonedPlayer.UpdateFakePlayerText(true);
-        FakePlayer.UpdateFakePlayerText(true);
+        BaseFakePlayer.UpdateFakePlayerText(true);
     }
 }

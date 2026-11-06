@@ -102,65 +102,34 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         if (Player.AmOwner)
         {
-            meetingMenu = new MeetingMenu(
+            meetingMenu = MeetingMenu.CreateMenu(
                 this,
-                (_, _) => { },
-                MeetingAbilityType.Click,
                 TouAssets.LighterSprite,
-                null!,
-                IsExempt,
-                hoverColor: Color.white)
-            {
-                Position = new Vector3(1.1f, -0.18f, -3f)
-            };
+                TouAssets.DarkerSprite,
+                position: new Vector3(1.1f, -0.18f, -3f),
+                startActive: PlayerIsLighter,
+                buttonSetup: (_, button) => button.transform.localScale *= 0.8f);
         }
     }
-    public static bool IsExempt(PlayerVoteArea voteArea)
+
+    public static bool PlayerIsLighter(PlayerVoteArea voteArea)
     {
-        return false;
+        if (MiscUtils.PlayerById(voteArea.PlayerId) is not { } player)
+        {
+            return true;
+        }
+
+        var colorType = GetColorTypeForPlayer(player.Data.DefaultOutfit.ColorId);
+        return colorType == "lighter";
     }
 
     public override void OnMeetingStart()
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
-        var meeting = MeetingHud.Instance;
-        if (Player.AmOwner && meeting != null)
+        if (Player.AmOwner)
         {
-            meetingMenu.GenButtons(meeting,
-                true);
-
-            foreach (var button in meetingMenu.Buttons)
-            {
-                if (button.Value == null)
-                {
-                    continue;
-                }
-
-                button.Value.transform.localScale *= 0.8f;
-
-                var player = MiscUtils.PlayerById(button.Key);
-
-                if (player == null)
-                {
-                    continue;
-                }
-
-                var colorType = GetColorTypeForPlayer(player.Data.DefaultOutfit.ColorId);
-
-                var renderer = button.Value.GetComponent<SpriteRenderer>();
-
-                if (renderer == null)
-                {
-                    continue;
-                }
-
-                renderer.sprite = colorType switch
-                {
-                    "lighter" => TouAssets.LighterSprite,
-                    _ => TouAssets.DarkerSprite
-                };
-            }
+            meetingMenu.GenButtons(MeetingHud.Instance);
         }
     }
 
@@ -205,7 +174,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         if (Player.AmOwner)
         {
-            meetingMenu?.Dispose();
+            meetingMenu?.Destroy();
             meetingMenu = null!;
         }
     }

@@ -1,5 +1,4 @@
 using System.Text;
-using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -81,7 +80,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
         if (Player.AmOwner)
         {
-            meetingMenu = new MeetingMenu(
+            meetingMenu = MeetingMenu.CreateMenu(
                 this,
                 ClickGuess,
                 MeetingAbilityType.Click,
@@ -95,10 +94,9 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
-        var meeting = MeetingHud.Instance;
-        if (Player.AmOwner && meeting != null)
+        if (Player.AmOwner)
         {
-            meetingMenu.GenButtons(meeting,
+            meetingMenu.GenButtons(MeetingHud.Instance,
                 Player.AmOwner && !Player.HasDied() && MaxKills > 0 && !Player.HasModifier<JailedModifier>());
         }
     }
@@ -119,7 +117,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
         if (Player.AmOwner)
         {
-            meetingMenu.Dispose();
+            meetingMenu?.Destroy();
             meetingMenu = null!;
         }
     }
@@ -190,7 +188,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             {
                 OracleRole.RpcOracleBlessNotify(PlayerControl.LocalPlayer, oracleMod.Oracle, victim);
 
-                MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
+                MeetingMenu.HideSingleForAll(victim.PlayerId);
 
                 shapeMenu.Close();
 

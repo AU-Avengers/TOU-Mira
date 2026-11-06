@@ -48,18 +48,22 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
         if (Player.AmOwner)
         {
             var classic = LegacyAssets.IsLegacy;
-            _meetingMenu = new MeetingMenu(
+            _meetingMenu = MeetingMenu.CreateMenu(
                 Player.Data.Role,
                 Click,
                 MeetingAbilityType.Toggle,
                 classic ? LegacyAssets.ImitateSelectSprite : TouAssets.ImitateSelectSprite,
                 classic ? LegacyAssets.ImitateDeselectSprite : TouAssets.ImitateDeselectSprite,
                 IsExempt,
-                Color.white)
-            {
-                Position = new Vector3(-0.40f, 0f, -3f)
-            };
+                Color.white,
+                position: new Vector3(-0.40f, 0f, -3f),
+                startActive: StartSelected);
         }
+    }
+
+    public bool StartSelected(PlayerVoteArea voteArea)
+    {
+        return voteArea.PlayerId == _selectedPlr?.PlayerId;
     }
 
     public override void OnMeetingStart()
@@ -77,16 +81,11 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             return;
         }
 
-        var meeting = MeetingHud.Instance;
-        if (Player.AmOwner && meeting != null)
+        if (Player.AmOwner)
         {
             // _selectedPlr = null;
-            _meetingMenu!.GenButtons(meeting,
+            _meetingMenu!.GenButtons(MeetingHud.Instance,
                 Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
-            if (_selectedPlr != null)
-            {
-                _meetingMenu!.Actives[_selectedPlr.PlayerId] = true;
-            }
         }
     }
 
@@ -102,9 +101,9 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
     {
         _selectedPlr = null;
 
-        if (Player.AmOwner && _meetingMenu != null)
+        if (Player.AmOwner)
         {
-            _meetingMenu?.Dispose();
+            _meetingMenu?.Destroy();
             _meetingMenu = null!;
         }
     }
