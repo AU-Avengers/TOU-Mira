@@ -81,21 +81,21 @@ public static class TouRoleUtils
         return TouRoleIcons.Neutral;
     }
 
-    public static Sprite? TryGetVanillaRoleIcon(RoleTypes roleType)
+    public static LoadableAsset<Sprite>? TryGetVanillaRoleIcon(RoleTypes roleType)
     {
         return roleType switch
         {
-            RoleTypes.GuardianAngel => TouRoleIcons.GuardianAngel.LoadAsset(),
-            RoleTypes.Detective => TouRoleIcons.Detective.LoadAsset(),
-            RoleTypes.Tracker => TouRoleIcons.Tracker.LoadAsset(),
-            RoleTypes.Scientist => TouRoleIcons.Scientist.LoadAsset(),
-            RoleTypes.Noisemaker => TouRoleIcons.Noisemaker.LoadAsset(),
-            RoleTypes.Phantom => TouRoleIcons.Phantom.LoadAsset(),
-            RoleTypes.Shapeshifter => TouRoleIcons.Shapeshifter.LoadAsset(),
-            RoleTypes.Engineer => TouRoleIcons.Engineer.LoadAsset(),
-            RoleTypes.Judge => TouRoleIcons.Prosecutor.LoadAsset(),
-            RoleTypes.Viper => TouRoleIcons.Viper.LoadAsset(),
-            RoleTypes.SpiritGuide => TouRoleIcons.Spectator.LoadAsset(),
+            RoleTypes.GuardianAngel => TouRoleIcons.GuardianAngel,
+            RoleTypes.Detective => TouRoleIcons.Detective,
+            RoleTypes.Tracker => TouRoleIcons.Tracker,
+            RoleTypes.Scientist => TouRoleIcons.Scientist,
+            RoleTypes.Noisemaker => TouRoleIcons.Noisemaker,
+            RoleTypes.Phantom => TouRoleIcons.Phantom,
+            RoleTypes.Shapeshifter => TouRoleIcons.Shapeshifter,
+            RoleTypes.Engineer => TouRoleIcons.Engineer,
+            RoleTypes.Judge => TouRoleIcons.Prosecutor,
+            RoleTypes.Viper => TouRoleIcons.Viper,
+            RoleTypes.SpiritGuide => TouRoleIcons.Spectator,
             _ => null
         };
     }
