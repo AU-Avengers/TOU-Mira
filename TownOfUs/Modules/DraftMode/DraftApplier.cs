@@ -6,9 +6,14 @@ public static class DraftApplier
 {
     internal static List<DraftSlotState> PendingDraftStates = [];
 
+    public static void Clear()
+    {
+        PendingDraftStates.Clear();
+    }
+
     public static void StorePendingDraftStates(IReadOnlyList<DraftSlotState> slotStates)
     {
-        PendingDraftStates = [.. slotStates];
+        PendingDraftStates = [.. slotStates.Where(state => state != null && MiscUtils.PlayerById(state.PlayerId) != null)];
     }
 
     public static void ApplyDraftResults(IReadOnlyList<DraftSlotState> slotStates)
