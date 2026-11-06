@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Reflection;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -213,6 +214,19 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
         }
     }
 
+    private static bool ShouldPauseInVent(CustomActionButton ability)
+    {
+        if (ability is null)
+        {
+            return false;
+        }
+
+        var property = ability.GetType().GetProperty("ShouldPauseInVent",
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+        return property is not null && property.PropertyType == typeof(bool) && (bool)property.GetValue(ability)!;
+    }
+
     public override void FixedUpdate()
     {
         if (!Player.AmOwner || CurrentState is ChargeState.Normal || MeetingHud.Instance || ExileController.Instance)
@@ -220,13 +234,16 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
             return;
         }
 
+        var shouldPauseInVent = PlayerControl.LocalPlayer.inVent;
+
         if (CurrentState is ChargeState.Overclocked)
         {
             var value = OverclockMult - 1;
 
             foreach (var ability in CustomButtonManager.Buttons)
             {
-                if (ability.EffectActive || ability.TimerPaused || ability is OverclockButton)
+                if (ability.EffectActive || ability.TimerPaused || ability is OverclockButton ||
+                    (shouldPauseInVent && ShouldPauseInVent(ability)))
                 {
                     continue;
                 }
@@ -242,7 +259,8 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
 
             foreach (var ability in CustomButtonManager.Buttons)
             {
-                if (ability.EffectActive || ability.TimerPaused || ability is OverclockButton)
+                if (ability.EffectActive || ability.TimerPaused || ability is OverclockButton ||
+                    (shouldPauseInVent && ShouldPauseInVent(ability)))
                 {
                     continue;
                 }
