@@ -137,6 +137,8 @@ jobs:
           unzip BepInEx_x64.zip -d BepInEx/x64
           unzip BepInEx_x86.zip -d BepInEx/x86
           chmod -R u+rwx BepInEx
+          mkdir BepInEx/x64/BepInEx/config/
+          mkdir BepInEx/x86/BepInEx/config/
 
       - name: Download and copy Mini's Region Install
         if: steps.cache.outputs.cache-hit != 'true'
