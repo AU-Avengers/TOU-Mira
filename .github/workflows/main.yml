@@ -109,9 +109,9 @@ jobs:
       - name: Push NuGet CI
         if: github.ref == 'refs/heads/dev'
         run: |
-          dotnet nuget push TownOfUs/bin/Release/TownOfUsMira.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+          dotnet nuget push TownOfUs/bin/Release/TownOfUsMira.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --skip-duplicate
           
       - name: Push NuGet Release
         if: github.ref_type == 'tag'
         run: |
-          dotnet nuget push TownOfUs/bin/Publish/TownOfUsMira.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+          dotnet nuget push TownOfUs/bin/Publish/TownOfUsMira.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --skip-duplicate
