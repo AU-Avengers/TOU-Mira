@@ -97,10 +97,14 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     public int NumberOfGuesses { get; set; }
     public int IncorrectGuesses { get; set; }
     public bool AllGuessesCorrect { get; set; }
+    public bool IsInFinalMeeting { get; set; }
 
     [HideFromIl2Cpp] public List<PlayerControl> AllVictims { get; } = [];
 
-    public bool ContinuesGame => !Player.HasDied() && OptionGroupSingleton<DoomsayerOptions>.Instance.DoomContinuesGame && Helpers.GetAlivePlayers().Count > 1;
+    public bool ContinuesGame => !Player.HasDied()
+        && OptionGroupSingleton<DoomsayerOptions>.Instance.DoomContinuesGame
+        && Helpers.GetAlivePlayers().Count > 1
+        && !IsInFinalMeeting;
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VigilanteRole>());
     public DoomableType DoomHintType => DoomableType.Insight;
     public string IdPart => "Doomsayer";
@@ -193,7 +197,9 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
-        if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomsayerGuessAllAtOnce)
+        var opts = OptionGroupSingleton<DoomsayerOptions>.Instance;
+
+        if (opts.DoomsayerGuessAllAtOnce)
         {
             NumberOfGuesses = 0;
         }
@@ -207,6 +213,25 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             IncorrectGuesses = 0;
             AllVictims.Clear();
             AllGuessesCorrect = false;
+
+            // Check if the Doomsayer has any guesses left this meeting.
+            // If not, flag this as their final meeting so ContinuesGame stops blocking game end.
+            if (!IsInFinalMeeting && opts.DoomContinuesGame)
+            {
+                var playersAlive = PlayerControl.AllPlayerControls.Count(x => !x.HasDied() && !x.IsJailed() && x != Player);
+                var guessesNeeded = playersAlive < 3 ? 2 : (int)opts.DoomsayerGuessesToWin;
+                var guessableCount = meeting.playerStates?.Count(va => !IsExempt(va)) ?? 0;
+
+                // In non-AllAtOnce mode: used up all cumulative guesses
+                bool outOfGuesses = !opts.DoomsayerGuessAllAtOnce && NumberOfGuesses >= guessesNeeded;
+                // In either mode: no guessable targets remain
+                bool noTargets = guessableCount == 0;
+
+                if (outOfGuesses || noTargets)
+                {
+                    IsInFinalMeeting = true;
+                }
+            }
         }
 
         GenerateReport();
