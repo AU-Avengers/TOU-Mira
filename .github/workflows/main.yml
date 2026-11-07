@@ -195,9 +195,16 @@ jobs:
           cp -r BepInExPackData/config/* BepInEx/x86/BepInEx/config/
 
       - name: Copy ToU Mira
+        if: github.ref_type == 'tag'
         run: |
           cp TownOfUs/bin/Publish/TownOfUsMira.dll BepInEx/x64/BepInEx/plugins/TownOfUsMira.dll
           cp TownOfUs/bin/Publish/TownOfUsMira.dll BepInEx/x86/BepInEx/plugins/TownOfUsMira.dll
+
+      - name: Copy ToU Mira
+        if: github.ref_type != 'tag'
+        run: |
+          cp TownOfUs/bin/Release/TownOfUsMira.dll BepInEx/x64/BepInEx/plugins/TownOfUsMira.dll
+          cp TownOfUs/bin/Release/TownOfUsMira.dll BepInEx/x86/BepInEx/plugins/TownOfUsMira.dll
 
       - name: Upload x64 mod archive
         uses: actions/upload-artifact@v4
