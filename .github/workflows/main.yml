@@ -157,7 +157,7 @@ jobs:
       - name: Download and copy MiraAPI
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          MIRA_API_VER=$(grep '<PackageReference Include="AllOfUs.MiraAPI"' AmongUsPublish.props | sed 's/.*Version="\([^"]*\)-ci\..*/\1/')
+          MIRA_API_VER=$(grep '<PackageReference Include="AllOfUs.MiraAPI"' AmongUsPublish.props | sed 's/.*Version="\([^"]*\)".*/\1/')
           curl -L -o MiraAPI.dll https://github.com/All-Of-Us-Mods/MiraAPI/releases/download/${MIRA_API_VER}/MiraAPI.dll
           cp MiraAPI.dll BepInEx/x64/BepInEx/plugins/MiraAPI.dll
           cp MiraAPI.dll BepInEx/x86/BepInEx/plugins/MiraAPI.dll
