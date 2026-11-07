@@ -15,6 +15,8 @@ using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace TownOfUs.Roles.Impostor;
 
@@ -106,27 +108,28 @@ public sealed class MinerRole(IntPtr cppPtr)
         //Error("RpcPlaceVent");
 
         var ventPrefab = ShipStatus.Instance.AllVents[0];
-        var vent = Instantiate(ventPrefab, ventPrefab.transform.parent);
-        vent.EnterVentAnim = null!;
-        vent.ExitVentAnim = null!;
-        if (vent.myAnim)
+        // no parent on purpose.
+        var vent = Instantiate(TouAssets.MinerVentPrefab.LoadAsset().GetComponent<Vent>());
+        vent.myRend.material = ventPrefab.myRend.material;
+        var newArrows = vent.Buttons.ToArray();
+        for (var i = 0; i < 3; i++)
         {
-            vent.transform.localScale = new Vector3(0.9f, 0.9f, 1);
-            var collider = vent.transform.GetComponent<BoxCollider2D>();
-            if (collider)
+            var newArrow = newArrows[i];
+            newArrow.OnClick = new Button.ButtonClickedEvent();
+            switch (i)
             {
-                collider.size = new Vector2(0.75f, 0.34f);
-                collider.offset = new Vector2(-0.005f, 0);
+                case 0:
+                    newArrow.OnClick.AddListener((UnityAction)vent.ClickRight);
+                    break;
+                case 1:
+                    newArrow.OnClick.AddListener((UnityAction)vent.ClickLeft);
+                    break;
+                case 2:
+                    newArrow.OnClick.AddListener((UnityAction)vent.ClickCenter);
+                    break;
             }
-            vent.Offset = new Vector3(0, 0.15f, 0);
-            vent.myAnim.Stop();
-            vent.myAnim.Destroy();
-            vent.myAnim = null!;
         }
 
-        vent.numFramesUntilPlayerDisappearsOnEnter = 0;
-        vent.numFramesUntilPlayerReappearsOnExit = 0;
-        vent.myRend.sprite = TouAssets.MinerVentSprite;
         vent.name = $"MinerVent-{player.PlayerId}-{ventId}";
 
         Error($"RpcPlaceVent - vent: {vent.name} - {immediate}");
