@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using HarmonyLib;
+﻿using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
