@@ -211,6 +211,9 @@ public static class TouAssets
     public static LoadableAsset<Sprite> MinerVentSprite { get; } =
         new LoadableBundleAsset<Sprite>("MinerVent", MainBundle);
 
+    public static LoadableAsset<GameObject> MinerVentPrefab { get; } =
+        new LoadableBundleAsset<GameObject>("MinerVent", MainBundle);
+
     public static LoadableAsset<GameObject> MeetingDeathPrefab { get; } =
         new LoadableBundleAsset<GameObject>("DeathAnimation", MainBundle);
 

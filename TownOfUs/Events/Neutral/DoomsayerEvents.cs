@@ -1,4 +1,4 @@
-﻿using MiraAPI.Events;
+using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
@@ -55,47 +55,63 @@ public static class DoomsayerEvents
             return;
         }
 
-        if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomWin is not DoomWinOptions.Leaves)
+        if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomWin is DoomWinOptions.Leaves)
         {
-            return;
-        }
-
-        var doom = CustomRoleUtils.GetActiveRolesOfType<DoomsayerRole>()
-            .FirstOrDefault(x => x.AllGuessesCorrect && !x.Player.HasDied());
-        if (doom != null)
-        {
-            if (doom.Player.AmOwner)
+            var doom = CustomRoleUtils.GetActiveRolesOfType<DoomsayerRole>()
+                .FirstOrDefault(x => x.AllGuessesCorrect && !x.Player.HasDied());
+            if (doom != null)
             {
-                PlayerControl.LocalPlayer.DelayExile();
-                var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerWonSelf").Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.GetRoleName()}</color>")}</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer);
-
-                notif1.AdjustNotification();
-            }
-            else
-            {
-                string message;
-                LoadableAsset<Sprite> icon;
-
-                if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomAnonymizeWin)
+                if (doom.Player.AmOwner)
                 {
-                    message = MiraLocaleManager.Get("TouNeutAnonymousVictoryMessage");
-                    icon = TouRoleIcons.Neutral;
+                    PlayerControl.LocalPlayer.DelayExile();
+                    var notif1 = Helpers.CreateAndShowNotification(
+                        $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerWonSelf").Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.GetRoleName()}</color>")}</b>",
+                        Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer);
+
+                    notif1.AdjustNotification();
                 }
                 else
                 {
-                    message = $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerWonOther")
-                        .Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.GetRoleName()}</color>")}</b>";
-                    icon = TouRoleIcons.Doomsayer;
+                    string message;
+                    LoadableAsset<Sprite> icon;
+
+                    if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomAnonymizeWin)
+                    {
+                        message = MiraLocaleManager.Get("TouNeutAnonymousVictoryMessage");
+                        icon = TouRoleIcons.Neutral;
+                    }
+                    else
+                    {
+                        message = $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DoomsayerWonOther")
+                            .Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.GetRoleName()}</color>")}</b>";
+                        icon = TouRoleIcons.Doomsayer;
+                    }
+
+                    var notif1 = Helpers.CreateAndShowNotification(
+                        message.Replace("<player>", doom.Player.Data.PlayerName),
+                        Color.white, new Vector3(0f, 1f, -20f), spr: icon);
+
+                    notif1.AdjustNotification();
                 }
-
-                var notif1 = Helpers.CreateAndShowNotification(
-                    message.Replace("<player>", doom.Player.Data.PlayerName),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: icon);
-
-                notif1.AdjustNotification();
             }
+        }
+
+        // If the Doomsayer has used up all possible guesses (IsInFinalMeeting),
+        // exile them so they no longer block the game from ending.
+        var doomFinal = CustomRoleUtils.GetActiveRolesOfType<DoomsayerRole>()
+            .FirstOrDefault(x => x.IsInFinalMeeting && !x.Player.HasDied());
+        if (doomFinal != null)
+        {
+            if (GameHistory.PlayerStats.TryGetValue(doomFinal.Player.PlayerId, out var stats))
+            {
+                stats.DeathString = MiraLocaleManager.Get("DiedToWinning");
+                stats.RoundOfDeath = HudManagerHelper.Instance.CurrentRound;
+                stats.DiedThisRound = false;
+                stats.PlayerState = StoredPlayerState.Dead;
+                stats.LockDeathInfo = true;
+            }
+
+            doomFinal.Player.Exiled();
         }
     }
 }

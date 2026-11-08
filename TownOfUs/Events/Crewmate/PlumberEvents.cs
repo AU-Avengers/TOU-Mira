@@ -6,9 +6,7 @@ using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Roles;
-using TownOfUs.Buttons;
 using TownOfUs.Buttons.Crewmate;
-using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 
