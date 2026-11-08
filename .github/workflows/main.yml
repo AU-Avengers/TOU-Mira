@@ -122,11 +122,15 @@ jobs:
         with:
           path: BepInEx
           key: BepInEx-${{ hashFiles('**/packages.lock.json') }}
+
+      - name: Set Release Version
+        run: |
+            echo "RELEASE_VERSION=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+
       # This part below is taken from Submerged's workflow.
-      - name: Download BepInEx and Set Version
+      - name: Download BepInEx
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          echo "RELEASE_VERSION=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
           BEPINEX_VERSION=752
           curl -o build_page.html https://builds.bepinex.dev/projects/bepinex_be
           ARCHIVE_NAME_X64=$(grep -o "BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.${BEPINEX_VERSION}+[^\"']*.zip" build_page.html)
@@ -194,6 +198,15 @@ jobs:
           cp -r BepInExPackData/config/* BepInEx/x64/BepInEx/config/
           cp -r BepInExPackData/config/* BepInEx/x86/BepInEx/config/
 
+      - name: Download and copy Cosmetics Bundles
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+            curl -L -o cosmetics.zip https://github.com/AU-Avengers/TownOfUs-Cosmetics/archive/refs/heads/main.zip
+            unzip -q cosmetics.zip
+            cp -r TownOfUs-Cosmetics-main/Bundles BepInEx/x64/BepInEx/
+            cp -r TownOfUs-Cosmetics-main/Bundles BepInEx/x86/BepInEx/
+            rm -rf cosmetics.zip TownOfUs-Cosmetics-main
+
       - name: Copy ToU Mira
         if: github.ref_type == 'tag'
         run: |
@@ -209,11 +222,11 @@ jobs:
       - name: Upload x64 mod archive
         uses: actions/upload-artifact@v4
         with:
-          name: TouMira.v$RELEASE_VERSION-x64-Steam-Epic-MsStore
+          name: TouMira.v${{ env.RELEASE_VERSION }}-x64-Steam-Epic-MsStore
           path: BepInEx/x64
 
       - name: Upload x86 mod archive
         uses: actions/upload-artifact@v4
         with:
-          name: TouMira.v$RELEASE_VERSION-x86-ItchIo
+          name: TouMira.v${{ env.RELEASE_VERSION }}-x86-ItchIo
           path: BepInEx/x86
