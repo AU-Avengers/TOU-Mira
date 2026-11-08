@@ -123,10 +123,6 @@ jobs:
           path: BepInEx
           key: BepInEx-${{ hashFiles('**/packages.lock.json') }}
 
-      - name: Set Release Version
-        run: |
-            echo "RELEASE_VERSION=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
-
       # This part below is taken from Submerged's workflow.
       - name: Download BepInEx
         if: steps.cache.outputs.cache-hit != 'true'
@@ -226,11 +222,20 @@ jobs:
       - name: Upload x64 mod archive
         uses: actions/upload-artifact@v4
         with:
-          name: TouMira.v${{ env.RELEASE_VERSION }}-x64-Steam-Epic-MsStore
+          name: TouMira-x64-Steam-Epic-MsStore
           path: BepInEx/x64
 
       - name: Upload x86 mod archive
         uses: actions/upload-artifact@v4
         with:
-          name: TouMira.v${{ env.RELEASE_VERSION }}-x86-ItchIo
+          name: TouMira-x86-ItchIo
           path: BepInEx/x86
+
+      - uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          draft: true
+          files: |
+            TownOfUs/bin/Publish/TownOfUsMira.dll
+            TownOfUs/bin/Publish/TownOfUsMira-Android.dll
+            TownOfUs/bin/Publish/TownOfUsMira-iOS.dll
