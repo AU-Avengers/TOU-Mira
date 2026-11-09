@@ -35,7 +35,7 @@ public static class SwapperEvents
         var swap1 = swapper.Swap1.PlayerId;
         var swap2 = swapper.Swap2.PlayerId;
 
-        var originalVoteList = @event.Votes;
+        var originalVoteList = @event.Votes.ToList();
 
         if (TiebreakerEvents.TiebreakingVote.HasValue)
         {
@@ -108,7 +108,7 @@ public static class SwapperEvents
         var swap1 = swapper.Swap1.PlayerId;
         var swap2 = swapper.Swap2.PlayerId;
 
-        var originalVoteList = @event.Votes;
+        var originalVoteList = @event.Votes.ToList();
         @event.Votes.Clear();
 
         foreach (var vote in originalVoteList)
