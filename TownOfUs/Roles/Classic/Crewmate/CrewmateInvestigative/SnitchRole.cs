@@ -370,7 +370,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
 
         Player.AddModifier<SnitchPlayerRevealModifier>(
-            RoleManager.Instance.GetRole(RoleId.GetType<SnitchRole>()));
+            RoleId.GetRole<SnitchRole>());
         PlayerNameColor.Set(Player);
         if (!silent)
         {

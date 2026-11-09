@@ -25,7 +25,7 @@ public sealed class TraitorCacheModifier : BaseModifier, ICachedRole
 
     public CacheRoleGuess GuessMode => OptionGroupSingleton<TraitorOptions>.Instance.TraitorGuess;
 
-    public RoleBehaviour CachedRole => RoleManager.Instance.GetRole(RoleId.GetType<TraitorRole>());
+    public RoleBehaviour CachedRole => RoleId.GetRole<TraitorRole>();
 
     public override void OnActivate()
     {

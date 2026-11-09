@@ -33,7 +33,7 @@ public sealed class UndertakerRole(IntPtr cppPtr)
                                                      Player != null && (Player.HasModifierOfType<ICachedRole>() || MiscUtils.ImpAliveCount == 1));
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<AltruistRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<AltruistRole>();
     public DoomableType DoomHintType => DoomableType.Death;
     public string IdPart => "Undertaker";
     public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";

@@ -29,7 +29,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         orCreateTask.name = "NeutralRoleText";
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<ClericRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<ClericRole>();
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Arsonist";
     public static void SetDouseUses()

@@ -130,7 +130,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
 
         return false;
     }
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<SonarRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<SonarRole>();
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Ambusher";
 

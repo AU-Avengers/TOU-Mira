@@ -42,7 +42,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
         }
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<TransporterRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<TransporterRole>();
     public DoomableType DoomHintType => DoomableType.Protective;
     public string IdPart => "Escapist";
 

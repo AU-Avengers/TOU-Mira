@@ -47,7 +47,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
 
     public int Gold { get; set; }
     public bool CanBribe => Gold >= BrideCost;
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<WardenRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<WardenRole>();
     public DoomableType DoomHintType => DoomableType.Insight;
     public string IdPart => "Mercenary";
     public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
@@ -91,10 +91,10 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     public bool? ForceShowRoleOnWiki => CanBeGuessed ? true : null;
     public bool CanBeGuessed =>
         (MiscUtils.GetPotentialRoles()
-             .Contains(RoleManager.Instance.GetRole(RoleId.GetType<FairyRole>())) &&
+             .Contains(RoleId.GetRole<FairyRole>()) &&
          OptionGroupSingleton<FairyOptions>.Instance.OnTargetDeath is BecomeOptions.Mercenary)
         || (MiscUtils.GetPotentialRoles()
-                .Contains(RoleManager.Instance.GetRole(RoleId.GetType<ExecutionerRole>())) &&
+                .Contains(RoleId.GetRole<ExecutionerRole>()) &&
             OptionGroupSingleton<ExecutionerOptions>.Instance.OnTargetDeath is BecomeOptions.Mercenary);
 
     public CustomRoleConfiguration Configuration => new(this)

@@ -10,7 +10,7 @@ namespace TownOfUs.Roles.Impostor;
 
 public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<BarkeeperRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<BarkeeperRole>();
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Bootlegger";

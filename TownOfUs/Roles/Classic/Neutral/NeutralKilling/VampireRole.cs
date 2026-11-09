@@ -36,7 +36,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
         orCreateTask.name = "NeutralRoleText";
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<SeerRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<SeerRole>();
     public DoomableType DoomHintType => DoomableType.Death;
     public string YouAreText => MiraLocaleManager.Get("YouAreA");
     public string YouWereText => MiraLocaleManager.Get("YouWereA");

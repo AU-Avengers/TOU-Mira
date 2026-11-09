@@ -183,7 +183,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         }
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<SheriffRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<SheriffRole>();
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string IdPart => "Inquisitor";
 

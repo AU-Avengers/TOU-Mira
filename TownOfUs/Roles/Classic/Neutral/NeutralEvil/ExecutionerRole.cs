@@ -104,7 +104,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
         }
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<SnitchRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<SnitchRole>();
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string IdPart => "Executioner";
     public string RoleDescription => TargetString(true);

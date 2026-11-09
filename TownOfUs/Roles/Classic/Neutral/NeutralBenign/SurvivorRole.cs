@@ -61,10 +61,10 @@ public sealed class SurvivorRole(IntPtr cppPtr)
     // This is so the role can be guessed without requiring it to be enabled normally
     public bool CanBeGuessed =>
         (MiscUtils.GetPotentialRoles()
-             .Contains(RoleManager.Instance.GetRole(RoleId.GetType<FairyRole>())) &&
+             .Contains(RoleId.GetRole<FairyRole>()) &&
          OptionGroupSingleton<FairyOptions>.Instance.OnTargetDeath is BecomeOptions.Survivor)
         || (MiscUtils.GetPotentialRoles()
-                .Contains(RoleManager.Instance.GetRole(RoleId.GetType<ExecutionerRole>())) &&
+                .Contains(RoleId.GetRole<ExecutionerRole>()) &&
             OptionGroupSingleton<ExecutionerOptions>.Instance.OnTargetDeath is BecomeOptions.Survivor);
 
     public CustomRoleConfiguration Configuration => new(this)

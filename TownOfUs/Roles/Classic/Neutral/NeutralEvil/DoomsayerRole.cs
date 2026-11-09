@@ -105,7 +105,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         && OptionGroupSingleton<DoomsayerOptions>.Instance.DoomContinuesGame
         && Helpers.GetAlivePlayers().Count > 1
         && !IsInFinalMeeting;
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<VigilanteRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<VigilanteRole>();
     public DoomableType DoomHintType => DoomableType.Insight;
     public string IdPart => "Doomsayer";
 

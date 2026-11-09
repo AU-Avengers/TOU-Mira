@@ -24,7 +24,7 @@ public sealed class MedusaRole(IntPtr cppPtr)
     }
 
     public static bool AutoPlaceFakePlayers => true;
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<MediumRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<MediumRole>();
     public DoomableType DoomHintType => DoomableType.Death;
     public string IdPart => "Medusa";
     public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";

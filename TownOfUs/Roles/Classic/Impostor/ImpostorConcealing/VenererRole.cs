@@ -113,7 +113,7 @@ public sealed class VenererRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
 
         return false;
     }
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<HunterRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<HunterRole>();
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string IdPart => "Venerer";
 

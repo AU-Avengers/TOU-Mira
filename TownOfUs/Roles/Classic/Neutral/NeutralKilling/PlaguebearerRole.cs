@@ -53,7 +53,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         }
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<AurialRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<AurialRole>();
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Plaguebearer";
 

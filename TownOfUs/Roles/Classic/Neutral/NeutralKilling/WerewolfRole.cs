@@ -35,7 +35,7 @@ public sealed class WerewolfRole(IntPtr cppPtr)
     }
 
     public bool Rampaging { get; set; }
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<HunterRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<HunterRole>();
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string IdPart => "Werewolf";
     public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";

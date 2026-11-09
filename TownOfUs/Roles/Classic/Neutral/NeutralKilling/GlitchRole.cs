@@ -37,7 +37,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
         return modifier is not OverclockerModifier;
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<BarkeeperRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<BarkeeperRole>();
     public DoomableType DoomHintType => DoomableType.Perception;
     public string IdPart => "Glitch";
 

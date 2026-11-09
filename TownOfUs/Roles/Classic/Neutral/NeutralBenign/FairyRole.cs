@@ -39,7 +39,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         orCreateTask.name = "NeutralRoleText";
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<MirrorcasterRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<MirrorcasterRole>();
     public PlayerControl? Target { get; set; }
     public int Priority { get; set; } = 1;
 
