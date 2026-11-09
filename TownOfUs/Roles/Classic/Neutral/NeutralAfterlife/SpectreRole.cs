@@ -33,7 +33,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
     [HideFromIl2Cpp]
     public List<PlayerControl> GetAvailableGhosts(List<PlayerControl> basicGhosts, PlayerControl? exiled)
     {
-        var spectreData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<SpectreRole>());
+        var spectreData = MiscUtils.GetAssignData(RoleId.GetType<SpectreRole>());
 
         if (CustomRoleUtils.GetActiveRoles().OfType<SpectreRole>().Count() < spectreData.Count)
         {

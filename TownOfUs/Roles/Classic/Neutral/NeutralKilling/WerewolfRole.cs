@@ -35,7 +35,7 @@ public sealed class WerewolfRole(IntPtr cppPtr)
     }
 
     public bool Rampaging { get; set; }
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<HunterRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<HunterRole>());
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string IdPart => "Werewolf";
     public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
@@ -73,7 +73,7 @@ public sealed class WerewolfRole(IntPtr cppPtr)
         IntroSound = TouAudio.WerewolfRampageSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
         Icon = TouRoleIcons.Werewolf,
-        GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
+        GhostRole = RoleId.GetType<NeutralGhostRole>()
     };
 
     public bool HasImpostorVision => Rampaging;

@@ -45,7 +45,7 @@ public abstract class PolusBaseCrewRole(IntPtr cppPtr) : CrewmateRole(cppPtr), I
     {
         RoleHintType = RoleHintType.None,
         AssociatedGameMode = typeof(TownOfPolusMode),
-        GhostRole = (RoleTypes)RoleId.Get<PolusGhostCrewRole>(),
+        GhostRole = RoleId.GetType<PolusGhostCrewRole>(),
         FreeplayFolder = "Town of Polus",
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconCrewmate, "TownOfPolus.Role.Crewmate.Crewmate", 1.45f),
         Icon = PolusGgAssets.IconCrewmate

@@ -39,7 +39,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
 
     public CacheRoleGuess GuessMode => OptionGroupSingleton<ImitatorOptions>.Instance.ImitatorGuess;
 
-    public RoleBehaviour CachedRole => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ImitatorRole>());
+    public RoleBehaviour CachedRole => RoleManager.Instance.GetRole(RoleId.GetType<ImitatorRole>());
 
     public override void OnActivate()
     {
@@ -218,7 +218,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
 
         if (roleWhenAlive is ImitatorRole || roleWhenAlive is SurvivorRole || roleWhenAlive.IsSimpleRole)
         {
-            roleWhenAlive = RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ImitatorRole>());
+            roleWhenAlive = RoleManager.Instance.GetRole(RoleId.GetType<ImitatorRole>());
         }
 
         // Only the imitator will see this!

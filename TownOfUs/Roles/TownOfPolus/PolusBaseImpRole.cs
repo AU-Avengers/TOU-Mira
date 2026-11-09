@@ -48,7 +48,7 @@ public abstract class PolusBaseImpRole(IntPtr cppPtr) : ImpostorRole(cppPtr), IT
     {
         RoleHintType = RoleHintType.None,
         AssociatedGameMode = typeof(TownOfPolusMode),
-        GhostRole = (RoleTypes)RoleId.Get<PolusGhostImpRole>(),
+        GhostRole = RoleId.GetType<PolusGhostImpRole>(),
         FreeplayFolder = "Town of Polus",
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconImpostor, "TownOfPolus.Role.Impostor.Impostor", 1.45f),
         Icon = PolusGgAssets.IconImpostor

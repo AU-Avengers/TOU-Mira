@@ -38,7 +38,7 @@ public sealed class MinerRole(IntPtr cppPtr)
                                                      Player != null && (Player.HasModifierOfType<ICachedRole>() || MiscUtils.ImpAliveCount == 1));
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PlumberRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<PlumberRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Miner";
 

@@ -2281,10 +2281,10 @@ public static class MiscUtils
     public static bool IsBasicGhost(RoleTypes role)
     {
         return role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost ||
-               role == (RoleTypes)RoleId.Get<NeutralGhostRole>() ||
-               role == (RoleTypes)RoleId.Get<PolusGhostCrewRole>() ||
-               role == (RoleTypes)RoleId.Get<PolusGhostImpRole>() ||
-               role == (RoleTypes)RoleId.Get<PolusGhostNeutRole>();
+               role == RoleId.GetType<NeutralGhostRole>() ||
+               role == RoleId.GetType<PolusGhostCrewRole>() ||
+               role == RoleId.GetType<PolusGhostImpRole>() ||
+               role == RoleId.GetType<PolusGhostNeutRole>();
     }
 
     public static TouGamemode CurrentGamemode()

@@ -29,7 +29,7 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
 
         if (roleWhenAlive is ImitatorRole || roleWhenAlive is SurvivorRole || roleWhenAlive.IsSimpleRole)
         {
-            roleWhenAlive = RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ImitatorRole>());
+            roleWhenAlive = RoleManager.Instance.GetRole(RoleId.GetType<ImitatorRole>());
         }
         SetNewInfo(true, null, null, roleWhenAlive);
     }
@@ -49,7 +49,7 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
 
         if (roleWhenAlive is ImitatorRole || roleWhenAlive is SurvivorRole || roleWhenAlive.IsSimpleRole)
         {
-            roleWhenAlive = RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ImitatorRole>());
+            roleWhenAlive = RoleManager.Instance.GetRole(RoleId.GetType<ImitatorRole>());
         }
         SetNewInfo(true, null, null, roleWhenAlive);
         if (ShownRole == null)

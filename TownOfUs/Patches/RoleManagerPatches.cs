@@ -1052,7 +1052,7 @@ public static class TouRoleManagerPatches
     public static void SetSpectatorsAndModifiers(RoleManager __instance)
     {
         var spectators = GameData.Instance.AllPlayers.Where(x => SpectatorRole.TrackedSpectators.Contains(x.GetBestPlayerDenomination()));
-        var specId = (RoleTypes)RoleId.Get<SpectatorRole>();
+        var specId = RoleId.GetType<SpectatorRole>();
 
         foreach (var player in spectators)
         {
@@ -1161,7 +1161,7 @@ public static class TouRoleManagerPatches
         }
 
         if (ghostRole != RoleTypes.CrewmateGhost && ghostRole != RoleTypes.ImpostorGhost &&
-            ghostRole != (RoleTypes)RoleId.Get<NeutralGhostRole>())
+            ghostRole != RoleId.GetType<NeutralGhostRole>())
         // var newRole = RoleManager.Instance.GetRole(ghostRole);
         // Message($"TryAssignSpecialGhostRolesPatch - ghostRoles role: {newRole.GetRoleName()}");
         {

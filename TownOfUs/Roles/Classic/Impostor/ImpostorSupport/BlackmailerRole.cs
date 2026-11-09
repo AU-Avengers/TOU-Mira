@@ -16,7 +16,7 @@ namespace TownOfUs.Roles.Impostor;
 
 public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SpyRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<SpyRole>());
     public void FixedUpdate()
     {
         if (!Player || Player.Data.Role is not BlackmailerRole || Player.HasDied() || !Player.AmOwner ||

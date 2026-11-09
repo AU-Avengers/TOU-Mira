@@ -797,7 +797,7 @@ public static class HudManagerPatches
             foreach (var role in allRoles)
             {
                 if (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost ||
-                    role.Role == (RoleTypes)RoleId.Get<NeutralGhostRole>())
+                    role.Role == RoleId.GetType<NeutralGhostRole>())
                 {
                     continue;
                 }

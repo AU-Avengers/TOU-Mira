@@ -45,7 +45,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             else
             {
                 TriggerKillAnimation(HudManager.Instance.KillOverlay, source.Data, target.Data, targetVoteArea);
-                source.AddModifier<DeputyRevealedModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<DeputyRole>()));
+                source.AddModifier<DeputyRevealedModifier>(RoleManager.Instance.GetRole(RoleId.GetType<DeputyRole>()));
                 MeetingMenu.Instances.Do(x => x.HideSingle(source.PlayerId));
             }
             Coroutines.Start(CoStopShot());

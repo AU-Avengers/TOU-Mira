@@ -94,7 +94,7 @@ public sealed class MayorRole(IntPtr cppPtr)
     }
 
     public bool IsGuessable => false;
-    public RoleBehaviour AppearAs => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PoliticianRole>());
+    public RoleBehaviour AppearAs => RoleManager.Instance.GetRole(RoleId.GetType<PoliticianRole>());
 
     [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
@@ -106,7 +106,7 @@ public sealed class MayorRole(IntPtr cppPtr)
         UnrevealedString = MiraLocaleManager.Get("TownOfUsMira.Role.MayorUnrevealedTabText");
         if (!Player.HasModifier<MayorRevealModifier>())
         {
-            Player.AddModifier<MayorRevealModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MayorRole>()));
+            Player.AddModifier<MayorRevealModifier>(RoleManager.Instance.GetRole(RoleId.GetType<MayorRole>()));
         }
 
         if (MeetingHud.Instance && !DisabledAnimation)

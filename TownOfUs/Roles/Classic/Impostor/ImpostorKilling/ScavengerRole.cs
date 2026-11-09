@@ -91,7 +91,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         }
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<InvestigatorRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<InvestigatorRole>());
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string IdPart => "Scavenger";
 

@@ -39,7 +39,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         orCreateTask.name = "NeutralRoleText";
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MirrorcasterRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<MirrorcasterRole>());
     public PlayerControl? Target { get; set; }
     public int Priority { get; set; } = 1;
 
@@ -130,7 +130,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         Icon = TouRoleIcons.Fairy,
         IntroSound = TouAudio.GuardianAngelSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
-        GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
+        GhostRole = RoleId.GetType<NeutralGhostRole>()
     };
 
 

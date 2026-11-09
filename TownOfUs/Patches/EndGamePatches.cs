@@ -56,15 +56,15 @@ public static class EndGamePatches
             {
                 EndGameData.PlayerRecords.Add(new EndGameData.PlayerRecord
                 {
-                    ChatSummaryTitle = $"{playerStats.PlayerName} - {MiscUtils.GetMaskedRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>())}{MiraLocaleManager.Get("TownOfUsMira.Role.Spectator")}",
+                    ChatSummaryTitle = $"{playerStats.PlayerName} - {MiscUtils.GetMaskedRoleTmpIcon(RoleId.GetType<SpectatorRole>())}{MiraLocaleManager.Get("TownOfUsMira.Role.Spectator")}",
                     ChatSummaryRoleInfo = string.Empty,
                     ChatSummaryStats = string.Empty,
                     ChatSummaryCod = string.Empty,
                     PlayerName = playerStats.PlayerName,
-                    RoleString = MiscUtils.GetMaskedRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>()) + MiraLocaleManager.Get("TownOfUsMira.Role.Spectator"),
-                    RoleStringShort = MiscUtils.GetMaskedRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>()) + MiraLocaleManager.Get("TownOfUsMira.Role.Spectator"),
+                    RoleString = MiscUtils.GetMaskedRoleTmpIcon(RoleId.GetType<SpectatorRole>()) + MiraLocaleManager.Get("TownOfUsMira.Role.Spectator"),
+                    RoleStringShort = MiscUtils.GetMaskedRoleTmpIcon(RoleId.GetType<SpectatorRole>()) + MiraLocaleManager.Get("TownOfUsMira.Role.Spectator"),
                     Winner = false,
-                    LastRole = (RoleTypes)RoleId.Get<SpectatorRole>(),
+                    LastRole = RoleId.GetType<SpectatorRole>(),
                     Team = ModdedRoleTeams.Custom,
                     PlayerId = playerStats.PlayerId
                 });
@@ -569,7 +569,7 @@ public static class EndGamePatches
                                  .Select(x => x.Value))
                     {
                         if (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost ||
-                            role.Role == (RoleTypes)RoleId.Get<NeutralGhostRole>())
+                            role.Role == RoleId.GetType<NeutralGhostRole>())
                         {
                             continue;
                         }

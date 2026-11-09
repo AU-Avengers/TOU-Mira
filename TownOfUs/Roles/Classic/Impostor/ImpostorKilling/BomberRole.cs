@@ -20,7 +20,7 @@ public sealed class BomberRole(IntPtr cppPtr)
     : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
     [HideFromIl2Cpp] public Bomb? Bomb { get; set; }
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TrapperRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<TrapperRole>());
     public DoomableType DoomHintType => DoomableType.Relentless;
 
     [HideFromIl2Cpp]

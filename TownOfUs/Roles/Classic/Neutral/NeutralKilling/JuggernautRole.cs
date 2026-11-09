@@ -53,7 +53,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         IntroSound = TouAudio.WarlockIntroSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
         Icon = TouRoleIcons.Juggernaut,
-        GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
+        GhostRole = RoleId.GetType<NeutralGhostRole>()
     };
 
     public bool HasImpostorVision => true;

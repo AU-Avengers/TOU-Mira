@@ -36,7 +36,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
                                                      Player != null && (Player.HasModifierOfType<ICachedRole>() || MiscUtils.ImpAliveCount == 1));
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ForensicRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<ForensicRole>());
     public DoomableType DoomHintType => DoomableType.Death;
     public string IdPart => "Janitor";
     public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";

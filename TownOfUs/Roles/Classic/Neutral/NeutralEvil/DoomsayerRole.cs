@@ -105,7 +105,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         && OptionGroupSingleton<DoomsayerOptions>.Instance.DoomContinuesGame
         && Helpers.GetAlivePlayers().Count > 1
         && !IsInFinalMeeting;
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VigilanteRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<VigilanteRole>());
     public DoomableType DoomHintType => DoomableType.Insight;
     public string IdPart => "Doomsayer";
 
@@ -123,7 +123,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         IntroSound = TouAudio.QuestionSound,
         Icon = TouRoleIcons.Doomsayer,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
-        GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
+        GhostRole = RoleId.GetType<NeutralGhostRole>()
     };
 
     public bool MetWinCon => AllGuessesCorrect;

@@ -141,7 +141,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
 
     public bool IsUnlovable => true;
     public bool ContinuesGame => !Player.HasDied() && StoredBodies.Count != 0 && Helpers.GetAlivePlayers().Any(x => !x.HasModifier<ChefServedModifier>() && x != Player);
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ForensicRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<ForensicRole>());
     public DoomableType DoomHintType => DoomableType.Death;
     [HideFromIl2Cpp] public List<KeyValuePair<int, PlatterType>> StoredBodies { get; set; } = [];
     public string IdPart => "Chef";
@@ -187,7 +187,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
         Icon = TouRoleIcons.Chef,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
         MaxRoleCount = 1,
-        GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
+        GhostRole = RoleId.GetType<NeutralGhostRole>()
     };
 
     public bool MetWinCon => TargetsServed;

@@ -40,8 +40,8 @@ public class TownOfPolusMode : AbstractGameMode
         }
         IGameOptions currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
         int adjustedNumImpostors = currentGameOptions.GetAdjustedNumImpostors(list2.Count);
-        AssignRolesForTeam(list2, currentGameOptions, RoleTeamTypes.Impostor, adjustedNumImpostors, (RoleTypes)RoleId.Get<PolusImpostorRole>());
-        AssignRolesForTeam(list2, currentGameOptions, RoleTeamTypes.Crewmate, int.MaxValue, (RoleTypes)RoleId.Get<PolusCrewmateRole>());
+        AssignRolesForTeam(list2, currentGameOptions, RoleTeamTypes.Impostor, adjustedNumImpostors, RoleId.GetType<PolusImpostorRole>());
+        AssignRolesForTeam(list2, currentGameOptions, RoleTeamTypes.Crewmate, int.MaxValue, RoleId.GetType<PolusCrewmateRole>());
     }
     public static void AssignRolesForTeam(
         List<NetworkedPlayerInfo> players,

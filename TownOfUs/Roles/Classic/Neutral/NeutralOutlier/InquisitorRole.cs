@@ -183,7 +183,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         }
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SheriffRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<SheriffRole>());
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string IdPart => "Inquisitor";
 
@@ -225,7 +225,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         Icon = TouRoleIcons.Inquisitor,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
         MaxRoleCount = 1,
-        GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
+        GhostRole = RoleId.GetType<NeutralGhostRole>()
     };
 
     public bool MetWinCon => TargetsDead;

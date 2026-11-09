@@ -37,7 +37,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
         return modifier is not OverclockerModifier;
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<BarkeeperRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole(RoleId.GetType<BarkeeperRole>());
     public DoomableType DoomHintType => DoomableType.Perception;
     public string IdPart => "Glitch";
 
@@ -78,7 +78,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
         IntroSound = TouAudio.GlitchSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
         Icon = TouRoleIcons.Glitch,
-        GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
+        GhostRole = RoleId.GetType<NeutralGhostRole>()
     };
 
     public bool HasImpostorVision => true;
