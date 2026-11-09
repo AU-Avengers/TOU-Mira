@@ -198,6 +198,10 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
     public static void CheckInfected(PlayerControl source, PlayerControl target)
     {
+        if (!source || !target)
+        {
+            return;
+        }
         var sourceInfection = source.TryGetModifier<PlaguebearerInfectedModifier>(out var sourceMod) ? sourceMod : null;
         var targetInfection = target.TryGetModifier<PlaguebearerInfectedModifier>(out var targetMod) ? targetMod : null;
         var sourcePb = source.Data.Role is PlaguebearerRole;
