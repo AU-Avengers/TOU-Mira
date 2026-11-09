@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using TownOfUs.Events;
+using TownOfUs.Events.Impostor;
+using TownOfUs.Events.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modules;
@@ -22,6 +24,8 @@ public static class LobbyBehaviourPatches
     [SuppressMessage("Critical Code Smell", "S1215:\"GC.Collect\" should not be called", Justification = "Used to prevent lag.")]
     public static void LobbyStartPatch()
     {
+        ParasiteEvents.NextKillFromParasite = false;
+        LoverEvents.NextKillFromLovers = false;
         NoisemakerModifier.ActiveNoisemakerTriggers.Clear();
         CustomTouMurderRpcs.StoredKillAnimations = [];
         HaunterRole.ResetReveals();

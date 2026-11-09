@@ -3,9 +3,14 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using TownOfUs.AnimationSystem;
+using TownOfUs.AnimationSystem.BasicKills;
+using TownOfUs.AnimationSystem.Events;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
+using TownOfUs.Networking;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
@@ -14,6 +19,26 @@ namespace TownOfUs.Events.Crewmate;
 
 public static class SheriffEvents
 {
+    [RegisterEvent]
+    public static void BeforeKillAnim(BeforeKillAnimationEvent @event)
+    {
+        if (!OptionGroupSingleton<GameMechanicOptions>.Instance.ShowInfoSensitiveKillAnimations.Value || @event.Killer?.Object?.GetSignificantRole() is not SheriffRole sheriffRole)
+        {
+            return;
+        }
+
+        if (sheriffRole.HasMisfired && sheriffRole.Player.AmOwner)
+        {
+            @event.FinalAnimation = SuffocateKillAnimation.CreateKillAnimation(@event.Killer, @event.Victim);
+            @event.ShouldAlterAnimationAfter = false;
+        }
+        else
+        {
+            @event.FinalAnimation = KillAnimationHelpers.GetAndDisplayGenericKillAnim(HudManager.Instance.KillOverlay,
+                @event.Killer, @event.Victim, ExtendedKillAnimType.Shoot);
+        }
+    }
+
     [RegisterEvent]
     public static void RoundStartHandler(RoundStartEvent @event)
     {
