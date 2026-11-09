@@ -190,6 +190,9 @@ public static class TouAssets
     public static LoadableAsset<GameObject> AmbushPrefab { get; } =
         new LoadableBundleAsset<GameObject>("Ambush", MainBundle);
 
+    public static LoadableAsset<GameObject> AmbushKillOverlayPrefab { get; } =
+        new LoadableBundleAsset<GameObject>("AmbushKillOverlay", MainBundle);
+
     public static LoadableAsset<GameObject> EscapistMarkPrefab { get; } =
         new LoadableBundleAsset<GameObject>("EscapistMark", MainBundle);
 

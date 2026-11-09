@@ -94,6 +94,7 @@ public class SuffocateKillAnimation(IntPtr cppPtr) : CustomKillAnimation(cppPtr)
             frameCount += frame.Length;
         }
 
+        yield return new WaitForEndOfFrame();
         if (frameCount == 0) yield break;
         frames[frameCount] = frames[frameCount - 1];
 
@@ -113,11 +114,20 @@ public class SuffocateKillAnimation(IntPtr cppPtr) : CustomKillAnimation(cppPtr)
                 .m_defaultAnim;
 
             SkinViewData skinData = victimParts.cosmetics.skin.skin;
-            var skinClip = skinData.KillStabVictim;
+            AnimationClip skinClip = animation switch
+            {
+                0 => skinData.KillStabVictim,
+                1 => skinData.KillNeckVictim,
+                2 => skinData.KillTongueVictim,
+                3 => skinData.KillShootVictim,
+                _ => null!
+            };
 
             AnimationClip.SampleAnimation(bodyAnim.gameObject, bodyClip, currentFrame.Time, WrapMode.Default);
             if (skinClip)
+            {
                 AnimationClip.SampleAnimation(skinAnim.gameObject, skinClip, currentFrame.Time, WrapMode.Default);
+            }
 
             victimObj.transform.localPosition = currentFrame.Offset + new Vector2(-1.5f, 0);
 
