@@ -1054,7 +1054,7 @@ public static class MiscUtils
         pooledBubble.NameText.ForceMeshUpdate(true, true);
         pooledBubble.votedMark.enabled = false;
         pooledBubble.Xmark.enabled = false;
-        pooledBubble.TextArea.text = message;
+        pooledBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, pooledBubble.TextArea);
         pooledBubble.TextArea.ForceMeshUpdate(true, true);
         pooledBubble.Background.size = new Vector2(5.52f,
             0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
@@ -1065,7 +1065,7 @@ public static class MiscUtils
         clonedBubble.NameText.ForceMeshUpdate(true, true);
         clonedBubble.votedMark.enabled = false;
         clonedBubble.Xmark.enabled = false;
-        clonedBubble.TextArea.text = message;
+        clonedBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, clonedBubble.TextArea);
         clonedBubble.TextArea.ForceMeshUpdate(true, true);
         clonedBubble.Background.size = new Vector2(5.52f,
             0.2f + clonedBubble.NameText.GetNotDumbRenderedHeight() + clonedBubble.TextArea.GetNotDumbRenderedHeight());
