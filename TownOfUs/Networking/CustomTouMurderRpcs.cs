@@ -1339,7 +1339,11 @@ public static class CustomTouMurderRpcs
     public static void TriggerKillAnimation(this KillOverlay overlay, NetworkedPlayerInfo killer,
         NetworkedPlayerInfo victim, ExtendedKillAnimType animType)
     {
-        OverlayKillAnimation killAnimation;
+        overlay.ShowKillAnimation(GetKillAnimation(overlay, animType), killer, victim);
+    }
+
+    public static OverlayKillAnimation GetKillAnimation(KillOverlay overlay, ExtendedKillAnimType animType)
+    {
         if (StoredKillAnimations.Length == 0)
         {
             OverlayKillAnimation[] self = overlay.KillAnims;
@@ -1347,12 +1351,9 @@ public static class CustomTouMurderRpcs
         }
         if (animType is ExtendedKillAnimType.HorseWrangler)
         {
-            killAnimation = overlay.HorseWrangleAnims.Random()!;
-            overlay.ShowKillAnimation(killAnimation, killer, victim);
-            return;
+            return overlay.HorseWrangleAnims.Random()!;
         }
-        killAnimation = StoredKillAnimations.FirstOrDefault(x => x.KillType == (KillAnimType)animType) ?? StoredKillAnimations[0];
-        overlay.ShowKillAnimation(killAnimation, killer, victim);
+        return StoredKillAnimations.FirstOrDefault(x => x.KillType == (KillAnimType)animType) ?? StoredKillAnimations[0];
     }
 
     public static void EliminatePlayer(PlayerVoteArea voteArea)

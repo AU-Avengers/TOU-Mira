@@ -14,6 +14,10 @@ public static class KillOverlayPatch
     [HarmonyPrefix, HarmonyPatch(typeof(KillOverlay), nameof(KillOverlay.ShowKillAnimation), typeof(NetworkedPlayerInfo), typeof(NetworkedPlayerInfo))]
     public static bool ShowKillAnimation(NetworkedPlayerInfo killer, NetworkedPlayerInfo victim)
     {
+        if (!GameManager.Instance)
+        {
+            return true;
+        }
         _lastKiller = killer;
         _lastVictim = victim;
         var beforeAnimEvent = new BeforeKillAnimationEvent(victim, killer);
@@ -25,6 +29,10 @@ public static class KillOverlayPatch
     [HarmonyPrefix, HarmonyPatch(typeof(OverlayKillAnimation), nameof(OverlayKillAnimation.Initialize))]
     public static bool KillAnimationPrefix(OverlayKillAnimation __instance, KillOverlayInitData initData)
     {
+        if (!GameManager.Instance)
+        {
+            return true;
+        }
         var afterAnimEvent = new AfterKillAnimationEvent(_lastVictim, _lastKiller, __instance, initData, _toAlterLater);
         afterAnimEvent.InvokeEvent();
 
