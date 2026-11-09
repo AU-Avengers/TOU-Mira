@@ -24,7 +24,7 @@ public static class LoverEvents
     public static bool NextKillFromLovers;
 
     [RegisterEvent]
-    public static void BEforeKillAnim(BeforeKillAnimationEvent @event)
+    public static void BeforeKillAnim(BeforeKillAnimationEvent @event)
     {
         if (NextKillFromLovers)
         {
