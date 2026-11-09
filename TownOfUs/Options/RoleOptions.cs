@@ -58,7 +58,7 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
 
     public RoleDistribution CurrentRoleDistribution()
     {
-        var roleDist = (RoleSelectionMode)RoleAssignmentType.Value;
+        RoleSelectionMode roleDist = RoleAssignmentType;
         if (CustomGameModeManager.IsHideNSeek() || GameOptionsManager.Instance.CurrentGameOptions.GameMode is AmongUs.GameOptions.GameModes.HideNSeek or AmongUs.GameOptions.GameModes.SeekFools)
         {
             return RoleDistribution.HideAndSeek;
@@ -94,8 +94,8 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
         }
     }
 
-    public ModdedEnumOption RoleAssignmentType { get; } =
-        new("TouOptionRoleAssignmentType", (int)RoleSelectionMode.RoleList, typeof(RoleSelectionMode),
+    public ModdedEnumOption<RoleSelectionMode> RoleAssignmentType { get; } =
+        new("TouOptionRoleAssignmentType", RoleSelectionMode.RoleList,
             [
                 "TouOptionRoleAssignmentTypeEnumVanilla",
                 "TouOptionRoleAssignmentTypeEnumRoleList",
@@ -122,11 +122,10 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
     private static bool IsDraft =>
         OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.Draft;
 
-    public bool RoleListEnabled => RoleAssignmentType.Value is (int)RoleSelectionMode.RoleList;
+    public bool RoleListEnabled => RoleAssignmentType.Value is RoleSelectionMode.RoleList;
 
-    /*public ModdedEnumOption GuaranteedKiller { get; } =
-        new("TouOptionGuaranteedKiller", (int)RequiredKiller.ImpostorOrNeutralKiller,
-            typeof(RequiredKiller),
+    /*public ModdedEnumOption<RequiredKiller> GuaranteedKiller { get; } =
+        new("TouOptionGuaranteedKiller", RequiredKiller.ImpostorOrNeutralKiller,
             [
                 "TouOptionGuaranteedKillerEnumImpostor",
                 "TouOptionGuaranteedKillerEnumNeutralKiller",
@@ -256,17 +255,20 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
 
     // --- Slot Definitions (Declared LAST to keep summary output cleanly at the end) ---
 
-    public ModdedOptionList<ModdedEnumOption<RoleListOption>> Slot { get; } =
+    public ModdedOptionList<ModdedEnumOption<RoleListOption>> Slots { get; } =
         new(15, i => new($"TouOptionRoleListSlot{i + 1}",
                          i + 2 % 5 == 0 ? RoleListOption.ImpCommon : RoleListOption.CrewCommon,
                          OptionStrings)
-            {
-                Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
-            }
-        );
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
+        }
+        )
+        {
+            ConfigName = i => $"Slot{i + 1}"
+        };
 
     public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
-        new HashSet<StringNames>(Slot.Select(slot => slot.StringName))
+        new HashSet<StringNames>(Slots.Select(slot => slot.StringName))
         {
             // These are hidden because rolelist text already handles this
             MaxNeutralBenign.StringName,
@@ -287,11 +289,11 @@ public sealed class RoleOptions : AbstractOptionGroup, IWikiOptionsSummaryProvid
 
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
-        if (CurrentRoleDistribution() == RoleDistribution.Vanilla) { return Enumerable.Empty<string>(); }
+        if (CurrentRoleDistribution() == RoleDistribution.Vanilla) { return []; }
 
         if (HudManagerPatches.RoleListTextComp == null || string.IsNullOrWhiteSpace(HudManagerPatches.RoleListTextComp.text))
         {
-            return Enumerable.Empty<string>();
+            return [];
         }
 
         var lines = HudManagerPatches.RoleListTextComp.text

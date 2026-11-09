@@ -14,7 +14,7 @@ public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Rotting,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Rotting.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Rotting,
             "TouMira.Modifier.Crewmate.Rotting", 1.45f));
     public override string IdPart => "Rotting";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -41,12 +41,12 @@ public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.RottingChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.RottingChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.RottingAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.RottingAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

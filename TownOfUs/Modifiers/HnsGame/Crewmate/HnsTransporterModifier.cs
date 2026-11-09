@@ -14,7 +14,7 @@ public sealed class HnsTransporterModifier : HnsGameModifier
 {
     public override ModifierUiConfiguration Configuration => new(
         new Color32(0, 237, 255, 255),
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Transporter.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Transporter,
             "TouMira.Modifier.HnS.Hider.Transporter", 1.45f));
     public override string IdPart => "Transporter";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Transporter;
@@ -28,12 +28,12 @@ public sealed class HnsTransporterModifier : HnsGameModifier
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.TransporterChance;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.TransporterChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.TransporterAmount;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.TransporterAmount;
     }
 
     [MethodRpc((uint)TownOfUsRpc.TransportSeeker)]
@@ -64,7 +64,7 @@ public sealed class HnsTransporterModifier : HnsGameModifier
         {
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Transporter.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.TransporterTransportNotif")}</color></b>", Color.white,
-                new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Transporter.LoadAsset());
+                new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Transporter);
 
             notif1.AdjustNotification();
 
@@ -128,12 +128,12 @@ public sealed class HnsTransporterModifier : HnsGameModifier
         {
             // If the transported player is a Puppeteer/Parasite controlling someone, snap camera to the victim instead
             MonoBehaviour? cameraTarget = null;
-            
+
             if (player.Data?.Role is ITransportTrigger triggerRole)
             {
                 cameraTarget = triggerRole.OnTransport();
             }
-            
+
             MiscUtils.SnapPlayerCamera(cameraTarget ?? PlayerControl.LocalPlayer);
         }
     }

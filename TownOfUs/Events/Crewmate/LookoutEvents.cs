@@ -82,7 +82,7 @@ public static class LookoutEvents
             return;
         }
 
-        if (!target.HasModifier<LookoutWatchedModifier>() || !(TutorialManager.InstanceExists || source.AmOwner) || source.HasModifier<IndirectAttackerModifier>() && !OptionGroupSingleton<LookoutOptions>.Instance.LookoutSeesIndirectAttacks.Value)
+        if (!target.HasModifier<LookoutWatchedModifier>() || !(TutorialManager.InstanceExists || source.AmOwner) || source.HasModifier<IndirectAttackerModifier>() && !OptionGroupSingleton<LookoutOptions>.Instance.LookoutSeesIndirectAttacks)
         {
             return;
         }
@@ -101,7 +101,7 @@ public static class LookoutEvents
             (source.HasModifier<IndirectAttackerModifier>() ||
              miraEvent is ExtendedMiraButtonClickEvent { IsIndirectInteraction: true } ||
              miraEvent is BeforeMurderEvent { IsIndirectAttack: true }) &&
-            !OptionGroupSingleton<LookoutOptions>.Instance.LookoutSeesIndirectAttacks.Value)
+            !OptionGroupSingleton<LookoutOptions>.Instance.LookoutSeesIndirectAttacks)
         {
             return;
         }

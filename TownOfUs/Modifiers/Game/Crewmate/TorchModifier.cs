@@ -8,7 +8,7 @@ public sealed class TorchModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Torch,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Torch.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Torch,
             "TouMira.Modifier.Crewmate.Torch", 1.45f));
     public override string IdPart => "Torch";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -33,12 +33,12 @@ public sealed class TorchModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.TorchChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.TorchChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.TorchAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.TorchAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

@@ -30,32 +30,18 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Bootlegger.LoadAsset(), "TouMira.Role.Impostor.Bootlegger", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Bootlegger, "TouMira.Role.Impostor.Bootlegger", 1.45f),
         Icon = TouRoleIcons.Bootlegger,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         IntroSound = TouAudio.PotionIntro
     };
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock"),
-            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value
-                ? MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
-                    OptionGroupSingleton<RoleblockOptions>.Instance.HangoverDuration.Value.ToString(TownOfUsPlugin
-                        .Culture))
-                : MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock.WikiDescription")).Replace("<blockTime>",
-                OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value
-                    .ToString(TownOfUsPlugin.Culture)),
-            TouImpAssets.DrinkPoisonSprite)
-    ];
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities { get; } =
     [
         new(MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblock"),
             MiraLocaleManager.Get("MiraApi.AbilityType.Interaction"),
-            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value
+            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover
                 ? MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
                     OptionGroupSingleton<RoleblockOptions>.Instance.HangoverDuration.Value.ToString(TownOfUsPlugin
                         .Culture))

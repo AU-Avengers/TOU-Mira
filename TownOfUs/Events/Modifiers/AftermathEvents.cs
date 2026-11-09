@@ -32,7 +32,7 @@ public static class AftermathEvents
 
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{text.Replace("<modifier>", $"{TownOfUsColors.Aftermath.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Modifier.Aftermath")}</color>")}</b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Aftermath.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Aftermath);
 
         notif1.AdjustNotification();
 

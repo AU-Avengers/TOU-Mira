@@ -9,11 +9,11 @@ public sealed class SaboteurModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Impostor,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Saboteur.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Saboteur,
             "TouMira.Modifier.Impostor.Saboteur", 1.45f));
-public override string IdPart => "Saboteur";
-public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
-public override string IntroInfo => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
+    public override string IdPart => "Saboteur";
+    public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
+    public override string IntroInfo => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}.IntroBlurb");
     public override Color FreeplayFileColor => new Color32(255, 25, 25, 255);
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Saboteur;
@@ -35,12 +35,12 @@ public override string IntroInfo => MiraLocaleManager.Get($"TownOfUsMira.Modifie
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.SaboteurChance;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.SaboteurChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.SaboteurAmount;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.SaboteurAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

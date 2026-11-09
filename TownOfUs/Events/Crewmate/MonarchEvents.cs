@@ -29,7 +29,6 @@ public static class MonarchEvents
             return;
 
         var monarch = PlayerControl.AllPlayerControls
-            .ToArray()
             .FirstOrDefault(p => !p.HasDied() && p.Data.Role is MonarchRole);
 
         if (monarch == null || !monarch.AmOwner)
@@ -39,7 +38,7 @@ public static class MonarchEvents
             $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.MonarchKnightFallenFeedback").Replace("<player>", deadPlayer.Data.PlayerName)}</b>",
             Color.white,
             new Vector3(0f, 1f, -20f),
-            spr: TouRoleIcons.Monarch.LoadAsset());
+            spr: TouRoleIcons.Monarch);
 
         notif.Text.SetOutlineThickness(0.4f);
     }

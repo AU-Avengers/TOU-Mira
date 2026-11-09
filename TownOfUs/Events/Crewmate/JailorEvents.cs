@@ -17,10 +17,10 @@ public static class JailorEvents
     [RegisterEvent]
     public static void EjectionEventHandler(EjectionEvent _)
     {
-        var sparedPlayers = ModifierUtils.GetPlayersWithModifier<JailSparedModifier>().ToList();
+        var sparedPlayers = ModifierUtils.GetPlayersWithModifier<JailSparedModifier>();
         sparedPlayers.Do(x => x.RemoveModifier<JailSparedModifier>());
 
-        var players = ModifierUtils.GetPlayersWithModifier<JailedModifier>().ToList();
+        var players = ModifierUtils.GetPlayersWithModifier<JailedModifier>();
         if (!OptionGroupSingleton<JailorOptions>.Instance.JailInARow)
         {
             players.Do(x => x.AddModifier<JailSparedModifier>(x.GetModifier<JailedModifier>()!.JailorId));
@@ -47,7 +47,7 @@ public static class JailorEvents
 
         jailor.Executes--;
 
-        if (source.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        if (source.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished))
         {
             return;
         }
@@ -57,7 +57,7 @@ public static class JailorEvents
         if (GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
         {
             if (!target.IsCrewmate() ||
-                (target.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished))
+                (target.HasModifier<AllianceGameModifier>(allyMod2 => !allyMod2.GetsPunished)))
             {
                 stats.CorrectKills += 1;
             }

@@ -25,49 +25,49 @@ public static class TimeLordEventHandlers
         EventQueue.RegisterUndoHandler<TimeLordVentEnterEvent>(evt =>
         {
             var undoEvent = new TimeLordVentEnterUndoEvent(evt);
-            MiraEventManager.InvokeEvent(undoEvent);
+            undoEvent.InvokeEvent();
         });
 
         EventQueue.RegisterUndoHandler<TimeLordVentExitEvent>(evt =>
         {
             var undoEvent = new TimeLordVentExitUndoEvent(evt);
-            MiraEventManager.InvokeEvent(undoEvent);
+            undoEvent.InvokeEvent();
         });
 
         EventQueue.RegisterUndoHandler<TimeLordTaskCompleteEvent>(evt =>
         {
             var undoEvent = new TimeLordTaskCompleteUndoEvent(evt);
-            MiraEventManager.InvokeEvent(undoEvent);
+            undoEvent.InvokeEvent();
         });
 
         EventQueue.RegisterUndoHandler<TimeLordBodyCleanedEvent>(evt =>
         {
             var undoEvent = new TimeLordBodyCleanedUndoEvent(evt);
-            MiraEventManager.InvokeEvent(undoEvent);
+            undoEvent.InvokeEvent();
         });
 
         EventQueue.RegisterUndoHandler<TimeLordKillEvent>(evt =>
         {
             var undoEvent = new TimeLordKillUndoEvent(evt);
-            MiraEventManager.InvokeEvent(undoEvent);
+            undoEvent.InvokeEvent();
         });
 
         EventQueue.RegisterUndoHandler<TimeLordChefCookEvent>(evt =>
         {
             var undoEvent = new TimeLordChefCookUndoEvent(evt);
-            MiraEventManager.InvokeEvent(undoEvent);
+            undoEvent.InvokeEvent();
         });
 
         EventQueue.RegisterUndoHandler<TimeLordChefServeEvent>(evt =>
         {
             var undoEvent = new TimeLordChefServeUndoEvent(evt);
-            MiraEventManager.InvokeEvent(undoEvent);
+            undoEvent.InvokeEvent();
         });
 
         EventQueue.RegisterUndoHandler<TimeLordKillCooldownEvent>(evt =>
         {
             var undoEvent = new TimeLordKillCooldownUndoEvent(evt);
-            MiraEventManager.InvokeEvent(undoEvent);
+            undoEvent.InvokeEvent();
         });
     }
 
@@ -86,8 +86,8 @@ public static class TimeLordEventHandlers
             return;
         }
 
-        var evt = new TimeLordVentEnterEvent(player, vent, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
+        var evt = new TimeLordVentEnterEvent(player, vent, Time.time);
+        evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
 
@@ -101,8 +101,8 @@ public static class TimeLordEventHandlers
             return;
         }
 
-        var evt = new TimeLordVentExitEvent(player, vent, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
+        var evt = new TimeLordVentExitEvent(player, vent, Time.time);
+        evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
 
@@ -116,15 +116,15 @@ public static class TimeLordEventHandlers
             return;
         }
 
-        var evt = new TimeLordTaskCompleteEvent(player, task, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
+        var evt = new TimeLordTaskCompleteEvent(player, task, Time.time);
+        evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
 
     /// <summary>
     /// Records a body cleaning and fires the appropriate event.
     /// </summary>
-    public static void RecordBodyCleaned(PlayerControl player, DeadBody body, Vector3 position, 
+    public static void RecordBodyCleaned(PlayerControl player, DeadBody body, Vector3 position,
         TimeLordBodyManager.CleanedBodySource source)
     {
         if (player == null || body == null || !TimeLordRewindSystem.MatchHasTimeLord())
@@ -132,10 +132,10 @@ public static class TimeLordEventHandlers
             return;
         }
 
-        var evt = new TimeLordBodyCleanedEvent(player, body, position, source, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
+        var evt = new TimeLordBodyCleanedEvent(player, body, position, source, Time.time);
+        evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
-        
+
         TimeLordBodyManager.RecordBodyCleaned(body, source);
     }
 
@@ -149,38 +149,38 @@ public static class TimeLordEventHandlers
             return;
         }
 
-        var evt = new TimeLordKillEvent(killer, victim, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
+        var evt = new TimeLordKillEvent(killer, victim, Time.time);
+        evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
 
     /// <summary>
     /// Records a Chef cook action and fires the appropriate event.
     /// </summary>
-    public static void RecordChefCook(PlayerControl chef, DeadBody body, TownOfUs.Roles.Neutral.PlatterType platterType)
+    public static void RecordChefCook(PlayerControl chef, DeadBody body, Roles.Neutral.PlatterType platterType)
     {
         if (chef == null || body == null || !TimeLordRewindSystem.MatchHasTimeLord())
         {
             return;
         }
 
-        var evt = new TimeLordChefCookEvent(chef, body, platterType, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
+        var evt = new TimeLordChefCookEvent(chef, body, platterType, Time.time);
+        evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
 
     /// <summary>
     /// Records a Chef serve action and fires the appropriate event.
     /// </summary>
-    public static void RecordChefServe(PlayerControl chef, PlayerControl target, byte bodyId, TownOfUs.Roles.Neutral.PlatterType platterType)
+    public static void RecordChefServe(PlayerControl chef, PlayerControl target, byte bodyId, Roles.Neutral.PlatterType platterType)
     {
         if (chef == null || target == null || !TimeLordRewindSystem.MatchHasTimeLord())
         {
             return;
         }
 
-        var evt = new TimeLordChefServeEvent(chef, target, bodyId, platterType, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
+        var evt = new TimeLordChefServeEvent(chef, target, bodyId, platterType, Time.time);
+        evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
 
@@ -194,8 +194,8 @@ public static class TimeLordEventHandlers
             return;
         }
 
-        var evt = new TimeLordKillCooldownEvent(player, cooldownBefore, cooldownAfter, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
+        var evt = new TimeLordKillCooldownEvent(player, cooldownBefore, cooldownAfter, Time.time);
+        evt.InvokeEvent();
         EventQueue.RecordEvent(evt);
     }
 
@@ -205,14 +205,7 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleVentEnterUndo(TimeLordVentEnterUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordVentEnterEvent originalEvent)
-        {
-            return;
-        }
-        var player = originalEvent.Player;
-        var vent = originalEvent.Vent;
-
-        if (player == null || vent == null || !player.AmOwner)
+        if (@event.OriginalEvent is not TimeLordVentEnterEvent { Player: { AmOwner: true } player, Vent: { } vent })
         {
             return;
         }
@@ -244,14 +237,7 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleVentExitUndo(TimeLordVentExitUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordVentExitEvent originalEvent)
-        {
-            return;
-        }
-        var player = originalEvent.Player;
-        var vent = originalEvent.Vent;
-
-        if (player == null || vent == null || !player.AmOwner)
+        if (@event.OriginalEvent is not TimeLordVentExitEvent { Player: { AmOwner: true } player, Vent: { } vent })
         {
             return;
         }
@@ -278,14 +264,7 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleTaskCompleteUndo(TimeLordTaskCompleteUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordTaskCompleteEvent originalEvent)
-        {
-            return;
-        }
-        var player = originalEvent.Player;
-        var taskId = originalEvent.TaskId;
-
-        if (player == null || !player.AmOwner)
+        if (@event.OriginalEvent is not TimeLordTaskCompleteEvent { Player: { AmOwner: true } player, TaskId: var taskId })
         {
             return;
         }
@@ -299,11 +278,10 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleBodyCleanedUndo(TimeLordBodyCleanedUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordBodyCleanedEvent originalEvent)
+        if (@event.OriginalEvent is not TimeLordBodyCleanedEvent { BodyId: var bodyId })
         {
             return;
         }
-        var bodyId = originalEvent.BodyId;
 
         TimeLordBodyManager.RestoreCleanedBody(bodyId);
     }
@@ -314,20 +292,14 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleKillUndo(TimeLordKillUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordKillEvent originalEvent)
-        {
-            return;
-        }
-        var victim = originalEvent.Victim;
-
-        if (victim == null || !victim.Data.IsDead)
+        if (@event.OriginalEvent is not TimeLordKillEvent { Victim: { Data.IsDead: true } victim })
         {
             return;
         }
 
         if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
         {
-            TownOfUs.Roles.Crewmate.TimeLordRole.RpcRewindRevive(victim);
+            Roles.Crewmate.TimeLordRole.RpcRewindRevive(victim);
         }
     }
 
@@ -337,16 +309,14 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleChefCookUndo(TimeLordChefCookUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordChefCookEvent originalEvent)
+        if (@event.OriginalEvent is not TimeLordChefCookEvent { BodyId: var bodyId, Player: var chef })
         {
             return;
         }
-        var bodyId = originalEvent.BodyId;
 
         TimeLordBodyManager.RestoreCleanedBody(bodyId);
 
-        var chef = originalEvent.Player;
-        if (chef != null && chef.Data?.Role is TownOfUs.Roles.Neutral.ChefRole chefRole)
+        if (chef != null && chef.Data?.Role is Roles.Neutral.ChefRole chefRole)
         {
             var idx = chefRole.StoredBodies.FindIndex(x => x.Key == bodyId);
             if (idx >= 0)
@@ -374,30 +344,20 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleChefServeUndo(TimeLordChefServeUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordChefServeEvent originalEvent)
-        {
-            return;
-        }
-        var target = originalEvent.Target;
-
-        if (target == null)
+        if (@event.OriginalEvent is not TimeLordChefServeEvent 
+            { Target: { } target, Player: var chef, BodyId: var bodyId, PlatterType: var platterType })
         {
             return;
         }
 
         // Remove the ChefServedModifier
-        var servedMod = target.GetModifier<TownOfUs.Modifiers.Neutral.ChefServedModifier>();
-        if (servedMod != null)
-        {
-            target.RemoveModifier(servedMod);
-        }
+        target.TryRemoveModifier<TownOfUs.Modifiers.Neutral.ChefServedModifier>();
 
         // Add the body back to Chef's stored bodies
-        var chef = originalEvent.Player;
-        if (chef != null && chef.Data?.Role is TownOfUs.Roles.Neutral.ChefRole chefRole)
+        if (chef != null && chef.Data?.Role is Roles.Neutral.ChefRole chefRole)
         {
-            chefRole.StoredBodies.Insert(0, new KeyValuePair<int, TownOfUs.Roles.Neutral.PlatterType>(
-                originalEvent.BodyId, originalEvent.PlatterType));
+            chefRole.StoredBodies.Insert(0, new KeyValuePair<int, Roles.Neutral.PlatterType>(
+                bodyId, platterType));
             chefRole.BodiesServed = Math.Max(0, chefRole.BodiesServed - 1);
         }
     }
@@ -408,34 +368,27 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleKillCooldownUndo(TimeLordKillCooldownUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordKillCooldownEvent originalEvent)
+        if (@event.OriginalEvent is not TimeLordKillCooldownEvent
+            { Player: { AmOwner: true } player, CooldownBefore: var cooldownBefore , CooldownAfter: var cooldownAfter })
         {
             return;
         }
 
-        var player = originalEvent.Player;
-        if (player == null || !player.AmOwner)
-        {
-            return;
-        }
-
-        var cooldownBefore = originalEvent.CooldownBefore;
-        
         if (player.Data.Role.CanUseKillButton && GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown > 0f)
         {
             var maxKillCooldown = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
-            
+
             // Only clamp if there was an actual kill in the rewind window, not just a cooldown change
             var hadKillInRewindWindow = false;
             if (TimeLordRewindSystem.IsRewinding)
             {
                 var eventQueue = GetEventQueue();
                 var historySeconds = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 120f);
-                var snapshotTime = UnityEngine.Time.time;
+                var snapshotTime = Time.time;
                 var startTime = snapshotTime - historySeconds;
                 var endTime = snapshotTime;
-                
-                var killEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillEvent>(startTime, endTime);
+
+                var killEvents = eventQueue.GetEvents<TimeLordKillEvent>(startTime, endTime);
                 foreach (var killEvent in killEvents)
                 {
                     if (killEvent.Player == player && killEvent.Time <= snapshotTime)
@@ -445,12 +398,12 @@ public static class TimeLordEventHandlers
                     }
                 }
             }
-            
+
             if (TimeLordRewindSystem.IsRewinding &&
                 !TimeLordRewindSystem.LocalKillCooldownMaxClampedThisRewind &&
                 hadKillInRewindWindow &&
                 (cooldownBefore <= 0f || cooldownBefore < 0.1f) &&
-                originalEvent.CooldownAfter > 0.1f)
+                cooldownAfter > 0.1f)
             {
                 TimeLordRewindSystem.LocalKillCooldownMaxClampedThisRewind = true;
             }
@@ -459,7 +412,7 @@ public static class TimeLordEventHandlers
             {
                 cooldownBefore = maxKillCooldown;
             }
-            
+
             var maxvalue = cooldownBefore > maxKillCooldown
                 ? cooldownBefore + 1f
                 : maxKillCooldown;

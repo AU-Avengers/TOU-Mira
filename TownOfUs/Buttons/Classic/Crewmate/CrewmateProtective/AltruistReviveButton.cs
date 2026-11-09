@@ -22,9 +22,9 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
     public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);
     public override float EffectDuration => OptionGroupSingleton<AltruistOptions>.Instance.ReviveDuration.Value;
     public override bool ZeroIsInfinite { get; set; } = true;
-    public override int MaxUses => OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value
+    public override int MaxUses => OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive
         ? 0
-        : (int)OptionGroupSingleton<AltruistOptions>.Instance.MaxRevives;
+        : OptionGroupSingleton<AltruistOptions>.Instance.MaxRevives;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.ReviveSprite : TouCrewAssets.ReviveSprite;
     public override bool UsableInDeath => true;
 
@@ -32,7 +32,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
 
     public override void SetActive(bool visible, RoleBehaviour role)
     {
-        var killOnStart = OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value;
+        var killOnStart = OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive;
         var shouldShowWhenDead = killOnStart && EffectActive;
 
         if (shouldShowWhenDead)
@@ -47,7 +47,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        var mode = (ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value;
+        var mode = OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value;
         if (mode is ReviveType.Sacrifice)
         {
             return false;
@@ -60,7 +60,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
 
         // If we sacrificed at the start, we become a ghost role.
         // Keep the button alive while the effect is running so the animation can continue as a ghost.
-        if (!EffectActive || !OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value)
+        if (!EffectActive || OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive)
         {
             return false;
         }
@@ -72,16 +72,16 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
     {
         base.CreateButton(parent);
 
-        Button!.usesRemainingSprite.sprite = LegacyAssets.IsLegacy ? TouAssets.BlankSprite.LoadAsset() : TouAssets.AbilityCounterBodySprite.LoadAsset();
+        Button!.usesRemainingSprite.sprite = LegacyAssets.IsLegacy ? TouAssets.BlankSprite : TouAssets.AbilityCounterBodySprite;
         UpdateUsesCounterVisibility();
     }
 
     private void UpdateUsesCounterVisibility()
     {
         if (Button == null) return;
-        
+
         // Hide uses counter if KillOnStartRevive is enabled
-        if (OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value)
+        if (OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive)
         {
             Button.usesRemainingText.gameObject.SetActive(false);
             Button.usesRemainingSprite.gameObject.SetActive(false);
@@ -137,23 +137,23 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
 
     protected override void OnClick()
     {
-        var killOnStart = OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value;
+        var killOnStart = OptionGroupSingleton < AltruistOptions >.Instance.KillOnStartRevive;
 
         var bodiesInRange = Helpers.GetNearestDeadBodies(
             PlayerControl.LocalPlayer.transform.position,
             OptionGroupSingleton<AltruistOptions>.Instance.ReviveRange.Value * ShipStatus.Instance.MaxLightRadius,
             Helpers.CreateFilter(Constants.NotShipMask));
 
-        var playersToRevive = bodiesInRange.Select(x => x.ParentId).ToList();
+        var playersToRevive = bodiesInRange.Select(x => x.ParentId);
 
-        TouAchievementEvents.OnAltruistRevive(PlayerControl.LocalPlayer, playersToRevive.Count);
+        TouAchievementEvents.OnAltruistRevive(PlayerControl.LocalPlayer, playersToRevive.Count());
 
         foreach (var playerId in playersToRevive)
         {
             var player = MiscUtils.PlayerById(playerId);
             if (player != null)
             {
-                if (player.IsLover() && OptionGroupSingleton<LoversOptions>.Instance.BothLoversDie)
+                if (OptionGroupSingleton<LoversOptions>.Instance.BothLoversDie)
                 {
                     var other = player.GetModifier<LoverModifier>()!.GetOtherLover;
                     if (!playersToRevive.Contains(other()!.PlayerId) && other()!.Data.IsDead)
@@ -188,7 +188,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
     {
         RevivedInRound = true;
         OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.AltruistRevive", "Revive"));
-        if ((ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value is ReviveType.GroupSacrifice)
+        if (OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value is ReviveType.GroupSacrifice)
         {
             Coroutines.Start(CoSacrifite(PlayerControl.LocalPlayer));
         }

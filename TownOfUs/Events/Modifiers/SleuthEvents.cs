@@ -13,13 +13,12 @@ public static class SleuthEvents
         var player = @event.Reporter;
         var target = @event.Target;
 
-        if (player == null || target == null || !player.HasModifier<SleuthModifier>())
+        if (player == null || target == null || !player.TryGetModifier<SleuthModifier>(out var mod))
         {
             return;
         }
 
-        var mod = player.GetModifier<SleuthModifier>();
-        mod?.Reported.Add(target.PlayerId);
+        mod.Reported.Add(target.PlayerId);
 
         // Error($"SleuthEvents.ReportBodyEventHandler '{target.PlayerName}'");
     }

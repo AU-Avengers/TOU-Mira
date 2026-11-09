@@ -56,13 +56,13 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
             var bmIcon = Object.Instantiate(VoteArea.XMark, VoteArea.XMark.transform.parent);
             bmIcon.transform.localPosition = new Vector3(-0.804f, -0.212f, -2);
             bmIcon.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
-            bmIcon.sprite = classic ? LegacyAssets.BlackmailLetterSprite.LoadAsset() : TouAssets.BlackmailLetterSprite.LoadAsset();
+            bmIcon.sprite = classic ? LegacyAssets.BlackmailLetterSprite : TouAssets.BlackmailLetterSprite;
             bmIcon.gameObject.SetActive(true);
 
             BmOverlay = Object.Instantiate(VoteArea.XMark, VoteArea.XMark.transform.parent);
             BmOverlay.transform.localPosition = new Vector3(0, 0, -2);
             BmOverlay.transform.localScale = new Vector3(0.769f, 1, 1);
-            BmOverlay.sprite = classic ? LegacyAssets.BlackmailOverlaySprite.LoadAsset() : TouAssets.BlackmailOverlaySprite.LoadAsset();
+            BmOverlay.sprite = classic ? LegacyAssets.BlackmailOverlaySprite : TouAssets.BlackmailOverlaySprite;
             BmOverlay.gameObject.SetActive(true);
             VoteArea.ColorBlindName.gameObject.SetActive(false);
         }
@@ -75,7 +75,7 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
         {
             return;
         }
-        
+
         if (meetingInstance.state != MeetingHud.MeetingStates.Animating && !ShookAlready)
         {
             ShookAlready = true;
@@ -95,7 +95,7 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
         }
     }
 
-        private IEnumerator CoRandomizeVote()
+    private IEnumerator CoRandomizeVote()
     {
         var meetingInstance = MeetingHud.Instance;
         var logicOptionsNormal = GameManager.Instance.LogicOptions.TryCast<LogicOptionsNormal>();
@@ -110,7 +110,7 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
             MiraLocaleManager.Get("TownOfUsMira.Modifier.BlackmailedVoteNotification")
                 .Replace("<time>", time.ToString(TownOfUsPlugin.Culture)),
             Color.white,
-            new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Blackmailer.LoadAsset());
+            new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Blackmailer);
 
         notif1.AdjustNotification();
         Info($"vote time is going to be {time}");
@@ -167,6 +167,6 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

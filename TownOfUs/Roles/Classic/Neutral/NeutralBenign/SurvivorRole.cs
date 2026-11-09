@@ -38,20 +38,6 @@ public sealed class SurvivorRole(IntPtr cppPtr)
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Safeguard", "Safeguard"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Safeguard.WikiDescription"),
-                    TouNeutAssets.VestSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get
@@ -83,7 +69,7 @@ public sealed class SurvivorRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Survivor.LoadAsset(), "TouMira.Role.Neutral.Survivor", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Survivor, "TouMira.Role.Neutral.Survivor", 1.45f),
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Survivor,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

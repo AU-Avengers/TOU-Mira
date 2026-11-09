@@ -45,8 +45,8 @@ public static class BetterMiraHqPatches
     public static void AdjustMiraHq()
     {
         var options = OptionGroupSingleton<BetterMiraHqOptions>.Instance;
-        var ventMode = (MiraVentMode)options.BetterVentNetwork.Value;
-        var themeMode = (PolusTheme)options.MapTheme.Value;
+        MiraVentMode ventMode = options.BetterVentNetwork;
+        PolusTheme themeMode = options.MapTheme;
         if (ventMode is not MiraVentMode.Normal)
         {
             AdjustVents(ventMode);

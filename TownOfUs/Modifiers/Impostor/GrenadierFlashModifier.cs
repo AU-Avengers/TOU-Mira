@@ -60,7 +60,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
     {
         base.OnActivate();
         var touAbilityEvent = new TouAbilityEvent(AbilityType.GrenadierFlash, Grenadier, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         flash = new ScreenFlash();
         SetColor();
@@ -72,7 +72,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Modifier.GrenadierFlashedNotification")}</color></b>",
                     Color.white,
-                    spr: TouRoleIcons.Grenadier.LoadAsset());
+                    spr: TouRoleIcons.Grenadier);
 
                 notif1.AdjustNotification();
                 notif1.transform.localPosition = new Vector3(0f, 1f, -150f);
@@ -189,7 +189,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
 
     public override void OnMeetingStart()
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     private void SetFlash(Color color)

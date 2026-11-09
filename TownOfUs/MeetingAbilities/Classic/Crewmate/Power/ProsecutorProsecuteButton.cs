@@ -22,8 +22,9 @@ public class ProsecutorProsecuteButton : TargetedMeetingButton
 
     public override bool Enabled(RoleBehaviour r)
     {
-        return r is ProsecutorRole pros && !pros.HideProsButton && pros.WantsToPros is ProsecuteToggleMode.NoToggle && !pros.HasProsecuted && pros.ProsecutionsCompleted <
-            OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
+        return r is ProsecutorRole
+            { HideProsButton: false, WantsToPros: ProsecuteToggleMode.NoToggle, HasProsecuted: false } pros &&
+            pros.ProsecutionsCompleted < OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
     }
 
     protected override void OnClick(PlayerVoteArea playerVoteArea)

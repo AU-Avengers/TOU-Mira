@@ -133,7 +133,7 @@ public sealed class FrenzyEscapistRole(IntPtr cppPtr)
         }
 
         henry.MarkedLocation = pos;
-        henry.EscapeMark = AnimStore.SpawnAnimAtPlayer(player, TouAssets.EscapistMarkPrefab.LoadAsset());
+        henry.EscapeMark = AnimStore.SpawnAnimAtPlayer(player, TouAssets.EscapistMarkPrefab);
         henry.EscapeMark.transform.localPosition = new Vector3(pos.x, pos.y + 0.3f, zPos);
         henry.EscapeMark.SetActive(false);
     }

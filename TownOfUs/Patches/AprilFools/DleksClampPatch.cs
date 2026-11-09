@@ -4,7 +4,7 @@ namespace TownOfUs.Patches.AprilFools;
 /// <remakrs>
 /// Taken from <see href="https://github.com/Tommy-XL/Unlock-dlekS-ehT/blob/main/Patches/AutoSelectDleksPatch.cs"/>
 /// </remakrs>
-[HarmonyPatch(typeof(StringOption), nameof(StringOption.Start))]
+[HarmonyPatch(typeof(StringOption), nameof(StringOption.Initialize))]
 public static class DleksClampPatch
 {
     [HarmonyPostfix]

@@ -13,7 +13,7 @@ public sealed class MedicShieldButton : TownOfUsRoleButton<MedicRole, PlayerCont
     public override Color TextOutlineColor => TownOfUsColors.Medic;
 
     public override int MaxUses => OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget
-        ? (int)OptionGroupSingleton<MedicOptions>.Instance.MedicShieldUses
+        ? OptionGroupSingleton<MedicOptions>.Instance.MedicShieldUses
         : 1;
 
     public override bool ZeroIsInfinite { get; set; } = true;

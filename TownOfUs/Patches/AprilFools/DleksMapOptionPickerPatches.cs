@@ -11,12 +11,12 @@ public static class DleksMapOptionPickerPatches
 {
     public static StringNames DleksName { get; } = MiraLocaleManager.GetOrCreateLocaleString("ReverseSkeldMapName");
     public static StringNames DleksTooltip { get; } = MiraLocaleManager.GetOrCreateLocaleString("ReverseSkeldMapTooltip");
-    
+
     [HarmonyPatch(typeof(GameOptionsMapPicker), nameof(GameOptionsMapPicker.SetupMapButtons))]
     [HarmonyPrefix]
     public static void AddToGameOptionsUI(GameOptionsMapPicker __instance)
     {
-        if (__instance.AllMapIcons.ToArray().Any(x => x.Name == MapNames.Dleks))
+        if (__instance.AllMapIcons.Any(x => x.Name == MapNames.Dleks))
         {
             return;
         }
@@ -24,9 +24,9 @@ public static class DleksMapOptionPickerPatches
         __instance.AllMapIcons.Insert((int)MapNames.Dleks, new MapIconByName
         {
             Name = MapNames.Dleks,
-            MapImage = TouAssets.DleksBanner.LoadAsset(),
-            MapIcon = TouAssets.DleksIcon.LoadAsset(),
-            NameImage = TouAssets.DleksText.LoadAsset(),
+            MapImage = TouAssets.DleksBanner,
+            MapIcon = TouAssets.DleksIcon,
+            NameImage = TouAssets.DleksText,
         });
     }
 
@@ -38,7 +38,7 @@ public static class DleksMapOptionPickerPatches
         // Seems to throw error on android?
         try
         {
-            if (__instance.AllMapIcons.ToArray().Any(x => x.Name == MapNames.Dleks))
+            if (__instance.AllMapIcons.Any(x => x.Name == MapNames.Dleks))
             {
                 return;
             }
@@ -51,7 +51,7 @@ public static class DleksMapOptionPickerPatches
         __instance.AllMapIcons.Insert((int)MapNames.Dleks, new MapIconByName
         {
             Name = MapNames.Dleks,
-            MapIcon = TouAssets.DleksTextAlt.LoadAsset(),
+            MapIcon = TouAssets.DleksTextAlt,
         });
     }
 
@@ -104,7 +104,7 @@ public static class DleksMapOptionPickerPatches
         {
             __instance.mapBanner.flipX = false;
             __instance.rendererBGCrewmates.sprite = __instance.bgCrewmates[0];
-            __instance.mapBanner.sprite = TouAssets.DleksText.LoadAsset();
+            __instance.mapBanner.sprite = TouAssets.DleksText;
             __instance.TurnOffCrewmates();
             __instance.currentCrewSprites = __instance.skeldCrewSprites;
             __instance.SetCrewmateGraphic(__instance.capacityOption.Value - 1f);
@@ -120,7 +120,7 @@ public static class DleksMapOptionPickerPatches
     {
         if (__instance.currentCrewSprites == null)
         {
-            __instance.mapBanner.sprite = TouAssets.DleksText.LoadAsset();
+            __instance.mapBanner.sprite = TouAssets.DleksText;
         }
         __instance.currentCrewSprites ??= __instance.skeldCrewSprites;
         __instance.mapTooltips[3] = DleksTooltip;
@@ -159,7 +159,7 @@ public static class DleksMapOptionPickerPatches
 
         dleksButton.name = "DleksButton";
         dleksButton.map = MapNames.Dleks;
-        dleksButton.GetComponent<SpriteRenderer>().sprite = TouAssets.DleksTextAlt.LoadAsset();
+        dleksButton.GetComponent<SpriteRenderer>().sprite = TouAssets.DleksTextAlt;
         dleksButton.OnPressEvent = fungleButton.OnPressEvent;
 
         dleksButton.transform.position = new Vector3(fungleButton.transform.position.x, __instance.buttons[0].transform.position.y + 0.7f, fungleButton.transform.position.z);

@@ -3,7 +3,6 @@ using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
 using MiraAPI.GameEnd;
 using MiraAPI.GameOptions;
-using MiraAPI.Hud;
 using MiraAPI.Networking;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -11,7 +10,6 @@ using MiraAPI.Voting;
 using Reactor.Networking.Attributes;
 using Rewired;
 using TownOfUs.Achievements;
-using TownOfUs.Buttons;
 using TownOfUs.Events.Modifiers;
 using TownOfUs.GameOver;
 using TownOfUs.Modules;
@@ -51,7 +49,7 @@ public static class Bindings
             }
         }
 
-        CreateNotif("HostStartMeetingNotif", TouRoleIcons.Monarch.LoadAsset());
+        CreateNotif("HostStartMeetingNotif", TouRoleIcons.Monarch);
     }
 
     [MethodRpc((uint)TownOfUsRpc.HostEndMeeting)]
@@ -89,7 +87,7 @@ public static class Bindings
                 }
             }
 
-            MiraEventManager.InvokeEvent(new CheckForEndVotingEvent(true));
+            new CheckForEndVotingEvent(true).InvokeEvent();
 
             var finalVoteList = new List<CustomVote>();
             foreach (var player in PlayerControl.AllPlayerControls.ToArray())
@@ -116,9 +114,9 @@ public static class Bindings
             {
                 ExiledPlayer = seededExiled
             };
-            MiraEventManager.InvokeEvent(processEvent);
+            processEvent.InvokeEvent();
 
-            var votesForStates = processEvent.Votes.ToList();
+            var votesForStates = processEvent.Votes;
             if (TiebreakerEvents.TiebreakingVote.HasValue)
             {
                 votesForStates.Add(TiebreakerEvents.TiebreakingVote.Value);
@@ -169,10 +167,10 @@ public static class Bindings
             }
 
             hud.RpcVotingComplete(voterStates, exiled, tie, processEvent.OverruledVote, processEvent.OverruledNonce);
-            AchievementsAPIHelper.Unlock(TouAchievements.Silence);
+            TouAchievements.Silence.Unlock();
         }
 
-        CreateNotif("HostEndMeetingNotif", TouRoleIcons.Prosecutor.LoadAsset());
+        CreateNotif("HostEndMeetingNotif", TouRoleIcons.Prosecutor);
     }
 
     public static void CreateNotif(string IdPart, Sprite icon)
@@ -212,7 +210,7 @@ public static class Bindings
                     if (settings.SelfKillBindToggle.Value && !PlayerControl.LocalPlayer.HasDied() &&
                         Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.T) && Input.GetKey(KeyCode.LeftShift))
                     {
-                        AchievementsAPIHelper.Unlock(TouAchievements.IveSeenThePlays);
+                        TouAchievements.IveSeenThePlays.Unlock();
                         PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
                     }
 
@@ -223,7 +221,7 @@ public static class Bindings
                         var gameFlow = GameManager.Instance.LogicFlow.Cast<LogicGameFlowNormal>();
                         if (gameFlow != null)
                         {
-                            AchievementsAPIHelper.Unlock(TouAchievements.Oops);
+                            TouAchievements.Oops.Unlock();
                             CustomGameOver.Trigger<HostGameOver>([]);
                         }
                     }
@@ -256,8 +254,8 @@ public static class Bindings
                     if (impostorRoles.Count > 0)
                     {
                         var randomRole = impostorRoles[Random.Range(0, impostorRoles.Count)];
-                        var roleIdentifier = randomRole is ITownOfUsRole touRole
-                            ? touRole.IdPart
+                        var roleIdentifier = randomRole is ITownOfUsRole { IdPart: var idPart }
+                            ? idPart
                             : randomRole.GetRoleName();
                         var playerName = PlayerControl.LocalPlayer.Data.PlayerName;
                         UpCommandRequests.SetRequest(playerName, roleIdentifier);
@@ -279,8 +277,8 @@ public static class Bindings
                     if (neutralKillerRoles.Count > 0)
                     {
                         var randomRole = neutralKillerRoles[Random.Range(0, neutralKillerRoles.Count)];
-                        var roleIdentifier = randomRole is ITownOfUsRole touRole
-                            ? touRole.IdPart
+                        var roleIdentifier = randomRole is ITownOfUsRole { IdPart: var idPart }
+                            ? idPart
                             : randomRole.GetRoleName();
                         var playerName = PlayerControl.LocalPlayer.Data.PlayerName;
                         UpCommandRequests.SetRequest(playerName, roleIdentifier);
@@ -291,7 +289,7 @@ public static class Bindings
             // CTRL to pass through objects in lobby
             if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined &&
                 (TutorialManager.InstanceExists ||
-                 OptionGroupSingleton<HostSpecificOptions>.Instance.LobbyFunMode.Value))
+                 OptionGroupSingleton<HostSpecificOptions>.Instance.LobbyFunMode))
             {
                 var player = PlayerControl.LocalPlayer;
                 if (player != null && player.gameObject != null)
@@ -360,7 +358,7 @@ public static class Bindings
             var contPlayer = ConsoleJoystick.player;
             var buttonList = CustomButtonManager.Buttons.Where(x =>
                 x.Enabled(PlayerControl.LocalPlayer.Data.Role) && x.Button != null && x.Button.isActiveAndEnabled &&
-                x.CanUse()).ToList();
+                x.CanUse());
 
             foreach (var button in buttonList.Where(x => x is TownOfUsButton))
             {

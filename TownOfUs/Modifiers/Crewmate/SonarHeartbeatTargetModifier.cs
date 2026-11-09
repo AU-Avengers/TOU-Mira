@@ -18,7 +18,7 @@ public sealed class SonarHeartbeatTargetModifier(PlayerControl owner, Color colo
         base.OnActivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SonarTrack, Owner, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (Arrow == null)
         {

@@ -20,7 +20,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
     public override bool AutoStart => true;
     public override bool VisibleToOthers => false;
 
-    public static SwoopTracking CanBeTracked => (SwoopTracking)OptionGroupSingleton<SwooperOptions>.Instance.TrackedMidSwoop.Value;
+    public static SwoopTracking CanBeTracked => OptionGroupSingleton<SwooperOptions>.Instance.TrackedMidSwoop;
     public SwoopProgress AchProgress = SwoopProgress.Nothing;
 
     public bool VisualPriority => true;
@@ -60,13 +60,13 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
     public override void OnActivate()
     {
         CanSwooperVent =
-            (SwooperVent)OptionGroupSingleton<SwooperOptions>.Instance.CanVent.Value is SwooperVent.Always;
+            OptionGroupSingleton<SwooperOptions>.Instance.CanVent.Value is SwooperVent.Always;
         if (Player.AmOwner)
         {
             TouAudio.PlaySound(TouAudio.SwooperActivateSound);
 
             var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
-            button.OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.SwoopSprite.LoadAsset() : TouImpAssets.UnswoopSprite.LoadAsset());
+            button.OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.SwoopSprite : TouImpAssets.UnswoopSprite);
             button.OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.SwooperUnswoop", "Unswoop"));
         }
 
@@ -74,7 +74,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
         Player.cosmetics.ToggleNameVisible(false);
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SwooperSwoop, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void FixedUpdate()
@@ -96,7 +96,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
         if (Player.AmOwner)
         {
             var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
-            button.OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.SwoopSprite.LoadAsset() : TouImpAssets.SwoopSprite.LoadAsset());
+            button.OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.SwoopSprite : TouImpAssets.SwoopSprite);
             button.OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.SwooperSwoop", "Swoop"));
             if (!MeetingHud.Instance)
             {
@@ -115,7 +115,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SwooperUnswoop, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public static void MushroomMixUp(MushroomMixupSabotageSystem instance, PlayerControl player)

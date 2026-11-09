@@ -12,7 +12,7 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Taskmaster,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Taskmaster.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Taskmaster,
             "TouMira.Modifier.Crewmate.Taskmaster", 1.45f));
     public override string IdPart => "Taskmaster";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -38,12 +38,12 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.TaskmasterChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.TaskmasterChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.TaskmasterAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.TaskmasterAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)
@@ -56,7 +56,7 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
     {
         if (Player.AmOwner && Player.myTasks.Count > 0 && !Player.HasDied() && Player.IsCrewmate())
         {
-            var tasks = Player.myTasks.ToArray().Where(x => x.TryCast<NormalPlayerTask>() != null && !x.IsComplete)
+            var tasks = Player.myTasks.Where(x => x.TryCast<NormalPlayerTask>() != null && !x.IsComplete)
                 .ToList();
 
             if (tasks.Count > 0)
@@ -78,7 +78,7 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Taskmaster.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Modifier.TaskmasterTaskNotif").Replace("<taskName>", taskText)}</b></color>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Taskmaster.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Taskmaster);
                 notif1.AdjustNotification();
             }
         }

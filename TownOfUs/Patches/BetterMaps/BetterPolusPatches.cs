@@ -67,7 +67,7 @@ public static class BetterPolusPatches
     public static void AdjustPolus()
     {
         var options = OptionGroupSingleton<BetterPolusOptions>.Instance;
-        var themeMode = (PolusTheme)options.MapTheme.Value;
+        PolusTheme themeMode = options.MapTheme;
 
         if (themeMode is not PolusTheme.Auto)
         {

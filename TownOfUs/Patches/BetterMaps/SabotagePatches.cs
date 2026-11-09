@@ -159,7 +159,7 @@ public static class MixUpPatch
 
         if (!flag)
             return true;
-        
+
         MushroomMixupSabotageSystem.Operation operation = (MushroomMixupSabotageSystem.Operation)msgReader.ReadByte();
         if (operation == MushroomMixupSabotageSystem.Operation.TriggerSabotage)
         {

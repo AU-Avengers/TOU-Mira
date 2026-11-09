@@ -21,22 +21,22 @@ public sealed class MediumOptions : AbstractRoleOptionGroup<MediumRole>
     public ModdedNumberOption LivingSeeSpiritTimer { get; set; } =
         new("TouOptionMediumLivingSeeSpiritTimer", 2.5f, 0.5f, 20f, 0.5f, MiraNumberSuffixes.Seconds);
 
-    public ModdedEnumOption PlayerVisibility { get; set; } = new("TouOptionMediumAppearanceVisibility",
-        (int)AppearanceVisibility.None, typeof(AppearanceVisibility),
+    public ModdedEnumOption<AppearanceVisibility> PlayerVisibility { get; set; } = new("TouOptionMediumAppearanceVisibility",
+        AppearanceVisibility.None,
         [
             "TouOptionMediumAppearanceEnumLiving", "TouOptionMediumAppearanceEnumDead",
             "TouOptionMediumAppearanceEnumBoth", "TouOptionMediumAppearanceEnumNone"
         ]);
 
-    public ModdedEnumOption ArrowVisibility { get; set; } = new("TouOptionMediumArrowVisibility",
-        (int)MediumVisibility.Both, typeof(MediumVisibility),
+    public ModdedEnumOption<MediumVisibility> ArrowVisibility { get; set; } = new("TouOptionMediumArrowVisibility",
+        MediumVisibility.Both,
         [
             "TouOptionMediumArrowEnumShowMedium", "TouOptionMediumArrowEnumShowMediated",
             "TouOptionMediumArrowEnumBoth", "TouOptionMediumArrowEnumNone"
         ]);
 
-    public ModdedEnumOption WhoIsRevealed { get; set; } = new("TouOptionMediumWhoisRevealed",
-        (int)MediateRevealedTargets.OldestDead, typeof(MediateRevealedTargets),
+    public ModdedEnumOption<MediateRevealedTargets> WhoIsRevealed { get; set; } = new("TouOptionMediumWhoisRevealed",
+        MediateRevealedTargets.OldestDead,
         [
             "TouOptionMediumGhostEnumOldestDead", "TouOptionMediumGhostEnumNewestDead",
             "TouOptionMediumGhostEnumRandomDead", "TouOptionMediumGhostEnumAllDead"

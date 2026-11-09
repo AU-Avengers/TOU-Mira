@@ -15,7 +15,7 @@ public static class PaletteColorsPatch
             return false;
         }
         var vanillaString = TranslationController.Instance.GetString(Palette.ColorNames[colorId]);
-        
+
         if (vanillaString != null)
         {
             var name = MiraLocaleManager.Get($"{vanillaString}");

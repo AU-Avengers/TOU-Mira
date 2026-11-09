@@ -26,7 +26,7 @@ public sealed class MercenaryOptions : AbstractRoleOptionGroup<MercenaryRole>
 
     public ModdedNumberOption GoldGivenFromAttack { get; set; } = new("TouOptionMercenaryProtectiveGuardGold", 2f, 0f, 3f, 1f, MiraNumberSuffixes.None, "0")
     {
-        Visible = () => OptionGroupSingleton<MercenaryOptions>.Instance.GuardProtection.Value
+        Visible = () => OptionGroupSingleton<MercenaryOptions>.Instance.GuardProtection
     };
 
     public ModdedToggleOption WinsWithNeutralBenign { get; set; } = new("TouOptionMercenaryWinsWithNeutralBenign", true);

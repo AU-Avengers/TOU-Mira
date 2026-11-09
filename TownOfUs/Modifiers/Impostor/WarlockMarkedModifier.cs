@@ -12,7 +12,7 @@ public sealed class WarlockMarkedModifier : BaseModifier
         base.FixedUpdate();
         if (!Player)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
         Player.cosmetics.SetOutline(true, new Il2CppSystem.Nullable<Color>(TownOfUsColors.Impostor));

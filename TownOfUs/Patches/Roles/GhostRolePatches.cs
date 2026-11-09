@@ -71,9 +71,9 @@ public static class GhostRolePatches
             return;
         }
 
-        if (__instance.myPlayer.Data.Role is IGhostRole ghost)
+        if (__instance.myPlayer.Data.Role is IGhostRole { GhostActive: var active })
         {
-            amDead = !ghost.GhostActive;
+            amDead = !active;
         }
     }
 
@@ -91,9 +91,9 @@ public static class GhostRolePatches
             return;
         }
 
-        if (__instance.myPlayer.Data.Role is IGhostRole ghost)
+        if (__instance.myPlayer.Data.Role is IGhostRole { GhostActive: var active })
         {
-            __instance.myPlayer.Collider.enabled = ghost.GhostActive;
+            __instance.myPlayer.Collider.enabled = active;
         }
     }
 

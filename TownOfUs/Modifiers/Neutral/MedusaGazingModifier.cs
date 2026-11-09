@@ -17,16 +17,16 @@ public sealed class MedusaGazingModifier : TimedModifier
         base.OnActivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MedusaGazing, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnMeetingStart()
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 }

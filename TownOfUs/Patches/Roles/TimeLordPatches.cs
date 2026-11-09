@@ -27,7 +27,7 @@ public static class TimeLordPatches
     }
     public static void RecordTimeLordSnapshot(HudManager __instance)
     {
-        var inMinigame = Minigame.Instance || SpawnInMinigame.Instance;
+        var inMinigame = Minigame.Instance;
         if (!inMinigame)
         {
             return;
@@ -58,7 +58,7 @@ public static class TimeLordPatches
         }
 
         var player = __instance.myPlayer;
-        
+
         // Handle rewind for local player (including infected players - they're already recorded in normal snapshots)
         if (PlayerControl.LocalPlayer && player.AmOwner &&
             TimeLordRewindSystem.IsRewinding)
@@ -74,10 +74,8 @@ public static class TimeLordPatches
     public static void PlayerFlipXRewindPrefix(PlayerPhysics __instance, ref bool value)
     {
         if (TimeLordRewindSystem.IsRewinding &&
-    __instance != null &&
-    __instance.myPlayer != null &&
-    __instance.myPlayer.AmOwner &&
-    (PlayerControl.LocalPlayer.Data.Role is not IRewindImmune immune || !immune.IgnoredByRewind))
+            __instance is { myPlayer.AmOwner: true } &&
+            PlayerControl.LocalPlayer.Data.Role is not IRewindImmune { IgnoredByRewind: true })
         {
             value = !value;
         }

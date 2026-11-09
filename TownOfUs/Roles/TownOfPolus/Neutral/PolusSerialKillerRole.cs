@@ -34,7 +34,7 @@ public class PolusSerialKillerRole(IntPtr cppPtr) : PolusBaseNeutRole(cppPtr), I
         GhostRole = (RoleTypes)RoleId.Get<PolusGhostNeutRole>(),
         FreeplayFolder = "Town of Polus",
         CanUseVent = false,
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconSerialKiller.LoadAsset(), "TownOfPolus.Role.Neutral.SerialKiller", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconSerialKiller, "TownOfPolus.Role.Neutral.SerialKiller", 1.45f),
         Icon = PolusGgAssets.IconSerialKiller
     };
     public override bool WinConditionMet()

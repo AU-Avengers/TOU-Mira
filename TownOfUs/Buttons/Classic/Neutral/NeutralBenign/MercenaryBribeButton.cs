@@ -35,7 +35,7 @@ public sealed class MercenaryBribeButton : TownOfUsRoleButton<MercenaryRole, Pla
 
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{notificationText}</b>", Color.white, new Vector3(0f, 1f, -20f),
-            spr: TouRoleIcons.Mercenary.LoadAsset());
+            spr: TouRoleIcons.Mercenary);
         notif1.AdjustNotification();
 
         Role.Gold -= MercenaryRole.BrideCost;

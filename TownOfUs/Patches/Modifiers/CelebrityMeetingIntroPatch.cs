@@ -14,7 +14,7 @@ public static class CelebrityMeetingIntroPatch
     [HarmonyPostfix]
     public static void MeetingIntroAnimationPatch(MeetingIntroAnimation __instance)
     {
-        //if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.protectedByGuardianThisRound && !x.HasDied())) return;
+        //if (PlayerControl.AllPlayerControls.Any(x => x.protectedByGuardianThisRound && !x.HasDied())) return;
 
         var celebrity = ModifierUtils.GetActiveModifiers<CelebrityModifier>(x => x.Player.HasDied() && !x.Announced)
             .FirstOrDefault();
@@ -42,7 +42,7 @@ public static class CelebrityMeetingIntroPatch
 
         var iconObj = __instance.ProtectedRecently.transform.FindChild("UI_ProtectionIcon");
         var iconSprite = iconObj.GetComponent<SpriteRenderer>();
-        iconSprite.sprite = TouModifierIcons.Celebrity.LoadAsset();
+        iconSprite.sprite = TouModifierIcons.Celebrity;
 
         if (HudManager.InstanceExists)
         {

@@ -207,7 +207,7 @@ public static class TouAudio
     {
         if (Constants.ShouldPlaySfx())
         {
-            SoundManager.Instance.PlaySound(clip.LoadAsset(), false, vol);
+            SoundManager.Instance.PlaySound(clip, false, vol);
         }
     }
 }

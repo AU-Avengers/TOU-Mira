@@ -22,7 +22,7 @@ public sealed class JesterVentButton : TownOfUsVentRoleButton<JesterRole>, ILega
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return base.Enabled(role) && OptionGroupSingleton<JesterOptions>.Instance.CanVent.Value;
+        return base.Enabled(role) && OptionGroupSingleton<JesterOptions>.Instance.CanVent;
     }
 
     public override void ClickHandler()
@@ -94,7 +94,7 @@ public sealed class JesterVentButton : TownOfUsVentRoleButton<JesterRole>, ILega
                     break;
                 }
                 var @event = new PlayerCanUseEvent(closeVent.Cast<IUsable>());
-                MiraEventManager.InvokeEvent(@event);
+                @event.InvokeEvent();
 
                 if (!@event.IsCancelled)
                 {

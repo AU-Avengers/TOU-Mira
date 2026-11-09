@@ -15,11 +15,11 @@ public sealed class OverclockButton : TownOfUsButton
     public override Color TextOutlineColor => TownOfUsColors.Overclocker;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<OverclockerOptions>.Instance.OverclockCooldown.Value + MapCooldown, 2.5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<OverclockerOptions>.Instance.OverclockDuration.Value;
-    public override int MaxUses => (int)OptionGroupSingleton<OverclockerOptions>.Instance.OverclockUses.Value;
+    public override int MaxUses => OptionGroupSingleton<OverclockerOptions>.Instance.OverclockUses;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => TouAssets.OverclockSprite;
 
-    public override bool UsableFirstRound => OptionGroupSingleton<OverclockerOptions>.Instance.OverclockRoundOne.Value;
+    public override bool UsableFirstRound => OptionGroupSingleton<OverclockerOptions>.Instance.OverclockRoundOne;
 
     public override bool Enabled(RoleBehaviour? role)
     {
@@ -30,12 +30,12 @@ public sealed class OverclockButton : TownOfUsButton
 
     public override bool CanUse()
     {
-        return base.CanUse() && PlayerControl.LocalPlayer.TryGetModifier<OverclockerModifier>(out var modifier) && modifier.CurrentState < ChargeState.UnderclockedBegin || EffectActive;
+        return base.CanUse() && PlayerControl.LocalPlayer.HasModifier<OverclockerModifier>(modifier => modifier.CurrentState < ChargeState.UnderclockedBegin) || EffectActive;
     }
 
     public override bool CanClick()
     {
-        return base.CanClick() && PlayerControl.LocalPlayer.TryGetModifier<OverclockerModifier>(out var modifier) && modifier.CurrentState is ChargeState.Normal;
+        return base.CanClick() && PlayerControl.LocalPlayer.HasModifier<OverclockerModifier>(modifier => modifier.CurrentState is ChargeState.Normal);
     }
 
     protected override void OnClick()
@@ -50,7 +50,7 @@ public sealed class OverclockButton : TownOfUsButton
 
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.OverclockerOverclockNotif").Replace("<multi>", OptionGroupSingleton<OverclockerOptions>.Instance.OverclockMultiplier.Value.ToString(TownOfUsPlugin.Culture))}</b>", Color.white,
-            new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Overclocker.LoadAsset());
+            new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Overclocker);
         notif1.AdjustNotification();
     }
 
@@ -63,7 +63,7 @@ public sealed class OverclockButton : TownOfUsButton
         }
         modifier.CurrentState = ChargeState.UnderclockedBegin;
         OverrideName(MiraLocaleManager.Get("TownOfUsMira.Modifier.OverclockerUnderclocked", "Underclocked"));
-        OverrideSprite(TouAssets.UnderclockSprite.LoadAsset());
+        OverrideSprite(TouAssets.UnderclockSprite);
         if (MeetingHud.Instance || ExileController.Instance)
         {
             return;
@@ -72,7 +72,7 @@ public sealed class OverclockButton : TownOfUsButton
         ShowedFeedback = true;
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.OverclockerUnderclockNotif").Replace("<multi>", OptionGroupSingleton<OverclockerOptions>.Instance.UnderclockMultiplier.Value.ToString(TownOfUsPlugin.Culture))}</b>", Color.white,
-            new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Overclocker.LoadAsset());
+            new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Overclocker);
         notif1.AdjustNotification();
     }
 }

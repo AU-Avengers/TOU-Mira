@@ -19,7 +19,6 @@ using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
-using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,6 +28,9 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class SpectreRole(IntPtr cppPtr)
     : NeutralGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable, IProgressTally, IAnnounceableKill
 {
+    public bool? ForceShowRoleOnWiki => null;
+
+    [HideFromIl2Cpp]
     public List<PlayerControl> GetAvailableGhosts(List<PlayerControl> basicGhosts, PlayerControl? exiled)
     {
         var spectreData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<SpectreRole>());
@@ -39,7 +41,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
 
             if (!isSkipped)
             {
-                var deadNeutral = PlayerControl.AllPlayerControls.ToArray().Where(x =>
+                var deadNeutral = PlayerControl.AllPlayerControls.Where(x =>
                     x.Data.IsDead && x != exiled && x.GetRoleWhenAlive().IsNeutral() &&
                     !x.GetRoleWhenAlive().DidWin(GameOverReason.CrewmatesByVote) &&
                     x.CanGetGhostRole() &&
@@ -68,7 +70,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
         var text = MiraLocaleManager.Get("TownOfUsMira.Role.SpectreSpookNotif");
         var notif = Helpers.CreateAndShowNotification(
             $"<b>{text.Replace("<victim>", victim.Data.PlayerName)}</b>",
-            Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
+            Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Spectre);
         notif.AdjustNotification();
         notif.alphaTimer = 5f;
     }
@@ -129,15 +131,10 @@ public sealed class SpectreRole(IntPtr cppPtr)
     {
         Setup = true;
 
-        if (HudManagerPatches.CamouflageCommsEnabled)
-        {
-            Player.SetCamouflage(false);
-        }
+        ResetBodyState(true);
 
         var textlog = $"Setup SpectreRole: '{Player.Data.PlayerName}'";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
-
-        Player.gameObject.layer = LayerMask.NameToLayer("Players");
 
         Player.gameObject.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
         Player.gameObject.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Player.OnClick()));
@@ -145,7 +142,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
 
         if (Player.AmOwner)
         {
-            if ((GhostwalkerVentMode)OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerVentSpawn.Value is
+            if (OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerVentSpawn.Value is
                 GhostwalkerVentMode.Evils or GhostwalkerVentMode.All)
             {
                 Player.VentAtRandomVent();
@@ -154,12 +151,6 @@ public sealed class SpectreRole(IntPtr cppPtr)
             {
                 Player.SpawnAtRandomVent();
             }
-            Player.MyPhysics.ResetMoveState();
-
-            HudManager.Instance.SetHudActive(false);
-            HudManager.Instance.SetHudActive(true);
-            HudManager.Instance.AbilityButton.SetDisabled();
-            HudManagerPatches.ResetZoom();
         }
     }
 
@@ -172,14 +163,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
         }
         else if (Faded)
         {
-            Player.ResetAppearance();
-            Player.cosmetics.ToggleNameVisible(true);
-
-            Player.cosmetics.currentBodySprite.BodySprite.color = Color.white;
-            Player.gameObject.layer = LayerMask.NameToLayer("Ghost");
-            Player.MyPhysics.ResetMoveState();
-
-            Faded = false;
+            ResetBodyState(false);
         }
     }
 
@@ -199,7 +183,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Message, textlog);
 
         Caught = true;
-        Player.Exiled();
+        ResetBodyState(false);
 
         if (Player.AmOwner)
         {
@@ -207,6 +191,40 @@ public sealed class SpectreRole(IntPtr cppPtr)
         }
         GameHistory.PlayerStats[Player.PlayerId].DiedThisRound = false;
     }
+
+    public void ResetBodyState(bool isGhostwalking)
+    {
+        if (!isGhostwalking)
+        {
+            Player.ResetAppearance();
+            Player.cosmetics.ToggleNameVisible(true);
+
+            Player.cosmetics.currentBodySprite.BodySprite.color = Color.white;
+            Player.gameObject.layer = LayerMask.NameToLayer("Ghost");
+            Player.MyPhysics.ResetMoveState();
+
+            Faded = false;
+        }
+        else
+        {
+            if (HudManagerPatches.CamouflageCommsEnabled)
+            {
+                Player.SetCamouflage(false);
+            }
+
+            Player.gameObject.layer = LayerMask.NameToLayer("Players");
+            Player.MyPhysics.ResetMoveState();
+
+            if (Player.AmOwner)
+            {
+                HudManager.Instance.SetHudActive(false);
+                HudManager.Instance.SetHudActive(true);
+                HudManager.Instance.AbilityButton.SetDisabled();
+                HudManagerPatches.ResetZoom();
+            }
+        }
+    }
+    
 
     public string IdPart => "Spectre";
     public override string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
@@ -217,7 +235,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
-       return ITownOfUsRole.SetNewTabText(this);
+        return ITownOfUsRole.SetNewTabText(this);
     }
 
     public string GetAdvancedDescription()
@@ -232,7 +250,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
 
     public override CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spectre.LoadAsset(), "TouMira.Role.Neutral.Spectre", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spectre, "TouMira.Role.Neutral.Spectre", 1.45f),
         Icon = TouRoleIcons.Spectre,
         OptionsScreenshot = TouBanners.SpectreRoleBanner,
         HideSettings = false,
@@ -272,32 +290,17 @@ public sealed class SpectreRole(IntPtr cppPtr)
         {
             Setup = true;
 
-            if (HudManagerPatches.CamouflageCommsEnabled)
-            {
-                Player.SetCamouflage(false);
-            }
-
             Coroutines.Start(SetTutorialCollider(Player));
-
-            if (Player.AmOwner)
-            {
-                Player.MyPhysics.ResetMoveState();
-
-                HudManager.Instance.SetHudActive(false);
-                HudManager.Instance.SetHudActive(true);
-                HudManager.Instance.AbilityButton.SetDisabled();
-                HudManagerPatches.ResetZoom();
-            }
         }
 
         MiscUtils.AdjustGhostTasks(player);
     }
 
-    private static IEnumerator SetTutorialCollider(PlayerControl player)
+    private IEnumerator SetTutorialCollider(PlayerControl player)
     {
         yield return new WaitForSeconds(0.01f);
 
-        player.gameObject.layer = LayerMask.NameToLayer("Players");
+        ResetBodyState(true);
 
         player.gameObject.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
         player.gameObject.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => player.OnClick()));
@@ -310,14 +313,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
         TouRoleUtils.ClearTaskHeader(Player);
         if (TutorialManager.InstanceExists)
         {
-            Player.ResetAppearance();
-            Player.cosmetics.ToggleNameVisible(true);
-
-            Player.cosmetics.currentBodySprite.BodySprite.color = Color.white;
-            Player.gameObject.layer = LayerMask.NameToLayer("Ghost");
-            Player.MyPhysics.ResetMoveState();
-
-            Faded = false;
+            ResetBodyState(false);
         }
     }
 
@@ -354,7 +350,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
         GetTaskCounts(Player, out var completedTasks, out var totalTasks);
         var tasksRemaining = totalTasks - completedTasks;
 
-        var clickableAt = (int)OptionGroupSingleton<SpectreOptions>.Instance.NumTasksLeftBeforeClickable;
+        var clickableAt = OptionGroupSingleton<SpectreOptions>.Instance.NumTasksLeftBeforeClickable;
         GhostTaskStage newStage;
         if (totalTasks > 0 && completedTasks == totalTasks)
         {
@@ -393,10 +389,10 @@ public sealed class SpectreRole(IntPtr cppPtr)
                         continue;
                     }
 
-                    var modifiers = p.GetModifiers<MisfortuneTargetModifier>().ToList();
+                    var modifiers = p.GetModifiers<MisfortuneTargetModifier>();
                     foreach (var mod in modifiers)
                     {
-                        p.GetModifierComponent()?.RemoveModifier(mod);
+                        mod.RemoveSelf();
                     }
                 }
 
@@ -421,17 +417,16 @@ public sealed class SpectreRole(IntPtr cppPtr)
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Spectre.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.SpectreClickableFeedback")}</b></color>",
                     Color.white,
-                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
+                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre);
                 notif1.AdjustNotification();
             }
         }
         else if (stage is GhostTaskStage.CompletedTasks &&
                  OptionGroupSingleton<SpectreOptions>.Instance.SpectreWin is SpectreWinOptions.Spooks)
         {
-            var allVictims = PlayerControl.AllPlayerControls.ToArray()
-                .Where(x => !x.AmOwner);
+            var allVictims = PlayerControl.AllPlayerControls.Where(x => !x.AmOwner);
 
-            if (allVictims.HasAny())
+            if (allVictims.Any())
             {
                 foreach (var player in allVictims)
                 {
@@ -460,7 +455,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
 
         if (player.myTasks != null && player.myTasks.Count > 0)
         {
-            var tasks = player.myTasks.ToArray().Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
+            var tasks = player.myTasks.Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
             foreach (var t in tasks)
             {
                 total++;

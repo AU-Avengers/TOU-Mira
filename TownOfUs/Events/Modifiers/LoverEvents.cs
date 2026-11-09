@@ -6,6 +6,8 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
+using TownOfUs.AnimationSystem.BasicKills;
+using TownOfUs.AnimationSystem.Events;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
@@ -19,6 +21,20 @@ namespace TownOfUs.Events.Modifiers;
 
 public static class LoverEvents
 {
+    public static bool NextKillFromLovers;
+
+    [RegisterEvent]
+    public static void BEforeKillAnim(BeforeKillAnimationEvent @event)
+    {
+        if (NextKillFromLovers)
+        {
+            @event.FinalAnimation = SuffocateKillAnimation.CreateKillAnimation(@event.Killer, @event.Victim);
+            @event.ShouldAlterAnimationAfter = false;
+            @event.Cancel();
+        }
+
+        NextKillFromLovers = false;
+    }
     [RegisterEvent(400)]
     public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
     {
@@ -51,6 +67,7 @@ public static class LoverEvents
                 else if (!MeetingHud.Instance)
                 {
                     var showAnim = !ExileController.Instance;
+                    NextKillFromLovers = showAnim && loveMod.OtherLover.AmOwner;
                     var murderResultFlags2 = MurderResultFlags.DecisionByHost | MurderResultFlags.Succeeded;
 
                     GameHistory.UpdatePlayerDeathData(loveMod.OtherLover, MiraLocaleManager.Get("DiedToHeartbreak"), 0, HudManagerHelper.Instance.CurrentRound,
@@ -82,7 +99,7 @@ public static class LoverEvents
                 MiraLocaleManager.Get("TownOfUsMira.Modifier.LoverIntroMessage")
                     .Replace("<modifier>", $"{TownOfUsColors.Lover.ToTextColor()}{lover.ModifierName}</color>")
                     .Replace("<player>", $"{TownOfUsColors.Lover.ToTextColor()}{lover.OtherLover.Data.PlayerName}</color>"),
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Lover.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Lover);
 
             notif1.AdjustNotification();
         }

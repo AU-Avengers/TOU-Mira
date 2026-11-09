@@ -22,7 +22,7 @@ public static class RevealEvents
             switch (mod.ChangeRoleResult)
             {
                 case ChangeRoleResult.RemoveModifier:
-                    mod.ModifierComponent?.RemoveModifier(mod);
+                    mod.RemoveSelf();
                     break;
                 case ChangeRoleResult.UpdateInfo:
                     mod.ShownRole = @event.NewRole;

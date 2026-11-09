@@ -37,7 +37,7 @@ public sealed class HerbalistAbilityKillButton : TownOfUsRoleButton<HerbalistRol
     {
         base.CreateButton(parent);
 
-        Button!.usesRemainingSprite.sprite = TouAssets.AbilityCounterHerbsSprite.LoadAsset();
+        Button!.usesRemainingSprite.sprite = TouAssets.AbilityCounterHerbsSprite;
     }
 
     public void UpdateMiniAbilityCooldown(float cooldown)

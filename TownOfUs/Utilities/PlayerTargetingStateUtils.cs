@@ -19,7 +19,7 @@ public static class PlayerTargetingStateUtils
             return false;
         }
 
-        if ( player.walkingToVent)
+        if (player.walkingToVent)
         {
             return true;
         }

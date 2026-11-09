@@ -17,7 +17,6 @@ using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Modules.TimeLord;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
@@ -35,19 +34,19 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     }
     public void InitialSetup()
     {
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressNone.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressNone,
             "TouMira.Role.Neutral.Chef.Ui.None", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyNormal.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyNormal,
             "TouMira.Role.Neutral.Chef.Ui.BodyNormal", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyMini.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyMini,
             "TouMira.Role.Neutral.Chef.Ui.BodyMini", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyFlash.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyFlash,
             "TouMira.Role.Neutral.Chef.Ui.BodyFlash", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyGiant.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressBodyGiant,
             "TouMira.Role.Neutral.Chef.Ui.BodyGiant", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressFedUncolored.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressFedUncolored,
             "TouMira.Role.Neutral.Chef.Ui.PlayerUncolored", 1.45f);
-        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressFedRainbow.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouAssets.ChefProgressFedRainbow,
             "TouMira.Role.Neutral.Chef.Ui.PlayerRainbow", 1.45f);
     }
     private static string GetIcon(string name)
@@ -74,7 +73,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
                 tally.Append(GetIconColored(_uxIcons[5], Palette.TextColors[pair.Value].ToHtmlStringRGBA()));
             }
         }
-        var fedPlayers = ModifierUtils.GetPlayersWithModifier<ChefServedModifier>().ToList();
+        var fedPlayers = ModifierUtils.GetPlayersWithModifier<ChefServedModifier>();
         foreach (var plr in fedPlayers)
         {
             count--;
@@ -159,23 +158,6 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Cook", "Cook"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Cook.WikiDescription"),
-                    TouNeutAssets.ChefCookSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Serve", "Serve"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Serve.WikiDescription"),
-                    TouNeutAssets.ChefServeSprites.AsEnumerable().Random()!),
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get
@@ -200,7 +182,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Chef.LoadAsset(), "TouMira.Role.Neutral.Chef", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Chef, "TouMira.Role.Neutral.Chef", 1.45f),
         IntroSound = TouAudio.ChefSound,
         Icon = TouRoleIcons.Chef,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
@@ -230,8 +212,8 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
         _tabCounter = MiraLocaleManager.Get("TownOfUsMira.Role.ChefTabCounter").Replace("<bodiesTotal>",
             $"{(int)OptionGroupSingleton<ChefOptions>.Instance.ServingsNeeded}");
 
-        var serveMods = ModifierUtils.GetActiveModifiers<ChefServedModifier>().ToList();
-        BodiesServed = serveMods.Count + DisconnectedServings.Count;
+        var serveMods = ModifierUtils.GetActiveModifiers<ChefServedModifier>();
+        BodiesServed = serveMods.Count() + DisconnectedServings.Count;
         if (BodiesServed >= OptionGroupSingleton<ChefOptions>.Instance.ServingsNeeded)
         {
             TargetsServed = true;
@@ -246,8 +228,8 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
                 return;
             }
 
-            var deadBodies = UnityEngine.Object.FindObjectsOfType<DeadBody>().ToArray();
-            foreach (var deadPlayer in PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasDied()))
+            var deadBodies = FindObjectsOfType<DeadBody>().ToArray();
+            foreach (var deadPlayer in PlayerControl.AllPlayerControls.Where(x => x.HasDied()))
             {
                 if (deadBodies.Select(x => x.ParentId).Contains(deadPlayer.PlayerId))
                 {
@@ -292,7 +274,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
             MiscUtils.RunAnticheatWarning(chef);
             return;
         }
-        if (chef.Data.Role is not ChefRole role)
+        if (chef.Data.Role is not ChefRole { StoredBodies: var bodies })
         {
             Error("RpcCookBody - Invalid chef");
             return;
@@ -315,7 +297,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
                 platter = PlatterType.Burger;
             }
         }
-        role.StoredBodies.Add(new KeyValuePair<int, PlatterType>(bodyId, platter));
+        bodies.Add(new KeyValuePair<int, PlatterType>(bodyId, platter));
 
         if (body == null)
         {
@@ -327,16 +309,16 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
             var player = MiscUtils.PlayerById(bodyId);
             if (player != null)
             {
-                TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordChefCook(chef, body, platter);
+                Events.Crewmate.TimeLordEventHandlers.RecordChefCook(chef, body, platter);
             }
-            var destroyBody = (BodyVitalsMode)OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance.Value;
+            var destroyBody = OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance;
 
             if (OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind)
             {
                 var bodyPlayer = MiscUtils.PlayerById(bodyId);
                 if (bodyPlayer != null)
                 {
-                    TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(chef, body, body.transform.position, 
+                    Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(chef, body, body.transform.position,
                         TimeLordBodyManager.CleanedBodySource.Janitor);
                 }
                 Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));
@@ -377,7 +359,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
 
         target.AddModifier<ChefServedModifier>(chef, (int)platter.Value, platter.Key);
 
-        TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordChefServe(chef, target, (byte)platter.Key, platter.Value);
+        Events.Crewmate.TimeLordEventHandlers.RecordChefServe(chef, target, (byte)platter.Key, platter.Value);
 
         role.StoredBodies.RemoveAt(0);
     }

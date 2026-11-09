@@ -60,7 +60,7 @@ public static class PlumberEvents
     [RegisterEvent]
     public static void EjectionEventHandler(EjectionEvent _)
     {
-        if ((int)OptionGroupSingleton<PlumberOptions>.Instance.BarricadeRoundDuration > 0)
+        if (OptionGroupSingleton<PlumberOptions>.Instance.BarricadeRoundDuration > 0)
         {
             var unblockedVents = new HashSet<int>();
             foreach (var (ventId, rounds) in PlumberRole.VentsBlocked)

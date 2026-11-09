@@ -29,7 +29,7 @@ public sealed class BarkeeperRoleblockButton : TownOfUsRoleButton<BarkeeperRole,
         if (CanClick())
         {
             var opts = OptionGroupSingleton<BarkeeperOptions>.Instance;
-            SelectedDuration = UnityEngine.Random.RandomRange(opts.RoleblockDelayMin.Value, opts.RoleblockDelayMax.Value);
+            SelectedDuration = UnityEngine.Random.RandomRange(opts.RoleblockDelayMin, opts.RoleblockDelayMax);
         }
         base.ClickHandler();
     }
@@ -46,8 +46,8 @@ public sealed class BarkeeperRoleblockButton : TownOfUsRoleButton<BarkeeperRole,
 
         _roleblockedTarget = Target;
 
-        NotifMessage = Helpers.CreateAndShowNotification($"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockChosen") .Replace("<player>", _roleblockedTarget.CachedPlayerData.PlayerName)}</b>",
-        Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper.LoadAsset());
+        NotifMessage = Helpers.CreateAndShowNotification($"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.BarkeeperRoleblockChosen").Replace("<player>", _roleblockedTarget.CachedPlayerData.PlayerName)}</b>",
+        Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Barkeeper);
         NotifMessage.Text.SetOutlineThickness(0.35f);
         CustomButtonSingleton<BarkeeperSpillButton>.Instance.ResetCooldownAndOrEffect();
     }

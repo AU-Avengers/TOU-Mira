@@ -316,7 +316,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 {
                     modifierIcon = modIcon;
                     modIcon.sprite = activeMods.Random()!.ModifierIcon?.LoadAsset() ??
-                                     TouModifierIcons.Bait.LoadAsset();
+                                     TouModifierIcons.Bait;
                 }
 
                 var aliveRole = PlayerControl.LocalPlayer.GetRoleWhenAlive();
@@ -324,7 +324,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                         .TryGetComponent<SpriteRenderer>(out var roleIcon))
                 {
                     playerRoleIcon = roleIcon;
-                    roleIcon.sprite = aliveRole.RoleIconSolid ?? TouRoleIcons.Parasite.LoadAsset();
+                    roleIcon.sprite = aliveRole.RoleIconSolid ?? TouRoleIcons.Parasite;
                 }
 
                 modifierIcon?.SetSizeLimit(1.44f);
@@ -580,7 +580,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             .Replace("<so>", $"{_activeSettings.IndexOf(_selectedSettingsPage!.Value) + 1}")
             .Replace("<st>", $"{_activeSettings.Count}");
 
-        SettingsScreenIcon.Value.sprite = newTerms.DefaultIcon.LoadAsset();
+        SettingsScreenIcon.Value.sprite = newTerms.DefaultIcon;
         SettingsScreenIcon.Value.SetSizeLimit(1.44f);
         // Error($"Page Count: {SettingsDescription.Value.textInfo.pageCount}, current page is {SettingsDescription.Value.pageToDisplay}");
     }
@@ -705,7 +705,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             .Replace("<so>", $"{_activeTerms.IndexOf(_selectedTermPage!.Value) + 1}")
             .Replace("<st>", $"{_activeTerms.Count}");
 
-        TermsScreenIcon.Value.sprite = newTerms.Icon.LoadAsset();
+        TermsScreenIcon.Value.sprite = newTerms.Icon;
         TermsScreenIcon.Value.SetSizeLimit(1.44f);
         // Error($"Page Count: {TermsDescription.Value.textInfo.pageCount}, current page is {TermsDescription.Value.pageToDisplay}");
     }
@@ -733,9 +733,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         {
             DetailScreenItemName.Value.text =
                 $"{touRole.RoleName}\n<size=60%>{touRole.RoleColor.ToTextColor()}{MiscUtils.GetParsedRoleAlignment(touRole.RoleAlignment)}</size></color>";
-            DetailScreenIcon.Value.sprite = touRole.Configuration.Icon != null
-                ? touRole.Configuration.Icon.LoadAsset()
-                : TouRoleUtils.GetBasicRoleIcon(touRole);
+            DetailScreenIcon.Value.sprite = touRole.Configuration.Icon ?? TouRoleUtils.GetBasicRoleIcon(touRole);
         }
         else if (_selectedItem is BaseModifier baseModifier)
         {
@@ -769,15 +767,13 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             }
             DetailScreenItemName.Value.text =
                 $"{baseModifier.ModifierName}\n<size=60%>{color.ToTextColor()}{alignment}</size></color>";
-            DetailScreenIcon.Value.sprite = baseModifier.ModifierIcon != null
-                ? baseModifier.ModifierIcon.LoadAsset()
-                : TouRoleIcons.RandomAny.LoadAsset();
+            DetailScreenIcon.Value.sprite = baseModifier.ModifierIcon ?? TouRoleIcons.RandomAny;
         }
         else if (_selectedSoftItem != null)
         {
             DetailScreenItemName.Value.text =
                 $"{_selectedSoftItem.EntryName}\n<size=60%>{_selectedSoftItem.EntryColor.ToTextColor()}{MiraLocaleManager.Get(_selectedSoftItem.TeamName, _selectedSoftItem.TeamName)}</size></color>";
-            DetailScreenIcon.Value.sprite = _selectedSoftItem.Icon ?? TouRoleIcons.RandomAny.LoadAsset();
+            DetailScreenIcon.Value.sprite = _selectedSoftItem.Icon ?? TouRoleIcons.RandomAny;
             var possibleIcon = TouRoleUtils.TryGetVanillaRoleIcon(_selectedSoftItem.AssociatedRole);
             if (possibleIcon != null)
             {
@@ -838,7 +834,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
         var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
 
-        icon.sprite = ability.Icon.LoadAsset();
+        icon.sprite = ability.Icon;
         icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
         // icon.tileMode = SpriteTileMode.Adaptive;
 
@@ -854,15 +850,15 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         SearchScreen.Value.gameObject.SetActive(true);
         SearchPageText.Value.text = MiraLocaleManager.Get(_modifiersSelected ? "Modifiers" : "Roles");
         SearchPageIcon.Value.sprite = _modifiersSelected
-            ? TouModifierIcons.Bait.LoadAsset()
-            : TouRoleIcons.Parasite.LoadAsset();
+            ? TouModifierIcons.Bait
+            : TouRoleIcons.Parasite;
         if (!SearchIcon)
         {
             SearchIcon = Instantiate(SearchPageIcon.Value.gameObject, Instance.gameObject.transform);
             SearchIcon.transform.localPosition += new Vector3(0.625f, 0.796f, -1.1f);
             SearchIcon.transform.localScale *= 0.25f;
             var renderer = SearchIcon.GetComponent<SpriteRenderer>();
-            renderer.sprite = TouRoleIcons.Forensic.LoadAsset();
+            renderer.sprite = TouRoleIcons.Forensic;
             SearchIcon.name = "SearchboxIcon";
         }
 
@@ -877,7 +873,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         {
             var activeModifiers = PlayerControl.LocalPlayer.GetModifiers<GameModifier>()
                 .Where(x => x is IWikiDiscoverable)
-                .Select(x => MiscUtils.GetModifierTypeId(x));
+                .Select(MiscUtils.GetModifierTypeId);
             var comparer = new ModifierComparer(activeModifiers);
 
             var activeMods = PlayerControl.LocalPlayer.GetModifiers<GameModifier>()
@@ -886,19 +882,18 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             if (activeMods.Count > 0)
             {
                 SearchPageIcon.Value.sprite =
-                    activeMods.Random()!.ModifierIcon?.LoadAsset() ?? TouModifierIcons.Bait.LoadAsset();
+                    activeMods.Random()!.ModifierIcon?.LoadAsset() ?? TouModifierIcons.Bait;
             }
 
             var modifiers = MiscUtils.AllOverallWikiModifiers
-                .OrderBy(x => x, comparer)
-                .ToList();
+                .OrderBy(x => x, comparer);
 
             ToggleRoles(false);
-            if (!_modifierEntries.HasAny())
+            if (_modifierEntries.Count == 0)
             {
                 foreach (var modifier in modifiers)
                 {
-                    if ((modifier is not IWikiDiscoverable wikiMod || wikiMod.IsHiddenFromList) &&
+                    if ((modifier is not IWikiDiscoverable { IsHiddenFromList: false }) &&
                         !SoftWikiEntries.ModifierEntries.ContainsKey(modifier))
                     {
                         continue;
@@ -963,8 +958,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
             var curRole = PlayerControl.LocalPlayer.Data.Role.Role;
 
-            if (PlayerControl.LocalPlayer.GetModifiers<BaseModifier>().FirstOrDefault(x =>
-                    x is ICachedRole cached && cached.CachedRole.Role != curRole) is ICachedRole cachedMod)
+            if (PlayerControl.LocalPlayer.TryGetModifierOfType<ICachedRole>(out var cachedMod, x => x.CachedRole.Role != curRole))
             {
                 roleList.Add((ushort)cachedMod.CachedRole.Role);
             }
@@ -980,26 +974,24 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             var aliveRole = PlayerControl.LocalPlayer.GetRoleWhenAlive();
             if (aliveRole != null)
             {
-                SearchPageIcon.Value.sprite = aliveRole.RoleIconSolid ?? TouRoleIcons.Parasite.LoadAsset();
+                SearchPageIcon.Value.sprite = aliveRole.RoleIconSolid ?? TouRoleIcons.Parasite;
             }
 
             var comparer = new RoleComparer(roleList);
-            if (!_roleList.HasAny())
+            if (_roleList.Count == 0)
             {
                 _roleList = MiscUtils.AllRegisteredRoles.Excluding(role =>
-                    !SoftWikiEntries.RoleEntries.ContainsKey(role) && role is not IWikiDiscoverable ||
-                    role is IWikiDiscoverable wikiMod && wikiMod.IsHiddenFromList).ToList();
+                    !SoftWikiEntries.RoleEntries.ContainsKey(role) && role is not IWikiDiscoverable { IsHiddenFromList: false }).ToList();
             }
 
             var roles = _roleList.OrderBy(x => x, comparer);
             /*_activeItems = _activeItems
                 .OrderByDescending(child => child.name.Equals(text, StringComparison.OrdinalIgnoreCase))
                 .ThenByDescending(child => child.name.Contains(text, StringComparison.InvariantCultureIgnoreCase))
-                .ThenBy(child => child.name.ToLowerInvariant())
-                .ToList();*/
+                .ThenBy(child => child.name.ToLowerInvariant());*/
 
             ToggleRoles(true);
-            if (!_roleEntries.HasAny())
+            if (_roleEntries.Count == 0)
             {
                 foreach (var role in roles)
                 {
@@ -1033,7 +1025,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
                         if (customRole.Configuration.Icon != null)
                         {
-                            roleImg = customRole.Configuration.Icon.LoadAsset();
+                            roleImg = customRole.Configuration.Icon;
                         }
                     }
                     else if (role.RoleIconSolid != null)
@@ -1108,7 +1100,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     {
         var newItem = Instantiate(RoleSearchItemTemplate.Value, SearchScroller.Value.Inner);
         newItem.gameObject.SetActive(true);
-        var newSprite = sprite ?? TouRoleIcons.RandomAny.LoadAsset();
+        var newSprite = sprite ?? TouRoleIcons.RandomAny;
 
         newItem.SetInitialData(role, newSprite, team, color, source);
         _activeItems.Add(newItem.transform);
@@ -1121,7 +1113,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     {
         var newItem = Instantiate(RoleSearchItemTemplate.Value, SearchScroller.Value.Inner);
         newItem.gameObject.SetActive(true);
-        var newSprite = sprite ?? TouRoleIcons.RandomAny.LoadAsset();
+        var newSprite = sprite ?? TouRoleIcons.RandomAny;
 
         newItem.SetInitialData(role, customRole, newSprite, team, color, source);
         _activeItems.Add(newItem.transform);
@@ -1134,7 +1126,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     {
         var newItem = Instantiate(ModifierSearchItemTemplate.Value, SearchScroller.Value.Inner);
         newItem.gameObject.SetActive(true);
-        var newSprite = sprite ?? TouRoleIcons.RandomAny.LoadAsset();
+        var newSprite = sprite ?? TouRoleIcons.RandomAny;
 
         newItem.SetInitialData(mod, newSprite, team, color, source);
         _activeItems.Add(newItem.transform);

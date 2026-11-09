@@ -22,7 +22,7 @@ public static class HaunterEvents
     public static void StartMeetingEventHandler(StartMeetingEvent _)
     {
         var allHaunters = CustomRoleUtils.GetActiveRolesOfType<HaunterRole>();
-        if (!allHaunters.HasAny() || allHaunters.All(h => !h.CompletedAllTasks || h.Caught))
+        if (!allHaunters.Any() || allHaunters.All(h => !h.CompletedAllTasks || h.Caught))
         {
             return;
         }

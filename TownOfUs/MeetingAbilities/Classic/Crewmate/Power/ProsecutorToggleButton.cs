@@ -30,7 +30,7 @@ public class ProsecutorToggleButton : MeetingActionButton
         _toggleSprite = Button!.usesRemainingSprite;
         _toggleSprite.gameObject.SetActive(true);
         _toggleSprite.color = Color.white;
-        _toggleSprite.sprite = TouAssets.ToggleDisabledSprite.LoadAsset();
+        _toggleSprite.sprite = TouAssets.ToggleDisabledSprite;
         _toggleSprite.transform.localPosition = new Vector3(0, 0, -0.001f);
         _toggleSprite.transform.localScale = new Vector3(1.1f, 1.1f, 1);
     }
@@ -38,8 +38,9 @@ public class ProsecutorToggleButton : MeetingActionButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return role is ProsecutorRole pros && !pros.HideProsButton && pros.WantsToPros is not ProsecuteToggleMode.NoToggle && !pros.HasProsecuted && pros.ProsecutionsCompleted <
-            OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
+        return role is ProsecutorRole
+            { HideProsButton: false, WantsToPros: not ProsecuteToggleMode.NoToggle, HasProsecuted: false, } pros  &&
+            pros.ProsecutionsCompleted < OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions;
     }
 
     public override bool CanUse()
@@ -55,7 +56,7 @@ public class ProsecutorToggleButton : MeetingActionButton
             pros.WantsToPros = pros.WantsToPros is ProsecuteToggleMode.ToggledOn ? ProsecuteToggleMode.ToggledOff : ProsecuteToggleMode.ToggledOn;
             OverrideName(pros.WantsToPros is ProsecuteToggleMode.ToggledOn ? "Enabled" : "Disabled");
             _toggleSprite.color = Color.white;
-            _toggleSprite.sprite = pros.WantsToPros is ProsecuteToggleMode.ToggledOn ? TouAssets.ToggleEnabledSprite.LoadAsset() : TouAssets.ToggleDisabledSprite.LoadAsset();
+            _toggleSprite.sprite = pros.WantsToPros is ProsecuteToggleMode.ToggledOn ? TouAssets.ToggleEnabledSprite : TouAssets.ToggleDisabledSprite;
         }
     }
 }

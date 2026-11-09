@@ -11,7 +11,7 @@ public static class ParasiteOverlayPatch
     {
         var local = PlayerControl.LocalPlayer;
 
-        if (local.Data?.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+        if (local.Data?.Role is ParasiteRole { Controlled: not null } parasiteRole)
         {
             parasiteRole.TickPiP();
         }

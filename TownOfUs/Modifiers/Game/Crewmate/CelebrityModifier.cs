@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers;
@@ -15,7 +14,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Celebrity,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Celebrity.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Celebrity,
             "TouMira.Modifier.Crewmate.Celebrity", 1.45f));
     public override string IdPart => "Celebrity";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -48,7 +47,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
     public override bool ShowModifierAsUnique => true;
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.CelebrityChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.CelebrityChance;
     }
 
     public override int GetAmountPerGame()
@@ -63,7 +62,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
 
     public static void CelebrityKilled(PlayerControl source, PlayerControl player, string customDeath = "")
     {
-        if (!player.HasModifier<CelebrityModifier>())
+        if (!player.TryGetModifier<CelebrityModifier>(out var celeb))
         {
             Error("RpcCelebrityKilled - Invalid Celebrity");
             return;
@@ -71,7 +70,6 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
 
         var room = MiscUtils.GetRoomName(player.GetTruePosition());
 
-        var celeb = player.GetModifier<CelebrityModifier>()!;
         celeb.StoredRoom = room;
         celeb.DeathTime = DateTime.UtcNow;
         var splitCelebrityString = MiraLocaleManager.Get("TownOfUsMira.Modifier.CelebrityPopup").Split(":");
@@ -110,7 +108,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
                 cod = IdPart;
             }
 
-            if (source.Data.Role is IGhostRole && source.Data.Role is ITownOfUsRole touRole)
+            if (source.Data.Role is IGhostRole and ITownOfUsRole touRole)
             {
                 cod = touRole.IdPart;
             }
@@ -129,15 +127,13 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
     [MethodRpc((uint)TownOfUsRpc.UpdateCelebrityKilled)]
     public static void RpcUpdateCelebrityKilled(PlayerControl player, float milliseconds)
     {
-        if (!player.HasModifier<CelebrityModifier>())
+        if (!player.TryGetModifier<CelebrityModifier>(out var celeb))
         {
             Error("RpcUpdateCelebrityKilled - Invalid Celebrity");
             return;
         }
 
         Error($"RpcUpdateCelebrityKilled milliseconds: {milliseconds}");
-
-        var celeb = player.GetModifier<CelebrityModifier>()!;
 
         celeb.DeathTimeMilliseconds = milliseconds;
     }

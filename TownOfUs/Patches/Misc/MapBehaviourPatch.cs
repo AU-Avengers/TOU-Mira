@@ -33,7 +33,7 @@ public static class ShowVentsPatch
                 {
                     icon = Object.Instantiate(__instance.HerePoint.gameObject, __instance.HerePoint.transform.parent);
                     var renderer = icon.GetComponent<SpriteRenderer>();
-                    renderer.sprite = TouAssets.MapBodySprite.LoadAsset();
+                    renderer.sprite = TouAssets.MapBodySprite;
                     icon.name = $"Satellite Body {deadBody.ParentId} Map Icon";
                     icon.transform.localPosition = location;
                     BodyIcons[deadBody.ParentId] = icon;
@@ -43,7 +43,7 @@ public static class ShowVentsPatch
             }
         }
 
-        if (!ModifierUtils.GetActiveModifiers<SatelliteArrowModifier>().HasAny())
+        if (!ModifierUtils.GetActiveModifiers<SatelliteArrowModifier>().Any())
         {
             foreach (var icon in BodyIcons.Values.Where(x => x))
             {
@@ -65,8 +65,7 @@ public static class ShowVentsPatch
             return;
         }
 
-        var task = PlayerControl.LocalPlayer.myTasks.ToArray()
-            .FirstOrDefault(x => x.TaskType == TaskTypes.VentCleaning);
+        var task = PlayerControl.LocalPlayer.myTasks.FirstOrDefault(x => x.TaskType == TaskTypes.VentCleaning);
         var xPos = MiscUtils.GetCurrentMap is ExpandedMapNames.Dleks ? -1 : 1;
 
         foreach (var vent in ShipStatus.Instance.AllVents)
@@ -84,7 +83,7 @@ public static class ShowVentsPatch
             {
                 icon = Object.Instantiate(__instance.HerePoint.gameObject, __instance.HerePoint.transform.parent);
                 var renderer = icon.GetComponent<SpriteRenderer>();
-                renderer.sprite = TouAssets.MapVentSprite.LoadAsset();
+                renderer.sprite = TouAssets.MapVentSprite;
                 icon.name = $"Vent {vent.Id} Map Icon";
                 icon.transform.localPosition = location;
                 VentIcons[vent.Id] = icon;
@@ -104,7 +103,7 @@ public static class ShowVentsPatch
             var network = GetNetworkFor(vent);
             if (network == null)
             {
-                VentNetworks.Add([..vent.NearbyVents.Where(x => x != null), vent]);
+                VentNetworks.Add([.. vent.NearbyVents.Where(x => x != null), vent]);
             }
             else
             {

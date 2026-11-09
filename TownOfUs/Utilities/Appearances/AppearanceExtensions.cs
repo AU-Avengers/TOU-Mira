@@ -5,8 +5,6 @@ using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
-using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Patches;
@@ -87,13 +85,9 @@ public static class AppearanceExtensions
                 Size = (OptionGroupSingleton<AdvancedSabotageOptions>.Instance.HidePlayerSizeInCamo) ? new Vector3(0.7f, 0.7f, 1f) : player.GetAppearance().Size
             });
         }
-        else if (!toggle && player.GetModifiers<BaseModifier>()
-                     .Any(x => x is IVisualAppearance visual && visual.VisualPriority))
+        else if (!toggle && player.TryGetModifierOfType<IVisualAppearance>(out var mod, x => x.VisualPriority))
         {
-            var mod = player.GetModifiers<BaseModifier>()
-                .FirstOrDefault(x => x is IVisualAppearance visual2 && visual2.VisualPriority);
-            var visualMod = mod as IVisualAppearance;
-            player.RawSetAppearance(visualMod!.GetVisualAppearance()!);
+            player.RawSetAppearance(mod.GetVisualAppearance()!);
             player.cosmetics.ToggleNameVisible(true);
         }
         else if (!toggle)
@@ -202,6 +196,81 @@ public static class AppearanceExtensions
         VanillaTweakEvents.AdjustPetVisibility(player);
     }
 
+    public static void RawSetAppearance(this PoolablePlayer player, VisualAppearance appearance)
+    {
+        player.SetName(appearance.PlayerName);
+        player.SetBodyColor(appearance.ColorId);
+        player.SetHat(appearance.HatId, appearance.ColorId);
+        player.SetSkin(appearance.SkinId, appearance.ColorId);
+        player.SetVisor(appearance.VisorId, appearance.ColorId);
+        // player.SetPet(appearance.PetId, appearance.ColorId);
+
+        player.cosmetics.currentBodySprite.BodySprite.color = appearance.RendererColor;
+        if (player.cosmetics.GetLongBoi() != null)
+        {
+            player.cosmetics.GetLongBoi().headSprite.color = appearance.RendererColor;
+            player.cosmetics.GetLongBoi().neckSprite.color = appearance.RendererColor;
+            player.cosmetics.GetLongBoi().foregroundNeckSprite.color = appearance.RendererColor;
+        }
+
+        if (appearance.PlayerMaterialColor != null)
+        {
+            PlayerMaterial.SetColors((Color)appearance.PlayerMaterialColor,
+                player.cosmetics.currentBodySprite.BodySprite);
+            if (player.cosmetics.GetLongBoi() != null)
+            {
+                PlayerMaterial.SetColors((Color)appearance.PlayerMaterialColor,
+                    player.cosmetics.GetLongBoi().headSprite);
+                PlayerMaterial.SetColors((Color)appearance.PlayerMaterialColor,
+                    player.cosmetics.GetLongBoi().neckSprite);
+                PlayerMaterial.SetColors((Color)appearance.PlayerMaterialColor,
+                    player.cosmetics.GetLongBoi().foregroundNeckSprite);
+            }
+        }
+
+        if (appearance.PlayerMaterialBackColor != null)
+        {
+            // Ensure we're using instance materials to prevent shared material issues
+            var bodyMaterial = player.cosmetics.currentBodySprite.BodySprite.material;
+            bodyMaterial.SetColor(ShaderID.BackColor, (Color)appearance.PlayerMaterialBackColor);
+            if (player.cosmetics.GetLongBoi() != null)
+            {
+                var headMaterial = player.cosmetics.GetLongBoi().headSprite.material;
+                var neckMaterial = player.cosmetics.GetLongBoi().neckSprite.material;
+                var foregroundNeckMaterial = player.cosmetics.GetLongBoi().foregroundNeckSprite.material;
+                headMaterial.SetColor(ShaderID.BackColor, (Color)appearance.PlayerMaterialBackColor);
+                neckMaterial.SetColor(ShaderID.BackColor, (Color)appearance.PlayerMaterialBackColor);
+                foregroundNeckMaterial.SetColor(ShaderID.BackColor, (Color)appearance.PlayerMaterialBackColor);
+            }
+        }
+
+        if (appearance.PlayerMaterialVisorColor != null)
+        {
+            player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor,
+                (Color)appearance.PlayerMaterialVisorColor);
+            if (player.cosmetics.GetLongBoi() != null)
+            {
+                player.cosmetics.GetLongBoi().headSprite.material.SetColor(ShaderID.VisorColor,
+                    (Color)appearance.PlayerMaterialVisorColor);
+                player.cosmetics.GetLongBoi().neckSprite.material.SetColor(ShaderID.VisorColor,
+                    (Color)appearance.PlayerMaterialVisorColor);
+                player.cosmetics.GetLongBoi().foregroundNeckSprite.material.SetColor(ShaderID.VisorColor,
+                    (Color)appearance.PlayerMaterialVisorColor);
+            }
+        }
+
+        if (appearance.NameColor != null)
+        {
+            player.cosmetics.nameText.color = (Color)appearance.NameColor;
+        }
+
+        player.cosmetics.ToggleNameVisible(appearance.NameVisible);
+
+        player.cosmetics.colorBlindText.color = appearance.ColorBlindTextColor;
+
+        player.transform.localScale = appearance.Size;
+    }
+
     public static TownOfUsAppearances GetAppearanceType(this PlayerControl player)
     {
         return (TownOfUsAppearances)player.CurrentOutfitType;
@@ -216,17 +285,13 @@ public static class AppearanceExtensions
             appearance = visualRole.GetVisualAppearance()!;
         }
 
-        if (player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is IVisualAppearance
-            {
-                VisualPriority: false
-            }) is IVisualAppearance visualMod2 &&
+        if (player.TryGetModifierOfType<IVisualAppearance>(out var visualMod2, x => !x.VisualPriority) &&
             visualMod2.GetVisualAppearance() != null)
         {
             appearance = visualMod2.GetVisualAppearance()!;
         }
 
-        if (player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is IVisualAppearance { VisualPriority: true }) is
-                IVisualAppearance { VisualPriority: true } visualMod &&
+        if (player.TryGetModifierOfType<IVisualAppearance>(out var visualMod, x => x.VisualPriority) &&
             visualMod.GetVisualAppearance() != null)
         {
             appearance = visualMod.GetVisualAppearance()!;
@@ -339,22 +404,22 @@ public static class AppearanceExtensions
             return 1f;
         }
 
-        if (player.TryGetModifier<MiniModifier>(out _))
+        if (player.HasModifier<MiniModifier>())
         {
             return OptionGroupSingleton<MiniOptions>.Instance.MiniSpeed;
         }
 
-        if (player.TryGetModifier<GiantModifier>(out _))
+        if (player.HasModifier<GiantModifier>())
         {
             return OptionGroupSingleton<GiantOptions>.Instance.GiantSpeed;
         }
 
-        if (player.TryGetModifier<FlashModifier>(out _))
+        if (player.HasModifier<FlashModifier>())
         {
             return OptionGroupSingleton<FlashOptions>.Instance.FlashSpeed;
         }/*
 
-        if (player.TryGetModifier<DuelModifier>(out _))
+        if (player.HasModifier<DuelModifier>())
         {
             return OptionGroupSingleton<DuelistOptions>.Instance.DuelSpeed.Value;
         }*/
@@ -365,7 +430,7 @@ public static class AppearanceExtensions
     public static bool IsVisibleToOthers(this PlayerControl playerControl)
     {
         return !playerControl.shouldAppearInvisible && playerControl.Visible && !playerControl.inVent &&
-               !playerControl.GetModifiers<ConcealedModifier>().Any(x => !x.VisibleToOthers) &&
-               !(playerControl.TryGetModifier<DisabledModifier>(out var mod) && !mod.IsConsideredAlive);
+               !playerControl.HasModifier<ConcealedModifier>(x => !x.VisibleToOthers) &&
+               !playerControl.HasModifier<DisabledModifier>(x => !x.IsConsideredAlive);
     }
 }

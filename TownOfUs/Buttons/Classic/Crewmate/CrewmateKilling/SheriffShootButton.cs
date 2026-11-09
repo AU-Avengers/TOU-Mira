@@ -58,7 +58,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
         FailedShot = true;
 
         var notif1 = Helpers.CreateAndShowNotification($"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.SheriffMisfireFeedback")}</b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Sheriff.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Sheriff);
 
         notif1.AdjustNotification();
 
@@ -100,77 +100,21 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
         var alignment = Target.Data.Role.GetRoleAlignment();
         var options = OptionGroupSingleton<SheriffOptions>.Instance;
 
-        if (!(PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) &&
-              !allyMod.GetsPunished) &&
-            !(Target.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished))
+        if (!(PlayerControl.LocalPlayer.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished)) &&
+            !(Target.HasModifier<AllianceGameModifier>(allyMod2 => !allyMod2.GetsPunished)))
         {
             switch (alignment)
             {
-                case RoleAlignment.CrewmateInvestigative:
-                case RoleAlignment.CrewmateKilling:
-                case RoleAlignment.CrewmateProtective:
-                case RoleAlignment.CrewmatePower:
-                case RoleAlignment.CrewmateSupport:
-                    Misfire();
+                case RoleAlignment.NeutralOutlier when options.ShootNeutralOutlier:
+                case RoleAlignment.NeutralKilling when options.ShootNeutralKiller:
+                case RoleAlignment.NeutralEvil when options.ShootNeutralEvil:
+                case RoleAlignment.NeutralBenign when options.ShootNeutralBenign:
+                case var _ when Target.IsImpostor() || Target.IsNeutral():
+                    PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
                     break;
 
-                case RoleAlignment.NeutralOutlier:
-                    if (!options.ShootNeutralOutlier.Value)
-                    {
-                        Misfire();
-                    }
-                    else
-                    {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
-                    }
-
-                    break;
-
-                case RoleAlignment.NeutralKilling:
-                    if (!options.ShootNeutralKiller.Value)
-                    {
-                        Misfire();
-                    }
-                    else
-                    {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
-                    }
-
-                    break;
-
-                case RoleAlignment.NeutralEvil:
-                    if (!options.ShootNeutralEvil.Value)
-                    {
-                        Misfire();
-                    }
-                    else
-                    {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
-                    }
-
-                    break;
-
-                case RoleAlignment.NeutralBenign:
-                    if (!options.ShootNeutralBenign.Value)
-                    {
-                        Misfire();
-                    }
-                    else
-                    {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
-                    }
-
-                    break;
                 default:
-                    if (Target.IsImpostor() || Target.IsNeutral())
-                    {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
-                    }
-                    else
-                    {
-                        Misfire();
-                    }
-
+                    Misfire();
                     break;
             }
         }

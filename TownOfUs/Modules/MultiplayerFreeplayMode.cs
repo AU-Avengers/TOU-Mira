@@ -10,5 +10,5 @@ public static class MultiplayerFreeplayMode
         !TutorialManager.InstanceExists &&
         AmongUsClient.Instance &&
         AmongUsClient.Instance.GameState == InnerNetClient.GameStates.Started &&
-        OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay.Value;
+        OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay;
 }

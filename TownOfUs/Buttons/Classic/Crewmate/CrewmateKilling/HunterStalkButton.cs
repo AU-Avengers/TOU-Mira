@@ -16,7 +16,7 @@ public sealed class HunterStalkButton : TownOfUsRoleButton<HunterRole, PlayerCon
     public override Color TextOutlineColor => TownOfUsColors.Hunter;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<HunterOptions>.Instance.HunterStalkCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<HunterOptions>.Instance.HunterStalkDuration;
-    public override int MaxUses => (int)OptionGroupSingleton<HunterOptions>.Instance.StalkUses;
+    public override int MaxUses => OptionGroupSingleton<HunterOptions>.Instance.StalkUses;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.StalkButtonSprite : TouCrewAssets.StalkButtonSprite;
     public int ExtraUses { get; set; }
 
@@ -30,7 +30,7 @@ public sealed class HunterStalkButton : TownOfUsRoleButton<HunterRole, PlayerCon
 
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.HunterStalkNotif").Replace("<player>", Target.Data.PlayerName)}</b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter);
         notif1.AdjustNotification();
 
         Target.RpcAddModifier<HunterStalkedModifier>(PlayerControl.LocalPlayer);

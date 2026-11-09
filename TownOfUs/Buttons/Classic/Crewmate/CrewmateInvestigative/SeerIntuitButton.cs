@@ -66,7 +66,7 @@ public sealed class SeerIntuitButton : TownOfUsRoleButton<SeerRole, PlayerContro
         {
             var text = MiraLocaleManager.Get("TownOfUsMira.Role.SeerIntuitNotif").Replace("<player>", Target.Data.PlayerName);
             var notif = Helpers.CreateAndShowNotification($"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f),
-                spr: TouRoleIcons.Seer.LoadAsset());
+                spr: TouRoleIcons.Seer);
             notif.AdjustNotification();
         }
     }

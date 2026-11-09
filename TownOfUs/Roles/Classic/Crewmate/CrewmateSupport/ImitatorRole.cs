@@ -28,7 +28,7 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     {
         get
         {
-            var variantRoles = MiscUtils.AllRoles.Where(x => x is ICrewVariant).OrderBy(x => x.GetRoleName()).ToList();
+            var variantRoles = MiscUtils.AllRoles.Where(x => x is ICrewVariant).OrderBy(x => x.GetRoleName());
             var neutEquivalents = new Dictionary<RoleBehaviour, RoleBehaviour>();
             var impEquivalents = new Dictionary<RoleBehaviour, RoleBehaviour>();
             foreach (var role in variantRoles)
@@ -78,46 +78,46 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public float ShowAbilitiesTab(Transform abilityTemplate, Transform abilityTemplateLong, Transform abilityScroller)
     {
         var listOfAbilities = new List<GameObject>();
-            var newAbility = Instantiate(abilityTemplate, abilityScroller);
-            var icon = newAbility.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
-            var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
-            var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
+        var newAbility = Instantiate(abilityTemplate, abilityScroller);
+        var icon = newAbility.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
+        var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
+        var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
 
-            icon.sprite = TouCrewAssets.InspectSprite.LoadAsset();
-            icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
-            // icon.tileMode = SpriteTileMode.Adaptive;
+        icon.sprite = TouCrewAssets.InspectSprite;
+        icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
+        // icon.tileMode = SpriteTileMode.Adaptive;
 
-            text.text =
-                $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}CrewmateImitation")}</font>";
-            desc.text =
-                $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}CrewmateImitation.WikiDescription")}</font>";
-            newAbility.gameObject.SetActive(true);
-            listOfAbilities.Add(newAbility.gameObject);
-            var variantRoles = MiscUtils.AllRoles.Where(x => x is ICrewVariant).OrderBy(x => x.GetRoleName()).ToList();
-            var neutEquivalents = new Dictionary<RoleBehaviour, RoleBehaviour>();
-            var impEquivalents = new Dictionary<RoleBehaviour, RoleBehaviour>();
-            foreach (var role in variantRoles)
+        text.text =
+            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}CrewmateImitation")}</font>";
+        desc.text =
+            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}CrewmateImitation.WikiDescription")}</font>";
+        newAbility.gameObject.SetActive(true);
+        listOfAbilities.Add(newAbility.gameObject);
+        var variantRoles = MiscUtils.AllRoles.Where(x => x is ICrewVariant).OrderBy(x => x.GetRoleName());
+        var neutEquivalents = new Dictionary<RoleBehaviour, RoleBehaviour>();
+        var impEquivalents = new Dictionary<RoleBehaviour, RoleBehaviour>();
+        foreach (var role in variantRoles)
+        {
+            var crewVariant = role as ICrewVariant;
+            if (role.IsNeutral())
             {
-                var crewVariant = role as ICrewVariant;
-                if (role.IsNeutral())
-                {
-                    neutEquivalents.Add(role, crewVariant!.CrewVariant);
-                }
-                else
-                {
-                    impEquivalents.Add(role, crewVariant!.CrewVariant);
-                }
+                neutEquivalents.Add(role, crewVariant!.CrewVariant);
             }
+            else
+            {
+                impEquivalents.Add(role, crewVariant!.CrewVariant);
+            }
+        }
 
-            var newSubObject = new GameObject("NewContainer");
-            newSubObject.layer = newAbility.gameObject.layer;
-            newSubObject.transform.SetParent(abilityScroller);
-            var newTransform = newSubObject.AddComponent<RectTransform>();
-            newTransform.offsetMax = new Vector2(5.5f, -2.4f);
-            newTransform.offsetMin = new Vector2(3f, 0f);
-            newTransform.transform.localPosition = new Vector3(0, 0f, -10f);
-            listOfAbilities.Add(AddTabInfo(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}NeutralCounterparts"), neutEquivalents, abilityTemplateLong, 1.025f, newSubObject.transform));
-            listOfAbilities.Add(AddTabInfo(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ImpostorCounterparts"), impEquivalents, abilityTemplateLong, -1.025f, newSubObject.transform));
+        var newSubObject = new GameObject("NewContainer");
+        newSubObject.layer = newAbility.gameObject.layer;
+        newSubObject.transform.SetParent(abilityScroller);
+        var newTransform = newSubObject.AddComponent<RectTransform>();
+        newTransform.offsetMax = new Vector2(5.5f, -2.4f);
+        newTransform.offsetMin = new Vector2(3f, 0f);
+        newTransform.transform.localPosition = new Vector3(0, 0f, -10f);
+        listOfAbilities.Add(AddTabInfo(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}NeutralCounterparts"), neutEquivalents, abilityTemplateLong, 1.025f, newSubObject.transform));
+        listOfAbilities.Add(AddTabInfo(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ImpostorCounterparts"), impEquivalents, abilityTemplateLong, -1.025f, newSubObject.transform));
 
         return Mathf.Max(0f, 3.4f);
     }
@@ -164,7 +164,7 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Imitator.LoadAsset(), "TouMira.Role.Crewmate.Imitator", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Imitator, "TouMira.Role.Crewmate.Imitator", 1.45f),
         Icon = TouRoleIcons.Imitator,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.SpyIntroSound

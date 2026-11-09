@@ -32,7 +32,7 @@ public class PolusSwooperRole(IntPtr cppPtr) : PolusBaseImpRole(cppPtr), IWikiDi
         GhostRole = (RoleTypes)RoleId.Get<PolusGhostImpRole>(),
         FreeplayFolder = "Town of Polus",
         CanUseVent = false,
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconImpostor.LoadAsset(), "TownOfPolus.Role.Impostor.Swooper", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconImpostor, "TownOfPolus.Role.Impostor.Swooper", 1.45f),
         Icon = PolusGgAssets.IconImpostor
     };
     public override bool IsDead => false; // needed because we inherit from RoleBehaviour

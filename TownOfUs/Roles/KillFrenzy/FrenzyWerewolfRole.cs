@@ -100,7 +100,7 @@ public sealed class FrenzyWerewolfRole(IntPtr cppPtr)
         if (Player.AmOwner)
         {
             OffsetButtons();
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.WerewolfVentSprite.LoadAsset();
+            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.WerewolfVentSprite;
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Werewolf);
         }
     }
@@ -111,7 +111,7 @@ public sealed class FrenzyWerewolfRole(IntPtr cppPtr)
         TouRoleUtils.ClearTaskHeader(Player);
         if (Player.AmOwner)
         {
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
+            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite;
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
         }
     }

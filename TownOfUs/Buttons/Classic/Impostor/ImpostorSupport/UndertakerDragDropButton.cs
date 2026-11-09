@@ -125,13 +125,13 @@ public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole
 
     public void SetDrag()
     {
-        OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.DragSprite.LoadAsset() : TouImpAssets.DragSprite.LoadAsset());
+        OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.DragSprite : TouImpAssets.DragSprite);
         OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.UndertakerDrag", "Drag"));
     }
 
     public void SetDrop()
     {
-        OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.DropSprite.LoadAsset() : TouImpAssets.DropSprite.LoadAsset());
+        OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.DropSprite : TouImpAssets.DropSprite);
         OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.UndertakerDrop", "Drop"));
     }
 

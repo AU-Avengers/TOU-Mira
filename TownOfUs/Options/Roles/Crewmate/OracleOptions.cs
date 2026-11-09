@@ -27,7 +27,7 @@ public sealed class OracleOptions : AbstractRoleOptionGroup<OracleRole>, IWikiOp
     public ModdedToggleOption ShowNeutralKillingAsEvil { get; set; } = new("TouOptionOracleNeutralKillingShowEvil", true);
 
     public ModdedToggleOption ShowNeutralOutlierAsEvil { get; set; } = new("TouOptionOracleNeutralOutlierShowEvil", true);
-    
+
     public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
         new HashSet<StringNames>
         {
@@ -40,10 +40,10 @@ public sealed class OracleOptions : AbstractRoleOptionGroup<OracleRole>, IWikiOp
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
         var title = MiraLocaleManager.Get("TouOptionOracleNeutralsThatShowEvil");
-        var nbValid = ShowNeutralBenignAsEvil.Value;
-        var neValid = ShowNeutralEvilAsEvil.Value;
-        var nkValid = ShowNeutralKillingAsEvil.Value;
-        var noValid = ShowNeutralOutlierAsEvil.Value;
+        var nbValid = ShowNeutralBenignAsEvil;
+        var neValid = ShowNeutralEvilAsEvil;
+        var nkValid = ShowNeutralKillingAsEvil;
+        var noValid = ShowNeutralOutlierAsEvil;
 
         if (!nbValid && !neValid && !nkValid && !noValid)
         {
@@ -59,8 +59,7 @@ public sealed class OracleOptions : AbstractRoleOptionGroup<OracleRole>, IWikiOp
         if (noValid) selected.Add(MiraLocaleManager.Get("TouOptionOracleNeutBadOutlier"));
 
         var names = selected
-            .Distinct()
-            .ToList();
+            .Distinct();
 
         var newArray2 = new []
             { $"{title}: {string.Join(", ", names)}" };

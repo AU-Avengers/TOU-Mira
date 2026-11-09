@@ -8,7 +8,7 @@ public sealed class ScoutModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Scout,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Scout.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Scout,
             "TouMira.Modifier.Crewmate.Scout", 1.45f));
     public override string IdPart => "Scout";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -33,12 +33,12 @@ public sealed class ScoutModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScoutChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScoutChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScoutAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScoutAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

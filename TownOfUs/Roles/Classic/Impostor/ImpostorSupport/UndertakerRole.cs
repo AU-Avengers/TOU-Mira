@@ -30,9 +30,7 @@ public sealed class UndertakerRole(IntPtr cppPtr)
         }
 
         HudManager.Instance.KillButton.ToggleVisible(OptionGroupSingleton<UndertakerOptions>.Instance.UndertakerKill ||
-                                                     (Player != null && Player.GetModifiers<BaseModifier>()
-                                                         .Any(x => x is ICachedRole)) ||
-                                                     (Player != null && MiscUtils.ImpAliveCount == 1));
+                                                     Player != null && (Player.HasModifierOfType<ICachedRole>() || MiscUtils.ImpAliveCount == 1));
     }
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<AltruistRole>());
@@ -53,31 +51,12 @@ public sealed class UndertakerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Undertaker.LoadAsset(), "TouMira.Role.Impostor.Undertaker", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Undertaker, "TouMira.Role.Impostor.Undertaker", 1.45f),
         UseVanillaKillButton = true,
         CanUseVent = OptionGroupSingleton<UndertakerOptions>.Instance.CanVent,
         Icon = TouRoleIcons.Undertaker,
         OptionsScreenshot = TouBanners.UndertakerRoleBanner,
     };
-
-
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Drag", "Drag"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Drag.WikiDescription"),
-                    TouImpAssets.DragSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Drop", "Drop"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Drop.WikiDescription"),
-                    TouImpAssets.DropSprite)
-            ];
-        }
-    }
 
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
@@ -110,11 +89,11 @@ public sealed class UndertakerRole(IntPtr cppPtr)
         {
             return;
         }
-        playerControl.GetModifierComponent()?.AddModifier(new DragModifier(bodyId));
+        playerControl.AddModifier<DragModifier>(bodyId);
 
         var touAbilityEvent =
             new TouAbilityEvent(AbilityType.UndertakerDrag, playerControl, Helpers.GetBodyById(bodyId));
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (playerControl.AmOwner)
         {
@@ -136,9 +115,9 @@ public sealed class UndertakerRole(IntPtr cppPtr)
         dragMod.DeadBody!.transform.position = dropPos;
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.UndertakerDrop, playerControl, dragMod.DeadBody);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
-        playerControl.GetModifierComponent()?.RemoveModifier(dragMod);
+        dragMod.RemoveSelf();
 
         if (playerControl.AmOwner)
         {

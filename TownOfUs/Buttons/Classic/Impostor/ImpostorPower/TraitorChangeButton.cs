@@ -47,12 +47,12 @@ public sealed class TraitorChangeButton : TownOfUsRoleButton<TraitorRole>
                 .Where(x => x is ISpawnChange { NoSpawn: true } || x.Role is RoleTypes.Impostor || x.IsDead || x is ITownOfUsRole
                 {
                     RoleAlignment: RoleAlignment.ImpostorPower
-                }).Select(x => x.Role).ToList();
+                }).Select(x => x.Role);
             var impRoles = MiscUtils.GetRolesToAssign(ModdedRoleTeams.Impostor, x => !excluded.Contains(x.Role))
                 .Select(x => x.RoleType).ToList();
 
             var roleList = MiscUtils.GetPotentialRoles()
-                .Where(role => role is not ITraitorIgnore ignore || !ignore.IsIgnored)
+                .Where(role => role is not ITraitorIgnore { IsIgnored: true })
                 .Where(role => impRoles.Contains((ushort)role.Role))
                 .Where(role => role is not TraitorRole)
                 .ToList();
@@ -63,7 +63,7 @@ public sealed class TraitorChangeButton : TownOfUsRoleButton<TraitorRole>
                     .Where(x => !excluded.Contains(x.Role))
                     .Select(x => (ushort)x.Role).ToList();
                 roleList = MiscUtils.AllRegisteredRoles
-                    .Where(role => role is not ITraitorIgnore ignore || !ignore.IsIgnored)
+                    .Where(role => role is not ITraitorIgnore { IsIgnored: true })
                     .Where(role => impRoles.Contains((ushort)role.Role))
                     .Where(role => role is not TraitorRole)
                     .ToList();
@@ -117,7 +117,7 @@ public sealed class TraitorChangeButton : TownOfUsRoleButton<TraitorRole>
                     $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>",
                     Color.white,
                     new Vector3(0f, 1f, -20f),
-                    spr: TouRoleIcons.Traitor.LoadAsset());
+                    spr: TouRoleIcons.Traitor);
 
                 notif1.AdjustNotification();
                 return;

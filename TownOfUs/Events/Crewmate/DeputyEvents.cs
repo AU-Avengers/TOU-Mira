@@ -43,7 +43,7 @@ public static class DeputyEvents
             return;
         }
 
-        if (source.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        if (source.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished))
         {
             return;
         }
@@ -51,7 +51,7 @@ public static class DeputyEvents
         if (GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
         {
             if (!target.IsCrewmate() ||
-                (target.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished))
+                (target.HasModifier<AllianceGameModifier>(allyMod2 => !allyMod2.GetsPunished)))
             {
                 stats.CorrectKills += 1;
             }
@@ -69,14 +69,7 @@ public static class DeputyEvents
             return;
         }
 
-        if (!target.HasModifier<DeputyCampedModifier>())
-        {
-            return;
-        }
-
-        var mod = target.GetModifier<DeputyCampedModifier>();
-
-        if (mod == null)
+        if (!target.TryGetModifier<DeputyCampedModifier>(out var mod))
         {
             return;
         }
@@ -96,16 +89,16 @@ public static class DeputyEvents
         {
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DeputyCampedKillNotif").Replace("<player>", $"{TownOfUsColors.Deputy.ToTextColor()}{target.Data.PlayerName}</color>")}</b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy);
 
             notif1.AdjustNotification();
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Deputy));
         }
-        if (source.AmOwner && OptionGroupSingleton<DeputyOptions>.Instance.WarnKiller.Value)
+        if (source.AmOwner && OptionGroupSingleton<DeputyOptions>.Instance.WarnKiller)
         {
             var notif = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Deputy.ToTextColor()}{MiraLocaleManager.Get("TownOfUsMira.Role.DeputyKillerWarnNotif")}</color></b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy);
             notif.AdjustNotification();
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Deputy));
         }

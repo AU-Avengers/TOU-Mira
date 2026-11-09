@@ -116,7 +116,7 @@ public class DoublePlayerMenu : CustomPlayerMenu
         var icon = highlight.transform.GetChild(0).GetComponent<SpriteRenderer>();
         if (sprite != null)
         {
-            icon.sprite = sprite.LoadAsset();
+            icon.sprite = sprite;
         }
         var button = nameplate.GetComponent<ButtonRolloverHandler>();
         if (overColor is { } oColor)

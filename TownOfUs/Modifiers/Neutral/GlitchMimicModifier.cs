@@ -18,12 +18,12 @@ public sealed class GlitchMimicModifier(PlayerControl target) : DisguisedModifie
     public override void OnActivate()
     {
         CanGlitchVent =
-            (GlitchVent)OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is GlitchVent.Always;
+            OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is GlitchVent.Always;
 
         base.OnActivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchMimic, Player, Target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void OnDeactivate()
@@ -37,7 +37,7 @@ public sealed class GlitchMimicModifier(PlayerControl target) : DisguisedModifie
         base.OnDeactivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchUnmimic, Player, Target);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override bool? CanVent()

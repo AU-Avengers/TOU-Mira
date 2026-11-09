@@ -118,10 +118,10 @@ public static class TouCrewAssets
 
     public static LoadableAsset<Sprite> BlockSprite { get; } =
         new LoadableBundleSubAsset("BarricadeButton", TouAssets.AbilityHolder);
-    
+
     public static LoadableAsset<Sprite> RewindSprite { get; } =
         new LoadableBundleSubAsset("RewindButton", TouAssets.AbilityHolder);
-    
+
     public static LoadableAsset<Sprite> RewindingSprite { get; } =
         new LoadableBundleSubAsset("RewindingButton", TouAssets.AbilityHolder);
 

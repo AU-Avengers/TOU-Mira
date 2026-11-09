@@ -26,7 +26,7 @@ public sealed class MedSpiritNetTransform(nint cppPtr) : InnerNetObject(cppPtr)
         lastPosSent = transform.position;
         incomingPosQueue.Enqueue(transform.position);
     }
-    
+
     public override void ClearOrDecrementDirt()
     {
         if (DirtyBits > 0U)

@@ -10,11 +10,11 @@ public sealed class MedicOptions : AbstractRoleOptionGroup<MedicRole>
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Medic", "Medic");
 
-    [ModdedEnumOption("TouOptionMedicShowShieldedPlayer", typeof(MedicOption),
+    [ModdedEnumOption<MedicOption>("TouOptionMedicShowShieldedPlayer",
         ["TouOptionMedicShieldEnumMedic", "TouOptionMedicShieldEnumShielded", "TouOptionMedicShieldEnumShieldedAndMedic", "TouOptionMedicShieldEnumEveryone", "TouOptionMedicShieldEnumNobody"])]
     public MedicOption ShowShielded { get; set; } = MedicOption.ShieldedAndMedic;
 
-    [ModdedEnumOption("TouOptionMedicWhoGetsMurderAttemptIndicator", typeof(MedicOption),
+    [ModdedEnumOption<MedicOption>("TouOptionMedicWhoGetsMurderAttemptIndicator",
         ["TouOptionMedicShieldEnumMedic", "TouOptionMedicShieldEnumShielded", "TouOptionMedicShieldEnumShieldedAndMedic", "TouOptionMedicShieldEnumEveryone", "TouOptionMedicShieldEnumNobody"])]
     public MedicOption WhoGetsNotification { get; set; } = MedicOption.Medic;
 

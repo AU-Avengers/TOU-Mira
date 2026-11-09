@@ -55,7 +55,7 @@ public static class ReviveUtilities
 
         // Ensure death state is properly synced before revive to prevent desyncs
         // Wait a small amount to ensure any pending death syncs complete
-        Coroutines.Start(CoEnsureDeathStateSyncedBeforeRevive(revived, inMeetingOrExile, position, roleWhenAlive, flashColor, 
+        Coroutines.Start(CoEnsureDeathStateSyncedBeforeRevive(revived, inMeetingOrExile, position, roleWhenAlive, flashColor,
             revivedOwnerNotificationText, reviverOwnerNotificationText, notificationIcon, reviver));
     }
 
@@ -136,13 +136,10 @@ public static class ReviveUtilities
             button.SetVisible();
         }
 
-        foreach (var modifier in revived.GetModifiers<GameModifier>().Where(x => x is IAnimated))
+        foreach (var animatedMod in revived.GetModifiers<GameModifier>().OfType<IAnimated>())
         {
-            if (modifier is IAnimated animatedMod)
-            {
-                animatedMod.IsVisible = true;
-                animatedMod.SetVisible();
-            }
+            animatedMod.IsVisible = true;
+            animatedMod.SetVisible();
         }
 
         revived.RemainingEmergencies = 0;

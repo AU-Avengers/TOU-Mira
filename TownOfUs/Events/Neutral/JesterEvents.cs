@@ -30,7 +30,7 @@ public static class JesterEvents
             return;
         }
 
-        if (@event.Player.GetRoleWhenAlive() is JesterRole jester && jester.AboutToWin)
+        if (@event.Player.GetRoleWhenAlive() is JesterRole { AboutToWin: true } jester)
         {
             jester.Voted = true;
 
@@ -50,7 +50,7 @@ public static class JesterEvents
                 }
 
                 var notif1 = Helpers.CreateAndShowNotification(text, Color.white, new Vector3(0f, 1f, -20f),
-                    spr: TouRoleIcons.Jester.LoadAsset());
+                    spr: TouRoleIcons.Jester);
 
                 notif1.AdjustNotification();
                 if (OptionGroupSingleton<JesterOptions>.Instance.JestWin is JestWinOptions.Haunts)
@@ -82,7 +82,7 @@ public static class JesterEvents
                 }
 
                 var notif1 = Helpers.CreateAndShowNotification(text, Color.white, new Vector3(0f, 1f, -20f),
-                    spr: TouRoleIcons.Jester.LoadAsset());
+                    spr: TouRoleIcons.Jester);
                 notif1.AdjustNotification();
             }
         }
@@ -105,7 +105,7 @@ public static class JesterEvents
     {
         var states = MeetingHudGetVotesPatch.States;
         var jests = CustomRoleUtils.GetActiveRolesOfType<JesterRole>();
-        if (!jests.HasAny())
+        if (!jests.Any())
         {
             return;
         }
@@ -130,7 +130,7 @@ public static class JesterEvents
     {
         var exiled = @event.ExileController?.initData?.networkedPlayer?.Object;
 
-        if (exiled == null || exiled.Data.Role is not JesterRole jest)
+        if (exiled?.Data.Role is not JesterRole jest)
         {
             return;
         }
@@ -144,9 +144,8 @@ public static class JesterEvents
 
         if (jest.Player.AmOwner && OptionGroupSingleton<JesterOptions>.Instance.JestWin is JestWinOptions.Haunts)
         {
-            var allVoters = PlayerControl.AllPlayerControls.ToArray()
-                .Where(x => jest.Voters.Contains(x.PlayerId) && !x.AmOwner);
-            if (!allVoters.HasAny())
+            var allVoters = PlayerControl.AllPlayerControls.Where(x => jest.Voters.Contains(x.PlayerId) && !x.AmOwner);
+            if (!allVoters.Any())
             {
                 return;
             }

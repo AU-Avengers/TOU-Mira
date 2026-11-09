@@ -32,7 +32,7 @@ public sealed class WerewolfRampageButton : TownOfUsRoleButton<WerewolfRole>, IL
 
         Role.Rampaging = true;
 
-        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.WerewolfRampage, PlayerControl.LocalPlayer));
+        new TouAbilityEvent(AbilityType.WerewolfRampage, PlayerControl.LocalPlayer).InvokeEvent();
 
         CustomButtonSingleton<WerewolfKillButton>.Instance.SetActive(true, Role);
         CustomButtonSingleton<WerewolfKillButton>.Instance.SetTimer(0.01f);

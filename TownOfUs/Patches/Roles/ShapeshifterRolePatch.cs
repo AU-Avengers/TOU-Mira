@@ -70,7 +70,7 @@ public static class ShapeshifterRolePatch
                     string.Format(TownOfUsPlugin.Culture, "Player {0} is shapeshifting into {1}", __instance.PlayerId,
                         trueTargetPlayer.PlayerId),
                     null);
-                __instance.shapeshiftTargetPlayerId = (int)trueTargetPlayer.PlayerId;
+                __instance.shapeshiftTargetPlayerId = trueTargetPlayer.PlayerId;
                 if (__instance.AmOwner)
                 {
                     HudManager.Instance.AbilityButton.OverrideText(

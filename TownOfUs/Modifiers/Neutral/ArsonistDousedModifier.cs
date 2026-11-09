@@ -16,15 +16,15 @@ public sealed class ArsonistDousedModifier(byte arsonistId) : BaseModifier
 
     public override void OnActivate()
     {
-        var arso = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == ArsonistId);
+        var arso = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.PlayerId == ArsonistId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.ArsonistDouse, arso!, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
         Coroutines.Start(ArsonistDouseButton.CoSetDouses());
     }
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void FixedUpdate()

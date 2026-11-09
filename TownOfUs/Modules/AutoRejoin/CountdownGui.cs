@@ -14,11 +14,11 @@ public class CountdownGui(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     {
         _style = new GUIStyle(GUI.skin.label)
         {
-            fontSize  = 22,
+            fontSize = 22,
             fontStyle = FontStyle.Bold,
             alignment = TextAnchor.MiddleCenter
         };
-        _style.normal.textColor  = new Color(0f, 0.85f, 1f, 1f);
+        _style.normal.textColor = new Color(0f, 0.85f, 1f, 1f);
         _shadow = new GUIStyle(_style);
         _shadow.normal.textColor = new Color(0f, 0f, 0f, 0.65f);
     }
@@ -35,6 +35,6 @@ public class CountdownGui(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         float y = Screen.height - 80f;
 
         GUI.Label(new Rect(x + 1f, y + 1f, w, h), text, _shadow);
-        GUI.Label(new Rect(x,      y,       w, h), text, _style);
+        GUI.Label(new Rect(x, y, w, h), text, _style);
     }
 }

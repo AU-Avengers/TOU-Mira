@@ -21,7 +21,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 {
     public void InitialSetup()
     {
-        TmpSpriteUtils.CreateSpriteAsset(TouCrewAssets.MagicMirrorSprite.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouCrewAssets.MagicMirrorSprite,
             "TouMira.Role.Crewmate.Mirrorcaster.Ui.MagicMirror", 1.45f);
     }
     public override bool IsAffectedByComms => false;
@@ -98,7 +98,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mirrorcaster.LoadAsset(), "TouMira.Role.Crewmate.Mirrorcaster", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mirrorcaster, "TouMira.Role.Crewmate.Mirrorcaster", 1.45f),
         IntroSound = TouAudio.MirrorcasterIntro,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Mirrorcaster
@@ -107,7 +107,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     public bool IsPowerCrew =>
         UnleashesAvailable > 0 ||
         ModifierUtils.GetActiveModifiers<MagicMirrorModifier>()
-            .HasAny(); // Always disable end game checks if there is an Unleash available
+            .Any(); // Always disable end game checks if there is an Unleash available
 
     public static string ProtectionString = MiraLocaleManager.Get("TownOfUsMira.Role.MirrorcasterTabProtecting");
 
@@ -165,18 +165,11 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         IsProtecting = false;
         if (Protected == player && player != null)
         {
-            if (player.TryGetModifier<MagicMirrorModifier>(out var mod2))
-            {
-                player.RemoveModifier(mod2);
-            }
-
+            player.TryRemoveModifier<MagicMirrorModifier>();
             return;
         }
 
-        if (Protected?.TryGetModifier<MagicMirrorModifier>(out var mod) == true)
-        {
-            Protected.RemoveModifier(mod);
-        }
+        Protected?.TryRemoveModifier<MagicMirrorModifier>();
 
         Protected = (player?.HasDied() == true) ? null : player;
         if (Protected != null)
@@ -286,7 +279,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         role.ContainedAttackerId = source.PlayerId;
 
         var opt = OptionGroupSingleton<MirrorcasterOptions>.Instance;
-        var attackInfo = (MirrorAttackInfo)opt.AttackInformationGiven.Value;
+        var attackInfo = opt.AttackInformationGiven.Value;
         if (mirrorcaster.AmOwner)
         {
             CustomButtonSingleton<MirrorcasterMagicMirrorButton>.Instance.ResetCooldownAndOrEffect();
@@ -328,7 +321,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
                     break;
             }
             var notif1 = Helpers.CreateAndShowNotification(text, Color.white, new Vector3(0f, 1f, -20f),
-                spr: TouRoleIcons.Mirrorcaster.LoadAsset());
+                spr: TouRoleIcons.Mirrorcaster);
             notif1.AdjustNotification();
         }
         else if (opt.WhoGetsNotification is MirrorOption.MirrorcasterAndKiller && source.AmOwner)

@@ -23,7 +23,7 @@ public sealed class MysticDeathNotifierModifier(PlayerControl mystic) : TimedMod
     {
         base.OnActivate();
 
-        if (OptionGroupSingleton<MysticOptions>.Instance.MysticHnsPopUp.Value)
+        if (OptionGroupSingleton<MysticOptions>.Instance.MysticHnsPopUp)
         {
             var popup = GameManagerCreator.Instance.HideAndSeekManagerPrefab.DeathPopupPrefab;
             var item = Object.Instantiate(popup, HudManager.Instance.transform.parent);

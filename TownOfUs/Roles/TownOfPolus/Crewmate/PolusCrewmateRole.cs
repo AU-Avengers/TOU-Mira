@@ -18,7 +18,7 @@ public class PolusCrewmateRole(IntPtr cppPtr) : PolusBaseCrewRole(cppPtr)
         AssociatedGameMode = typeof(TownOfPolusMode),
         GhostRole = (RoleTypes)RoleId.Get<PolusGhostCrewRole>(),
         FreeplayFolder = "Town of Polus",
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconCrewmate.LoadAsset(), "TownOfPolus.Role.Crewmate.Crewmate", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconCrewmate, "TownOfPolus.Role.Crewmate.Crewmate", 1.45f),
         Icon = PolusGgAssets.IconCrewmate
     };
     public override bool IsDead => false; // needed because we inherit from RoleBehaviour

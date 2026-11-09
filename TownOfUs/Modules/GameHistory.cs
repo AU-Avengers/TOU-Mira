@@ -1,15 +1,11 @@
 ﻿using AmongUs.GameOptions;
 using HarmonyLib;
-using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using TownOfUs.Achievements;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modules.Components;
-using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches;
-using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Other;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -22,6 +18,7 @@ public record DeadPlayer(byte KillerId, byte VictimId, DateTime KillTime);
 
 public sealed record PlayerStats(string Name, byte PlayerId, NetworkedPlayerInfo PlayerInfo, StoredPlayerState State = StoredPlayerState.Alive)
 {
+    public bool HasFullyLoaded { get; set; }
     public string PlayerName { get; private set; } = Name;
     public byte PlayerId { get; private set; } = PlayerId;
     public NetworkedPlayerInfo PlayerInfo { get; private set; } = PlayerInfo;
@@ -58,91 +55,6 @@ public sealed record BodyReport
     public PlayerControl? Reporter { get; init; }
     public PlayerControl? Body { get; init; }
     public float KillAge { get; init; }
-
-    public static string ParseMedicReport(BodyReport br)
-    {
-        var reportColorDuration = OptionGroupSingleton<MedicOptions>.Instance.MedicReportColorDuration;
-        var reportNameDuration = OptionGroupSingleton<MedicOptions>.Instance.MedicReportNameDuration;
-        var text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodyError");
-        if (br.Killer != null)
-        {
-            if (br.KillAge > reportColorDuration * 1000 && reportColorDuration > 0)
-            {
-                text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodyOld");
-            }
-            else if (br.Killer.PlayerId == br.Body?.PlayerId)
-            {
-                text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodySuicide");
-            }
-            else if (br.KillAge < reportNameDuration * 1000)
-            {
-                text = MiraLocaleManager.Get("TownOfUsMira.Role.MedicBodyKillerName").Replace("<player>", br.Killer.Data.PlayerName);
-            }
-            else
-            {
-                var typeOfColor = MedicRole.GetColorTypeForPlayer(br.Killer.Data.DefaultOutfit.ColorId);
-                text = MiraLocaleManager.Get((typeOfColor == "lighter") ? "TownOfUsMira.Role.MedicBodyKillerLightColor" : "TownOfUsMira.Role.MedicBodyKillerDarkColor");
-            }
-        }
-
-        text = text.Replace("<time>", Math.Round(br.KillAge / 1000).ToString(TownOfUsPlugin.Culture));
-
-        return text;
-    }
-
-    public static string ParseForensicReport(BodyReport br)
-    {
-        var text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyError");
-        if (br.Killer != null)
-        {
-            if (br.KillAge > OptionGroupSingleton<ForensicOptions>.Instance.ForensicFactionDuration * 1000 &&
-                OptionGroupSingleton<ForensicOptions>.Instance.ForensicFactionDuration > 0)
-            {
-                text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyOld");
-            }
-            else if (br.Killer!.PlayerId == br.Body!.PlayerId)
-            {
-                text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodySuicide");
-            }
-            else
-            {
-                AchievementsAPIHelper.Unlock(TouAchievements.RightOnTime);
-
-                if (br.KillAge < OptionGroupSingleton<ForensicOptions>.Instance.ForensicRoleDuration * 1000)
-                {
-                    // if the killer died, they would still appear correctly here
-                    var role = br.Killer.GetRoleWhenAlive();
-                    if (br.Killer.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole
-                        cacheMod)
-                    {
-                        role = cacheMod.CachedRole;
-                    }
-
-                    text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerRole").Replace("<role>",
-                        MiscUtils.GetReliableHyperlinkText(role));
-                }
-
-                else if (br.Killer.IsNeutral())
-                {
-                    text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerNeutral");
-                }
-
-                else if (br.Killer.IsCrewmate())
-                {
-                    text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerCrewmate");
-                }
-                else
-                {
-                    text = MiraLocaleManager.Get("TownOfUsMira.Role.ForensicBodyKillerImpostor");
-                }
-            }
-
-        }
-
-        text = text.Replace("<time>", Math.Round(br.KillAge / 1000).ToString(TownOfUsPlugin.Culture));
-
-        return text;
-    }
 }
 
 public static class GameHistory
@@ -259,6 +171,28 @@ public static class GameHistory
             stats.LockDeathInfo = lockInfo is DeathHandlerOverride.SetTrue;
         }
     }
+
+    public static PlayerStats GetPlayerStats(PlayerControl player)
+    {
+        if (!PlayerStats.TryGetValue(player.PlayerId, out var stats))
+        {
+            var data = (player.Data && player.Data.Role && player.Data.Role.IsDead)
+                ? StoredPlayerState.Dead
+                : StoredPlayerState.Alive;
+            if (player.Data.Disconnected)
+            {
+                data = StoredPlayerState.Disconnected;
+            }
+
+            PlayerStats.Add(player.PlayerId,
+                new PlayerStats(player.Data.PlayerName, player.PlayerId, player.CachedPlayerData,
+                    data));
+            stats = PlayerStats[player.PlayerId];
+        }
+
+        return stats;
+    }
+
     public static bool IsFullyDead(PlayerControl player)
     {
         if (!player.HasDied() || !PlayerStats.TryGetValue(player.PlayerId, out var stats))
@@ -277,6 +211,13 @@ public static class GameHistory
                 new PlayerStats(player.Data.PlayerName, player.PlayerId, player.CachedPlayerData,
                     role.IsDead ? StoredPlayerState.Dead : StoredPlayerState.Alive));
             stats = PlayerStats[player.PlayerId];
+            stats.HasFullyLoaded = true;
+            Info($"Added stats for {player.Data.PlayerName}");
+        }
+        else if (!stats.HasFullyLoaded)
+        {
+            stats.PlayerState = role.IsDead ? StoredPlayerState.Dead : StoredPlayerState.Alive;
+            stats.HasFullyLoaded = true;
             Info($"Added stats for {player.Data.PlayerName}");
         }
 

@@ -1,6 +1,7 @@
 using System.Reflection;
 using MiraAPI.GameOptions;
 using TownOfUs.Options;
+using TownOfUs.Roles.Other;
 using UnityEngine;
 
 namespace TownOfUs.Modules.DraftMode;
@@ -23,6 +24,7 @@ public static class DraftManager
 
     public static void Begin(Dictionary<byte, int> playerSlots)
     {
+        DraftApplier.PendingDraftStates.Clear();
         SlotStates.Clear();
         DisconnectSuspectSince.Clear();
         foreach (var (playerId, slot) in playerSlots)
@@ -102,14 +104,14 @@ public static class DraftManager
     public static void NotifyPickerReady(byte playerId)
     {
         var state = GetStateForPlayer(playerId);
-        if (state != null) state.IsPickerReady = true;
+        state?.IsPickerReady = true;
     }
 
     public static int GetSlotForPlayer(byte playerId) => GetStateForPlayer(playerId)?.SlotNumber ?? -1;
 
-    public static DraftSlotState GetStateForSlot(int slot) => SlotStates.FirstOrDefault(s => s.SlotNumber == slot)!;
+    public static DraftSlotState? GetStateForSlot(int slot) => SlotStates.FirstOrDefault(s => s.SlotNumber == slot);
 
-    public static DraftSlotState GetStateForPlayer(byte playerId) => SlotStates.FirstOrDefault(s => s.PlayerId == playerId)!;
+    public static DraftSlotState? GetStateForPlayer(byte playerId) => SlotStates.FirstOrDefault(s => s.PlayerId == playerId);
 
     public static bool IsBot(byte playerId)
     {
@@ -148,6 +150,7 @@ public static class DraftManager
     public static void Reset(bool cancelledBeforeCompletion)
     {
         IsDraftActive = false;
+        DraftApplier.Clear();
         if (cancelledBeforeCompletion)
         {
             DraftApplier.PendingDraftStates.Clear();
@@ -163,8 +166,23 @@ public static class DraftManager
         DraftStatusOverlay.SetState(OverlayState.Hidden);
         DraftSidebarManager.InvalidateCache();
 
-        if (GameStartManager.Instance != null)
-            GameStartManager.Instance.ResetStartState();
+        GameStartManager.Instance?.ResetStartState();
+    }
+
+    public static bool IsDraftablePlayer(PlayerControl? player)
+    {
+        if (player == null || player.Data == null || player.Data.Disconnected)
+        {
+            return false;
+        }
+
+        return !SpectatorRole.TrackedSpectators.Contains(player.GetBestPlayerDenomination());
+    }
+
+    public static bool IsDraftablePlayer(byte playerId)
+    {
+        var player = MiscUtils.PlayerById(playerId);
+        return IsDraftablePlayer(player);
     }
 }
 

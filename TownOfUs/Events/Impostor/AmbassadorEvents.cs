@@ -46,7 +46,7 @@ public static class AmbassadorEvents
                     confirmation =>
                     {
                         AmbassadorRole.RpcRetrainConfirm(ambassador.Player, player,
-                            (int)OptionGroupSingleton<AmbassadorOptions>.Instance.RoundCooldown, (ushort)role,
+                            OptionGroupSingleton<AmbassadorOptions>.Instance.RoundCooldown, (ushort)role,
                             confirmation);
                         confirmMenu.Close();
                     }
@@ -55,7 +55,7 @@ public static class AmbassadorEvents
             else if (!opt.RetrainConfirmation)
             {
                 --ambassador.RetrainsAvailable;
-                ambassador.RoundsCooldown = (int)opt.RoundCooldown;
+                ambassador.RoundsCooldown = opt.RoundCooldown;
                 ambassador.Clear();
 
                 if (player.AmOwner)

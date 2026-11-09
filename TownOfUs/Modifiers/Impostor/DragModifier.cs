@@ -23,7 +23,7 @@ public sealed class DragModifier(byte bodyId) : BaseModifier
 
     public override bool? CanVent()
     {
-        return OptionGroupSingleton<UndertakerOptions>.Instance.CanVentWithBody.Value ? null : false;
+        return OptionGroupSingleton<UndertakerOptions>.Instance.CanVentWithBody ? null : false;
     }
 
     public override void OnActivate()
@@ -53,7 +53,7 @@ public sealed class DragModifier(byte bodyId) : BaseModifier
             CustomButtonSingleton<UndertakerDragDropButton>.Instance.SetDrag();
         }
         var touAbilityEvent = new TouAbilityEvent(AbilityType.UndertakerDrop, Player, DeadBody);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (DeadBody == null)
         {
@@ -85,7 +85,7 @@ public sealed class DragModifier(byte bodyId) : BaseModifier
 
         var targetPos = Player.transform.position;
         targetPos.z = targetPos.y / 1000f;
-        
+
         if (Player.inVent)
         {
             DeadBody.transform.position = targetPos;

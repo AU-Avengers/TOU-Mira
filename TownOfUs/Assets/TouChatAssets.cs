@@ -17,7 +17,7 @@ public static class TouChatAssets
     public static LoadableAsset<Sprite> LoveChatIdle { get; } = new LoadableBundleSubAsset("LoveChatIdle", TouAssets.UiSpriteHolder);
     public static LoadableAsset<Sprite> LoveChatHover { get; } = new LoadableBundleSubAsset("LoveChatHover", TouAssets.UiSpriteHolder);
     public static LoadableAsset<Sprite> LoveChatOpen { get; } = new LoadableBundleSubAsset("LoveChatOpen", TouAssets.UiSpriteHolder);
-    
+
     public static LoadableAsset<Sprite> NormalBubble { get; } = new LoadableBundleSubAsset("ChatBubble", TouAssets.UiSpriteHolder);
     public static LoadableAsset<Sprite> NormalChatIdle { get; } = new LoadableBundleSubAsset("NormalChatIdle", TouAssets.UiSpriteHolder);
     public static LoadableAsset<Sprite> NormalChatHover { get; } = new LoadableBundleSubAsset("NormalChatHover", TouAssets.UiSpriteHolder);

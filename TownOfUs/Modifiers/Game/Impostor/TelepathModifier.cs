@@ -10,7 +10,7 @@ public sealed class TelepathModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Impostor,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Telepath.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Telepath,
             "TouMira.Modifier.Impostor.Telepath", 1.45f));
     public override string IdPart => "Telepath";
     public override string ModifierName => MiraLocaleManager.Get("TownOfUsMira.Modifier.Telepath", "Telepath");
@@ -53,18 +53,18 @@ public sealed class TelepathModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.TelepathChance;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.TelepathChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.TelepathAmount;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.TelepathAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         return base.IsModifierValidOn(role) && role.IsImpostor() &&
                !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode &&
-               PlayerControl.AllPlayerControls.ToArray().Count(x => x.IsImpostor() && !x.HasDied()) != 1;
+               PlayerControl.AllPlayerControls.Count(x => x.IsImpostor() && !x.HasDied()) != 1;
     }
 }

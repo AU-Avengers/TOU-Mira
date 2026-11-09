@@ -22,11 +22,11 @@ public static class MapDoorPatches
         {
             var currentDoorType = MiscUtils.GetCurrentMap switch
             {
-                ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => (MapDoorType)OptionGroupSingleton<BetterSkeldOptions>.Instance.SkeldDoorType.Value,
-                ExpandedMapNames.Polus => (MapDoorType)OptionGroupSingleton<BetterPolusOptions>.Instance.PolusDoorType.Value,
-                ExpandedMapNames.Airship => (MapDoorType)OptionGroupSingleton<BetterAirshipOptions>.Instance.AirshipDoorType.Value,
-                ExpandedMapNames.Fungle => (MapDoorType)OptionGroupSingleton<BetterFungleOptions>.Instance.FungleDoorType.Value,
-                ExpandedMapNames.Submerged => (MapDoorType)OptionGroupSingleton<BetterSubmergedOptions>.Instance.SubmergedDoorType.Value,
+                ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.SkeldDoorType,
+                ExpandedMapNames.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.PolusDoorType,
+                ExpandedMapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.AirshipDoorType,
+                ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.FungleDoorType,
+                ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.SubmergedDoorType,
                 _ => MapDoorType.None
             };
             return currentDoorType is MapDoorType.Random ? RandomDoorType : currentDoorType;
@@ -62,7 +62,7 @@ public static class MapDoorPatches
             ShipStatus.Instance.UpdateSystem(systemType, PlayerControl.LocalPlayer, msgReader);
         }
     }
-    
+
     [HarmonyPatch(typeof(InfectedOverlay), nameof(InfectedOverlay.CanUseDoors), MethodType.Getter)]
     [HarmonyPrefix]
     public static bool CanUseDoors(InfectedOverlay __instance, ref bool __result)
@@ -70,7 +70,7 @@ public static class MapDoorPatches
         __result = ShipStatus.Instance.Type == ShipStatus.MapType.Pb && ActiveDoorType is not MapDoorType.Skeld || !__instance.sabSystem.AnyActive;
         return false;
     }
-    
+
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RpcCloseDoorsOfType))]
     [HarmonyPrefix]
     public static bool RpcCloseDoorsOfType(ShipStatus __instance, SystemTypes type)
@@ -79,7 +79,7 @@ public static class MapDoorPatches
         {
             return true;
         }
-        
+
         if (AmongUsClient.Instance.AmHost)
         {
             __instance.CloseDoorsOfType(type);
@@ -90,7 +90,7 @@ public static class MapDoorPatches
         AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
         return false;
     }
-    
+
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RpcUpdateSystem), typeof(SystemTypes), typeof(byte))]
     [HarmonyPrefix]
     public static bool RpcUpdateSystem(ShipStatus __instance, SystemTypes systemType, byte amount)
@@ -268,7 +268,7 @@ public static class MapDoorPatches
         {
             return;
         }
-        var doorType = (MapDoorType)OptionGroupSingleton<BetterSkeldOptions>.Instance.SkeldDoorType.Value;
+        MapDoorType doorType = OptionGroupSingleton<BetterSkeldOptions>.Instance.SkeldDoorType;
         if (doorType is MapDoorType.Random)
         {
             if (TutorialManager.InstanceExists)
@@ -308,7 +308,7 @@ public static class MapDoorPatches
         foreach (var door in doors)
         {
             var autoDoor = door.GetComponent<AutoOpenDoor>();
-            
+
             var animator = door.GetComponent<SpriteAnim>();
             var closeDoorAnim = autoDoor.CloseDoorAnim;
             var closeSound = autoDoor.CloseSound;
@@ -338,7 +338,7 @@ public static class MapDoorPatches
             plainDoor.SetDoorway(plainDoor.Open);
             consoleDoor.MinigamePrefab = doorMinigame;
             consoleDoor.MyDoor = plainDoor;
-            
+
             var vector = plainDoor.myCollider.size;
             plainDoor.size = ((vector.x > vector.y) ? vector.y : vector.x);
             plainDoor.Open = plainDoor.myCollider.isTrigger;
@@ -358,7 +358,7 @@ public static class MapDoorPatches
     [HarmonyPostfix]
     public static void PolusDoorPatchPostfix(PolusShipStatus __instance)
     {
-        var doorType = (MapDoorType)OptionGroupSingleton<BetterPolusOptions>.Instance.PolusDoorType.Value;
+        MapDoorType doorType = OptionGroupSingleton<BetterPolusOptions>.Instance.PolusDoorType;
         if (doorType is MapDoorType.Random)
         {
             if (TutorialManager.InstanceExists)
@@ -446,7 +446,7 @@ public static class MapDoorPatches
     [HarmonyPostfix]
     public static void AirshipDoorPatchPostfix(AirshipStatus __instance)
     {
-        var doorType = (MapDoorType)OptionGroupSingleton<BetterAirshipOptions>.Instance.AirshipDoorType.Value;
+        MapDoorType doorType = OptionGroupSingleton<BetterAirshipOptions>.Instance.AirshipDoorType;
         if (doorType is MapDoorType.Random)
         {
             if (TutorialManager.InstanceExists)
@@ -534,7 +534,7 @@ public static class MapDoorPatches
     [HarmonyPostfix]
     public static void FungleDoorPatchPostfix(FungleShipStatus __instance)
     {
-        var doorType = (MapDoorType)OptionGroupSingleton<BetterFungleOptions>.Instance.FungleDoorType.Value;
+        MapDoorType doorType = OptionGroupSingleton<BetterFungleOptions>.Instance.FungleDoorType;
         if (doorType is MapDoorType.Random)
         {
             if (TutorialManager.InstanceExists)
@@ -623,7 +623,7 @@ public static class MapDoorPatches
             return;
         }
 
-        var doorType = (MapDoorType)OptionGroupSingleton<BetterSubmergedOptions>.Instance.SubmergedDoorType.Value;
+        MapDoorType doorType = OptionGroupSingleton<BetterSubmergedOptions>.Instance.SubmergedDoorType;
         if (doorType is MapDoorType.Random)
         {
             if (TutorialManager.InstanceExists)

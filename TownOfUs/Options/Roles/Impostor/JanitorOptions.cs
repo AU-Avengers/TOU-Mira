@@ -18,7 +18,7 @@ public sealed class JanitorOptions : AbstractRoleOptionGroup<JanitorRole>
     [ModdedNumberOption("TouOptionJanitorCleanDelay", 0f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float CleanDelay { get; set; } = 2.5f;
 
-    [ModdedEnumOption("TouOptionJanitorResetKillAndCleanCooldownsTogether", typeof(JanitorCooldownSync), ["TouOptionJanitorCooldownSyncEnumUnlinked", "TouOptionJanitorCooldownSyncEnumWithTeammates", "TouOptionJanitorCooldownSyncEnumAlways"])]
+    [ModdedEnumOption<JanitorCooldownSync>("TouOptionJanitorResetKillAndCleanCooldownsTogether", ["TouOptionJanitorCooldownSyncEnumUnlinked", "TouOptionJanitorCooldownSyncEnumWithTeammates", "TouOptionJanitorCooldownSyncEnumAlways"])]
     public JanitorCooldownSync CooldownSync { get; set; } = JanitorCooldownSync.WithTeammates;
 
     [ModdedToggleOption("TouOptionJanitorJanitorCanKillWithTeammate")]

@@ -40,6 +40,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 {
     internal static Dictionary<int, string> PlatformAssociations = new();
     private static bool HasFetchedIcons;
+    private static ZiplineBehaviour[] Ziplines = [];
 
     public static HudManagerHelper Instance { get; private set; }
     public float DeathTimer;
@@ -51,19 +52,19 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         PlatformAssociations.Clear();
         if (!HasFetchedIcons)
         {
-            TmpSpriteUtils.CreateSpriteAsset(TouAssets.BlankSprite.LoadAsset(),
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.BlankSprite,
                 "Platform.Blank", 1.45f);
-            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformEpic.LoadAsset(),
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformEpic,
                 "Platform.Epic", 1.45f);
-            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformItch.LoadAsset(),
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformItch,
                 "Platform.Itch", 1.45f);
-            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformStarlight.LoadAsset(),
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformStarlight,
                 "Platform.Starlight", 1.45f);
-            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformSteam.LoadAsset(),
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformSteam,
                 "Platform.Steam", 1.45f);
-            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformWindows.LoadAsset(),
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformWindows,
                 "Platform.Windows", 1.45f);
-            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformUnknown.LoadAsset(),
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.PlatformUnknown,
                 "Platform.Unknown", 1.45f);
             HasFetchedIcons = true;
         }
@@ -147,18 +148,18 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     }
                     if (genericEvent.IsCancelled)
                     {
-                        MiraEventManager.InvokeEvent(new MiraButtonCancelledEvent(button));
+                        new MiraButtonCancelledEvent(button).InvokeEvent();
                     }
 
                     // Invoke the button click event for specific button.
                     var eventType = CustomButtonManager.EventTypes[button.GetType()];
                     var @event = (MiraCancelableEvent)Activator.CreateInstance(eventType, button, genericEvent)!;
-                    var specificInvoked = MiraEventManager.InvokeEvent(@event, eventType);
+                    var specificInvoked = @event.InvokeEvent(eventType);
                     if (@event.IsCancelled)
                     {
                         var cancelEventType = CustomButtonManager.CancelledEventTypes[button.GetType()];
                         var cancelEvent = (MiraEvent)Activator.CreateInstance(cancelEventType, button)!;
-                        MiraEventManager.InvokeEvent(cancelEvent, cancelEventType);
+                        cancelEvent.InvokeEvent(cancelEventType);
                     }
 
                     if (specificInvoked)
@@ -177,7 +178,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     }
                 }));
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Error($"Failed to create custom button {button.GetType().Name}: {e}");
             }
@@ -207,7 +208,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         {
             return;
         }
-        
+
         if (!PlayerControl.LocalPlayer.Data.Role ||
             !ShipStatus.Instance ||
             (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
@@ -263,8 +264,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
             HudManagerPatches.UpdateSubmergedButtons(instance, ghostRole);
         }
     }
-    #pragma warning restore CA1822
-    #pragma warning restore S2325
+#pragma warning restore CA1822
+#pragma warning restore S2325
     public static void UpdateCamouflageComms()
     {
         var isActive = HudManagerPatches.CommsSaboActive();
@@ -312,6 +313,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 fakePlayer.Camo();
             }
 
+            CamouflageZiplineHands();
+
             return;
         }
 
@@ -323,15 +326,49 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         }
     }
 
+    private static void CamouflageZiplineHands()
+    {
+        if (MiscUtils.GetCurrentMap != ExpandedMapNames.Fungle)
+        {
+            return;
+        }
+
+        if (Ziplines.Length == 0 || !Ziplines[0])
+        {
+            Ziplines = UnityEngine.Object.FindObjectsOfType<ZiplineBehaviour>();
+        }
+
+        foreach (var zipline in Ziplines)
+        {
+            foreach (var entry in zipline.playerIdHands)
+            {
+                var player = MiscUtils.PlayerById(entry.Key);
+                if (!entry.Value || !player || player.GetAppearanceType() != TownOfUsAppearances.Camouflage)
+                {
+                    continue;
+                }
+
+                foreach (var rend in entry.Value.GetComponentsInChildren<SpriteRenderer>())
+                {
+                    PlayerMaterial.SetColors(Color.grey, rend);
+                }
+            }
+        }
+    }
+
     public static string GetDiedR1ExtraNameTextForDisplayedIdentity(PlayerControl player, bool useDisguise)
     {
         if (useDisguise && player.TryGetModifier<DisguisedModifier>(out var disguise) && disguise.Target != null)
         {
             player = disguise.Target;
         }
-        var mod = player.GetModifiers<BaseRevealModifier>()
-                .FirstOrDefault(x => x.Visible && x is FirstRoundIndicator && x.ExtraNameText != string.Empty);
-        return mod?.ExtraNameText ?? string.Empty;
+
+        if (player.TryGetModifier<FirstRoundIndicator>(out var mod, x => x.Visible))
+        {
+            return mod.ExtraNameText;
+        }
+
+        return string.Empty;
     }
 
     public static bool HasSetMeetingColorText;
@@ -346,11 +383,11 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var colorPlayerNames = LocalSettingsTabSingleton<TouLocalTabPlayers>.Instance.ColorPlayerNameToggle.Value;
         var localDead = PlayerControl.LocalPlayer.HasDied();
         var localGhost = localDead && genOpt.TheDeadKnow;
-        var sightMode = (NameSight)OptionGroupSingleton<VanillaTweakOptions>.Instance.HideNamesOutOfSight.Value;
+        NameSight sightMode = OptionGroupSingleton<VanillaTweakOptions>.Instance.HideNamesOutOfSight;
         var hideOutOfSight = sightMode is not NameSight.Basic && !localDead && HudManager.InstanceExists && HudManager.Instance.ShadowQuad.gameObject.active;
         var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
                        genOpt is
-                           { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
+                       { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
         var localVamp = PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole;
         var useMiraApiChecks =
             !localDead && (!PlayerControl.LocalPlayer.IsImpostorAligned() || !genOpt.FFAImpostorMode);
@@ -488,7 +525,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
             localGhost = isVisible;
         }
 
-        var revealMods = player.GetModifiers<BaseRevealModifier>().ToList();
+        var revealMods = player.GetModifiers<BaseRevealModifier>(x => x.Visible);
 
         var playerName = player.GetAppearance().PlayerName ?? "Unknown";
         var playerColor = Color.white;
@@ -515,12 +552,12 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var playerIsImp = player.IsImpostorAligned();
         var impostorBuddy = localImp && playerIsImp;
         var vampBuddy = localVamp && role is VampireRole;
-        var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
+        var revealed = revealMods.Any(x => x.RevealRole);
         var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
         var localLover = LoverModifier.LoverSeesRoleVisibilityFlag(player);
         if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localLover || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
         {
-            if (!isImpFfa && playerIsImp && !OptionGroupSingleton<GeneralOptions>.Instance.ImpsKnowRoles.Value && !player.AmOwner && !revealed && !localGhost && !localSleuth)
+            if (!isImpFfa && playerIsImp && !OptionGroupSingleton<GeneralOptions>.Instance.ImpsKnowRoles && !player.AmOwner && !revealed && !localGhost && !localSleuth)
             {
                 role = RoleManager.Instance.GetRole(RoleTypes.Impostor);
             }
@@ -536,7 +573,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 roleName = $"<size={roleNameSize}>{MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{TranslationController.Instance.GetString(StringNames.SpiritGuideRole)}</color></size>";
             }
 
-            var revealedRole = revealMods.FirstOrDefault(x => x.Visible && x.RevealRole && x.ShownRole != null);
+            var revealedRole = revealMods.FirstOrDefault(x => x.RevealRole && x.ShownRole != null);
             if (revealedRole != null)
             {
                 color = revealedRole.ShownRole!.TeamColor;
@@ -554,8 +591,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 roleName += $"<size={roleNameSize}><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
             }
 
-            var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole);
-            if (cachedMod is ICachedRole cache && cache.Visible &&
+            if (player.TryGetModifierOfType<ICachedRole>(out var cache, x => x.Visible) &&
                 cache.CanDisplayForRole(role))
             {
                 var cachedName = cache.CachedRoleName == "" ? MiscUtils.GetToggledRoleTmpIcon(cache.CachedRole, HudManagerPatches.IconOnRoleName) + cache.CachedRole.GetRoleName() : cache
@@ -582,14 +618,14 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
             topText += "<cod>\n";
         }
 
-        var revealedColorMod = revealMods.FirstOrDefault(x => x.Visible && x.NameColor != null);
+        var revealedColorMod = revealMods.FirstOrDefault(x => x.NameColor != null);
         if (revealedColorMod != null)
         {
             playerColor = (Color)revealedColorMod.NameColor!;
             playerName = $"{playerColor.ToTextColor()}{playerName}</color>";
         }
 
-        var addedRoleNameText = revealMods.FirstOrDefault(x => x.Visible && x.ExtraRoleText != string.Empty);
+        var addedRoleNameText = revealMods.FirstOrDefault(x => x.ExtraRoleText != string.Empty);
         if (addedRoleNameText != null)
         {
             roleName += $"<size={roleNameSize}>{addedRoleNameText.ExtraRoleText}</size>";
@@ -624,7 +660,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     topText += $"{progress}\n";
                 }
             }
-            else if ((player.AmOwner || (taskOpt.ShowTaskDead.Value && isVisible && localDead)) &&
+            else if ((player.AmOwner || (taskOpt.ShowTaskDead && isVisible && localDead)) &&
                              player.IsCrewmate())
             {
                 if (HudManagerPatches.RoleIsSmall)
@@ -671,7 +707,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         }
 
         var addedPlayerNameText = revealMods.FirstOrDefault(x =>
-            x.Visible && x.ExtraNameText != string.Empty && x is not FirstRoundIndicator);
+            x.ExtraNameText != string.Empty && x is not FirstRoundIndicator);
         if (addedPlayerNameText != null)
         {
             playerName += addedPlayerNameText.ExtraNameText;

@@ -28,7 +28,7 @@ public sealed class BomberPlantButton : TownOfUsKillRoleButton<BomberRole>, IAft
     }
     protected override void OnClick()
     {
-        OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.DetonatingSprite.LoadAsset() : TouImpAssets.DetonatingSprite.LoadAsset());
+        OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.DetonatingSprite : TouImpAssets.DetonatingSprite);
         OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.BomberDetonating", "Detonating"));
 
         PlayerControl.LocalPlayer.killTimer = EffectDuration + 1f;
@@ -38,7 +38,7 @@ public sealed class BomberPlantButton : TownOfUsKillRoleButton<BomberRole>, IAft
 
     public override void OnEffectEnd()
     {
-        OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.PlantSprite.LoadAsset() : TouImpAssets.PlaceSprite.LoadAsset());
+        OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.PlantSprite : TouImpAssets.PlaceSprite);
         OverrideName(MiraLocaleManager.Get("TownOfUsMira.Role.BomberPlace", "Place"));
 
         PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.LocalPlayer.GetKillCooldown());

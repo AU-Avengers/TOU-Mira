@@ -13,10 +13,10 @@ public static class BlackmailerEvents
     [RegisterEvent]
     public static void EjectionEvent(EjectionEvent _)
     {
-        var sparedPlayers = ModifierUtils.GetPlayersWithModifier<BlackmailSparedModifier>().ToList();
+        var sparedPlayers = ModifierUtils.GetPlayersWithModifier<BlackmailSparedModifier>();
         sparedPlayers.Do(x => x.RemoveModifier<BlackmailSparedModifier>());
 
-        var players = ModifierUtils.GetPlayersWithModifier<BlackmailedModifier>().ToList();
+        var players = ModifierUtils.GetPlayersWithModifier<BlackmailedModifier>();
         if (!OptionGroupSingleton<BlackmailerOptions>.Instance.BlackmailInARow)
         {
             players.Do(x =>

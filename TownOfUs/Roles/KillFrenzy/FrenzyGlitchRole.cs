@@ -100,7 +100,7 @@ public sealed class FrenzyGlitchRole(IntPtr cppPtr)
         if (Player.AmOwner)
         {
             OffsetButtons();
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.GlitchVentSprite.LoadAsset();
+            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.GlitchVentSprite;
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Glitch);
             CustomButtonSingleton<FakeVentButton>.Instance.Show = false;
         }
@@ -112,7 +112,7 @@ public sealed class FrenzyGlitchRole(IntPtr cppPtr)
         TouRoleUtils.ClearTaskHeader(Player);
         if (Player.AmOwner)
         {
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
+            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite;
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
             CustomButtonSingleton<FakeVentButton>.Instance.Show = true;
         }

@@ -19,7 +19,7 @@ public sealed class TraitorOptions : AbstractRoleOptionGroup<TraitorRole>
     [ModdedToggleOption("TouOptionTraitorDisableExistingImpostorRoles")]
     public bool RemoveExistingRoles { get; set; } = true;
 
-    public ModdedEnumOption TraitorGuess { get; set; } = new("TouOptionTraitorGuessAs", (int)CacheRoleGuess.ActiveOrCachedRole, typeof(CacheRoleGuess), ["TouOptionTraitorGuessEnumCached", "TouOptionTraitorGuessEnumActive", "TouOptionTraitorGuessEnumActiveOrCached"]);
+    public ModdedEnumOption<CacheRoleGuess> TraitorGuess { get; set; } = new("TouOptionTraitorGuessAs", CacheRoleGuess.ActiveOrCachedRole, ["TouOptionTraitorGuessEnumCached", "TouOptionTraitorGuessEnumActive", "TouOptionTraitorGuessEnumActiveOrCached"]);
 
     public ModdedToggleOption TraitorCanAssassin { get; } =
         new("TouOptionTraitorBecomesAssassin", true);

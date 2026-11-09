@@ -17,74 +17,60 @@ public sealed class BetterMiraHqOptions : AbstractOptionGroup
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
         TmpSpriteUtils.CreateSpriteAsset(
-            TouAssets.IconMira.LoadAsset(),
+            TouAssets.IconMira,
             "AmongUs.Map.Mira",
             1.45f));
 
     public ModdedToggleOption CamoComms { get; set; } =
         new("TownOfUsMira.AdvancedSabo.Option.CamouflageComms", true)
         {
-            Visible = () =>
-                GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapCamoCommsConfig) ==
-                MapTweakMode.PerMap
+            Visible = () => OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapCamoCommsConfig == MapTweakMode.PerMap
         };
 
     public ModdedNumberOption SpeedMultiplier { get; set; } =
         new("TownOfUsMira.BetterMaps.Option.MapsSpeedMultiplier", 1f, 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")
         {
-            Visible = () =>
-                GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapSpeedConfig) ==
-                MapTweakMode.PerMap
+            Visible = () => OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapSpeedConfig == MapTweakMode.PerMap
         };
 
     public ModdedNumberOption CrewVisionMultiplier { get; set; } =
         new("TownOfUsMira.BetterMaps.Option.MapsCrewVisionMultiplier", 1f, 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")
         {
-            Visible = () =>
-                GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapCrewVisionConfig) ==
-                MapTweakMode.PerMap
+            Visible = () => OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapCrewVisionConfig == MapTweakMode.PerMap
         };
 
     public ModdedNumberOption ImpVisionMultiplier { get; set; } =
         new("TownOfUsMira.BetterMaps.Option.MapsImpVisionMultiplier", 1f, 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")
         {
-            Visible = () =>
-                GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapImpVisionConfig) ==
-                MapTweakMode.PerMap
+            Visible = () => OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapImpVisionConfig == MapTweakMode.PerMap
         };
 
     public ModdedNumberOption CooldownOffset { get; set; } =
         new("TownOfUsMira.BetterMaps.Option.MapsCooldownOffset", 0f, -15f, 15f, 2.5f, MiraNumberSuffixes.Seconds)
         {
-            Visible = () =>
-                GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapCooldownConfig) ==
-                MapTweakMode.PerMap
+            Visible = () => OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapCooldownConfig == MapTweakMode.PerMap
         };
 
     public ModdedNumberOption OffsetShortTasks { get; set; } =
         new("TownOfUsMira.BetterMaps.Option.MapsOffsetShortTasks", 0f, -5f, 5f, 1f, MiraNumberSuffixes.None)
         {
-            Visible = () =>
-                GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapShortTaskConfig) ==
-                MapTweakMode.PerMap
+            Visible = () => OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapShortTaskConfig == MapTweakMode.PerMap
         };
 
     public ModdedNumberOption OffsetLongTasks { get; set; } =
         new("TownOfUsMira.BetterMaps.Option.MapsOffsetLongTasks", 0f, -3f, 3f, 1f, MiraNumberSuffixes.None)
         {
-            Visible = () =>
-                GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapLongTaskConfig) ==
-                MapTweakMode.PerMap
+            Visible = () => OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapLongTaskConfig == MapTweakMode.PerMap
         };
 
-    public ModdedEnumOption BetterVentNetwork { get; set; } = new("TownOfUsMira.BetterMaps.Option.MiraHqVentNetwork",
-        (int)MiraVentMode.Normal, typeof(MiraVentMode),
+    public ModdedEnumOption<MiraVentMode> BetterVentNetwork { get; set; } = new("TownOfUsMira.BetterMaps.Option.MiraHqVentNetwork",
+        MiraVentMode.Normal,
         [
             "TownOfUsMira.BetterMaps.Option.MiraHqVentModeEnumNormal", "TownOfUsMira.BetterMaps.Option.MiraHqVentModeEnumThreeGroups", "TownOfUsMira.BetterMaps.Option.MiraHqVentModeEnumFourGroups"
         ]);
 
-    public ModdedEnumOption MapTheme { get; set; } = new("TownOfUsMira.BetterMaps.Option.MapsTheme",
-        (int)PolusTheme.Auto, typeof(PolusTheme),
+    public ModdedEnumOption<PolusTheme> MapTheme { get; set; } = new("TownOfUsMira.BetterMaps.Option.MapsTheme",
+        PolusTheme.Auto,
         [
             "TownOfUsMira.BetterMaps.Option.MapsThemeEnumAuto", "TownOfUsMira.BetterMaps.Option.MapsThemeEnumBasic",
             "TownOfUsMira.BetterMaps.Option.MapsThemeEnumHalloween"

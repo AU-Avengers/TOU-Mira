@@ -61,8 +61,8 @@ public static class HerbalistEvents
             return false;
         }
 
-        if (!target.TryGetModifier<HerbalistProtectionModifier>(out var protectMod) ||
-            protectMod.Herbalist.PlayerId == source.PlayerId ||
+        if (!target.TryGetModifier<HerbalistProtectionModifier>(out var protectMod,
+                x => x.Herbalist.PlayerId != source.PlayerId) ||
             target.PlayerId == source.PlayerId ||
             @event is BeforeMurderEvent { IgnoreDefense: true } ||
             @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
@@ -73,7 +73,7 @@ public static class HerbalistEvents
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has herbalist protection, stopping an interaction from {source.Data.PlayerName}!");
         @event.Cancel();
 
-        var cleric = target.GetModifier<HerbalistProtectionModifier>()?.Herbalist.GetRole<HerbalistRole>();
+        var cleric = protectMod.Herbalist.GetRole<HerbalistRole>();
 
         if (cleric != null && (TutorialManager.InstanceExists || source.AmOwner))
         {

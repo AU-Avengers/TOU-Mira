@@ -14,7 +14,7 @@ public sealed class HerbalistProtectionModifier(PlayerControl herbalist) : BaseS
 {
     public override string ModifierName => "Barrier";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Cleric;
- public override string ShieldDescription => MiraLocaleManager.Get("TownOfUsMira.Modifier.HerbalistProtectionDescription");
+    public override string ShieldDescription => MiraLocaleManager.Get("TownOfUsMira.Modifier.HerbalistProtectionDescription");
     public override float Duration => OptionGroupSingleton<HerbalistOptions>.Instance.ProtectDuration;
     public override bool AutoStart => true;
     public bool ShowBarrier { get; set; }
@@ -49,23 +49,23 @@ public sealed class HerbalistProtectionModifier(PlayerControl herbalist) : BaseS
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
+        var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
         ShowBarrier = showBarrierSelf || Herbalist.AmOwner ||
                       (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
 
         ClericBarrier =
-            AnimStore.SpawnAnimBody(Player, TouAssets.ClericBarrier.LoadAsset(), false, -1.1f, -0.35f, 1.5f)!;
+            AnimStore.SpawnAnimBody(Player, TouAssets.ClericBarrier, false, -1.1f, -0.35f, 1.5f)!;
         ClericBarrier.GetComponent<SpriteAnim>().SetSpeed(2f);
 
-        MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.HerbalistProtect, Herbalist, Player));
+        new TouAbilityEvent(AbilityType.HerbalistProtect, Herbalist, Player).InvokeEvent();
     }
 
     public override void Update()
     {
         if (!Player || Herbalist == null)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 
@@ -77,12 +77,12 @@ public sealed class HerbalistProtectionModifier(PlayerControl herbalist) : BaseS
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnMeetingStart()
     {
-        ModifierComponent?.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeactivate()

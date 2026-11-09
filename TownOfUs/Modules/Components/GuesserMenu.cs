@@ -23,25 +23,15 @@ public sealed class GuesserMenu : CustomPaginableMenu
     {
         Begin(() =>
         {
-            var roles = MiscUtils.GetPotentialRoles().Where(roleMatch).ToList();
+            var roles = MiscUtils.GetPotentialRoles().Where(roleMatch);
 
-            var allRoles = MiscUtils.AllRoles.Where(roleMatch).Where(x => x is IGuessable && !roles.Contains(x)).ToList();
+            var guessableRoles = MiscUtils.AllRoles.Where(roleMatch)
+                                .Where(x => x is IGuessable { CanBeGuessed: true } && !roles.Contains(x));
 
-            if (allRoles.Count > 0)
-            {
-                foreach (var addedRole in allRoles)
-                {
-                    if (addedRole is IGuessable guessable && guessable.CanBeGuessed)
-                    {
-                        roles.Add(addedRole);
-                    }
-                }
-            }
-
-            var newRoleList = roles.OrderBy(x =>
+            var newRoleList = roles.Concat(guessableRoles).OrderBy(x =>
             LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.SortGuessingByAlignmentToggle.Value
                 ? MiscUtils.GetParsedRoleAlignment(x) + x.GetRoleName()
-                : x.GetRoleName()).ToList();
+                : x.GetRoleName());
 
             RegisterPanels(
                 newRoleList,
@@ -50,30 +40,21 @@ public sealed class GuesserMenu : CustomPaginableMenu
                 (shapeshifterPanel, role) => new MenuEntry(shapeshifterPanel, role.GetRoleName())
             );
 
+            if (modifierMatch != null && onModifierClick != null)
+            {
+                RegisterPanels(
+                    MiscUtils.AllModifiers.Where(modifierMatch).OrderBy(x => x.ModifierName),
+                    onModifierClick!,
+                    Utilities.Extensions.SetModifier,
+                    (shapeshifterPanel, modifier) => new MenuEntry(shapeshifterPanel, modifier.ModifierName)
+                );
+            }
+
             foreach (var shapeshifterPanel in EntryPanels)
             {
                 var highlight = shapeshifterPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight");
                 highlight.FindChild("ShapeshifterIcon").gameObject.SetActive(false);
                 highlight.GetComponent<SpriteRenderer>().transform.GetChild(0).gameObject.SetActive(false);
-            }
-
-            if (modifierMatch == null || onModifierClick == null)
-                return;
-
-            var modifiers = MiscUtils.AllModifiers.Where(modifierMatch).OrderBy(x => x.ModifierName).ToList();
-
-            RegisterPanels(
-                modifiers,
-                onModifierClick!,
-                Utilities.Extensions.SetModifier,
-                (shapeshifterPanel, modifier) => new MenuEntry(shapeshifterPanel, modifier.ModifierName)
-            );
-
-            foreach (var shapeshifterPanel in EntryPanels)
-            {
-                var highlight = shapeshifterPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight");
-                highlight.FindChild("ShapeshifterIcon").gameObject.SetActive(false);
-                highlight.GetComponent<SpriteRenderer>().transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
             }
         });
     }

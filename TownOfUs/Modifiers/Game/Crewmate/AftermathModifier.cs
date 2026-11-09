@@ -8,7 +8,7 @@ public sealed class AftermathModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Aftermath,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Aftermath.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Aftermath,
             "TouMira.Modifier.Crewmate.Aftermath", 1.45f));
     public override string IdPart => "Aftermath";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -33,12 +33,12 @@ public sealed class AftermathModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.AftermathChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.AftermathChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.AftermathAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.AftermathAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

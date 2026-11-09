@@ -15,21 +15,21 @@ public static class DiscordPlatformPatch
 
     public static bool Prepare()
     {
-        if (Application.platform == RuntimePlatform.Android)
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
         {
             return false;
         }
-        
+
         return true;
     }
 
     public static IEnumerable<MethodBase> TargetMethods()
     {
-        if (Application.platform == RuntimePlatform.Android)
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            return new List<MethodBase>(); 
+            return new List<MethodBase>();
         }
-        
+
         return new List<MethodBase>
         {
             AccessTools.Method(typeof(DiscordManager), "Start")

@@ -60,7 +60,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Pestilence.LoadAsset(), "TouMira.Role.Neutral.Pestilence", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Pestilence, "TouMira.Role.Neutral.Pestilence", 1.45f),
         CanUseVent = OptionGroupSingleton<PlaguebearerOptions>.Instance.CanVent,
         HideSettings = true,
         CanModifyChance = false,
@@ -134,7 +134,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
 
         if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.PestVentSprite.LoadAsset();
+            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.PestVentSprite;
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Pestilence);
         }
 
@@ -145,14 +145,11 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         TouRoleUtils.ClearTaskHeader(Player);
-        if (Player.HasModifier<InvulnerabilityModifier>())
-        {
-            Player.RemoveModifier<InvulnerabilityModifier>();
-        }
+        Player.TryRemoveModifier<InvulnerabilityModifier>();
 
         if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
+            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite;
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
         }
     }
@@ -170,7 +167,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         var msg = MiraLocaleManager.Get("TownOfUsMira.Role.PestilenceAnnounceMessage");
 
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{msg.Replace("<role>", $"{TownOfUsColors.Pestilence.ToTextColor()}{this.GetRoleName()}</color>")}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Pestilence.LoadAsset());
+            $"<b>{msg.Replace("<role>", $"{TownOfUsColors.Pestilence.ToTextColor()}{this.GetRoleName()}</color>")}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Pestilence);
 
         notif1.AdjustNotification();
 

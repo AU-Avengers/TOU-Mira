@@ -15,7 +15,7 @@ public sealed class ScreenFlash : IDisposable
     {
         _renderer = Object.Instantiate(HudManager.Instance.FullScreen, HudManager.Instance.FullScreen.transform.parent);
         _renderer.transform.localPosition = new Vector3(0, 0, -90f);
-        _renderer.sprite = TouAssets.ScreenFlash.LoadAsset();
+        _renderer.sprite = TouAssets.ScreenFlash;
         _renderer.color = Color.white;
 
         _screenFlashes.Add(this);

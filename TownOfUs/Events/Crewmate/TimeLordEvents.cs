@@ -27,9 +27,9 @@ public static class TimeLordEvents
     {
         if (!@event.TriggeredByIntro)
         {
-            var temporaryRevives = ModifierUtils.GetPlayersWithModifier<TimeLordTempReviveModifier>().ToList();
+            var temporaryRevives = ModifierUtils.GetPlayersWithModifier<TimeLordTempReviveModifier>();
             var timeLord = ModifierUtils.GetActiveModifiers<TimeLordTempReviveModifier>().FirstOrDefault()?.TimeLord;
-            if (temporaryRevives.Count > 0)
+            if (temporaryRevives.Any())
             {
                 var players = new List<PlayerControl>();
                 foreach (var temp in temporaryRevives)
@@ -67,7 +67,7 @@ public static class TimeLordEvents
         }
 
         var btn = CustomButtonSingleton<TimeLordRewindButton>.Instance;
-        btn.SetUses((int)OptionGroupSingleton<TimeLordOptions>.Instance.MaxUses.Value);
+        btn.SetUses(OptionGroupSingleton<TimeLordOptions>.Instance.MaxUses);
         if (!btn.LimitedUses)
         {
             btn.Button?.usesRemainingText.gameObject.SetActive(false);
@@ -116,7 +116,7 @@ public static class TimeLordEvents
 
         var opt = OptionGroupSingleton<TimeLordOptions>.Instance;
         var btn = CustomButtonSingleton<TimeLordRewindButton>.Instance;
-        if (btn.LimitedUses && opt.UsesPerTasks.Value != 0 && opt.UsesPerTasks.Value <= ActiveRewindTaskCount)
+        if (btn.LimitedUses && opt.UsesPerTasks != 0 && opt.UsesPerTasks <= ActiveRewindTaskCount)
         {
             ++btn.UsesLeft;
             btn.SetUses(btn.UsesLeft);

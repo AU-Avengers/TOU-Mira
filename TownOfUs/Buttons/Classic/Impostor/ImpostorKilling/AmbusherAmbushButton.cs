@@ -49,7 +49,7 @@ public sealed class AmbusherAmbushButton : TownOfUsKillRoleButton<AmbusherRole, 
             CustomButtonSingleton<AmbusherPursueButton>.Instance.ResetCooldownAndOrEffect();
             SetActive(false, Role);
             ModifierUtils.GetActiveModifiers<AmbusherArrowTargetModifier>()
-                .Do(x => x.ModifierComponent?.RemoveModifier(x));
+                .Do(x => x.RemoveSelf());
         }
     }
 }

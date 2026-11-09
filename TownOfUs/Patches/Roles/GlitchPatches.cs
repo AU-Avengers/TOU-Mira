@@ -20,13 +20,12 @@ public static class GlitchPatches
         {
             return true;
         }
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>())
+        if (PlayerControl.LocalPlayer.TryGetModifier<GlitchHackedModifier>(out var glitch))
         {
-            if (!PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShouldHideHacked)
+            if (glitch.ShouldHideHacked)
             {
-                return false;
+                GlitchRole.RpcTriggerGlitchHack(PlayerControl.LocalPlayer, false);
             }
-            GlitchRole.RpcTriggerGlitchHack(PlayerControl.LocalPlayer, false);
             return false;
         }
 
@@ -37,7 +36,7 @@ public static class GlitchPatches
     [HarmonyPrefix]
     public static bool GlitchHackedToggleMapVisiblePatch(HudManager __instance)
     {
-        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanOpenMap))
+        if (PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanOpenMap))
         {
             return false;
         }

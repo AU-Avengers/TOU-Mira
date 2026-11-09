@@ -32,10 +32,10 @@ public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Morphling.LoadAsset(), "TouMira.Role.Impostor.Morphling", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Morphling, "TouMira.Role.Impostor.Morphling", 1.45f),
         Icon = TouRoleIcons.Morphling,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
-        CanUseVent = (MorphlingVent)OptionGroupSingleton<MorphlingOptions>.Instance.CanVent.Value is not MorphlingVent.Never,
+        CanUseVent = OptionGroupSingleton<MorphlingOptions>.Instance.CanVent.Value is not MorphlingVent.Never,
         IntroSound = TouAudio.ShapeshifterIntroSound
     };
 
@@ -56,23 +56,6 @@ public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
 
         return stringB;
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Sample", "Sample"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Sample.WikiDescription"),
-                    TouImpAssets.SampleSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Morph", "Morph"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Morph.WikiDescription"),
-                    TouImpAssets.MorphSprite)
-            ];
-        }
     }
 
     [HideFromIl2Cpp]

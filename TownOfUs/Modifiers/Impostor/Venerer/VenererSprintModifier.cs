@@ -16,6 +16,6 @@ public sealed class VenererSprintModifier : TimedModifier, IVenererModifier
     public override void OnActivate()
     {
         var touAbilityEvent = new TouAbilityEvent(AbilityType.VenererSprintAbility, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 }

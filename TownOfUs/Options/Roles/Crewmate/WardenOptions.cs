@@ -8,7 +8,7 @@ public sealed class WardenOptions : AbstractRoleOptionGroup<WardenRole>
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Warden", "Warden");
 
-    [ModdedEnumOption("TouOptionWardenShowFortifyPlayer", typeof(FortifyOptions),
+    [ModdedEnumOption<FortifyOptions>("TouOptionWardenShowFortifyPlayer",
         ["TouOptionWardenFortEnumSelf", "TouOptionWardenFortEnumWarden", "TouOptionWardenFortEnumSelfAndWarden", "TouOptionWardenFortEnumEveryone"])]
     public FortifyOptions ShowFortified { get; set; } = FortifyOptions.SelfAndWarden;
 }

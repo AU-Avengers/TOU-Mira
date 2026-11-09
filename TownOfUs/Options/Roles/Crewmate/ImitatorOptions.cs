@@ -14,8 +14,8 @@ public sealed class ImitatorOptions : AbstractRoleOptionGroup<ImitatorRole>
 
     public ModdedToggleOption ImitateBasicCrewmate { get; set; } = new("TouOptionImitatorImitateBasicCrewmate", true);
 
-    public ModdedEnumOption ImitatorGuess { get; set; } = new("TouOptionImitatorGuessAs",
-        (int)CacheRoleGuess.ActiveOrCachedRole, typeof(CacheRoleGuess),
+    public ModdedEnumOption<CacheRoleGuess> ImitatorGuess { get; set; } = new("TouOptionImitatorGuessAs",
+        CacheRoleGuess.ActiveOrCachedRole,
         [
             "TouOptionImitatorGuessEnumCached", "TouOptionImitatorGuessEnumActive",
             "TouOptionImitatorGuessEnumActiveOrCached"

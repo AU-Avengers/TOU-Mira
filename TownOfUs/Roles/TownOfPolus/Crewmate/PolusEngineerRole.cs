@@ -36,7 +36,7 @@ public sealed class PolusEngineerRole(IntPtr cppPtr) : PolusBaseCrewRole(cppPtr)
         AssociatedGameMode = typeof(TownOfPolusMode),
         GhostRole = (RoleTypes)RoleId.Get<PolusGhostCrewRole>(),
         FreeplayFolder = "Town of Polus",
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconEngineer.LoadAsset(), "TownOfPolus.Role.Crewmate.Engineer", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconEngineer, "TownOfPolus.Role.Crewmate.Engineer", 1.45f),
         Icon = PolusGgAssets.IconEngineer
     };
 
@@ -273,6 +273,6 @@ public sealed class PolusEngineerRole(IntPtr cppPtr) : PolusBaseCrewRole(cppPtr)
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.EngineerFix, engineer);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 }

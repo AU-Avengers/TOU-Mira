@@ -36,7 +36,7 @@ public sealed class NeutralGameOver : CustomGameOver
         }
 
         _role = mainRole!;
-        if (PlayerControl.AllPlayerControls.ToArray().Any(x => x != role.Player && x.GetRoleWhenAlive().GetType() == _role.GetType()))
+        if (PlayerControl.AllPlayerControls.Any(x => x != role.Player && x.GetRoleWhenAlive().GetType() == _role.GetType()))
         {
             _soloWin = false;
         }
@@ -62,7 +62,7 @@ public sealed class NeutralGameOver : CustomGameOver
         text.transform.localScale = new Vector3(1f, 1f, 1f);
         if (_role is PlaguebearerRole && _role.Player.AmOwner)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.CommonCold);
+            TouAchievements.CommonCold.Unlock();
         }
 
         text.transform.position = pos;

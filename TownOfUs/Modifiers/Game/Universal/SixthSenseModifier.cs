@@ -9,7 +9,7 @@ public sealed class SixthSenseModifier : UniversalGameModifier, IWikiDiscoverabl
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.SixthSense,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.SixthSense.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.SixthSense,
             "TouMira.Modifier.Universal.SixthSense", 1.45f));
     public override string IdPart => "SixthSense";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -32,12 +32,12 @@ public sealed class SixthSenseModifier : UniversalGameModifier, IWikiDiscoverabl
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.SixthSenseChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.SixthSenseChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.SixthSenseAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.SixthSenseAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

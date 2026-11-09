@@ -26,7 +26,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
                 : 3.001f;
         }
     }
-    public override int MaxUses => (int)OptionGroupSingleton<SentryOptions>.Instance.InitialCameras.Value;
+    public override int MaxUses => OptionGroupSingleton<SentryOptions>.Instance.InitialCameras;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.DeployCamSprite : TouCrewAssets.DeployCamSprite;
     public override bool ZeroIsInfinite { get; set; } = true;
     public int ExtraUses { get; set; }
@@ -102,7 +102,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
                     $"<b>{TownOfUsColors.Sentry.ToTextColor()}{text}</color></b>",
                     Color.white,
                     new Vector3(0f, 1f, -20f),
-                    spr: TouRoleIcons.Sentry.LoadAsset());
+                    spr: TouRoleIcons.Sentry);
                 notif.AdjustNotification();
                 TouAudio.PlaySound(TouAudio.DenySound, 0.3f);
             }
@@ -144,31 +144,17 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
 
     private static bool IsInDisabledRoom(Vector3 position, SentryOptions options)
     {
-        var count = (int)options.BlindspotsCount.Value;
+        var count = options.BlindspotsCount;
         if (count <= 0)
         {
             return false;
         }
 
         var roomId = GetRoomId(position);
-        var selectedRooms = new[]
-        {
-            (SystemTypes)options.Blindspot1Room.Value,
-            (SystemTypes)options.Blindspot2Room.Value,
-            (SystemTypes)options.Blindspot3Room.Value,
-            (SystemTypes)options.Blindspot4Room.Value,
-            (SystemTypes)options.Blindspot5Room.Value,
-            (SystemTypes)options.Blindspot6Room.Value,
-            (SystemTypes)options.Blindspot7Room.Value,
-            (SystemTypes)options.Blindspot8Room.Value,
-            (SystemTypes)options.Blindspot9Room.Value,
-            (SystemTypes)options.Blindspot10Room.Value,
-        };
-
-        var limit = Math.Clamp(count, 0, selectedRooms.Length);
+        var limit = Math.Clamp(count, 0, options.BlindspotsRooms.Count);
         for (var i = 0; i < limit; i++)
         {
-            if (selectedRooms[i] == roomId)
+            if (options.BlindspotsRooms[i] == roomId)
             {
                 return true;
             }
@@ -203,7 +189,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
     {
         var options = OptionGroupSingleton<SentryOptions>.Instance;
         var afterMeeting = options.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting;
-        var canMove = options.CanMoveWhilePlacingCameras.Value;
+        var canMove = options.CanMoveWhilePlacingCameras;
 
         if (!afterMeeting || canMove)
         {
@@ -262,7 +248,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
 
         var options = OptionGroupSingleton<SentryOptions>.Instance;
         var afterMeeting = options.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting;
-        if (!afterMeeting || options.CanMoveWhilePlacingCameras.Value)
+        if (!afterMeeting || options.CanMoveWhilePlacingCameras)
         {
             return;
         }
@@ -296,7 +282,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
 
         var options = OptionGroupSingleton<SentryOptions>.Instance;
         var afterMeeting = options.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting;
-        if (afterMeeting && !options.CanMoveWhilePlacingCameras.Value)
+        if (afterMeeting && !options.CanMoveWhilePlacingCameras)
         {
             return;
         }

@@ -48,7 +48,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Juggernaut.LoadAsset(), "TouMira.Role.Neutral.Juggernaut", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Juggernaut, "TouMira.Role.Neutral.Juggernaut", 1.45f),
         CanUseVent = OptionGroupSingleton<JuggernautOptions>.Instance.CanVent,
         IntroSound = TouAudio.WarlockIntroSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
@@ -84,7 +84,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         RoleBehaviourStubs.Initialize(this, player);
         if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.JuggVentSprite.LoadAsset();
+            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.JuggVentSprite;
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Juggernaut);
         }
     }
@@ -95,7 +95,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         TouRoleUtils.ClearTaskHeader(Player);
         if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
+            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite;
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
         }
     }

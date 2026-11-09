@@ -28,8 +28,7 @@ public class TownOfPolusMode : AbstractGameMode
         runOriginal = false;
         Il2CppSystem.Collections.Generic.List<ClientData> list = new();
         AmongUsClient.Instance.GetAllClients(list);
-        List<NetworkedPlayerInfo> list2  = list.ToArray()
-            .Where(c => c.Character != null && c.Character.Data != null && !c.Character.Data.Disconnected &&
+        List<NetworkedPlayerInfo> list2  = list.Where(c => c.Character != null && c.Character.Data != null && !c.Character.Data.Disconnected &&
                         !c.Character.Data.IsDead).OrderBy(c => c.Id).Select(c => c.Character.Data)
             .ToList();
         foreach (NetworkedPlayerInfo networkedPlayerInfo in GameData.Instance.AllPlayers)
@@ -52,8 +51,7 @@ public class TownOfPolusMode : AbstractGameMode
         RoleTypes defaultRole)
     {
         int num = 0;
-        var source = RoleManager.Instance.AllRoles.ToArray()
-            .Where(role => role.TeamType == team && !RoleManager.IsGhostRole(role.Role) &&
+        var source = RoleManager.Instance.AllRoles.Where(role => role.TeamType == team && !RoleManager.IsGhostRole(role.Role) &&
                            CustomRoleUtils.CanSpawnOnCurrentMode(role));
         List<RoleTypes> list = new List<RoleTypes>();
         IRoleOptionsCollection roleOptions = opts.RoleOptions;
@@ -88,7 +86,7 @@ public class TownOfPolusMode : AbstractGameMode
             new RoleManager.RoleAssignmentData(
                 role,
                 roleOptions.GetNumPerGame(role.Role),
-                roleOptions.GetChancePerGame(role.Role))).ToList();
+                roleOptions.GetChancePerGame(role.Role)));
 
         list.Clear();
         foreach (RoleManager.RoleAssignmentData roleAssignmentData3 in list2)
@@ -125,10 +123,10 @@ public class TownOfPolusMode : AbstractGameMode
         }
     }
 
-    public override IEnumerator IntroCutscene(IntroCutscene __instance)
+    public override IEnumerator IntroCutscene(IntroCutscene introCutscene)
     {
         Logger.GlobalInstance.Info("IntroCutscene :: CoBegin() :: Starting intro cutscene", null);
-        SoundManager.Instance.PlaySound(__instance.IntroStinger, false, 1f, null);
+        SoundManager.Instance.PlaySound(introCutscene.IntroStinger, false, 1f, null);
         if (!LegacyAssets.IsLegacy)
         {
             var hudInstance = HudManager.Instance;
@@ -139,13 +137,13 @@ public class TownOfPolusMode : AbstractGameMode
             var useBtn = hudInstance.UseButton;
             var petBtn = hudInstance.PetButton;
             var ventBtn = hudInstance.ImpostorVentButton;
-            killBtn.defaultKillSprite = LegacyVanillaAssets.KillSprite.LoadAsset();
-            killBtn.graphic.sprite = LegacyVanillaAssets.KillSprite.LoadAsset();
-            reportBtn.graphic.sprite = LegacyVanillaAssets.ReportSprite.LoadAsset();
-            saboBtn.graphic.sprite = LegacyVanillaAssets.SabotageSprite.LoadAsset();
-            useBtn.graphic.sprite = LegacyVanillaAssets.UseSprite.LoadAsset();
-            petBtn.graphic.sprite = LegacyVanillaAssets.PetSprite.LoadAsset();
-            ventBtn.graphic.sprite = LegacyVanillaAssets.VentSprite.LoadAsset();
+            killBtn.defaultKillSprite = LegacyVanillaAssets.KillSprite;
+            killBtn.graphic.sprite = LegacyVanillaAssets.KillSprite;
+            reportBtn.graphic.sprite = LegacyVanillaAssets.ReportSprite;
+            saboBtn.graphic.sprite = LegacyVanillaAssets.SabotageSprite;
+            useBtn.graphic.sprite = LegacyVanillaAssets.UseSprite;
+            petBtn.graphic.sprite = LegacyVanillaAssets.PetSprite;
+            ventBtn.graphic.sprite = LegacyVanillaAssets.VentSprite;
             killBtn.RemoveLabel();
             reportBtn.RemoveLabel();
             saboBtn.RemoveLabel();
@@ -157,14 +155,14 @@ public class TownOfPolusMode : AbstractGameMode
         {
             button.RemoveLabel();
         }
-        
+
         Logger.GlobalInstance.Info("IntroCutscene :: CoBegin() :: Game Mode: Town of Polus (TOU Mira)", null);
-        __instance.LogPlayerRoleData();
-        __instance.HideAndSeekPanels.SetActive(false);
-        __instance.CrewmateRules.SetActive(false);
-        __instance.ImpostorRules.SetActive(false);
-        __instance.ImpostorName.gameObject.SetActive(false);
-        __instance.ImpostorTitle.gameObject.SetActive(false);
+        introCutscene.LogPlayerRoleData();
+        introCutscene.HideAndSeekPanels.SetActive(false);
+        introCutscene.CrewmateRules.SetActive(false);
+        introCutscene.ImpostorRules.SetActive(false);
+        introCutscene.ImpostorName.gameObject.SetActive(false);
+        introCutscene.ImpostorTitle.gameObject.SetActive(false);
         Func<NetworkedPlayerInfo, bool> method = pcd =>
             !PlayerControl.LocalPlayer.Data.Role.IsImpostor ||
             pcd.Role.TeamType == PlayerControl.LocalPlayer.Data.Role.TeamType;
@@ -174,10 +172,10 @@ public class TownOfPolusMode : AbstractGameMode
             Logger.GlobalInstance.Error("IntroCutscene :: CoBegin() :: teamToShow is EMPTY or NULL", null);
         }
         var role = PlayerControl.LocalPlayer.Data.Role;
-        __instance.ImpostorText.text = role.Blurb;
-        yield return ShowTeam(__instance, list, 3f);
+        introCutscene.ImpostorText.text = role.Blurb;
+        yield return ShowTeam(introCutscene, list, 3f);
         ShipStatus.Instance.StartSFX();
-        Object.Destroy(__instance.gameObject);
+        Object.Destroy(introCutscene.gameObject);
     }
     public static IEnumerator ShowTeam(IntroCutscene __instance, Il2CppSystem.Collections.Generic.List<PlayerControl> teamToShow, float duration)
     {

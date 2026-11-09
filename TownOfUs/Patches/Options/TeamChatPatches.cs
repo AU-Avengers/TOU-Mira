@@ -9,6 +9,8 @@ using TMPro;
 using TownOfUs.Achievements;
 using TownOfUs.Modules;
 using TownOfUs.Options;
+using TownOfUs.Patches.Misc;
+using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -22,6 +24,9 @@ public static class TeamChatPatches
 {
     public static bool SplitChats =>
         LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.SeparateChatBubbles.Value;
+    public static bool LocalPlayerDeadKnows =>
+        PlayerControl.LocalPlayer.HasDied() && PlayerControl.LocalPlayer.Data.Role is not IGhostRole &&
+        OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow;
     public static GameObject TeamChatButton;
     private static TextMeshPro? _teamText;
     public static bool TeamChatActive; // True if any team chat is active
@@ -237,7 +242,7 @@ public static class TeamChatPatches
 
             // Get all handlers (built-in + extensions)
             var allHandlers = ExtensionTeamChatRegistry.GetAllAvailableHandlers();
-            
+
             foreach (var handler in allHandlers)
             {
                 if (handler.SendMessage != null && (includeForced || !handler.IsForced))
@@ -380,10 +385,10 @@ public static class TeamChatPatches
             }
 
             // Check if we're currently on a forced chat
-            var currentChat = CurrentChatIndex >= 0 && CurrentChatIndex < chats.Count 
-                ? chats[CurrentChatIndex] 
+            var currentChat = CurrentChatIndex >= 0 && CurrentChatIndex < chats.Count
+                ? chats[CurrentChatIndex]
                 : null;
-            
+
             var isOnForcedChat = currentChat != null && currentChat.IsForced;
 
             // If we're on a forced chat, we can only cycle back to normal chat (not to other team chats)
@@ -528,10 +533,10 @@ public static class TeamChatPatches
                 ChatMessageTitleColor = titleColor,
                 ChatMessageBgColor = msgBgColor,
                 ChatBgColor = bgColor,
-                ChatBubbleSprite = spriteBubble ?? TouChatAssets.NormalBubble.LoadAsset(),
-                ButtonIdleSprite = btnIdle ?? TouChatAssets.NormalChatIdle.LoadAsset(),
-                ButtonHoverSprite = btnHover ?? TouChatAssets.NormalChatHover.LoadAsset(),
-                ButtonOpenSprite = btnOpen ?? TouChatAssets.NormalChatOpen.LoadAsset(),
+                ChatBubbleSprite = spriteBubble ?? TouChatAssets.NormalBubble,
+                ButtonIdleSprite = btnIdle ?? TouChatAssets.NormalChatIdle,
+                ButtonHoverSprite = btnHover ?? TouChatAssets.NormalChatHover,
+                ButtonOpenSprite = btnOpen ?? TouChatAssets.NormalChatOpen,
                 ChatVisible = () => (canSeeChat == null || canSeeChat()),
                 ChatUsable = () => (canSeeChat == null || canSeeChat()) && (canUseChat == null || canUseChat())
             });
@@ -578,11 +583,10 @@ public static class TeamChatPatches
         TeamChatManager.RegisterBuiltInChats();
 
         var availableChats = TeamChatManager.GetAllAvailableChats();
-        
+
         if (availableChats.Count == 0)
         {
-            // No chats available, just toggle off
-            TeamChatActive = false;
+            TeamChatActive = LocalPlayerDeadKnows && !TeamChatActive;
             CurrentChatIndex = -1;
         }
         else if (!TeamChatActive)
@@ -631,11 +635,11 @@ public static class TeamChatPatches
 
         if (HudManager.InstanceExists && HudManager.Instance.Chat != null)
         {
-            Sprite[] buttonArray = [ TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(), TouChatAssets.NormalChatOpen.LoadAsset()];
+            Sprite[] buttonArray = [ TouChatAssets.NormalChatIdle, TouChatAssets.NormalChatHover, TouChatAssets.NormalChatOpen];
             if (PlayerControl.LocalPlayer.IsLover() && !MeetingHud.Instance)
             {
-                buttonArray = 
-                    [ TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()];
+                buttonArray =
+                    [TouChatAssets.LoveChatIdle, TouChatAssets.LoveChatHover, TouChatAssets.LoveChatOpen];
             }
             HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
             HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
@@ -665,8 +669,8 @@ public static class TeamChatPatches
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         _teamText.text = string.Empty;
-        
-        if (GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow &&
+
+        if (LocalPlayerDeadKnows &&
             (genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true } || genOpt.VampireChat ||
              Helpers.GetAlivePlayers().Any(x => x.Data.Role is JailorRole)))
         {
@@ -694,9 +698,9 @@ public static class TeamChatPatches
                 Background.GetComponent<SpriteRenderer>().color = backgroundColor;
             }
 
-            HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatIdle.LoadAsset();
-            HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatHover.LoadAsset();
-            HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatOpen.LoadAsset();
+            HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatIdle;
+            HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatHover;
+            HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatOpen;
 
             if (currentChat != null && _teamText != null)
             {
@@ -712,18 +716,18 @@ public static class TeamChatPatches
                     var nonForcedChats = availableChats.Where(c => !c.IsForced).ToList();
                     if (nonForcedChats.Count > 1)
                     {
-                    var currentIndexInNonForced = nonForcedChats.FindIndex(c =>
+                        var currentIndexInNonForced = nonForcedChats.FindIndex(c =>
                         c.Priority == currentChat.Priority &&
                         c.DisplayName == currentChat.DisplayName);
 
-                    var chatNumber = currentIndexInNonForced >= 0
+                        var chatNumber = currentIndexInNonForced >= 0
                         ? currentIndexInNonForced + 1
                         : 1;
 
-                    _teamText.text = MiraLocaleManager.Get("TouTeamChatActiveCycle")
-                        .Replace("<chat>", currentChat.DisplayName)
-                        .Replace("<current>", chatNumber.ToString(TownOfUsPlugin.Culture))
-                        .Replace("<total>", nonForcedChats.Count.ToString(TownOfUsPlugin.Culture));
+                        _teamText.text = MiraLocaleManager.Get("TouTeamChatActiveCycle")
+                            .Replace("<chat>", currentChat.DisplayName)
+                            .Replace("<current>", chatNumber.ToString(TownOfUsPlugin.Culture))
+                            .Replace("<total>", nonForcedChats.Count.ToString(TownOfUsPlugin.Culture));
                     }
                     else
                     {
@@ -736,7 +740,7 @@ public static class TeamChatPatches
             else if (_teamText != null)
             {
                 // Fallback for dead players or when no chats are available
-                if (GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow)
+                if (LocalPlayerDeadKnows)
                 {
                     _teamText.text = MiraLocaleManager.Get("TouDeadTeamChatsVisible");
                     _teamText.color = Color.white;
@@ -754,9 +758,9 @@ public static class TeamChatPatches
         else
         {
             Background?.GetComponent<SpriteRenderer>().color = Color.white;
-            HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatIdle.LoadAsset();
-            HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatHover.LoadAsset();
-            HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatOpen.LoadAsset();
+            HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatIdle;
+            HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatHover;
+            HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatOpen;
         }
     }
 
@@ -773,7 +777,7 @@ public static class TeamChatPatches
         TeamChatButton = Object.Instantiate(BanMenu.gameObject, BanMenu.transform.parent);
         TeamChatButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
         TeamChatButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(ToggleTeamChat));
-        TeamChatButton.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = TouAssets.TeamChatSwitch.LoadAsset();
+        TeamChatButton.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = TouAssets.TeamChatSwitch;
         TeamChatButton.name = "FactionChat";
         var pos = BanMenu.transform.localPosition;
         TeamChatButton.transform.localPosition = new Vector3(pos.x, pos.y + 0.7f, pos.z);
@@ -866,7 +870,7 @@ public static class TeamChatPatches
                 text, !player.AmOwner, bubbleType: BubbleType.Jailor, onLeft: !player.AmOwner);
             shouldMarkUnread = true;
         }
-        else if (PlayerControl.LocalPlayer.Data.Role is JailorRole || GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow)
+        else if (PlayerControl.LocalPlayer.Data.Role is JailorRole || LocalPlayerDeadKnows)
         {
             if (PlayerControl.LocalPlayer.Data.Role is JailorRole jail)
             {
@@ -901,9 +905,7 @@ public static class TeamChatPatches
             return;
         }
         var shouldMarkUnread = false;
-        if (PlayerControl.LocalPlayer.Data.Role is JailorRole || PlayerControl.LocalPlayer.IsJailed() || (GameHistory.IsFullyDead(PlayerControl.LocalPlayer) &&
-                                                                 OptionGroupSingleton<GeneralOptions>.Instance
-                                                                     .TheDeadKnow))
+        if (PlayerControl.LocalPlayer.Data.Role is JailorRole || PlayerControl.LocalPlayer.IsJailed() || LocalPlayerDeadKnows)
         {
             MiscUtils.AddTeamChat(player.Data,
                 $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("JaileeChatTitle").Replace("<player>", player.Data.PlayerName)}</color>", text,
@@ -935,7 +937,7 @@ public static class TeamChatPatches
         }
         var shouldMarkUnread = false;
         if ((PlayerControl.LocalPlayer.Data.Role is VampireRole) ||
-            (GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
+            LocalPlayerDeadKnows)
         {
             MiscUtils.AddTeamChat(player.Data,
                 $"<sprite name=\"TouMira.Role.Neutral.Vampire.Masked\"><color=#{TownOfUsColors.Vampire.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("VampireChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
@@ -967,7 +969,7 @@ public static class TeamChatPatches
         }
         var shouldMarkUnread = false;
         if ((PlayerControl.LocalPlayer.IsImpostorAligned()) ||
-            (GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
+            LocalPlayerDeadKnows)
         {
             MiscUtils.AddTeamChat(player.Data,
                 $"<sprite name=\"AmongUs.Role.Impostor.Masked\"><color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("ImpostorChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
@@ -998,7 +1000,7 @@ public static class TeamChatPatches
             return;
         }
         if (PlayerControl.LocalPlayer.IsLover() ||
-            (GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
+            LocalPlayerDeadKnows)
         {
             MiscUtils.AddTeamChat(player.Data,
                 $"<sprite name=\"TouMira.Modifier.Alliance.Lover.Masked\"><color=#{TownOfUsColors.Lover.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("LoverChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
@@ -1012,8 +1014,7 @@ public static class TeamChatPatches
         [HarmonyPostfix]
         public static void SetNamePostfix(ChatBubble __instance, [HarmonyArgument(0)] string playerName, [HarmonyArgument(3)] Color color)
         {
-            var player = PlayerControl.AllPlayerControls.ToArray()
-                .FirstOrDefault(x => x.Data.PlayerName == playerName);
+            var player = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.Data.PlayerName == playerName);
             if (player == null) return;
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
             if (genOpt.FFAImpostorMode && PlayerControl.LocalPlayer.IsImpostorAligned() && !GameHistory.IsFullyDead(PlayerControl.LocalPlayer) &&
@@ -1023,20 +1024,20 @@ public static class TeamChatPatches
                 return;
             }
 
-            var localDeadKnows = GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow;
+            var localDeadKnows = LocalPlayerDeadKnows;
+            var knowsRole = player.AmOwner || localDeadKnows;
             TouRoleUtils.AreTeammates(PlayerControl.LocalPlayer, player, genOpt.FFAImpostorMode, genOpt.ImpsKnowRoles, out var teammateSeesRole, out var canSeeColor);
             var role = player.GetSignificantRole();
             var shouldRevealRole = player != null && MeetingHud.Instance &&
-                                   (player.AmOwner ||
-                                    localDeadKnows || teammateSeesRole || canSeeColor);
+                                   (knowsRole || teammateSeesRole || canSeeColor);
 
             var chatVisual = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowRolesOnChatBubbles.Value;
-            var showIcon = chatVisual is ChatRoleVisual.Icon or ChatRoleVisual.IconAndColor && teammateSeesRole;
-            var showColor = chatVisual is ChatRoleVisual.Color or ChatRoleVisual.IconAndColor && canSeeColor;
+            var showIcon = chatVisual is ChatRoleVisual.Icon or ChatRoleVisual.IconAndColor && (teammateSeesRole || knowsRole);
+            var showColor = chatVisual is ChatRoleVisual.Color or ChatRoleVisual.IconAndColor && (canSeeColor || knowsRole);
 
             if (shouldRevealRole && (showIcon || showColor))
             {
-                var roleColor = (role is ICustomRole custom) ? custom.RoleColor : role.TeamColor;
+                var roleColor = (role is ICustomRole { RoleColor: var custom }) ? custom : role.TeamColor;
                 __instance.NameText.color = showColor ? roleColor : color;
 
                 var icon = MiscUtils.GetMaskedRoleTmpIcon(role);
@@ -1292,6 +1293,7 @@ public static class TeamChatPatches
         }
 
         instance.chatText.text = text;
+        instance.chatText.text = WikiHyperLinkPatches.CheckForTags(text, instance.chatText);
     }
 
     [HarmonyPrefix]
@@ -1329,16 +1331,16 @@ public static class TeamChatPatches
 
             var player = srcPlayer.Object;
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-            var localDeadKnows = GameHistory.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow;
+            var localDeadKnows = LocalPlayerDeadKnows;
+            var knowsRole = player.AmOwner || localDeadKnows;
             TouRoleUtils.AreTeammates(PlayerControl.LocalPlayer, player, genOpt.FFAImpostorMode, genOpt.ImpsKnowRoles.Value, out var teammateSeesRole, out var canSeeColor);
             var role = player.GetSignificantRole();
             var shouldRevealRole = player != null && MeetingHud.Instance &&
-                (player.AmOwner ||
-                 localDeadKnows || teammateSeesRole || canSeeColor);
+                (knowsRole || teammateSeesRole || canSeeColor);
 
             var chatVisual = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance.ShowRolesOnChatBubbles.Value;
-            var showIcon = chatVisual is ChatRoleVisual.Icon or ChatRoleVisual.IconAndColor && teammateSeesRole;
-            var showColor = chatVisual is ChatRoleVisual.Color or ChatRoleVisual.IconAndColor && canSeeColor;
+            var showIcon = chatVisual is ChatRoleVisual.Icon or ChatRoleVisual.IconAndColor && (teammateSeesRole || knowsRole);
+            var showColor = chatVisual is ChatRoleVisual.Color or ChatRoleVisual.IconAndColor && (canSeeColor || knowsRole);
 
             if (shouldRevealRole && (showIcon || showColor))
             {
@@ -1368,7 +1370,7 @@ public static class TeamChatPatches
         }
         if (!srcPlayer.Object.AmOwner)
         {
-            SoundManager.Instance.PlaySound(__instance.messageSound, false, 1f, null).pitch = 0.5f + (float)srcPlayer.PlayerId / 15f;
+            SoundManager.Instance.PlaySound(__instance.messageSound, false, 1f, null).pitch = 0.5f + srcPlayer.PlayerId / 15f;
         }
 
         return false;
@@ -1376,50 +1378,50 @@ public static class TeamChatPatches
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
-	public static bool AddChat(ChatController __instance, PlayerControl sourcePlayer, string chatText, bool censor = true)
-	{
-		if (!sourcePlayer || !PlayerControl.LocalPlayer)
-		{
+    public static bool AddChat(ChatController __instance, PlayerControl sourcePlayer, string chatText, bool censor = true)
+    {
+        if (!sourcePlayer || !PlayerControl.LocalPlayer)
+        {
             return false;
-		}
-		NetworkedPlayerInfo data = PlayerControl.LocalPlayer.Data;
-		NetworkedPlayerInfo data2 = sourcePlayer.Data;
-		if (data2 == null || data == null || (data2.IsDead && !data.IsDead))
-		{
-			return false;
-		}
-		ChatBubble pooledBubble = __instance.GetPooledBubble();
+        }
+        NetworkedPlayerInfo data = PlayerControl.LocalPlayer.Data;
+        NetworkedPlayerInfo data2 = sourcePlayer.Data;
+        if (data2 == null || data == null || (data2.IsDead && !data.IsDead))
+        {
+            return false;
+        }
+        ChatBubble pooledBubble = __instance.GetPooledBubble();
         var clonedBubble = __instance.GetPooledBubble();
         clonedBubble.gameObject.name = PublicBubbleName;
-		try
-		{
-			pooledBubble.transform.SetParent(PublicChatItems);
+        try
+        {
+            pooledBubble.transform.SetParent(PublicChatItems);
             clonedBubble.transform.SetParent(MergedChatItems);
-			pooledBubble.transform.localScale = Vector3.one;
+            pooledBubble.transform.localScale = Vector3.one;
             clonedBubble.transform.localScale = Vector3.one;
-			bool flag = sourcePlayer.AmOwner;
-			if (flag)
-			{
-				pooledBubble.SetRight();
+            bool flag = sourcePlayer.AmOwner;
+            if (flag)
+            {
+                pooledBubble.SetRight();
                 clonedBubble.SetRight();
-			}
-			else
-			{
-				pooledBubble.SetLeft();
+            }
+            else
+            {
+                pooledBubble.SetLeft();
                 clonedBubble.SetLeft();
-			}
-			bool didVote = MeetingHud.Instance && MeetingHud.Instance.DidVote(sourcePlayer.PlayerId);
-			pooledBubble.SetCosmetics(data2);
+            }
+            bool didVote = MeetingHud.Instance && MeetingHud.Instance.DidVote(sourcePlayer.PlayerId);
+            pooledBubble.SetCosmetics(data2);
             __instance.SetChatBubbleName(pooledBubble, data2, data2.IsDead, didVote, PlayerNameColor.Get(data2), null);
             clonedBubble.SetCosmetics(data2);
             __instance.SetChatBubbleName(clonedBubble, data2, data2.IsDead, didVote, PlayerNameColor.Get(data2), null);
-			if (censor && DataManager.Settings.Multiplayer.CensorChat)
-			{
-				chatText = BlockedWords.CensorWords(chatText, false);
-			}
-			pooledBubble.SetText(chatText);
+            if (censor && DataManager.Settings.Multiplayer.CensorChat)
+            {
+                chatText = BlockedWords.CensorWords(chatText, false);
+            }
+            pooledBubble.SetText(chatText);
             clonedBubble.SetText(chatText);
-			pooledBubble.AlignChildren();
+            pooledBubble.AlignChildren();
             clonedBubble.AlignChildren();
             PublicChatBubbles.Add(pooledBubble);
             MergedChatBubbles.Add(new MergedBubble(clonedBubble, true));
@@ -1428,39 +1430,39 @@ public static class TeamChatPatches
             {
                 __instance.notificationRoutine = __instance.StartCoroutine(__instance.BounceDot());
             }
-			if (!flag && !__instance.IsOpenOrOpening)
-			{
-				SoundManager.Instance.PlaySound(__instance.messageSound, false, 1f, null).pitch = 0.5f + (float)sourcePlayer.PlayerId / 15f;
+            if (!flag && !__instance.IsOpenOrOpening)
+            {
+                SoundManager.Instance.PlaySound(__instance.messageSound, false, 1f, null).pitch = 0.5f + sourcePlayer.PlayerId / 15f;
                 __instance.chatNotification.SetUp(sourcePlayer, chatText);
-			}
-		}
-		catch (Exception message)
-		{
-			ChatController.Logger.Error(message.ToString());
+            }
+        }
+        catch (Exception message)
+        {
+            ChatController.Logger.Error(message.ToString());
             __instance.chatBubblePool.Reclaim(pooledBubble);
             clonedBubble.gameObject.DeepDestroy();
-		}
+        }
         return false;
-	}
+    }
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatWarning))]
-	public static bool AddChatWarning(ChatController __instance, string warningText)
-	{
-		ChatBubble pooledBubble = __instance.GetPooledBubble();
+    public static bool AddChatWarning(ChatController __instance, string warningText)
+    {
+        ChatBubble pooledBubble = __instance.GetPooledBubble();
         var clonedBubble = __instance.GetPooledBubble();
         clonedBubble.gameObject.name = PublicBubbleName;
-		try
-		{
-			pooledBubble.transform.SetParent(PublicChatItems);
+        try
+        {
+            pooledBubble.transform.SetParent(PublicChatItems);
             clonedBubble.transform.SetParent(MergedChatItems);
-			pooledBubble.transform.localScale = Vector3.one;
+            pooledBubble.transform.localScale = Vector3.one;
             clonedBubble.transform.localScale = Vector3.one;
-			pooledBubble.SetRight();
-			pooledBubble.SetWarning(warningText);
+            pooledBubble.SetRight();
+            pooledBubble.SetWarning(warningText);
             clonedBubble.SetRight();
             clonedBubble.SetWarning(warningText);
-			pooledBubble.AlignChildren();
+            pooledBubble.AlignChildren();
             clonedBubble.AlignChildren();
             PublicChatBubbles.Add(pooledBubble);
             MergedChatBubbles.Add(new MergedBubble(clonedBubble, true));
@@ -1469,16 +1471,16 @@ public static class TeamChatPatches
             {
                 __instance.notificationRoutine = __instance.StartCoroutine(__instance.BounceDot());
             }
-			SoundManager.Instance.PlaySound(__instance.warningSound, false, 1f, null);
-		}
-		catch (Exception message)
-		{
-			ChatController.Logger.Error(message.ToString());
+            SoundManager.Instance.PlaySound(__instance.warningSound, false, 1f, null);
+        }
+        catch (Exception message)
+        {
+            ChatController.Logger.Error(message.ToString());
             __instance.chatBubblePool.Reclaim(pooledBubble);
             clonedBubble.gameObject.DeepDestroy();
-		}
+        }
         return false;
-	}
+    }
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Awake))]

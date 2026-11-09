@@ -79,14 +79,14 @@ public static class SoftWikiEntries
             var teamName = $"{role.GetRoleAlignment()}";
 
             entry.TeamName = teamName;
-            entry.EntryColor = role is ICustomRole miraRole2 ? miraRole2.RoleColor : role.TeamColor;
+            entry.EntryColor = role is ICustomRole { RoleColor: var roleColor } ? roleColor : role.TeamColor;
             entry.GetAdvancedDescription = $"{role.BlurbLong}{MiscUtils.AppendOptionsText(entry.EntryType)}";
 
             var roleImg = TouRoleUtils.GetBasicRoleIcon(role);
 
-            if (role is ICustomRole customRole && customRole.Configuration.Icon != null)
+            if (role is ICustomRole { Configuration.Icon: { } icon })
             {
-                roleImg = customRole.Configuration.Icon.LoadAsset();
+                roleImg = icon;
             }
             else
             {
@@ -121,7 +121,7 @@ public static class SoftWikiEntries
             entry.TeamName = $"{modifier.GetModifierFaction()}";
             entry.EntryColor = Color.grey;
             entry.GetAdvancedDescription = $"{modifier.GetDescription()}{MiscUtils.AppendOptionsText(entry.EntryType)}";
-            entry.Icon = modifier.ModifierIcon?.LoadAsset() ?? TouRoleIcons.RandomAny.LoadAsset();
+            entry.Icon = modifier.ModifierIcon?.LoadAsset() ?? TouRoleIcons.RandomAny;
         }
     }
 }

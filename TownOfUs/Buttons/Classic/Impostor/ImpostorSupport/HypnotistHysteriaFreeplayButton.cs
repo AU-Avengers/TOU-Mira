@@ -14,7 +14,7 @@ public sealed class HypnotistHysteriaFreeplayButton : TownOfUsRoleButton<Hypnoti
     public override BaseKeybind Keybind => Keybinds.TertiaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 3f;
-    public override float InitialCooldown =>3f;
+    public override float InitialCooldown => 3f;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => TouAssets.HysteriaSprite;
 

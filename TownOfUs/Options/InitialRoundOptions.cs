@@ -12,7 +12,7 @@ public sealed class InitialRoundOptions : AbstractOptionGroup
     public override uint GroupPriority => 1;
     public override LoadableAsset<Sprite> Sprite => TouRoleIcons.TimeLord;
 
-    [ModdedEnumOption("TouOptionModifierReveal", typeof(ModReveal),
+    [ModdedEnumOption<ModReveal>("TouOptionModifierReveal",
         [
             "TouOptionModifierRevealEnumAlliance",
             "TouOptionModifierRevealEnumUniversal",
@@ -27,7 +27,7 @@ public sealed class InitialRoundOptions : AbstractOptionGroup
         MiraNumberSuffixes.Seconds, "0.#")]
     public float GameStartCd { get; set; } = 10f;
 
-    [ModdedEnumOption("TouOptionStartCooldownMode", typeof(StartCooldownType),
+    [ModdedEnumOption<StartCooldownType>("TouOptionStartCooldownMode",
         [
             "TouOptionStartCooldownModeEnumAllButtons",
             "TouOptionStartCooldownModeEnumSpecificCooldowns",

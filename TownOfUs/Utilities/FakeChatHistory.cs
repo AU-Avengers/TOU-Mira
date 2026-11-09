@@ -1,4 +1,5 @@
 namespace TownOfUs.Utilities;
+
 public static class FakeChatHistory
 {
     private static readonly Dictionary<int, List<(NetworkedPlayerInfo Player, string Title, string Message)>> _rounds = [];

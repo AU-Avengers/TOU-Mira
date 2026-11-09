@@ -135,9 +135,9 @@ public static class WikiHyperLinkPatches
                     replacement =
                         $"{fontTag}<b>{modifier.FreeplayFileColor.ToTextColor()}<link={modifier.GetType().FullName}:{linkIndex}>{modifier.ModifierName}</link></color></b></font>";
                     shouldHyperlink = modifier is IWikiDiscoverable;
-                    if (modifier is TouBaseGameModifier touMod && touMod.Configuration.PopUpIconTmp)
+                    if (modifier is TouBaseGameModifier { Configuration.PopUpIconTmp.name: var iconName } )
                     {
-                        iconText = $"<sprite name=\"{touMod.Configuration.PopUpIconTmp.name}.Masked\">";
+                        iconText = $"<sprite name=\"{iconName}.Masked\">";
                     }
                 }
             }

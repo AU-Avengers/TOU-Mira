@@ -29,21 +29,15 @@ public static class ParasiteDisconnectPatch
             {
                 ParasiteControlState.ClearControl(player.PlayerId);
 
-                if (player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
-                {
-                    player.RemoveModifier(mod);
-                }
+                player.TryRemoveModifier<ParasiteInfectedModifier>();
             }
         }
 
-        if (player.Data?.Role is ParasiteRole role && role.Controlled != null)
+        if (player.Data?.Role is ParasiteRole { Controlled: { } controlled })
         {
-            ParasiteRole.RpcParasiteEndControl(player, role.Controlled, role.Controlled.transform.position, false);
+            ParasiteRole.RpcParasiteEndControl(player, controlled, controlled.transform.position, false);
         }
 
-        if (player.TryGetModifier<ParasiteInfectedModifier>(out var mod2))
-        {
-            player.RemoveModifier(mod2);
-        }
+        player.TryRemoveModifier<ParasiteInfectedModifier>();
     }
 }

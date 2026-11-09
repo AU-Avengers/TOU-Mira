@@ -22,8 +22,8 @@ public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverabl
                 return false;
             }
             if ((!Player.IsCrewmate() || Helpers.GetAlivePlayers().Count(x => x.IsCrewmate()) == 1) &&
-                Player.Data.Role is ITownOfUsRole touRole &&
-                touRole.RoleAlignment is not RoleAlignment.NeutralKilling && Helpers.GetAlivePlayers().Count < 4 &&
+                Player.Data.Role is ITownOfUsRole { RoleAlignment: not RoleAlignment.NeutralKilling } touRole &&
+                Helpers.GetAlivePlayers().Count < 4 &&
                 Helpers.GetAlivePlayers().Count > 1)
             {
                 return touRole.CanModifierContinueGame(this);
@@ -34,7 +34,7 @@ public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverabl
     }
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Tiebreaker,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Tiebreaker.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Tiebreaker,
             "TouMira.Modifier.Universal.Tiebreaker", 1.45f));
     public override string IdPart => "Tiebreaker";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -63,6 +63,6 @@ public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverabl
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.TiebreakerChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.TiebreakerChance;
     }
 }

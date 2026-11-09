@@ -10,6 +10,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace TownOfUs.Buttons.Crewmate;
+
 [MiraIgnore]
 public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<SentryRole>
 {
@@ -77,17 +78,12 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             _ => sentryRole.CompletedAllTasks
         };
 
-        if (!unlocked)
-        {
-            return false;
-        }
-
-        return ShouldBeVisible(sentryRole);
+        return unlocked && ShouldBeVisible(sentryRole);
     }
 
     public override void ClickHandler()
     {
-        if (!CanClick() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities) ||
+        if (!CanClick() || PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities) ||
             !MiscUtils.CanUseUtility(GameUtility.Cams, true))
         {
             return;
@@ -277,7 +273,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -299,18 +295,12 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             _ => sentryRole.CompletedAllTasks
         };
 
-        if (!unlocked)
+        if (!unlocked || !ShouldBeVisible(sentryRole))
         {
             return false;
         }
 
-        if (!ShouldBeVisible(sentryRole))
-        {
-            return false;
-        }
-
-        var allCams = ShipStatus.Instance ? ShipStatus.Instance.AllCameras : null;
-        if (allCams == null || allCams.Length == 0)
+        if (ShipStatus.Instance?.AllCameras is not { Length: > 0 })
         {
             return false;
         }
@@ -331,7 +321,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
         PlayerControl.LocalPlayer.NetTransform.Halt();
 
         var mapId = MiscUtils.GetCurrentMap;
-        
+
         var mapWithoutCameras = SentryCameraUtilities.IsMapWithoutCameras(mapId);
         SystemConsole? basicCams = null;
 
@@ -393,7 +383,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
             SentryCameraMinigameUtilities.SwapAllCamerasForNonSentry(_securityMinigame);
             SentryCameraMinigameUtilities.AddSentryCameras(_securityMinigame);
-            
+
             if (!_reportedInUse && PlayerControl.LocalPlayer)
             {
                 _reportedInUse = true;

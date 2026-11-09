@@ -39,7 +39,7 @@ public static class LogicGameFlowPatches
     {
         if (OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled && GameTimerPatch.TriggerEndGame)
         {
-            var timeType = (GameTimerType)OptionGroupSingleton<GameTimerOptions>.Instance.TimerEndOption.Value;
+            GameTimerType timeType = OptionGroupSingleton<GameTimerOptions>.Instance.TimerEndOption;
             if (timeType is GameTimerType.Impostors)
             {
                 Error($"Game ended from Game Timer for Impostors!");
@@ -47,10 +47,9 @@ public static class LogicGameFlowPatches
             }
             else
             {
-                var randomPlayer = PlayerControl.AllPlayerControls.ToArray().Where(x =>
-                    !x.Data.Role.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) && !x
-                        .GetModifiers<GameModifier>()
-                        .Any(x => x.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) == true)).Random();
+                var randomPlayer = PlayerControl.AllPlayerControls.Where(x =>
+                    !x.Data.Role.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) &&
+                    !x.HasModifier<GameModifier>(x => x.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) == true)).Random();
                 CustomGameOver.Trigger<DrawGameOver>([
                     randomPlayer != null ? randomPlayer.Data : PlayerControl.LocalPlayer.Data
                 ]);
@@ -66,7 +65,7 @@ public static class LogicGameFlowPatches
 
     public static bool CheckEndGameViaHexBomb(LogicGameFlowNormal instance)
     {
-        if (HexBombSabotageSystem.BombFinished && SpellslingerRole.EveryoneHexed() && CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().HasAny())
+        if (HexBombSabotageSystem.BombFinished && SpellslingerRole.EveryoneHexed() && CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().Any())
         {
             Error($"Game ended from Hex Bomb!");
             instance.Manager.RpcEndGame(GameOverReason.ImpostorsBySabotage, false);
@@ -134,7 +133,7 @@ public static class LogicGameFlowPatches
             var excludedByAlliance = false;
             try
             {
-                excludedByAlliance = player.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.DoesTasks;
+                excludedByAlliance = player.HasModifier<AllianceGameModifier>(allyMod => !allyMod.DoesTasks);
             }
             catch
             {
@@ -171,12 +170,12 @@ public static class LogicGameFlowPatches
     [HarmonyPriority(Priority.First)]
     public static bool CheckEndCriteriaPatch(LogicGameFlowNormal __instance)
     {
-        if (OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay.Value)
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay)
         {
             return false;
         }
 
-        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd.Value && TownOfUsPlugin.IsDevBuild)
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
         {
             return false;
         }
@@ -290,9 +289,9 @@ public static class LogicGameFlowPatches
         if (MiscUtils.GetImpactfulLivingPlayers().Count <= 0)
         {
             Error($"Game ended from a game draw!");
-            var randomPlayer = PlayerControl.AllPlayerControls.ToArray().Where(x =>
-                !x.Data.Role.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) && !x.GetModifiers<GameModifier>()
-                    .Any(y => y.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) == true)).Random();
+            var randomPlayer = PlayerControl.AllPlayerControls.Where(x =>
+                !x.Data.Role.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) &&
+                !x.HasModifier<GameModifier>(y => y.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) == true)).Random();
             CustomGameOver.Trigger<DrawGameOver>([
                 randomPlayer != null ? randomPlayer.Data : PlayerControl.LocalPlayer.Data
             ]);

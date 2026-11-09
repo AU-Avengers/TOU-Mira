@@ -37,7 +37,7 @@ namespace TownOfUs.Modules.DraftMode
                 {
                     displayName = MiraLocaleManager.Get("TouDraftUnknownRoleLabel", "Role <id>").Replace("<id>", id.ToString(System.Globalization.CultureInfo.InvariantCulture));
                     team = MiraLocaleManager.Get("TouDraftUnknownTeamLabel", "Unknown");
-                    icon = TouRoleIcons.RandomAny.LoadAsset();
+                    icon = TouRoleIcons.RandomAny;
                     color = Color.white;
                     faction = DraftFaction.Other;
                     description = string.Empty;
@@ -50,7 +50,7 @@ namespace TownOfUs.Modules.DraftMode
             if (roleOpts.ShowRandomOption)
                 cards.Add(new DraftRoleCard(
                     MiraLocaleManager.Get("Random"), MiraLocaleManager.Get("Random"),
-                    TouRoleIcons.RandomAny.LoadAsset(),
+                    TouRoleIcons.RandomAny,
                     Color.white,
                     roleIds.Count,
                     DraftFaction.Other,

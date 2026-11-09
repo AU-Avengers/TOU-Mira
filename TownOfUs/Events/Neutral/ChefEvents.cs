@@ -22,7 +22,7 @@ public static class ChefEvents
     [RegisterEvent]
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
-        if (!CustomRoleUtils.GetActiveRolesOfType<ChefRole>().HasAny())
+        if (!CustomRoleUtils.GetActiveRolesOfType<ChefRole>().Any())
         {
             return;
         }
@@ -54,7 +54,7 @@ public static class ChefEvents
             }
         }
     }
-    
+
     [RegisterEvent]
     public static void EjectionEventHandler(EjectionEvent _)
     {
@@ -65,7 +65,7 @@ public static class ChefEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Role.ChefVictoryMessageSelf").Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.GetRoleName()}</color>"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef);
 
                 notif1.AdjustNotification();
             }
@@ -88,7 +88,7 @@ public static class ChefEvents
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     message.Replace("<player>", chef.Player.Data.PlayerName),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: icon);
 
                 notif1.AdjustNotification();
             }
@@ -99,7 +99,7 @@ public static class ChefEvents
             stats.PlayerState = StoredPlayerState.Dead;
             stats.LockDeathInfo = true;
 
-            MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.ChefWin, chef.Player));
+            new TouAbilityEvent(AbilityType.ChefWin, chef.Player).InvokeEvent();
 
             chef.Player.Exiled();
         }
@@ -112,7 +112,7 @@ public static class ChefEvents
         {
             return;
         }
-        var servings = ModifierUtils.GetActiveModifiers<ChefServedModifier>().Where(x => !x.HasFinished).ToList();
+        var servings = ModifierUtils.GetActiveModifiers<ChefServedModifier>().Where(x => !x.HasFinished);
         foreach (var serving in servings)
         {
             serving.StartTimer();
@@ -125,7 +125,7 @@ public static class ChefEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Role.ChefVictoryMessageSelf"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef);
 
                 notif1.AdjustNotification();
             }
@@ -133,7 +133,7 @@ public static class ChefEvents
             {
                 string message;
                 LoadableAsset<Sprite> icon;
-                
+
                 if (OptionGroupSingleton<ChefOptions>.Instance.ChefAnonymizeWin)
                 {
                     message = MiraLocaleManager.Get("TouNeutAnonymousVictoryMessage");
@@ -147,7 +147,7 @@ public static class ChefEvents
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     message.Replace("<player>", chef.Player.Data.PlayerName),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: icon);
 
                 notif1.AdjustNotification();
             }
@@ -158,7 +158,7 @@ public static class ChefEvents
             stats.PlayerState = StoredPlayerState.Dead;
             stats.LockDeathInfo = true;
 
-            MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.ChefWin, chef.Player));
+            new TouAbilityEvent(AbilityType.ChefWin, chef.Player).InvokeEvent();
 
             chef.Player.Exiled();
         }

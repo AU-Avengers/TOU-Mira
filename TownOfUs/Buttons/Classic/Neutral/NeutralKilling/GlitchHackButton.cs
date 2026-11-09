@@ -39,7 +39,7 @@ public sealed class GlitchHackButton : TownOfUsRoleButton<GlitchRole, PlayerCont
 
         var notif1 = Helpers.CreateAndShowNotification(
             MiraLocaleManager.Get("TownOfUsMira.Role.GlitchHackNotif").Replace("<player>", $"{TownOfUsColors.Glitch.ToTextColor()}{Target.Data.PlayerName}</color>"),
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Glitch.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Glitch);
         notif1.AdjustNotification();
 
         TouAudio.PlaySound(TouAudio.HackedSound);

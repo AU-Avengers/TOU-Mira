@@ -21,9 +21,9 @@ public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, D
     public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);
     public override float EffectDuration => OptionGroupSingleton<AltruistOptions>.Instance.ReviveDuration.Value;
     public override bool ZeroIsInfinite { get; set; } = true;
-    public override int MaxUses => OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value
+    public override int MaxUses => OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive
         ? 0
-        : (int)OptionGroupSingleton<AltruistOptions>.Instance.MaxRevives;
+        : OptionGroupSingleton<AltruistOptions>.Instance.MaxRevives;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.ReviveSprite : TouCrewAssets.ReviveSprite;
     public override bool UsableInDeath => true;
 
@@ -36,7 +36,7 @@ public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, D
 
     public override void SetActive(bool visible, RoleBehaviour role)
     {
-        var killOnStart = OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value;
+        var killOnStart = OptionGroupSingleton < AltruistOptions >.Instance.KillOnStartRevive;
         var shouldShowWhenDead = killOnStart && EffectActive;
 
         if (shouldShowWhenDead)
@@ -51,7 +51,7 @@ public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, D
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        var mode = (ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value;
+        var mode = OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value;
         if (mode is not ReviveType.Sacrifice)
         {
             return false;
@@ -62,7 +62,7 @@ public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, D
             return true;
         }
 
-        if (!EffectActive || !OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value)
+        if (!EffectActive || !OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive)
         {
             return false;
         }
@@ -104,8 +104,8 @@ public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, D
     private void UpdateUsesCounterVisibility()
     {
         if (Button == null) return;
-        
-        if (OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value)
+
+        if (OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive)
         {
             Button.usesRemainingText.gameObject.SetActive(false);
             Button.usesRemainingSprite.gameObject.SetActive(false);
@@ -130,7 +130,7 @@ public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, D
             return;
         }
 
-        var killOnStart = OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value;
+        var killOnStart = OptionGroupSingleton < AltruistOptions >.Instance.KillOnStartRevive;
 
         var player = MiscUtils.PlayerById(Target.ParentId);
         if (player != null)

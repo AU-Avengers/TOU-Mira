@@ -26,9 +26,7 @@ public sealed class HypnotistRole(IntPtr cppPtr)
         }
 
         HudManager.Instance.KillButton.ToggleVisible(OptionGroupSingleton<HypnotistOptions>.Instance.HypnoKill ||
-                                                     (Player != null && Player.GetModifiers<BaseModifier>()
-                                                         .Any(x => x is ICachedRole)) ||
-                                                     (Player != null && MiscUtils.ImpAliveCount == 1));
+                                                     Player != null && (Player.HasModifierOfType<ICachedRole>() || MiscUtils.ImpAliveCount == 1));
     }
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<LookoutRole>());
@@ -49,30 +47,11 @@ public sealed class HypnotistRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Hypnotist.LoadAsset(), "TouMira.Role.Impostor.Hypnotist", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Hypnotist, "TouMira.Role.Impostor.Hypnotist", 1.45f),
         UseVanillaKillButton = true,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Hypnotist
     };
-
-
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hypnotize", "Hypnotize"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hypnotize.WikiDescription"),
-                    TouImpAssets.HypnotiseButtonSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteriaWiki", "Mass Hysteria (Meeting)"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}MassHysteria.WikiDescription"),
-                    TouAssets.HysteriaSprite)
-            ];
-        }
-    }
 
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities

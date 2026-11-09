@@ -30,14 +30,14 @@ public sealed class AutoOpenMushroomDoor(nint cppPtr) : AutoOpenDoor(cppPtr)
     public float ClosedTimer;
 
     public float CooldownTimer;
-    
-	public override bool IsOpen
-	{
-		get
-		{
-			return open;
-		}
-	}
+
+    public override bool IsOpen
+    {
+        get
+        {
+            return open;
+        }
+    }
 
     private void SoundDynamics(AudioSource source)
     {
@@ -52,82 +52,82 @@ public sealed class AutoOpenMushroomDoor(nint cppPtr) : AutoOpenDoor(cppPtr)
         source.volume = SoundManager.GetSoundVolume(gameObject.transform.position, truePosition, 7f, 50f, 0.5f);
     }
 
-	public override void SetDoorway(bool open)
-	{
+    public override void SetDoorway(bool open)
+    {
         if (!open)
         {
             ClosedTimer = 10f;
             CooldownTimer = 30f;
         }
-        
-		if (this.open == open)
-		{
-			return;
-		}
-		this.open = open;
-		wallCollider.isTrigger = open;
-		shadowColl.enabled = !open;
-		bottomColl?.enabled = !open;
-		foreach (MushroomWallMushroom mushroomWallMushroom in mushrooms)
-		{
-			if (open)
-			{
-				mushroomWallMushroom.Hide();
-			}
-			else
-			{
-				mushroomWallMushroom.Show();
-			}
-		}
-		if (open)
-		{
-			if (Constants.ShouldPlaySfx()/* && allowAudio*/)
-			{
+
+        if (this.open == open)
+        {
+            return;
+        }
+        this.open = open;
+        wallCollider.isTrigger = open;
+        shadowColl.enabled = !open;
+        bottomColl?.enabled = !open;
+        foreach (MushroomWallMushroom mushroomWallMushroom in mushrooms)
+        {
+            if (open)
+            {
+                mushroomWallMushroom.Hide();
+            }
+            else
+            {
+                mushroomWallMushroom.Show();
+            }
+        }
+        if (open)
+        {
+            if (Constants.ShouldPlaySfx()/* && allowAudio*/)
+            {
                 var audio = SoundManager.Instance.PlaySound(openSound, false, 1,
                     SoundManager.Instance.SfxChannel);
                 SoundDynamics(audio);
-			}
-			VibrationManager.Vibrate(2.5f, base.transform.position, 3f, 0f, VibrationManager.VibrationFalloff.None, openSound, false);
-			return;
-		}
-		if (Constants.ShouldPlaySfx()/* && allowAudio*/)
-		{
+            }
+            VibrationManager.Vibrate(2.5f, transform.position, 3f, 0f, VibrationManager.VibrationFalloff.None, openSound, false);
+            return;
+        }
+        if (Constants.ShouldPlaySfx()/* && allowAudio*/)
+        {
             var audio = SoundManager.Instance.PlaySound(closeSound, false, 1,
                 SoundManager.Instance.SfxChannel);
             SoundDynamics(audio);
-		}
-		VibrationManager.Vibrate(2.5f, base.transform.position, 3f, 0f, VibrationManager.VibrationFalloff.None, closeSound, false);
-	}
+        }
+        VibrationManager.Vibrate(2.5f, transform.position, 3f, 0f, VibrationManager.VibrationFalloff.None, closeSound, false);
+    }
 
-	// Token: 0x06000D37 RID: 3383 RVA: 0x00037C2C File Offset: 0x00035E2C
-	private void DoorDynamics(AudioSource source, float dt)
-	{
-		if (!PlayerControl.LocalPlayer)
-		{
-			source.volume = 0f;
-			return;
-		}
-		Vector2 vector = base.transform.position;
-		Vector2 truePosition = PlayerControl.LocalPlayer.GetTruePosition();
-		float num = Vector2.Distance(vector, truePosition);
-		if (num > 4f)
-		{
-			source.volume = 0f;
-			return;
-		}
-		float num2 = 1f - num / 4f;
-		source.volume = Mathf.Lerp(source.volume, num2, dt);
-	}
+    // Token: 0x06000D37 RID: 3383 RVA: 0x00037C2C File Offset: 0x00035E2C
+    private void DoorDynamics(AudioSource source, float dt)
+    {
+        if (!PlayerControl.LocalPlayer)
+        {
+            source.volume = 0f;
+            return;
+        }
+        Vector2 vector = transform.position;
+        Vector2 truePosition = PlayerControl.LocalPlayer.GetTruePosition();
+        float num = Vector2.Distance(vector, truePosition);
+        if (num > 4f)
+        {
+            source.volume = 0f;
+            return;
+        }
+        float num2 = 1f - num / 4f;
+        source.volume = Mathf.Lerp(source.volume, num2, dt);
+    }
 
-	public override void Serialize(MessageWriter writer)
-	{
-		writer.Write(open);
-	}
+    public override void Serialize(MessageWriter writer)
+    {
+        writer.Write(open);
+    }
 
-	public override void Deserialize(MessageReader reader)
-	{
-		SetDoorway(reader.ReadBoolean());
-	}
+    public override void Deserialize(MessageReader reader)
+    {
+        SetDoorway(reader.ReadBoolean());
+    }
 
     public BoxCollider2D wallCollider;
 
@@ -139,9 +139,9 @@ public sealed class AutoOpenMushroomDoor(nint cppPtr) : AutoOpenDoor(cppPtr)
 
     public AudioClip openSound;
 
-	public AudioClip closeSound;
+    public AudioClip closeSound;
 
-	private bool open;
+    private bool open;
 
-	// private bool allowAudio;
+    // private bool allowAudio;
 }

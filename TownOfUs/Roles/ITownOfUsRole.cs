@@ -13,9 +13,9 @@ public interface ITownOfUsRole : ICustomRole
     GameObject ICustomRole.GetAdvancedWiki(MatchInfoGuide guide, TextMeshPro titleText, SpriteRenderer titleIcon, Scroller parent)
     {
         var abilities = WikiAbilities;
-        if (abilities.Count == 0 && this is IWikiDiscoverable wiki && wiki.Abilities.HasAny())
+        if (abilities.Count == 0 && this is IWikiDiscoverable { Abilities: { Count: > 0 } wiki })
         {
-            abilities = wiki.Abilities.Select(a => new AdvancedWikiAbilityDescription(
+            abilities = wiki.Select(a => new AdvancedWikiAbilityDescription(
                 a.Name,
                 MiraLocaleManager.Get("MiraApi.AbilityType.Basic"),
                 a.Description,
@@ -29,7 +29,7 @@ public interface ITownOfUsRole : ICustomRole
             parent,
             RoleNameLocale,
             $"{RoleName} ({RoleFactionTitle})",
-            Configuration.Icon ?? MiraAssets.IconNeutral.LoadAsset(),
+            Configuration.Icon ?? MiraAssets.IconNeutral,
             RoleWikiDescription,
             abilities);
     }
@@ -131,136 +131,39 @@ public interface ITownOfUsRole : ICustomRole
     {
         get
         {
-            if (RoleAlignment == RoleAlignment.CrewmateInvestigative)
+            return RoleAlignment switch
             {
-                return TouRoleGroups.CrewInvest;
-            }
-
-            if (RoleAlignment == RoleAlignment.CrewmateKilling)
-            {
-                return TouRoleGroups.CrewKiller;
-            }
-
-            if (RoleAlignment == RoleAlignment.CrewmateProtective)
-            {
-                return TouRoleGroups.CrewProc;
-            }
-
-            if (RoleAlignment == RoleAlignment.CrewmatePower)
-            {
-                return TouRoleGroups.CrewPower;
-            }
-
-            if (RoleAlignment == RoleAlignment.ImpostorConcealing)
-            {
-                return TouRoleGroups.ImpConceal;
-            }
-
-            if (RoleAlignment == RoleAlignment.ImpostorKilling)
-            {
-                return TouRoleGroups.ImpKiller;
-            }
-
-            if (RoleAlignment == RoleAlignment.ImpostorPower)
-            {
-                return TouRoleGroups.ImpPower;
-            }
-
-            if (RoleAlignment == RoleAlignment.NeutralEvil)
-            {
-                return TouRoleGroups.NeutralEvil;
-            }
-
-            if (RoleAlignment == RoleAlignment.NeutralOutlier)
-            {
-                return TouRoleGroups.NeutralOutlier;
-            }
-
-            if (RoleAlignment == RoleAlignment.NeutralKilling)
-            {
-                return TouRoleGroups.NeutralKiller;
-            }
-
-            if (RoleAlignment == RoleAlignment.CrewmateHider)
-            {
-                return TouRoleGroups.CrewHider;
-            }
-
-            if (RoleAlignment == RoleAlignment.ImpostorSeeker)
-            {
-                return TouRoleGroups.ImpSeeker;
-            }
-
-            if (RoleAlignment == RoleAlignment.ImpostorCultist)
-            {
-                return TouRoleGroups.ImpCultist;
-            }
-
-            if (RoleAlignment == RoleAlignment.ImpostorFollower)
-            {
-                return TouRoleGroups.ImpFollower;
-            }
-
-            if (RoleAlignment == RoleAlignment.CrewmateBeliever)
-            {
-                return TouRoleGroups.CrewBeliever;
-            }
-
-            if (RoleAlignment == RoleAlignment.CrewmateObstinate)
-            {
-                return TouRoleGroups.CrewObstinate;
-            }
-
-            if (RoleAlignment == RoleAlignment.NeutralObstinate)
-            {
-                return TouRoleGroups.NeutralObstinate;
-            }
-
-            if (RoleAlignment == RoleAlignment.CrewmateAfterlife)
-            {
-                return TouRoleGroups.CrewAfterlife;
-            }
-
-            if (RoleAlignment == RoleAlignment.NeutralAfterlife)
-            {
-                return TouRoleGroups.NeutralAfterlife;
-            }
-
-            if (RoleAlignment == RoleAlignment.ImpostorAfterlife)
-            {
-                return TouRoleGroups.ImpAfterlife;
-            }
-
-            if (RoleAlignment == RoleAlignment.CrewmateGhost)
-            {
-                return TouRoleGroups.CrewGhost;
-            }
-
-            if (RoleAlignment == RoleAlignment.NeutralGhost)
-            {
-                return TouRoleGroups.NeutralGhost;
-            }
-
-            if (RoleAlignment == RoleAlignment.ImpostorGhost)
-            {
-                return TouRoleGroups.ImpGhost;
-            }
-
-            if (RoleAlignment == RoleAlignment.GameOutlier)
-            {
-                return TouRoleGroups.Other;
-            }
-
-            if (RoleAlignment == RoleAlignment.FrenzyKiller)
-            {
-                return TouRoleGroups.FrenzyKiller;
-            }
-
-            return Team switch
-            {
-                ModdedRoleTeams.Crewmate => TouRoleGroups.CrewSup,
-                ModdedRoleTeams.Impostor => TouRoleGroups.ImpSup,
-                _ => TouRoleGroups.NeutralBenign
+                RoleAlignment.CrewmateInvestigative => TouRoleGroups.CrewInvest,
+                RoleAlignment.CrewmateKilling       => TouRoleGroups.CrewKiller,
+                RoleAlignment.CrewmateProtective    => TouRoleGroups.CrewProc,
+                RoleAlignment.CrewmatePower         => TouRoleGroups.CrewPower,
+                RoleAlignment.ImpostorConcealing    => TouRoleGroups.ImpConceal,
+                RoleAlignment.ImpostorKilling       => TouRoleGroups.ImpKiller,
+                RoleAlignment.ImpostorPower         => TouRoleGroups.ImpPower,
+                RoleAlignment.NeutralEvil           => TouRoleGroups.NeutralEvil,
+                RoleAlignment.NeutralOutlier        => TouRoleGroups.NeutralOutlier,
+                RoleAlignment.NeutralKilling        => TouRoleGroups.NeutralKiller,
+                RoleAlignment.CrewmateHider         => TouRoleGroups.CrewHider,
+                RoleAlignment.ImpostorSeeker        => TouRoleGroups.ImpSeeker,
+                RoleAlignment.ImpostorCultist       => TouRoleGroups.ImpCultist,
+                RoleAlignment.ImpostorFollower      => TouRoleGroups.ImpFollower,
+                RoleAlignment.CrewmateBeliever      => TouRoleGroups.CrewBeliever,
+                RoleAlignment.CrewmateObstinate     => TouRoleGroups.CrewObstinate,
+                RoleAlignment.NeutralObstinate      => TouRoleGroups.NeutralObstinate,
+                RoleAlignment.CrewmateAfterlife     => TouRoleGroups.CrewAfterlife,
+                RoleAlignment.NeutralAfterlife      => TouRoleGroups.NeutralAfterlife,
+                RoleAlignment.ImpostorAfterlife     => TouRoleGroups.ImpAfterlife,
+                RoleAlignment.CrewmateGhost         => TouRoleGroups.CrewGhost,
+                RoleAlignment.NeutralGhost          => TouRoleGroups.NeutralGhost,
+                RoleAlignment.ImpostorGhost         => TouRoleGroups.ImpGhost,
+                RoleAlignment.GameOutlier           => TouRoleGroups.Other,
+                RoleAlignment.FrenzyKiller          => TouRoleGroups.FrenzyKiller,
+                _ => Team switch
+                {
+                    ModdedRoleTeams.Crewmate => TouRoleGroups.CrewSup,
+                    ModdedRoleTeams.Impostor => TouRoleGroups.ImpSup,
+                    _                        => TouRoleGroups.NeutralBenign
+                }
             };
         }
     }

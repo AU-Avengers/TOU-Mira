@@ -23,8 +23,8 @@ public sealed class GameTimerOptions : AbstractOptionGroup<ClassicMode>
             Visible = () => OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled
         };
 
-    public ModdedEnumOption TimerEndOption { get; } =
-        new("TouOptionGameTimerEndOption", 1, typeof(GameTimerType),
+    public ModdedEnumOption<GameTimerType> TimerEndOption { get; } =
+        new("TouOptionGameTimerEndOption", GameTimerType.GameDraw,
         [
             "TouOptionGameTimerEndEnumImpostorWin",
             "TouOptionGameTimerEndEnumGameDraw"

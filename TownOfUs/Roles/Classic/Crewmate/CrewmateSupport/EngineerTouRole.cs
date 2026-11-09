@@ -28,21 +28,6 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fix", "Fix"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Fix.WikiDescription").Replace("<engiMaxFixes>",
-                        $"{(int)OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes}"),
-                    TouCrewAssets.FixButtonSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get
@@ -64,7 +49,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Engineer.LoadAsset(), "TouMira.Role.Crewmate.Engineer", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Engineer, "TouMira.Role.Crewmate.Engineer", 1.45f),
         GetsVentData = true,
         Icon = TouRoleIcons.Engineer,
         OptionsScreenshot = TouBanners.EngineerRoleBanner,
@@ -332,7 +317,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.EngineerFix, engineer);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     [MethodRpc((uint)TownOfUsRpc.EngineerEventFix)]
@@ -350,6 +335,6 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.EngineerFix, "Critical", engi);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 }

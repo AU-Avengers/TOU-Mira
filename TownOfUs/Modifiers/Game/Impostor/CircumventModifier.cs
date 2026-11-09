@@ -11,7 +11,7 @@ public sealed class CircumventModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Impostor,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Circumvent.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Circumvent,
             "TouMira.Modifier.Impostor.Circumvent", 1.45f));
     public int VentsAvailable { get; set; }
     public override string IdPart => "Circumvent";
@@ -57,18 +57,18 @@ public sealed class CircumventModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.CircumventChance;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.CircumventChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.CircumventAmount;
+        return OptionGroupSingleton<ImpostorModifierOptions>.Instance.CircumventAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         return base.IsModifierValidOn(role) && role.IsImpostor() &&
-               (role is not ICustomRole custom || custom.Configuration.CanUseVent) &&
+               role is not ICustomRole { Configuration.CanUseVent: false } &&
                role is not MinerRole;
     }
 

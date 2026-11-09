@@ -19,15 +19,12 @@ public static class WerewolfEvents
             return;
         }
 
-        var vent = @event.Usable.TryCast<Vent>();
-
-        if (vent == null)
+        if (@event.Usable.TryCast<Vent>() == null)
         {
             return;
         }
 
-        if (!PlayerControl.LocalPlayer.inVent && PlayerControl.LocalPlayer.Data.Role is WerewolfRole werewolf &&
-            !werewolf.Rampaging)
+        if (!PlayerControl.LocalPlayer.inVent && PlayerControl.LocalPlayer.Data.Role is WerewolfRole { Rampaging: false })
         {
             @event.Cancel();
         }

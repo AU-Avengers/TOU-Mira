@@ -24,7 +24,7 @@ public abstract class TouBaseGameModifier : GameModifier
     public override GameObject GetAdvancedWiki(MatchInfoGuide guide, TextMeshPro titleText, SpriteRenderer titleIcon, Scroller parent)
     {
         var abilities = WikiAbilities;
-        if (abilities.Count == 0 && this is IWikiDiscoverable wiki && wiki.Abilities.HasAny())
+        if (abilities.Count == 0 && this is IWikiDiscoverable { Abilities.Count: > 0 } wiki)
         {
             abilities = wiki.Abilities.Select(a => new AdvancedWikiAbilityDescription(
                 a.Name,
@@ -39,11 +39,11 @@ public abstract class TouBaseGameModifier : GameModifier
             parent,
             ModifierNameLocale,
             $"{ModifierName} ({ModifierCategoryTitle})".TrimStart(),
-            ModifierIcon ?? MiraAssets.IconNeutral.LoadAsset(),
+            ModifierIcon ?? MiraAssets.IconNeutral,
             ModifierWikiDescription,
             abilities);
     }
-    
+
     /// <summary>
     /// Method that runs before <see cref="GameModifier.IsModifierValidOn"/> is run by MiraAPI. This is used for Assailant modifiers to determine if they may spawn.
     /// </summary>
@@ -69,13 +69,13 @@ public abstract class TouBaseGameModifier : GameModifier
     public override void OnActivate()
     {
         base.OnActivate();
-        AddModifierToStats(GameHistory.PlayerStats[Player.PlayerId]);
+        AddModifierToStats(GameHistory.GetPlayerStats(Player));
     }
 
     public override void OnDeactivate()
     {
         base.OnDeactivate();
-        RemoveModifierFromStats(GameHistory.PlayerStats[Player.PlayerId]);
+        RemoveModifierFromStats(GameHistory.GetPlayerStats(Player));
     }
 
     public virtual void AddModifierToStats(PlayerStats stats)

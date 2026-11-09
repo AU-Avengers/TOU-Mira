@@ -19,10 +19,10 @@ public sealed class SwooperOptions : AbstractRoleOptionGroup<SwooperRole>
     [ModdedNumberOption("TouOptionSwooperSwoopDuration", 5f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float SwoopDuration { get; set; } = 10f;
 
-    public ModdedEnumOption TrackedMidSwoop { get; set; } = new("TouOptionSwooperTrackedWhileInvisible", (int)SwoopTracking.Always, typeof(SwoopTracking),
+    public ModdedEnumOption<SwoopTracking> TrackedMidSwoop { get; set; } = new("TouOptionSwooperTrackedWhileInvisible", SwoopTracking.Always,
         ["TouOptionSwooperTrackingEnumNever", "TouOptionSwooperTrackingEnumNotByRadar", "TouOptionSwooperTrackingEnumAlways"]);
 
-    public ModdedEnumOption CanVent { get; set; } = new("TouOptionSwooperCanVent", (int)SwooperVent.Visible, typeof(SwooperVent),
+    public ModdedEnumOption<SwooperVent> CanVent { get; set; } = new("TouOptionSwooperCanVent", SwooperVent.Visible,
         ["TouOptionSwooperVentEnumNever", "TouOptionSwooperVentEnumWhileVisible", "TouOptionSwooperVentEnumAlways"]);
 }
 

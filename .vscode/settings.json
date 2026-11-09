@@ -1,3 +1,4 @@
 {
-    "Codegeex.RepoIndex": true
+    "Codegeex.RepoIndex": true,
+    "dotnet.defaultSolution": "TownOfUs-Mira.sln"
 }

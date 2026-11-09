@@ -28,7 +28,7 @@ public sealed class DisperseButton : TownOfUsButton, ILegacyCapable
     {
         base.CreateButton(parent);
 
-        Button!.usesRemainingSprite.sprite = LegacyAssets.IsLegacy ? TouAssets.BlankSprite.LoadAsset() : TouAssets.AbilityCounterVentSprite.LoadAsset();
+        Button!.usesRemainingSprite.sprite = LegacyAssets.IsLegacy ? TouAssets.BlankSprite : TouAssets.AbilityCounterVentSprite;
     }
 
     protected override void OnClick()

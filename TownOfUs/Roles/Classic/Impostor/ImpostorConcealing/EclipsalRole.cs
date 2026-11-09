@@ -23,26 +23,10 @@ public sealed class EclipsalRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Eclipsal.LoadAsset(), "TouMira.Role.Impostor.Eclipsal", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Eclipsal, "TouMira.Role.Impostor.Eclipsal", 1.45f),
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Eclipsal
     };
-
-
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Blind", "Blind"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Blind.WikiDescription"),
-                    TouImpAssets.BlindSprite)
-            ];
-        }
-    }
 
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
