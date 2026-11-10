@@ -193,7 +193,7 @@ public static class SentryEvents
             var cameraList = new List<KeyValuePair<SurvCamera, int>>();
             if (SentryRole.Cameras.Count > 0)
             {
-                foreach (var cameraPair in SentryRole.Cameras)
+                foreach (var cameraPair in SentryRole.Cameras.ToList())
                 {
                     if (cameraPair.Key == null || cameraPair.Key.gameObject == null)
                     {

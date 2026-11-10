@@ -130,9 +130,9 @@ public static class SwapperEvents
 
     private static IEnumerator PerformSwaps()
     {
-        var swapperRoles = CustomRoleUtils.GetActiveRolesOfType<SwapperRole>();
+        var swapperRoles = CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().ToList();
 
-        var duration = 4f / (swapperRoles.Count() + 1);
+        var duration = 4f / (swapperRoles.Count + 1);
 
         foreach (var role in swapperRoles)
         {

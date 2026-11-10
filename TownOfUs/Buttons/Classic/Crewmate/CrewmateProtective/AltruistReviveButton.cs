@@ -144,9 +144,9 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
             OptionGroupSingleton<AltruistOptions>.Instance.ReviveRange.Value * ShipStatus.Instance.MaxLightRadius,
             Helpers.CreateFilter(Constants.NotShipMask));
 
-        var playersToRevive = bodiesInRange.Select(x => x.ParentId);
+        var playersToRevive = bodiesInRange.Select(x => x.ParentId).ToList();
 
-        TouAchievementEvents.OnAltruistRevive(PlayerControl.LocalPlayer, playersToRevive.Count());
+        TouAchievementEvents.OnAltruistRevive(PlayerControl.LocalPlayer, playersToRevive.Count);
 
         foreach (var playerId in playersToRevive)
         {

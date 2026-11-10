@@ -20,7 +20,7 @@ public static class WinConditionRegistry
         {
             lock (LockObject)
             {
-                return Conditions.AsReadOnly();
+                return Conditions.ToList().AsReadOnly();
             }
         }
     }

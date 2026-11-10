@@ -25,10 +25,10 @@ public static class HauntMenuMinigamePatch
             __instance.FilterText.text = string.Empty;
 
             var modifiers = target.GetModifiers<GameModifier>(x => x is not ExcludedGameModifier)
-                .OrderBy(x => x.ModifierName);
+                .OrderBy(x => x.ModifierName).ToList();
             __instance.FilterText.text =
                 $"<color=#FFFFFF><size=100%>({MiraLocaleManager.Get("PlayerHasNoModifiers")})</size></color>";
-            if (modifiers.Any())
+            if (modifiers.Count != 0)
             {
                 var modifierTextBuilder = new StringBuilder("<color=#FFFFFF><size=100%>(");
                 var first = true;
@@ -109,10 +109,10 @@ public static class HauntMenuMinigamePatch
             __instance.FilterText.text = string.Empty;
 
             var modifiers = target.GetModifiers<GameModifier>(x => x is not ExcludedGameModifier)
-                .OrderBy(x => x.ModifierName);
+                .OrderBy(x => x.ModifierName).ToList();
             __instance.FilterText.text =
                 $"<color=#FFFFFF><size=100%>({MiraLocaleManager.Get("PlayerHasNoModifiers")})</size></color>";
-            if (modifiers.Any())
+            if (modifiers.Count != 0)
             {
                 var modifierTextBuilder = new StringBuilder("<color=#FFFFFF><size=100%>(");
                 var first = true;
