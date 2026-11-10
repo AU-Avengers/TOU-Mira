@@ -1562,7 +1562,7 @@ public static class TouAchievementEvents
             TouAchievements.ThirdWheel.Unlock();
         }
 
-        // Carrier: the Plaguebearer won without ever transforming into Pestilence.
+        // Common Cold: the Plaguebearer won without ever transforming into Pestilence.
         if (local.GetRoleWhenAlive() is PlaguebearerRole && LocalWon())
         {
             TouAchievements.CommonCold.Unlock();
