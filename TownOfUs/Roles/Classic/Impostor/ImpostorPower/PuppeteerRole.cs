@@ -9,6 +9,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Events.Impostor;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Impostor;
@@ -68,6 +69,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     {
         RoleBehaviourStubs.Initialize(this, player);
         ClearControlLocal();
+        PuppeteerEvents.CanPuppeteerMove = true;
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)
@@ -75,6 +77,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         TouRoleUtils.ClearTaskHeader(Player);
         ClearControlLocal();
+        PuppeteerEvents.CanPuppeteerMove = true;
     }
 
     public override void OnMeetingStart()

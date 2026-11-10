@@ -455,7 +455,8 @@ public static class TimeLordRewindSystem
         if (_hostTaskStepMap.Count > 128)
         {
             var keysToRemove = _hostTaskStepMap.Keys
-                .Where(k => !HostTaskCompletions.Any(h => h.PlayerId == k.PlayerId && h.TaskId == k.TaskId));
+                .Where(k => !HostTaskCompletions.Any(h => h.PlayerId == k.PlayerId && h.TaskId == k.TaskId))
+                .ToList();
             foreach (var key in keysToRemove)
             {
                 _hostTaskStepMap.Remove(key);
@@ -522,7 +523,8 @@ public static class TimeLordRewindSystem
         var age = (float)(now - x.TimeUtc).TotalSeconds;
         var triggerAt = durationSeconds * (age / historySeconds);
         return (x.PlayerId, x.TaskId, TriggerAtSeconds: triggerAt, x.TaskStep);
-    });
+    })
+    .ToList();
 
         // Convert to the format expected by ConfigureHostTaskUndos
         var simpleSchedule = schedule.Select(x => (x.PlayerId, x.TaskId, x.TriggerAtSeconds)).ToList();
@@ -1261,7 +1263,7 @@ public static class TimeLordRewindSystem
             buf.Add(pos);
         }
 
-        var keys = HostBodyPosHistory.Keys;
+        var keys = HostBodyPosHistory.Keys.ToList();
         foreach (var k in keys)
         {
             if (!seen.Contains(k))
@@ -1976,7 +1978,7 @@ return true;*/
             return;
         }
 
-        foreach (var rec in TimeLordBodyManager.GetCleanedBodiesRestoredThisRewind())
+        foreach (var rec in TimeLordBodyManager.GetCleanedBodiesRestoredThisRewind().ToList())
         {
             if (rec == null ||
                 !rec.RestoredThisRewind ||
@@ -2572,7 +2574,7 @@ return true;*/
             return;
         }
 
-        foreach (var drag in ModifierUtils.GetActiveModifiers<DragModifier>())
+        foreach (var drag in ModifierUtils.GetActiveModifiers<DragModifier>().ToList())
         {
             if (drag.BodyId == revived.PlayerId)
             {

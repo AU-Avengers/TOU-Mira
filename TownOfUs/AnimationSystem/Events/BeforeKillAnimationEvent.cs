@@ -3,9 +3,9 @@ using MiraAPI.Events;
 namespace TownOfUs.AnimationSystem.Events;
 
 /// <summary>
-/// Event that fires before a kill animation is fully loaded. Cancel to prevent other roles from modifying the data as well as stopping overrides from camo comms.
+/// Event that fires before a kill animation is fully loaded. To prevent the game's main logic from taking over, set a FinalAnimation.
 /// </summary>
-public sealed class BeforeKillAnimationEvent : MiraCancelableEvent
+public sealed class BeforeKillAnimationEvent : MiraEvent
 {
     /// <summary>
     /// Gets the <see cref="NetworkedPlayerInfo"/> of the victim. Normally just the local player but may differ.

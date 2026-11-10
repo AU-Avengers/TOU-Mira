@@ -327,7 +327,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         TouRoleUtils.ClearTaskHeader(Player);
         if (TutorialManager.InstanceExists && Player.AmOwner)
         {
-            var players = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>();
+            var players = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>().ToList();
             players.Do(x => x.RpcRemoveModifier<InquisitorHereticModifier>());
         }
 

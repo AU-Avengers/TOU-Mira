@@ -27,8 +27,8 @@ public static class KnightedEvents
             return;
         }
 
-        var knights = PlayerControl.LocalPlayer.GetModifiers<KnightedModifier>(x => !x.Announced);
-        if (!knights.Any())
+        var knights = PlayerControl.LocalPlayer.GetModifiers<KnightedModifier>(x => !x.Announced).ToList();
+        if (knights.Count == 0)
         {
             return;
         }
@@ -61,20 +61,20 @@ public static class KnightedEvents
             return;
         }
 
-        var votes = @event.Votes;
+        var votes = @event.Votes.ToList();
         var baseExtraVotes = (int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight;
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
-            var knightModifiers = player.GetModifiers<KnightedModifier>();
-            if (knightModifiers == null || !knightModifiers.Any())
+            var knightModifiers = player.GetModifiers<KnightedModifier>()?.ToList();
+            if (knightModifiers == null || knightModifiers.Count == 0)
                 continue;
 
             var vote = votes.FirstOrDefault(v => v.Voter == player.PlayerId);
             if (vote == default)
                 continue;
 
-            var totalBonusVotes = knightModifiers.Count() * baseExtraVotes;
+            var totalBonusVotes = knightModifiers.Count * baseExtraVotes;
 
             if (player.Data.Role is MayorRole { Revealed: true })
             {

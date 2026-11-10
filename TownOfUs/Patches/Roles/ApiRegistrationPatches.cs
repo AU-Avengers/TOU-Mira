@@ -28,21 +28,21 @@ public static class ApiRegistrationPatches
         _runOnce = true;
 
         var newList = CustomRoleManager.CustomRoleBehaviours.Where(x =>
-            !MiscUtils.IsBasicGhost(x.Role));
+            !MiscUtils.IsBasicGhost(x.Role)).ToList();
         MiscUtils.AllRoles = newList;
-        var touList = MiscUtils.AllRoles.OfType<ITownOfUsRole>();
+        var touList = MiscUtils.AllRoles.OfType<ITownOfUsRole>().ToList();
         MiscUtils.AllTouRoles = touList;
         foreach (var role in MiscUtils.AllTouRoles)
         {
             role.InitialSetup();
         }
 
-        var newList2 = RoleManager.Instance.AllRoles.Where(x =>
-            !MiscUtils.IsBasicGhost(x.Role));
+        var newList2 = RoleManager.Instance.AllRoles.ToArray().Where(x =>
+            !MiscUtils.IsBasicGhost(x.Role)).ToList();
         MiscUtils.AllInGameRoles = newList2;
         var newModifiers = new List<TouBaseGameModifier>();
         var assignableMods = new List<IAssignableTargets>();
-        MiscUtils.AllModifiers = ModifierManager.Modifiers;
+        MiscUtils.AllModifiers = ModifierManager.Modifiers.ToList();
         foreach (var mod in MiscUtils.AllModifiers)
         {
             if (mod is TouBaseGameModifier touMod)
@@ -54,7 +54,7 @@ public static class ApiRegistrationPatches
                 assignableMods.Add(assignMod);
             }
         }
-        MiscUtils.AllTouWikiModifiers = ModifierManager.Modifiers.Where(x => x is IWikiDiscoverable);
+        MiscUtils.AllTouWikiModifiers = ModifierManager.Modifiers.Where(x => x is IWikiDiscoverable).ToList();
         MiscUtils.AllOverallWikiModifiers = MiscUtils.AllTouWikiModifiers;
         MiscUtils.AllBaseGameModifiers = newModifiers;
         MiscUtils.AssignableTargetModifiers = assignableMods;

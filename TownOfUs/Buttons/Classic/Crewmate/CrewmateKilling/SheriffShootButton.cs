@@ -109,7 +109,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
                 case RoleAlignment.NeutralKilling when options.ShootNeutralKiller:
                 case RoleAlignment.NeutralEvil when options.ShootNeutralEvil:
                 case RoleAlignment.NeutralBenign when options.ShootNeutralBenign:
-                case var _ when Target.IsImpostor() || Target.IsNeutral():
+                case var _ when Target.IsImpostor():
                     PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
                     break;
 

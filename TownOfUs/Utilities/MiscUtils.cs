@@ -757,7 +757,7 @@ public static class MiscUtils
         var roleOptions = currentGameOptions.RoleOptions;
         var assignmentData = SpawnableRoles.Select(role =>
             new RoleManager.RoleAssignmentData(role, roleOptions.GetNumPerGame(role.Role),
-                roleOptions.GetChancePerGame(role.Role)));
+                roleOptions.GetChancePerGame(role.Role))).ToList();
 
         var roleList = assignmentData.Where(x => x is { Chance: > 0, Count: > 0, Role: ICustomRole })
             .Select(x => x.Role);
@@ -871,7 +871,7 @@ public static class MiscUtils
         {
             FakeChatHistory.Record(basePlayer, nameText, message);
         }
-
+        
         var chat = HudManager.Instance.Chat;
 
         var pooledBubble = chat.GetPooledBubble();
@@ -1134,7 +1134,7 @@ public static class MiscUtils
         pooledBubble.NameText.ForceMeshUpdate(true, true);
         pooledBubble.votedMark.enabled = false;
         pooledBubble.Xmark.enabled = false;
-        pooledBubble.TextArea.text = message;
+        pooledBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, pooledBubble.TextArea);
         pooledBubble.TextArea.ForceMeshUpdate(true, true);
         pooledBubble.Background.size = new Vector2(5.52f,
             0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
@@ -1145,7 +1145,7 @@ public static class MiscUtils
         clonedBubble.NameText.ForceMeshUpdate(true, true);
         clonedBubble.votedMark.enabled = false;
         clonedBubble.Xmark.enabled = false;
-        clonedBubble.TextArea.text = message;
+        clonedBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, clonedBubble.TextArea);
         clonedBubble.TextArea.ForceMeshUpdate(true, true);
         clonedBubble.Background.size = new Vector2(5.52f,
             0.2f + clonedBubble.NameText.GetNotDumbRenderedHeight() + clonedBubble.TextArea.GetNotDumbRenderedHeight());
@@ -1298,7 +1298,7 @@ public static class MiscUtils
 
         var chosenRoles = GetPossibleRoles(assignmentData);
 
-        var rolesToKeep = chosenRoles;
+        var rolesToKeep = chosenRoles.ToList();
         rolesToKeep.Shuffle();
 
         // Log.Message($"GetRolesToKeep Kept - Count: {rolesToKeep.Count}");
@@ -1397,9 +1397,10 @@ public static class MiscUtils
 
         var involved = candidates
             .Where(x => candidates.Any(y => x != y && AreRolesExclusive(x, y)))
-            .Select(x => (Role: x, Chance: roleOptions.GetChancePerGame(x.Role)));
+            .Select(x => (Role: x, Chance: roleOptions.GetChancePerGame(x.Role)))
+            .ToList();
 
-        if (!involved.Any())
+        if (involved.Count == 0)
         {
             return [];
         }
@@ -1408,7 +1409,8 @@ public static class MiscUtils
         var ordered = involved
             .OrderByDescending(x => x.Chance == 100)
             .ThenByDescending(x => HashRandom.Next(101) < x.Chance)
-            .Select(x => x.Role);
+            .Select(x => x.Role)
+            .ToList();
 
         var allowed = new List<RoleBehaviour>();
         var excluded = new HashSet<ushort>();
@@ -1438,7 +1440,8 @@ public static class MiscUtils
         var relevant = candidates
             .Where(x => x is IExclusiveRole
                         || declaredTypes.Any(t => t.IsInstanceOfType(x))
-                        || RoleExclusionRegistry.RegisteredBuckets.Any(b => b.IsEnabled() && b.Contains(x)));
+                        || RoleExclusionRegistry.RegisteredBuckets.Any(b => b.IsEnabled() && b.Contains(x)))
+            .ToList();
 
         var groups = new List<List<RoleBehaviour>>();
         var visited = new HashSet<RoleBehaviour>();
@@ -1452,7 +1455,7 @@ public static class MiscUtils
             var group = new List<RoleBehaviour> { role };
             for (var i = 0; i < group.Count; i++)
             {
-                foreach (var other in relevant.Where(x => !visited.Contains(x) && AreRolesExclusive(group[i], x)))
+                foreach (var other in relevant.Where(x => !visited.Contains(x) && AreRolesExclusive(group[i], x)).ToList())
                 {
                     visited.Add(other);
                     group.Add(other);
@@ -2601,7 +2604,7 @@ public static class MiscUtils
     {
         var stringBuilder = new StringBuilder();
         stringBuilder.Append(TownOfUsPlugin.Culture, $"{MiraLocaleManager.Get("AnticheatIllegalRpcMessage").Replace("<player>", source.Data.PlayerName)}");
-        AddFakeChat(source.Data, $"<color=#D53F42>{MiraLocaleManager.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors: true);
+        AddFakeChat(source.Data, $"<color=#D53F42>{MiraLocaleManager.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
     }
 
     public static string GetRegionName(IRegionInfo? region = null, bool shorten = true)
