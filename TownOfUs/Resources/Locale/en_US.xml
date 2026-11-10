@@ -3655,7 +3655,7 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Achievement.FinalAct.Name">The Final Act</string>
   <string name="TownOfUsMira.Achievement.FinalAct.Description">Get ejected when three or less players remain.</string>
   <string name="TownOfUsMira.Achievement.Nosferatu.Name">Nosferatu</string>
-  <string name="TownOfUsMira.Achievement.Nosferatu.Description">Bite 3 players in a single game.</string>
+  <string name="TownOfUsMira.Achievement.Nosferatu.Description">Bite 15 players across sessions as Vampire.</string>
   <string name="TownOfUsMira.Achievement.ButItRefused.Name">But it refused.</string>
   <string name="TownOfUsMira.Achievement.ButItRefused.Description">Get revived alongside your lover.</string>
   <string name="TownOfUsMira.Achievement.YoureSafeWithMe.Name">You're Safe with Me</string>
