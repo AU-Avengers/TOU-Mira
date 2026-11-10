@@ -3812,8 +3812,6 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Achievement.RoleEater.Description">Guess every role you need within 3 rounds.</string>
   <string name="TownOfUsMira.Achievement.Fireproof.Name">Fireproof</string>
   <string name="TownOfUsMira.Achievement.Fireproof.Description">Try to ignite a protected player.</string>
-  <string name="TownOfUsMira.Achievement.Carrier.Name">Carrier</string>
-  <string name="TownOfUsMira.Achievement.Carrier.Description">Win as Plaguebearer without ever transforming into Pestilence.</string>
   <string name="TownOfUsMira.Achievement.BadStaringContest.Name">Bad Staring Contest</string>
   <string name="TownOfUsMira.Achievement.BadStaringContest.Description">Get killed through Stone Gaze.</string>
   <string name="TownOfUsMira.Achievement.ChangeOfHeart.Name">Change of Heart</string>
