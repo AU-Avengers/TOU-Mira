@@ -1705,4 +1705,44 @@ Nie możesz już pokonywać graczy.</string>
   <string name="TouMedicShieldDescription">Jesteś chroniony przez Medyka!
 Nie możesz umrzeć z rąk innych</string>
   <string name="TownOfUsMira.Achievement.IronWall.Description">Niech twoja tarcza Medyka ochroni 3 ataki w jednej grze.</string>
+  <string name="TownOfUsMira.Role.Medium.TabDescription">Mediuj aby wyjść ze swojego śmiertelnego ciała na jakiś czas.
+Twoje ciało wciąż jest podatne na ataki w tym stanie.</string>
+  <string name="TownOfUsMira.Role.Medium.WikiDescription">Medium jest Załogantem Śledczym potrafiącym wypuścić swoją duszę. Dusza może przechodzić przez ściany i widzieć duchy, lecz zostawia swoje ciało niestrzeżone.</string>
+  <string name="TownOfUsMira.Role.MediumMediate">Mediuj</string>
+  <string name="TownOfUsMira.Role.MediumMediate.WikiDescription">Wypuść swoją duszę poza ciało by odkryć poszlaki. Kiedy czas dobiegnie końca, powrócisz do swojego śmiertelnego ciała a duchy znikną.</string>
+  <string name="TouOptionMediumMediateCooldown">Cooldown Mediacji</string>
+  <string name="TouOptionMediumReworkToggle">Mediacja Tworzy Tymczasową Duszę</string>
+  <string name="TouOptionMediumMediateDuration">Czas Trwania Mediacji</string>
+  <string name="TouOptionMediumMediateEarlyCancel">Mediacja Może Być Przedwcześnie Anulowana</string>
+  <string name="TouOptionMediumMediatingSpeed">Prędkość Duszy Podczas Mediacji</string>
+  <string name="TouOptionMediumLivingSeeSpiritTimer">Czas Po Którym Inni Widzą Duszę</string>
+  <string name="TouOptionMediumAppearanceVisibility">Medium może Rozpoznawać</string>
+  <string name="TouOptionMediumAppearanceEnumLiving">Żyjących</string>
+  <string name="TouOptionMediumAppearanceEnumDead">Duchy</string>
+  <string name="TouOptionMediumAppearanceEnumBoth">Żywych + Duchy</string>
+  <string name="TouOptionMediumAppearanceEnumNone">Nikogo</string>
+  <string name="TouOptionMediumArrowVisibility">Widoczność Strzałki</string>
+  <string name="TouOptionMediumArrowEnumShowMedium">Medium</string>
+  <string name="TouOptionMediumArrowEnumShowMediated">Pośredniczeni</string>
+  <string name="TouOptionMediumArrowEnumBoth">Medium + Pośredniczeni</string>
+  <string name="TouOptionMediumArrowEnumNone">Wyłączona</string>
+  <string name="TouOptionMediumWhoisRevealed">Kto jest Ujawniony</string>
+  <string name="TouOptionMediumGhostEnumOldestDead">Najstarszy Martwy</string>
+  <string name="TouOptionMediumGhostEnumNewestDead">Najmłodszy Martwy</string>
+  <string name="TouOptionMediumGhostEnumRandomDead">Losowy Martwy</string>
+  <string name="TouOptionMediumGhostEnumAllDead">Wszyscy Martwi</string>
+  <string name="TouPerfectCommsMediumVoiceNone">Nikt</string>
+  <string name="TouPerfectCommsMediumVoiceMediumToGhost">Medium -&gt; Duch</string>
+  <string name="TouPerfectCommsMediumVoiceGhostToMedium">Duch -&gt; Medium</string>
+  <string name="TouPerfectCommsMediumVoiceBoth">Oboje</string>
+  <string name="TouPerfectCommsMediumGhostVoiceDescription">Wybiera która strona komunikacji jest dozwolona między Medium a martwymi graczami podczas zadań.</string>
+  <string name="TownOfUsMira.Role.Medusa">Meduza</string>
+  <string name="TownOfUsMira.Role.Medusa.IntroBlurb">Zamień Załogantów w kamień.</string>
+  <string name="TownOfUsMira.Role.Medusa.TabDescription">Ukamieniuj graczy w trwałe posągi.</string>
+  <string name="TownOfUsMira.Role.Medusa.WikiDescription">Meduza jest Neutralną Zabijającą rolą zmuszającą swoje ofiary by stały w miejscu, powoli zamieniając je w kamień. Ukamieniowani gracze, którzy się nie rozkruszyli pozostaną w miejscu przez następne rundy.</string>
+  <string name="TownOfUsMira.Role.MedusaPetrify">Ukamieniuj</string>
+  <string name="TownOfUsMira.Role.MedusaPetrify.WikiDescription">Ukamieniuj gracza aby zamienić go w kamień, zabijając go i pozostawiając go jako posąg.</string>
+  <string name="TownOfUsMira.Role.MedusaPetrifyNotif">[player] powoli zamieni się w kamień!</string>
+  <string name="TownOfUsMira.Role.MedusaStoneGaze">Kamienny Wzrok</string>
+  <string name="TownOfUsMira.Role.MedusaStoneGazing">Patrzenie</string>
 </resources>
