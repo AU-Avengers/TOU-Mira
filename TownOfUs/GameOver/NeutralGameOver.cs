@@ -1,10 +1,8 @@
 ﻿using MiraAPI.GameEnd;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Achievements;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Neutral;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -60,11 +58,6 @@ public sealed class NeutralGameOver : CustomGameOver
         pos.y = 1.5f;
         pos += Vector3.down * 0.15f;
         text.transform.localScale = new Vector3(1f, 1f, 1f);
-        if (_role is PlaguebearerRole && _role.Player.AmOwner)
-        {
-            TouAchievements.CommonCold.Unlock();
-        }
-
         text.transform.position = pos;
         text.text = $"<size=4>{text.text}</size>";
     }
