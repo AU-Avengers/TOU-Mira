@@ -540,6 +540,15 @@ public static class TouAchievementEvents
 
         switch (@event.AbilityType)
         {
+            case AbilityType.MorphlingMorph when @event.Player.AmOwner && @event.Target is PlayerControl morphTarget:
+                if ((@event.Player.HasModifier<MiniModifier>() && morphTarget.HasModifier<GiantModifier>()) ||
+                    (@event.Player.HasModifier<GiantModifier>() && morphTarget.HasModifier<MiniModifier>()))
+                {
+                    TouAchievements.SizeDoesntMatter.Unlock();
+                }
+
+                break;
+
             case AbilityType.ClericCleanse when @event.Player.AmOwner:
                 if (@event.Target is PlayerControl cleansed && cleansed.HasModifier<SpellslingerHexedModifier>())
                 {
