@@ -54,13 +54,12 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     public static void TriggerKillAnimation(KillOverlay overlay, NetworkedPlayerInfo killer,
         NetworkedPlayerInfo victim, PlayerVoteArea targetVoteArea)
     {
-        OverlayKillAnimation killAnimation;
         if (CustomTouMurderRpcs.StoredKillAnimations.Length == 0)
         {
             OverlayKillAnimation[] self = overlay.KillAnims;
             CustomTouMurderRpcs.StoredKillAnimations = self.AddRangeToArray(overlay.CustomKillAnimations);
         }
-        killAnimation = overlay.HorseWrangleAnims.Random()!;
+        var killAnimation = overlay.HorseWrangleAnims[0];
         Coroutines.Start(CoShowAnim(overlay, killAnimation.TryCast<HorseWrangleOverlay>()!,
             new KillOverlayInitData(killer, victim), targetVoteArea));
     }
