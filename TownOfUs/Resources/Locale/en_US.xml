@@ -3645,7 +3645,7 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Achievement.Hitman.Name">Hitman</string>
   <string name="TownOfUsMira.Achievement.Hitman.Description">Correctly guess 2 players in a single meeting as Assassin.</string>
   <string name="TownOfUsMira.Achievement.PatientZero.Name">Patient Zero</string>
-  <string name="TownOfUsMira.Achievement.PatientZero.Description">Infect 5 players in a single round as Plaguebearer.</string>
+  <string name="TownOfUsMira.Achievement.PatientZero.Description">Infect 10 players across sessions as Plaguebearer.</string>
   <string name="TownOfUsMira.Achievement.FullMoon.Name">Full Moon</string>
   <string name="TownOfUsMira.Achievement.FullMoon.Description">Kill 15 players across sessions as Werewolf.</string>
   <string name="TownOfUsMira.Achievement.Hangman.Name">Hangman</string>
