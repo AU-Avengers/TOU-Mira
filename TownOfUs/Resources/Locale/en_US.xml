@@ -3777,7 +3777,7 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Achievement.Hitman.Name">Hitman</string>
   <string name="TownOfUsMira.Achievement.Hitman.Description">Correctly guess 2 players in a single meeting as Assassin.</string>
   <string name="TownOfUsMira.Achievement.PatientZero.Name">Patient Zero</string>
-  <string name="TownOfUsMira.Achievement.PatientZero.Description">Infect 5 players in a single round as Plaguebearer.</string>
+  <string name="TownOfUsMira.Achievement.PatientZero.Description">Infect 10 players across sessions as Plaguebearer.</string>
   <string name="TownOfUsMira.Achievement.FullMoon.Name">Full Moon</string>
   <string name="TownOfUsMira.Achievement.FullMoon.Description">Kill 15 players across sessions as Werewolf.</string>
   <string name="TownOfUsMira.Achievement.Hangman.Name">Hangman</string>
@@ -3787,7 +3787,7 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Achievement.FinalAct.Name">The Final Act</string>
   <string name="TownOfUsMira.Achievement.FinalAct.Description">Get ejected when three or less players remain.</string>
   <string name="TownOfUsMira.Achievement.Nosferatu.Name">Nosferatu</string>
-  <string name="TownOfUsMira.Achievement.Nosferatu.Description">Bite 3 players in a single game.</string>
+  <string name="TownOfUsMira.Achievement.Nosferatu.Description">Bite 15 players across sessions as Vampire.</string>
   <string name="TownOfUsMira.Achievement.ButItRefused.Name">But it refused.</string>
   <string name="TownOfUsMira.Achievement.ButItRefused.Description">Get revived alongside your lover.</string>
   <string name="TownOfUsMira.Achievement.YoureSafeWithMe.Name">You're Safe with Me</string>
@@ -3944,8 +3944,6 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Achievement.RoleEater.Description">Guess every role you need within 3 rounds.</string>
   <string name="TownOfUsMira.Achievement.Fireproof.Name">Fireproof</string>
   <string name="TownOfUsMira.Achievement.Fireproof.Description">Try to ignite a protected player.</string>
-  <string name="TownOfUsMira.Achievement.Carrier.Name">Carrier</string>
-  <string name="TownOfUsMira.Achievement.Carrier.Description">Win as Plaguebearer without ever transforming into Pestilence.</string>
   <string name="TownOfUsMira.Achievement.BadStaringContest.Name">Bad Staring Contest</string>
   <string name="TownOfUsMira.Achievement.BadStaringContest.Description">Get killed through Stone Gaze.</string>
   <string name="TownOfUsMira.Achievement.ChangeOfHeart.Name">Change of Heart</string>
