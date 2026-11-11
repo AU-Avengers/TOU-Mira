@@ -4,6 +4,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Achievements;
 using TownOfUs.Modifiers;
@@ -13,17 +14,11 @@ using UnityEngine;
 
 namespace TownOfUs.Modules;
 
-// Code Review: Should be using a MonoBehaviour
-public sealed class Bomb : IDisposable
+[RegisterInIl2Cpp]
+public sealed class Bomb(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 {
     private PlayerControl? _bomber;
     private GameObject _obj;
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
 
     public void Detonate()
     {
@@ -73,12 +68,12 @@ public sealed class Bomb : IDisposable
 
     public static Bomb CreateBomb(PlayerControl player, Vector3 location)
     {
-        return new Bomb
-        {
-            _obj = MiscUtils.CreateSpherePrimitive(location,
-                OptionGroupSingleton<BomberOptions>.Instance.DetonateRadius),
-            _bomber = player
-        };
+        var obj = MiscUtils.CreateSpherePrimitive(location,
+                OptionGroupSingleton<BomberOptions>.Instance.DetonateRadius);
+        var bomb = obj.AddComponent<Bomb>();
+        bomb._obj = obj;
+        bomb._bomber = player;
+        return bomb;
     }
 
     public static IEnumerator BombShowTeammate(PlayerControl player, Vector3 location)
@@ -99,12 +94,7 @@ public sealed class Bomb : IDisposable
 
     public void Destroy()
     {
-        Dispose();
-    }
-
-    private void Dispose(bool disposing)
-    {
-        if (disposing && _obj)
+        if (_obj)
         {
             _obj.Destroy();
         }

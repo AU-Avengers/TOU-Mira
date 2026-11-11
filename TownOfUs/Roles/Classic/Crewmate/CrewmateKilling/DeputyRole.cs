@@ -46,7 +46,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             {
                 TriggerKillAnimation(HudManager.Instance.KillOverlay, source.Data, target.Data, targetVoteArea);
                 source.AddModifier<DeputyRevealedModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<DeputyRole>()));
-                MeetingMenu.Instances.Do(x => x.HideSingle(source.PlayerId));
+                MeetingMenu.HideSingleForAll(source.PlayerId);
             }
             Coroutines.Start(CoStopShot());
         }
@@ -247,16 +247,14 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
         if (Player.AmOwner)
         {
-            meetingMenu = new MeetingMenu(
+            meetingMenu = MeetingMenu.CreateMenu(
                 this,
                 ClickGuess,
                 MeetingAbilityType.Click,
                 LegacyAssets.IsLegacy ? LegacyAssets.ShootMeetingSprite : TouAssets.ShootMeetingSprite,
                 null!,
-                IsExempt)
-            {
-                Position = new Vector3(-0.40f, 0f, -3f)
-            };
+                IsExempt,
+                position: new Vector3(-0.40f, 0f, -3f));
         }
     }
 
@@ -265,10 +263,9 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         RoleBehaviourStubs.OnMeetingStart(this);
 
         ShotThisMeeting = false;
-        var meeting = MeetingHud.Instance;
-        if (Player.AmOwner && meeting != null)
+        if (Player.AmOwner)
         {
-            meetingMenu.GenButtons(meeting,
+            meetingMenu.GenButtons(MeetingHud.Instance,
                 Player.AmOwner && !Player.HasDied() && Killer != null && !Player.HasModifier<JailedModifier>());
         }
     }
@@ -300,7 +297,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
         if (Player.AmOwner)
         {
-            meetingMenu?.Dispose();
+            meetingMenu?.Destroy();
             meetingMenu = null!;
         }
     }

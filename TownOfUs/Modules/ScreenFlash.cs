@@ -1,38 +1,35 @@
-using HarmonyLib;
+using Reactor.Utilities.Attributes;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modules;
 
-// Code Review: Should be using a MonoBehaviour
-public sealed class ScreenFlash : IDisposable
+[RegisterInIl2Cpp]
+public sealed class ScreenFlash(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 {
     private static readonly List<ScreenFlash> _screenFlashes = [];
 
-    private readonly SpriteRenderer _renderer;
+    private SpriteRenderer _renderer; 
 
-    public ScreenFlash()
+    public static ScreenFlash CreateFlash()
     {
-        _renderer = Object.Instantiate(HudManager.Instance.FullScreen, HudManager.Instance.FullScreen.transform.parent);
-        _renderer.transform.localPosition = new Vector3(0, 0, -90f);
-        _renderer.sprite = TouAssets.ScreenFlash;
-        _renderer.color = Color.white;
+        var renderer = Instantiate(HudManager.Instance.FullScreen, HudManager.Instance.FullScreen.transform.parent);
+        renderer.transform.localPosition = new Vector3(0, 0, -90f);
+        renderer.sprite = TouAssets.ScreenFlash;
+        renderer.color = Color.white;
 
-        _screenFlashes.Add(this);
+        var flash = renderer.gameObject.AddComponent<ScreenFlash>();
+        flash._renderer = renderer;
 
-        SetActive(false);
-    }
+        _screenFlashes.Add(flash);
 
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
+        flash.SetActive(false);
+
+        return flash;
     }
 
     public static void Clear()
     {
-        _screenFlashes.Do(x => x.Destroy());
-        _screenFlashes.Clear();
+        _screenFlashes.ProcessAndClear(x => x.Destroy());
     }
 
     public bool IsActive()
@@ -62,14 +59,10 @@ public sealed class ScreenFlash : IDisposable
 
     public void Destroy()
     {
-        Dispose();
-    }
-
-    private void Dispose(bool disposing)
-    {
-        if (disposing && _renderer && _renderer.gameObject != null)
+        if (_renderer && _renderer.gameObject != null)
         {
-            Object.Destroy(_renderer.gameObject);
+            Destroy(_renderer.gameObject);
         }
+        _screenFlashes.Remove(this);
     }
 }

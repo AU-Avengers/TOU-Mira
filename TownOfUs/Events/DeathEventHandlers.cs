@@ -1,5 +1,4 @@
-﻿using HarmonyLib;
-using MiraAPI.Events;
+﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Player;
@@ -175,6 +174,6 @@ public static class DeathEventHandlers
         pva.XMark.gameObject.SetActive(false);
         pva.XMark.transform.localScale = Vector3.one;
 
-        MeetingMenu.Instances.Do(x => x.HideSingle(player.PlayerId));
+        MeetingMenu.HideSingleForAll(player.PlayerId);
     }
 }

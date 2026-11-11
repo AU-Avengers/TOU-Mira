@@ -1,6 +1,5 @@
 using System.Text;
 using AmongUs.GameOptions;
-using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -183,7 +182,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
         if (Player.AmOwner)
         {
-            meetingMenu = new MeetingMenu(
+            meetingMenu = MeetingMenu.CreateMenu(
                 this,
                 ClickGuess,
                 MeetingAbilityType.Click,
@@ -254,7 +253,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
         if (Player.AmOwner)
         {
-            meetingMenu?.Dispose();
+            meetingMenu?.Destroy();
             meetingMenu = null!;
         }
 
@@ -537,7 +536,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 {
                     OracleRole.RpcOracleBlessNotify(PlayerControl.LocalPlayer, oracleMod.Oracle, victim);
 
-                    MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
+                    MeetingMenu.HideSingleForAll(victim.PlayerId);
 
                     shapeMenu.Close();
 

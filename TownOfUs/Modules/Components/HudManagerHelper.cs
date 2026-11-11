@@ -301,16 +301,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         if (isActive)
         {
             HudManagerPatches.CamouflageCommsEnabled = true;
-
-            foreach (var fakePlayer in FakePlayer.FakePlayers)
-            {
-                fakePlayer.Camo();
-            }
-
-            foreach (var fakePlayer in StonedPlayer.FakePlayers)
-            {
-                fakePlayer.Camo();
-            }
+            BaseFakePlayer.CamoAll();
 
             CamouflageZiplineHands();
 
@@ -320,8 +311,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         if (HudManagerPatches.CamouflageCommsEnabled)
         {
             HudManagerPatches.CamouflageCommsEnabled = false;
-            FakePlayer.FakePlayers.Do(x => x.UnCamo());
-            StonedPlayer.FakePlayers.Do(x => x.UnCamo());
+            BaseFakePlayer.UnCamoAll();
         }
     }
 
