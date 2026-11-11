@@ -2995,4 +2995,7 @@
   <string name="TouOptionGhostwalkerVentSpawnEnumCrewmates">船员</string>
   <string name="TouOptionGhostwalkerVentSpawnEnumEvils">邪恶</string>
   <string name="TouOptionGhostwalkerVentSpawnEnumAll">全部</string>
+  <string name="TouOptionFairyGetMoreUsesFromCompletingTasks">完成任务可获得更多守护次数</string>
+  <string name="TouOptionMercenaryGetMoreUsesFromCompletingTasks">完成任务可获得更多守卫次数</string>
+  <string name="TouOptionSurvivorGetMoreUsesFromCompletingTasks">完成任务可获得更多防卫次数</string>
 </resources>
