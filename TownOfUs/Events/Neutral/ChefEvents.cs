@@ -112,7 +112,7 @@ public static class ChefEvents
         {
             return;
         }
-        var servings = ModifierUtils.GetActiveModifiers<ChefServedModifier>().Where(x => !x.HasFinished);
+        var servings = ModifierUtils.GetActiveModifiers<ChefServedModifier>().Where(x => !x.HasFinished).ToList();
         foreach (var serving in servings)
         {
             serving.StartTimer();

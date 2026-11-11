@@ -1,13 +1,6 @@
 using HarmonyLib;
-using MiraAPI.GameOptions;
-using MiraAPI.Utilities;
-using TownOfUs.Modules;
-using TownOfUs.Options;
-using TownOfUs.Options.Maps;
-using TownOfUs.Roles;
-using TownOfUs.Utilities.Appearances;
-using UnityEngine;
-using Action = Il2CppSystem.Action;
+using MiraAPI.Events;
+using TownOfUs.AnimationSystem.Events;
 
 namespace TownOfUs.Patches.Options;
 
@@ -15,119 +8,34 @@ namespace TownOfUs.Patches.Options;
 [HarmonyPatch]
 public static class KillOverlayPatch
 {
-    private static PlayerControl _lastKiller;
+    private static NetworkedPlayerInfo _lastKiller;
+    private static NetworkedPlayerInfo _lastVictim;
+    private static bool _toAlterLater;
     [HarmonyPrefix, HarmonyPatch(typeof(KillOverlay), nameof(KillOverlay.ShowKillAnimation), typeof(NetworkedPlayerInfo), typeof(NetworkedPlayerInfo))]
-    public static void ShowKillAnimation(NetworkedPlayerInfo killer, NetworkedPlayerInfo victim)
+    public static bool ShowKillAnimation(NetworkedPlayerInfo killer, NetworkedPlayerInfo victim)
     {
-        _lastKiller = killer.Object;
+        if (!GameManager.Instance)
+        {
+            return true;
+        }
+        _lastKiller = killer;
+        _lastVictim = victim;
+        var beforeAnimEvent = new BeforeKillAnimationEvent(victim, killer);
+        beforeAnimEvent.InvokeEvent();
+        _toAlterLater = beforeAnimEvent.ShouldAlterAnimationAfter;
+        return beforeAnimEvent.FinalAnimation == null;
     }
     
     [HarmonyPrefix, HarmonyPatch(typeof(OverlayKillAnimation), nameof(OverlayKillAnimation.Initialize))]
     public static bool KillAnimationPrefix(OverlayKillAnimation __instance, KillOverlayInitData initData)
     {
-        var obscureAnim = HudManagerPatches.CamouflageCommsEnabled &&
-                          OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamoKillScreens;
-        if (_lastKiller && _lastKiller.GetSignificantRole() is ICustomKillAnimRole customAnimRole &&
-            customAnimRole.ShouldOverrideKillAnim(__instance, initData, obscureAnim,
-                OptionGroupSingleton<GameMechanicOptions>.Instance.ShowInfoSensitiveKillAnimations.Value))
+        if (!GameManager.Instance)
         {
-            return false;
+            return true;
         }
+        var afterAnimEvent = new AfterKillAnimationEvent(_lastVictim, _lastKiller, __instance, initData, _toAlterLater);
+        afterAnimEvent.InvokeEvent();
 
-        if (obscureAnim)
-        {
-            __instance.initData = initData;
-            var outfit = new VisualAppearance(PlayerControl.LocalPlayer.GetDefaultAppearance(),
-                TownOfUsAppearances.Camouflage)
-            {
-                ColorId = PlayerControl.LocalPlayer.Data.DefaultOutfit.ColorId,
-                HatId = "hat_NoHat",
-                SkinId = "skin_None",
-                VisorId = "visor_EmptyVisor",
-                PlayerName = string.Empty,
-                PetId = "pet_EmptyPet",
-                NameVisible = false,
-                PlayerMaterialColor = Color.grey,
-            };
-            var killerAction = (Action)(() => { __instance.LoadKillerSkin(outfit); });
-            var victimAction = (Action)(() => { __instance.LoadVictimSkin(initData.victimOutfit); });
-            if (__instance.killerParts)
-            {
-                __instance.killerParts.SetBodyType(initData.killerBodyType);
-                __instance.killerParts.UpdateFromPlayerOutfit(outfit, PlayerMaterial.MaskType.None, false, false,
-                    killerAction, false);
-                __instance.killerParts.ToggleName(false);
-                __instance.LoadKillerPet(outfit);
-                var player = __instance.killerParts;
-                __instance.killerParts.cosmetics.currentBodySprite.BodySprite.color = outfit.RendererColor;
-                if (__instance.killerParts.cosmetics.GetLongBoi() != null)
-                {
-                    player.cosmetics.GetLongBoi().headSprite.color = outfit.RendererColor;
-                    player.cosmetics.GetLongBoi().neckSprite.color = outfit.RendererColor;
-                    player.cosmetics.GetLongBoi().foregroundNeckSprite.color = outfit.RendererColor;
-                }
-
-                if (outfit.PlayerMaterialColor != null)
-                {
-                    PlayerMaterial.SetColors((Color)outfit.PlayerMaterialColor,
-                        player.cosmetics.currentBodySprite.BodySprite);
-                    if (player.cosmetics.GetLongBoi() != null)
-                    {
-                        PlayerMaterial.SetColors((Color)outfit.PlayerMaterialColor,
-                            player.cosmetics.GetLongBoi().headSprite);
-                        PlayerMaterial.SetColors((Color)outfit.PlayerMaterialColor,
-                            player.cosmetics.GetLongBoi().neckSprite);
-                        PlayerMaterial.SetColors((Color)outfit.PlayerMaterialColor,
-                            player.cosmetics.GetLongBoi().foregroundNeckSprite);
-                    }
-                }
-
-                if (outfit.PlayerMaterialBackColor != null)
-                {
-                    // Ensure we're using instance materials to prevent shared material issues
-                    var bodyMaterial = player.cosmetics.currentBodySprite.BodySprite.material;
-                    bodyMaterial.SetColor(ShaderID.BackColor, (Color)outfit.PlayerMaterialBackColor);
-                    if (player.cosmetics.GetLongBoi() != null)
-                    {
-                        var headMaterial = player.cosmetics.GetLongBoi().headSprite.material;
-                        var neckMaterial = player.cosmetics.GetLongBoi().neckSprite.material;
-                        var foregroundNeckMaterial = player.cosmetics.GetLongBoi().foregroundNeckSprite.material;
-                        headMaterial.SetColor(ShaderID.BackColor, (Color)outfit.PlayerMaterialBackColor);
-                        neckMaterial.SetColor(ShaderID.BackColor, (Color)outfit.PlayerMaterialBackColor);
-                        foregroundNeckMaterial.SetColor(ShaderID.BackColor, (Color)outfit.PlayerMaterialBackColor);
-                    }
-                }
-
-                if (outfit.PlayerMaterialVisorColor != null)
-                {
-                    player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor,
-                        (Color)outfit.PlayerMaterialVisorColor);
-                    if (player.cosmetics.GetLongBoi() != null)
-                    {
-                        player.cosmetics.GetLongBoi().headSprite.material.SetColor(ShaderID.VisorColor,
-                            (Color)outfit.PlayerMaterialVisorColor);
-                        player.cosmetics.GetLongBoi().neckSprite.material.SetColor(ShaderID.VisorColor,
-                            (Color)outfit.PlayerMaterialVisorColor);
-                        player.cosmetics.GetLongBoi().foregroundNeckSprite.material.SetColor(ShaderID.VisorColor,
-                            (Color)outfit.PlayerMaterialVisorColor);
-                    }
-                }
-            }
-
-            if (initData.victimOutfit != null && __instance.victimParts)
-            {
-                __instance.victimHat = initData.victimOutfit.HatId;
-                __instance.victimParts.SetBodyType(initData.victimBodyType);
-                __instance.victimParts.UpdateFromPlayerOutfit(initData.victimOutfit, PlayerMaterial.MaskType.None,
-                    false, false, victimAction, false);
-                __instance.victimParts.SetHatLeftFacingVictim(__instance.leftFacingVictim);
-                __instance.victimParts.ToggleName(false);
-                __instance.LoadVictimPet(initData.victimOutfit);
-            }
-
-            return false;
-        }
-
-        return true;
+        return !afterAnimEvent.IsCancelled;
     }
 }

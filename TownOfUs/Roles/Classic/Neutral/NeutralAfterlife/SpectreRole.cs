@@ -131,15 +131,10 @@ public sealed class SpectreRole(IntPtr cppPtr)
     {
         Setup = true;
 
-        if (HudManagerPatches.CamouflageCommsEnabled)
-        {
-            Player.SetCamouflage(false);
-        }
+        ResetBodyState(true);
 
         var textlog = $"Setup SpectreRole: '{Player.Data.PlayerName}'";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
-
-        Player.gameObject.layer = LayerMask.NameToLayer("Players");
 
         Player.gameObject.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
         Player.gameObject.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Player.OnClick()));
@@ -156,12 +151,6 @@ public sealed class SpectreRole(IntPtr cppPtr)
             {
                 Player.SpawnAtRandomVent();
             }
-            Player.MyPhysics.ResetMoveState();
-
-            HudManager.Instance.SetHudActive(false);
-            HudManager.Instance.SetHudActive(true);
-            HudManager.Instance.AbilityButton.SetDisabled();
-            HudManagerPatches.ResetZoom();
         }
     }
 
@@ -174,14 +163,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
         }
         else if (Faded)
         {
-            Player.ResetAppearance();
-            Player.cosmetics.ToggleNameVisible(true);
-
-            Player.cosmetics.currentBodySprite.BodySprite.color = Color.white;
-            Player.gameObject.layer = LayerMask.NameToLayer("Ghost");
-            Player.MyPhysics.ResetMoveState();
-
-            Faded = false;
+            ResetBodyState(false);
         }
     }
 
@@ -201,7 +183,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Message, textlog);
 
         Caught = true;
-        Player.Exiled();
+        ResetBodyState(false);
 
         if (Player.AmOwner)
         {
@@ -209,6 +191,40 @@ public sealed class SpectreRole(IntPtr cppPtr)
         }
         GameHistory.PlayerStats[Player.PlayerId].DiedThisRound = false;
     }
+
+    public void ResetBodyState(bool isGhostwalking)
+    {
+        if (!isGhostwalking)
+        {
+            Player.ResetAppearance();
+            Player.cosmetics.ToggleNameVisible(true);
+
+            Player.cosmetics.currentBodySprite.BodySprite.color = Color.white;
+            Player.gameObject.layer = LayerMask.NameToLayer("Ghost");
+            Player.MyPhysics.ResetMoveState();
+
+            Faded = false;
+        }
+        else
+        {
+            if (HudManagerPatches.CamouflageCommsEnabled)
+            {
+                Player.SetCamouflage(false);
+            }
+
+            Player.gameObject.layer = LayerMask.NameToLayer("Players");
+            Player.MyPhysics.ResetMoveState();
+
+            if (Player.AmOwner)
+            {
+                HudManager.Instance.SetHudActive(false);
+                HudManager.Instance.SetHudActive(true);
+                HudManager.Instance.AbilityButton.SetDisabled();
+                HudManagerPatches.ResetZoom();
+            }
+        }
+    }
+    
 
     public string IdPart => "Spectre";
     public override string RoleName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
@@ -274,32 +290,17 @@ public sealed class SpectreRole(IntPtr cppPtr)
         {
             Setup = true;
 
-            if (HudManagerPatches.CamouflageCommsEnabled)
-            {
-                Player.SetCamouflage(false);
-            }
-
             Coroutines.Start(SetTutorialCollider(Player));
-
-            if (Player.AmOwner)
-            {
-                Player.MyPhysics.ResetMoveState();
-
-                HudManager.Instance.SetHudActive(false);
-                HudManager.Instance.SetHudActive(true);
-                HudManager.Instance.AbilityButton.SetDisabled();
-                HudManagerPatches.ResetZoom();
-            }
         }
 
         MiscUtils.AdjustGhostTasks(player);
     }
 
-    private static IEnumerator SetTutorialCollider(PlayerControl player)
+    private IEnumerator SetTutorialCollider(PlayerControl player)
     {
         yield return new WaitForSeconds(0.01f);
 
-        player.gameObject.layer = LayerMask.NameToLayer("Players");
+        ResetBodyState(true);
 
         player.gameObject.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
         player.gameObject.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => player.OnClick()));
@@ -312,14 +313,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
         TouRoleUtils.ClearTaskHeader(Player);
         if (TutorialManager.InstanceExists)
         {
-            Player.ResetAppearance();
-            Player.cosmetics.ToggleNameVisible(true);
-
-            Player.cosmetics.currentBodySprite.BodySprite.color = Color.white;
-            Player.gameObject.layer = LayerMask.NameToLayer("Ghost");
-            Player.MyPhysics.ResetMoveState();
-
-            Faded = false;
+            ResetBodyState(false);
         }
     }
 
@@ -395,7 +389,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
                         continue;
                     }
 
-                    var modifiers = p.GetModifiers<MisfortuneTargetModifier>();
+                    var modifiers = p.GetModifiers<MisfortuneTargetModifier>().ToList();
                     foreach (var mod in modifiers)
                     {
                         mod.RemoveSelf();

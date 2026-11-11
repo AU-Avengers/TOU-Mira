@@ -237,9 +237,11 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
             return false;
         }
 
+        var livingPlayers = Helpers.GetAlivePlayers().Where(x => !x.Data.Disconnected).ToList();
+        var otherLivingPlayers = livingPlayers.Where(x => x != Player).ToList();
+
         // Needed for the 1v1. The end check can run mid-kill, before TargetsDead is set, so read live state instead - Divani :)
-        if (Helpers.GetAlivePlayers().Contains(Player) && Helpers.GetAlivePlayers().Count <= 1 &&
-            Targets.Count > 0)
+        if (livingPlayers.Contains(Player) && livingPlayers.Count <= 1 && Targets.Count > 0)
         {
             return true;
         }
@@ -254,10 +256,8 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         {
             return false;
         }
-
-        var result = Helpers.GetAlivePlayers().Contains(Player) && Helpers.GetAlivePlayers().Count <= 2 &&
-                     MiscUtils.KillersAliveCount == 1;
-        return result;
+        
+        return livingPlayers.Contains(Player) && otherLivingPlayers.Count == 0;
     }
 
     [HideFromIl2Cpp]
@@ -327,7 +327,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         TouRoleUtils.ClearTaskHeader(Player);
         if (TutorialManager.InstanceExists && Player.AmOwner)
         {
-            var players = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>();
+            var players = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>().ToList();
             players.Do(x => x.RpcRemoveModifier<InquisitorHereticModifier>());
         }
 

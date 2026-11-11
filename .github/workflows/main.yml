@@ -109,9 +109,133 @@ jobs:
       - name: Push NuGet CI
         if: github.ref == 'refs/heads/dev'
         run: |
-          dotnet nuget push TownOfUs/bin/Release/TownOfUsMira.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+          dotnet nuget push TownOfUs/bin/Release/TownOfUsMira.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --skip-duplicate
           
       - name: Push NuGet Release
         if: github.ref_type == 'tag'
         run: |
-          dotnet nuget push TownOfUs/bin/Publish/TownOfUsMira.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+          dotnet nuget push TownOfUs/bin/Publish/TownOfUsMira.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --skip-duplicate
+
+      - name: Cache BepInEx and Reactor download
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: BepInEx
+          key: BepInEx-${{ hashFiles('**/packages.lock.json') }}
+
+      # This part below is taken from Submerged's workflow.
+      - name: Download BepInEx
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          BEPINEX_VERSION=752
+          curl -o build_page.html https://builds.bepinex.dev/projects/bepinex_be
+          ARCHIVE_NAME_X64=$(grep -o "BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.${BEPINEX_VERSION}+[^\"']*.zip" build_page.html)
+          ARCHIVE_NAME_X86=$(grep -o "BepInEx-Unity.IL2CPP-win-x86-6.0.0-be.${BEPINEX_VERSION}+[^\"']*.zip" build_page.html)
+          curl -o BepInEx_x64.zip https://builds.bepinex.dev/projects/bepinex_be/${BEPINEX_VERSION}/${ARCHIVE_NAME_X64}
+          curl -o BepInEx_x86.zip https://builds.bepinex.dev/projects/bepinex_be/${BEPINEX_VERSION}/${ARCHIVE_NAME_X86}
+          mkdir BepInEx
+          unzip BepInEx_x64.zip -d BepInEx/x64
+          unzip BepInEx_x86.zip -d BepInEx/x86
+          chmod -R u+rwx BepInEx
+          mkdir BepInEx/x64/BepInEx/config/
+          mkdir BepInEx/x64/CorsacCosmetics/
+          mkdir BepInEx/x64/CorsacCosmetics/Bundles/
+          mkdir BepInEx/x86/BepInEx/config/
+          mkdir BepInEx/x86/CorsacCosmetics/
+          mkdir BepInEx/x86/CorsacCosmetics/Bundles/
+
+      - name: Download and copy Mini's Region Install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          MINI_INSTALL_VER=v1.2.0
+          curl -L -o Mini.RegionInstall.dll https://github.com/miniduikboot/Mini.RegionInstall/releases/download/${MINI_INSTALL_VER}/Mini.RegionInstall.dll
+          cp Mini.RegionInstall.dll BepInEx/x64/BepInEx/plugins/Mini.RegionInstall.dll
+          cp Mini.RegionInstall.dll BepInEx/x86/BepInEx/plugins/Mini.RegionInstall.dll
+
+      - name: Download and copy Reactor
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          REACTOR_VER=2.5.1
+          curl -L -o Reactor.dll https://github.com/NuclearPowered/Reactor/releases/download/${REACTOR_VER}/Reactor.dll
+          cp Reactor.dll BepInEx/x64/BepInEx/plugins/Reactor.dll
+          cp Reactor.dll BepInEx/x86/BepInEx/plugins/Reactor.dll
+
+      - name: Download and copy MiraAPI
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          MIRA_API_VER=$(grep '<PackageReference Include="AllOfUs.MiraAPI"' AmongUsPublish.props | sed 's/.*Version="\([^"]*\)".*/\1/')
+          curl -L -o MiraAPI.dll https://github.com/All-Of-Us-Mods/MiraAPI/releases/download/${MIRA_API_VER}/MiraAPI.dll
+          cp MiraAPI.dll BepInEx/x64/BepInEx/plugins/MiraAPI.dll
+          cp MiraAPI.dll BepInEx/x86/BepInEx/plugins/MiraAPI.dll
+
+      - name: Download and copy AchievementsAPI
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          ACHIEVEMENTS_API_VER=v2.0.2
+          curl -L -o AchievementsAPI.dll https://github.com/am-clonec/AchievementsAPI/releases/download/${ACHIEVEMENTS_API_VER}/AchievementsAPI.dll
+          cp AchievementsAPI.dll BepInEx/x64/BepInEx/plugins/AchievementsAPI.dll
+          cp AchievementsAPI.dll BepInEx/x86/BepInEx/plugins/AchievementsAPI.dll
+
+      - name: Download and copy Corsac Cosmetics
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          ACHIEVEMENTS_API_VER=v2.0.2
+          curl -L -o CorsacCosmetics.dll https://github.com/XtraCube/CorsacCosmetics/releases/download/${ACHIEVEMENTS_API_VER}/CorsacCosmetics.dll
+          cp CorsacCosmetics.dll BepInEx/x64/BepInEx/plugins/CorsacCosmetics.dll
+          cp CorsacCosmetics.dll BepInEx/x86/BepInEx/plugins/CorsacCosmetics.dll
+
+      - name: Download and copy IL2CPP Interop Patcher
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          IL2_PATCH_VER=v1.0.0
+          curl -L -o Il2CppInteropGcFix.dll https://github.com/AU-Avengers/Il2CppInteropGcFix/releases/download/${ACHIEVEMENTS_API_VER}/Il2CppInteropGcFix.dll
+          cp Il2CppInteropGcFix.dll BepInEx/x64/BepInEx/patchers/Il2CppInteropGcFix.dll
+          cp Il2CppInteropGcFix.dll BepInEx/x86/BepInEx/patchers/Il2CppInteropGcFix.dll
+
+      - name: Replace BepInEx Configuration Files
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          cp -r BepInExPackData/config/* BepInEx/x64/BepInEx/config/
+          cp -r BepInExPackData/config/* BepInEx/x86/BepInEx/config/
+
+      - name: Download and copy Cosmetics Bundles
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+            curl -L -o cosmetics.zip https://github.com/AU-Avengers/TownOfUs-Cosmetics/archive/refs/heads/main.zip
+            unzip -q cosmetics.zip
+            cp -r TownOfUs-Cosmetics-main/Bundles BepInEx/x64/CorsacCosmetics/Bundles/
+            cp -r TownOfUs-Cosmetics-main/Bundles BepInEx/x86/CorsacCosmetics/Bundles/
+            rm -rf cosmetics.zip TownOfUs-Cosmetics-main
+
+      - name: Copy ToU Mira
+        if: github.ref_type == 'tag'
+        run: |
+          cp TownOfUs/bin/Publish/TownOfUsMira.dll BepInEx/x64/BepInEx/plugins/TownOfUsMira.dll
+          cp TownOfUs/bin/Publish/TownOfUsMira.dll BepInEx/x86/BepInEx/plugins/TownOfUsMira.dll
+
+      - name: Copy ToU Mira
+        if: github.ref_type != 'tag'
+        run: |
+          cp TownOfUs/bin/Release/TownOfUsMira.dll BepInEx/x64/BepInEx/plugins/TownOfUsMira.dll
+          cp TownOfUs/bin/Release/TownOfUsMira.dll BepInEx/x86/BepInEx/plugins/TownOfUsMira.dll
+
+      - name: Upload x64 mod archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: TouMira-x64-Steam-Epic-MsStore
+          path: BepInEx/x64
+
+      - name: Upload x86 mod archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: TouMira-x86-ItchIo
+          path: BepInEx/x86
+
+      - uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          draft: true
+          files: |
+            TownOfUs/bin/Publish/TownOfUsMira.dll
+            TownOfUs/bin/Publish/TownOfUsMira-Android.dll
+            TownOfUs/bin/Publish/TownOfUsMira-iOS.dll

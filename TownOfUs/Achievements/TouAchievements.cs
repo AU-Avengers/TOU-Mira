@@ -100,7 +100,7 @@ public static class TouAchievements
         "Win a 1 in 292,000,000 roll. Seriously, go buy a lottery ticket.", TouAchAssets.LuckyDice,
         rarity: 3, hidden: true, tags: [ "Hidden", "Luck", "Meme" ]);
 
-    public static readonly AchievementSpec PartyOfTwo = Define("No You",
+    public static readonly AchievementSpec PartyOfTwo = Define("Party Of Two",
         "Serve a drink to the player who served you one in the same round.", TouAchAssets.PartyOfTwo,
         rarity: 1, tags: [ "Barkeeper", "Bootlegger", "Roleblock", "Drink" ]);
 

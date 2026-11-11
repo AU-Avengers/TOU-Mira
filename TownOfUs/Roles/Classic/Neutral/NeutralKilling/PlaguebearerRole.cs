@@ -129,9 +129,9 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
     public void ClearNonCurrentInfections()
     {
         // If these aren't cleared, then the plaguebearer will be unable to transform properly.
-        var badInfections = ModifierUtils.GetActiveModifiers<PlaguebearerInfectedModifier>().Where([HideFromIl2Cpp] (x) => x.PlagueBearerId != Player.PlayerId);
+        var badInfections = ModifierUtils.GetActiveModifiers<PlaguebearerInfectedModifier>().Where([HideFromIl2Cpp] (x) => x.PlagueBearerId != Player.PlayerId).ToList();
 
-        if (badInfections.Any())
+        if (badInfections.Count == 0)
         {
             return;
         }
@@ -198,6 +198,10 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
     public static void CheckInfected(PlayerControl source, PlayerControl target)
     {
+        if (!source || !target)
+        {
+            return;
+        }
         var sourceInfection = source.TryGetModifier<PlaguebearerInfectedModifier>(out var sourceMod) ? sourceMod : null;
         var targetInfection = target.TryGetModifier<PlaguebearerInfectedModifier>(out var targetMod) ? targetMod : null;
         var sourcePb = source.Data.Role is PlaguebearerRole;

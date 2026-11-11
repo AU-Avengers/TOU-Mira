@@ -9,6 +9,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Events.Impostor;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Impostor;
@@ -684,6 +685,10 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         if (toKillPlayer)
         {
             new TouAbilityEvent(AbilityType.ParasiteKill, parasite, target).InvokeEvent();
+            if (target.AmOwner && !MeetingHud.Instance)
+            {
+                ParasiteEvents.NextKillFromParasite = true;
+            }
             CustomTouMurderRpcs.Indirect(parasite, target, MeetingCheck.Ignore, true, true, true,
                 true, !MeetingHud.Instance, false, !MeetingHud.Instance, !MeetingHud.Instance, "Parasite");
         }

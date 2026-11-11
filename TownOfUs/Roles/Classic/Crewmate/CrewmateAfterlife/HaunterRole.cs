@@ -109,15 +109,10 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
     {
         Setup = true;
 
-        if (HudManagerPatches.CamouflageCommsEnabled)
-        {
-            Player.SetCamouflage(false);
-        }
+        ResetBodyState(true);
 
         var text = $"Setup HaunterRole '{Player.Data.PlayerName}'";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, text);
-
-        Player.gameObject.layer = LayerMask.NameToLayer("Players");
 
         Player.gameObject.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
         Player.gameObject.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Player.OnClick()));
@@ -134,12 +129,6 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             {
                 Player.SpawnAtRandomVent();
             }
-            Player.MyPhysics.ResetMoveState();
-
-            HudManager.Instance.SetHudActive(false);
-            HudManager.Instance.SetHudActive(true);
-            HudManager.Instance.AbilityButton.SetDisabled();
-            HudManagerPatches.ResetZoom();
         }
     }
 
@@ -152,16 +141,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         }
         else if (Faded)
         {
-            Player.ResetAppearance();
-            Player.cosmetics.ToggleNameVisible(true);
-
-            Player.cosmetics.currentBodySprite.BodySprite.color = Color.white;
-            Player.gameObject.layer = LayerMask.NameToLayer("Ghost");
-            Player.MyPhysics.ResetMoveState();
-
-            Faded = false;
-
-            // Message($"HaunterRole.FadeUpdate UnFaded");
+            ResetBodyState(false);
         }
     }
 
@@ -181,7 +161,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Message, text);
 
         Caught = true;
-        Player.Exiled();
+        ResetBodyState(false);
 
         if (Player.AmOwner)
         {
@@ -195,6 +175,39 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         }
 
         GameHistory.PlayerStats[Player.PlayerId].DiedThisRound = false;
+    }
+
+    public void ResetBodyState(bool isGhostwalking)
+    {
+        if (!isGhostwalking)
+        {
+            Player.ResetAppearance();
+            Player.cosmetics.ToggleNameVisible(true);
+
+            Player.cosmetics.currentBodySprite.BodySprite.color = Color.white;
+            Player.gameObject.layer = LayerMask.NameToLayer("Ghost");
+            Player.MyPhysics.ResetMoveState();
+
+            Faded = false;
+        }
+        else
+        {
+            if (HudManagerPatches.CamouflageCommsEnabled)
+            {
+                Player.SetCamouflage(false);
+            }
+
+            Player.gameObject.layer = LayerMask.NameToLayer("Players");
+            Player.MyPhysics.ResetMoveState();
+
+            if (Player.AmOwner)
+            {
+                HudManager.Instance.SetHudActive(false);
+                HudManager.Instance.SetHudActive(true);
+                HudManager.Instance.AbilityButton.SetDisabled();
+                HudManagerPatches.ResetZoom();
+            }
+        }
     }
 
     public string IdPart => "Haunter";
@@ -245,25 +258,9 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         if (TutorialManager.InstanceExists)
         {
             Setup = true;
-
-            if (HudManagerPatches.CamouflageCommsEnabled)
-            {
-                Player.SetCamouflage(false);
-            }
-
             Coroutines.Start(SetTutorialCollider(Player));
-
-            if (Player.AmOwner)
-            {
-                Player.MyPhysics.ResetMoveState();
-
-                HudManager.Instance.SetHudActive(false);
-                HudManager.Instance.SetHudActive(true);
-                HudManager.Instance.AbilityButton.SetDisabled();
-                HudManagerPatches.ResetZoom();
-                // var dangerMeter = GameManagerCreator.Instance.HideAndSeekManagerPrefab.LogicDangerLevel.dangerMeter;
-                // ImpostorMeter = UnityEngine.Object.Instantiate(dangerMeter, HudManager.Instance.transform.parent);
-            }
+            // var dangerMeter = GameManagerCreator.Instance.HideAndSeekManagerPrefab.LogicDangerLevel.dangerMeter;
+            // ImpostorMeter = UnityEngine.Object.Instantiate(dangerMeter, HudManager.Instance.transform.parent);
         }
 
         MiscUtils.AdjustGhostTasks(player);
@@ -293,10 +290,11 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         dangerLevel2 = Mathf.Clamp01((veryScaryMusicDistance - num) / veryScaryMusicDistance);
         ImpostorMeter.SetDangerValue(dangerLevel1, dangerLevel2);
     } */
-    private static IEnumerator SetTutorialCollider(PlayerControl player)
+    private IEnumerator SetTutorialCollider(PlayerControl player)
     {
         yield return new WaitForSeconds(0.01f);
-        player.gameObject.layer = LayerMask.NameToLayer("Players");
+
+        ResetBodyState(true);
 
         player.gameObject.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
         player.gameObject.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => player.OnClick()));
@@ -308,14 +306,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         if (TutorialManager.InstanceExists)
         {
-            Player.ResetAppearance();
-            Player.cosmetics.ToggleNameVisible(true);
-
-            Player.cosmetics.currentBodySprite.BodySprite.color = Color.white;
-            Player.gameObject.layer = LayerMask.NameToLayer("Ghost");
-            Player.MyPhysics.ResetMoveState();
-
-            Faded = false;
+            ResetBodyState(false);
         }
         /* if (Player.AmOwner)
         {
@@ -398,7 +389,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                         continue;
                     }
 
-                    var modifiers = p.GetModifiers<HaunterArrowModifier>([HideFromIl2Cpp] (mod) => mod.Owner == Player || mod.Player == Player);
+                    var modifiers = p.GetModifiers<HaunterArrowModifier>([HideFromIl2Cpp] (mod) => mod.Owner == Player || mod.Player == Player).ToList();
                     foreach (var mod in modifiers)
                     {
                         mod.RemoveSelf();

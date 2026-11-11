@@ -4,6 +4,8 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;
+using TownOfUs.Events.Impostor;
+using TownOfUs.Events.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modules;
@@ -25,6 +27,9 @@ public static class LobbyBehaviourPatches
     [SuppressMessage("Critical Code Smell", "S1215:\"GC.Collect\" should not be called", Justification = "Used to prevent lag.")]
     public static void LobbyStartPatch()
     {
+        PuppeteerEvents.CanPuppeteerMove = true;
+        ParasiteEvents.NextKillFromParasite = false;
+        LoverEvents.NextKillFromLovers = false;
         NoisemakerModifier.ActiveNoisemakerTriggers.Clear();
         CustomTouMurderRpcs.StoredKillAnimations = [];
         HaunterRole.ResetReveals();

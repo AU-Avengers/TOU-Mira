@@ -27,6 +27,10 @@ public static class PlayerJoinPatch
 
     internal static void Postfix()
     {
+        SpectatorRole.TrackedSpectators.Clear();
+        SpectatorRole.TrackedPlayers.Clear();
+        SpectatorRole.FixedCam = false;
+
         TouKeybinds.ZoomIn.OnActivate(() =>
         {
             Zoom(false);

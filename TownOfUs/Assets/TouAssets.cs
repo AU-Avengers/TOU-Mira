@@ -190,6 +190,9 @@ public static class TouAssets
     public static LoadableAsset<GameObject> AmbushPrefab { get; } =
         new LoadableBundleAsset<GameObject>("Ambush", MainBundle);
 
+    public static LoadableAsset<GameObject> AmbushKillOverlayPrefab { get; } =
+        new LoadableBundleAsset<GameObject>("AmbushKillOverlay", MainBundle);
+
     public static LoadableAsset<GameObject> EscapistMarkPrefab { get; } =
         new LoadableBundleAsset<GameObject>("EscapistMark", MainBundle);
 
@@ -198,6 +201,9 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> MinerVentSprite { get; } =
         new LoadableBundleAsset<Sprite>("MinerVent", MainBundle);
+
+    public static LoadableAsset<GameObject> MinerVentPrefab { get; } =
+        new LoadableBundleAsset<GameObject>("MinerVent", MainBundle);
 
     public static LoadableAsset<GameObject> MeetingDeathPrefab { get; } =
         new LoadableBundleAsset<GameObject>("DeathAnimation", MainBundle);

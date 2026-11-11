@@ -161,10 +161,10 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
 
             var kickPlayer = false;
 
-            var cheatMods = newModDictionary.Where(mod => blacklist.Any(x => mod.Contains(x, StringComparison.OrdinalIgnoreCase)));
+            var cheatMods = newModDictionary.Where(mod => blacklist.Any(x => mod.Contains(x, StringComparison.OrdinalIgnoreCase))).ToList();
             var playerInfo = GameData.Instance.GetPlayerById(client.PlayerId);
 
-            if (cheatMods.Any() && OptionGroupSingleton<HostSpecificOptions>.Instance.KickCheatMods)
+            if (cheatMods.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.KickCheatMods.Value)
             {
                 var chatMessageBuilder = new StringBuilder();
                 chatMessageBuilder.Append(MiraLocaleManager.Get("AnticheatKickChatMessage").Replace("<player>", client.Data.PlayerName));
