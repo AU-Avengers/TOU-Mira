@@ -389,7 +389,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
                         continue;
                     }
 
-                    var modifiers = p.GetModifiers<MisfortuneTargetModifier>();
+                    var modifiers = p.GetModifiers<MisfortuneTargetModifier>().ToList();
                     foreach (var mod in modifiers)
                     {
                         mod.RemoveSelf();

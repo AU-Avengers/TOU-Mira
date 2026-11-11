@@ -26,7 +26,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Lover,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Lover,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Lover.LoadAsset(),
             "TouMira.Modifier.Alliance.Lover", 1.45f));
     public override string IdPart => "Lover";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -67,9 +67,9 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
     public PlayerControl? OtherLover { get; set; }
 
     public override int CustomAmount =>
-        OptionGroupSingleton<AllianceModifierOptions>.Instance.LoversChance != 0 ? 2 : 0;
+        (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.LoversChance.Value != 0 ? 2 : 0;
 
-    public override int CustomChance => OptionGroupSingleton<AllianceModifierOptions>.Instance.LoversChance;
+    public override int CustomChance => (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.LoversChance.Value;
     public int Priority { get; set; } = 4;
 
     public void AssignTargets()
@@ -79,7 +79,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
             return;
         }
 
-        foreach (var lover in PlayerControl.AllPlayerControls.Where(x => x.HasModifier<LoverModifier>()))
+        foreach (var lover in PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>()))
         {
             lover.RpcRemoveModifier<LoverModifier>();
         }
@@ -87,15 +87,16 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         Random rnd = new();
         var chance = rnd.Next(1, 101);
 
-        if (chance <= OptionGroupSingleton<AllianceModifierOptions>.Instance.LoversChance)
+        if (chance <= (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.LoversChance.Value)
         {
             var loveOpt = OptionGroupSingleton<LoversOptions>.Instance;
-            var impTargetPercent = loveOpt.LovingImpPercent;
+            var impTargetPercent = (int)loveOpt.LovingImpPercent;
 
-            var players = PlayerControl.AllPlayerControls.Where(x => !x.HasDied() && !x.HasModifier<ExecutionerTargetModifier>() &&
+            var players = PlayerControl.AllPlayerControls.ToArray()
+                .Where(x => !x.HasDied() && !x.HasModifier<ExecutionerTargetModifier>() &&
                             !x.HasModifier<AllianceGameModifier>() &&
-                            !SpectatorRole.TrackedSpectators.Contains(x.GetBestPlayerDenomination()) &&
-                            (x.Data.Role is not IUnlovable { IsUnlovable: true }) && (loveOpt.NeutralLovers || !x.IsNeutral())).ToList();
+                            !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName) &&
+                            (x.Data.Role is not IUnlovable unlovable || !unlovable.IsUnlovable) && (loveOpt.NeutralLovers || !x.IsNeutral())).ToList();
             players.Shuffle();
 
             Random rndIndex1 = new();
@@ -167,7 +168,6 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
     public override void OnActivate()
     {
-        base.OnActivate();
         if (!Player.AmOwner)
         {
             return;
@@ -175,7 +175,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
         HudManager.Instance.Chat.gameObject.SetActive(true);
         var buttonArray = new []
-            { TouChatAssets.LoveChatIdle, TouChatAssets.LoveChatHover, TouChatAssets.LoveChatOpen};
+            { TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()};
         HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
         HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
         HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = buttonArray[2];
@@ -191,8 +191,9 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         yield return new WaitForSeconds(0.01f);
         var impTargetPercent = (int)OptionGroupSingleton<LoversOptions>.Instance.LovingImpPercent;
 
-        var players = PlayerControl.AllPlayerControls.Where(x => !x.HasDied() && !x.HasModifier<ExecutionerTargetModifier>() &&
-                        (x.Data.Role is not IUnlovable { IsUnlovable: true })).ToList();
+        var players = PlayerControl.AllPlayerControls.ToArray()
+            .Where(x => !x.HasDied() && !x.HasModifier<ExecutionerTargetModifier>() &&
+                        (x.Data.Role is not IUnlovable unlovable || !unlovable.IsUnlovable)).ToList();
         players.Shuffle();
 
         players.Remove(localPlr);
@@ -259,7 +260,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         HudManager.Instance.Chat.gameObject.SetActive(false);
         if (TutorialManager.InstanceExists)
         {
-            var players = ModifierUtils.GetPlayersWithModifier<LoverModifier>();
+            var players = ModifierUtils.GetPlayersWithModifier<LoverModifier>().ToList();
             players.Do(x => x.RpcRemoveModifier<LoverModifier>());
         }
     }
@@ -274,8 +275,8 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
         var buttonArray = new Sprite[]
         {
-            TouChatAssets.NormalChatIdle, TouChatAssets.NormalChatHover,
-            TouChatAssets.NormalChatOpen
+            TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(),
+            TouChatAssets.NormalChatOpen.LoadAsset()
         };
         HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
             buttonArray[0];
@@ -332,7 +333,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
         HudManager.Instance.Chat.SetVisible(true);
         var buttonArray = new []
-                { TouChatAssets.LoveChatIdle, TouChatAssets.LoveChatHover, TouChatAssets.LoveChatOpen};
+                { TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()};
         HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
         HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
         HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = buttonArray[2];
@@ -355,7 +356,8 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
         if (clearExisting)
         {
-            foreach (var player in PlayerControl.AllPlayerControls.Where(x => x != null && x.HasModifier<LoverModifier>()))
+            foreach (var player in PlayerControl.AllPlayerControls.ToArray()
+                         .Where(x => x != null && x.HasModifier<LoverModifier>()))
             {
                 player.RpcRemoveModifier<LoverModifier>();
             }
@@ -368,7 +370,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
     [MethodRpc((uint)TownOfUsRpc.SetOtherLover)]
     private static void RpcSetOtherLover(PlayerControl player, PlayerControl target)
     {
-        if (PlayerControl.AllPlayerControls.Any(x => x.HasModifier<LoverModifier>()))
+        if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.HasModifier<LoverModifier>()))
         {
             Error("RpcSetOtherLover - Lovers Already Spawned!");
             return;

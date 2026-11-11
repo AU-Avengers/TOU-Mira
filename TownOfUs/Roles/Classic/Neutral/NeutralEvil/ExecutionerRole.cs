@@ -222,7 +222,8 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
         if (TutorialManager.InstanceExists && Player.AmOwner)
         {
             var players = ModifierUtils
-                .GetPlayersWithModifier<ExecutionerTargetModifier>([HideFromIl2Cpp](x) => x.OwnerId == Player.PlayerId);
+                .GetPlayersWithModifier<ExecutionerTargetModifier>([HideFromIl2Cpp](x) => x.OwnerId == Player.PlayerId)
+                .ToList();
             players.Do(x => x.RpcRemoveModifier<ExecutionerTargetModifier>());
         }
 

@@ -2,6 +2,7 @@ using Hazel;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Extensions;
 using Reactor.Networking.Rpc;
+using TownOfUs.Events.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Modules.ControlSystem;
 using UnityEngine;
@@ -49,7 +50,7 @@ internal sealed class PuppeteerInputUnreliableRpc(TownOfUsPlugin plugin, uint id
             return;
         }
 
-        if (TimeLordRewindSystem.IsRewinding)
+        if (TimeLordRewindSystem.IsRewinding || PuppeteerEvents.CanPuppeteerMove)
         {
             return;
         }

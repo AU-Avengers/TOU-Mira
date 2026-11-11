@@ -135,7 +135,7 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
     public override void OnEffectEnd()
     {
         var selfMods = PlayerControl.LocalPlayer.GetModifierComponent()?.ActiveModifiers
-            .Where(mod => mod is IVenererModifier && mod is not VenererFreezeModifier);
+            .Where(mod => mod is IVenererModifier && mod is not VenererFreezeModifier).ToList();
 
         if (selfMods != null)
         {
@@ -145,7 +145,7 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
             }
         }
 
-        var freezes = ModifierUtils.GetActiveModifiers<VenererFreezeModifier>(x => x.Venerer == PlayerControl.LocalPlayer);
+        var freezes = ModifierUtils.GetActiveModifiers<VenererFreezeModifier>(x => x.Venerer == PlayerControl.LocalPlayer).ToList();
         foreach (var freeze in freezes)
         {
             freeze.Player.RpcRemoveModifier(freeze.UniqueId);

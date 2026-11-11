@@ -76,7 +76,7 @@ public static class MultiplayerFreeplayDebugState
             var modComp = player.GetModifierComponent();
             if (modComp != null)
             {
-                foreach (var mod in player.GetModifiers<BaseModifier>())
+                foreach (var mod in player.GetModifiers<BaseModifier>().ToList())
                 {
                     mod.RemoveSelf();
                 }

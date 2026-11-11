@@ -4,7 +4,12 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using TownOfUs.AnimationSystem;
+using TownOfUs.AnimationSystem.Events;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules;
+using TownOfUs.Networking;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 
@@ -12,6 +17,16 @@ namespace TownOfUs.Events.Neutral;
 
 public static class ArsonistEvents
 {
+    [RegisterEvent]
+    public static void BeforeKillAnim(BeforeKillAnimationEvent @event)
+    {
+        if (!OptionGroupSingleton<GameMechanicOptions>.Instance.ShowInfoSensitiveKillAnimations.Value || @event.Killer?.Object?.GetSignificantRole() is not ArsonistRole)
+        {
+            return;
+        }
+        @event.FinalAnimation = KillAnimationHelpers.GetAndDisplayGenericKillAnim(HudManager.Instance.KillOverlay,
+            @event.Killer, @event.Victim, ExtendedKillAnimType.RHM);
+    }
     [RegisterEvent]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {

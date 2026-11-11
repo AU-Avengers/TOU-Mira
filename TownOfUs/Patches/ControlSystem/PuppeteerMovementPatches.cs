@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using MiraAPI.Modifiers;
 using Reactor.Networking.Rpc;
+using TownOfUs.Events.Impostor;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Modules.ControlSystem;
@@ -25,7 +26,7 @@ public static class PuppeteerMovementPatches
 
     private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir, Vector2 position, Vector2 velocity)
     {
-        if (!PlayerControl.LocalPlayer)
+        if (!PlayerControl.LocalPlayer || !PuppeteerEvents.CanPuppeteerMove)
         {
             return;
         }

@@ -319,10 +319,10 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             var roles = MiscUtils.GetPotentialRoles().Where(x => (x is not IDoomable { DoomHintType: not DoomableType.Default } ||
                 x is not IUnguessable) && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).ToList();
 
-            var allRoles = MiscUtils.AllRoles.Where(x => (x is not IDoomable { DoomHintType: not DoomableType.Default } ||
-                x is not IUnguessable) && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).Where(x => x is IGuessable && !roles.Contains(x));
+            var allRoles = MiscUtils.AllRoles.Where(x => (x is IDoomable doomRole && doomRole.DoomHintType == DoomableType.Default &&
+                x is not IUnguessable || x is not IDoomable) && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).Where(x => x is IGuessable && !roles.Contains(x)).ToList();
 
-            if (allRoles.Any())
+            if (allRoles.Count > 0)
             {
                 foreach (var addedRole in allRoles)
                 {
@@ -340,9 +340,9 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 roles = MiscUtils.GetPotentialRoles().Where(x => x is IDoomable { DoomHintType: var doomHint } && doomHint == hintType &&
                     x is not IUnguessable && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).ToList();
 
-                allRoles = MiscUtils.AllRoles.Where(x => x is IDoomable { DoomHintType: var doomHint } && doomHint == hintType &&
-                                                               x is not IUnguessable && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).Where(x => x is IGuessable && !roles.Contains(x));
-                if (allRoles.Any())
+                allRoles = MiscUtils.AllRoles.Where(x => x is IDoomable doomRole && doomRole.DoomHintType == hintType &&
+                                                               x is not IUnguessable && !x.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(x)).Where(x => x is IGuessable && !roles.Contains(x)).ToList();
+                if (allRoles.Count > 0)
                 {
                     foreach (var addedRole in allRoles)
                     {

@@ -30,7 +30,6 @@ public static class LoverEvents
         {
             @event.FinalAnimation = SuffocateKillAnimation.CreateKillAnimation(@event.Killer, @event.Victim);
             @event.ShouldAlterAnimationAfter = false;
-            @event.Cancel();
         }
 
         NextKillFromLovers = false;
