@@ -52,7 +52,7 @@ public abstract class PolusBaseNeutRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), 
     {
         RoleHintType = RoleHintType.None,
         AssociatedGameMode = typeof(TownOfPolusMode),
-        GhostRole = (RoleTypes)RoleId.Get<PolusGhostNeutRole>(),
+        GhostRole = RoleId.GetType<PolusGhostNeutRole>(),
         FreeplayFolder = "Town of Polus",
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconNeutralAlign, "TownOfPolus.Role.Neutral.Neutral", 1.45f),
         Icon = PolusGgAssets.IconNeutralAlign

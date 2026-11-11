@@ -7,7 +7,7 @@ using UnityEngine;
 namespace TownOfUs.Modifiers;
 
 // This is intended to be used for roles such as Snitch or Mayor
-// for getting the role, use this: RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ImitatorRole>())
+// for getting the role, use this: RoleId.GetRole<ImitatorRole>()
 [MiraIgnore]
 public abstract class RevealModifier(int roleChangeResult, bool revealRole, RoleBehaviour? role) : BaseRevealModifier
 {

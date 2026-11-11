@@ -22,7 +22,7 @@ namespace TownOfUs.Roles.Impostor;
 
 public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VigilanteRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<VigilanteRole>();
     public DoomableType DoomHintType => DoomableType.Insight;
     public string IdPart => "Ambassador";
 

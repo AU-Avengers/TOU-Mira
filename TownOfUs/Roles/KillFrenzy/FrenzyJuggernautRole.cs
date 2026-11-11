@@ -57,7 +57,7 @@ public sealed class FrenzyJuggernautRole(IntPtr cppPtr) : FrenzyRole(cppPtr), IT
     public CustomRoleConfiguration Configuration => new(this)
     {
         AssociatedGameMode = typeof(KillFrenzyMode),
-        GhostRole = (RoleTypes)RoleId.Get<FrenzyGhostRole>(),
+        GhostRole = RoleId.GetType<FrenzyGhostRole>(),
         FreeplayFolder = "Kill Frenzy",
         CanUseVent = false,
         IntroSound = TouAudio.WarlockIntroSound,

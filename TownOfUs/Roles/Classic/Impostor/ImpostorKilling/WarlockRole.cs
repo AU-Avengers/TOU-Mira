@@ -11,7 +11,7 @@ namespace TownOfUs.Roles.Impostor;
 public sealed class WarlockRole(IntPtr cppPtr)
     : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VeteranRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<VeteranRole>();
     public DoomableType DoomHintType => DoomableType.Relentless;
     public string IdPart => "Warlock";
     public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";

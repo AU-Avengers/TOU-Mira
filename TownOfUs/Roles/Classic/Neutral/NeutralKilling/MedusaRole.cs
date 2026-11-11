@@ -24,7 +24,7 @@ public sealed class MedusaRole(IntPtr cppPtr)
     }
 
     public static bool AutoPlaceFakePlayers => true;
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MediumRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<MediumRole>();
     public DoomableType DoomHintType => DoomableType.Death;
     public string IdPart => "Medusa";
     public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
@@ -70,7 +70,7 @@ public sealed class MedusaRole(IntPtr cppPtr)
         IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.Medusa,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
-        GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
+        GhostRole = RoleId.GetType<NeutralGhostRole>()
     };
 
     public bool HasImpostorVision => true;

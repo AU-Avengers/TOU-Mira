@@ -31,7 +31,7 @@ public class PolusSerialKillerRole(IntPtr cppPtr) : PolusBaseNeutRole(cppPtr), I
     {
         RoleHintType = RoleHintType.None,
         AssociatedGameMode = typeof(TownOfPolusMode),
-        GhostRole = (RoleTypes)RoleId.Get<PolusGhostNeutRole>(),
+        GhostRole = RoleId.GetType<PolusGhostNeutRole>(),
         FreeplayFolder = "Town of Polus",
         CanUseVent = false,
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconSerialKiller, "TownOfPolus.Role.Neutral.SerialKiller", 1.45f),

@@ -13,7 +13,7 @@ public static class EnsureSpecAlwaysInvis
     {
         if (value)
         {
-            value &= !__instance.Is((RoleTypes)RoleId.Get<SpectatorRole>());
+            value &= !__instance.Is(RoleId.GetType<SpectatorRole>());
         }
     }
 }

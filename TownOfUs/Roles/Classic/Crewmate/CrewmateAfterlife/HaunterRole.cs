@@ -30,7 +30,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
     [HideFromIl2Cpp]
     public List<PlayerControl> GetAvailableGhosts(List<PlayerControl> basicGhosts, PlayerControl? exiled)
     {
-        var haunterData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<HaunterRole>());
+        var haunterData = MiscUtils.GetAssignData(RoleId.GetType<HaunterRole>());
 
         if (CustomRoleUtils.GetActiveRoles().OfType<HaunterRole>().Count() < haunterData.Count)
         {

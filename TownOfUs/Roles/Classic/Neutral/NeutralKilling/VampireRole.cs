@@ -36,7 +36,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
         orCreateTask.name = "NeutralRoleText";
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SeerRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<SeerRole>();
     public DoomableType DoomHintType => DoomableType.Death;
     public string YouAreText => MiraLocaleManager.Get("YouAreA");
     public string YouWereText => MiraLocaleManager.Get("YouWereA");
@@ -79,7 +79,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
         IntroSound = TouAudio.VampIntroSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
         Icon = TouRoleIcons.Vampire,
-        GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
+        GhostRole = RoleId.GetType<NeutralGhostRole>(),
         MaxRoleCount = 1
     };
 

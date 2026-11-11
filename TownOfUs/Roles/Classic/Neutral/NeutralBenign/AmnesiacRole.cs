@@ -37,7 +37,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         orCreateTask.name = "NeutralRoleText";
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MysticRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<MysticRole>();
     public DoomableType DoomHintType => DoomableType.Death;
     public string IdPart => "Amnesiac";
     public string RoleMedDescriptionLocale => $"TownOfUsMira.Role.{IdPart}.TabDescription";
@@ -73,10 +73,10 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
     // This is so the role can be guessed without requiring it to be enabled normally
     public bool CanBeGuessed =>
         (MiscUtils.GetPotentialRoles()
-             .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<FairyRole>())) &&
+             .Contains(RoleId.GetRole<FairyRole>()) &&
          OptionGroupSingleton<FairyOptions>.Instance.OnTargetDeath is BecomeOptions.Amnesiac)
         || (MiscUtils.GetPotentialRoles()
-                .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ExecutionerRole>())) &&
+                .Contains(RoleId.GetRole<ExecutionerRole>()) &&
             OptionGroupSingleton<ExecutionerOptions>.Instance.OnTargetDeath is BecomeOptions.Amnesiac);
 
     public CustomRoleConfiguration Configuration => new(this)
@@ -84,7 +84,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Amnesiac, "TouMira.Role.Neutral.Amnesiac", 1.45f),
         IntroSound = TouAudio.MediumIntroSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
-        GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
+        GhostRole = RoleId.GetType<NeutralGhostRole>(),
         Icon = TouRoleIcons.Amnesiac
     };
 

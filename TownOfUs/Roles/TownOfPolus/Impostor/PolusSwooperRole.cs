@@ -29,7 +29,7 @@ public class PolusSwooperRole(IntPtr cppPtr) : PolusBaseImpRole(cppPtr), IWikiDi
     {
         RoleHintType = RoleHintType.None,
         AssociatedGameMode = typeof(TownOfPolusMode),
-        GhostRole = (RoleTypes)RoleId.Get<PolusGhostImpRole>(),
+        GhostRole = RoleId.GetType<PolusGhostImpRole>(),
         FreeplayFolder = "Town of Polus",
         CanUseVent = false,
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconImpostor, "TownOfPolus.Role.Impostor.Swooper", 1.45f),

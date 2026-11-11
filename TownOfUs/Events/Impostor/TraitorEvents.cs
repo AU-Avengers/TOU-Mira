@@ -42,7 +42,7 @@ public static class TraitorEvents
         {
             if (crewpostor != null && crewpostor.Player.AmOwner)
             {
-                var traitorRole = RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TraitorRole>());
+                var traitorRole = RoleId.GetRole<TraitorRole>();
                 var notif1 = Helpers.CreateAndShowNotification(
                     MiraLocaleManager.Get("TownOfUsMira.Modifier.CrewpostorIntroMessage")
                         .Replace("<modifier>",

@@ -53,7 +53,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         }
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<AurialRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<AurialRole>();
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Plaguebearer";
 
@@ -90,7 +90,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         Icon = TouRoleIcons.Plaguebearer,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
         MaxRoleCount = 1,
-        GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
+        GhostRole = RoleId.GetType<NeutralGhostRole>()
     };
 
     [HideFromIl2Cpp]

@@ -19,7 +19,7 @@ namespace TownOfUs.Roles.Impostor;
 
 public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ClericRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<ClericRole>();
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Spellslinger";
     public static bool SabotageTriggered { get; internal set; }

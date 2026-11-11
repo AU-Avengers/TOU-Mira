@@ -39,7 +39,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
 
     public bool Announced { get; set; }
     public bool IsDraftable => false;
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VeteranRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<VeteranRole>();
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string YouAreText => MiraLocaleManager.Get("YouAre");
     public string YouWereText => MiraLocaleManager.Get("YouWere");
@@ -69,7 +69,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         MaxRoleCount = 0,
         IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.Pestilence,
-        GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
+        GhostRole = RoleId.GetType<NeutralGhostRole>()
     };
 
     public bool WinConditionMet()
@@ -99,7 +99,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     }
 
     public bool IsGuessable => false;
-    public RoleBehaviour AppearAs => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PlaguebearerRole>());
+    public RoleBehaviour AppearAs => RoleId.GetRole<PlaguebearerRole>();
 
     [MethodRpc((uint)TownOfUsRpc.TriggerPestilence, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcTriggerPestilence(PlayerControl player)

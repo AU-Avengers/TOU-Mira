@@ -37,7 +37,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
         }
 
         if (GameOptionsManager.Instance.CurrentGameOptions.RoleOptions
-                .GetNumPerGame((RoleTypes)RoleId.Get<TraitorRole>()) == 0 || ModifierUtils.GetActiveModifiers<CrewpostorModifier>().Any())
+                .GetNumPerGame(RoleId.GetType<TraitorRole>()) == 0 || ModifierUtils.GetActiveModifiers<CrewpostorModifier>().Any())
         {
             return;
         }
@@ -47,7 +47,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
 
         if (chance <=
             GameOptionsManager.Instance.CurrentGameOptions.RoleOptions.GetChancePerGame(
-                (RoleTypes)RoleId.Get<TraitorRole>()))
+                RoleId.GetType<TraitorRole>()))
         {
             var filtered = PlayerControl.AllPlayerControls.Where(x => x.IsCrewmate() &&
                             !x.HasDied() &&

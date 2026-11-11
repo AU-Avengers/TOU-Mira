@@ -29,7 +29,7 @@ public sealed class HypnotistRole(IntPtr cppPtr)
                                                      Player != null && (Player.HasModifierOfType<ICachedRole>() || MiscUtils.ImpAliveCount == 1));
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<LookoutRole>());
+    public RoleBehaviour CrewVariant => RoleId.GetRole<LookoutRole>();
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string IdPart => "Hypnotist";
 
