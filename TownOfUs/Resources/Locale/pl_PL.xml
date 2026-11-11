@@ -1744,5 +1744,17 @@ Twoje ciało wciąż jest podatne na ataki w tym stanie.</string>
   <string name="TownOfUsMira.Role.MedusaPetrify.WikiDescription">Ukamieniuj gracza aby zamienić go w kamień, zabijając go i pozostawiając go jako posąg.</string>
   <string name="TownOfUsMira.Role.MedusaPetrifyNotif">[player] powoli zamieni się w kamień!</string>
   <string name="TownOfUsMira.Role.MedusaStoneGaze">Kamienny Wzrok</string>
-  <string name="TownOfUsMira.Role.MedusaStoneGazing">Patrzenie</string>
+  <string name="TownOfUsMira.Role.MedusaStoneGazing">Gapienie</string>
+  <string name="TownOfUsMira.Role.MedusaStoneGaze.WikiDescription">Ukamieniuj każdego kto spróbuje wejść z tobą w interakcję podczas gapienia, chyba, że próbuje cię zabić. Nie będzie tobą rzucać na innych.</string>
+  <string name="TouOptionMedusaPetrifyCooldown">Cooldown Ukamieniowania</string>
+  <string name="TouOptionMedusaPetrifyFirstRound">Pozwalaj na Ukamienowanie w Rundzie Pierwszej</string>
+  <string name="TouOptionMedusaCanVent">Meduza Może Wentować</string>
+  <string name="TownOfUsMira.Role.VeteranAlert">Czuwaj</string>
+  <string name="TownOfUsMira.Achievement.DontPokeTheBear.Description">Szturchnij czuwającego Weterana, gapiącą Meduzę, bądź Choróbsko i zgiń od nich.</string>
+  <string name="TouOptionMedusaStoneDelay">Czas Po Jakim Ofiara Skamienieje</string>
+  <string name="TouOptionMedusaStoneCompletion">Czas Po Którym Kamień Skruszeje</string>
+  <string name="TouOptionMedusaAllowStoneGazing">Pozwalaj Na Kamienny Wzrok</string>
+  <string name="TouOptionMedusaStoneGazeCooldown">Cooldown Kamiennego Wzroku</string>
+  <string name="TouOptionMedusaStoneGazeDuration">Czas Trwania Kamiennego Wzroku</string>
+  <string name="TouOptionMedusaStoneGazeUses">Użycia Kamiennego Wzroku</string>
 </resources>
