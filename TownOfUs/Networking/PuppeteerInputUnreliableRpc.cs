@@ -50,7 +50,7 @@ internal sealed class PuppeteerInputUnreliableRpc(TownOfUsPlugin plugin, uint id
             return;
         }
 
-        if (TimeLordRewindSystem.IsRewinding || PuppeteerEvents.CanPuppeteerMove)
+        if (TimeLordRewindSystem.IsRewinding || !PuppeteerEvents.CanPuppeteerMove)
         {
             return;
         }
