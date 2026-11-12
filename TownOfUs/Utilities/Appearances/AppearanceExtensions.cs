@@ -433,4 +433,9 @@ public static class AppearanceExtensions
                !playerControl.HasModifier<ConcealedModifier>(x => !x.VisibleToOthers) &&
                !playerControl.HasModifier<DisabledModifier>(x => !x.IsConsideredAlive);
     }
+
+    public static bool ShouldAllowVisualChanges(this PlayerControl playerControl)
+    {
+        return !playerControl.HasModifier<ConcealedModifier>(x => x.HaltsAllVisualChanges);
+    }
 }
