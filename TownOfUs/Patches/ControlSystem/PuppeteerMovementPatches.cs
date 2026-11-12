@@ -71,7 +71,7 @@ public static class PuppeteerMovementPatches
             return true;
         }
 
-        if (TimeLordRewindSystem.IsRewinding)
+        if (TimeLordRewindSystem.IsRewinding || !PuppeteerEvents.CanPuppeteerMove)
         {
             if (player.HasModifier<PuppeteerControlModifier>() && player.AmOwner)
             {
@@ -88,7 +88,7 @@ public static class PuppeteerMovementPatches
             PlayerControl.LocalPlayer &&
             PlayerControl.LocalPlayer.Data?.Role is PuppeteerRole { Controlled: { } victim })
         {
-            if (TimeLordRewindSystem.IsRewinding)
+            if (TimeLordRewindSystem.IsRewinding || !PuppeteerEvents.CanPuppeteerMove)
             {
                 return true;
             }
@@ -149,7 +149,7 @@ public static class PuppeteerMovementPatches
 
         if (PuppeteerControlState.IsControlled(player.PlayerId, out _))
         {
-            if (TimeLordRewindSystem.IsRewinding)
+            if (TimeLordRewindSystem.IsRewinding || !PuppeteerEvents.CanPuppeteerMove)
             {
                 return true;
             }
@@ -207,7 +207,7 @@ public static class PuppeteerMovementPatches
 
         if (player.HasModifier<PuppeteerControlModifier>() && player.GetComponent<DummyBehaviour>() != null)
         {
-            if (TimeLordRewindSystem.IsRewinding)
+            if (TimeLordRewindSystem.IsRewinding || !PuppeteerEvents.CanPuppeteerMove)
             {
                 return true;
             }
@@ -296,7 +296,7 @@ public static class PuppeteerMovementPatches
             return true;
         }
 
-        if (TimeLordRewindSystem.IsRewinding)
+        if (TimeLordRewindSystem.IsRewinding || !PuppeteerEvents.CanPuppeteerMove)
         {
             return true;
         }
