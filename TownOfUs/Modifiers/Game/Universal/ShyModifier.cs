@@ -119,6 +119,11 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         }
 
         StopShy = false;
+
+        if (!Player.ShouldAllowVisualChanges())
+        {
+            return;
+        }
         // check movement by animation
         var playerPhysics = Player.MyPhysics;
         var currentPhysicsAnim = playerPhysics.Animations.Animator.GetCurrentAnimation();

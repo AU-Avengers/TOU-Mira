@@ -507,6 +507,12 @@ public static class TouAssets
     public static readonly LoadableAsset<Sprite> DeputyOutfit =
         new LoadableBundleAsset<Sprite>("DeputyOutfit", MainBundle);
 
+    public static readonly LoadableAsset<GameObject> DeputyKillOverlayPrefab =
+        new LoadableBundleAsset<GameObject>("DeputyKillOverlay", MainBundle);
+
+    public static readonly LoadableAsset<AnimationClip> DeputyKillOutfitLoop =
+        new LoadableBundleAsset<AnimationClip>("Deputy_Kill_Loop-Outfit_Anim", MainBundle);
+
     public static readonly LoadableAsset<Sprite> DeputyRevealBg =
         new LoadableBundleAsset<Sprite>("DeputyRevealBg", MainBundle);
 

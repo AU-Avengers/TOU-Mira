@@ -1,5 +1,8 @@
 using HarmonyLib;
-using TownOfUs.Roles.Impostor;
+using MiraAPI.Modifiers;
+using Reactor.Networking.Attributes;
+using TownOfUs.Interfaces;
+using TownOfUs.Utilities.ControlSystem;
 using UnityEngine;
 using UnityObject = UnityEngine.Object;
 
@@ -28,28 +31,31 @@ public static class ControlledPlayerInteractionPatches
             return true;
         }
 
-        if (localPlayer.Data?.Role is PuppeteerRole { Controlled: { } puppet } &&
-            !puppet.HasDied() &&
-            PuppeteerRole.ControlState.IsControlled(puppet.PlayerId, out _) &&
-            !__instance.isCoolingDown)
+        if (localPlayer.TryGetModifierOfType<IControlledModifier>(out var mod))
         {
-            var (interactable, interactablePos) = FindClosestInteractable(puppet);
-            if (interactable != null)
+            var controller = mod.Controller;
+            if (controller != null && mod.ControllerDeadCheck() &&
+                mod.State.IsControlling(controller.PlayerId, out _))
             {
-                PuppeteerRole.RpcPuppeteerTriggerInteraction(PlayerControl.LocalPlayer, puppet, interactablePos);
+                if (mod.State.IsActionable(localPlayer.PlayerId) &&
+                    __instance.currentTarget.TryCast<MonoBehaviour>() is { } obj)
+                {
+                    RpcSetStateForController(controller, localPlayer, obj.transform.position);
+                    return true;
+                }
                 return false;
             }
         }
 
-        if (localPlayer.Data?.Role is ParasiteRole { Controlled: { } infected } &&
-            !infected.HasDied() &&
-            ParasiteRole.ControlState.IsControlled(infected.PlayerId, out _) &&
+        if (localPlayer.GetRemoteControl<IController>() is { Controlled: { } controlled, State: var state } &&
+            !controlled.HasDied() &&
+            state.IsControllingActionable(localPlayer.PlayerId) &&
             !__instance.isCoolingDown)
         {
-            var (interactable, interactablePos) = FindClosestInteractable(infected);
+            var (interactable, interactablePos) = FindClosestInteractable(controlled);
             if (interactable != null)
             {
-                ParasiteRole.RpcParasiteTriggerInteraction(PlayerControl.LocalPlayer, infected, interactablePos);
+                RpcControllerTriggerInteraction(localPlayer, controlled, interactablePos);
                 return false;
             }
         }
@@ -65,25 +71,24 @@ public static class ControlledPlayerInteractionPatches
         {
             return true;
         }
-        if (__instance.Data?.Role is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
+
+        if (__instance.TryGetModifierOfType<IControlledModifier>(out var mod))
         {
-            var controlled = puppeteerRole.Controlled;
-            if (controlled != null && !controlled.HasDied() &&
-                PuppeteerRole.ControlState.IsControlled(controlled.PlayerId, out _))
+            var controller = mod.Controller;
+            if (controller != null && mod.ControllerDeadCheck() &&
+                mod.State.IsControlling(controller.PlayerId, out _))
             {
-                __result = false;
-                return false;
+                return (__result = false);
             }
         }
 
-        if (__instance.Data?.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+        if (__instance.GetRemoteControl<IController>() is { Controlled: not null } control)
         {
-            var controlled = parasiteRole.Controlled;
-            if (controlled != null && !controlled.HasDied() &&
-                ParasiteRole.ControlState.IsControlled(controlled.PlayerId, out _))
+            var controlled = control.Controlled;
+            if (!controlled.HasDied() &&
+                control.State.IsControlled(controlled.PlayerId, out _))
             {
-                __result = false;
-                return false;
+                return (__result = false);
             }
         }
 
@@ -133,23 +138,29 @@ public static class ControlledPlayerInteractionPatches
             return;
         }
 
-        var isControlling = false;
-        PlayerControl? controlledPlayer = null;
-
-        if (localPlayer.Data.Role is PuppeteerRole { Controlled: { } puppet } &&
-            !puppet.HasDied() &&
-            PuppeteerRole.ControlState.IsControlled(puppet.PlayerId, out _))
+        if (localPlayer.TryGetModifierOfType<IControlledModifier>(out var mod))
         {
-            isControlling = true;
-            controlledPlayer = puppet;
+            var controller = mod.Controller;
+            if (controller != null && mod.ControllerDeadCheck() &&
+                mod.State.IsFullyControlling(controller.PlayerId))
+            {
+                useButton.currentTarget = null;
+                useButton.SetDisabled();
+            }
+            return;
         }
 
-        if (localPlayer.Data.Role is ParasiteRole { Controlled: { } infected } &&
-            !infected.HasDied() &&
-            ParasiteRole.ControlState.IsControlled(infected.PlayerId, out _))
+        var isControlling = false;
+        var isActionable = false;
+        PlayerControl? controlledPlayer = null;
+
+        if (localPlayer.GetRemoteControl<IController>() is { Controlled: not null } control &&
+            !control.Controlled.HasDied() &&
+            control.State.IsControlling(localPlayer.PlayerId, out _))
         {
             isControlling = true;
-            controlledPlayer = infected;
+            isActionable = control.State.IsActionable(localPlayer.PlayerId);
+            controlledPlayer = control.Controlled;
         }
 
         if (!isControlling || controlledPlayer == null)
@@ -161,8 +172,15 @@ public static class ControlledPlayerInteractionPatches
         useButton.currentTarget = usable;
         if (usable != null)
         {
-            useButton.SetEnabled();
-            
+            if (isActionable)
+            {
+                useButton.SetEnabled();
+            }
+            else
+            {
+                useButton.SetDisabled();
+            }
+
             if (usable.TryCast<IUsableCoolDown>() is { } usableCoolDown)
             {
                 useButton.SetCoolDown(usableCoolDown.CoolDown, usableCoolDown.MaxCoolDown);
@@ -184,7 +202,7 @@ public static class ControlledPlayerInteractionPatches
 	/// Find the closest interactable object near a player
 	/// Uses cached interactables list to avoid expensive FindObjectsOfType every call
 	/// </summary>
-	public static IUsable? FindClosestInteractable(PlayerControl player, Vector2 position)
+	private static IUsable? FindClosestInteractable(PlayerControl player, Vector2 position)
     {
         return FindClosestInteractable(player, position, false).interactable;
     }
@@ -263,7 +281,7 @@ public static class ControlledPlayerInteractionPatches
     /// <summary>
     /// Public accessor for cached interactables (used by PuppeteerRole/ParasiteRole RPC handlers)
 	/// </summary>
-	public static List<IUsable> GetCachedInteractables()
+	private static List<IUsable> GetCachedInteractables()
     {
         if (_cachedInteractables == null || Time.time - _lastCacheRefresh > CacheRefreshInterval)
         {
@@ -273,7 +291,7 @@ public static class ControlledPlayerInteractionPatches
         return _cachedInteractables!;
     }
 
-    public static List<IUsable> GetInteractablesList()
+    private static List<IUsable> GetInteractablesList()
     {
         List<IUsable> interactables = [];
         var allUsables = UnityObject.FindObjectsOfType<MonoBehaviour>();
@@ -289,7 +307,42 @@ public static class ControlledPlayerInteractionPatches
         return interactables;
     }
 
-    public static void TriggerInteractionAsPlayer(PlayerControl player, IUsable interactable)
+    [MethodRpc((uint)TownOfUsRpc.ControllerTrigerInteraction)]
+    private static void RpcControllerTriggerInteraction(PlayerControl controller, PlayerControl target, Vector2 interactablePosition)
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(controller);
+            return;
+        }
+
+        if (controller.GetRemoteControl<IController>() is not { } control)
+        {
+            Error("RpcControllerTriggerInteraction - Invalid controller");
+            return;
+        }
+
+        if (target?.Data == null || target.HasDied())
+        {
+            return;
+        }
+
+        if (control.Controlled != target || !control.State.IsControllingActionable(controller.PlayerId))
+        {
+            return;
+        }
+
+        var interactable = FindClosestInteractable(target, interactablePosition);
+        if (interactable == null)
+        {
+            return;
+        }
+
+        TriggerInteractionAsPlayer(target, interactable);
+        SetStateForController(controller, interactable);
+    }
+
+    private static void TriggerInteractionAsPlayer(PlayerControl player, IUsable interactable)
     {
         if (player == null || interactable == null)
         {
@@ -347,7 +400,46 @@ public static class ControlledPlayerInteractionPatches
         }
     }
 
-    public static void SetStateForController(PlayerControl controller, IUsable interactable)
+    [MethodRpc((uint)TownOfUsRpc.ControllerSetInteractionState)]
+    private static void RpcSetStateForController(PlayerControl controller, PlayerControl target, Vector2 interactablePosition)
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(controller);
+            return;
+        }
+
+        if (!controller.AmOwner)
+        {
+            return;
+        }
+
+        if (controller.GetRemoteControl<IController>() is not { } control)
+        {
+            Error("RpcControllerTriggerInteraction - Invalid controller");
+            return;
+        }
+
+        if (target?.Data == null || target.HasDied())
+        {
+            return;
+        }
+
+        if (control.Controlled != target || !control.State.IsFullyControlling(controller.PlayerId))
+        {
+            return;
+        }
+
+        var interactable = FindClosestInteractable(target, interactablePosition);
+        if (interactable == null)
+        {
+            return;
+        }
+
+        SetStateForController(controller, interactable);
+    }
+
+    private static void SetStateForController(PlayerControl controller, IUsable interactable)
     {
         if (controller == null || interactable == null)
         {

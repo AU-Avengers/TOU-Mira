@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics.CodeAnalysis;
+using TownOfUs.Utilities.ControlSystem;
+using UnityEngine;
 
 namespace TownOfUs.Modules.ControlSystem;
 
@@ -9,20 +11,39 @@ namespace TownOfUs.Modules.ControlSystem;
 /// </summary>
 public class ControlState
 {
+    public static readonly Dictionary<Type, ControlState> Instances = [];
+
+    public ControlState(Type type)
+    {
+        RemoteControlUtilities.EnsureControlRole(type);
+        Instances.Add(type, this);
+    }
+
     // After initial control begins, different clients may briefly disagree on transform state.
     // During this grace window we avoid applying any victim movement input to prevent desync.
     public const float InitialControlSyncGraceSeconds = 1.0f;
 
     private readonly Dictionary<byte, byte> ControlledBy = [];
+    private readonly Dictionary<byte, byte> Controlling = [];
+    
     private readonly Dictionary<byte, Vector2> ControlledDirection = [];
     private readonly Dictionary<byte, Vector2> ControlledPosition = [];
     private readonly Dictionary<byte, Vector2> ControlledVelocity = [];
     private readonly Dictionary<byte, bool> ControlledInAnim = [];
+
     private readonly Dictionary<byte, float> ControlledSince = [];
+
+    /// <summary>
+    /// Gets the value indicating whether the Control State should not receive or apply data.
+    /// Used if the victim of control is forced to do things like snap-kill.
+    /// </summary>
+    public bool FreezeControl { get; set; }
 
     public virtual void SetControl(byte controlledId, byte controllerId)
     {
         ControlledBy[controlledId] = controllerId;
+        Controlling[controllerId] = controlledId;
+
         ControlledDirection[controlledId] = Vector2.zero;
         ControlledPosition[controlledId] = Vector2.zero;
         ControlledVelocity[controlledId] = Vector2.zero;
@@ -30,9 +51,16 @@ public class ControlState
         ControlledSince[controlledId] = Time.time;
     }
 
-    public virtual void ClearControl(byte controlledId)
+    public void ClearControl(byte controlledId)
     {
-        ControlledBy.Remove(controlledId);
+        ControlledBy.Remove(controlledId, out var controllerId);
+        ClearControl(controlledId, controllerId);
+    }
+
+    protected virtual void ClearControl(byte controlledId, byte controllerId)
+    {
+        Controlling.Remove(controllerId);
+
         ControlledDirection.Remove(controlledId);
         ControlledPosition.Remove(controlledId);
         ControlledVelocity.Remove(controlledId);
@@ -43,6 +71,32 @@ public class ControlState
     public bool IsControlled(byte controlledId, out byte controllerId)
     {
         return ControlledBy.TryGetValue(controlledId, out controllerId);
+    }
+
+    public bool IsControlling(byte controllerId, out byte controlledId)
+    {
+        return Controlling.TryGetValue(controllerId, out controlledId);
+    }
+
+    public bool IsUsingState(byte playerId, out byte withId, out bool isControlled)
+    {
+        isControlled = IsControlled(playerId, out withId);
+        return isControlled || IsControlling(playerId, out withId);
+    }
+
+    public virtual bool IsActionable(byte playerId)
+    {
+        return IsControlling(playerId, out _);
+    }
+
+    public bool IsFullyControlling(byte playerId)
+    {
+        return IsControlling(playerId, out byte otherId) && !IsActionable(otherId);
+    }
+
+    public bool IsControllingActionable(byte playerId)
+    {
+        return IsControlling(playerId, out _) && IsActionable(playerId);
     }
 
     public void SetForcedDirection(byte controlledId, Vector2 direction)
@@ -92,13 +146,139 @@ public class ControlState
         return GetControlElapsedSeconds(controlledId) < InitialControlSyncGraceSeconds;
     }
 
+    public static bool IsUsingAnyState(byte playerId, out byte otherId, out bool isControlled, [NotNullWhen(true)] out ControlState? controlState)
+    {
+        otherId = default;
+        isControlled = false;
+        controlState = null;
+
+        foreach (var state in Instances.Values)
+        {
+            if (state.IsUsingState(playerId, out otherId, out isControlled))
+            {
+                controlState = state;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static void ClearAllInstances()
+    {
+        foreach (var instance in Instances.Values)
+        {
+            instance.ClearAll();
+        }
+    }
+
+    public virtual void ClearMovementState(byte controlledId)
+    {
+        ControlledPosition[controlledId] = Vector2.zero;
+        ControlledVelocity[controlledId] = Vector2.zero;
+        ControlledDirection[controlledId] = Vector2.zero;
+        ControlledInAnim[controlledId] = false;
+    }
+
     public virtual void ClearAll()
     {
         ControlledBy.Clear();
+        Controlling.Clear();
         ControlledDirection.Clear();
         ControlledPosition.Clear();
         ControlledVelocity.Clear();
         ControlledInAnim.Clear();
         ControlledSince.Clear();
+
+        FreezeControl = false;
+    }
+}
+
+public abstract class DualControlState(Type type) : ControlState(type)
+{
+    public abstract bool CanShareControl { get; }
+
+    public abstract bool ApplyToController { get; }
+
+    protected readonly Dictionary<byte, bool> Actionable = [];
+    private readonly Dictionary<byte, Vector2> SelfDirection = [];
+
+    public override void SetControl(byte controlledId, byte controllerId)
+    {
+        base.SetControl(controlledId, controllerId);
+
+        Actionable[controlledId] = CanShareControl;
+        Actionable[controllerId] = true;
+
+        SelfDirection[controllerId] = Vector2.zero;
+    }
+
+    public override void ClearMovementState(byte controlledId)
+    {
+        base.ClearMovementState(controlledId);
+
+        if (IsControlled(controlledId, out var controllerId))
+        {
+            SelfDirection[controllerId] = Vector2.zero;
+        }
+    }
+
+    protected override void ClearControl(byte controlledId, byte controllerId)
+    {
+        base.ClearControl(controlledId, controllerId);
+
+        Actionable.Remove(controlledId);
+        Actionable.Remove(controllerId);
+
+        SelfDirection.Remove(controllerId);
+    }
+
+    public override bool IsActionable(byte playerId)
+    {
+        return Actionable.TryGetValue(playerId, out bool has) && has;
+    }
+
+    public void SetSelfDirection(byte controllerId, Vector2 direction)
+    {
+        SelfDirection[controllerId] = direction;
+    }
+
+    public Vector2 GetSelfDirection(byte controllerId)
+    {
+        return SelfDirection.TryGetValue(controllerId, out var dir) ? dir : Vector2.zero;
+    }
+
+    public override Vector2 GetDirection(byte playerId)
+    {
+        if (IsControlled(playerId, out var controllerId))
+        {
+            return GetDirection(controllerId, playerId);
+        }
+        if (IsControlling(playerId, out var controlledId))
+        {
+            return GetDirection(playerId, controlledId);
+        }
+        return Vector2.zero;
+    }
+
+    private Vector2 GetDirection(byte controllerId, byte controlledId)
+    {
+        if (CanShareControl)
+        {
+            return Vector2.ClampMagnitude(GetSelfDirection(controllerId) + GetForcedDirection(controlledId), 1f);
+        }
+        if (IsActionable(controllerId))
+        {
+            return GetForcedDirection(controlledId);
+        }
+        return GetSelfDirection(controllerId);
+    }
+
+    public override void ClearAll()
+    {
+        base.ClearAll();
+
+        Actionable.Clear();
+        SelfDirection.Clear();
     }
 }

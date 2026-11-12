@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -8,21 +7,21 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
-using TownOfUs.Events.Impostor;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Patches.ControlSystem;
+using TownOfUs.Utilities.ControlSystem;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ITransportTrigger
+public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsLocalControlRole, IWikiDiscoverable, IDoomable, ITransportTrigger
 {
-    public static readonly ControlState ControlState = new();
+    public static ControlState ControlState { get; } = new(typeof(PuppeteerRole));
+
+    public ControlState State => ControlState;
 
     [HideFromIl2Cpp]
     public MonoBehaviour? OnTransport()
@@ -69,7 +68,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     {
         RoleBehaviourStubs.Initialize(this, player);
         ClearControlLocal();
-        PuppeteerEvents.CanPuppeteerMove = true;
+        ControlState.FreezeControl = false;
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)
@@ -77,7 +76,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         TouRoleUtils.ClearTaskHeader(Player);
         ClearControlLocal();
-        PuppeteerEvents.CanPuppeteerMove = true;
+        ControlState.FreezeControl = false;
     }
 
     public override void OnMeetingStart()
@@ -86,7 +85,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         if (Player.AmOwner && Controlled != null)
         {
-            RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled, Controlled.transform.position);
+            RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled);
         }
     }
 
@@ -100,7 +99,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             return;
         }
 
-        RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled, Controlled.transform.position);
+        RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled);
     }
 
     public void FixedUpdate()
@@ -117,7 +116,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         if (Controlled.Data == null || Controlled.HasDied() || Controlled.Data.Disconnected || Player.HasDied())
         {
-            RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled, Controlled.transform.position);
+            RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled);
             return;
         }
 
@@ -133,7 +132,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
             if (ControlTimer <= 0f && Controlled != null)
             {
-                RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled, Controlled.transform.position);
+                RpcPuppeteerEndControl(PlayerControl.LocalPlayer, Controlled);
             }
         }
     }
@@ -143,10 +142,10 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     {
         Controlled = null;
         ControlTimer = 0f;
-        ClearNotifications();
+        ClearNotification();
     }
 
-    private void CreateNotification()
+    public void CreateNotification()
     {
         if (Controlled == null || !PlayerControl.LocalPlayer || !Player.AmOwner)
         {
@@ -164,222 +163,61 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
     }
 
-    private void ClearNotifications()
+    public void ClearNotification()
     {
-        if (controllerNotification != null && controllerNotification.gameObject != null)
-        {
-            controllerNotification.gameObject.DeepDestroy();
-            controllerNotification = null;
-        }
+        ControlledFeedbackUtilities.ClearNotification(ref controllerNotification);
     }
-
-    [MethodRpc((uint)TownOfUsRpc.PuppeteerControl)]
-    public static void RpcPuppeteerControl(PlayerControl puppeteer, PlayerControl target)
+    
+    public IController SetupController(PlayerControl target)
     {
-        if (LobbyBehaviour.Instance)
-        {
-            MiscUtils.RunAnticheatWarning(puppeteer);
-            return;
-        }
-        if (puppeteer.Data.Role is not PuppeteerRole role)
-        {
-            Error("RpcPuppeteerControl - Invalid puppeteer");
-            return;
-        }
-
-        if (target?.Data == null || target.HasDied())
-        {
-            return;
-        }
-
-        Coroutines.Start(role.CoFinishControl(target));
-    }
-
-    [HideFromIl2Cpp]
-    public IEnumerator CoFinishControl(PlayerControl target)
-    {
-        var puppeteer = Player;
-        while (target.IsInTargetingAnimState())
-        {
-            yield return null;
-        }
-
         Controlled = target;
         ControlTimer = OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
 
-        new TouAbilityEvent(AbilityType.PuppeteerControl, puppeteer, target).InvokeEvent();
+        new TouAbilityEvent(AbilityType.PuppeteerControl, Player, target).InvokeEvent();
 
-        ControlState.SetControl(target.PlayerId, puppeteer.PlayerId);
+        return this;
+    }
+
+    public void SetupTarget(PlayerControl target)
+    {
         if (!target.HasModifier<PuppeteerControlModifier>())
         {
-            target.AddModifier<PuppeteerControlModifier>(puppeteer);
-        }
-
-        if (target.inVent)
-        {
-            target.MyPhysics.ExitAllVents();
-        }
-
-        if (target.AmOwner)
-        {
-            var pos = (Vector2)target.transform.position;
-            if (target.NetTransform != null)
-            {
-                try
-                {
-                    target.NetTransform.SnapTo(pos);
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-        }
-        else if (puppeteer.AmOwner)
-        {
-            NetTransformBacklogUtils.FlushAndSnap(target);
-        }
-        else
-        {
-            NetTransformBacklogUtils.FlushBacklog(target);
-        }
-
-        if (puppeteer.AmOwner)
-        {
-            CustomButtonSingleton<Buttons.Impostor.PuppeteerControlButton>.Instance.SetActive(true, this);
-            CreateNotification();
-        }
-        else if (target.AmOwner && OptionGroupSingleton<PuppeteerOptions>.Instance.VictimSeesControlDirection > 0)
-        {
-            puppeteer.AddModifier<PuppeteerHintArrowModifier>(target);
+            target.AddModifier<PuppeteerControlModifier>(Player);
         }
     }
 
     [MethodRpc((uint)TownOfUsRpc.PuppeteerEndControl)]
-    public static void RpcPuppeteerEndControl(PlayerControl puppeteer, PlayerControl target, Vector2 finalPos)
+    public static void RpcPuppeteerEndControl(PlayerControl puppeteer, PlayerControl target)
     {
         if (LobbyBehaviour.Instance)
         {
             MiscUtils.RunAnticheatWarning(puppeteer);
             return;
         }
-        if (puppeteer.Data.Role is not PuppeteerRole role)
-        {
-            return;
-        }
 
-        if (target != null)
-        {
-            ControlState.ClearControl(target.PlayerId);
-            target.TryRemoveModifier<PuppeteerControlModifier>();
-
-            if (target.MyPhysics != null)
-            {
-                target.MyPhysics.body?.velocity = Vector2.zero;
-                target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
-            }
-
-            if (target.NetTransform != null)
-            {
-                try
-                {
-                    NetTransformBacklogUtils.FlushBacklog(target);
-
-                    if (target.AmOwner)
-                    {
-                        target.NetTransform.SnapTo(finalPos);
-                    }
-                    else if (puppeteer != null && puppeteer.AmOwner)
-                    {
-                        NetTransformBacklogUtils.FlushAndSnap(target);
-                    }
-                    else
-                    {
-                        NetTransformBacklogUtils.FlushBacklog(target);
-                    }
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-        }
-
-        role.ClearControlLocal();
-
-        if (puppeteer != null)
-        {
-            if (puppeteer.AmOwner)
-            {
-                var pos = (Vector2)puppeteer.transform.position;
-                if (puppeteer.NetTransform != null)
-                {
-                    try
-                    {
-                        puppeteer.NetTransform.SnapTo(pos);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
-            }
-            else
-            {
-                NetTransformBacklogUtils.FlushBacklog(puppeteer);
-            }
-
-            if (puppeteer.AmOwner)
-            {
-                var btn = CustomButtonSingleton<Buttons.Impostor.PuppeteerControlButton>.Instance;
-                btn.ResetCooldownAndOrEffect();
-            }
-        }
-
-        role.ClearNotifications();
+        RemoteControlUtilities.ControllerEndControl(puppeteer, target);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.PuppeteerTriggerInteraction)]
-    public static void RpcPuppeteerTriggerInteraction(PlayerControl puppeteer, PlayerControl controlled, Vector2 interactablePosition)
+    public void SetupLocal(bool onEnd)
     {
-        if (LobbyBehaviour.Instance)
+        var btn = CustomButtonSingleton<Buttons.Impostor.PuppeteerControlButton>.Instance;
+        if (onEnd)
         {
-            MiscUtils.RunAnticheatWarning(puppeteer);
-            return;
+            btn.ResetCooldownAndOrEffect();
         }
-        if (puppeteer.Data.Role is not PuppeteerRole { Controlled: { } puppet })
+        else
         {
-            Error("RpcPuppeteerTriggerInteraction - Invalid puppeteer");
-            return;
+            btn.SetActive(true, this);
         }
-
-        if (controlled?.Data == null || controlled.HasDied())
-        {
-            return;
-        }
-
-        if (puppet != controlled || !ControlState.IsControlled(controlled.PlayerId, out _))
-        {
-            return;
-        }
-
-        var interactable = ControlledPlayerInteractionPatches.FindClosestInteractable(controlled, interactablePosition);
-        if (interactable == null)
-        {
-            return;
-        }
-
-        ControlledPlayerInteractionPatches.TriggerInteractionAsPlayer(controlled, interactable);
-        ControlledPlayerInteractionPatches.SetStateForController(puppeteer, interactable);
     }
 
-    public void LobbyStart()
+    public void SetupTargetLocal(bool onEnd)
     {
-        ControlState.ClearAll();
-
-        foreach (var puppetMod in ModifierUtils.GetActiveModifiers<PuppeteerControlModifier>())
+        if (!onEnd || OptionGroupSingleton<PuppeteerOptions>.Instance.VictimSeesControlDirection <= 0)
         {
-            puppetMod.Player.RemoveModifier(puppetMod);
+            return;
         }
+
+        Player.AddModifier<PuppeteerHintArrowModifier>(Controlled!);
     }
 }

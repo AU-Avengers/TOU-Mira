@@ -9,7 +9,7 @@ namespace TownOfUs.Utilities;
 public static class PlayerTargetingStateUtils
 {
     /// <summary>
-    /// Returns true if the player is in a state like gap pad (moving platform), walking to vent,
+    /// Returns <see langword="true"/> if the <paramref name="player"/> is in a state like gap pad (moving platform), walking to vent,
     /// ladder, zipline, or any other "invisible" transition animation.
     /// </summary>
     public static bool IsInTargetingAnimState(this PlayerControl? player)
@@ -40,5 +40,14 @@ public static class PlayerTargetingStateUtils
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Returns <see langword="true"/> if the <paramref name="player"/> is in a state like gap pad (moving platform), walking to vent,
+    /// ladder, zipline, any other "invisible" transition animation, or already within a vent.
+    /// </summary>
+    public static bool IsInAnimState(this PlayerControl? player)
+    {
+        return player.IsInTargetingAnimState() || player!.inVent;
     }
 }
