@@ -217,6 +217,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         {
             target.MyPhysics.ExitAllVents();
         }
+        target.MyPhysics.ResetMoveState();
 
         if (target.AmOwner)
         {
@@ -275,6 +276,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             {
                 target.MyPhysics.body?.velocity = Vector2.zero;
                 target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
+                target.MyPhysics.ResetMoveState();
             }
 
             if (target.NetTransform != null)

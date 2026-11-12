@@ -699,6 +699,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         {
             target.MyPhysics.ExitAllVents();
         }
+        target.MyPhysics.ResetMoveState();
 
         if (target.AmOwner)
         {
@@ -757,6 +758,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             {
                 target.MyPhysics.body?.velocity = Vector2.zero;
                 target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
+                target.MyPhysics.ResetMoveState();
             }
 
             if (target.NetTransform != null)
