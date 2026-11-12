@@ -14,6 +14,7 @@ public abstract class ConcealedModifier : TimedModifier
     public override bool HideOnUi => true;
     public virtual bool VisibleToOthers { get; set; }
     public virtual bool CarriesIntoMeetings => false;
+    public virtual bool HaltsAllVisualChanges => false;
 
     public override string GetDescription()
     {
