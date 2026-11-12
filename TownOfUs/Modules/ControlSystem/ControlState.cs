@@ -34,7 +34,7 @@ public class ControlState
     private readonly Dictionary<byte, float> ControlledSince = [];
 
     /// <summary>
-    /// Gets the value indicating whether the Control State should not receive data.
+    /// Gets the value indicating whether the Control State should not receive or apply data.
     /// Used if the victim of control is forced to do things like snap-kill.
     /// </summary>
     public bool FreezeControl { get; set; }
