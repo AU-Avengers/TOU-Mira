@@ -98,6 +98,7 @@ public static class RemoteControlUtilities
         {
             control.ClearTargetInVent(false);
         }
+        target.MyPhysics.ResetMoveState();
 
         SnapControlTarget(target, controller);
 
@@ -155,6 +156,7 @@ public static class RemoteControlUtilities
             {
                 target.MyPhysics.body?.velocity = Vector2.zero;
                 target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
+                target.MyPhysics.ResetMoveState();
             }
         }
 

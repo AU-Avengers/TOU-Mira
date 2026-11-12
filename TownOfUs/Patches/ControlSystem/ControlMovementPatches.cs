@@ -296,7 +296,7 @@ public static class ControlMovementPatches
             return true;
         }
 
-        if (TimeLordRewindSystem.IsRewinding)
+        if (TimeLordRewindSystem.IsRewinding || state.FreezeControl)
         {
             return true;
         }

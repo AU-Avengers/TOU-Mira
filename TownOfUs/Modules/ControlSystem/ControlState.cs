@@ -172,6 +172,14 @@ public class ControlState
         }
     }
 
+    public virtual void ClearMovementState(byte controlledId)
+    {
+        ControlledPosition[controlledId] = Vector2.zero;
+        ControlledVelocity[controlledId] = Vector2.zero;
+        ControlledDirection[controlledId] = Vector2.zero;
+        ControlledInAnim[controlledId] = false;
+    }
+
     public virtual void ClearAll()
     {
         ControlledBy.Clear();
@@ -203,6 +211,16 @@ public abstract class DualControlState(Type type) : ControlState(type)
         Actionable[controllerId] = true;
 
         SelfDirection[controllerId] = Vector2.zero;
+    }
+
+    public override void ClearMovementState(byte controlledId)
+    {
+        base.ClearMovementState(controlledId);
+
+        if (IsControlled(controlledId, out var controllerId))
+        {
+            SelfDirection[controllerId] = Vector2.zero;
+        }
     }
 
     protected override void ClearControl(byte controlledId, byte controllerId)

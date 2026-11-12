@@ -93,6 +93,7 @@ public static class ControlStateEvents
     {
         var anim = controlled.KillAnimations.RandomSnapshot();
         controlState.FreezeControl = true;
+        controlState.ClearMovementState(controlled.PlayerId);
         yield return controlled.MyPhysics.Animations.CoPlayCustomAnimation(anim.BlurAnim);
         controlled.MyPhysics.Animations.PlayIdleAnimation();
         controlled.NetTransform.SnapTo(victim.transform.position);
