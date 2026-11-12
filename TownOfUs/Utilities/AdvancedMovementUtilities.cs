@@ -11,9 +11,6 @@ namespace TownOfUs.Utilities;
 /// </summary>
 public static class AdvancedMovementUtilities
 {
-    private static int _controlledMovementDepth;
-    public static bool IsApplyingControlledMovement => _controlledMovementDepth > 0;
-
     // Check Parasite's implementation of this to see how the joystick should be added in.
     public static VirtualJoystick MobileJoystickR { get; set; }
 
@@ -261,91 +258,20 @@ public static class AdvancedMovementUtilities
     /// Applies normal movement for Parasite/Puppeteer control.
     /// Handles animation and velocity setting.
     /// </summary>
-    public static void ApplyControlledMovement(PlayerPhysics physics, Vector2 direction, bool stopIfZero = false)
+    public static void ApplyControlledMovement(PlayerPhysics physics, Vector2 direction)
     {
         if (physics == null || physics.myPlayer == null)
         {
             return;
         }
 
-        _controlledMovementDepth++;
-        try
+        physics.HandleAnimation(physics.myPlayer.Data.IsDead);
+
+        physics.SetNormalizedVelocity(direction);
+
+        if (direction == Vector2.zero)
         {
-            physics.HandleAnimation(physics.myPlayer.Data.IsDead);
-
-            if (stopIfZero && direction == Vector2.zero)
-            {
-                physics.SetNormalizedVelocity(Vector2.zero);
-                physics.body?.velocity = Vector2.zero;
-                return;
-            }
-
-            physics.SetNormalizedVelocity(direction);
-
-            if (direction == Vector2.zero && physics.body != null)
-            {
-                physics.body.velocity = Vector2.zero;
-            }
-        }
-        finally
-        {
-            _controlledMovementDepth = Mathf.Max(0, _controlledMovementDepth - 1);
-        }
-    }
-
-    /// <summary>
-    /// Applies injected movement with position, velocity, and direction for Parasite/Puppeteer control.
-    /// Handles lag and missed RPCs with smoothing/lerp.
-    /// </summary>
-    public static void ApplyInjectedMovement(PlayerPhysics physics, Vector2 targetPosition, Vector2 targetVelocity, Vector2 direction)
-    {
-        if (physics == null || physics.myPlayer == null)
-        {
-            return;
-        }
-
-        _controlledMovementDepth++;
-        try
-        {
-            physics.HandleAnimation(physics.myPlayer.Data.IsDead);
-
-            var currentPos = physics.body != null ? physics.body.position : (Vector2)physics.myPlayer.transform.position;
-            var delta = targetPosition - currentPos;
-            const float positionSnapThreshold = 1.0f;
-
-            Vector2 finalPos;
-            if (delta.sqrMagnitude <= 0.0001f * 0.0001f || delta.magnitude > positionSnapThreshold)
-            {
-                finalPos = targetPosition;
-                physics.body?.position = finalPos;
-                physics.myPlayer.transform.position = finalPos;
-            }
-            else
-            {
-                const float positionLerpSpeed = 60.0f;
-                var lerpFactor = Mathf.Clamp01(Time.fixedDeltaTime * positionLerpSpeed);
-                finalPos = Vector2.Lerp(currentPos, targetPosition, lerpFactor);
-                physics.body?.position = finalPos;
-                physics.myPlayer.transform.position = finalPos;
-            }
-
-            if (physics.body != null)
-            {
-                if (direction == Vector2.zero)
-                {
-                    physics.body.velocity = Vector2.zero;
-                }
-                else
-                {
-                    physics.body.velocity = targetVelocity;
-                }
-            }
-
-            physics.SetNormalizedVelocity(direction);
-        }
-        finally
-        {
-            _controlledMovementDepth = Mathf.Max(0, _controlledMovementDepth - 1);
+            physics.body?.velocity = Vector2.zero;
         }
     }
 }

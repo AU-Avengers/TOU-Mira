@@ -35,7 +35,6 @@ using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Modules.Components;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Modules.DraftMode;
 using TownOfUs.Networking;
 using TownOfUs.Options;
@@ -432,17 +431,17 @@ public static class TownOfUsEventHandlers
                     touButton.SetRoundLockActive(false);
                 }
 
-                if (button is TownOfUsTargetButton<Vent> touButton2 && !touButton2.UsableFirstRound)
+                if (button is TownOfUsTargetButton<Vent> { UsableFirstRound: false } touButton2)
                 {
                     touButton2.SetRoundLockActive(false);
                 }
 
-                if (button is TownOfUsTargetButton<DeadBody> touButton3 && !touButton3.UsableFirstRound)
+                if (button is TownOfUsTargetButton<DeadBody> { UsableFirstRound: false } touButton3)
                 {
                     touButton3.SetRoundLockActive(false);
                 }
 
-                if (button is TownOfUsTargetButton<PlayerControl> touButton4 && !touButton4.UsableFirstRound)
+                if (button is TownOfUsTargetButton<PlayerControl> { UsableFirstRound: false } touButton4)
                 {
                     touButton4.SetRoundLockActive(false);
                 }
@@ -516,17 +515,17 @@ public static class TownOfUsEventHandlers
                     touButton.SetRoundLockActive(true);
                 }
 
-                if (button is TownOfUsTargetButton<Vent> touButton2 && !touButton2.UsableFirstRound)
+                if (button is TownOfUsTargetButton<Vent> { UsableFirstRound: false } touButton2)
                 {
                     touButton2.SetRoundLockActive(true);
                 }
 
-                if (button is TownOfUsTargetButton<DeadBody> touButton3 && !touButton3.UsableFirstRound)
+                if (button is TownOfUsTargetButton<DeadBody> { UsableFirstRound: false } touButton3)
                 {
                     touButton3.SetRoundLockActive(true);
                 }
 
-                if (button is TownOfUsTargetButton<PlayerControl> touButton4 && !touButton4.UsableFirstRound)
+                if (button is TownOfUsTargetButton<PlayerControl> { UsableFirstRound: false } touButton4)
                 {
                     touButton4.SetRoundLockActive(true);
                 }
@@ -575,19 +574,19 @@ public static class TownOfUsEventHandlers
 
         if (player.Data.Role is ParasiteRole { Controlled: { } controlled })
         {
-            ParasiteRole.RpcParasiteEndControl(player, controlled, controlled.transform.position, false);
+            ParasiteRole.RpcParasiteEndControl(player, controlled);
         }
 
-        if (ParasiteControlState.IsControlled(player.PlayerId, out var controllerId))
+        if (ParasiteRole.ControlState.IsControlled(player.PlayerId, out var controllerId))
         {
             var controller = MiscUtils.PlayerById(controllerId);
             if (controller?.Data?.Role is ParasiteRole { Controlled: var control } && control == player)
             {
-                ParasiteRole.RpcParasiteEndControl(controller, player, player.transform.position, false);
+                ParasiteRole.RpcParasiteEndControl(controller, player);
             }
             else
             {
-                ParasiteControlState.ClearControl(player.PlayerId);
+                ParasiteRole.ControlState.ClearControl(player.PlayerId);
             }
         }
 

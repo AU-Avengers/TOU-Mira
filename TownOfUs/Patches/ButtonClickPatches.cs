@@ -1,9 +1,10 @@
 ﻿using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.Modifiers;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
-using TownOfUs.Roles.Impostor;
+using TownOfUs.Utilities.ControlSystem;
 
 namespace TownOfUs.Patches;
 
@@ -40,18 +41,11 @@ public static class ButtonClickPatches
         if (PlayerControl.LocalPlayer)
         {
             var disabledMods = PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>();
-            if (__instance is UseButton)
+            if (__instance is UseButton &&
+                PlayerControl.LocalPlayer.TryGetRemoteControl<IController>(out var control) &&
+                control.Controlled != null)
             {
-                var localRole = PlayerControl.LocalPlayer.Data?.Role;
-                if (localRole is PuppeteerRole { Controlled: not null })
-                {
-                    return true;
-                }
-
-                if (localRole is ParasiteRole { Controlled: not null })
-                {
-                    return true;
-                }
+                return true;
             }
 
             if (__instance is ReportButton && disabledMods.Any(x => !x.CanReport))
