@@ -60,6 +60,11 @@ public abstract class ControlDataUnreliableRpc<TPlugin, TData>(TPlugin plugin, u
             return;
         }
 
+        if (controlState.FreezeControl)
+        {
+            return;
+        }
+
         if (controlState is not DualControlState && !isControlled)
         {
             return;

@@ -150,6 +150,11 @@ public static class ControlMovementPatches
             return true;
         }
 
+        if (controlState.FreezeControl)
+        {
+            return true;
+        }
+
         var applyToController = controlState is DualControlState { ApplyToController: true } && !isControlled;
 
         if (player.AmOwner &&
