@@ -3,6 +3,7 @@ using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
@@ -29,6 +30,7 @@ public static class PuppeteerEvents
     {
         var anim = controlled.KillAnimations.RandomSnapshot();
         CanPuppeteerMove = false;
+        PuppeteerControlState.ClearMovementState(controlled.PlayerId);
         yield return controlled.MyPhysics.Animations.CoPlayCustomAnimation(anim.BlurAnim);
         controlled.MyPhysics.Animations.PlayIdleAnimation();
         controlled.NetTransform.SnapTo(victim.transform.position);

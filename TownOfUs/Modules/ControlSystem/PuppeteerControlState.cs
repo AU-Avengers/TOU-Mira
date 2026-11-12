@@ -82,6 +82,7 @@ public static class PuppeteerControlState
     {
         ControlledPosition[controlledId] = Vector2.zero;
         ControlledVelocity[controlledId] = Vector2.zero;
+        ControlledDirection[controlledId] = Vector2.zero;
     }
 
     public static void ClearAll()
