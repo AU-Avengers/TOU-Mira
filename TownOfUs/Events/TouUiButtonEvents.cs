@@ -1,7 +1,6 @@
 using MiraAPI;
 using MiraAPI.Events;
 using MiraAPI.Events.Mira;
-using MiraAPI.Hud;
 using TownOfUs.Patches;
 
 namespace TownOfUs.Events;
@@ -14,7 +13,6 @@ public static class UiResetEvents
         var roleGuideButton = HudManagerPatches.OldVanillaWikiButton;
         var wikiButton = HudManagerPatches.WikiButton;
         var zoomButton = HudManagerPatches.ZoomButton;
-        var modifierObj = MiraHudHelper.ModifierDisplayObject;
         if (wikiButton)
         {
             wikiButton.transform.SetParent(null);
@@ -28,11 +26,6 @@ public static class UiResetEvents
         if (roleGuideButton)
         {
             roleGuideButton.transform.SetParent(null);
-        }
-
-        if (modifierObj)
-        {
-            modifierObj.transform.SetParent(null);
         }
     }
 
@@ -64,16 +57,5 @@ public static class UiResetEvents
         var secondRow = @event.SecondTopUiRow;
         var opts = LocalSettingsTabSingleton<TouLocalTabButtons>.Instance;
         zoomButton.transform.SetParent(opts.ZoomOnBottomRow.Value ? secondRow.transform : firstRow.transform);
-    }
-
-    [RegisterEvent(-800)]
-    public static void FixModifierDisplayButton(UiButtonPostResetEvent @event)
-    {
-        var modifierObj = MiraHudHelper.ModifierDisplayObject;
-        if (!modifierObj)
-        {
-            return;
-        }
-        modifierObj.transform.SetParent(@event.SecondTopUiRow.transform);
     }
 }
