@@ -123,7 +123,7 @@ public static class ModCompatibility
     public static Assembly MciAssembly { get; private set; }
 
     public const string PerfectCommsGuid = "com.edgetel.perfectcomms";
-    public static readonly Dictionary<Type, List<MiraEventWrapper>> ExposedEventWrappers = [];
+    public static readonly Dictionary<Type, List<MiraEventHandle>> ExposedEventHandlers = [];
     public static BasePlugin ApiPlugin { get; private set; }
     public static Assembly ApiAssembly { get; private set; }
     public static Type[] ApiTypes { get; private set; }
@@ -177,21 +177,21 @@ public static class ModCompatibility
         ApiAssembly = ApiPlugin.GetType().Assembly;
         ApiTypes = AccessTools.GetTypesFromAssembly(ApiAssembly);
         var staticClassType = typeof(MiraEventManager);
-        var dictField = staticClassType.GetField("EventWrappers", BindingFlags.NonPublic | BindingFlags.Static);
+        var dictField = staticClassType.GetField("EventHandlers", BindingFlags.NonPublic | BindingFlags.Static);
 
         if (dictField != null)
         {
             // 3. Extract the dictionary object from the instance
             var dictionaryObject = dictField.GetValue(null);
 
-            var dictionary = dictionaryObject as Dictionary<Type, List<MiraEventWrapper>>;
+            var dictionary = dictionaryObject as Dictionary<Type, List<MiraEventHandle>>;
 
             if (dictionary != null)
             {
-                Info($"Successfully found api event wrappers");
+                Info($"Successfully found api event handlers");
                 foreach (var pair in dictionary)
                 {
-                    ExposedEventWrappers.Add(pair.Key, pair.Value);
+                    ExposedEventHandlers.Add(pair.Key, pair.Value);
                 }
             }
         }

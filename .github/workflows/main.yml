@@ -6,7 +6,7 @@ jobs:
   build:
     permissions:
       id-token: write  # enable GitHub OIDC token issuance for this job
-      contents: read    # allows action to read repository?
+      contents: write    # allows action to read repository?
     runs-on: ubuntu-22.04
     steps:
 
@@ -231,6 +231,12 @@ jobs:
           name: TouMira-x86-ItchIo
           path: BepInEx/x86
 
+      - name: Package Mod Zips for Release
+        if: github.ref_type == 'tag'
+        run: |
+          zip -r TouMira-x64-Steam-Epic-MsStore.zip BepInEx/x64
+          zip -r TouMira-x86-ItchIo.zip BepInEx/x86
+
       - uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:
@@ -239,3 +245,5 @@ jobs:
             TownOfUs/bin/Publish/TownOfUsMira.dll
             TownOfUs/bin/Publish/TownOfUsMira-Android.dll
             TownOfUs/bin/Publish/TownOfUsMira-iOS.dll
+            TouMira-x64-Steam-Epic-MsStore.zip
+            TouMira-x86-ItchIo.zip
