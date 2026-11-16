@@ -115,8 +115,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                         genericEvent.IgnoreDefense = indirectMod.IgnoreShield;
                     }
 
-                    if (ModCompatibility.ExposedEventWrappers.TryGetValue(typeof(ExtendedMiraButtonClickEvent),
-                            out var handlers) && handlers != null && handlers.Count != 0)
+                    if (ModCompatibility.ExposedEventHandlers.TryGetValue(typeof(ExtendedMiraButtonClickEvent),
+                            out var handlers) && handlers.Count != 0)
                     {
                         foreach (var handler in handlers)
                         {
@@ -130,8 +130,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                             }
                         }
                     }
-                    if (ModCompatibility.ExposedEventWrappers.TryGetValue(typeof(MiraButtonClickEvent),
-                            out var otherHandlers) && otherHandlers != null && otherHandlers.Count != 0)
+                    if (ModCompatibility.ExposedEventHandlers.TryGetValue(typeof(MiraButtonClickEvent),
+                            out var otherHandlers) && otherHandlers.Count != 0)
                     {
                         foreach (var handler in otherHandlers)
                         {
