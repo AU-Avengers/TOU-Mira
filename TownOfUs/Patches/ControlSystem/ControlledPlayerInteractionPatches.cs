@@ -32,26 +32,32 @@ public static class ControlledPlayerInteractionPatches
         _lastCacheRefresh = Time.time;
     }
 
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
-    [HarmonyPostfix]
-    public static void PetButtonUpdatePostfix(PlayerControl __instance)
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CanPet))]
+    [HarmonyPrefix]
+    public static bool PetButtonCanPetPrefix(PlayerControl __instance, ref bool __result)
     {
         if (LobbyBehaviour.Instance)
         {
-            return;
+            return true;
         }
 
-        var instance = HudManager.Instance;
         if (__instance.Data?.Role is PuppeteerRole { Controlled: { } puppet } &&
-            !puppet.HasDied() &&
-            PuppeteerControlState.IsControlled(puppet.PlayerId, out _) ||
-            __instance.Data?.Role is ParasiteRole { Controlled: { } infected } &&
+            !puppet.HasDied() && 
+            PuppeteerControlState.IsControlled(puppet.PlayerId, out _))
+        {
+            __result = false;
+            return false;
+        }
+
+        if (__instance.Data?.Role is ParasiteRole { Controlled: { } infected } &&
             !infected.HasDied() &&
             ParasiteControlState.IsControlled(infected.PlayerId, out _))
         {
-            instance.UseButton.ToggleVisible(true);
-            instance.PetButton.ToggleVisible(false);
+            __result = false;
+            return false;
         }
+
+        return true;
     }
 
     /// <summary>

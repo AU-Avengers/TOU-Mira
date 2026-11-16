@@ -1,11 +1,10 @@
-﻿namespace TownOfUs;
+﻿﻿namespace TownOfUs;
 
 public enum TownOfUsRpc : uint
 {
     SendClientModInfo,
-    ControlDirectionUnreliable,
-    ControlStateUnreliable,
-    FullControlInputUnreliable,
+    ParasiteInputUnreliable,
+    PuppeteerInputUnreliable,
     GhostRoleMurder,
     SpecialMurder,
     ConfirmSpecialMurder,
@@ -108,12 +107,12 @@ public enum TownOfUsRpc : uint
     TransportSeeker,
     TriggerPestilence,
     ForcePlayerRole,
+    ParasiteControl,
     ParasiteEndControl,
+    PuppeteerControl,
     PuppeteerEndControl,
-    StartRemoteControl,
-    ControllerEndControl,
-    ControllerTrigerInteraction,
-    ControllerSetInteractionState,
+    PuppeteerTriggerInteraction,
+    ParasiteTriggerInteraction,
     TimeLordRewind,
     TimeLordRewindRevive,
     TimeLordUndoTask,

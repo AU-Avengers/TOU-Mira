@@ -3,18 +3,12 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Modifiers.Types;
-using MiraAPI.Utilities;
-using Reactor.Utilities;
-using System.Collections;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Interfaces;
+using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities.ControlSystem;
-using UnityEngine;
 
 namespace TownOfUs.Events;
 
@@ -76,54 +70,38 @@ public static class ControlStateEvents
     }
 
     [RegisterEvent]
-    public static void AfterFramedMurderEventHandler(AfterMurderEvent @event)
-    {
-        var source = @event.Source;
-        var victim = @event.Target;
-        var framed = @event.Framed;
-        if (framed == null || source.GetRemoteControl<IController>() is not { } controller || controller.Controlled != framed)
-        {
-            return;
-        }
-
-        Coroutines.Start(CoSnapFramed(framed, victim, controller.State));
-    }
-
-    private static IEnumerator CoSnapFramed(PlayerControl controlled, PlayerControl victim, ControlState controlState)
-    {
-        var anim = controlled.KillAnimations.RandomSnapshot();
-        controlState.FreezeControl = true;
-        controlState.ClearMovementState(controlled.PlayerId);
-        yield return controlled.MyPhysics.Animations.CoPlayCustomAnimation(anim.BlurAnim);
-        controlled.MyPhysics.Animations.PlayIdleAnimation();
-        controlled.NetTransform.SnapTo(victim.transform.position);
-        yield return new WaitForSeconds(0.1f);
-        controlState.FreezeControl = false;
-    }
-
-    [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent _)
     {
-        ControlState.ClearAllInstances();
+        ParasiteControlState.ClearAll();
+        PuppeteerControlState.ClearAll();
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
-            (player.Data.Role as ITownOfUsLocalControlRole)?.ClearControlLocal();
+            (player.Data.Role as ParasiteRole)?.ClearControlLocal();
 
-            player.TryRemoveModifier<TimedModifier>(x => x is IControlledModifier);
+            player.TryRemoveModifier<ParasiteInfectedModifier>();
+
+            (player.Data.Role as PuppeteerRole)?.ClearControlLocal();
+
+            player.TryRemoveModifier<PuppeteerControlModifier>();
         }
     }
 
     [RegisterEvent]
     public static void ClientGameEndEventHandler(ClientGameEndEvent _)
     {
-        ControlState.ClearAllInstances();
+        ParasiteControlState.ClearAll();
+        PuppeteerControlState.ClearAll();
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
-            (player.Data.Role as ITownOfUsLocalControlRole)?.ClearControlLocal();
+            (player.Data.Role as ParasiteRole)?.ClearControlLocal();
 
-            player.TryRemoveModifier<TimedModifier>(x => x is IControlledModifier);
+            player.TryRemoveModifier<ParasiteInfectedModifier>();
+
+            (player.Data.Role as PuppeteerRole)?.ClearControlLocal();
+
+            player.TryRemoveModifier<PuppeteerControlModifier>();
         }
     }
 }

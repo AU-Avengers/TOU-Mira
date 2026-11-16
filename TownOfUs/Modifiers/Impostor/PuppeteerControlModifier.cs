@@ -1,9 +1,7 @@
 ﻿using MiraAPI.GameOptions;
 using Reactor.Utilities;
 using TownOfUs.Interfaces;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities.ControlSystem;
 
 namespace TownOfUs.Modifiers.Impostor;
@@ -14,10 +12,8 @@ namespace TownOfUs.Modifiers.Impostor;
 /// - Forces their appearance to match the Puppeteer (visible to others).
 /// Movement/input suppression is handled by Harmony patches while this modifier is present.
 /// </summary>
-public sealed class PuppeteerControlModifier(PlayerControl controller) : DisabledModifier, IControlledModifier
+public sealed class PuppeteerControlModifier(PlayerControl controller) : DisabledModifier, IUncontrollable
 {
-    public ControlState State => PuppeteerRole.ControlState;
-
     public override string ModifierName => "Puppeteer Controlled";
     public override bool HideOnUi => true;
     public override bool AutoStart => true;

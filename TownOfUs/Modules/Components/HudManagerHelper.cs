@@ -28,7 +28,6 @@ using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities.Appearances;
-using TownOfUs.Utilities.ControlSystem;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -38,7 +37,7 @@ namespace TownOfUs.Modules.Components;
 [RegisterInIl2Cpp]
 public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 {
-    internal static Dictionary<int, string> PlatformAssociations = [];
+    internal static Dictionary<int, string> PlatformAssociations = new();
     private static bool HasFetchedIcons;
     private static ZiplineBehaviour[] Ziplines = [];
 
@@ -117,7 +116,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     }
 
                     if (ModCompatibility.ExposedEventHandlers.TryGetValue(typeof(ExtendedMiraButtonClickEvent),
-                            out var handlers) && handlers.Count != 0)
+                            out var handlers) && handlers != null && handlers.Count != 0)
                     {
                         foreach (var handler in handlers)
                         {
@@ -132,7 +131,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                         }
                     }
                     if (ModCompatibility.ExposedEventHandlers.TryGetValue(typeof(MiraButtonClickEvent),
-                            out var otherHandlers) && otherHandlers.Count != 0)
+                            out var otherHandlers) && otherHandlers != null && otherHandlers.Count != 0)
                     {
                         foreach (var handler in otherHandlers)
                         {
@@ -253,11 +252,13 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         }
 
         var role = PlayerControl.LocalPlayer.Data.Role;
-        ControlOverlayPatch.RunControlOverlay();
+        var ghostRole = role as IGhostRole;
+        PuppeteerOverlayPatch.RunPuppetOverlay();
+        ParasiteOverlayPatch.RunOvertakeOverlay();
         ControlledPlayerInteractionPatches.UpdateControlledUseButton(instance);
         SentryCameraPortablePatch.ApplyPortableBlinkState();
         TimeLordPatches.RecordTimeLordSnapshot(instance);
-        if (PlayerControl.LocalPlayer.Data.IsDead && role is IGhostRole ghostRole)
+        if (PlayerControl.LocalPlayer.Data.IsDead && ghostRole != null)
         {
             HudManagerPatches.UpdateSubmergedButtons(instance, ghostRole);
         }
@@ -454,8 +455,12 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         {
             HasSetMeetingColorText = false;
             var isVisible = TutorialManager.InstanceExists || PlayerControl.LocalPlayer.DiedOtherRound();
-
-            var controlledViewpoint = PlayerControl.LocalPlayer.GetRemoteControl<IController>()?.Controlled;
+            var controlledViewpoint = PlayerControl.LocalPlayer.Data.Role switch
+            {
+                PuppeteerRole puppeteerRole => puppeteerRole.Controlled,
+                ParasiteRole parasiteRole => parasiteRole.Controlled,
+                _ => null
+            };
 
             foreach (var player in PlayerControl.AllPlayerControls)
             {
