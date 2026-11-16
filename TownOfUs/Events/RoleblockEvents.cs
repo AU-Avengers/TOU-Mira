@@ -22,7 +22,7 @@ public static class RoleblockEvents
                 {
                     var notif = Helpers.CreateAndShowNotification(
                         $"<b>You are now hungover!</color></b>", Color.white,
-                        spr: TouRoleIcons.Barkeeper.LoadAsset());
+                        spr: TouRoleIcons.Barkeeper);
 
                     notif.Text.SetOutlineThickness(0.35f);
                     notif.transform.localPosition = new Vector3(0f, 1f, -20f);

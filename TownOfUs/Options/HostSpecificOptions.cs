@@ -21,8 +21,8 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
     public ModdedToggleOption MultiplayerFreeplay { get; set; } =
         new("TouOptionMultiplayerFreeplay", false, false);
 
-    public ModdedEnumOption BetaLoggingLevel { get; set; } =
-        new("TouOptionBetaLoggingLevel", (int)LoggingLevel.LogForEveryonePostGame, typeof(LoggingLevel),
+    public ModdedEnumOption<LoggingLevel> BetaLoggingLevel { get; set; } =
+        new("TouOptionBetaLoggingLevel", LoggingLevel.LogForEveryonePostGame,
             [
                 "TouOptionBetaLoggingLevelEnumNoLogging",
                 "TouOptionBetaLoggingLevelEnumLogForHost",

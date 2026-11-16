@@ -35,7 +35,7 @@ public static class DeadlyQuotaEvents
 
                 var message = MiraLocaleManager.Get("TownOfUsMira.Modifier.DeadlyQuotaRemaining") .Replace("<amount>", remaining.ToString(TownOfUsPlugin.Culture)) .Replace("<kills>", killsWord);
 
-                var notif1 = Helpers.CreateAndShowNotification($"<b>{message}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.DeadlyQuota.LoadAsset());
+                var notif1 = Helpers.CreateAndShowNotification($"<b>{message}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.DeadlyQuota);
 
                 notif1.Text.SetOutlineThickness(0.4f);
             }
@@ -48,7 +48,7 @@ public static class DeadlyQuotaEvents
                         $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.DeadlyQuotaCompleted")}</b>",
                         Color.white,
                         new Vector3(0f, 1f, -20f),
-                        spr: TouModifierIcons.DeadlyQuota.LoadAsset());
+                        spr: TouModifierIcons.DeadlyQuota);
 
                     notif2.Text.SetOutlineThickness(0.4f);
                 }
@@ -58,7 +58,7 @@ public static class DeadlyQuotaEvents
                         $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.DeadlyQuotaCompletedShield")}</b>",
                         Color.white,
                         new Vector3(0f, 1f, -20f),
-                        spr: TouModifierIcons.DeadlyQuota.LoadAsset());
+                        spr: TouModifierIcons.DeadlyQuota);
 
                     notif3.Text.SetOutlineThickness(0.4f);
 

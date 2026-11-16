@@ -10,7 +10,7 @@ public sealed class SleuthModifier : UniversalGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Sleuth,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Sleuth.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Sleuth,
             "TouMira.Modifier.Universal.Sleuth", 1.45f));
     public override string IdPart => "Sleuth";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -34,12 +34,12 @@ public sealed class SleuthModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.SleuthChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.SleuthChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.SleuthAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.SleuthAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

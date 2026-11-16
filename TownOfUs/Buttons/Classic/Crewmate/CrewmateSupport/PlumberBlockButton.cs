@@ -32,7 +32,7 @@ public sealed class PlumberBlockButton : TownOfUsVentRoleButton<PlumberRole>, IL
 
         var notif1 = Helpers.CreateAndShowNotification(
             MiraLocaleManager.Get("TownOfUsMira.Role.PlumberBlockNotif"),
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Plumber.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Plumber);
         notif1.AdjustNotification();
 
         PlumberRole.RpcPlumberBlockVent(PlayerControl.LocalPlayer, Target.Id);

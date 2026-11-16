@@ -58,8 +58,7 @@ public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>, ILegac
             return;
         }
 
-        var deadPlayers = PlayerControl.AllPlayerControls.ToArray()
-            .Where(plr => plr.Data.IsDead && !plr.Data.Disconnected &&
+        var deadPlayers = PlayerControl.AllPlayerControls.Where(plr => plr.Data.IsDead && !plr.Data.Disconnected &&
                           Object.FindObjectsOfType<DeadBody>().Any(x => x.ParentId == plr.PlayerId)
                           && !plr.HasModifier<MediatedModifier>()).ToList();
 
@@ -69,7 +68,7 @@ public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>, ILegac
             return;
         }
 
-        var targets = (MediateRevealedTargets)OptionGroupSingleton<MediumOptions>.Instance.WhoIsRevealed.Value switch
+        var targets = OptionGroupSingleton<MediumOptions>.Instance.WhoIsRevealed.Value switch
         {
             MediateRevealedTargets.NewestDead => [deadPlayers[0]],
             MediateRevealedTargets.AllDead => deadPlayers,
@@ -97,7 +96,7 @@ public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>, ILegac
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             return false;
         }

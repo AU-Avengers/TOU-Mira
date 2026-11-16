@@ -17,7 +17,7 @@ public sealed class SonarArrowTargetModifier(PlayerControl owner, Color color, f
         base.OnActivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SonarTrack, Owner, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (Arrow == null)
         {

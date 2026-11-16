@@ -1,4 +1,5 @@
-﻿using MiraAPI.GameOptions;
+﻿using AmongUs.GameOptions;
+using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
@@ -16,7 +17,7 @@ public sealed class ScientistModifier : TouGameModifier, IWikiDiscoverable, IBut
 {
     public override ModifierUiConfiguration Configuration => new(
         new Color32(0, 199, 105, 255),
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Scientist.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Scientist,
             "AmongUs.Role.Scientist", 1.45f));
     public override string IdPart => "Scientist";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -67,12 +68,12 @@ public sealed class ScientistModifier : TouGameModifier, IWikiDiscoverable, IBut
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)
@@ -82,7 +83,7 @@ public sealed class ScientistModifier : TouGameModifier, IWikiDiscoverable, IBut
             return false;
         }
 
-        return base.IsModifierValidOn(role) && role.IsCrewmate() && role is not ScientistRole &&
+        return base.IsModifierValidOn(role) && role.IsCrewmate() && role.Role is not RoleTypes.Scientist &&
                !role.Player.GetModifierComponent().HasModifier<GameModifier>(true, x => x is IButtonModifier);
     }
 }

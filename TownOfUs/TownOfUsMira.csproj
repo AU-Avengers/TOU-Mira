@@ -5,11 +5,30 @@
         <RootNamespace>TownOfUs</RootNamespace>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <Version>$(VersionPrefix)-$(VersionSuffix)</Version>
-        <Configurations>Debug;Release;Publish</Configurations>
+        <Configurations>Debug;Release;Publish;Release-Win;Release-Android;Release-iOS;Publish-Win;Publish-Android;Publish-iOS</Configurations>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(TargetPlatform)' == ''">
+        <TargetPlatform Condition="$(Configuration.EndsWith('-Android'))">android</TargetPlatform>
+        <TargetPlatform Condition="$(Configuration.EndsWith('-iOS'))">ios</TargetPlatform>
+        <TargetPlatform Condition="'$(TargetPlatform)' == ''">win</TargetPlatform>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(TargetPlatform)' == 'android'">
+        <AssemblyName>TownOfUsMira-Android</AssemblyName>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(Configuration)\android\</IntermediateOutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(TargetPlatform)' == 'ios'">
+        <AssemblyName>TownOfUsMira-iOS</AssemblyName>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(Configuration)\ios\</IntermediateOutputPath>
     </PropertyGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="Resources\**\*.*" />
+        <EmbeddedResource Include="Resources\**\*.*" Exclude="Resources\**\*.bundle" />
+        <EmbeddedResource Include="Resources\**\*-$(TargetPlatform).bundle" />
         <None Include="../LICENSE.txt" Pack="true" PackagePath="\"/>
         <None Include="../README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
@@ -18,7 +37,12 @@
       <Folder Include="Modules\Rainbow\" />
     </ItemGroup>
 
-    <Import Project="../AmongUs.props" Condition="'$(Configuration)' != 'Publish'"/>
-    <Import Project="../AmongUsPublish.props" Condition="'$(Configuration)' == 'Publish'"/>
+    <Import Project="../AmongUs.props" Condition="!$(Configuration.StartsWith('Publish'))"/>
+    <Import Project="../AmongUsPublish.props" Condition="$(Configuration.StartsWith('Publish'))"/>
+
+    <Target Name="BuildAllPlatformReleases" AfterTargets="Build" Condition="('$(Configuration)' == 'Release' Or '$(Configuration)' == 'Publish') And '$(BuildAllPlatforms)' != 'false' And '$(IsCrossPlatformSubBuild)' != 'true'">
+        <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="Build" Properties="Configuration=$(Configuration);TargetPlatform=android;IsCrossPlatformSubBuild=true;BuildProjectReferences=false;Version=$(Version);VersionPrefix=$(VersionPrefix);VersionSuffix=$(VersionSuffix)" />
+        <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="Build" Properties="Configuration=$(Configuration);TargetPlatform=ios;IsCrossPlatformSubBuild=true;BuildProjectReferences=false;Version=$(Version);VersionPrefix=$(VersionPrefix);VersionSuffix=$(VersionSuffix)" />
+    </Target>
 
 </Project>

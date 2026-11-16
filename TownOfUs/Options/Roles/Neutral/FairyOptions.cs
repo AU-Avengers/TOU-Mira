@@ -21,10 +21,10 @@ public sealed class FairyOptions : AbstractRoleOptionGroup<FairyRole>
     [ModdedToggleOption("TouOptionFairyGetMoreUsesFromCompletingTasks")]
     public bool TaskUses { get; set; } = false;
 
-    [ModdedEnumOption("TouOptionFairyShowProtected", typeof(ProtectOptions), ["TouOptionFairyProtectionEnumFairy", "TouOptionFairyProtectionEnumFairyAndTarget", "TouOptionFairyProtectionEnumEveryone"])]
+    [ModdedEnumOption<ProtectOptions>("TouOptionFairyShowProtected", ["TouOptionFairyProtectionEnumFairy", "TouOptionFairyProtectionEnumFairyAndTarget", "TouOptionFairyProtectionEnumEveryone"])]
     public ProtectOptions ShowProtect { get; set; } = ProtectOptions.SelfAndFairy;
 
-    [ModdedEnumOption("TouOptionFairyOnDeathFairyBecomes", typeof(BecomeOptions), ["MiraApi.RoleTeam.Crewmate", "TownOfUsMira.Role.Amnesiac", "TownOfUsMira.Role.Survivor", "TownOfUsMira.Role.Mercenary", "TownOfUsMira.Role.Jester"])]
+    [ModdedEnumOption<BecomeOptions>("TouOptionFairyOnDeathFairyBecomes", ["MiraApi.RoleTeam.Crewmate", "TownOfUsMira.Role.Amnesiac", "TownOfUsMira.Role.Survivor", "TownOfUsMira.Role.Mercenary", "TownOfUsMira.Role.Jester"])]
     public BecomeOptions OnTargetDeath { get; set; } = BecomeOptions.Amnesiac;
 
     [ModdedToggleOption("TouOptionFairyTargetKnowsFairyExists")]

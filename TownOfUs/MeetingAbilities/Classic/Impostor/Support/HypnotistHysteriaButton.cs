@@ -30,7 +30,7 @@ public class HypnotistHysteriaButton : MeetingActionButton
     {
         return PlayerControl.LocalPlayer != null && role is HypnotistRole { HysteriaActive: false } &&
                !PlayerControl.LocalPlayer.HasModifier<JailedModifier>() &&
-               ModifierUtils.GetActiveModifiers<HypnotisedModifier>().HasAny();
+               ModifierUtils.GetActiveModifiers<HypnotisedModifier>().Any();
     }
 
     public override bool CanUse()

@@ -19,7 +19,7 @@ public sealed class HunterStalkedModifier(PlayerControl hunter) : TimedModifier
     {
         base.OnActivate();
         var touAbilityEvent = new TouAbilityEvent(AbilityType.HunterStalk, Hunter, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void FixedUpdate()

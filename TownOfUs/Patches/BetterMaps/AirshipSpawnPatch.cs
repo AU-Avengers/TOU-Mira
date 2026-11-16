@@ -44,13 +44,12 @@ public static class AirshipSpawnPatch
     {
         return OptionGroupSingleton<BetterAirshipOptions>.Instance.SingleLocation.Value switch
         {
-            0 => StringNames.MainHall,
-            1 => StringNames.Kitchen,
-            2 => StringNames.CargoBay,
-            3 => StringNames.Engine,
-            4 => StringNames.Brig,
-            5 => StringNames.Records,
-            _ => StringNames.MainHall
+            BetterAirshipOptions.Locations.Kitchen => StringNames.Kitchen,
+            BetterAirshipOptions.Locations.CargoBay => StringNames.CargoBay,
+            BetterAirshipOptions.Locations.EngineRoom => StringNames.Engine,
+            BetterAirshipOptions.Locations.Brig => StringNames.Brig,
+            BetterAirshipOptions.Locations.Records => StringNames.Records,
+            BetterAirshipOptions.Locations.MainHall or _ => StringNames.MainHall
         };
     }
 

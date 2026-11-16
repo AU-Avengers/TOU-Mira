@@ -32,37 +32,26 @@ public static class ControlledPlayerInteractionPatches
         _lastCacheRefresh = Time.time;
     }
 
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CanPet))]
-    [HarmonyPrefix]
-    public static bool PetButtonCanPetPrefix(PlayerControl __instance, ref bool __result)
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
+    [HarmonyPostfix]
+    public static void PetButtonUpdatePostfix(PlayerControl __instance)
     {
         if (LobbyBehaviour.Instance)
         {
-            return true;
-        }
-        if (__instance.Data?.Role is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
-        {
-            var controlled = puppeteerRole.Controlled;
-            if (controlled != null && !controlled.HasDied() && 
-                PuppeteerControlState.IsControlled(controlled.PlayerId, out _))
-            {
-                __result = false;
-                return false;
-            }
+            return;
         }
 
-        if (__instance.Data?.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+        var instance = HudManager.Instance;
+        if (__instance.Data?.Role is PuppeteerRole { Controlled: { } puppet } &&
+            !puppet.HasDied() &&
+            PuppeteerControlState.IsControlled(puppet.PlayerId, out _) ||
+            __instance.Data?.Role is ParasiteRole { Controlled: { } infected } &&
+            !infected.HasDied() &&
+            ParasiteControlState.IsControlled(infected.PlayerId, out _))
         {
-            var controlled = parasiteRole.Controlled;
-            if (controlled != null && !controlled.HasDied() && 
-                ParasiteControlState.IsControlled(controlled.PlayerId, out _))
-            {
-                __result = false;
-                return false;
-            }
+            instance.UseButton.ToggleVisible(true);
+            instance.PetButton.ToggleVisible(false);
         }
-
-        return true;
     }
 
     /// <summary>
@@ -78,33 +67,27 @@ public static class ControlledPlayerInteractionPatches
             return true;
         }
 
-        if (localPlayer.Data?.Role is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
+        if (localPlayer.Data?.Role is PuppeteerRole { Controlled: { } puppet } &&
+            !puppet.HasDied() &&
+            PuppeteerControlState.IsControlled(puppet.PlayerId, out _))
         {
-            var controlled = puppeteerRole.Controlled;
-            if (controlled != null && !controlled.HasDied() && 
-                PuppeteerControlState.IsControlled(controlled.PlayerId, out _))
+            var (interactable, interactablePos) = FindClosestInteractable(puppet);
+            if (interactable != null)
             {
-                var (interactable, interactablePos) = FindClosestInteractable(controlled);
-                if (interactable != null)
-                {
-                    PuppeteerRole.RpcPuppeteerTriggerInteraction(PlayerControl.LocalPlayer, controlled, interactablePos);
-                    return false;
-                }
+                PuppeteerRole.RpcPuppeteerTriggerInteraction(PlayerControl.LocalPlayer, puppet, interactablePos);
+                return false;
             }
         }
 
-        if (localPlayer.Data?.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+        if (localPlayer.Data?.Role is ParasiteRole { Controlled: { } infected } &&
+            !infected.HasDied() &&
+            ParasiteControlState.IsControlled(infected.PlayerId, out _))
         {
-            var controlled = parasiteRole.Controlled;
-            if (controlled != null && !controlled.HasDied() && 
-                ParasiteControlState.IsControlled(controlled.PlayerId, out _))
+            var (interactable, interactablePos) = FindClosestInteractable(infected);
+            if (interactable != null)
             {
-                var (interactable, interactablePos) = FindClosestInteractable(controlled);
-                if (interactable != null)
-                {
-                    ParasiteRole.RpcParasiteTriggerInteraction(PlayerControl.LocalPlayer, controlled, interactablePos);
-                    return false;
-                }
+                ParasiteRole.RpcParasiteTriggerInteraction(PlayerControl.LocalPlayer, infected, interactablePos);
+                return false;
             }
         }
 
@@ -164,26 +147,20 @@ public static class ControlledPlayerInteractionPatches
         var isControlling = false;
         PlayerControl? controlledPlayer = null;
 
-        if (localPlayer.Data.Role is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
+        if (localPlayer.Data.Role is PuppeteerRole { Controlled: { } puppet } &&
+            !puppet.HasDied() &&
+            PuppeteerControlState.IsControlled(puppet.PlayerId, out _))
         {
-            var controlled = puppeteerRole.Controlled;
-            if (controlled != null && !controlled.HasDied() && 
-                PuppeteerControlState.IsControlled(controlled.PlayerId, out _))
-            {
-                isControlling = true;
-                controlledPlayer = controlled;
-            }
+            isControlling = true;
+            controlledPlayer = puppet;
         }
 
-        if (localPlayer.Data.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+        if (localPlayer.Data.Role is ParasiteRole { Controlled: { } infected } &&
+            !infected.HasDied() &&
+            ParasiteControlState.IsControlled(infected.PlayerId, out _))
         {
-            var controlled = parasiteRole.Controlled;
-            if (controlled != null && !controlled.HasDied() && 
-                ParasiteControlState.IsControlled(controlled.PlayerId, out _))
-            {
-                isControlling = true;
-                controlledPlayer = controlled;
-            }
+            isControlling = true;
+            controlledPlayer = infected;
         }
 
         if (!isControlling || controlledPlayer == null)

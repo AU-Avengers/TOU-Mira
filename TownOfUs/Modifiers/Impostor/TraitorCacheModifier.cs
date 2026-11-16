@@ -23,7 +23,7 @@ public sealed class TraitorCacheModifier : BaseModifier, ICachedRole
     public bool Visible => Player.AmOwner || PlayerControl.LocalPlayer.HasDied() ||
                            FairyRole.FairySeesRoleVisibilityFlag(Player);
 
-    public CacheRoleGuess GuessMode => (CacheRoleGuess)OptionGroupSingleton<TraitorOptions>.Instance.TraitorGuess.Value;
+    public CacheRoleGuess GuessMode => OptionGroupSingleton<TraitorOptions>.Instance.TraitorGuess;
 
     public RoleBehaviour CachedRole => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TraitorRole>());
 
@@ -33,12 +33,12 @@ public sealed class TraitorCacheModifier : BaseModifier, ICachedRole
         {
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You are a new role, and you are only guessable as Traitor now!</color></b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Traitor.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Traitor);
 
             notif1.AdjustNotification();
         }*/
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.TraitorChangeRole, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 }

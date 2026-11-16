@@ -16,7 +16,7 @@ public static class TouNeutAssets
 
     public static LoadableAsset<Sprite> BribeSprite { get; } =
         new LoadableBundleSubAsset("BribeButton", TouAssets.AbilityHolder);
-    
+
     public static LoadableAsset<Sprite> ShiftSprite { get; } =
         new LoadableBundleSubAsset("ShiftButton", TouAssets.AbilityHolder);
 

@@ -26,7 +26,7 @@ public sealed class AmbusherArrowTargetModifier(PlayerControl owner, Color color
     public override void OnMeetingStart()
     {
         base.OnMeetingStart();
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeath(DeathReason reason)

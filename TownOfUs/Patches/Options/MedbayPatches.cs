@@ -17,7 +17,7 @@ public static class MedScanMinigameFixedUpdatePatch
     [HarmonyPrefix]
     public static void MedscanUpdatePrefix(MedScanMinigame __instance)
     {
-        if (OptionGroupSingleton<VanillaTweakOptions>.Instance.ParallelMedbay.Value)
+        if (OptionGroupSingleton<VanillaTweakOptions>.Instance.ParallelMedbay)
         {
             // Allows multiple medbay scans at once
             __instance.medscan.CurrentUser = PlayerControl.LocalPlayer.PlayerId;
@@ -49,7 +49,7 @@ public static class MedScanMinigameFixedUpdatePatch
 
         public static bool Prefix(Il2CppObjectBase __instance)
         {
-            if (OptionGroupSingleton<VanillaTweakOptions>.Instance.MedscanWalk.Value)
+            if (OptionGroupSingleton<VanillaTweakOptions>.Instance.MedscanWalk)
             {
                 return true;
             }
@@ -84,7 +84,7 @@ public static class MedScanMinigameFixedUpdatePatch
 
         public static bool Prefix(Il2CppObjectBase __instance)
         {
-            if (OptionGroupSingleton<VanillaTweakOptions>.Instance.MedscanWalk.Value)
+            if (OptionGroupSingleton<VanillaTweakOptions>.Instance.MedscanWalk)
             {
                 return true;
             }

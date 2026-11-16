@@ -65,7 +65,7 @@ public static class LogoPatch
         if (newLogo != null)
         {
             GameLogo = newLogo.GetComponent<SpriteRenderer>();
-            GameLogo.sprite = TouAssets.Banner.LoadAsset();
+            GameLogo.sprite = TouAssets.Banner;
         }
 
         sizer?.GetComponent<AspectSize>().PercentWidth = 0.3f;
@@ -88,13 +88,13 @@ public static class LogoPatch
         var bgFill = GameObject.Find("AccountManager/BackgroundFill");
         var loading = bgFill.transform.GetChild(0).gameObject;
         var loadRend = loading.GetComponent<SpriteRenderer>();
-        loadRend.sprite = TouAssets.MayorPet.LoadAsset();
+        loadRend.sprite = TouAssets.MayorPet;
         loadRend.flipX = false;
         loadRend.SetMaterial(newLogo!.GetComponent<SpriteRenderer>().GetMaterial());
         loadRend.color = Color.white;
         var loading2 = GameObject.Find("AccountManager/Loading").transform.GetChild(1).GetChild(0);
         var logo2 = loading2.GetComponent<SpriteRenderer>();
-        logo2.sprite = TouAssets.BannerDark.LoadAsset();
+        logo2.sprite = TouAssets.BannerDark;
         logo2.transform.localScale = new Vector3(0.15f, 0.15f, 1);
         logo2.transform.localPosition = new Vector3(1.21f, 0.7556f, 1);
 

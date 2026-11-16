@@ -84,10 +84,10 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
 
             var randomTarget = filtered[rnd.Next(0, filtered.Count)];
 
-            var imps = Helpers.GetAlivePlayers().Where(x => x.IsImpostor()).ToList();
-            if (OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor.Value && imps.Count > 1)
+            var imps = Helpers.GetAlivePlayers().Where(x => x.IsImpostor());
+            if (OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor.Value && imps.Count() > 1)
             {
-                var textlognotfound = $"Replacing an impostor with a crewmate. Impostors: {imps.Count}.";
+                var textlognotfound = $"Replacing an impostor with a crewmate. Impostors: {imps.Count()}.";
                 MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlognotfound);
                 var discardedImp = imps.Where(x => x.Data.Role is not ISpawnChange).Random();
                 var curAlignment = MiscUtils.GetRoleAlignment(discardedImp!.Data.Role);
@@ -168,7 +168,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
             else
             {
                 var textlognotfound =
-                    $"Could not replace an impostor with a crewmate. | Can Replace: {OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor.Value}, Enough Impostors: {imps.Count > 1}";
+                    $"Could not replace an impostor with a crewmate. | Can Replace: {OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor.Value}, Enough Impostors: {imps.Count() > 1}";
                 MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlognotfound);
                 RpcSetUpCrewpostor(randomTarget, randomTarget, RoleTypes.Crewmate);
             }
@@ -188,7 +188,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
             var faction = mod.FactionType.ToString();
             if (faction.Contains("Impostor") && !faction.Contains("Non"))
             {
-                discardedImp.RemoveModifier(mod);
+                mod.RemoveSelf();
             }
         }
 
@@ -221,10 +221,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
             Player.AddModifier<BasicGhostModifier>();
         }
 
-        if (Player.HasModifier<ToBecomeTraitorModifier>())
-        {
-            Player.RemoveModifier<ToBecomeTraitorModifier>();
-        }
+        Player.TryRemoveModifier<ToBecomeTraitorModifier>();
     }
 
     public override int CustomAmount => (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance.Value != 0 ? 1 : 0;

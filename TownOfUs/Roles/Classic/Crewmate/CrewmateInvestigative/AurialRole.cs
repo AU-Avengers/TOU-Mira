@@ -6,7 +6,6 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Achievements;
-using TownOfUs.Modules;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
@@ -33,7 +32,7 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Aurial.LoadAsset(), "TouMira.Role.Crewmate.Aurial", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Aurial, "TouMira.Role.Crewmate.Aurial", 1.45f),
         Icon = TouRoleIcons.Aurial,
         OptionsScreenshot = TouBanners.AurialRoleBanner,
         IntroSound = TouAudio.MediumIntroSound
@@ -69,13 +68,13 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         {
             if (!willColor)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.StrangerDanger);
+                TouAchievements.StrangerDanger.Unlock();
             }
             yield break;
         }
 
-        AchievementsAPIHelper.Increment(TouAchievements.ForceBeWithYou, 1,
-            AchievementsAPIHelper.GetCurrentValue(TouAchievements.ForceBeWithYou) == 4);
+        TouAchievements.ForceBeWithYou.Increment(1,
+            TouAchievements.ForceBeWithYou.GetCurrentValue() == 4);
 
         var position = player.transform.position;
         var colorID = player.Data.DefaultOutfit.ColorId;

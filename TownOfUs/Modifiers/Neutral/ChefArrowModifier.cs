@@ -37,7 +37,7 @@ public sealed class ChefArrowModifier(DeadBody deadBody, Color color) : TimedMod
         base.FixedUpdate();
         if (DeadBody == null)
         {
-            ModifierComponent!.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 
@@ -50,12 +50,12 @@ public sealed class ChefArrowModifier(DeadBody deadBody, Color color) : TimedMod
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnMeetingStart()
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeactivate()

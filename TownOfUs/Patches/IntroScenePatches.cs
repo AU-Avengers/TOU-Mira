@@ -20,7 +20,7 @@ public static class IntroScenePatches
         {
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (SpectatorRole.TrackedSpectators.Contains(player.Data.PlayerName))
+                if (SpectatorRole.TrackedSpectators.Contains(player.GetBestPlayerDenomination()))
                 {
                     teamToDisplay.Remove(player);
                 }
@@ -84,7 +84,7 @@ public static class IntroScenePatches
 
         foreach (var spec in PlayerControl.AllPlayerControls)
         {
-            if (!spec || !SpectatorRole.TrackedSpectators.Contains(spec.Data.PlayerName))
+            if (!spec || !SpectatorRole.TrackedSpectators.Contains(spec.GetBestPlayerDenomination()))
             {
                 continue;
             }
@@ -111,7 +111,7 @@ public static class IntroScenePatches
         int num2 = (i + 1) / 2;
         float num3 = (i == 0) ? -8 : -1;
         PoolablePlayer poolablePlayer =
-            UnityEngine.Object.Instantiate<PoolablePlayer>(__instance.PlayerPrefab, __instance.transform);
+            UnityEngine.Object.Instantiate(__instance.PlayerPrefab, __instance.transform);
         poolablePlayer.name = pData.PlayerName + "Dummy";
         poolablePlayer.SetFlipX(i % 2 == 0);
         if (impostorPositioning)
@@ -156,7 +156,7 @@ public static class IntroScenePatches
                 amount == 1 ? StringNames.NumImpostorsS : StringNames.NumImpostorsP, amount);
         __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[FF1919FF]", "<color=#FF1919FF>");
         __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[]", "</color>");
-        var assignmentType = (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
+        var assignmentType = OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
 
         if (assignmentType is not RoleSelectionMode.RoleList)
         {
@@ -171,16 +171,13 @@ public static class IntroScenePatches
         }
 
         var list = OptionGroupSingleton<RoleOptions>.Instance;
-        var maxCount = list.Slot.Count;
-
-        int maxSlots = players < maxCount ? players : maxCount;
 
         List<RoleListOption> buckets = [];
-        for (int i = 0; i < maxSlots; i++)
+        for (int i = 0; i < Math.Min(players, list.Slots.Count); i++)
         {
-            RoleListOption slotValue = i >= list.Slot.Count
+            RoleListOption slotValue = i >= list.Slots.Count
                                        ? (RoleListOption)(-1)
-                                       : list.Slot[i].Value;
+                                       : list.Slots[i];
 
             buckets.Add(slotValue);
         }

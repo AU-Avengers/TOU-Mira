@@ -1,4 +1,6 @@
-﻿using MiraAPI.GameOptions;
+﻿using System.Globalization;
+using System.Reflection;
+using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
@@ -14,7 +16,7 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Overclocker,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Overclocker.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Overclocker,
             "TouMira.Modifier.Assailant.Overclocker", 1.45f));
     public override Color FreeplayFileColor => TownOfUsColors.Overclocker;
 
@@ -38,26 +40,26 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
     public override int CustomAmount =>
-        (int)OptionGroupSingleton<AssailantModifierOptions>.Instance.ImpOverclockerAmount +
-        (int)OptionGroupSingleton<AssailantModifierOptions>.Instance.NeutOverclockerAmount;
+        OptionGroupSingleton<AssailantModifierOptions>.Instance.ImpOverclockerAmount +
+        OptionGroupSingleton<AssailantModifierOptions>.Instance.NeutOverclockerAmount;
 
     public override int CustomChance
     {
         get
         {
             var opts = OptionGroupSingleton<AssailantModifierOptions>.Instance;
-            var impChance = (int)opts.ImpOverclockerChance;
-            var neutChance = (int)opts.NeutOverclockerChance;
-            if ((int)opts.ImpOverclockerAmount > 0 && (int)opts.NeutOverclockerAmount > 0)
+            var impChance = opts.ImpOverclockerChance;
+            var neutChance = opts.NeutOverclockerChance;
+            if (opts.ImpOverclockerAmount > 0 && opts.NeutOverclockerAmount > 0)
             {
                 return (impChance + neutChance) / 2;
             }
 
-            if ((int)opts.ImpOverclockerAmount > 0)
+            if (opts.ImpOverclockerAmount > 0)
             {
                 return impChance;
             }
-            else if ((int)opts.NeutOverclockerAmount > 0)
+            else if (opts.NeutOverclockerAmount > 0)
             {
                 return neutChance;
             }
@@ -76,14 +78,47 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
         ImpostorOverclockerAttempts = 0;
         NeutralOverclockerAttempts = 0;
     }
-
-    public static bool ModifierValidCheck(RoleBehaviour role, bool runChecks)
+    public override string GetAmountText(int amount, int chance, string source)
     {
         var opts = OptionGroupSingleton<AssailantModifierOptions>.Instance;
         var neutCount = (int)opts.NeutOverclockerAmount.Value;
         var neutChance = Math.Clamp((int)opts.NeutOverclockerChance.Value, 0, 100);
+        if (neutCount == 0)
+        {
+            neutChance = 0;
+        }
+        if (neutChance == 0)
+        {
+            neutCount = 0;
+        }
         var impCount = (int)opts.ImpOverclockerAmount.Value;
         var impChance = Math.Clamp((int)opts.ImpOverclockerChance.Value, 0, 100);
+        if (impCount == 0)
+        {
+            impChance = 0;
+        }
+        if (impChance == 0)
+        {
+            impCount = 0;
+        }
+
+        return string.Format(
+            CultureInfo.InvariantCulture,
+            "Neuts: {0} at {1}% ({2})\nImps: {3} at {4}%",
+            neutCount.ToString(CultureInfo.InvariantCulture),
+            neutChance.ToString(CultureInfo.InvariantCulture),
+            source,
+            impCount.ToString(CultureInfo.InvariantCulture),
+            impChance.ToString(CultureInfo.InvariantCulture));
+    }
+
+    public static bool ModifierValidCheck(RoleBehaviour role, bool runChecks)
+    {
+        var opts = OptionGroupSingleton<AssailantModifierOptions>.Instance;
+        var neutCount = opts.NeutOverclockerAmount;
+        var neutChance = Math.Clamp(opts.NeutOverclockerChance, 0, 100);
+        var impCount = opts.ImpOverclockerAmount;
+        var impChance = Math.Clamp(opts.ImpOverclockerChance, 0, 100);
         if (role.Player.GetModifierComponent().HasModifier<AssassinModifier>(true)
             && !role.Player.GetModifierComponent().HasModifier<TouGameModifier>(true, x => x.PreventsOtherModifiers))
         {
@@ -158,7 +193,7 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
         {
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{MiraLocaleManager.Get("TownOfUsMira.Modifier.OverclockerUnderclockMeetingNotif").Replace("<multi>", OptionGroupSingleton<OverclockerOptions>.Instance.UnderclockMultiplier.Value.ToString(TownOfUsPlugin.Culture))}</b>", Color.white,
-                new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Overclocker.LoadAsset());
+                new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Overclocker);
             notif1.AdjustNotification();
         }
 
@@ -174,9 +209,22 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
                 CurrentState = ChargeState.Normal;
                 button.OverrideName(
                     MiraLocaleManager.Get("TownOfUsMira.Modifier.OverclockerOverclock", "Overclock"));
-                button.OverrideSprite(TouAssets.OverclockSprite.LoadAsset());
+                button.OverrideSprite(TouAssets.OverclockSprite);
                 break;
         }
+    }
+
+    private static bool ShouldPauseInVent(CustomActionButton ability)
+    {
+        if (ability is null)
+        {
+            return false;
+        }
+
+        var property = ability.GetType().GetProperty("ShouldPauseInVent",
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+        return property is not null && property.PropertyType == typeof(bool) && (bool)property.GetValue(ability)!;
     }
 
     public override void FixedUpdate()
@@ -186,13 +234,16 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
             return;
         }
 
+        var shouldPauseInVent = PlayerControl.LocalPlayer.inVent;
+
         if (CurrentState is ChargeState.Overclocked)
         {
             var value = OverclockMult - 1;
 
             foreach (var ability in CustomButtonManager.Buttons)
             {
-                if (ability.EffectActive || ability.TimerPaused || ability is OverclockButton)
+                if (ability.EffectActive || ability.TimerPaused || ability is OverclockButton ||
+                    (shouldPauseInVent && ShouldPauseInVent(ability)))
                 {
                     continue;
                 }
@@ -208,7 +259,8 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
 
             foreach (var ability in CustomButtonManager.Buttons)
             {
-                if (ability.EffectActive || ability.TimerPaused || ability is OverclockButton)
+                if (ability.EffectActive || ability.TimerPaused || ability is OverclockButton ||
+                    (shouldPauseInVent && ShouldPauseInVent(ability)))
                 {
                     continue;
                 }

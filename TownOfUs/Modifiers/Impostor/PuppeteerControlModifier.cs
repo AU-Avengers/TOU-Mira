@@ -66,7 +66,7 @@ public sealed class PuppeteerControlModifier(PlayerControl controller) : Disable
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeactivate()
@@ -100,7 +100,7 @@ public sealed class PuppeteerControlModifier(PlayerControl controller) : Disable
             _controlledNotification = ControlledFeedbackUtilities.ShowControlledByNotification(
                 controllerName,
                 TownOfUsColors.Impostor,
-                TouRoleIcons.Puppeteer.LoadAsset());
+                TouRoleIcons.Puppeteer);
         }
     }
 

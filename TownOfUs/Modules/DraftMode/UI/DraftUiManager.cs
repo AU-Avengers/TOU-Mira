@@ -9,14 +9,13 @@ namespace TownOfUs.Modules.DraftMode
 {
     public static class DraftUiManager
     {
-        public static List<DraftRoleCard> BuildCards(List<ushort> roleIds, List<string> roleNames = null!)
+        public static List<DraftRoleCard> BuildCards(List<ushort> roleIds)
         {
             var cards = new List<DraftRoleCard>();
             for (int i = 0; i < roleIds.Count; i++)
             {
                 ushort id = roleIds[i];
                 var role = ResolveRole(id);
-                string fallbackName = roleNames != null && i < roleNames.Count ? roleNames[i] : string.Empty;
 
                 string displayName;
                 string team;
@@ -34,21 +33,11 @@ namespace TownOfUs.Modules.DraftMode
                     faction = GetDraftFaction(role);
                     description = GetRoleDescription(role);
                 }
-                else if (!string.IsNullOrWhiteSpace(fallbackName))
-                {
-                    var presentation = GetRoleNamePresentation(fallbackName);
-                    displayName = fallbackName;
-                    team = presentation.team;
-                    icon = TouRoleIcons.RandomAny.LoadAsset();
-                    color = presentation.color;
-                    faction = presentation.faction;
-                    description = string.Empty;
-                }
                 else
                 {
                     displayName = MiraLocaleManager.Get("TouDraftUnknownRoleLabel", "Role <id>").Replace("<id>", id.ToString(System.Globalization.CultureInfo.InvariantCulture));
                     team = MiraLocaleManager.Get("TouDraftUnknownTeamLabel", "Unknown");
-                    icon = TouRoleIcons.RandomAny.LoadAsset();
+                    icon = TouRoleIcons.RandomAny;
                     color = Color.white;
                     faction = DraftFaction.Other;
                     description = string.Empty;
@@ -61,22 +50,12 @@ namespace TownOfUs.Modules.DraftMode
             if (roleOpts.ShowRandomOption)
                 cards.Add(new DraftRoleCard(
                     MiraLocaleManager.Get("Random"), MiraLocaleManager.Get("Random"),
-                    TouRoleIcons.RandomAny.LoadAsset(),
+                    TouRoleIcons.RandomAny,
                     Color.white,
                     roleIds.Count,
                     DraftFaction.Other,
                     MiraLocaleManager.Get("TouDraftRandomDescription", "Locks in a completely random role for you.")));
             return cards;
-        }
-
-        private static (string team, Color color, DraftFaction faction) GetRoleNamePresentation(string roleName)
-        {
-            if (DraftRolePool.IsImpostorRoleName(roleName))
-                return (MiraLocaleManager.Get("MiraApi.RoleTeam.Impostor"), TownOfUsColors.ImpSoft, DraftFaction.Impostor);
-            if (DraftRolePool.IsNeutralRoleName(roleName))
-                return (MiraLocaleManager.Get("MiraApi.RoleTeam.Neutral"), TownOfUsColors.Neutral, DraftFaction.Neutral);
-
-            return (MiraLocaleManager.Get("MiraApi.RoleTeam.Crewmate"), TownOfUsColors.Crewmate, DraftFaction.Crewmate);
         }
 
         public static string GetRoleDescription(RoleBehaviour role)

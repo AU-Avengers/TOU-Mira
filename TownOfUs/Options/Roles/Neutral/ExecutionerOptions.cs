@@ -9,20 +9,20 @@ public sealed class ExecutionerOptions : AbstractRoleOptionGroup<ExecutionerRole
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Executioner", "Executioner");
 
-    [ModdedEnumOption("TouOptionExecutionerBecomesTargetDeath", typeof(BecomeOptions), ["MiraApi.RoleTeam.Crewmate", "TownOfUsMira.Role.Amnesiac", "TownOfUsMira.Role.Survivor", "TownOfUsMira.Role.Mercenary", "TownOfUsMira.Role.Jester"])]
+    [ModdedEnumOption<BecomeOptions>("TouOptionExecutionerBecomesTargetDeath", ["MiraApi.RoleTeam.Crewmate", "TownOfUsMira.Role.Amnesiac", "TownOfUsMira.Role.Survivor", "TownOfUsMira.Role.Mercenary", "TownOfUsMira.Role.Jester"])]
     public BecomeOptions OnTargetDeath { get; set; } = BecomeOptions.Jester;
 
     [ModdedToggleOption("TouOptionExecutionerCanButton")]
     public bool CanButton { get; set; } = true;
 
-    [ModdedEnumOption("TouOptionExecutionerWin", typeof(ExeWinOptions), ["TouOptionExecutionerWinEnumEndsGame", "TouOptionExecutionerWinEnumTorments", "TouOptionExecutionerWinEnumNothing"])]
+    [ModdedEnumOption<ExeWinOptions>("TouOptionExecutionerWin", ["TouOptionExecutionerWinEnumEndsGame", "TouOptionExecutionerWinEnumTorments", "TouOptionExecutionerWinEnumNothing"])]
     public ExeWinOptions ExeWin { get; set; } = ExeWinOptions.Torments;
 
     public ModdedToggleOption ExeAnonymizeWin { get; set; } =
         new("TouOptionNeutAnonymousVictoryWin", false)
-    {
-        Visible = () => OptionGroupSingleton<ExecutionerOptions>.Instance.ExeWin is not ExeWinOptions.EndsGame
-    };
+        {
+            Visible = () => OptionGroupSingleton<ExecutionerOptions>.Instance.ExeWin is not ExeWinOptions.EndsGame
+        };
 }
 
 public enum ExeWinOptions

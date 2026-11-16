@@ -18,7 +18,7 @@ public sealed class TestTimeLordRewindButton : TownOfUsButton, IAurialBypassButt
 
     public override float EffectDuration => OptionGroupSingleton<TimeLordOptions>.Instance.RewindDuration;
 
-    public override int MaxUses => (int)OptionGroupSingleton<TimeLordOptions>.Instance.MaxUses;
+    public override int MaxUses => OptionGroupSingleton<TimeLordOptions>.Instance.MaxUses;
 
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.RewindSprite;
 
@@ -52,7 +52,7 @@ public sealed class TestTimeLordRewindButton : TownOfUsButton, IAurialBypassButt
             return;
         }
 
-        var spr = EffectActive ? TouCrewAssets.RewindingSprite.LoadAsset() : TouCrewAssets.RewindSprite.LoadAsset();
+        var spr = EffectActive ? TouCrewAssets.RewindingSprite : TouCrewAssets.RewindSprite;
         if (Button.graphic != null && Button.graphic.sprite != spr)
         {
             Button.graphic.sprite = spr;

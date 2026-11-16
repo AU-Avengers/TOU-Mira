@@ -15,7 +15,7 @@ public static class CelebrityEvents
         var source = @event.Source;
         var target = @event.Target;
 
-        if (target.HasModifier<CelebrityModifier>())
+        if (target.TryGetModifier<CelebrityModifier>(out var celeb))
         {
             if (!MeetingHud.Instance)
             {
@@ -23,7 +23,6 @@ public static class CelebrityEvents
             }
             else
             {
-                var celeb = target.GetModifier<CelebrityModifier>()!;
                 celeb.Announced = true;
             }
         }

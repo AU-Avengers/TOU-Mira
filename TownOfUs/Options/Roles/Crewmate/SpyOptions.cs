@@ -10,11 +10,11 @@ public sealed class SpyOptions : AbstractRoleOptionGroup<SpyRole>
 {
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Spy", "Spy");
 
-    [ModdedEnumOption("TouOptionSpyWhoSeesDeadBodiesOnAdmin", typeof(AdminDeadPlayers),
+    [ModdedEnumOption<AdminDeadPlayers>("TouOptionSpyWhoSeesDeadBodiesOnAdmin",
         ["TouOptionSpyDeadEnumNobody", "TouOptionSpyDeadEnumSpy", "TouOptionSpyDeadEnumEveryoneButSpy", "TouOptionSpyDeadEnumEveryone"])]
     public AdminDeadPlayers WhoSeesDead { get; set; } = AdminDeadPlayers.Nobody;
 
-    [ModdedEnumOption("TouOptionSpyAllowPortableAdminTableFor", typeof(PortableAdmin),
+    [ModdedEnumOption<PortableAdmin>("TouOptionSpyAllowPortableAdminTableFor",
         ["TouOptionSpyPortableEnumRole", "TouOptionSpyPortableEnumModifier", "TouOptionSpyPortableEnumBoth", "TouOptionSpyPortableEnumNone"])]
     public PortableAdmin HasPortableAdmin { get; set; } = PortableAdmin.Both;
 

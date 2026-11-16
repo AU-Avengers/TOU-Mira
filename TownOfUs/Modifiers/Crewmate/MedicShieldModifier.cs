@@ -49,7 +49,7 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
     public void RemoveMedic(PlayerControl med)
     {
         AllMedics.Remove(med);
-        if (Medic == med && AllMedics.HasAny())
+        if (Medic == med && AllMedics.Count != 0)
         {
             SetNewMedic(AllMedics[0]);
         }
@@ -80,7 +80,7 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
     public override void OnActivate()
     {
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MedicShield, Medic, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
         AllMedics.Add(Medic);
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
@@ -94,12 +94,12 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-            var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
+        var fakePlayer = !TutorialManager.InstanceExists ? MiscUtils.GetFakePlayer(PlayerControl.LocalPlayer.PlayerId) : null;
 
         ShowShield = showShieldedEveryone || showShieldedSelf || showShieldedMedic ||
                      (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
 
-        MedicShield = AnimStore.SpawnAnimBody(Player, TouAssets.MedicShield.LoadAsset(), false, -1.1f, -0.1f, 1.5f)!;
+        MedicShield = AnimStore.SpawnAnimBody(Player, TouAssets.MedicShield, false, -1.1f, -0.1f, 1.5f)!;
     }
 
     public override void OnDeactivate()
@@ -113,9 +113,9 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (!Player || !AllMedics.HasAny())
+        if (!Player || AllMedics.Count == 0)
         {
-            ModifierComponent?.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 

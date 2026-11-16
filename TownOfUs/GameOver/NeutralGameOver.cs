@@ -1,10 +1,8 @@
 ﻿using MiraAPI.GameEnd;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Achievements;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Neutral;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -36,7 +34,7 @@ public sealed class NeutralGameOver : CustomGameOver
         }
 
         _role = mainRole!;
-        if (PlayerControl.AllPlayerControls.ToArray().Any(x => x != role.Player && x.GetRoleWhenAlive().GetType() == _role.GetType()))
+        if (PlayerControl.AllPlayerControls.Any(x => x != role.Player && x.GetRoleWhenAlive().GetType() == _role.GetType()))
         {
             _soloWin = false;
         }
@@ -60,11 +58,6 @@ public sealed class NeutralGameOver : CustomGameOver
         pos.y = 1.5f;
         pos += Vector3.down * 0.15f;
         text.transform.localScale = new Vector3(1f, 1f, 1f);
-        if (_role is PlaguebearerRole && _role.Player.AmOwner)
-        {
-            AchievementsAPIHelper.Unlock(TouAchievements.CommonCold);
-        }
-
         text.transform.position = pos;
         text.text = $"<size=4>{text.text}</size>";
     }

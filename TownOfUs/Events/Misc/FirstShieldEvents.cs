@@ -40,8 +40,9 @@ public static class FirstShieldEvents
         if (!@event.TriggeredByIntro)
         {
             var players = PlayerControl.AllPlayerControls.ToArray();
-            players.Where(x => x.HasModifier<FirstDeadShield>()).Do(x => x.RemoveModifier<FirstDeadShield>());
-            players.Where(x => x.HasModifier<FirstRoundIndicator>()).Do(x => x.RemoveModifier<FirstRoundIndicator>());
+
+            players.Do(x => x.TryRemoveModifier<FirstDeadShield>());
+            players.Do(x => x.TryRemoveModifier<FirstRoundIndicator>());
         }
     }
 

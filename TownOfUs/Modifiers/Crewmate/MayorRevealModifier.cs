@@ -15,9 +15,9 @@ public sealed class MayorRevealModifier(RoleBehaviour role)
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (Player.Data.Role is MayorRole mayor)
+        if (Player.Data.Role is MayorRole { Revealed: var revealed })
         {
-            Visible = mayor.Revealed;
+            Visible = revealed;
         }
         else
         {

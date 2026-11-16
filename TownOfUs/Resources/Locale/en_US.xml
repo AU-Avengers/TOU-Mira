@@ -501,12 +501,13 @@ You may disable this message through your option menu.</string>
   <string name="DiedToSheriff">Shot</string>
   <string name="DiedToOfficer">Wounded</string>
   <string name="DiedToDeputy">Blasted</string>
+  <string name="DiedToHunter">Sniped</string>
   <string name="DiedToSwapper">Swapped</string>
   <string name="DiedToMarshal">Tribunal</string>
-  <string name="DiedToVeteran">Attacked</string>
+  <string name="DiedToVeteran">Countered</string>
   <string name="DiedToJailor">Executed</string>
   <string name="DiedToProsecutor">Prosecuted</string>
-  <string name="DiedToArsonist">Ignited</string>
+  <string name="DiedToArsonist">Incinerated</string>
   <string name="DiedToGlitch">Bugged</string>
   <string name="DiedToJuggernaut">Destroyed</string>
   <string name="DiedToPestilence">Obliterated</string>
@@ -520,13 +521,14 @@ You may disable this message through your option menu.</string>
   <string name="DiedToSpectre">Spooked</string>
   <string name="DiedToInquisitor">Vanquished</string>
   <string name="DiedToAmbusherAmbush">Ambushed</string>
-  <string name="DiedToBomberBomb">Bombed</string>
+  <string name="DiedToBomberBomb">Blown Up</string>
   <string name="DiedToSpellslingerHexBomb">Disintegrated</string>
   <string name="DiedToViper">Dissolved</string>
   <string name="DiedToParasite">Overtaken</string>
   <string name="DiedToPuppetControl">Targeted</string>
   <string name="DiedToPoison">Poisoned</string>
   <string name="DiedToTempRevive">Temporarily Revived</string>
+  <string name="DiedToWraith">Terrified</string>
   <!-- Status Effects -->
     <string name="TouFirstDeathShield">First Death Shield</string>
   <string name="TouClericBarrier">Cleric Barrier</string>
@@ -2025,6 +2027,9 @@ Your sample clears at the beginning of every round.</string>
   <string name="TouOptionMorphlingMorphCooldown">Morph Cooldown</string>
   <string name="TouOptionMorphlingMorphDuration">Morph Duration</string>
   <string name="TouOptionMorphlingCanVent">Morphling Can Vent</string>
+    <string name="TouOptionMorphlingCanVentEnumNever">Never</string>
+    <string name="TouOptionMorphlingCanVentEnumUnlessMorphed">Unless Morphed</string>
+    <string name="TouOptionMorphlingCanVentEnumAlways">Always</string>
   <!-- Parasite Wiki / Abilities -->
     <string name="TownOfUsMira.Role.Parasite">Parasite</string>
   <string name="TownOfUsMira.Role.Parasite.IntroBlurb">Overtake and control players</string>
@@ -2617,6 +2622,7 @@ vision, and vent away temporarily</string>
   <!-- Lover - Universal Alliance -->
     <!-- Lover Wiki / Description -->
     <string name="TownOfUsMira.Modifier.Lover">Lover</string>
+    <string name="TownOfUsMira.Modifier.Lover.MedDescription">Privately chat with your lover and win the game together!</string>
   <string name="TownOfUsMira.Modifier.LoverInfoDisconnected">You were in love with [player], whom disconnected.</string>
   <string name="TownOfUsMira.Modifier.LoverInfo">You are in love with [player].</string>
   <string name="TownOfUsMira.Modifier.Lover.WikiDescription">As a lover, you can chat with your other lover (signified with [symbol]) during the round, and you can win with your lover if you are both a part of the final three players.</string>
@@ -2679,8 +2685,7 @@ vision, and vent away temporarily</string>
     <!-- Radar Wiki / Description -->
     <string name="TownOfUsMira.Modifier.Radar">Radar</string>
   <string name="TownOfUsMira.Modifier.Radar.TabDescription">Get an arrow to the closest player.</string>
-  <string name="TownOfUsMira.Modifier.Radar.WikiDescription">You have an arrow pointing
- to the closest player.</string>
+  <string name="TownOfUsMira.Modifier.Radar.WikiDescription">You have an arrow pointing to the closest player.</string>
   <!-- Satellite -->
     <!-- Satellite Wiki / Abilities -->
     <string name="TownOfUsMira.Modifier.Satellite">Satellite</string>
@@ -3022,6 +3027,7 @@ when the lights are sabotaged.</string>
   <string name="TouOptionKillAnimationBackgroundColorEnumRed">Red</string>
   <string name="TouOptionKillAnimationBackgroundColorEnumFaction">Faction</string>
   <string name="TouOptionKillAnimationBackgroundColorEnumRoleColor">Role Color</string>
+    <string name="TouOptionShowInfoSensitiveKillAnimations">Show Info-Sensitive Kill Animations</string>
   <string name="TouOptionPlayerCountWhenVentsDisable">Max Players Alive When Vents Disable</string>
   <string name="TouOptionGhostwalkerFixSabos">Ghostwalkers Can Fix Sabotages</string>
   <string name="TouOptionPlayerCountWhenSabotagesDisable">Max Players Alive When Sabotages Disable</string>
@@ -3289,6 +3295,7 @@ when the lights are sabotaged.</string>
         <string name="TouOptionShyTransparencyDelay">Transparency Delay</string>
   <string name="TouOptionShyTurnTransparentDuration">Turn Transparent Duration</string>
   <string name="TouOptionShyFinalOpacity">Final Opacity</string>
+    <string name="TouOptionShyAlwaysVisibleInCamoComms">Always Visible in Camouflage</string>
   <!-- Other Modifier Options -->
     <!-- Alliance Modifier Options -->
       <string name="TownOfUsMira.Options.Groups.AllianceModifiers">Alliance Modifiers</string>
@@ -3523,8 +3530,8 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Achievement.IveSeenThePlays.Description">End your own life before they can.</string>
   <string name="TownOfUsMira.Achievement.GoBuyALotteryTicket.Name">Go buy a lottery ticket</string>
   <string name="TownOfUsMira.Achievement.GoBuyALotteryTicket.Description">Win a 1 in 292,000,000 roll. Seriously, go buy a lottery ticket.</string>
-  <string name="TownOfUsMira.Achievement.NoYou.Name">No You</string>
-  <string name="TownOfUsMira.Achievement.NoYou.Description">Serve a drink to the player who served you one in the same round.</string>
+  <string name="TownOfUsMira.Achievement.PartyOfTwo.Name">Party Of Two</string>
+  <string name="TownOfUsMira.Achievement.PartyOfTwo.Description">Serve a drink to the player who served you one in the same round.</string>
   <string name="TownOfUsMira.Achievement.Endgame.Name">Endgame</string>
   <string name="TownOfUsMira.Achievement.Endgame.Description">Witness a 1v1 between a Juggernaut and Pestilence.</string>
   <string name="TownOfUsMira.Achievement.ForceBeWithYou.Name">The Force Be With You</string>
@@ -3638,7 +3645,7 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Achievement.Hitman.Name">Hitman</string>
   <string name="TownOfUsMira.Achievement.Hitman.Description">Correctly guess 2 players in a single meeting as Assassin.</string>
   <string name="TownOfUsMira.Achievement.PatientZero.Name">Patient Zero</string>
-  <string name="TownOfUsMira.Achievement.PatientZero.Description">Infect 5 players in a single round as Plaguebearer.</string>
+  <string name="TownOfUsMira.Achievement.PatientZero.Description">Infect 10 players across sessions as Plaguebearer.</string>
   <string name="TownOfUsMira.Achievement.FullMoon.Name">Full Moon</string>
   <string name="TownOfUsMira.Achievement.FullMoon.Description">Kill 15 players across sessions as Werewolf.</string>
   <string name="TownOfUsMira.Achievement.Hangman.Name">Hangman</string>
@@ -3648,7 +3655,7 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Achievement.FinalAct.Name">The Final Act</string>
   <string name="TownOfUsMira.Achievement.FinalAct.Description">Get ejected when three or less players remain.</string>
   <string name="TownOfUsMira.Achievement.Nosferatu.Name">Nosferatu</string>
-  <string name="TownOfUsMira.Achievement.Nosferatu.Description">Bite 3 players in a single game.</string>
+  <string name="TownOfUsMira.Achievement.Nosferatu.Description">Bite 15 players across sessions as Vampire.</string>
   <string name="TownOfUsMira.Achievement.ButItRefused.Name">But it refused.</string>
   <string name="TownOfUsMira.Achievement.ButItRefused.Description">Get revived alongside your lover.</string>
   <string name="TownOfUsMira.Achievement.YoureSafeWithMe.Name">You're Safe with Me</string>
@@ -3735,6 +3742,8 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Achievement.ExtraSecure.Description">Place a camera in Security.</string>
   <string name="TownOfUsMira.Achievement.PotatoTomato.Name">Potato Tomato</string>
   <string name="TownOfUsMira.Achievement.PotatoTomato.Description">Transport two dead bodies with one another.</string>
+    <string name="TownOfUsMira.Achievement.Heavyweight.Name">Heavyweight</string>
+    <string name="TownOfUsMira.Achievement.Heavyweight.Description">Attempt to transport a Stoned player or an Immovable player.</string>
   <string name="TownOfUsMira.Achievement.StolenValor.Name">Stolen Valor</string>
   <string name="TownOfUsMira.Achievement.StolenValor.Description">Talk with a Jailed player whilst imitating a Jailor.</string>
   <string name="TownOfUsMira.Achievement.Undercover.Name">Undercover</string>
@@ -3803,8 +3812,6 @@ This change is permanent.</string>
   <string name="TownOfUsMira.Achievement.RoleEater.Description">Guess every role you need within 3 rounds.</string>
   <string name="TownOfUsMira.Achievement.Fireproof.Name">Fireproof</string>
   <string name="TownOfUsMira.Achievement.Fireproof.Description">Try to ignite a protected player.</string>
-  <string name="TownOfUsMira.Achievement.Carrier.Name">Carrier</string>
-  <string name="TownOfUsMira.Achievement.Carrier.Description">Win as Plaguebearer without ever transforming into Pestilence.</string>
   <string name="TownOfUsMira.Achievement.BadStaringContest.Name">Bad Staring Contest</string>
   <string name="TownOfUsMira.Achievement.BadStaringContest.Description">Get killed through Stone Gaze.</string>
   <string name="TownOfUsMira.Achievement.ChangeOfHeart.Name">Change of Heart</string>
@@ -3940,6 +3947,8 @@ No one can interact with you.</string>
   <string name="TouOptionSentryPortableModeEnumAlways">Always</string>
   <string name="TouOptionSentryPortableModeEnumAfterTasks">After Tasks</string>
   <string name="TouOptionSentryPortableModeEnumCamlessMaps">Only On Cam-less Maps</string>
+    <string name="TouOptionSentryInitialPortableCameraCharge">Initial Portable Cams Charge</string>
+    <string name="TouOptionSentryPortableCamsRechargePerTask">Portable Cams Recharge per Task</string>
   <string name="TouOptionTimeLordReviveEnumDisabled">Disabled</string>
   <string name="TouOptionTimeLordReviveEnumUntilNextRound">Until Next Round</string>
   <string name="TouOptionTimeLordReviveEnumFully">Fully</string>

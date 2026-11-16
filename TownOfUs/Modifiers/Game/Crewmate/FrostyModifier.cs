@@ -8,7 +8,7 @@ public sealed class FrostyModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Frosty,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Frosty.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Frosty,
             "TouMira.Modifier.Crewmate.Frosty", 1.45f));
     public override string IdPart => "Frosty";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -34,12 +34,12 @@ public sealed class FrostyModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.FrostyChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.FrostyChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.FrostyAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.FrostyAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

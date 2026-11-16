@@ -70,7 +70,7 @@ public static class ClericEvents
             return false;
         }
 
-        if (!target.HasModifier<ClericBarrierModifier>() ||
+        if (!target.TryGetModifier<ClericBarrierModifier>(out var mod) ||
             target.PlayerId == source.PlayerId ||
             @event is BeforeMurderEvent { IgnoreDefense: true } ||
             @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
@@ -81,7 +81,7 @@ public static class ClericEvents
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a cleric barrier, stopping an interaction from {source.Data.PlayerName}!");
         @event.Cancel();
 
-        var cleric = target.GetModifier<ClericBarrierModifier>()?.Cleric.GetRole<ClericRole>();
+        var cleric = mod.Cleric.GetRole<ClericRole>();
 
         if (cleric != null && (TutorialManager.InstanceExists || source.AmOwner))
         {

@@ -20,17 +20,17 @@ public sealed class MedusaOptions : AbstractRoleOptionGroup<MedusaRole>
     public float StoneCompletion { get; set; } = 20f;
 
     public ModdedToggleOption StoneGazeAvailable { get; set; } = new("TouOptionMedusaAllowStoneGazing", true);
-    
+
     public ModdedNumberOption StoneGazeCooldown { get; set; } = new("TouOptionMedusaStoneGazeCooldown", 35f, 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)
     {
         Visible = () => OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable
     };
-    
+
     public ModdedNumberOption StoneGazeDuration { get; set; } = new("TouOptionMedusaStoneGazeDuration", 10f, 5f, 20f, 2.5f, MiraNumberSuffixes.Seconds)
     {
         Visible = () => OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable
     };
-    
+
     public ModdedNumberOption StoneGazeUses { get; set; } = new("TouOptionMedusaStoneGazeUses", 3f, 1f, 10f, 1f, MiraNumberSuffixes.None)
     {
         Visible = () => OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable

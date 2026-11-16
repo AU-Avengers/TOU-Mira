@@ -35,7 +35,7 @@ public sealed class FootstepsModifier : BaseModifier
         AnonymousPrints = opts.ShowAnonymousFootprints;
         PrintSize = opts.FootprintSize;
         PrintInterval = opts.FootprintInterval;
-        CheckDistance = (PrintMode)opts.FootprintMode.Value is PrintMode.Distance;
+        CheckDistance = opts.FootprintMode.Value is PrintMode.Distance;
         PrintDuration = opts.FootprintDuration;
         PrintOnVents = opts.ShowFootprintVent;
     }
@@ -54,7 +54,7 @@ public sealed class FootstepsModifier : BaseModifier
     public override void FixedUpdate()
     {
         var cantContinue = _currentSteps == null || Player.AmOwner ||
-                           PlayerControl.LocalPlayer.GetModifiers<HypnotisedModifier>().Any(x => x.HysteriaActive) ||
+                           PlayerControl.LocalPlayer.HasModifier<HypnotisedModifier>(x => x.HysteriaActive) ||
                            !Player.IsVisibleToOthers();
         if (CheckDistance)
         {
@@ -90,7 +90,7 @@ public sealed class FootstepsModifier : BaseModifier
             }
 
             var sprite = footstep.AddComponent<SpriteRenderer>();
-            sprite.sprite = TouAssets.FootprintSprite.LoadAsset();
+            sprite.sprite = TouAssets.FootprintSprite;
             sprite.color = (AnonymousPrints || HudManagerPatches.CommsSaboActive())
                 ? new Color(0.2f, 0.2f, 0.2f, 1f)
                 : Player.cosmetics.currentBodySprite.BodySprite.material.GetColor(ShaderID.BodyColor);
@@ -137,7 +137,7 @@ public sealed class FootstepsModifier : BaseModifier
             }
 
             var sprite = footstep.AddComponent<SpriteRenderer>();
-            sprite.sprite = TouAssets.FootprintSprite.LoadAsset();
+            sprite.sprite = TouAssets.FootprintSprite;
             sprite.color = (AnonymousPrints || HudManagerPatches.CommsSaboActive())
                 ? new Color(0.2f, 0.2f, 0.2f, 1f)
                 : Player.cosmetics.currentBodySprite.BodySprite.material.GetColor(ShaderID.BodyColor);
@@ -155,7 +155,7 @@ public sealed class FootstepsModifier : BaseModifier
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public static IEnumerator FootstepFadeout(GameObject obj, SpriteRenderer rend)

@@ -21,6 +21,7 @@ public abstract class AllianceGameModifier : TouBaseGameModifier
     public virtual bool CountTowardsTrueFaction => false;
     // Only used when the TrueFactionType is set to RoleSpecific
     public virtual RoleBehaviour UnderlyingRole => RoleManager.Instance.GetRole(RoleTypes.Crewmate);
+    public override bool ShowModifierAsUnique => true;
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {

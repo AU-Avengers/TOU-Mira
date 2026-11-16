@@ -15,7 +15,7 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string IdPart => "Lookout";
-    public static string ReworkString => (LookoutView)OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Players ? "Alt" : string.Empty;
+    public static string ReworkString => OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Players ? "Alt" : string.Empty;
     public string RoleLongDescription => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}.{ReworkString}TabDescription");
 
     public string GetAdvancedDescription()
@@ -31,27 +31,11 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Lookout.LoadAsset(), "TouMira.Role.Crewmate.Lookout", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Lookout, "TouMira.Role.Crewmate.Lookout", 1.45f),
         Icon = TouRoleIcons.Lookout,
         OptionsScreenshot = TouBanners.LookoutRoleBanner,
         IntroSound = TouAudio.SuspenseIntro,
     };
-
-
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Watch", "Watch"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Watch.WikiDescription"),
-                    TouCrewAssets.WatchSprite)
-            ];
-        }
-    }
 
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
@@ -85,7 +69,7 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         // Fixes desync for when a player dies while interacting.
         var role = source.GetRoleWhenAlive();
 
-        if (source.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
+        if (source.TryGetModifierOfType<ICachedRole>(out var cachedMod))
         {
             role = cachedMod.CachedRole;
         }

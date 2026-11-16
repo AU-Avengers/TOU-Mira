@@ -19,7 +19,7 @@ public static class TouAchievementLifecycle
     /// </summary>
     public static void UnlockTentative(AchievementSpec achievement)
     {
-        AchievementsAPIHelper.UnlockTentative(achievement);
+        achievement.UnlockTentative();
     }
 
     /// <summary>

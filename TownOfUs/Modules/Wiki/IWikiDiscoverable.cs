@@ -1,5 +1,6 @@
 ﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
+using MiraAPI.Roles;
 using TMPro;
 using UnityEngine;
 
@@ -7,7 +8,17 @@ namespace TownOfUs.Modules.Wiki;
 
 public interface IWikiDiscoverable
 {
-    [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities => [];
+    [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            if (this is ICustomRole role)
+            {
+                return role.WikiAbilities.Select(wiki => new CustomButtonWikiDescription(wiki.Name, wiki.Description, wiki.Icon)).ToList();
+            }
+            return [];
+        }
+    }
 
     public string SecondTabName => MiraLocaleManager.Get("WikiAbilitiesTab", "Abilities");
     [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.Normal;
@@ -33,7 +44,7 @@ public interface IWikiDiscoverable
                 var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
                 var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
 
-                icon.sprite = ability.Icon.LoadAsset();
+                icon.sprite = ability.Icon;
                 icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
                 // icon.tileMode = SpriteTileMode.Adaptive;
 

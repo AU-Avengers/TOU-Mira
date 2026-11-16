@@ -18,7 +18,7 @@ public sealed class OracleConfessModifier(PlayerControl oracle, int faction) : B
         base.OnActivate();
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.OracleConfess, Oracle, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
 
         if (faction == 0)
         {
@@ -36,6 +36,6 @@ public sealed class OracleConfessModifier(PlayerControl oracle, int faction) : B
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

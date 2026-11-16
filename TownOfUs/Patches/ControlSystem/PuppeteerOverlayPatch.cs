@@ -10,44 +10,41 @@ public static class PuppeteerOverlayPatch
     {
         var local = PlayerControl.LocalPlayer;
 
-        var hasModifier = local.TryGetModifier<PuppeteerControlModifier>(out var mod);
-        var isControlled = PuppeteerControlState.IsControlled(local.PlayerId, out var controllerId);
-
-        if (hasModifier && !isControlled)
+        if (!local.TryGetModifier<PuppeteerControlModifier>(out var mod))
         {
-            mod?.ClearNotification();
-            if (mod != null)
-             local.RemoveModifier(mod);
             return;
         }
 
-        if (hasModifier)
+        var isControlled = PuppeteerControlState.IsControlled(local.PlayerId, out var controllerId);
+
+        if (!isControlled)
         {
-            var shouldClear =
-                MeetingHud.Instance ||
-                ExileController.Instance ||
-                local.Data == null ||
-                local.Data.Disconnected ||
-                local.Data.IsDead;
+            mod.ClearNotification();
+            mod.RemoveSelf();
+            return;
+        }
 
-            if (!shouldClear)
-            {
-                var controller = MiscUtils.PlayerById(controllerId);
-                if (controller == null || controller.Data == null || controller.Data.Disconnected || controller.HasDied())
-                {
-                    shouldClear = true;
-                }
-            }
+        var shouldClear =
+            MeetingHud.Instance ||
+            ExileController.Instance ||
+            local.Data == null ||
+            local.Data.Disconnected ||
+            local.Data.IsDead;
 
-            if (shouldClear)
+        if (!shouldClear)
+        {
+            var controller = MiscUtils.PlayerById(controllerId);
+            if (controller == null || controller.Data == null || controller.Data.Disconnected || controller.HasDied())
             {
-                mod?.ClearNotification();
-                if (mod != null)
-                {
-                    PuppeteerControlState.ClearControl(local.PlayerId);
-                    local.RemoveModifier(mod);
-                }
+                shouldClear = true;
             }
+        }
+
+        if (shouldClear)
+        {
+            mod.ClearNotification();
+            PuppeteerControlState.ClearControl(local.PlayerId);
+            mod.RemoveSelf();
         }
     }
 }

@@ -1,12 +1,8 @@
 using HarmonyLib;
-using Il2CppInterop.Runtime;
 using MiraAPI.GameOptions;
 using TownOfUs.Modules.DraftMode;
 using TownOfUs.Options;
 using TownOfUs.Roles.Other;
-using UnityEngine;
-using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
 namespace TownOfUs.Patches.DraftMode
 {
@@ -62,8 +58,7 @@ namespace TownOfUs.Patches.DraftMode
 
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[GameStartPatch] DRAFT MODE DETECTED - Starting draft");
 
-            var players = PlayerControl.AllPlayerControls.ToArray()
-                .Where(p => p != null && !p.Data.Disconnected && !SpectatorRole.TrackedSpectators.Contains(p.Data.PlayerName))
+            var players = PlayerControl.AllPlayerControls.Where(p => p != null && !p.Data.Disconnected && !SpectatorRole.TrackedSpectators.Contains(p.GetBestPlayerDenomination()))
                 .ToList();
 
             if (players.Count == 0)
@@ -72,32 +67,8 @@ namespace TownOfUs.Patches.DraftMode
                 return true;
             }
             __state = false;
-
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[GameStartPatch] Starting draft with {players.Count} players");
-            var shuffledSlots = Enumerable.Range(1, players.Count)
-                .OrderBy(_ => Random.value)
-                .ToList();
-            var pidToSlot = new Dictionary<byte, int>();
-            for (int i = 0; i < players.Count; i++)
-                pidToSlot[players[i].PlayerId] = shuffledSlots[i];
-            var engine = DraftEngineBehaviour.Instance;
-            if (engine == null)
-            {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[GameStartPatch] Creating new DraftEngineBehaviour");
-                var go = new GameObject("DraftEngineBehaviour");
-                Object.DontDestroyOnLoad(go);
-                engine = go.AddComponent(Il2CppType.From(typeof(DraftEngineBehaviour))).TryCast<DraftEngineBehaviour>()!;
-            }
-
-            if (engine == null)
-            {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, "[GameStartPatch] Failed to create DraftEngineBehaviour");
-                return true;
-            }
-
             __instance.countDownTimer = 10f;
-            engine.StartHostDraft(players.Count, pidToSlot);
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[GameStartPatch] Draft started, blocking normal game start");
+            DraftEngine.Start(players);
             return false;
         }
 

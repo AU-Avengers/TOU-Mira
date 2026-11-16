@@ -63,15 +63,15 @@ public sealed class TestCleanButton : TownOfUsTargetButton<DeadBody>, IAurialByp
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.JanitorClean, PlayerControl.LocalPlayer, body);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
-        var destroyBody = (BodyVitalsMode)OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance.Value;
+        touAbilityEvent.InvokeEvent();
+        var destroyBody = OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance;
 
         if (OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind)
         {
             var bodyPlayer = MiscUtils.PlayerById(body.ParentId);
             if (bodyPlayer != null)
             {
-                TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(PlayerControl.LocalPlayer, body, body.transform.position, 
+                Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(PlayerControl.LocalPlayer, body, body.transform.position,
                     TimeLordBodyManager.CleanedBodySource.Janitor);
             }
             Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));

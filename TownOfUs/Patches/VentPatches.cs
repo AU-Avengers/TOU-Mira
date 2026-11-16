@@ -37,7 +37,7 @@ public static class VentPatches
             return true;
         }
 
-        if (!OptionGroupSingleton<VanillaTweakOptions>.Instance.HideVentAnimationNotInVision.Value)
+        if (!OptionGroupSingleton<VanillaTweakOptions>.Instance.HideVentAnimationNotInVision)
         {
             return true;
         }
@@ -59,7 +59,7 @@ public static class VentPatches
             return true;
         }
 
-        if (!OptionGroupSingleton<VanillaTweakOptions>.Instance.HideVentAnimationNotInVision.Value)
+        if (!OptionGroupSingleton<VanillaTweakOptions>.Instance.HideVentAnimationNotInVision)
         {
             return true;
         }

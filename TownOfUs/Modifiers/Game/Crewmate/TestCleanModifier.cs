@@ -6,6 +6,7 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class TestCleanModifier : TouGameModifier, IWikiDiscoverable, IButtonModifier
 {
+    public override bool? ForceShowModifierOnWiki => false;
     [HideFromIl2Cpp] public bool IsHiddenFromList => true;
     public override string IdPart => "TestClean";
     public override string ModifierName => "Test Clean";

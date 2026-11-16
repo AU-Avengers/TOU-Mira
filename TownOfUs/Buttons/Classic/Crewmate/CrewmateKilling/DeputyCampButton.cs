@@ -46,7 +46,7 @@ public sealed class CampButton : TownOfUsRoleButton<DeputyRole, PlayerControl>, 
         Usable = false;
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.DeputyCampNotif").Replace("<player>", $"{TownOfUsColors.Deputy.ToTextColor()}{Target.Data.PlayerName}</color>")}</b>", Color.white,
-            new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy.LoadAsset());
+            new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy);
         notif1.AdjustNotification();
     }
 }

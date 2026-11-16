@@ -19,7 +19,7 @@ public static class WardenEvents
     {
         var wardenForts = ModifierUtils.GetActiveModifiers<WardenFortifiedModifier>();
 
-        if (!wardenForts.HasAny())
+        if (!wardenForts.Any())
         {
             return;
         }
@@ -90,7 +90,7 @@ public static class WardenEvents
             return;
         }
 
-        if (!target.HasModifier<WardenFortifiedModifier>() || source == target ||
+        if (!target.TryGetModifier<WardenFortifiedModifier>(out var fort) || source == target ||
             @event is BeforeMurderEvent { IgnoreDefense: true } ||
             @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true })
         {
@@ -101,8 +101,7 @@ public static class WardenEvents
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a warden fort, stopping an interaction from {source.Data.PlayerName}!");
 
         // The reason this exists is that otherwise, players can brute force through the warden fort if they spam fast enough
-        if (@event is MiraButtonClickEvent buttonClick &&
-            buttonClick.Button is CustomActionButton<PlayerControl> button)
+        if (@event is MiraButtonClickEvent { Button: CustomActionButton<PlayerControl> button })
         {
             button.Timer = OptionGroupSingleton<GameMechanicOptions>.Instance.TempSaveCdReset;
         }
@@ -113,7 +112,7 @@ public static class WardenEvents
         }
 
         // Find the warden which fortified the target
-        var warden = target.GetModifier<WardenFortifiedModifier>()?.Warden.GetRole<WardenRole>();
+        var warden = fort.Warden.GetRole<WardenRole>();
 
         if (warden != null && (TutorialManager.InstanceExists || source.AmOwner))
         {

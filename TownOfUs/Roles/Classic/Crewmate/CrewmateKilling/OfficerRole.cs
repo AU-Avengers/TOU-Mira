@@ -76,7 +76,7 @@ public sealed class OfficerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Officer.LoadAsset(), "TouMira.Role.Crewmate.Officer", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Officer, "TouMira.Role.Crewmate.Officer", 1.45f),
         Icon = TouRoleIcons.Officer,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.ImpostorIntroSound
@@ -95,11 +95,11 @@ public sealed class OfficerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         RoundTabWaitString = MiraLocaleManager.Get("TownOfUsMira.Role.OfficerTabAdditionCount");
         RoundTabWaitNextString = MiraLocaleManager.Get("TownOfUsMira.Role.OfficerTabAdditionNext");
         var opts = OptionGroupSingleton<OfficerOptions>.Instance;
-        if (opts.CanOnlyShootActiveKillers.Value)
+        if (opts.CanOnlyShootActiveKillers)
         {
             RoundTabBasicTabText = MiraLocaleManager.Get("TownOfUsMira.Role.OfficerTabAdditionKillBasedInno");
         }
-        else if (opts.NonKillingNeutralsAreInnocent.Value)
+        else if (opts.NonKillingNeutralsAreInnocent)
         {
             RoundTabBasicTabText = MiraLocaleManager.Get("TownOfUsMira.Role.OfficerTabAdditionMajorityInno");
         }
@@ -112,7 +112,7 @@ public sealed class OfficerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
             var shootButton = CustomButtonSingleton<OfficerShootButton>.Instance;
             if (shootButton.TotalBullets == -1)
             {
-                shootButton.TotalBullets = (int)opts.MaxBulletsTotal.Value;
+                shootButton.TotalBullets = opts.MaxBulletsTotal;
                 shootButton.RoundsBeforeReset = 0;
                 shootButton.LoadedBullets = 0;
             }
@@ -173,7 +173,7 @@ public sealed class OfficerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
 
         role.LoadedBullets--;
         // We add one so that way we know that the current round is checked, as well as the next one that follows.
-        OfficerSyncBullets(officer, (int)OptionGroupSingleton<OfficerOptions>.Instance.RoundsPunished.Value + 1, role.TotalBullets, role.LoadedBullets);
+        OfficerSyncBullets(officer, OptionGroupSingleton<OfficerOptions>.Instance.RoundsPunished + 1, role.TotalBullets, role.LoadedBullets);
 
         if (GameHistory.PlayerStats.TryGetValue(officer.PlayerId, out var stats))
         {

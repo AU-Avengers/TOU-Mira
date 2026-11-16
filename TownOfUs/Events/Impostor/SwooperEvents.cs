@@ -8,7 +8,6 @@ using MiraAPI.Modifiers;
 using TownOfUs.Achievements;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 
 namespace TownOfUs.Events.Impostor;
@@ -21,7 +20,7 @@ public static class SwooperEvents
         var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
         button.SetUses((int)OptionGroupSingleton<SwooperOptions>.Instance.MaxSwoops);
 
-        if ((int)OptionGroupSingleton<SwooperOptions>.Instance.MaxSwoops == 0)
+        if (OptionGroupSingleton<SwooperOptions>.Instance.MaxSwoops == 0)
         {
             button.Button?.usesRemainingText.gameObject.SetActive(false);
             button.Button?.usesRemainingSprite.gameObject.SetActive(false);
@@ -48,8 +47,8 @@ public static class SwooperEvents
             swoopModifier.AchProgress = SwoopProgress.Killed;
         }
 
-        AchievementsAPIHelper.Increment(TouAchievements.Untraceable, 1,
-            AchievementsAPIHelper.GetCurrentValue(TouAchievements.Untraceable) == 14);
+        TouAchievements.Untraceable.Increment(1,
+            TouAchievements.Untraceable.GetCurrentValue() == 14);
     }
 
     [RegisterEvent]
@@ -63,7 +62,7 @@ public static class SwooperEvents
         if (swoopModifier.AchProgress is SwoopProgress.Killed)
         {
             swoopModifier.AchProgress = SwoopProgress.KilledAndVented;
-            AchievementsAPIHelper.Unlock(TouAchievements.Sneakman);
+            TouAchievements.Sneakman.Unlock();
         }
     }
 }

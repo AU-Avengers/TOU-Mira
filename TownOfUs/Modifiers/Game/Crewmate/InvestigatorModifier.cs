@@ -13,7 +13,7 @@ public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         new Color32(0, 179, 179, 255),
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Investigator.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Investigator,
             "TouMira.Role.Crewmate.Investigator", 1.45f));
     public override string IdPart => "Investigator";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}");
@@ -40,12 +40,12 @@ public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.InvestigatorChance;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.InvestigatorChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.InvestigatorAmount;
+        return OptionGroupSingleton<CrewmateModifierOptions>.Instance.InvestigatorAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)
@@ -61,7 +61,7 @@ public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable
         }
 
         Helpers.GetAlivePlayers().Where(plr => !plr.HasModifier<FootstepsModifier>())
-            .ToList().ForEach(plr => plr.GetModifierComponent().AddModifier<FootstepsModifier>());
+            .ToList().ForEach(plr => plr.AddModifier<FootstepsModifier>());
     }
 
     public override void OnDeactivate()
@@ -71,8 +71,7 @@ public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable
             return;
         }
 
-        PlayerControl.AllPlayerControls.ToArray().Where(plr => plr.HasModifier<FootstepsModifier>())
-            .ToList().ForEach(plr => plr.GetModifierComponent().RemoveModifier<FootstepsModifier>());
+        PlayerControl.AllPlayerControls.ToList().ForEach(plr => plr.TryRemoveModifier<FootstepsModifier>());
     }
 
     public override void OnDeath(DeathReason reason)
@@ -82,7 +81,6 @@ public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable
             return;
         }
 
-        PlayerControl.AllPlayerControls.ToArray().Where(plr => plr.HasModifier<FootstepsModifier>())
-            .ToList().ForEach(plr => plr.GetModifierComponent().RemoveModifier<FootstepsModifier>());
+        PlayerControl.AllPlayerControls.ToList().ForEach(plr => plr.TryRemoveModifier<FootstepsModifier>());
     }
 }

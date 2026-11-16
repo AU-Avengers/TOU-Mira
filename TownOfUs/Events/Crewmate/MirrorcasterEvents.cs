@@ -56,7 +56,7 @@ public static class MirrorcasterEvents
             return;
         }
 
-        if (source.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
+        if (source.HasModifier<AllianceGameModifier>(allyMod => !allyMod.GetsPunished))
         {
             return;
         }
@@ -66,7 +66,7 @@ public static class MirrorcasterEvents
         if (GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
         {
             if (!target.IsCrewmate() ||
-                (target.TryGetModifier<AllianceGameModifier>(out var allyMod2) && !allyMod2.GetsPunished))
+                (target.HasModifier<AllianceGameModifier>(allyMod2 => !allyMod2.GetsPunished)))
             {
                 stats.CorrectKills += 1;
             }
@@ -85,7 +85,7 @@ public static class MirrorcasterEvents
         }
 
         // Magic Mirrors can NOT protect from Arsonist, bombs, veterans, anything of that nature.
-        if (!target.HasModifier<MagicMirrorModifier>() ||
+        if (!target.TryGetModifier<MagicMirrorModifier>(out var mirror) ||
             target.PlayerId == source.PlayerId ||
             @event is BeforeMurderEvent { IgnoreDefense: true } ||
             @event is ExtendedMiraButtonClickEvent { IgnoreDefense: true } ||
@@ -98,7 +98,7 @@ public static class MirrorcasterEvents
         @event.Cancel();
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a magic mirror, stopping an attack {source.Data.PlayerName}!");
 
-        var mirrorcaster = target.GetModifier<MagicMirrorModifier>()?.Mirrorcaster.GetRole<MirrorcasterRole>();
+        var mirrorcaster = mirror.Mirrorcaster.GetRole<MirrorcasterRole>();
 
         if (mirrorcaster != null && ((target.AmOwner && TutorialManager.InstanceExists) || source.AmOwner))
         {
@@ -130,10 +130,7 @@ public static class MirrorcasterEvents
         if (@event.OldRole is MirrorcasterRole)
         {
             var ownedShield = ModifierUtils.GetActiveModifiers<MagicMirrorModifier>().FirstOrDefault(x => x.Mirrorcaster == @event.Player);
-            if (ownedShield != null)
-            {
-                ownedShield.Player.RemoveModifier(ownedShield);
-            }
+            ownedShield?.Player.RemoveModifier(ownedShield);
         }
     }
 }

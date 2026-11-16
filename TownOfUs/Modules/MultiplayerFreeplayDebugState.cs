@@ -78,7 +78,7 @@ public static class MultiplayerFreeplayDebugState
             {
                 foreach (var mod in player.GetModifiers<BaseModifier>().ToList())
                 {
-                    modComp.RemoveModifier(mod);
+                    mod.RemoveSelf();
                 }
             }
 
@@ -98,15 +98,12 @@ public static class MultiplayerFreeplayDebugState
                         continue;
                     }
 
-                    if (player.GetModifiers<BaseModifier>().Any(x => x.GetType() == modType))
+                    if (player.HasModifier<BaseModifier>(x => x.GetType() == modType))
                     {
                         continue;
                     }
 
-                    if (Activator.CreateInstance(modType) is BaseModifier instance)
-                    {
-                        modComp.AddModifier(instance);
-                    }
+                    modComp.AddModifier(modType);
                 }
             }
 

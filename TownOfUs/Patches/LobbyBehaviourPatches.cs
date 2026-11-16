@@ -1,6 +1,8 @@
-﻿using System;
+﻿using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using TownOfUs.Events;
+using TownOfUs.Events.Impostor;
+using TownOfUs.Events.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modules;
@@ -19,20 +21,31 @@ public static class LobbyBehaviourPatches
     [HarmonyPatch(typeof(LobbyBehaviour), nameof(LobbyBehaviour.Start))]
     [HarmonyPatch(typeof(TutorialManager), nameof(TutorialManager.Awake))]
     [HarmonyPostfix]
+    [SuppressMessage("Critical Code Smell", "S1215:\"GC.Collect\" should not be called", Justification = "Used to prevent lag.")]
     public static void LobbyStartPatch()
     {
+        PuppeteerEvents.CanPuppeteerMove = true;
+        ParasiteEvents.NextKillFromParasite = false;
+        LoverEvents.NextKillFromLovers = false;
         NoisemakerModifier.ActiveNoisemakerTriggers.Clear();
         CustomTouMurderRpcs.StoredKillAnimations = [];
         HaunterRole.ResetReveals();
         GameTimerPatch.ResetTimer();
         foreach (var role in GameHistory.AllRoles)
         {
-            if (!role || role is not ITownOfUsRole touRole)
+            if (!role || role is not ITownOfUsRole touRole) //This code will shit absolute bricks if this is removed
             {
                 continue;
             }
 
-            touRole.LobbyStart();
+            try
+            {
+                touRole.LobbyStart();
+            }
+            catch (Exception e)
+            {
+                Error($"LobbyStart failed for role {role.GetType().Name}: {e}");
+            }
         }
 
         TeamChatPatches.CleanUpChats();

@@ -206,6 +206,7 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 | Among Us          | Mod Version | Download Link                                                                |
 |-------------------|-------------|------------------------------------------------------------------------------|
+| 19.0.x            | 1.7.9-beta2 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.7.9-beta2) |
 | 19.0.x            | 1.7.9-beta1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.7.9-beta1) |
 | 18.0.x            | 1.7.3       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.7.3)       |
 | 18.0.x            | 1.7.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.7.2)       |
