@@ -11,12 +11,25 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
     public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Scientist;
 
     public ModdedEnumOption<NameSight> HideNamesOutOfSight { get; set; } =
-        new("TouOptionHideNamesOutOfSight", NameSight.Basic,
+        new("TouOptionPlayerNameHiding", NameSight.Basic,
             [
-                "TouOptionHideNamesOutOfSightEnumBasic",
-                "TouOptionHideNamesOutOfSightEnumRoomBased",
-                "TouOptionHideNamesOutOfSightEnumHarsh"
+                "TouOptionPlayerNameHidingEnumBasic",
+                "TouOptionPlayerNameHidingEnumRoomBased",
+                "TouOptionPlayerNameHidingEnumHarsh",
+                "TouOptionPlayerNameHidingEnumAlways"
             ]);
+
+    public ModdedEnumOption<ValidNameTweak> HidePlayerNamesValid { get; set; } =
+        new("TouOptionHidePlayerNamesValid", ValidNameTweak.JustPlayerNames,
+        [
+            "TouOptionHidePlayerNamesValidEnumJustPlayerNames",
+            "TouOptionHidePlayerNamesValidEnumToNonRevealed",
+            "TouOptionHidePlayerNamesValidEnumToNonEveryone"
+        ])
+        {
+            Visible = () =>
+                OptionGroupSingleton<VanillaTweakOptions>.Instance.HideNamesOutOfSight.Value is not NameSight.Basic
+        };
 
     public ModdedToggleOption TickCooldownsInMinigame { get; set; } =
         new("TouOptionTickCooldownsInMinigame", true);
@@ -72,7 +85,14 @@ public enum NameSight
 {
     Basic,
     RoomBased,
-    Harsh
+    Harsh,
+    AlwaysHidden
+}
+public enum ValidNameTweak
+{
+    JustPlayerNames,
+    NonRevealed,
+    Everyone
 }
 
 public enum SkipState

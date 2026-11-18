@@ -47,6 +47,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
 
         if (Player.AmOwner)
         {
+            Warning($"Player is imitator, granting cache modifier.");
             var classic = LegacyAssets.IsLegacy;
             _meetingMenu = new MeetingMenu(
                 Player.Data.Role,
@@ -66,7 +67,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
     {
         if (Player.HasDied() && Player.AmOwner)
         {
-            ModifierUtils.GetActiveModifiers<ImitatedRevealedModifier>().Do(x => x.Player.RemoveModifier(x));
+            ModifierUtils.GetActiveModifiers<ImitatedRevealedModifier>().Do(x => x.RemoveSelf());
         }
         if (!Player.IsCrewmate())
         {
@@ -76,7 +77,6 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             RemoveSelf();
             return;
         }
-
         var meeting = MeetingHud.Instance;
         if (Player.AmOwner && meeting != null)
         {
@@ -100,6 +100,10 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
 
     public override void OnDeactivate()
     {
+        if (Player.AmOwner)
+        {
+            Warning($"Player is no longer imitator, removing cache modifier.");
+        }
         _selectedPlr = null;
 
         if (Player.AmOwner && _meetingMenu != null)

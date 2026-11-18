@@ -139,7 +139,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
             return;
         }
 
-        ModifierUtils.GetActiveModifiers<HypnotistHysteriaModifier>().Do(x => x.Player.RemoveModifier(x));
+        ModifierUtils.GetActiveModifiers<HypnotistHysteriaModifier>().Do(x => x.RemoveSelf());
         PlayerControl.LocalPlayer.MyPhysics.SetForcedBodyType(PlayerControl.LocalPlayer.BodyType);
 
         HysteriaActive = false;

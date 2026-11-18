@@ -1096,7 +1096,8 @@ public static class CustomTouMurderRpcs
         new(TouAssets.MeetingDeathBloodAnim1, TouAssets.MeetingDeathAnim1),
         new(TouAssets.MeetingDeathBloodAnim2, TouAssets.MeetingDeathAnim2),
         new(TouAssets.MeetingDeathBloodAnim3, TouAssets.MeetingDeathAnim3),
-        new(TouAssets.MeetingDeathBloodAnim4, TouAssets.MeetingDeathAnim4)
+        new(TouAssets.MeetingDeathBloodAnim4, TouAssets.MeetingDeathAnim4),
+        new(TouAssets.MeetingDeathAnim5, TouAssets.MeetingDeathAnim5)
      ];
 
     /// <summary>
@@ -1461,14 +1462,24 @@ public static class CustomTouMurderRpcs
 
         var bloodAnim = animation.transform.GetChild(0).GetComponent<SpriteAnim>();
 
-        bloodAnim.Play(trueAnim.Key, 1.05f);
+        if (trueAnim.Key == trueAnim.Value)
+        {
+            bloodAnim.transform.gameObject.SetActive(false);
+        }
+        else
+        {
+            bloodAnim.Play(trueAnim.Key, 1.05f);
+        }
         bodysAnim.Play(trueAnim.Value, 1.05f);
         var bodyAnimLength = bodysAnim.m_currAnim.length;
-        var isRhm = (bloodAnim.Clip == TouAssets.MeetingDeathBloodAnim4);
-
-        if (isRhm)
+        if (bodysAnim.Clip == TouAssets.MeetingDeathAnim4.LoadAsset())
         {
             SoundManager.Instance.PlaySound(TouAudio.LaserKillSound, false);
+            yield return new WaitForSeconds(bodyAnimLength);
+        }
+        else if (bodysAnim.Clip == TouAssets.MeetingDeathAnim5.LoadAsset())
+        {
+            SoundManager.Instance.PlaySound(TouAudio.MeltKillSound, false);
             yield return new WaitForSeconds(bodyAnimLength);
         }
         else
