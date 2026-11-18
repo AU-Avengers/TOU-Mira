@@ -163,15 +163,13 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (HudManager.Instance == null)
             {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
-                    "[DraftStatusOverlay] BuildUI: HudManager.Instance is null, deferring");
+                LogBuildDeferred("HudManager.Instance is null");
                 return;
             }
 
             if (HudManager.Instance.TaskPanel == null || HudManager.Instance.TaskPanel.taskText == null)
             {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
-                    "[DraftStatusOverlay] BuildUI: TaskPanel/taskText not ready, deferring");
+                LogBuildDeferred("TaskPanel/taskText not ready");
                 return;
             }
 
@@ -214,6 +212,16 @@ namespace TownOfUs.Modules.DraftMode
                 new Vector3(0f, -1.05f, 0f), bold: true);
 
             _root.SetActive(false);
+            _buildDeferredLogged = false;
+        }
+
+        private void LogBuildDeferred(string reason)
+        {
+            if (_buildDeferredLogged) return;
+
+            _buildDeferredLogged = true;
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                $"[DraftStatusOverlay] BuildUI: {reason}, deferring");
         }
 
         private void BuildBackdropArt(float camW, float camH)
@@ -671,7 +679,8 @@ namespace TownOfUs.Modules.DraftMode
 
         private void HideCardTooltip()
         {
-            _cardTooltipRoot?.SetActive(false);
+            if (_cardTooltipRoot != null)
+                _cardTooltipRoot.SetActive(false);
         }
 
         private void DestroyCardTooltip()
@@ -775,8 +784,16 @@ namespace TownOfUs.Modules.DraftMode
 
             if (_currentState == OverlayState.Waiting)
             {
-                if (_root == null) BuildUI();
-                if (_root == null) return;
+                if (_root == null)
+                {
+                    if (!_rebuildPending)
+                    {
+                        _rebuildPending = true;
+                        Coroutines.Start(CoRetryBuildUI());
+                    }
+
+                    return;
+                }
 
                 if (DraftManager.IsDraftActive)
                 {
@@ -837,6 +854,7 @@ namespace TownOfUs.Modules.DraftMode
         }
 
         private bool _rebuildPending;
+        private bool _buildDeferredLogged;
 
         private void UpdateVisibility()
         {
@@ -922,7 +940,10 @@ namespace TownOfUs.Modules.DraftMode
         private void RestoreHudElements()
         {
             foreach (var go in _hiddenHudChildren)
-                go?.SetActive(true);
+            {
+                if (go != null)
+                    go.SetActive(true);
+            }
 
             _hiddenHudChildren.Clear();
         }
