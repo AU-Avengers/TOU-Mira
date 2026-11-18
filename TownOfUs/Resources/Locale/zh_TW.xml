@@ -2483,7 +2483,6 @@
   <string name="ImpPower.Colored">[color=#FF0000FF]偽裝者[/color] 力量</string>
   <string name="ImpSupport.Colored">[color=#FF0000FF]偽裝者[/color] 輔助</string>
   <string name="TownOfUsMira.Options.Groups.VanillaTweaks">原版調整</string>
-  <string name="TouOptionHideNamesOutOfSight">視野外隱藏名字</string>
   <string name="TouOptionTickCooldownsInMinigame">在任務與面板中繼續計算冷卻時間</string>
   <string name="TouOptionParallelMedbay">醫務室掃描可同時進行</string>
   <string name="TouOptionMedscanWalk">走向醫務點掃描</string>

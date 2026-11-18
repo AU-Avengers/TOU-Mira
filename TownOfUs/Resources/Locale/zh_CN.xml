@@ -2668,7 +2668,6 @@
   <string name="TownOfUsMira.TownOfPolus.Role.ImpDescription">破坏设施并杀死船员。</string>
   <string name="TownOfUsMira.TownOfPolus.Role.ImpDescriptionDead">你已经死亡。</string>
   <string name="TownOfUsMira.Options.Groups.VanillaTweaks">原版调整</string>
-  <string name="TouOptionHideNamesOutOfSight">视野外隐藏名字</string>
   <string name="TouOptionTickCooldownsInMinigame">在任务与面板中继续计算冷却时间</string>
   <string name="TouOptionParallelMedbay">医务室扫描可同时进行</string>
   <string name="TouOptionMedscanWalk">走向医疗点扫描</string>

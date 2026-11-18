@@ -2499,7 +2499,6 @@ Zaman: [timeAgo] saniye önce.</string>
 görüşün azalmaz.</string>
   <string name="TownOfUsMira.Modifier.Torch.WikiDescription">Işıkların kapalı olması görüşünü etkilemez.</string>
   <string name="TownOfUsMira.Options.Groups.VanillaTweaks">Vanilla Ayarları</string>
-  <string name="TouOptionHideNamesOutOfSight">Görüş Dışı İsimleri Gizle</string>
   <string name="TouOptionTickCooldownsInMinigame">Görevlerde ve Panellerde Bekleme Süresini Devam Ettir</string>
   <string name="TouOptionParallelMedbay">Paralel Tıbbi Tarama</string>
   <string name="TouOptionMedscanWalk">Tıbbi Taramaya Yürüyerek Git</string>

@@ -3037,7 +3037,6 @@ Sirve los necesarios paras ganar.</string>
   <string name="TownOfUsMira.Role.Spectre.MedDescription">Usa tu segunda oportunidad para completar tus tareas y ganar tras morir.</string>
   <string name="TownOfUsMira.Role.Plaguebearer.MedDescription">Propaga la Peste para convertirte en la Pestilencia.</string>
   <string name="TownOfUsMira.Options.Groups.VanillaTweaks">Ajustes de Vanilla</string>
-  <string name="TouOptionHideNamesOutOfSight">Nivel de Ocultación de Nombres</string>
   <string name="TouOptionTickCooldownsInMinigame">Recargas activas en tareas y paneles</string>
   <string name="TouOptionParallelMedbay">Escaneos simultáneos en Enfermería</string>
   <string name="TouOptionMedscanWalk">Caminar al escáner</string>
@@ -3471,9 +3470,6 @@ No pueden matarte.</string>
   <string name="TownOfUsMira.Role.JesterPoke.WikiDescription">Molesta a un jugador para activar una interacción, confundiendo a varios roles. ¡Úsalo de vez en cuando para verte sospechoso!</string>
   <string name="TouOptionMercenaryGetMoreUsesFromCompletingTasks">Obtener más usos al Completar Tareas</string>
   <string name="TouOptionSurvivorGetMoreUsesFromCompletingTasks">Obtener más usos al Completar Tareas</string>
-  <string name="TouOptionHideNamesOutOfSightEnumBasic">Básico</string>
-  <string name="TouOptionHideNamesOutOfSightEnumRoomBased">Por Habitación</string>
-  <string name="TouOptionHideNamesOutOfSightEnumHarsh">Estricto</string>
   <string name="TownOfUsMira.Options.Groups.RoleExclusions">Exclusión de Roles</string>
   <string name="TouOptionExclusiveCleaningRoles">Roles de Limpieza no pueden aparecer juntos</string>
   <string name="TouOptionExclusiveFramingRoles">Roles Incriminatorios no pueden aparecer juntos</string>
@@ -3503,8 +3499,6 @@ No pueden matarte.</string>
   <string name="TownOfUsMira.Achievement.IveSeenThePlays.Description">Acaba con tu vida antes que lo haga otro.</string>
   <string name="TownOfUsMira.Achievement.GoBuyALotteryTicket.Name">Ve a comprar lotería</string>
   <string name="TownOfUsMira.Achievement.GoBuyALotteryTicket.Description">Este logro es 1 en 292,000,000. En serio, ve a comprar lotería.</string>
-  <string name="TownOfUsMira.Achievement.NoYou.Name">No, Tú</string>
-  <string name="TownOfUsMira.Achievement.NoYou.Description">Sírvele una bebida al jugador que te sirvió una en la misma ronda.</string>
   <string name="TownOfUsMira.Achievement.Endgame.Name">Juego Final</string>
   <string name="TownOfUsMira.Achievement.Endgame.Description">Presencia un 1v1 entre el Juggernaut y la Pestilencia.</string>
   <string name="TownOfUsMira.Achievement.ForceBeWithYou.Name">Que la Fuerza esté contigo</string>
@@ -3982,8 +3976,6 @@ Nadie puede interactuar contigo.</string>
   <string name="TownOfUsMira.Achievement.RoleEater.Description">Adivina todos los roles que necesitas en 3 rondas o menos.</string>
   <string name="TownOfUsMira.Achievement.Fireproof.Name">Ignífugo</string>
   <string name="TownOfUsMira.Achievement.Fireproof.Description">Intenta encender a un jugador protegido.</string>
-  <string name="TownOfUsMira.Achievement.Carrier.Name">Portador</string>
-  <string name="TownOfUsMira.Achievement.Carrier.Description">Gana como Propagador sin transformarte en Pestilencia.</string>
   <string name="TownOfUsMira.Achievement.BadStaringContest.Name">Mal de Ojo</string>
   <string name="TownOfUsMira.Achievement.BadStaringContest.Description">Muere por Mirada Pétrea.</string>
   <string name="TownOfUsMira.Achievement.ChangeOfHeart.Name">Cambio de parecer</string>
