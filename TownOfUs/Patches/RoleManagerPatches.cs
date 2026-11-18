@@ -1015,7 +1015,6 @@ public static class TouRoleManagerPatches
                 .Select(state => state.PlayerId)
                 .ToHashSet();
             Modules.DraftMode.DraftApplier.ApplyDraftResults(Modules.DraftMode.DraftApplier.PendingDraftStates);
-            Modules.DraftMode.DraftApplier.PendingDraftStates.Clear();
 
             foreach (var p in PlayerControl.AllPlayerControls)
             {
@@ -1037,6 +1036,23 @@ public static class TouRoleManagerPatches
         }
 
         return false;
+    }
+
+    [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
+    [HarmonyPostfix]
+    [HarmonyPriority(Priority.Last)]
+    public static void VerifyDraftRoles()
+    {
+        if (Modules.DraftMode.DraftApplier.PendingDraftStates.Count == 0) return;
+
+        if (OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.Draft)
+        {
+            Modules.DraftMode.DraftApplier.VerifyAppliedDraftResults();
+        }
+        else
+        {
+            Modules.DraftMode.DraftApplier.Clear();
+        }
     }
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
