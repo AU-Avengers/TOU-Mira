@@ -98,6 +98,11 @@ public class AmountChanceOption : ExtendedNumberOption
 
     }
 
+    protected override void ShowNotif()
+    {
+        // nothing!
+    }
+
     /// <inheritdoc />
     protected override void OnValueChanged(float newValue)
     {

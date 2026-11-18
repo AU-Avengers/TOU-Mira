@@ -117,7 +117,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
             ModifierUtils.GetActiveModifiers<PlaguebearerInfectedModifier>();
 
         modifiers.Do(x =>
-            x.Player.RemoveModifier(x));
+            x.RemoveSelf());
         if (player.Data.Role is not PestilenceRole)
         {
             player.ChangeRole(RoleId.Get<PestilenceRole>());

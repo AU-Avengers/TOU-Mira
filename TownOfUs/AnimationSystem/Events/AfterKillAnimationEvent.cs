@@ -23,6 +23,16 @@ public sealed class AfterKillAnimationEvent : MiraCancelableEvent
     public NetworkedPlayerInfo Killer { get; }
 
     /// <summary>
+    /// Gets the <see cref="NetworkedPlayerInfo"/> of the displayed victim. Normally just the local player but may differ.
+    /// </summary>
+    public NetworkedPlayerInfo DisplayedVictim { get; }
+
+    /// <summary>
+    /// Gets the <see cref="NetworkedPlayerInfo"/> of the displayed killer.
+    /// </summary>
+    public NetworkedPlayerInfo DisplayedKiller { get; }
+
+    /// <summary>
     /// Gets a value for the animation's data.
     /// </summary>
     public KillOverlayInitData InitData { get; }
@@ -41,8 +51,28 @@ public sealed class AfterKillAnimationEvent : MiraCancelableEvent
     /// <param name="shouldAlter">A value indicating whether to modify the animation further.</param>
     public AfterKillAnimationEvent(NetworkedPlayerInfo victim, NetworkedPlayerInfo killer, OverlayKillAnimation anim, KillOverlayInitData initData, bool shouldAlter)
     {
+        Victim = DisplayedVictim = victim;
+        Killer = DisplayedKiller = killer;
+        Animation = anim;
+        InitData =  initData;
+        ShouldAlterFurther = shouldAlter;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AfterKillAnimationEvent"/> class.
+    /// </summary>
+    /// <param name="victim">The <see cref="NetworkedPlayerInfo"/> of the victim.</param>
+    /// <param name="killer">The <see cref="NetworkedPlayerInfo"/> of the killer.</param>
+    /// <param name="displayedVictim">The <see cref="NetworkedPlayerInfo"/> of the displayed victim.</param>
+    /// <param name="displayedKiller">The <see cref="NetworkedPlayerInfo"/> of the displayed killer.</param>
+    /// <param name="anim">The <see cref="OverlayKillAnimation"/> to play.</param>
+    /// <param name="shouldAlter">A value indicating whether to modify the animation further.</param>
+    public AfterKillAnimationEvent(NetworkedPlayerInfo victim, NetworkedPlayerInfo killer, NetworkedPlayerInfo displayedVictim, NetworkedPlayerInfo displayedKiller, OverlayKillAnimation anim, KillOverlayInitData initData, bool shouldAlter)
+    {
         Victim = victim;
         Killer = killer;
+        DisplayedVictim = displayedVictim;
+        DisplayedKiller = displayedKiller;
         Animation = anim;
         InitData =  initData;
         ShouldAlterFurther = shouldAlter;

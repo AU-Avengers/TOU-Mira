@@ -128,7 +128,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
 
         Clear();
-        ModifierUtils.GetActiveModifiers<JailedModifier>().Do(x => x.Player.RemoveModifier(x));
+        ModifierUtils.GetActiveModifiers<JailedModifier>().Do(x => x.RemoveSelf());
     }
 
     public bool HasSpokenThisMeeting;

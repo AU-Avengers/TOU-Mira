@@ -21,6 +21,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
     public override bool AutoStart => false;
     public bool VisualPriority => true;
     public override bool VisibleToOthers => false;
+    public override bool HaltsAllVisualChanges => true;
     public PlayerControl Target => target;
 
     public VisualAppearance GetVisualAppearance()

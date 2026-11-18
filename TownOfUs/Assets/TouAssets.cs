@@ -249,6 +249,9 @@ public static class TouAssets
     public static LoadableAsset<AnimationClip> MeetingDeathBloodAnim4 { get; } =
         new LoadableBundleAsset<AnimationClip>("DeathMeetingLaserBlood", MainBundle);
 
+    public static LoadableAsset<AnimationClip> MeetingDeathAnim5 { get; } =
+        new LoadableBundleAsset<AnimationClip>("DeathMeetingMelt", MainBundle);
+
     public static LoadableAsset<GameObject> ScatterUI { get; } =
         new LoadableBundleAsset<GameObject>("ScatterUI", MainBundle);
 
@@ -494,6 +497,12 @@ public static class TouAssets
 
     public static readonly LoadableAsset<Sprite> DeputyOutfit =
         new LoadableBundleAsset<Sprite>("DeputyOutfit", MainBundle);
+
+    public static readonly LoadableAsset<GameObject> DeputyKillOverlayPrefab =
+        new LoadableBundleAsset<GameObject>("DeputyKillOverlay", MainBundle);
+
+    public static readonly LoadableAsset<AnimationClip> DeputyKillOutfitLoop =
+        new LoadableBundleAsset<AnimationClip>("Deputy_Kill_Loop-Outfit_Anim", MainBundle);
 
     public static readonly LoadableAsset<Sprite> DeputyRevealBg =
         new LoadableBundleAsset<Sprite>("DeputyRevealBg", MainBundle);

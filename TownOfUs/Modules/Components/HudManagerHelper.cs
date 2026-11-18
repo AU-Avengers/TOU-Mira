@@ -115,8 +115,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                         genericEvent.IgnoreDefense = indirectMod.IgnoreShield;
                     }
 
-                    if (ModCompatibility.ExposedEventWrappers.TryGetValue(typeof(ExtendedMiraButtonClickEvent),
-                            out var handlers) && handlers != null && handlers.Count != 0)
+                    if (ModCompatibility.ExposedEventHandlers.TryGetValue(typeof(ExtendedMiraButtonClickEvent),
+                            out var handlers) && handlers.Count != 0)
                     {
                         foreach (var handler in handlers)
                         {
@@ -130,8 +130,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                             }
                         }
                     }
-                    if (ModCompatibility.ExposedEventWrappers.TryGetValue(typeof(MiraButtonClickEvent),
-                            out var otherHandlers) && otherHandlers != null && otherHandlers.Count != 0)
+                    if (ModCompatibility.ExposedEventHandlers.TryGetValue(typeof(MiraButtonClickEvent),
+                            out var otherHandlers) && otherHandlers.Count != 0)
                     {
                         foreach (var handler in otherHandlers)
                         {
@@ -383,6 +383,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var localDead = PlayerControl.LocalPlayer.HasDied();
         var localGhost = localDead && genOpt.TheDeadKnow;
         NameSight sightMode = OptionGroupSingleton<VanillaTweakOptions>.Instance.HideNamesOutOfSight;
+        var hideApplicableCheck = OptionGroupSingleton<VanillaTweakOptions>.Instance.HidePlayerNamesValid.Value;
+        var fullyHide = sightMode is NameSight.AlwaysHidden;
         var hideOutOfSight = sightMode is not NameSight.Basic && !localDead && HudManager.InstanceExists && HudManager.Instance.ShadowQuad.gameObject.active;
         var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
                        genOpt is
@@ -471,29 +473,43 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
                 var (playerColor, playerName) = GetRoleNameText(player, genOpt.FFAImpostorMode, taskOpt, roleNameSize, roleOnTop, colorPlayerNames, localDead, localGhost, localImp, localVamp, useMiraApiChecks, false, isVisible);
 
-                if (hideOutOfSight && !player.AmOwner)
+                var ogPlayerName = player.GetAppearance().PlayerName ?? "Unknown";
+                var isPlayerValidToToggle = !hideOutOfSight ||
+                                            hideApplicableCheck is ValidNameTweak.Everyone ||
+                                            hideApplicableCheck is ValidNameTweak.NonRevealed && !_couldSeeRole ||
+                                            hideApplicableCheck is ValidNameTweak.JustPlayerNames &&
+                                            playerName == ogPlayerName;
+                if (hideOutOfSight && !player.AmOwner && isPlayerValidToToggle)
                 {
-                    var playerPosition = player.GetTruePosition();
-                    var localPosition = PlayerControl.LocalPlayer.GetTruePosition();
-                    var inVision = VentPatches.InVision(player);
-                    var inSameRoom = MiscUtils.AreLocationsInSameRoom(localPosition, playerPosition);
-
-                    if (controlledViewpoint != null)
-                    {
-                        var controlledPosition = controlledViewpoint.GetTruePosition();
-                        inVision |= VentPatches.InVision(player, controlledViewpoint);
-                        inSameRoom |= MiscUtils.AreLocationsInSameRoom(controlledPosition, playerPosition);
-                    }
-
-                    var visibleBySight = inVision || (sightMode is NameSight.RoomBased && inSameRoom);
-                    if (!visibleBySight)
+                    if (fullyHide)
                     {
                         playerName = string.Empty;
                         player.cosmetics.colorBlindText.enabled = false;
                     }
                     else
                     {
-                        player.cosmetics.colorBlindText.enabled = true;
+                        var playerPosition = player.GetTruePosition();
+                        var localPosition = PlayerControl.LocalPlayer.GetTruePosition();
+                        var inVision = VentPatches.InVision(player);
+                        var inSameRoom = MiscUtils.AreLocationsInSameRoom(localPosition, playerPosition);
+
+                        if (controlledViewpoint != null)
+                        {
+                            var controlledPosition = controlledViewpoint.GetTruePosition();
+                            inVision |= VentPatches.InVision(player, controlledViewpoint);
+                            inSameRoom |= MiscUtils.AreLocationsInSameRoom(controlledPosition, playerPosition);
+                        }
+
+                        var visibleBySight = inVision || (sightMode is NameSight.RoomBased && inSameRoom);
+                        if (!visibleBySight)
+                        {
+                            playerName = string.Empty;
+                            player.cosmetics.colorBlindText.enabled = false;
+                        }
+                        else
+                        {
+                            player.cosmetics.colorBlindText.enabled = true;
+                        }
                     }
                 }
                 else
@@ -516,9 +532,11 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         }
     }
 
+    private static bool _couldSeeRole;
     internal static (Color PlayerColor, string PlayerName) GetRoleNameText(PlayerControl player, bool isImpFfa, PostmortemOptions taskOpt, string roleNameSize, bool roleOnTop, bool colorPlayerNames, bool localDead, bool localGhost, bool localImp, bool localVamp, bool useMiraApiChecks, bool inMeeting, bool isVisible = true, bool removeCod = false)
     {
         // End Shared of loop
+        _couldSeeRole = false;
         if (!inMeeting && localGhost)
         {
             localGhost = isVisible;
@@ -555,6 +573,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
         if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
         {
+            _couldSeeRole = true;
             if (!isImpFfa && playerIsImp && !OptionGroupSingleton<GeneralOptions>.Instance.ImpsKnowRoles && !player.AmOwner && !revealed && !localGhost && !localSleuth)
             {
                 role = RoleManager.Instance.GetRole(RoleTypes.Impostor);
