@@ -18,6 +18,16 @@ public sealed class BeforeKillAnimationEvent : MiraEvent
     public NetworkedPlayerInfo Killer { get; }
 
     /// <summary>
+    /// Gets or sets the <see cref="NetworkedPlayerInfo"/> of the victim displayed. Normally just the local player but may differ.
+    /// </summary>
+    public NetworkedPlayerInfo DisplayedVictim { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="NetworkedPlayerInfo"/> of the killer displayed.
+    /// </summary>
+    public NetworkedPlayerInfo DisplayedKiller { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating what the final animation will end up being. If null, then the game will set up the animation instead.
     /// </summary>
     public OverlayKillAnimation? FinalAnimation { get; set; }
@@ -34,7 +44,7 @@ public sealed class BeforeKillAnimationEvent : MiraEvent
     /// <param name="killer">The <see cref="NetworkedPlayerInfo"/> of the killer.</param>
     public BeforeKillAnimationEvent(NetworkedPlayerInfo victim, NetworkedPlayerInfo killer)
     {
-        Victim = victim;
-        Killer = killer;
+        DisplayedVictim = Victim = victim;
+        DisplayedKiller = Killer = killer;
     }
 }
