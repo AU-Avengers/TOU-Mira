@@ -150,10 +150,9 @@ public static class DraftManager
     public static void Reset(bool cancelledBeforeCompletion)
     {
         IsDraftActive = false;
-        DraftApplier.Clear();
         if (cancelledBeforeCompletion)
         {
-            DraftApplier.PendingDraftStates.Clear();
+            DraftApplier.Clear();
         }
 
         SlotStates.Clear();
