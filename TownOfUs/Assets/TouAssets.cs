@@ -249,6 +249,9 @@ public static class TouAssets
     public static LoadableAsset<AnimationClip> MeetingDeathBloodAnim4 { get; } =
         new LoadableBundleAsset<AnimationClip>("DeathMeetingLaserBlood", MainBundle);
 
+    public static LoadableAsset<AnimationClip> MeetingDeathAnim5 { get; } =
+        new LoadableBundleAsset<AnimationClip>("DeathMeetingMelt", MainBundle);
+
     public static LoadableAsset<GameObject> ScatterUI { get; } =
         new LoadableBundleAsset<GameObject>("ScatterUI", MainBundle);
 
