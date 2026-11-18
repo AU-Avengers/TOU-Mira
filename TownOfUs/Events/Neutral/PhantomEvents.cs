@@ -30,7 +30,7 @@ public static class PhantomEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.SpectreWonSelf") .Replace("<role>", $"{TownOfUsColors.Spectre.ToTextColor()}{phantom.GetRoleName()}</color>")}</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre);
 
                 notif1.AdjustNotification();
                 HudManagerPatches.ZoomButton.SetActive(true);
@@ -48,7 +48,7 @@ public static class PhantomEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.SpectreWonOther") .Replace("<role>", $"{TownOfUsColors.Spectre.ToTextColor()}{phantom.GetRoleName()}</color>") .Replace("<player>", phantom.Player.Data.PlayerName)}</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre);
 
                 notif1.AdjustNotification();
             }

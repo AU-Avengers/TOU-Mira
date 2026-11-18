@@ -15,7 +15,7 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Egotist,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Egotist.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Egotist,
             "TouMira.Modifier.Alliance.Egotist", 1.45f));
     public bool LeaveMessageSent { get; set; }
     public bool HasSurvived { get; set; } = true;
@@ -58,15 +58,12 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
             Player.AddModifier<BasicGhostModifier>();
         }
 
-        if (Player.HasModifier<ToBecomeTraitorModifier>())
-        {
-            Player.RemoveModifier<ToBecomeTraitorModifier>();
-        }
+        Player.TryRemoveModifier<ToBecomeTraitorModifier>();
     }
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.EgotistChance.Value;
+        return OptionGroupSingleton<AllianceModifierOptions>.Instance.EgotistChance;
     }
 
     public override int GetAmountPerGame()
@@ -83,12 +80,12 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         return base.IsModifierValidOn(role) && role.IsCrewmate() && !role.Player.HasModifier<ToBecomeTraitorModifier>() &&
-            (role is not ILoyalCrewmate loyalCrew || loyalCrew.CanBeEgotist);
+            (role is not ILoyalCrewmate { CanBeEgotist: false });
     }
 
     public override bool? DidWin(GameOverReason reason)
     {
-        return (!OptionGroupSingleton<EgotistOptions>.Instance.EgotistMustSurvive.Value || HasSurvived || !Player.HasDied()) && !(reason is GameOverReason.CrewmatesByVote or GameOverReason.CrewmatesByTask
+        return (!OptionGroupSingleton<EgotistOptions>.Instance.EgotistMustSurvive || HasSurvived || !Player.HasDied()) && !(reason is GameOverReason.CrewmatesByVote or GameOverReason.CrewmatesByTask
             or GameOverReason.ImpostorDisconnect || reason == CustomGameOver.GameOverReason<DrawGameOver>());
     }
 }

@@ -10,7 +10,7 @@ public sealed class DeputyOptions : AbstractRoleOptionGroup<DeputyRole>
 
     public ModdedToggleOption WarnKiller { get; set; } = new("TouOptionDeputyWarnKillerOnCampedKill", true);
 
-    public ModdedEnumOption RevealDeputyUponShot { get; set; } = new("TouOptionDeputyRevealDeputyUponShot", (int)DeputyReveal.RevealPlayer, typeof(DeputyReveal), ["TouOptionDeputyEnumNoReveal", "TouOptionDeputyEnumAnnounceRole", "TouOptionDeputyEnumRevealPlayer"]);
+    public ModdedEnumOption<DeputyReveal> RevealDeputyUponShot { get; set; } = new("TouOptionDeputyRevealDeputyUponShot", DeputyReveal.RevealPlayer, ["TouOptionDeputyEnumNoReveal", "TouOptionDeputyEnumAnnounceRole", "TouOptionDeputyEnumRevealPlayer"]);
 }
 
 public enum DeputyReveal

@@ -22,11 +22,12 @@ public sealed class AmnesiacOptions : AbstractRoleOptionGroup<AmnesiacRole>
         Visible = () => OptionGroupSingleton<AmnesiacOptions>.Instance.RememberArrows
     };
 
-    public ModdedEnumOption AmneTurnImpAssassin { get; } = new($"TouOptionAmnesiacAssassinImpostor",
-        (int)AssassinRemember.IfAssassin, typeof(AssassinRemember), ["TouOptionAmnesiacAssassinEnumNever", "TouOptionAmnesiacAssassinEnumDependentImp", "TouOptionAmnesiacAssassinEnumAlways"]);
+    public ModdedEnumOption<AssassinRemember> AmneTurnImpAssassin { get; } =
+        new($"TouOptionAmnesiacAssassinImpostor", AssassinRemember.IfAssassin,
+            ["TouOptionAmnesiacAssassinEnumNever", "TouOptionAmnesiacAssassinEnumDependentImp", "TouOptionAmnesiacAssassinEnumAlways"]);
 
-    public ModdedEnumOption AmneTurnNeutAssassin { get; } =
-        new($"TouOptionAmnesiacAssassinNeutral", (int)AssassinRemember.Always, typeof(AssassinRemember),
+    public ModdedEnumOption<AssassinRemember> AmneTurnNeutAssassin { get; } =
+        new($"TouOptionAmnesiacAssassinNeutral", AssassinRemember.Always,
             ["TouOptionAmnesiacAssassinEnumNever", "TouOptionAmnesiacAssassinEnumDependentNeut", "TouOptionAmnesiacAssassinEnumAlways"]);
 }
 

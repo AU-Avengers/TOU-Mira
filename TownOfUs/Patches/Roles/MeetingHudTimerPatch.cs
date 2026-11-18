@@ -73,7 +73,7 @@ public static class MeetingHudTimerPatch
             case VigilanteRole vigi:
                 newText =
                     $"\n{vigi.MaxKills} / {(int)OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteKills} {MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteGuessesRemaining")}";
-                if ((int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots > 0)
+                if (OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots > 0)
                 {
                     newText +=
                         $" | {vigi.SafeShotsLeft} / {(int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots} {MiraLocaleManager.Get("TownOfUsMira.Role.VigilanteSafeShots")}";

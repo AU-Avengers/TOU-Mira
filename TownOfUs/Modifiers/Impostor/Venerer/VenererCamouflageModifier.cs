@@ -37,7 +37,7 @@ public sealed class VenererCamouflageModifier : ConcealedModifier, IVenererModif
         Player.RawSetAppearance(this);
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.VenererCamoAbility, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void OnDeactivate()

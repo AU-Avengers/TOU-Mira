@@ -27,7 +27,7 @@ public class PolusGhostImpRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
             }
 
             var role = Player.GetRoleWhenAlive();
-            return role is PolusBaseImpRole polusRole ? polusRole.RoleDescriptionDead : role.BlurbLong;
+            return role is PolusBaseImpRole { RoleDescriptionDead: var deadDesc } ? deadDesc : role.BlurbLong;
         }
     }
     public override void SpawnTaskHeader(PlayerControl playerControl)
@@ -67,7 +67,7 @@ public class PolusGhostImpRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
         CanUseVent = false,
         AssociatedGameMode = typeof(TownOfPolusMode),
         FreeplayFolder = "Town of Polus",
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconImpostor.LoadAsset(), "TownOfPolus.Role.Impostor.Impostor", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconImpostor, "TownOfPolus.Role.Impostor.Impostor", 1.45f),
         Icon = PolusGgAssets.IconImpostor
     };
     public override bool IsDead => true; // needed because we inherit from RoleBehaviour

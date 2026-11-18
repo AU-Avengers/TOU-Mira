@@ -17,7 +17,7 @@ public static class KnightedEvents
 {
     public static List<CustomVote> ExtraKnightVotes { get; } = [];
     public static bool ShowVotes => OptionGroupSingleton<MonarchOptions>.Instance.ShowKnightedVotes;
-    public static int TotalVotes => (int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight + 1;
+    public static int TotalVotes => (int)(OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight + 1);
 
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent _)
@@ -27,7 +27,7 @@ public static class KnightedEvents
             return;
         }
 
-        var knights = PlayerControl.LocalPlayer.GetModifiers<KnightedModifier>().Where(x => !x.Announced).ToList();
+        var knights = PlayerControl.LocalPlayer.GetModifiers<KnightedModifier>(x => !x.Announced).ToList();
         if (knights.Count == 0)
         {
             return;
@@ -40,9 +40,9 @@ public static class KnightedEvents
         foreach (var knight in knights)
         {
             knight.Announced = true;
-            if (knight.Player.Data.Role is MayorRole mayor && mayor.Revealed)
+            if (knight.Player.Data.Role is MayorRole { Revealed: true })
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.RiggedVotes);
+                TouAchievements.RiggedVotes.Unlock();
             }
 
             var message = MiraLocaleManager.Get("TownOfUsMira.Role.MonarchKnightedFeedback").Replace("<role>", role).Replace("<votes>", votes);
@@ -76,7 +76,7 @@ public static class KnightedEvents
 
             var totalBonusVotes = knightModifiers.Count * baseExtraVotes;
 
-            if (player.Data.Role is MayorRole mayor && mayor.Revealed)
+            if (player.Data.Role is MayorRole { Revealed: true })
             {
                 totalBonusVotes--;
             }
@@ -102,7 +102,7 @@ public static class KnightedEvents
         @event.VoteData.SetRemainingVotes(0);
 
         var extraVotes = TotalVotes;
-        if (@event.VoteData.Owner.Data.Role is MayorRole mayor && mayor.Revealed)
+        if (@event.VoteData.Owner.Data.Role is MayorRole { Revealed: true })
         {
             extraVotes--;
         }

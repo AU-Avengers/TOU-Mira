@@ -10,6 +10,6 @@ public sealed class JailSparedModifier(byte jailorId) : BaseModifier
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

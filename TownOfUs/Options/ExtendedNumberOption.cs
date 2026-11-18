@@ -56,7 +56,7 @@ public class ExtendedNumberOption : ModdedNumberOption
     public string AssetName { get; set; }
     public float AssetScale { get; set; } = 1f;
     /// <inheritdoc />
-    public override OptionNotifConfiguration Configuration => new(OptionColor, ResourceAsset != null ? TmpSpriteUtils.CreateSpriteAsset(ResourceAsset.LoadAsset(), AssetName, AssetScale) : null!);
+    public override OptionNotifConfiguration Configuration => new(OptionColor, ResourceAsset != null ? TmpSpriteUtils.CreateSpriteAsset(ResourceAsset, AssetName, AssetScale) : null!);
 }
 
 public class AmountChanceOption : ExtendedNumberOption
@@ -96,6 +96,11 @@ public class AmountChanceOption : ExtendedNumberOption
         suffixType, formatString, color, asset, assetName, assetScale, false, includeInPreset)
     {
 
+    }
+
+    protected override void ShowNotif()
+    {
+        // nothing!
     }
 
     /// <inheritdoc />

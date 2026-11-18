@@ -40,19 +40,19 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
         if (ability != VenererAbility.None && Role)
         {
             var abilityName = ability switch
-    {
-            VenererAbility.Camouflage => MiraLocaleManager.Get("TownOfUsMira.Role.VenererCamouflage",
+            {
+                VenererAbility.Camouflage => MiraLocaleManager.Get("TownOfUsMira.Role.VenererCamouflage",
                 "Camouflage"),
 
-            VenererAbility.Sprint => MiraLocaleManager.Get("TownOfUsMira.Role.VenererSprint",
+                VenererAbility.Sprint => MiraLocaleManager.Get("TownOfUsMira.Role.VenererSprint",
                 "Sprint"),
 
-            VenererAbility.Freeze => MiraLocaleManager.Get("TownOfUsMira.Role.VenererFreeze",
+                VenererAbility.Freeze => MiraLocaleManager.Get("TownOfUsMira.Role.VenererFreeze",
                 "Freeze"),
 
-            _ => ability.ToString()
-        };
-        var notificationText = MiraLocaleManager.Get(
+                _ => ability.ToString()
+            };
+            var notificationText = MiraLocaleManager.Get(
                 EffectActive
                     ? "TownOfUsMira.Role.VenererAbilityUnlockedWait"
                     : "TownOfUsMira.Role.VenererAbilityUnlocked",
@@ -61,13 +61,13 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
                     : "You have unlocked the <ability> ability for getting a kill.")
             .Replace("<ability>", abilityName);
 
-        var notif1 = Helpers.CreateAndShowNotification(
+            var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{notificationText}</color></b>",
             Color.white,
             new Vector3(0f, 1f, -20f),
-            spr: TouRoleIcons.Venerer.LoadAsset());
+            spr: TouRoleIcons.Venerer);
 
-        notif1.AdjustNotification();
+            notif1.AdjustNotification();
         }
 
         if (EffectActive)
@@ -97,13 +97,13 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
         switch (ActiveAbility)
         {
             case VenererAbility.Camouflage:
-                SetAbility("Camouflage", LegacyAssets.IsLegacy ? LegacyImpAssets.CamouflageSprite.LoadAsset() : TouImpAssets.CamouflageSprite.LoadAsset());
+                SetAbility("Camouflage", LegacyAssets.IsLegacy ? LegacyImpAssets.CamouflageSprite : TouImpAssets.CamouflageSprite);
                 break;
             case VenererAbility.Sprint:
-                SetAbility("Sprint", LegacyAssets.IsLegacy ? LegacyImpAssets.SprintSprite.LoadAsset() : TouImpAssets.SprintSprite.LoadAsset());
+                SetAbility("Sprint", LegacyAssets.IsLegacy ? LegacyImpAssets.SprintSprite : TouImpAssets.SprintSprite);
                 break;
             case VenererAbility.Freeze:
-                SetAbility("Freeze", LegacyAssets.IsLegacy ? LegacyImpAssets.FreezeSprite.LoadAsset() : TouImpAssets.FreezeSprite.LoadAsset());
+                SetAbility("Freeze", LegacyAssets.IsLegacy ? LegacyImpAssets.FreezeSprite : TouImpAssets.FreezeSprite);
                 break;
         }
 
@@ -194,7 +194,7 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             return false;
         }

@@ -19,8 +19,8 @@ public static class HnsGamemodeEvents
     public static IEnumerator CoChangeImpostorRole(IntroCutscene cutscene)
     {
         yield return new WaitForSeconds(0.01f);
-        
-        var seeker = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.IsImpostor());
+
+        var seeker = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.IsImpostor());
         if (seeker != null)
         {
             cutscene.ImpostorTitle.text = seeker.Data.Role.GetRoleName();
@@ -52,7 +52,7 @@ public static class HnsGamemodeEvents
             return;
         }
 
-        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             @event.Cancel();
         }
@@ -76,8 +76,8 @@ public static class HnsGamemodeEvents
                 @event.Cancel();
             }
 
-            var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
-            var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
+            var aliveCount = PlayerControl.AllPlayerControls.Count(x => !x.HasDied());
+            var minimum = OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable;
 
             if (PlayerControl.LocalPlayer.inVent && (aliveCount <= minimum
                                                      || PlayerControl.LocalPlayer.IsImpostor()))

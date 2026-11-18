@@ -11,7 +11,6 @@ using MiraAPI.Utilities;
 using PowerTools;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
-using TownOfUs.Achievements;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
@@ -24,7 +23,11 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class MayorRole(IntPtr cppPtr)
     : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, IUnguessable, ILoyalCrewmate, IVisibleRole
 {
-    public bool? ForceShowRoleOnWiki => MiscUtils.GetPotentialRoles().Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PoliticianRole>())) ? true : null;
+    public string GetAmountText(int amount, int chance, string source)
+    {
+        return $"Transforms from {AppearAs.GetRoleName()} ({source})";
+    }
+    public bool? ForceShowRoleOnWiki => MiscUtils.GetPotentialRoles().Contains(AppearAs) ? true : null;
     public bool CanOtherRoleSee(RoleBehaviour role, out bool consideredTeammates)
     {
         consideredTeammates = false;
@@ -53,7 +56,7 @@ public sealed class MayorRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mayor.LoadAsset(), "TouMira.Role.Crewmate.Mayor", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mayor, "TouMira.Role.Crewmate.Mayor", 1.45f),
         Icon = TouRoleIcons.Mayor,
         HideSettings = true,
         MaxRoleCount = 0,

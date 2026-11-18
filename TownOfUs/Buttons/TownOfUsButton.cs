@@ -50,7 +50,7 @@ public abstract class TownOfUsButton : CustomActionButton
         hackedSprite.gameObject.layer = Button!.gameObject.layer;
 
         var render = hackedSprite.AddComponent<SpriteRenderer>();
-        render.sprite = TouAssets.FirstRoundLockSprite.LoadAsset();
+        render.sprite = TouAssets.FirstRoundLockSprite;
         FirstRoundLock = render;
 
         SetRoundLockActive(false);
@@ -95,7 +95,7 @@ public abstract class TownOfUsButton : CustomActionButton
         if (Timer >= 0)
         {
             var shouldPauseInVent = ShouldPauseInVent && PlayerControl.LocalPlayer.inVent && !EffectActive;
-            
+
             if (!TimerPaused && !OptionGroupSingleton<VanillaTweakOptions>.Instance.CanPauseCooldown && (!shouldPauseInVent || EffectActive))
             {
                 Timer -= Time.deltaTime;
@@ -153,8 +153,8 @@ public abstract class TownOfUsButton : CustomActionButton
         CreateRoundLockIcon();
 
         Button.usesRemainingSprite.sprite = this is ILegacyCapable && LegacyAssets.IsLegacy || this is ILegacyButton
-            ? TouAssets.BlankSprite.LoadAsset()
-            : TouAssets.AbilityCounterBasicSprite.LoadAsset();
+            ? TouAssets.BlankSprite
+            : TouAssets.AbilityCounterBasicSprite;
 
         TownOfUsColors.UseBasic = false;
         if (TextOutlineColor != Color.clear)
@@ -211,7 +211,7 @@ public abstract class TownOfUsButton : CustomActionButton
         }
 
         if (!PlayerControl.LocalPlayer.CanMove ||
-            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+            PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -296,7 +296,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         hackedSprite.gameObject.layer = Button!.gameObject.layer;
 
         var render = hackedSprite.AddComponent<SpriteRenderer>();
-        render.sprite = TouAssets.FirstRoundLockSprite.LoadAsset();
+        render.sprite = TouAssets.FirstRoundLockSprite;
         FirstRoundLock = render;
 
         SetRoundLockActive(false);
@@ -341,7 +341,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         if (Timer >= 0)
         {
             var shouldPauseInVent = ShouldPauseInVent && PlayerControl.LocalPlayer.inVent && !EffectActive;
-            
+
             if (!TimerPaused && !OptionGroupSingleton<VanillaTweakOptions>.Instance.CanPauseCooldown && (!shouldPauseInVent || EffectActive))
             {
                 Timer -= Time.deltaTime;
@@ -410,7 +410,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         }
 
         if (!PlayerControl.LocalPlayer.CanMove ||
-            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+            PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -431,16 +431,16 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
 
         if (this is ILegacyCapable && LegacyAssets.IsLegacy || this is ILegacyButton)
         {
-            Button.usesRemainingSprite.sprite = TouAssets.BlankSprite.LoadAsset();
+            Button.usesRemainingSprite.sprite = TouAssets.BlankSprite;
         }
         else
         {
             Button.usesRemainingSprite.sprite = typeof(T) switch
             {
-                Type t when t == typeof(Vent) => TouAssets.AbilityCounterVentSprite.LoadAsset(),
-                Type t when t == typeof(DeadBody) => TouAssets.AbilityCounterBodySprite.LoadAsset(),
-                Type t when t == typeof(PlayerControl) => TouAssets.AbilityCounterPlayerSprite.LoadAsset(),
-                _ => TouAssets.AbilityCounterBasicSprite.LoadAsset(),
+                Type t when t == typeof(Vent) => TouAssets.AbilityCounterVentSprite,
+                Type t when t == typeof(DeadBody) => TouAssets.AbilityCounterBodySprite,
+                Type t when t == typeof(PlayerControl) => TouAssets.AbilityCounterPlayerSprite,
+                _ => TouAssets.AbilityCounterBasicSprite,
             };
         }
 
@@ -568,14 +568,10 @@ public abstract class TownOfUsRoleButton<TRole, TTarget> : TownOfUsTargetButton<
 
     public override bool IsTargetValid(TTarget? target)
     {
-        if (target is PlayerControl playerTarget)
-        {
-            return base.IsTargetValid(target) && !playerTarget.inVent &&
-                   !playerTarget.GetModifiers<DisabledModifier>().Any(mod => !mod.CanBeInteractedWith) &&
-                   !SpectatorRole.TrackedSpectators.Contains(playerTarget.Data.PlayerName);
-        }
-
-        return base.IsTargetValid(target);
+        return base.IsTargetValid(target) &&
+               (target is not PlayerControl { inVent: true } playerTarget ||
+                !playerTarget.HasModifier<DisabledModifier>(mod => !mod.CanBeInteractedWith) &&
+                !SpectatorRole.TrackedSpectators.Contains(playerTarget.GetBestPlayerDenomination()));
     }
 }
 
@@ -651,6 +647,7 @@ public abstract class TownOfUsKillRoleButton<TRole, TTarget> : TownOfUsRoleButto
 [MiraIgnore]
 public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, Vent> where TRole : RoleBehaviour
 {
+
     public GameObject DisableSprite;
     public override void CreateButton(Transform parent)
     {
@@ -664,6 +661,22 @@ public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, 
         if (DisableSprite)
         {
             DisableSprite.SetActive(!TownOfUsEventHandlers.AreVentsAllowed);
+        }
+
+        if (PlayerControl.LocalPlayer && EffectActive && HasEffect && !PlayerControl.LocalPlayer.inVent &&
+            !PlayerControl.LocalPlayer.walkingToVent)
+        {
+            if (Timer != 0)
+            {
+                UsesLeft--;
+                if (LimitedUses)
+                {
+                    Button?.SetUsesRemaining(UsesLeft);
+                }
+            }
+
+            EffectActive = false;
+            Timer = Cooldown;
         }
     }
 
@@ -690,7 +703,7 @@ public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, 
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -726,14 +739,27 @@ public abstract class TownOfUsVentButton : TownOfUsTargetButton<Vent>
         {
             DisableSprite.SetActive(!TownOfUsEventHandlers.AreVentsAllowed);
         }
+
+        if (PlayerControl.LocalPlayer && EffectActive && HasEffect && !PlayerControl.LocalPlayer.inVent &&
+            !PlayerControl.LocalPlayer.walkingToVent)
+        {
+            if (Timer != 0)
+            {
+                UsesLeft--;
+                if (LimitedUses)
+                {
+                    Button?.SetUsesRemaining(UsesLeft);
+                }
+            }
+
+            EffectActive = false;
+            Timer = Cooldown;
+        }
     }
 
     public override void SetOutline(bool active)
     {
-        if (Target != null)
-        {
-            Target.SetOutline(active, true, PlayerControl.LocalPlayer.Data.Role.TeamColor);
-        }
+        Target?.SetOutline(active, true, PlayerControl.LocalPlayer.Data.Role.TeamColor);
     }
     public override Vent? GetTarget()
     {
@@ -752,7 +778,7 @@ public abstract class TownOfUsVentButton : TownOfUsTargetButton<Vent>
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             return false;
         }

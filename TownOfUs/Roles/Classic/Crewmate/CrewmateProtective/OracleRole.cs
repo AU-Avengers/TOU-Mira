@@ -31,24 +31,6 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bless", "Bless"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Bless.WikiDescription"),
-                    TouCrewAssets.BlessSprite),
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Confess", "Confess"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Confess.WikiDescription").Replace("<revealAccuracy>",
-                        $"{OptionGroupSingleton<OracleOptions>.Instance.RevealAccuracyPercentage}"),
-                    TouCrewAssets.ConfessSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get
@@ -74,7 +56,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Oracle.LoadAsset(), "TouMira.Role.Crewmate.Oracle", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Oracle, "TouMira.Role.Crewmate.Oracle", 1.45f),
         Icon = TouRoleIcons.Oracle,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.GuardianAngelSound
@@ -122,8 +104,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             return MiraLocaleManager.Get("TownOfUsMira.Role.OracleConfessorDied");
         }
 
-        var allPlayers = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => !x.HasDied() && !x.AmOwner && x != player).ToList();
+        var allPlayers = PlayerControl.AllPlayerControls.Where(x => !x.HasDied() && !x.AmOwner && x != player).ToList();
         if (allPlayers.Count < 2)
         {
             return MiraLocaleManager.Get("TownOfUsMira.Role.OracleTooFew");
@@ -131,19 +112,19 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         var options = OptionGroupSingleton<OracleOptions>.Instance;
 
-        var evilPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.HasDied() &&
+        var evilPlayers = PlayerControl.AllPlayerControls.Where(x => !x.HasDied() &&
                                                                                (x.IsImpostor() ||
                                                                                    (x.Is(RoleAlignment.NeutralOutlier) &&
-                                                                                       options.ShowNeutralOutlierAsEvil.Value) ||
+                                                                                       options.ShowNeutralOutlierAsEvil) ||
                                                                                    (x.Is(RoleAlignment
                                                                                            .NeutralKilling) &&
                                                                                        options
-                                                                                           .ShowNeutralKillingAsEvil.Value) ||
+                                                                                           .ShowNeutralKillingAsEvil) ||
                                                                                    (x.Is(RoleAlignment.NeutralEvil) &&
-                                                                                       options.ShowNeutralEvilAsEvil.Value) ||
+                                                                                       options.ShowNeutralEvilAsEvil) ||
                                                                                    (x.Is(RoleAlignment.NeutralBenign) &&
                                                                                        options
-                                                                                           .ShowNeutralBenignAsEvil.Value)))
+                                                                                           .ShowNeutralBenignAsEvil)))
             .ToList();
 
         if (evilPlayers.Count == 0)
@@ -199,11 +180,9 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             return;
         }
         // Message($"RpcOracleBless exiled '{exiled.Data.PlayerName}'");
-        var mod = exiled.GetModifier<OracleBlessedModifier>();
-
-        mod?.SavedFromExile = true;
-        if (mod != null)
+        if (exiled.TryGetModifier<OracleBlessedModifier>(out var mod))
         {
+            mod.SavedFromExile = true;
             TouAchievementEvents.OnOracleBlessSaved(mod.Oracle, exiled);
         }
     }
@@ -227,7 +206,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Oracle));
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.OracleBlessingMessageSelf").Replace("<player>", target.Data.PlayerName)}</b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Oracle.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Oracle);
             notif1.AdjustNotification();
         }
         else if (source.AmOwner)
@@ -235,7 +214,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Oracle));
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{MiraLocaleManager.Get("TownOfUsMira.Role.OracleBlessingMessageOthers").Replace("<player>", target.Data.PlayerName)}</b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Oracle.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Oracle);
             notif1.AdjustNotification();
         }
     }

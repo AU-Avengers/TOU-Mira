@@ -17,7 +17,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Shy,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Shy.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Shy,
             "TouMira.Modifier.Universal.Shy", 1.45f));
     public override string IdPart => "Shy";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -49,18 +49,18 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.ShyChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.ShyChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.ShyAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.ShyAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         var isValid = true;
-        if ((role is JesterRole && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn.Value) ||
+        if ((role is JesterRole && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn) ||
             (role is SurvivorRole && OptionGroupSingleton<SurvivorOptions>.Instance.ScatterOn))
         {
             isValid = false;
@@ -119,6 +119,11 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         }
 
         StopShy = false;
+
+        if (!Player.ShouldAllowVisualChanges())
+        {
+            return;
+        }
         // check movement by animation
         var playerPhysics = Player.MyPhysics;
         var currentPhysicsAnim = playerPhysics.Animations.Animator.GetCurrentAnimation();
@@ -126,7 +131,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         {
             LastMoved = DateTime.UtcNow;
         }
-        
+
         if (HexBombSabotageSystem.BombFinished)
         {
             SetVisibility(Player, 1f);
@@ -135,7 +140,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         {
             var opacity = 0f;
 
-            if (Player.TryGetModifier<HypnotistHysteriaModifier>(out var hypnoMod) && hypnoMod.AppearanceType > 1 || (PlayerControl.LocalPlayer.IsImpostorAligned() && Player.Data.Role is SwooperRole) ||
+            if (Player.HasModifier<HypnotistHysteriaModifier>(hypnoMod => hypnoMod.AppearanceType > 1) || (PlayerControl.LocalPlayer.IsImpostorAligned() && Player.Data.Role is SwooperRole) ||
                 (Player.AmOwner && Player.Data.Role is SwooperRole))
             {
                 opacity = 0.1f;
@@ -143,7 +148,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
 
             SetVisibility(Player, opacity, true);
         }
-        else if (Player.GetAppearanceType() == TownOfUsAppearances.Camouflage)
+        else if (Player.GetAppearanceType() == TownOfUsAppearances.Camouflage && OptionGroupSingleton<ShyOptions>.Instance.ShyAlwaysVisibleInCamoComms)
         {
             SetVisibility(Player, 1f, true);
         }
@@ -188,18 +193,6 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         colour.a = transparency;
         player.cosmetics.currentBodySprite.BodySprite.color = colour;
 
-        if (hideName)
-        {
-            transparency = 0f;
-        }
-
-        cosmetics.nameText.color = cosmetics.nameText.color.SetAlpha(transparency);
-
-        if (DataManager.Settings.Accessibility.ColorBlindMode)
-        {
-            cosmetics.colorBlindText.color = cosmetics.colorBlindText.color.SetAlpha(transparency);
-        }
-
         player.SetHatAndVisorAlpha(transparency);
         cosmetics.skin.layer.color = cosmetics.skin.layer.color.SetAlpha(transparency);
         if (player.cosmetics.GetLongBoi() != null)
@@ -225,14 +218,26 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
             }
         }
 
-        foreach (var animation in player.transform.GetChild(2).GetComponentsInParent<SpriteRenderer>())
+        foreach (var animation in player.cosmetics.GetComponentsInParent<SpriteRenderer>())
         {
             animation.color = animation.color.SetAlpha(transparency);
         }
 
-        foreach (var animation in player.transform.GetChild(2).GetComponentsInChildren<SpriteRenderer>())
+        foreach (var animation in player.cosmetics.GetComponentsInChildren<SpriteRenderer>())
         {
             animation.color = animation.color.SetAlpha(transparency);
+        }
+
+        if (hideName)
+        {
+            transparency = 0f;
+        }
+
+        cosmetics.nameText.color = cosmetics.nameText.color.SetAlpha(transparency);
+
+        if (DataManager.Settings.Accessibility.ColorBlindMode)
+        {
+            cosmetics.colorBlindText.color = cosmetics.colorBlindText.color.SetAlpha(transparency);
         }
     }
 }

@@ -109,7 +109,7 @@ public static class SentryEvents
                 $"<b>{TownOfUsColors.Sentry.ToTextColor()}{notifText}</color></b>",
                 Color.white,
                 new Vector3(0f, 1f, -150f),
-                spr: TouRoleIcons.Sentry.LoadAsset());
+                spr: TouRoleIcons.Sentry);
             notif.AdjustNotification();
 
             Coroutines.Start(FlashActionButton(CustomButtonSingleton<SentryPortableCameraButton>.Instance.Button));
@@ -137,6 +137,12 @@ public static class SentryEvents
                 ActiveCameraTaskCount = 0;
             }
 
+            if (OptionGroupSingleton<SentryOptions>.Instance.PortableCamerasMode is SentryPortableCamerasMode
+                    .OnMapsWithoutCameras or SentryPortableCamerasMode.Immediately)
+            {
+                SentryPortableCameraButtonBase.BumpCharge();
+            }
+
             if (sentryRole.CompletedAllTasks && !sentryRole.PortableCamsUnlockedNotified)
             {
                 if (!ShouldUnlockPortableCameras(sentryRole))
@@ -156,7 +162,7 @@ public static class SentryEvents
                     $"<b>{TownOfUsColors.Sentry.ToTextColor()}{notifText}</color></b>",
                     Color.white,
                     new Vector3(0f, 1f, -150f),
-                    spr: TouRoleIcons.Sentry.LoadAsset());
+                    spr: TouRoleIcons.Sentry);
                 notif.AdjustNotification();
 
                 Coroutines.Start(FlashActionButton(CustomButtonSingleton<SentryPortableCameraButton>.Instance.Button));
@@ -182,7 +188,7 @@ public static class SentryEvents
             }
         }
 
-        if ((int)OptionGroupSingleton<SentryOptions>.Instance.CameraRoundsLast > 0)
+        if (OptionGroupSingleton<SentryOptions>.Instance.CameraRoundsLast > 0)
         {
             var cameraList = new List<KeyValuePair<SurvCamera, int>>();
             if (SentryRole.Cameras.Count > 0)

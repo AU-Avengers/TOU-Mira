@@ -37,7 +37,7 @@ public static class HexBombTimerPatch
         TimerSpriteObj.SetActive(true);
 
         TimerSprite = TimerSpriteObj.AddComponent<SpriteRenderer>();
-        TimerSprite.sprite = TouRoleIcons.Spellslinger.LoadAsset();
+        TimerSprite.sprite = TouRoleIcons.Spellslinger;
 
         var ts = TimeSpan.FromSeconds(_sabotage.TimeRemaining);
 

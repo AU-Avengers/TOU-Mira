@@ -16,7 +16,7 @@ public sealed class MinerOptions : AbstractRoleOptionGroup<MinerRole>
     [ModdedNumberOption("TouOptionMinerMineCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float MineCooldown { get; set; } = 25f;
 
-    [ModdedEnumOption("TouOptionMinerMineVisibility", typeof(MineVisiblityOptions), ["TouOptionMinerDelayEnumImmediate", "TouOptionMinerDelayEnumAfterUse"])]
+    [ModdedEnumOption<MineVisiblityOptions>("TouOptionMinerMineVisibility", ["TouOptionMinerDelayEnumImmediate", "TouOptionMinerDelayEnumAfterUse"])]
     public MineVisiblityOptions MineVisibility { get; set; } = MineVisiblityOptions.Immediate;
 
     public ModdedNumberOption MineDelay { get; } = new("TouOptionMinerMineDelay", 3f, 0f, 10f, 0.5f, MiraNumberSuffixes.Seconds)

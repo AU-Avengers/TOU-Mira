@@ -54,7 +54,7 @@ public abstract class PolusBaseNeutRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), 
         AssociatedGameMode = typeof(TownOfPolusMode),
         GhostRole = (RoleTypes)RoleId.Get<PolusGhostNeutRole>(),
         FreeplayFolder = "Town of Polus",
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconNeutralAlign.LoadAsset(), "TownOfPolus.Role.Neutral.Neutral", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(PolusGgAssets.IconNeutralAlign, "TownOfPolus.Role.Neutral.Neutral", 1.45f),
         Icon = PolusGgAssets.IconNeutralAlign
     };
     public override bool IsDead => false; // needed because we inherit from RoleBehaviour

@@ -14,6 +14,7 @@ public abstract class ConcealedModifier : TimedModifier
     public override bool HideOnUi => true;
     public virtual bool VisibleToOthers { get; set; }
     public virtual bool CarriesIntoMeetings => false;
+    public virtual bool HaltsAllVisualChanges => false;
 
     public override string GetDescription()
     {
@@ -24,7 +25,7 @@ public abstract class ConcealedModifier : TimedModifier
     {
         base.OnDeath(reason);
 
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnMeetingStart()
@@ -32,7 +33,7 @@ public abstract class ConcealedModifier : TimedModifier
         base.OnMeetingStart();
         if (!CarriesIntoMeetings)
         {
-            ModifierComponent!.RemoveModifier(this);
+            RemoveSelf();
         }
     }
 }

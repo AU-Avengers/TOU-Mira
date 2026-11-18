@@ -4,10 +4,13 @@ using HarmonyLib;
 using MiraAPI;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.Modifiers;
 using MiraAPI.Networking;
+using MiraAPI.Patches;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Modules;
 using TownOfUs.Networking;
 using UnityEngine;
 
@@ -16,6 +19,30 @@ namespace TownOfUs.Patches.Misc;
 [HarmonyPatch]
 public static class MiraApiPatches
 {
+    [HarmonyPatch(typeof(RoleGuidePatches), nameof(RoleGuidePatches.GetActiveRoles))]
+    [HarmonyPrefix]
+    public static bool GetActiveRoles(ref IEnumerable<RoleBehaviour> __result)
+    {
+        IEnumerable<RoleBehaviour> comparisons = [];
+
+        var curRole = PlayerControl.LocalPlayer.Data.Role;
+
+        if (PlayerControl.LocalPlayer.TryGetModifierOfType<ICachedRole>(out var cachedMod, x => x.CachedRole != curRole))
+        {
+            comparisons = comparisons.AddItem(cachedMod.CachedRole);
+        }
+
+        comparisons = comparisons.AddItem(curRole);
+
+        if (PlayerControl.LocalPlayer.Data.IsDead &&
+            !comparisons.Contains(PlayerControl.LocalPlayer.GetRoleWhenAlive()))
+        {
+            comparisons = comparisons.AddItem(PlayerControl.LocalPlayer.GetRoleWhenAlive());
+        }
+
+        __result = comparisons;
+        return false;
+    }
     [HarmonyPatch(typeof(Helpers), nameof(Helpers.IsRoleBlacklisted))]
     [HarmonyPrefix]
     public static bool IsRoleBlacklisted(RoleBehaviour role, ref bool __result)
@@ -105,7 +132,7 @@ public static class MiraApiPatches
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
-        MiraEventManager.InvokeEvent(beforeMurderEvent);
+        beforeMurderEvent.InvokeEvent();
         var defenseFlag = beforeMurderEvent.IgnoreDefense;
         var indirectFlag = beforeMurderEvent.IsIndirectAttack;
         var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
@@ -326,14 +353,14 @@ public static class MiraApiPatches
         __instance.startPage.SetActive(false);
         if (__instance.roleButtonsParent.childCount == 0)
         {
-            foreach (var role in RoleManager.Instance.AllRoles.ToArray().Where(x => !x.IsCustomRole()))
+            foreach (var role in RoleManager.Instance.AllRoles.Where(x => !x.IsCustomRole()))
             {
                 if (!role.IsSimpleRole && role.Role != RoleTypes.CrewmateGhost && role.Role != RoleTypes.ImpostorGhost)
                 {
                     HowToPlayRoleButton component = UnityEngine.Object
                         .Instantiate(__instance.roleButtonPrefab, __instance.roleButtonsParent)
                         .GetComponent<HowToPlayRoleButton>();
-                    Sprite roleIcon = __instance.rolesScenes.ToArray().First(r => r.role == role.Role).roleIcon;
+                    Sprite roleIcon = __instance.rolesScenes.First(r => r.role == role.Role).roleIcon;
                     component.SetRoleInfo(role, roleIcon);
                     component.SetButtonAction((Il2CppSystem.Action)(() => { OpenRolePage(__instance, role.Role); }));
                     __instance.controllerSelectables.Add(component.GetComponent<PassiveButton>());
@@ -358,7 +385,7 @@ public static class MiraApiPatches
     public static void OpenRolePage(HowToPlayScene instance, RoleTypes roleType)
     {
         instance.category = HowToPlayScene.HowToPlayCategory.Roles;
-        var newList = instance.rolesScenes.ToArray().ToList();
+        var newList = instance.rolesScenes.ToList();
         var buttonList = instance.roleButtons;
         instance.sceneIndex = newList.FindIndex(r => r.role == roleType);
         if (roleType != RoleTypes.Crewmate)

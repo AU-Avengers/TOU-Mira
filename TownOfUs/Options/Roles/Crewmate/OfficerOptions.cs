@@ -26,13 +26,13 @@ public sealed class OfficerOptions : AbstractRoleOptionGroup<OfficerRole>, IWiki
     public ModdedToggleOption CrewKillingAreInnocent { get; set; } =
         new("TouOptionOfficerCrewKillingAreInnocent", false)
         {
-            Visible = () => OptionGroupSingleton<OfficerOptions>.Instance.CanOnlyShootActiveKillers.Value
+            Visible = () => OptionGroupSingleton<OfficerOptions>.Instance.CanOnlyShootActiveKillers
         };
 
     public ModdedToggleOption NonKillingNeutralsAreInnocent { get; set; } =
         new("TouOptionOfficerNonKillingNeutralsAreInnocent", false)
         {
-            Visible = () => !OptionGroupSingleton<OfficerOptions>.Instance.CanOnlyShootActiveKillers.Value
+            Visible = () => !OptionGroupSingleton<OfficerOptions>.Instance.CanOnlyShootActiveKillers
         };
 
     public ModdedNumberOption MaxBulletsTotal { get; set; } = new("TouOptionOfficerMaxBulletsTotal", 9f, 3f, 15f, 1f,
@@ -56,8 +56,8 @@ public sealed class OfficerOptions : AbstractRoleOptionGroup<OfficerRole>, IWiki
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
         var bullets = MiraLocaleManager.Get("TouOptionOfficerBulletsSummary");
-        var maxBullets = (int)MaxBulletsTotal.Value;
-        var activeBullets = (int)MaxBulletsAtOnce.Value;
+        int maxBullets = MaxBulletsTotal;
+        int activeBullets = MaxBulletsAtOnce;
         var cooldowns = MiraLocaleManager.Get("TouOptionOfficerCooldownSummary");
         var shootCd = ShootCooldown.Value;
         var loadCd = LoadCooldown.Value;

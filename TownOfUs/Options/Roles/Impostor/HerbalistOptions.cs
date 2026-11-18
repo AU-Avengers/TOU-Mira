@@ -20,7 +20,7 @@ public sealed class HerbalistOptions : AbstractRoleOptionGroup<HerbalistRole>
     public ModdedNumberOption MaxProtectUses { get; } = new("TouOptionHerbalistMaxProtectUses", 7f, 0f, 15f, 1f, "∞", "∞", MiraNumberSuffixes.None, "0");
 
     [ModdedNumberOption("TouOptionHerbalistConfuseDelay", 0.5f, 5f, 0.5f, MiraNumberSuffixes.Seconds)]
-    public float ConfuseDelay{ get; set; } = 3f;
+    public float ConfuseDelay { get; set; } = 3f;
 
     [ModdedNumberOption("TouOptionHerbalistConfuseDuration", 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ConfuseDuration { get; set; } = 15f;

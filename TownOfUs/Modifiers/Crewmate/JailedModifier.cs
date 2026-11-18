@@ -24,9 +24,9 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
     public override void OnActivate()
     {
         base.OnActivate();
-        var jailor = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == JailorId);
+        var jailor = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.PlayerId == JailorId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.JailorJail, jailor!, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void OnMeetingStart()
@@ -37,7 +37,7 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
             GameData.Instance.GetPlayerById(JailorId).Object.Data.Role is not JailorRole || Player.HasDied() ||
             meeting == null)
         {
-            ModifierComponent!.RemoveModifier(this);
+            RemoveSelf();
             return;
         }
 
@@ -62,11 +62,11 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
 
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Jailor.ToTextColor()}{text}</color></b>", Color.white,
-                new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Jailor.LoadAsset());
+                new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Jailor);
 
             notif1.AdjustNotification();
         }
-        
+
         foreach (var voteArea in meeting.playerStates)
         {
             if (Player.PlayerId == voteArea.PlayerId)
@@ -92,7 +92,7 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
         var jailCellObj = Object.Instantiate(confirmButton, voteArea.transform);
 
         var cellRenderer = jailCellObj.GetComponent<SpriteRenderer>();
-        cellRenderer.sprite = TouAssets.InJailSprite.LoadAsset();
+        cellRenderer.sprite = TouAssets.InJailSprite;
 
         jailCellObj.transform.localPosition = new Vector3(-0.95f, 0f, -2f);
         jailCellObj.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
@@ -108,6 +108,6 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

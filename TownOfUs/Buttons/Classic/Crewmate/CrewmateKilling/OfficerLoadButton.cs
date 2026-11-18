@@ -14,10 +14,10 @@ public sealed class OfficerLoadButton : TownOfUsRoleButton<OfficerRole>
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Officer;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<OfficerOptions>.Instance.LoadCooldown.Value + MapCooldown, 5f, 120f);
-    public override int MaxUses => (int)OptionGroupSingleton<OfficerOptions>.Instance.MaxBulletsTotal;
+    public override int MaxUses => OptionGroupSingleton<OfficerOptions>.Instance.MaxBulletsTotal;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.OfficerLoadSprite;
     public static OfficerShootButton ShootButton => CustomButtonSingleton<OfficerShootButton>.Instance;
-    public static int MaxLoadedBullets => (int)OptionGroupSingleton<OfficerOptions>.Instance.MaxBulletsAtOnce;
+    public static int MaxLoadedBullets => OptionGroupSingleton<OfficerOptions>.Instance.MaxBulletsAtOnce;
     public bool RecentlyLoadedBullet;
     public override bool UsableFirstRound => OptionGroupSingleton<OfficerOptions>.Instance.FirstRoundShooting;
 

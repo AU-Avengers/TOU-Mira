@@ -2,10 +2,9 @@ using HarmonyLib;
 using InnerNet;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
-using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
+using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
 namespace TownOfUs.Patches;
@@ -32,11 +31,6 @@ public static class LocalSettings
             return;
         }
 
-        if (!OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow)
-        {
-            return;
-        }
-
         foreach (var player in PlayerControl.AllPlayerControls)
         {
             if (player.AmOwner)
@@ -51,13 +45,12 @@ public static class LocalSettings
 
             switch (player.Data.Role)
             {
-                case SpectreRole { Caught: false }:
-                case HaunterRole { Caught: false }:
+                case IGhostRole { Caught: false }:
                     continue;
             }
 
             var show = LocalSettingsTabSingleton<TouLocalTabPreferences>.Instance.DeadSeeGhostsToggle.Value;
-            var bodyForms = player.gameObject.transform.GetChild(1).gameObject;
+            var bodyForms = player.gameObject.transform.GetChild(2).gameObject;
 
             foreach (var form in bodyForms.GetAllChildren())
             {
@@ -73,7 +66,7 @@ public static class LocalSettings
             }
 
             player.cosmetics.gameObject.SetActive(show);
-            player.gameObject.transform.GetChild(3).gameObject.SetActive(show);
+            player.gameObject.transform.GetChild(4).gameObject.SetActive(show);
         }
 
         if (OptionGroupSingleton<SentryOptions>.Instance.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting)

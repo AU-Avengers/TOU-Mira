@@ -31,7 +31,7 @@ public static class DiseasedEvents
 
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{text.Replace("<cooldownMultiplier>", Math.Round(cdMultiplier, 2).ToString(TownOfUsPlugin.Culture))}</b>",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Diseased.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Diseased);
 
         notif1.AdjustNotification();
 

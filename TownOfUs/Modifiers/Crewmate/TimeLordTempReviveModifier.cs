@@ -10,6 +10,6 @@ public sealed class TimeLordTempReviveModifier(PlayerControl timeLord) : BaseMod
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

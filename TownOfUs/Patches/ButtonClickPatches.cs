@@ -43,12 +43,12 @@ public static class ButtonClickPatches
             if (__instance is UseButton)
             {
                 var localRole = PlayerControl.LocalPlayer.Data?.Role;
-                if (localRole is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
+                if (localRole is PuppeteerRole { Controlled: not null })
                 {
                     return true;
                 }
 
-                if (localRole is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+                if (localRole is ParasiteRole { Controlled: not null })
                 {
                     return true;
                 }
@@ -96,7 +96,7 @@ public static class ButtonClickPatches
         }
 
         if (PlayerControl.LocalPlayer &&
-            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+            PlayerControl.LocalPlayer.HasModifier<DisabledModifier>(x => !x.CanUseAbilities))
         {
             return false;
         }

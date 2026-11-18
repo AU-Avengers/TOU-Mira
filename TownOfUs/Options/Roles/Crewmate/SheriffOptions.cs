@@ -24,7 +24,7 @@ public sealed class SheriffOptions : AbstractRoleOptionGroup<SheriffRole>, IWiki
     public ModdedToggleOption ShootNeutralKiller { get; set; } = new("TouOptionSheriffCanShootNeutralKillingRoles", true);
     public ModdedToggleOption ShootNeutralOutlier { get; set; } = new("TouOptionSheriffCanShootNeutralOutlierRoles", true);
 
-    [ModdedEnumOption("TouOptionSheriffMisfireKills", typeof(MisfireOptions), ["TouOptionSheriffKillEnumSheriff", "TouOptionSheriffKillEnumTarget", "TouOptionSheriffKillEnumBoth", "TouOptionSheriffKillEnumNobody"])]
+    [ModdedEnumOption<MisfireOptions>("TouOptionSheriffMisfireKills", ["TouOptionSheriffKillEnumSheriff", "TouOptionSheriffKillEnumTarget", "TouOptionSheriffKillEnumBoth", "TouOptionSheriffKillEnumNobody"])]
     public MisfireOptions MisfireType { get; set; } = MisfireOptions.Sheriff;
 
     public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
@@ -39,10 +39,10 @@ public sealed class SheriffOptions : AbstractRoleOptionGroup<SheriffRole>, IWiki
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
         var title = MiraLocaleManager.Get("TouOptionSheriffValidNeutralShots");
-        var nbValid = ShootNeutralBenign.Value;
-        var neValid = ShootNeutralEvil.Value;
-        var nkValid = ShootNeutralKiller.Value;
-        var noValid = ShootNeutralOutlier.Value;
+        var nbValid = ShootNeutralBenign;
+        var neValid = ShootNeutralEvil;
+        var nkValid = ShootNeutralKiller;
+        var noValid = ShootNeutralOutlier;
 
         if (!nbValid && !neValid && !nkValid && !noValid)
         {
@@ -58,8 +58,7 @@ public sealed class SheriffOptions : AbstractRoleOptionGroup<SheriffRole>, IWiki
         if (noValid) selected.Add(MiraLocaleManager.Get("TouOptionSheriffNeutShootOutlier"));
 
         var names = selected
-            .Distinct()
-            .ToList();
+            .Distinct();
 
         var newArray2 = new []
             { $"{title}: {string.Join(", ", names)}" };

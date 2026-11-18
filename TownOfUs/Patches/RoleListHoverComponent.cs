@@ -34,7 +34,7 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
             HudManagerPatches.IsHoveringRoleList = false;
             return;
         }
-        
+
         if (TextTarget == null || !TextTarget.gameObject.activeSelf)
         {
             HideTooltip();
@@ -142,7 +142,7 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
                 $"<link=\"{linkId}\"><i>").Replace(
                 // close italic before link closes
                 $"</link>",
-                $"</i></link>", System.StringComparison.Ordinal);
+                $"</i></link>", StringComparison.Ordinal);
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -216,14 +216,14 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
     {
         if (_tooltipGo != null) return;
 
-        var pingTracker = UnityEngine.Object.FindObjectOfType<PingTracker>(true);
+        var pingTracker = FindObjectOfType<PingTracker>(true);
         if (pingTracker == null) return;
 
-        _tooltipGo = UnityEngine.Object.Instantiate(pingTracker.gameObject, HudManager.Instance.transform);
+        _tooltipGo = Instantiate(pingTracker.gameObject, HudManager.Instance.transform);
         _tooltipGo.name = "BucketTooltipText";
 
         var pt = _tooltipGo.GetComponent<PingTracker>();
-        if (pt != null) UnityEngine.Object.Destroy(pt);
+        if (pt != null) Destroy(pt);
 
         _tooltipAp = _tooltipGo.GetComponent<AspectPosition>();
         _tooltipAp.Alignment = AspectPosition.EdgeAlignments.LeftTop;
@@ -302,7 +302,7 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
     private void ShowTooltipForSlot(int slotIndex, int hoveredLine)
     {
         var roleList = OptionGroupSingleton<RoleOptions>.Instance;
-            var distribution = roleList.CurrentRoleDistribution();
+        var distribution = roleList.CurrentRoleDistribution();
         if (distribution > RoleDistribution.Draft || distribution is RoleDistribution.Vanilla)
         {
             return;
@@ -313,9 +313,9 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
             if (roleList.UseRoleListForPool)
             {
                 var draftList = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
-                bucket = slotIndex >= HudManagerPatches.DisplayedRoleListSlots || slotIndex >= draftList.Slot.Count
+                bucket = slotIndex >= HudManagerPatches.DisplayedRoleListSlots || slotIndex >= draftList.Slots.Count
                          ? (RoleListOption)(-1)
-                         : draftList.Slot[slotIndex].Value;
+                         : draftList.Slots[slotIndex];
             }
             else
             {
@@ -353,9 +353,9 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
         }
         else
         {
-            bucket = slotIndex >= HudManagerPatches.DisplayedRoleListSlots || slotIndex >= roleList.Slot.Count
+            bucket = slotIndex >= HudManagerPatches.DisplayedRoleListSlots || slotIndex >= roleList.Slots.Count
                      ? (RoleListOption)(-1)
-                     : roleList.Slot[slotIndex].Value;
+                     : roleList.Slots[slotIndex];
         }
 
         if ((int)bucket < 0) return;

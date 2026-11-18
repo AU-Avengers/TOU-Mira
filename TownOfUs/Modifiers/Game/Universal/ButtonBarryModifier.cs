@@ -17,7 +17,7 @@ public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverab
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.ButtonBarry,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.ButtonBarry.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.ButtonBarry,
             "TouMira.Modifier.Universal.ButtonBarry", 1.45f));
     public override string IdPart => "ButtonBarry";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -52,6 +52,7 @@ public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverab
         }
     }
 
+    public override bool ShowModifierAsUnique => true;
     public override int GetAmountPerGame()
     {
         return 1;
@@ -59,7 +60,7 @@ public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverab
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.ButtonBarryChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.ButtonBarryChance;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

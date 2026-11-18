@@ -9,7 +9,7 @@ public sealed class ImmovableModifier : UniversalGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Immovable,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Immovable.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Immovable,
             "TouMira.Modifier.Universal.Immovable", 1.45f));
     public override string IdPart => "Immovable";
     public override string ModifierName => MiraLocaleManager.Get($"TownOfUsMira.Modifier.{IdPart}");
@@ -34,12 +34,12 @@ public sealed class ImmovableModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.ImmovableChance;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.ImmovableChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.ImmovableAmount;
+        return OptionGroupSingleton<UniversalModifierOptions>.Instance.ImmovableAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

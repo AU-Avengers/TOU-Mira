@@ -4,7 +4,6 @@ using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using TownOfUs.Buttons.Crewmate;
-using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 
@@ -28,7 +27,7 @@ public static class EngineerEvents
 
         var engiVent = CustomButtonSingleton<EngineerVentButton>.Instance;
         engiVent.ExtraUses = 0;
-        engiVent.SetUses((int)OptionGroupSingleton<EngineerOptions>.Instance.MaxVents);
+        engiVent.SetUses(OptionGroupSingleton<EngineerOptions>.Instance.MaxVents);
         if (!engiVent.LimitedUses)
         {
             engiVent.Button?.usesRemainingText.gameObject.SetActive(false);
@@ -42,7 +41,7 @@ public static class EngineerEvents
 
         var engiFix = CustomButtonSingleton<EngineerFixButton>.Instance;
         engiFix.ExtraUses = 0;
-        engiFix.SetUses((int)OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes);
+        engiFix.SetUses(OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes);
         if (!engiFix.LimitedUses)
         {
             engiFix.Button?.usesRemainingText.gameObject.SetActive(false);
@@ -87,36 +86,6 @@ public static class EngineerEvents
                 fixButton.SetUses(fixButton.UsesLeft);
                 ActiveFixTaskCount = 0;
             }
-        }
-    }
-
-    [RegisterEvent]
-    public static void PlumberFlushEngineerHandler(TouAbilityEvent @event)
-    {
-        if (@event.AbilityType is not AbilityType.PlumberFlush)
-        {
-            return;
-        }
-
-        if (PlayerControl.LocalPlayer.Data.Role is not EngineerTouRole ||
-            !PlayerControl.LocalPlayer.inVent)
-        {
-            return;
-        }
-
-        var ventButton = CustomButtonSingleton<EngineerVentButton>.Instance;
-        if (ventButton.Timer != 0)
-        {
-            ventButton.UsesLeft--;
-            if (ventButton.LimitedUses)
-            {
-                ventButton.Button?.SetUsesRemaining(ventButton.UsesLeft);
-            }
-        }
-        if (ventButton.EffectActive || !ventButton.HasEffect)
-        {
-            ventButton.EffectActive = false;
-            ventButton.Timer = ventButton.Cooldown;
         }
     }
 }

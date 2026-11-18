@@ -11,6 +11,6 @@ public sealed class IndirectAttackerModifier(bool ignoreShield) : TimedModifier
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

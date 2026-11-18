@@ -13,7 +13,7 @@ public sealed class RoleDraftRoleListOptions : AbstractOptionGroup
     public override OptionNotifConfiguration Configuration => new(
         GroupColor,
         TmpSpriteUtils.CreateSpriteAsset(
-            TouAssets.IconDraftMode.LoadAsset(),
+            TouAssets.IconDraftMode,
             "TouMira.Gamemode.DraftMode",
             1.45f));
 
@@ -25,8 +25,11 @@ public sealed class RoleDraftRoleListOptions : AbstractOptionGroup
     public override string MatchInfoGuidePageKey => "TownOfUsMira.OptionGroups.RoleSettings";
     public override string MatchInfoGuidePageTitle => MiraLocaleManager.Get("TownOfUsMira.Options.Groups.RoleSettings");
 
-    public ModdedOptionList<ModdedEnumOption<RoleListOption>> Slot { get; } =
+    public ModdedOptionList<ModdedEnumOption<RoleListOption>> Slots { get; } =
         new(15, i => new($"TouOptionRoleDraftRoleListSlot{i + 1}",
             (i + 2) % 5 == 0 ? RoleListOption.ImpCommon : RoleListOption.CrewCommon,
-                         RoleOptions.OptionStrings));
+                         RoleOptions.OptionStrings))
+        {
+            ConfigName = i => $"Slot{i + 1}"
+        };
 }

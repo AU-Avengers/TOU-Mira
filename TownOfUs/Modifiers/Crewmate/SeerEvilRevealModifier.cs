@@ -9,6 +9,6 @@ public sealed class SeerEvilRevealModifier : BaseModifier
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

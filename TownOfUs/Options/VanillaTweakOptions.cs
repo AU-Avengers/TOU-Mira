@@ -10,14 +10,26 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
     public override uint GroupPriority => 1;
     public override LoadableAsset<Sprite> Sprite => TouRoleIcons.Scientist;
 
-    public ModdedEnumOption HideNamesOutOfSight { get; set; } =
-        new("TouOptionHideNamesOutOfSight", (int)NameSight.Basic,
-            typeof(NameSight),
+    public ModdedEnumOption<NameSight> HideNamesOutOfSight { get; set; } =
+        new("TouOptionPlayerNameHiding", NameSight.Basic,
             [
-                "TouOptionHideNamesOutOfSightEnumBasic",
-                "TouOptionHideNamesOutOfSightEnumRoomBased",
-                "TouOptionHideNamesOutOfSightEnumHarsh"
+                "TouOptionPlayerNameHidingEnumBasic",
+                "TouOptionPlayerNameHidingEnumRoomBased",
+                "TouOptionPlayerNameHidingEnumHarsh",
+                "TouOptionPlayerNameHidingEnumAlways"
             ]);
+
+    public ModdedEnumOption<ValidNameTweak> HidePlayerNamesValid { get; set; } =
+        new("TouOptionHidePlayerNamesValid", ValidNameTweak.JustPlayerNames,
+        [
+            "TouOptionHidePlayerNamesValidEnumJustPlayerNames",
+            "TouOptionHidePlayerNamesValidEnumToNonRevealed",
+            "TouOptionHidePlayerNamesValidEnumToNonEveryone"
+        ])
+        {
+            Visible = () =>
+                OptionGroupSingleton<VanillaTweakOptions>.Instance.HideNamesOutOfSight.Value is not NameSight.Basic
+        };
 
     public ModdedToggleOption TickCooldownsInMinigame { get; set; } =
         new("TouOptionTickCooldownsInMinigame", true);
@@ -28,9 +40,8 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
     public ModdedToggleOption MedscanWalk { get; set; } =
         new("TouOptionMedscanWalk", true);
 
-    public ModdedEnumOption SkipButtonDisable { get; set; } =
-        new("TouOptionSkipButtonDisable", (int)SkipState.No,
-            typeof(SkipState),
+    public ModdedEnumOption<SkipState> SkipButtonDisable { get; set; } =
+        new("TouOptionSkipButtonDisable", SkipState.No,
             [
                 "TouOptionSkipButtonDisableEnumNever",
                 "TouOptionSkipButtonDisableEnumEmergency",
@@ -40,18 +51,16 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
     public ModdedToggleOption HideVentAnimationNotInVision { get; set; } =
         new("TouOptionHideVentAnimationNotInVision", true);
 
-    public ModdedEnumOption ShowPetsMode { get; set; } =
-        new("TouOptionShowPetsMode", (int)PetVisiblity.AlwaysVisible,
-            typeof(PetVisiblity),
+    public ModdedEnumOption<PetVisiblity> ShowPetsMode { get; set; } =
+        new("TouOptionShowPetsMode", PetVisiblity.AlwaysVisible,
             [
                 "TouOptionShowPetsModeEnumClientSide",
                 "TouOptionShowPetsModeEnumWhenAlive",
                 "TouOptionShowPetsModeEnumAlwaysVisible"
             ]);
 
-    public ModdedEnumOption HidePetsOnBodyRemove { get; set; } =
-        new("TouOptionHidePetsOnBodyRemove", (int)PetHidden.DuringRound,
-            typeof(PetHidden),
+    public ModdedEnumOption<PetHidden> HidePetsOnBodyRemove { get; set; } =
+        new("TouOptionHidePetsOnBodyRemove", PetHidden.DuringRound,
             [
                 "TouOptionHidePetsOnBodyRemoveEnumNever",
                 "TouOptionHidePetsOnBodyRemoveEnumDuringRound",
@@ -59,24 +68,31 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
             ])
         {
             Visible = () =>
-                (PetVisiblity)OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value
+                OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value
                 is not PetVisiblity.WhenAlive
         };
 
-    public bool CanPauseCooldown => !TickCooldownsInMinigame.Value &&
+    public bool CanPauseCooldown => !TickCooldownsInMinigame &&
                                    (Minigame.Instance &&
                                     Minigame.Instance is not IngameWikiMinigame);
 
     public PetHidden PetVisibilityUponDeath =>
-        ((PetVisiblity)ShowPetsMode.Value is PetVisiblity.WhenAlive)
+        (ShowPetsMode.Value is PetVisiblity.WhenAlive)
             ? PetHidden.Never
-            : (PetHidden)HidePetsOnBodyRemove.Value;
+            : HidePetsOnBodyRemove;
 }
 public enum NameSight
 {
     Basic,
     RoomBased,
-    Harsh
+    Harsh,
+    AlwaysHidden
+}
+public enum ValidNameTweak
+{
+    JustPlayerNames,
+    NonRevealed,
+    Everyone
 }
 
 public enum SkipState

@@ -11,7 +11,7 @@ public sealed class SpectreOptions : AbstractRoleOptionGroup<SpectreRole>
     [ModdedNumberOption("TouOptionSpectreTasksLeftClickable", 1, 15)]
     public float NumTasksLeftBeforeClickable { get; set; } = 3f;
 
-    [ModdedEnumOption("TouOptionSpectreWin", typeof(SpectreWinOptions), ["TouOptionSpectreWinEnumEndsGame", "TouOptionSpectreWinEnumSpooks", "TouOptionSpectreWinEnumNothing"])]
+    [ModdedEnumOption<SpectreWinOptions>("TouOptionSpectreWin", ["TouOptionSpectreWinEnumEndsGame", "TouOptionSpectreWinEnumSpooks", "TouOptionSpectreWinEnumNothing"])]
     public SpectreWinOptions SpectreWin { get; set; } = SpectreWinOptions.Nothing;
 }
 

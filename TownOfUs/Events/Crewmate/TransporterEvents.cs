@@ -42,7 +42,7 @@ public static class TransporterEvents
         var console = @event.Usable.TryCast<SystemConsole>();
 
         if (console == null)
-            // Not a SystemConsole, return
+        // Not a SystemConsole, return
         {
             return;
         }

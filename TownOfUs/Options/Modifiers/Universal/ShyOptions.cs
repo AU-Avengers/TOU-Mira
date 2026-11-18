@@ -1,4 +1,5 @@
 ﻿using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Universal;
 using UnityEngine;
@@ -20,4 +21,7 @@ public sealed class ShyOptions : AbstractTouModifierOptionGroup<ShyModifier>
 
     [ModdedNumberOption("TouOptionShyFinalOpacity", 0f, 80f, 10f, MiraNumberSuffixes.Percent)]
     public float FinalTransparency { get; set; } = 20f;
+
+    public ModdedToggleOption ShyAlwaysVisibleInCamoComms { get; set; } =
+        new("TouOptionShyAlwaysVisibleInCamoComms", true);
 }

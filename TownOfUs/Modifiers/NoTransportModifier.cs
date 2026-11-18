@@ -1,11 +1,12 @@
 using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
+using TownOfUs.Interfaces;
 
 namespace TownOfUs.Modifiers;
 
 // This modifier is used to prevent transports with anyone who has this
 [MiraIgnore]
-public abstract class NoTransportModifier : TimedModifier
+public abstract class NoTransportModifier : TimedModifier, IUntransportable
 {
     public override string ModifierName => "Untransportable Modifier";
 
@@ -23,6 +24,6 @@ public abstract class NoTransportModifier : TimedModifier
     {
         base.OnDeath(reason);
 
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 }

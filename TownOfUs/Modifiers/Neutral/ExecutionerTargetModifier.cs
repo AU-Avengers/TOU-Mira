@@ -10,9 +10,6 @@ public sealed class ExecutionerTargetModifier(byte exeId) : PlayerTargetModifier
     public override void OnActivate()
     {
         base.OnActivate();
-        if (Player.HasModifier<ToBecomeTraitorModifier>())
-        {
-            Player.RemoveModifier<ToBecomeTraitorModifier>();
-        }
+        Player.TryRemoveModifier<ToBecomeTraitorModifier>();
     }
 }

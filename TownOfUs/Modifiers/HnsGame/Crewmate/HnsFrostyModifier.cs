@@ -8,7 +8,7 @@ public sealed class HnsFrostyModifier : HnsGameModifier, IWikiDiscoverable
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Frosty,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Frosty.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Frosty,
             "TouMira.Modifier.HnS.Hider.Frosty", 1.45f));
     public override string IdPart => "Frosty";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Frosty;
@@ -16,12 +16,12 @@ public sealed class HnsFrostyModifier : HnsGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.FrostyChance;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.FrostyChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.FrostyAmount;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.FrostyAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

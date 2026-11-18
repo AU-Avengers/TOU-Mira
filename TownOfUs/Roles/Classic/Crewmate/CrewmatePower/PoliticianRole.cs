@@ -11,7 +11,6 @@ using TownOfUs.Achievements;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
@@ -21,7 +20,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 {
     public void InitialSetup()
     {
-        TmpSpriteUtils.CreateSpriteAsset(TouCrewAssets.CampaignButtonSprite.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouCrewAssets.CampaignButtonSprite,
             "TouMira.Role.Crewmate.Politician.Ui.Campaign", 1.45f);
     }
     public bool CanBeTraitor => false;
@@ -88,7 +87,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Politician.LoadAsset(), "TouMira.Role.Crewmate.Politician", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Politician, "TouMira.Role.Crewmate.Politician", 1.45f),
         Icon = TouRoleIcons.Politician,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.PoliticianIntroSound,
@@ -123,7 +122,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         }
         if (Helpers.GetAlivePlayers().Count == 2)
         {
-            AchievementsAPIHelper.Unlock(TouAchievements.DeathByDemocracy);
+            TouAchievements.DeathByDemocracy.Unlock();
         }
 
         // All living crewmates excluding the Politician

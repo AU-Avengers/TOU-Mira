@@ -11,7 +11,7 @@ public sealed class SeerOptions : AbstractRoleOptionGroup<SeerRole>
     public override string GroupName => MiraLocaleManager.Get("TownOfUsMira.Role.Seer", "Seer");
 
     public ModdedToggleOption SalemSeer { get; set; } = new("TouOptionSeerSalemMode", true);
-    
+
     [ModdedNumberOption("TouOptionSeerCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float SeerCooldown { get; set; } = 20f;
 

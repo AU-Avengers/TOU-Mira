@@ -13,7 +13,7 @@ public sealed class EngineerFixButton : TownOfUsRoleButton<EngineerTouRole>, ILe
     public override Color TextOutlineColor => TownOfUsColors.Engineer;
     public override float Cooldown => Math.Clamp(MapCooldown, 0.01f, 120f);
     public override float EffectDuration => Math.Clamp(OptionGroupSingleton<EngineerOptions>.Instance.FixDelay.Value, 0.01f, 120f);
-    public override int MaxUses => (int)OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes;
+    public override int MaxUses => OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.FixButtonSprite : TouCrewAssets.FixButtonSprite;
     public override bool ShouldPauseInVent => false;
     public int ExtraUses { get; set; }

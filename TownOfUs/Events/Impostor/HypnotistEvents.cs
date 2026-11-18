@@ -1,6 +1,8 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using MiraAPI.Events;
+using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
+using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using TownOfUs.Modifiers.Impostor;
@@ -10,6 +12,15 @@ namespace TownOfUs.Events.Impostor;
 
 public static class HypnotistEvents
 {
+    [RegisterEvent]
+    public static void StartMeetingEventHandler(StartMeetingEvent @event)
+    {
+        foreach (var mod in ModifierUtils.GetActiveModifiers<HypnotisedModifier>())
+        {
+            mod.UnHysteria();
+        }
+    }
+
     [RegisterEvent(1000)]
     public static void EjectionEventHandler(EjectionEvent @event)
     {
@@ -17,15 +28,34 @@ public static class HypnotistEvents
         foreach (var mod in ModifierUtils.GetActiveModifiers<HypnotisedModifier>())
         {
             if (mod.Hypnotist == exiled || mod.Hypnotist == null || mod.Hypnotist.HasDied() ||
-                mod.Hypnotist.Data.Role is not HypnotistRole)
+                mod.Hypnotist.Data.Disconnected || mod.Hypnotist.Data.Role is not HypnotistRole)
             {
-                mod.ModifierComponent?.RemoveModifier(mod);
+                mod.RemoveSelf();
             }
         }
 
         foreach (var hypnotist in CustomRoleUtils.GetActiveRolesOfType<HypnotistRole>())
         {
-            if (!hypnotist.HysteriaActive)
+            if (hypnotist.Player == exiled || hypnotist.Player == null || hypnotist.Player.HasDied() ||
+                hypnotist.Player.Data.Disconnected)
+            {
+                hypnotist.HysteriaActive = false;
+            }
+        }
+    }
+
+    [RegisterEvent]
+    public static void RoundStartEventHandler(RoundStartEvent @event)
+    {
+        if (@event.TriggeredByIntro)
+        {
+            return;
+        }
+
+        foreach (var hypnotist in CustomRoleUtils.GetActiveRolesOfType<HypnotistRole>())
+        {
+            if (!hypnotist.HysteriaActive || hypnotist.Player == null || hypnotist.Player.HasDied() ||
+                hypnotist.Player.Data.Disconnected)
             {
                 continue;
             }
@@ -35,14 +65,31 @@ public static class HypnotistEvents
         }
     }
 
-    /* whenever the event gets changed to having the character not being null
     [RegisterEvent]
-    public static void HypnotistDisconnectHandler(PlayerLeaveEvent @event)
+    public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
     {
-        if (@event.ClientData.Character.Data.Role is HypnotistRole hypno)
+        if (@event.Player.Data.Role is HypnotistRole hypno)
         {
-            ModifierUtils.GetPlayersWithModifier<HypnotisedModifier>(x => x.Hypnotist == hypno)
-                         .Do(x => x.RemoveModifier<HypnotisedModifier>());
+            hypno.HysteriaActive = false;
+            ModifierUtils.GetPlayersWithModifier<HypnotisedModifier>(x => x.Hypnotist == hypno.Player)
+                .Do(x => x.RemoveModifier<HypnotisedModifier>());
         }
-    }*/
+    }
+
+    [RegisterEvent]
+    public static void PlayerLeaveEventHandler(PlayerLeaveEvent @event)
+    {
+        var player = @event?.ClientData?.Character;
+        if (player == null || player.Data == null)
+        {
+            return;
+        }
+
+        if (player.Data.Role is HypnotistRole hypno)
+        {
+            hypno.HysteriaActive = false;
+            ModifierUtils.GetPlayersWithModifier<HypnotisedModifier>(x => x.Hypnotist == player)
+                .Do(x => x.RemoveModifier<HypnotisedModifier>());
+        }
+    }
 }

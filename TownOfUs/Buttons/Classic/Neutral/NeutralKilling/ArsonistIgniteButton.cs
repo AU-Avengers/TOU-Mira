@@ -71,7 +71,7 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>, ILe
         {
             if (dousedPlayers.Count > 4)
             {
-                AchievementsAPIHelper.Unlock(TouAchievements.HeatOfTheBattle);
+                TouAchievements.HeatOfTheBattle.Unlock();
             }
             PlayerControl.LocalPlayer.RpcSpecialMultiMurder(dousedPlayers, MeetingCheck.OutsideMeeting, true,
                 teleportMurderer: false,

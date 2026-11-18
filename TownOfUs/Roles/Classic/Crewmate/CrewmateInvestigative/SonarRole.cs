@@ -22,20 +22,6 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Track", "Track"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Track.WikiDescription"),
-                    TouCrewAssets.TrackSprite)
-            ];
-        }
-    }
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities
     {
         get
@@ -56,7 +42,7 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Sonar.LoadAsset(), "TouMira.Role.Crewmate.Sonar", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Sonar, "TouMira.Role.Crewmate.Sonar", 1.45f),
         Icon = TouRoleIcons.Sonar,
         OptionsScreenshot = TouBanners.SonarRoleBanner,
         IntroSound = TouAudio.TrackerIntroSound
@@ -108,7 +94,7 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         }
 
         players =
-            ModifierUtils.GetPlayersWithModifier<SonarHeartbeatTargetModifier>([HideFromIl2Cpp](x) => x.Owner == Player);
+            ModifierUtils.GetPlayersWithModifier<SonarHeartbeatTargetModifier>([HideFromIl2Cpp] (x) => x.Owner == Player);
 
         foreach (var player in players)
         {

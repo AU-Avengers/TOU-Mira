@@ -1,5 +1,4 @@
-﻿using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Hud;
@@ -18,9 +17,9 @@ public sealed class TraitorRole(IntPtr cppPtr)
 
     // This is so the role can be guessed without requiring it to be enabled normally
     public bool CanBeGuessed =>
-        RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TraitorRole>()) is ICustomRole customRole &&
-        (int)customRole.GetCount()! > 0 && (int)customRole.GetChance()! > 0 ||
-        (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance.Value > 0;
+        RoleManager.Instance.GetRole(RoleId.GetType<TraitorRole>()) is ICustomRole customRole &&
+        customRole.GetCount()! > 0 && customRole.GetChance()! > 0 ||
+        OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance > 0;
     public bool? ForceShowRoleOnWiki => CanBeGuessed ? true : null;
     public bool CanSpawnOnCurrentMode() => false;
     [HideFromIl2Cpp] public List<RoleBehaviour> ChosenRoles { get; } = [];
@@ -55,25 +54,11 @@ public sealed class TraitorRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Traitor.LoadAsset(), "TouMira.Role.Impostor.Traitor", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Traitor, "TouMira.Role.Impostor.Traitor", 1.45f),
         MaxRoleCount = 1,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Traitor
     };
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return
-            [
-                new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ChangeRole", "Change Role"),
-                    MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}ChangeRole.WikiDescription"),
-                    TouImpAssets.TraitorSelect)
-            ];
-        }
-    }
 
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities

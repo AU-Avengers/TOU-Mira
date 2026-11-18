@@ -46,11 +46,6 @@ public sealed class SetSpectatorListRpc(TownOfUsPlugin plugin, uint id)
     {
         if (data == null)
         {
-            return;
-        }
-
-        if (data.Count == 0)
-        {
             SpectatorRole.TrackedSpectators.Clear();
             return;
         }

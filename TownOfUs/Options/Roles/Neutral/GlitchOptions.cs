@@ -27,7 +27,7 @@ public sealed class GlitchOptions : AbstractRoleOptionGroup<GlitchRole>
 
     [ModdedNumberOption("TouOptionGlitchHackDuration", 5f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float HackDuration { get; set; } = 10f;
-    public ModdedEnumOption CanVent { get; set; } = new("TouOptionGlitchCanVent", (int)GlitchVent.Always, typeof(GlitchVent),
+    public ModdedEnumOption<GlitchVent> CanVent { get; set; } = new("TouOptionGlitchCanVent", GlitchVent.Always,
         ["TouOptionGlitchCanVentEnumNever", "TouOptionGlitchCanVentEnumUnlessMimicking", "TouOptionGlitchCanVentEnumAlways"]);
 }
 

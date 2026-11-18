@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using MiraAPI.Modifiers;
 using Reactor.Networking.Rpc;
+using TownOfUs.Events.Impostor;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Modules.ControlSystem;
@@ -25,7 +26,7 @@ public static class PuppeteerMovementPatches
 
     private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir, Vector2 position, Vector2 velocity)
     {
-        if (!PlayerControl.LocalPlayer)
+        if (!PlayerControl.LocalPlayer || !PuppeteerEvents.CanPuppeteerMove)
         {
             return;
         }
@@ -70,7 +71,7 @@ public static class PuppeteerMovementPatches
             return true;
         }
 
-        if (TimeLordRewindSystem.IsRewinding)
+        if (TimeLordRewindSystem.IsRewinding || !PuppeteerEvents.CanPuppeteerMove)
         {
             if (player.HasModifier<PuppeteerControlModifier>() && player.AmOwner)
             {
@@ -85,17 +86,14 @@ public static class PuppeteerMovementPatches
 
         if (player.AmOwner &&
             PlayerControl.LocalPlayer &&
-            PlayerControl.LocalPlayer.Data?.Role is PuppeteerRole puppeteer &&
-            puppeteer.Controlled != null)
+            PlayerControl.LocalPlayer.Data?.Role is PuppeteerRole { Controlled: { } victim })
         {
-            if (TimeLordRewindSystem.IsRewinding)
+            if (TimeLordRewindSystem.IsRewinding || !PuppeteerEvents.CanPuppeteerMove)
             {
                 return true;
             }
 
-            var victim = puppeteer.Controlled;
-            
-            if (victim == null || victim.Data == null || victim.HasDied() || victim.Data.Disconnected)
+            if (victim.Data == null || victim.HasDied() || victim.Data.Disconnected)
             {
                 return true;
             }
@@ -133,25 +131,25 @@ public static class PuppeteerMovementPatches
                     AdvancedMovementUtilities.ApplyControlledMovement(victim.MyPhysics, dir, stopIfZero: true);
                 }
             }
-            
-            var victimPos = victim.MyPhysics?.body != null 
-                ? victim.MyPhysics.body.position 
+
+            var victimPos = victim.MyPhysics?.body != null
+                ? victim.MyPhysics.body.position
                 : (Vector2)victim.transform.position;
-            var victimVel = victim.MyPhysics?.body != null 
-                ? victim.MyPhysics.body.velocity 
+            var victimVel = victim.MyPhysics?.body != null
+                ? victim.MyPhysics.body.velocity
                 : Vector2.zero;
 
             SendControlledInputIfNeeded(victimId, dir, victimPos, victimVel);
 
             var puppeteerDir = Vector2.zero;
-            
+
             AdvancedMovementUtilities.ApplyControlledMovement(__instance, puppeteerDir, stopIfZero: true);
             return false;
         }
 
         if (PuppeteerControlState.IsControlled(player.PlayerId, out _))
         {
-            if (TimeLordRewindSystem.IsRewinding)
+            if (TimeLordRewindSystem.IsRewinding || !PuppeteerEvents.CanPuppeteerMove)
             {
                 return true;
             }
@@ -187,7 +185,7 @@ public static class PuppeteerMovementPatches
             {
                 AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
             }
-            
+
             if (pos != Vector2.zero)
             {
                 var currentPos = __instance.body != null ? __instance.body.position : (Vector2)__instance.myPlayer.transform.position;
@@ -198,18 +196,18 @@ public static class PuppeteerMovementPatches
                     __instance.myPlayer.transform.position = pos;
                 }
             }
-            
+
             if (__instance.body != null && vel != Vector2.zero)
             {
                 __instance.body.velocity = vel;
             }
-            
+
             return false;
         }
 
         if (player.HasModifier<PuppeteerControlModifier>() && player.GetComponent<DummyBehaviour>() != null)
         {
-            if (TimeLordRewindSystem.IsRewinding)
+            if (TimeLordRewindSystem.IsRewinding || !PuppeteerEvents.CanPuppeteerMove)
             {
                 return true;
             }
@@ -228,7 +226,7 @@ public static class PuppeteerMovementPatches
             var dir = PuppeteerControlState.GetDirection(player.PlayerId);
             var pos = PuppeteerControlState.GetPosition(player.PlayerId);
             var vel = PuppeteerControlState.GetVelocity(player.PlayerId);
-            
+
             if (dir == Vector2.zero)
             {
                 AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
@@ -237,7 +235,7 @@ public static class PuppeteerMovementPatches
             {
                 AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
             }
-            
+
             if (pos != Vector2.zero)
             {
                 var currentPos = __instance.body != null ? __instance.body.position : (Vector2)__instance.myPlayer.transform.position;
@@ -248,12 +246,12 @@ public static class PuppeteerMovementPatches
                     __instance.myPlayer.transform.position = pos;
                 }
             }
-            
+
             if (__instance.body != null && vel != Vector2.zero)
             {
                 __instance.body.velocity = vel;
             }
-            
+
             return false;
         }
 
@@ -298,7 +296,7 @@ public static class PuppeteerMovementPatches
             return true;
         }
 
-        if (TimeLordRewindSystem.IsRewinding)
+        if (TimeLordRewindSystem.IsRewinding || !PuppeteerEvents.CanPuppeteerMove)
         {
             return true;
         }

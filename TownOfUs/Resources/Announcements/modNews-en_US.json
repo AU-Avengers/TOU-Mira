@@ -1320,6 +1320,96 @@
         "\n- Added Judge's punishment as a setting for Prosecutor's punishment (now the default).",
         "\n- Reshuffling in Draft Mode gives you spare time to pick if necessary."
       ]
+    },
+    {
+      "Date": "2026-11-15T12:51:00Z",
+      "Number": "100048",
+      "ShortTitle": "TOU: Mira v1.7.9 (Beta 2)",
+      "Title": "Silent Ambush",
+      "SubTitle": "This is a late update, apologies.",
+      "Text": [
+        "<b>This beta release is focused on improving the experience of the mod.</b>",
+        "\n\nAt the moment, no new content will be added until very likely the next beta.",
+        "\n\nPlease enjoy this update and let us know of any new issues that may appear.",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.7.9-beta2>TOU Mira v1.7.9 (Beta 2) Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Haunter gets arrows towards living impostors again.",
+        "\n- Deputy's kill screen no longer bugs out and is removed on time.",
+        "\n- Sheriff's Neutral misfire settings are respected.",
+        "\n- Politician's vote tally no longer breaks.",
+        "\n- Swapper no longer causes votes to be hidden.",
+        "\n- Altruist revive is no longer broken.",
+        "\n- Plumber flush no longer breaks custom vent buttons.",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Morphling's vent option is no longer missing locale.",
+        "\n- Ambusher no longer becomes invisible as Shy.",
+        "\n- Puppeteer properly causes their puppet to lunge.",
+        "\n- Puppeteer and Parasite no longer backtrack and break player positions.",
+        "\n- Puppeteer and Parasite are able to interact via their controlled player without their pet interfering.",
+        "\n- Mass Hysteria no longer breaks after a round.",
+        "\n- Miner vents are no longer different sizes on different maps.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Doomsayer no longer stalls the game when they run out of possible guesses end-game.",
+        "\n- Inquisitor no longer steals wins if they leave in a 1v1.",
+        "\n- Spectre no longer applies immediately, fixing neutral win conditions.",
+
+        "\n\n\r<size=105%>Modifier Bugfixes:</size>",
+        "\n- Satellite's \"Once per Round\" setting is checked properly now.",
+        "\n- Shy no longer goes permanently invisible in Camo Comms.",
+        "\n- Shy hides all shields again.",
+        "\n- Overclocker no longer decreases timers in vents if they're paused.",
+        "\n- Lover hearts appear in the End Game Summary again.",
+
+        "\n\n\r<size=105%>Postmortem Bugfixes:</size>",
+        "\n- Ghostwalkers can interact with ziplines and ladders again.",
+        "\n- Ghostwalkers no longer bypass the maximum role cap.",
+        "\n- Fixed \"See Other Ghosts\" toggle causing errors.",
+
+        "\n\n\r<size=105%>Feature Bugfixes:</size>",
+        "\n- Camo Comms no longer shows the color of players on hands while on a zipline.",
+        "\n- Fixed issues with Draft Mode instability.",
+        "\n- Spectator no longer breaks if they leave a lobby and then rejoin another one.",
+
+        "\n\n\r<size=105%>Wiki Bugfixes:</size>",
+        "\n- Lover is no longer missing a description",
+        "\n- Lovers amount is displayed properly.",
+        "\n- Assailant modifiers display the correct percentage value now.",
+        "\n- Test modifiers no longer appear.",
+        "\n- Unique modifiers only show chance now.",
+        "\n- New wiki no longer crashes on Android.",
+
+        "\n\n\r<size=105%>Achievement Bugfixes:</size>",
+        "\n- Removed duplicate achievements.",
+        "\n- Fixed mislabeled descriptions.",
+        "\n- Fixed Map-based achievements not being granted.",
+        "\n- Added and fixed artwork for achievements.",
+
+        "\n\n\r<size=105%>UI Bugfixes:</size>",
+        "\n- Set all gamemodes to be hidden as they are not functional until a later update.",
+        "\n- Fixed scroll boundaries in the local options tab and the host edit menu.",
+        "\n- Fixed masking in the meeting conflicting with the wiki and phone menus.",
+        "\n- `CustomPlayerMenu` instances no longer show dead players without a skin.",
+        "\n- Fixed wiki hyperlinks not being formatted in the chat bubbles.",
+        "\n- Fixed missing icons on win screen player names.",
+        "\n- Fixed colored chat tags not applying when dead.",
+        "\n- Fixed recently dead players not being able to see team chats in the same meeting.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Fixed vanilla role abilities being broken.",
+        "\n- Fixed multiple silent errors being thrown by certain roles.",
+
+        "\n\n\r<size=105%>Changes:</size>",
+        "\n- Veteran's cause of death is now \"Countered\".",
+        "\n- Scientist is now considered to be a Crewmate Investigative.",
+
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Added Shy Camo Comms toggle.",
+        "\n- Added Sentry Task Recharge options for instant portable cams.",
+        "\n- Roles like Ambusher, Swooper, Lovers, Werewolf, and a few others have varying degrees of \"custom\" kill animations as a toggle."
+      ]
     }
   ]
 }

@@ -32,17 +32,6 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities =>
-    [
-        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hex", "Hex"),
-            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hex.WikiDescription"),
-            TouImpAssets.HexSprite),
-        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}HexBomb", "Hex Bomb"),
-            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}HexBomb.WikiDescription"),
-            TouImpAssets.HexBombSprite)
-    ];
-
-    [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities =>
     [
         new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Hex", "Hex"),
@@ -61,7 +50,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spellslinger.LoadAsset(), "TouMira.Role.Impostor.Spellslinger", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spellslinger, "TouMira.Role.Impostor.Spellslinger", 1.45f),
         Icon = TouRoleIcons.Spellslinger,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         MaxRoleCount = 1,
@@ -163,7 +152,6 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     public static bool EveryoneHexed()
     {
         return PlayerControl.AllPlayerControls
-            .ToArray()
             .Where(p => p.Data.Role is not SpellslingerRole && !p.HasDied() && (!p.IsImpostorAligned() || OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode))
             .All(p => p.HasModifier<SpellslingerHexedModifier>());
     }

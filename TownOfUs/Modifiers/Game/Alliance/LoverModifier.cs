@@ -79,8 +79,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
             return;
         }
 
-        foreach (var lover in PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>())
-                     .ToList())
+        foreach (var lover in PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>()))
         {
             lover.RpcRemoveModifier<LoverModifier>();
         }
@@ -358,7 +357,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         if (clearExisting)
         {
             foreach (var player in PlayerControl.AllPlayerControls.ToArray()
-                         .Where(x => x != null && x.HasModifier<LoverModifier>()).ToList())
+                         .Where(x => x != null && x.HasModifier<LoverModifier>()))
             {
                 player.RpcRemoveModifier<LoverModifier>();
             }
@@ -371,7 +370,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
     [MethodRpc((uint)TownOfUsRpc.SetOtherLover)]
     private static void RpcSetOtherLover(PlayerControl player, PlayerControl target)
     {
-        if (PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>()).ToList().Count > 0)
+        if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.HasModifier<LoverModifier>()))
         {
             Error("RpcSetOtherLover - Lovers Already Spawned!");
             return;

@@ -112,7 +112,7 @@ public static class MercenaryEvents
                 button = button2;
             }
         }
-        if (mercOpts.GuardProtection.Value && (!noAttack || isAttack))
+        if (mercOpts.GuardProtection && (!noAttack || isAttack))
         {
             @event.Cancel();
             if (source.AmOwner)
@@ -126,7 +126,7 @@ public static class MercenaryEvents
 
         if (mercenary != null && (TutorialManager.InstanceExists || source.AmOwner))
         {
-            MercenaryRole.RpcGuarded(mercenary, target, mercOpts.GuardProtection.Value && (!noAttack || isAttack));
+            MercenaryRole.RpcGuarded(mercenary, target, mercOpts.GuardProtection && (!noAttack || isAttack));
         }
     }
 }

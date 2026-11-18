@@ -9,7 +9,7 @@ public sealed class HnsGiantModifier : HnsGameModifier, IVisualAppearance
 {
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Giant,
-        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Giant.LoadAsset(),
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Giant,
             "TouMira.Modifier.HnS.Hider.Giant", 1.45f));
     public override string IdPart => "Giant";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Giant;
@@ -30,12 +30,12 @@ public sealed class HnsGiantModifier : HnsGameModifier, IVisualAppearance
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.GiantChance;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.GiantChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.GiantAmount;
+        return OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.GiantAmount;
     }
 
     public override void OnActivate()

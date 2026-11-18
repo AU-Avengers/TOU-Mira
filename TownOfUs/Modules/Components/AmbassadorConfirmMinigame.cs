@@ -52,7 +52,7 @@ public sealed class AmbassadorConfirmMinigame(IntPtr cppPtr) : Minigame(cppPtr)
         RetrainText.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
         RetrainText.text =
         MiraLocaleManager.Get("TownOfUsMira.Role.AmbassadorRetrainConfirm").Replace("<role>", NewRole.GetRoleName());
-        RoleIcon.sprite = NewRole.RoleIconWhite ?? TouRoleIcons.Impostor.LoadAsset();
+        RoleIcon.sprite = NewRole.RoleIconWhite ?? TouRoleIcons.Impostor;
         RoleIcon.SetSizeLimit(2.8f);
 
         TitleText.gameObject.SetActive(false);

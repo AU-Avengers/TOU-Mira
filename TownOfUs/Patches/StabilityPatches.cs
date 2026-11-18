@@ -1,6 +1,8 @@
 using AmongUs.Data;
 using HarmonyLib;
 using Innersloth.Assets;
+using TMPro;
+using UnityEngine;
 
 namespace TownOfUs.Patches;
 
@@ -18,6 +20,28 @@ public static class StabilityPatches
         }
 
         return true;
+    }
+    [HarmonyPatch(typeof(TextMeshProExtensions), nameof(TextMeshProExtensions.CursorPos), typeof(TextMeshPro), typeof(int), typeof(float))]
+    [HarmonyPrefix]
+    public static bool CursorPos(TextMeshPro self, int caretPos, float yOffset, ref Vector2 __result)
+    {
+        if (self.textInfo == null || self.textInfo.lineCount == 0 || self.textInfo.lineInfo.Count == 0 || self.textInfo.lineInfo[0].characterCount <= 0)
+        {
+            __result = new Vector2(0f, yOffset);
+        }
+        else if (self.textInfo.lineCount == 2)
+        {
+            __result = new Vector2(self.textInfo.characterInfo[caretPos - 1].topRight.x - 0.01f, (float)Mathf.Abs(self.textInfo.characterInfo[caretPos - 1].lineNumber - 1) * (yOffset * 2f));
+        }
+        else if (caretPos == 0)
+        {
+            __result = new Vector2(self.textInfo.characterInfo[0].topLeft.x - 0.01f, yOffset);
+        }
+        else
+        {
+            __result = new Vector2(self.textInfo.characterInfo[caretPos - 1].topRight.x - 0.01f, yOffset);
+        }
+        return false;
     }
     /*[HarmonyPatch(typeof(HudManager), nameof(HudManager.OpenMeetingRoom))]
     [HarmonyPrefix]

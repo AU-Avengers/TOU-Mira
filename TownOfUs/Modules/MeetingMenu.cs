@@ -131,7 +131,7 @@ public sealed class MeetingMenu : IDisposable
         targetBox.name = $"MeetingButton{Owner.GetRoleName().Replace(" ", "")}{voteArea.PlayerId}";
         targetBox.transform.localPosition = Position;
         var renderer = targetBox.GetComponent<SpriteRenderer>();
-        renderer.sprite = (Type == MeetingAbilityType.Toggle ? DisabledSprite : ActiveSprite).LoadAsset();
+        renderer.sprite = (Type == MeetingAbilityType.Toggle ? DisabledSprite : ActiveSprite);
         var button = targetBox.GetComponent<PassiveButton>();
         button.OverrideOnClickListeners(() => Click(voteArea, __instance));
         button.OverrideOnMouseOverListeners(() => renderer.color = HoverColor);
@@ -195,7 +195,7 @@ public sealed class MeetingMenu : IDisposable
                 continue;
             }
 
-            pair.Value.sprite = (Actives[pair.Key] ? ActiveSprite : DisabledSprite).LoadAsset();
+            pair.Value.sprite = (Actives[pair.Key] ? ActiveSprite : DisabledSprite);
             pair.Value.color = Actives[pair.Key] ? ActiveColor : DisabledColor;
         }
     }

@@ -114,8 +114,8 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
 
                 var aspect = _overlayRoot.GetComponent<AspectPosition>();
                 aspect?.enabled = false;
-                
-                var borderObj = UnityEngine.Object.Instantiate(TouAssets.ParasiteOverlay.LoadAsset(), _overlayRoot.transform);
+
+                var borderObj = Object.Instantiate(TouAssets.ParasiteOverlay.LoadAsset(), _overlayRoot.transform);
                 borderObj.layer = _overlayRoot.layer;
                 borderObj.transform.localPosition = new Vector3(0f, 0f, 0f);
 
@@ -131,7 +131,7 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        RemoveSelf();
     }
 
     public override void OnDeactivate()
@@ -162,7 +162,7 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
             _controlledNotification = ControlledFeedbackUtilities.ShowControlledByNotification(
                 controllerName,
                 TownOfUsColors.Impostor,
-                TouRoleIcons.Parasite.LoadAsset())!;
+                TouRoleIcons.Parasite)!;
         }
     }
 

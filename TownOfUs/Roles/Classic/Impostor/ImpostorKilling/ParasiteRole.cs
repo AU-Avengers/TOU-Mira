@@ -11,6 +11,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Events.Impostor;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
@@ -18,7 +19,6 @@ using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches.ControlSystem;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Impostor;
 
@@ -45,7 +45,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     private const float PipBaseMarginXAspectFactor = 0.04f;
     private const float PipBaseWidthAspectFactor = 0.3f;
     private const float PipSnapDurationSeconds = 0.12f;
-    
+
     private LobbyNotificationMessage? controllerNotification;
 
     public DoomableType DoomHintType => DoomableType.Perception;
@@ -62,24 +62,13 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Parasite.LoadAsset(), "TouMira.Role.Impostor.Parasite", 1.45f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Parasite, "TouMira.Role.Impostor.Parasite", 1.45f),
         UseVanillaKillButton = false,
         IntroSound = TouAudio.ScreamIntro,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Parasite,
         CanUseVent = OptionGroupSingleton<ParasiteOptions>.Instance.CanVent
     };
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities =>
-    [
-        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Overtake", "Overtake"),
-            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Overtake.WikiDescription"),
-            TouImpAssets.OvertakeSprite),
-        new(MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Decay", "Kill"),
-            MiraLocaleManager.Get($"TownOfUsMira.Role.{IdPart}Decay.WikiDescription"),
-            TouAssets.KillSprite)
-    ];
 
     [HideFromIl2Cpp]
     public List<AdvancedWikiAbilityDescription> WikiAbilities =>
@@ -553,10 +542,10 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        if (target.IsInTargetingAnimState() || 
-            target.inVent || 
-            target.inMovingPlat || 
-            target.onLadder || 
+        if (target.IsInTargetingAnimState() ||
+            target.inVent ||
+            target.inMovingPlat ||
+            target.onLadder ||
             target.walkingToVent)
         {
             _killPendingFromTimer = true;
@@ -575,7 +564,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         MarkPiPSettingsDirty(resetManualThisSession: true);
 
-        parasiteCam = UnityEngine.Object.Instantiate(Camera.main);
+        parasiteCam = Instantiate(Camera.main);
         parasiteCam.name = "TOU-ParasiteCam";
         parasiteCam.orthographicSize = 1.5f;
         parasiteCam.transform.DestroyChildren();
@@ -623,7 +612,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         _pipSnapping = false;
         _pipManualMovedThisSession = false;
         _pipSettingsDirty = true;
-        
+
         DestroyCamera();
         ClearNotifications();
     }
@@ -650,7 +639,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             var controllerText = MiraLocaleManager.Get("TownOfUsMira.Role.ParasiteOvertakeNotifSelf");
             controllerNotification = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Impostor.ToTextColor()}{controllerText.Replace("<player>", Controlled.Data.PlayerName)}</color></b>",
-                Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Parasite.LoadAsset());
+                Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Parasite);
             controllerNotification.AdjustNotification();
             controllerNotification.alphaTimer = OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
         }
@@ -680,7 +669,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        if (target == null || target.Data == null || target.HasDied())
+        if (target?.Data == null || target.HasDied())
         {
             return;
         }
@@ -688,6 +677,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         Coroutines.Start(role.CoFinishControl(target));
     }
 
+    [HideFromIl2Cpp]
     public IEnumerator CoFinishControl(PlayerControl target)
     {
         var parasite = Player;
@@ -709,6 +699,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         {
             target.MyPhysics.ExitAllVents();
         }
+        target.MyPhysics.ResetMoveState();
 
         if (target.AmOwner)
         {
@@ -737,7 +728,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         if (parasite.AmOwner)
         {
             EnsureCamera();
-            var btn = CustomButtonSingleton<TownOfUs.Buttons.Impostor.ParasiteOvertakeButton>.Instance;
+            var btn = CustomButtonSingleton<Buttons.Impostor.ParasiteOvertakeButton>.Instance;
             btn.SetActive(true, this);
             btn.StartControlEffectIfEnabled();
             CreateNotification();
@@ -761,15 +752,13 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         if (target != null)
         {
             ParasiteControlState.ClearControl(target.PlayerId);
-            if (target.TryGetModifier<ParasiteInfectedModifier>(out var mod))
-            {
-                target.RemoveModifier(mod);
-            }
+            target.TryRemoveModifier<ParasiteInfectedModifier>();
 
             if (target.MyPhysics != null)
             {
                 target.MyPhysics.body?.velocity = Vector2.zero;
                 target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
+                target.MyPhysics.ResetMoveState();
             }
 
             if (target.NetTransform != null)
@@ -778,7 +767,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
                 {
                     // Flush CNT backlog first
                     NetTransformBacklogUtils.FlushBacklog(target);
-                    
+
                     // Then snap to current authoritative position
                     if (target.AmOwner)
                     {
@@ -830,7 +819,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             {
                 parasite.walkingToVent = false;
 
-                var btn = CustomButtonSingleton<TownOfUs.Buttons.Impostor.ParasiteOvertakeButton>.Instance;
+                var btn = CustomButtonSingleton<Buttons.Impostor.ParasiteOvertakeButton>.Instance;
                 btn.SetActive(true, role);
                 btn.StopControlEffectAndApplyCooldown();
             }
@@ -839,7 +828,11 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         role.ClearNotifications();
         if (toKillPlayer && parasite != null && target != null)
         {
-            MiraEventManager.InvokeEvent(new TouAbilityEvent(AbilityType.ParasiteKill, parasite, target));
+            new TouAbilityEvent(AbilityType.ParasiteKill, parasite, target).InvokeEvent();
+            if (target.AmOwner && !MeetingHud.Instance)
+            {
+                ParasiteEvents.NextKillFromParasite = true;
+            }
             CustomTouMurderRpcs.Indirect(parasite, target, MeetingCheck.Ignore, true, true, true,
                 true, !MeetingHud.Instance, false, !MeetingHud.Instance, !MeetingHud.Instance, "Parasite");
         }
@@ -853,18 +846,18 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             MiscUtils.RunAnticheatWarning(parasite);
             return;
         }
-        if (parasite.Data.Role is not ParasiteRole role)
+        if (parasite.Data.Role is not ParasiteRole { Controlled: var infected })
         {
             Error("RpcParasiteTriggerInteraction - Invalid parasite");
             return;
         }
 
-        if (controlled == null || controlled.Data == null || controlled.HasDied())
+        if (controlled?.Data == null || controlled.HasDied())
         {
             return;
         }
 
-        if (role.Controlled != controlled || !ParasiteControlState.IsControlled(controlled.PlayerId, out _))
+        if (infected != controlled || !ParasiteControlState.IsControlled(controlled.PlayerId, out _))
         {
             return;
         }
@@ -892,8 +885,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         // Use cached interactables from ControlledPlayerInteractionPatches if available, otherwise scan
         var cached = ControlledPlayerInteractionPatches.GetCachedInteractables();
-        var interactablesToCheck = cached != null && cached.Count > 0 
-            ? cached 
+        var interactablesToCheck = cached != null && cached.Count > 0
+            ? cached
             : GetInteractablesList();
 
         const float maxCheckDistance = 5f; // Most interactables have UsableDistance <= 3f
@@ -940,7 +933,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     private static List<IUsable> GetInteractablesList()
     {
         var result = new List<IUsable>();
-        var allUsables = UnityEngine.Object.FindObjectsOfType<MonoBehaviour>();
+        var allUsables = FindObjectsOfType<MonoBehaviour>();
         foreach (var obj in allUsables)
         {
             if (obj.TryCast<IUsable>() is { } usable && usable.TryCast<Vent>() == null)
@@ -991,7 +984,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             if (player.AmOwner)
             {
                 player.NetTransform.Halt();
-                var minigame = Object.Instantiate(doorConsole.MinigamePrefab, Camera.main.transform);
+                var minigame = Instantiate(doorConsole.MinigamePrefab, Camera.main.transform);
                 minigame.transform.localPosition = new Vector3(0f, 0f, -50f);
 
                 try

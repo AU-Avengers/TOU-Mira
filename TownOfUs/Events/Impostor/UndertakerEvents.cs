@@ -17,10 +17,7 @@ public static class UndertakerEvents
         foreach (var undertaker in CustomRoleUtils.GetActiveRolesOfType<UndertakerRole>()
                      .Select(undertaker => undertaker.Player).ToList())
         {
-            if (undertaker.HasModifier<DragModifier>())
-            {
-                undertaker.GetModifierComponent().RemoveModifier<DragModifier>();
-            }
+            undertaker.TryRemoveModifier<DragModifier>();
 
             if (undertaker.AmOwner)
             {

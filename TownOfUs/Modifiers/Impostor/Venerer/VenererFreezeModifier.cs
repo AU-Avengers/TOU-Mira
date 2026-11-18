@@ -20,7 +20,7 @@ public sealed class VenererFreezeModifier(PlayerControl venerer) : TimedModifier
     public override void OnActivate()
     {
         var touAbilityEvent = new TouAbilityEvent(AbilityType.VenererFreezeAbility, Player);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+        touAbilityEvent.InvokeEvent();
     }
 
     public override void FixedUpdate()

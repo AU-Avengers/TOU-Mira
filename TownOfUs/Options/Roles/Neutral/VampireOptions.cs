@@ -44,9 +44,9 @@ public sealed class VampireOptions : AbstractRoleOptionGroup<VampireRole>, IWiki
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
         var title = MiraLocaleManager.Get("TouOptionVampireValidNeutralConversions");
-        var nbValid = ConvertNeutralBenign.Value;
-        var neValid = ConvertNeutralEvil.Value;
-        var noValid = ConvertNeutralOutlier.Value;
+        var nbValid = ConvertNeutralBenign;
+        var neValid = ConvertNeutralEvil;
+        var noValid = ConvertNeutralOutlier;
 
         if (!nbValid && !neValid && !noValid)
         {
@@ -61,8 +61,7 @@ public sealed class VampireOptions : AbstractRoleOptionGroup<VampireRole>, IWiki
         if (noValid) selected.Add(MiraLocaleManager.Get("TouOptionVampireNeutConvertOutlier"));
 
         var names = selected
-            .Distinct()
-            .ToList();
+            .Distinct();
 
         var newArray2 = new []
             { $"{title}: {string.Join(", ", names)}" };

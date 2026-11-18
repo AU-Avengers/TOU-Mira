@@ -244,7 +244,7 @@ public static class AdvancedMovementUtilities
         var dir = desiredVel.normalized;
 
         physics.HandleAnimation(physics.myPlayer.Data.IsDead);
-        
+
         if (isLadder)
         {
             physics.SetNormalizedVelocity(Vector2.zero);

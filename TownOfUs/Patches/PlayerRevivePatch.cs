@@ -12,6 +12,6 @@ public static class PlayerRevivePatch
     public static void Postfix(PlayerControl __instance)
     {
         var reviveEvent = new PlayerReviveEvent(__instance);
-        MiraEventManager.InvokeEvent(reviveEvent);
+        reviveEvent.InvokeEvent();
     }
 }
