@@ -956,7 +956,7 @@ Fake-Aufgaben:</string>
   <string name="FrenzyKillerTaskHeader">Eliminiere alle anderen teams um jeden Preis.</string>
   <string name="ExclusiveRolesList">Kann Nicht Zusammen Vorkommen</string>
   <string name="AnticheatKickChatMessage">[player] wurde gekickt da dieser diese cheat mods benutzt hat:</string>
-  <string name="UpCommandList"></string>
+  <string name="UpCommandList"/>
   <string name="UpCommandDescription">/up [Role] - Versichert das du die Angeforderte Rolle im nächsten Spiel bekommst. Benutze /up[Role] [PlayerName] um einem anderen Spieler eine rolle zuzuteilen. (Nur Host + Dev Build)</string>
   <string name="DisconnectedData">D/C R[round] </string>
   <string name="TownOfUsMira.AdvancedSabo.Option.CamouflageComms">Camouflage Während Comms</string>
