@@ -4,6 +4,7 @@ using MiraAPI.GameOptions;
 using Reactor.Utilities;
 using TownOfUs.Options;
 using TownOfUs.Patches.DraftMode;
+using TownOfUs.Roles;
 using TownOfUs.Roles.Other;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -68,7 +69,13 @@ public static class DraftEngine
             return;
         }
 
-        var slots = Enumerable.Range(1, players.Count).OrderBy(_ => Random.value).ToList();
+        var slots = Enumerable.Range(1, players.Count).ToArray();
+        for (var i = slots.Length - 1; i > 0; i--)
+        {
+            var j = Random.RandomRangeInt(0, i + 1);
+            (slots[i], slots[j]) = (slots[j], slots[i]);
+        }
+
         var playerSlots = new Dictionary<byte, int>();
         for (var i = 0; i < players.Count; i++)
         {
@@ -172,24 +179,9 @@ public static class DraftEngine
 
             _turn++;
             var batch = pending.Take(concurrency).ToList();
-            var forcedCrewSlots = pending
-                .TakeLast(Math.Min(_doubleDraftCrewSlotsRemaining, pending.Count))
-                .ToHashSet();
-            var scheduledBatchSlots = batch.Where(slot => !forcedCrewSlots.Contains(slot)).ToList();
-            var spreadOffers = _plan.AssignSpreadOffers(Picked.Values.ToList(), scheduledBatchSlots.Count);
-            for (var i = 0; i < batch.Count; i++)
+            ScheduleSpreadOffers(pending);
+            foreach (var slot in batch)
             {
-                var slot = batch[i];
-                SpreadOffers.Remove(slot);
-                if (forcedCrewSlots.Contains(slot))
-                {
-                    SpreadOffers[slot] = new DraftSpreadOffer(DraftFaction.Crewmate, true);
-                }
-                else if (spreadOffers[scheduledBatchSlots.IndexOf(slot)] is { } spreadOffer)
-                {
-                    SpreadOffers[slot] = spreadOffer;
-                }
-
                 Seen[slot] = [];
                 Offer(slot);
             }
@@ -201,6 +193,53 @@ public static class DraftEngine
         if (Active(session))
         {
             Finish();
+        }
+    }
+
+    private static void ScheduleSpreadOffers(IReadOnlyList<int> pending)
+    {
+        var forcedCrewSlots = pending
+            .TakeLast(Math.Min(_doubleDraftCrewSlotsRemaining, pending.Count))
+            .ToHashSet();
+
+        foreach (var slot in pending)
+        {
+            if (forcedCrewSlots.Contains(slot))
+            {
+                SpreadOffers[slot] = new DraftSpreadOffer(DraftFaction.Crewmate, true);
+            }
+            else if (SpreadOffers.TryGetValue(slot, out var existing) &&
+                     existing.Faction == DraftFaction.Crewmate)
+            {
+                SpreadOffers.Remove(slot);
+            }
+        }
+
+        var reservedPicks = Picked.Values.ToList();
+        foreach (var offer in SpreadOffers.Values)
+        {
+            var alignment = offer.Faction switch
+            {
+                DraftFaction.Impostor => DraftRolePool.Impostor[0],
+                DraftFaction.Neutral => DraftRolePool.Neutral[0],
+                _ => (RoleAlignment?)null
+            };
+            if (alignment.HasValue)
+            {
+                reservedPicks.Add(new DraftCopy(0, alignment.Value, 0, 1));
+            }
+        }
+
+        var unassignedSlots = pending
+            .Where(slot => !forcedCrewSlots.Contains(slot) && !SpreadOffers.ContainsKey(slot))
+            .ToList();
+        var newOffers = _plan.AssignSpreadOffers(reservedPicks, unassignedSlots.Count);
+        for (var i = 0; i < unassignedSlots.Count; i++)
+        {
+            if (newOffers[i] is { } offer)
+            {
+                SpreadOffers[unassignedSlots[i]] = offer;
+            }
         }
     }
 

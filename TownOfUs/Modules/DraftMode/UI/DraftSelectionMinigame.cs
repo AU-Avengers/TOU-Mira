@@ -883,11 +883,12 @@ namespace TownOfUs.Modules.DraftMode
                 localState.PendingPickRoleId = 0;
             }
 
-            _hasPicked = true;
             ushort roleId = randomPick ? (ushort)0 : _offeredRoleIds[index];
+            DraftNetworkHelper.SendPickToHost(index, roleId, TargetPickerId);
+            _hasPicked = true;
+
             if (roleId != 0)
                 DraftStatusOverlay.NotifyLocalPlayerPicked(roleId);
-            DraftNetworkHelper.SendPickToHost(index, roleId, TargetPickerId);
         }
 
         public static void ShowFinalPickNotification(ushort roleId)
