@@ -1,6 +1,7 @@
 using HarmonyLib;
 using Hazel;
 using MiraAPI.GameOptions;
+using MiraAPI.Utilities;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Impostor;
 using UnityEngine;
@@ -27,16 +28,20 @@ public static class SpellslingerSabotagePatches
     }
 
     [HarmonyPatch(typeof(SabotageSystemType), nameof(SabotageSystemType.UpdateSystem))]
-    [HarmonyPostfix]
-    public static void UpdateSystemPatch([HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] MessageReader reader)
+    [HarmonyPrefix]
+    public static bool UpdateSystemPatch(SabotageSystemType __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] MessageReader reader)
     {
-        var amount = reader.Buffer[reader.readHead - 1];
+        __instance.IsDirty = true;
+        var amount = reader.ReadByte();
 
         if (AmongUsClient.Instance.AmHost && !MeetingHud.Instance && !ExileController.Instance &&
             amount == HexBombSabotageSystem.SabotageId)
         {
             ShipStatus.Instance.UpdateSystem((SystemTypes)HexBombSabotageSystem.SabotageId, player, 1);
+            return false;
         }
+
+        return true;
     }
 
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.AddSystemTask))]
