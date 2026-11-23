@@ -32,7 +32,7 @@ public static class SpellslingerSabotagePatches
     public static bool UpdateSystemPatch(SabotageSystemType __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] MessageReader reader)
     {
         __instance.IsDirty = true;
-        var amount = reader.ReadByte();
+        var amount = reader.Buffer[reader.readHead];
 
         if (AmongUsClient.Instance.AmHost && !MeetingHud.Instance && !ExileController.Instance &&
             amount == HexBombSabotageSystem.SabotageId)
