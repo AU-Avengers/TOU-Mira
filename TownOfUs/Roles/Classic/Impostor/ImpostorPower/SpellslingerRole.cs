@@ -14,6 +14,7 @@ using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
+using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Impostor;
 
@@ -108,7 +109,31 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
         {
             var title =
                 $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.SpellslingerMessageTitle")}</color>";
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, report, false, true);
+            MiscUtils.GetAndCreateAddFakeChat(out var pooledBubble, out var clonedBubble, PlayerControl.LocalPlayer.Data, title, report, false, true);
+            pooledBubble.ColorBlindName.gameObject.SetActive(false);
+            clonedBubble.ColorBlindName.gameObject.SetActive(false);
+
+            var pooledCos = pooledBubble.Player.cosmetics;
+            pooledCos.skin.gameObject.SetActive(false);
+            pooledCos.hat.gameObject.SetActive(false);
+            pooledCos.skin.gameObject.SetActive(false);
+            pooledCos.currentBodySprite.BodySprite.enabled = false;
+            var jailedPlayer = Instantiate(pooledCos.visor.gameObject, pooledCos.transform);
+            jailedPlayer.GetComponent<VisorLayer>().Destroy();
+            jailedPlayer.GetComponent<SpriteRenderer>().sprite = TouAssets.SpellslingerPlayerSprite;
+            pooledCos.visor.gameObject.SetActive(false);
+            pooledCos.transform.localPosition -= new Vector3(0, 0.05f);
+
+            var clonedCos = clonedBubble.Player.cosmetics;
+            clonedCos.skin.gameObject.SetActive(false);
+            clonedCos.hat.gameObject.SetActive(false);
+            clonedCos.skin.gameObject.SetActive(false);
+            clonedCos.currentBodySprite.BodySprite.enabled = false;
+            var jailedPlayer2 = Instantiate(clonedCos.visor.gameObject, clonedCos.transform);
+            jailedPlayer2.GetComponent<VisorLayer>().Destroy();
+            jailedPlayer2.GetComponent<SpriteRenderer>().sprite = TouAssets.SpellslingerPlayerSprite;
+            clonedCos.visor.gameObject.SetActive(false);
+            clonedCos.transform.localPosition -= new Vector3(0, 0.05f);
         }
     }
 
