@@ -34,9 +34,12 @@ public static class SpellslingerSabotagePatches
         __instance.IsDirty = true;
         var amount = reader.Buffer[reader.readHead];
 
-        if (AmongUsClient.Instance.AmHost && !MeetingHud.Instance && !ExileController.Instance &&
-            amount == HexBombSabotageSystem.SabotageId)
+        if (amount == HexBombSabotageSystem.SabotageId)
         {
+            if (!AmongUsClient.Instance.AmHost || MeetingHud.Instance || ExileController.Instance)
+            {
+                return false;
+            }
             ShipStatus.Instance.UpdateSystem((SystemTypes)HexBombSabotageSystem.SabotageId, player, 1);
             return false;
         }
