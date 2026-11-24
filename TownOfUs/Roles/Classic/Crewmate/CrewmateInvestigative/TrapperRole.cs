@@ -8,6 +8,7 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Achievements;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
+using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -52,7 +53,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Trapper, "TouMira.Role.Crewmate.Trapper", 1.45f),
         Icon = TouRoleIcons.Trapper,
         OptionsScreenshot = TouBanners.TrapperRoleBanner,
-        IntroSound = TouAudio.SuspenseIntro,
+        IntroSound = TouAudio.TrapperIntroSound,
     };
 
     public void LobbyStart()
@@ -114,7 +115,8 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         }
 
         var title = $"<color=#{TownOfUsColors.Trapper.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.TrapperMessageTitle")}</color>";
-        MiscUtils.AddFakeChat(Player.Data, title, msg, false, true);
+        MiscUtils.CreateFakedChatWithSprite(TouAssets.TrapperPlayerSprite, PlayerControl.LocalPlayer.Data,
+            title, msg, false, true);
         TouAchievementEvents.OnTrapperFeedback(Player, TrappedPlayers.Select(x => x.GetType()).Distinct().Count());
         TrappedPlayers.Clear();
     }

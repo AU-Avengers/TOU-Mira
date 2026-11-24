@@ -784,6 +784,37 @@ public static class MiscUtils
         return roleList;
     }
 
+    public static void CreateFakedChatWithSprite(Sprite sprite, NetworkedPlayerInfo basePlayer, string nameText,
+        string message,
+        bool showHeadsup = false, bool altColors = false, bool onLeft = true, float yOffset = 0f)
+    {
+        GetAndCreateAddFakeChat(out var pooledBubble, out var clonedBubble, basePlayer, nameText, message, showHeadsup, altColors, onLeft);
+        pooledBubble.ColorBlindName.gameObject.SetActive(false);
+        clonedBubble.ColorBlindName.gameObject.SetActive(false);
+
+        var pooledCos = pooledBubble.Player.cosmetics;
+        pooledCos.skin.gameObject.SetActive(false);
+        pooledCos.hat.gameObject.SetActive(false);
+        pooledCos.skin.gameObject.SetActive(false);
+        pooledCos.currentBodySprite.BodySprite.enabled = false;
+        var jailedPlayer = Object.Instantiate(pooledCos.visor.gameObject, pooledCos.transform);
+        jailedPlayer.GetComponent<VisorLayer>().Destroy();
+        jailedPlayer.GetComponent<SpriteRenderer>().sprite = sprite;
+        pooledCos.visor.gameObject.SetActive(false);
+        pooledCos.transform.localPosition += new Vector3(0, yOffset);
+
+        var clonedCos = clonedBubble.Player.cosmetics;
+        clonedCos.skin.gameObject.SetActive(false);
+        clonedCos.hat.gameObject.SetActive(false);
+        clonedCos.skin.gameObject.SetActive(false);
+        clonedCos.currentBodySprite.BodySprite.enabled = false;
+        var jailedPlayer2 = Object.Instantiate(clonedCos.visor.gameObject, clonedCos.transform);
+        jailedPlayer2.GetComponent<VisorLayer>().Destroy();
+        jailedPlayer2.GetComponent<SpriteRenderer>().sprite = sprite;
+        clonedCos.visor.gameObject.SetActive(false);
+        clonedCos.transform.localPosition += new Vector3(0, yOffset);
+    }
+
     public static void GetAndCreateAddFakeChat(out ChatBubble pooledBubble, out ChatBubble clonedBubble, NetworkedPlayerInfo basePlayer, string nameText, string message,
         bool showHeadsup = false, bool altColors = false, bool onLeft = true)
     {
@@ -907,6 +938,98 @@ public static class MiscUtils
         pooledBubble.MaskArea.size = pooledBubble.Background.size - new Vector2(0, 0.03f);
 
         clonedBubble.SetCosmetics(basePlayer);
+        clonedBubble.NameText.text = nameText;
+        clonedBubble.NameText.color = Color.white;
+        clonedBubble.NameText.ForceMeshUpdate(true, true);
+        clonedBubble.votedMark.enabled = false;
+        clonedBubble.Xmark.enabled = false;
+        clonedBubble.TextArea.text = message;
+        clonedBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, clonedBubble.TextArea);
+        clonedBubble.TextArea.ForceMeshUpdate(true, true);
+        clonedBubble.Background.size = new Vector2(5.52f,
+            0.2f + clonedBubble.NameText.GetNotDumbRenderedHeight() + clonedBubble.TextArea.GetNotDumbRenderedHeight());
+        clonedBubble.MaskArea.size = clonedBubble.Background.size - new Vector2(0, 0.03f);
+        if (altColors)
+        {
+            pooledBubble.Background.color = Color.black;
+            pooledBubble.TextArea.color = Color.white;
+            clonedBubble.Background.color = Color.black;
+            clonedBubble.TextArea.color = Color.white;
+        }
+
+        pooledBubble.AlignChildren();
+        clonedBubble.AlignChildren();
+        TeamChatPatches.PublicChatBubbles.Add(pooledBubble);
+        TeamChatPatches.MergedChatBubbles.Add(new TeamChatPatches.MergedBubble(clonedBubble, true));
+        TeamChatPatches.AlignAllChatBubbles(chat, ChatToCheck.Public);
+        if (chat is { IsOpenOrOpening: false, notificationRoutine: null })
+        {
+            chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
+        }
+
+        if (showHeadsup && !chat.IsOpenOrOpening && !DraftManager.IsDraftActive)
+        {
+            SoundManager.Instance.PlaySound(chat.messageSound, false).pitch =
+                0.5f + basePlayer.Object.PlayerId / 15f;
+            chat.chatNotification.SetUpNotif(basePlayer.Object, message);
+        }
+    }
+
+    public static void AddFakeChat(NetworkedPlayerInfo basePlayer, VisualAppearance outfit, string nameText, string message,
+        bool showHeadsup = false, bool altColors = false, bool onLeft = true)
+    {
+        if (!FakeChatHistory.IsReplaying)
+        {
+            FakeChatHistory.Record(basePlayer, nameText, message);
+        }
+        
+        var chat = HudManager.Instance.Chat;
+
+        var pooledBubble = chat.GetPooledBubble();
+        var clonedBubble = chat.GetPooledBubble();
+        clonedBubble.gameObject.name = TeamChatPatches.PublicBubbleName;
+
+        pooledBubble.transform.SetParent(TeamChatPatches.PublicChatItems);
+        clonedBubble.transform.SetParent(TeamChatPatches.MergedChatItems);
+        pooledBubble.transform.localScale = Vector3.one;
+        clonedBubble.transform.localScale = Vector3.one;
+        if (onLeft)
+        {
+            pooledBubble.SetLeft();
+            clonedBubble.SetLeft();
+        }
+        else
+        {
+            pooledBubble.SetRight();
+            clonedBubble.SetRight();
+        }
+
+        pooledBubble.playerInfo = basePlayer;
+        pooledBubble.Player.RawSetMeetingAppearance(outfit);
+        pooledBubble.Player.ToggleName(false);
+        pooledBubble.maskLayer = 51 + pooledBubble.PoolIndex;
+        pooledBubble.SetMaskLayer();
+        pooledBubble.SetColorblindText();
+
+        pooledBubble.NameText.text = nameText;
+        pooledBubble.NameText.color = Color.white;
+        pooledBubble.NameText.ForceMeshUpdate(true, true);
+        pooledBubble.votedMark.enabled = false;
+        pooledBubble.Xmark.enabled = false;
+        pooledBubble.TextArea.text = message;
+        pooledBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, pooledBubble.TextArea);
+        pooledBubble.TextArea.ForceMeshUpdate(true, true);
+        pooledBubble.Background.size = new Vector2(5.52f,
+            0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
+        pooledBubble.MaskArea.size = pooledBubble.Background.size - new Vector2(0, 0.03f);
+
+        clonedBubble.playerInfo = basePlayer;
+        clonedBubble.Player.RawSetMeetingAppearance(outfit);
+        clonedBubble.Player.ToggleName(false);
+        clonedBubble.maskLayer = 51 + clonedBubble.PoolIndex;
+        clonedBubble.SetMaskLayer();
+        clonedBubble.SetColorblindText();
+
         clonedBubble.NameText.text = nameText;
         clonedBubble.NameText.color = Color.white;
         clonedBubble.NameText.ForceMeshUpdate(true, true);

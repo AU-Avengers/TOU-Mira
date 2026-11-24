@@ -11,7 +11,7 @@ public static class SpellslingerEvents
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
-        if (@event.TriggeredByIntro || HexBombSabotageSystem.Instance == null || HexBombSabotageSystem.Instance.Stage is HexBombStage.SpellslingerDead or HexBombStage.Finished)
+        if (@event.TriggeredByIntro || HexBombSabotageSystem.Instance == null || !HexBombSabotageSystem.Instance.IsActive || HexBombSabotageSystem.Instance.Stage is HexBombStage.SpellslingerDead or HexBombStage.Finished)
         {
             return;
         }
