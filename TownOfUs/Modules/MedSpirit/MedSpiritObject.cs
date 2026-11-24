@@ -60,7 +60,7 @@ public sealed class MedSpiritObject(IntPtr cppPtr) : InnerNetObject(cppPtr)
         // Not needed, but must be implemented
     }
 
-    private void Awake()
+    public void Awake()
     {
         /*var baseSpeed = 1f;
         
@@ -79,7 +79,7 @@ public sealed class MedSpiritObject(IntPtr cppPtr) : InnerNetObject(cppPtr)
         InputHandler.enabled = false;
     }
 
-    private void Start()
+    public void Start()
     {
         Owner = AmongUsClient.Instance.GetClient(OwnerId).Character;
 
@@ -128,7 +128,7 @@ public sealed class MedSpiritObject(IntPtr cppPtr) : InnerNetObject(cppPtr)
         Moveable = true;
     }
 
-    private void OnDisable()
+    public void OnDisable()
     {
         if (!Owner || !Owner!.Data)
         {
