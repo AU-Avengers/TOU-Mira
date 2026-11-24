@@ -43,7 +43,7 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Barkeeper, "TouMira.Role.Crewmate.Barkeeper", 1.45f),
         Icon = TouRoleIcons.Barkeeper,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
-        IntroSound = TouAudio.PotionIntro
+        IntroSound = TouAudio.BarkeeperIntroSound
     };
 
     [HideFromIl2Cpp]

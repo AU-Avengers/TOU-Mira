@@ -79,7 +79,7 @@ public sealed class OfficerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Officer, "TouMira.Role.Crewmate.Officer", 1.45f),
         Icon = TouRoleIcons.Officer,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
-        IntroSound = TouAudio.ImpostorIntroSound
+        IntroSound = TouAudio.OfficerIntroSound
     };
     public static string RoundTabWaitString = MiraLocaleManager.Get("TownOfUsMira.Role.OfficerTabAdditionCount");
     public static string RoundTabWaitNextString = MiraLocaleManager.Get("TownOfUsMira.Role.OfficerTabAdditionNext");

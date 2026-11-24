@@ -67,7 +67,7 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Sheriff, "TouMira.Role.Crewmate.Sheriff", 1.45f),
         Icon = TouRoleIcons.Sheriff,
         OptionsScreenshot = TouBanners.SheriffRoleBanner,
-        IntroSound = TouAudio.ImpostorIntroSound
+        IntroSound = TouAudio.SheriffIntroReduxSound
     };
 
     [HideFromIl2Cpp]

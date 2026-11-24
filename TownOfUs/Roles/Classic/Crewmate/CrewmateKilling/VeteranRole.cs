@@ -65,7 +65,7 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Veteran, "TouMira.Role.Crewmate.Veteran", 1.45f),
         Icon = TouRoleIcons.Veteran,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
-        IntroSound = TouAudio.ImpostorIntroSound
+        IntroSound = TouAudio.VeteranIntroSound
     };
 
     public override void OnMeetingStart()

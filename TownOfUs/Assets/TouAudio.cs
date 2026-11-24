@@ -51,6 +51,12 @@ public static class TouAudio
     public static LoadableAsset<AudioClip> ToppatIntroSound { get; } =
         new LoadableBundleAsset<AudioClip>("ToppatIntro", TouAssets.MainBundle);
 
+    public static LoadableAsset<AudioClip> TrapperIntroSound { get; } =
+        new LoadableBundleAsset<AudioClip>("TrapperIntro", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> VeteranIntroSound { get; } =
+        new LoadableBundleAsset<AudioClip>("VeteranBlast", TouAssets.MainBundle);
+
     public static LoadableAsset<AudioClip> DeputyIntroSound { get; } =
         new LoadableBundleAsset<AudioClip>("DeputyIntroNew", TouAssets.MainBundle);
 
@@ -75,8 +81,23 @@ public static class TouAudio
     public static LoadableAsset<AudioClip> SheriffIntroSound { get; } =
         new LoadableBundleAsset<AudioClip>("SheriffIntro", TouAssets.MainBundle);
 
+    public static LoadableAsset<AudioClip> SheriffIntroReduxSound { get; } =
+        new LoadableBundleAsset<AudioClip>("SheriffIntroRedux", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> OfficerIntroSound { get; } =
+        new LoadableBundleAsset<AudioClip>("OfficerIntro", TouAssets.MainBundle);
+
     public static LoadableAsset<AudioClip> VigiIntroSound { get; } =
         new LoadableBundleAsset<AudioClip>("VigilanteIntro", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> MonarchIntroSound { get; } =
+        new LoadableBundleAsset<AudioClip>("MonarchFanfare", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> BarkeeperIntroSound { get; } =
+        new LoadableBundleAsset<AudioClip>("BarkeeperIntro", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> AmbassadorIntroSound { get; } =
+        new LoadableBundleAsset<AudioClip>("AmbassadorIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> AltruistReviveSound { get; } =
         new LoadableBundleAsset<AudioClip>("AltruistIntro", TouAssets.MainBundle);

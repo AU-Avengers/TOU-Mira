@@ -68,7 +68,8 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Ambassador, "TouMira.Role.Impostor.Ambassador", 1.45f),
         MaxRoleCount = 1,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
-        Icon = TouRoleIcons.Ambassador
+        Icon = TouRoleIcons.Ambassador,
+        IntroSound = TouAudio.AmbassadorIntroSound
     };
 
     [HideFromIl2Cpp]
