@@ -115,11 +115,8 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         }
 
         var title = $"<color=#{TownOfUsColors.Trapper.ToHtmlStringRGBA()}>{MiraLocaleManager.Get("TownOfUsMira.Role.TrapperMessageTitle")}</color>";
-        var newOutfit = new VisualAppearance(Player.GetDefaultAppearance(), TownOfUsAppearances.Default);
-        newOutfit.HatId = "hat_kamurocho_cinderella";
-        newOutfit.SkinId = "skin_kamurocho_majima";
-        newOutfit.VisorId = "visor_Galeforce";
-        MiscUtils.AddFakeChat(Player.Data, newOutfit, title, msg, false, true);
+        MiscUtils.CreateFakedChatWithSprite(TouAssets.TrapperPlayerSprite, PlayerControl.LocalPlayer.Data,
+            title, msg, false, true);
         TouAchievementEvents.OnTrapperFeedback(Player, TrappedPlayers.Select(x => x.GetType()).Distinct().Count());
         TrappedPlayers.Clear();
     }

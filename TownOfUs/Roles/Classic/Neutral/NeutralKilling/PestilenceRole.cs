@@ -171,7 +171,8 @@ public sealed class PestilenceRole(IntPtr cppPtr)
 
         notif1.AdjustNotification();
 
-        MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg.Replace("<role>", MiscUtils.GetReliableHyperlinkText(this)), false, true);
+        MiscUtils.CreateFakedChatWithSprite(TouAssets.PlaguebearerPlayerSprite, PlayerControl.LocalPlayer.Data,
+            title, msg.Replace("<role>", MiscUtils.GetReliableHyperlinkText(this)), false, true, true, -0.4f);
     }
 
 

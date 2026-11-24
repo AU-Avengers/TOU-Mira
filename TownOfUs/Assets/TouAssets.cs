@@ -178,6 +178,12 @@ public static class TouAssets
     public static LoadableAsset<Sprite> SpellslingerPlayerSprite { get; } =
         new LoadableBundleAsset<Sprite>("SpellslingerPlayer", MainBundle);
 
+    public static LoadableAsset<Sprite> TrapperPlayerSprite { get; } =
+        new LoadableBundleAsset<Sprite>("TrapperPlayer", MainBundle);
+
+    public static LoadableAsset<Sprite> PlaguebearerPlayerSprite { get; } =
+        new LoadableBundleAsset<Sprite>("PlaguebearerPlayer", MainBundle);
+
     public static LoadableAsset<GameObject> ParasiteOverlay { get; } =
         new LoadableBundleAsset<GameObject>("ParasiteOverlayObj", MainBundle);
 

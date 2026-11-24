@@ -783,6 +783,38 @@ public static class MiscUtils
 
         return roleList;
     }
+
+    public static void CreateFakedChatWithSprite(Sprite sprite, NetworkedPlayerInfo basePlayer, string nameText,
+        string message,
+        bool showHeadsup = false, bool altColors = false, bool onLeft = true, float yOffset = 0f)
+    {
+        GetAndCreateAddFakeChat(out var pooledBubble, out var clonedBubble, basePlayer, nameText, message, showHeadsup, altColors, onLeft);
+        pooledBubble.ColorBlindName.gameObject.SetActive(false);
+        clonedBubble.ColorBlindName.gameObject.SetActive(false);
+
+        var pooledCos = pooledBubble.Player.cosmetics;
+        pooledCos.skin.gameObject.SetActive(false);
+        pooledCos.hat.gameObject.SetActive(false);
+        pooledCos.skin.gameObject.SetActive(false);
+        pooledCos.currentBodySprite.BodySprite.enabled = false;
+        var jailedPlayer = Object.Instantiate(pooledCos.visor.gameObject, pooledCos.transform);
+        jailedPlayer.GetComponent<VisorLayer>().Destroy();
+        jailedPlayer.GetComponent<SpriteRenderer>().sprite = sprite;
+        pooledCos.visor.gameObject.SetActive(false);
+        pooledCos.transform.localPosition += new Vector3(0, yOffset);
+
+        var clonedCos = clonedBubble.Player.cosmetics;
+        clonedCos.skin.gameObject.SetActive(false);
+        clonedCos.hat.gameObject.SetActive(false);
+        clonedCos.skin.gameObject.SetActive(false);
+        clonedCos.currentBodySprite.BodySprite.enabled = false;
+        var jailedPlayer2 = Object.Instantiate(clonedCos.visor.gameObject, clonedCos.transform);
+        jailedPlayer2.GetComponent<VisorLayer>().Destroy();
+        jailedPlayer2.GetComponent<SpriteRenderer>().sprite = sprite;
+        clonedCos.visor.gameObject.SetActive(false);
+        clonedCos.transform.localPosition += new Vector3(0, yOffset);
+    }
+
     public static void GetAndCreateAddFakeChat(out ChatBubble pooledBubble, out ChatBubble clonedBubble, NetworkedPlayerInfo basePlayer, string nameText, string message,
         bool showHeadsup = false, bool altColors = false, bool onLeft = true)
     {
