@@ -15,6 +15,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Events.Neutral;
 
+[RegisterEventContainer]
 public static class AmnesiacEvents
 {
     [RegisterEvent]

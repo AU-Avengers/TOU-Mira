@@ -91,10 +91,10 @@ public static class KillOverlayPatch
                                 return false;
                             }
 
-                            self = new []
-                            {
-                                __instance.CustomKillAnimations[skin.CustomKillAnimID - 1]
-                            };
+                            self =
+                            [
+                                __instance.CustomKillAnimations[skin.CustomKillAnimID - 1],
+                            ];
                         }
                         else if (_lastDisplayedKiller.Role.CustomKillAnimations.Length != 0)
                         {

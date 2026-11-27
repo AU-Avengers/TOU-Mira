@@ -15,6 +15,7 @@ namespace TownOfUs.Events.Crewmate;
 /// Event handlers for Time Lord events. These handlers register actions during normal gameplay
 /// and trigger undo events during rewind.
 /// </summary>
+[RegisterEventContainer]
 public static class TimeLordEventHandlers
 {
     private static readonly TimeLordEventRegistry EventQueue = new();
@@ -344,7 +345,7 @@ public static class TimeLordEventHandlers
     [RegisterEvent]
     public static void HandleChefServeUndo(TimeLordChefServeUndoEvent @event)
     {
-        if (@event.OriginalEvent is not TimeLordChefServeEvent 
+        if (@event.OriginalEvent is not TimeLordChefServeEvent
             { Target: { } target, Player: var chef, BodyId: var bodyId, PlatterType: var platterType })
         {
             return;

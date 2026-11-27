@@ -20,6 +20,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events.Neutral;
 
+[RegisterEventContainer]
 public static class ExecutionerEvents
 {
     [RegisterEvent(0)]

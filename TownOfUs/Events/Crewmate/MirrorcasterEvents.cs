@@ -15,6 +15,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Events.Crewmate;
 
+[RegisterEventContainer]
 public static class MirrorcasterEvents
 {
     [RegisterEvent(-1000)]

@@ -12,6 +12,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events.Modifiers;
 
+[RegisterEventContainer]
 public static class EgotistEvents
 {
     public static int EgotistRoundTracker;

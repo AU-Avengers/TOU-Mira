@@ -17,6 +17,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events;
 
+[RegisterEventContainer]
 public static class GhostRoleEvents
 {
     [RegisterEvent]
@@ -134,7 +135,7 @@ public static class GhostRoleEvents
             @event.Cancel();
         }
     }
-    
+
     [RegisterEvent]
     public static void PlayerCanUseEventHandler(PlayerCanUseEvent @event)
     {

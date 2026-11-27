@@ -13,7 +13,7 @@ public static class TouAssets
     private const string LocalTabsPath = "TownOfUs.Resources.LocalTabs";
     private static string BetaIdentifier => TownOfUsPlugin.IsDevBuild ? "Beta" : string.Empty;
 
-    public static readonly AssetBundle MainBundle = AssetBundleManager.Load("tou-assets");
+    public static readonly AssetBundle MainBundle = AssetBundleManager.Load(TownOfUsPlugin.TouAssembly, "tou-assets");
     public static LoadableBundleSubAssetHolder MeetingAbilityHolder { get; } = new("MeetingAbilitySprites", MainBundle);
     public static LoadableBundleSubAssetHolder AbilityHolder { get; } = new("AbilitySprites", MainBundle);
     public static LoadableBundleSubAssetHolder RoleBannerHolder { get; } = new("RoleBannerSprites", MainBundle);

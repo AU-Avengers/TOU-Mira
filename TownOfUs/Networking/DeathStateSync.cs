@@ -236,7 +236,7 @@ public static class DeathStateSync
             return;
         }
 
-        if (!AmongUsClient.Instance || 
+        if (!AmongUsClient.Instance ||
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
         {
             return;
@@ -277,7 +277,7 @@ public static class DeathStateSync
     {
         // Small random delay (0.1-0.3s) to prevent all clients from requesting at once
         yield return new WaitForSeconds(UnityEngine.Random.Range(0.1f, 0.3f));
-        
+
         if (requester != null && requester.Data != null && !requester.Data.Disconnected)
         {
             RpcRequestDeathStateValidation(requester);
@@ -288,7 +288,7 @@ public static class DeathStateSync
 /// <summary>
 /// Patches to integrate death state synchronization into the game loop.
 /// </summary>
-[HarmonyPatch]
+[RegisterEventContainer]
 public static class DeathStateSyncPatches
 {
     /// <summary>

@@ -8,6 +8,7 @@ using TownOfUs.Patches;
 
 namespace TownOfUs.Events;
 
+[RegisterEventContainer]
 public static class VanillaTweakEvents
 {
     public static void AdjustAllPetVisibility()

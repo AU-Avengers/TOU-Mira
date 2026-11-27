@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Reflection;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -214,6 +215,7 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
         }
     }
 
+    [SuppressMessage("Major Code Smell", "S3011:Reflection should not be used to increase accessibility of classes, methods, or fields", Justification = "Is safe.")]
     private static bool ShouldPauseInVent(CustomActionButton ability)
     {
         if (ability is null)

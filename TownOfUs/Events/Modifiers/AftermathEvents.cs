@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events.Modifiers;
 
+[RegisterEventContainer]
 public static class AftermathEvents
 {
     [RegisterEvent]

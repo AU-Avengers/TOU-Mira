@@ -12,6 +12,7 @@ using TownOfUs.Options;
 
 namespace TownOfUs.Events.Misc;
 
+[RegisterEventContainer]
 public static class FirstShieldEvents
 {
     [RegisterEvent]

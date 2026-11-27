@@ -15,6 +15,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events.Impostor;
 
+[RegisterEventContainer]
 public static class BootleggerEvents
 {
     [RegisterEvent]

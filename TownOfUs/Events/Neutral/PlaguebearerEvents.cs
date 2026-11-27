@@ -8,6 +8,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Events.Neutral;
 
+[RegisterEventContainer]
 public static class PlaguebearerEvents
 {
     [RegisterEvent]

@@ -5,6 +5,7 @@ using TownOfUs.Modifiers.HnsGame.Crewmate;
 
 namespace TownOfUs.Events.HnsModifiers;
 
+[RegisterEventContainer]
 public static class HnsTransporterEvents
 {
     [RegisterEvent]

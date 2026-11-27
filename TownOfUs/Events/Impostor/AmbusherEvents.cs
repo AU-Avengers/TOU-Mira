@@ -13,6 +13,7 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Events.Impostor;
 
+[RegisterEventContainer]
 public static class AmbusherEvents
 {
     [RegisterEvent]

@@ -38,6 +38,7 @@ namespace TownOfUs.Achievements;
 /// <summary>
 /// Event handlers driving the bundle achievements defined in the role tabs.
 /// </summary>
+[RegisterEventContainer]
 public static class TouAchievementEvents
 {
     private static readonly HashSet<byte> KnightedIds = [];

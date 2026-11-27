@@ -6,6 +6,7 @@ using TownOfUs.Patches.Options;
 namespace TownOfUs.Events.Misc;
 
 // Never hurts to check... i think - Atony
+[RegisterEventContainer]
 public static class TeamChatEvents
 {
     [RegisterEvent]

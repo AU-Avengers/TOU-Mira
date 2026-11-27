@@ -19,6 +19,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events.Modifiers;
 
+[RegisterEventContainer]
 public static class LoverEvents
 {
     public static bool NextKillFromLovers;

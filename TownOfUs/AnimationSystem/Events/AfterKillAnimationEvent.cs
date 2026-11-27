@@ -48,6 +48,7 @@ public sealed class AfterKillAnimationEvent : MiraCancelableEvent
     /// <param name="victim">The <see cref="NetworkedPlayerInfo"/> of the victim.</param>
     /// <param name="killer">The <see cref="NetworkedPlayerInfo"/> of the killer.</param>
     /// <param name="anim">The <see cref="OverlayKillAnimation"/> to play.</param>
+    /// <param name="initData">The initialisation info for the kill overlay.</param>
     /// <param name="shouldAlter">A value indicating whether to modify the animation further.</param>
     public AfterKillAnimationEvent(NetworkedPlayerInfo victim, NetworkedPlayerInfo killer, OverlayKillAnimation anim, KillOverlayInitData initData, bool shouldAlter)
     {
@@ -66,6 +67,7 @@ public sealed class AfterKillAnimationEvent : MiraCancelableEvent
     /// <param name="displayedVictim">The <see cref="NetworkedPlayerInfo"/> of the displayed victim.</param>
     /// <param name="displayedKiller">The <see cref="NetworkedPlayerInfo"/> of the displayed killer.</param>
     /// <param name="anim">The <see cref="OverlayKillAnimation"/> to play.</param>
+    /// <param name="initData">The initialisation info for the kill overlay.</param>
     /// <param name="shouldAlter">A value indicating whether to modify the animation further.</param>
     public AfterKillAnimationEvent(NetworkedPlayerInfo victim, NetworkedPlayerInfo killer, NetworkedPlayerInfo displayedVictim, NetworkedPlayerInfo displayedKiller, OverlayKillAnimation anim, KillOverlayInitData initData, bool shouldAlter)
     {

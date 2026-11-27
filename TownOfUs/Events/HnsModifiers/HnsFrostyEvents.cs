@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events.HnsModifiers;
 
+[RegisterEventContainer]
 public static class HnsFrostyEvents
 {
     [RegisterEvent]

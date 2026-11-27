@@ -4,6 +4,7 @@ using TownOfUs.Modules.Components;
 
 namespace TownOfUs.Events.Crewmate;
 
+[RegisterEventContainer]
 public static class BarkeeperEvents
 {
     [RegisterEvent]

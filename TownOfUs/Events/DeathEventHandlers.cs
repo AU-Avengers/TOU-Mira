@@ -12,6 +12,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events;
 
+[RegisterEventContainer]
 public static class DeathEventHandlers
 {
     [RegisterEvent(-1)]
