@@ -6,6 +6,7 @@ using TownOfUs.Modifiers.Game.Crewmate;
 
 namespace TownOfUs.Events.Modifiers;
 
+[RegisterEventContainer]
 public static class BaitEvents
 {
     [RegisterEvent]

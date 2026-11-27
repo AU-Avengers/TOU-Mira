@@ -6,6 +6,7 @@ using TownOfUs.Modifiers.Game.Impostor;
 
 namespace TownOfUs.Events.Modifiers;
 
+[RegisterEventContainer]
 public static class CircumventEvents
 {
     [RegisterEvent]

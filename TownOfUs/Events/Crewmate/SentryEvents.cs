@@ -15,6 +15,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Events.Crewmate;
 
+[RegisterEventContainer]
 public static class SentryEvents
 {
     private static int ActiveCameraTaskCount;

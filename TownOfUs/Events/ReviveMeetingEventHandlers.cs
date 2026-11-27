@@ -8,6 +8,7 @@ namespace TownOfUs.Events;
 /// This is critical for Time Lord rewinds that race with a button/report:
 /// some clients can receive the revive RPC after <see cref="MeetingHud"/> is created.
 /// </summary>
+[RegisterEventContainer]
 public static class ReviveMeetingEventHandlers
 {
     [RegisterEvent]

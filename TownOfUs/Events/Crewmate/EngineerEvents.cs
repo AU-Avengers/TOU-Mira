@@ -9,6 +9,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Events.Crewmate;
 
+[RegisterEventContainer]
 public static class EngineerEvents
 {
     public static int ActiveVentTaskCount;

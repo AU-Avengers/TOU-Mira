@@ -1,7 +1,6 @@
 using HarmonyLib;
 using Hazel;
 using MiraAPI.GameOptions;
-using MiraAPI.Utilities;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Impostor;
 using UnityEngine;

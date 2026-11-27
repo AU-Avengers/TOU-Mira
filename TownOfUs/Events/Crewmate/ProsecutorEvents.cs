@@ -19,6 +19,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events.Crewmate;
 
+[RegisterEventContainer]
 public static class ProsecutorEvents
 {
     public static PlayerControl ProsToAnnounceNext;

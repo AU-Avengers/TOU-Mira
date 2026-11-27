@@ -6,6 +6,7 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Events.Modifiers;
 
+[RegisterEventContainer]
 public static class UnderdogEvents
 {
     [RegisterEvent(1)]

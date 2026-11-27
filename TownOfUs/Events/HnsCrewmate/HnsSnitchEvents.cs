@@ -10,6 +10,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events.HnsCrewmate;
 
+[RegisterEventContainer]
 public static class HnsSnitchEvents
 {
     [RegisterEvent]

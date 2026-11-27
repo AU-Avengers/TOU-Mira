@@ -14,6 +14,7 @@ using Reactor.Utilities;
 
 namespace TownOfUs.Events.Modifiers;
 
+[RegisterEventContainer]
 public static class DeadlyQuotaEvents
 {
     [RegisterEvent]

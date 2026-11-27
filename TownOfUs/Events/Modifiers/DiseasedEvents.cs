@@ -11,6 +11,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events.Modifiers;
 
+[RegisterEventContainer]
 public static class DiseasedEvents
 {
     [RegisterEvent(10)]

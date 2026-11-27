@@ -5,6 +5,7 @@ using TownOfUs.Modifiers.Game.Universal;
 
 namespace TownOfUs.Events.Modifiers;
 
+[RegisterEventContainer]
 public static class SleuthEvents
 {
     [RegisterEvent]

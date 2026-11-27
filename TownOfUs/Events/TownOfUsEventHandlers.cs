@@ -54,6 +54,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Events;
 
+[RegisterEventContainer]
 public static class TownOfUsEventHandlers
 {
     public enum LogLevel

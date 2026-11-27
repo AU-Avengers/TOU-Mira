@@ -59,7 +59,7 @@ public class CustomKillAnimation(IntPtr cppPtr) : OverlayKillAnimation(cppPtr)
         }
         else
         {
-            for (;;)
+            while (true)
             {
                 bool flag = false;
                 for (int i = 0; i < anims.Length; i++)

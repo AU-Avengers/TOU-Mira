@@ -11,6 +11,7 @@ namespace TownOfUs.Achievements;
 /// Tracks hidden-information achievements that unlock immediately (with a deferred toast)
 /// but may need to be rolled back if the game state that earned them is undone.
 /// </summary>
+[RegisterEventContainer]
 public static class TouAchievementLifecycle
 {
     /// <summary>

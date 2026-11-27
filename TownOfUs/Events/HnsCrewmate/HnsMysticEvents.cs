@@ -6,6 +6,7 @@ using TownOfUs.Roles.HideAndSeek.Hider;
 
 namespace TownOfUs.Events.HnsCrewmate;
 
+[RegisterEventContainer]
 public static class HiderMysticEvents
 {
     [RegisterEvent]

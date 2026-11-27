@@ -19,6 +19,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events.Neutral;
 
+[RegisterEventContainer]
 public static class MedusaEvents
 {
     [RegisterEvent(1)]

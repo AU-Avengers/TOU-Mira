@@ -5,7 +5,6 @@ using PowerTools;
 using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Modules.Anims;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Networking;
 using TownOfUs.Patches;

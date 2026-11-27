@@ -14,6 +14,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events;
 
+[RegisterEventContainer]
 public static class HnsGamemodeEvents
 {
     public static IEnumerator CoChangeImpostorRole(IntroCutscene cutscene)

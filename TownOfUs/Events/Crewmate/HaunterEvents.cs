@@ -6,6 +6,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Events.Crewmate;
 
+[RegisterEventContainer]
 public static class HaunterEvents
 {
     [RegisterEvent]

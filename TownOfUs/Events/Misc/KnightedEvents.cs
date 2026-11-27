@@ -13,6 +13,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Events.Misc;
 
+[RegisterEventContainer]
 public static class KnightedEvents
 {
     public static List<CustomVote> ExtraKnightVotes { get; } = [];

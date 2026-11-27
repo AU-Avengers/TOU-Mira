@@ -4,6 +4,7 @@ using TownOfUs.Modules;
 
 namespace TownOfUs.Events.Misc;
 
+[RegisterEventContainer]
 public static class FreeplayDebugEvents
 {
     [RegisterEvent]

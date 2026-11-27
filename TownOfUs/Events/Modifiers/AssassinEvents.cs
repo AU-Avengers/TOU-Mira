@@ -8,6 +8,7 @@ using TownOfUs.Modules;
 
 namespace TownOfUs.Events.Modifiers;
 
+[RegisterEventContainer]
 public static class AssassinEvents
 {
     [RegisterEvent]

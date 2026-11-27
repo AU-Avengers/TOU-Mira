@@ -7,6 +7,7 @@ using TownOfUs.Patches;
 
 namespace TownOfUs.Events;
 
+[RegisterEventContainer]
 public static class TimeLimitEventHandlers
 {
     [RegisterEvent]

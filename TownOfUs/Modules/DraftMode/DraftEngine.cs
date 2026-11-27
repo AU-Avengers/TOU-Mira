@@ -196,7 +196,7 @@ public static class DraftEngine
         }
     }
 
-    private static void ScheduleSpreadOffers(IReadOnlyList<int> pending)
+    private static void ScheduleSpreadOffers(List<int> pending)
     {
         var forcedCrewSlots = pending
             .TakeLast(Math.Min(_doubleDraftCrewSlotsRemaining, pending.Count))
@@ -390,9 +390,8 @@ public static class DraftEngine
             }
 
             var otherForcedOffers = SpreadOffers
-                .Where(pair => pair.Key != slot &&
-                    pair.Value.Faction == spreadOffer.Faction && !Offers.ContainsKey(pair.Key) && IsOpen(pair.Key))
-                .Count();
+                .Count(pair => pair.Key != slot &&
+                    pair.Value.Faction == spreadOffer.Faction && !Offers.ContainsKey(pair.Key) && IsOpen(pair.Key));
             var maxOptions = Math.Max(1, factionChoices.Count - otherForcedOffers);
             return Choose(factionChoices, Math.Min(Opts.OfferedRolesCount, maxOptions));
         }

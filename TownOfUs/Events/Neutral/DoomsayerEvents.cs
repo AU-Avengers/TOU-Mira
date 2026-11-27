@@ -11,6 +11,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events.Neutral;
 
+[RegisterEventContainer]
 public static class DoomsayerEvents
 {
     [RegisterEvent]

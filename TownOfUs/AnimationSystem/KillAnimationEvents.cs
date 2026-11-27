@@ -13,6 +13,7 @@ using Action = Il2CppSystem.Action;
 
 namespace TownOfUs.AnimationSystem;
 
+[RegisterEventContainer]
 public static class KillAnimationEvents
 {
     [RegisterEvent(1000000)]

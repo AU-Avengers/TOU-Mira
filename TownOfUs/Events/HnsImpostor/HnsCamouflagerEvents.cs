@@ -5,6 +5,7 @@ using TownOfUs.Modifiers.HnsImpostor;
 
 namespace TownOfUs.Events.HnsImpostor;
 
+[RegisterEventContainer]
 public static class HiderMysticEvents
 {
     [RegisterEvent(100000)]

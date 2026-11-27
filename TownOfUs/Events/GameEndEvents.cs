@@ -10,6 +10,7 @@ using TownOfUs.Roles;
 
 namespace TownOfUs.Events;
 
+[RegisterEventContainer]
 public static class EndGameEvents
 {
     public static int winType;

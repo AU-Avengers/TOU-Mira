@@ -7,6 +7,7 @@ using TownOfUs.Buttons.Impostor;
 
 namespace TownOfUs.Events.Impostor;
 
+[RegisterEventContainer]
 public static class ParasiteEvents
 {
     public static bool NextKillFromParasite;

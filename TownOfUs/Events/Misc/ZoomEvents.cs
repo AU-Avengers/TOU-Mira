@@ -7,6 +7,7 @@ using TownOfUs.Roles.Other;
 
 namespace TownOfUs.Events.Misc;
 
+[RegisterEventContainer]
 public static class ZoomEvents
 {
     [RegisterEvent]

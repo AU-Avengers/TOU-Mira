@@ -6,6 +6,7 @@ using TownOfUs.Modifiers;
 
 namespace TownOfUs.Events.Misc;
 
+[RegisterEventContainer]
 public static class ScatterEvents
 {
     [RegisterEvent]

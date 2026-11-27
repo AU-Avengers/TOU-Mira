@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events;
 
+[RegisterEventContainer]
 public static class RoleblockEvents
 {
     [RegisterEvent]

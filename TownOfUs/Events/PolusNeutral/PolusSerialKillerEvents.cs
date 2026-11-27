@@ -9,6 +9,7 @@ using TownOfUs.Roles.TownOfPolus.Neutral;
 
 namespace TownOfUs.Events.PolusNeutral;
 
+[RegisterEventContainer]
 public static class PolusSerialKillerEveents
 {
     [RegisterEvent]

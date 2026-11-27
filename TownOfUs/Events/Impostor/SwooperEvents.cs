@@ -12,6 +12,7 @@ using TownOfUs.Options.Roles.Impostor;
 
 namespace TownOfUs.Events.Impostor;
 
+[RegisterEventContainer]
 public static class SwooperEvents
 {
     [RegisterEvent]

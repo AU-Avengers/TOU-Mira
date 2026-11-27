@@ -7,6 +7,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Events.Modifiers;
 
+[RegisterEventContainer]
 public static class RottingEvents
 {
     [RegisterEvent]

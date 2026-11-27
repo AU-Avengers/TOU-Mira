@@ -22,6 +22,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events.Crewmate;
 
+[RegisterEventContainer]
 public static class HunterEvents
 {
     public static int ActiveStalkTaskCount;

@@ -34,6 +34,7 @@ namespace TownOfUs;
 public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
 {
     public static bool IsMobile => Constants.GetPlatformType() is Platforms.Android or Platforms.IPhone;
+
     /// <summary>
     ///     Gets the specified Culture for string manipulations.
     /// </summary>
@@ -49,13 +50,19 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     /// </summary>
     public static bool IsDevBuild => IsBetaBuild || IsWipBuild;
 
+    /// <inheritdoc/>
+    public bool DebugMode => IsDevBuild;
+
+    /// <inheritdoc/>
+    public bool ForceRegisterEvents => false;
+
     /// <summary>
     ///     Determines if the current build is a beta build. Beta builds are dev builds but should have restricted features like /up command.
     /// </summary>
     public static bool IsBetaBuild => Version.Contains("beta", StringComparison.OrdinalIgnoreCase) || Version.Contains("prerelease", StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
-    ///     Determines if the current build is a beta build. Beta builds are dev builds but should have restricted features like /up command.
+    ///     Determines if the current build is a wip build. Beta builds are dev builds but should have restricted features like /up command.
     /// </summary>
     public static bool IsWipBuild => Version.Contains("dev", StringComparison.OrdinalIgnoreCase) || Version.Contains("ci", StringComparison.OrdinalIgnoreCase);
 

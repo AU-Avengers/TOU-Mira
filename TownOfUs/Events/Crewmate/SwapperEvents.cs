@@ -11,6 +11,7 @@ using UnityEngine;
 
 namespace TownOfUs.Events.Crewmate;
 
+[RegisterEventContainer]
 public static class SwapperEvents
 {
     // lower number higher priority

@@ -6,6 +6,7 @@ using TownOfUs.Modifiers.Game.Crewmate;
 
 namespace TownOfUs.Events.Crewmate;
 
+[RegisterEventContainer]
 public static class ScientistEvents
 {
     [RegisterEvent]

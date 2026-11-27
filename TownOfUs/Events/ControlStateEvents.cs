@@ -12,6 +12,7 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Events;
 
+[RegisterEventContainer]
 public static class ControlStateEvents
 {
     public static int ActiveControlKillCount;

@@ -16,6 +16,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Events.Crewmate;
 
+[RegisterEventContainer]
 public static class MedicEvents
 {
     [RegisterEvent]
