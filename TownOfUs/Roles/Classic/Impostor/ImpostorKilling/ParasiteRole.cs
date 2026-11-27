@@ -564,11 +564,9 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         MarkPiPSettingsDirty(resetManualThisSession: true);
 
-        parasiteCam = Instantiate(Camera.main);
-        parasiteCam.name = "TOU-ParasiteCam";
+        parasiteCam = new GameObject("TOU-ParasiteCam").AddComponent<Camera>();
+        parasiteCam.CopyFrom(Camera.main);
         parasiteCam.orthographicSize = 1.5f;
-        parasiteCam.transform.DestroyChildren();
-        parasiteCam.GetComponent<FollowerCamera>()?.Destroy();
         parasiteCam.nearClipPlane = -1;
         parasiteCam.depth = Camera.main.depth + 1;
         parasiteCam.gameObject.SetActive(true);
@@ -591,7 +589,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     {
         if (parasiteCam?.gameObject != null)
         {
-            parasiteCam.Destroy();
+            parasiteCam.gameObject.Destroy();
             parasiteCam = null;
         }
 
