@@ -20,11 +20,26 @@ internal static class CancelCountdownStart
 {
     internal static PassiveButton CancelStartButton;
 
-    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
-    [HarmonyPrefix]
-    public static void PrefixStart(GameStartManager __instance)
+    private static void CreateCancelStartButton(GameStartManager instance)
     {
-        CancelStartButton = Object.Instantiate(__instance.StartButton, __instance.transform);
+        if (!instance.StartButton)
+        {
+            CancelStartButton = null!;
+            Warning("[CancelCountdownStart] StartButton is unavailable after GameStartManager.Start; cancel button was not created.");
+            return;
+        }
+
+        if (CancelStartButton && CancelStartButton.transform.parent == instance.transform)
+        {
+            return;
+        }
+
+        if (CancelStartButton)
+        {
+            Object.Destroy(CancelStartButton.gameObject);
+        }
+
+        CancelStartButton = Object.Instantiate(instance.StartButton, instance.transform);
         CancelStartButton.name = "CancelButton";
 
         var cancelLabel = CancelStartButton.buttonText;
@@ -49,9 +64,9 @@ internal static class CancelCountdownStart
         CancelStartButton.OnClick = new Button.ButtonClickedEvent();
         CancelStartButton.OnClick.AddListener((UnityAction)(() =>
         {
-            if (__instance.countDownTimer < 4f)
+            if (instance.countDownTimer < 4f)
             {
-                __instance.ResetStartState();
+                instance.ResetStartState();
             }
         }));
         CancelStartButton.gameObject.SetActive(false);
@@ -154,6 +169,7 @@ internal static class CancelCountdownStart
     public static void PostfixStart(GameStartManager __instance)
     {
         __instance.MinPlayers = 1;
+        CreateCancelStartButton(__instance);
     }
 
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]
@@ -180,7 +196,10 @@ internal static class CancelCountdownStart
         }
         else
         {
-            CancelStartButton.gameObject.SetActive(false);
+            if (CancelStartButton)
+            {
+                CancelStartButton.gameObject.SetActive(false);
+            }
         }
     }
 }
