@@ -49,13 +49,14 @@ public sealed class DraftShuffleButton : TownOfUsButton
     public override bool Disabled { get; set; } = true;
     public override bool Enabled(RoleBehaviour? role)
     {
-        return DraftManager.IsDraftActive && !Disabled && MaxUses > 0;
+        return DraftManager.IsDraftActive && !Disabled;
     }
 
     public override bool CanUse()
     {
         var state = DraftManager.GetStateForPlayer(PlayerControl.LocalPlayer.PlayerId);
-        return state != null && state.IsPickingNow && DraftManager.IsDraftActive && !Disabled && MaxUses > 0 && UsesLeft > 0;
+        return state != null && state.IsPickingNow && DraftManager.IsDraftActive && !Disabled &&
+               (MaxUses == 0 || UsesLeft > 0);
     }
 
     protected override void OnClick()
