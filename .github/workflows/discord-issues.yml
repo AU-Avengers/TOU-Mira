@@ -1,0 +1,31 @@
+name: Sync issues to Discord
+on:
+  issues:
+    types: [opened, edited]
+permissions:
+  issues: write
+jobs:
+  sync:
+    if: contains(github.event.issue.labels.*.name, 'issues')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post or update Discord message
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          BODY: ${{ github.event.issue.body }}
+          TITLE: ${{ github.event.issue.title }}
+          NUM: ${{ github.event.issue.number }}
+        run: |
+          body=$(tr -d '\r' <<< "$BODY")
+          id=$(grep -oP '(?<=<!-- discord:)\d+' <<< "$body" | head -1 || true)
+          clean=$(grep -v '<!-- discord:' <<< "$body")
+          desc=$(sed -E 's/^- \[x\] /✅ /; s/^- \[ \] /❌ /; s/^### (.*)/**\1**/' <<< "$clean")
+          new=$(jq -n --arg t "$TITLE" --arg d "$desc" '{thread_name:$t[:100],embeds:[{title:$t[:256],description:$d[:4000]}]}')
+          upd=$(jq 'del(.thread_name)' <<< "$new")
+          if [ -n "$id" ] && curl -fsS -X PATCH -H "Content-Type: application/json" -d "$upd" "$WEBHOOK/messages/$id?thread_id=$id"; then
+            exit 0
+          fi
+          id=$(curl -fsS -X POST -H "Content-Type: application/json" -d "$new" "$WEBHOOK?wait=true" | jq -r .id)
+          printf '%s\n\n<!-- discord:%s -->' "$clean" "$id" | gh issue edit "$NUM" --body-file -
