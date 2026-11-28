@@ -86,43 +86,91 @@ public sealed class DraftPlan
         }
 
         var seats = new List<RoleAlignment[]>();
-        seats.AddRange(Enumerable.Repeat(DraftRolePool.Impostor, impSeats));
-        seats.AddRange(Enumerable.Repeat(DraftRolePool.Neutral, neutSeats));
-        seats.AddRange(Enumerable.Repeat(DraftRolePool.Crew, crewSeats));
+        var totalHostile = impSeats + neutSeats;
+        if (totalHostile > 0)
+        {
+            var hostileTypes = new List<RoleAlignment[]>();
+            hostileTypes.AddRange(Enumerable.Repeat(DraftRolePool.Impostor, impSeats));
+            hostileTypes.AddRange(Enumerable.Repeat(DraftRolePool.Neutral, neutSeats));
+            Shuffle(hostileTypes);
 
-        Shuffle(seats);
+            var step = Math.Max(1, (int)Math.Round((double)players / totalHostile));
+            var hostileIndex = 0;
+            for (var i = 0; i < players; i++)
+            {
+                if (hostileIndex < hostileTypes.Count && i % step == 0)
+                {
+                    seats.Add(hostileTypes[hostileIndex++]);
+                }
+                else
+                {
+                    seats.Add(DraftRolePool.Crew);
+                }
+            }
+            while (hostileIndex < hostileTypes.Count)
+            {
+                seats.Add(hostileTypes[hostileIndex++]);
+            }
+        }
+        else
+        {
+            seats.AddRange(Enumerable.Repeat(DraftRolePool.Crew, crewSeats));
+        }
+
         return new DraftPlan(seats, caps);
     }
 
     public List<DraftSpreadOffer?> AssignSpreadOffers(
         IReadOnlyList<DraftCopy> picks,
-        int activePicks)
+        IReadOnlyList<int> turnPositions,
+        int totalPicks)
     {
-        var deficits = new Dictionary<DraftFaction, int>
+        var impostorDeficit = Math.Max(0, RequiredSeats(DraftFaction.Impostor) -
+            picks.Where(x => IsFaction(x.Alignment, DraftFaction.Impostor)).Sum(x => x.Weight));
+        var neutralDeficit = Math.Max(0, RequiredSeats(DraftFaction.Neutral) -
+            picks.Where(x => IsFaction(x.Alignment, DraftFaction.Neutral)).Sum(x => x.Weight));
+        var requiredHostileSeats = RequiredSeats(DraftFaction.Impostor) + RequiredSeats(DraftFaction.Neutral);
+        var pickedHostileSeats = picks
+            .Where(x => IsFaction(x.Alignment, DraftFaction.Impostor) || IsFaction(x.Alignment, DraftFaction.Neutral))
+            .Sum(x => x.Weight);
+        var scheduledHostileSeats = 0;
+        var offers = Enumerable.Repeat<DraftSpreadOffer?>(null, turnPositions.Count).ToList();
+
+        if (totalPicks <= 0 || requiredHostileSeats == 0)
         {
-            [DraftFaction.Impostor] = RequiredSeats(DraftFaction.Impostor) -
-                picks.Where(x => IsFaction(x.Alignment, DraftFaction.Impostor)).Sum(x => x.Weight),
-            [DraftFaction.Neutral] = RequiredSeats(DraftFaction.Neutral) -
-                picks.Where(x => IsFaction(x.Alignment, DraftFaction.Neutral)).Sum(x => x.Weight)
-        };
-        foreach (var faction in deficits.Keys.ToList())
-        {
-            deficits[faction] = Math.Max(0, deficits[faction]);
+            return offers;
         }
 
-        var offers = Enumerable.Repeat<DraftSpreadOffer?>(null, activePicks).ToList();
-        var slots = Enumerable.Range(0, activePicks).ToList();
-        Shuffle(slots);
-        var offersToSchedule = Math.Min(deficits.Values.Sum(), activePicks);
-        for (var i = 0; i < offersToSchedule; i++)
+        for (var i = 0; i < turnPositions.Count; i++)
         {
-            var deficit = deficits.Values.Sum();
-            var roll = Random.RandomRangeInt(0, deficit);
-            var factionToLock = roll < deficits[DraftFaction.Impostor]
+            var position = Math.Clamp(turnPositions[i], 1, totalPicks);
+            var hostileSeatsDue = position * requiredHostileSeats / totalPicks;
+            if (hostileSeatsDue <= pickedHostileSeats + scheduledHostileSeats)
+            {
+                continue;
+            }
+
+            var remainingDeficit = impostorDeficit + neutralDeficit;
+            if (remainingDeficit <= 0)
+            {
+                break;
+            }
+
+            var roll = Random.RandomRangeInt(0, remainingDeficit);
+            var factionToLock = roll < impostorDeficit
                 ? DraftFaction.Impostor
                 : DraftFaction.Neutral;
-            offers[slots[i]] = new DraftSpreadOffer(factionToLock, true);
-            deficits[factionToLock]--;
+            offers[i] = new DraftSpreadOffer(factionToLock, true);
+            if (factionToLock == DraftFaction.Impostor)
+            {
+                impostorDeficit--;
+            }
+            else
+            {
+                neutralDeficit--;
+            }
+
+            scheduledHostileSeats++;
         }
 
         return offers;
@@ -185,7 +233,7 @@ public sealed class DraftPlan
         }
     }
 
-    private static void Shuffle<T>(IList<T> items)
+    internal static void Shuffle<T>(IList<T> items)
     {
         for (var i = items.Count - 1; i > 0; i--)
         {

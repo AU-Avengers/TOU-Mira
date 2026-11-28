@@ -70,12 +70,7 @@ public static class DraftEngine
         }
 
         var slots = Enumerable.Range(1, players.Count).ToArray();
-        for (var i = slots.Length - 1; i > 0; i--)
-        {
-            var j = Random.RandomRangeInt(0, i + 1);
-            (slots[i], slots[j]) = (slots[j], slots[i]);
-        }
-
+        DraftPlan.Shuffle(slots);
         var playerSlots = new Dictionary<byte, int>();
         for (var i = 0; i < players.Count; i++)
         {
@@ -143,7 +138,7 @@ public static class DraftEngine
         if (state is not { IsPickingNow: true, HasPicked: false }) return;
 
         var slot = state.SlotNumber;
-        if (ShufflesUsed.GetValueOrDefault(slot) >= Opts.ShufflesPerPlayer) return;
+        if (Opts.ShufflesPerPlayer > 0 && ShufflesUsed.GetValueOrDefault(slot) >= Opts.ShufflesPerPlayer) return;
 
         ShufflesUsed[slot] = ShufflesUsed.GetValueOrDefault(slot) + 1;
         if (DraftManager.TurnDuration <= MinShuffleWindow && DraftManager.TurnTimeLeft < MinShuffleWindow)
@@ -198,47 +193,35 @@ public static class DraftEngine
 
     private static void ScheduleSpreadOffers(List<int> pending)
     {
-        var forcedCrewSlots = pending
-            .TakeLast(Math.Min(_doubleDraftCrewSlotsRemaining, pending.Count))
+        SpreadOffers.Clear();
+
+        var crewCandidates = pending.ToList();
+        DraftPlan.Shuffle(crewCandidates);
+        var forcedCrewSlots = crewCandidates
+            .Take(Math.Min(_doubleDraftCrewSlotsRemaining, pending.Count))
             .ToHashSet();
 
-        foreach (var slot in pending)
+        foreach (var slot in forcedCrewSlots)
         {
-            if (forcedCrewSlots.Contains(slot))
-            {
-                SpreadOffers[slot] = new DraftSpreadOffer(DraftFaction.Crewmate, true);
-            }
-            else if (SpreadOffers.TryGetValue(slot, out var existing) &&
-                     existing.Faction == DraftFaction.Crewmate)
-            {
-                SpreadOffers.Remove(slot);
-            }
+            SpreadOffers[slot] = new DraftSpreadOffer(DraftFaction.Crewmate, true);
         }
 
-        var reservedPicks = Picked.Values.ToList();
-        foreach (var offer in SpreadOffers.Values)
-        {
-            var alignment = offer.Faction switch
-            {
-                DraftFaction.Impostor => DraftRolePool.Impostor[0],
-                DraftFaction.Neutral => DraftRolePool.Neutral[0],
-                _ => (RoleAlignment?)null
-            };
-            if (alignment.HasValue)
-            {
-                reservedPicks.Add(new DraftCopy(0, alignment.Value, 0, 1));
-            }
-        }
-
-        var unassignedSlots = pending
-            .Where(slot => !forcedCrewSlots.Contains(slot) && !SpreadOffers.ContainsKey(slot))
+        var assignableSlots = pending
+            .Where(slot => !forcedCrewSlots.Contains(slot))
             .ToList();
-        var newOffers = _plan.AssignSpreadOffers(reservedPicks, unassignedSlots.Count);
-        for (var i = 0; i < unassignedSlots.Count; i++)
+        var completedPicks = DraftManager.States.Count(state => state.HasPicked);
+        var turnPositions = assignableSlots
+            .Select(slot => completedPicks + pending.IndexOf(slot) + 1)
+            .ToList();
+        var offers = _plan.AssignSpreadOffers(
+            Picked.Values.ToList(),
+            turnPositions,
+            DraftManager.States.Count);
+        for (var i = 0; i < assignableSlots.Count; i++)
         {
-            if (newOffers[i] is { } offer)
+            if (offers[i] is { } offer)
             {
-                SpreadOffers[unassignedSlots[i]] = offer;
+                SpreadOffers[assignableSlots[i]] = offer;
             }
         }
     }
@@ -504,6 +487,7 @@ public static class DraftEngine
             }
         }
 
+        DraftPlan.Shuffle(chosen);
         seen.UnionWith(chosen.Select(x => x.RoleId));
         Offers[slot] = chosen.Select(x => x.RoleId).ToList();
         Announce(slot);
